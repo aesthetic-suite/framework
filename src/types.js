@@ -6,13 +6,13 @@
 
 import React from 'react';
 
-export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle };
+export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | CSSStyle[] };
 
 export type StyleDeclaration = string | CSSStyle;
 
 export type StyleDeclarationMap = { [key: string]: StyleDeclaration };
 
-export type StyleTransformer = (declaration: StyleDeclaration) => StyleDeclaration;
+export type ClassNameMap = { [key: string]: string };
 
 export type WrappedComponent = React.Component<*, *, *>;
 

@@ -4,20 +4,22 @@
  * @flow
  */
 
+import Transformer from './Transformer';
+import ClassNameTransformer from './transformers/ClassName';
+
 import type {
   CSSStyle,
   StyleDeclaration,
   StyleDeclarationMap,
-  StyleTransformer,
 } from './types';
 
 export class Aesthetic {
   styles: { [key: string]: StyleDeclarationMap };
-  transformer: ?StyleTransformer;
+  transformer: ?Transformer;
 
   constructor() {
     this.styles = {};
-    this.transformer = null;
+    this.transformer = new ClassNameTransformer();
   }
 
   /**
@@ -86,9 +88,9 @@ export class Aesthetic {
    *
    * @param {Function} transformer
    */
-  setTransformer(transformer: StyleTransformer) {
-    if (typeof transformer !== 'function') {
-      throw new TypeError('Transformer must be a function.');
+  setTransformer(transformer: Transformer) {
+    if (!(transformer instanceof Transformer)) {
+      throw new TypeError('Transformer must be an instance of `Transformer`.');
     }
 
     this.transformer = transformer;
