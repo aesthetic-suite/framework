@@ -5,9 +5,11 @@
  */
 
 import { StyleSheet, css } from 'aphrodite';
+import Adapter from '../Adapter';
+
 import type { StyleDeclarationMap, ClassNameMap } from '../types';
 
-export default class AphroditeTransformer {
+export default class AphroditeAdapter extends Adapter {
   constructor(extensions = []) {
     super();
 

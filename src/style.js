@@ -26,17 +26,18 @@ export default function style(
     const {
       stylesPropName = 'styles',
       themePropName = 'theme',
-      allowStyling = false,
+      allowStyling = true,
+      clearOnUnmount = false,
     } = options;
 
     if (!styleName) {
       throw new Error(
         'A component name could not be derived. Please provide a unique ' +
-        'name through `options.styleName` or a component `displayName`.',
+        'name through `options.styleName` or with a component\'s `displayName`.',
       );
     }
 
-    class StyledComponent extends React.Component {
+    class StyledComponent extends React.Component<*, *, *> {
       static displayName: string = `Aesthetic(${styleName})`;
 
       static wrappedComponent: WrappedComponent = Component;
@@ -49,22 +50,37 @@ export default function style(
         themeName: PropTypes.string,
       };
 
-      render() {
+      // Start transforming styles before we mount
+      componentWillMount() {
         const theme = this.props[themePropName] || this.context.themeName || '';
-        const props = {
-          ...this.props,
-          [stylesPropName]: Aesthetic.getStyles(styleName, theme),
-          [themePropName]: theme,
-        };
+        const styles = Aesthetic.transformStyles(styleName, theme);
 
+        this.setState({
+          [stylesPropName]: styles,
+          [themePropName]: theme,
+        });
+      }
+
+      // Clear styles from the DOM if applicable
+      componentWillUnmount() {
+        if (clearOnUnmount) {
+          Aesthetic.clearStyles(styleName);
+        }
+      }
+
+      render() {
         return (
-          <Component {...props} />
+          <Component {...this.props} {...this.state} />
         );
       }
     }
 
     // Set default styles
-    Aesthetic.setStyles(styleName, defaultStyles);
+    if (Aesthetic.hasStyles(styleName)) {
+      throw new Error(`Cannot set default styles; styles already exist for \`${styleName}\`.`);
+    } else {
+      Aesthetic.setStyles(styleName, defaultStyles);
+    }
 
     // Allow consumers to override styles
     if (allowStyling) {

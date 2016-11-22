@@ -5,7 +5,8 @@
  */
 
 import Aesthetic from './Aesthetic';
+import Adapter from './Adapter';
 import style from './style';
 
-export { style };
+export { style, Adapter };
 export default Aesthetic;
