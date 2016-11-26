@@ -26,7 +26,7 @@ export default function style(
     const {
       stylesPropName = 'styles',
       themePropName = 'theme',
-      allowStyling = true,
+      allowStyling = false,
       clearOnUnmount = false,
     } = options;
 

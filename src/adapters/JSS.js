@@ -4,22 +4,17 @@
  * @flow
  */
 
-import JSS, { create } from 'jss';
+import Jss, { create, StyleSheet } from 'jss';
 import Adapter from '../Adapter';
 
+import type { JssOptions, Plugin } from 'jss';
 import type { StyleDeclarationMap, ClassNameMap } from '../types';
 
-type JSSPlugin = (Object) => void;
-type JSSOptions = {
-  generateClassName?: (string) => string,
-  plugins?: JSSPlugin[],
-} | JSSPlugin[];
-
 export default class JSSAdapter extends Adapter {
-  jss: JSS;
-  sheets: { [key: string]: Object }; // TODO
+  jss: Jss;
+  sheets: { [key: string]: StyleSheet };
 
-  constructor(options: JSSOptions = {}) {
+  constructor(options: JssOptions | Plugin[] = {}) {
     super();
 
     if (Array.isArray(options)) {
@@ -27,7 +22,6 @@ export default class JSSAdapter extends Adapter {
     }
 
     this.jss = create(options);
-    this.sheets = {};
   }
 
   /**

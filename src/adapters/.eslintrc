@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-duplicate-imports": 0,
+    "import/first": 0,
+    "import/no-extraneous-dependencies": 0
+  }
+}
