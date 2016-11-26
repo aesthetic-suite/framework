@@ -11,7 +11,7 @@ import type { SheetDeclaration, Extension } from 'aphrodite';
 import type { StyleDeclarationMap, ClassNameMap } from '../types';
 
 export default class AphroditeAdapter extends Adapter {
-  aphrodite: StyleSheet;
+  aphrodite: Object;
   sheets: { [key: string]: SheetDeclaration };
 
   /**

@@ -10,7 +10,7 @@ export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | C
 
 export type StyleDeclaration = string | CSSStyle;
 
-export type StyleDeclarationMap = { [key: string]: StyleDeclaration };
+export type StyleDeclarationMap = string | { [key: string]: StyleDeclaration };
 
 export type ClassNameMap = { [key: string]: string };
 

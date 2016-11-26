@@ -7,7 +7,7 @@ declare module "aphrodite" {
         [key: string]: [string, Object];
     };
 
-    declare export type StyleSheet = {
+    declare export var StyleSheet: {
         create: (sheets: Object) => SheetDeclaration;
         extend: (extensions: Extension[]) => StyleSheet;
     };

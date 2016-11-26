@@ -17,11 +17,7 @@ export default class JSSAdapter extends Adapter {
   constructor(options: JssOptions | Plugin[] = {}) {
     super();
 
-    if (Array.isArray(options)) {
-      options = { plugins: options };
-    }
-
-    this.jss = create(options);
+    this.jss = create(Array.isArray(options) ? { plugins: options } : options);
   }
 
   /**
