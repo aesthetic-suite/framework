@@ -10,7 +10,7 @@ export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | C
 
 export type StyleDeclaration = string | CSSStyle;
 
-export type StyleDeclarationMap = string | { [key: string]: StyleDeclaration };
+export type StyleDeclarationMap = { [key: string]: StyleDeclaration };
 
 export type ClassNameMap = { [key: string]: string };
 
@@ -24,4 +24,6 @@ export type HOCOptions = {
   themePropName?: string,
   allowStyling?: boolean,
   clearOnUnmount?: boolean,
+  onTransform?: (string, string) => void,
+  onClear?: (string, string) => void,
 };

@@ -28,6 +28,8 @@ export default function style(
       themePropName = 'theme',
       allowStyling = false,
       clearOnUnmount = false,
+      onTransform,
+      onClear,
     } = options;
 
     if (!styleName) {
@@ -52,20 +54,39 @@ export default function style(
 
       // Start transforming styles before we mount
       componentWillMount() {
-        const theme = this.props[themePropName] || this.context.themeName || '';
+        const theme = this.getTheme();
         const styles = Aesthetic.transformStyles(styleName, theme);
 
         this.setState({
           [stylesPropName]: styles,
           [themePropName]: theme,
         });
+
+        if (
+          typeof onTransform === 'function' &&
+          !Aesthetic.hasBeenTransformed(styleName)
+        ) {
+          onTransform(styleName, theme);
+        }
       }
 
       // Clear styles from the DOM if applicable
       componentWillUnmount() {
-        if (clearOnUnmount) {
-          Aesthetic.clearStyles(styleName);
+        if (!clearOnUnmount) {
+          return;
         }
+
+        const theme = this.getTheme();
+
+        Aesthetic.clearStyles(styleName, theme);
+
+        if (typeof onClear === 'function') {
+          onClear(styleName, theme);
+        }
+      }
+
+      getTheme() {
+        return this.props[themePropName] || this.context.themeName || '';
       }
 
       render() {
@@ -76,11 +97,7 @@ export default function style(
     }
 
     // Set default styles
-    if (Aesthetic.hasStyles(styleName)) {
-      throw new Error(`Cannot set default styles; styles already exist for \`${styleName}\`.`);
-    } else {
-      Aesthetic.setStyles(styleName, defaultStyles);
-    }
+    Aesthetic.setStyles(styleName, defaultStyles, true);
 
     // Allow consumers to override styles
     if (allowStyling) {

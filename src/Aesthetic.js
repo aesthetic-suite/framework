@@ -13,10 +13,12 @@ import type {
 
 export class Aesthetic {
   styles: { [key: string]: StyleDeclarationMap };
+  transformed: { [key: string]: ClassNameMap };
   adapter: Adapter;
 
   constructor() {
     this.styles = {};
+    this.transformed = {};
     this.adapter = new Adapter();
   }
 
@@ -27,7 +29,19 @@ export class Aesthetic {
    * @returns {Boolean}
    */
   clearStyles(styleName: string): boolean {
+    delete this.transformed[styleName];
+
     return this.adapter.clear(styleName);
+  }
+
+  /**
+   * Check to see if styles have already been transformed for a component.
+   *
+   * @param {String} styleName
+   * @returns {Boolean}
+   */
+  hasBeenTransformed(styleName: string): boolean {
+    return !!this.transformed[styleName];
   }
 
   /**
@@ -61,10 +75,29 @@ export class Aesthetic {
    *
    * @param {String} styleName
    * @param {Object} declarations
+   * @param {Boolean} [isDefault]
    * @returns {Aesthetic}
    */
-  setStyles(styleName: string, declarations: StyleDeclarationMap) {
-    this.styles[styleName] = declarations;
+  setStyles(styleName: string, declarations: StyleDeclarationMap, isDefault: boolean = true) {
+    if (isDefault && this.hasStyles(styleName)) {
+      throw new Error(
+        `Cannot set default styles; styles already exist for \`${styleName}\`.`,
+      );
+    }
+
+    if (this.hasBeenTransformed(styleName)) {
+      throw new Error(
+        `Cannot set new styles; styles have already been transformed for \`${styleName}\`.`,
+      );
+    }
+
+    if (typeof declarations !== 'object') {
+      throw new TypeError(`Style defined for \`${styleName}\` must be an object.`);
+    }
+
+    if (Object.keys(declarations).length > 0) {
+      this.styles[styleName] = declarations;
+    }
 
     return this;
   }
@@ -74,14 +107,17 @@ export class Aesthetic {
    * defined component. Optionally support a custom theme.
    *
    * @param {String} styleName
-   * @param {String} themeName
    * @returns {Object}
    */
-  transformStyles(styleName: string, themeName: string = ''): ClassNameMap {
+  transformStyles(styleName: string): ClassNameMap {
+    if (this.hasBeenTransformed(styleName)) {
+      return this.transformed[styleName];
+    }
+
     const declarations = this.styles[styleName];
 
     if (!declarations) {
-      throw new Error(`Styles do not exist for ${styleName}.`);
+      throw new Error(`Styles do not exist for \`${styleName}\`.`);
     }
 
     const toTransform = {};
@@ -109,11 +145,14 @@ export class Aesthetic {
         } else {
           throw new TypeError(
             'Adapter must return a mapping of CSS class names. ' +
-            `${styleName}@${setName} is not a valid string.`,
+            `\`${styleName}@${setName}\` is not a valid string.`,
           );
         }
       });
     }
+
+    // Cache the values
+    this.transformed[styleName] = classNames;
 
     return classNames;
   }
