@@ -6,61 +6,27 @@
 
 import Adapter from './Adapter';
 
-import type {
-  StyleDeclarationMap,
-  ClassNameMap,
-} from './types';
+import type { ComponentDeclarations } from './types';
 
-export class Aesthetic {
-  styles: { [key: string]: StyleDeclarationMap };
-  transformed: { [key: string]: ClassNameMap };
+export default class Aesthetic {
   adapter: Adapter;
 
-  constructor() {
-    this.styles = {};
-    this.transformed = {};
-    this.adapter = new Adapter();
+  constructor(adapter: Adapter) {
+    this.setAdapter(adapter);
   }
 
   /**
-   * Clear transformed and attached styles from the DOM for the defined component.
-   *
-   * @param {String} styleName
-   * @returns {Boolean}
+   * Lock the component from being styled any further.
    */
-  clearStyles(styleName: string): boolean {
-    delete this.transformed[styleName];
-
-    return this.adapter.clear(styleName);
-  }
-
-  /**
-   * Check to see if styles have already been transformed for a component.
-   *
-   * @param {String} styleName
-   * @returns {Boolean}
-   */
-  hasBeenTransformed(styleName: string): boolean {
-    return !!this.transformed[styleName];
-  }
-
-  /**
-   * Check to see if styles have already been defined for a component.
-   *
-   * @param {String} styleName
-   * @returns {Boolean}
-   */
-  hasStyles(styleName: string): boolean {
-    return !!this.styles[styleName];
+  lockStyling(styleName: string): this {
+    // TODO
+    return this;
   }
 
   /**
    * Set an adapter class to transform CSS style objects.
-   *
-   * @param {Adapter} adapter
-   * @returns {Aesthetic}
    */
-  setAdapter(adapter: Adapter) {
+  setAdapter(adapter: Adapter): this {
     if (!(adapter instanceof Adapter)) {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
@@ -72,90 +38,15 @@ export class Aesthetic {
 
   /**
    * Set multiple style declarations for a component.
-   *
-   * @param {String} styleName
-   * @param {Object} declarations
-   * @param {Boolean} [isDefault]
-   * @returns {Aesthetic}
+   * If `merge` is true, it will deep merge with any previous styles,
+   * otherwise it will completely override them.
    */
-  setStyles(styleName: string, declarations: StyleDeclarationMap, isDefault: boolean = true) {
-    if (isDefault && this.hasStyles(styleName)) {
-      throw new Error(
-        `Cannot set default styles; styles already exist for \`${styleName}\`.`,
-      );
-    }
-
-    if (this.hasBeenTransformed(styleName)) {
-      throw new Error(
-        `Cannot set new styles; styles have already been transformed for \`${styleName}\`.`,
-      );
-    }
-
-    if (typeof declarations !== 'object') {
-      throw new TypeError(`Style defined for \`${styleName}\` must be an object.`);
-    }
-
-    if (Object.keys(declarations).length > 0) {
-      this.styles[styleName] = declarations;
-    }
-
+  setStyles(
+    styleName: string,
+    declarations: ComponentDeclarations,
+    merge: boolean = true,
+  ): this {
+    // TODO
     return this;
   }
-
-  /**
-   * Execute the adapter transformer on the set of style declarations for the
-   * defined component. Optionally support a custom theme.
-   *
-   * @param {String} styleName
-   * @returns {Object}
-   */
-  transformStyles(styleName: string): ClassNameMap {
-    if (this.hasBeenTransformed(styleName)) {
-      return this.transformed[styleName];
-    }
-
-    const declarations = this.styles[styleName];
-
-    if (!declarations) {
-      throw new Error(`Styles do not exist for \`${styleName}\`.`);
-    }
-
-    const toTransform = {};
-    const classNames = {};
-    let setCount = 0;
-
-    // Separate style objects from class names
-    Object.keys(declarations).forEach((setName) => {
-      if (typeof declarations[setName] === 'string') {
-        classNames[setName] = declarations[setName];
-      } else {
-        toTransform[setName] = declarations[setName];
-        setCount += 1;
-      }
-    });
-
-    // Transform the styles into a map of class names
-    if (setCount > 0) {
-      const transformedClassNames = this.adapter.transform(styleName, toTransform);
-
-      // Validate the object returned contains valid strings
-      Object.keys(transformedClassNames).forEach((setName) => {
-        if (typeof transformedClassNames[setName] === 'string') {
-          classNames[setName] = transformedClassNames[setName];
-        } else {
-          throw new TypeError(
-            'Adapter must return a mapping of CSS class names. ' +
-            `\`${styleName}@${setName}\` is not a valid string.`,
-          );
-        }
-      });
-    }
-
-    // Cache the values
-    this.transformed[styleName] = classNames;
-
-    return classNames;
-  }
 }
-
-export default new Aesthetic();

@@ -4,19 +4,29 @@
  * @flow
  */
 
+/* eslint-disable react/no-multi-comp, react/prefer-stateless-function */
+
 import React from 'react';
 
 export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | CSSStyle[] };
 
 export type StyleDeclaration = string | CSSStyle;
 
-export type StyleDeclarationMap = { [key: string]: StyleDeclaration };
+export type ComponentDeclarations = { [key: string]: StyleDeclaration };
 
-export type ClassNameMap = { [key: string]: string };
+export type ClassNames = { [key: string]: string };
 
-export type WrappedComponent = React.Component<*, *, *>;
 
-export type HOCComponent = React.Component<*, *, *>;
+
+
+// OLD
+
+export class WrappedComponent extends React.Component<*, *, *> {
+  displayName: string;
+  name: string;
+}
+
+export class HOCComponent extends React.Component<*, *, *> {}
 
 export type HOCOptions = {
   styleName?: string,

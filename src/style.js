@@ -11,14 +11,15 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  StyleDeclarationMap,
+  ComponentDeclarations,
   WrappedComponent,
   HOCComponent,
   HOCOptions,
 } from './types';
 
 export default function style(
-  defaultStyles: StyleDeclarationMap = {},
+  aesthetic: Aesthetic,
+  defaultStyles: ComponentDeclarations = {},
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
@@ -39,6 +40,9 @@ export default function style(
       );
     }
 
+    // Set default styles
+    aesthetic.setStyles(styleName, defaultStyles);
+
     class StyledComponent extends React.Component<*, *, *> {
       static displayName: string = `Aesthetic(${styleName})`;
 
@@ -52,19 +56,32 @@ export default function style(
         themeName: PropTypes.string,
       };
 
+      // Allow consumers to override styles
+      static setStyles(declarations: ComponentDeclarations, merge: boolean = false) {
+        if (allowStyling) {
+          aesthetic
+            .setStyles(styleName, declarations, merge)
+            .lockStyling(styleName);
+        }
+      }
+
+      static mergeStyles(declarations: ComponentDeclarations) {
+        StyledComponent.setStyles(declarations, true);
+      }
+
       // Start transforming styles before we mount
       componentWillMount() {
         const theme = this.getTheme();
-        const styles = Aesthetic.transformStyles(styleName, theme);
+        const styles = aesthetic.transformStyles(styleName, theme);
 
         this.setState({
-          [stylesPropName]: styles,
           [themePropName]: theme,
+          [stylesPropName]: styles,
         });
 
         if (
           typeof onTransform === 'function' &&
-          !Aesthetic.hasBeenTransformed(styleName)
+          !aesthetic.hasBeenTransformed(styleName)
         ) {
           onTransform(styleName, theme);
         }
@@ -78,7 +95,7 @@ export default function style(
 
         const theme = this.getTheme();
 
-        Aesthetic.clearStyles(styleName, theme);
+        aesthetic.clearStyles(styleName, theme);
 
         if (typeof onClear === 'function') {
           onClear(styleName, theme);
@@ -94,16 +111,6 @@ export default function style(
           <Component {...this.props} {...this.state} />
         );
       }
-    }
-
-    // Set default styles
-    Aesthetic.setStyles(styleName, defaultStyles, true);
-
-    // Allow consumers to override styles
-    if (allowStyling) {
-      StyledComponent.setStyles = function setStyles(declarations: StyleDeclarationMap) {
-        Aesthetic.setStyles(styleName, declarations);
-      };
     }
 
     return hoistNonReactStatics(StyledComponent, Component);
