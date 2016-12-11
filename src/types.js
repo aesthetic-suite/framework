@@ -16,24 +16,13 @@ export type ComponentDeclarations = { [key: string]: StyleDeclaration };
 
 export type ClassNames = { [key: string]: string };
 
+export type WrappedComponent = React.Component<*, *, *>;
 
-
-
-// OLD
-
-export class WrappedComponent extends React.Component<*, *, *> {
-  displayName: string;
-  name: string;
-}
-
-export class HOCComponent extends React.Component<*, *, *> {}
+export type HOCComponent = React.Component<*, *, *>;
 
 export type HOCOptions = {
   styleName?: string,
   stylesPropName?: string,
   themePropName?: string,
   allowStyling?: boolean,
-  clearOnUnmount?: boolean,
-  onTransform?: (string, string) => void,
-  onClear?: (string, string) => void,
 };

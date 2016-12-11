@@ -1,15 +1,11 @@
 declare module "aphrodite" {
-    declare export type Extension = {
-        selectorHandler: (string) => ?Object;
-    };
-
     declare export type SheetDeclaration = {
         [key: string]: [string, Object];
     };
 
     declare export var StyleSheet: {
         create: (sheets: Object) => SheetDeclaration;
-        extend: (extensions: Extension[]) => StyleSheet;
+        extend: (extensions: Object[]) => StyleSheet;
     };
 
     declare export function css(sheet: [string, Object]): string;

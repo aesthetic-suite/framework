@@ -1,16 +1,4 @@
 declare module "jss" {
-    declare export type Plugin = (Rule) => void;
-
-    declare export type JssOptions = {
-        generateClassName?: (string) => string,
-        plugins?: Plugin[],
-    };
-
-    declare export class Rule {
-        toJSON(): string;
-        toString(): string;
-    }
-
     declare export class StyleSheet {
         classes: { [key: string]: string };
         attach(): this;
@@ -18,10 +6,9 @@ declare module "jss" {
     }
 
     declare export default class Jss {
-        static Options: JssOptions;
-        constructor(options?: JssOptions): void;
+        constructor(options?: Object): void;
         createStyleSheet(rules: Object, options: Object): StyleSheet;
     }
 
-    declare export function create(options?: JssOptions): Jss;
+    declare export function create(options?: Object): Jss;
 }

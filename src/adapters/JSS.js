@@ -4,26 +4,23 @@
  * @flow
  */
 
-import Jss, { create, StyleSheet } from 'jss';
+import JSS, { create, StyleSheet } from 'jss';
 import Adapter from '../Adapter';
 
-import type { JssOptions, Plugin } from 'jss';
-import type { StyleDeclarationMap, ClassNameMap } from '../types';
+import type { ComponentDeclarations, ClassNames } from '../types';
 
 export default class JSSAdapter extends Adapter {
-  jss: Jss;
+  jss: JSS;
   sheets: { [key: string]: StyleSheet };
 
-  constructor(options: JssOptions | Plugin[] = {}) {
+  constructor(jss: JSS) {
     super();
 
-    this.jss = create(Array.isArray(options) ? { plugins: options } : options);
+    this.jss = (jss instanceof JSS) ? jss : create();
+    this.sheets = {};
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     // Create and cache a new stylesheet
@@ -38,20 +35,5 @@ export default class JSSAdapter extends Adapter {
     sheet.attach();
 
     return { ...sheet.classes };
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  clear(styleName: string) {
-    const sheet = this.sheets[styleName];
-
-    if (sheet) {
-      sheet.detach();
-
-      return true;
-    }
-
-    return false;
   }
 }

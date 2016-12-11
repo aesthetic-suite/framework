@@ -7,26 +7,21 @@
 import { StyleSheet, css } from 'aphrodite';
 import Adapter from '../Adapter';
 
-import type { SheetDeclaration, Extension } from 'aphrodite';
-import type { StyleDeclarationMap, ClassNameMap } from '../types';
+import type { SheetDeclaration } from 'aphrodite';
+import type { ComponentDeclarations, ClassNames } from '../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object;
   sheets: { [key: string]: SheetDeclaration };
 
-  /**
-   * {@inheritDoc}
-   */
-  constructor(extensions: Extension[] = []) {
+  constructor(aphrodite: Object) {
     super();
 
-    this.aphrodite = extensions.length ? StyleSheet.extend(extensions) : StyleSheet;
+    this.aphrodite = aphrodite || StyleSheet;
+    this.sheets = {};
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     // Create and cache a new stylesheet

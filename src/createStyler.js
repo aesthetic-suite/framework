@@ -14,7 +14,7 @@ import type {
 
 export default function createStyler(aesthetic: Aesthetic) {
   if (!(aesthetic instanceof Aesthetic)) {
-    throw new Error('An instance of `Aesthetic` must be provided.');
+    throw new TypeError('An instance of `Aesthetic` must be provided.');
   }
 
   return (defaultStyles: ComponentDeclarations = {}, options: HOCOptions = {}) => (

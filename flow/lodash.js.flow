@@ -1,0 +1,3 @@
+declare module "lodash.merge" {
+  declare export default function merge(Object, Object): Object;
+}

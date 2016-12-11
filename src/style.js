@@ -23,14 +23,12 @@ export default function style(
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
+    // $FlowIssue These properties may not exist
     const styleName: string = options.styleName || Component.displayName || Component.name;
     const {
       stylesPropName = 'styles',
       themePropName = 'theme',
       allowStyling = false,
-      clearOnUnmount = false,
-      onTransform,
-      onClear,
     } = options;
 
     if (!styleName) {
@@ -56,7 +54,7 @@ export default function style(
         themeName: PropTypes.string,
       };
 
-      // Allow consumers to override styles
+      // Allow consumers to set styles
       static setStyles(declarations: ComponentDeclarations, merge: boolean = false) {
         if (allowStyling) {
           aesthetic
@@ -65,6 +63,7 @@ export default function style(
         }
       }
 
+      // And to merge styles
       static mergeStyles(declarations: ComponentDeclarations) {
         StyledComponent.setStyles(declarations, true);
       }
@@ -78,28 +77,6 @@ export default function style(
           [themePropName]: theme,
           [stylesPropName]: styles,
         });
-
-        if (
-          typeof onTransform === 'function' &&
-          !aesthetic.hasBeenTransformed(styleName)
-        ) {
-          onTransform(styleName, theme);
-        }
-      }
-
-      // Clear styles from the DOM if applicable
-      componentWillUnmount() {
-        if (!clearOnUnmount) {
-          return;
-        }
-
-        const theme = this.getTheme();
-
-        aesthetic.clearStyles(styleName, theme);
-
-        if (typeof onClear === 'function') {
-          onClear(styleName, theme);
-        }
       }
 
       getTheme() {

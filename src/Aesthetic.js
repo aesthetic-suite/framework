@@ -4,14 +4,21 @@
  * @flow
  */
 
+import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 
-import type { ComponentDeclarations } from './types';
+import type { ComponentDeclarations, ClassNames } from './types';
 
 export default class Aesthetic {
   adapter: Adapter;
+  locked: { [key: string]: boolean };
+  styles: { [key: string]: ComponentDeclarations };
+  classNames: { [key: string]: ClassNames };
 
   constructor(adapter: Adapter) {
+    this.locked = {};
+    this.styles = {};
+    this.classNames = {};
     this.setAdapter(adapter);
   }
 
@@ -19,7 +26,10 @@ export default class Aesthetic {
    * Lock the component from being styled any further.
    */
   lockStyling(styleName: string): this {
-    // TODO
+    if (this.styles[styleName]) {
+      this.locked[styleName] = true;
+    }
+
     return this;
   }
 
@@ -46,7 +56,85 @@ export default class Aesthetic {
     declarations: ComponentDeclarations,
     merge: boolean = true,
   ): this {
-    // TODO
+    if (this.locked[styleName]) {
+      throw new Error(
+        `Cannot set styles; styles have been locked for \`${styleName}\`.`,
+      );
+    }
+
+    if (this.classNames[styleName]) {
+      throw new Error(
+        `Cannot set styles; styles have already been transformed for \`${styleName}\`.`,
+      );
+    }
+
+    if (!declarations || typeof declarations !== 'object') {
+      throw new TypeError(`Styles defined for \`${styleName}\` must be an object.`);
+    }
+
+    const prevDeclarations = this.styles[styleName];
+
+    if (prevDeclarations && merge) {
+      this.styles[styleName] = deepMerge(prevDeclarations, declarations);
+    } else {
+      this.styles[styleName] = declarations;
+    }
+
     return this;
+  }
+
+  /**
+   * Execute the adapter transformer on the set of style declarations for the
+   * defined component. Optionally support a custom theme.
+   *
+   * @param {String} styleName
+   * @returns {Object}
+   */
+  transformStyles(styleName: string): ClassNames {
+    if (this.classNames[styleName]) {
+      return this.classNames[styleName];
+    }
+
+    const declarations = this.styles[styleName];
+
+    if (!declarations) {
+      throw new Error(`Styles do not exist for \`${styleName}\`.`);
+    }
+
+    const toTransform = {};
+    const classNames = {};
+    let setCount = 0;
+
+    // Separate style objects from class names
+    Object.keys(declarations).forEach((setName) => {
+      if (typeof declarations[setName] === 'string') {
+        classNames[setName] = declarations[setName];
+      } else {
+        toTransform[setName] = declarations[setName];
+        setCount += 1;
+      }
+    });
+
+    // Transform the styles into a map of class names
+    if (setCount > 0) {
+      const transformedClassNames = this.adapter.transform(styleName, toTransform);
+
+      // Validate the object returned contains valid strings
+      Object.keys(transformedClassNames).forEach((setName) => {
+        if (typeof transformedClassNames[setName] === 'string') {
+          classNames[setName] = transformedClassNames[setName];
+        } else {
+          throw new TypeError(
+            'Adapter must return a mapping of CSS class names. ' +
+            `\`${styleName}@${setName}\` is not a valid string.`,
+          );
+        }
+      });
+    }
+
+    // Cache the values
+    this.classNames[styleName] = classNames;
+
+    return classNames;
   }
 }

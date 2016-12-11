@@ -4,33 +4,13 @@
  * @flow
  */
 
-import type { StyleDeclarationMap, ClassNameMap } from './types';
+import type { ComponentDeclarations, ClassNames } from './types';
 
 export default class Adapter {
-  sheets: { [key: string]: any };
-
-  constructor() {
-    this.sheets = {};
-  }
-
   /**
    * Transform the style objects into a mapping of CSS class names.
-   *
-   * @param {String} styleName
-   * @param {Object} declarations
-   * @returns {Object}
    */
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
     return {};
-  }
-
-  /**
-   * Remove transformed styles from the document.
-   *
-   * @param {String} styleName
-   * @returns {Boolean}
-   */
-  clear(styleName: string): boolean {
-    return true;
   }
 }
