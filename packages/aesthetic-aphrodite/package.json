@@ -1,0 +1,15 @@
+{
+  "name": "aesthetic-aphrodite",
+  "version": "0.0.0",
+  "description": "Aphrodite support for Aesthetic.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/milesj/aesthetic.git"
+  },
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "aesthetic": "^0.0.0",
+    "aphrodite": "^1.1.0"
+  }
+}
