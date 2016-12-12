@@ -7,6 +7,12 @@
 import type { ComponentDeclarations, ClassNames } from './types';
 
 export default class Adapter {
+  sheets: { [key: string]: ClassNames };
+
+  constructor() {
+    this.sheets = {};
+  }
+
   /**
    * Transform the style objects into a mapping of CSS class names.
    */

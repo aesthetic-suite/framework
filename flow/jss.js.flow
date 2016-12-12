@@ -1,14 +1,16 @@
+import type { CSSStyle } from "../src/types";
+
 declare module "jss" {
-    declare export class StyleSheet {
-        classes: { [key: string]: string };
-        attach(): this;
-        detach(): this;
-    }
+  declare class StyleSheet {
+    classes: { [key: string]: string };
+    attach(): this;
+    detach(): this;
+  }
 
-    declare export default class Jss {
-        constructor(options?: Object): void;
-        createStyleSheet(rules: Object, options: Object): StyleSheet;
-    }
+  declare export default class Jss {
+    constructor(options?: Object): void;
+    createStyleSheet(rules: CSSStyle, options: Object): StyleSheet;
+  }
 
-    declare export function create(options?: Object): Jss;
+  declare export function create(options?: Object): Jss;
 }

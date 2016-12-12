@@ -4,29 +4,20 @@
  * @flow
  */
 
-import { StyleSheet, css } from 'aphrodite';
+import { css } from 'glamor';
 import Adapter from '../Adapter';
 
 import type { ComponentDeclarations, ClassNames } from '../types';
 
-export default class AphroditeAdapter extends Adapter {
-  aphrodite: Object;
-
-  constructor(aphrodite: Object) {
-    super();
-
-    this.aphrodite = aphrodite || StyleSheet;
-  }
-
+export default class GlamorAdapter extends Adapter {
   transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {
-      const compiler = this.aphrodite.create(declarations);
       sheet = {};
 
-      Object.keys(compiler).forEach((setName) => {
-        sheet[setName] = css(compiler[setName]);
+      Object.keys(declarations).forEach((setName) => {
+        sheet[setName] = String(css(declarations[setName]));
       });
 
       this.sheets[styleName] = sheet;

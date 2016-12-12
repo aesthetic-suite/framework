@@ -24,5 +24,5 @@ export type HOCOptions = {
   styleName?: string,
   stylesPropName?: string,
   themePropName?: string,
-  allowStyling?: boolean,
+  lockStyling?: boolean,
 };

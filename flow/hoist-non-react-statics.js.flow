@@ -1,7 +1,7 @@
 import React from 'react';
 
 declare module "hoist-non-react-statics" {
-    declare type Component = React.Component<*, *, *>;
+  declare type Component = React.Component<*, *, *>;
 
-    declare export default function hoistNonReactStatics(Component, Component): Component;
+  declare export default function hoistNonReactStatics(Component, Component): Component;
 }

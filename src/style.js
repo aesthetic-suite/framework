@@ -28,7 +28,7 @@ export default function style(
     const {
       stylesPropName = 'styles',
       themePropName = 'theme',
-      allowStyling = false,
+      lockStyling = true,
     } = options;
 
     if (!styleName) {
@@ -40,6 +40,10 @@ export default function style(
 
     // Set default styles
     aesthetic.setStyles(styleName, defaultStyles);
+
+    if (lockStyling) {
+      aesthetic.lockStyling(styleName);
+    }
 
     class StyledComponent extends React.Component<*, *, *> {
       static displayName: string = `Aesthetic(${styleName})`;
@@ -56,11 +60,9 @@ export default function style(
 
       // Allow consumers to set styles
       static setStyles(declarations: ComponentDeclarations, merge: boolean = false) {
-        if (allowStyling) {
-          aesthetic
-            .setStyles(styleName, declarations, merge)
-            .lockStyling(styleName);
-        }
+        aesthetic
+          .setStyles(styleName, declarations, merge)
+          .lockStyling(styleName);
       }
 
       // And to merge styles

@@ -113,7 +113,7 @@ import styles from './styles.css';
 style(styles)(Component);
 ```
 
-### Aphrodite, JSS, Radium, Glamor, Fela, VStyle, Styletron, Babel CSS-In-JS
+### Aphrodite, JSS, Glamor, Fela, VStyle, Styletron, Babel CSS-In-JS
 
 ```javascript
 style({
@@ -128,22 +128,13 @@ style({
 })(Component);
 ```
 
-### CSSX
+### Unsupported Adapters
 
-```javascript
-style((
-  <style>
-    foo {
-      color: 'red';
-      display: 'inline';
-    }
-    bar {
-      color: 'blue';
-      padding: 5px;
-    }
-  </style>
-))(Component);
-```
+* **CSSX** - Does not generate unique class names during compilation and instead
+  uses the literal class names and or tag names defined in the style declaration.
+  This allows for global style collisions, which we want to avoid.
+* **Radium** - Uses inline styles instead of compiling and attaching CSS styles
+  to the DOM.
 
 ## Themes
 
