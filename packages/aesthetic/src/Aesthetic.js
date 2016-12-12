@@ -54,7 +54,7 @@ export default class Aesthetic {
   setStyles(
     styleName: string,
     declarations: ComponentDeclarations,
-    merge: boolean = true,
+    merge: boolean = false,
   ): this {
     if (this.locked[styleName]) {
       throw new Error(
@@ -68,7 +68,7 @@ export default class Aesthetic {
       );
     }
 
-    if (!declarations || typeof declarations !== 'object') {
+    if (!declarations || Array.isArray(declarations) || typeof declarations !== 'object') {
       throw new TypeError(`Styles defined for \`${styleName}\` must be an object.`);
     }
 

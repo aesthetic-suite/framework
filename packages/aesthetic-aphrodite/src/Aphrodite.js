@@ -4,10 +4,10 @@
  * @flow
  */
 
+import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
-import Adapter from '../Adapter';
 
-import type { ComponentDeclarations, ClassNames } from '../types';
+import type { ComponentDeclarations, ClassNames } from 'aesthetic';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object;

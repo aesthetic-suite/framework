@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "aesthetic",
   "version": "0.0.0",
   "description": "Support a range of styling options for React components.",
@@ -9,9 +10,7 @@
     "watch": "babel --watch ./src -d ./lib",
     "lint": "eslint ./packages",
     "flow": "flow check",
-    "mocha": "yarn run mocha:in ./tests/*.test.js ./tests/**/*.test.js",
-    "mocha:in": "mocha --opts ./mocha.opts",
-    "test": "yarn run mocha",
+    "test": "mocha --opts ./mocha.opts './packages/**/tests/*.test.js'",
     "posttest": "yarn run lint && yarn run flow",
     "preversion": "yarn test"
   },

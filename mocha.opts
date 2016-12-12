@@ -1,6 +1,5 @@
 --require babel-register
 --require chai
---require ./tests/setup.js
 --reporter dot
 --ui bdd
 --colors

@@ -4,10 +4,10 @@
  * @flow
  */
 
+import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
-import Adapter from '../Adapter';
 
-import type { ComponentDeclarations, ClassNames } from '../types';
+import type { ComponentDeclarations, ClassNames } from 'aesthetic';
 
 export default class GlamorAdapter extends Adapter {
   transform(styleName: string, declarations: ComponentDeclarations): ClassNames {

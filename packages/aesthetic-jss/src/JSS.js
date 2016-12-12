@@ -4,10 +4,10 @@
  * @flow
  */
 
+import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
-import Adapter from '../Adapter';
 
-import type { ComponentDeclarations, ClassNames } from '../types';
+import type { ComponentDeclarations, ClassNames } from 'aesthetic';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
