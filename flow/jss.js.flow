@@ -1,15 +1,15 @@
-import type { CSSStyle } from "../src/types";
+import type { CSSStyle } from "../packages/aesthetic/src/types";
 
 declare module "jss" {
   declare class StyleSheet {
-    classes: { [key: string]: string };
-    attach(): this;
-    detach(): this;
+    classes: { [key: string]: string },
+    attach(): this,
+    detach(): this,
   }
 
   declare export default class Jss {
-    constructor(options?: Object): void;
-    createStyleSheet(rules: CSSStyle, options: Object): StyleSheet;
+    constructor(options?: Object): void,
+    createStyleSheet(rules: CSSStyle, options: Object): StyleSheet,
   }
 
   declare export function create(options?: Object): Jss;

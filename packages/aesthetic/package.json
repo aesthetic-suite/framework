@@ -1,7 +1,7 @@
 {
   "name": "aesthetic",
   "version": "0.0.1",
-  "description": "Supports a range of styling options for React components.",
+  "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [
     "aesthetic",
     "react",
@@ -13,6 +13,10 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
+  "scripts": {
+    "lint": "node ../../node_modules/.bin/eslint .",
+    "test": "node ../../node_modules/.bin/mocha --opts ../../mocha.opts './tests/*.test.js'"
+  },
   "dependencies": {
     "babel-runtime": "^6.18.0",
     "hoist-non-react-statics": "^1.2.0",

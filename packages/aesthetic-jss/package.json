@@ -14,6 +14,10 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
+  "scripts": {
+    "lint": "node ../../node_modules/.bin/eslint .",
+    "test": "node ../../node_modules/.bin/mocha --opts ../../mocha.opts './tests/*.test.js'"
+  },
   "peerDependencies": {
     "aesthetic": "^0.0.1",
     "jss": "^6.0.1"

@@ -1,9 +1,9 @@
-import type { CSSStyle } from "../src/types";
+import type { CSSStyle } from "../packages/aesthetic/src/types";
 
 declare module "glamor" {
   declare type SheetDeclaration = {
-    [key: string]: string;
-    toString(): string;
+    [key: string]: string,
+    toString(): string,
   };
 
   declare export function css(...rules: CSSStyle[]): SheetDeclaration;

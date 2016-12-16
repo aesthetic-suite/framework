@@ -1,18 +1,18 @@
 {
   "private": true,
   "name": "aesthetic",
-  "version": "0.0.0",
-  "description": "Support a range of styling options for React components.",
+  "version": "0.0.1",
+  "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [],
   "scripts": {
     "clean": "rimraf ./lib",
     "build": "babel ./src -d ./lib",
     "watch": "babel --watch ./src -d ./lib",
-    "lint": "eslint ./packages",
     "flow": "flow check",
-    "test": "mocha --opts ./mocha.opts './packages/**/tests/*.test.js'",
-    "posttest": "yarn run lint && yarn run flow",
-    "preversion": "yarn test"
+    "lint": "lerna run lint",
+    "test": "lerna run test",
+    "posttest": "npm run lint && npm run flow",
+    "preversion": "npm test"
   },
   "repository": {
     "type": "git",

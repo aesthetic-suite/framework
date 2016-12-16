@@ -1,6 +1,6 @@
 # Aesthetic
 
-Support a range of styling options for React components.
+Abstract library to support a range of styling options for React components.
 
 ## Usage
 
