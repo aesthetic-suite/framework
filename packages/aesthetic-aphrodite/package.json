@@ -2,7 +2,12 @@
   "name": "aesthetic-aphrodite",
   "version": "0.0.1",
   "description": "Aphrodite support for Aesthetic.",
-  "keywords": ["aesthetic", "react", "styles", "aphrodite"],
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "aphrodite"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/milesj/aesthetic.git"

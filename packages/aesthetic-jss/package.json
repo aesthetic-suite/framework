@@ -2,7 +2,12 @@
   "name": "aesthetic-jss",
   "version": "0.0.1",
   "description": "JSS support for Aesthetic.",
-  "keywords": ["aesthetic", "react", "styles", "jss"],
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "jss"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/milesj/aesthetic.git"

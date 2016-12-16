@@ -2,7 +2,12 @@
   "name": "aesthetic-glamor",
   "version": "0.0.1",
   "description": "Glamor support for Aesthetic.",
-  "keywords": ["aesthetic", "react", "styles", "glamor"],
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "glamor"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/milesj/aesthetic.git"
