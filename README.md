@@ -1,4 +1,4 @@
-# Aesthetic v0.0.0
+# Aesthetic
 
 Support a range of styling options for React components.
 

@@ -1,7 +1,8 @@
 {
   "name": "aesthetic",
-  "version": "0.0.0",
-  "description": "Support a range of styling options for React components.",
+  "version": "0.0.1",
+  "description": "Supports a range of styling options for React components.",
+  "keywords": ["aesthetic", "react", "styles"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/milesj/aesthetic.git"

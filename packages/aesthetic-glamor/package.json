@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-glamor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Glamor support for Aesthetic.",
   "keywords": ["aesthetic", "react", "styles", "glamor"],
   "repository": {
@@ -9,8 +9,8 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
-  "dependencies": {
-    "aesthetic": "^0.0.0",
+  "peerDependencies": {
+    "aesthetic": "^0.0.1",
     "glamor": "^2.20.12"
   }
 }
