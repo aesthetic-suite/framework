@@ -25,7 +25,7 @@ export default class AphroditeAdapter extends Adapter {
       const compiler = this.aphrodite.create(declarations);
       sheet = {};
 
-      Object.keys(compiler).forEach((setName) => {
+      Object.keys(compiler).forEach((setName: string) => {
         sheet[setName] = css(compiler[setName]);
       });
 

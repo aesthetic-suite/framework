@@ -106,7 +106,7 @@ export default class Aesthetic {
     let setCount = 0;
 
     // Separate style objects from class names
-    Object.keys(declarations).forEach((setName) => {
+    Object.keys(declarations).forEach((setName: string) => {
       if (typeof declarations[setName] === 'string') {
         classNames[setName] = declarations[setName];
       } else {
@@ -120,7 +120,7 @@ export default class Aesthetic {
       const transformedClassNames = this.adapter.transform(styleName, toTransform);
 
       // Validate the object returned contains valid strings
-      Object.keys(transformedClassNames).forEach((setName) => {
+      Object.keys(transformedClassNames).forEach((setName: string) => {
         if (typeof transformedClassNames[setName] === 'string') {
           classNames[setName] = transformedClassNames[setName];
         } else {

@@ -21,8 +21,8 @@ export type WrappedComponent = React.Component<*, *, *>;
 export type HOCComponent = React.Component<*, *, *>;
 
 export type HOCOptions = {
+  lockStyling?: boolean,
   styleName?: string,
   stylesPropName?: string,
   themePropName?: string,
-  lockStyling?: boolean,
 };

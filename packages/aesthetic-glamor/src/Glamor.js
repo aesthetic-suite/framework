@@ -16,7 +16,7 @@ export default class GlamorAdapter extends Adapter {
     if (!sheet) {
       sheet = {};
 
-      Object.keys(declarations).forEach((setName) => {
+      Object.keys(declarations).forEach((setName: string) => {
         sheet[setName] = String(css(declarations[setName]));
       });
 
