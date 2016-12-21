@@ -7,10 +7,10 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { ComponentDeclarations, ClassNames } from 'aesthetic';
+import type { StyleDeclarations, ClassNames } from 'aesthetic';
 
 export default class GlamorAdapter extends Adapter {
-  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
+  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {

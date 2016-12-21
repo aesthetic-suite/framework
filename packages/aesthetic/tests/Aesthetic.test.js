@@ -2,6 +2,19 @@ import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import Adapter from '../src/Adapter';
 
+class TestAdapter extends Adapter {
+  transform(styleName, declarations) {
+    if (styleName === 'foo') {
+      return declarations;
+    }
+
+    return {
+      header: '.header',
+      footer: '.footer',
+    };
+  }
+}
+
 describe('Aesthetic', () => {
   let instance = null;
 
@@ -10,8 +23,10 @@ describe('Aesthetic', () => {
   });
 
   describe('constructor()', () => {
-    it('errors if no adapter is passed', () => {
-      expect(() => new Aesthetic()).to.throw(TypeError);
+    it('sets an adapter if none is passed', () => {
+      instance = new Aesthetic();
+
+      expect(instance.adapter).to.be.an.instanceOf(Adapter);
     });
   });
 
@@ -44,7 +59,7 @@ describe('Aesthetic', () => {
     });
 
     it('sets an adapter', () => {
-      const adapter = new Adapter();
+      const adapter = new TestAdapter();
 
       expect(instance.adapter).to.not.equal(adapter);
 
@@ -179,6 +194,28 @@ describe('Aesthetic', () => {
 
       expect(instance.transformStyles('foo')).to.deep.equal(classNameMap);
       expect(instance.classNames.foo).to.deep.equal(classNameMap);
+    });
+
+    it('errors if the adapter does not return a string', () => {
+      instance.setAdapter(new TestAdapter());
+      instance.setStyles('foo', {
+        header: { color: 'red' },
+      });
+
+      expect(() => instance.transformStyles('foo')).to.throw(TypeError);
+    });
+
+    it('sets and caches styles', () => {
+      expect(instance.classNames.bar).to.be.an('undefined');
+
+      instance.setAdapter(new TestAdapter());
+      instance.setStyles('bar', {
+        header: { color: 'red' },
+        footer: { color: 'blue' },
+      });
+      instance.transformStyles('bar');
+
+      expect(instance.classNames.bar).to.deep.equal(classNameMap);
     });
   });
 });

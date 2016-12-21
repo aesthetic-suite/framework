@@ -7,19 +7,18 @@
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 
-import type { ComponentDeclarations, ClassNames } from './types';
+import type { StyleDeclarations, ClassNames } from './types';
 
 export default class Aesthetic {
-  adapter: Adapter;
-  locked: { [key: string]: boolean };
-  styles: { [key: string]: ComponentDeclarations };
-  classNames: { [key: string]: ClassNames };
+  adapter: Adapter = new Adapter();
+  locked: { [key: string]: boolean } = {};
+  styles: { [key: string]: StyleDeclarations } = {};
+  classNames: { [key: string]: ClassNames } = {};
 
   constructor(adapter: Adapter) {
-    this.locked = {};
-    this.styles = {};
-    this.classNames = {};
-    this.setAdapter(adapter);
+    if (adapter) {
+      this.setAdapter(adapter);
+    }
   }
 
   /**
@@ -37,11 +36,11 @@ export default class Aesthetic {
    * Set an adapter class to transform CSS style objects.
    */
   setAdapter(adapter: Adapter): this {
-    if (!(adapter instanceof Adapter)) {
+    if (adapter instanceof Adapter) {
+      this.adapter = adapter;
+    } else {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
-
-    this.adapter = adapter;
 
     return this;
   }
@@ -53,7 +52,7 @@ export default class Aesthetic {
    */
   setStyles(
     styleName: string,
-    declarations: ComponentDeclarations,
+    declarations: StyleDeclarations,
     merge: boolean = false,
   ): this {
     if (this.locked[styleName]) {
@@ -86,9 +85,6 @@ export default class Aesthetic {
   /**
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
-   *
-   * @param {String} styleName
-   * @returns {Object}
    */
   transformStyles(styleName: string): ClassNames {
     if (this.classNames[styleName]) {

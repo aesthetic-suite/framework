@@ -8,7 +8,7 @@ import Aesthetic from './Aesthetic';
 import style from './style';
 
 import type {
-  ComponentDeclarations,
+  StyleDeclarations,
   HOCOptions,
 } from './types';
 
@@ -17,7 +17,10 @@ export default function createStyler(aesthetic: Aesthetic) {
     throw new TypeError('An instance of `Aesthetic` must be provided.');
   }
 
-  return (defaultStyles: ComponentDeclarations = {}, options: HOCOptions = {}) => (
-    style(aesthetic, defaultStyles, options)
-  );
+  return function styler(
+    defaultStyles: StyleDeclarations = {},
+    options: HOCOptions = {},
+  ) {
+    return style(aesthetic, defaultStyles, options);
+  };
 }

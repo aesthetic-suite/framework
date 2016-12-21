@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
 
-import type { ComponentDeclarations, ClassNames } from 'aesthetic';
+import type { StyleDeclarations, ClassNames } from 'aesthetic';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object;
@@ -18,7 +18,7 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
+  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {

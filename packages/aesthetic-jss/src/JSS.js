@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { ComponentDeclarations, ClassNames } from 'aesthetic';
+import type { StyleDeclarations, ClassNames } from 'aesthetic';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -18,7 +18,7 @@ export default class JSSAdapter extends Adapter {
     this.jss = (jss instanceof JSS) ? jss : create();
   }
 
-  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
+  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {

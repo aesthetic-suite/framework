@@ -4,19 +4,15 @@
  * @flow
  */
 
-import type { ComponentDeclarations, ClassNames } from './types';
+import type { StyleDeclarations, ClassNames } from './types';
 
 export default class Adapter {
-  sheets: { [key: string]: ClassNames };
-
-  constructor() {
-    this.sheets = {};
-  }
+  sheets: { [key: string]: ClassNames } = {};
 
   /**
    * Transform the style objects into a mapping of CSS class names.
    */
-  transform(styleName: string, declarations: ComponentDeclarations): ClassNames {
-    return {};
+  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+    return declarations;
   }
 }

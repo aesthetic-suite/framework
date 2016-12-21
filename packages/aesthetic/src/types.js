@@ -12,7 +12,7 @@ export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | C
 
 export type StyleDeclaration = string | CSSStyle;
 
-export type ComponentDeclarations = { [key: string]: StyleDeclaration };
+export type StyleDeclarations = { [key: string]: StyleDeclaration };
 
 export type ClassNames = { [key: string]: string };
 

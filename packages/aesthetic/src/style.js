@@ -4,14 +4,12 @@
  * @flow
  */
 
-/* eslint-disable react/no-unused-prop-types */
-
 import React, { PropTypes } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  ComponentDeclarations,
+  StyleDeclarations,
   WrappedComponent,
   HOCComponent,
   HOCOptions,
@@ -19,7 +17,7 @@ import type {
 
 export default function style(
   aesthetic: Aesthetic,
-  defaultStyles: ComponentDeclarations = {},
+  defaultStyles: StyleDeclarations = {},
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
@@ -47,10 +45,11 @@ export default function style(
 
     class StyledComponent extends React.Component<*, *, *> {
       static displayName: string = `Aesthetic(${styleName})`;
-
+      static styleName: string = styleName;
       static wrappedComponent: WrappedComponent = Component;
 
       static propTypes = {
+        // eslint-disable-next-line react/no-unused-prop-types
         [themePropName]: PropTypes.string,
       };
 
@@ -59,14 +58,14 @@ export default function style(
       };
 
       // Allow consumers to set styles
-      static setStyles(declarations: ComponentDeclarations, merge: boolean = false) {
+      static setStyles(declarations: StyleDeclarations, merge: boolean = false) {
         aesthetic
           .setStyles(styleName, declarations, merge)
           .lockStyling(styleName);
       }
 
       // And to merge styles
-      static mergeStyles(declarations: ComponentDeclarations) {
+      static mergeStyles(declarations: StyleDeclarations) {
         StyledComponent.setStyles(declarations, true);
       }
 

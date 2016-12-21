@@ -7,6 +7,7 @@
 import Aesthetic from './Aesthetic';
 import Adapter from './Adapter';
 import createStyler from './createStyler';
+import ThemeProvider from './ThemeProvider';
 
-export { createStyler, Adapter };
+export { createStyler, Adapter, ThemeProvider };
 export default Aesthetic;
