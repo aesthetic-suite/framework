@@ -1,19 +1,7 @@
 import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import Adapter from '../src/Adapter';
-
-class TestAdapter extends Adapter {
-  transform(styleName, declarations) {
-    if (styleName === 'foo') {
-      return declarations;
-    }
-
-    return {
-      header: '.header',
-      footer: '.footer',
-    };
-  }
-}
+import { TestAdapter, TEST_CLASS_NAMES } from './mocks';
 
 describe('Aesthetic', () => {
   let instance = null;
@@ -172,28 +160,23 @@ describe('Aesthetic', () => {
   });
 
   describe('transformStyles()', () => {
-    const classNameMap = {
-      header: '.header',
-      footer: '.footer',
-    };
-
     it('errors if no styles have been defined', () => {
       expect(() => instance.transformStyles('foo')).to.throw(Error);
     });
 
     it('returns the cached and transformed class names', () => {
-      instance.classNames.foo = { ...classNameMap };
+      instance.classNames.foo = { ...TEST_CLASS_NAMES };
 
-      expect(instance.transformStyles('foo')).to.deep.equal(classNameMap);
+      expect(instance.transformStyles('foo')).to.deep.equal(TEST_CLASS_NAMES);
     });
 
     it('returns an object of strings as is', () => {
       expect(instance.classNames.foo).to.be.an('undefined');
 
-      instance.styles.foo = { ...classNameMap };
+      instance.styles.foo = { ...TEST_CLASS_NAMES };
 
-      expect(instance.transformStyles('foo')).to.deep.equal(classNameMap);
-      expect(instance.classNames.foo).to.deep.equal(classNameMap);
+      expect(instance.transformStyles('foo')).to.deep.equal(TEST_CLASS_NAMES);
+      expect(instance.classNames.foo).to.deep.equal(TEST_CLASS_NAMES);
     });
 
     it('errors if the adapter does not return a string', () => {
@@ -202,7 +185,8 @@ describe('Aesthetic', () => {
         header: { color: 'red' },
       });
 
-      expect(() => instance.transformStyles('foo')).to.throw(TypeError);
+      expect(() => instance.transformStyles('foo'))
+        .to.throw(TypeError, '`TestAdapter` must return a mapping of CSS class names. `foo@header` is not a valid string.');
     });
 
     it('sets and caches styles', () => {
@@ -215,7 +199,7 @@ describe('Aesthetic', () => {
       });
       instance.transformStyles('bar');
 
-      expect(instance.classNames.bar).to.deep.equal(classNameMap);
+      expect(instance.classNames.bar).to.deep.equal(TEST_CLASS_NAMES);
     });
   });
 });

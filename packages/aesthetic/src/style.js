@@ -32,7 +32,12 @@ export default function style(
     if (!styleName) {
       throw new Error(
         'A component name could not be derived. Please provide a unique ' +
-        'name through `options.styleName` or with a component\'s `displayName`.',
+        'name using `options.styleName` or `displayName`.',
+      );
+    } else if (aesthetic.styles[styleName]) {
+      throw new Error(
+        `A component has already been styled under the name "${styleName}". ` +
+        'Either rename the component or define `options.styleName`.',
       );
     }
 
@@ -45,7 +50,9 @@ export default function style(
 
     class StyledComponent extends React.Component<*, *, *> {
       static displayName: string = `Aesthetic(${styleName})`;
+
       static styleName: string = styleName;
+
       static wrappedComponent: WrappedComponent = Component;
 
       static propTypes = {
@@ -71,17 +78,13 @@ export default function style(
 
       // Start transforming styles before we mount
       componentWillMount() {
-        const theme = this.getTheme();
+        const theme = this.props[themePropName] || this.context.themeName || '';
         const styles = aesthetic.transformStyles(styleName, theme);
 
         this.setState({
           [themePropName]: theme,
           [stylesPropName]: styles,
         });
-      }
-
-      getTheme() {
-        return this.props[themePropName] || this.context.themeName || '';
       }
 
       render() {

@@ -121,7 +121,7 @@ export default class Aesthetic {
           classNames[setName] = transformedClassNames[setName];
         } else {
           throw new TypeError(
-            'Adapter must return a mapping of CSS class names. ' +
+            `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
             `\`${styleName}@${setName}\` is not a valid string.`,
           );
         }
