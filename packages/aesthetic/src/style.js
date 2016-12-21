@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable react/sort-comp */
+
 import React, { PropTypes } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
@@ -21,7 +23,6 @@ export default function style(
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
-    // $FlowIssue These properties may not exist
     const styleName: string = options.styleName || Component.displayName || Component.name;
     const {
       stylesPropName = 'styles',
@@ -48,7 +49,16 @@ export default function style(
       aesthetic.lockStyling(styleName);
     }
 
-    class StyledComponent extends React.Component<*, *, *> {
+    class StyledComponent extends React.Component {
+      props: {
+        theme: string,
+      };
+
+      state: {
+        styles: ClassNames,
+        theme: string,
+      };
+
       static displayName: string = `Aesthetic(${styleName})`;
 
       static styleName: string = styleName;

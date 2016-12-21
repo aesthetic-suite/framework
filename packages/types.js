@@ -16,9 +16,9 @@ export type StyleDeclarations = { [key: string]: StyleDeclaration };
 
 export type ClassNames = { [key: string]: string };
 
-export type WrappedComponent = React.Component<*, *, *>;
+export type WrappedComponent = ReactClass<*>;
 
-export type HOCComponent = React.Component<*, *, *>;
+export type HOCComponent = ReactClass<*>;
 
 export type HOCOptions = {
   lockStyling?: boolean,
