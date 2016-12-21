@@ -7,10 +7,11 @@
 import { PropTypes } from 'react';
 import Aesthetic from './Aesthetic';
 import Adapter from './Adapter';
-import createStyler from './createStyler';
+import ClassNameAdapter from './ClassNameAdapter';
 import ThemeProvider from './ThemeProvider';
+import createStyler from './createStyler';
 
-export const StylesShape = PropTypes.objectOf(PropTypes.string);
+const StylesShape = PropTypes.objectOf(PropTypes.string);
 
-export { createStyler, Adapter, ThemeProvider };
+export { createStyler, Adapter, ClassNameAdapter, ThemeProvider, StylesShape };
 export default Aesthetic;
