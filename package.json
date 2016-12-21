@@ -6,14 +6,16 @@
   "keywords": [],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./packages/**/lib",
     "build": "lerna run build",
+    "setup": "npm run clean && npm run build && npm run bootstrap",
     "flow": "flow check",
     "lint": "lerna run lint",
+    "mocha": "lerna run test",
     "pretest": "npm run lint",
-    "test": "lerna run test",
+    "test": "npm run setup && npm run mocha",
     "posttest": "npm run flow",
-    "preversion": "npm test && npm run clean && npm run build"
+    "preversion": "npm test"
   },
   "repository": {
     "type": "git",
@@ -46,7 +48,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
-    "flow-bin": "^0.37.3",
+    "flow-bin": "^0.37.4",
     "jsdom": "^9.9.1",
     "lerna": "2.0.0-beta.31",
     "mocha": "^3.1.2",

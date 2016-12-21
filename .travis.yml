@@ -11,11 +11,5 @@ node_js:
   - "6"
   - "6.1"
   - "node"
-before_install:
-  - npm install -g yarn
-install:
-  - yarn
-script:
-  - yarn test
 notifications:
   email: false

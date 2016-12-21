@@ -22,5 +22,10 @@
   "peerDependencies": {
     "aesthetic": "^0.0.1",
     "jss": "^6.0.1"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.0.1",
+    "jss": "^6.0.1",
+    "react": "^15.0.0"
   }
 }
