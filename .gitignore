@@ -39,3 +39,5 @@ jspm_packages
 # Other
 .idea/
 .yarnclean
+lib/
+packages/*/lib/

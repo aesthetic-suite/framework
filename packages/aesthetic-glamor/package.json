@@ -15,6 +15,7 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "scripts": {
+    "build": "node ../../node_modules/.bin/babel ./src -d ./lib",
     "lint": "node ../../node_modules/.bin/eslint ./src ./tests",
     "test": "node ../../node_modules/.bin/mocha --opts ../../mocha.opts './tests/*.test.js'"
   },

@@ -6,8 +6,13 @@
 
 import type { StyleDeclarations, ClassNames } from '../../types';
 
+type SheetStruct = {
+  classNames: ClassNames,
+  sheet: Object,
+};
+
 export default class Adapter {
-  sheets: { [key: string]: ClassNames } = {};
+  sheets: { [key: string]: SheetStruct } = {};
 
   /**
    * Transform the style objects into a mapping of CSS class names.

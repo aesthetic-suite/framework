@@ -13,11 +13,11 @@ export default class ClassNameAdapter extends Adapter {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {
-      sheet = {};
+      const classNames = {};
 
       Object.keys(declarations).forEach((setName: string) => {
         if (typeof declarations[setName] === 'string') {
-          sheet[setName] = declarations[setName];
+          classNames[setName] = declarations[setName];
         } else {
           throw new TypeError(
             '`ClassNameAdapter` expects valid CSS class names; ' +
@@ -26,9 +26,12 @@ export default class ClassNameAdapter extends Adapter {
         }
       });
 
-      this.sheets[styleName] = sheet;
+      this.sheets[styleName] = sheet = {
+        sheet: {},
+        classNames,
+      };
     }
 
-    return { ...sheet };
+    return { ...sheet.classNames };
   }
 }

@@ -22,16 +22,19 @@ export default class AphroditeAdapter extends Adapter {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {
-      const compiler = this.aphrodite.create(declarations);
-      sheet = {};
+      const compiledSheet = this.aphrodite.create(declarations);
+      const classNames = {};
 
-      Object.keys(compiler).forEach((setName: string) => {
-        sheet[setName] = css(compiler[setName]);
+      Object.keys(compiledSheet).forEach((setName: string) => {
+        classNames[setName] = css(compiledSheet[setName]);
       });
 
-      this.sheets[styleName] = sheet;
+      this.sheets[styleName] = sheet = {
+        sheet: compiledSheet,
+        classNames,
+      };
     }
 
-    return { ...sheet };
+    return { ...sheet.classNames };
   }
 }
