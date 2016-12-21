@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-glamor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Glamor support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -20,11 +20,11 @@
     "test": "node ../../node_modules/.bin/mocha --opts ../../mocha.opts './tests/*.test.js'"
   },
   "peerDependencies": {
-    "aesthetic": "^0.0.1",
+    "aesthetic": "^0.0.2",
     "glamor": "^2.20.12"
   },
   "devDependencies": {
-    "aesthetic": "^0.0.1",
+    "aesthetic": "^0.0.2",
     "glamor": "^2.20.12",
     "react": "^15.0.0"
   }

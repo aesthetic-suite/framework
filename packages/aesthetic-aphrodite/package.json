@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-aphrodite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -20,11 +20,11 @@
     "test": "node ../../node_modules/.bin/mocha --opts ../../mocha.opts './tests/*.test.js'"
   },
   "peerDependencies": {
-    "aesthetic": "^0.0.1",
+    "aesthetic": "^0.0.2",
     "aphrodite": "^1.1.0"
   },
   "devDependencies": {
-    "aesthetic": "^0.0.1",
+    "aesthetic": "^0.0.2",
     "aphrodite": "^1.1.0",
     "react": "^15.0.0"
   }
