@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { StyleDeclarations, ClassNames } from './types';
+import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class Adapter {
   sheets: { [key: string]: ClassNames } = {};
@@ -13,6 +13,6 @@ export default class Adapter {
    * Transform the style objects into a mapping of CSS class names.
    */
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
-    return declarations;
+    return {};
   }
 }

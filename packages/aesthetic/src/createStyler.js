@@ -10,7 +10,7 @@ import style from './style';
 import type {
   StyleDeclarations,
   HOCOptions,
-} from './types';
+} from '../../types';
 
 export default function createStyler(aesthetic: Aesthetic) {
   if (!(aesthetic instanceof Aesthetic)) {

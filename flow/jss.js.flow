@@ -1,6 +1,6 @@
-import type { CSSStyle } from "../packages/aesthetic/src/types";
+import type { CSSStyle } from '../packages/aesthetic/src/types';
 
-declare module "jss" {
+declare module 'jss' {
   declare class StyleSheet {
     classes: { [key: string]: string },
     attach(): this,

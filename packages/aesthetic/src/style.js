@@ -13,7 +13,7 @@ import type {
   WrappedComponent,
   HOCComponent,
   HOCOptions,
-} from './types';
+} from '../../types';
 
 export default function style(
   aesthetic: Aesthetic,

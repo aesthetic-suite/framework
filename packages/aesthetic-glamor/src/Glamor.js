@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { StyleDeclarations, ClassNames } from 'aesthetic';
+import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {

@@ -4,7 +4,7 @@
  * @flow
  */
 
-/* eslint-disable react/no-multi-comp, react/prefer-stateless-function */
+/* eslint-disable */
 
 import React from 'react';
 

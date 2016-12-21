@@ -1,0 +1,23 @@
+import React from 'react';
+import { ClassNames, StyleDeclarations } from '../packages/types';
+
+declare module 'aesthetic' {
+  declare export class Adapter {
+    sheets: { [key: string]: ClassNames };
+    transform(styleName: string, declarations: StyleDeclarations): ClassNames;
+  }
+
+  declare export class ThemeProvider extends React.Component<*, *, *> {}
+
+  declare export default class Aesthetic {
+    adapter: Adapter;
+    locked: { [key: string]: boolean };
+    styles: { [key: string]: StyleDeclarations };
+    classNames: { [key: string]: ClassNames };
+    constructor(adapter: Adapter): this;
+    lockStyling(styleName: string): this;
+    setAdapter(adapter: Adapter): this;
+    setStyles(styleName: string, declarations: StyleDeclarations, merge: boolean): this;
+    transformStyles(styleName: string): ClassNames;
+  }
+}

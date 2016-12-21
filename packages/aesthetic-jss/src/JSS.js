@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { StyleDeclarations, ClassNames } from 'aesthetic';
+import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;

@@ -7,7 +7,7 @@
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 
-import type { StyleDeclarations, ClassNames } from './types';
+import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class Aesthetic {
   adapter: Adapter = new Adapter();
