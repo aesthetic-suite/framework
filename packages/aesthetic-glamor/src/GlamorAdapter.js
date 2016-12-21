@@ -14,15 +14,17 @@ export default class GlamorAdapter extends Adapter {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {
-      sheet = {};
+      this.sheets[styleName] = sheet = {
+        sheet: {},
+        classNames: {},
+      };
 
       Object.keys(declarations).forEach((setName: string) => {
-        sheet[setName] = String(css(declarations[setName]));
+        sheet.sheet[setName] = css(declarations[setName]);
+        sheet.classNames[setName] = `${styleName}-${sheet.sheet[setName]}`;
       });
-
-      this.sheets[styleName] = sheet;
     }
 
-    return { ...sheet };
+    return { ...sheet.classNames };
   }
 }

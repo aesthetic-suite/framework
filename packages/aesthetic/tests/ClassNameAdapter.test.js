@@ -18,6 +18,9 @@ describe('ClassNameAdapter()', () => {
 
     expect(instance.sheets.foo).to.be.an('undefined');
     expect(instance.transform('foo', TEST_CLASS_NAMES)).to.deep.equal(TEST_CLASS_NAMES);
-    expect(instance.sheets.foo).to.deep.equal(TEST_CLASS_NAMES);
+    expect(instance.sheets.foo).to.deep.equal({
+      sheet: {},
+      classNames: TEST_CLASS_NAMES,
+    });
   });
 });
