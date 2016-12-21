@@ -15,21 +15,24 @@ export default class JSSAdapter extends Adapter {
   constructor(jss: JSS) {
     super();
 
-    this.jss = (jss instanceof JSS) ? jss : create();
+    this.jss = jss || create();
   }
 
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     let sheet = this.sheets[styleName];
 
     if (!sheet) {
-      const compiler = this.jss.createStyleSheet(declarations, {
+      const compiledSheet = this.jss.createStyleSheet(declarations, {
         named: true,
         meta: styleName,
       }).attach();
 
-      this.sheets[styleName] = sheet = { ...compiler.classes };
+      this.sheets[styleName] = sheet = {
+        sheet: compiledSheet,
+        classNames: { ...compiledSheet.classes },
+      };
     }
 
-    return { ...sheet };
+    return { ...sheet.classNames };
   }
 }

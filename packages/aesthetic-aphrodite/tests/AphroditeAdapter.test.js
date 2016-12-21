@@ -1,17 +1,9 @@
 import { expect } from 'chai';
-import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
+import { StyleSheet } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../src/AphroditeAdapter';
 
 describe('AphroditeAdapter', () => {
-  beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-  });
-
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
-
   it('can customize the aphrodite instance through the constructor', () => {
     const extension = { selectorHandler() {} };
     const instance = new AphroditeAdapter(StyleSheet.extend([extension]));
