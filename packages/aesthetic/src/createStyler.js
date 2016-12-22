@@ -17,10 +17,7 @@ export default function createStyler(aesthetic: Aesthetic) {
     throw new TypeError('An instance of `Aesthetic` must be provided.');
   }
 
-  return function styler(
-    defaultStyles: StyleDeclarations = {},
-    options: HOCOptions = {},
-  ) {
+  return function styler(defaultStyles: StyleDeclarations = {}, options: HOCOptions = {}) {
     return style(aesthetic, defaultStyles, options);
   };
 }

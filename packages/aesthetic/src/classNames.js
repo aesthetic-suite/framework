@@ -22,22 +22,22 @@ export default function classNames(...values: ClassName[]): string {
 
     // Acceptable class name
     } else if (typeof value === 'string' || typeof value === 'number') {
-      classes.push(String(value));
+      classes.push(stripChars(String(value)));
 
     // Array of possible class names
     } else if (Array.isArray(value)) {
       classes.push(classNames(...value));
 
-    // Object of class names to boolean enablers
+    // Object of class names to boolean
     } else if (typeof value === 'object') {
       Object.keys(value).forEach((key: string) => {
         // $FlowIssue We know it's an object
         if (value[key]) {
-          classes.push(key);
+          classes.push(stripChars(key));
         }
       });
     }
   });
 
-  return classes.map(stripChars).join(' ');
+  return classes.length ? classes.join(' ').trim() : '';
 }
