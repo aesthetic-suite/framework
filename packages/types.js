@@ -10,7 +10,7 @@ import React from 'react';
 
 export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | CSSStyle[] };
 
-export type StyleDeclaration = string | CSSStyle;
+export type StyleDeclaration = string | CSSStyle | CSSStyle[];
 
 export type StyleDeclarations = { [key: string]: StyleDeclaration };
 

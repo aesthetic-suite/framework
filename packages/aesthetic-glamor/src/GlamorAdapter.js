@@ -20,7 +20,14 @@ export default class GlamorAdapter extends Adapter {
       };
 
       Object.keys(declarations).forEach((setName: string) => {
-        sheet.sheet[setName] = css(declarations[setName]);
+        let declaration = declarations[setName];
+
+        if (!Array.isArray(declaration)) {
+          // $FlowIssue We know it won't be a string once it gets here
+          declaration = [declaration];
+        }
+
+        sheet.sheet[setName] = css(...declaration);
         sheet.classNames[setName] = `${styleName}-${sheet.sheet[setName]}`;
       });
     }

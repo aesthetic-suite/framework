@@ -96,6 +96,24 @@ describe('Aesthetic', () => {
       });
     });
 
+    it('sets an array of styles', () => {
+      expect(instance.styles.foo).to.be.an('undefined');
+
+      instance.setStyles('foo', {
+        header: [
+          { color: 'red' },
+          { padding: 5 },
+        ],
+      });
+
+      expect(instance.styles.foo).to.deep.equal({
+        header: [
+          { color: 'red' },
+          { padding: 5 },
+        ],
+      });
+    });
+
     it('overrides previous styles', () => {
       instance.styles.foo = {
         header: { color: 'red' },

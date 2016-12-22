@@ -70,6 +70,30 @@ describe('AphroditeAdapter', () => {
     });
   });
 
+  it('handles an array of style declarations', () => {
+    instance.transform('foo', {
+      foo: [
+        { fontSize: 5 },
+        { fontWeight: 'bold' },
+      ],
+    });
+
+    expect(instance.sheets.foo).to.deep.equal({
+      sheet: {
+        foo: {
+          _definition: [
+            { fontSize: 5 },
+            { fontWeight: 'bold' },
+          ],
+          _name: 'foo_1ydgr5d',
+        },
+      },
+      classNames: {
+        foo: 'foo_1ydgr5d',
+      },
+    });
+  });
+
   it('supports pseudos', () => {
     instance.transform('foo', {
       foo: {

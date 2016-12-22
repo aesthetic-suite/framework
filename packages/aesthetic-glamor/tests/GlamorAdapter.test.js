@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { css } from 'glamor';
+import { css, media } from 'glamor';
 import GlamorAdapter from '../src/GlamorAdapter';
 
 describe('GlamorAdapter', () => {
@@ -45,6 +45,29 @@ describe('GlamorAdapter', () => {
       classNames: {
         button: 'foo-css-4czob7',
         buttonGroup: 'foo-css-1cqgl9p',
+      },
+    });
+  });
+
+  it('handles an array of style declarations', () => {
+    instance.transform('foo', {
+      foo: [
+        { fontSize: 5 },
+        { fontWeight: 'bold' },
+        media('min-width: 300px)', {
+          color: 'blue',
+        }),
+      ],
+    });
+
+    expect(instance.sheets.foo).to.deep.equal({
+      sheet: {
+        foo: {
+          'data-css-q1djek': '',
+        },
+      },
+      classNames: {
+        foo: 'foo-css-q1djek',
       },
     });
   });

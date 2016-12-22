@@ -46,6 +46,10 @@ describe('JSSAdapter', () => {
     });
   });
 
+  it.skip('handles an array of style declarations', () => {
+    // JSS does not support this
+  });
+
   it('supports pseudos', () => {
     instance.transform('foo', {
       foo: {
