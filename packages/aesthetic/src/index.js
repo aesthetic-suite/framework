@@ -10,8 +10,9 @@ import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import ThemeProvider from './ThemeProvider';
 import createStyler from './createStyler';
+import classNames from './classNames';
 
 const StylesShape = PropTypes.objectOf(PropTypes.string);
 
-export { createStyler, Adapter, ClassNameAdapter, ThemeProvider, StylesShape };
+export { createStyler, classNames, Adapter, ClassNameAdapter, ThemeProvider, StylesShape };
 export default Aesthetic;

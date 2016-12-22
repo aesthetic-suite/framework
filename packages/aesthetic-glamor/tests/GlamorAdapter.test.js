@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { css, media, fontFace } from 'glamor';
+import { css, media } from 'glamor';
 import GlamorAdapter from '../src/GlamorAdapter';
 
 describe('GlamorAdapter', () => {
