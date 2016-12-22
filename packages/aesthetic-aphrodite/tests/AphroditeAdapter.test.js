@@ -128,6 +128,37 @@ describe('AphroditeAdapter', () => {
     });
   });
 
+  it('supports font faces', () => {
+    const font = {
+      fontFamily: 'FontName',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: "url('coolfont.woff2') format('woff2')",
+    };
+
+    instance.transform('foo', {
+      foo: {
+        fontFamily: font,
+        fontSize: 20,
+      },
+    });
+
+    expect(instance.sheets.foo).to.deep.equal({
+      sheet: {
+        foo: {
+          _definition: {
+            fontFamily: font,
+            fontSize: 20,
+          },
+          _name: 'foo_b5kqh',
+        },
+      },
+      classNames: {
+        foo: 'foo_b5kqh',
+      },
+    });
+  });
+
   it('supports animations', () => {
     const translateKeyframes = {
       '0%': { transform: 'translateX(0)' },

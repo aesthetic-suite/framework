@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { css, media } from 'glamor';
+import { css, media, fontFace } from 'glamor';
 import GlamorAdapter from '../src/GlamorAdapter';
 
 describe('GlamorAdapter', () => {
@@ -93,6 +93,33 @@ describe('GlamorAdapter', () => {
       },
       classNames: {
         foo: 'foo-css-1g7aevf',
+      },
+    });
+  });
+
+  it('supports font faces', () => {
+    const font = css.fontFace({
+      fontFamily: 'FontName',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: "url('coolfont.woff2') format('woff2')",
+    });
+
+    instance.transform('foo', {
+      foo: {
+        fontFamily: font,
+        fontSize: 20,
+      },
+    });
+
+    expect(instance.sheets.foo).to.deep.equal({
+      sheet: {
+        foo: {
+          'data-css-1d41l2q': '',
+        },
+      },
+      classNames: {
+        foo: 'foo-css-1d41l2q',
       },
     });
   });

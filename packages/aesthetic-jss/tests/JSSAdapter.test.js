@@ -68,6 +68,27 @@ describe('JSSAdapter', () => {
     });
   });
 
+  it('supports font faces', () => {
+    const font = {
+      fontFamily: 'FontName',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: "url('coolfont.woff2') format('woff2')",
+    };
+
+    instance.transform('foo', {
+      '@font-face': font,
+      foo: {
+        fontFamily: 'FontName',
+        fontSize: 20,
+      },
+    });
+
+    expect(instance.sheets.foo.classNames).to.deep.equal({
+      foo: 'foo-1066392687',
+    });
+  });
+
   it('supports animations', () => {
     const translateKeyframes = {
       '0%': { transform: 'translateX(0)' },
