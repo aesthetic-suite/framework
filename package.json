@@ -8,14 +8,14 @@
     "bootstrap": "lerna bootstrap",
     "clean": "rimraf ./packages/**/lib",
     "build": "lerna run build",
-    "setup": "npm run clean && npm run build && npm run bootstrap",
+    "setup": "npm run bootstrap && npm run clean && npm run build",
     "docs": "cp ./README.md ./packages/aesthetic/README.md",
     "flow": "flow check",
     "lint": "lerna run lint",
     "mocha": "lerna run test",
-    "pretest": "npm run lint",
-    "test": "npm run setup && npm run mocha",
-    "posttest": "npm run flow",
+    "pretest": "npm run setup",
+    "test": "npm run mocha",
+    "posttest": "npm run lint && npm run flow",
     "preversion": "npm test"
   },
   "repository": {

@@ -1,4 +1,5 @@
-# Aesthetic
+# Aesthetic v0.0.2
+[![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Abstract library to support a range of styling options for React components.
 
