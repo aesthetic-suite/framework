@@ -20,5 +20,9 @@
   "peerDependencies": {
     "aesthetic": "^0.0.2",
     "glamor": "^2.20.12"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.0.2",
+    "glamor": "^2.20.12"
   }
 }

@@ -6,9 +6,9 @@
   "keywords": [],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "clean": "rimraf ./packages/**/lib",
+    "clean": "rimraf ./packages/**/lib && lerna clean --yes",
     "build": "lerna run build",
-    "setup": "npm run bootstrap && npm run clean && npm run build",
+    "setup": "npm run clean && npm run build && npm run bootstrap",
     "docs": "cp ./README.md ./packages/aesthetic/README.md",
     "flow": "flow check",
     "lint": "eslint './packages/**/{src,tests}/*.js'",
