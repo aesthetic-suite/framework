@@ -1,7 +1,7 @@
 --require babel-register
 --require chai
---reporter dot
 --require ./tests/setup.js
+--reporter dot
 --ui bdd
 --colors
 --check-leaks

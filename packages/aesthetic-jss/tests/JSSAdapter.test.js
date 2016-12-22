@@ -3,16 +3,20 @@ import { create } from 'jss';
 import JSSAdapter from '../src/JSSAdapter';
 
 describe('JSSAdapter', () => {
+  let instance;
+
+  beforeEach(() => {
+    instance = new JSSAdapter();
+  });
+
   it('can customize the JSS instance through the constructor', () => {
     const jss = create();
-    const instance = new JSSAdapter(jss);
+    instance = new JSSAdapter(jss);
 
     expect(instance.jss).to.equal(jss);
   });
 
   it('transforms style declarations into class names', () => {
-    const instance = new JSSAdapter();
-
     expect(instance.transform('foo', {
       button: {
         display: 'inline-block',
@@ -24,8 +28,6 @@ describe('JSSAdapter', () => {
   });
 
   it('caches transformed style sheets', () => {
-    const instance = new JSSAdapter();
-
     expect(instance.sheets.foo).to.be.an('undefined');
 
     instance.transform('foo', {
@@ -38,12 +40,71 @@ describe('JSSAdapter', () => {
       },
     });
 
-    expect(instance.sheets.foo).to.deep.equal({
-      sheet: instance.sheets.foo.sheet,
-      classNames: {
-        button: 'button-1157032238',
-        buttonGroup: 'buttonGroup-4078521147',
+    expect(instance.sheets.foo.classNames).to.deep.equal({
+      button: 'button-1157032238',
+      buttonGroup: 'buttonGroup-4078521147',
+    });
+  });
+
+  it('supports pseudos', () => {
+    instance.transform('foo', {
+      foo: {
+        position: 'fixed',
+        ':hover': {
+          position: 'static',
+        },
+        '::before': {
+          position: 'absolute',
+        },
       },
+    });
+
+    expect(instance.sheets.foo.classNames).to.deep.equal({
+      foo: 'foo-2797810533',
+    });
+  });
+
+  it('supports animations', () => {
+    const translateKeyframes = {
+      '0%': { transform: 'translateX(0)' },
+      '50%': { transform: 'translateX(100px)' },
+      '100%': { transform: 'translateX(0)' },
+    };
+
+    const opacityKeyframes = {
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+    };
+
+    instance.transform('foo', {
+      '@keyframes translate-anim': translateKeyframes,
+      '@keyframes opacity-anim': opacityKeyframes,
+      foo: {
+        animationName: 'translate-anim opacity-anim',
+        animationDuration: '3s, 1200ms',
+        animationIterationCount: 'infinite',
+      },
+    });
+
+    expect(instance.sheets.foo.classNames).to.deep.equal({
+      foo: 'foo-4066947442',
+    });
+  });
+
+  it('supports media queries', () => {
+    instance.transform('foo', {
+      foo: {
+        color: 'red',
+      },
+      '@media(min-width: 300px)': {
+        foo: {
+          color: 'blue',
+        },
+      },
+    });
+
+    expect(instance.sheets.foo.classNames).to.deep.equal({
+      foo: 'foo-3645560457',
     });
   });
 });
