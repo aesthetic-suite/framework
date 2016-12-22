@@ -9,6 +9,7 @@
     "clean": "rimraf ./packages/**/lib",
     "build": "lerna run build",
     "setup": "npm run clean && npm run build && npm run bootstrap",
+    "docs": "cp ./README.md ./packages/aesthetic/README.md",
     "flow": "flow check",
     "lint": "lerna run lint",
     "mocha": "lerna run test",
