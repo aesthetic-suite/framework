@@ -7,9 +7,21 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { StyleDeclarations, ClassNames } from '../../types';
+import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
+  extractFontFace(family: string, properties: CSSStyle, fromScope: string): CSSStyle {
+    css.fontFace(properties);
+
+    return super.extractFontFace(family, properties, fromScope);
+  }
+
+  extractKeyframes(name: string, properties: CSSStyle, fromScope: string): CSSStyle {
+    css.keyframes(name, properties);
+
+    return super.extractKeyframes(name, properties, fromScope);
+  }
+
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     const classNames = {};
 

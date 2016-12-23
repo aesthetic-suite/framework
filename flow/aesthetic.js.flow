@@ -1,9 +1,14 @@
 import React from 'react';
-import { ClassNames, StyleDeclarations } from '../packages/types';
+import { ClassNames, StyleDeclarations, CSSStyle } from '../packages/types';
 
 declare module 'aesthetic' {
   declare export class Adapter {
-    sheets: { [key: string]: ClassNames };
+    static LOCAL: string;
+    static GLOBAL: string;
+    fontFaces: { [key: string]: CSSStyle };
+    keyframes: { [key: string]: CSSStyle };
+    mediaQueries: { [key: string]: CSSStyle };
+    syntaxConfig: { [key: string]: string | boolean; };
     transform(styleName: string, declarations: StyleDeclarations): ClassNames;
   }
 

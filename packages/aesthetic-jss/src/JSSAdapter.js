@@ -6,6 +6,7 @@
 
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
+import deepMerge from 'lodash.merge';
 
 import type { StyleDeclarations, ClassNames } from '../../types';
 
@@ -21,12 +22,23 @@ type StyleSheetOptions = {
 export default class JSSAdapter extends Adapter {
   jss: JSS;
   options: StyleSheetOptions;
+  pseudoPrefix: string = '&';
 
   constructor(jss: JSS, options: StyleSheetOptions = {}) {
     super();
 
     this.jss = jss || create();
     this.options = options;
+  }
+
+  extractMediaQuery(query: string, properties: CSSStyle, fromScope: string): CSSStyle {
+    if (fromScope === Adapter.GLOBAL) {
+      this.mediaQueries[query] = properties;
+    } else {
+      // TODO Move media queries from local to global
+    }
+
+    return null;
   }
 
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {

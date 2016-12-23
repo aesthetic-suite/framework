@@ -8,7 +8,11 @@
 
 import React from 'react';
 
-export type CSSStyle = { [key: string]: string | number | boolean | CSSStyle | CSSStyle[] };
+export type PrimitiveType = string | number | boolean;
+
+export type CSSStyleValue = PrimitiveType | PrimitiveType[] | CSSStyle;
+
+export type CSSStyle = { [key: string]: CSSStyleValue };
 
 export type StyleDeclaration = string | CSSStyle | CSSStyle[];
 

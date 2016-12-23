@@ -246,19 +246,18 @@ tooltip: {
 },
 ```
 
-Multiple font faces can be defined using an array.
+Multiple font faces can be defined by passing a unique name to the at-rule.
+This name will be removed while rendering.
 
 ```javascript
-'@font-face': [
-  {
-    fontFamily: 'DomoArigato',
-    // ...
-  },
-  {
-    fontFamily: 'MrRoboto',
-    // ...
-  },
-],
+'@font-face domo-arigato': {
+  fontFamily: 'DomoArigato',
+  // ...
+},
+'@font-face mr-roboto': {
+  fontFamily: 'MrRoboto',
+  // ...
+},
 ```
 
 ### Animations
@@ -279,7 +278,22 @@ button: {
 
 ### Fallbacks
 
-TODO
+Fallbacks for old browsers are defined under the `fallbacks` property.
+Each property accepts a single value or an array of values.
+
+```javascript
+element: {
+  // ...
+  background: 'linear-gradient()',
+  display: 'flex',
+  fallbacks: {
+    background: 'red',
+    display: ['box', 'flex-box'],
+  },
+},
+```
+
+> Aphrodite does not support fallback styles.
 
 ### Selectors
 
