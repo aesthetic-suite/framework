@@ -140,3 +140,148 @@ style({
 ## Themes
 
 TODO
+
+## CSS Syntax
+
+Aesthetic provides a unified CSS-in-JS syntax for all adapters, which provides
+easy [drop-in replacement](https://en.wikipedia.org/wiki/Drop-in_replacement)
+capabilities.
+
+However, this doesn't prevent adapter specific syntax from being used,
+as both the Aesthetic syntax and adapter syntax can be used in unison.
+
+### Declarations
+
+Standard structure for defining properties.
+
+* Supports camel case property names.
+* Units can be written is literal numbers.
+
+```javascript
+button: {
+  margin: 0,
+  padding: 5,
+  display: 'inline-block',
+  lineHeight: 'normal',
+  textAlign: 'center',
+  cursor: 'pointer',
+  backgroundColor: '#ccc',
+  color: '#000',
+}
+```
+
+Arrays of properties are also supported.
+
+```javascript
+button: [
+  {
+    margin: 0,
+    padding: 5,
+    display: 'inline-block',
+    lineHeight: 'normal',
+  },
+  {
+    textAlign: 'center',
+    cursor: 'pointer',
+    backgroundColor: '#ccc',
+    color: '#000',
+  },
+],
+```
+
+> JSS requires the `jss-default-unit` and `jss-camel-case` plugins.
+
+### Pseudos
+
+Pseudo elements and classes are defined inside an element as nested objects.
+
+```javascript
+button: {
+  // ...
+  ':hover': {
+    backgroundColor: '#eee',
+  },
+  '::before': {
+    content: '★',
+    display: 'inline-block',
+    marginRight: 5,
+  },
+}
+```
+
+> JSS requires the `jss-nested` plugin.
+
+### Media Queries
+
+Media queries are defined inside an element as nested objects.
+
+```javascript
+tooltip: {
+  // ...
+  maxWidth: 300,
+  '@media (min-width: 400px)': {
+    maxWidth: 'auto',
+  },
+}
+```
+
+### Font Faces
+
+Font faces are defined outside the element and referenced by font family name.
+
+```javascript
+'@font-face': {
+  fontFamily: 'Roboto',
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  src: "url('roboto.woff2') format('roboto')",
+},
+button: {
+  // ...
+  fontFamily: 'Roboto',
+},
+tooltip: {
+  // ...
+  fontFamily: 'Roboto, sans-serif',
+},
+```
+
+Multiple font faces can be defined using an array.
+
+```javascript
+'@font-face': [
+  {
+    fontFamily: 'DomoArigato',
+    // ...
+  },
+  {
+    fontFamily: 'MrRoboto',
+    // ...
+  },
+],
+```
+
+### Animations
+
+Animation keyframes are defined outside the element and referenced by animation name.
+
+```javascript
+'@keyframes fade': {
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+},
+button: {
+  // ...
+  animationName: 'fade',
+  animationDuration: '3s',
+},
+```
+
+### Fallbacks
+
+TODO
+
+### Selectors
+
+Parent, child, and sibling selectors are purposefully not supported. Use unique element
+names and style declarations instead.
