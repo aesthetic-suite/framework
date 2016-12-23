@@ -42,3 +42,12 @@ jss.use(preset());
 
 new JSSAdapter(jss); // ...
 ```
+
+Furthermore, options passed to `jss.createStyleSheet` can be defined through the
+second argument of the constructor.
+
+```javascript
+import JSSAdapter from 'aesthetic-jss';
+
+new JSSAdapter(null, { media: 'screen' }); // ...
+```

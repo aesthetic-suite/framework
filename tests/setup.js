@@ -17,3 +17,13 @@ for (let key in window) {
 
   global[key] = window[key];
 }
+
+global.createStyleTag = function(id) {
+  const style = document.createElement('style');
+  style.id = id;
+  style.type = 'text/css';
+
+  document.head.appendChild(style);
+
+  return style;
+}

@@ -9,30 +9,33 @@ import JSS, { create } from 'jss';
 
 import type { StyleDeclarations, ClassNames } from '../../types';
 
+type StyleSheetOptions = {
+  element?: Object,
+  index?: number,
+  media?: string,
+  meta?: string,
+  named?: boolean,
+  virtual?: boolean,
+};
+
 export default class JSSAdapter extends Adapter {
   jss: JSS;
+  options: StyleSheetOptions;
 
-  constructor(jss: JSS) {
+  constructor(jss: JSS, options: StyleSheetOptions = {}) {
     super();
 
     this.jss = jss || create();
+    this.options = options;
   }
 
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
-    let sheet = this.sheets[styleName];
+    const styleSheet = this.jss.createStyleSheet(declarations, {
+      named: true,
+      meta: styleName,
+      ...this.options,
+    }).attach();
 
-    if (!sheet) {
-      const compiledSheet = this.jss.createStyleSheet(declarations, {
-        named: true,
-        meta: styleName,
-      }).attach();
-
-      this.sheets[styleName] = sheet = {
-        sheet: compiledSheet,
-        classNames: { ...compiledSheet.classes },
-      };
-    }
-
-    return { ...sheet.classNames };
+    return { ...styleSheet.classes };
   }
 }
