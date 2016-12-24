@@ -6,12 +6,12 @@
 
 import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
+import deepMerge from 'lodash.merge';
 
-import type { StyleDeclarations, ClassNames, CSSStyleValue } from '../../types';
+import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
-  multipleStyleDeclarations: boolean = false;
 
   constructor(aphrodite: Object) {
     super();
@@ -19,25 +19,33 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  convertPropertyValue(name: string, value: CSSStyleValue): CSSStyleValue {
-    switch (name) {
-      case 'fontFamily':
-        return String(value).split(',').map((familyName: string) => {
-          familyName = familyName.trim();
+  lookup(value: string, lookup: CSSStyle): string[] {
+    return value.split(',').map((name: string) => {
+      name = name.trim();
 
-          return this.fontFaces[familyName] || familyName;
-        });
+      return lookup[name] || name;
+    });
+  }
 
-      case 'animationName':
-        return String(value).split(',').map((animName: string) => {
-          animName = animName.trim();
+  convertProperties(setName: string, properties: CSSStyle): CSSStyle {
+    properties = super.convertProperties(setName, properties);
 
-          return this.keyframes[animName] || animName;
-        });
-
-      default:
-        return value;
+    // Font faces
+    if ('fontFamily' in properties) {
+      properties.fontFamily = this.lookup(properties.fontFamily, this.fontFaces);
     }
+
+    // Animation keyframes
+    if ('animationName' in properties) {
+      properties.animationName = this.lookup(properties.animationName, this.keyframes);
+    }
+
+    // Media queries
+    if (this.mediaQueries[setName]) {
+      deepMerge(properties, this.formatAtRules('@media', this.mediaQueries[setName]));
+    }
+
+    return properties;
   }
 
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {

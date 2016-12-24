@@ -141,14 +141,16 @@ style({
 
 TODO
 
-## CSS Syntax
+## Unified CSS-in-JS Syntax
 
-Aesthetic provides a unified CSS-in-JS syntax for all adapters, which provides
-easy [drop-in replacement](https://en.wikipedia.org/wiki/Drop-in_replacement)
-capabilities.
+Aesthetic provides a unified CSS-in-JS syntax for all adapters, which allows
+for easy [drop-in and replace](https://en.wikipedia.org/wiki/Drop-in_replacement)
+between adapters and functionality.
 
 However, this doesn't prevent adapter specific syntax from being used,
 as both the Aesthetic syntax and adapter syntax can be used in unison.
+
+> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested` plugins.
 
 ### Declarations
 
@@ -170,27 +172,6 @@ button: {
 }
 ```
 
-Arrays of properties are also supported.
-
-```javascript
-button: [
-  {
-    margin: 0,
-    padding: 5,
-    display: 'inline-block',
-    lineHeight: 'normal',
-  },
-  {
-    textAlign: 'center',
-    cursor: 'pointer',
-    backgroundColor: '#ccc',
-    color: '#000',
-  },
-],
-```
-
-> JSS requires the `jss-default-unit` and `jss-camel-case` plugins.
-
 ### Pseudos
 
 Pseudo elements and classes are defined inside an element as nested objects.
@@ -209,32 +190,35 @@ button: {
 }
 ```
 
-> JSS requires the `jss-nested` plugin.
-
 ### Media Queries
 
-Media queries are defined inside an element as nested objects.
+Media queries are defined inside an element using a `@media` object.
 
 ```javascript
 tooltip: {
   // ...
   maxWidth: 300,
-  '@media (min-width: 400px)': {
-    maxWidth: 'auto',
+  '@media': {
+    '(min-width: 400px)': {
+      maxWidth: 'auto',
+    },
   },
 }
 ```
 
 ### Font Faces
 
-Font faces are defined outside the element and referenced by font family name.
+Font faces are defined outside the element using a `@font-face` object
+and are referenced by font family name.
 
 ```javascript
 '@font-face': {
-  fontFamily: 'Roboto',
-  fontStyle: 'normal',
-  fontWeight: 'normal',
-  src: "url('roboto.woff2') format('roboto')",
+  roboto: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    src: "url('roboto.woff2') format('roboto')",
+  },
 },
 button: {
   // ...
@@ -246,28 +230,17 @@ tooltip: {
 },
 ```
 
-Multiple font faces can be defined by passing a unique name to the at-rule.
-This name will be removed while rendering.
-
-```javascript
-'@font-face domo-arigato': {
-  fontFamily: 'DomoArigato',
-  // ...
-},
-'@font-face mr-roboto': {
-  fontFamily: 'MrRoboto',
-  // ...
-},
-```
-
 ### Animations
 
-Animation keyframes are defined outside the element and referenced by animation name.
+Animation keyframes are defined outside the element using a `@keyframes` object
+and are referenced by animation name (the object key).
 
 ```javascript
-'@keyframes fade': {
-  from: { opacity: 0 },
-  to: { opacity: 1 },
+'@keyframes': {
+  fade: {
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  },
 },
 button: {
   // ...
@@ -278,15 +251,15 @@ button: {
 
 ### Fallbacks
 
-Fallbacks for old browsers are defined under the `fallbacks` property.
+Fallbacks for old browsers are defined under the `$fallbacks` object.
 Each property accepts a single value or an array of values.
 
 ```javascript
 element: {
   // ...
-  background: 'linear-gradient()',
+  background: 'linear-gradient(...)',
   display: 'flex',
-  fallbacks: {
+  '$fallbacks': {
     background: 'red',
     display: ['box', 'flex-box'],
   },

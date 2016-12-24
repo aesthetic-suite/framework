@@ -8,7 +8,13 @@ declare module 'aesthetic' {
     fontFaces: { [key: string]: CSSStyle };
     keyframes: { [key: string]: CSSStyle };
     mediaQueries: { [key: string]: CSSStyle };
-    syntaxConfig: { [key: string]: string | boolean; };
+    convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations;
+    convertProperties(setName: string, properties: CSSStyle): CSSStyle;
+    extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string): void;
+    extractFontFaces(setName: string, properties: CSSStyle, fromScope: string): void;
+    extractKeyframes(setName: string, properties: CSSStyle, fromScope: string): void;
+    extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string): void;
+    formatAtRules(type: string, properties: CSSStyle): CSSStyle;
     transform(styleName: string, declarations: StyleDeclarations): ClassNames;
   }
 

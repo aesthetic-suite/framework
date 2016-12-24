@@ -14,7 +14,7 @@ export type CSSStyleValue = PrimitiveType | PrimitiveType[] | CSSStyle;
 
 export type CSSStyle = { [key: string]: CSSStyleValue };
 
-export type StyleDeclaration = string | CSSStyle | CSSStyle[];
+export type StyleDeclaration = string | CSSStyle;
 
 export type StyleDeclarations = { [key: string]: StyleDeclaration };
 

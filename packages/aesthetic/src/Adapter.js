@@ -5,144 +5,139 @@
  */
 import deepMerge from 'lodash.merge';
 
-import type { StyleDeclarations, ClassNames, CSSStyle, CSSStyleValue } from '../../types';
+import type {
+  StyleDeclarations,
+  ClassNames,
+  CSSStyle,
+} from '../../types';
 
 const LOCAL = 'local';
 const GLOBAL = 'global';
-const AT_RULE_PATTERN = /^(@[-a-z+]) (.*?)$/;
+const AT_RULES = ['@font-face', '@keyframes', '@media'];
 
 export default class Adapter {
-  fontFaces: { [key: string]: CSSStyle } = {};
-  keyframes: { [key: string]: CSSStyle } = {};
-  mediaQueries: { [key: string]: CSSStyle } = {};
-  multipleStyleDeclarations: boolean = true;
-  pseudoPrefix: string = '';
+  fontFaces: { [familyName: string]: CSSStyle } = {};
+  keyframes: { [animationName: string]: CSSStyle } = {};
+  mediaQueries: { [mediaQuery: string]: CSSStyle } = {};
 
   static LOCAL: string = LOCAL;
   static GLOBAL: string = GLOBAL;
 
+  /**
+   * Convert the unified syntax to adapter specific syntax
+   * by extracting at-rules and applying conversions at each level.
+   */
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = {};
 
     Object.keys(declarations).forEach((setName: string) => {
-      const setDecl = declarations[setName];
+      const declaration = declarations[setName];
 
-      // Skip any declarations that are being used as class names
-      if (typeof setDecl === 'string') {
+      if (typeof declaration === 'string') {
         return;
       }
 
-      // At-rules at the global level
+      // Extract global level at-rules
       if (setName.charAt(0) === '@') {
-        if (Array.isArray(setDecl)) {
-          throw new Error(`At-rule declaration "${setName}" cannot be an array.`);
-        }
+        this.extract(':root', setName, declaration, GLOBAL);
 
-        this.convertAtRule(setName, setDecl, GLOBAL);
-
-      // Set declarations
+      // Apply conversion to property sets
       } else {
-        const setDecls = (Array.isArray(setDecl) ? setDecl : [setDecl])
-          .map(this.convertProperties);
-
-        if (this.multipleStyleDeclarations) {
-          adaptedDeclarations[setName] = setDecls;
-        } else {
-          adaptedDeclarations[setName] = deepMerge(...setDecls);
-        }
+        adaptedDeclarations[setName] = this.convertProperties(setName, declaration);
       }
     });
 
     return adaptedDeclarations;
   }
 
-  convertAtRule(atRule: string, properties: CSSStyle, fromScope: string): CSSStyle {
-    const match = atRule.match(AT_RULE_PATTERN);
+  /**
+   * Convert an object of properties by extracting local at-rules
+   * and parsing fallbacks.
+   */
+  convertProperties(setName: string, properties: CSSStyle): CSSStyle {
+    const nextProperties = { ...properties };
 
-    if (!match) {
-      throw new SyntaxError(`Invalid at-rule detected for "${atRule}".`);
-    }
+    AT_RULES.forEach((atRule: string) => {
+      if (atRule in nextProperties) {
+        this.extract(setName, atRule, nextProperties[atRule], LOCAL);
 
-    const [, type, name] = match;
-
-    if (!name && type !== '@font-face') {
-      throw new SyntaxError(`Missing at-rule identifier for "${atRule}".`);
-    }
-
-    switch (type) {
-      case '@font-face':
-        return this.extractFontFace(String(properties.fontFamily), properties, fromScope);
-
-      case '@keyframes':
-        return this.extractKeyframes(name, properties, fromScope);
-
-      case '@media':
-        return this.extractMediaQuery(name, properties, fromScope);
-
-      default:
-        throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
-    }
-  }
-
-  convertProperties(properties: CSSStyle): CSSStyle {
-    const nextProperties = {};
-    let fallbacks = {};
-
-    // Extract fallbacks first so that we can reference them
-    if (typeof properties.fallbacks === 'object') {
-      fallbacks = properties.fallbacks;
-    }
-
-    Object.keys(properties).forEach((propName: string) => {
-      const propValue = (properties[propName]: CSSStyle);
-
-      // Pseudos
-      if (propName.charAt(0) === ':') {
-        nextProperties[`${this.pseudoPrefix}${propName}`] = this.convertProperties(propValue);
-
-      // At-rules
-      } else if (propName.charAt(0) === '@') {
-        nextProperties[propName] = this.convertAtRule(propName, propValue, LOCAL);
-
-      // Standard
-      } else {
-        nextProperties[propName] = this.convertPropertyValue(propName, (propValue: CSSStyleValue));
+        delete nextProperties[atRule];
       }
     });
 
     return nextProperties;
   }
 
-  convertPropertyValue(name: string, value: CSSStyleValue): CSSStyleValue {
-    return value;
-  }
-
-  extractFontFace(family: string, properties: CSSStyle, fromScope: string): CSSStyle {
-    if (fromScope === GLOBAL) {
-      this.fontFaces[family] = properties;
-    } else {
-      throw new SyntaxError('Font faces must be defined at the global level.');
+  /**
+   * Extract at-rules from both the global and local levels.
+   */
+  extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string) {
+    if (!properties || Array.isArray(properties) || typeof properties !== 'object') {
+      throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
     }
 
-    return properties;
-  }
+    switch (atRule) {
+      case '@font-face':
+        this.extractFontFaces(setName, properties, fromScope);
+        break;
 
-  extractKeyframes(name: string, properties: CSSStyle, fromScope: string): CSSStyle {
-    if (fromScope === GLOBAL) {
-      this.keyframes[name] = properties;
-    } else {
-      throw new SyntaxError('Animation keyframes must be defined at the global level.');
+      case '@keyframes':
+        this.extractKeyframes(setName, properties, fromScope);
+        break;
+
+      case '@media':
+        this.extractMediaQueries(setName, properties, fromScope);
+        break;
+
+      default:
+        throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
     }
-
-    return properties;
   }
 
-  extractMediaQuery(query: string, properties: CSSStyle, fromScope: string): CSSStyle {
+  /**
+   * Extract font face at-rules.
+   */
+  extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
+    deepMerge(this.fontFaces, properties);
+  }
+
+  /**
+   * Extract animation keyframes at-rules.
+   */
+  extractKeyframes(setName: string, properties: CSSStyle, fromScope: string) {
+    deepMerge(this.keyframes, properties);
+  }
+
+  /**
+   * Extract media query at-rules.
+   */
+  extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string) {
     if (fromScope === GLOBAL) {
       throw new SyntaxError('Media queries must be defined locally to an element.');
+    } else {
+      deepMerge(this.mediaQueries[setName], properties);
+    }
+  }
+
+  formatAtRules(type: string, properties: CSSStyle): CSSStyle {
+    // Font faces do not have IDs in their declaration,
+    // so we need to handle this differently.
+    if (type === '@font-face') {
+      const fonts = Object.keys(properties).map((key: string) => properties[key]);
+
+      return {
+        // $FlowIssue Make an exception for arrays in this case
+        '@font-face': fonts.length ? fonts : fonts[0],
+      };
     }
 
-    return properties;
+    const rules = {};
+
+    Object.keys(properties).forEach((id: string) => {
+      rules[`${type} ${id}`] = properties[id];
+    });
+
+    return rules;
   }
 
   /**

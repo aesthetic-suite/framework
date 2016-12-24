@@ -6,34 +6,43 @@
 
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
+import deepMerge from 'lodash.merge';
 
 import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  extractFontFace(family: string, properties: CSSStyle, fromScope: string): CSSStyle {
-    css.fontFace(properties);
+  convertProperties(setName: string, properties: CSSStyle): CSSStyle {
+    properties = super.convertProperties(setName, properties);
 
-    return super.extractFontFace(family, properties, fromScope);
+    // Media queries
+    if (this.mediaQueries[setName]) {
+      deepMerge(properties, this.formatAtRules('@media', this.mediaQueries[setName]));
+    }
+
+    return properties;
   }
 
-  extractKeyframes(name: string, properties: CSSStyle, fromScope: string): CSSStyle {
-    css.keyframes(name, properties);
+  extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
+    super.extractFontFaces(setName, properties, fromScope);
 
-    return super.extractKeyframes(name, properties, fromScope);
+    Object.keys(properties).forEach((key: string) => {
+      css.fontFace(properties[key]);
+    });
+  }
+
+  extractKeyframes(setName: string, properties: CSSStyle, fromScope: string) {
+    super.extractKeyframes(setName, properties, fromScope);
+
+    Object.keys(properties).forEach((key: string) => {
+      css.keyframes(key, properties[key]);
+    });
   }
 
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {
-      let declaration = declarations[setName];
-
-      if (!Array.isArray(declaration)) {
-        // $FlowIssue We know it won't be a string once it gets here
-        declaration = [declaration];
-      }
-
-      classNames[setName] = `${styleName}-${String(css(...declaration))}`;
+      classNames[setName] = `${styleName}-${String(css(declarations[setName]))}`;
     });
 
     return classNames;
