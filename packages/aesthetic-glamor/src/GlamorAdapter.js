@@ -38,7 +38,7 @@ export default class GlamorAdapter extends Adapter {
     });
   }
 
-  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {

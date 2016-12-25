@@ -251,7 +251,7 @@ button: {
 
 ### Fallbacks
 
-Fallbacks for old browsers are defined under the `$fallbacks` object.
+Fallbacks for old browsers are defined under the `@fallbacks` object.
 Each property accepts a single value or an array of values.
 
 ```javascript
@@ -259,7 +259,7 @@ element: {
   // ...
   background: 'linear-gradient(...)',
   display: 'flex',
-  '$fallbacks': {
+  '@fallbacks': {
     background: 'red',
     display: ['box', 'flex-box'],
   },

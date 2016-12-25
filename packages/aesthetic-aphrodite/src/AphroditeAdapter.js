@@ -48,7 +48,7 @@ export default class AphroditeAdapter extends Adapter {
     return properties;
   }
 
-  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
     const styleSheet = this.aphrodite.create(declarations);
     const classNames = {};
 

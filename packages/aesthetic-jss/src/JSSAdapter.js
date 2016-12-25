@@ -29,7 +29,7 @@ export default class JSSAdapter extends Adapter {
     this.options = options;
   }
 
-  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
     const styleSheet = this.jss.createStyleSheet(declarations, {
       named: true,
       meta: styleName,

@@ -13,15 +13,26 @@ import type {
 
 const LOCAL = 'local';
 const GLOBAL = 'global';
-const AT_RULES = ['@font-face', '@keyframes', '@media'];
+const AT_RULES = ['@font-face', '@keyframes', '@media', '@fallbacks'];
 
 export default class Adapter {
-  fontFaces: { [familyName: string]: CSSStyle } = {};
-  keyframes: { [animationName: string]: CSSStyle } = {};
-  mediaQueries: { [mediaQuery: string]: CSSStyle } = {};
+  fallbacks: CSSStyle = {};
+  fontFaces: CSSStyle = {};
+  keyframes: CSSStyle = {};
+  mediaQueries: CSSStyle = {};
+  unifiedSyntax: boolean = true;
 
   static LOCAL: string = LOCAL;
   static GLOBAL: string = GLOBAL;
+
+  /**
+   * Disable unified syntax and rely on the adapter's native syntax.
+   */
+  disableUnifiedSyntax(): this {
+    this.unifiedSyntax = false;
+
+    return this;
+  }
 
   /**
    * Convert the unified syntax to adapter specific syntax
@@ -69,7 +80,7 @@ export default class Adapter {
   }
 
   /**
-   * Extract at-rules from both the global and local levels.
+   * Extract at-rules and parser rules from both the global and local levels.
    */
   extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string) {
     if (!properties || Array.isArray(properties) || typeof properties !== 'object') {
@@ -89,23 +100,60 @@ export default class Adapter {
         this.extractMediaQueries(setName, properties, fromScope);
         break;
 
+      case '@fallbacks':
+        this.extractFallbacks(setName, properties, fromScope);
+        break;
+
       default:
         throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
     }
   }
 
   /**
+   * Extract property fallbacks.
+   */
+  extractFallbacks(setName: string, properties: CSSStyle, fromScope: string) {
+    if (fromScope === GLOBAL) {
+      throw new SyntaxError('Property fallbacks must be defined locally to an element.');
+    }
+
+    deepMerge(this.fallbacks, {
+      [setName]: properties,
+    });
+  }
+
+  /**
    * Extract font face at-rules.
    */
   extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
-    deepMerge(this.fontFaces, properties);
+    if (fromScope === LOCAL) {
+      throw new SyntaxError('Font faces must be declared in the global scope.');
+    }
+
+    Object.keys(properties).forEach((name: string) => {
+      if (this.fontFaces[name]) {
+        throw new TypeError(`Font face "${name}" has already been defined.`);
+      } else {
+        this.fontFaces[name] = properties[name];
+      }
+    });
   }
 
   /**
    * Extract animation keyframes at-rules.
    */
   extractKeyframes(setName: string, properties: CSSStyle, fromScope: string) {
-    deepMerge(this.keyframes, properties);
+    if (fromScope === LOCAL) {
+      throw new SyntaxError('Animation keyframes must be declared in the global scope.');
+    }
+
+    Object.keys(properties).forEach((name: string) => {
+      if (this.keyframes[name]) {
+        throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
+      } else {
+        this.keyframes[name] = properties[name];
+      }
+    });
   }
 
   /**
@@ -114,16 +162,21 @@ export default class Adapter {
   extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string) {
     if (fromScope === GLOBAL) {
       throw new SyntaxError('Media queries must be defined locally to an element.');
-    } else {
-      deepMerge(this.mediaQueries[setName], properties);
     }
+
+    deepMerge(this.mediaQueries, {
+      [setName]: properties,
+    });
   }
 
+  /**
+   * Format an at-rule object into it's native CSS-in-JS structure.
+   */
   formatAtRules(type: string, properties: CSSStyle): CSSStyle {
     // Font faces do not have IDs in their declaration,
     // so we need to handle this differently.
     if (type === '@font-face') {
-      const fonts = Object.keys(properties).map((key: string) => properties[key]);
+      const fonts = Object.keys(properties).map(key => properties[key]);
 
       return {
         // $FlowIssue Make an exception for arrays in this case
@@ -141,9 +194,25 @@ export default class Adapter {
   }
 
   /**
-   * Transform the style objects into a mapping of CSS class names.
+   * Transform the unified or native syntax using the registered adapter.
    */
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
-    return {};
+    // Reset local cache between each transform
+    this.fallbacks = {};
+    this.mediaQueries = {};
+
+    // Convert to native adapter syntax
+    const nativeDeclarations = this.unifiedSyntax
+      ? this.convert(styleName, declarations)
+      : declarations;
+
+    return this.transformStyles(styleName, nativeDeclarations);
+  }
+
+  /**
+   * Transform the style objects into a mapping of CSS class names.
+   */
+  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+    throw new Error(`${this.constructor.name} must define the \`transformStyles\` method.`);
   }
 }
