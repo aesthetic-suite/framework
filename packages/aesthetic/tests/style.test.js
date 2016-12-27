@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import ThemeProvider from '../src/ThemeProvider';
 import style from '../src/style';
-import { TestAdapter, TEST_CLASS_NAMES } from './mocks';
+import { TestAdapter, TEST_CLASS_NAMES } from '../../../tests/mocks';
 
 function BaseComponent() {
   return null;

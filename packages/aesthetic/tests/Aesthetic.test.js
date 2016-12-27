@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import Adapter from '../src/Adapter';
-import { TestAdapter, TEST_CLASS_NAMES } from './mocks';
+import { TestAdapter, TEST_CLASS_NAMES } from '../../../tests/mocks';
 
 describe('Aesthetic', () => {
   let instance = null;

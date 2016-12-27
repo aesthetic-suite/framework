@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import ClassNameAdapter from '../src/ClassNameAdapter';
-import { TEST_CLASS_NAMES } from './mocks';
+import { TEST_CLASS_NAMES } from '../../../tests/mocks';
 
-describe('ClassNameAdapter()', () => {
+describe('ClassNameAdapter', () => {
   let instance;
 
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('ClassNameAdapter()', () => {
 
   it('errors if a non-string is provided', () => {
     expect(() => {
-      instance.transform('foo', {
+      instance.transformStyles('foo', {
         foo: '.valid-class',
         bar: { not: 'valid' },
       });
@@ -20,6 +20,6 @@ describe('ClassNameAdapter()', () => {
   });
 
   it('sets and caches class names', () => {
-    expect(instance.transform('foo', TEST_CLASS_NAMES)).to.deep.equal(TEST_CLASS_NAMES);
+    expect(instance.transformStyles('foo', TEST_CLASS_NAMES)).to.deep.equal(TEST_CLASS_NAMES);
   });
 });

@@ -11,15 +11,15 @@ import type {
   CSSStyle,
 } from '../../types';
 
-const LOCAL = 'local';
-const GLOBAL = 'global';
-const AT_RULES = ['@font-face', '@keyframes', '@media', '@fallbacks'];
+export const LOCAL = 'local';
+export const GLOBAL = 'global';
+export const AT_RULES = ['@font-face', '@keyframes', '@media', '@fallbacks'];
 
 export default class Adapter {
-  fallbacks: CSSStyle = {};
-  fontFaces: CSSStyle = {};
-  keyframes: CSSStyle = {};
-  mediaQueries: CSSStyle = {};
+  fallbacks: CSSStyle = {}; // Local
+  fontFaces: CSSStyle = {}; // Global
+  keyframes: CSSStyle = {}; // Global
+  mediaQueries: CSSStyle = {}; // Local
   unifiedSyntax: boolean = true;
 
   static LOCAL: string = LOCAL;

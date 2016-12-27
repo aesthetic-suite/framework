@@ -9,7 +9,9 @@ import Adapter from './Adapter';
 import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class ClassNameAdapter extends Adapter {
-  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+  unifiedSyntax: boolean = false;
+
+  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {
