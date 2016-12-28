@@ -77,6 +77,10 @@ export function pseudoOutput(className) {
 }`;
 }
 
+export function fallbackOutput(className) {
+  return '';
+}
+
 export function fontFaceOutput(className) {
   return `@font-face {
   font-family: Roboto;

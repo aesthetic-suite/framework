@@ -30,6 +30,24 @@ export default class JSSAdapter extends Adapter {
     this.options = options;
   }
 
+  convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
+    const adaptedDeclarations = super.convert(styleName, declarations);
+    const mediaQueries = this.mediaQueries;
+
+    // Media queries are defined at the root for JSS
+    Object.keys(mediaQueries).forEach((setName: string) => {
+      Object.keys(mediaQueries[setName]).forEach((query: string) => {
+        deepMerge(adaptedDeclarations, {
+          [`@media ${query}`]: {
+            [setName]: mediaQueries[setName][query],
+          },
+        });
+      });
+    });
+
+    return adaptedDeclarations;
+  }
+
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
     const nextProperties = super.convertProperties(setName, properties);
 
@@ -69,22 +87,7 @@ export default class JSSAdapter extends Adapter {
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
-    const nextDeclarations = { ...declarations };
-    const mediaQueries = this.mediaQueries;
-
-    // Media queries are defined at the root for JSS
-    Object.keys(mediaQueries).forEach((setName: string) => {
-      Object.keys(mediaQueries[setName]).forEach((query: string) => {
-        deepMerge(nextDeclarations, {
-          [`@media ${query}`]: {
-            [setName]: mediaQueries[setName][query],
-          },
-        });
-      });
-    });
-
-    // Apply transformation
-    const styleSheet = this.jss.createStyleSheet(nextDeclarations, {
+    const styleSheet = this.jss.createStyleSheet(declarations, {
       named: true,
       meta: styleName,
       ...this.options,

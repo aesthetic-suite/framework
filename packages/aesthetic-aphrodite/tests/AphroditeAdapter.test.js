@@ -69,6 +69,10 @@ describe('AphroditeAdapter', () => {
     }, 0);
   });
 
+  it.skip('supports unified fallbacks');
+
+  it.skip('supports native fallbacks');
+
   it('supports unified font faces', (done) => {
     expect(instance.transform('foo', {
       '@font-face': {
