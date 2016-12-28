@@ -176,11 +176,11 @@ describe('AphroditeAdapter', () => {
         },
       },
     })).to.deep.equal({
-      foo: 'foo_13ib8xx',
+      foo: 'foo_j4ta0n',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(mediaQueryOutput('foo_13ib8xx'));
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo_j4ta0n'));
       done();
     }, 0);
   });

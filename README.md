@@ -191,6 +191,25 @@ button: {
 }
 ```
 
+### Fallbacks
+
+Fallbacks for old browsers are defined under the `@fallbacks` object.
+Each property accepts a single value or an array of values.
+
+```javascript
+element: {
+  // ...
+  background: 'linear-gradient(...)',
+  display: 'flex',
+  '@fallbacks': {
+    background: 'red',
+    display: ['box', 'flex-box'],
+  },
+},
+```
+
+> Aphrodite does not support fallback styles.
+
 ### Media Queries
 
 Media queries are defined inside an element using a `@media` object.
@@ -249,25 +268,6 @@ button: {
   animationDuration: '3s',
 },
 ```
-
-### Fallbacks
-
-Fallbacks for old browsers are defined under the `@fallbacks` object.
-Each property accepts a single value or an array of values.
-
-```javascript
-element: {
-  // ...
-  background: 'linear-gradient(...)',
-  display: 'flex',
-  '@fallbacks': {
-    background: 'red',
-    display: ['box', 'flex-box'],
-  },
-},
-```
-
-> Aphrodite does not support fallback styles.
 
 ### Selectors
 

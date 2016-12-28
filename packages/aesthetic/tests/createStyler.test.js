@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
+import Adapter from '../src/Adapter';
 import createStyler from '../src/createStyler';
 
 describe('createStyler()', () => {
@@ -9,7 +10,7 @@ describe('createStyler()', () => {
   });
 
   it('returns an HOC function', () => {
-    const styler = createStyler(new Aesthetic());
+    const styler = createStyler(new Aesthetic(new Adapter()));
 
     expect(styler).to.be.an('function');
     expect(styler()).to.be.an('function');
