@@ -6,20 +6,17 @@
 
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
-import ClassNameAdapter from './ClassNameAdapter';
 
 import type { StyleDeclarations, ClassNames } from '../../types';
 
 export default class Aesthetic {
-  adapter: Adapter = new ClassNameAdapter();
+  adapter: Adapter;
   locked: { [key: string]: boolean } = {};
   styles: { [key: string]: StyleDeclarations } = {};
   classNames: { [key: string]: ClassNames } = {};
 
   constructor(adapter: Adapter) {
-    if (adapter) {
-      this.setAdapter(adapter);
-    }
+    this.setAdapter(adapter);
   }
 
   /**

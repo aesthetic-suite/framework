@@ -10,14 +10,6 @@ describe('Aesthetic', () => {
     instance = new Aesthetic(new Adapter());
   });
 
-  describe('constructor()', () => {
-    it('sets an adapter if none is passed', () => {
-      instance = new Aesthetic();
-
-      expect(instance.adapter).to.be.an.instanceOf(Adapter);
-    });
-  });
-
   describe('lockStyling()', () => {
     it('does not lock styles if no style definition exists', () => {
       expect(instance.locked.foo).to.be.an('undefined');

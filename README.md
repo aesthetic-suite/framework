@@ -143,12 +143,13 @@ TODO
 
 ## Unified CSS-in-JS Syntax
 
-Aesthetic provides a unified CSS-in-JS syntax for all adapters, which allows
-for easy [drop-in and replace](https://en.wikipedia.org/wiki/Drop-in_replacement)
+Aesthetic provides a unified CSS-in-JS syntax for all adapters, which enables
+easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement)
 between adapters and functionality.
 
-However, this doesn't prevent adapter specific syntax from being used,
-as both the Aesthetic syntax and adapter syntax can be used in unison.
+However, this unified syntax does add an extra bit of overhead. If you'd like to use
+the native syntax of your chosen adapter, simply call `disableUnifiedSyntax()` on
+the instance of your adapter.
 
 > JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested` plugins.
 
@@ -183,7 +184,7 @@ button: {
     backgroundColor: '#eee',
   },
   '::before': {
-    content: '★',
+    content: '"★"',
     display: 'inline-block',
     marginRight: 5,
   },
