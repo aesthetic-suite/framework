@@ -11,15 +11,35 @@ import deepMerge from 'lodash.merge';
 import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
+  keyframesHashes: { [key: string]: string } = {};
+
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
-    properties = super.convertProperties(setName, properties);
+    const nextProperties = super.convertProperties(setName, properties);
+
+    // Animation keyframes
+    if ('animationName' in nextProperties) {
+      nextProperties.animationName = this.keyframesHashes[nextProperties.animationName];
+    }
 
     // Media queries
     if (this.mediaQueries[setName]) {
-      deepMerge(properties, this.formatAtRules('@media', this.mediaQueries[setName]));
+      deepMerge(nextProperties, this.formatAtRules('@media', this.mediaQueries[setName]));
     }
 
-    return properties;
+    // Fallbacks
+    if (this.fallbacks[setName]) {
+      Object.keys(this.fallbacks[setName]).forEach((propName: string) => {
+        const fallback = this.fallbacks[setName][propName];
+
+        if (nextProperties[propName]) {
+          nextProperties[propName] = (
+            Array.isArray(fallback) ? fallback : [fallback]
+          ).concat(nextProperties[propName]);
+        }
+      });
+    }
+
+    return nextProperties;
   }
 
   extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
@@ -34,7 +54,7 @@ export default class GlamorAdapter extends Adapter {
     super.extractKeyframes(setName, properties, fromScope);
 
     Object.keys(properties).forEach((key: string) => {
-      css.keyframes(key, properties[key]);
+      this.keyframesHashes[key] = css.keyframes(key, properties[key]);
     });
   }
 

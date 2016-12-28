@@ -32,14 +32,13 @@ export default class JSSAdapter extends Adapter {
 
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = super.convert(styleName, declarations);
-    const mediaQueries = this.mediaQueries;
 
     // Media queries are defined at the root for JSS
-    Object.keys(mediaQueries).forEach((setName: string) => {
-      Object.keys(mediaQueries[setName]).forEach((query: string) => {
+    Object.keys(this.mediaQueries).forEach((setName: string) => {
+      Object.keys(this.mediaQueries[setName]).forEach((query: string) => {
         deepMerge(adaptedDeclarations, {
           [`@media ${query}`]: {
-            [setName]: mediaQueries[setName][query],
+            [setName]: this.mediaQueries[setName][query],
           },
         });
       });
