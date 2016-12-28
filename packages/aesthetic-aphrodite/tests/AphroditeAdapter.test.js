@@ -1,7 +1,17 @@
 import { expect } from 'chai';
-import { StyleSheet } from 'aphrodite';
+import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../src/AphroditeAdapter';
+import {
+  FONT_ROBOTO,
+  KEYFRAME_FADE,
+  TEST_SYNTAX,
+  syntaxOutput,
+  pseudoOutput,
+  fontFaceOutput,
+  keyframesOutput,
+  mediaQueryOutput,
+} from '../../../tests/mocks';
 
 describe('AphroditeAdapter', () => {
   const style = createStyleTag('aphrodite');
@@ -9,7 +19,8 @@ describe('AphroditeAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    instance = new AphroditeAdapter();
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    instance = new AphroditeAdapter(StyleSheet);
     style.textContent = '';
   });
 
@@ -27,29 +38,14 @@ describe('AphroditeAdapter', () => {
   });
 
   it('transforms style declarations into class names', (done) => {
-    expect(instance.transform('foo', {
-      button: {
-        padding: 10,
-        width: 'auto',
-      },
-      buttonGroup: {
-        display: 'block',
-      },
-    })).to.deep.equal({
-      button: 'button_1w7c38g',
-      buttonGroup: 'buttonGroup_2jlos',
+    expect(instance.transform('foo', TEST_SYNTAX)).to.deep.equal({
+      button: 'button_1jj865m',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(
-        '.button_1w7c38g{padding:10px !important;width:auto !important;}.buttonGroup_2jlos{display:block !important;}',
-      );
+      expect(style.textContent).to.be.css(syntaxOutput('button_1jj865m', 'keyframe_cwjpzv'));
       done();
     }, 0);
-  });
-
-  it.skip('handles an array of style declarations', (done) => {
-     // Aphrodite does not support this feature
   });
 
   it('supports pseudos', (done) => {
@@ -68,73 +64,114 @@ describe('AphroditeAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(
-        '.foo_1217cca{position:fixed !important;}.foo_1217cca:hover{position:static !important;}.foo_1217cca::before{position:absolute !important;}',
-      );
+      expect(style.textContent).to.be.css(pseudoOutput('foo_1217cca'));
       done();
     }, 0);
   });
 
-  it('supports font faces', (done) => {
-    const font = {
-      fontFamily: 'FontName',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      src: "url('coolfont.woff2') format('woff2')",
-    };
-
+  it('supports unified font faces', (done) => {
     expect(instance.transform('foo', {
+      '@font-face': {
+        roboto: FONT_ROBOTO,
+      },
       foo: {
-        fontFamily: font,
+        fontFamily: 'Roboto',
         fontSize: 20,
       },
     })).to.deep.equal({
-      foo: 'foo_b5kqh',
+      foo: 'foo_15i4tai',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(
-        '@font-face{font-family:FontName;font-style:normal;font-weight:normal;src:url(\'coolfont.woff2\') format(\'woff2\');}.foo_b5kqh{font-family:"FontName" !important;font-size:20px !important;}',
-      );
+      expect(style.textContent).to.be.css(fontFaceOutput('foo_15i4tai'));
       done();
     }, 0);
   });
 
-  it('supports animations', (done) => {
-    const translateKeyframes = {
-      '0%': { transform: 'translateX(0)' },
-      '50%': { transform: 'translateX(100px)' },
-      '100%': { transform: 'translateX(0)' },
-    };
-
-    const opacityKeyframes = {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-    };
+  it('supports native font faces', (done) => {
+    instance.disableUnifiedSyntax();
 
     expect(instance.transform('foo', {
       foo: {
-        animationName: [translateKeyframes, opacityKeyframes],
+        fontFamily: FONT_ROBOTO,
+        fontSize: 20,
+      },
+    })).to.deep.equal({
+      foo: 'foo_1myoopg',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(fontFaceOutput('foo_1myoopg'));
+      done();
+    }, 0);
+  });
+
+  it('supports unified animations', (done) => {
+    expect(instance.transform('foo', {
+      '@keyframes': {
+        fade: KEYFRAME_FADE,
+      },
+      foo: {
+        animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     })).to.deep.equal({
-      foo: 'foo_1lseykp',
+      foo: 'foo_18xr9w6',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(
-        '@keyframes keyframe_1ley5wc{0%{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0);}50%{-webkit-transform:translateX(100px);-ms-transform:translateX(100px);transform:translateX(100px);}100%{-webkit-transform:translateX(0);-ms-transform:translateX(0);transform:translateX(0);}}@keyframes keyframe_cwjpzv{from{opacity:0;}to{opacity:1;}}.foo_1lseykp{-webkit-animation-name:keyframe_1ley5wc,keyframe_cwjpzv !important;-webkit-animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-name:keyframe_1ley5wc,keyframe_cwjpzv !important;animation-duration:3s, 1200ms !important;animation-iteration-count:infinite !important;}',
-      );
+      expect(style.textContent).to.be.css(keyframesOutput('foo_18xr9w6', 'keyframe_cwjpzv'));
       done();
     }, 0);
   });
 
-  it('supports media queries', (done) => {
+  it('supports native animations', (done) => {
+    instance.disableUnifiedSyntax();
+
+    expect(instance.transform('foo', {
+      foo: {
+        animationName: KEYFRAME_FADE,
+        animationDuration: '3s, 1200ms',
+        animationIterationCount: 'infinite',
+      },
+    })).to.deep.equal({
+      foo: 'foo_2tm5yt',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(keyframesOutput('foo_2tm5yt', 'keyframe_cwjpzv'));
+      done();
+    }, 0);
+  });
+
+  it('supports unified media queries', (done) => {
     expect(instance.transform('foo', {
       foo: {
         color: 'red',
-        '@media(min-width: 300px)': {
+        '@media': {
+          '(min-width: 300px)': {
+            color: 'blue',
+          },
+        },
+      },
+    })).to.deep.equal({
+      foo: 'foo_j4ta0n',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo_j4ta0n'));
+      done();
+    }, 0);
+  });
+
+  it('supports native media queries', (done) => {
+    instance.disableUnifiedSyntax();
+
+    expect(instance.transform('foo', {
+      foo: {
+        color: 'red',
+        '@media (min-width: 300px)': {
           color: 'blue',
         },
       },
@@ -143,9 +180,7 @@ describe('AphroditeAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(
-        '.foo_13ib8xx{color:red !important;}@media(min-width: 300px){.foo_13ib8xx{color:blue !important;}}',
-      );
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo_13ib8xx'));
       done();
     }, 0);
   });

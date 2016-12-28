@@ -24,7 +24,10 @@ describe('Adapter', () => {
       expect(instance.convert('foo', {
         foo: 'foo',
         bar: 'bar',
-      })).to.deep.equal({});
+      })).to.deep.equal({
+        foo: 'foo',
+        bar: 'bar',
+      });
     });
 
     it('extracts global level at-rules: @font-face, @keyframes', () => {
@@ -33,7 +36,7 @@ describe('Adapter', () => {
 
       expect(instance.convert('foo', {
         '@font-face': {
-          roboto: FONT_ROBOTO,
+          mrroboto: FONT_ROBOTO,
         },
         '@keyframes': {
           fade: KEYFRAME_FADE,
@@ -41,7 +44,7 @@ describe('Adapter', () => {
       })).to.deep.equal({});
 
       expect(instance.fontFaces).to.deep.equal({
-        roboto: FONT_ROBOTO,
+        Roboto: FONT_ROBOTO,
       });
       expect(instance.keyframes).to.deep.equal({
         fade: KEYFRAME_FADE,
@@ -160,25 +163,25 @@ describe('Adapter', () => {
 
     it('errors if font has already been extracted', () => {
       instance.fontFaces = {
-        roboto: FONT_ROBOTO,
+        Roboto: FONT_ROBOTO,
       };
 
       expect(() => (
         instance.extractFontFaces('foo', {
-          roboto: FONT_ROBOTO,
+          mrroboto: FONT_ROBOTO,
         }, GLOBAL)
-      )).to.throw(TypeError, 'Font face "roboto" has already been defined.');
+      )).to.throw(TypeError, 'Font face "Roboto" has already been defined.');
     });
 
     it('extracts font faces at-rule', () => {
       expect(instance.fontFaces).to.deep.equal({});
 
       instance.extractFontFaces('foo', {
-        roboto: FONT_ROBOTO,
+        mrroboto: FONT_ROBOTO,
       }, GLOBAL);
 
       expect(instance.fontFaces).to.deep.equal({
-        roboto: FONT_ROBOTO,
+        Roboto: FONT_ROBOTO,
       });
     });
   });

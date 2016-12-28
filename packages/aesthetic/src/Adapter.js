@@ -39,21 +39,22 @@ export default class Adapter {
    * by extracting at-rules and applying conversions at each level.
    */
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
-    const adaptedDeclarations = {};
+    const adaptedDeclarations = { ...declarations };
 
-    Object.keys(declarations).forEach((setName: string) => {
+    // Extract at-rules first so that they are available for properties
+    AT_RULES.forEach((atRule: string) => {
+      if (atRule in adaptedDeclarations) {
+        this.extract(':root', atRule, adaptedDeclarations[atRule], GLOBAL);
+
+        delete adaptedDeclarations[atRule];
+      }
+    });
+
+    // Apply conversion to properties
+    Object.keys(adaptedDeclarations).forEach((setName: string) => {
       const declaration = declarations[setName];
 
-      if (typeof declaration === 'string') {
-        return;
-      }
-
-      // Extract global level at-rules
-      if (setName.charAt(0) === '@') {
-        this.extract(':root', setName, declaration, GLOBAL);
-
-      // Apply conversion to property sets
-      } else {
+      if (typeof declaration !== 'string') {
         adaptedDeclarations[setName] = this.convertProperties(setName, declaration);
       }
     });
@@ -131,10 +132,14 @@ export default class Adapter {
     }
 
     Object.keys(properties).forEach((name: string) => {
-      if (this.fontFaces[name]) {
-        throw new TypeError(`Font face "${name}" has already been defined.`);
+      // Use the family name so raw CSS can reference it
+      // $FlowIssue We can assume it's an object
+      const familyName = String(properties[name].fontFamily);
+
+      if (this.fontFaces[familyName]) {
+        throw new TypeError(`Font face "${familyName}" has already been defined.`);
       } else {
-        this.fontFaces[name] = properties[name];
+        this.fontFaces[familyName] = properties[name];
       }
     });
   }

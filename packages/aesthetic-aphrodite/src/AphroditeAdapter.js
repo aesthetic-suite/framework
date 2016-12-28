@@ -20,6 +20,10 @@ export default class AphroditeAdapter extends Adapter {
   }
 
   lookup(value: string, lookup: CSSStyle): string[] {
+    if (typeof value !== 'string') {
+      return value;
+    }
+
     return value.split(',').map((name: string) => {
       name = name.trim();
 
