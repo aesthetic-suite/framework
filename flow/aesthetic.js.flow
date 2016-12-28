@@ -5,12 +5,15 @@ declare module 'aesthetic' {
   declare export class Adapter {
     static LOCAL: string;
     static GLOBAL: string;
-    fontFaces: { [key: string]: CSSStyle };
-    keyframes: { [key: string]: CSSStyle };
-    mediaQueries: { [key: string]: CSSStyle };
+    fallbacks: CSSStyle;
+    fontFaces: CSSStyle;
+    keyframes: CSSStyle;
+    mediaQueries: CSSStyle;
+    unifiedSyntax: boolean;
     convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations;
     convertProperties(setName: string, properties: CSSStyle): CSSStyle;
     extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string): void;
+    extractFallbacks(setName: string, properties: CSSStyle, fromScope: string): void;
     extractFontFaces(setName: string, properties: CSSStyle, fromScope: string): void;
     extractKeyframes(setName: string, properties: CSSStyle, fromScope: string): void;
     extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string): void;

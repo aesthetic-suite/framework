@@ -31,15 +31,17 @@ global.createStyleTag = function(id) {
 const chai = require('chai');
 const cssbeautify = require('cssbeautify');
 
-chai.Assertion.addMethod('css', function(str) {
-  let css = cssbeautify(this._obj, {
+function beautify(string) {
+  const css = cssbeautify(string, {
     indent: '  ',
     autosemicolon: true,
   });
 
   // Some adapters add !important rules,
   // so let's remove them to make testing easier.
-  css = css.replace(/ !important/g, '');
+  return css.replace(/ !important/g, '');
+}
 
-  new chai.Assertion(css).to.equal(str);
+chai.Assertion.addMethod('css', function(str) {
+  new chai.Assertion(beautify(this._obj)).to.equal(beautify(str));
 });

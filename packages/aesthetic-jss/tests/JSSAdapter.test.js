@@ -2,6 +2,16 @@ import { expect } from 'chai';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 import JSSAdapter from '../src/JSSAdapter';
+import {
+  FONT_ROBOTO,
+  KEYFRAME_FADE,
+  TEST_SYNTAX,
+  syntaxOutput,
+  pseudoOutput,
+  fontFaceOutput,
+  keyframesOutput,
+  mediaQueryOutput,
+} from '../../../tests/mocks';
 
 describe('JSSAdapter', () => {
   const style = createStyleTag('jss');
@@ -22,39 +32,69 @@ describe('JSSAdapter', () => {
     expect(instance.jss).to.equal(jss);
   });
 
+  it('formats fallbacks correctly', () => {
+    expect(instance.formatFallbacks({
+      display: 'flex-box',
+    })).to.deep.equal([
+      { display: 'flex-box' },
+    ]);
+
+    expect(instance.formatFallbacks({
+      display: ['box', 'flex-box'],
+    })).to.deep.equal([
+      { display: 'box' },
+      { display: 'flex-box' },
+    ]);
+
+    expect(instance.formatFallbacks({
+      background: 'red',
+      display: ['box', 'flex-box'],
+    })).to.deep.equal([
+      { background: 'red' },
+      { display: 'box' },
+      { display: 'flex-box' },
+    ]);
+  });
+
   it('transforms style declarations into class names', (done) => {
-    expect(instance.transform('foo', {
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-      buttonGroup: {
-        display: 'flex',
-      },
-    })).to.deep.equal({
-      button: 'button-1157032238',
-      buttonGroup: 'buttonGroup-4078521147',
+    expect(instance.transform('foo', TEST_SYNTAX)).to.deep.equal({
+      '.button-2458322340::before': '.button-2458322340::before-2875923937',
+      '.button-2458322340:hover': '.button-2458322340:hover-4189501172',
+      button: 'button-2458322340',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(`
-.button-1157032238 {
-  display: inline-block;
-  padding: 5px;
-}
-.buttonGroup-4078521147 {
-  display: flex;
-}
-`);
+      expect(style.textContent).to.be.css(syntaxOutput('button-2458322340', 'keyframe_cwjpzv'));
       done();
     }, 0);
   });
 
-  it.skip('handles an array of style declarations', () => {
-    // JSS does not support this
+  it('supports unified pseudos', (done) => {
+    expect(instance.transform('foo', {
+      foo: {
+        position: 'fixed',
+        ':hover': {
+          position: 'static',
+        },
+        '::before': {
+          position: 'absolute',
+        },
+      },
+    })).to.deep.equal({
+      '.foo-2058969816::before': '.foo-2058969816::before-410542997',
+      '.foo-2058969816:hover': '.foo-2058969816:hover-2956313588',
+      foo: 'foo-2058969816',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(pseudoOutput('foo-2058969816'));
+      done();
+    }, 0);
   });
 
-  it('supports pseudos', (done) => {
+  it('supports native pseudos', (done) => {
+    instance.disableUnifiedSyntax();
+
     expect(instance.transform('foo', {
       foo: {
         position: 'fixed',
@@ -66,142 +106,131 @@ describe('JSSAdapter', () => {
         },
       },
     })).to.deep.equal({
-      '.foo-3861871145::before': '.foo-3861871145::before-2055941493',
-      '.foo-3861871145:hover': '.foo-3861871145:hover-3881610462',
-      foo: 'foo-3861871145',
+      '.foo-2058969816::before': '.foo-2058969816::before-410542997',
+      '.foo-2058969816:hover': '.foo-2058969816:hover-2956313588',
+      foo: 'foo-2058969816',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(`
-.foo-3861871145 {
-  position: fixed;
-}
-.foo-3861871145:hover {
-  position: static;
-}
-.foo-3861871145::before {
-  position: absolute;
-}
-`);
+      expect(style.textContent).to.be.css(pseudoOutput('foo-2058969816'));
       done();
     }, 0);
   });
 
-  it('supports font faces', (done) => {
-    const font = {
-      fontFamily: 'FontName',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      src: "url('coolfont.woff2') format('woff2')",
-    };
-
+  it('supports unified font faces', (done) => {
     expect(instance.transform('foo', {
-      '@font-face': font,
+      '@font-face': {
+        roboto: FONT_ROBOTO,
+      },
       foo: {
-        fontFamily: 'FontName',
+        fontFamily: 'Roboto',
         fontSize: 20,
       },
     })).to.deep.equal({
-      foo: 'foo-1066392687',
+      foo: 'foo-285055133',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(`
-@font-face {
-  font-family: FontName;
-  font-style: normal;
-  font-weight: normal;
-  src: url('coolfont.woff2') format('woff2');
-}
-.foo-1066392687 {
-  font-size: 20px;
-  font-family: FontName;
-}
-`);
+      expect(style.textContent).to.be.css(fontFaceOutput('foo-285055133'));
       done();
     }, 0);
   });
 
-  it('supports animations', (done) => {
-    const translateKeyframes = {
-      '0%': { transform: 'translateX(0)' },
-      '50%': { transform: 'translateX(100px)' },
-      '100%': { transform: 'translateX(0)' },
-    };
-
-    const opacityKeyframes = {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
-    };
+  it('supports native font faces', (done) => {
+    instance.disableUnifiedSyntax();
 
     expect(instance.transform('foo', {
-      '@keyframes translate-anim': translateKeyframes,
-      '@keyframes opacity-anim': opacityKeyframes,
       foo: {
-        animationName: 'translate-anim opacity-anim',
+        fontFamily: FONT_ROBOTO,
+        fontSize: 20,
+      },
+    })).to.deep.equal({
+      foo: 'foo-3182640185',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(fontFaceOutput('foo-3182640185'));
+      done();
+    }, 0);
+  });
+
+  it('supports unified animations', (done) => {
+    expect(instance.transform('foo', {
+      '@keyframes': {
+        fade: KEYFRAME_FADE,
+      },
+      foo: {
+        animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     })).to.deep.equal({
-      foo: 'foo-4066947442',
+      foo: 'foo-3574880963',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(`
-@keyframes translate-anim {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(100px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-@keyframes opacity-anim {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-.foo-4066947442 {
-  animation-name: translate-anim opacity-anim;
-  animation-duration: 3s, 1200ms;
-  animation-iteration-count: infinite;
-}
-`);
+      expect(style.textContent).to.be.css(keyframesOutput('foo-3574880963', 'keyframe_cwjpzv'));
       done();
     }, 0);
   });
 
-  it('supports media queries', (done) => {
+  it('supports native animations', (done) => {
+    instance.disableUnifiedSyntax();
+
+    expect(instance.transform('foo', {
+      foo: {
+        animationName: KEYFRAME_FADE,
+        animationDuration: '3s, 1200ms',
+        animationIterationCount: 'infinite',
+      },
+    })).to.deep.equal({
+      foo: 'foo-102957602',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(keyframesOutput('foo-102957602', 'keyframe_cwjpzv'));
+      done();
+    }, 0);
+  });
+
+  it('supports unified media queries', (done) => {
+    expect(instance.transform('foo', {
+      foo: {
+        color: 'red',
+        '@media': {
+          '(min-width: 300px)': {
+            color: 'blue',
+          },
+        },
+      },
+    })).to.deep.equal({
+      foo: 'foo-175683740',
+    });
+
+    setTimeout(() => {
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo-175683740'));
+      done();
+    }, 0);
+  });
+
+  it('supports native media queries', (done) => {
+    instance.disableUnifiedSyntax();
+
     expect(instance.transform('foo', {
       foo: {
         color: 'red',
       },
-      '@media(min-width: 300px)': {
+      '@media (min-width: 300px)': {
         foo: {
           color: 'blue',
         },
       },
     })).to.deep.equal({
-      foo: 'foo-3645560457',
+      foo: 'foo_j4ta0n',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.equal(`
-.foo-3645560457 {
-  color: red;
-}
-@media(min-width: 300px) {
-  .foo-3645560457 {
-    color: blue;
-  }
-}
-`);
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo_j4ta0n'));
       done();
     }, 0);
   });
