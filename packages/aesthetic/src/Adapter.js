@@ -3,23 +3,23 @@
  * @license     https://opensource.org/licenses/MIT
  * @flow
  */
-import deepMerge from 'lodash.merge';
 
 import type {
   StyleDeclarations,
   ClassNames,
   CSSStyle,
+  AtRules,
 } from '../../types';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
-export const AT_RULES = ['@font-face', '@keyframes', '@media', '@fallbacks'];
+export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 
 export default class Adapter {
-  fallbacks: CSSStyle = {}; // Local
-  fontFaces: CSSStyle = {}; // Global
-  keyframes: CSSStyle = {}; // Global
-  mediaQueries: CSSStyle = {}; // Local
+  fallbacks: AtRules = {}; // Local
+  fontFaces: AtRules = {}; // Global
+  keyframes: AtRules = {}; // Global
+  mediaQueries: AtRules = {}; // Local
   unifiedSyntax: boolean = true;
 
   static LOCAL: string = LOCAL;
@@ -39,6 +39,8 @@ export default class Adapter {
    * by extracting at-rules and applying conversions at each level.
    */
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
+    this.onConvertStart();
+
     const adaptedDeclarations = { ...declarations };
 
     // Extract at-rules first so that they are available for properties
@@ -58,6 +60,8 @@ export default class Adapter {
         adaptedDeclarations[setName] = this.convertProperties(setName, declaration);
       }
     });
+
+    this.onConvertStop();
 
     return adaptedDeclarations;
   }
@@ -83,12 +87,16 @@ export default class Adapter {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string) {
+  extract(setName: string, atRule: string, properties: AtRules, fromScope: string) {
     if (!properties || Array.isArray(properties) || typeof properties !== 'object') {
       throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
     }
 
     switch (atRule) {
+      case '@fallbacks':
+        this.extractFallbacks(setName, properties, fromScope);
+        break;
+
       case '@font-face':
         this.extractFontFaces(setName, properties, fromScope);
         break;
@@ -101,10 +109,6 @@ export default class Adapter {
         this.extractMediaQueries(setName, properties, fromScope);
         break;
 
-      case '@fallbacks':
-        this.extractFallbacks(setName, properties, fromScope);
-        break;
-
       default:
         throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
     }
@@ -113,27 +117,32 @@ export default class Adapter {
   /**
    * Extract property fallbacks.
    */
-  extractFallbacks(setName: string, properties: CSSStyle, fromScope: string) {
+  extractFallbacks(setName: string, properties: AtRules, fromScope: string) {
     if (fromScope === GLOBAL) {
       throw new SyntaxError('Property fallbacks must be defined locally to an element.');
     }
 
-    deepMerge(this.fallbacks, {
-      [setName]: properties,
+    Object.keys(properties).forEach((propName: string) => {
+      if (!this.fallbacks[setName]) {
+        this.fallbacks[setName] = {};
+      }
+
+      this.fallbacks[setName][propName] = properties[propName];
+
+      this.onExtractedFallback(setName, propName, properties[propName]);
     });
   }
 
   /**
    * Extract font face at-rules.
    */
-  extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
+  extractFontFaces(setName: string, properties: AtRules, fromScope: string) {
     if (fromScope === LOCAL) {
       throw new SyntaxError('Font faces must be declared in the global scope.');
     }
 
     Object.keys(properties).forEach((name: string) => {
       // Use the family name so raw CSS can reference it
-      // $FlowIssue We can assume it's an object
       const familyName = String(properties[name].fontFamily);
 
       if (this.fontFaces[familyName]) {
@@ -141,13 +150,15 @@ export default class Adapter {
       } else {
         this.fontFaces[familyName] = properties[name];
       }
+
+      this.onExtractedFontFace(setName, familyName, properties[name]);
     });
   }
 
   /**
    * Extract animation keyframes at-rules.
    */
-  extractKeyframes(setName: string, properties: CSSStyle, fromScope: string) {
+  extractKeyframes(setName: string, properties: AtRules, fromScope: string) {
     if (fromScope === LOCAL) {
       throw new SyntaxError('Animation keyframes must be declared in the global scope.');
     }
@@ -158,19 +169,27 @@ export default class Adapter {
       } else {
         this.keyframes[name] = properties[name];
       }
+
+      this.onExtractedKeyframes(setName, name, properties[name]);
     });
   }
 
   /**
    * Extract media query at-rules.
    */
-  extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string) {
+  extractMediaQueries(setName: string, properties: AtRules, fromScope: string) {
     if (fromScope === GLOBAL) {
       throw new SyntaxError('Media queries must be defined locally to an element.');
     }
 
-    deepMerge(this.mediaQueries, {
-      [setName]: properties,
+    Object.keys(properties).forEach((query: string) => {
+      if (!this.mediaQueries[setName]) {
+        this.mediaQueries[setName] = {};
+      }
+
+      this.mediaQueries[setName][query] = properties[query];
+
+      this.onExtractedMediaQuery(setName, query, properties[query]);
     });
   }
 
@@ -182,6 +201,10 @@ export default class Adapter {
     // so we need to handle this differently.
     if (type === '@font-face') {
       const fonts = Object.keys(properties).map(key => properties[key]);
+
+      if (!fonts.length) {
+        return {};
+      }
 
       return {
         // $FlowIssue Make an exception for arrays in this case
@@ -197,6 +220,36 @@ export default class Adapter {
 
     return rules;
   }
+
+  /**
+   * Callback triggered when conversion starts.
+   */
+  onConvertStart() {}
+
+  /**
+   * Callback triggered when conversion stops.
+   */
+  onConvertStop() {}
+
+  /**
+   * Callback triggered when a fallback is found.
+   */
+  onExtractedFallback(setName: string, propName: string, properties: CSSStyle) {}
+
+  /**
+   * Callback triggered when a font face is found.
+   */
+  onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle) {}
+
+  /**
+   * Callback triggered when an animation keyframes is found.
+   */
+  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {}
+
+  /**
+   * Callback triggered when a media query is found.
+   */
+  onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle) {}
 
   /**
    * Transform the unified or native syntax using the registered adapter.

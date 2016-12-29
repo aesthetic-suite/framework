@@ -12,13 +12,15 @@ export type PrimitiveType = string | number | boolean;
 
 export type CSSStyleValue = PrimitiveType | PrimitiveType[] | CSSStyle;
 
-export type CSSStyle = { [key: string]: CSSStyleValue };
+export type CSSStyle = { [propName: string]: CSSStyleValue };
+
+export type AtRules = { [setName: string]: CSSStyle };
 
 export type StyleDeclaration = string | CSSStyle;
 
-export type StyleDeclarations = { [key: string]: StyleDeclaration };
+export type StyleDeclarations = { [setName: string]: StyleDeclaration };
 
-export type ClassNames = { [key: string]: string };
+export type ClassNames = { [setName: string]: string };
 
 export type WrappedComponent = ReactClass<*>;
 

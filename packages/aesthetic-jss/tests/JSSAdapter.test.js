@@ -3,8 +3,8 @@ import { create } from 'jss';
 import preset from 'jss-preset-default';
 import JSSAdapter from '../src/JSSAdapter';
 import {
-  // FONT_ROBOTO,
-  // KEYFRAME_FADE,
+  FONT_ROBOTO,
+  KEYFRAME_FADE,
   TEST_SYNTAX,
   // syntaxOutput,
   // pseudoOutput,
@@ -58,8 +58,8 @@ describe('JSSAdapter', () => {
 
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert('foo', TEST_SYNTAX)).to.deep.equal({
-      // '@font-face': [FONT_ROBOTO],
-      // '@keyframes fade': KEYFRAME_FADE,
+      '@font-face': [FONT_ROBOTO],
+      '@keyframes fade': KEYFRAME_FADE,
       button: {
         margin: 0,
         padding: '6px 12px',

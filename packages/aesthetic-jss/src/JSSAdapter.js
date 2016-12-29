@@ -8,7 +8,7 @@ import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 import deepMerge from 'lodash.merge';
 
-import type { StyleDeclarations, ClassNames } from '../../types';
+import type { StyleDeclarations, ClassNames, CSSStyle, AtRules } from '../../types';
 
 type StyleSheetOptions = {
   element?: Object,
@@ -20,6 +20,8 @@ type StyleSheetOptions = {
 };
 
 export default class JSSAdapter extends Adapter {
+  currentFontFaces: AtRules = {};
+  currentKeyframes: AtRules = {};
   jss: JSS;
   options: StyleSheetOptions;
 
@@ -33,18 +35,12 @@ export default class JSSAdapter extends Adapter {
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = super.convert(styleName, declarations);
 
-    // Media queries are defined at the root for JSS
-    Object.keys(this.mediaQueries).forEach((setName: string) => {
-      Object.keys(this.mediaQueries[setName]).forEach((query: string) => {
-        deepMerge(adaptedDeclarations, {
-          [`@media ${query}`]: {
-            [setName]: this.mediaQueries[setName][query],
-          },
-        });
-      });
-    });
-
-    return adaptedDeclarations;
+    return {
+      ...this.formatAtRules('@font-face', this.currentFontFaces),
+      ...this.formatAtRules('@keyframes', this.currentKeyframes),
+      ...adaptedDeclarations,
+      ...this.formatMediaQueries(),
+    };
   }
 
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
@@ -67,22 +63,49 @@ export default class JSSAdapter extends Adapter {
     return nextProperties;
   }
 
-  formatFallbacks(fallbacks: CSSStyle): CSSStyle {
+  formatFallbacks(fallbacks: CSSStyle): CSSStyle[] {
     const properties = [];
 
     Object.keys(fallbacks).forEach((propName: string) => {
       const fallback = fallbacks[propName];
 
       if (Array.isArray(fallback)) {
-        fallback.forEach((propValue: string) => {
-          properties.push({ [propName]: propValue });
-        });
+        fallback.forEach(propValue => properties.push({ [propName]: propValue }));
       } else {
         properties.push({ [propName]: fallback });
       }
     });
 
     return properties;
+  }
+
+  formatMediaQueries() {
+    const mediaQueries = {};
+
+    Object.keys(this.mediaQueries).forEach((setName: string) => {
+      Object.keys(this.mediaQueries[setName]).forEach((query: string) => {
+        deepMerge(mediaQueries, {
+          [`@media ${query}`]: {
+            [setName]: this.mediaQueries[setName][query],
+          },
+        });
+      });
+    });
+
+    return mediaQueries;
+  }
+
+  onConvertStart() {
+    this.currentFontFaces = {};
+    this.currentKeyframes = {};
+  }
+
+  onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle) {
+    this.currentFontFaces[familyName] = properties;
+  }
+
+  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {
+    this.currentKeyframes[animationName] = properties;
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {

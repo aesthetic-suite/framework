@@ -42,20 +42,12 @@ export default class GlamorAdapter extends Adapter {
     return nextProperties;
   }
 
-  extractFontFaces(setName: string, properties: CSSStyle, fromScope: string) {
-    super.extractFontFaces(setName, properties, fromScope);
-
-    Object.keys(properties).forEach((key: string) => {
-      css.fontFace(properties[key]);
-    });
+  onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle) {
+    css.fontFace(properties);
   }
 
-  extractKeyframes(setName: string, properties: CSSStyle, fromScope: string) {
-    super.extractKeyframes(setName, properties, fromScope);
-
-    Object.keys(properties).forEach((key: string) => {
-      this.keyframesHashes[key] = css.keyframes(key, properties[key]);
-    });
+  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {
+    this.keyframesHashes[animationName] = css.keyframes(animationName, properties);
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {

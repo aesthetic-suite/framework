@@ -19,7 +19,7 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  lookup(value: string, lookup: CSSStyle): string[] {
+  lookupRule(value: string, lookup: CSSStyle): string[] {
     if (typeof value !== 'string') {
       return value;
     }
@@ -32,24 +32,24 @@ export default class AphroditeAdapter extends Adapter {
   }
 
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
-    properties = super.convertProperties(setName, properties);
+    const nextProperties = super.convertProperties(setName, properties);
 
     // Font faces
-    if ('fontFamily' in properties) {
-      properties.fontFamily = this.lookup(properties.fontFamily, this.fontFaces);
+    if ('fontFamily' in nextProperties) {
+      nextProperties.fontFamily = this.lookupRule(nextProperties.fontFamily, this.fontFaces);
     }
 
     // Animation keyframes
-    if ('animationName' in properties) {
-      properties.animationName = this.lookup(properties.animationName, this.keyframes);
+    if ('animationName' in nextProperties) {
+      nextProperties.animationName = this.lookupRule(nextProperties.animationName, this.keyframes);
     }
 
     // Media queries
     if (this.mediaQueries[setName]) {
-      deepMerge(properties, this.formatAtRules('@media', this.mediaQueries[setName]));
+      deepMerge(nextProperties, this.formatAtRules('@media', this.mediaQueries[setName]));
     }
 
-    return properties;
+    return nextProperties;
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
