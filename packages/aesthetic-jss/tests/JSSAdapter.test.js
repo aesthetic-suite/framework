@@ -6,11 +6,11 @@ import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
   TEST_SYNTAX,
-  // syntaxOutput,
-  // pseudoOutput,
-  // fontFaceOutput,
-  // keyframesOutput,
-  // mediaQueryOutput,
+  syntaxOutput,
+  pseudoOutput,
+  fontFaceOutput,
+  keyframesOutput,
+  mediaQueryOutput,
 } from '../../../tests/mocks';
 
 describe('JSSAdapter', () => {
@@ -100,7 +100,6 @@ describe('JSSAdapter', () => {
     });
   });
 
-  /*
   it('transforms style declarations into class names', (done) => {
     expect(instance.transform('foo', TEST_SYNTAX)).to.deep.equal({
       '.button-2458322340::before': '.button-2458322340::before-2875923937',
@@ -109,7 +108,7 @@ describe('JSSAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(syntaxOutput('button-2458322340', 'keyframe_cwjpzv'));
+      expect(style.textContent).to.be.css(syntaxOutput('button-2458322340', 'fade'));
       done();
     }, 0);
   });
@@ -185,16 +184,17 @@ describe('JSSAdapter', () => {
     instance.disableUnifiedSyntax();
 
     expect(instance.transform('foo', {
+      '@font-face': FONT_ROBOTO,
       foo: {
-        fontFamily: FONT_ROBOTO,
+        fontFamily: 'Roboto',
         fontSize: 20,
       },
     })).to.deep.equal({
-      foo: 'foo-3182640185',
+      foo: 'foo-285055133',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(fontFaceOutput('foo-3182640185'));
+      expect(style.textContent).to.be.css(fontFaceOutput('foo-285055133'));
       done();
     }, 0);
   });
@@ -214,7 +214,7 @@ describe('JSSAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(keyframesOutput('foo-3574880963', 'keyframe_cwjpzv'));
+      expect(style.textContent).to.be.css(keyframesOutput('foo-3574880963', 'fade'));
       done();
     }, 0);
   });
@@ -233,7 +233,7 @@ describe('JSSAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(keyframesOutput('foo-102957602', 'keyframe_cwjpzv'));
+      expect(style.textContent).to.be.css(keyframesOutput('foo-102957602', 'fade'));
       done();
     }, 0);
   });
@@ -271,13 +271,12 @@ describe('JSSAdapter', () => {
         },
       },
     })).to.deep.equal({
-      foo: 'foo_j4ta0n',
+      foo: 'foo-175683740',
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(mediaQueryOutput('foo_j4ta0n'));
+      expect(style.textContent).to.be.css(mediaQueryOutput('foo-175683740'));
       done();
     }, 0);
   });
-  */
 });

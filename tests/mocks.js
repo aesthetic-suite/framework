@@ -128,7 +128,7 @@ export function mediaQueryOutput(className) {
 }`;
 }
 
-export function syntaxOutput(buttonClass, animClass) {
+export function syntaxOutput(buttonClass, animClass, hideFallbacks = false) {
   return `@font-face {
   font-family: Roboto;
   font-style: normal;
@@ -161,8 +161,9 @@ export function syntaxOutput(buttonClass, animClass) {
   text-align: center;
   background-color: #337ab7;
   vertical-align: middle;
+  ${hideFallbacks ? '' : 'color: #fff;'}
   color: rgba(0, 0, 0, 0);
-  animation-name: keyframe_cwjpzv;
+  animation-name: ${animClass};
   animation-duration: .3s;
   margin: 0px;
   white-space: nowrap;

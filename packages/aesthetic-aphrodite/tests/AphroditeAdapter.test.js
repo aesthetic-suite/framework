@@ -80,7 +80,7 @@ describe('AphroditeAdapter', () => {
     });
 
     setTimeout(() => {
-      expect(style.textContent).to.be.css(syntaxOutput('button_1jj865m', 'keyframe_cwjpzv'));
+      expect(style.textContent).to.be.css(syntaxOutput('button_1jj865m', 'keyframe_cwjpzv', true));
       done();
     }, 0);
   });

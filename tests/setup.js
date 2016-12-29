@@ -29,19 +29,32 @@ global.createStyleTag = function(id) {
 }
 
 const chai = require('chai');
-const cssbeautify = require('cssbeautify');
+const css = require('css');
+const perfectionist = require('perfectionist');
+const sort = require('css-ast-diff/lib/sorters/ast');
 
-function beautify(string) {
-  const css = cssbeautify(string, {
-    indent: '  ',
-    autosemicolon: true,
-  });
-
+function ast(str) {
   // Some adapters add !important rules,
   // so let's remove them to make testing easier.
-  return css.replace(/ !important/g, '');
+  str = str.replace(/ !important/g, '');
+
+  // Parse and build the AST
+  str = css.stringify(sort(css.parse(str)), {
+    compress: true,
+  });
+
+  // Format it to look pretty
+  str = perfectionist.process(str, {
+    cascade: false,
+    indentSize: 2,
+  }).css;
+
+  // Remove double quotes because reasons
+  str = str.replace(/"/g, '');
+
+  return str;
 }
 
 chai.Assertion.addMethod('css', function(str) {
-  new chai.Assertion(beautify(this._obj)).to.equal(beautify(str));
+  new chai.Assertion(ast(this._obj)).to.equal(ast(str));
 });
