@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-glamor",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Glamor support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -22,11 +22,11 @@
     "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
   },
   "peerDependencies": {
-    "aesthetic": "^0.0.2",
+    "aesthetic": "^0.0.3",
     "glamor": "^2.20.12"
   },
   "devDependencies": {
-    "aesthetic": "^0.0.2",
+    "aesthetic": "^0.0.3",
     "glamor": "^2.20.12"
   }
 }
