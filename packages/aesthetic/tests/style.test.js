@@ -15,6 +15,7 @@ describe('style()', () => {
 
   beforeEach(() => {
     aesthetic = new Aesthetic(new TestAdapter());
+    aesthetic.registerTheme('classic', {});
   });
 
   it('inherits name from component `constructor.name`', () => {
@@ -103,7 +104,6 @@ describe('style()', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
     expect(Wrapped.setStyles).to.be.an('function');
-    expect(Wrapped.mergeStyles).to.be.an('function');
   });
 
   it('can set styles using `setStyles`', () => {
@@ -136,43 +136,6 @@ describe('style()', () => {
     });
   });
 
-  it('can merge styles using `mergeStyles`', () => {
-    const Wrapped = style(aesthetic, {
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    }, {
-      lockStyling: false,
-    })(BaseComponent);
-
-    expect(aesthetic.styles.BaseComponent).to.deep.equal({
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    });
-
-    Wrapped.mergeStyles({
-      button: {
-        padding: 10,
-      },
-      notButton: {
-        color: 'red',
-      },
-    });
-
-    expect(aesthetic.styles.BaseComponent).to.deep.equal({
-      button: {
-        display: 'inline-block',
-        padding: 10,
-      },
-      notButton: {
-        color: 'red',
-      },
-    });
-  });
-
   it('locks styles after using `setStyles`', () => {
     const Wrapped = style(aesthetic, {
       button: {
@@ -196,24 +159,24 @@ describe('style()', () => {
 
   it('inherits theme name from prop', () => {
     function ThemeComponent(props) {
-      expect(props.theme).to.equal('foo');
+      expect(props.theme).to.equal('classic');
       return null;
     }
 
     const Wrapped = style(aesthetic)(ThemeComponent);
 
-    shallow(<Wrapped theme="foo" />).dive();
+    shallow(<Wrapped theme="classic" />).dive();
   });
 
   it('inherits theme name from context', () => {
     function ThemeComponent(props) {
-      expect(props.theme).to.equal('foo');
+      expect(props.theme).to.equal('classic');
       return null;
     }
 
     const Wrapped = style(aesthetic)(ThemeComponent);
 
-    shallow(<ThemeProvider name="foo"><Wrapped /></ThemeProvider>).dive();
+    shallow(<ThemeProvider name="classic"><Wrapped /></ThemeProvider>).dive();
   });
 
   it('transforms styles on mount', () => {
@@ -227,16 +190,16 @@ describe('style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
-    expect(aesthetic.classNames.StylesComponent).to.be.an('undefined');
+    expect(aesthetic.classNames['StylesComponent:']).to.be.an('undefined');
 
     shallow(<Wrapped />).dive();
 
-    expect(aesthetic.classNames.StylesComponent).to.deep.equal(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
   });
 
   it('can customize the theme prop type using `options.themePropName`', () => {
     function ThemeComponent(props) {
-      expect(props.someThemeNameHere).to.equal('foo');
+      expect(props.someThemeNameHere).to.equal('classic');
       return null;
     }
 
@@ -246,7 +209,7 @@ describe('style()', () => {
 
     expect(Wrapped.propTypes).to.have.ownProperty('someThemeNameHere');
 
-    shallow(<Wrapped someThemeNameHere="foo" />).dive();
+    shallow(<Wrapped someThemeNameHere="classic" />).dive();
   });
 
   it('can customize the styles prop type using `options.stylesPropName`', () => {

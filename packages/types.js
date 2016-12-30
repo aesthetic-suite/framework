@@ -20,6 +20,10 @@ export type StyleDeclaration = string | CSSStyle;
 
 export type StyleDeclarations = { [setName: string]: StyleDeclaration };
 
+export type StyleOrCallback = StyleDeclarations | ThemeCallback;
+
+export type ThemeCallback = (theme: CSSStyle, prevStyles: StyleDeclarations) => StyleDeclarations;
+
 export type ClassNames = { [setName: string]: string };
 
 export type WrappedComponent = ReactClass<*>;

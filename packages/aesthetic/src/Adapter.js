@@ -4,6 +4,8 @@
  * @flow
  */
 
+import isObject from './helpers/isObject';
+
 import type {
   StyleDeclarations,
   ClassNames,
@@ -92,7 +94,7 @@ export default class Adapter {
    * Extract at-rules and parser rules from both the global and local levels.
    */
   extract(setName: string, atRule: string, properties: AtRules, fromScope: string) {
-    if (!properties || Array.isArray(properties) || typeof properties !== 'object') {
+    if (!isObject(properties)) {
       throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
     }
 

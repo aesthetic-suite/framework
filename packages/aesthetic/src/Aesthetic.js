@@ -4,19 +4,54 @@
  * @flow
  */
 
-import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
+import isObject from './helpers/isObject';
 
-import type { StyleDeclarations, ClassNames } from '../../types';
+import type {
+  StyleDeclarations,
+  StyleOrCallback,
+  ClassNames,
+  CSSStyle,
+} from '../../types';
 
 export default class Aesthetic {
   adapter: Adapter;
   locked: { [key: string]: boolean } = {};
-  styles: { [key: string]: StyleDeclarations } = {};
+  styles: { [key: string]: StyleOrCallback } = {};
+  prevStyles: { [key: string]: StyleOrCallback } = {};
+  themes: { [key: string]: CSSStyle } = {};
   classNames: { [key: string]: ClassNames } = {};
 
   constructor(adapter: Adapter) {
     this.setAdapter(adapter);
+  }
+
+  /**
+   * Extract the defined style declarations. If the declaratin is a function,
+   * execute it while passing the current theme and previous styles.
+   */
+  extractDeclarations(styleName: string, themeName: string = ''): StyleDeclarations {
+    let declarations = this.styles[styleName];
+    let prevDeclarations = this.prevStyles[styleName] || {};
+
+    if (!declarations) {
+      throw new Error(`Styles do not exist for "${styleName}".`);
+
+    } else if (themeName && !this.themes[themeName]) {
+      throw new Error(`Theme "${themeName}" does not exist.`);
+    }
+
+    const theme = this.themes[themeName] || {};
+
+    if (typeof prevDeclarations === 'function') {
+      prevDeclarations = prevDeclarations(theme, {});
+    }
+
+    if (typeof declarations === 'function') {
+      declarations = declarations(theme, prevDeclarations);
+    }
+
+    return declarations;
   }
 
   /**
@@ -26,6 +61,29 @@ export default class Aesthetic {
     if (this.styles[styleName]) {
       this.locked[styleName] = true;
     }
+
+    return this;
+  }
+
+  /**
+   * Register a theme with a pre-defined set of theme settings.
+   */
+  registerTheme(themeName: string, theme: CSSStyle = {}, globals: StyleDeclarations = {}): this {
+    if (this.themes[themeName]) {
+      throw new Error(`Theme "${themeName}" already exists.`);
+
+    } else if (!isObject(theme)) {
+      throw new TypeError(`Theme "${themeName}" must be a style object.`);
+
+    } else if (!isObject(globals)) {
+      throw new TypeError(`Global styles for "${themeName}" must be an object.`);
+    }
+
+    // Register the theme
+    this.themes[themeName] = theme;
+
+    // Transform the global styles
+    this.adapter.transform(':root', globals);
 
     return this;
   }
@@ -45,37 +103,22 @@ export default class Aesthetic {
 
   /**
    * Set multiple style declarations for a component.
-   * If `merge` is true, it will deep merge with any previous styles,
-   * otherwise it will completely override them.
    */
-  setStyles(
-    styleName: string,
-    declarations: StyleDeclarations,
-    merge: boolean = false,
-  ): this {
+  setStyles(styleName: string, declarations: StyleOrCallback): this {
     if (this.locked[styleName]) {
-      throw new Error(
-        `Cannot set styles; styles have been locked for \`${styleName}\`.`,
-      );
+      throw new Error(`Styles have been locked for "${styleName}".`);
+
+    } else if (!isObject(declarations) && typeof declarations !== 'function') {
+      throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
     }
 
-    if (this.classNames[styleName]) {
-      throw new Error(
-        `Cannot set styles; styles have already been transformed for \`${styleName}\`.`,
-      );
+    // Keep the previous styles
+    if (this.styles[styleName]) {
+      this.prevStyles[styleName] = this.styles[styleName];
     }
 
-    if (!declarations || Array.isArray(declarations) || typeof declarations !== 'object') {
-      throw new TypeError(`Styles defined for \`${styleName}\` must be an object.`);
-    }
-
-    const prevDeclarations = this.styles[styleName];
-
-    if (prevDeclarations && merge) {
-      this.styles[styleName] = deepMerge(prevDeclarations, declarations);
-    } else {
-      this.styles[styleName] = declarations;
-    }
+    // Store the new styles
+    this.styles[styleName] = declarations;
 
     return this;
   }
@@ -84,17 +127,14 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string): ClassNames {
-    if (this.classNames[styleName]) {
-      return this.classNames[styleName];
+  transformStyles(styleName: string, themeName: string = ''): ClassNames {
+    const cacheKey = `${styleName}:${themeName}`;
+
+    if (this.classNames[cacheKey]) {
+      return this.classNames[cacheKey];
     }
 
-    const declarations = this.styles[styleName];
-
-    if (!declarations) {
-      throw new Error(`Styles do not exist for \`${styleName}\`.`);
-    }
-
+    const declarations = this.extractDeclarations(styleName, themeName);
     const toTransform = {};
     const classNames = {};
     let setCount = 0;
@@ -120,14 +160,14 @@ export default class Aesthetic {
         } else {
           throw new TypeError(
             `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-            `\`${styleName}@${setName}\` is not a valid string.`,
+            `"${styleName}@${setName}" is not a valid string.`,
           );
         }
       });
     }
 
     // Cache the values
-    this.classNames[styleName] = classNames;
+    this.classNames[cacheKey] = classNames;
 
     return classNames;
   }

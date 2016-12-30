@@ -11,7 +11,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  StyleDeclarations,
+  StyleOrCallback,
   WrappedComponent,
   HOCComponent,
   HOCOptions,
@@ -19,7 +19,7 @@ import type {
 
 export default function style(
   aesthetic: Aesthetic,
-  defaultStyles: StyleDeclarations = {},
+  defaultStyles: StyleOrCallback = {},
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
@@ -35,6 +35,7 @@ export default function style(
         'A component name could not be derived. Please provide a unique ' +
         'name using `options.styleName` or `displayName`.',
       );
+
     } else if (aesthetic.styles[styleName]) {
       throw new Error(
         `A component has already been styled under the name "${styleName}". ` +
@@ -75,15 +76,8 @@ export default function style(
       };
 
       // Allow consumers to set styles
-      static setStyles(declarations: StyleDeclarations, merge: boolean = false) {
-        aesthetic
-          .setStyles(styleName, declarations, merge)
-          .lockStyling(styleName);
-      }
-
-      // And to merge styles
-      static mergeStyles(declarations: StyleDeclarations) {
-        StyledComponent.setStyles(declarations, true);
+      static setStyles(declarations: StyleOrCallback) {
+        aesthetic.setStyles(styleName, declarations).lockStyling(styleName);
       }
 
       // Start transforming styles before we mount
