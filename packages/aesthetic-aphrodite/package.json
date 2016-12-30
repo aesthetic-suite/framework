@@ -8,10 +8,7 @@
     "styles",
     "aphrodite"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/milesj/aesthetic.git"
-  },
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite",
   "license": "MIT",
   "main": "./lib/index.js",
   "files": [

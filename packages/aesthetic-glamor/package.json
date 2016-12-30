@@ -8,10 +8,7 @@
     "styles",
     "glamor"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/milesj/aesthetic.git"
-  },
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor",
   "license": "MIT",
   "main": "./lib/index.js",
   "files": [
@@ -23,10 +20,10 @@
   },
   "peerDependencies": {
     "aesthetic": "^0.0.3",
-    "glamor": "^2.20.12"
+    "glamor": "^2.20.20"
   },
   "devDependencies": {
     "aesthetic": "^0.0.3",
-    "glamor": "^2.20.12"
+    "glamor": "^2.20.20"
   }
 }

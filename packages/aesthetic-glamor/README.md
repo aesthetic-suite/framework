@@ -33,10 +33,11 @@ const aesthetic = new Aesthetic(new GlamorAdapter());
 can be added before the adapter is instantiated.
 
 ```javascript
+import Aesthetic from 'aesthetic';
 import GlamorAdapter from 'aesthetic-glamor';
 import { plugins } from 'glamor';
 
-plugins.add(plugin);
+plugins.add(plugin); // ...
 
-new GlamorAdapter(); // ...
+const aesthetic = new Aesthetic(new GlamorAdapter());
 ```

@@ -37,17 +37,23 @@ const aesthetic = new Aesthetic(new AphroditeAdapter());
 can be customized by passing an instance of `StyleSheet` to the adapter.
 
 ```javascript
+import Aesthetic from 'aesthetic';
 import AphroditeAdapter from 'aesthetic-aphrodite';
 import { StyleSheet } from 'aphrodite';
 
-new AphroditeAdapter(StyleSheet.extend([extension1, extension2])); // ...
+const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet.extend([
+  extension1,
+  extension2,
+  // ...
+])));
 ```
 
 As well as [no important](https://github.com/Khan/aphrodite#disabling-important) support.
 
 ```javascript
+import Aesthetic from 'aesthetic';
 import AphroditeAdapter from 'aesthetic-aphrodite';
 import { StyleSheet } from 'aphrodite/no-important';
 
-new AphroditeAdapter(StyleSheet); // ...
+const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet));
 ```

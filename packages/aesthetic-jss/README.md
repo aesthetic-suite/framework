@@ -33,21 +33,24 @@ const aesthetic = new Aesthetic(new JSSAdapter());
 can be customized by instantiating a new JSS instance and passing it the adapter.
 
 ```javascript
+import Aesthetic from 'aesthetic';
 import JSSAdapter from 'aesthetic-jss';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 
-const jss = create();
-jss.use(preset());
-
-new JSSAdapter(jss); // ...
+const jss = create().use(preset());
+const aesthetic = new Aesthetic(new JSSAdapter(jss));
 ```
 
-Furthermore, options passed to `jss.createStyleSheet` can be defined through the
+Furthermore, options to be passed to `jss.createStyleSheet` can be defined through the
 second argument of the constructor.
 
 ```javascript
+import Aesthetic from 'aesthetic';
 import JSSAdapter from 'aesthetic-jss';
 
-new JSSAdapter(null, { media: 'screen' }); // ...
+const aesthetic = new Aesthetic(new JSSAdapter(null, {
+  media: 'screen',
+  // ...
+});
 ```
