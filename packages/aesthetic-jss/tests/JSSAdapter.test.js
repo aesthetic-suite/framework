@@ -5,24 +5,22 @@ import JSSAdapter from '../src/JSSAdapter';
 import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
-  TEST_SYNTAX,
-  syntaxOutput,
-  pseudoOutput,
-  fontFaceOutput,
-  keyframesOutput,
-  mediaQueryOutput,
+  SYNTAX_FULL,
+  SYNTAX_PSEUDO,
+  SYNTAX_FALLBACK,
+  SYNTAX_FONT_FACE,
+  SYNTAX_KEYFRAMES,
+  SYNTAX_MEDIA_QUERY,
 } from '../../../tests/mocks';
 
 describe('JSSAdapter', () => {
-  const style = createStyleTag('jss');
   let instance;
 
   beforeEach(() => {
     const jss = create();
     jss.setup(preset());
 
-    instance = new JSSAdapter(jss, { element: style });
-    style.textContent = '';
+    instance = new JSSAdapter(jss);
   });
 
   it('can customize the JSS instance through the constructor', () => {
@@ -56,8 +54,16 @@ describe('JSSAdapter', () => {
     ]);
   });
 
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform('component', SYNTAX_FULL)).to.deep.equal({
+      '.button-1475604568::before': '.button-1475604568::before-3099321837',
+      '.button-1475604568:hover': '.button-1475604568:hover-4108293577',
+      button: 'button-1475604568',
+    });
+  });
+
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert('foo', TEST_SYNTAX)).to.deep.equal({
+    expect(instance.convert('component', SYNTAX_FULL)).to.deep.equal({
       '@font-face': [FONT_ROBOTO],
       '@keyframes fade': KEYFRAME_FADE,
       button: {
@@ -100,47 +106,9 @@ describe('JSSAdapter', () => {
     });
   });
 
-  it('transforms style declarations into class names', (done) => {
-    expect(instance.transform('foo', TEST_SYNTAX)).to.deep.equal({
-      '.button-2458322340::before': '.button-2458322340::before-2875923937',
-      '.button-2458322340:hover': '.button-2458322340:hover-4189501172',
-      button: 'button-2458322340',
-    });
-
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(syntaxOutput('button-2458322340', 'fade'));
-      done();
-    }, 0);
-  });
-
-  it('supports unified pseudos', (done) => {
-    expect(instance.transform('foo', {
-      foo: {
-        position: 'fixed',
-        ':hover': {
-          position: 'static',
-        },
-        '::before': {
-          position: 'absolute',
-        },
-      },
-    })).to.deep.equal({
-      '.foo-2058969816::before': '.foo-2058969816::before-410542997',
-      '.foo-2058969816:hover': '.foo-2058969816:hover-2956313588',
-      foo: 'foo-2058969816',
-    });
-
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(pseudoOutput('foo-2058969816'));
-      done();
-    }, 0);
-  });
-
-  it('supports native pseudos', (done) => {
-    instance.disableUnifiedSyntax();
-
-    expect(instance.transform('foo', {
-      foo: {
+  it('supports unified pseudos', () => {
+    expect(instance.convert('component', SYNTAX_PSEUDO)).to.deep.equal({
+      pseudo: {
         position: 'fixed',
         '&:hover': {
           position: 'static',
@@ -149,134 +117,203 @@ describe('JSSAdapter', () => {
           position: 'absolute',
         },
       },
-    })).to.deep.equal({
-      '.foo-2058969816::before': '.foo-2058969816::before-410542997',
-      '.foo-2058969816:hover': '.foo-2058969816:hover-2956313588',
-      foo: 'foo-2058969816',
     });
 
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(pseudoOutput('foo-2058969816'));
-      done();
-    }, 0);
-  });
-
-  it('supports unified font faces', (done) => {
-    expect(instance.transform('foo', {
-      '@font-face': {
-        roboto: FONT_ROBOTO,
-      },
-      foo: {
-        fontFamily: 'Roboto',
-        fontSize: 20,
-      },
-    })).to.deep.equal({
-      foo: 'foo-285055133',
+    expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
+      '.pseudo-2517623885::before': '.pseudo-2517623885::before-3271921155',
+      '.pseudo-2517623885:hover': '.pseudo-2517623885:hover-130467353',
+      pseudo: 'pseudo-2517623885',
     });
-
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(fontFaceOutput('foo-285055133'));
-      done();
-    }, 0);
   });
 
-  it('supports native font faces', (done) => {
+  it('supports native pseudos', () => {
     instance.disableUnifiedSyntax();
 
-    expect(instance.transform('foo', {
-      '@font-face': FONT_ROBOTO,
-      foo: {
+    const nativeSyntax = {
+      pseudo: {
+        position: 'fixed',
+        '&:hover': {
+          position: 'static',
+        },
+        '&::before': {
+          position: 'absolute',
+        },
+      },
+    };
+
+    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
+
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      '.pseudo-2517623885::before': '.pseudo-2517623885::before-3271921155',
+      '.pseudo-2517623885:hover': '.pseudo-2517623885:hover-130467353',
+      pseudo: 'pseudo-2517623885',
+    });
+  });
+
+  it('supports unified fallbacks', () => {
+    expect(instance.convert('component', SYNTAX_FALLBACK)).to.deep.equal({
+      fallback: {
+        background: 'linear-gradient(...)',
+        display: 'flex',
+        fallbacks: [
+          { background: 'red' },
+          { display: 'box' },
+          { display: 'flex-box' },
+        ],
+      },
+    });
+
+    expect(instance.transform('component', SYNTAX_FALLBACK)).to.deep.equal({
+      fallback: 'fallback-162314308',
+    });
+  });
+
+  it('supports native fallbacks', () => {
+    instance.disableUnifiedSyntax();
+
+    const nativeSyntax = {
+      fallback: {
+        background: 'linear-gradient(...)',
+        display: 'flex',
+        fallbacks: [
+          { background: 'red' },
+          { display: 'box' },
+          { display: 'flex-box' },
+        ],
+      },
+    };
+
+    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
+
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      fallback: 'fallback-162314308',
+    });
+  });
+
+  it('supports unified font faces', () => {
+    expect(instance.convert('component', SYNTAX_FONT_FACE)).to.deep.equal({
+      '@font-face': [FONT_ROBOTO],
+      font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    })).to.deep.equal({
-      foo: 'foo-285055133',
     });
 
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(fontFaceOutput('foo-285055133'));
-      done();
-    }, 0);
+    instance.resetGlobalCache();
+
+    expect(instance.transform('component', SYNTAX_FONT_FACE)).to.deep.equal({
+      font: 'font-1088627639',
+    });
   });
 
-  it('supports unified animations', (done) => {
-    expect(instance.transform('foo', {
-      '@keyframes': {
-        fade: KEYFRAME_FADE,
+  it('supports native font faces', () => {
+    instance.disableUnifiedSyntax();
+
+    const nativeSyntax = {
+      '@font-face': FONT_ROBOTO,
+      font: {
+        fontFamily: 'Roboto',
+        fontSize: 20,
       },
-      foo: {
+    };
+
+    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
+
+    instance.resetGlobalCache();
+
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      font: 'font-1088627639',
+    });
+  });
+
+  it('supports unified animations', () => {
+    expect(instance.convert('component', SYNTAX_KEYFRAMES)).to.deep.equal({
+      '@keyframes fade': KEYFRAME_FADE,
+      animation: {
         animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    })).to.deep.equal({
-      foo: 'foo-3574880963',
     });
 
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(keyframesOutput('foo-3574880963', 'fade'));
-      done();
-    }, 0);
+    instance.resetGlobalCache();
+
+    expect(instance.transform('component', SYNTAX_KEYFRAMES)).to.deep.equal({
+      animation: 'animation-1324444171',
+    });
   });
 
-  it('supports native animations', (done) => {
+  it('supports native animations', () => {
     instance.disableUnifiedSyntax();
 
-    expect(instance.transform('foo', {
-      foo: {
-        animationName: KEYFRAME_FADE,
+    const nativeSyntax = {
+      '@keyframes fade': KEYFRAME_FADE,
+      animation: {
+        animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    })).to.deep.equal({
-      foo: 'foo-102957602',
+    };
+
+    expect(instance.convert('component', nativeSyntax)).to.deep.equal({
+      '@keyframes fade': KEYFRAME_FADE,
+      animation: {
+        animationName: 'fade',
+        animationDuration: '3s, 1200ms',
+        animationIterationCount: 'infinite',
+      },
     });
 
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(keyframesOutput('foo-102957602', 'fade'));
-      done();
-    }, 0);
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      animation: 'animation-1324444171',
+    });
   });
 
-  it('supports unified media queries', (done) => {
-    expect(instance.transform('foo', {
-      foo: {
+  it('supports unified media queries', () => {
+    expect(instance.convert('component', SYNTAX_MEDIA_QUERY)).to.deep.equal({
+      media: {
         color: 'red',
-        '@media': {
-          '(min-width: 300px)': {
-            color: 'blue',
-          },
+      },
+      '@media (max-width: 1000px)': {
+        media: {
+          color: 'green',
         },
       },
-    })).to.deep.equal({
-      foo: 'foo-175683740',
-    });
-
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(mediaQueryOutput('foo-175683740'));
-      done();
-    }, 0);
-  });
-
-  it('supports native media queries', (done) => {
-    instance.disableUnifiedSyntax();
-
-    expect(instance.transform('foo', {
-      foo: {
-        color: 'red',
-      },
       '@media (min-width: 300px)': {
-        foo: {
+        media: {
           color: 'blue',
         },
       },
-    })).to.deep.equal({
-      foo: 'foo-175683740',
     });
 
-    setTimeout(() => {
-      expect(style.textContent).to.be.css(mediaQueryOutput('foo-175683740'));
-      done();
-    }, 0);
+    expect(instance.transform('component', SYNTAX_MEDIA_QUERY)).to.deep.equal({
+      media: 'media-2861677607',
+    });
+  });
+
+  it('supports native media queries', () => {
+    instance.disableUnifiedSyntax();
+
+    const nativeSyntax = {
+      media: {
+        color: 'red',
+      },
+      '@media (max-width: 1000px)': {
+        media: {
+          color: 'green',
+        },
+      },
+      '@media (min-width: 300px)': {
+        media: {
+          color: 'blue',
+        },
+      },
+    };
+
+    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
+
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      media: 'media-2861677607',
+    });
   });
 });

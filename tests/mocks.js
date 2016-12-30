@@ -17,7 +17,7 @@ export const TEST_CLASS_NAMES = {
   footer: '.footer',
 };
 
-export const TEST_SYNTAX = {
+export const SYNTAX_FULL = {
   '@font-face': {
     mrroboto: FONT_ROBOTO,
   },
@@ -63,130 +63,63 @@ export const TEST_SYNTAX = {
   },
 };
 
-export function pseudoOutput(className) {
-  return `.${className} {
-  position: fixed;
-}
+export const SYNTAX_PSEUDO = {
+  pseudo: {
+    position: 'fixed',
+    ':hover': {
+      position: 'static',
+    },
+    '::before': {
+      position: 'absolute',
+    },
+  },
+};
 
-.${className}:hover {
-  position: static;
-}
+export const SYNTAX_FALLBACK = {
+  fallback: {
+    background: 'linear-gradient(...)',
+    display: 'flex',
+    '@fallbacks': {
+      background: 'red',
+      display: ['box', 'flex-box'],
+    },
+  },
+};
 
-.${className}::before {
-  position: absolute;
-}`;
-}
+export const SYNTAX_FONT_FACE = {
+  '@font-face': {
+    roboto: FONT_ROBOTO,
+  },
+  font: {
+    fontFamily: 'Roboto',
+    fontSize: 20,
+  },
+};
 
-export function fallbackOutput(className) {
-  return '';
-}
+export const SYNTAX_KEYFRAMES = {
+  '@keyframes': {
+    fade: KEYFRAME_FADE,
+  },
+  animation: {
+    animationName: 'fade',
+    animationDuration: '3s, 1200ms',
+    animationIterationCount: 'infinite',
+  },
+};
 
-export function fontFaceOutput(className) {
-  return `@font-face {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  src: url('roboto.woff2') format('roboto');
-}
-
-.${className} {
-  font-family: "Roboto";
-  font-size: 20px;
-}`;
-}
-
-export function keyframesOutput(className, animClass) {
-  return `@keyframes ${animClass} {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.${className} {
-  -webkit-animation-name: ${animClass};
-  -webkit-animation-duration: 3s, 1200ms;
-  -webkit-animation-iteration-count: infinite;
-  animation-name: ${animClass};
-  animation-duration: 3s, 1200ms;
-  animation-iteration-count: infinite;
-}`;
-}
-
-export function mediaQueryOutput(className) {
-  return `.${className} {
-  color: red;
-}
-
-@media (min-width: 300px) {
-  .${className} {
-    color: blue;
-  }
-}`;
-}
-
-export function syntaxOutput(buttonClass, animClass, hideFallbacks = false) {
-  return `@font-face {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  src: url('roboto.woff2') format('roboto');
-}
-
-@keyframes ${animClass} {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.${buttonClass} {
-  -webkit-animation-duration: .3s;
-  -webkit-animation-name: ${animClass};
-  border: 1px solid #2e6da4;
-  border-radius: 4px;
-  display: inline-block;
-  cursor: pointer;
-  font-family: "Roboto";
-  font-weight: normal;
-  line-height: normal;
-  padding: 6px 12px;
-  text-decoration: none;
-  text-align: center;
-  background-color: #337ab7;
-  vertical-align: middle;
-  ${hideFallbacks ? '' : 'color: #fff;'}
-  color: rgba(0, 0, 0, 0);
-  animation-name: ${animClass};
-  animation-duration: .3s;
-  margin: 0px;
-  white-space: nowrap;
-}
-
-.${buttonClass}:hover {
-  background-color: #286090;
-  border-color: #204d74;
-}
-
-.${buttonClass}::before {
-  content: "★";
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-@media (max-width: 600px) {
-  .${buttonClass} {
-    padding: 4px 8px;
-  }
-}`;
-}
+export const SYNTAX_MEDIA_QUERY = {
+  media: {
+    color: 'red',
+    '@media': {
+      '(min-width: 300px)': {
+        color: 'blue',
+      },
+      '(max-width: 1000px)': {
+        color: 'green',
+      },
+    },
+  },
+};
 
 export class TestAdapter extends Adapter {
   transformStyles(styleName, declarations) {

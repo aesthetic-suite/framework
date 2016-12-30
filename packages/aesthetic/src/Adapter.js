@@ -39,6 +39,10 @@ export default class Adapter {
    * by extracting at-rules and applying conversions at each level.
    */
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
+    if (!this.unifiedSyntax) {
+      return declarations;
+    }
+
     this.onConvertStart();
 
     const adaptedDeclarations = { ...declarations };
@@ -252,12 +256,27 @@ export default class Adapter {
   onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle) {}
 
   /**
+   * Reset cached global at-rules.
+   */
+  resetGlobalCache() {
+    this.fontFaces = {};
+    this.keyframes = {};
+  }
+
+  /**
+   * Reset cached local at-rules.
+   */
+  resetLocalCache() {
+    this.fallbacks = {};
+    this.mediaQueries = {};
+  }
+
+  /**
    * Transform the unified or native syntax using the registered adapter.
    */
   transform(styleName: string, declarations: StyleDeclarations): ClassNames {
     // Reset local cache between each transform
-    this.fallbacks = {};
-    this.mediaQueries = {};
+    this.resetLocalCache();
 
     // Convert to native adapter syntax
     const nativeDeclarations = this.unifiedSyntax
