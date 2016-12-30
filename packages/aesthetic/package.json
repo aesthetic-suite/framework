@@ -13,6 +13,10 @@
   },
   "license": "MIT",
   "main": "./lib/index.js",
+  "files": [
+    "*.md",
+    "lib"
+  ],
   "scripts": {
     "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
   },
