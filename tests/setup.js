@@ -1,5 +1,9 @@
 /* eslint-disable */
 
+require('babel-register')({
+  ignore: /(processCss\.js|node_modules)/,
+});
+
 const document = require('jsdom').jsdom('<!DOCTYPE html><html><body></body></html>');
 const window = document.defaultView;
 

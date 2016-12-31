@@ -82,60 +82,63 @@ export default function Button({ children, ...props }) {
 }
 ```
 
-## Adapters
+## Documentation
 
-Only adapters that score a star in all categories are supported: https://github.com/MicheleBertoli/css-in-js
+* [Initial Setup](#initial-setup)
+  * [Webpack](#webpack)
+  * [Browserify](#browserify)
+* [CSS Adapters](#css-adapters)
+  * [Unsupported Adapters](#unsupported-adapters)
+* [Using Themes](#using-themes)
+* [Unified CSS-in-JS Syntax](#unified-css-in-js-syntax)
 
-### CSS Classes
+### Initial Setup
 
-```javascript
-style({
-  foo: 'foo',
-  bar: 'bar',
-})(Component);
-```
+Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development.
+These errors will be entirely removed in production if the following build steps are configured.
 
-### CSS Modules
+#### Webpack
 
-```css
-.foo {
-  color: 'red';
-  display: 'inline';
-}
-.bar {
-  color: 'blue';
-  padding: 5px;
-}
-```
+[DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) plugin
+is required when using Webpack.
 
 ```javascript
-import styles from './styles.css';
-
-style(styles)(Component);
+new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+}),
 ```
 
-### Aphrodite, JSS, Glamor, Fela, VStyle, Styletron, Babel CSS-In-JS
+#### Browserify
+
+[Envify](https://github.com/hughsk/envify) transformer is required when using Browserify.
 
 ```javascript
-style({
-  foo: {
-    color: 'red',
-    display: 'inline',
-  },
-  bar: {
-    color: 'blue',
-    padding: 5,
-  },
-})(Component);
+envify({
+  NODE_ENV: 'production',
+});
 ```
 
-### Unsupported Adapters
+### CSS Adapters
 
-* **CSSX** - Does not generate unique class names during compilation and instead
+An adapter in the context of Aesthetic is a third-party library that supports CSS in JavaScript,
+whether it be injecting CSS styles based off JavaScript objects, importing CSS during a build
+process, or simply referencing CSS class names.
+
+The following libraries are officially supported by Aesthetic.
+
+* [Aphrodite](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite)
+* [CSS Modules](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules)
+* [Glamor](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor)
+* [JSS](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss)
+
+#### Unsupported Adapters
+
+* [CSSX](https://github.com/krasimir/cssx) -
+  Does not generate unique class names during compilation and instead
   uses the literal class names and or tag names defined in the style declaration.
   This allows for global style collisions, which we want to avoid.
-* **Radium** - Uses inline styles instead of compiling and attaching CSS styles
-  to the DOM.
+* [Radium](https://github.com/FormidableLabs/radium) -
+  Uses inline styles instead of compiling and attaching CSS styles to the DOM.
 
 ## Themes
 

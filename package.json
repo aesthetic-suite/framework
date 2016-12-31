@@ -33,6 +33,7 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.1.1",
+    "babel-plugin-css-modules-transform": "^1.1.0",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-flow-comments": "^6.17.0",
     "babel-preset-latest": "^6.16.0",

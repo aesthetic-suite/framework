@@ -1,0 +1,27 @@
+{
+  "name": "aesthetic-css-modules",
+  "version": "0.0.0",
+  "description": "CSS modules support for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "css modules"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "*.md",
+    "lib"
+  ],
+  "scripts": {
+    "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
+  },
+  "peerDependencies": {
+    "aesthetic": "^0.0.3"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.0.3"
+  }
+}
