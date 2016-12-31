@@ -12,7 +12,7 @@ import ThemeProvider from './ThemeProvider';
 import createStyler from './createStyler';
 import classNames from './classNames';
 
-export const ClassNamesShape = PropTypes.objectOf(PropTypes.string);
+export const ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
 export const classes = classNames;
 
 export { createStyler, classNames, Adapter, ClassNameAdapter, ThemeProvider };

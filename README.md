@@ -3,84 +3,21 @@
 
 Abstract library to support a range of styling options for React components.
 
+TODO
+
+## Installation
+
+Aesthetic requires React as a peer dependency.
+
+```
+npm install aesthetic react --save
+// Or
+yarn add aesthetic react
+```
+
 ## Usage
 
-How to use this library.
-
-### Base Component
-
-The base component, an abstract component with default styles,
-one which all consumers compose around.
-
-Is usually provided by a third-party library, like Toolkit,
-or simply defined and consumed directly within an application.
-
-Say we're using a third-party library, like Toolkit, which provides
-and styles this reusable `Button` component.
-
-```javascript
-function Button({ children, styles }) {
-  return (
-    <button className={styles.button}>{children}</button>
-  );
-}
-
-export default style({
-  button: {
-    display: 'inline-block',
-    padding: 5,
-  },
-})(Button);
-```
-
-Now, if I consume this library, how can I customize the styles of this button?
-What if I want to use class names? Or change the name of existing class names?
-What about a theme? Etc.
-
-### Overriding Default Styles
-
-All base components can have their styles overridden by the consumer, like so.
-This can only be done once in an effort to promote strict isolation and encapsulation.
-Style overriding can also be disabled all together.
-
-```javascript
-import Button from 'toolkit/components/Button';
-
-Button.setStyles({
-  button: {
-    padding: '5px 10px',
-    fontWeight: 'bold',
-  },
-});
-
-// Or merge with the default styles
-Button.mergeStyles({ ... });
-```
-
-And done. We now have a `Button` component that is styled to our application.
-
-We can take this a step further, if need be, by wrapping the base component
-with a custom component.
-
-### Composed Component
-
-Say we want to execute some logic, or prepare props, before rendering the base button.
-We can do this by wrapping the base component with our own component.
-
-```javascript
-import BaseButton from 'toolkit/components/Button';
-
-// Set styles like before
-BaseButton.setStyles({ ... });
-
-export default function Button({ children, ...props }) {
-  // Do something
-
-  return (
-    <BaseButton {...props}>{children}</BaseButton>
-  );
-}
-```
+TODO
 
 ## Documentation
 
@@ -89,11 +26,13 @@ export default function Button({ children, ...props }) {
   * [Browserify](#browserify)
 * [CSS Adapters](#css-adapters)
 * [Creating A Styler](#creating-a-styler)
+* [Defining Components](#defining-components)
+  * [Overwriting Styles](#overwriting-styles)
+  * [Combining Classes](#combining-classes)
 * [Styling Components](#styling-components)
   * [External Classes](#external-classes)
   * [Style Objects](#style-objects)
   * [Style Functions](#style-functions)
-  * [Combining Classes](#combining-classes)
 * [Using Themes](#using-themes)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
@@ -140,7 +79,7 @@ The following libraries and their features are officially supported by Aesthetic
 
 | Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#styling-components) | | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -160,7 +99,7 @@ And the following libraries are not supported.
 To start using Aesthetic, a styler function must be created. This styler function
 acts as a factory for the creation of higher-order-components
 ([HOC](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)).
-These HOC's are used in transforming styles from adapters and passing down CSS
+These HOC's are used in transforming styles via adapters and passing down CSS
 class names to the original wrapped component.
 
 To begin, we must create an instance of `Aesthetic` with an [adapter](#css-adapters),
@@ -168,45 +107,13 @@ pass it to `createStyler`, and export the new function. I suggest doing this an 
 that can be imported for reusability.
 
 ```javascript
-// style.js
 import Aesthetic, { createStyler } from 'aesthetic';
 import JSSAdapter from 'aesthetic-jss'; // Or your chosen adapter
 
-const aesthetic = new Aesthetic(new JSSAdapter());
-
-export default createStyler(aesthetic);
+export default createStyler(new Aesthetic(new JSSAdapter()));
 ```
 
 Once we have a styler function, we can import it and wrap our React components.
-
-```javascript
-// Button.js
-import React, { PropTypes } from 'react';
-import { ClassNamesShape } from 'aesthetic';
-import style from '../path/to/style';
-
-function Button({ children, classNames }) {
-  return (
-    <button type="button" className={classNames.button}>
-      {children}
-    </button>
-  );
-}
-
-Button.propTypes = {
-  children: PropTypes.node,
-  classNames: ClassNamesShape,
-};
-
-export default style({
-  button: {
-    display: 'inline-block',
-    padding: [5, 10],
-    // ...
-  },
-})(Button);
-```
-
 The styler function accepts a [style declaration](#styling-components) as its first argument,
 and an object of configurable options as the second. The following options are supported.
 
@@ -219,11 +126,9 @@ and an object of configurable options as the second. The following options are s
 * `themePropName` (string) - Name of the prop in which the theme name is passed to.
   Defaults to `theme`.
 
-An example of this in action.
-
 ```javascript
 export default style({
-  // ...
+  button: { ... },
 }, {
   styleName: 'CustomButton',
   lockStyling: false,
@@ -232,10 +137,110 @@ export default style({
 })(Button);
 ```
 
+### Defining Components
+
+Now that we have a styler function, we can start styling our components by wrapping
+the component declaration with the styler function and passing an object of styles.
+When this component is rendered, the style object is transformed into an object of class names,
+and passed to the `classNames` prop.
+
+```javascript
+import React, { PropTypes } from 'react';
+import { ClassNamesPropType } from 'aesthetic';
+import style from '../path/to/style';
+
+function Button({ children, classNames, icon }) {
+  return (
+    <button type="button" className={classNames.button}>
+      {icon && (
+        <span className={classNames.icon}>{icon}</span>
+      )}
+
+      {children}
+    </button>
+  );
+}
+
+Button.propTypes = {
+  children: PropTypes.node,
+  classNames: ClassNamesPropType,
+  icon: PropTypes.node,
+};
+
+export default style({
+  button: { ... },
+  icon: { ... }
+})(Button);
+```
+
+#### Overwriting Styles
+
+Since styles are isolated and colocated within a component, they can be impossible to
+customize, especially if the component comes from a third-party library. If a component
+hasn't been locked via the `lockStyling` option, styles can be customized by calling
+the static `setStyles` method on the wrapped component instance.
+
+```javascript
+import Button from '../Button';
+
+Button.setStyles({
+  button: {
+    padding: '5px 10px',
+    fontWeight: 'bold',
+    // ...
+  },
+});
+```
+
+Any previous styles that were overwritten will be available when using a
+[style function](#style-functions).
+
+#### Combining Classes
+
+When multiple class names need to be applied to a single element, the `classes`
+function provided by Aesthetic can be used. This function accepts an arbitrary
+number of arguments, all of which can be strings, arrays, or objects that evaluate to true.
+
+```javascript
+import { classes } from 'aesthetic';
+
+classes(
+  'foo',
+  expression && 'bar',
+  {
+    baz: false,
+    qux: true,
+  },
+); // foo qux
+```
+
+Using our button style examples above, let's add an active state and can combine classes
+like so. Specificity is important, so define styles from top to bottom!
+
+```javascript
+function Button({ children, classNames, icon, active = false }) {
+  return (
+    <button
+      type="button"
+      className={classes(
+        classNames.button,
+        active && classNames.button__active,
+      )}
+    >
+      {icon && (
+        <span className={classNames.icon}>{icon}</span>
+      )}
+
+      {children}
+    </button>
+  );
+}
+```
+
 ### Styling Components
 
 As mentioned previously, to style a component, an object or function must be passed
-as the first argument to the [styler function](#creating-a-styler). The object
+as the first argument to the [styler function](#creating-a-styler). This object
 represents a mapping of elements (and modifiers) to declarations. For example:
 
 ```javascript
@@ -250,13 +255,7 @@ The following types of declarations are permitted.
 
 #### External Classes
 
-External CSS class names can be referenced by name using the `ClassNameAdapter`.
-
-```javascript
-import Aesthetic, { ClassNameAdapter } from 'aesthetic';
-
-const aesthetic = new Aesthetic(new ClassNameAdapter());
-```
+External CSS class names can be referenced by passing a string of the class name.
 
 ```javascript
 style({
@@ -264,6 +263,14 @@ style({
   button__active: 'button--active',
   icon: 'button__icon',
 })(Button)
+```
+
+To make use of class names, the provided `ClassNameAdapter` must be used.
+
+```javascript
+import Aesthetic, { createStyler, ClassNameAdapter } from 'aesthetic';
+
+export default createStyler(new Aesthetic(new ClassNameAdapter()));
 ```
 
 #### Style Objects
@@ -294,7 +301,7 @@ style({
 
 Style functions are simply functions that return a style object. The benefits of using a
 function is that it provides the [current theme](#using-themes) as the first argument,
-and the previous styles (if they've been overwritten) as the second argument.
+and the [previous styles](#overwriting-styles) as the second argument.
 
 ```javascript
 style((theme, prevStyles) => ({
@@ -310,48 +317,6 @@ style((theme, prevStyles) => ({
     ...prevStyles.icon,
   },
 }))(Button)
-```
-
-#### Combining Classes
-
-When multiple class names need to be applied to a single element, the `classes`
-function provided by Aesthetic can be used. This function accepts an arbitrary
-number of arguments, all of which can be strings, arrays, or objects that evaluate to true.
-
-```javascript
-import { classes } from 'aesthetic';
-
-classes(
-  'foo',
-  expression && 'bar',
-  {
-    baz: false,
-    qux: true,
-  },
-); // foo qux
-```
-
-Using our button style examples above, we can combine classes like so.
-Specificity is important!
-
-```javascript
-function Button({ children, classNames, icon, active = false }) {
-  return (
-    <button
-      type="button"
-      className={classes(
-        classNames.button,
-        active && classNames.button__active,
-      )}
-    >
-      {icon && (
-        <span className={classNames.icon}>{icon}</span>
-      )}
-
-      {children}
-    </button>
-  );
-}
 ```
 
 ### Using Themes
