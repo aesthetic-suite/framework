@@ -11,7 +11,7 @@
     "docs": "cp ./README.md ./packages/aesthetic/README.md",
     "flow": "flow check",
     "lint": "eslint './packages/{aesthetic,aesthetic-*}/{src,tests}/*.js'",
-    "mocha": "mocha --opts ./mocha.opts './packages/{aesthetic,aesthetic-*}/tests/*.test.js'",
+    "mocha": "NODE_ENV=development mocha --opts ./mocha.opts './packages/{aesthetic,aesthetic-*}/tests/*.test.js'",
     "pretest": "npm run clean && npm run build",
     "test": "npm run mocha",
     "posttest": "npm run lint && npm run flow",

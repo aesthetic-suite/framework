@@ -10,7 +10,7 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules",
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "./lib/CSSModulesAdapter.js",
   "files": [
     "*.md",
     "lib"
