@@ -132,12 +132,15 @@ An adapter in the context of Aesthetic is a third-party library that supports CS
 whether it be injecting CSS styles based off JavaScript objects, importing CSS during a build
 process, or simply referencing CSS class names.
 
-The following libraries are officially supported by Aesthetic.
+The following libraries and their features are officially supported by Aesthetic.
 
-* [Aphrodite](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite)
-* [CSS Modules](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules)
-* [Glamor](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor)
-* [JSS](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss)
+| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#styling-components) | | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Aphrodite](aphrodite) | ✓ | ✓ | | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 And the following libraries are not supported.
 
@@ -146,12 +149,12 @@ And the following libraries are not supported.
   uses the literal class names and or tag names defined in the style declaration.
   This allows for global style collisions, which we want to avoid.
 * [Radium](https://github.com/FormidableLabs/radium) -
-  Uses inline styles instead of compiling and attaching CSS styles to the DOM.
+  Uses inline styles instead of compiling class names and attaching CSS styles to the DOM.
 
 ### Creating A Styler
 
 To start using Aesthetic, a styler function must be created. This styler function
-acts as a factory for the creation of Higher-Order-Components
+acts as a factory for the creation of higher-order-components
 ([HOC](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)).
 These HOC's are used in transforming styles from adapters and passing down CSS
 class names to the original wrapped component.
@@ -200,18 +203,15 @@ export default style({
 })(Button);
 ```
 
-The style function accepts a [style declaration](#styling-components) as its first argument,
+The styler function accepts a [style declaration](#styling-components) as its first argument,
 and an object of configurable options as the second. The following options are supported.
 
 * `styleName` (string) - The unique style name of the component. This name is primarily
   used in logging and caching. Defaults to the component name.
-
 * `lockStyling` (boolean) - Will lock styles from being written after the default styles
   have been set. Defaults to `true`.
-
 * `classNamesPropName` (string) - Name of the prop in which the compiled class names
   object is passed to. Defaults to `classNames`.
-
 * `themePropName` (string) - Name of the prop in which the theme name is passed to.
   Defaults to `theme`.
 
@@ -324,7 +324,7 @@ button: {
 
 #### Fallbacks
 
-Fallbacks for old browsers are defined under the `@fallbacks` object.
+Property fallbacks for old browsers are defined under the `@fallbacks` object.
 Each property accepts a single value or an array of values.
 
 ```javascript
@@ -404,3 +404,8 @@ button: {
 
 Parent, child, and sibling selectors are purposefully not supported. Use unique and
 isolated element names and style declarations instead.
+
+[css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules
+[aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite
+[glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor
+[jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss

@@ -5,6 +5,7 @@ import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
   SYNTAX_FULL,
+  SYNTAX_AT_RULES,
   SYNTAX_PSEUDO,
   SYNTAX_FALLBACK,
   SYNTAX_FONT_FACE,
@@ -63,6 +64,10 @@ describe('GlamorAdapter', () => {
         },
       },
     });
+  });
+
+  it('allows standard at-rules', () => {
+    expect(instance.convert('component', SYNTAX_AT_RULES)).to.deep.equal(SYNTAX_AT_RULES);
   });
 
   it('supports pseudos', () => {

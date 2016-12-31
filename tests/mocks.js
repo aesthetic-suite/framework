@@ -63,6 +63,16 @@ export const SYNTAX_FULL = {
   },
 };
 
+export const SYNTAX_AT_RULES = {
+  '@charset': 'UTF-8',
+  '@page :left': {
+    size: 'A4 landscape',
+  },
+  '@viewport': {
+    orientation: 'landscape',
+  },
+};
+
 export const SYNTAX_PSEUDO = {
   pseudo: {
     position: 'fixed',

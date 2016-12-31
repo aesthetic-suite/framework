@@ -6,6 +6,7 @@ import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
   SYNTAX_FULL,
+  SYNTAX_AT_RULES,
   SYNTAX_PSEUDO,
   SYNTAX_FONT_FACE,
   SYNTAX_KEYFRAMES,
@@ -78,6 +79,10 @@ describe('AphroditeAdapter', () => {
         },
       },
     });
+  });
+
+  it('allows standard at-rules', () => {
+    expect(instance.convert('component', SYNTAX_AT_RULES)).to.deep.equal(SYNTAX_AT_RULES);
   });
 
   it('supports pseudos', () => {
