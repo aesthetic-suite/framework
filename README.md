@@ -88,9 +88,16 @@ export default function Button({ children, ...props }) {
   * [Webpack](#webpack)
   * [Browserify](#browserify)
 * [CSS Adapters](#css-adapters)
-  * [Unsupported Adapters](#unsupported-adapters)
-* [Using Themes](#using-themes)
-* [Unified CSS-in-JS Syntax](#unified-css-in-js-syntax)
+* [Styling](#styling)
+* [Theming](#theming)
+* [Unified Syntax](#unified-syntax)
+  * [Properties](#properties)
+  * [Pseudos](#pseudos)
+  * [Fallbacks](#fallbacks)
+  * [Media Queries](#media-queries)
+  * [Font Faces](#font-faces)
+  * [Animations](#animations)
+  * [Selectors](#selectors)
 
 ### Initial Setup
 
@@ -131,7 +138,7 @@ The following libraries are officially supported by Aesthetic.
 * [Glamor](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor)
 * [JSS](https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss)
 
-#### Unsupported Adapters
+And the following libraries are not supported.
 
 * [CSSX](https://github.com/krasimir/cssx) -
   Does not generate unique class names during compilation and instead
@@ -140,11 +147,15 @@ The following libraries are officially supported by Aesthetic.
 * [Radium](https://github.com/FormidableLabs/radium) -
   Uses inline styles instead of compiling and attaching CSS styles to the DOM.
 
-## Themes
+### Styling
 
 TODO
 
-## Unified CSS-in-JS Syntax
+### Theming
+
+TODO
+
+### Unified Syntax
 
 Aesthetic provides an optional unified CSS-in-JS syntax. This unified syntax permits
 easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement) between
@@ -157,7 +168,7 @@ adapters that utilize CSS-in-JS objects.
 
 **Cons**
 * Slight overhead (like milliseconds) converting the unified syntax to the adapters native
-  syntax -- although, Aesthetic caches heavily.
+  syntax. However, Aesthetic caches heavily.
 * Must learn a new form of syntax (hopefully the last one).
 
 **Why a new syntax?**
@@ -174,20 +185,20 @@ in the unified syntax are now multi-dimensional objects indexed by the name of t
 (`@media`), while at-rules in the native syntax are single objects indexed by the at-rule
 declaration (`@media (min-width: 100px)`).
 
-Supporting the native syntax incurred an O(n) lookup, as we would have to loop through
-each object recursively to find all at-rules, while the unified syntax is a simple O(1)
-lookup as we know the names ahead of time. This constant time lookup is what enables
-a fast conversion process between the unified and native syntaxes.
+Supporting the native syntax incurred an linear (`O(n)`) lookup, as we would have to loop
+through each object recursively to find all at-rules, while the unified syntax is a simple
+constant (`O(1)`) lookup as we know the names ahead of time. This constant time lookup is
+what enables a fast conversion process between the unified and native syntaxes.
 
-**What if I want to use the native syntax?**
+**What if I want to use the adapter's syntax?**
 
 If you'd like to use the native syntax of your chosen adapter, simply call
 `disableUnifiedSyntax()` on the instance of your adapter.
 
-> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested` plugins for
-> unified syntax support.
+> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested`
+> plugins for unified syntax support.
 
-### Declarations
+#### Properties
 
 Standard structure for defining properties.
 
@@ -210,7 +221,7 @@ buttonGroup: {
 },
 ```
 
-### Pseudos
+#### Pseudos
 
 Pseudo elements and classes are defined inside an element as nested objects.
 
@@ -228,7 +239,7 @@ button: {
 },
 ```
 
-### Fallbacks
+#### Fallbacks
 
 Fallbacks for old browsers are defined under the `@fallbacks` object.
 Each property accepts a single value or an array of values.
@@ -247,7 +258,7 @@ wrapper: {
 
 > Aphrodite does not support fallback styles.
 
-### Media Queries
+#### Media Queries
 
 Media queries are defined inside an element using a `@media` object.
 
@@ -263,7 +274,7 @@ tooltip: {
 },
 ```
 
-### Font Faces
+#### Font Faces
 
 Font faces are defined outside the element using a `@font-face` object
 and are referenced by font family name.
@@ -287,7 +298,7 @@ tooltip: {
 },
 ```
 
-### Animations
+#### Animations
 
 Animation keyframes are defined outside the element using a `@keyframes` object
 and are referenced by animation name (the object key).
@@ -306,7 +317,7 @@ button: {
 },
 ```
 
-### Selectors
+#### Selectors
 
 Parent, child, and sibling selectors are purposefully not supported. Use unique and
 isolated element names and style declarations instead.
