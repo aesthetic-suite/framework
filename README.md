@@ -90,6 +90,10 @@ export default function Button({ children, ...props }) {
 * [CSS Adapters](#css-adapters)
 * [Creating A Styler](#creating-a-styler)
 * [Styling Components](#styling-components)
+  * [External Classes](#external-classes)
+  * [Style Objects](#style-objects)
+  * [Style Functions](#style-functions)
+  * [Combining Classes](#combining-classes)
 * [Using Themes](#using-themes)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
@@ -219,9 +223,7 @@ An example of this in action.
 
 ```javascript
 export default style({
-  button: {
-    // ...
-  },
+  // ...
 }, {
   styleName: 'CustomButton',
   lockStyling: false,
@@ -232,7 +234,125 @@ export default style({
 
 ### Styling Components
 
-TODO
+As mentioned previously, to style a component, an object or function must be passed
+as the first argument to the [styler function](#creating-a-styler). The object
+represents a mapping of elements (and modifiers) to declarations. For example:
+
+```javascript
+style({
+  button: { ... },
+  button__active: { ... },
+  icon: { ... },
+})(Button)
+```
+
+The following types of declarations are permitted.
+
+#### External Classes
+
+External CSS class names can be referenced by name using the `ClassNameAdapter`.
+
+```javascript
+import Aesthetic, { ClassNameAdapter } from 'aesthetic';
+
+const aesthetic = new Aesthetic(new ClassNameAdapter());
+```
+
+```javascript
+style({
+  button: 'button',
+  button__active: 'button--active',
+  icon: 'button__icon',
+})(Button)
+```
+
+#### Style Objects
+
+CSS styles can be defined using an object of properties to values. These objects are
+transformed using [adapters](#css-adapters) and optionally support the
+[unified syntax](#unified-syntax) defined by Aesthetic.
+
+```javascript
+style({
+  button: {
+    background: '#eee',
+    // ...
+  },
+  button__active: {
+    background: '#fff',
+    // ...
+  },
+  icon: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    // ...
+  },
+})(Button)
+```
+
+#### Style Functions
+
+Style functions are simply functions that return a style object. The benefits of using a
+function is that it provides the [current theme](#using-themes) as the first argument,
+and the previous styles (if they've been overwritten) as the second argument.
+
+```javascript
+style((theme, prevStyles) => ({
+  button: {
+    ...prevStyles.button,
+    fontSize: theme.unit,
+    padding: theme.spacing * 2,
+  },
+  button__active: {
+    ...prevStyles.button__active,
+  },
+  icon: {
+    ...prevStyles.icon,
+  },
+}))(Button)
+```
+
+#### Combining Classes
+
+When multiple class names need to be applied to a single element, the `classes`
+function provided by Aesthetic can be used. This function accepts an arbitrary
+number of arguments, all of which can be strings, arrays, or objects that evaluate to true.
+
+```javascript
+import { classes } from 'aesthetic';
+
+classes(
+  'foo',
+  expression && 'bar',
+  {
+    baz: false,
+    qux: true,
+  },
+); // foo qux
+```
+
+Using our button style examples above, we can combine classes like so.
+Specificity is important!
+
+```javascript
+function Button({ children, classNames, icon, active = false }) {
+  return (
+    <button
+      type="button"
+      className={classes(
+        classNames.button,
+        active && classNames.button__active,
+      )}
+    >
+      {icon && (
+        <span className={classNames.icon}>{icon}</span>
+      )}
+
+      {children}
+    </button>
+  );
+}
+```
 
 ### Using Themes
 

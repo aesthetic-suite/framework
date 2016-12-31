@@ -12,7 +12,8 @@ import ThemeProvider from './ThemeProvider';
 import createStyler from './createStyler';
 import classNames from './classNames';
 
-const ClassNamesShape = PropTypes.objectOf(PropTypes.string);
+export const ClassNamesShape = PropTypes.objectOf(PropTypes.string);
+export const classes = classNames;
 
-export { createStyler, classNames, Adapter, ClassNameAdapter, ThemeProvider, ClassNamesShape };
+export { createStyler, classNames, Adapter, ClassNameAdapter, ThemeProvider };
 export default Aesthetic;
