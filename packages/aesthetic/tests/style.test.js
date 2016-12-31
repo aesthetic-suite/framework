@@ -181,7 +181,7 @@ describe('style()', () => {
 
   it('transforms styles on mount', () => {
     function StylesComponent(props) {
-      expect(props.styles).to.deep.equal(TEST_CLASS_NAMES);
+      expect(props.classNames).to.deep.equal(TEST_CLASS_NAMES);
       return null;
     }
 
@@ -212,9 +212,9 @@ describe('style()', () => {
     shallow(<Wrapped someThemeNameHere="classic" />).dive();
   });
 
-  it('can customize the styles prop type using `options.stylesPropName`', () => {
+  it('can customize the class names prop type using `options.classNamesPropName`', () => {
     function StylesComponent(props) {
-      expect(props.classNames).to.deep.equal(TEST_CLASS_NAMES);
+      expect(props.classes).to.deep.equal(TEST_CLASS_NAMES);
       return null;
     }
 
@@ -222,7 +222,7 @@ describe('style()', () => {
       header: { color: 'red' },
       footer: { color: 'blue' },
     }, {
-      stylesPropName: 'classNames',
+      classNamesPropName: 'classes',
     })(StylesComponent);
 
     shallow(<Wrapped />).dive();

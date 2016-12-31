@@ -25,7 +25,7 @@ export default function style(
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
     const styleName: string = options.styleName || Component.displayName || Component.name;
     const {
-      stylesPropName = 'styles',
+      classNamesPropName = 'classNames',
       themePropName = 'theme',
       lockStyling = true,
     } = options;
@@ -58,7 +58,7 @@ export default function style(
       };
 
       state: {
-        styles: ClassNames,
+        classNames: ClassNames,
         theme: string,
       };
 
@@ -85,11 +85,11 @@ export default function style(
       // Start transforming styles before we mount
       componentWillMount() {
         const theme = this.props[themePropName] || this.context.themeName || '';
-        const styles = aesthetic.transformStyles(styleName, theme);
+        const classNames = aesthetic.transformStyles(styleName, theme);
 
         this.setState({
           [themePropName]: theme,
-          [stylesPropName]: styles,
+          [classNamesPropName]: classNames,
         });
       }
 

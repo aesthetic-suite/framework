@@ -88,8 +88,9 @@ export default function Button({ children, ...props }) {
   * [Webpack](#webpack)
   * [Browserify](#browserify)
 * [CSS Adapters](#css-adapters)
-* [Styling](#styling)
-* [Theming](#theming)
+* [Creating A Styler](#creating-a-styler)
+* [Styling Components](#styling-components)
+* [Using Themes](#using-themes)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
   * [Pseudos](#pseudos)
@@ -147,11 +148,93 @@ And the following libraries are not supported.
 * [Radium](https://github.com/FormidableLabs/radium) -
   Uses inline styles instead of compiling and attaching CSS styles to the DOM.
 
-### Styling
+### Creating A Styler
+
+To start using Aesthetic, a styler function must be created. This styler function
+acts as a factory for the creation of Higher-Order-Components
+([HOC](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)).
+These HOC's are used in transforming styles from adapters and passing down CSS
+class names to the original wrapped component.
+
+To begin, we must create an instance of `Aesthetic` with an [adapter](#css-adapters),
+pass it to `createStyler`, and export the new function. I suggest doing this an a file
+that can be imported for reusability.
+
+```javascript
+// style.js
+import Aesthetic, { createStyler } from 'aesthetic';
+import JSSAdapter from 'aesthetic-jss'; // Or your chosen adapter
+
+const aesthetic = new Aesthetic(new JSSAdapter());
+
+export default createStyler(aesthetic);
+```
+
+Once we have a styler function, we can import it and wrap our React components.
+
+```javascript
+// Button.js
+import React, { PropTypes } from 'react';
+import { ClassNamesShape } from 'aesthetic';
+import style from '../path/to/style';
+
+function Button({ children, classNames }) {
+  return (
+    <button type="button" className={classNames.button}>
+      {children}
+    </button>
+  );
+}
+
+Button.propTypes = {
+  children: PropTypes.node,
+  classNames: ClassNamesShape,
+};
+
+export default style({
+  button: {
+    display: 'inline-block',
+    padding: [5, 10],
+    // ...
+  },
+})(Button);
+```
+
+The style function accepts a [style declaration](#styling-components) as its first argument,
+and an object of configurable options as the second. The following options are supported.
+
+* `styleName` (string) - The unique style name of the component. This name is primarily
+  used in logging and caching. Defaults to the component name.
+
+* `lockStyling` (boolean) - Will lock styles from being written after the default styles
+  have been set. Defaults to `true`.
+
+* `classNamesPropName` (string) - Name of the prop in which the compiled class names
+  object is passed to. Defaults to `classNames`.
+
+* `themePropName` (string) - Name of the prop in which the theme name is passed to.
+  Defaults to `theme`.
+
+An example of this in action.
+
+```javascript
+export default style({
+  button: {
+    // ...
+  },
+}, {
+  styleName: 'CustomButton',
+  lockStyling: false,
+  classNamesPropName: 'classes',
+  themePropName: 'appTheme',
+})(Button);
+```
+
+### Styling Components
 
 TODO
 
-### Theming
+### Using Themes
 
 TODO
 
@@ -195,9 +278,6 @@ what enables a fast conversion process between the unified and native syntaxes.
 If you'd like to use the native syntax of your chosen adapter, simply call
 `disableUnifiedSyntax()` on the instance of your adapter.
 
-> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested`
-> plugins for unified syntax support.
-
 #### Properties
 
 Standard structure for defining properties.
@@ -220,6 +300,9 @@ buttonGroup: {
   // ...
 },
 ```
+
+> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested`
+> plugins for unified syntax support.
 
 #### Pseudos
 

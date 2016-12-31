@@ -33,6 +33,6 @@ export type HOCComponent = ReactClass<*>;
 export type HOCOptions = {
   lockStyling?: boolean,
   styleName?: string,
-  stylesPropName?: string,
+  classNamesPropName?: string,
   themePropName?: string,
 };
