@@ -18,6 +18,9 @@
   "scripts": {
     "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
   },
+  "dependencies": {
+    "lodash.merge": "^4.6.0"
+  },
   "peerDependencies": {
     "aesthetic": "^0.0.3",
     "jss": "^6.0.1"
