@@ -34,11 +34,13 @@ export default class Aesthetic {
     let declarations = this.styles[styleName];
     let prevDeclarations = this.prevStyles[styleName] || {};
 
-    if (!declarations) {
-      throw new Error(`Styles do not exist for "${styleName}".`);
+    if (process.env.NODE_ENV === 'development') {
+      if (!declarations) {
+        throw new Error(`Styles do not exist for "${styleName}".`);
 
-    } else if (themeName && !this.themes[themeName]) {
-      throw new Error(`Theme "${themeName}" does not exist.`);
+      } else if (themeName && !this.themes[themeName]) {
+        throw new Error(`Theme "${themeName}" does not exist.`);
+      }
     }
 
     const theme = this.themes[themeName] || {};
@@ -69,14 +71,16 @@ export default class Aesthetic {
    * Register a theme with a pre-defined set of theme settings.
    */
   registerTheme(themeName: string, theme: CSSStyle = {}, globals: StyleDeclarations = {}): this {
-    if (this.themes[themeName]) {
-      throw new Error(`Theme "${themeName}" already exists.`);
+    if (process.env.NODE_ENV === 'development') {
+      if (this.themes[themeName]) {
+        throw new Error(`Theme "${themeName}" already exists.`);
 
-    } else if (!isObject(theme)) {
-      throw new TypeError(`Theme "${themeName}" must be a style object.`);
+      } else if (!isObject(theme)) {
+        throw new TypeError(`Theme "${themeName}" must be a style object.`);
 
-    } else if (!isObject(globals)) {
-      throw new TypeError(`Global styles for "${themeName}" must be an object.`);
+      } else if (!isObject(globals)) {
+        throw new TypeError(`Global styles for "${themeName}" must be an object.`);
+      }
     }
 
     // Register the theme
@@ -94,7 +98,7 @@ export default class Aesthetic {
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter) {
       this.adapter = adapter;
-    } else {
+    } else if (process.env.NODE_ENV === 'development') {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
 
@@ -105,11 +109,13 @@ export default class Aesthetic {
    * Set multiple style declarations for a component.
    */
   setStyles(styleName: string, declarations: StyleOrCallback): this {
-    if (this.locked[styleName]) {
-      throw new Error(`Styles have been locked for "${styleName}".`);
+    if (process.env.NODE_ENV === 'development') {
+      if (this.locked[styleName]) {
+        throw new Error(`Styles have been locked for "${styleName}".`);
 
-    } else if (!isObject(declarations) && typeof declarations !== 'function') {
-      throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
+      } else if (!isObject(declarations) && typeof declarations !== 'function') {
+        throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
+      }
     }
 
     // Keep the previous styles
@@ -157,7 +163,7 @@ export default class Aesthetic {
       Object.keys(transformedClassNames).forEach((setName: string) => {
         if (typeof transformedClassNames[setName] === 'string') {
           classNames[setName] = transformedClassNames[setName];
-        } else {
+        } else if (process.env.NODE_ENV === 'development') {
           throw new TypeError(
             `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
             `"${styleName}@${setName}" is not a valid string.`,

@@ -94,8 +94,10 @@ export default class Adapter {
    * Extract at-rules and parser rules from both the global and local levels.
    */
   extract(setName: string, atRule: string, properties: AtRules, fromScope: string) {
-    if (!isObject(properties)) {
-      throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
+    if (process.env.NODE_ENV === 'development') {
+      if (!isObject(properties)) {
+        throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
+      }
     }
 
     switch (atRule) {
@@ -115,8 +117,11 @@ export default class Adapter {
         this.extractMediaQueries(setName, properties, fromScope);
         break;
 
-      default:
-        throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
+      default: {
+        if (process.env.NODE_ENV === 'development') {
+          throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
+        }
+      }
     }
   }
 
@@ -124,8 +129,10 @@ export default class Adapter {
    * Extract property fallbacks.
    */
   extractFallbacks(setName: string, properties: AtRules, fromScope: string) {
-    if (fromScope === GLOBAL) {
-      throw new SyntaxError('Property fallbacks must be defined locally to an element.');
+    if (process.env.NODE_ENV === 'development') {
+      if (fromScope === GLOBAL) {
+        throw new SyntaxError('Property fallbacks must be defined locally to an element.');
+      }
     }
 
     Object.keys(properties).forEach((propName: string) => {
@@ -143,8 +150,10 @@ export default class Adapter {
    * Extract font face at-rules.
    */
   extractFontFaces(setName: string, properties: AtRules, fromScope: string) {
-    if (fromScope === LOCAL) {
-      throw new SyntaxError('Font faces must be declared in the global scope.');
+    if (process.env.NODE_ENV === 'development') {
+      if (fromScope === LOCAL) {
+        throw new SyntaxError('Font faces must be declared in the global scope.');
+      }
     }
 
     Object.keys(properties).forEach((name: string) => {
@@ -152,7 +161,9 @@ export default class Adapter {
       const familyName = String(properties[name].fontFamily);
 
       if (this.fontFaces[familyName]) {
-        throw new TypeError(`Font face "${familyName}" has already been defined.`);
+        if (process.env.NODE_ENV === 'development') {
+          throw new TypeError(`Font face "${familyName}" has already been defined.`);
+        }
       } else {
         this.fontFaces[familyName] = properties[name];
       }
@@ -165,13 +176,17 @@ export default class Adapter {
    * Extract animation keyframes at-rules.
    */
   extractKeyframes(setName: string, properties: AtRules, fromScope: string) {
-    if (fromScope === LOCAL) {
-      throw new SyntaxError('Animation keyframes must be declared in the global scope.');
+    if (process.env.NODE_ENV === 'development') {
+      if (fromScope === LOCAL) {
+        throw new SyntaxError('Animation keyframes must be declared in the global scope.');
+      }
     }
 
     Object.keys(properties).forEach((name: string) => {
       if (this.keyframes[name]) {
-        throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
+        if (process.env.NODE_ENV === 'development') {
+          throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
+        }
       } else {
         this.keyframes[name] = properties[name];
       }
@@ -184,8 +199,10 @@ export default class Adapter {
    * Extract media query at-rules.
    */
   extractMediaQueries(setName: string, properties: AtRules, fromScope: string) {
-    if (fromScope === GLOBAL) {
-      throw new SyntaxError('Media queries must be defined locally to an element.');
+    if (process.env.NODE_ENV === 'development') {
+      if (fromScope === GLOBAL) {
+        throw new SyntaxError('Media queries must be defined locally to an element.');
+      }
     }
 
     Object.keys(properties).forEach((query: string) => {

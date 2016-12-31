@@ -10,8 +10,10 @@ import style from './style';
 import type { StyleOrCallback, HOCOptions } from '../../types';
 
 export default function createStyler(aesthetic: Aesthetic) {
-  if (!(aesthetic instanceof Aesthetic)) {
-    throw new TypeError('An instance of `Aesthetic` must be provided.');
+  if (process.env.NODE_ENV === 'development') {
+    if (!(aesthetic instanceof Aesthetic)) {
+      throw new TypeError('An instance of `Aesthetic` must be provided.');
+    }
   }
 
   return function styler(defaultStyles: StyleOrCallback = {}, options: HOCOptions = {}) {

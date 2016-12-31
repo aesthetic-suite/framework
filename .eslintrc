@@ -7,9 +7,6 @@
     "node": true,
     "es6": true
   },
-  "globals": {
-    "createStyleTag": true
-  },
   "rules": {
     "no-param-reassign": 0,
     "padded-blocks": 0,

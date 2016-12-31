@@ -30,17 +30,19 @@ export default function style(
       lockStyling = true,
     } = options;
 
-    if (!styleName) {
-      throw new Error(
-        'A component name could not be derived. Please provide a unique ' +
-        'name using `options.styleName` or `displayName`.',
-      );
+    if (process.env.NODE_ENV === 'development') {
+      if (!styleName) {
+        throw new Error(
+          'A component name could not be derived. Please provide a unique ' +
+          'name using `options.styleName` or `displayName`.',
+        );
 
-    } else if (aesthetic.styles[styleName]) {
-      throw new Error(
-        `A component has already been styled under the name "${styleName}". ` +
-        'Either rename the component or define `options.styleName`.',
-      );
+      } else if (aesthetic.styles[styleName]) {
+        throw new Error(
+          `A component has already been styled under the name "${styleName}". ` +
+          'Either rename the component or define `options.styleName`.',
+        );
+      }
     }
 
     // Set default styles
