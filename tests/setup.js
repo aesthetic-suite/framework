@@ -1,4 +1,5 @@
 /* eslint-disable */
+'use strict';
 
 require('babel-register')({
   ignore: /(processCss\.js|node_modules)/,

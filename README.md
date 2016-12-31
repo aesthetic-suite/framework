@@ -138,7 +138,7 @@ The following libraries and their features are officially supported by Aesthetic
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | [CSS class names](#styling-components) | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Aphrodite](aphrodite) | ✓ | ✓ | | ✓ | ✓ | ✓ |
+| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
