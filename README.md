@@ -15,16 +15,12 @@ npm install aesthetic react --save
 yarn add aesthetic react
 ```
 
-## Usage
-
-TODO
-
 ## Documentation
 
 * [Initial Setup](#initial-setup)
   * [Webpack](#webpack)
   * [Browserify](#browserify)
-* [CSS Adapters](#css-adapters)
+* [Style Adapters](#style-adapters)
 * [Creating A Styler](#creating-a-styler)
 * [Defining Components](#defining-components)
   * [Overwriting Styles](#overwriting-styles)
@@ -33,7 +29,9 @@ TODO
   * [External Classes](#external-classes)
   * [Style Objects](#style-objects)
   * [Style Functions](#style-functions)
-* [Using Themes](#using-themes)
+* [Theming Components](#theming-components)
+  * [Using Theme Styles](#using-theme-styles)
+  * [Activating Themes](#activating-themes)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
   * [Pseudos](#pseudos)
@@ -42,6 +40,9 @@ TODO
   * [Font Faces](#font-faces)
   * [Animations](#animations)
   * [Selectors](#selectors)
+* [Competitors Comparison](#competitors-comparison)
+  * [Features](#features)
+  * [Adapters](#adapters)
 
 ### Initial Setup
 
@@ -65,11 +66,11 @@ new webpack.DefinePlugin({
 
 ```javascript
 envify({
-  NODE_ENV: 'production',
+  NODE_ENV: process.env.NODE_ENV || 'production',
 });
 ```
 
-### CSS Adapters
+### Style Adapters
 
 An adapter in the context of Aesthetic is a third-party library that supports CSS in JavaScript,
 whether it be injecting CSS styles based off JavaScript objects, importing CSS during a build
@@ -102,7 +103,7 @@ acts as a factory for the creation of higher-order-components
 These HOC's are used in transforming styles via adapters and passing down CSS
 class names to the original wrapped component.
 
-To begin, we must create an instance of `Aesthetic` with an [adapter](#css-adapters),
+To begin, we must create an instance of `Aesthetic` with an [adapter](#style-adapters),
 pass it to `createStyler`, and export the new function. I suggest doing this an a file
 that can be imported for reusability.
 
@@ -279,7 +280,7 @@ export default createStyler(new Aesthetic(new ClassNameAdapter()));
 #### Style Objects
 
 CSS styles can be defined using an object of properties to values. These objects are
-transformed using [adapters](#css-adapters) and optionally support the
+transformed using [adapters](#style-adapters) and optionally support the
 [unified syntax](#unified-syntax) defined by Aesthetic.
 
 ```javascript
@@ -307,24 +308,72 @@ function is that it provides the [current theme](#using-themes) as the first arg
 and the [previous styles](#overwriting-styles) as the second argument.
 
 ```javascript
-style((theme, prevStyles) => ({
-  button: {
-    ...prevStyles.button,
-    fontSize: theme.unit,
-    padding: theme.spacing * 2,
-  },
-  button__active: {
-    ...prevStyles.button__active,
-  },
-  icon: {
-    ...prevStyles.icon,
-  },
-}))(Button)
+style(function (theme, prevStyles) {
+  // ...
+})(Button)
 ```
 
-### Using Themes
+### Theming Components
 
-TODO
+Themes are great in that they enable components to be styled in different ways based
+on pre-defined style guide parameters, like font size, color hex codes, and more.
+
+To make use of a theme, register it through the `Aesthetic` instance using `registerTheme`.
+This method accepts a name, an object of parameters, and an optional
+[style object](#style-objects) used for globals (like font faces and animation keyframes).
+
+```javascript
+aesthetic.registerTheme('dark', {
+  unit: 'em',
+  unitSize: 8,
+  spacing: 5,
+  font: 'Roboto',
+}, {
+  '@font-face': {
+    roboto: {
+      fontFamily: 'Roboto',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: "url('roboto.woff2') format('roboto')",
+    },
+  },
+});
+```
+
+> Global styles are immediately compiled and attached the DOM. Be wary of conflicts.
+
+#### Using Theme Styles
+
+Once a theme has been registered, we can access the style parameters by using a
+[style function](#style-functions). The parameters object is passed as the first
+argument to the function.
+
+```javascript
+style((theme) => ({
+  button: {
+    fontSize: `${theme.unitSize}${theme.unit}`,
+    fontFamily: theme.font,
+    padding: theme.spacing,
+  },
+}))(Component);
+```
+
+#### Activating Themes
+
+To activate and inform components to use a specific theme, we must use the `ThemeProvider`,
+which accepts a `name` of the theme.
+
+```javascript
+import { ThemeProvider } from 'aesthetic';
+
+<ThemeProvider name="default">
+  // All components within here will use the "default" theme
+
+  <ThemeProvider name="dark">
+    // And all components here will use "dark"
+  </ThemeProvider>
+</ThemeProvider>
+```
 
 ### Unified Syntax
 
@@ -493,7 +542,37 @@ button: {
 Parent, child, and sibling selectors are purposefully not supported. Use unique and
 isolated element names and style declarations instead.
 
+### Competitors Comparison
+
+A brief comparison of Aesthetic to competing React style abstraction libraries.
+
+#### Features
+
+| | aesthetic | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [radium][radium] |
+| --- | :---: | :---: | :---: | :---: |
+| Abstraction | HOC | HOC | Template Literals | HOC |
+| Type | Classes | Classes, Inline styles | Classes | Inline styles |
+| Unified Syntax | ✓ | | | |
+| Caching | ✓ | | ✓ | N/A |
+| Themes | ✓ | ✓ | ✓ | |
+| Style Overwriting | ✓ | | | ||
+
+#### Adapters
+
+| | aesthetic | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [radium][radium] |
+| --- | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | ✓ | | | |
+| [CSS Modules][css-modules] | ✓ | | | |
+| [Aphrodite][aphrodite] | ✓ | ✓ | | |
+| [Glamor][glamor] | ✓ | | ✓ | |
+| [JSS][jss] | ✓ | ✓ | | |
+| [React Native][react-native] | | ✓ | | ||
+
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss
+[radium]: https://github.com/FormidableLabs/radium
+[react-native]: https://github.com/facebook/react-native
+[react-with-styles]: https://github.com/airbnb/react-with-styles
+[styled-components]: https://github.com/styled-components/styled-components

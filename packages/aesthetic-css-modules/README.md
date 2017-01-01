@@ -34,16 +34,17 @@ import CSSModulesAdapter from 'aesthetic-css-modules';
 const aesthetic = new Aesthetic(new CSSModulesAdapter());
 ```
 
-And when defining styles for a React component, simply pass the object to
-the HOC, instead of setting the `className` props directly.
+When defining styles for a React component, simply pass the CSS modules object to
+the styler function, instead of setting the `className` props directly.
 
 ```javascript
 import React from 'react';
+import style from '../path/to/styler';
 import styles from './styles.css';
 
 function Component() {
   // ...
 }
 
-export default withStyles(styles)(Component);
+export default style(styles)(Component);
 ```
