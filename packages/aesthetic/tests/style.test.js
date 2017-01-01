@@ -197,6 +197,34 @@ describe('style()', () => {
     expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
   });
 
+  it('transforms styles if theme changes', () => {
+    function StylesComponent(props) {
+      expect(props.classNames).to.deep.equal(TEST_CLASS_NAMES);
+      return null;
+    }
+
+    const Wrapped = style(aesthetic, {
+      header: { color: 'red' },
+      footer: { color: 'blue' },
+    })(StylesComponent);
+
+    expect(aesthetic.classNames['StylesComponent:']).to.be.an('undefined');
+    expect(aesthetic.classNames['StylesComponent:classic']).to.be.an('undefined');
+
+    const wrapper = shallow(<Wrapped />);
+    wrapper.dive();
+
+    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:classic']).to.be.an('undefined');
+
+    wrapper.setProps({
+      theme: 'classic',
+    });
+
+    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:classic']).to.deep.equal(TEST_CLASS_NAMES);
+  });
+
   it('can customize the theme prop type using `options.themePropName`', () => {
     function ThemeComponent(props) {
       expect(props.someThemeNameHere).to.equal('classic');

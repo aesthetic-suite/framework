@@ -4,7 +4,7 @@
  * @flow
  */
 
-/* eslint-disable react/sort-comp */
+/* eslint-disable react/sort-comp, react/no-unused-prop-types */
 
 import React, { PropTypes } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -16,6 +16,11 @@ import type {
   HOCComponent,
   HOCOptions,
 } from '../../types';
+
+type PropsAndState = {
+  classNames?: ClassNames,
+  theme?: string,
+};
 
 export default function style(
   aesthetic: Aesthetic,
@@ -53,14 +58,8 @@ export default function style(
     }
 
     class StyledComponent extends React.Component {
-      props: {
-        theme: string,
-      };
-
-      state: {
-        classNames: ClassNames,
-        theme: string,
-      };
+      props: PropsAndState;
+      state: PropsAndState;
 
       static displayName: string = `Aesthetic(${styleName})`;
 
@@ -69,7 +68,6 @@ export default function style(
       static wrappedComponent: WrappedComponent = Component;
 
       static propTypes = {
-        // eslint-disable-next-line react/no-unused-prop-types
         [themePropName]: PropTypes.string,
       };
 
@@ -84,7 +82,23 @@ export default function style(
 
       // Start transforming styles before we mount
       componentWillMount() {
-        const theme = this.props[themePropName] || this.context.themeName || '';
+        this.transformStyles(this.getTheme(this.props));
+      }
+
+      // Re-transform if the theme changes
+      componentWillReceiveProps(nextProps: PropsAndState) {
+        const theme = this.getTheme(nextProps);
+
+        if (theme !== this.state[themePropName]) {
+          this.transformStyles(theme);
+        }
+      }
+
+      getTheme(props: PropsAndState): string {
+        return props[themePropName] || this.context.themeName || '';
+      }
+
+      transformStyles(theme: string) {
         const classNames = aesthetic.transformStyles(styleName, theme);
 
         this.setState({

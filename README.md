@@ -375,6 +375,12 @@ import { ThemeProvider } from 'aesthetic';
 </ThemeProvider>
 ```
 
+Or by passing a `theme` prop to an individual component.
+
+```javascript
+<Button theme="dark">Save</Button>
+```
+
 ### Unified Syntax
 
 Aesthetic provides an optional unified CSS-in-JS syntax. This unified syntax permits
