@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-css-modules",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "CSS modules support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -19,9 +19,9 @@
     "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
   },
   "peerDependencies": {
-    "aesthetic": "^0.0.3"
+    "aesthetic": "^0.0.4"
   },
   "devDependencies": {
-    "aesthetic": "^0.0.3"
+    "aesthetic": "^0.0.4"
   }
 }
