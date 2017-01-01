@@ -195,6 +195,9 @@ Button.setStyles({
 Any previous styles that were overwritten will be available when using a
 [style function](#style-functions).
 
+> `setStyles` can only be called once, as styles are immediately locked.
+> This avoids unwanted style injections.
+
 #### Combining Classes
 
 When multiple class names need to be applied to a single element, the `classes`

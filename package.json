@@ -15,7 +15,8 @@
     "pretest": "npm run clean && npm run build",
     "test": "npm run mocha",
     "posttest": "npm run lint && npm run flow",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "release": "npm run clean && npm run build && lerna publish"
   },
   "repository": {
     "type": "git",
