@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "aesthetic",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [],
   "scripts": {
