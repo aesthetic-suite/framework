@@ -76,14 +76,14 @@ competing styling libraries fail to solve.
 
 Want to use external CSS or Sass files? Or maybe CSS modules? Or perhaps CSS-in-JS?
 What about JSS instead of Aphrodite? All of these patterns are supported through the
-use of [adapters](#style-adapters). However, on that note, inline styles *are not supported*
+use of [adapters](#style-adapters). However, inline styles *are not supported*
 as we prefer the more performant option of compiling styles and attaching them to the DOM.
 
 **Styling component libraries**
 
 Using a third-party provided UI component library has the unintended side-effect
 of hard-coded and non-customizable styles. Aesthetic solves this problem by allowing
-[unlocked styles](#creating-a-styler) to be overwritten by the consumer, at most one time.
+[unlocked styles](#creating-a-styler) to be overwritten by the consumer at most one time.
 
 ```javascript
 // Provider

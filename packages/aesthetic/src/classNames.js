@@ -4,7 +4,7 @@
  * @flow
  */
 
-type ClassName = string | number | { [key: string]: boolean } | ClassName[];
+import type { MaybeClassName } from '../../types';
 
 function stripChars(name: string): string {
   name = name.replace(/ /g, '');
@@ -12,10 +12,10 @@ function stripChars(name: string): string {
   return (name.charAt(0) === '.') ? name.substring(1) : name;
 }
 
-export default function classNames(...values: ClassName[]): string {
+export default function classNames(...values: MaybeClassName[]): string {
   const classes: string[] = [];
 
-  values.forEach((value: ClassName) => {
+  values.forEach((value: MaybeClassName) => {
     // Empty value or failed condition
     if (!value) {
       return; // eslint-disable-line

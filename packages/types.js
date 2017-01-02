@@ -24,6 +24,8 @@ export type StyleOrCallback = StyleDeclarations | ThemeCallback;
 
 export type ThemeCallback = (theme: CSSStyle, prevStyles: StyleDeclarations) => StyleDeclarations;
 
+export type MaybeClassName = string | number | { [key: string]: boolean } | MaybeClassName[];
+
 export type ClassNames = { [setName: string]: string };
 
 export type WrappedComponent = ReactClass<*>;

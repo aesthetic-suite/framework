@@ -1,37 +1,68 @@
 import React from 'react';
-import { ClassNames, StyleDeclarations, CSSStyle } from '../packages/types';
+import {
+  ClassNames,
+  StyleDeclarations,
+  AtRules,
+  CSSStyle,
+  MaybeClassName,
+  StyleOrCallback,
+  HOCOptions,
+  HOCComponent,
+  WrappedComponent,
+} from '../packages/types';
 
 declare module 'aesthetic' {
   declare export class Adapter {
     static LOCAL: string;
     static GLOBAL: string;
-    fallbacks: CSSStyle;
-    fontFaces: CSSStyle;
-    keyframes: CSSStyle;
-    mediaQueries: CSSStyle;
+    fallbacks: AtRules;
+    fontFaces: AtRules;
+    keyframes: AtRules;
+    mediaQueries: AtRules;
     unifiedSyntax: boolean;
     convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations;
     convertProperties(setName: string, properties: CSSStyle): CSSStyle;
-    extract(setName: string, atRule: string, properties: CSSStyle, fromScope: string): void;
-    extractFallbacks(setName: string, properties: CSSStyle, fromScope: string): void;
-    extractFontFaces(setName: string, properties: CSSStyle, fromScope: string): void;
-    extractKeyframes(setName: string, properties: CSSStyle, fromScope: string): void;
-    extractMediaQueries(setName: string, properties: CSSStyle, fromScope: string): void;
+    extract(setName: string, atRule: string, properties: AtRules, fromScope: string): void;
+    extractFallbacks(setName: string, properties: AtRules, fromScope: string): void;
+    extractFontFaces(setName: string, properties: AtRules, fromScope: string): void;
+    extractKeyframes(setName: string, properties: AtRules, fromScope: string): void;
+    extractMediaQueries(setName: string, properties: AtRules, fromScope: string): void;
     formatAtRules(type: string, properties: CSSStyle): CSSStyle;
+    onConvertStart(): void;
+    onConvertStop(): void;
+    onExtractedFallback(setName: string, propName: string, properties: CSSStyle): void;
+    onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle): void;
+    onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle): void;
+    onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle): void;
+    resetGlobalCache(): void;
+    resetLocalCache(): void;
     transform(styleName: string, declarations: StyleDeclarations): ClassNames;
+    transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames;
   }
+
+  declare export class ClassNameAdapter extends Adapter {}
 
   declare export class ThemeProvider extends React.Component<*, *, *> {}
 
   declare export default class Aesthetic {
     adapter: Adapter;
     locked: { [key: string]: boolean };
-    styles: { [key: string]: StyleDeclarations };
+    styles: { [key: string]: StyleOrCallback };
+    prevStyles: { [key: string]: StyleOrCallback };
+    themes: { [key: string]: CSSStyle };
     classNames: { [key: string]: ClassNames };
     constructor(adapter: Adapter): this;
+    extractDeclarations(styleName: string, themeName: string): StyleDeclarations;
     lockStyling(styleName: string): this;
+    registerTheme(themeName: string, theme: CSSStyle, globals: StyleDeclarations): this;
     setAdapter(adapter: Adapter): this;
-    setStyles(styleName: string, declarations: StyleDeclarations, merge: boolean): this;
-    transformStyles(styleName: string): ClassNames;
+    setStyles(styleName: string, declarations: StyleOrCallback, merge: boolean): this;
+    transformStyles(styleName: string, themeName: string): ClassNames;
   }
+
+  declare export function style(aesthetic: Aesthetic, defaultStyles: StyleOrCallback, options: HOCOptions): (WrappedComponent) => HOCComponent;
+
+  declare export function createStyler(aesthetic: Aesthetic): style;
+
+  declare export function classes(...values: MaybeClassName[]): string;
 }
