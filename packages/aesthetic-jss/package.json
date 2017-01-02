@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-jss",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -22,11 +22,11 @@
     "lodash.merge": "^4.6.0"
   },
   "peerDependencies": {
-    "aesthetic": "^0.0.4",
+    "aesthetic": "^0.1.0",
     "jss": "^6.0.1"
   },
   "devDependencies": {
-    "aesthetic": "^0.0.4",
+    "aesthetic": "^0.1.0",
     "jss": "^6.0.1",
     "jss-preset-default": "^1.1.0"
   }
