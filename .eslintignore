@@ -3,3 +3,4 @@ packages/aesthetic/node_modules/*
 packages/aesthetic-aphrodite/node_modules/*
 packages/aesthetic-glamor/node_modules/*
 packages/aesthetic-jss/node_modules/*
+tests/bundle.min.js
