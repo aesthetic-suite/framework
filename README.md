@@ -1,9 +1,109 @@
 # Aesthetic v0.0.2
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
-Abstract library to support a range of styling options for React components.
+Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS
+using objects, importing stylesheets, or simply referencing external class names.
+Simply put, Aesthetic is an abstraction layer that utilizes higher-order-components for
+the compilation of styles via third-party libraries, all the while providing customizability,
+theming, and a unified syntax.
 
-TODO
+```javascript
+import React, { PropTypes } from 'react';
+import { classes, ClassNamesPropType } from 'aesthetic';
+
+class Carousel extends React.Component {
+  static propTypes = {
+    children: PropTypes.node,
+    classNames: ClassNamesPropType,
+  };
+
+  // ...
+
+  render() {
+    const { children, classNames } = this.props;
+    const { animating } = this.state;
+
+    return (
+      <div
+        role="tablist"
+        className={classes({
+          classNames.carousel,
+          animating && classNames.carousel__animating,
+        })}
+      >
+        <ul className={classNames.list}>
+          {children}
+        </ul>
+
+        <button
+          type="button"
+          onClick={this.handlePrev}
+          className={classes(classNames.button, classNames.prev)}
+        >
+          ←
+        </button>
+
+        <button
+          type="button"
+          onClick={this.handleNext}
+          className={classes(classNames.button, classNames.next)}
+        >
+          →
+        </button>
+      </div>
+    );
+  }
+}
+
+export default style({
+  carousel: {
+    position: 'relative',
+    maxWidth: '100%',
+    // ...
+  },
+  carousel__animating: { ... },
+  list: { ... },
+  button: { ... },
+  prev: { ... },
+  next: { ... },
+})(Carousel);
+```
+
+Aesthetic was built for the sole purpose of solving the following scenarios, most of which
+competing styling libraries fail to solve.
+
+**Multiple styling options**
+
+Want to use external CSS or Sass files? Or maybe CSS modules? Or perhaps CSS-in-JS?
+What about JSS instead of Aphrodite? All of these patterns are supported through the
+use of [adapters](#style-adapters). However, on that note, inline styles *are not supported*
+as we prefer the more performant option of compiling styles and attaching them to the DOM.
+
+**Styling component libraries**
+
+Using a third-party provided UI component library has the unintended side-effect
+of hard-coded and non-customizable styles. Aesthetic solves this problem by allowing
+[unlocked styles](#creating-a-styler) to be overwritten by the consumer, at most one time.
+
+```javascript
+// Provider
+function Button() {
+  // ...
+}
+
+export default style({
+  button: { ... },
+}, {
+  lockStyling: false,
+})(Button);
+
+// Consumer
+import Button from 'toolkit/components/Button';
+
+Button.setStyles({
+  button: { ... },
+});
+```
 
 ## Installation
 
@@ -92,8 +192,6 @@ And the following libraries are not supported.
   Does not generate unique class names during compilation and instead
   uses the literal class names and or tag names defined in the style declaration.
   This allows for global style collisions, which we want to avoid.
-* [Radium](https://github.com/FormidableLabs/radium) -
-  Uses inline styles instead of compiling class names and attaching CSS styles to the DOM.
 
 ### Creating A Styler
 
@@ -148,7 +246,7 @@ and passed to the `classNames` prop.
 ```javascript
 import React, { PropTypes } from 'react';
 import { ClassNamesPropType } from 'aesthetic';
-import style from '../path/to/style';
+import style from '../path/to/styler';
 
 function Button({ children, classNames, icon }) {
   return (
@@ -383,13 +481,13 @@ Or by passing a `theme` prop to an individual component.
 
 ### Unified Syntax
 
-Aesthetic provides an optional unified CSS-in-JS syntax. This unified syntax permits
-easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement) between
-adapters that utilize CSS-in-JS objects.
+Aesthetic provides an optional, but enabled by default, unified CSS-in-JS syntax.
+This unified syntax permits easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement)
+between adapters that utilize CSS-in-JS objects.
 
 **Pros**
 * Easily swap between CSS-in-JS adapters (for either performance or extensibility reasons)
-  without having to rewrite all CSS object syntax.
+  without having to rewrite all CSS style object syntax.
 * Only have to learn one form of syntax.
 
 **Cons**
