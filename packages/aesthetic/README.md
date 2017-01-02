@@ -10,6 +10,7 @@ theming, and a unified syntax.
 ```javascript
 import React, { PropTypes } from 'react';
 import { classes, ClassNamesPropType } from 'aesthetic';
+import style from '../path/to/styler';
 
 class Carousel extends React.Component {
   static propTypes = {
@@ -72,18 +73,19 @@ export default style({
 Aesthetic was built for the sole purpose of solving the following scenarios, most of which
 competing styling libraries fail to solve.
 
-**Multiple styling options**
+**Multiple styling patterns**
 
 Want to use external CSS or Sass files? Or maybe CSS modules? Or perhaps CSS-in-JS?
 What about JSS instead of Aphrodite? All of these patterns are supported through the
 use of [adapters](#style-adapters). However, inline styles *are not supported*
 as we prefer the more performant option of compiling styles and attaching them to the DOM.
 
-**Styling component libraries**
+**Styling third-party libraries**
 
 Using a third-party provided UI component library has the unintended side-effect
 of hard-coded and non-customizable styles. Aesthetic solves this problem by allowing
 [unlocked styles](#creating-a-styler) to be overwritten by the consumer at most one time.
+It also has the added benefit of choosing the styling pattern, as mentioned previously.
 
 ```javascript
 // Provider
