@@ -7,6 +7,7 @@
 import { Adapter } from 'aesthetic';
 import createStyleElement from 'aesthetic/lib/helpers/createStyleElement';
 import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
+import injectFallbacksAsArray from 'aesthetic/lib/helpers/injectFallbacksAsArray';
 import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
 
@@ -51,6 +52,11 @@ export default class FelaAdapter extends Adapter {
     // Media queries
     if (this.mediaQueries[setName]) {
       injectAtRules(nextProperties, '@media', this.mediaQueries[setName]);
+    }
+
+    // Fallbacks
+    if (this.fallbacks[setName]) {
+      injectFallbacksAsArray(nextProperties, this.fallbacks[setName]);
     }
 
     return nextProperties;

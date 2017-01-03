@@ -185,6 +185,7 @@ The following libraries and their features are officially supported by Aesthetic
 | [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -672,12 +673,14 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [CSS class names](#external-classes) | ✓ | | | |
 | [CSS Modules][css-modules] | ✓ | | | |
 | [Aphrodite][aphrodite] | ✓ | ✓ | | |
+| [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
 | [React Native][react-native] | | ✓ | | ||
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite
+[fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-fela
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss
 [radium]: https://github.com/FormidableLabs/radium

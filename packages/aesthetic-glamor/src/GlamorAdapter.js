@@ -6,7 +6,7 @@
 
 import { Adapter } from 'aesthetic';
 import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
-import injectFallbacksArrays from 'aesthetic/lib/helpers/injectFallbacksArrays';
+import injectFallbacksAsArray from 'aesthetic/lib/helpers/injectFallbacksAsArray';
 import { css } from 'glamor';
 
 import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
@@ -27,7 +27,7 @@ export default class GlamorAdapter extends Adapter {
 
     // Fallbacks
     if (this.fallbacks[setName]) {
-      injectFallbacksArrays(nextProperties, this.fallbacks[setName]);
+      injectFallbacksAsArray(nextProperties, this.fallbacks[setName]);
     }
 
     return nextProperties;
