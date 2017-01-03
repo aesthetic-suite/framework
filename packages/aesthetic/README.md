@@ -185,6 +185,7 @@ The following libraries and their features are officially supported by Aesthetic
 | [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
@@ -194,6 +195,8 @@ And the following libraries are not supported.
   Does not generate unique class names during compilation and instead
   uses the literal class names and or tag names defined in the style declaration.
   This allows for global style collisions, which we want to avoid.
+* [Styletron](https://github.com/rtsao/styletron) -
+  Currently does not support animations, font faces, or globals. Will revisit in the future.
 
 ### Creating A Styler
 
@@ -584,6 +587,8 @@ wrapper: {
 
 > Aphrodite does not support fallback styles.
 
+> Fela requires the `fela-plugin-fallback-value` plugin.
+
 #### Media Queries
 
 Media queries are defined inside an element using a `@media` object.
@@ -670,12 +675,14 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [CSS class names](#external-classes) | ✓ | | | |
 | [CSS Modules][css-modules] | ✓ | | | |
 | [Aphrodite][aphrodite] | ✓ | ✓ | | |
+| [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
 | [React Native][react-native] | | ✓ | | ||
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite
+[fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-fela
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss
 [radium]: https://github.com/FormidableLabs/radium
