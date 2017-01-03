@@ -7,7 +7,8 @@
 import { Adapter } from 'aesthetic';
 import createStyleElement from 'aesthetic/lib/helpers/createStyleElement';
 import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
-import injectFallbacksAsArray from 'aesthetic/lib/helpers/injectFallbacksAsArray';
+import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
+import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
 
@@ -35,18 +36,12 @@ export default class FelaAdapter extends Adapter {
 
     // Font faces
     if ('fontFamily' in nextProperties) {
-      nextProperties.fontFamily = this.lookupRule(
-        nextProperties.fontFamily,
-        this.fontFaceNames,
-      ).join(', ');
+      injectRuleByLookup(nextProperties, 'fontFamily', this.fontFaceNames, true);
     }
 
     // Animation keyframes
     if ('animationName' in nextProperties) {
-      nextProperties.animationName = this.lookupRule(
-        nextProperties.animationName,
-        this.keyframeNames,
-      ).join(', ');
+      injectRuleByLookup(nextProperties, 'animationName', this.keyframeNames, true);
     }
 
     // Media queries
@@ -56,7 +51,7 @@ export default class FelaAdapter extends Adapter {
 
     // Fallbacks
     if (this.fallbacks[setName]) {
-      injectFallbacksAsArray(nextProperties, this.fallbacks[setName]);
+      injectFallbacks(nextProperties, this.fallbacks[setName]);
     }
 
     return nextProperties;

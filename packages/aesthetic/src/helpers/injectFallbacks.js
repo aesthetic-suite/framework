@@ -8,7 +8,7 @@ import isPrimitive from './isPrimitive';
 
 import type { CSSStyle, CSSStyleValue } from '../../../types';
 
-export default function injectFallbacksAsArray(properties: CSSStyle, fallbacks: CSSStyle) {
+export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {
   Object.keys(fallbacks).forEach((propName: string) => {
     const prop = properties[propName];
     const fallback = fallbacks[propName];

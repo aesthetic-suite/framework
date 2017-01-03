@@ -6,6 +6,7 @@
 
 import { Adapter } from 'aesthetic';
 import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
+import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import { StyleSheet, css } from 'aphrodite';
 
 import type { StyleDeclarations, ClassNames } from '../../types';
@@ -24,12 +25,12 @@ export default class AphroditeAdapter extends Adapter {
 
     // Font faces
     if ('fontFamily' in nextProperties) {
-      nextProperties.fontFamily = this.lookupRule(nextProperties.fontFamily, this.fontFaces);
+      injectRuleByLookup(nextProperties, 'fontFamily', this.fontFaces);
     }
 
     // Animation keyframes
     if ('animationName' in nextProperties) {
-      nextProperties.animationName = this.lookupRule(nextProperties.animationName, this.keyframes);
+      injectRuleByLookup(nextProperties, 'animationName', this.keyframes);
     }
 
     // Media queries

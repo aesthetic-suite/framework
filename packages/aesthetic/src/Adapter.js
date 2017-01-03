@@ -10,7 +10,6 @@ import type {
   StyleDeclarations,
   ClassNames,
   CSSStyle,
-  CSSStyleValue,
   AtRules,
 } from '../../types';
 
@@ -217,25 +216,6 @@ export default class Adapter {
       this.mediaQueries[setName][query] = properties[query];
 
       this.onExtractedMediaQuery(setName, query, properties[query]);
-    });
-  }
-
-  /**
-   * Replace an at-rule name with a cached version from a lookup.
-   */
-  lookupRule(value: string, lookup: CSSStyle): CSSStyleValue[] {
-    if (typeof value !== 'string') {
-      return value;
-    }
-
-    return value.split(',').map((name: string) => {
-      let found = lookup[name.trim()];
-
-      if (found && Array.isArray(found)) {
-        found = found[0];
-      }
-
-      return found || name;
     });
   }
 

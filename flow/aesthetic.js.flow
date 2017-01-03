@@ -31,7 +31,6 @@ declare module 'aesthetic' {
     extractFontFaces(setName: string, properties: AtRules, fromScope: string): void;
     extractKeyframes(setName: string, properties: AtRules, fromScope: string): void;
     extractMediaQueries(setName: string, properties: AtRules, fromScope: string): void;
-    lookupRule(value: string, lookup: CSSStyle): CSSStyleValue[];
     onConvertStart(): void;
     onConvertStop(): void;
     onExtractedFallback(setName: string, propName: string, properties: CSSStyle): void;
@@ -60,7 +59,7 @@ declare module 'aesthetic' {
     lockStyling(styleName: string): this;
     registerTheme(themeName: string, theme: CSSStyle, globals: StyleDeclarations): this;
     setAdapter(adapter: Adapter): this;
-    setStyles(styleName: string, declarations: StyleOrCallback, merge: boolean): this;
+    setStyles(styleName: string, declarations: StyleOrCallback): this;
     transformStyles(styleName: string, themeName: string): ClassNames;
   }
 
@@ -76,11 +75,27 @@ declare module 'aesthetic/lib/helpers/createStyleElement' {
 }
 
 declare module 'aesthetic/lib/helpers/injectAtRules' {
-  declare export default function injectAtRules(properties: CSSStyle, atName: string, atRules: CSSStyle): void;
+  declare export default function injectAtRules(
+    properties: CSSStyle,
+    atName: string,
+    atRules: CSSStyle,
+  ): void;
 }
 
-declare module 'aesthetic/lib/helpers/injectFallbacksArrays' {
-  declare export default function injectFallbacksArrays(properties: CSSStyle, fallbacks: CSSStyle): void;
+declare module 'aesthetic/lib/helpers/injectFallbacks' {
+  declare export default function injectFallbacks(
+    properties: CSSStyle,
+    fallbacks: CSSStyle,
+  ): void;
+}
+
+declare module 'aesthetic/lib/helpers/injectRuleByLookup' {
+  declare export default function injectRuleByLookup(
+    properties: CSSStyle,
+    propName: string,
+    lookup: CSSStyle,
+    flatten?: boolean,
+  ): void;
 }
 
 declare module 'aesthetic/lib/helpers/isObject' {
