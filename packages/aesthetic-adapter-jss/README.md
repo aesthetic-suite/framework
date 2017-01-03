@@ -12,9 +12,9 @@ Provides [JSS](https://github.com/cssinjs/jss) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-jss jss --save
+npm install aesthetic aesthetic-adapter-jss jss --save
 // Or
-yarn add aesthetic aesthetic-jss jss
+yarn add aesthetic aesthetic-adapter-jss jss
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ More information on how to get started can be found in the
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import JSSAdapter from 'aesthetic-jss';
+import JSSAdapter from 'aesthetic-adapter-jss';
 
 const aesthetic = new Aesthetic(new JSSAdapter());
 ```
@@ -34,7 +34,7 @@ can be customized by instantiating a new JSS instance and passing it the adapter
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import JSSAdapter from 'aesthetic-jss';
+import JSSAdapter from 'aesthetic-adapter-jss';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 
@@ -47,7 +47,7 @@ second argument of the constructor.
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import JSSAdapter from 'aesthetic-jss';
+import JSSAdapter from 'aesthetic-adapter-jss';
 
 const aesthetic = new Aesthetic(new JSSAdapter(null, {
   media: 'screen',

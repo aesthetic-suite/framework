@@ -1,6 +1,9 @@
 node_modules/*
 packages/aesthetic/node_modules/*
-packages/aesthetic-aphrodite/node_modules/*
-packages/aesthetic-glamor/node_modules/*
-packages/aesthetic-jss/node_modules/*
+packages/aesthetic-adapter-aphrodite/node_modules/*
+packages/aesthetic-adapter-css-modules/node_modules/*
+packages/aesthetic-adapter-fela/node_modules/*
+packages/aesthetic-adapter-glamor/node_modules/*
+packages/aesthetic-adapter-jss/node_modules/*
+packages/aesthetic-adapter-styletron/node_modules/*
 tests/bundle.min.js

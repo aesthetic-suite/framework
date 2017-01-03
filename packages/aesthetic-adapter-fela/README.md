@@ -12,9 +12,9 @@ Provides [Fela](https://github.com/rofrischmann/fela) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-fela fela fela-dom --save
+npm install aesthetic aesthetic-adapter-fela fela fela-dom --save
 // Or
-yarn add aesthetic aesthetic-fela fela fela-dom
+yarn add aesthetic aesthetic-adapter-fela fela fela-dom
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ More information on how to get started can be found in the
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import FelaAdapter from 'aesthetic-fela';
+import FelaAdapter from 'aesthetic-adapter-fela';
 
 const aesthetic = new Aesthetic(new FelaAdapter());
 ```
@@ -34,7 +34,7 @@ to the `FelaAdapter`.
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import FelaAdapter from 'aesthetic-fela';
+import FelaAdapter from 'aesthetic-adapter-fela';
 import webPreset from 'fela-preset-web';
 
 const aesthetic = new Aesthetic(new FelaAdapter({

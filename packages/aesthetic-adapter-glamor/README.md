@@ -12,9 +12,9 @@ Provides [Glamor](https://github.com/threepointone/glamor) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-glamor glamor --save
+npm install aesthetic aesthetic-adapter-glamor glamor --save
 // Or
-yarn add aesthetic aesthetic-glamor glamor
+yarn add aesthetic aesthetic-adapter-glamor glamor
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ More information on how to get started can be found in the
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import GlamorAdapter from 'aesthetic-glamor';
+import GlamorAdapter from 'aesthetic-adapter-glamor';
 
 const aesthetic = new Aesthetic(new GlamorAdapter());
 ```
@@ -34,7 +34,7 @@ can be added before the adapter is instantiated.
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import GlamorAdapter from 'aesthetic-glamor';
+import GlamorAdapter from 'aesthetic-adapter-glamor';
 import { plugins } from 'glamor';
 
 plugins.add(plugin); // ...

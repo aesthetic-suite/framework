@@ -1,5 +1,5 @@
 {
-  "name": "aesthetic-fela",
+  "name": "aesthetic-adapter-fela",
   "version": "0.0.0",
   "description": "Fela support for Aesthetic.",
   "keywords": [
@@ -8,7 +8,7 @@
     "styles",
     "fela"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-fela",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
   "main": "./lib/FelaAdapter.js",
   "files": [

@@ -1,5 +1,5 @@
 {
-  "name": "aesthetic-css-modules",
+  "name": "aesthetic-adapter-css-modules",
   "version": "0.1.0",
   "description": "CSS modules support for Aesthetic.",
   "keywords": [
@@ -8,7 +8,7 @@
     "styles",
     "css modules"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules",
   "license": "MIT",
   "main": "./lib/CSSModulesAdapter.js",
   "files": [

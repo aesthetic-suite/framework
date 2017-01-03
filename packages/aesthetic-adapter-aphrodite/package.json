@@ -1,16 +1,16 @@
 {
-  "name": "aesthetic-glamor",
+  "name": "aesthetic-adapter-aphrodite",
   "version": "0.1.0",
-  "description": "Glamor support for Aesthetic.",
+  "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
     "react",
     "styles",
-    "glamor"
+    "aphrodite"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite",
   "license": "MIT",
-  "main": "./lib/GlamorAdapter.js",
+  "main": "./lib/AphroditeAdapter.js",
   "files": [
     "*.md",
     "lib"
@@ -20,10 +20,10 @@
   },
   "peerDependencies": {
     "aesthetic": "^0.1.0",
-    "glamor": "^2.20.20"
+    "aphrodite": "^1.1.0"
   },
   "devDependencies": {
     "aesthetic": "^0.1.0",
-    "glamor": "^2.20.20"
+    "aphrodite": "^1.1.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "aesthetic-jss",
+  "name": "aesthetic-adapter-jss",
   "version": "0.1.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
@@ -8,7 +8,7 @@
     "styles",
     "jss"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss",
   "license": "MIT",
   "main": "./lib/JSSAdapter.js",
   "files": [

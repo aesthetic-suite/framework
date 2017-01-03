@@ -16,9 +16,9 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-aphrodite aphrodite --save
+npm install aesthetic aesthetic-adapter-aphrodite aphrodite --save
 // Or
-yarn add aesthetic aesthetic-aphrodite aphrodite
+yarn add aesthetic aesthetic-adapter-aphrodite aphrodite
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ More information on how to get started can be found in the
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-aphrodite';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
 const aesthetic = new Aesthetic(new AphroditeAdapter());
 ```
@@ -38,7 +38,7 @@ can be customized by passing an instance of `StyleSheet` to the adapter.
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-aphrodite';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 import { StyleSheet } from 'aphrodite';
 
 const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet.extend([
@@ -52,7 +52,7 @@ As well as [no important](https://github.com/Khan/aphrodite#disabling-important)
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-aphrodite';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 import { StyleSheet } from 'aphrodite/no-important';
 
 const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet));

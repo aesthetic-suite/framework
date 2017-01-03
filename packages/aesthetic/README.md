@@ -212,7 +212,7 @@ that can be imported for reusability.
 
 ```javascript
 import Aesthetic, { createStyler } from 'aesthetic';
-import JSSAdapter from 'aesthetic-jss'; // Or your chosen adapter
+import JSSAdapter from 'aesthetic-adapter-jss'; // Or your chosen adapter
 
 export default createStyler(new Aesthetic(new JSSAdapter()));
 ```
@@ -680,11 +680,11 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [JSS][jss] | ✓ | ✓ | | |
 | [React Native][react-native] | | ✓ | | ||
 
-[css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-css-modules
-[aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-aphrodite
-[fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-fela
-[glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-glamor
-[jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-jss
+[css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
+[aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite
+[fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela
+[glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor
+[jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
 [radium]: https://github.com/FormidableLabs/radium
 [react-native]: https://github.com/facebook/react-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles

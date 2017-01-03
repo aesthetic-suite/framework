@@ -17,9 +17,9 @@ Provides [CSS Modules](https://github.com/css-modules/css-modules) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-css-modules --save
+npm install aesthetic aesthetic-adapter-css-modules --save
 // Or
-yarn add aesthetic aesthetic-css-modules
+yarn add aesthetic aesthetic-adapter-css-modules
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ More information on how to get started can be found in the
 
 ```javascript
 import Aesthetic from 'aesthetic';
-import CSSModulesAdapter from 'aesthetic-css-modules';
+import CSSModulesAdapter from 'aesthetic-adapter-css-modules';
 
 const aesthetic = new Aesthetic(new CSSModulesAdapter());
 ```
