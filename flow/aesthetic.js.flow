@@ -4,6 +4,7 @@ import {
   StyleDeclarations,
   AtRules,
   CSSStyle,
+  CSSStyleValue,
   MaybeClassName,
   StyleOrCallback,
   HOCOptions,
@@ -17,8 +18,11 @@ declare module 'aesthetic' {
     static GLOBAL: string;
     fallbacks: AtRules;
     fontFaces: AtRules;
+    fontFaceNames: { [key: string]: string };
     keyframes: AtRules;
+    keyframeNames: { [key: string]: string };
     mediaQueries: AtRules;
+    styleTag: ?HTMLElement;
     unifiedSyntax: boolean;
     convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations;
     convertProperties(setName: string, properties: CSSStyle): CSSStyle;
@@ -27,12 +31,12 @@ declare module 'aesthetic' {
     extractFontFaces(setName: string, properties: AtRules, fromScope: string): void;
     extractKeyframes(setName: string, properties: AtRules, fromScope: string): void;
     extractMediaQueries(setName: string, properties: AtRules, fromScope: string): void;
-    formatAtRules(type: string, properties: CSSStyle): CSSStyle;
+    lookupRule(value: string, lookup: CSSStyle): CSSStyleValue[];
     onConvertStart(): void;
     onConvertStop(): void;
     onExtractedFallback(setName: string, propName: string, properties: CSSStyle): void;
     onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle): void;
-    onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle): void;
+    onExtractedKeyframe(setName: string, animationName: string, properties: CSSStyle): void;
     onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle): void;
     resetGlobalCache(): void;
     resetLocalCache(): void;
@@ -65,4 +69,28 @@ declare module 'aesthetic' {
   declare export function createStyler(aesthetic: Aesthetic): style;
 
   declare export function classes(...values: MaybeClassName[]): string;
+}
+
+declare module 'aesthetic/lib/helpers/createStyleElement' {
+  declare export default function createStyleElement(id: string): HTMLElement;
+}
+
+declare module 'aesthetic/lib/helpers/injectAtRules' {
+  declare export default function injectAtRules(properties: CSSStyle, atName: string, atRules: CSSStyle): void;
+}
+
+declare module 'aesthetic/lib/helpers/injectFallbacksArrays' {
+  declare export default function injectFallbacksArrays(properties: CSSStyle, fallbacks: CSSStyle): void;
+}
+
+declare module 'aesthetic/lib/helpers/isObject' {
+  declare export default function isObject<T>(value: T): boolean;
+}
+
+declare module 'aesthetic/lib/helpers/isPrimitive' {
+  declare export default function isPrimitive<T>(value: T): boolean;
+}
+
+declare module 'aesthetic/lib/helpers/toArray' {
+  declare export default function toArray<T>(value: T): T[];
 }

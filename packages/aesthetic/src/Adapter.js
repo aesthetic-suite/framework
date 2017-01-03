@@ -10,6 +10,7 @@ import type {
   StyleDeclarations,
   ClassNames,
   CSSStyle,
+  CSSStyleValue,
   AtRules,
 } from '../../types';
 
@@ -20,8 +21,11 @@ export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 export default class Adapter {
   fallbacks: AtRules = {}; // Local
   fontFaces: AtRules = {}; // Global
+  fontFaceNames: { [key: string]: string } = {};
   keyframes: AtRules = {}; // Global
+  keyframeNames: { [key: string]: string } = {};
   mediaQueries: AtRules = {}; // Local
+  styleTag: ?HTMLElement = null;
   unifiedSyntax: boolean = true;
 
   static LOCAL: string = LOCAL;
@@ -191,7 +195,7 @@ export default class Adapter {
         this.keyframes[name] = properties[name];
       }
 
-      this.onExtractedKeyframes(setName, name, properties[name]);
+      this.onExtractedKeyframe(setName, name, properties[name]);
     });
   }
 
@@ -217,31 +221,22 @@ export default class Adapter {
   }
 
   /**
-   * Format an at-rule object into it's native CSS-in-JS structure.
+   * Replace an at-rule name with a cached version from a lookup.
    */
-  formatAtRules(type: string, properties: CSSStyle): CSSStyle {
-    // Font faces do not have IDs in their declaration,
-    // so we need to handle this differently.
-    if (type === '@font-face') {
-      const fonts = Object.keys(properties).map(key => properties[key]);
-
-      if (!fonts.length) {
-        return {};
-      }
-
-      return {
-        // $FlowIssue Make an exception for arrays in this case
-        '@font-face': fonts.length ? fonts : fonts[0],
-      };
+  lookupRule(value: string, lookup: CSSStyle): CSSStyleValue[] {
+    if (typeof value !== 'string') {
+      return value;
     }
 
-    const rules = {};
+    return value.split(',').map((name: string) => {
+      let found = lookup[name.trim()];
 
-    Object.keys(properties).forEach((id: string) => {
-      rules[`${type} ${id}`] = properties[id];
+      if (found && Array.isArray(found)) {
+        found = found[0];
+      }
+
+      return found || name;
     });
-
-    return rules;
   }
 
   /**
@@ -267,7 +262,7 @@ export default class Adapter {
   /**
    * Callback triggered when an animation keyframes is found.
    */
-  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {}
+  onExtractedKeyframe(setName: string, animationName: string, properties: CSSStyle) {}
 
   /**
    * Callback triggered when a media query is found.

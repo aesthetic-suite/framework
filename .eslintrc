@@ -3,6 +3,7 @@
   "extends": "airbnb",
   "plugins": ["flowtype"],
   "env": {
+    "browser": true,
     "mocha": true,
     "node": true,
     "es6": true

@@ -5,49 +5,40 @@
  */
 
 import { Adapter } from 'aesthetic';
+import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
+import injectFallbacksArrays from 'aesthetic/lib/helpers/injectFallbacksArrays';
 import { css } from 'glamor';
-import deepMerge from 'lodash.merge';
 
 import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  keyframesHashes: { [key: string]: string } = {};
-
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
     const nextProperties = super.convertProperties(setName, properties);
 
     // Animation keyframes
     if ('animationName' in nextProperties) {
-      nextProperties.animationName = this.keyframesHashes[nextProperties.animationName];
+      nextProperties.animationName = this.keyframeNames[nextProperties.animationName];
     }
 
     // Media queries
     if (this.mediaQueries[setName]) {
-      deepMerge(nextProperties, this.formatAtRules('@media', this.mediaQueries[setName]));
+      injectAtRules(nextProperties, '@media', this.mediaQueries[setName]);
     }
 
     // Fallbacks
     if (this.fallbacks[setName]) {
-      Object.keys(this.fallbacks[setName]).forEach((propName: string) => {
-        const fallback = this.fallbacks[setName][propName];
-
-        if (nextProperties[propName]) {
-          nextProperties[propName] = (
-            Array.isArray(fallback) ? fallback : [fallback]
-          ).concat(nextProperties[propName]);
-        }
-      });
+      injectFallbacksArrays(nextProperties, this.fallbacks[setName]);
     }
 
     return nextProperties;
   }
 
   onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle) {
-    css.fontFace(properties);
+    this.fontFaceNames[familyName] = css.fontFace(properties);
   }
 
-  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {
-    this.keyframesHashes[animationName] = css.keyframes(animationName, properties);
+  onExtractedKeyframe(setName: string, animationName: string, properties: CSSStyle) {
+    this.keyframeNames[animationName] = css.keyframes(animationName, properties);
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {

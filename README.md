@@ -584,6 +584,8 @@ wrapper: {
 
 > Aphrodite does not support fallback styles.
 
+> Fela requires the `fela-plugin-fallback-value` plugin.
+
 #### Media Queries
 
 Media queries are defined inside an element using a `@media` object.

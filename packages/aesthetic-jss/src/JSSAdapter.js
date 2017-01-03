@@ -5,8 +5,9 @@
  */
 
 import { Adapter } from 'aesthetic';
+import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
+import toArray from 'aesthetic/lib/helpers/toArray';
 import JSS, { create } from 'jss';
-import deepMerge from 'lodash.merge';
 
 import type { StyleDeclarations, ClassNames, CSSStyle, AtRules } from '../../types';
 
@@ -22,6 +23,7 @@ type StyleSheetOptions = {
 export default class JSSAdapter extends Adapter {
   currentFontFaces: AtRules = {};
   currentKeyframes: AtRules = {};
+  currentMediaQueries: AtRules = {};
   jss: JSS;
   options: StyleSheetOptions;
 
@@ -35,12 +37,11 @@ export default class JSSAdapter extends Adapter {
   convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = super.convert(styleName, declarations);
 
-    return {
-      ...this.formatAtRules('@font-face', this.currentFontFaces),
-      ...this.formatAtRules('@keyframes', this.currentKeyframes),
-      ...adaptedDeclarations,
-      ...this.formatMediaQueries(),
-    };
+    injectAtRules(adaptedDeclarations, '@font-face', this.currentFontFaces);
+    injectAtRules(adaptedDeclarations, '@keyframes', this.currentKeyframes);
+    injectAtRules(adaptedDeclarations, '@media', this.currentMediaQueries);
+
+    return adaptedDeclarations;
   }
 
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
@@ -57,55 +58,49 @@ export default class JSSAdapter extends Adapter {
 
     // Fallbacks
     if (this.fallbacks[setName]) {
-      nextProperties.fallbacks = this.formatFallbacks(this.fallbacks[setName]);
+      nextProperties.fallbacks = Object.keys(this.fallbacks[setName])
+        .reduce((list: CSSStyle[], propName: string) => (
+          [
+            ...list,
+            ...toArray(this.fallbacks[setName][propName]).map((propValue: string) => ({
+              [propName]: propValue,
+            })),
+          ]
+        ), []);
     }
 
     return nextProperties;
   }
 
-  formatFallbacks(fallbacks: CSSStyle): CSSStyle[] {
-    const properties = [];
-
-    Object.keys(fallbacks).forEach((propName: string) => {
-      const fallback = fallbacks[propName];
-
-      if (Array.isArray(fallback)) {
-        fallback.forEach(propValue => properties.push({ [propName]: propValue }));
-      } else {
-        properties.push({ [propName]: fallback });
-      }
-    });
-
-    return properties;
-  }
-
-  formatMediaQueries() {
-    const mediaQueries = {};
-
-    Object.keys(this.mediaQueries).forEach((setName: string) => {
-      Object.keys(this.mediaQueries[setName]).forEach((query: string) => {
-        deepMerge(mediaQueries, {
-          [`@media ${query}`]: {
-            [setName]: this.mediaQueries[setName][query],
-          },
-        });
-      });
-    });
-
-    return mediaQueries;
-  }
-
   onConvertStart() {
     this.currentFontFaces = {};
     this.currentKeyframes = {};
+    this.currentMediaQueries = {};
   }
 
   onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle) {
     this.currentFontFaces[familyName] = properties;
   }
 
-  onExtractedKeyframes(setName: string, animationName: string, properties: CSSStyle) {
+  onExtractedKeyframe(setName: string, animationName: string, properties: CSSStyle) {
     this.currentKeyframes[animationName] = properties;
+  }
+
+  onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle) {
+    if (!this.currentMediaQueries[mediaQuery]) {
+      this.currentMediaQueries[mediaQuery] = {};
+    }
+
+    const currentSet = this.currentMediaQueries[mediaQuery][setName];
+
+    if (typeof currentSet === 'object' && !Array.isArray(currentSet)) {
+      this.currentMediaQueries[mediaQuery][setName] = {
+        ...currentSet,
+        ...properties,
+      };
+    } else {
+      this.currentMediaQueries[mediaQuery][setName] = properties;
+    }
   }
 
   transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {

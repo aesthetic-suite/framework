@@ -31,30 +31,6 @@ describe('JSSAdapter', () => {
     expect(instance.jss).to.equal(jss);
   });
 
-  it('formats fallbacks correctly', () => {
-    expect(instance.formatFallbacks({
-      display: 'flex-box',
-    })).to.deep.equal([
-      { display: 'flex-box' },
-    ]);
-
-    expect(instance.formatFallbacks({
-      display: ['box', 'flex-box'],
-    })).to.deep.equal([
-      { display: 'box' },
-      { display: 'flex-box' },
-    ]);
-
-    expect(instance.formatFallbacks({
-      background: 'red',
-      display: ['box', 'flex-box'],
-    })).to.deep.equal([
-      { background: 'red' },
-      { display: 'box' },
-      { display: 'flex-box' },
-    ]);
-  });
-
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_FULL)).to.deep.equal({
       '.button-1475604568::before': '.button-1475604568::before-3099321837',
@@ -65,7 +41,7 @@ describe('JSSAdapter', () => {
 
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert('component', SYNTAX_FULL)).to.deep.equal({
-      '@font-face': [FONT_ROBOTO],
+      '@font-face': FONT_ROBOTO,
       '@keyframes fade': KEYFRAME_FADE,
       button: {
         margin: 0,
@@ -197,7 +173,7 @@ describe('JSSAdapter', () => {
 
   it('supports unified font faces', () => {
     expect(instance.convert('component', SYNTAX_FONT_FACE)).to.deep.equal({
-      '@font-face': [FONT_ROBOTO],
+      '@font-face': FONT_ROBOTO,
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,

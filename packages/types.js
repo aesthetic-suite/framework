@@ -10,9 +10,9 @@ import React from 'react';
 
 export type PrimitiveType = string | number | boolean;
 
-export type CSSStyleValue = PrimitiveType | PrimitiveType[] | CSSStyle;
+export type CSSStyleValue = PrimitiveType | CSSStyle;
 
-export type CSSStyle = { [propName: string]: CSSStyleValue };
+export type CSSStyle = { [propName: string]: CSSStyleValue | CSSStyleValue[] };
 
 export type AtRules = { [setName: string]: CSSStyle };
 

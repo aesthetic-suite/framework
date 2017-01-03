@@ -1,0 +1,31 @@
+{
+  "name": "aesthetic-fela",
+  "version": "0.0.0",
+  "description": "Fela support for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "fela"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-fela",
+  "license": "MIT",
+  "main": "./lib/FelaAdapter.js",
+  "files": [
+    "*.md",
+    "lib"
+  ],
+  "scripts": {
+    "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
+  },
+  "peerDependencies": {
+    "aesthetic": "^0.1.0",
+    "fela": "^4.1.0",
+    "fela-dom": "^4.1.0"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.1.0",
+    "fela": "^4.1.0",
+    "fela-dom": "^4.1.0"
+  }
+}

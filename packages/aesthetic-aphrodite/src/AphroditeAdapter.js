@@ -5,8 +5,8 @@
  */
 
 import { Adapter } from 'aesthetic';
+import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import { StyleSheet, css } from 'aphrodite';
-import deepMerge from 'lodash.merge';
 
 import type { StyleDeclarations, ClassNames } from '../../types';
 
@@ -17,18 +17,6 @@ export default class AphroditeAdapter extends Adapter {
     super();
 
     this.aphrodite = aphrodite || StyleSheet;
-  }
-
-  lookupRule(value: string, lookup: CSSStyle): string[] {
-    if (typeof value !== 'string') {
-      return value;
-    }
-
-    return value.split(',').map((name: string) => {
-      name = name.trim();
-
-      return lookup[name] || name;
-    });
   }
 
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
@@ -46,7 +34,7 @@ export default class AphroditeAdapter extends Adapter {
 
     // Media queries
     if (this.mediaQueries[setName]) {
-      deepMerge(nextProperties, this.formatAtRules('@media', this.mediaQueries[setName]));
+      injectAtRules(nextProperties, '@media', this.mediaQueries[setName]);
     }
 
     return nextProperties;
