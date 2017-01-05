@@ -16,7 +16,6 @@ import type {
 
 export default class Aesthetic {
   adapter: Adapter;
-  locked: { [key: string]: boolean } = {};
   styles: { [key: string]: StyleOrCallback } = {};
   prevStyles: { [key: string]: StyleOrCallback } = {};
   themes: { [key: string]: CSSStyle } = {};
@@ -54,17 +53,6 @@ export default class Aesthetic {
     }
 
     return declarations;
-  }
-
-  /**
-   * Lock the component from being styled any further.
-   */
-  lockStyling(styleName: string): this {
-    if (this.styles[styleName]) {
-      this.locked[styleName] = true;
-    }
-
-    return this;
   }
 
   /**
@@ -110,20 +98,14 @@ export default class Aesthetic {
    */
   setStyles(styleName: string, declarations: StyleOrCallback): this {
     if (process.env.NODE_ENV === 'development') {
-      if (this.locked[styleName]) {
-        throw new Error(`Styles have been locked for "${styleName}".`);
+      if (this.styles[styleName]) {
+        throw new Error(`Styles have already been set for "${styleName}".`);
 
       } else if (!isObject(declarations) && typeof declarations !== 'function') {
         throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
       }
     }
 
-    // Keep the previous styles
-    if (this.styles[styleName]) {
-      this.prevStyles[styleName] = this.styles[styleName];
-    }
-
-    // Store the new styles
     this.styles[styleName] = declarations;
 
     return this;

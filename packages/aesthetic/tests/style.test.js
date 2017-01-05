@@ -72,48 +72,20 @@ describe('style()', () => {
     });
   });
 
-  it('automatically locks styles on the `Aesthetic` instance', () => {
-    expect(aesthetic.locked.BaseComponent).to.be.an('undefined');
-
-    style(aesthetic, {
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    })(BaseComponent);
-
-    expect(aesthetic.locked.BaseComponent).to.equal(true);
-  });
-
-  it('doesnt lock styles if `options.lockStyling` is false', () => {
-    expect(aesthetic.locked.BaseComponent).to.be.an('undefined');
-
-    style(aesthetic, {
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    }, {
-      lockStyling: false,
-    })(BaseComponent);
-
-    expect(aesthetic.locked.BaseComponent).to.be.an('undefined');
-  });
-
   it('defines static styling methods', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
-    expect(Wrapped.setStyles).to.be.an('function');
+    expect(Wrapped.extendStyles).to.be.an('function');
   });
 
-  it('can set styles using `setStyles`', () => {
+  it('can set styles using `extendStyles`', () => {
     const Wrapped = style(aesthetic, {
       button: {
         display: 'inline-block',
         padding: 5,
       },
     }, {
-      lockStyling: false,
+      extendable: true,
     })(BaseComponent);
 
     expect(aesthetic.styles.BaseComponent).to.deep.equal({
@@ -123,38 +95,34 @@ describe('style()', () => {
       },
     });
 
-    Wrapped.setStyles({
+    Wrapped.extendStyles({
       notButton: {
         color: 'red',
       },
+    }, {
+      styleName: 'ExtendedComponent',
     });
 
-    expect(aesthetic.styles.BaseComponent).to.deep.equal({
+    expect(aesthetic.styles.ExtendedComponent).to.deep.equal({
       notButton: {
         color: 'red',
       },
     });
   });
 
-  it('locks styles after using `setStyles`', () => {
-    const Wrapped = style(aesthetic, {
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    }, {
-      lockStyling: false,
+  it('can set extended components as non-extendable', () => {
+    const Wrapped = style(aesthetic, {}, {
+      extendable: true,
     })(BaseComponent);
 
-    expect(aesthetic.locked.BaseComponent).to.be.an('undefined');
-
-    Wrapped.setStyles({
-      notButton: {
-        color: 'red',
-      },
+    const Extended = Wrapped.extendStyles({}, {
+      styleName: 'ExtendedComponent',
+      extendable: false,
     });
 
-    expect(aesthetic.locked.BaseComponent).to.equal(true);
+    expect(() => {
+      Extended.extendStyles({});
+    }).to.throw(Error, 'ExtendedComponent is not extendable.');
   });
 
   it('inherits theme name from prop', () => {

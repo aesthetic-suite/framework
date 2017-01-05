@@ -24,7 +24,7 @@ type PropsAndState = {
 
 export default function style(
   aesthetic: Aesthetic,
-  defaultStyles: StyleOrCallback = {},
+  styles: StyleOrCallback = {},
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
@@ -32,11 +32,14 @@ export default function style(
     const {
       classNamesPropName = 'classNames',
       themePropName = 'theme',
-      lockStyling = true,
+      extendable = false,
     } = options;
 
     if (process.env.NODE_ENV === 'development') {
-      if (!styleName) {
+      if (!(aesthetic instanceof Aesthetic)) {
+        throw new Error('An instance of `Aesthetic` is required.');
+
+      } else if (!styleName) {
         throw new Error(
           'A component name could not be derived. Please provide a unique ' +
           'name using `options.styleName` or `displayName`.',
@@ -50,12 +53,8 @@ export default function style(
       }
     }
 
-    // Set default styles
-    aesthetic.setStyles(styleName, defaultStyles);
-
-    if (lockStyling) {
-      aesthetic.lockStyling(styleName);
-    }
+    // Set base styles
+    aesthetic.setStyles(styleName, styles);
 
     class StyledComponent extends React.Component {
       props: PropsAndState;
@@ -75,9 +74,25 @@ export default function style(
         themeName: PropTypes.string,
       };
 
-      // Allow consumers to set styles
-      static setStyles(declarations: StyleOrCallback) {
-        aesthetic.setStyles(styleName, declarations).lockStyling(styleName);
+      // Allow consumers to customize styles
+      static extendStyles(
+        customStyles: StyleOrCallback,
+        extendOptions: HOCOptions = {},
+        customAesthetic: ?Aesthetic = null,
+      ): HOCComponent {
+        if (process.env.NODE_ENV === 'development' && !extendable) {
+          throw new Error(`${styleName} is not extendable.`);
+        }
+
+        return style(
+          customAesthetic || aesthetic,
+          customStyles,
+          {
+            ...extendOptions,
+            classNamesPropName,
+            themePropName,
+          },
+        )(Component);
       }
 
       // Start transforming styles before we mount

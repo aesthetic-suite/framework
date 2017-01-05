@@ -69,25 +69,6 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('lockStyling()', () => {
-    it('does not lock styles if no style definition exists', () => {
-      expect(instance.locked.foo).to.be.an('undefined');
-
-      instance.lockStyling('foo');
-
-      expect(instance.locked.foo).to.be.an('undefined');
-    });
-
-    it('locks styles if a style definition exists', () => {
-      expect(instance.locked.foo).to.be.an('undefined');
-
-      instance.setStyles('foo', {});
-      instance.lockStyling('foo');
-
-      expect(instance.locked.foo).to.equal(true);
-    });
-  });
-
   describe('registerTheme()', () => {
     it('errors if a theme name has been used', () => {
       instance.themes.foo = {};
@@ -146,11 +127,11 @@ describe('Aesthetic', () => {
   });
 
   describe('setStyles()', () => {
-    it('errors if styles are locked', () => {
-      instance.locked.foo = true;
+    it('errors if styles have been set', () => {
+      instance.styles.foo = {};
 
       expect(() => instance.setStyles('foo', {}))
-        .to.throw(Error, 'Styles have been locked for "foo".');
+        .to.throw(Error, 'Styles have already been set for "foo".');
     });
 
     it('errors if styles are empty', () => {
@@ -176,79 +157,6 @@ describe('Aesthetic', () => {
       expect(instance.styles.foo).to.deep.equal({
         header: { color: 'red' },
         footer: { padding: 5 },
-      });
-    });
-
-    it('overrides previous styles', () => {
-      instance.styles.foo = {
-        header: { color: 'red' },
-        footer: { padding: 5, margin: 5 },
-      };
-
-      instance.setStyles('foo', {
-        header: { color: 'blue' },
-        footer: { padding: 10 },
-      });
-
-      expect(instance.styles.foo).to.deep.equal({
-        header: { color: 'blue' },
-        footer: { padding: 10 },
-      });
-    });
-
-    it('persists previous styles', () => {
-      instance.styles.foo = {
-        header: {
-          color: 'red',
-          width: '100%',
-        },
-        footer: {
-          padding: 5,
-          margin: 5,
-          ':hover': {
-            backgroundColor: 'black',
-          },
-        },
-      };
-
-      instance.setStyles('foo', {
-        header: {
-          color: 'blue',
-          lineHeight: 1.5,
-        },
-        footer: {
-          padding: 10,
-          ':hover': {
-            height: 50,
-          },
-        },
-      });
-
-      expect(instance.prevStyles.foo).to.deep.equal({
-        header: {
-          color: 'red',
-          width: '100%',
-        },
-        footer: {
-          padding: 5,
-          margin: 5,
-          ':hover': {
-            backgroundColor: 'black',
-          },
-        },
-      });
-
-      expect(instance.styles.foo).to.deep.equal({
-        header: {
-          color: 'blue',
-          lineHeight: 1.5,
-        },
-        footer: {
-          padding: 10,
-          ':hover': {
-            height: 50,
-          },
-        },
       });
     });
   });

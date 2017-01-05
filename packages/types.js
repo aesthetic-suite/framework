@@ -33,7 +33,7 @@ export type WrappedComponent = ReactClass<*>;
 export type HOCComponent = ReactClass<*>;
 
 export type HOCOptions = {
-  lockStyling?: boolean,
+  extendable?: boolean,
   styleName?: string,
   classNamesPropName?: string,
   themePropName?: string,
