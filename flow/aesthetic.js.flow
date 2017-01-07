@@ -17,6 +17,10 @@ declare module 'aesthetic' {
 
   declare export type StyleDeclarationOrCallback = StyleDeclarationMap | StyleCallback;
 
+  declare export type EventCallback = () => void |
+    (setName: string, properties: CSSStyle) => void |
+    (setName: string, atRuleName: string, properties: CSSStyle) => void;
+
   declare export type MaybeClassName = string | number | { [key: string]: boolean } | MaybeClassName[];
 
   declare export type ClassNameMap = { [setName: string]: string };
@@ -34,37 +38,35 @@ declare module 'aesthetic' {
   };
 
   declare export class Adapter {
+    transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap;
+  }
+
+  declare export class ClassNameAdapter extends Adapter {}
+
+  declare export class UnifiedSyntax {
     static LOCAL: string;
     static GLOBAL: string;
+    events: { [eventName: string]: EventCallback };
     fallbacks: AtRuleMap;
     fontFaces: AtRuleMap;
-    fontFaceNames: { [key: string]: string };
+    fontFaceNames: { [fontFamily: string]: string };
     keyframes: AtRuleMap;
-    keyframeNames: { [key: string]: string };
+    keyframeNames: { [animationName: string]: string };
     mediaQueries: AtRuleMap;
     styleTag: ?HTMLElement;
-    unifiedSyntax: boolean;
     convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap;
-    convertProperties(setName: string, properties: CSSStyle): CSSStyle;
-    disableUnifiedSyntax(): this;
+    convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
+    emit(eventName: string, args: mixed[]): this;
     extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string): void;
     extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string): void;
     extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string): void;
     extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string): void;
     extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string): void;
-    onConvertStart(): void;
-    onConvertStop(): void;
-    onExtractedFallback(setName: string, propName: string, properties: CSSStyle): void;
-    onExtractedFontFace(setName: string, familyName: string, properties: CSSStyle): void;
-    onExtractedKeyframe(setName: string, animationName: string, properties: CSSStyle): void;
-    onExtractedMediaQuery(setName: string, mediaQuery: string, properties: CSSStyle): void;
+    off(eventName: string): this;
+    on(eventName: string, callback: EventCallback): this;
     resetGlobalCache(): void;
     resetLocalCache(): void;
-    transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap;
-    transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap;
   }
-
-  declare export class ClassNameAdapter extends Adapter {}
 
   declare export class ThemeProvider extends React.Component<*, *, *> {}
 
@@ -80,11 +82,11 @@ declare module 'aesthetic' {
     getTheme(themeName: string): CSSStyle;
     registerTheme(themeName: string, theme: CSSStyle, globals: StyleDeclarationMap): this;
     setAdapter(adapter: Adapter): this;
-    setStyles(styleName: string, declarations: StyleDeclarationOrCallback): this;
+    setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom: string): this;
     transformStyles(styleName: string, themeName: string): ClassNameMap;
   }
 
-  declare export function style(aesthetic: Aesthetic, defaultStyles: StyleDeclarationOrCallback, options: HOCOptions): (WrappedComponent) => HOCComponent;
+  declare export function style(aesthetic: Aesthetic, styles: StyleDeclarationOrCallback, options: HOCOptions): (WrappedComponent) => HOCComponent;
 
   declare export function createStyler(aesthetic: Aesthetic): style;
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import AphroditeAdapter from '../src/UnifiedAdapter';
+import UnifiedAphroditeAdapter from '../src/UnifiedAdapter';
 import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
@@ -17,21 +17,15 @@ describe('UnifiedAphroditeAdapter', () => {
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
-    instance = new AphroditeAdapter(StyleSheet);
+    instance = new UnifiedAphroditeAdapter(StyleSheet);
   });
 
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_FULL)).to.deep.equal({
-      button: 'button_1jj865m',
-    });
-  });
-
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert('component', SYNTAX_FULL)).to.deep.equal({
+    expect(instance.convert(SYNTAX_FULL)).to.deep.equal({
       button: {
         margin: 0,
         padding: '6px 12px',
@@ -68,52 +62,36 @@ describe('UnifiedAphroditeAdapter', () => {
   });
 
   it('allows standard at-rules', () => {
-    expect(instance.convert('component', SYNTAX_AT_RULES)).to.deep.equal(SYNTAX_AT_RULES);
+    expect(instance.convert(SYNTAX_AT_RULES)).to.deep.equal(SYNTAX_AT_RULES);
   });
 
   it('supports pseudos', () => {
-    expect(instance.convert('component', SYNTAX_PSEUDO)).to.deep.equal(SYNTAX_PSEUDO);
-
-    expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
-      pseudo: 'pseudo_1217cca',
-    });
+    expect(instance.convert(SYNTAX_PSEUDO)).to.deep.equal(SYNTAX_PSEUDO);
   });
 
   it.skip('supports fallbacks');
 
   it('supports font faces', () => {
-    expect(instance.convert('component', SYNTAX_FONT_FACE)).to.deep.equal({
+    expect(instance.convert(SYNTAX_FONT_FACE)).to.deep.equal({
       font: {
         fontFamily: [FONT_ROBOTO],
         fontSize: 20,
       },
     });
-
-    instance.syntax.resetGlobalCache();
-
-    expect(instance.transform('component', SYNTAX_FONT_FACE)).to.deep.equal({
-      font: 'font_15i4tai',
-    });
   });
 
   it('supports animations', () => {
-    expect(instance.convert('component', SYNTAX_KEYFRAMES)).to.deep.equal({
+    expect(instance.convert(SYNTAX_KEYFRAMES)).to.deep.equal({
       animation: {
         animationName: [KEYFRAME_FADE],
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     });
-
-    instance.syntax.resetGlobalCache();
-
-    expect(instance.transform('component', SYNTAX_KEYFRAMES)).to.deep.equal({
-      animation: 'animation_18xr9w6',
-    });
   });
 
   it('supports media queries', () => {
-    expect(instance.convert('component', SYNTAX_MEDIA_QUERY)).to.deep.equal({
+    expect(instance.convert(SYNTAX_MEDIA_QUERY)).to.deep.equal({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {
@@ -124,10 +102,5 @@ describe('UnifiedAphroditeAdapter', () => {
         },
       },
     });
-
-    expect(instance.transform('component', SYNTAX_MEDIA_QUERY)).to.deep.equal({
-      media: 'media_1dsrhwv',
-    });
   });
-
 });

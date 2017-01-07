@@ -6,18 +6,14 @@
 
 import isObject from './helpers/isObject';
 
-import type { StyleDeclarationMap, CSSStyle, AtRuleMap } from 'aesthetic';
-
-type EventListener =
-  () => void |
-  (setName: string, properties: CSSStyle) => void;
+import type { StyleDeclarationMap, CSSStyle, AtRuleMap, EventCallback } from 'aesthetic';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
 export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 
-export class UnifiedSyntax {
-  events: { [eventName: string]: EventListener } = {};
+export default class UnifiedSyntax {
+  events: { [eventName: string]: EventCallback } = {};
   fallbacks: AtRuleMap = {}; // Local
   fontFaces: AtRuleMap = {}; // Global
   fontFaceNames: { [fontFamily: string]: string } = {};
@@ -33,9 +29,9 @@ export class UnifiedSyntax {
    * Convert the unified syntax to adapter specific syntax
    * by extracting at-rules and applying conversions at each level.
    */
-  convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
     this.resetLocalCache();
-    this.emit('start');
+    this.emit('converting');
 
     const adaptedDeclarations = { ...declarations };
 
@@ -53,11 +49,11 @@ export class UnifiedSyntax {
       const declaration = declarations[setName];
 
       if (typeof declaration !== 'string') {
-        adaptedDeclarations[setName] = this.convertProperties(setName, declaration);
+        adaptedDeclarations[setName] = this.convertDeclaration(setName, declaration);
       }
     });
 
-    this.emit('stop');
+    this.emit('converted');
 
     return adaptedDeclarations;
   }
@@ -66,7 +62,7 @@ export class UnifiedSyntax {
    * Convert an object of properties by extracting local at-rules
    * and parsing fallbacks.
    */
-  convertProperties(setName: string, properties: CSSStyle): CSSStyle {
+  convertDeclaration(setName: string, properties: CSSStyle): CSSStyle {
     const nextProperties = { ...properties };
 
     AT_RULES.forEach((atRule: string) => {
@@ -77,7 +73,7 @@ export class UnifiedSyntax {
       }
     });
 
-    this.emit('properties', [setName, nextProperties]);
+    this.emit('declaration', [setName, nextProperties]);
 
     return nextProperties;
   }
@@ -171,7 +167,7 @@ export class UnifiedSyntax {
         this.fontFaces[familyName] = properties[name];
       }
 
-      this.emit('fontface', [setName, familyName, properties[name]]);
+      this.emit('fontFace', [setName, familyName, properties[name]]);
     });
   }
 
@@ -215,7 +211,7 @@ export class UnifiedSyntax {
 
       this.mediaQueries[setName][query] = properties[query];
 
-      this.emit('mediaquery', [setName, query, properties[query]]);
+      this.emit('mediaQuery', [setName, query, properties[query]]);
     });
   }
 
@@ -231,8 +227,8 @@ export class UnifiedSyntax {
   /**
    * Register an event listener.
    */
-  on(eventName: string, func: EventListener): this {
-    this.events[eventName] = func;
+  on(eventName: string, callback: EventCallback): this {
+    this.events[eventName] = callback;
 
     return this;
   }

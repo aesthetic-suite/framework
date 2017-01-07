@@ -132,10 +132,14 @@ export const SYNTAX_MEDIA_QUERY = {
 };
 
 export class TestAdapter extends Adapter {
-  transformStyles(styleName, declarations) {
+  lastTransform = {};
+
+  transform(styleName, declarations) {
     if (styleName === 'foo') {
       return declarations;
     }
+
+    this.lastTransform = declarations;
 
     return TEST_CLASS_NAMES;
   }

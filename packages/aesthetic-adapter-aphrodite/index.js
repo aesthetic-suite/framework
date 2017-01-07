@@ -1,1 +1,1 @@
-exports.default = require('./lib/NativeAdapter').default;
+module.exports = require('./lib/NativeAdapter').default;

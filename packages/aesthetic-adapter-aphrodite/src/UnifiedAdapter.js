@@ -9,6 +9,8 @@ import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import AphroditeAdapter from './NativeAdapter';
 
+import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
+
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
 
@@ -16,14 +18,18 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     super(aphrodite);
 
     this.syntax = new UnifiedSyntax();
-    this.syntax.on('properties', this.onProperties);
+    this.syntax.on('declaration', this.onDeclaration);
+  }
+
+  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+    return this.syntax.convert(declarations);
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
-    return super.transform(styleName, this.syntax.convert(declarations));
+    return super.transform(styleName, this.convert(declarations));
   }
 
-  onProperties(setName: string, properties: CSSStyle) {
+  onDeclaration = (setName: string, properties: CSSStyle) => {
     // Font faces
     if ('fontFamily' in properties) {
       injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFaces);
@@ -38,5 +44,5 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     if (this.syntax.mediaQueries[setName]) {
       injectAtRules(properties, '@media', this.syntax.mediaQueries[setName]);
     }
-  }
+  };
 }

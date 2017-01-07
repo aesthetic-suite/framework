@@ -135,7 +135,6 @@ describe('Aesthetic', () => {
 
     it('registers theme and transforms global styles', () => {
       expect(instance.themes).to.not.have.property('foo');
-      expect(instance.adapter.fontFaces).to.not.have.property('roboto');
 
       instance.registerTheme('foo', { unitSize: 6 }, {
         '@font-face': {
@@ -146,8 +145,10 @@ describe('Aesthetic', () => {
       expect(instance.themes).to.deep.equal({
         foo: { unitSize: 6 },
       });
-      expect(instance.adapter.fontFaces).to.deep.equal({
-        Roboto: FONT_ROBOTO,
+      expect(instance.adapter.lastTransform).to.deep.equal({
+        '@font-face': {
+          roboto: FONT_ROBOTO,
+        },
       });
     });
   });
