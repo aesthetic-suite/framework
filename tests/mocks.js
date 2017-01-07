@@ -17,13 +17,7 @@ export const TEST_CLASS_NAMES = {
   footer: '.footer',
 };
 
-export const SYNTAX_FULL = {
-  '@font-face': {
-    mrroboto: FONT_ROBOTO,
-  },
-  '@keyframes': {
-    fade: KEYFRAME_FADE,
-  },
+export const SYNTAX_NATIVE_PARTIAL = {
   button: {
     margin: 0,
     padding: '6px 12px',
@@ -52,6 +46,18 @@ export const SYNTAX_FULL = {
       verticalAlign: 'middle',
       marginRight: 5,
     },
+  },
+};
+
+export const SYNTAX_UNIFIED_FULL = {
+  '@font-face': {
+    mrroboto: FONT_ROBOTO,
+  },
+  '@keyframes': {
+    fade: KEYFRAME_FADE,
+  },
+  button: {
+    ...SYNTAX_NATIVE_PARTIAL.button,
     '@media': {
       '(max-width: 600px)': {
         padding: '4px 8px',

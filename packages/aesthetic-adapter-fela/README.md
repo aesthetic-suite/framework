@@ -29,6 +29,16 @@ import FelaAdapter from 'aesthetic-adapter-fela';
 const aesthetic = new Aesthetic(new FelaAdapter());
 ```
 
+### Unified Syntax
+
+To make use of the unified syntax, simply import the adapter from the unified path.
+
+```javascript
+import FelaAdapter from 'aesthetic-adapter-fela/unified';
+```
+
+### Configuration
+
 Renderer configuration, plugins, and enhancers can be defined by passing an object
 to the `FelaAdapter`.
 

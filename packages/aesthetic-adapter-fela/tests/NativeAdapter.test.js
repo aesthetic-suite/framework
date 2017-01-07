@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
-import AphroditeAdapter from '../src/NativeAdapter';
+import webPreset from 'fela-preset-web';
+import FelaAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
@@ -9,69 +8,64 @@ import {
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 
-describe('AphroditeAdapter', () => {
+describe('FelaAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-    instance = new AphroditeAdapter(StyleSheet);
-  });
-
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
-
-  it('can customize the aphrodite instance through the constructor', () => {
-    const extension = { selectorHandler() {} };
-    instance = new AphroditeAdapter(StyleSheet.extend([extension]));
-
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
-  });
-
-  it('supports no important mode', () => {
-    instance = new AphroditeAdapter(NoImpStyleSheet);
-
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
+    instance = new FelaAdapter({
+      plugins: [...webPreset],
+    });
   });
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).to.deep.equal({
-      button: 'button_193hp5g',
+      button: 'a b c d e f g h i j k l m n o p q r s t u v w',
     });
   });
 
   it('supports pseudos', () => {
     expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
-      pseudo: 'pseudo_1217cca',
+      pseudo: 'a b c',
     });
   });
 
-  it.skip('supports fallbacks');
+  it('supports fallbacks', () => {
+    const nativeSyntax = {
+      fallback: {
+        background: ['red', 'linear-gradient(...)'],
+        display: ['box', 'flex-box', 'flex'],
+      },
+    };
+
+    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+      fallback: 'a b',
+    });
+  });
 
   it('supports font faces', () => {
     const nativeSyntax = {
       font: {
-        fontFamily: FONT_ROBOTO,
+        fontFamily: instance.fela.renderFont('Roboto', ['roboto.woff2'], FONT_ROBOTO),
         fontSize: 20,
       },
     };
 
     expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      font: 'font_1myoopg',
+      font: 'a b',
     });
   });
 
   it('supports animations', () => {
     const nativeSyntax = {
       animation: {
-        animationName: KEYFRAME_FADE,
+        animationName: instance.fela.renderKeyframe(() => KEYFRAME_FADE),
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     };
 
     expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      animation: 'animation_2tm5yt',
+      animation: 'a b c',
     });
   });
 
@@ -89,7 +83,7 @@ describe('AphroditeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      media: 'media_1dsrhwv',
+      media: 'a b c',
     });
   });
 });

@@ -1,10 +1,9 @@
 import { expect } from 'chai';
-import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import UnifiedAphroditeAdapter from '../src/UnifiedAdapter';
+import webPreset from 'fela-preset-web';
+import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
-  FONT_ROBOTO,
-  KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_FALLBACK,
   SYNTAX_AT_RULES,
   SYNTAX_PSEUDO,
   SYNTAX_FONT_FACE,
@@ -12,16 +11,13 @@ import {
   SYNTAX_MEDIA_QUERY,
 } from '../../../tests/mocks';
 
-describe('UnifiedAphroditeAdapter', () => {
+describe('UnifiedFelaAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-    instance = new UnifiedAphroditeAdapter(StyleSheet);
-  });
-
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    instance = new UnifiedFelaAdapter({
+      plugins: [...webPreset],
+    });
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -33,7 +29,7 @@ describe('UnifiedAphroditeAdapter', () => {
         borderRadius: 4,
         display: 'inline-block',
         cursor: 'pointer',
-        fontFamily: [FONT_ROBOTO],
+        fontFamily: '"Roboto"',
         fontWeight: 'normal',
         lineHeight: 'normal',
         whiteSpace: 'nowrap',
@@ -41,8 +37,8 @@ describe('UnifiedAphroditeAdapter', () => {
         textAlign: 'center',
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
-        color: 'rgba(0, 0, 0, 0)',
-        animationName: [KEYFRAME_FADE],
+        color: ['#fff', 'rgba(0, 0, 0, 0)'],
+        animationName: 'k1',
         animationDuration: '.3s',
         ':hover': {
           backgroundColor: '#286090',
@@ -69,12 +65,19 @@ describe('UnifiedAphroditeAdapter', () => {
     expect(instance.convert(SYNTAX_PSEUDO)).to.deep.equal(SYNTAX_PSEUDO);
   });
 
-  it.skip('supports fallbacks');
+  it('supports fallbacks', () => {
+    expect(instance.convert(SYNTAX_FALLBACK)).to.deep.equal({
+      fallback: {
+        background: ['red', 'linear-gradient(...)'],
+        display: ['box', 'flex-box', 'flex'],
+      },
+    });
+  });
 
   it('supports font faces', () => {
     expect(instance.convert(SYNTAX_FONT_FACE)).to.deep.equal({
       font: {
-        fontFamily: [FONT_ROBOTO],
+        fontFamily: '"Roboto"',
         fontSize: 20,
       },
     });
@@ -83,7 +86,7 @@ describe('UnifiedAphroditeAdapter', () => {
   it('supports animations', () => {
     expect(instance.convert(SYNTAX_KEYFRAMES)).to.deep.equal({
       animation: {
-        animationName: [KEYFRAME_FADE],
+        animationName: 'k1',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
