@@ -33,6 +33,7 @@ export default function style(
       classNamesPropName = 'classNames',
       themePropName = 'theme',
       extendable = false,
+      extendFrom,
     } = options;
 
     if (process.env.NODE_ENV === 'development') {
@@ -54,7 +55,7 @@ export default function style(
     }
 
     // Set base styles
-    aesthetic.setStyles(styleName, styles);
+    aesthetic.setStyles(styleName, styles, extendFrom);
 
     class StyledComponent extends React.Component {
       props: PropsAndState;
@@ -78,19 +79,18 @@ export default function style(
       static extendStyles(
         customStyles: StyleOrCallback,
         extendOptions: HOCOptions = {},
-        customAesthetic: ?Aesthetic = null,
       ): HOCComponent {
         if (process.env.NODE_ENV === 'development' && !extendable) {
           throw new Error(`${styleName} is not extendable.`);
         }
 
         return style(
-          customAesthetic || aesthetic,
+          aesthetic,
           customStyles,
           {
+            ...options,
             ...extendOptions,
-            classNamesPropName,
-            themePropName,
+            extendFrom: styleName,
           },
         )(Component);
       }

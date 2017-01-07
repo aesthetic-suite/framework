@@ -16,8 +16,8 @@ import type {
 
 export default class Aesthetic {
   adapter: Adapter;
+  parents: { [key: string]: string } = {};
   styles: { [key: string]: StyleOrCallback } = {};
-  prevStyles: { [key: string]: StyleOrCallback } = {};
   themes: { [key: string]: CSSStyle } = {};
   classNames: { [key: string]: ClassNames } = {};
 
@@ -30,8 +30,8 @@ export default class Aesthetic {
    * execute it while passing the current theme and previous styles.
    */
   extractDeclarations(styleName: string, themeName: string = ''): StyleDeclarations {
-    let declarations = this.styles[styleName];
-    let prevDeclarations = this.prevStyles[styleName] || {};
+    const parentStyleName = this.parents[styleName];
+    const declarations = this.styles[styleName];
 
     if (process.env.NODE_ENV === 'development') {
       if (!declarations) {
@@ -42,17 +42,14 @@ export default class Aesthetic {
       }
     }
 
-    const theme = this.themes[themeName] || {};
-
-    if (typeof prevDeclarations === 'function') {
-      prevDeclarations = prevDeclarations(theme, {});
+    if (typeof declarations !== 'function') {
+      return declarations;
     }
 
-    if (typeof declarations === 'function') {
-      declarations = declarations(theme, prevDeclarations);
-    }
-
-    return declarations;
+    return declarations(
+      this.themes[themeName] || {},
+      parentStyleName ? this.extractDeclarations(parentStyleName, themeName) : {},
+    );
   }
 
   /**
@@ -96,7 +93,7 @@ export default class Aesthetic {
   /**
    * Set multiple style declarations for a component.
    */
-  setStyles(styleName: string, declarations: StyleOrCallback): this {
+  setStyles(styleName: string, declarations: StyleOrCallback, extendFrom: string = ''): this {
     if (process.env.NODE_ENV === 'development') {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
@@ -107,6 +104,19 @@ export default class Aesthetic {
     }
 
     this.styles[styleName] = declarations;
+
+    if (extendFrom) {
+      if (process.env.NODE_ENV === 'development') {
+        if (!this.styles[extendFrom]) {
+          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
+
+        } else if (extendFrom === styleName) {
+          throw new Error('Cannot extend styles from itself.');
+        }
+      }
+
+      this.parents[styleName] = extendFrom;
+    }
 
     return this;
   }

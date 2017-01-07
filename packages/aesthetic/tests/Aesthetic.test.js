@@ -48,22 +48,34 @@ describe('Aesthetic', () => {
       });
     });
 
-    it('passes previous styles to style callback', () => {
-      instance.themes.classic = {
-        unitSize: 5,
-      };
-
-      instance.prevStyles.foo = {
-        display: 'block',
-      };
-
-      instance.styles.foo = (theme: Object, prevStyles: Object) => ({
-        padding: theme.unitSize * 2,
+    it('inherits styles from parent', () => {
+      instance.setStyles('foo', (theme: Object, prevStyles: Object) => ({
         ...prevStyles,
+        color: 'red',
+      }));
+
+      instance.setStyles('bar', (theme: Object, prevStyles: Object) => ({
+        ...prevStyles,
+        background: 'blue',
+      }), 'foo');
+
+      instance.setStyles('baz', (theme: Object, prevStyles: Object) => ({
+        ...prevStyles,
+        display: 'block',
+      }), 'bar');
+
+      expect(instance.extractDeclarations('foo')).to.deep.equal({
+        color: 'red',
       });
 
-      expect(instance.extractDeclarations('foo', 'classic')).to.deep.equal({
-        padding: 10,
+      expect(instance.extractDeclarations('bar')).to.deep.equal({
+        color: 'red',
+        background: 'blue',
+      });
+
+      expect(instance.extractDeclarations('baz')).to.deep.equal({
+        color: 'red',
+        background: 'blue',
         display: 'block',
       });
     });
@@ -146,6 +158,16 @@ describe('Aesthetic', () => {
       expect(() => instance.setStyles('foo', true)).to.throw(TypeError);
     });
 
+    it('errors if extended styles do not exist', () => {
+      expect(() => instance.setStyles('foo', {}, 'parent'))
+        .to.throw(Error, 'Cannot extend from "parent" as those styles do not exist.');
+    });
+
+    it('errors if extended and style names match', () => {
+      expect(() => instance.setStyles('foo', {}, 'foo'))
+        .to.throw(Error, 'Cannot extend styles from itself.');
+    });
+
     it('sets styles', () => {
       expect(instance.styles.foo).to.be.an('undefined');
 
@@ -158,6 +180,25 @@ describe('Aesthetic', () => {
         header: { color: 'red' },
         footer: { padding: 5 },
       });
+    });
+
+    it('sets styles and extends parents', () => {
+      expect(instance.styles.bar).to.be.an('undefined');
+      expect(instance.parents.bar).to.be.an('undefined');
+
+      instance.setStyles('foo', {
+        header: { color: 'red' },
+        footer: { padding: 5 },
+      });
+
+      instance.setStyles('bar', {
+        child: { margin: 5 },
+      }, 'foo');
+
+      expect(instance.styles.bar).to.deep.equal({
+        child: { margin: 5 },
+      });
+      expect(instance.parents.bar).to.equal('foo');
     });
   });
 

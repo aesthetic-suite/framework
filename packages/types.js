@@ -34,6 +34,7 @@ export type HOCComponent = ReactClass<*>;
 
 export type HOCOptions = {
   extendable?: boolean,
+  extendFrom?: string,
   styleName?: string,
   classNamesPropName?: string,
   themePropName?: string,

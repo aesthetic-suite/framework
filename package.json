@@ -49,7 +49,7 @@
     "chai": "^3.5.0",
     "envify": "^4.0.0",
     "enzyme": "^2.7.0",
-    "eslint": "^3.10.2",
+    "eslint": "^3.13.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-flowtype": "^2.29.2",
     "eslint-plugin-import": "^2.2.0",
@@ -59,9 +59,9 @@
     "jsdom": "^9.9.1",
     "lerna": "2.0.0-beta.32",
     "mocha": "^3.1.2",
-    "react": "^15.4.0",
-    "react-addons-test-utils": "^15.4.0",
-    "react-dom": "^15.4.0",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
     "rimraf": "^2.5.4"
   }
 }
