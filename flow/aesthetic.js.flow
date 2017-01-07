@@ -17,10 +17,6 @@ declare module 'aesthetic' {
 
   declare export type StyleDeclarationOrCallback = StyleDeclarationMap | StyleCallback;
 
-  declare export type EventCallback = () => void |
-    (setName: string, properties: CSSStyle) => void |
-    (setName: string, atRuleName: string, properties: CSSStyle) => void;
-
   declare export type MaybeClassName = string | number | { [key: string]: boolean } | MaybeClassName[];
 
   declare export type ClassNameMap = { [setName: string]: string };
@@ -42,31 +38,6 @@ declare module 'aesthetic' {
   }
 
   declare export class ClassNameAdapter extends Adapter {}
-
-  declare export class UnifiedSyntax {
-    static LOCAL: string;
-    static GLOBAL: string;
-    events: { [eventName: string]: EventCallback };
-    fallbacks: AtRuleMap;
-    fontFaces: AtRuleMap;
-    fontFaceNames: { [fontFamily: string]: string };
-    keyframes: AtRuleMap;
-    keyframeNames: { [animationName: string]: string };
-    mediaQueries: AtRuleMap;
-    styleTag: ?HTMLElement;
-    convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap;
-    convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
-    emit(eventName: string, args: mixed[]): this;
-    extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string): void;
-    extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string): void;
-    off(eventName: string): this;
-    on(eventName: string, callback: EventCallback): this;
-    resetGlobalCache(): void;
-    resetLocalCache(): void;
-  }
 
   declare export class ThemeProvider extends React.Component<*, *, *> {}
 
@@ -91,6 +62,39 @@ declare module 'aesthetic' {
   declare export function createStyler(aesthetic: Aesthetic): style;
 
   declare export function classes(...values: MaybeClassName[]): string;
+}
+
+declare module 'aesthetic/unified' {
+  import type { CSSStyle, StyleDeclarationMap, AtRuleMap } from 'aesthetic';
+
+  declare export type EventCallback = () => void |
+    (setName: string, properties: CSSStyle) => void |
+    (setName: string, atRuleName: string, properties: CSSStyle) => void;
+
+  declare export default class UnifiedSyntax {
+    static LOCAL: string;
+    static GLOBAL: string;
+    events: { [eventName: string]: EventCallback };
+    fallbacks: AtRuleMap;
+    fontFaces: AtRuleMap;
+    fontFaceNames: { [fontFamily: string]: string };
+    keyframes: AtRuleMap;
+    keyframeNames: { [animationName: string]: string };
+    mediaQueries: AtRuleMap;
+    styleTag: ?HTMLElement;
+    convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap;
+    convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
+    emit(eventName: string, args: mixed[]): this;
+    extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string): void;
+    extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string): void;
+    extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string): void;
+    extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string): void;
+    extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string): void;
+    off(eventName: string): this;
+    on(eventName: string, callback: EventCallback): this;
+    resetGlobalCache(): void;
+    resetLocalCache(): void;
+  }
 }
 
 declare module 'aesthetic/lib/helpers/createStyleElement' {
