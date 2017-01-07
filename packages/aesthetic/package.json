@@ -9,7 +9,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic",
   "license": "MIT",
-  "main": "./lib/index.js",
   "files": [
     "*.md",
     "lib"

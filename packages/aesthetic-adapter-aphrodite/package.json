@@ -10,7 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite",
   "license": "MIT",
-  "main": "./lib/AphroditeAdapter.js",
   "files": [
     "*.md",
     "lib"

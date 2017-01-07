@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
-import AphroditeAdapter from '../src/AphroditeAdapter';
+import AphroditeAdapter from '../src/UnifiedAdapter';
 import {
   FONT_ROBOTO,
   KEYFRAME_FADE,
@@ -13,7 +12,7 @@ import {
   SYNTAX_MEDIA_QUERY,
 } from '../../../tests/mocks';
 
-describe('AphroditeAdapter', () => {
+describe('UnifiedAphroditeAdapter', () => {
   let instance;
 
   beforeEach(() => {
@@ -23,19 +22,6 @@ describe('AphroditeAdapter', () => {
 
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
-
-  it('can customize the aphrodite instance through the constructor', () => {
-    const extension = { selectorHandler() {} };
-    instance = new AphroditeAdapter(StyleSheet.extend([extension]));
-
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
-  });
-
-  it('supports no important mode', () => {
-    instance = new AphroditeAdapter(NoImpStyleSheet);
-
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
   });
 
   it('transforms style declarations into class names', () => {
@@ -93,11 +79,9 @@ describe('AphroditeAdapter', () => {
     });
   });
 
-  it.skip('supports unified fallbacks');
+  it.skip('supports fallbacks');
 
-  it.skip('supports native fallbacks');
-
-  it('supports unified font faces', () => {
+  it('supports font faces', () => {
     expect(instance.convert('component', SYNTAX_FONT_FACE)).to.deep.equal({
       font: {
         fontFamily: [FONT_ROBOTO],
@@ -105,31 +89,14 @@ describe('AphroditeAdapter', () => {
       },
     });
 
-    instance.resetGlobalCache();
+    instance.syntax.resetGlobalCache();
 
     expect(instance.transform('component', SYNTAX_FONT_FACE)).to.deep.equal({
       font: 'font_15i4tai',
     });
   });
 
-  it('supports native font faces', () => {
-    instance.disableUnifiedSyntax();
-
-    const nativeSyntax = {
-      font: {
-        fontFamily: FONT_ROBOTO,
-        fontSize: 20,
-      },
-    };
-
-    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
-
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      font: 'font_1myoopg',
-    });
-  });
-
-  it('supports unified animations', () => {
+  it('supports animations', () => {
     expect(instance.convert('component', SYNTAX_KEYFRAMES)).to.deep.equal({
       animation: {
         animationName: [KEYFRAME_FADE],
@@ -138,32 +105,14 @@ describe('AphroditeAdapter', () => {
       },
     });
 
-    instance.resetGlobalCache();
+    instance.syntax.resetGlobalCache();
 
     expect(instance.transform('component', SYNTAX_KEYFRAMES)).to.deep.equal({
       animation: 'animation_18xr9w6',
     });
   });
 
-  it('supports native animations', () => {
-    instance.disableUnifiedSyntax();
-
-    const nativeSyntax = {
-      animation: {
-        animationName: KEYFRAME_FADE,
-        animationDuration: '3s, 1200ms',
-        animationIterationCount: 'infinite',
-      },
-    };
-
-    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
-
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      animation: 'animation_2tm5yt',
-    });
-  });
-
-  it('supports unified media queries', () => {
+  it('supports media queries', () => {
     expect(instance.convert('component', SYNTAX_MEDIA_QUERY)).to.deep.equal({
       media: {
         color: 'red',
@@ -181,25 +130,4 @@ describe('AphroditeAdapter', () => {
     });
   });
 
-  it('supports native media queries', () => {
-    instance.disableUnifiedSyntax();
-
-    const nativeSyntax = {
-      media: {
-        color: 'red',
-        '@media (min-width: 300px)': {
-          color: 'blue',
-        },
-        '@media (max-width: 1000px)': {
-          color: 'green',
-        },
-      },
-    };
-
-    expect(instance.convert('component', nativeSyntax)).to.deep.equal(nativeSyntax);
-
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
-      media: 'media_1dsrhwv',
-    });
-  });
 });

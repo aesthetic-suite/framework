@@ -10,7 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
-  "main": "./lib/FelaAdapter.js",
   "files": [
     "*.md",
     "lib"

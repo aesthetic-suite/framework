@@ -10,7 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor",
   "license": "MIT",
-  "main": "./lib/GlamorAdapter.js",
   "files": [
     "*.md",
     "lib"

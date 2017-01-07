@@ -10,7 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss",
   "license": "MIT",
-  "main": "./lib/JSSAdapter.js",
   "files": [
     "*.md",
     "lib"
