@@ -9,18 +9,52 @@ describe('Aesthetic', () => {
     instance = new Aesthetic(new TestAdapter());
   });
 
-  describe('extractDeclarations()', () => {
+  describe('extendTheme', () => {
+    it('errors if the parent theme doesnt exist', () => {
+      expect(() => instance.extendTheme('foo', 'bar', {}))
+        .to.throw(Error, 'Theme "foo" does not exist.');
+    });
+
+    it('deep merges the parent and child theme', () => {
+      instance.themes.foo = {
+        unit: 'px',
+        unitSize: 8,
+        colors: {
+          primary: 'red',
+        },
+      };
+
+      instance.extendTheme('foo', 'bar', {
+        unit: 'em',
+        colors: {
+          primary: 'blue',
+          secondary: 'orange',
+        },
+      });
+
+      expect(instance.themes.bar).to.deep.equal({
+        unit: 'em',
+        unitSize: 8,
+        colors: {
+          primary: 'blue',
+          secondary: 'orange',
+        },
+      });
+    });
+  });
+
+  describe('getStyles()', () => {
     it('errors if no styles', () => {
-      expect(() => instance.extractDeclarations('foo'))
+      expect(() => instance.getStyles('foo'))
         .to.throw(Error, 'Styles do not exist for "foo".');
     });
 
     it('errors if no theme', () => {
-      instance.styles.foo = {
+      instance.styles.foo = () => ({
         display: 'block',
-      };
+      });
 
-      expect(() => instance.extractDeclarations('foo', 'classic'))
+      expect(() => instance.getStyles('foo', 'classic'))
         .to.throw(Error, 'Theme "classic" does not exist.');
     });
 
@@ -29,7 +63,7 @@ describe('Aesthetic', () => {
         display: 'block',
       };
 
-      expect(instance.extractDeclarations('foo')).to.deep.equal({
+      expect(instance.getStyles('foo')).to.deep.equal({
         display: 'block',
       });
     });
@@ -43,7 +77,7 @@ describe('Aesthetic', () => {
         padding: theme.unitSize * 2,
       });
 
-      expect(instance.extractDeclarations('foo', 'classic')).to.deep.equal({
+      expect(instance.getStyles('foo', 'classic')).to.deep.equal({
         padding: 10,
       });
     });
@@ -64,16 +98,16 @@ describe('Aesthetic', () => {
         display: 'block',
       }), 'bar');
 
-      expect(instance.extractDeclarations('foo')).to.deep.equal({
+      expect(instance.getStyles('foo')).to.deep.equal({
         color: 'red',
       });
 
-      expect(instance.extractDeclarations('bar')).to.deep.equal({
+      expect(instance.getStyles('bar')).to.deep.equal({
         color: 'red',
         background: 'blue',
       });
 
-      expect(instance.extractDeclarations('baz')).to.deep.equal({
+      expect(instance.getStyles('baz')).to.deep.equal({
         color: 'red',
         background: 'blue',
         display: 'block',

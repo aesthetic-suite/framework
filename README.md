@@ -415,6 +415,7 @@ aesthetic.registerTheme('dark', {
   unitSize: 8,
   spacing: 5,
   font: 'Roboto',
+  bgColor: 'darkgray',
 }, {
   '@font-face': {
     roboto: {
@@ -428,6 +429,18 @@ aesthetic.registerTheme('dark', {
 ```
 
 > Global styles are immediately compiled and attached the DOM. Be wary of conflicts.
+
+If you'd like to extend a base theme to create a new theme, use `extendTheme`. This
+method accepts the theme name to inherit from as the first argument, with the remaining
+arguments matching `registerTheme`.
+
+```javascript
+aesthetic.extendTheme('dark', 'darker', {
+  bgColor: 'black',
+});
+```
+
+> Extending themes will deep merge the two parameter objects.
 
 #### Using Theme Styles
 

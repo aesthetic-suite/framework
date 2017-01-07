@@ -4,6 +4,7 @@
  * @flow
  */
 
+import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 import isObject from './helpers/isObject';
 
@@ -16,29 +17,42 @@ import type {
 
 export default class Aesthetic {
   adapter: Adapter;
-  parents: { [key: string]: string } = {};
-  styles: { [key: string]: StyleOrCallback } = {};
-  themes: { [key: string]: CSSStyle } = {};
-  classNames: { [key: string]: ClassNames } = {};
+  parents: { [childStyleName: string]: string } = {};
+  styles: { [styleName: string]: StyleOrCallback } = {};
+  themes: { [themeName: string]: CSSStyle } = {};
+  classNames: { [styleName: string]: ClassNames } = {};
 
   constructor(adapter: Adapter) {
     this.setAdapter(adapter);
   }
 
   /**
-   * Extract the defined style declarations. If the declaratin is a function,
-   * execute it while passing the current theme and previous styles.
+   * Register a theme by extending and merging with a previously defined theme.
    */
-  extractDeclarations(styleName: string, themeName: string = ''): StyleDeclarations {
+  extendTheme(
+    parentThemeName: string,
+    themeName: string,
+    theme: CSSStyle = {},
+    globals: StyleDeclarations = {},
+  ): this {
+    return this.registerTheme(
+      themeName,
+      deepMerge({}, this.getTheme(parentThemeName), theme),
+      globals,
+    );
+  }
+
+  /**
+   * Extract the defined style declarations. If the declaratin is a function,
+   * execute it while passing the current theme and previous inherited styles.
+   */
+  getStyles(styleName: string, themeName: string = ''): StyleDeclarations {
     const parentStyleName = this.parents[styleName];
     const declarations = this.styles[styleName];
 
     if (process.env.NODE_ENV === 'development') {
       if (!declarations) {
         throw new Error(`Styles do not exist for "${styleName}".`);
-
-      } else if (themeName && !this.themes[themeName]) {
-        throw new Error(`Theme "${themeName}" does not exist.`);
       }
     }
 
@@ -47,9 +61,24 @@ export default class Aesthetic {
     }
 
     return declarations(
-      this.themes[themeName] || {},
-      parentStyleName ? this.extractDeclarations(parentStyleName, themeName) : {},
+      themeName ? this.getTheme(themeName) : {},
+      parentStyleName ? this.getStyles(parentStyleName, themeName) : {},
     );
+  }
+
+  /**
+   * Return a themes style object or throw an error.
+   */
+  getTheme(themeName: string): CSSStyle {
+    const theme = this.themes[themeName];
+
+    if (process.env.NODE_ENV === 'development') {
+      if (!theme) {
+        throw new Error(`Theme "${themeName}" does not exist.`);
+      }
+    }
+
+    return theme;
   }
 
   /**
@@ -132,7 +161,7 @@ export default class Aesthetic {
       return this.classNames[cacheKey];
     }
 
-    const declarations = this.extractDeclarations(styleName, themeName);
+    const declarations = this.getStyles(styleName, themeName);
     const toTransform = {};
     const classNames = {};
     let setCount = 0;
