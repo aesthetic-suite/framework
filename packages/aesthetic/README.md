@@ -84,28 +84,7 @@ as we prefer the more performant option of compiling styles and attaching them t
 
 Using a third-party provided UI component library has the unintended side-effect
 of hard-coded and non-customizable styles. Aesthetic solves this problem by allowing
-[unlocked styles](#creating-a-styler) to be overwritten by the consumer at most one time.
-It also has the added benefit of choosing the styling pattern, as mentioned previously.
-
-```javascript
-// Provider
-function Button() {
-  // ...
-}
-
-export default style({
-  button: { ... },
-}, {
-  lockStyling: false,
-})(Button);
-
-// Consumer
-import Button from 'toolkit/components/Button';
-
-Button.setStyles({
-  button: { ... },
-});
-```
+consumers to [extend and inherit styles](#customizing-styles) from the provided component.
 
 ## Installation
 
@@ -125,7 +104,7 @@ yarn add aesthetic react
 * [Style Adapters](#style-adapters)
 * [Creating A Styler](#creating-a-styler)
 * [Defining Components](#defining-components)
-  * [Overwriting Styles](#overwriting-styles)
+  * [Customizing Styles](#customizing-styles)
   * [Combining Classes](#combining-classes)
 * [Styling Components](#styling-components)
   * [External Classes](#external-classes)
@@ -223,8 +202,8 @@ and an object of configurable options as the second. The following options are s
 
 * `styleName` (string) - The unique style name of the component. This name is primarily
   used in logging and caching. Defaults to the component name.
-* `lockStyling` (boolean) - Will lock styles from being written after the default styles
-  have been set. Defaults to `true`.
+* `extendable` (boolean) - Allows the component and its styles to be extended,
+  creating a new component in the process. Defaults to `false`.
 * `classNamesPropName` (string) - Name of the prop in which the compiled class names
   object is passed to. Defaults to `classNames`.
 * `themePropName` (string) - Name of the prop in which the theme name is passed to.
@@ -235,7 +214,7 @@ export default style({
   button: { ... },
 }, {
   styleName: 'CustomButton',
-  lockStyling: false,
+  extendable: true,
   classNamesPropName: 'classes',
   themePropName: 'appTheme',
 })(Button);
@@ -277,30 +256,35 @@ export default style({
 })(Button);
 ```
 
-#### Overwriting Styles
+#### Customizing Styles
 
 Since styles are isolated and colocated within a component, they can be impossible to
 customize, especially if the component comes from a third-party library. If a component
-hasn't been locked via the `lockStyling` option, styles can be customized by calling
-the static `setStyles` method on the wrapped component instance.
+styled by Aesthetic is marked as `extendable`, styles can be customized by calling
+the static `extendStyles` method on the wrapped component instance.
+
+This will return the base component wrapped with new styles.
 
 ```javascript
-import Button from '../Button';
+import Button from '../path/to/styled/Button';
 
-Button.setStyles({
+export const Button = Button.extendStyles({
   button: {
-    padding: '5px 10px',
-    fontWeight: 'bold',
+    background: 'white',
+    // ...
+  },
+});
+
+export const PrimaryButton = Button.extendStyles({
+  button: {
+    background: 'blue',
     // ...
   },
 });
 ```
 
-Any previous styles that were overwritten will be available when using a
-[style function](#style-functions).
-
-> `setStyles` can only be called once, as styles are immediately locked.
-> This avoids unwanted style injections.
+Parent styles (the component that was extended) are available when using a
+[style function](#style-functions), allowing multiple layers of styles to be inherited.
 
 #### Combining Classes
 
@@ -408,7 +392,7 @@ style({
 
 Style functions are simply functions that return a style object. The benefits of using a
 function is that it provides the [current theme](#using-themes) as the first argument,
-and the [previous styles](#overwriting-styles) as the second argument.
+and the [previous styles](#customizing-styles) as the second argument.
 
 ```javascript
 style(function (theme, prevStyles) {
@@ -493,6 +477,8 @@ between adapters that utilize CSS-in-JS objects.
 **Pros**
 * Easily swap between CSS-in-JS adapters (for either performance or extensibility reasons)
   without having to rewrite all CSS style object syntax.
+* Third-party UI libraries can define their styles using the unified syntax,
+  while consumers can choose their preferred adapter.
 * Only have to learn one form of syntax.
 
 **Cons**
@@ -504,8 +490,10 @@ between adapters that utilize CSS-in-JS objects.
 
 While implementing adapters and writing tests for all their syntax and use cases, I noticed
 that all adapters shared about 90-95% of the same syntax. That remaining percentage could
-easily be abstracted away by a library, and hence, this unified syntax was created. In the end,
-it was mostly for fun, but can easily be disabled if need be.
+easily be abstracted away by a library, and hence, this unified syntax was created.
+
+Furthermore, a unified syntax allows providers of third-party components to define their styles
+with consumers having the choice of their preferred adapter.
 
 **Why a different at-rule structure?**
 
@@ -666,7 +654,7 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | Unified Syntax | ✓ | | | |
 | Caching | ✓ | | ✓ | N/A |
 | Themes | ✓ | ✓ | ✓ | |
-| Style Overwriting | ✓ | | | ||
+| Style Extending | ✓ | | ✓ | ||
 
 #### Adapters
 
