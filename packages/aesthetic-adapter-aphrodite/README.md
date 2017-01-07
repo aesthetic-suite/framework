@@ -33,6 +33,16 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 const aesthetic = new Aesthetic(new AphroditeAdapter());
 ```
 
+### Unified Syntax
+
+To make use of the unified syntax, simply import the adapter from the unified path.
+
+```javascript
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite/unified';
+```
+
+### Extensions
+
 [Aphrodite extensions](https://github.com/Khan/aphrodite#advanced-extensions)
 can be customized by passing an instance of `StyleSheet` to the adapter.
 
@@ -48,7 +58,10 @@ const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet.extend([
 ])));
 ```
 
-As well as [no important](https://github.com/Khan/aphrodite#disabling-important) support.
+### No !Important Mode
+
+Like extensions, [no !important mode](https://github.com/Khan/aphrodite#disabling-important) can
+be used by importing the the `no-important` path.
 
 ```javascript
 import Aesthetic from 'aesthetic';

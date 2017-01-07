@@ -34,8 +34,14 @@ import CSSModulesAdapter from 'aesthetic-adapter-css-modules';
 const aesthetic = new Aesthetic(new CSSModulesAdapter());
 ```
 
+### Unified Syntax
+
+CSS modules do not support Aesthetic's unified syntax.
+
+### Usage
+
 When defining styles for a React component, simply pass the CSS modules object to
-the styler function, instead of setting the `className` props directly.
+the styler function, instead of setting the element `className` props directly.
 
 ```javascript
 import React from 'react';
