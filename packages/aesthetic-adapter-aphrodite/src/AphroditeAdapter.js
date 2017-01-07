@@ -9,7 +9,7 @@ import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import { StyleSheet, css } from 'aphrodite';
 
-import type { StyleDeclarations, ClassNames } from '../../types';
+import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
@@ -41,7 +41,7 @@ export default class AphroditeAdapter extends Adapter {
     return nextProperties;
   }
 
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     const styleSheet = this.aphrodite.create(declarations);
     const classNames = {};
 

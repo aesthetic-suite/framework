@@ -6,12 +6,12 @@
 
 import Adapter from './Adapter';
 
-import type { StyleDeclarations, ClassNames } from '../../types';
+import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
 
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {

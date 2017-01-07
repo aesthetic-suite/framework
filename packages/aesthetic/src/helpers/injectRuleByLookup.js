@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { CSSStyle } from '../../../types';
+import type { CSSStyle } from 'aesthetic';
 
 export default function injectRuleByLookup(
   properties: CSSStyle,

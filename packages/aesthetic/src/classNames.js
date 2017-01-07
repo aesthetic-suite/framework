@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { MaybeClassName } from '../../types';
+import type { MaybeClassName } from 'aesthetic';
 
 function stripChars(name: string): string {
   name = name.replace(/ /g, '');

@@ -9,7 +9,7 @@ import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
 import { css } from 'glamor';
 
-import type { StyleDeclarations, ClassNames, CSSStyle } from '../../types';
+import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';
 
 export default class GlamorAdapter extends Adapter {
   convertProperties(setName: string, properties: CSSStyle): CSSStyle {
@@ -41,7 +41,7 @@ export default class GlamorAdapter extends Adapter {
     this.keyframeNames[animationName] = css.keyframes(animationName, properties);
   }
 
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {

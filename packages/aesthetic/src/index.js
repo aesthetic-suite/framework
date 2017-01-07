@@ -10,10 +10,9 @@ import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import ThemeProvider from './ThemeProvider';
 import createStyler from './createStyler';
-import classNames from './classNames';
+import classes from './classNames';
 
 export const ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
-export const classes = classNames;
 
-export { createStyler, classNames, Adapter, ClassNameAdapter, ThemeProvider };
+export { createStyler, classes, Adapter, ClassNameAdapter, ThemeProvider };
 export default Aesthetic;

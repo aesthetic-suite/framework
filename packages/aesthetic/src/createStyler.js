@@ -7,7 +7,7 @@
 import Aesthetic from './Aesthetic';
 import style from './style';
 
-import type { StyleOrCallback, HOCOptions } from '../../types';
+import type { StyleDeclarationOrCallback, HOCOptions } from 'aesthetic';
 
 export default function createStyler(aesthetic: Aesthetic) {
   if (process.env.NODE_ENV === 'development') {
@@ -16,7 +16,7 @@ export default function createStyler(aesthetic: Aesthetic) {
     }
   }
 
-  return function styler(defaultStyles: StyleOrCallback = {}, options: HOCOptions = {}) {
+  return function styler(defaultStyles: StyleDeclarationOrCallback = {}, options: HOCOptions = {}) {
     return style(aesthetic, defaultStyles, options);
   };
 }

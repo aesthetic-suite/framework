@@ -12,8 +12,8 @@ import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
 
+import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
 import type { Renderer, RendererConfig } from 'fela';
-import type { StyleDeclarations, ClassNames } from '../../types';
 
 const SRC_PATTERN = /src\((?:'|")?([^()])(?:'|")?\)/;
 
@@ -73,7 +73,7 @@ export default class FelaAdapter extends Adapter {
     this.keyframeNames[animationName] = this.fela.renderKeyframe(() => properties);
   }
 
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {

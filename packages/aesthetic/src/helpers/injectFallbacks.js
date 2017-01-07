@@ -6,7 +6,7 @@
 
 import isPrimitive from './isPrimitive';
 
-import type { CSSStyle, CSSStyleValue } from '../../../types';
+import type { CSSStyle, CSSStyleValue } from 'aesthetic';
 
 export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {
   Object.keys(fallbacks).forEach((propName: string) => {

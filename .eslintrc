@@ -9,6 +9,13 @@
     "es6": true
   },
   "rules": {
+    // Disabled because of flow
+    "no-duplicate-imports": 0,
+    "import/first": 0,
+    "import/extensions": 0,
+    "import/no-unresolved": 0,
+    "import/no-extraneous-dependencies": 0,
+
     "no-param-reassign": 0,
     "padded-blocks": 0,
     "class-methods-use-this": 0,
@@ -16,7 +23,6 @@
       "vars": "all",
       "args": "none",
     }],
-    "import/no-named-as-default": 0,
     "react/jsx-filename-extension": 0,
     "flowtype/boolean-style": 2,
     "flowtype/delimiter-dangle": [2, "always-multiline"],

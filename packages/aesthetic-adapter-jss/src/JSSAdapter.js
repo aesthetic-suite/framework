@@ -9,7 +9,7 @@ import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import toArray from 'aesthetic/lib/helpers/toArray';
 import JSS, { create } from 'jss';
 
-import type { StyleDeclarations, ClassNames, CSSStyle, AtRules } from '../../types';
+import type { StyleDeclarationMap, ClassNameMap, CSSStyle, AtRuleMap } from 'aesthetic';
 
 type StyleSheetOptions = {
   element?: Object,
@@ -21,9 +21,9 @@ type StyleSheetOptions = {
 };
 
 export default class JSSAdapter extends Adapter {
-  currentFontFaces: AtRules = {};
-  currentKeyframes: AtRules = {};
-  currentMediaQueries: AtRules = {};
+  currentFontFaces: AtRuleMap = {};
+  currentKeyframes: AtRuleMap = {};
+  currentMediaQueries: AtRuleMap = {};
   jss: JSS;
   options: StyleSheetOptions;
 
@@ -34,7 +34,7 @@ export default class JSSAdapter extends Adapter {
     this.options = options;
   }
 
-  convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
+  convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap {
     const adaptedDeclarations = super.convert(styleName, declarations);
 
     injectAtRules(adaptedDeclarations, '@font-face', this.currentFontFaces);
@@ -103,7 +103,7 @@ export default class JSSAdapter extends Adapter {
     }
   }
 
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     const styleSheet = this.jss.createStyleSheet(declarations, {
       named: true,
       meta: styleName,

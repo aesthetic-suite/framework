@@ -11,20 +11,21 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  StyleOrCallback,
+  ClassNameMap,
+  StyleDeclarationOrCallback,
   WrappedComponent,
   HOCComponent,
   HOCOptions,
-} from '../../types';
+} from 'aesthetic';
 
 type PropsAndState = {
-  classNames?: ClassNames,
+  classNames?: ClassNameMap,
   theme?: string,
 };
 
 export default function style(
   aesthetic: Aesthetic,
-  styles: StyleOrCallback = {},
+  styles: StyleDeclarationOrCallback = {},
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
@@ -77,7 +78,7 @@ export default function style(
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStyles: StyleOrCallback,
+        customStyles: StyleDeclarationOrCallback,
         extendOptions: HOCOptions = {},
       ): HOCComponent {
         if (process.env.NODE_ENV === 'development' && !extendable) {

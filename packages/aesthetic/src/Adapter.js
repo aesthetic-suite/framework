@@ -7,23 +7,23 @@
 import isObject from './helpers/isObject';
 
 import type {
-  StyleDeclarations,
-  ClassNames,
+  StyleDeclarationMap,
+  ClassNameMap,
   CSSStyle,
-  AtRules,
-} from '../../types';
+  AtRuleMap,
+} from 'aesthetic';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
 export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 
 export default class Adapter {
-  fallbacks: AtRules = {}; // Local
-  fontFaces: AtRules = {}; // Global
+  fallbacks: AtRuleMap = {}; // Local
+  fontFaces: AtRuleMap = {}; // Global
   fontFaceNames: { [key: string]: string } = {};
-  keyframes: AtRules = {}; // Global
+  keyframes: AtRuleMap = {}; // Global
   keyframeNames: { [key: string]: string } = {};
-  mediaQueries: AtRules = {}; // Local
+  mediaQueries: AtRuleMap = {}; // Local
   styleTag: ?HTMLElement = null;
   unifiedSyntax: boolean = true;
 
@@ -43,7 +43,7 @@ export default class Adapter {
    * Convert the unified syntax to adapter specific syntax
    * by extracting at-rules and applying conversions at each level.
    */
-  convert(styleName: string, declarations: StyleDeclarations): StyleDeclarations {
+  convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap {
     if (!this.unifiedSyntax) {
       return declarations;
     }
@@ -96,7 +96,7 @@ export default class Adapter {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  extract(setName: string, atRule: string, properties: AtRules, fromScope: string) {
+  extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (!isObject(properties)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
@@ -131,7 +131,7 @@ export default class Adapter {
   /**
    * Extract property fallbacks.
    */
-  extractFallbacks(setName: string, properties: AtRules, fromScope: string) {
+  extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Property fallbacks must be defined locally to an element.');
@@ -152,7 +152,7 @@ export default class Adapter {
   /**
    * Extract font face at-rules.
    */
-  extractFontFaces(setName: string, properties: AtRules, fromScope: string) {
+  extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Font faces must be declared in the global scope.');
@@ -178,7 +178,7 @@ export default class Adapter {
   /**
    * Extract animation keyframes at-rules.
    */
-  extractKeyframes(setName: string, properties: AtRules, fromScope: string) {
+  extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Animation keyframes must be declared in the global scope.');
@@ -201,7 +201,7 @@ export default class Adapter {
   /**
    * Extract media query at-rules.
    */
-  extractMediaQueries(setName: string, properties: AtRules, fromScope: string) {
+  extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Media queries must be defined locally to an element.');
@@ -268,7 +268,7 @@ export default class Adapter {
   /**
    * Transform the unified or native syntax using the registered adapter.
    */
-  transform(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     // Reset local cache between each transform
     this.resetLocalCache();
 
@@ -283,7 +283,7 @@ export default class Adapter {
   /**
    * Transform the style objects into a mapping of CSS class names.
    */
-  transformStyles(styleName: string, declarations: StyleDeclarations): ClassNames {
+  transformStyles(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     throw new Error(`${this.constructor.name} must define the \`transformStyles\` method.`);
   }
 }

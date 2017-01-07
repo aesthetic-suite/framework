@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { CSSStyle } from '../../../types';
+import type { CSSStyle } from 'aesthetic';
 
 export default function injectAtRules(
   properties: CSSStyle,
@@ -17,7 +17,6 @@ export default function injectAtRules(
     const fonts = Object.keys(atRules).map(key => atRules[key]);
 
     if (fonts.length) {
-      // $FlowIssue Allow arrays here
       properties[atName] = (fonts.length > 1) ? fonts : fonts[0];
     }
 
