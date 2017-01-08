@@ -5,8 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
-import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
+import { injectAtRules, injectFallbacks } from 'aesthetic-utils';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 

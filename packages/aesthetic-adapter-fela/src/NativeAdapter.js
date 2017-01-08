@@ -5,7 +5,7 @@
  */
 
 import { Adapter } from 'aesthetic';
-import createStyleElement from 'aesthetic/lib/helpers/createStyleElement';
+import { createStyleElement } from 'aesthetic-utils';
 import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
 

@@ -1,0 +1,27 @@
+{
+  "name": "aesthetic-utils",
+  "version": "0.0.0",
+  "description": "Utility functions for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "utils"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-utils",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "files": [
+    "*.md",
+    "lib"
+  ],
+  "scripts": {
+    "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
+  },
+  "peerDependencies": {
+    "aesthetic": "^0.1.2"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.1.2"
+  }
+}

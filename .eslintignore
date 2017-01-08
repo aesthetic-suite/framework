@@ -1,5 +1,6 @@
 node_modules/*
 packages/aesthetic/node_modules/*
+packages/aesthetic-utils/node_modules/*
 packages/aesthetic-adapter-aphrodite/node_modules/*
 packages/aesthetic-adapter-css-modules/node_modules/*
 packages/aesthetic-adapter-fela/node_modules/*

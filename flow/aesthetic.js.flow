@@ -96,33 +96,23 @@ declare module 'aesthetic/unified' {
   }
 }
 
-declare module 'aesthetic/lib/helpers/createStyleElement' {
-  declare export default function createStyleElement(id: string): HTMLElement;
-}
+declare module 'aesthetic-utils' {
+  import type { AtRuleMap, CSSStyle } from 'aesthetic';
 
-declare module 'aesthetic/lib/helpers/injectAtRuleMap' {
-  import type { CSSStyle } from 'aesthetic';
+  declare export function createStyleElement(id: string): HTMLElement;
 
-  declare export default function injectAtRuleMap(
+  declare export function injectAtRules(
     properties: CSSStyle,
     atName: string,
-    atRules: CSSStyle,
+    atRules: AtRuleMap,
   ): void;
-}
 
-declare module 'aesthetic/lib/helpers/injectFallbacks' {
-  import type { CSSStyle } from 'aesthetic';
-
-  declare export default function injectFallbacks(
+  declare export function injectFallbacks(
     properties: CSSStyle,
     fallbacks: CSSStyle,
   ): void;
-}
 
-declare module 'aesthetic/lib/helpers/injectRuleByLookup' {
-  import type { CSSStyle } from 'aesthetic';
-
-  declare export default function injectRuleByLookup(
+  declare export function injectRuleByLookup(
     properties: CSSStyle,
     propName: string,
     lookup: CSSStyle,

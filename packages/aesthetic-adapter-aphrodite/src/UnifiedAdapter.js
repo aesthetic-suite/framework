@@ -5,8 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
-import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
+import { injectAtRules, injectRuleByLookup } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';

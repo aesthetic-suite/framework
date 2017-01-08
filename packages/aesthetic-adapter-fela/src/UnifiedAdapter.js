@@ -5,9 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
-import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
-import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
+import { injectAtRules, injectFallbacks, injectRuleByLookup } from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';

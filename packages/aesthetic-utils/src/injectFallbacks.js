@@ -4,9 +4,13 @@
  * @flow
  */
 
-import isPrimitive from './isPrimitive';
-
 import type { CSSStyle, CSSStyleValue } from 'aesthetic';
+
+function isPrimitive<T>(value: T): boolean {
+  const type = (typeof value);
+
+  return (type === 'string' || type === 'number' || type === 'boolean');
+}
 
 export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {
   Object.keys(fallbacks).forEach((propName: string) => {

@@ -4,12 +4,12 @@
  * @flow
  */
 
-import type { CSSStyle } from 'aesthetic';
+import type { AtRuleMap, CSSStyle } from 'aesthetic';
 
 export default function injectAtRules(
   properties: CSSStyle,
   atName: string,
-  atRules: CSSStyle,
+  atRules: AtRuleMap,
 ) {
   // Font faces don't have IDs in their declaration,
   // so we need to handle this differently.

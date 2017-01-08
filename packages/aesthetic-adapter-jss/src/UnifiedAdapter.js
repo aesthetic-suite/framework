@@ -5,7 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
+import { injectAtRules } from 'aesthetic-utils';
 import toArray from 'aesthetic/lib/helpers/toArray';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
@@ -61,6 +61,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     });
 
     // Fallbacks
+    /*
     if (this.syntax.fallbacks[setName]) {
       properties.fallbacks = Object.keys(this.syntax.fallbacks[setName])
         .reduce((list: CSSStyle[], propName: string) => (
@@ -72,6 +73,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
           ]
         ), []);
     }
+    */
   };
 
   onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
