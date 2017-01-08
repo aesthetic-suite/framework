@@ -1,7 +1,7 @@
-import type { CSSStyle } from '../packages/aesthetic/src/types';
-
 declare module 'fela' {
-  declare export type Rule = CSSStyle | (props: Object) => CSSStyle;
+  import type { CSSStyle } from 'aesthetic';
+
+  declare export type Rule = CSSStyle | ((props: Object) => CSSStyle);
 
   declare export type RendererConfig = {
     enhancers?: (() => void)[],
@@ -12,9 +12,9 @@ declare module 'fela' {
   };
 
   declare export class Renderer {
-    renderRule(rule: Rule, props: CSSStyle): string;
-    renderKeyframe(keyframe: Rule, props: CSSStyle): string;
-    renderFont(family: string, files: string[], props: CSSStyle): string;
+    renderRule(rule: Rule, props?: CSSStyle): string;
+    renderKeyframe(keyframe: Rule, props?: CSSStyle): string;
+    renderFont(family: string, files: string[], props?: CSSStyle): string;
   }
 
   declare export function createRenderer(config?: RendererConfig): Renderer;

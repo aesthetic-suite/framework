@@ -6,7 +6,8 @@
 
 import isObject from './helpers/isObject';
 
-import type { StyleDeclarationMap, CSSStyle, AtRuleMap, EventCallback } from 'aesthetic';
+import type { StyleDeclarationMap, CSSStyle, AtRuleMap } from 'aesthetic';
+import type { EventCallback } from 'aesthetic/unified';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
@@ -81,7 +82,7 @@ export default class UnifiedSyntax {
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: string, args: mixed[] = []): this {
+  emit<T>(eventName: string, args: T[] = []): this {
     if (this.events[eventName]) {
       this.events[eventName](...args);
     }

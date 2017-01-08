@@ -18,12 +18,9 @@ export default class FelaAdapter extends Adapter {
   constructor(config: RendererConfig = {}) {
     super();
 
-    this.styleTag = createStyleElement('fela');
     this.fela = createRenderer(config);
 
-    if (this.styleTag) {
-      render(this.fela, this.styleTag);
-    }
+    render(this.fela, createStyleElement('fela'));
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {

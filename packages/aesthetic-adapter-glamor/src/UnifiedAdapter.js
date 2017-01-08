@@ -10,7 +10,7 @@ import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
+import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;
@@ -35,7 +35,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   onDeclaration = (setName: string, properties: CSSStyle) => {
     // Animation keyframes
     if ('animationName' in properties) {
-      properties.animationName = this.syntax.keyframeNames[properties.animationName];
+      properties.animationName = this.syntax.keyframeNames[String(properties.animationName)];
     }
 
     // Media queries

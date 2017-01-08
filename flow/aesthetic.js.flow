@@ -48,16 +48,16 @@ declare module 'aesthetic' {
     themes: { [themeName: string]: CSSStyle };
     classNames: { [styleName: string]: ClassNameMap };
     constructor(adapter: Adapter): this;
-    extendTheme(parentThemeName: string, themeName: string, theme: CSSStyle, globals: StyleDeclarationMap): this;
-    getStyles(styleName: string, themeName: string): StyleDeclarationMap;
+    extendTheme(parentThemeName: string, themeName: string, theme: CSSStyle, globals?: StyleDeclarationMap): this;
+    getStyles(styleName: string, themeName?: string): StyleDeclarationMap;
     getTheme(themeName: string): CSSStyle;
-    registerTheme(themeName: string, theme: CSSStyle, globals: StyleDeclarationMap): this;
+    registerTheme(themeName: string, theme: CSSStyle, globals?: StyleDeclarationMap): this;
     setAdapter(adapter: Adapter): this;
-    setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom: string): this;
-    transformStyles(styleName: string, themeName: string): ClassNameMap;
+    setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom?: string): this;
+    transformStyles(styleName: string, themeName?: string): ClassNameMap;
   }
 
-  declare export function style(aesthetic: Aesthetic, styles: StyleDeclarationOrCallback, options: HOCOptions): (WrappedComponent) => HOCComponent;
+  declare export function style(aesthetic: Aesthetic, styles: StyleDeclarationOrCallback, options?: HOCOptions): (WrappedComponent) => HOCComponent;
 
   declare export function createStyler(aesthetic: Aesthetic): style;
 
@@ -67,9 +67,9 @@ declare module 'aesthetic' {
 declare module 'aesthetic/unified' {
   import type { CSSStyle, StyleDeclarationMap, AtRuleMap } from 'aesthetic';
 
-  declare export type EventCallback = () => void |
-    (setName: string, properties: CSSStyle) => void |
-    (setName: string, atRuleName: string, properties: CSSStyle) => void;
+  declare export type EventCallback = (() => void) |
+    ((setName: string, properties: CSSStyle) => void) |
+    ((setName: string, atRuleName: string, properties: CSSStyle) => void);
 
   declare export default class UnifiedSyntax {
     static LOCAL: string;
@@ -81,8 +81,7 @@ declare module 'aesthetic/unified' {
     keyframes: AtRuleMap;
     keyframeNames: { [animationName: string]: string };
     mediaQueries: AtRuleMap;
-    styleTag: ?HTMLElement;
-    convert(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap;
+    convert(declarations: StyleDeclarationMap): StyleDeclarationMap;
     convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
     emit(eventName: string, args: mixed[]): this;
     extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string): void;

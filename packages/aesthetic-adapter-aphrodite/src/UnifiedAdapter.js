@@ -9,7 +9,7 @@ import injectAtRules from 'aesthetic/lib/helpers/injectAtRules';
 import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
+import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;

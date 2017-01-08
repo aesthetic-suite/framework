@@ -10,7 +10,7 @@ import injectFallbacks from 'aesthetic/lib/helpers/injectFallbacks';
 import injectRuleByLookup from 'aesthetic/lib/helpers/injectRuleByLookup';
 import FelaAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from 'aesthetic';
+import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from 'aesthetic';
 import type { RendererConfig } from 'fela';
 
 const SRC_PATTERN = /src\((?:'|")?([^()])(?:'|")?\)/;
@@ -58,11 +58,12 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   };
 
   onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
+    const fontSource = String(properties.src);
     const files = [];
     let match;
 
     // eslint-disable-next-line no-cond-assign
-    while (match = properties.src.match(SRC_PATTERN)) {
+    while (match = fontSource.match(SRC_PATTERN)) {
       files.push(match[1]);
     }
 

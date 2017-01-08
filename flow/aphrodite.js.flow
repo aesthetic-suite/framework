@@ -1,6 +1,6 @@
-import type { CSSStyle } from '../packages/aesthetic/src/types';
-
 declare module 'aphrodite' {
+  import type { CSSStyle } from 'aesthetic';
+
   declare type SheetStruct = [string, Object];
 
   declare type SheetDeclaration = {

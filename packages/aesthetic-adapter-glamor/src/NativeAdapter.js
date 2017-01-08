@@ -14,7 +14,7 @@ export default class GlamorAdapter extends Adapter {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {
-      classNames[setName] = `${styleName}-${String(css(declarations[setName]))}`;
+      classNames[setName] = `${styleName}-${String(css(String(declarations[setName])))}`;
     });
 
     return classNames;
