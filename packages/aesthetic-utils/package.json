@@ -17,11 +17,5 @@
   ],
   "scripts": {
     "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
-  },
-  "peerDependencies": {
-    "aesthetic": "^0.1.2"
-  },
-  "devDependencies": {
-    "aesthetic": "^0.1.2"
   }
 }

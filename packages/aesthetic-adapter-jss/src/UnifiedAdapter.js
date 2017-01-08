@@ -6,7 +6,6 @@
 
 import UnifiedSyntax from 'aesthetic/unified';
 import { injectAtRules } from 'aesthetic-utils';
-import toArray from 'aesthetic/lib/helpers/toArray';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
