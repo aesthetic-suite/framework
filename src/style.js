@@ -4,7 +4,7 @@
  * @flow
  */
 
-/* eslint-disable react/sort-comp, react/no-unused-prop-types */
+/* eslint-disable react/sort-comp, react/no-unused-prop-types, react/require-default-props */
 
 import React, { PropTypes } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';

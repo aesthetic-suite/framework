@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, react/require-default-props */
 
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
