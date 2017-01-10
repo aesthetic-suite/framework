@@ -1,6 +1,6 @@
-declare module 'jss' {
-  import type { StyleDeclarationMap } from 'aesthetic';
+import type { StyleDeclarationMap } from '../src/types';
 
+declare module 'jss' {
   declare export type StyleSheetOptions = {
     element?: Object,
     index?: number,

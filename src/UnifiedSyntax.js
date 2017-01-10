@@ -92,7 +92,8 @@ export default class UnifiedSyntax {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  extract(setName: string, atRule: string, rules: AtRuleMap | CSSStyle, fromScope: string) {
+  // eslint-disable-next-line flowtype/no-weak-types
+  extract(setName: string, atRule: string, rules: any, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (!isObject(rules)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
@@ -101,19 +102,19 @@ export default class UnifiedSyntax {
 
     switch (atRule) {
       case '@fallbacks':
-        this.extractFallbacks(setName, rules, fromScope);
+        this.extractFallbacks(setName, (rules: CSSStyle), fromScope);
         break;
 
       case '@font-face':
-        this.extractFontFaces(setName, rules, fromScope);
+        this.extractFontFaces(setName, (rules: AtRuleMap), fromScope);
         break;
 
       case '@keyframes':
-        this.extractKeyframes(setName, rules, fromScope);
+        this.extractKeyframes(setName, (rules: AtRuleMap), fromScope);
         break;
 
       case '@media':
-        this.extractMediaQueries(setName, rules, fromScope);
+        this.extractMediaQueries(setName, (rules: AtRuleMap), fromScope);
         break;
 
       default: {

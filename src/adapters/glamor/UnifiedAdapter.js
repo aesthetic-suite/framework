@@ -19,9 +19,10 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     super();
 
     this.syntax = new UnifiedSyntax();
-    this.syntax.on('declaration', this.onDeclaration);
-    this.syntax.on('fontFace', this.onFontFace);
-    this.syntax.on('keyframe', this.onKeyframe);
+    this.syntax
+      .on('declaration', this.onDeclaration)
+      .on('fontFace', this.onFontFace)
+      .on('keyframe', this.onKeyframe);
   }
 
   convert(declarations: StyleDeclarationMap): StyleDeclarationMap {

@@ -22,21 +22,26 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     super(jss, options);
 
     this.syntax = new UnifiedSyntax();
-    this.syntax.on('converting', this.onConverting);
-    this.syntax.on('declaration', this.onDeclaration);
-    this.syntax.on('fontFace', this.onFontFace);
-    this.syntax.on('keyframe', this.onKeyframe);
-    this.syntax.on('mediaQuery', this.onMediaQuery);
+    this.syntax
+      .on('converting', this.onConverting)
+      .on('declaration', this.onDeclaration)
+      .on('fontFace', this.onFontFace)
+      .on('keyframe', this.onKeyframe)
+      .on('mediaQuery', this.onMediaQuery);
   }
 
   convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
     const adaptedDeclarations = this.syntax.convert(declarations);
+    const globalAtRules = ({}: CSSStyle);
 
-    injectAtRules(adaptedDeclarations, '@font-face', this.currentFontFaces);
-    injectAtRules(adaptedDeclarations, '@keyframes', this.currentKeyframes);
-    injectAtRules(adaptedDeclarations, '@media', this.currentMediaQueries);
+    injectAtRules(globalAtRules, '@font-face', this.currentFontFaces);
+    injectAtRules(globalAtRules, '@keyframes', this.currentKeyframes);
+    injectAtRules(globalAtRules, '@media', this.currentMediaQueries);
 
-    return adaptedDeclarations;
+    return {
+      ...globalAtRules,
+      ...adaptedDeclarations,
+    };
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {

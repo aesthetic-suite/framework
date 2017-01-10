@@ -1,6 +1,6 @@
-declare module 'glamor' {
-  import type { CSSStyle } from 'aesthetic';
+import type { CSSStyle } from '../src/types';
 
+declare module 'glamor' {
   declare type SheetDeclaration = {
     [key: string]: string,
     toString(): string,

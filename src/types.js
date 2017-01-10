@@ -12,11 +12,11 @@ export type CSSStyleValue = PrimitiveType | CSSStyle;
 
 export type CSSStyle = { [propName: string]: CSSStyleValue | CSSStyleValue[] };
 
-export type AtRuleMap = { [key: string]: CSSStyle };
+export type AtRuleMap = { [ruleName: string]: CSSStyle };
 
 export type AtRuleSet = { [setName: string]: AtRuleMap };
 
-export type AtRuleCache = { [key: string]: string };
+export type AtRuleCache = { [ruleName: string]: string };
 
 export type StyleDeclaration = string | CSSStyle;
 

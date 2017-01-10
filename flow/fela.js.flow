@@ -1,6 +1,6 @@
-declare module 'fela' {
-  import type { CSSStyle } from 'aesthetic';
+import type { CSSStyle } from '../src/types';
 
+declare module 'fela' {
   declare export type Rule = CSSStyle | ((props: Object) => CSSStyle);
 
   declare export type RendererConfig = {

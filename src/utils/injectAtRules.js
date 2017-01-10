@@ -6,15 +6,11 @@
 
 import type { AtRuleMap, CSSStyle } from '../types';
 
-export default function injectAtRules(
-  properties: CSSStyle,
-  atName: string,
-  atRules: AtRuleMap,
-) {
+export default function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap) {
   // Font faces don't have IDs in their declaration,
   // so we need to handle this differently.
   if (atName === '@font-face') {
-    const fonts = Object.keys(atRules).map(key => atRules[key]);
+    const fonts = Object.keys(rules).map(key => rules[key]);
 
     if (fonts.length) {
       properties[atName] = (fonts.length > 1) ? fonts : fonts[0];
@@ -22,8 +18,8 @@ export default function injectAtRules(
 
   // All other at-rules work the same.
   } else {
-    Object.keys(atRules).forEach((key: string) => {
-      properties[`${atName} ${key}`] = atRules[key];
+    Object.keys(rules).forEach((key: string) => {
+      properties[`${atName} ${key}`] = (rules[key]: CSSStyle);
     });
   }
 }
