@@ -7,7 +7,11 @@ declare module 'aesthetic' {
 
   declare export type CSSStyle = { [propName: string]: CSSStyleValue | CSSStyleValue[] };
 
-  declare export type AtRuleMap = { [setName: string]: CSSStyle };
+  declare export type AtRuleMap = { [key: string]: CSSStyle };
+
+  declare export type AtRuleSet = { [setName: string]: AtRuleMap };
+
+  declare export type AtRuleCache = { [key: string]: string };
 
   declare export type StyleDeclaration = string | CSSStyle;
 
@@ -65,30 +69,32 @@ declare module 'aesthetic' {
 }
 
 declare module 'aesthetic/unified' {
-  import type { CSSStyle, StyleDeclarationMap, AtRuleMap } from 'aesthetic';
+  import type { CSSStyle, StyleDeclarationMap, AtRuleSet, AtRuleMap, AtRuleCache } from 'aesthetic';
 
   declare export type EventCallback = (() => void) |
     ((setName: string, properties: CSSStyle) => void) |
     ((setName: string, atRuleName: string, properties: CSSStyle) => void);
 
+  declare export type FallbackMap = { [setName: string]: CSSStyle };
+
   declare export default class UnifiedSyntax {
     static LOCAL: string;
     static GLOBAL: string;
     events: { [eventName: string]: EventCallback };
-    fallbacks: AtRuleMap;
+    fallbacks: FallbackMap;
     fontFaces: AtRuleMap;
-    fontFaceNames: { [fontFamily: string]: string };
+    fontFaceNames: AtRuleCache;
     keyframes: AtRuleMap;
-    keyframeNames: { [animationName: string]: string };
-    mediaQueries: AtRuleMap;
+    keyframeNames: AtRuleCache;
+    mediaQueries: AtRuleSet;
     convert(declarations: StyleDeclarationMap): StyleDeclarationMap;
     convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
     emit(eventName: string, args: mixed[]): this;
-    extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string): void;
-    extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string): void;
-    extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string): void;
+    extract(setName: string, atRule: string, rules: AtRuleMap | CSSStyle, fromScope: string): void;
+    extractFallbacks(setName: string, properties: CSSStyle, fromScope: string): void;
+    extractFontFaces(setName: string, rules: AtRuleMap, fromScope: string): void;
+    extractKeyframes(setName: string, rules: AtRuleMap, fromScope: string): void;
+    extractMediaQueries(setName: string, rules: AtRuleMap, fromScope: string): void;
     off(eventName: string): this;
     on(eventName: string, callback: EventCallback): this;
     resetGlobalCache(): void;
@@ -97,7 +103,7 @@ declare module 'aesthetic/unified' {
 }
 
 declare module 'aesthetic-utils' {
-  import type { AtRuleMap, CSSStyle } from 'aesthetic';
+  import type { AtRuleMap, AtRuleCache, CSSStyle } from 'aesthetic';
 
   declare export function createStyleElement(id: string): HTMLElement;
 
@@ -115,17 +121,13 @@ declare module 'aesthetic-utils' {
   declare export function injectRuleByLookup(
     properties: CSSStyle,
     propName: string,
-    lookup: CSSStyle,
+    lookup: AtRuleMap | AtRuleCache,
     flatten?: boolean,
   ): void;
 }
 
 declare module 'aesthetic/lib/helpers/isObject' {
   declare export default function isObject<T>(value: T): boolean;
-}
-
-declare module 'aesthetic/lib/helpers/isPrimitive' {
-  declare export default function isPrimitive<T>(value: T): boolean;
 }
 
 declare module 'aesthetic/lib/helpers/toArray' {

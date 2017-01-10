@@ -6,8 +6,8 @@
 
 import isObject from './helpers/isObject';
 
-import type { StyleDeclarationMap, CSSStyle, AtRuleMap } from 'aesthetic';
-import type { EventCallback } from 'aesthetic/unified';
+import type { StyleDeclarationMap, CSSStyle, AtRuleSet, AtRuleMap, AtRuleCache } from 'aesthetic';
+import type { EventCallback, FallbackMap } from 'aesthetic/unified';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
@@ -15,12 +15,12 @@ export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
-  fallbacks: AtRuleMap = {}; // Local
+  fallbacks: FallbackMap = {}; // Local
   fontFaces: AtRuleMap = {}; // Global
-  fontFaceNames: { [fontFamily: string]: string } = {};
+  fontFaceNames: AtRuleCache = {};
   keyframes: AtRuleMap = {}; // Global
-  keyframeNames: { [animationName: string]: string } = {};
-  mediaQueries: AtRuleMap = {}; // Local
+  keyframeNames: AtRuleCache = {};
+  mediaQueries: AtRuleSet = {}; // Local
   styleTag: ?HTMLElement = null;
 
   static LOCAL: string = LOCAL;
@@ -82,7 +82,7 @@ export default class UnifiedSyntax {
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit<T>(eventName: string, args: T[] = []): this {
+  emit(eventName: string, args: *[] = []): this {
     if (this.events[eventName]) {
       this.events[eventName](...args);
     }
@@ -93,28 +93,28 @@ export default class UnifiedSyntax {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  extract(setName: string, atRule: string, properties: AtRuleMap, fromScope: string) {
+  extract(setName: string, atRule: string, rules: AtRuleMap | CSSStyle, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
-      if (!isObject(properties)) {
+      if (!isObject(rules)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
       }
     }
 
     switch (atRule) {
       case '@fallbacks':
-        this.extractFallbacks(setName, properties, fromScope);
+        this.extractFallbacks(setName, rules, fromScope);
         break;
 
       case '@font-face':
-        this.extractFontFaces(setName, properties, fromScope);
+        this.extractFontFaces(setName, rules, fromScope);
         break;
 
       case '@keyframes':
-        this.extractKeyframes(setName, properties, fromScope);
+        this.extractKeyframes(setName, rules, fromScope);
         break;
 
       case '@media':
-        this.extractMediaQueries(setName, properties, fromScope);
+        this.extractMediaQueries(setName, rules, fromScope);
         break;
 
       default: {
@@ -128,91 +128,81 @@ export default class UnifiedSyntax {
   /**
    * Extract property fallbacks.
    */
-  extractFallbacks(setName: string, properties: AtRuleMap, fromScope: string) {
+  extractFallbacks(setName: string, properties: CSSStyle, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Property fallbacks must be defined locally to an element.');
       }
     }
 
-    Object.keys(properties).forEach((propName: string) => {
-      if (!this.fallbacks[setName]) {
-        this.fallbacks[setName] = {};
-      }
+    this.fallbacks[setName] = properties;
 
-      this.fallbacks[setName][propName] = properties[propName];
-
-      this.emit('fallback', [setName, propName, properties[propName]]);
-    });
+    this.emit('fallback', [setName, properties]);
   }
 
   /**
    * Extract font face at-rules.
    */
-  extractFontFaces(setName: string, properties: AtRuleMap, fromScope: string) {
+  extractFontFaces(setName: string, rules: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Font faces must be declared in the global scope.');
       }
     }
 
-    Object.keys(properties).forEach((name: string) => {
+    Object.keys(rules).forEach((name: string) => {
       // Use the family name so raw CSS can reference it
-      const familyName = String(properties[name].fontFamily);
+      const familyName = String(rules[name].fontFamily);
 
       if (this.fontFaces[familyName]) {
         if (process.env.NODE_ENV === 'development') {
           throw new TypeError(`Font face "${familyName}" has already been defined.`);
         }
       } else {
-        this.fontFaces[familyName] = properties[name];
+        this.fontFaces[familyName] = rules[name];
       }
 
-      this.emit('fontFace', [setName, familyName, properties[name]]);
+      this.emit('fontFace', [setName, familyName, rules[name]]);
     });
   }
 
   /**
    * Extract animation keyframes at-rules.
    */
-  extractKeyframes(setName: string, properties: AtRuleMap, fromScope: string) {
+  extractKeyframes(setName: string, rules: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Animation keyframes must be declared in the global scope.');
       }
     }
 
-    Object.keys(properties).forEach((name: string) => {
+    Object.keys(rules).forEach((name: string) => {
       if (this.keyframes[name]) {
         if (process.env.NODE_ENV === 'development') {
           throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
         }
       } else {
-        this.keyframes[name] = properties[name];
+        this.keyframes[name] = rules[name];
       }
 
-      this.emit('keyframe', [setName, name, properties[name]]);
+      this.emit('keyframe', [setName, name, rules[name]]);
     });
   }
 
   /**
    * Extract media query at-rules.
    */
-  extractMediaQueries(setName: string, properties: AtRuleMap, fromScope: string) {
+  extractMediaQueries(setName: string, rules: AtRuleMap, fromScope: string) {
     if (process.env.NODE_ENV === 'development') {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Media queries must be defined locally to an element.');
       }
     }
 
-    Object.keys(properties).forEach((query: string) => {
-      if (!this.mediaQueries[setName]) {
-        this.mediaQueries[setName] = {};
-      }
+    this.mediaQueries[setName] = rules;
 
-      this.mediaQueries[setName][query] = properties[query];
-
-      this.emit('mediaQuery', [setName, query, properties[query]]);
+    Object.keys(rules).forEach((query: string) => {
+      this.emit('mediaQuery', [setName, query, rules[query]]);
     });
   }
 

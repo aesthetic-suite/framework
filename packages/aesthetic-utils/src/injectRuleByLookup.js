@@ -4,12 +4,12 @@
  * @flow
  */
 
-import type { CSSStyle } from 'aesthetic';
+import type { AtRuleMap, AtRuleCache, CSSStyle } from 'aesthetic';
 
 export default function injectRuleByLookup(
   properties: CSSStyle,
   propName: string,
-  lookup: CSSStyle,
+  lookup: AtRuleMap | AtRuleCache,
   flatten: boolean = false,
 ) {
   let value = properties[propName];

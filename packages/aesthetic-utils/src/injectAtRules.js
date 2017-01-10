@@ -22,8 +22,8 @@ export default function injectAtRules(
 
   // All other at-rules work the same.
   } else {
-    Object.keys(atRules).forEach((id: string) => {
-      properties[`${atName} ${id}`] = atRules[id];
+    Object.keys(atRules).forEach((key: string) => {
+      properties[`${atName} ${key}`] = atRules[key];
     });
   }
 }

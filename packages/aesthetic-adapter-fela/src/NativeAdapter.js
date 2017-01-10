@@ -27,7 +27,13 @@ export default class FelaAdapter extends Adapter {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {
-      classNames[setName] = this.fela.renderRule(() => declarations[setName]);
+      const value = declarations[setName];
+
+      if (typeof value === 'string') {
+        classNames[setName] = value;
+      } else {
+        classNames[setName] = this.fela.renderRule(() => value);
+      }
     });
 
     return classNames;
