@@ -19,7 +19,8 @@ export default function injectRuleByLookup(
   }
 
   value = value.split(',').map((name: string) => {
-    let found = lookup[name.trim()];
+    name = name.trim();
+    let found = lookup[name];
 
     if (found && Array.isArray(found)) {
       found = found[0];
@@ -29,7 +30,7 @@ export default function injectRuleByLookup(
   });
 
   if (flatten) {
-    value = value.join(',');
+    value = value.join(', ');
   }
 
   properties[propName] = value;

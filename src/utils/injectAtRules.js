@@ -19,7 +19,7 @@ export default function injectAtRules(properties: CSSStyle, atName: string, rule
   // All other at-rules work the same.
   } else {
     Object.keys(rules).forEach((key: string) => {
-      properties[`${atName} ${key}`] = (rules[key]: CSSStyle);
+      properties[`${atName} ${key}`] = rules[key];
     });
   }
 }

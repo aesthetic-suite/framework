@@ -7,6 +7,7 @@
 import JSS from 'jss';
 import UnifiedSyntax from '../../UnifiedSyntax';
 import injectAtRules from '../../utils/injectAtRules';
+import toArray from '../../utils/toArray';
 import JSSAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, ClassNameMap, AtRuleMap, CSSStyle } from '../../types';
@@ -65,19 +66,17 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     });
 
     // Fallbacks
-    /*
     if (this.syntax.fallbacks[setName]) {
-      properties.fallbacks = Object.keys(this.syntax.fallbacks[setName])
-        .reduce((list: CSSStyle[], propName: string) => (
-          [
-            ...list,
-            ...toArray(this.syntax.fallbacks[setName][propName]).map((propValue: string) => ({
-              [propName]: propValue,
-            })),
-          ]
-        ), []);
+      const fallbacks = [];
+
+      Object.keys(this.syntax.fallbacks[setName]).forEach((propName: string) => {
+        toArray(this.syntax.fallbacks[setName][propName]).forEach((propValue: *) => {
+          fallbacks.push({ [propName]: propValue });
+        });
+      });
+
+      properties.fallbacks = fallbacks;
     }
-    */
   };
 
   onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
