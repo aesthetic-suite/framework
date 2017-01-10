@@ -5,6 +5,7 @@
   "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [],
   "scripts": {
+    "lerna": "lerna",
     "clean": "rimraf ./packages/{aesthetic,aesthetic-*}/lib && lerna clean --yes",
     "build": "",
     "docs": "cp ./README.md ./packages/aesthetic/README.md",
