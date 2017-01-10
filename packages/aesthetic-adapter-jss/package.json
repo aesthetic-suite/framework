@@ -14,19 +14,11 @@
     "*.md",
     "lib"
   ],
-  "scripts": {
-    "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
-  },
   "dependencies": {
     "aesthetic-utils": "^0.0.0"
   },
   "peerDependencies": {
     "aesthetic": "^0.1.2",
     "jss": "^6.0.1"
-  },
-  "devDependencies": {
-    "aesthetic": "^0.1.2",
-    "jss": "^6.0.1",
-    "jss-preset-default": "^1.1.0"
   }
 }

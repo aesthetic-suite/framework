@@ -1,32 +1,14 @@
+/* eslint-disable no-console */
+
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { StyleSheet, css } from 'aphrodite';
-import Aesthetic, {
-  createStyler,
-  classes,
-  ClassNamesPropType,
-  Adapter,
-  ThemeProvider,
-} from '../packages/aesthetic/src';
+import Aesthetic from '../src/Aesthetic';
+import createStyler from '../src/createStyler';
+import classes from '../src/classNames';
+import ThemeProvider from '../src/ThemeProvider';
+import FelaAdapter from '../src/adapters/fela/NativeAdapter';
 
-// Because of our Lerna pakages, we can't include to the local adapter.
-// Just duplicate the logic here.
-class AphroditeAdapter extends Adapter {
-  unifiedSyntax = false;
-
-  transformStyles(styleName, declarations) {
-    const styleSheet = StyleSheet.create(declarations);
-    const classNames = {};
-
-    Object.keys(styleSheet).forEach((setName: string) => {
-      classNames[setName] = css(styleSheet[setName]);
-    });
-
-    return classNames;
-  }
-}
-
-const adapter = new AphroditeAdapter();
+const adapter = new FelaAdapter();
 const aesthetic = new Aesthetic(adapter);
 const style = createStyler(aesthetic);
 
@@ -64,7 +46,7 @@ function BaseButton({ children, classNames, primary = false }) {
 
 BaseButton.propTypes = {
   children: PropTypes.node,
-  classNames: ClassNamesPropType,
+  classNames: PropTypes.objectOf(PropTypes.string),
   primary: PropTypes.bool,
 };
 

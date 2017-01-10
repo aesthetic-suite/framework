@@ -14,9 +14,6 @@
     "*.md",
     "lib"
   ],
-  "scripts": {
-    "build": "node ../../node_modules/.bin/babel ./src -d ./lib"
-  },
   "dependencies": {
     "aesthetic-utils": "^0.0.0"
   },
@@ -24,11 +21,5 @@
     "aesthetic": "^0.1.2",
     "fela": "^4.1.0",
     "fela-dom": "^4.1.0"
-  },
-  "devDependencies": {
-    "aesthetic": "^0.1.2",
-    "fela": "^4.1.0",
-    "fela-dom": "^4.1.0",
-    "fela-preset-web": "^4.1.1"
   }
 }

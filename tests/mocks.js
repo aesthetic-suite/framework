@@ -1,4 +1,4 @@
-import Adapter from '../packages/aesthetic/src/Adapter';
+import Adapter from '../src/Adapter';
 
 export const FONT_ROBOTO = {
   fontFamily: 'Roboto',

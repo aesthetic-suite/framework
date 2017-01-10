@@ -37,6 +37,7 @@ declare module 'aesthetic' {
     themePropName?: string,
   };
 
+  /*
   declare export class Adapter {
     transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap;
   }
@@ -66,8 +67,10 @@ declare module 'aesthetic' {
   declare export function createStyler(aesthetic: Aesthetic): style;
 
   declare export function classes(...values: MaybeClassName[]): string;
+  */
 }
 
+/*
 declare module 'aesthetic/unified' {
   import type { CSSStyle, StyleDeclarationMap, AtRuleSet, AtRuleMap, AtRuleCache } from 'aesthetic';
 
@@ -133,3 +136,4 @@ declare module 'aesthetic/lib/helpers/isObject' {
 declare module 'aesthetic/lib/helpers/toArray' {
   declare export default function toArray<T>(value: T): T[];
 }
+*/
