@@ -20,7 +20,6 @@ export default class UnifiedSyntax {
   keyframes: AtRuleMap = {}; // Global
   keyframeNames: AtRuleCache = {};
   mediaQueries: AtRuleSet = {}; // Local
-  styleTag: ?HTMLElement = null;
 
   static LOCAL: string = LOCAL;
   static GLOBAL: string = GLOBAL;
