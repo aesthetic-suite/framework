@@ -1,24 +1,6 @@
 /* eslint-disable */
-'use strict';
 
+// Required for css-modules
 require('babel-register')({
   ignore: /(processCss\.js|node_modules)/,
 });
-
-const document = require('jsdom').jsdom('<!DOCTYPE html><html><body></body></html>');
-const window = document.defaultView;
-
-global.document = document;
-global.window = window;
-
-for (let key in window) {
-  if (!window.hasOwnProperty(key)) {
-    continue;
-  }
-
-  if (key in global) {
-    continue;
-  }
-
-  global[key] = window[key];
-}

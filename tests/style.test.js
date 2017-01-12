@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import ThemeProvider from '../src/ThemeProvider';
 import style from '../src/style';
@@ -21,8 +20,8 @@ describe('style()', () => {
   it('inherits name from component `constructor.name`', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
-    expect(Wrapped.displayName).to.equal('Aesthetic(BaseComponent)');
-    expect(Wrapped.styleName).to.equal('BaseComponent');
+    expect(Wrapped.displayName).toBe('Aesthetic(BaseComponent)');
+    expect(Wrapped.styleName).toBe('BaseComponent');
   });
 
   it('inherits name from component `displayName`', () => {
@@ -35,8 +34,8 @@ describe('style()', () => {
 
     const Wrapped = style(aesthetic)(DisplayComponent);
 
-    expect(Wrapped.displayName).to.equal('Aesthetic(CustomDisplayName)');
-    expect(Wrapped.styleName).to.equal('CustomDisplayName');
+    expect(Wrapped.displayName).toBe('Aesthetic(CustomDisplayName)');
+    expect(Wrapped.styleName).toBe('CustomDisplayName');
   });
 
   it('inherits style name from `options.styleName`', () => {
@@ -44,18 +43,18 @@ describe('style()', () => {
       styleName: 'CustomStyleName',
     })(BaseComponent);
 
-    expect(Wrapped.displayName).to.equal('Aesthetic(CustomStyleName)');
-    expect(Wrapped.styleName).to.equal('CustomStyleName');
+    expect(Wrapped.displayName).toBe('Aesthetic(CustomStyleName)');
+    expect(Wrapped.styleName).toBe('CustomStyleName');
   });
 
   it('stores the original component as a static property', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
-    expect(Wrapped.wrappedComponent).to.equal(BaseComponent);
+    expect(Wrapped.wrappedComponent).toBe(BaseComponent);
   });
 
   it('sets default styles on the `Aesthetic` instance', () => {
-    expect(aesthetic.styles.BaseComponent).to.be.an('undefined');
+    expect(aesthetic.styles.BaseComponent).toBeUndefined();
 
     style(aesthetic, {
       button: {
@@ -64,7 +63,7 @@ describe('style()', () => {
       },
     })(BaseComponent);
 
-    expect(aesthetic.styles.BaseComponent).to.deep.equal({
+    expect(aesthetic.styles.BaseComponent).toEqual({
       button: {
         display: 'inline-block',
         padding: 5,
@@ -75,7 +74,7 @@ describe('style()', () => {
   it('defines static styling methods', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
-    expect(Wrapped.extendStyles).to.be.an('function');
+    expect(Wrapped.extendStyles).toBeInstanceOf(Function);
   });
 
   it('can set styles using `extendStyles`', () => {
@@ -88,7 +87,7 @@ describe('style()', () => {
       extendable: true,
     })(BaseComponent);
 
-    expect(aesthetic.styles.BaseComponent).to.deep.equal({
+    expect(aesthetic.styles.BaseComponent).toEqual({
       button: {
         display: 'inline-block',
         padding: 5,
@@ -103,7 +102,7 @@ describe('style()', () => {
       styleName: 'ExtendedComponent',
     });
 
-    expect(aesthetic.styles.ExtendedComponent).to.deep.equal({
+    expect(aesthetic.styles.ExtendedComponent).toEqual({
       notButton: {
         color: 'red',
       },
@@ -122,12 +121,12 @@ describe('style()', () => {
 
     expect(() => {
       Extended.extendStyles({});
-    }).to.throw(Error, 'ExtendedComponent is not extendable.');
+    }).toThrowError('ExtendedComponent is not extendable.');
   });
 
   it('inherits theme name from prop', () => {
     function ThemeComponent(props) {
-      expect(props.theme).to.equal('classic');
+      expect(props.theme).toBe('classic');
       return null;
     }
 
@@ -138,7 +137,7 @@ describe('style()', () => {
 
   it('inherits theme name from context', () => {
     function ThemeComponent(props) {
-      expect(props.theme).to.equal('classic');
+      expect(props.theme).toBe('classic');
       return null;
     }
 
@@ -149,7 +148,7 @@ describe('style()', () => {
 
   it('transforms styles on mount', () => {
     function StylesComponent(props) {
-      expect(props.classNames).to.deep.equal(TEST_CLASS_NAMES);
+      expect(props.classNames).toEqual(TEST_CLASS_NAMES);
       return null;
     }
 
@@ -158,16 +157,16 @@ describe('style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
-    expect(aesthetic.classNames['StylesComponent:']).to.be.an('undefined');
+    expect(aesthetic.classNames['StylesComponent:']).toBeUndefined();
 
     shallow(<Wrapped />).dive();
 
-    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('transforms styles if theme changes', () => {
     function StylesComponent(props) {
-      expect(props.classNames).to.deep.equal(TEST_CLASS_NAMES);
+      expect(props.classNames).toEqual(TEST_CLASS_NAMES);
       return null;
     }
 
@@ -176,26 +175,26 @@ describe('style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
-    expect(aesthetic.classNames['StylesComponent:']).to.be.an('undefined');
-    expect(aesthetic.classNames['StylesComponent:classic']).to.be.an('undefined');
+    expect(aesthetic.classNames['StylesComponent:']).toBeUndefined();
+    expect(aesthetic.classNames['StylesComponent:classic']).toBeUndefined();
 
     const wrapper = shallow(<Wrapped />);
     wrapper.dive();
 
-    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
-    expect(aesthetic.classNames['StylesComponent:classic']).to.be.an('undefined');
+    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:classic']).toBeUndefined();
 
     wrapper.setProps({
       theme: 'classic',
     });
 
-    expect(aesthetic.classNames['StylesComponent:']).to.deep.equal(TEST_CLASS_NAMES);
-    expect(aesthetic.classNames['StylesComponent:classic']).to.deep.equal(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.classNames['StylesComponent:classic']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('can customize the theme prop type using `options.themePropName`', () => {
     function ThemeComponent(props) {
-      expect(props.someThemeNameHere).to.equal('classic');
+      expect(props.someThemeNameHere).toBe('classic');
       return null;
     }
 
@@ -203,14 +202,14 @@ describe('style()', () => {
       themePropName: 'someThemeNameHere',
     })(ThemeComponent);
 
-    expect(Wrapped.propTypes).to.have.ownProperty('someThemeNameHere');
+    expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
 
     shallow(<Wrapped someThemeNameHere="classic" />).dive();
   });
 
   it('can customize the class names prop type using `options.classNamesPropName`', () => {
     function StylesComponent(props) {
-      expect(props.classes).to.deep.equal(TEST_CLASS_NAMES);
+      expect(props.classes).toEqual(TEST_CLASS_NAMES);
       return null;
     }
 
@@ -228,6 +227,6 @@ describe('style()', () => {
     expect(() => {
       style(aesthetic)(BaseComponent);
       style(aesthetic)(BaseComponent);
-    }).to.throw(Error, 'A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.');
+    }).toThrowError('A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.');
   });
 });

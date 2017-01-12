@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { css, speedy, flush } from 'glamor';
 import GlamorAdapter from '../../../src/adapters/glamor/NativeAdapter';
 import {
@@ -19,13 +18,13 @@ describe('adapters/glamor/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'component-css-1n8n9n3',
     });
   });
 
   it('supports pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'component-css-1g7aevf',
     });
   });
@@ -38,7 +37,7 @@ describe('adapters/glamor/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       fallback: 'component-css-1nxkcks',
     });
   });
@@ -51,7 +50,7 @@ describe('adapters/glamor/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       font: 'component-css-1x6s9dk',
     });
   });
@@ -65,7 +64,7 @@ describe('adapters/glamor/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       animation: 'component-css-7pau8t',
     });
   });
@@ -83,7 +82,7 @@ describe('adapters/glamor/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       media: 'component-css-rr71yy',
     });
   });

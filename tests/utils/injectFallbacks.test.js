@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import injectFallbacks from '../../src/utils/injectFallbacks';
 
 describe('utils/injectFallbacks()', () => {
@@ -12,7 +11,7 @@ describe('utils/injectFallbacks()', () => {
 
     injectFallbacks(props, fallbacks);
 
-    expect(props).to.deep.equal({});
+    expect(props).toEqual({});
   });
 
   it('adds a single fallback', () => {
@@ -22,7 +21,7 @@ describe('utils/injectFallbacks()', () => {
 
     injectFallbacks(props, fallbacks);
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       background: ['red', 'black'],
     });
   });
@@ -34,7 +33,7 @@ describe('utils/injectFallbacks()', () => {
 
     injectFallbacks(props, fallbacks);
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       display: ['box', 'flex-box', 'flex'],
     });
   });

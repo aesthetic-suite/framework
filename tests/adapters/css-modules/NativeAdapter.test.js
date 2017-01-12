@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import CSSModulesAdapter from '../../../src/adapters/css-modules/NativeAdapter';
 
 describe('adapters/css-modules/NativeAdapter', () => {
@@ -6,7 +5,7 @@ describe('adapters/css-modules/NativeAdapter', () => {
     const instance = new CSSModulesAdapter();
 
     // eslint-disable-next-line global-require
-    expect(instance.transform('foo', require('./styles.css'))).to.deep.equal({
+    expect(instance.transform('foo', require('./styles.css'))).toEqual({
       header: 'foo-styles__header___15CNA',
       footer: 'foo-styles__footer___2OPZU',
     });

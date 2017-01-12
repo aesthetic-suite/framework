@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import injectAtRules from '../../src/utils/injectAtRules';
 import { FONT_ROBOTO, KEYFRAME_FADE } from '../mocks';
 
@@ -10,7 +9,7 @@ describe('utils/injectAtRules()', () => {
       roboto: FONT_ROBOTO,
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       '@font-face': FONT_ROBOTO,
     });
   });
@@ -23,7 +22,7 @@ describe('utils/injectAtRules()', () => {
       mrroboto: FONT_ROBOTO,
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       '@font-face': [FONT_ROBOTO, FONT_ROBOTO],
     });
   });
@@ -35,7 +34,7 @@ describe('utils/injectAtRules()', () => {
       fade: KEYFRAME_FADE,
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       '@keyframes fade': KEYFRAME_FADE,
     });
   });
@@ -49,7 +48,7 @@ describe('utils/injectAtRules()', () => {
       },
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       '@media (min-width: 300px)': {
         display: 'block',
       },

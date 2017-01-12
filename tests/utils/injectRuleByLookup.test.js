@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import injectRuleByLookup from '../../src/utils/injectRuleByLookup';
 
 describe('utils/injectRuleByLookup()', () => {
@@ -7,7 +6,7 @@ describe('utils/injectRuleByLookup()', () => {
 
     injectRuleByLookup(props, 'fontFamily', {});
 
-    expect(props).to.deep.equal(props);
+    expect(props).toEqual(props);
   });
 
   it('returns array if no lookup found', () => {
@@ -15,7 +14,7 @@ describe('utils/injectRuleByLookup()', () => {
 
     injectRuleByLookup(props, 'fontFamily', {});
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       fontFamily: ['Arial', 'Verdana'],
     });
   });
@@ -29,7 +28,7 @@ describe('utils/injectRuleByLookup()', () => {
       },
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       fontFamily: [{
         fontSrc: 'src("arial.woff")',
       }, 'Verdana'],
@@ -43,7 +42,7 @@ describe('utils/injectRuleByLookup()', () => {
       Arial: 'NewArial',
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       fontFamily: ['NewArial', 'Verdana'],
     });
   });
@@ -55,7 +54,7 @@ describe('utils/injectRuleByLookup()', () => {
       Arial: ['NewArial', 'OtherArial'],
     });
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       fontFamily: ['NewArial', 'Verdana'],
     });
   });
@@ -67,7 +66,7 @@ describe('utils/injectRuleByLookup()', () => {
       Arial: 'NewArial',
     }, true);
 
-    expect(props).to.deep.equal({
+    expect(props).toEqual({
       fontFamily: 'NewArial, Verdana',
     });
   });

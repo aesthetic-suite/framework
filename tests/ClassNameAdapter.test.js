@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import ClassNameAdapter from '../src/ClassNameAdapter';
 import { TEST_CLASS_NAMES } from './mocks';
 
@@ -15,11 +14,10 @@ describe('ClassNameAdapter', () => {
         foo: '.valid-class',
         bar: { not: 'valid' },
       });
-    }).to.throw(TypeError,
-      '`ClassNameAdapter` expects valid CSS class names; non-string provided for "bar".');
+    }).toThrowError('`ClassNameAdapter` expects valid CSS class names; non-string provided for "bar".');
   });
 
   it('sets and caches class names', () => {
-    expect(instance.transformStyles('foo', TEST_CLASS_NAMES)).to.deep.equal(TEST_CLASS_NAMES);
+    expect(instance.transformStyles('foo', TEST_CLASS_NAMES)).toEqual(TEST_CLASS_NAMES);
   });
 });

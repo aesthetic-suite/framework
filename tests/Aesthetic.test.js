@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import Aesthetic from '../src/Aesthetic';
 import { TestAdapter, TEST_CLASS_NAMES, FONT_ROBOTO } from './mocks';
 
@@ -12,7 +11,7 @@ describe('Aesthetic', () => {
   describe('extendTheme', () => {
     it('errors if the parent theme doesnt exist', () => {
       expect(() => instance.extendTheme('foo', 'bar', {}))
-        .to.throw(Error, 'Theme "foo" does not exist.');
+        .toThrowError('Theme "foo" does not exist.');
     });
 
     it('deep merges the parent and child theme', () => {
@@ -32,7 +31,7 @@ describe('Aesthetic', () => {
         },
       });
 
-      expect(instance.themes.bar).to.deep.equal({
+      expect(instance.themes.bar).toEqual({
         unit: 'em',
         unitSize: 8,
         colors: {
@@ -46,7 +45,7 @@ describe('Aesthetic', () => {
   describe('getStyles()', () => {
     it('errors if no styles', () => {
       expect(() => instance.getStyles('foo'))
-        .to.throw(Error, 'Styles do not exist for "foo".');
+        .toThrowError('Styles do not exist for "foo".');
     });
 
     it('errors if no theme', () => {
@@ -55,7 +54,7 @@ describe('Aesthetic', () => {
       });
 
       expect(() => instance.getStyles('foo', 'classic'))
-        .to.throw(Error, 'Theme "classic" does not exist.');
+        .toThrowError('Theme "classic" does not exist.');
     });
 
     it('returns the object as is', () => {
@@ -63,7 +62,7 @@ describe('Aesthetic', () => {
         display: 'block',
       };
 
-      expect(instance.getStyles('foo')).to.deep.equal({
+      expect(instance.getStyles('foo')).toEqual({
         display: 'block',
       });
     });
@@ -77,7 +76,7 @@ describe('Aesthetic', () => {
         padding: theme.unitSize * 2,
       });
 
-      expect(instance.getStyles('foo', 'classic')).to.deep.equal({
+      expect(instance.getStyles('foo', 'classic')).toEqual({
         padding: 10,
       });
     });
@@ -98,16 +97,16 @@ describe('Aesthetic', () => {
         display: 'block',
       }), 'bar');
 
-      expect(instance.getStyles('foo')).to.deep.equal({
+      expect(instance.getStyles('foo')).toEqual({
         color: 'red',
       });
 
-      expect(instance.getStyles('bar')).to.deep.equal({
+      expect(instance.getStyles('bar')).toEqual({
         color: 'red',
         background: 'blue',
       });
 
-      expect(instance.getStyles('baz')).to.deep.equal({
+      expect(instance.getStyles('baz')).toEqual({
         color: 'red',
         background: 'blue',
         display: 'block',
@@ -120,32 +119,30 @@ describe('Aesthetic', () => {
       instance.themes.foo = {};
 
       expect(() => instance.registerTheme('foo'))
-        .to.throw(Error, 'Theme "foo" already exists.');
+        .toThrowError('Theme "foo" already exists.');
     });
 
     it('errors if a theme style is not an object', () => {
       expect(() => instance.registerTheme('foo', 123))
-        .to.throw(Error, 'Theme "foo" must be a style object.');
+        .toThrowError('Theme "foo" must be a style object.');
     });
 
     it('errors if global styles is not an object', () => {
       expect(() => instance.registerTheme('foo', {}, 123))
-        .to.throw(Error, 'Global styles for "foo" must be an object.');
+        .toThrowError('Global styles for "foo" must be an object.');
     });
 
     it('registers theme and transforms global styles', () => {
-      expect(instance.themes).to.not.have.property('foo');
-
       instance.registerTheme('foo', { unitSize: 6 }, {
         '@font-face': {
           roboto: FONT_ROBOTO,
         },
       });
 
-      expect(instance.themes).to.deep.equal({
+      expect(instance.themes).toEqual({
         foo: { unitSize: 6 },
       });
-      expect(instance.adapter.lastTransform).to.deep.equal({
+      expect(instance.adapter.lastTransform).toEqual({
         '@font-face': {
           roboto: FONT_ROBOTO,
         },
@@ -155,21 +152,23 @@ describe('Aesthetic', () => {
 
   describe('setAdapter()', () => {
     it('errors if not an instance of `Adapter`', () => {
-      expect(() => instance.setAdapter(true)).to.throw(TypeError);
-      expect(() => instance.setAdapter(123)).to.throw(TypeError);
-      expect(() => instance.setAdapter('foo')).to.throw(TypeError);
-      expect(() => instance.setAdapter({})).to.throw(TypeError);
-      expect(() => instance.setAdapter([])).to.throw(TypeError);
+      const error = 'Adapter must be an instance of `Adapter`.';
+
+      expect(() => instance.setAdapter(true)).toThrowError(error);
+      expect(() => instance.setAdapter(123)).toThrowError(error);
+      expect(() => instance.setAdapter('foo')).toThrowError(error);
+      expect(() => instance.setAdapter({})).toThrowError(error);
+      expect(() => instance.setAdapter([])).toThrowError(error);
     });
 
     it('sets an adapter', () => {
       const adapter = new TestAdapter();
 
-      expect(instance.adapter).to.not.equal(adapter);
+      expect(instance.adapter).not.toBe(adapter);
 
       instance.setAdapter(adapter);
 
-      expect(instance.adapter).to.equal(adapter);
+      expect(instance.adapter).toBe(adapter);
     });
   });
 
@@ -178,48 +177,50 @@ describe('Aesthetic', () => {
       instance.styles.foo = {};
 
       expect(() => instance.setStyles('foo', {}))
-        .to.throw(Error, 'Styles have already been set for "foo".');
+        .toThrowError('Styles have already been set for "foo".');
     });
 
     it('errors if styles are empty', () => {
       expect(() => instance.setStyles('foo'))
-        .to.throw(TypeError, 'Styles defined for "foo" must be an object or function.');
+        .toThrowError('Styles defined for "foo" must be an object or function.');
     });
 
     it('errors if styles are not an object', () => {
-      expect(() => instance.setStyles('foo', 123)).to.throw(TypeError);
-      expect(() => instance.setStyles('foo', 'abc')).to.throw(TypeError);
-      expect(() => instance.setStyles('foo', [])).to.throw(TypeError);
-      expect(() => instance.setStyles('foo', true)).to.throw(TypeError);
+      const error = 'Styles defined for "foo" must be an object or function.';
+
+      expect(() => instance.setStyles('foo', 123)).toThrowError(error);
+      expect(() => instance.setStyles('foo', 'abc')).toThrowError(error);
+      expect(() => instance.setStyles('foo', [])).toThrowError(error);
+      expect(() => instance.setStyles('foo', true)).toThrowError(error);
     });
 
     it('errors if extended styles do not exist', () => {
       expect(() => instance.setStyles('foo', {}, 'parent'))
-        .to.throw(Error, 'Cannot extend from "parent" as those styles do not exist.');
+        .toThrowError('Cannot extend from "parent" as those styles do not exist.');
     });
 
     it('errors if extended and style names match', () => {
       expect(() => instance.setStyles('foo', {}, 'foo'))
-        .to.throw(Error, 'Cannot extend styles from itself.');
+        .toThrowError('Cannot extend styles from itself.');
     });
 
     it('sets styles', () => {
-      expect(instance.styles.foo).to.be.an('undefined');
+      expect(instance.styles.foo).toBeUndefined();
 
       instance.setStyles('foo', {
         header: { color: 'red' },
         footer: { padding: 5 },
       });
 
-      expect(instance.styles.foo).to.deep.equal({
+      expect(instance.styles.foo).toEqual({
         header: { color: 'red' },
         footer: { padding: 5 },
       });
     });
 
     it('sets styles and extends parents', () => {
-      expect(instance.styles.bar).to.be.an('undefined');
-      expect(instance.parents.bar).to.be.an('undefined');
+      expect(instance.styles.bar).toBeUndefined();
+      expect(instance.parents.bar).toBeUndefined();
 
       instance.setStyles('foo', {
         header: { color: 'red' },
@@ -230,31 +231,31 @@ describe('Aesthetic', () => {
         child: { margin: 5 },
       }, 'foo');
 
-      expect(instance.styles.bar).to.deep.equal({
+      expect(instance.styles.bar).toEqual({
         child: { margin: 5 },
       });
-      expect(instance.parents.bar).to.equal('foo');
+      expect(instance.parents.bar).toBe('foo');
     });
   });
 
   describe('transformStyles()', () => {
     it('errors if no styles have been defined', () => {
-      expect(() => instance.transformStyles('foo')).to.throw(Error);
+      expect(() => instance.transformStyles('foo')).toThrowError('Styles do not exist for "foo".');
     });
 
     it('returns the cached and transformed class names', () => {
       instance.classNames['foo:'] = { ...TEST_CLASS_NAMES };
 
-      expect(instance.transformStyles('foo')).to.deep.equal(TEST_CLASS_NAMES);
+      expect(instance.transformStyles('foo')).toEqual(TEST_CLASS_NAMES);
     });
 
     it('returns an object of strings as is', () => {
-      expect(instance.classNames['foo:']).to.be.an('undefined');
+      expect(instance.classNames['foo:']).toBeUndefined();
 
       instance.styles.foo = { ...TEST_CLASS_NAMES };
 
-      expect(instance.transformStyles('foo')).to.deep.equal(TEST_CLASS_NAMES);
-      expect(instance.classNames['foo:']).to.deep.equal(TEST_CLASS_NAMES);
+      expect(instance.transformStyles('foo')).toEqual(TEST_CLASS_NAMES);
+      expect(instance.classNames['foo:']).toEqual(TEST_CLASS_NAMES);
     });
 
     it('errors if the adapter does not return a string', () => {
@@ -264,11 +265,11 @@ describe('Aesthetic', () => {
       });
 
       expect(() => instance.transformStyles('foo'))
-        .to.throw(TypeError, '`TestAdapter` must return a mapping of CSS class names. "foo@header" is not a valid string.');
+        .toThrowError('`TestAdapter` must return a mapping of CSS class names. "foo@header" is not a valid string.');
     });
 
     it('sets and caches styles', () => {
-      expect(instance.classNames['bar:']).to.be.an('undefined');
+      expect(instance.classNames['bar:']).toBeUndefined();
 
       instance.setAdapter(new TestAdapter());
       instance.setStyles('bar', {
@@ -277,7 +278,7 @@ describe('Aesthetic', () => {
       });
       instance.transformStyles('bar');
 
-      expect(instance.classNames['bar:']).to.deep.equal(TEST_CLASS_NAMES);
+      expect(instance.classNames['bar:']).toEqual(TEST_CLASS_NAMES);
     });
   });
 });

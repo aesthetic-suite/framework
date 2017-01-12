@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { speedy, flush } from 'glamor';
 import UnifiedGlamorAdapter from '../../../src/adapters/glamor/UnifiedAdapter';
 import {
@@ -22,7 +21,7 @@ describe('adapters/glamor/UnifiedAdapter', () => {
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).to.deep.equal({
+    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
         margin: 0,
         padding: '6px 12px',
@@ -59,15 +58,15 @@ describe('adapters/glamor/UnifiedAdapter', () => {
   });
 
   it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).to.deep.equal(SYNTAX_AT_RULES);
+    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
   });
 
   it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).to.deep.equal(SYNTAX_PSEUDO);
+    expect(instance.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
   });
 
   it('supports fallbacks', () => {
-    expect(instance.convert(SYNTAX_FALLBACK)).to.deep.equal({
+    expect(instance.convert(SYNTAX_FALLBACK)).toEqual({
       fallback: {
         background: ['red', 'linear-gradient(...)'],
         display: ['box', 'flex-box', 'flex'],
@@ -76,7 +75,7 @@ describe('adapters/glamor/UnifiedAdapter', () => {
   });
 
   it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).to.deep.equal({
+    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
@@ -85,7 +84,7 @@ describe('adapters/glamor/UnifiedAdapter', () => {
   });
 
   it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).to.deep.equal({
+    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
         animationName: 'fade_1d92vx2',
         animationDuration: '3s, 1200ms',
@@ -95,7 +94,7 @@ describe('adapters/glamor/UnifiedAdapter', () => {
   });
 
   it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).to.deep.equal({
+    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {

@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 import JSSAdapter from '../../../src/adapters/jss/NativeAdapter';
@@ -22,11 +21,11 @@ describe('adapters/jss/NativeAdapter', () => {
     const jss = create();
     instance = new JSSAdapter(jss);
 
-    expect(instance.jss).to.equal(jss);
+    expect(instance.jss).toBe(jss);
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'button-2887057758',
     });
   });
@@ -44,7 +43,7 @@ describe('adapters/jss/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       '.pseudo-2517623885::before': '.pseudo-2517623885::before-3271921155',
       '.pseudo-2517623885:hover': '.pseudo-2517623885:hover-130467353',
       pseudo: 'pseudo-2517623885',
@@ -64,7 +63,7 @@ describe('adapters/jss/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       fallback: 'fallback-162314308',
     });
   });
@@ -78,7 +77,7 @@ describe('adapters/jss/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       font: 'font-1088627639',
     });
   });
@@ -93,7 +92,7 @@ describe('adapters/jss/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       animation: 'animation-1324444171',
     });
   });
@@ -115,7 +114,7 @@ describe('adapters/jss/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       media: 'media-2861677607',
     });
   });

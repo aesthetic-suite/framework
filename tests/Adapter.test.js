@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import Adapter from '../src/Adapter';
 import { TestAdapter, FONT_ROBOTO, KEYFRAME_FADE } from './mocks';
 
@@ -6,7 +5,7 @@ describe('Adapter', () => {
   describe('transform()', () => {
     it('errors if not defined', () => {
       expect(() => (new Adapter()).transform())
-        .to.throw(Error, 'Adapter must define the `transform` method.');
+        .toThrowError('Adapter must define the `transform` method.');
     });
 
     it('transforms with native syntax', () => {
@@ -32,7 +31,7 @@ describe('Adapter', () => {
             maxWidth: 'auto',
           },
         },
-      })).to.deep.equal({
+      })).toEqual({
         '@font-face': FONT_ROBOTO,
         '@keyframes fade': KEYFRAME_FADE,
         button: {

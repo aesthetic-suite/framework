@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import webPreset from 'fela-preset-web';
 import FelaAdapter from '../../../src/adapters/fela/NativeAdapter';
 import {
@@ -18,13 +17,13 @@ describe('adapters/fela/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'a b c d e f g h i j k l m n o p q r s t u v w',
     });
   });
 
   it('supports pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'a b c',
     });
   });
@@ -37,7 +36,7 @@ describe('adapters/fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       fallback: 'a b',
     });
   });
@@ -50,7 +49,7 @@ describe('adapters/fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       font: 'a b',
     });
   });
@@ -64,7 +63,7 @@ describe('adapters/fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       animation: 'a b c',
     });
   });
@@ -82,7 +81,7 @@ describe('adapters/fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       media: 'a b c',
     });
   });

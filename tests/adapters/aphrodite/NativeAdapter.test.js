@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../../../src/adapters/aphrodite/NativeAdapter';
@@ -25,23 +24,23 @@ describe('adapters/aphrodite/NativeAdapter', () => {
     const extension = { selectorHandler() {} };
     instance = new AphroditeAdapter(StyleSheet.extend([extension]));
 
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
+    expect(instance.aphrodite).not.toEqual(StyleSheet);
   });
 
   it('supports no important mode', () => {
     instance = new AphroditeAdapter(NoImpStyleSheet);
 
-    expect(instance.aphrodite).to.not.deep.equal(StyleSheet);
+    expect(instance.aphrodite).not.toEqual(StyleSheet);
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'button_193hp5g',
     });
   });
 
   it('supports pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).to.deep.equal({
+    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'pseudo_1217cca',
     });
   });
@@ -56,7 +55,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       font: 'font_1myoopg',
     });
   });
@@ -70,7 +69,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       animation: 'animation_2tm5yt',
     });
   });
@@ -88,7 +87,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).to.deep.equal({
+    expect(instance.transform('component', nativeSyntax)).toEqual({
       media: 'media_1dsrhwv',
     });
   });

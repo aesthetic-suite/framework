@@ -5,4 +5,4 @@
 ./.gitignore
 ./.travis.yml
 ./lerna.json
-./mocha.opts
+./jest.json
