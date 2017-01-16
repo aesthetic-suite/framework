@@ -1,9 +1,22 @@
 {
   "private": true,
   "name": "aesthetic",
-  "version": "0.1.0",
-  "description": "Abstract library to support a range of styling options for React components.",
-  "keywords": [],
+  "version": "0.2.0",
+  "description": "Aesthetic is a powerful React library for styling components through the use of adapters.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "style",
+    "components",
+    "hoc",
+    "css",
+    "css-in-js",
+    "css-module",
+    "aphrodite",
+    "glamor",
+    "fela",
+    "jss"
+  ],
   "scripts": {
     "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && npm outdated); done; lerna updated",
     "clean": "rimraf ./packages/{aesthetic,aesthetic-*}/*.js && lerna clean --yes",

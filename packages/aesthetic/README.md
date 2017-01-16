@@ -1,4 +1,4 @@
-# Aesthetic v0.1.0
+# Aesthetic v0.2.0
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS
@@ -76,15 +76,15 @@ competing styling libraries fail to solve.
 **Multiple styling patterns**
 
 Want to use external CSS or Sass files? Or maybe CSS modules? Or perhaps CSS-in-JS?
-What about JSS instead of Aphrodite? All of these patterns are supported through the
-use of [adapters](#style-adapters). However, inline styles *are not supported*
+What about JSS instead of Aphrodite? All of these patterns and choices are supported through
+the use of [adapters](#style-adapters). However, inline styles *are not supported*
 as we prefer the more performant option of compiling styles and attaching them to the DOM.
 
 **Styling third-party libraries**
 
 Using a third-party provided UI component library has the unintended side-effect
-of hard-coded and non-customizable styles. Aesthetic solves this problem by allowing
-consumers to [extend and inherit styles](#customizing-styles) from the provided component.
+of hard-coded and non-customizable styles. Aesthetic solves this by allowing consumers
+to [extend and inherit styles](#customizing-styles) from the provided base component.
 
 ## Installation
 
@@ -168,7 +168,7 @@ The following libraries and their features are officially supported by Aesthetic
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
-And the following libraries are not supported.
+The following libraries are currently not supported.
 
 * [CSSX](https://github.com/krasimir/cssx) -
   Does not generate unique class names during compilation and instead
@@ -201,7 +201,7 @@ The styler function accepts a [style declaration](#styling-components) as its fi
 and an object of configurable options as the second. The following options are supported.
 
 * `styleName` (string) - The unique style name of the component. This name is primarily
-  used in logging and caching. Defaults to the component name.
+  used in logging and caching. Defaults to the component or function name.
 * `extendable` (boolean) - Allows the component and its styles to be extended,
   creating a new component in the process. Defaults to `false`.
 * `classNamesPropName` (string) - Name of the prop in which the compiled class names
@@ -263,19 +263,20 @@ customize, especially if the component comes from a third-party library. If a co
 styled by Aesthetic is marked as `extendable`, styles can be customized by calling
 the static `extendStyles` method on the wrapped component instance.
 
-This will return the base component wrapped with new styles.
+> Extending styles will return the original component wrapped with new styles,
+> instead of wrapping the styled component and stacking on an unnecessary layer.
 
 ```javascript
-import Button from '../path/to/styled/Button';
+import BaseButton from '../path/to/styled/Button';
 
-export const Button = Button.extendStyles({
+export const Button = BaseButton.extendStyles({
   button: {
     background: 'white',
     // ...
   },
 });
 
-export const PrimaryButton = Button.extendStyles({
+export const PrimaryButton = BaseButton.extendStyles({
   button: {
     background: 'blue',
     // ...
@@ -305,7 +306,7 @@ classes(
 ); // foo qux
 ```
 
-Using our button style examples above, let's add an active state and can combine classes
+Using our `Button` examples above, let's add an active state and combine classes
 like so. Specificity is important, so define styles from top to bottom!
 
 ```javascript
@@ -483,15 +484,16 @@ Or by passing a `theme` prop to an individual component.
 
 ### Unified Syntax
 
-Aesthetic provides an optional, but enabled by default, unified CSS-in-JS syntax.
-This unified syntax permits easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement)
-between adapters that utilize CSS-in-JS objects.
+Aesthetic provides an optional unified CSS-in-JS syntax. This unified syntax permits
+easy [drop-in replacements](https://en.wikipedia.org/wiki/Drop-in_replacement)
+between adapters that utilize CSS-in-JS objects, as well as a standard across libraries.
 
 **Pros**
 * Easily swap between CSS-in-JS adapters (for either performance or extensibility reasons)
   without having to rewrite all CSS style object syntax.
 * Third-party UI libraries can define their styles using the unified syntax,
   while consumers can choose their preferred adapter.
+* Third-party UI libraries can standardize on a single syntax for interoperability.
 * Only have to learn one form of syntax.
 
 **Cons**
@@ -506,7 +508,7 @@ that all adapters shared about 90-95% of the same syntax. That remaining percent
 easily be abstracted away by a library, and hence, this unified syntax was created.
 
 Furthermore, a unified syntax allows providers of third-party components to define their styles
-with consumers having the choice of their preferred adapter.
+in a standard way with consumers having the choice of their preferred adapter.
 
 **Why a different at-rule structure?**
 
@@ -520,10 +522,9 @@ through each object recursively to find all at-rules, while the unified syntax i
 constant (`O(1)`) lookup as we know the names ahead of time. This constant time lookup is
 what enables a fast conversion process between the unified and native syntaxes.
 
-**What if I want to use the adapter's syntax?**
+**How do I enable the unified syntax?**
 
-If you'd like to use the native syntax of your chosen adapter, simply call
-`disableUnifiedSyntax()` on the instance of your adapter.
+Please refer to the readme of your chosen adapter.
 
 #### Properties
 
