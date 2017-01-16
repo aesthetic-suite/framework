@@ -40,5 +40,5 @@ jspm_packages
 .idea/
 .yarnclean
 lib/
-packages/*/lib/
+packages/*/*.js
 tests/bundle.min.js

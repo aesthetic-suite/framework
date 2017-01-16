@@ -76,7 +76,7 @@ function replaceImports(source, filePath, currentPackage) {
 
 Object.keys(packages).forEach((packageName) => {
   const libPackage = packages[packageName];
-  const libPath = `packages/${packageName}/lib/`;
+  const libPath = `packages/${packageName}/`;
 
   Promise.all(
     glob.sync(libPackage.files).map(filePath => (
