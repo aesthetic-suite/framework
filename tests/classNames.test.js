@@ -5,8 +5,8 @@ describe('classNames()', () => {
     expect(classNames(null, false, 0, '', undefined, [], {})).toBe('');
   });
 
-  it('strips period prefix and removes spaces', () => {
-    expect(classNames('.foo', 'bar bar', { '.baz': true })).toBe('foo barbar baz');
+  it('strips period prefix', () => {
+    expect(classNames('.foo', 'bar qux', { '.baz': true })).toBe('foo bar qux baz');
   });
 
   it('handles expression values', () => {

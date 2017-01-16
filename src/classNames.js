@@ -7,8 +7,6 @@
 import type { MaybeClassName } from './types';
 
 function stripChars(name: string): string {
-  name = name.replace(/ /g, '');
-
   return (name.charAt(0) === '.') ? name.substring(1) : name;
 }
 
