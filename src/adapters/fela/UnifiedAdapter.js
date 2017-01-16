@@ -13,7 +13,7 @@ import FelaAdapter from './NativeAdapter';
 import type { RendererConfig } from 'fela';
 import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from '../../types';
 
-const SRC_PATTERN = /src\((?:'|")?([^()])(?:'|")?\)/;
+const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;
 
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
@@ -34,6 +34,12 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
     return super.transform(styleName, this.convert(declarations));
+  }
+
+  extractFontSources(source: string): string[] {
+    return (source.match(SRC_PATTERN) || []).map((url: string) => (
+      url.replace(/"|'|url\(|\)/g, '')
+    ));
   }
 
   onDeclaration = (setName: string, properties: CSSStyle) => {
@@ -59,16 +65,11 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   };
 
   onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
-    const fontSource = String(properties.src);
-    const files = [];
-    let match;
-
-    // eslint-disable-next-line no-cond-assign
-    while (match = fontSource.match(SRC_PATTERN)) {
-      files.push(match[1]);
-    }
-
-    this.syntax.fontFaceNames[familyName] = this.fela.renderFont(familyName, files, properties);
+    this.syntax.fontFaceNames[familyName] = this.fela.renderFont(
+      familyName,
+      this.extractFontSources(String(properties.src)),
+      properties,
+    );
   }
 
   onKeyframe = (setName: string, animationName: string, properties: CSSStyle) => {

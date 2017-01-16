@@ -8,6 +8,18 @@ describe('UnifiedSyntax', () => {
     instance = new UnifiedSyntax();
   });
 
+  it('can add and remove event listeners', () => {
+    const func = () => {};
+
+    instance.on('event', func);
+
+    expect(instance.events.event).toEqual(func);
+
+    instance.off('event');
+
+    expect(instance.events.event).toBeUndefined();
+  });
+
   describe('convert()', () => {
     it('ignores string values', () => {
       expect(instance.convert({
@@ -228,6 +240,30 @@ describe('UnifiedSyntax', () => {
           },
         },
       });
+    });
+  });
+
+  describe('resetGlobalCache()', () => {
+    it('deletes global cache', () => {
+      instance.fontFaces.roboto = FONT_ROBOTO;
+      instance.keyframes.fade = KEYFRAME_FADE;
+
+      instance.resetGlobalCache();
+
+      expect(instance.fontFaces.roboto).toBeUndefined();
+      expect(instance.keyframes.fade).toBeUndefined();
+    });
+  });
+
+  describe('resetLocalCache()', () => {
+    it('deletes local cache', () => {
+      instance.fallbacks.foo = { display: 'flex' };
+      instance.mediaQueries.foo = { '(min-width: 300px)': {} };
+
+      instance.resetLocalCache();
+
+      expect(instance.fallbacks.foo).toBeUndefined();
+      expect(instance.mediaQueries.foo).toBeUndefined();
     });
   });
 });

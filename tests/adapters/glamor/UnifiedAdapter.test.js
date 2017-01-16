@@ -20,6 +20,12 @@ describe('adapters/glamor/UnifiedAdapter', () => {
     instance = new UnifiedGlamorAdapter();
   });
 
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'component-css-plme6f',
+    });
+  });
+
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {

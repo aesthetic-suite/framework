@@ -17,6 +17,14 @@ describe('adapters/glamor/NativeAdapter', () => {
     instance = new GlamorAdapter();
   });
 
+  it('ignores string class names', () => {
+    expect(instance.transform('component', {
+      button: 'button',
+    })).toEqual({
+      button: 'button',
+    });
+  });
+
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'component-css-1n8n9n3',

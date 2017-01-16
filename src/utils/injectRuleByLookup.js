@@ -31,6 +31,8 @@ export default function injectRuleByLookup(
 
   if (flatten) {
     value = value.join(', ');
+  } else if (value.length === 1) {
+    value = value[0];
   }
 
   properties[propName] = value;

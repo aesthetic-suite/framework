@@ -94,6 +94,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
     const currentSet = this.currentMediaQueries[mediaQuery][setName];
 
+    /* istanbul ignore next Hard to test. Only exists because of Flow */
     if (typeof currentSet === 'object' && !Array.isArray(currentSet)) {
       this.currentMediaQueries[mediaQuery][setName] = {
         ...currentSet,

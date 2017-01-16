@@ -1,5 +1,5 @@
 {
-  "collectCoverage": true,
+  "collectCoverage": false,
   "coverageDirectory": "./coverage",
   "globals": {},
   "resetMocks": true,

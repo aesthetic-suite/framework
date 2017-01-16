@@ -23,6 +23,12 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'button_1f6zgtg',
+    });
+  });
+
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
@@ -32,7 +38,7 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
         borderRadius: 4,
         display: 'inline-block',
         cursor: 'pointer',
-        fontFamily: [FONT_ROBOTO],
+        fontFamily: FONT_ROBOTO,
         fontWeight: 'normal',
         lineHeight: 'normal',
         whiteSpace: 'nowrap',
@@ -41,7 +47,7 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
         color: 'rgba(0, 0, 0, 0)',
-        animationName: [KEYFRAME_FADE],
+        animationName: KEYFRAME_FADE,
         animationDuration: '.3s',
         ':hover': {
           backgroundColor: '#286090',
@@ -73,7 +79,7 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
   it('supports font faces', () => {
     expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
-        fontFamily: [FONT_ROBOTO],
+        fontFamily: FONT_ROBOTO,
         fontSize: 20,
       },
     });
@@ -82,7 +88,7 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
   it('supports animations', () => {
     expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
-        animationName: [KEYFRAME_FADE],
+        animationName: KEYFRAME_FADE,
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },

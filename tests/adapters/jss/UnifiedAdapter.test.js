@@ -23,6 +23,14 @@ describe('adapters/jss/UnifiedAdapter', () => {
     instance = new UnifiedJSSAdapter(jss);
   });
 
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+      '.button-3504248317::before': 'button-3504248317',
+      '.button-3504248317:hover': 'button-3504248317',
+      button: 'button-3504248317',
+    });
+  });
+
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       '@font-face': FONT_ROBOTO,

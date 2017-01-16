@@ -42,6 +42,7 @@ export default function style(
         throw new Error('An instance of `Aesthetic` is required.');
 
       } else if (!styleName) {
+        /* istanbul ignore next Hard to test */
         throw new Error(
           'A component name could not be derived. Please provide a unique ' +
           'name using `options.styleName` or `displayName`.',

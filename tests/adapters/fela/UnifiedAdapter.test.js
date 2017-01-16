@@ -19,6 +19,12 @@ describe('adapters/fela/UnifiedAdapter', () => {
     });
   });
 
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'a b c d e f g h i j k l m n o p q r s t u v w x',
+    });
+  });
+
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
@@ -58,6 +64,14 @@ describe('adapters/fela/UnifiedAdapter', () => {
 
   it('allows standard at-rules', () => {
     expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+  });
+
+  it('extracts font source paths', () => {
+    expect(instance.extractFontSources("url('roboto.woff2') format('roboto')"))
+      .toEqual(['roboto.woff2']);
+
+    expect(instance.extractFontSources('url(roboto.woff2) format("roboto"), url("roboto2.woff")'))
+      .toEqual(['roboto.woff2', 'roboto2.woff']);
   });
 
   it('supports pseudos', () => {

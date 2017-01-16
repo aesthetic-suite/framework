@@ -13,6 +13,7 @@
     "flow": "flow check",
     "lint": "eslint ./src ./tests",
     "jest": "NODE_ENV=development jest --config ./jest.json",
+    "coverage": "yarn run jest -- --coverage",
     "pretest": "yarn run lint",
     "test": "yarn run jest",
     "test:bundle": "browserify -t [ babelify ] -t [ envify --NODE_ENV production ] ./tests/bundle.js -o ./tests/bundle.min.js",

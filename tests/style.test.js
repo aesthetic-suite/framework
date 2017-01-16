@@ -223,6 +223,12 @@ describe('style()', () => {
     shallow(<Wrapped />).dive();
   });
 
+  it('errors if Aesthetic is not passed', () => {
+    expect(() => {
+      style()(BaseComponent);
+    }).toThrowError('An instance of `Aesthetic` is required.');
+  });
+
   it('errors if the same style name is used', () => {
     expect(() => {
       style(aesthetic)(BaseComponent);

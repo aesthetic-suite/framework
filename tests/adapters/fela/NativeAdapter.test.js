@@ -16,6 +16,14 @@ describe('adapters/fela/NativeAdapter', () => {
     });
   });
 
+  it('ignores string class names', () => {
+    expect(instance.transform('component', {
+      button: 'button',
+    })).toEqual({
+      button: 'button',
+    });
+  });
+
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'a b c d e f g h i j k l m n o p q r s t u v w',

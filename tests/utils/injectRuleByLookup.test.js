@@ -19,6 +19,16 @@ describe('utils/injectRuleByLookup()', () => {
     });
   });
 
+  it('returns a non-array if a single value found', () => {
+    const props = { fontFamily: 'Arial' };
+
+    injectRuleByLookup(props, 'fontFamily', {});
+
+    expect(props).toEqual({
+      fontFamily: 'Arial',
+    });
+  });
+
   it('returns the object lookup in the array', () => {
     const props = { fontFamily: 'Arial, Verdana' };
 
