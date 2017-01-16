@@ -12,7 +12,7 @@
   "license": "MIT",
   "files": [
     "*.md",
-    "lib"
+    "*.js"
   ],
   "dependencies": {
     "aesthetic-utils": "^0.0.0"

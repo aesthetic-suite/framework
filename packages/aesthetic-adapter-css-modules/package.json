@@ -12,7 +12,7 @@
   "license": "MIT",
   "files": [
     "*.md",
-    "lib"
+    "*.js"
   ],
   "peerDependencies": {
     "aesthetic": "^0.1.2"
