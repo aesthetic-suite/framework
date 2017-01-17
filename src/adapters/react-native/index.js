@@ -4,6 +4,6 @@
  * @flow
  */
 
-import Aesthetic from './Aesthetic';
+import NativeAdapter from './NativeAdapter';
 
-export default Aesthetic;
+export default NativeAdapter;

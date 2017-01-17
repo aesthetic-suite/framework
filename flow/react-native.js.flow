@@ -1,0 +1,7 @@
+import type { StyleDeclarationMap } from '../src/types';
+
+declare module 'react-native' {
+  declare export var StyleSheet: {
+    create: (styles: StyleDeclarationMap) => StyleDeclarationMap,
+  };
+}

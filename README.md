@@ -159,14 +159,18 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [React Native][react-native] | ✓ | ★ | | ★ | ★ | ★ | ✓ |
+
+> ★: React Native provides its own functionality and packages
+> for handling pseudos, fonts, animations, and media queries.
 
 The following libraries are currently not supported.
 
@@ -680,7 +684,7 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
-| [React Native][react-native] | | ✓ | | ||
+| [React Native][react-native] | ✓ | ✓ | | ||
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite
@@ -688,6 +692,6 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
 [radium]: https://github.com/FormidableLabs/radium
-[react-native]: https://github.com/facebook/react-native
+[react-native]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles
 [styled-components]: https://github.com/styled-components/styled-components

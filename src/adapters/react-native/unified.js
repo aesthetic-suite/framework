@@ -4,6 +4,6 @@
  * @flow
  */
 
-import Aesthetic from './Aesthetic';
+import UnifiedAdapter from './UnifiedAdapter';
 
-export default Aesthetic;
+export default UnifiedAdapter;
