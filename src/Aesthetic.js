@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-lonely-if */
+
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 import isObject from './utils/isObject';
@@ -166,13 +168,13 @@ export default class Aesthetic {
 
     const declarations = this.getStyles(styleName, themeName);
     const toTransform = {};
-    const classNames = {};
+    const output = {};
     let setCount = 0;
 
     // Separate style objects from class names
     Object.keys(declarations).forEach((setName: string) => {
       if (typeof declarations[setName] === 'string') {
-        classNames[setName] = declarations[setName];
+        output[setName] = this.native ? {} : declarations[setName];
       } else {
         toTransform[setName] = declarations[setName];
         setCount += 1;
@@ -181,24 +183,38 @@ export default class Aesthetic {
 
     // Transform the styles into a map of class names
     if (setCount > 0) {
-      const transformedClassNames = this.adapter.transform(styleName, toTransform);
+      const transformedOutput = this.adapter.transform(styleName, toTransform);
 
       // Validate the object returned contains valid strings
-      Object.keys(transformedClassNames).forEach((setName: string) => {
-        if (typeof transformedClassNames[setName] === 'string') {
-          classNames[setName] = transformedClassNames[setName];
-        } else if (process.env.NODE_ENV === 'development') {
-          throw new TypeError(
-            `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-            `"${styleName}@${setName}" is not a valid string.`,
-          );
+      Object.keys(transformedOutput).forEach((setName: string) => {
+        const value = transformedOutput[setName];
+
+        // React Native logic is reversed
+        if (this.native) {
+          if (typeof value !== 'string') {
+            output[setName] = value;
+          } else if (process.env.NODE_ENV === 'development') {
+            throw new TypeError(
+              'React Native does not support string values. ' +
+              'Please define style objects instead.',
+            );
+          }
+        } else {
+          if (typeof value === 'string') {
+            output[setName] = value;
+          } else if (process.env.NODE_ENV === 'development') {
+            throw new TypeError(
+              `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
+              `"${styleName}@${setName}" is not a valid string.`,
+            );
+          }
         }
       });
     }
 
     // Cache the values
-    this.cache[cacheKey] = classNames;
+    this.cache[cacheKey] = output;
 
-    return classNames;
+    return output;
   }
 }
