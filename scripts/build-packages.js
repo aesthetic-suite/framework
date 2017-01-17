@@ -56,7 +56,11 @@ const defaultImports = {
 
 function replaceImports(source, filePath, currentPackage) {
   Object.keys(imports).forEach((packageName) => {
-    if (currentPackage === packageName || filePath.includes('index.js')) {
+    if (
+      currentPackage === packageName ||
+      filePath.includes('index.js') ||
+      filePath.includes('unified.js')
+    ) {
       return;
     }
 
