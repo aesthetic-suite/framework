@@ -11,15 +11,15 @@ import isObject from './utils/isObject';
 import type {
   StyleDeclarationMap,
   StyleDeclarationOrCallback,
-  ClassNameMap,
+  TransformedStylesMap,
   CSSStyle,
 } from './types';
 
 export default class Aesthetic {
   adapter: Adapter;
-  classNames: { [styleName: string]: ClassNameMap } = {};
+  cache: { [styleName: string]: TransformedStylesMap } = {};
   parents: { [childStyleName: string]: string } = {};
-  nativeSupport: boolean = false;
+  native: boolean = false;
   styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
   themes: { [themeName: string]: CSSStyle } = {};
 
@@ -112,7 +112,9 @@ export default class Aesthetic {
    */
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter) {
+      adapter.native = this.native;
       this.adapter = adapter;
+
     } else if (process.env.NODE_ENV === 'development') {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
@@ -155,11 +157,11 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, themeName: string = ''): ClassNameMap {
+  transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
     const cacheKey = `${styleName}:${themeName}`;
 
-    if (this.classNames[cacheKey]) {
-      return this.classNames[cacheKey];
+    if (this.cache[cacheKey]) {
+      return this.cache[cacheKey];
     }
 
     const declarations = this.getStyles(styleName, themeName);
@@ -195,7 +197,7 @@ export default class Aesthetic {
     }
 
     // Cache the values
-    this.classNames[cacheKey] = classNames;
+    this.cache[cacheKey] = classNames;
 
     return classNames;
   }

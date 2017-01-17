@@ -10,7 +10,7 @@ import injectAtRules from '../../utils/injectAtRules';
 import toArray from '../../utils/toArray';
 import JSSAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap, AtRuleMap, CSSStyle } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';
 import type { StyleSheetOptions } from 'jss';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
@@ -45,7 +45,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     };
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     return super.transform(styleName, this.convert(declarations));
   }
 

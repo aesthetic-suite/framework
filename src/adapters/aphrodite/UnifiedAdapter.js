@@ -9,7 +9,7 @@ import injectAtRules from '../../utils/injectAtRules';
 import injectRuleByLookup from '../../utils/injectRuleByLookup';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -25,7 +25,7 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     return super.transform(styleName, this.convert(declarations));
   }
 

@@ -170,6 +170,18 @@ describe('Aesthetic', () => {
 
       expect(instance.adapter).toBe(adapter);
     });
+
+    it('passes native flag to adapter', () => {
+      const adapter = new TestAdapter();
+      adapter.native = false;
+
+      expect(adapter.native).toBe(false);
+
+      instance.native = true;
+      instance.setAdapter(adapter);
+
+      expect(adapter.native).toBe(true);
+    });
   });
 
   describe('setStyles()', () => {
@@ -244,18 +256,18 @@ describe('Aesthetic', () => {
     });
 
     it('returns the cached and transformed class names', () => {
-      instance.classNames['foo:'] = { ...TEST_CLASS_NAMES };
+      instance.cache['foo:'] = { ...TEST_CLASS_NAMES };
 
       expect(instance.transformStyles('foo')).toEqual(TEST_CLASS_NAMES);
     });
 
     it('returns an object of strings as is', () => {
-      expect(instance.classNames['foo:']).toBeUndefined();
+      expect(instance.cache['foo:']).toBeUndefined();
 
       instance.styles.foo = { ...TEST_CLASS_NAMES };
 
       expect(instance.transformStyles('foo')).toEqual(TEST_CLASS_NAMES);
-      expect(instance.classNames['foo:']).toEqual(TEST_CLASS_NAMES);
+      expect(instance.cache['foo:']).toEqual(TEST_CLASS_NAMES);
     });
 
     it('errors if the adapter does not return a string', () => {
@@ -269,7 +281,7 @@ describe('Aesthetic', () => {
     });
 
     it('sets and caches styles', () => {
-      expect(instance.classNames['bar:']).toBeUndefined();
+      expect(instance.cache['bar:']).toBeUndefined();
 
       instance.setAdapter(new TestAdapter());
       instance.setStyles('bar', {
@@ -278,7 +290,7 @@ describe('Aesthetic', () => {
       });
       instance.transformStyles('bar');
 
-      expect(instance.classNames['bar:']).toEqual(TEST_CLASS_NAMES);
+      expect(instance.cache['bar:']).toEqual(TEST_CLASS_NAMES);
     });
   });
 });

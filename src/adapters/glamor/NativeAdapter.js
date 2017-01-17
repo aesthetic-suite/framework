@@ -7,10 +7,10 @@
 import { css } from 'glamor';
 import Adapter from '../../Adapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     if (process.env.NODE_ENV === 'development') {
       if (this.native) {
         throw new Error('Glamor does not support React Native.');
@@ -23,7 +23,7 @@ export default class GlamorAdapter extends Adapter {
       const value = declarations[setName];
 
       if (typeof value === 'string') {
-        output[setName] = value;
+        output[setName] = this.native ? {} : value;
       } else {
         output[setName] = `${styleName}-${String(css(value))}`;
       }

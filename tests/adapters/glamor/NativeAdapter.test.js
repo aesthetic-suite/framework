@@ -17,6 +17,12 @@ describe('adapters/glamor/NativeAdapter', () => {
     instance = new GlamorAdapter();
   });
 
+  it('errors for no React Native support', () => {
+    instance.native = true;
+
+    expect(() => instance.transform()).toThrowError('Glamor does not support React Native.');
+  });
+
   it('ignores string class names', () => {
     expect(instance.transform('component', {
       button: 'button',

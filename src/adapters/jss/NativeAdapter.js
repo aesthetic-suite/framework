@@ -8,7 +8,7 @@ import JSS, { create } from 'jss';
 import Adapter from '../../Adapter';
 
 import type { StyleSheetOptions } from 'jss';
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -21,7 +21,7 @@ export default class JSSAdapter extends Adapter {
     this.options = options;
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     if (process.env.NODE_ENV === 'development') {
       if (this.native) {
         throw new Error('JSS does not support React Native.');

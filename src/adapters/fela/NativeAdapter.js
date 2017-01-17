@@ -10,7 +10,7 @@ import Adapter from '../../Adapter';
 import createStyleElement from '../../utils/createStyleElement';
 
 import type { Renderer } from 'fela';
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class FelaAdapter extends Adapter {
   fela: Renderer;
@@ -23,14 +23,14 @@ export default class FelaAdapter extends Adapter {
     render(this.fela, createStyleElement('fela'));
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     const output = {};
 
     Object.keys(declarations).forEach((setName: string) => {
       const value = declarations[setName];
 
       if (typeof value === 'string') {
-        output[setName] = this.nativeSupport ? {} : value;
+        output[setName] = this.native ? {} : value;
       } else {
         output[setName] = this.fela.renderRule(() => value);
       }

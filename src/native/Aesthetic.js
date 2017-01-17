@@ -7,5 +7,5 @@
 import Aesthetic from '../Aesthetic';
 
 export default class NativeAesthetic extends Aesthetic {
-  nativeSupport: boolean = true;
+  native: boolean = true;
 }

@@ -157,11 +157,11 @@ describe('style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
-    expect(aesthetic.classNames['StylesComponent:']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
 
     shallow(<Wrapped />).dive();
 
-    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('transforms styles if theme changes', () => {
@@ -175,21 +175,21 @@ describe('style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
-    expect(aesthetic.classNames['StylesComponent:']).toBeUndefined();
-    expect(aesthetic.classNames['StylesComponent:classic']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent:classic']).toBeUndefined();
 
     const wrapper = shallow(<Wrapped />);
     wrapper.dive();
 
-    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
-    expect(aesthetic.classNames['StylesComponent:classic']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent:classic']).toBeUndefined();
 
     wrapper.setProps({
       theme: 'classic',
     });
 
-    expect(aesthetic.classNames['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
-    expect(aesthetic.classNames['StylesComponent:classic']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent:classic']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('can customize the theme prop type using `options.themePropName`', () => {

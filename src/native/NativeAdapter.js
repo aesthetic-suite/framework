@@ -7,10 +7,10 @@
 import { StyleSheet } from 'react-native';
 import Adapter from '../Adapter';
 
-import type { StyleDeclarationMap } from '../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../types';
 
 export default class ReactNativeAdapter extends Adapter {
-  transform(styleName: string, declarations: StyleDeclarationMap): StyleDeclarationMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     return StyleSheet.create(declarations);
   }
 }

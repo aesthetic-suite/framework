@@ -4,13 +4,15 @@
  * @flow
  */
 
-import type { StyleDeclarationMap, ClassNameMap } from './types';
+import type { StyleDeclarationMap, TransformedStylesMap } from './types';
 
 export default class Adapter {
+  native: boolean = false;
+
   /**
    * Transform the unified or native syntax using the registered adapter.
    */
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     throw new Error(`${this.constructor.name} must define the \`transform\` method.`);
   }
 }
