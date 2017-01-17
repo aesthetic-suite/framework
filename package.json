@@ -30,7 +30,8 @@
     "test": "yarn run jest",
     "test:bundle": "browserify -t [ babelify ] -t [ envify --NODE_ENV production ] ./tests/bundle.js -o ./tests/bundle.min.js",
     "posttest": "yarn run flow",
-    "preversion": "yarn test && yarn run clean && yarn run build"
+    "preversion": "yarn test && yarn run clean && yarn run build",
+    "publish": "lerna publish"
   },
   "repository": {
     "type": "git",
@@ -83,6 +84,7 @@
     "react": "^15.4.2",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-native": "^0.40.0",
     "rimraf": "^2.5.4"
   }
 }

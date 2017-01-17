@@ -1,3 +1,4 @@
+import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import FelaAdapter from '../../../src/adapters/fela/NativeAdapter';
 import {
@@ -11,9 +12,16 @@ describe('adapters/fela/NativeAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    instance = new FelaAdapter({
+    instance = new FelaAdapter(createRenderer({
       plugins: [...webPreset],
-    });
+    }));
+  });
+
+  it('can customize the fela instance through the constructor', () => {
+    const renderer = createRenderer({ plugins: [] });
+    const newInstance = new FelaAdapter(renderer);
+
+    expect(newInstance.fela).not.toEqual(instance.fela);
   });
 
   it('ignores string class names', () => {

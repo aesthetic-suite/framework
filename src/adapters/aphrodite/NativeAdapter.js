@@ -19,13 +19,19 @@ export default class AphroditeAdapter extends Adapter {
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+    if (process.env.NODE_ENV === 'development') {
+      if (this.native) {
+        throw new Error('Aphrodite does not support React Native.');
+      }
+    }
+
     const styleSheet = this.aphrodite.create(declarations);
-    const classNames = {};
+    const output = {};
 
     Object.keys(styleSheet).forEach((setName: string) => {
-      classNames[setName] = css(styleSheet[setName]);
+      output[setName] = css(styleSheet[setName]);
     });
 
-    return classNames;
+    return output;
   }
 }

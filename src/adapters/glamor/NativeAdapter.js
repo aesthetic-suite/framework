@@ -11,18 +11,24 @@ import type { StyleDeclarationMap, ClassNameMap } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
-    const classNames = {};
+    if (process.env.NODE_ENV === 'development') {
+      if (this.native) {
+        throw new Error('Glamor does not support React Native.');
+      }
+    }
+
+    const output = {};
 
     Object.keys(declarations).forEach((setName: string) => {
       const value = declarations[setName];
 
       if (typeof value === 'string') {
-        classNames[setName] = value;
+        output[setName] = value;
       } else {
-        classNames[setName] = `${styleName}-${String(css(value))}`;
+        output[setName] = `${styleName}-${String(css(value))}`;
       }
     });
 
-    return classNames;
+    return output;
   }
 }

@@ -22,6 +22,12 @@ export default class JSSAdapter extends Adapter {
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+    if (process.env.NODE_ENV === 'development') {
+      if (this.native) {
+        throw new Error('JSS does not support React Native.');
+      }
+    }
+
     const styleSheet = this.jss.createStyleSheet(declarations, {
       named: true,
       meta: styleName,

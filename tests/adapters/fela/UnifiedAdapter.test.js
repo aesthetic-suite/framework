@@ -1,3 +1,4 @@
+import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../../../src/adapters/fela/UnifiedAdapter';
 import {
@@ -14,9 +15,9 @@ describe('adapters/fela/UnifiedAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    instance = new UnifiedFelaAdapter({
+    instance = new UnifiedFelaAdapter(createRenderer({
       plugins: [...webPreset],
-    });
+    }));
   });
 
   it('transforms style declarations into class names', () => {

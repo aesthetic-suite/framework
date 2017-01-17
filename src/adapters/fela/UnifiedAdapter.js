@@ -10,7 +10,7 @@ import injectFallbacks from '../../utils/injectFallbacks';
 import injectRuleByLookup from '../../utils/injectRuleByLookup';
 import FelaAdapter from './NativeAdapter';
 
-import type { RendererConfig } from 'fela';
+import type { Renderer } from 'fela';
 import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from '../../types';
 
 const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;
@@ -18,8 +18,8 @@ const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(config: RendererConfig = {}) {
-    super(config);
+  constructor(fela: Renderer) {
+    super(fela);
 
     this.syntax = new UnifiedSyntax();
     this.syntax

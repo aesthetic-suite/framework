@@ -39,16 +39,29 @@ import FelaAdapter from 'aesthetic-adapter-fela/unified';
 
 ### Configuration
 
-Renderer configuration, plugins, and enhancers can be defined by passing an object
-to the `FelaAdapter`.
+Configuration, plugins, and enhancers can be defined by passing a new renderer
+to `FelaAdapter`.
 
 ```javascript
 import Aesthetic from 'aesthetic';
 import FelaAdapter from 'aesthetic-adapter-fela';
+import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 
-const aesthetic = new Aesthetic(new FelaAdapter({
+const aesthetic = new Aesthetic(new FelaAdapter(createRenderer({
   plugins: [...webPreset],
   selectorPrefix: 'foo-',
-}));
+})));
+```
+
+### React Native Support
+
+Fela supports React Native through the `fela-native` package.
+
+```javascript
+import Aesthetic from 'aesthetic-native';
+import FelaAdapter from 'aesthetic-adapter-fela';
+import { createRenderer } from 'fela-native';
+
+const aesthetic = new Aesthetic(new FelaAdapter(createRenderer()));
 ```

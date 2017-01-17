@@ -17,10 +17,11 @@ import type {
 
 export default class Aesthetic {
   adapter: Adapter;
+  classNames: { [styleName: string]: ClassNameMap } = {};
   parents: { [childStyleName: string]: string } = {};
+  nativeSupport: boolean = false;
   styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
   themes: { [themeName: string]: CSSStyle } = {};
-  classNames: { [styleName: string]: ClassNameMap } = {};
 
   constructor(adapter: Adapter) {
     this.setAdapter(adapter);
