@@ -21,4 +21,13 @@ describe('native/Aesthetic', () => {
       });
     });
   });
+
+  describe('validateTransform()', () => {
+    it('errors if value is not an object', () => {
+      instance.setAdapter(new TestAdapter());
+
+      expect(() => instance.validateTransform('foo', 'header', 'flex'))
+        .toThrowError('React Native requires style objects to be returned from the adapter. "foo@header" is a string.');
+    });
+  });
 });

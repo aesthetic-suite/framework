@@ -270,16 +270,6 @@ describe('Aesthetic', () => {
       expect(instance.cache['foo:']).toEqual(TEST_CLASS_NAMES);
     });
 
-    it('errors if the adapter does not return a string', () => {
-      instance.setAdapter(new TestAdapter());
-      instance.setStyles('foo', {
-        header: { color: 'red' },
-      });
-
-      expect(() => instance.transformStyles('foo'))
-        .toThrowError('`TestAdapter` must return a mapping of CSS class names. "foo@header" is not a valid string.');
-    });
-
     it('sets and caches styles', () => {
       expect(instance.cache['bar:']).toBeUndefined();
 
@@ -291,6 +281,15 @@ describe('Aesthetic', () => {
       instance.transformStyles('bar');
 
       expect(instance.cache['bar:']).toEqual(TEST_CLASS_NAMES);
+    });
+  });
+
+  describe('validateTransform()', () => {
+    it('errors if value is not a string', () => {
+      instance.setAdapter(new TestAdapter());
+
+      expect(() => instance.validateTransform('foo', 'header', {}))
+        .toThrowError('`TestAdapter` must return a mapping of CSS class names. "foo@header" is not a valid string.');
     });
   });
 });

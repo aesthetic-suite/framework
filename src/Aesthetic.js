@@ -4,13 +4,12 @@
  * @flow
  */
 
-/* eslint-disable no-lonely-if */
-
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
 import isObject from './utils/isObject';
 
 import type {
+  StyleDeclaration,
   StyleDeclarationMap,
   StyleDeclarationOrCallback,
   TransformedStylesMap,
@@ -185,30 +184,8 @@ export default class Aesthetic {
     if (setCount > 0) {
       const transformedOutput = this.adapter.transform(styleName, toTransform);
 
-      // Validate the object returned contains valid strings
       Object.keys(transformedOutput).forEach((setName: string) => {
-        const value = transformedOutput[setName];
-
-        // React Native logic is reversed
-        if (this.native) {
-          if (typeof value !== 'string') {
-            output[setName] = value;
-          } else if (process.env.NODE_ENV === 'development') {
-            throw new TypeError(
-              'React Native does not support string values. ' +
-              'Please define style objects instead.',
-            );
-          }
-        } else {
-          if (typeof value === 'string') {
-            output[setName] = value;
-          } else if (process.env.NODE_ENV === 'development') {
-            throw new TypeError(
-              `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-              `"${styleName}@${setName}" is not a valid string.`,
-            );
-          }
-        }
+        output[setName] = this.validateTransform(styleName, setName, transformedOutput[setName]);
       });
     }
 
@@ -216,5 +193,21 @@ export default class Aesthetic {
     this.cache[cacheKey] = output;
 
     return output;
+  }
+
+  /**
+   * Validate the object returned contains valid strings.
+   */
+  validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
+    if (process.env.NODE_ENV === 'development') {
+      if (typeof value !== 'string') {
+        throw new TypeError(
+          `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
+          `"${styleName}@${setName}" is not a valid string.`,
+        );
+      }
+    }
+
+    return value;
   }
 }
