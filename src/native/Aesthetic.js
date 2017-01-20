@@ -23,7 +23,7 @@ export default class NativeAesthetic extends Aesthetic {
    * The logic for React Native is reversed.
    */
   validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
-    if (process.env.NODE_ENV === 'development') {
+    if (__DEV__) {
       if (typeof value === 'string') {
         throw new TypeError(
           'React Native requires style objects to be returned from the adapter. ' +

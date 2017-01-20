@@ -1,4 +1,6 @@
-import React from 'react';
+// import React from 'react';
+
+declare var __DEV__: bool;
 
 /*
 declare module 'aesthetic' {

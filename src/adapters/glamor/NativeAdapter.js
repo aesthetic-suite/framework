@@ -11,7 +11,7 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
   transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
-    if (process.env.NODE_ENV === 'development') {
+    if (__DEV__) {
       if (this.native) {
         throw new Error('Glamor does not support React Native.');
       }
