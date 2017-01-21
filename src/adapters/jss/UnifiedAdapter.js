@@ -11,7 +11,6 @@ import toArray from '../../utils/toArray';
 import JSSAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';
-import type { StyleSheetOptions } from 'jss';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
   currentFontFaces: AtRuleMap = {};
@@ -19,7 +18,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
   currentMediaQueries: AtRuleMap = {};
   syntax: UnifiedSyntax;
 
-  constructor(jss: JSS, options: StyleSheetOptions = {}) {
+  constructor(jss: JSS, options: Object = {}) {
     super(jss, options);
 
     this.syntax = new UnifiedSyntax();

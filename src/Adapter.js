@@ -8,6 +8,11 @@ import type { StyleDeclarationMap, TransformedStylesMap } from './types';
 
 export default class Adapter {
   native: boolean = false;
+  options: Object = {};
+
+  constructor(options: Object = {}) {
+    this.options = { ...options };
+  }
 
   /**
    * Transform the unified or native syntax using the registered adapter.

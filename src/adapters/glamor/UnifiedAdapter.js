@@ -15,8 +15,8 @@ import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;
 
-  constructor() {
-    super();
+  constructor(options: Object = {}) {
+    super(options);
 
     this.syntax = new UnifiedSyntax();
     this.syntax

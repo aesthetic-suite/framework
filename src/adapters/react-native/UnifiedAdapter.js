@@ -12,8 +12,11 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 export default class UnifiedReactNativeAdapter extends ReactNativeAdapter {
   syntax: UnifiedSyntax;
 
-  constructor() {
-    super();
+  constructor(options: Object = {}) {
+    super({
+      silence: false,
+      ...options,
+    });
 
     this.syntax = new UnifiedSyntax();
     this.syntax
@@ -31,23 +34,36 @@ export default class UnifiedReactNativeAdapter extends ReactNativeAdapter {
   }
 
   onFontFace = () => {
-    throw new SyntaxError(
-      'React Native does not support font faces. ' +
-      'Please use the IOS/Android built-in font manager.',
-    );
+    if (__DEV__) {
+      if (!this.options.silence) {
+        throw new SyntaxError(
+          'React Native does not support font faces. ' +
+          'Please use the IOS/Android built-in font manager.',
+        );
+      }
+    }
   };
 
   onKeyframe = () => {
-    throw new SyntaxError(
-      'React Native does not support animation keyframes. ' +
-      'Please use the provided `Animated` library.',
-    );
+    if (__DEV__) {
+      if (!this.options.silence) {
+        throw new SyntaxError(
+          'React Native does not support animation keyframes. ' +
+          'Please use the provided `Animated` library.',
+        );
+      }
+    }
   };
 
+  // TODO Support a third-party libraries syntax?
   onMediaQuery = () => {
-    throw new SyntaxError(
-      'React Native does not support media queries. ' +
-      'Please use a third-party library for this functionality.',
-    );
+    if (__DEV__) {
+      if (!this.options.silence) {
+        throw new SyntaxError(
+          'React Native does not support media queries. ' +
+          'Please use a third-party library for this functionality.',
+        );
+      }
+    }
   };
 }

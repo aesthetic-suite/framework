@@ -7,18 +7,15 @@
 import JSS, { create } from 'jss';
 import Adapter from '../../Adapter';
 
-import type { StyleSheetOptions } from 'jss';
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
-  options: StyleSheetOptions;
 
-  constructor(jss: JSS, options: StyleSheetOptions = {}) {
-    super();
+  constructor(jss: JSS, options: Object = {}) {
+    super(options);
 
     this.jss = jss || create();
-    this.options = options;
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {

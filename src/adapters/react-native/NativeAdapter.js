@@ -4,7 +4,6 @@
  * @flow
  */
 
-import { StyleSheet } from 'react-native';
 import Adapter from '../../Adapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
@@ -12,7 +11,11 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 export default class ReactNativeAdapter extends Adapter {
   native: boolean = true;
 
+  /**
+   * Simply return the style declarations as-is because the RN `Aesthetic`
+   * instance will automatically wrap it with RN `StyleSheet`.
+   */
   transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
-    return StyleSheet.create(declarations);
+    return declarations;
   }
 }
