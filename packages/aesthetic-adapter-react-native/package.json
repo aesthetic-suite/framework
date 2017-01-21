@@ -6,7 +6,7 @@
     "aesthetic",
     "react",
     "native",
-    "styles",
+    "styles"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-react-native",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "*.js"
   ],
   "peerDependencies": {
-    "aesthetic-native": "^0.0.0",
+    "aesthetic-native": "^0.0.0"
   },
   "devDependencies": {
     "aesthetic-native": "^0.0.0"
