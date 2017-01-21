@@ -124,6 +124,7 @@ yarn add aesthetic react
 * [Competitors Comparison](#competitors-comparison)
   * [Features](#features)
   * [Adapters](#adapters)
+* [React Native Support](#react-native-support)
 
 ### Initial Setup
 
@@ -167,10 +168,10 @@ The following libraries and their features are officially supported by Aesthetic
 | [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | ✓ | ★ | | ★ | ★ | ★ | ✓ |
+| [React Native][react-native] | ★ | | | | | ✓ | ✓ |
 
-> ★: React Native provides its own functionality and packages
-> for handling pseudos, fonts, animations, and media queries.
+> ★: React Native supports a subset of the unified syntax as it provides its own
+> functionality and packages for handling pseudos, fonts, animations, and media queries.
 
 The following libraries are currently not supported.
 
@@ -685,6 +686,11 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
 | [React Native][react-native] | ✓ | ✓ | | ||
+
+### React Native Support
+
+Please refer to the [aesthetic-native][react-native] package for more information on how
+to integrate React Native with Aesthetic.
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite

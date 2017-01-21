@@ -124,10 +124,11 @@ yarn add aesthetic react
 * [Competitors Comparison](#competitors-comparison)
   * [Features](#features)
   * [Adapters](#adapters)
+* [React Native Support](#react-native-support)
 
 ### Initial Setup
 
-Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development.
+Aesthetic makes heavy use of `__DEV__` for logging errors in development.
 These errors will be entirely removed in production if the following build steps are configured.
 
 #### Webpack
@@ -137,7 +138,7 @@ is required when using Webpack.
 
 ```javascript
 new webpack.DefinePlugin({
-  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+  __DEV__: JSON.stringify(false),
 }),
 ```
 
@@ -147,7 +148,7 @@ new webpack.DefinePlugin({
 
 ```javascript
 envify({
-  NODE_ENV: process.env.NODE_ENV || 'production',
+  __DEV__: false,
 });
 ```
 
@@ -159,14 +160,18 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [React Native][react-native] | ★ | | | | | ✓ | ✓ |
+
+> ★: React Native supports a subset of the unified syntax as it provides its own
+> functionality and packages for handling pseudos, fonts, animations, and media queries.
 
 The following libraries are currently not supported.
 
@@ -680,7 +685,12 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
-| [React Native][react-native] | | ✓ | | ||
+| [React Native][react-native] | ✓ | ✓ | | ||
+
+### React Native Support
+
+Please refer to the [aesthetic-native][react-native] package for more information on how
+to integrate React Native with Aesthetic.
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite
@@ -688,6 +698,6 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
 [radium]: https://github.com/FormidableLabs/radium
-[react-native]: https://github.com/facebook/react-native
+[react-native]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles
 [styled-components]: https://github.com/styled-components/styled-components
