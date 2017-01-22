@@ -34,7 +34,7 @@ export default class UnifiedReactNativeAdapter extends ReactNativeAdapter {
   }
 
   onFontFace = () => {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!this.options.silence) {
         throw new SyntaxError(
           'React Native does not support font faces. ' +
@@ -45,7 +45,7 @@ export default class UnifiedReactNativeAdapter extends ReactNativeAdapter {
   };
 
   onKeyframe = () => {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!this.options.silence) {
         throw new SyntaxError(
           'React Native does not support animation keyframes. ' +
@@ -57,7 +57,7 @@ export default class UnifiedReactNativeAdapter extends ReactNativeAdapter {
 
   // TODO Support a third-party libraries syntax?
   onMediaQuery = () => {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!this.options.silence) {
         throw new SyntaxError(
           'React Native does not support media queries. ' +

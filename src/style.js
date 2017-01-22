@@ -37,7 +37,7 @@ export default function style(
       extendFrom,
     } = options;
 
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!(aesthetic instanceof Aesthetic)) {
         throw new Error('An instance of `Aesthetic` is required.');
 
@@ -82,7 +82,7 @@ export default function style(
         customStyles: StyleDeclarationOrCallback,
         extendOptions: HOCOptions = {},
       ): HOCComponent {
-        if (__DEV__) {
+        if (process.env.NODE_ENV === 'development') {
           if (!extendable) {
             throw new Error(`${styleName} is not extendable.`);
           }

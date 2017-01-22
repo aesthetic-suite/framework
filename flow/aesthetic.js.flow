@@ -1,7 +1,5 @@
 // import React from 'react';
 
-declare var __DEV__: bool;
-
 /*
 declare module 'aesthetic' {
   declare export type PrimitiveType = string | number | boolean;

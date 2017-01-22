@@ -8,9 +8,6 @@
     "node": true,
     "es6": true
   },
-  "globals": {
-    "__DEV__": true
-  },
   "rules": {
     // Disabled because of flow
     "no-duplicate-imports": 0,

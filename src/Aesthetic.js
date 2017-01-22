@@ -52,7 +52,7 @@ export default class Aesthetic {
     const parentStyleName = this.parents[styleName];
     const declarations = this.styles[styleName];
 
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!declarations) {
         throw new Error(`Styles do not exist for "${styleName}".`);
       }
@@ -74,7 +74,7 @@ export default class Aesthetic {
   getTheme(themeName: string): CSSStyle {
     const theme = this.themes[themeName];
 
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (!theme) {
         throw new Error(`Theme "${themeName}" does not exist.`);
       }
@@ -87,7 +87,7 @@ export default class Aesthetic {
    * Register a theme with a pre-defined set of theme settings.
    */
   registerTheme(themeName: string, theme: CSSStyle = {}, globals: StyleDeclarationMap = {}): this {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
 
@@ -116,7 +116,7 @@ export default class Aesthetic {
       adapter.native = this.native;
       this.adapter = adapter;
 
-    } else if (__DEV__) {
+    } else if (process.env.NODE_ENV === 'development') {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
 
@@ -127,7 +127,7 @@ export default class Aesthetic {
    * Set multiple style declarations for a component.
    */
   setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom: string = ''): this {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
 
@@ -139,7 +139,7 @@ export default class Aesthetic {
     this.styles[styleName] = declarations;
 
     if (extendFrom) {
-      if (__DEV__) {
+      if (process.env.NODE_ENV === 'development') {
         if (!this.styles[extendFrom]) {
           throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
 
@@ -199,7 +199,7 @@ export default class Aesthetic {
    * Validate the object returned contains valid strings.
    */
   validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
-    if (__DEV__) {
+    if (process.env.NODE_ENV === 'development') {
       if (typeof value !== 'string') {
         throw new TypeError(
           `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +

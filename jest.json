@@ -2,9 +2,6 @@
   "preset": "react-native",
   "collectCoverage": false,
   "coverageDirectory": "./coverage",
-  "globals": {
-    "__DEV__": true
-  },
   "resetMocks": true,
   "resetModules": true,
   "setupFiles": ["./tests/setup.js"],

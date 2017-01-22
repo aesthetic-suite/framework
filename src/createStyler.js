@@ -10,7 +10,7 @@ import style from './style';
 import type { StyleDeclarationOrCallback, HOCOptions } from './types';
 
 export default function createStyler(aesthetic: Aesthetic) {
-  if (__DEV__) {
+  if (process.env.NODE_ENV === 'development') {
     if (!(aesthetic instanceof Aesthetic)) {
       throw new TypeError('An instance of `Aesthetic` must be provided.');
     }

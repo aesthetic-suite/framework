@@ -128,7 +128,7 @@ yarn add aesthetic react
 
 ### Initial Setup
 
-Aesthetic makes heavy use of `__DEV__` for logging errors in development.
+Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development.
 These errors will be entirely removed in production if the following build steps are configured.
 
 #### Webpack
@@ -138,7 +138,7 @@ is required when using Webpack.
 
 ```javascript
 new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(false),
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
 }),
 ```
 
@@ -148,7 +148,7 @@ new webpack.DefinePlugin({
 
 ```javascript
 envify({
-  __DEV__: false,
+  NODE_ENV: process.env.NODE_ENV || 'production',
 });
 ```
 
