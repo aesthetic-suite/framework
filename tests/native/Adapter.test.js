@@ -1,8 +1,8 @@
-import ReactNativeAdapter from '../../../src/adapters/react-native/NativeAdapter';
-import { SYNTAX_NATIVE_PARTIAL } from '../../mocks';
+import ReactNativeAdapter from '../../src/native/Adapter';
+import { SYNTAX_NATIVE_PARTIAL } from '../mocks';
 
-describe('adapters/react-native/NativeAdapter', () => {
-  let instance;
+describe('native/Adapter', () => {
+  let instance = null;
 
   beforeEach(() => {
     instance = new ReactNativeAdapter();

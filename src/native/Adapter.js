@@ -4,9 +4,9 @@
  * @flow
  */
 
-import Adapter from '../../Adapter';
+import Adapter from '../Adapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../types';
 
 export default class ReactNativeAdapter extends Adapter {
   native: boolean = true;

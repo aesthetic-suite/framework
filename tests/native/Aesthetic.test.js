@@ -5,7 +5,8 @@ describe('native/Aesthetic', () => {
   let instance = null;
 
   beforeEach(() => {
-    instance = new Aesthetic(new TestAdapter());
+    // Does not require an adapter
+    instance = new Aesthetic();
   });
 
   describe('transformStyles()', () => {

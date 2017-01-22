@@ -168,10 +168,7 @@ The following libraries and their features are officially supported by Aesthetic
 | [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
 | [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | ★ | | | | | ✓ | ✓ |
-
-> ★: React Native supports a subset of the unified syntax as it provides its own
-> functionality and packages for handling pseudos, fonts, animations, and media queries.
+| [React Native][react-native] | | | | ✓ | ✓ | | ✓ |
 
 The following libraries are currently not supported.
 

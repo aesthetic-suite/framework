@@ -1,7 +1,7 @@
 {
   "name": "aesthetic-native",
   "version": "0.0.0",
-  "description": "Aesthetic enhancement for wrapping style declarations with React Native StyleSheets.",
+  "description": "React Native support for Aesthetic.",
   "keywords": [
     "aesthetic",
     "react",

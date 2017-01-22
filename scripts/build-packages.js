@@ -21,7 +21,6 @@ const packages = {
   'aesthetic-adapter-fela': 'src/adapters/fela/*.js',
   'aesthetic-adapter-glamor': 'src/adapters/glamor/*.js',
   'aesthetic-adapter-jss': 'src/adapters/jss/*.js',
-  'aesthetic-adapter-react-native': 'src/adapters/react-native/*.js',
   'aesthetic-native': 'src/native/*.js',
   'aesthetic-utils': 'src/utils/*.js',
 };

@@ -5,12 +5,18 @@
  */
 
 import { StyleSheet } from 'react-native';
+import Adapter from '../Adapter';
 import Aesthetic from '../Aesthetic';
+import ReactNativeAdapter from './Adapter';
 
 import type { TransformedStylesMap, StyleDeclaration } from '../types';
 
-export default class NativeAesthetic extends Aesthetic {
+export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
+
+  constructor(adapter: Adapter) {
+    super(adapter || new ReactNativeAdapter());
+  }
 
   /**
    * Pass the transformed styles through React Native's `StyleSheet` layer.
