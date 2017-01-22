@@ -13,6 +13,7 @@ import type { Renderer } from 'fela';
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class FelaAdapter extends Adapter {
+  bypassNativeStyleSheet: boolean = true;
   fela: Renderer;
 
   constructor(fela: Renderer, options: Object = {}) {
@@ -20,7 +21,11 @@ export default class FelaAdapter extends Adapter {
 
     this.fela = fela || createRenderer();
 
-    render(this.fela, createStyleElement('fela'));
+    // React Native does not require a DOM render
+    // How to make fela-dom optional though?
+    if (this.fela.subscribe) {
+      render(this.fela, createStyleElement('fela'));
+    }
   }
 
   transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {

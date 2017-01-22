@@ -21,6 +21,18 @@ describe('native/Aesthetic', () => {
         tooltip: {},
       });
     });
+
+    it('bypasses RN StyleSheets', () => {
+      instance.adapter.bypassNativeStyleSheet = true;
+
+      instance.setStyles('foo', {
+        button: { fontWeight: 'bold' },
+      });
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: { fontWeight: 'bold' },
+      });
+    });
   });
 
   describe('validateTransform()', () => {

@@ -38,4 +38,4 @@ The following adapters support React Native:
 
 ### Unified Syntax
 
-React Native does not support Aesthetic's unified syntax, however, adapters may.
+React Native does not support Aesthetic's unified syntax.

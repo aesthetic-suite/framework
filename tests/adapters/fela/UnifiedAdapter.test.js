@@ -9,7 +9,7 @@ import {
   SYNTAX_FONT_FACE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
-} from '../..//mocks';
+} from '../../mocks';
 
 describe('adapters/fela/UnifiedAdapter', () => {
   let instance;

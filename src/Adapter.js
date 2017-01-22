@@ -7,6 +7,7 @@
 import type { StyleDeclarationMap, TransformedStylesMap } from './types';
 
 export default class Adapter {
+  bypassNativeStyleSheet: boolean = false;
   native: boolean = false;
   options: Object = {};
 

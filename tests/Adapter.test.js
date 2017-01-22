@@ -2,6 +2,12 @@ import Adapter from '../src/Adapter';
 import { TestAdapter, FONT_ROBOTO, KEYFRAME_FADE } from './mocks';
 
 describe('Adapter', () => {
+  it('inherits options through the constructor', () => {
+    const instance = new Adapter({ foo: 'bar' });
+
+    expect(instance.options).toEqual({ foo: 'bar' });
+  });
+
   describe('transform()', () => {
     it('errors if not defined', () => {
       expect(() => (new Adapter()).transform())
