@@ -82,6 +82,6 @@ Object.keys(packages).forEach((packageName) => {
     console.log(`Built ${packageName}`);
   }).catch((error) => {
     console.log(error);
-    process.exit(0);
+    process.exitCode = 1;
   });
 });

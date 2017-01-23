@@ -16,6 +16,6 @@ glob.sync('./packages/*').forEach((packagePath) => {
     });
   } catch (error) {
     console.log(error);
-    process.exit(0);
+    process.exitCode = 1;
   }
 });
