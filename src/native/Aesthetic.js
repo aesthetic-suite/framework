@@ -14,8 +14,11 @@ import type { TransformedStylesMap, StyleDeclaration } from '../types';
 export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
 
-  constructor(adapter: Adapter) {
-    super(adapter || new ReactNativeAdapter());
+  constructor(adapter: Adapter, options: Object = {}) {
+    super(adapter || new ReactNativeAdapter(), {
+      stylesPropName: 'styles',
+      ...options,
+    });
   }
 
   /**

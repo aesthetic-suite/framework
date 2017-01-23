@@ -30,12 +30,6 @@ export default function style(
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
     const styleName: string = options.styleName || Component.displayName || Component.name;
-    const {
-      classNamesPropName = 'classNames',
-      themePropName = 'theme',
-      extendable = false,
-      extendFrom,
-    } = options;
 
     if (process.env.NODE_ENV === 'development') {
       if (!(aesthetic instanceof Aesthetic)) {
@@ -55,6 +49,13 @@ export default function style(
         );
       }
     }
+
+    const {
+      stylesPropName = aesthetic.options.stylesPropName,
+      themePropName = aesthetic.options.themePropName,
+      extendable = aesthetic.options.extendable,
+      extendFrom,
+    } = options;
 
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
@@ -120,7 +121,7 @@ export default function style(
       transformStyles(theme: string) {
         this.setState({
           [themePropName]: theme,
-          [classNamesPropName]: aesthetic.transformStyles(styleName, theme),
+          [stylesPropName]: aesthetic.transformStyles(styleName, theme),
         });
       }
 

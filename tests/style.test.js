@@ -207,7 +207,7 @@ describe('style()', () => {
     shallow(<Wrapped someThemeNameHere="classic" />).dive();
   });
 
-  it('can customize the class names prop type using `options.classNamesPropName`', () => {
+  it('can customize the class names prop type using `options.stylesPropName`', () => {
     function StylesComponent(props) {
       expect(props.classes).toEqual(TEST_CLASS_NAMES);
       return null;
@@ -217,10 +217,32 @@ describe('style()', () => {
       header: { color: 'red' },
       footer: { color: 'blue' },
     }, {
-      classNamesPropName: 'classes',
+      stylesPropName: 'classes',
     })(StylesComponent);
 
     shallow(<Wrapped />).dive();
+  });
+
+  it('can customize the options through the `Aesthetic` instance', () => {
+    function StylesComponent(props) {
+      expect(props.classes).toEqual(TEST_CLASS_NAMES);
+      expect(props.someThemeNameHere).toBe('classic');
+      return null;
+    }
+
+    aesthetic = new Aesthetic(new TestAdapter(), {
+      stylesPropName: 'classes',
+      themePropName: 'someThemeNameHere',
+    });
+
+    const Wrapped = style(aesthetic, {
+      header: { color: 'red' },
+      footer: { color: 'blue' },
+    })(StylesComponent);
+
+    expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
+
+    shallow(<Wrapped someThemeNameHere="classic" />).dive();
   });
 
   it('errors if Aesthetic is not passed', () => {

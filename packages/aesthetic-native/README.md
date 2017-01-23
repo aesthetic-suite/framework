@@ -29,10 +29,41 @@ import { createStyler } from 'aesthetic';
 export default createStyler(new Aesthetic());
 ```
 
-### Adapters
+One key difference between React Native Aesthetic and normal Aesthetic is that React Native
+styles are passed down to the component under the `styles` prop, instead of `classNames`.
+
+```javascript
+import React, { PropTypes } from 'react';
+import { StylesPropType } from 'aesthetic';
+import style from '../path/to/styler';
+
+function Button({ children, styles, icon }) {
+  return (
+    <button type="button" style={styles.button}>
+      {icon && (
+        <span style={[styles.icon]}>{icon}</span>
+      )}
+
+      {children}
+    </button>
+  );
+}
+
+Button.propTypes = {
+  children: PropTypes.node,
+  styles: StylesPropType,
+  icon: PropTypes.node,
+};
+
+export default style({
+  button: { ... },
+  icon: { ... }
+})(Button);
+```
+
+### Supported Adapters
 
 Adapters that support React Native can be passed to the `Aesthetic` instance.
-The following adapters support React Native:
 
 * [Fela](../aesthetic-adapter-fela/)
 

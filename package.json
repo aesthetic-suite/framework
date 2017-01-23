@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "aesthetic",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Aesthetic is a powerful React library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
@@ -33,7 +33,8 @@
     "test:bundle": "browserify -t [ babelify ] -t [ envify --NODE_ENV production ] ./tests/bundle.js -o ./tests/bundle.min.js",
     "posttest": "yarn run flow",
     "preversion": "yarn test && yarn run clean && yarn run build",
-    "publish": "lerna publish"
+    "publish": "npm run publish:npm",
+    "publish:npm": "lerna publish"
   },
   "repository": {
     "type": "git",

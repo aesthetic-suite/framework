@@ -40,7 +40,7 @@ export type HOCOptions = {
  extendable?: boolean,
  extendFrom?: string,
  styleName?: string,
- classNamesPropName?: string,
+ stylesPropName?: string,
  themePropName?: string,
 };
 
@@ -49,3 +49,9 @@ export type EventCallback = (() => void) |
  ((setName: string, atRuleName: string, properties: CSSStyle) => void);
 
 export type FallbackMap = { [setName: string]: CSSStyle };
+
+export type AestheticOptions = {
+ extendable: boolean,
+ stylesPropName: string,
+ themePropName: string,
+};

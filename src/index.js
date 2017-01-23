@@ -13,6 +13,7 @@ import createStyler from './createStyler';
 import classes from './classNames';
 
 export const ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
+export const StylesPropType = PropTypes.objectOf(PropTypes.object);
 
 export { createStyler, classes, Adapter, ClassNameAdapter, ThemeProvider };
 export default Aesthetic;

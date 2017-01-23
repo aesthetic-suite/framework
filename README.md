@@ -1,4 +1,4 @@
-# Aesthetic v0.3.0
+# Aesthetic v0.4.0
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS
@@ -206,7 +206,7 @@ and an object of configurable options as the second. The following options are s
   used in logging and caching. Defaults to the component or function name.
 * `extendable` (boolean) - Allows the component and its styles to be extended,
   creating a new component in the process. Defaults to `false`.
-* `classNamesPropName` (string) - Name of the prop in which the compiled class names
+* `stylesPropName` (string) - Name of the prop in which the compiled class names or styles
   object is passed to. Defaults to `classNames`.
 * `themePropName` (string) - Name of the prop in which the theme name is passed to.
   Defaults to `theme`.
@@ -217,9 +217,20 @@ export default style({
 }, {
   styleName: 'CustomButton',
   extendable: true,
-  classNamesPropName: 'classes',
+  stylesPropName: 'classes',
   themePropName: 'appTheme',
 })(Button);
+```
+
+If you get tired of passing `stylesPropName`, `themePropName`, and `extendable` to every
+component, you can pass these as default options to the `Aesthetic` instance.
+
+```javascript
+new Aesthetic(adapter, {
+  extendable: true,
+  stylesPropName: 'classes',
+  themePropName: 'appTheme',
+})
 ```
 
 ### Defining Components

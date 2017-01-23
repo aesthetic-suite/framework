@@ -34,7 +34,7 @@ declare module 'aesthetic' {
     extendable?: boolean,
     extendFrom?: string,
     styleName?: string,
-    classNamesPropName?: string,
+    stylesPropName?: string,
     themePropName?: string,
   };
 

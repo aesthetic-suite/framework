@@ -9,6 +9,7 @@ import Adapter from './Adapter';
 import isObject from './utils/isObject';
 
 import type {
+  AestheticOptions,
   StyleDeclaration,
   StyleDeclarationMap,
   StyleDeclarationOrCallback,
@@ -19,12 +20,22 @@ import type {
 export default class Aesthetic {
   adapter: Adapter;
   cache: { [styleName: string]: TransformedStylesMap } = {};
-  parents: { [childStyleName: string]: string } = {};
   native: boolean = false;
+  options: AestheticOptions = {
+    stylesPropName: 'classNames',
+    themePropName: 'theme',
+    extendable: false,
+  };
+  parents: { [childStyleName: string]: string } = {};
   styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
   themes: { [themeName: string]: CSSStyle } = {};
 
-  constructor(adapter: Adapter) {
+  constructor(adapter: Adapter, options: Object = {}) {
+    this.options = {
+      ...this.options,
+      ...options,
+    };
+
     this.setAdapter(adapter);
   }
 
