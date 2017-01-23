@@ -9,33 +9,38 @@ import { render } from 'fela-dom';
 import Adapter from '../../Adapter';
 import createStyleElement from '../../utils/createStyleElement';
 
-import type { Renderer, RendererConfig } from 'fela';
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { Renderer } from 'fela';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class FelaAdapter extends Adapter {
+  bypassNativeStyleSheet: boolean = true;
   fela: Renderer;
 
-  constructor(config: RendererConfig = {}) {
-    super();
+  constructor(fela: Renderer, options: Object = {}) {
+    super(options);
 
-    this.fela = createRenderer(config);
+    this.fela = fela || createRenderer();
 
-    render(this.fela, createStyleElement('fela'));
+    // React Native does not require a DOM render
+    // How to make fela-dom optional though?
+    if (this.fela.subscribe) {
+      render(this.fela, createStyleElement('fela'));
+    }
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
-    const classNames = {};
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+    const output = {};
 
     Object.keys(declarations).forEach((setName: string) => {
       const value = declarations[setName];
 
       if (typeof value === 'string') {
-        classNames[setName] = value;
+        output[setName] = this.native ? {} : value;
       } else {
-        classNames[setName] = this.fela.renderRule(() => value);
+        output[setName] = this.fela.renderRule(() => value);
       }
     });
 
-    return classNames;
+    return output;
   }
 }

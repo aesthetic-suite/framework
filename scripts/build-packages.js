@@ -15,27 +15,14 @@ const babelConfig = Object.assign({}, JSON.parse(fs.readFileSync('.babelrc', 'ut
 
 // List of packages and their build configuration
 const packages = {
-  aesthetic: {
-    files: 'src/*.js',
-  },
-  'aesthetic-adapter-aphrodite': {
-    files: 'src/adapters/aphrodite/*.js',
-  },
-  'aesthetic-adapter-css-modules': {
-    files: 'src/adapters/css-modules/*.js',
-  },
-  'aesthetic-adapter-fela': {
-    files: 'src/adapters/fela/*.js',
-  },
-  'aesthetic-adapter-glamor': {
-    files: 'src/adapters/glamor/*.js',
-  },
-  'aesthetic-adapter-jss': {
-    files: 'src/adapters/jss/*.js',
-  },
-  'aesthetic-utils': {
-    files: 'src/utils/*.js',
-  },
+  aesthetic: 'src/*.js',
+  'aesthetic-adapter-aphrodite': 'src/adapters/aphrodite/*.js',
+  'aesthetic-adapter-css-modules': 'src/adapters/css-modules/*.js',
+  'aesthetic-adapter-fela': 'src/adapters/fela/*.js',
+  'aesthetic-adapter-glamor': 'src/adapters/glamor/*.js',
+  'aesthetic-adapter-jss': 'src/adapters/jss/*.js',
+  'aesthetic-native': 'src/native/*.js',
+  'aesthetic-utils': 'src/utils/*.js',
 };
 
 // Imports that we should replace to support our module system
@@ -79,11 +66,11 @@ function replaceImports(source, filePath, currentPackage) {
 }
 
 Object.keys(packages).forEach((packageName) => {
-  const libPackage = packages[packageName];
+  const libFiles = packages[packageName];
   const libPath = `packages/${packageName}/`;
 
   Promise.all(
-    glob.sync(libPackage.files).map(filePath => (
+    glob.sync(libFiles).map(filePath => (
       fsp.stat(libPath)
         .then(stats => (stats.isDirectory() ? stats : fsp.mkdir(libPath)))
         .then(stats => fsp.readFile(filePath, 'utf8'))

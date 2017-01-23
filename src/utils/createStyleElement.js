@@ -9,6 +9,7 @@ export default function createStyleElement(id: string): HTMLElement {
   style.type = 'text/css';
   style.id = `aesthetic-${id}`;
 
+  // $FlowIssue We know the document exists
   document.head.appendChild(style);
 
   return style;

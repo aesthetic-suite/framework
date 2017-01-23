@@ -7,25 +7,31 @@
 import { StyleSheet, css } from 'aphrodite';
 import Adapter from '../../Adapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
 
-  constructor(aphrodite: Object) {
-    super();
+  constructor(aphrodite: Object, options: Object = {}) {
+    super(options);
 
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+    if (process.env.NODE_ENV === 'development') {
+      if (this.native) {
+        throw new Error('Aphrodite does not support React Native.');
+      }
+    }
+
     const styleSheet = this.aphrodite.create(declarations);
-    const classNames = {};
+    const output = {};
 
     Object.keys(styleSheet).forEach((setName: string) => {
-      classNames[setName] = css(styleSheet[setName]);
+      output[setName] = css(styleSheet[setName]);
     });
 
-    return classNames;
+    return output;
   }
 }

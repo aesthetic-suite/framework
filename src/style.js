@@ -11,7 +11,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  ClassNameMap,
+  TransformedStylesMap,
   StyleDeclarationOrCallback,
   WrappedComponent,
   HOCComponent,
@@ -19,7 +19,7 @@ import type {
 } from './types';
 
 type PropsAndState = {
-  classNames?: ClassNameMap,
+  classNames?: TransformedStylesMap,
   theme?: string,
 };
 
@@ -82,8 +82,10 @@ export default function style(
         customStyles: StyleDeclarationOrCallback,
         extendOptions: HOCOptions = {},
       ): HOCComponent {
-        if (process.env.NODE_ENV === 'development' && !extendable) {
-          throw new Error(`${styleName} is not extendable.`);
+        if (process.env.NODE_ENV === 'development') {
+          if (!extendable) {
+            throw new Error(`${styleName} is not extendable.`);
+          }
         }
 
         return style(
@@ -116,11 +118,9 @@ export default function style(
       }
 
       transformStyles(theme: string) {
-        const classNames = aesthetic.transformStyles(styleName, theme);
-
         this.setState({
           [themePropName]: theme,
-          [classNamesPropName]: classNames,
+          [classNamesPropName]: aesthetic.transformStyles(styleName, theme),
         });
       }
 

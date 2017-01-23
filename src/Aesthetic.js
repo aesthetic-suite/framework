@@ -9,18 +9,20 @@ import Adapter from './Adapter';
 import isObject from './utils/isObject';
 
 import type {
+  StyleDeclaration,
   StyleDeclarationMap,
   StyleDeclarationOrCallback,
-  ClassNameMap,
+  TransformedStylesMap,
   CSSStyle,
 } from './types';
 
 export default class Aesthetic {
   adapter: Adapter;
+  cache: { [styleName: string]: TransformedStylesMap } = {};
   parents: { [childStyleName: string]: string } = {};
+  native: boolean = false;
   styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
   themes: { [themeName: string]: CSSStyle } = {};
-  classNames: { [styleName: string]: ClassNameMap } = {};
 
   constructor(adapter: Adapter) {
     this.setAdapter(adapter);
@@ -111,7 +113,9 @@ export default class Aesthetic {
    */
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter) {
+      adapter.native = this.native;
       this.adapter = adapter;
+
     } else if (process.env.NODE_ENV === 'development') {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
@@ -154,22 +158,22 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, themeName: string = ''): ClassNameMap {
+  transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
     const cacheKey = `${styleName}:${themeName}`;
 
-    if (this.classNames[cacheKey]) {
-      return this.classNames[cacheKey];
+    if (this.cache[cacheKey]) {
+      return this.cache[cacheKey];
     }
 
     const declarations = this.getStyles(styleName, themeName);
     const toTransform = {};
-    const classNames = {};
+    const output = {};
     let setCount = 0;
 
     // Separate style objects from class names
     Object.keys(declarations).forEach((setName: string) => {
       if (typeof declarations[setName] === 'string') {
-        classNames[setName] = declarations[setName];
+        output[setName] = this.native ? {} : declarations[setName];
       } else {
         toTransform[setName] = declarations[setName];
         setCount += 1;
@@ -178,24 +182,32 @@ export default class Aesthetic {
 
     // Transform the styles into a map of class names
     if (setCount > 0) {
-      const transformedClassNames = this.adapter.transform(styleName, toTransform);
+      const transformedOutput = this.adapter.transform(styleName, toTransform);
 
-      // Validate the object returned contains valid strings
-      Object.keys(transformedClassNames).forEach((setName: string) => {
-        if (typeof transformedClassNames[setName] === 'string') {
-          classNames[setName] = transformedClassNames[setName];
-        } else if (process.env.NODE_ENV === 'development') {
-          throw new TypeError(
-            `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-            `"${styleName}@${setName}" is not a valid string.`,
-          );
-        }
+      Object.keys(transformedOutput).forEach((setName: string) => {
+        output[setName] = this.validateTransform(styleName, setName, transformedOutput[setName]);
       });
     }
 
     // Cache the values
-    this.classNames[cacheKey] = classNames;
+    this.cache[cacheKey] = output;
 
-    return classNames;
+    return output;
+  }
+
+  /**
+   * Validate the object returned contains valid strings.
+   */
+  validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
+    if (process.env.NODE_ENV === 'development') {
+      if (typeof value !== 'string') {
+        throw new TypeError(
+          `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
+          `"${styleName}@${setName}" is not a valid string.`,
+        );
+      }
+    }
+
+    return value;
   }
 }

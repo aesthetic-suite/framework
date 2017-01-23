@@ -10,13 +10,13 @@ import injectAtRules from '../../utils/injectAtRules';
 import injectFallbacks from '../../utils/injectFallbacks';
 import GlamorAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap, CSSStyle } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;
 
-  constructor() {
-    super();
+  constructor(options: Object = {}) {
+    super(options);
 
     this.syntax = new UnifiedSyntax();
     this.syntax
@@ -29,7 +29,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     return super.transform(styleName, this.convert(declarations));
   }
 

@@ -10,8 +10,7 @@ import injectAtRules from '../../utils/injectAtRules';
 import toArray from '../../utils/toArray';
 import JSSAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, ClassNameMap, AtRuleMap, CSSStyle } from '../../types';
-import type { StyleSheetOptions } from 'jss';
+import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
   currentFontFaces: AtRuleMap = {};
@@ -19,7 +18,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
   currentMediaQueries: AtRuleMap = {};
   syntax: UnifiedSyntax;
 
-  constructor(jss: JSS, options: StyleSheetOptions = {}) {
+  constructor(jss: JSS, options: Object = {}) {
     super(jss, options);
 
     this.syntax = new UnifiedSyntax();
@@ -45,7 +44,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     };
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     return super.transform(styleName, this.convert(declarations));
   }
 

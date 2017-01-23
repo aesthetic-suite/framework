@@ -6,16 +6,22 @@
 
 import Adapter from '../../Adapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from '../../types';
+import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class CSSModulesAdapter extends Adapter {
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
-    const classNames = {};
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+    if (process.env.NODE_ENV === 'development') {
+      if (this.native) {
+        throw new Error('CSS modules do not support React Native.');
+      }
+    }
+
+    const output = {};
 
     Object.keys(declarations).forEach((setName: string) => {
-      classNames[setName] = `${styleName}-${String(declarations[setName])}`;
+      output[setName] = `${styleName}-${String(declarations[setName])}`;
     });
 
-    return classNames;
+    return output;
   }
 }

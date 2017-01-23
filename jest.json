@@ -1,9 +1,11 @@
 {
+  "preset": "react-native",
   "collectCoverage": false,
   "coverageDirectory": "./coverage",
   "globals": {},
   "resetMocks": true,
   "resetModules": true,
   "setupFiles": ["./tests/setup.js"],
-  "testPathDirs": ["./tests"]
+  "testRegex": "./tests/.*\\.test\\.js$",
+  "testEnvironment": "jsdom"
 }

@@ -1,0 +1,25 @@
+{
+  "name": "aesthetic-native",
+  "version": "0.0.0",
+  "description": "React Native support for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "native",
+    "styles"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native",
+  "license": "MIT",
+  "files": [
+    "*.md",
+    "*.js"
+  ],
+  "peerDependencies": {
+    "aesthetic": "^0.3.0",
+    "react-native": "^0.40.0"
+  },
+  "devDependencies": {
+    "aesthetic": "^0.3.0",
+    "react-native": "^0.40.0"
+  }
+}

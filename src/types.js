@@ -30,6 +30,8 @@ export type MaybeClassName = string | number | { [key: string]: boolean } | Mayb
 
 export type ClassNameMap = { [setName: string]: string };
 
+export type TransformedStylesMap = StyleDeclarationMap | ClassNameMap;
+
 export type WrappedComponent = ReactClass<*>;
 
 export type HOCComponent = ReactClass<*>;
