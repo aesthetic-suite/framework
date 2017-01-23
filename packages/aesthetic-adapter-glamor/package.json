@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-glamor",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Glamor support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -18,11 +18,11 @@
     "aesthetic-utils": "^0.3.0"
   },
   "peerDependencies": {
-    "aesthetic": "^0.3.0",
+    "aesthetic": "^0.4.0",
     "glamor": "^2.20.20"
   },
   "devDependencies": {
-    "aesthetic": "^0.3.0",
+    "aesthetic": "^0.4.0",
     "glamor": "^2.20.20"
   }
 }
