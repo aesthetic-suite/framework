@@ -48,7 +48,7 @@ import JSSAdapter from 'aesthetic-adapter-jss';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 
-const jss = create().use(preset());
+const jss = create(preset());
 const aesthetic = new Aesthetic(new JSSAdapter(jss));
 ```
 
