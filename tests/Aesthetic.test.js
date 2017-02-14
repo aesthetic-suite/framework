@@ -1,5 +1,11 @@
 import Aesthetic from '../src/Aesthetic';
-import { TestAdapter, TEST_CLASS_NAMES, FONT_ROBOTO } from './mocks';
+import ClassNameAdapter from '../src/ClassNameAdapter';
+import AphroditeAdapter from '../src/adapters/aphrodite/NativeAdapter';
+import CssModulesAdapter from '../src/adapters/css-modules/NativeAdapter';
+import FelaAdapter from '../src/adapters/fela/NativeAdapter';
+import GlamorAdapter from '../src/adapters/glamor/NativeAdapter';
+import JssAdapter from '../src/adapters/jss/NativeAdapter';
+import { TestAdapter, TEST_CLASS_NAMES, FONT_ROBOTO, SYNTAX_NATIVE_PARTIAL } from './mocks';
 
 describe('Aesthetic', () => {
   let instance = null;
@@ -8,7 +14,7 @@ describe('Aesthetic', () => {
     instance = new Aesthetic(new TestAdapter());
   });
 
-  describe('extendTheme', () => {
+  describe('extendTheme()', () => {
     it('errors if the parent theme doesnt exist', () => {
       expect(() => instance.extendTheme('foo', 'bar', {}))
         .toThrowError('Theme "foo" does not exist.');
@@ -290,6 +296,66 @@ describe('Aesthetic', () => {
 
       expect(() => instance.validateTransform('foo', 'header', {}))
         .toThrowError('`TestAdapter` must return a mapping of CSS class names. "foo@header" is not a valid string.');
+    });
+  });
+
+  describe('adapters', () => {
+    beforeEach(() => {
+      instance.setStyles('foo', SYNTAX_NATIVE_PARTIAL);
+    });
+
+    it('supports standard class names', () => {
+      instance.setAdapter(new ClassNameAdapter());
+
+      // Only strings are supported
+      instance.styles.foo = { button: 'button' };
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'button',
+      });
+    });
+
+    it('supports Aphrodite', () => {
+      instance.setAdapter(new AphroditeAdapter());
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'button_193hp5g',
+      });
+    });
+
+    it('supports CSS modules', () => {
+      instance.setAdapter(new CssModulesAdapter());
+
+      // Styles are passed as strings, so fake it
+      instance.styles.foo = { button: 'cssm-button' };
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'cssm-button',
+      });
+    });
+
+    it('supports Fela', () => {
+      instance.setAdapter(new FelaAdapter());
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'a b c d e f g h i j k l m n o p q r s t u v w',
+      });
+    });
+
+    it('supports Glamor', () => {
+      instance.setAdapter(new GlamorAdapter());
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'foo-css-1n8n9n3',
+      });
+    });
+
+    it('supports JSS', () => {
+      instance.setAdapter(new JssAdapter());
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'button-1449173300',
+      });
     });
   });
 });

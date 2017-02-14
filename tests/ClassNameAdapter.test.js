@@ -10,7 +10,7 @@ describe('ClassNameAdapter', () => {
 
   it('errors if a non-string is provided', () => {
     expect(() => {
-      instance.transformStyles('foo', {
+      instance.transform('foo', {
         foo: '.valid-class',
         bar: { not: 'valid' },
       });
@@ -18,6 +18,6 @@ describe('ClassNameAdapter', () => {
   });
 
   it('sets and caches class names', () => {
-    expect(instance.transformStyles('foo', TEST_CLASS_NAMES)).toEqual(TEST_CLASS_NAMES);
+    expect(instance.transform('foo', TEST_CLASS_NAMES)).toEqual(TEST_CLASS_NAMES);
   });
 });
