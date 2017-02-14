@@ -10,8 +10,8 @@ function stripChars(name: string): string {
   return (name.charAt(0) === '.') ? name.substring(1) : name;
 }
 
-export default function classNames(...values: MaybeClassName[]): string {
-  const classes: string[] = [];
+export default function classes(...values: MaybeClassName[]): string {
+  const classNames: string[] = [];
 
   values.forEach((value: MaybeClassName) => {
     // Empty value or failed condition
@@ -20,22 +20,22 @@ export default function classNames(...values: MaybeClassName[]): string {
 
     // Acceptable class name
     } else if (typeof value === 'string' || typeof value === 'number') {
-      classes.push(stripChars(String(value)));
+      classNames.push(stripChars(String(value)));
 
     // Array of possible class names
     } else if (Array.isArray(value)) {
-      classes.push(classNames(...value));
+      classNames.push(classes(...value));
 
     // Object of class names to boolean
     } else if (typeof value === 'object') {
       Object.keys(value).forEach((key: string) => {
         // $FlowIssue We know its an object
         if (value[key]) {
-          classes.push(stripChars(key));
+          classNames.push(stripChars(key));
         }
       });
     }
   });
 
-  return classes.length ? classes.join(' ').trim() : '';
+  return classNames.join(' ').trim();
 }

@@ -1,26 +1,26 @@
-import classNames from '../src/classNames';
+import classes from '../src/classes';
 
-describe('classNames()', () => {
+describe('classes()', () => {
   it('ignores falsey values', () => {
-    expect(classNames(null, false, 0, '', undefined, [], {})).toBe('');
+    expect(classes(null, false, 0, '', undefined, [], {})).toBe('');
   });
 
   it('strips period prefix', () => {
-    expect(classNames('.foo', 'bar qux', { '.baz': true })).toBe('foo bar qux baz');
+    expect(classes('.foo', 'bar qux', { '.baz': true })).toBe('foo bar qux baz');
   });
 
   it('handles expression values', () => {
-    expect(classNames('foo', true && 'bar', (5 > 10) && 'baz')).toBe('foo bar');
+    expect(classes('foo', true && 'bar', (5 > 10) && 'baz')).toBe('foo bar');
   });
 
   it('joins strings and numbers', () => {
-    expect(classNames('foo', 123, 'bar')).toBe('foo 123 bar');
+    expect(classes('foo', 123, 'bar')).toBe('foo 123 bar');
   });
 
   it('joins object keys that evaluate to true', () => {
     const baz = 'baz';
 
-    expect(classNames('foo', {
+    expect(classes('foo', {
       'foo--active': true,
       bar: false,
       [`${baz}`]: (5 > 1),
@@ -28,7 +28,7 @@ describe('classNames()', () => {
   });
 
   it('joins array values', () => {
-    expect(classNames('foo', [
+    expect(classes('foo', [
       'bar',
       true && 'baz',
       false && 'qux',
