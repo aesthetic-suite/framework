@@ -12,5 +12,5 @@ npm run publish
 If Lerna balks with "No updated packages to publish", we need to force publish.
 
 ```
-npm run publish -- --force-publish *
+npm run publish:force
 ```
