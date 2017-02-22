@@ -29,10 +29,12 @@ export default function style(
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
-    let styleName;
+    let styleName = options.styleName || Component.displayName;
 
+    // Function name isn't always available when minified,
+    // so only use it in development.
     if (process.env.NODE_ENV === 'development') {
-      styleName = options.styleName || Component.displayName || Component.name;
+      styleName = styleName || Component.name;
 
       if (!(aesthetic instanceof Aesthetic)) {
         throw new Error('An instance of `Aesthetic` is required.');
@@ -55,7 +57,7 @@ export default function style(
     // If we don't do this, any minifiers that mangle function names would break
     // Aesthetic's caching layer.
     } else {
-      styleName = options.styleName || Math.random().toString(32).substr(2);
+      styleName = styleName || Math.random().toString(32).substr(2);
     }
 
     const {
