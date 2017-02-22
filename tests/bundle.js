@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Aesthetic from '../src/Aesthetic';
 import createStyler from '../src/createStyler';
-import classes from '../src/classNames';
+import classes from '../src/classes';
 import ThemeProvider from '../src/ThemeProvider';
 import FelaAdapter from '../src/adapters/fela/NativeAdapter';
 
