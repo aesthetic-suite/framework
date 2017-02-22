@@ -29,9 +29,11 @@ export default function style(
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
-    const styleName: string = options.styleName || Component.displayName || Component.name;
+    let styleName;
 
     if (process.env.NODE_ENV === 'development') {
+      styleName = options.styleName || Component.displayName || Component.name;
+
       if (!(aesthetic instanceof Aesthetic)) {
         throw new Error('An instance of `Aesthetic` is required.');
 
@@ -48,6 +50,12 @@ export default function style(
           'Either rename the component or define `options.styleName`.',
         );
       }
+
+    // When in production, we should generate a random string to use as the style name.
+    // If we don't do this, any minifiers that mangle function names would break
+    // Aesthetic's caching layer.
+    } else {
+      styleName = options.styleName || Math.random().toString(32).substr(2);
     }
 
     const {
