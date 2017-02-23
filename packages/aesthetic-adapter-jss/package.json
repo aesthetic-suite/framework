@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "aesthetic": "^0.5.1",
-    "jss": "^6.2.0"
+    "jss": "^6.3.0"
   }
 }
