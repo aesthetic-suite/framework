@@ -23,6 +23,9 @@ type PropsAndState = {
   theme?: string,
 };
 
+// Keep track in production
+let instanceID = 0;
+
 export default function style(
   aesthetic: Aesthetic,
   styles: StyleDeclarationOrCallback = {},
@@ -57,7 +60,8 @@ export default function style(
     // If we don't do this, any minifiers that mangle function names would break
     // Aesthetic's caching layer.
     } else {
-      styleName = styleName || Math.random().toString(32).substr(2);
+      instanceID += 1;
+      styleName = styleName || `${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 
     const {
