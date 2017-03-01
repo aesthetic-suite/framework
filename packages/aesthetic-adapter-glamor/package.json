@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "aesthetic": "^0.5.2",
-    "glamor": "^2.20.23"
+    "glamor": "^2.20.24"
   }
 }
