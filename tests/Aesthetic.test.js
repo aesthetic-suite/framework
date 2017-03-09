@@ -319,7 +319,7 @@ describe('Aesthetic', () => {
       instance.setAdapter(new AphroditeAdapter());
 
       expect(instance.transformStyles('foo')).toEqual({
-        button: 'button_193hp5g',
+        button: 'button_13l44zh',
       });
     });
 

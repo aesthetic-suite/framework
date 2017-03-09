@@ -25,7 +25,7 @@ describe('adapters/aphrodite/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'button_1f6zgtg',
+      button: 'button_808fk2',
     });
   });
 

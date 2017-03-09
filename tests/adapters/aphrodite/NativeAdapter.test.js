@@ -41,13 +41,13 @@ describe('adapters/aphrodite/NativeAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button_193hp5g',
+      button: 'button_13l44zh',
     });
   });
 
   it('supports pseudos', () => {
     expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'pseudo_1217cca',
+      pseudo: 'pseudo_q2zd6k',
     });
   });
 
@@ -62,7 +62,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font_1myoopg',
+      font: 'font_1mw0xkz',
     });
   });
 
@@ -76,7 +76,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'animation_2tm5yt',
+      animation: 'animation_1jgz2rv',
     });
   });
 
@@ -94,7 +94,7 @@ describe('adapters/aphrodite/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      media: 'media_1dsrhwv',
+      media: 'media_1yqe7pa',
     });
   });
 });
