@@ -1,6 +1,6 @@
 {
   "name": "aesthetic",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [
     "aesthetic",
