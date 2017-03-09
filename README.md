@@ -1,4 +1,4 @@
-# Aesthetic v0.5.2
+# Aesthetic v0.6.2
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS

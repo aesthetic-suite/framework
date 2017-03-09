@@ -35,8 +35,8 @@
     "test:bundle": "browserify -t [ babelify ] -t [ envify --NODE_ENV production ] ./tests/bundle.js -o ./tests/bundle.min.js",
     "posttest": "yarn run flow",
     "preversion": "yarn test && yarn run clean && yarn run build",
-    "publish": "lerna publish --only-explicit-updates",
-    "publish:force": "lerna publish --only-explicit-updates --force-publish=*"
+    "publish": "lerna publish",
+    "publish:force": "lerna publish --force-publish=*"
   },
   "repository": {
     "type": "git",
