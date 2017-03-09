@@ -26,7 +26,7 @@ export type StyleCallback = (theme: CSSStyle, prevStyles: StyleDeclarationMap) =
 
 export type StyleDeclarationOrCallback = StyleDeclarationMap | StyleCallback;
 
-export type MaybeClassName = string | number | { [key: string]: boolean } | MaybeClassName[];
+export type MaybeClassName = PrimitiveType | { [key: string]: boolean } | MaybeClassName[];
 
 export type ClassNameMap = { [setName: string]: string };
 

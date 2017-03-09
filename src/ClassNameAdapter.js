@@ -6,12 +6,12 @@
 
 import Adapter from './Adapter';
 
-import type { StyleDeclarationMap, ClassNameMap } from './types';
+import type { StyleDeclarationMap, TransformedStylesMap } from './types';
 
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transform(styleName: string, declarations: StyleDeclarationMap): ClassNameMap {
+  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
     const classNames = {};
 
     Object.keys(declarations).forEach((setName: string) => {

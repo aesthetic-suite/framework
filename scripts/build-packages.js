@@ -7,11 +7,7 @@ const glob = require('glob');
 const babel = require('babel-core');
 
 // For some reason babel-core won't find the config, so load it manually
-const babelConfig = Object.assign({}, JSON.parse(fs.readFileSync('.babelrc', 'utf8')), {
-  shouldPrintComment: () => false,
-  comments: false,
-  ast: false,
-});
+const babelConfig = Object.assign({}, JSON.parse(fs.readFileSync('.babelrc', 'utf8')));
 
 // List of packages and their build configuration
 const packages = {
