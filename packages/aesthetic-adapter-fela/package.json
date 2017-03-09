@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-fela",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Fela support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -15,15 +15,15 @@
     "*.js"
   ],
   "dependencies": {
-    "aesthetic-utils": "^0.4.1"
+    "aesthetic-utils": "^0.4.2"
   },
   "peerDependencies": {
-    "aesthetic": "^0.6.0",
+    "aesthetic": "^0.6.1",
     "fela": "^4.2.0",
     "fela-dom": "^4.2.0"
   },
   "devDependencies": {
-    "aesthetic": "^0.6.0",
+    "aesthetic": "^0.6.1",
     "fela": "^4.2.6",
     "fela-dom": "^4.2.6"
   }

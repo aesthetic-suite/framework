@@ -1,6 +1,6 @@
 {
   "name": "aesthetic",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Abstract library to support a range of styling options for React components.",
   "keywords": [
     "aesthetic",
@@ -14,7 +14,7 @@
     "*.js"
   ],
   "dependencies": {
-    "aesthetic-utils": "^0.4.1",
+    "aesthetic-utils": "^0.4.2",
     "hoist-non-react-statics": "^1.2.0",
     "lodash.merge": "^4.6.0"
   },

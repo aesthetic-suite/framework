@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-aphrodite",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -15,14 +15,14 @@
     "*.js"
   ],
   "dependencies": {
-    "aesthetic-utils": "^0.4.1"
+    "aesthetic-utils": "^0.4.2"
   },
   "peerDependencies": {
-    "aesthetic": "^0.6.0",
+    "aesthetic": "^0.6.1",
     "aphrodite": "^1.2.0"
   },
   "devDependencies": {
-    "aesthetic": "^0.6.0",
+    "aesthetic": "^0.6.1",
     "aphrodite": "^1.2.0"
   }
 }
