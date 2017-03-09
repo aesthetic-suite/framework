@@ -41,4 +41,5 @@ jspm_packages
 .yarnclean
 lib/
 packages/*/*.js
+packages/*/yarn.lock
 tests/bundle.min.js
