@@ -33,10 +33,11 @@
     "pretest": "yarn run lint",
     "test": "yarn run jest",
     "test:bundle": "browserify -t [ babelify ] -t [ envify --NODE_ENV production ] ./tests/bundle.js -o ./tests/bundle.min.js",
+    "prepare": "yarn test && yarn run clean && yarn run build",
     "posttest": "yarn run flow",
-    "preversion": "yarn test && yarn run clean && yarn run build",
-    "publish": "lerna publish --include-filtered-dependencies",
-    "publish:explicit": "lerna publish --only-explicit-updates",
+    "preversion": "yarn run prepare",
+    "publish": "yarn run prepare && lerna publish --include-filtered-dependencies",
+    "publish:explicit": "npm run publish -- --only-explicit-updates",
     "publish:force": "npm run publish -- --force-publish=*"
   },
   "repository": {
