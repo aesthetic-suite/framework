@@ -36,6 +36,7 @@
     "posttest": "yarn run flow",
     "preversion": "yarn test && yarn run clean && yarn run build",
     "publish": "lerna publish",
+    "publish:explicit": "lerna publish --only-explicit-updates",
     "publish:force": "lerna publish --force-publish=*"
   },
   "repository": {
