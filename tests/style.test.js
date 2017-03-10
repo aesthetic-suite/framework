@@ -17,6 +17,18 @@ describe('style()', () => {
     aesthetic.registerTheme('classic', {});
   });
 
+  it('extends `React.Component` by default', () => {
+    const Wrapped = style(aesthetic)(BaseComponent);
+
+    expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
+  });
+
+  it('extends `React.PureComponent` when `pure` is true', () => {
+    const Wrapped = style(aesthetic, {}, { pure: true })(BaseComponent);
+
+    expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  });
+
   it('inherits name from component `constructor.name`', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 

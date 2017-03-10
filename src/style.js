@@ -34,7 +34,7 @@ export default function style(
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName;
 
-    // Function name isn't always available when minified,
+    // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
     if (process.env.NODE_ENV === 'development') {
       styleName = styleName || Component.name;
@@ -69,12 +69,14 @@ export default function style(
       themePropName = aesthetic.options.themePropName,
       extendable = aesthetic.options.extendable,
       extendFrom,
+      pure = false,
     } = options;
+    const ParentComponent = (pure && React.PureComponent) ? React.PureComponent : React.Component;
 
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
 
-    class StyledComponent extends React.Component {
+    class StyledComponent extends ParentComponent {
       props: PropsAndState;
       state: PropsAndState;
 

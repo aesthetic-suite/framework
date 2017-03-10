@@ -40,6 +40,7 @@ declare module 'aesthetic' {
   declare export type HOCOptions = {
    extendable?: boolean,
    extendFrom?: string,
+   pure?: boolean,
    styleName?: string,
    stylesPropName?: string,
    themePropName?: string,
