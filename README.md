@@ -1,4 +1,4 @@
-# Aesthetic v0.6.2
+# Aesthetic v1.0.0
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS
@@ -210,6 +210,8 @@ and an object of configurable options as the second. The following options are s
   object is passed to. Defaults to `classNames`.
 * `themePropName` (string) - Name of the prop in which the theme name is passed to.
   Defaults to `theme`.
+* `pure` (boolean) - When true, the higher-order-component will extend `React.PureComponent`
+  instead of `React.Component`. Only use this for static/dumb components.
 
 ```javascript
 export default style({
@@ -217,6 +219,7 @@ export default style({
 }, {
   styleName: 'CustomButton',
   extendable: true,
+  pure: true,
   stylesPropName: 'classes',
   themePropName: 'appTheme',
 })(Button);
@@ -409,7 +412,7 @@ function is that it provides the [current theme](#using-themes) as the first arg
 and the [previous styles](#customizing-styles) as the second argument.
 
 ```javascript
-style(function (theme, prevStyles) {
+style((theme, prevStyles) => {
   // ...
 })(Button)
 ```

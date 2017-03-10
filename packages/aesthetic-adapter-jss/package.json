@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "aesthetic": "^0.5.2",
-    "jss": "^6.2.0"
+    "jss": "^6.3.0"
   },
   "devDependencies": {
     "aesthetic": "^0.5.2",
