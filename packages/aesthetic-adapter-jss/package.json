@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-jss",
-  "version": "0.5.4",
+  "version": "1.0.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -15,7 +15,7 @@
     "*.js"
   ],
   "dependencies": {
-    "aesthetic-utils": "^0.4.3"
+    "aesthetic-utils": "^1.0.0"
   },
   "peerDependencies": {
     "aesthetic": "^0.5.2",
