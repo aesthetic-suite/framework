@@ -27,7 +27,7 @@
     "docs": "cp ./README.md ./packages/aesthetic/",
     "defs": "cp ./flow/aesthetic.js.flow ./packages/aesthetic/",
     "flow": "flow check",
-    "lint": "eslint ./src ./tests",
+    "lint": "eslint ./packages ./tests",
     "jest": "NODE_ENV=development jest --config ./jest.json",
     "coverage": "yarn run jest -- --coverage",
     "pretest": "yarn run lint",
