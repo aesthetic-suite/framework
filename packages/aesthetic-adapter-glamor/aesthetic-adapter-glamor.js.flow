@@ -1,0 +1,13 @@
+import { Adapter } from 'aesthetic';
+import UnifiedSyntax from 'aesthetic/unified';
+import GlamorAdapter from 'aesthetic-adapter-glamor';
+
+declare module 'aesthetic-adapter-glamor' {
+  declare export default class GlamorAdapter extends Adapter {}
+}
+
+declare module 'aesthetic-adapter-glamor/unified' {
+  declare export default class UnifiedGlamorAdapter extends GlamorAdapter {
+    syntax: UnifiedSyntax;
+  }
+}

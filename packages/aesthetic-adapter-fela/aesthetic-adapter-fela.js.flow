@@ -1,0 +1,13 @@
+import { Adapter } from 'aesthetic';
+import UnifiedSyntax from 'aesthetic/unified';
+import FelaAdapter from 'aesthetic-adapter-fela';
+
+declare module 'aesthetic-adapter-fela' {
+  declare export default class FelaAdapter extends Adapter {}
+}
+
+declare module 'aesthetic-adapter-fela/unified' {
+  declare export default class UnifiedFelaAdapter extends FelaAdapter {
+    syntax: UnifiedSyntax;
+  }
+}

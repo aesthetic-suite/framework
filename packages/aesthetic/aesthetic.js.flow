@@ -1,10 +1,4 @@
 import React from 'react';
-import Aesthetic, { Adapter } from 'aesthetic';
-import UnifiedSyntax from 'aesthetic/unified';
-import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
-import FelaAdapter from 'aesthetic-adapter-fela';
-import GlamorAdapter from 'aesthetic-adapter-glamor';
-import JSSAdapter from 'aesthetic-adapter-jss';
 
 declare module 'aesthetic' {
   declare export type PrimitiveType = string | number | boolean;
@@ -122,71 +116,4 @@ declare module 'aesthetic/unified' {
     resetGlobalCache(): void;
     resetLocalCache(): void;
   }
-}
-
-declare module 'aesthetic-adapter-aphrodite' {
-  declare export default class AphroditeAdapter extends Adapter {}
-}
-
-declare module 'aesthetic-adapter-aphrodite/unified' {
-  declare export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
-    syntax: UnifiedSyntax;
-  }
-}
-
-declare module 'aesthetic-adapter-css-modules' {
-  declare export default class CSSModulesAdapter extends Adapter {}
-}
-
-declare module 'aesthetic-adapter-fela' {
-  declare export default class FelaAdapter extends Adapter {}
-}
-
-declare module 'aesthetic-adapter-fela/unified' {
-  declare export default class UnifiedFelaAdapter extends FelaAdapter {
-    syntax: UnifiedSyntax;
-  }
-}
-
-declare module 'aesthetic-adapter-glamor' {
-  declare export default class GlamorAdapter extends Adapter {}
-}
-
-declare module 'aesthetic-adapter-glamor/unified' {
-  declare export default class UnifiedGlamorAdapter extends GlamorAdapter {
-    syntax: UnifiedSyntax;
-  }
-}
-
-declare module 'aesthetic-adapter-jss' {
-  declare export default class JSSAdapter extends Adapter {}
-}
-
-declare module 'aesthetic-adapter-jss/unified' {
-  declare export default class UnifiedJSSAdapter extends JSSAdapter {
-    syntax: UnifiedSyntax;
-  }
-}
-
-declare module 'aesthetic-native' {
-  declare export default class ReactNativeAesthetic extends Aesthetic {
-    native: boolean;
-  }
-}
-
-declare module 'aesthetic-utils' {
-  import type { CSSStyle, AtRuleMap, AtRuleCache } from 'aesthetic';
-
-  declare export function createStyleElement(id: string): HTMLElement;
-  declare export function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap): void;
-  declare export function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle): void;
-  declare export function injectRuleByLookup(
-    properties: CSSStyle,
-    propName: string,
-    lookup: AtRuleMap | AtRuleCache,
-    flatten: boolean,
-  ): void;
-  declare export function isObject<T>(value: T): boolean;
-  declare export function isPrimitive<T>(value: T): boolean;
-  declare export function toArray<T>(value: T | T[]): T[];
 }

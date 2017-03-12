@@ -1,0 +1,7 @@
+import Aesthetic from 'aesthetic';
+
+declare module 'aesthetic-native' {
+  declare export default class ReactNativeAesthetic extends Aesthetic {
+    native: boolean;
+  }
+}

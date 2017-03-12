@@ -1,0 +1,16 @@
+declare module 'aesthetic-utils' {
+  import type { CSSStyle, AtRuleMap, AtRuleCache } from 'aesthetic';
+
+  declare export function createStyleElement(id: string): HTMLElement;
+  declare export function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap): void;
+  declare export function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle): void;
+  declare export function injectRuleByLookup(
+    properties: CSSStyle,
+    propName: string,
+    lookup: AtRuleMap | AtRuleCache,
+    flatten: boolean,
+  ): void;
+  declare export function isObject<T>(value: T): boolean;
+  declare export function isPrimitive<T>(value: T): boolean;
+  declare export function toArray<T>(value: T | T[]): T[];
+}
