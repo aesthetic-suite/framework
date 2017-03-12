@@ -4,4 +4,4 @@
  * @flow
  */
 
-exports.default = require('./lib/Aesthetic');
+exports.default = require('./lib/Aesthetic').default;

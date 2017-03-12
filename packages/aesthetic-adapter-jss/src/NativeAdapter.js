@@ -5,7 +5,7 @@
  */
 
 import JSS, { create } from 'jss';
-import { Adapter } from '../../aesthetic';
+import Adapter from '../../aesthetic/src/Adapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 

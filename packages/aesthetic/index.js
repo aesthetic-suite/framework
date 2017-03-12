@@ -4,14 +4,14 @@
  * @flow
  */
 
-exports.default = require('./lib/Aesthetic');
-exports.Adapter = require('./lib/Adapter');
-exports.ClassNameAdapter = require('./lib/ClassNameAdapter');
-exports.ThemeProvider = require('./lib/ThemeProvider');
-exports.createStyler = require('./lib/createStyler');
-exports.classes = require('./lib/classes');
-
 const PropTypes = require('react').PropTypes;
+
+exports.default = require('./lib/Aesthetic').default;
+exports.Adapter = require('./lib/Adapter').default;
+exports.ClassNameAdapter = require('./lib/ClassNameAdapter').default;
+exports.ThemeProvider = require('./lib/ThemeProvider').default;
+exports.createStyler = require('./lib/createStyler').default;
+exports.classes = require('./lib/classes').default;
 
 exports.ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
 exports.StylesPropType = PropTypes.objectOf(PropTypes.object);

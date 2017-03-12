@@ -4,4 +4,4 @@
  * @flow
  */
 
-exports.default = require('./lib/UnifiedAdapter');
+exports.default = require('./lib/UnifiedAdapter').default;

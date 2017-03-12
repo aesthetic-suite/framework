@@ -4,10 +4,10 @@
  * @flow
  */
 
-exports.createStyleElement = require('./lib/createStyleElement');
-exports.injectAtRules = require('./lib/injectAtRules');
-exports.injectFallbacks = require('./lib/injectFallbacks');
-exports.injectRuleByLookup = require('./lib/injectRuleByLookup');
-exports.isObject = require('./lib/isObject');
-exports.isPrimitive = require('./lib/isPrimitive');
-exports.toArray = require('./lib/toArray');
+exports.createStyleElement = require('./lib/createStyleElement').default;
+exports.injectAtRules = require('./lib/injectAtRules').default;
+exports.injectFallbacks = require('./lib/injectFallbacks').default;
+exports.injectRuleByLookup = require('./lib/injectRuleByLookup').default;
+exports.isObject = require('./lib/isObject').default;
+exports.isPrimitive = require('./lib/isPrimitive').default;
+exports.toArray = require('./lib/toArray').default;

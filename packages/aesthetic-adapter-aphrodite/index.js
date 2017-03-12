@@ -4,4 +4,4 @@
  * @flow
  */
 
-exports.default = require('./lib/NativeAdapter');
+exports.default = require('./lib/NativeAdapter').default;

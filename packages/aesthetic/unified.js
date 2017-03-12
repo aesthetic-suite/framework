@@ -4,4 +4,4 @@
  * @flow
  */
 
-exports.default = require('./lib/UnifiedSyntax');
+exports.default = require('./lib/UnifiedSyntax').default;

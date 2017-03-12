@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { isObject } from '../../aesthetic-utils';
+import isObject from '../../aesthetic-utils/src/isObject';
 
 import type {
   StyleDeclarationMap,

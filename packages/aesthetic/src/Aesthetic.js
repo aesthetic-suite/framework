@@ -6,7 +6,7 @@
 
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
-import { isObject } from '../../aesthetic-utils';
+import isObject from '../../aesthetic-utils/src/isObject';
 
 import type {
   AestheticOptions,
