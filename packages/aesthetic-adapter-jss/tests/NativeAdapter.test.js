@@ -32,7 +32,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button-2887057758',
+      button: 'button-0-0',
     });
   });
 
@@ -50,9 +50,9 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      '.pseudo-2517623885::before': '.pseudo-2517623885::before-3271921155',
-      '.pseudo-2517623885:hover': '.pseudo-2517623885:hover-130467353',
-      pseudo: 'pseudo-2517623885',
+      '.pseudo-0-1::before': '.pseudo-0-1::before-0-3',
+      '.pseudo-0-1:hover': '.pseudo-0-1:hover-0-2',
+      pseudo: 'pseudo-0-1',
     });
   });
 
@@ -70,7 +70,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      fallback: 'fallback-162314308',
+      fallback: 'fallback-0-4',
     });
   });
 
@@ -84,7 +84,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font-1088627639',
+      font: 'font-0-5',
     });
   });
 
@@ -99,7 +99,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'animation-1324444171',
+      animation: 'animation-0-6',
     });
   });
 
@@ -121,7 +121,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      media: 'media-2861677607',
+      media: 'media-0-7',
     });
   });
 });

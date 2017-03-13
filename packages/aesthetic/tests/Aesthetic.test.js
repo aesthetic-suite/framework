@@ -359,7 +359,7 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new JssAdapter());
 
       expect(instance.transformStyles('foo')).toEqual({
-        button: 'button-1449173300',
+        button: 'button-0-0',
       });
     });
   });

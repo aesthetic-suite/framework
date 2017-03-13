@@ -19,11 +19,11 @@
   },
   "peerDependencies": {
     "aesthetic": "^1.0.1",
-    "jss": "^6.3.0"
+    "jss": "^6.4.0"
   },
   "devDependencies": {
     "aesthetic": "^1.0.1",
-    "jss": "^6.3.0",
+    "jss": "^6.4.0",
     "jss-preset-default": "^1.3.1"
   }
 }
