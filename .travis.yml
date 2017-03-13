@@ -7,9 +7,6 @@ node_js:
   - "6"
   - "6.1"
   - "node"
-install:
-  - yarn
-script:
-  - yarn run bootstrap && yarn test
+script: yarn run bootstrap && yarn test
 notifications:
   email: false
