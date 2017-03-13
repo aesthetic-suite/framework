@@ -21,10 +21,5 @@
     "aesthetic": "^1.0.1",
     "fela": "^4.2.0",
     "fela-dom": "^4.2.0"
-  },
-  "devDependencies": {
-    "aesthetic": "^1.0.1",
-    "fela": "^4.2.6",
-    "fela-dom": "^4.2.6"
   }
 }

@@ -16,8 +16,5 @@
   ],
   "peerDependencies": {
     "aesthetic": "^1.0.1"
-  },
-  "devDependencies": {
-    "aesthetic": "^1.0.1"
   }
 }

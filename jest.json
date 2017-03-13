@@ -6,6 +6,6 @@
   "resetMocks": true,
   "resetModules": true,
   "setupFiles": ["./tests/setup.js"],
-  "testRegex": "./tests/.*\\.test\\.js$",
+  "testRegex": "./packages/aesthetic([-a-z]+)?/tests/.*\\.test\\.js$",
   "testEnvironment": "jsdom"
 }
