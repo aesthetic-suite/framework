@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "aesthetic": "^1.0.1",
+    "react": "^15.0.0",
     "react-native": "^0.42.0"
   }
 }
