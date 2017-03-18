@@ -1,3 +1,8 @@
+# 1.1.0
+* Updated JSS to v6.5.
+* [internal] Moved source and test files from the root into each package folder.
+* [internal] Improved the package build and verify scripts.
+
 # 1.0.1
 * Fixed an issue with specific build files being incorrectly published.
 
