@@ -18,11 +18,12 @@
     "aesthetic-utils": "^1.0.1"
   },
   "peerDependencies": {
-    "aesthetic": "^0.5.2",
-    "jss": "^6.3.0"
+    "aesthetic": "^1.0.1",
+    "jss": "^6.5.0"
   },
   "devDependencies": {
-    "aesthetic": "^0.5.2",
-    "jss": "^6.3.0"
+    "aesthetic": "^1.0.1",
+    "jss": "^6.5.0",
+    "jss-preset-default": "^1.3.1"
   }
 }

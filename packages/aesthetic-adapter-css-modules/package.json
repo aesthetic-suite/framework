@@ -15,9 +15,9 @@
     "*.js"
   ],
   "peerDependencies": {
-    "aesthetic": "^0.5.2"
+    "aesthetic": "^1.0.1"
   },
   "devDependencies": {
-    "aesthetic": "^0.5.2"
+    "aesthetic": "^1.0.1"
   }
 }

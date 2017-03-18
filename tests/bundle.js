@@ -2,11 +2,11 @@
 
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import Aesthetic from '../src/Aesthetic';
-import createStyler from '../src/createStyler';
-import classes from '../src/classes';
-import ThemeProvider from '../src/ThemeProvider';
-import FelaAdapter from '../src/adapters/fela/NativeAdapter';
+import Aesthetic from '../packages/aesthetic/src/Aesthetic';
+import createStyler from '../packages/aesthetic/src/createStyler';
+import classes from '../packages/aesthetic/src/classes';
+import ThemeProvider from '../packages/aesthetic/src/ThemeProvider';
+import FelaAdapter from '../packages/aesthetic-adapter-fela/src/NativeAdapter';
 
 const adapter = new FelaAdapter();
 const aesthetic = new Aesthetic(adapter);

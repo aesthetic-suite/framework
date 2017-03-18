@@ -9,67 +9,41 @@ const babel = require('babel-core');
 // For some reason babel-core won't find the config, so load it manually
 const babelConfig = Object.assign({}, JSON.parse(fs.readFileSync('.babelrc', 'utf8')));
 
-// List of packages and their build configuration
-const packages = {
-  aesthetic: 'src/*.js',
-  'aesthetic-adapter-aphrodite': 'src/adapters/aphrodite/*.js',
-  'aesthetic-adapter-css-modules': 'src/adapters/css-modules/*.js',
-  'aesthetic-adapter-fela': 'src/adapters/fela/*.js',
-  'aesthetic-adapter-glamor': 'src/adapters/glamor/*.js',
-  'aesthetic-adapter-jss': 'src/adapters/jss/*.js',
-  'aesthetic-native': 'src/native/*.js',
-  'aesthetic-utils': 'src/utils/*.js',
-};
+// List of packages to build
+const packages = [
+  'aesthetic',
+  'aesthetic-adapter-aphrodite',
+  'aesthetic-adapter-css-modules',
+  'aesthetic-adapter-fela',
+  'aesthetic-adapter-glamor',
+  'aesthetic-adapter-jss',
+  'aesthetic-native',
+  'aesthetic-utils',
+];
 
-// Imports that we should replace to support our module system
-const imports = {
-  aesthetic: ['Adapter', 'Aesthetic'],
-  'aesthetic/unified': ['UnifiedSyntax'],
-  'aesthetic-utils': [
-    'createStyleElement', 'isObject', 'isPrimitive', 'toArray',
-    'injectAtRules', 'injectFallbacks', 'injectRuleByLookup',
-  ],
-};
-
-// Use default exports over named exports
-const defaultImports = {
-  Aesthetic: true,
-  UnifiedSyntax: true,
-};
-
+// Replace relative imports with absolute NPM imports
 function replaceImports(source, filePath, currentPackage) {
-  Object.keys(imports).forEach((packageName) => {
-    if (
-      currentPackage === packageName ||
-      filePath.includes('index.js') ||
-      filePath.includes('unified.js')
-    ) {
-      return;
-    }
-
-    imports[packageName].forEach((name) => {
-      source = source.replace(new RegExp(`import ${name} from '[./a-z]+/${name}';`, 'ig'), () => {
-        if (defaultImports[name]) {
-          return `import ${name} from '${packageName}';`;
-        }
-
-        return `import { ${name} } from '${packageName}';`;
-      });
-    });
-  });
-
-  return source;
+  return source.replace(/(?:\.\.\/)+(aesthetic(?:[-a-z]+)?)\/src/g, (match, nextPackage) => (
+    `${nextPackage}/lib`
+  ));
 }
 
-Object.keys(packages).forEach((packageName) => {
-  const libFiles = packages[packageName];
-  const libPath = `packages/${packageName}/`;
+packages.forEach((packageName) => {
+  const basePath = path.join(process.cwd(), 'packages', packageName);
+  const srcFiles = `${basePath}/src/*.js`;
+  const libPath = `${basePath}/lib`;
 
+  // Create lib folder
+  try {
+    fs.mkdirSync(libPath);
+  } catch (e) {
+    // Exists
+  }
+
+  // Transpile src files
   Promise.all(
-    glob.sync(libFiles).map(filePath => (
-      fsp.stat(libPath)
-        .then(stats => (stats.isDirectory() ? stats : fsp.mkdir(libPath)))
-        .then(stats => fsp.readFile(filePath, 'utf8'))
+    glob.sync(srcFiles).map(filePath => (
+      fsp.readFile(filePath, 'utf8')
         .then(source => replaceImports(source.toString('utf8'), filePath, packageName))
         .then(source => babel.transform(source, babelConfig).code)
         .then(source => fsp.writeFile(`${libPath}/${path.basename(filePath)}`, source, 'utf8'))
@@ -78,6 +52,6 @@ Object.keys(packages).forEach((packageName) => {
     console.log(`Built ${packageName}`);
   }).catch((error) => {
     console.log(error);
-    process.exitCode = 1;
+    process.exit(1);
   });
 });
