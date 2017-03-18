@@ -22,6 +22,7 @@
   "scripts": {
     "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && npm outdated); done; lerna updated",
     "bootstrap": "lerna bootstrap",
+    "bootstrap:slow": "lerna bootstrap --concurrency=1",
     "clean": "rimraf ./packages/{aesthetic,aesthetic-*}/lib/ && lerna clean --yes",
     "build": "yarn run bootstrap && node ./scripts/build-packages.js && node ./scripts/verify-packages.js && yarn run docs",
     "docs": "cp ./README.md ./packages/aesthetic/",
