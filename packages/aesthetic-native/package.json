@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-native",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "React Native support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -15,11 +15,11 @@
     "*.js"
   ],
   "peerDependencies": {
-    "aesthetic": "^1.0.1",
+    "aesthetic": "^1.1.0",
     "react-native": "^0.42.0"
   },
   "devDependencies": {
-    "aesthetic": "^1.0.1",
+    "aesthetic": "^1.1.0",
     "react": "^15.0.0",
     "react-native": "^0.42.2"
   }
