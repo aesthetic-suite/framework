@@ -56,7 +56,7 @@
     "babel-cli": "^6.24.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^19.0.0",
-    "babel-plugin-css-modules-transform": "^1.2.3",
+    "babel-plugin-css-modules-transform": "1.2.1",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-flow-comments": "^6.22.0",
     "babel-preset-latest": "^6.24.0",
