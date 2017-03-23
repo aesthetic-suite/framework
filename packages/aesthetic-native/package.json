@@ -10,10 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native",
   "license": "MIT",
-  "files": [
-    "*.md",
-    "*.js"
-  ],
   "peerDependencies": {
     "aesthetic": "^1.1.0",
     "react-native": "^0.42.0"

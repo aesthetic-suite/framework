@@ -10,10 +10,6 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules",
   "license": "MIT",
-  "files": [
-    "*.md",
-    "*.js"
-  ],
   "peerDependencies": {
     "aesthetic": "^1.1.0"
   },
