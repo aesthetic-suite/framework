@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-native",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React Native support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -11,11 +11,11 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native",
   "license": "MIT",
   "peerDependencies": {
-    "aesthetic": "^1.1.0",
+    "aesthetic": "^1.1.1",
     "react-native": "^0.42.0"
   },
   "devDependencies": {
-    "aesthetic": "^1.1.0",
+    "aesthetic": "^1.1.1",
     "react": "^15.0.0",
     "react-native": "^0.42.2"
   }
