@@ -2,18 +2,6 @@
 # yarn lockfile v1
 
 
-aesthetic-utils@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/aesthetic-utils/-/aesthetic-utils-1.0.1.tgz#0a511e0e4945bed56a8b0f243038629677391406"
-
-aesthetic@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/aesthetic/-/aesthetic-1.0.1.tgz#8db9d38bbf8b39021ab4489da7129f60b6312603"
-  dependencies:
-    aesthetic-utils "^1.0.1"
-    hoist-non-react-statics "^1.2.0"
-    lodash.merge "^4.6.0"
-
 bowser@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.6.0.tgz#37fc387b616cb6aef370dab4d6bd402b74c5c54d"
@@ -24,30 +12,22 @@ css-in-js-utils@^1.0.3:
   dependencies:
     hyphenate-style-name "^1.0.2"
 
-fela-dom@^4.2.0:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-4.2.6.tgz#fb8b618a3cb9e87a4ae15c438389a2a7057ebb31"
+fela-dom@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-4.3.2.tgz#d60b96078db73e16674582c0464c2618d2381502"
 
-fela-preset-web@^4.2.6:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-4.2.6.tgz#203604b79cf71d7e6ea8ef9041f8195dee3e3e12"
+fela-preset-web@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-4.3.2.tgz#5369e098e2cdef14398c6ec9896635c17103607a"
   dependencies:
+    css-in-js-utils "^1.0.3"
     inline-style-prefixer "^3.0.0"
-    unitless-css-property "1.0.2"
 
-fela@^4.2.0:
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/fela/-/fela-4.2.6.tgz#093605c789fde268657859dc422234d3cf65afa9"
+fela@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/fela/-/fela-4.3.2.tgz#1e407351bf26d618665bc1bc19708cfbce78bd03"
   dependencies:
-    hyphenate-style-name "1.0.1"
-
-hoist-non-react-statics@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
-
-hyphenate-style-name@1.0.1, hyphenate-style-name@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.1.tgz#bc49b9446e02b4570641afdd29c1ce7609d1b9cc"
+    css-in-js-utils "^1.0.3"
 
 hyphenate-style-name@^1.0.2:
   version "1.0.2"
@@ -59,13 +39,3 @@ inline-style-prefixer@^3.0.0:
   dependencies:
     bowser "^1.6.0"
     css-in-js-utils "^1.0.3"
-
-lodash.merge@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
-
-unitless-css-property@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/unitless-css-property/-/unitless-css-property-1.0.2.tgz#dd4b666172fba241fcf50b6b31aee126700b170a"
-  dependencies:
-    hyphenate-style-name "^1.0.1"

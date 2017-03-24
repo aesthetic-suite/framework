@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "aesthetic": "^1.1.1",
-    "react": "^15.0.0",
-    "react-native": "^0.42.2"
+    "react": "^15.4.2",
+    "react-native": "^0.42.3"
   }
 }

@@ -1,3 +1,7 @@
+# 1.1.2
+* Updated Fela to v4.3.
+* Fixed some issues with default module exports.
+
 # 1.1.1
 * Fixed an issue with missing build files in NPM.
 

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "aesthetic",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "description": "Aesthetic is a powerful React library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
@@ -55,7 +55,7 @@
   "homepage": "https://github.com/milesj/aesthetic#readme",
   "devDependencies": {
     "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.0",
+    "babel-eslint": "^7.2.1",
     "babel-jest": "^19.0.0",
     "babel-plugin-css-modules-transform": "1.2.7",
     "babel-plugin-transform-class-properties": "^6.23.0",
@@ -76,7 +76,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "flow-bin": "^0.42.0",
-    "fs-promise": "^2.0.0",
+    "fs-promise": "^2.0.1",
     "glob": "^7.1.1",
     "jest": "^19.0.2",
     "lerna": "2.0.0-beta.38",
