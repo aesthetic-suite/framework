@@ -4,17 +4,19 @@
  */
 
 const PropTypes = require('react').PropTypes;
+const Aesthetic = require('./lib/Aesthetic').default;
 
-exports.default = require('./lib/Aesthetic').default;
-exports.Adapter = require('./lib/Adapter').default;
-exports.ClassNameAdapter = require('./lib/ClassNameAdapter').default;
-exports.ThemeProvider = require('./lib/ThemeProvider').default;
-exports.createStyler = require('./lib/createStyler').default;
-exports.classes = require('./lib/classes').default;
+Aesthetic.Adapter = require('./lib/Adapter').default;
+Aesthetic.ClassNameAdapter = require('./lib/ClassNameAdapter').default;
+Aesthetic.ThemeProvider = require('./lib/ThemeProvider').default;
+Aesthetic.createStyler = require('./lib/createStyler').default;
+Aesthetic.classes = require('./lib/classes').default;
 
-exports.ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
-exports.StylesPropType = PropTypes.objectOf(PropTypes.object);
-exports.ClassOrStylesPropType = PropTypes.oneOfType([
+Aesthetic.ClassNamesPropType = PropTypes.objectOf(PropTypes.string);
+Aesthetic.StylesPropType = PropTypes.objectOf(PropTypes.object);
+Aesthetic.ClassOrStylesPropType = PropTypes.oneOfType([
   PropTypes.objectOf(PropTypes.string),
   PropTypes.objectOf(PropTypes.object),
 ]);
+
+module.exports = Aesthetic;

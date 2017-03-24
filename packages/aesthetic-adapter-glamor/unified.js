@@ -3,4 +3,4 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-exports.default = require('./lib/UnifiedAdapter').default;
+module.exports = require('./lib/UnifiedAdapter').default;

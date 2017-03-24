@@ -3,4 +3,4 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-exports.default = require('./lib/Aesthetic').default;
+module.exports = require('./lib/Aesthetic').default;

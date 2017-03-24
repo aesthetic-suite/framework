@@ -3,4 +3,4 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-exports.default = require('./lib/UnifiedSyntax').default;
+module.exports = require('./lib/UnifiedSyntax').default;
