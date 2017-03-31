@@ -11,7 +11,8 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss",
   "license": "MIT",
   "dependencies": {
-    "aesthetic-utils": "^1.1.2"
+    "aesthetic-utils": "^1.1.2",
+    "babel-runtime": "^6.23.0"
   },
   "peerDependencies": {
     "aesthetic": "^1.1.2",

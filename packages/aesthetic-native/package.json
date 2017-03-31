@@ -10,6 +10,9 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native",
   "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.23.0"
+  },
   "peerDependencies": {
     "aesthetic": "^1.1.2",
     "react-native": "^0.42.0"

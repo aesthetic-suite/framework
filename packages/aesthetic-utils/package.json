@@ -9,5 +9,8 @@
     "utils"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-utils",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^6.23.0"
+  }
 }
