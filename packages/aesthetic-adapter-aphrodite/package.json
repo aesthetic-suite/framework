@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-aphrodite",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -11,15 +11,15 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite",
   "license": "MIT",
   "dependencies": {
-    "aesthetic-utils": "^1.1.2",
+    "aesthetic-utils": "^1.2.0",
     "babel-runtime": "^6.23.0"
   },
   "peerDependencies": {
-    "aesthetic": "^1.1.2",
+    "aesthetic": "^1.2.0",
     "aphrodite": "^1.2.0"
   },
   "devDependencies": {
-    "aesthetic": "^1.1.2",
+    "aesthetic": "^1.2.0",
     "aphrodite": "^1.2.0"
   }
 }
