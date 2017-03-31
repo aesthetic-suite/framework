@@ -2,10 +2,7 @@ language: node_js
 node_js:
   - "4"
   - "5"
-  - "5.10"
-  - "5.11"
   - "6"
-  - "6.1"
   - "node"
 before_script: yarn run bootstrap:slow
 script: yarn test

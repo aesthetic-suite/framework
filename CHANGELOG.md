@@ -1,3 +1,6 @@
+# 1.2.0
+* Added `babel-runtime` to all packages to reduce filesize.
+
 # 1.1.2
 * Updated Fela to v4.3.
 * Fixed some issues with default module exports.
