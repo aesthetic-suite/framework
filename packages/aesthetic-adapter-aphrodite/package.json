@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "aesthetic-utils": "^1.2.0",
-    "babel-runtime": "^6.23.0"
+    "babel-runtime": "^6.23.0",
+    "prop-types": "^15.5.8"
   },
   "peerDependencies": {
     "aesthetic": "^1.2.0",

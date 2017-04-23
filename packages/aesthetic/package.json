@@ -13,12 +13,13 @@
     "aesthetic-utils": "^1.2.0",
     "babel-runtime": "^6.23.0",
     "hoist-non-react-statics": "^1.2.0",
-    "lodash.merge": "^4.6.0"
+    "lodash.merge": "^4.6.0",
+    "prop-types": "^15.5.8"
   },
   "peerDependencies": {
     "react": "^15.0.0"
   },
   "devDependencies": {
-    "react": "^15.0.0"
+    "react": "^15.5.4"
   }
 }
