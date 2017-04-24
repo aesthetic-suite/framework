@@ -4,7 +4,6 @@ Please refer to the changelog in each package for a more specific breakdown.
 # 1.3.0
 * Updated to support React 15.5 and the new `prop-types` package.
 * Updated JSS to 7.1.
-* Updated ReactNative to 0.43.
 * Added individual changelogs for each package.
 
 # 1.2.0

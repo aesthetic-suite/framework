@@ -6,7 +6,8 @@
 
 /* eslint-disable react/sort-comp, react/no-unused-prop-types, react/require-default-props */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 

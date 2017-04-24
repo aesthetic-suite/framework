@@ -33,7 +33,8 @@ One key difference between React Native Aesthetic and normal Aesthetic is that R
 styles are passed down to the component under the `styles` prop, instead of `classNames`.
 
 ```javascript
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { StylesPropType } from 'aesthetic';
 import style from '../path/to/styler';
 

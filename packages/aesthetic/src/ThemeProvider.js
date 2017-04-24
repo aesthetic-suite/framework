@@ -4,7 +4,8 @@
  * @flow
  */
 
-import React, { Children, PropTypes } from 'react';
+import React, { Children } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ThemeProvider extends React.Component {
   static propTypes = {

@@ -8,7 +8,8 @@ the compilation of styles via third-party libraries, all the while providing cus
 theming, and a unified syntax.
 
 ```javascript
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { classes, ClassNamesPropType } from 'aesthetic';
 import style from '../path/to/styler';
 

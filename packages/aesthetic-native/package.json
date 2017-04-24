@@ -16,11 +16,11 @@
   },
   "peerDependencies": {
     "aesthetic": "^1.2.0",
-    "react-native": "^0.43.0"
+    "react-native": "^0.42.0"
   },
   "devDependencies": {
     "aesthetic": "^1.2.0",
     "react": "^15.5.4",
-    "react-native": "^0.43.4"
+    "react-native": "^0.42.3"
   }
 }

@@ -1,6 +1,7 @@
 /* eslint-disable no-console, react/require-default-props */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import Aesthetic from '../packages/aesthetic/src/Aesthetic';
 import createStyler from '../packages/aesthetic/src/createStyler';
