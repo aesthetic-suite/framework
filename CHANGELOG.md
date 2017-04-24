@@ -1,10 +1,11 @@
-Changelog is a very highlevel overview of changes across all packages.
+This changelog is a very high-level overview of changes across all packages.
 Please refer to the changelog in each package for a more specific breakdown.
 
 # 1.3.0
 * Updated to support React 15.5 and the new `prop-types` package.
 * Updated JSS to 7.1.
 * Added individual changelogs for each package.
+* Reworked index file imports and exports.
 
 # 1.2.0
 * Added `babel-runtime` to all packages to reduce filesize.
