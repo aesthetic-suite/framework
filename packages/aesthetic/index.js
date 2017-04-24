@@ -3,4 +3,4 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-module.exports = require('./lib/index').default;
+module.exports = require('./lib/index');

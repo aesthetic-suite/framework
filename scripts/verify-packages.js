@@ -26,7 +26,7 @@ glob.sync('./packages/*/').forEach((packagePath) => {
       const module = require(absPath);
 
       // We need to make sure the correct default export exists
-      if ((fileName === 'index.js' || fileName === 'unified.js') && module && module.default) {
+      if (fileName === 'unified.js' && module && module.default) {
         console.log(module);
 
         throw new Error('Invalid default export.');
