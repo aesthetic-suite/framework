@@ -1,4 +1,3 @@
-node_modules/*
-packages/**/lib/*
-packages/**/node_modules/*
-tests/bundle.min.js
+lib/
+node_modules/
+*.min.js
