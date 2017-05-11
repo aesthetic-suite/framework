@@ -124,7 +124,7 @@ export default class Aesthetic {
    */
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter) {
-      adapter.native = this.native;
+      adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;
 
     } else if (process.env.NODE_ENV === 'development') {

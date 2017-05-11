@@ -74,7 +74,11 @@
     ]
   },
   "eslintConfig": {
-    "extends": "./node_modules/@milesj/build-tool-config/eslint.json5"
+    "extends": "./node_modules/@milesj/build-tool-config/eslint.json5",
+    "rules": {
+      "no-invalid-this": "off",
+      "no-magic-numbers": "off"
+    }
   },
   "jest": {
     "preset": "@milesj/build-tool-config"

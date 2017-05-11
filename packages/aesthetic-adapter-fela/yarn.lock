@@ -2,21 +2,6 @@
 # yarn lockfile v1
 
 
-aesthetic-utils@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/aesthetic-utils/-/aesthetic-utils-1.2.0.tgz#7a35647d6d2a75123158d2a48ee1465512ce6917"
-  dependencies:
-    babel-runtime "^6.23.0"
-
-aesthetic@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/aesthetic/-/aesthetic-1.2.0.tgz#ca667074dde06b2238d2d8afe85ef65b9f169296"
-  dependencies:
-    aesthetic-utils "^1.2.0"
-    babel-runtime "^6.23.0"
-    hoist-non-react-statics "^1.2.0"
-    lodash.merge "^4.6.0"
-
 asap@~2.0.3:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
@@ -64,26 +49,22 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fela-dom@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-4.3.2.tgz#d60b96078db73e16674582c0464c2618d2381502"
+fela-dom@^4.3.0:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-4.3.5.tgz#54e6c67336ee0459d499b303867115c6eb565c31"
 
-fela-preset-web@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-4.3.2.tgz#5369e098e2cdef14398c6ec9896635c17103607a"
+fela-preset-web@^4.3.0:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-4.3.5.tgz#6b591d64299dabec18ec5020ac8df3c462995fed"
   dependencies:
     css-in-js-utils "^1.0.3"
     inline-style-prefixer "^3.0.0"
 
-fela@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/fela/-/fela-4.3.2.tgz#1e407351bf26d618665bc1bc19708cfbce78bd03"
+fela@^4.3.0:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/fela/-/fela-4.3.5.tgz#dbafc23e24c330a81b4788c2fe1a9442435e2c3c"
   dependencies:
     css-in-js-utils "^1.0.3"
-
-hoist-non-react-statics@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
 hyphenate-style-name@^1.0.2:
   version "1.0.2"
@@ -115,11 +96,7 @@ js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
 
-lodash.merge@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
-
-loose-envify@^1.0.0:
+loose-envify@^1.0.0, loose-envify@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.3.1.tgz#d1a8ad33fa9ce0e713d65fdd0ac8b748d478c848"
   dependencies:
@@ -142,11 +119,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.8:
-  version "15.5.8"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+prop-types@^15.5.9:
+  version "15.5.9"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.9.tgz#d478eef0e761396942f70c78e772f76e8be747c9"
   dependencies:
     fbjs "^0.8.9"
+    loose-envify "^1.3.1"
 
 regenerator-runtime@^0.10.0:
   version "0.10.3"

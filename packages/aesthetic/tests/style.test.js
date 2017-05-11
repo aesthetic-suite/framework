@@ -139,6 +139,7 @@ describe('aesthetic/style()', () => {
   it('inherits theme name from prop', () => {
     function ThemeComponent(props) {
       expect(props.theme).toBe('classic');
+
       return null;
     }
 
@@ -150,6 +151,7 @@ describe('aesthetic/style()', () => {
   it('inherits theme name from context', () => {
     function ThemeComponent(props) {
       expect(props.theme).toBe('classic');
+
       return null;
     }
 
@@ -161,6 +163,7 @@ describe('aesthetic/style()', () => {
   it('transforms styles on mount', () => {
     function StylesComponent(props) {
       expect(props.classNames).toEqual(TEST_CLASS_NAMES);
+
       return null;
     }
 
@@ -179,6 +182,7 @@ describe('aesthetic/style()', () => {
   it('transforms styles if theme changes', () => {
     function StylesComponent(props) {
       expect(props.classNames).toEqual(TEST_CLASS_NAMES);
+
       return null;
     }
 
@@ -207,6 +211,7 @@ describe('aesthetic/style()', () => {
   it('can customize the theme prop type using `options.themePropName`', () => {
     function ThemeComponent(props) {
       expect(props.someThemeNameHere).toBe('classic');
+
       return null;
     }
 
@@ -214,6 +219,7 @@ describe('aesthetic/style()', () => {
       themePropName: 'someThemeNameHere',
     })(ThemeComponent);
 
+    // eslint-disable-next-line
     expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
 
     shallow(<Wrapped someThemeNameHere="classic" />).dive();
@@ -222,6 +228,7 @@ describe('aesthetic/style()', () => {
   it('can customize the class names prop type using `options.stylesPropName`', () => {
     function StylesComponent(props) {
       expect(props.classes).toEqual(TEST_CLASS_NAMES);
+
       return null;
     }
 
@@ -239,6 +246,7 @@ describe('aesthetic/style()', () => {
     function StylesComponent(props) {
       expect(props.classes).toEqual(TEST_CLASS_NAMES);
       expect(props.someThemeNameHere).toBe('classic');
+
       return null;
     }
 
@@ -252,6 +260,7 @@ describe('aesthetic/style()', () => {
       footer: { color: 'blue' },
     })(StylesComponent);
 
+    // eslint-disable-next-line
     expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
 
     shallow(<Wrapped someThemeNameHere="classic" />).dive();

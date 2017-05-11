@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import type { CSSStyle } from '../../types';
 
 export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {

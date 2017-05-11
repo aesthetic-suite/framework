@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import type { AtRuleMap, AtRuleCache, CSSStyle } from '../../types';
 
 export default function injectRuleByLookup(
@@ -23,7 +25,7 @@ export default function injectRuleByLookup(
     let found = lookup[name];
 
     if (found && Array.isArray(found)) {
-      found = found[0];
+      [found] = found;
     }
 
     return found || name;
@@ -32,7 +34,7 @@ export default function injectRuleByLookup(
   if (flatten) {
     value = value.join(', ');
   } else if (value.length === 1) {
-    value = value[0];
+    [value] = value;
   }
 
   properties[propName] = value;

@@ -13,7 +13,7 @@
   "dependencies": {
     "aesthetic-utils": "^1.3.0",
     "babel-runtime": "^6.23.0",
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.5.9"
   },
   "peerDependencies": {
     "aesthetic": "^1.3.0",
@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "aesthetic": "^1.3.0",
-    "fela": "^4.3.2",
-    "fela-dom": "^4.3.2",
-    "fela-preset-web": "^4.3.2"
+    "fela": "^4.3.0",
+    "fela-dom": "^4.3.0",
+    "fela-preset-web": "^4.3.0"
   }
 }

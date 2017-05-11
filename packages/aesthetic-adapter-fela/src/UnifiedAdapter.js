@@ -10,7 +10,7 @@ import injectFallbacks from '../../aesthetic-utils/src/injectFallbacks';
 import injectRuleByLookup from '../../aesthetic-utils/src/injectRuleByLookup';
 import FelaAdapter from './NativeAdapter';
 
-import type { Renderer } from 'fela';
+import type { Renderer } from 'fela'; // eslint-disable-line
 import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
 
 const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;

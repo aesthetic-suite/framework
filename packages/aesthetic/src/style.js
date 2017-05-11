@@ -62,6 +62,8 @@ export default function style(
     // Aesthetic's caching layer.
     } else {
       instanceID += 1;
+
+      // eslint-disable-next-line no-magic-numbers
       styleName = styleName || `${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 

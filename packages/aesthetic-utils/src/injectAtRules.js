@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import type { AtRuleMap, CSSStyle } from '../../types';
 
 export default function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap) {

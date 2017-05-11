@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import JSS from 'jss';
 import UnifiedSyntax from '../../aesthetic/src/UnifiedSyntax';
 import injectAtRules from '../../aesthetic-utils/src/injectAtRules';

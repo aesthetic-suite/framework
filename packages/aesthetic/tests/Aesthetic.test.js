@@ -83,7 +83,7 @@ describe('aesthetic/Aesthetic', () => {
         unitSize: 5,
       };
 
-      instance.styles.foo = (theme: Object) => ({
+      instance.styles.foo = theme => ({
         padding: theme.unitSize * 2,
       });
 
@@ -93,17 +93,17 @@ describe('aesthetic/Aesthetic', () => {
     });
 
     it('inherits styles from parent', () => {
-      instance.setStyles('foo', (theme: Object, prevStyles: Object) => ({
+      instance.setStyles('foo', (theme, prevStyles) => ({
         ...prevStyles,
         color: 'red',
       }));
 
-      instance.setStyles('bar', (theme: Object, prevStyles: Object) => ({
+      instance.setStyles('bar', (theme, prevStyles) => ({
         ...prevStyles,
         background: 'blue',
       }), 'foo');
 
-      instance.setStyles('baz', (theme: Object, prevStyles: Object) => ({
+      instance.setStyles('baz', (theme, prevStyles) => ({
         ...prevStyles,
         display: 'block',
       }), 'bar');

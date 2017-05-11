@@ -9,7 +9,7 @@ import { render } from 'fela-dom';
 import Adapter from '../../aesthetic/src/Adapter';
 import createStyleElement from '../../aesthetic-utils/src/createStyleElement';
 
-import type { Renderer } from 'fela';
+import type { Renderer } from 'fela'; // eslint-disable-line
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class FelaAdapter extends Adapter {
