@@ -29,7 +29,7 @@ export default function classes(...values: MaybeClassName[]): string {
     // Object of class names to boolean
     } else if (typeof value === 'object') {
       Object.keys(value).forEach((key: string) => {
-        // $FlowIssue We know its an object
+        // $FlowIgnore We know its an object
         if (value[key]) {
           classNames.push(stripChars(key));
         }
