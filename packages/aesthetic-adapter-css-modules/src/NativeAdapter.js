@@ -10,7 +10,7 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
 export default class CSSModulesAdapter extends Adapter {
   transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       if (this.native) {
         throw new Error('CSS modules do not support React Native.');
       }

@@ -29,7 +29,7 @@
     "docs": "cp ./README.md ./packages/aesthetic/",
     "eslint": "run-linter ./packages ./tests",
     "flow": "type-check",
-    "jest": "jest",
+    "jest": "run-tests",
     "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && npm outdated); done; lerna updated",
     "posttest": "yarn run flow",
     "pretest": "yarn run lint",
@@ -81,6 +81,13 @@
     }
   },
   "jest": {
-    "preset": "@milesj/build-tool-config"
+    "coverageDirectory": "./coverage",
+    "coverageReporters": ["lcov"],
+    "globals": { "__DEV__": true },
+    "preset": "react-native",
+    "roots": ["./packages", "./tests"],
+    "setupTestFrameworkScriptFile": "./tests/setup.js",
+    "testRegex": "./packages/aesthetic([-a-z]+)?/tests/.*\\.test\\.js$",
+    "testEnvironment": "jsdom"
   }
 }

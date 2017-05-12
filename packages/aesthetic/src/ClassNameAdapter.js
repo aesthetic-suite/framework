@@ -17,7 +17,7 @@ export default class ClassNameAdapter extends Adapter {
     Object.keys(declarations).forEach((setName: string) => {
       if (typeof declarations[setName] === 'string') {
         classNames[setName] = declarations[setName];
-      } else if (process.env.NODE_ENV === 'development') {
+      } else if (process.env.NODE_ENV !== 'production') {
         throw new TypeError(
           '`ClassNameAdapter` expects valid CSS class names; ' +
           `non-string provided for "${setName}".`,

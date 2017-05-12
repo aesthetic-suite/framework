@@ -37,7 +37,7 @@ export default function style(
 
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       styleName = styleName || Component.name;
 
       if (!(aesthetic instanceof Aesthetic)) {
@@ -102,7 +102,7 @@ export default function style(
         customStyles: StyleDeclarationOrCallback,
         extendOptions: HOCOptions = {},
       ): HOCComponent {
-        if (process.env.NODE_ENV === 'development') {
+        if (process.env.NODE_ENV !== 'production') {
           if (!extendable) {
             throw new Error(`${styleName} is not extendable.`);
           }
