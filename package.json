@@ -32,7 +32,7 @@
     "jest": "run-tests",
     "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && npm outdated); done; lerna updated",
     "posttest": "yarn run flow",
-    "pretest": "yarn run lint",
+    "pretest": "yarn run eslint",
     "preversion": "yarn run assemble",
     "publish": "yarn run assemble && lerna publish --include-filtered-dependencies",
     "publish:explicit": "npm run publish -- --only-explicit-updates",

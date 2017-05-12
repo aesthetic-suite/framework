@@ -39,13 +39,14 @@ fbjs@^0.8.8, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-glamor@^2.20.20:
-  version "2.20.24"
-  resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.24.tgz#a299af2eec687322634ba38e4a0854d8743d2041"
+glamor@^2.20.25:
+  version "2.20.25"
+  resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.25.tgz#71b84b82b67a9327771ac59de53ee915d148a4a3"
   dependencies:
     babel-runtime "^6.18.0"
     fbjs "^0.8.8"
     object-assign "^4.1.0"
+    prop-types "^15.5.8"
 
 iconv-lite@~0.4.13:
   version "0.4.15"
@@ -89,7 +90,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.9:
+prop-types@^15.5.8, prop-types@^15.5.9:
   version "15.5.9"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.9.tgz#d478eef0e761396942f70c78e772f76e8be747c9"
   dependencies:
