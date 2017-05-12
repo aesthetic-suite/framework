@@ -1,4 +1,4 @@
-This changelog is a very high-level overview of changes across all packages.
+This changelog is a high-level overview of changes across all packages.
 Please refer to the changelog in each package for a more specific breakdown.
 
 # 1.3.0
