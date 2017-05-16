@@ -54,7 +54,7 @@
   },
   "homepage": "https://github.com/milesj/aesthetic#readme",
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.3.2",
+    "@milesj/build-tool-config": "^0.4.0",
     "babel-plugin-css-modules-transform": "1.2.7",
     "babel-register": "^6.24.1",
     "babelify": "^7.3.0",
@@ -75,6 +75,9 @@
   },
   "eslintConfig": {
     "extends": "./node_modules/@milesj/build-tool-config/eslint.json5",
+    "env": {
+      "node": true
+    },
     "rules": {
       "no-invalid-this": "off",
       "no-magic-numbers": "off"

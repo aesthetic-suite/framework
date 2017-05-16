@@ -37,6 +37,7 @@ describe('aesthetic/style()', () => {
   });
 
   it('inherits name from component `displayName`', () => {
+    // eslint-disable-next-line
     class DisplayComponent extends React.Component {
       static displayName = 'CustomDisplayName';
       render() {
