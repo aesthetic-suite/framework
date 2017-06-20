@@ -100,6 +100,8 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
       animation: 'animation-0-6',
+      from: 'from',
+      to: 'to',
     });
   });
 

@@ -13,7 +13,7 @@
   "dependencies": {
     "aesthetic-utils": "^1.4.0",
     "babel-runtime": "^6.23.0",
-    "prop-types": "^15.5.9"
+    "prop-types": "^15.5.10"
   },
   "peerDependencies": {
     "aesthetic": "^1.4.0",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "aesthetic": "^1.4.0",
-    "jss": "^7.1.1",
+    "jss": "^7.1.7",
     "jss-preset-default": "^2.0.0"
   }
 }

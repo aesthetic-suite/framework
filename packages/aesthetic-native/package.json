@@ -12,7 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-runtime": "^6.23.0",
-    "prop-types": "^15.5.9"
+    "prop-types": "^15.5.10"
   },
   "peerDependencies": {
     "aesthetic": "^1.4.0",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "aesthetic": "^1.4.0",
-    "react": "^15.5.4",
+    "react": "^15.6.1",
     "react-native": "^0.42.3"
   }
 }

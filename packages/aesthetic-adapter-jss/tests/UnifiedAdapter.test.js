@@ -28,6 +28,8 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       '.button-0-0::before': 'button-0-0',
       '.button-0-0:hover': 'button-0-0',
       button: 'button-0-0',
+      from: 'from',
+      to: 'to',
     });
   });
 
