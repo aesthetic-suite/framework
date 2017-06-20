@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-fela",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Fela support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -11,17 +11,17 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
   "dependencies": {
-    "aesthetic-utils": "^1.4.1",
+    "aesthetic-utils": "^1.4.2",
     "babel-runtime": "^6.23.0",
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
-    "aesthetic": "^1.4.1",
+    "aesthetic": "^1.4.2",
     "fela": "^5.0.0",
     "fela-dom": "^5.0.0"
   },
   "devDependencies": {
-    "aesthetic": "^1.4.1",
+    "aesthetic": "^1.4.2",
     "fela": "^5.0.1",
     "fela-dom": "^5.0.2",
     "fela-preset-web": "^5.0.1"
