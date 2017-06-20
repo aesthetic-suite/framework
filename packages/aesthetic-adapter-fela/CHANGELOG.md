@@ -1,3 +1,6 @@
+# 1.5.1
+* Fixed an issue with the lerna package.
+
 # 1.5.0
 * Updated `fela` to 5.0.
 * Updated `react` to 15.6.

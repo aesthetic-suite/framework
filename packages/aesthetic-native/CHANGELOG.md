@@ -1,3 +1,6 @@
+# 1.4.2
+* Fixed an issue with the lerna package.
+
 # 1.4.1
 * Updated `react` to 15.6.
 * Updated `prop-types` to 15.5.10.
