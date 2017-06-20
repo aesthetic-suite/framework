@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-glamor",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Glamor support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -11,16 +11,16 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor",
   "license": "MIT",
   "dependencies": {
-    "aesthetic-utils": "^1.4.0",
+    "aesthetic-utils": "^1.4.1",
     "babel-runtime": "^6.23.0",
     "prop-types": "^15.5.10"
   },
   "peerDependencies": {
-    "aesthetic": "^1.4.0",
+    "aesthetic": "^1.4.1",
     "glamor": "^2.20.20"
   },
   "devDependencies": {
-    "aesthetic": "^1.4.0",
+    "aesthetic": "^1.4.1",
     "glamor": "^2.20.25"
   }
 }
