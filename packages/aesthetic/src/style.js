@@ -50,7 +50,7 @@ export default function style(
       styleName = styleName || Component.name;
 
       if (!(aesthetic instanceof Aesthetic)) {
-        throw new Error('An instance of `Aesthetic` is required.');
+        throw new TypeError('An instance of `Aesthetic` is required.');
 
       } else if (!styleName) {
         /* istanbul ignore next Hard to test */

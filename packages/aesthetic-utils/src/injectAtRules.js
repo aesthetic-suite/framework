@@ -14,7 +14,7 @@ export default function injectAtRules(properties: CSSStyle, atName: string, rule
   if (atName === '@font-face') {
     const fonts = Object.keys(rules).map(key => rules[key]);
 
-    if (fonts.length) {
+    if (fonts.length > 0) {
       properties[atName] = (fonts.length > 1) ? fonts : fonts[0];
     }
 
