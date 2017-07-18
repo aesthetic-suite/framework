@@ -1,6 +1,9 @@
 This changelog is a high-level overview of changes across all packages.
 Please refer to the changelog in each package for a more specific breakdown.
 
+# 1.5.0
+* Wrapped errors in `__DEV__` environment checks.
+
 # 1.4.2
 * Fixed an issue with the lerna package.
 

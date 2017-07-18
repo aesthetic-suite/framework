@@ -3,5 +3,5 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line
 module.exports = require('./lib/Aesthetic').default;

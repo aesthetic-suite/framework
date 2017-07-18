@@ -35,18 +35,9 @@ export default function style(
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName;
 
-    // When in production, we should generate a random string to use as the style name.
-    // If we don't do this, any minifiers that mangle function names would break
-    // Aesthetic's caching layer.
-    if (process.env.NODE_ENV === 'production') {
-      instanceID += 1;
-
-      // eslint-disable-next-line no-magic-numbers
-      styleName = styleName || `${Math.random().toString(32).substr(2)}${instanceID}`;
-
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
-    } else {
+    if (__DEV__) {
       styleName = styleName || Component.name;
 
       if (!(aesthetic instanceof Aesthetic)) {
@@ -65,6 +56,15 @@ export default function style(
           'Either rename the component or define `options.styleName`.',
         );
       }
+
+    // When in production, we should generate a random string to use as the style name.
+    // If we don't do this, any minifiers that mangle function names would break
+    // Aesthetic's caching layer.
+    } else {
+      instanceID += 1;
+
+      // eslint-disable-next-line no-magic-numbers
+      styleName = styleName || `${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 
     const {
@@ -102,7 +102,7 @@ export default function style(
         customStyles: StyleDeclarationOrCallback,
         extendOptions: HOCOptions = {},
       ): HOCComponent {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           if (!extendable) {
             throw new Error(`${styleName} is not extendable.`);
           }

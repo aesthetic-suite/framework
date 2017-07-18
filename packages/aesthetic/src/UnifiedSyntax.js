@@ -101,7 +101,7 @@ export default class UnifiedSyntax {
    */
   // eslint-disable-next-line flowtype/no-weak-types
   extract(setName: string, atRule: string, rules: any, fromScope: string) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (!isObject(rules)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
       }
@@ -125,7 +125,7 @@ export default class UnifiedSyntax {
         break;
 
       default: {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
         }
       }
@@ -136,7 +136,7 @@ export default class UnifiedSyntax {
    * Extract property fallbacks.
    */
   extractFallbacks(setName: string, properties: CSSStyle, fromScope: string) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Property fallbacks must be defined locally to an element.');
       }
@@ -151,7 +151,7 @@ export default class UnifiedSyntax {
    * Extract font face at-rules.
    */
   extractFontFaces(setName: string, rules: AtRuleMap, fromScope: string) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Font faces must be declared in the global scope.');
       }
@@ -162,7 +162,7 @@ export default class UnifiedSyntax {
       const familyName = String(rules[name].fontFamily);
 
       if (this.fontFaces[familyName]) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           throw new TypeError(`Font face "${familyName}" has already been defined.`);
         }
       } else {
@@ -177,7 +177,7 @@ export default class UnifiedSyntax {
    * Extract animation keyframes at-rules.
    */
   extractKeyframes(setName: string, rules: AtRuleMap, fromScope: string) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Animation keyframes must be declared in the global scope.');
       }
@@ -185,7 +185,7 @@ export default class UnifiedSyntax {
 
     Object.keys(rules).forEach((name: string) => {
       if (this.keyframes[name]) {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
         }
       } else {
@@ -200,7 +200,7 @@ export default class UnifiedSyntax {
    * Extract media query at-rules.
    */
   extractMediaQueries(setName: string, rules: AtRuleMap, fromScope: string) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Media queries must be defined locally to an element.');
       }
