@@ -8,7 +8,6 @@
 .*/lib/.*
 
 [libs]
-./flow
 
 [options]
 emoji=true
