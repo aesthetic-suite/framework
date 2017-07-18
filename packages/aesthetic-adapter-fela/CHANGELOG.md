@@ -1,3 +1,7 @@
+# 1.6.0
+* Updated Flow definitions.
+* Wrapped errors in `__DEV__` environment checks.
+
 # 1.5.1
 * Fixed an issue with the lerna package.
 

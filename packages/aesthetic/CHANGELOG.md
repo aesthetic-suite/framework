@@ -1,5 +1,7 @@
 # 1.5.0
 * Updated `hoist-non-react-statics` to 2.2.
+* Updated Flow definitions.
+* Wrapped errors in `__DEV__` environment checks.
 
 # 1.4.2
 * Fixed an issue with the lerna package.

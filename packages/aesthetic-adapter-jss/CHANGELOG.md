@@ -1,5 +1,7 @@
 # 1.5.0
 * Updated `jss` to 8.1.
+* Updated Flow definitions.
+* Wrapped errors in `__DEV__` environment checks.
 
 # 1.4.2
 * Fixed an issue with the lerna package.
