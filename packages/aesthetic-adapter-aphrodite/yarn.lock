@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-aphrodite@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/aphrodite/-/aphrodite-1.2.1.tgz#a7b5066b198730be7b7a88f78dbefd77d4df5683"
+aphrodite@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/aphrodite/-/aphrodite-1.2.3.tgz#4b161e9eef319b1f90a889501f985d7b5e70b285"
   dependencies:
     asap "^2.0.3"
     inline-style-prefixer "^3.0.1"

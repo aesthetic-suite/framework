@@ -1,3 +1,6 @@
+# 1.5.0
+* Updated `hoist-non-react-statics` to 2.2.
+
 # 1.4.2
 * Fixed an issue with the lerna package.
 

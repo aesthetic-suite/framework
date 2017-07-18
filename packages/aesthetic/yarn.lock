@@ -47,9 +47,9 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-hoist-non-react-statics@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
+hoist-non-react-statics@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.0.tgz#b099ca82f3640b1244309c8a526a2bd60ad9d7d9"
 
 iconv-lite@~0.4.13:
   version "0.4.15"

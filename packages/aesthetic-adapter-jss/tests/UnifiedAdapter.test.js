@@ -25,11 +25,11 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      '.button-0-0::before': 'button-0-0',
-      '.button-0-0:hover': 'button-0-0',
+      '.button-0-0::before': 'button-0-0::before',
+      '.button-0-0:hover': 'button-0-0:hover',
       button: 'button-0-0',
-      from: 'from',
-      to: 'to',
+      from: 'rom',
+      to: 'o',
     });
   });
 

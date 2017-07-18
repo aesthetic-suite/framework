@@ -1,3 +1,6 @@
+# 1.5.0
+* Updated `jss` to 8.1.
+
 # 1.4.2
 * Fixed an issue with the lerna package.
 

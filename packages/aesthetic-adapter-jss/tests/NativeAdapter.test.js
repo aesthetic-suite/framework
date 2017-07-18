@@ -50,9 +50,9 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      '.pseudo-0-1::before': '.pseudo-0-1::before-0-3',
-      '.pseudo-0-1:hover': '.pseudo-0-1:hover-0-2',
-      pseudo: 'pseudo-0-1',
+      '.pseudo-0-0::before': 'pseudo-0-0::before',
+      '.pseudo-0-0:hover': 'pseudo-0-0:hover',
+      pseudo: 'pseudo-0-0',
     });
   });
 
@@ -70,7 +70,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      fallback: 'fallback-0-4',
+      fallback: 'fallback-0-0',
     });
   });
 
@@ -84,7 +84,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font-0-5',
+      font: 'font-0-0',
     });
   });
 
@@ -99,9 +99,9 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'animation-0-6',
-      from: 'from',
-      to: 'to',
+      animation: 'animation-0-0',
+      from: 'rom',
+      to: 'o',
     });
   });
 
@@ -123,7 +123,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      media: 'media-0-7',
+      media: 'media-0-0',
     });
   });
 });

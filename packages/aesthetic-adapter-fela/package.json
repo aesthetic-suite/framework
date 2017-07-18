@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "aesthetic": "^1.4.2",
-    "fela": "^5.0.1",
-    "fela-dom": "^5.0.2",
-    "fela-preset-web": "^5.0.1"
+    "fela": "^5.0.3",
+    "fela-dom": "^5.0.4",
+    "fela-preset-web": "^5.0.4"
   }
 }

@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "aesthetic": "^1.4.2",
-    "aphrodite": "^1.2.1"
+    "aphrodite": "^1.2.3"
   }
 }
