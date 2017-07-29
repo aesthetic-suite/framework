@@ -6,9 +6,9 @@ asap@~2.0.3:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
 
-babel-runtime@^6.23.0:
-  version "6.23.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
+babel-runtime@^6.25.0:
+  version "6.25.0"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
@@ -49,79 +49,79 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fela-dom@^5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-5.0.4.tgz#c2d6de1e152b3ae070135c20874dcbe255990d0e"
+fela-dom@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-5.0.5.tgz#7b52d678da002be24fab2b27893c0bd2833899fd"
   dependencies:
-    fela-tools "^5.0.3"
-    fela-utils "^5.0.3"
+    fela-tools "^5.0.4"
+    fela-utils "^5.0.4"
 
-fela-plugin-extend@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela-plugin-extend/-/fela-plugin-extend-5.0.3.tgz#9b53d150f676e57ddb45859cb5fc18abdae1820f"
+fela-plugin-extend@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/fela-plugin-extend/-/fela-plugin-extend-5.0.4.tgz#b33552a2704cc790666f7f44c32bb1949980c4eb"
   dependencies:
     css-in-js-utils "^1.0.3"
-    fela-utils "^5.0.3"
+    fela-utils "^5.0.4"
 
-fela-plugin-fallback-value@^5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.4.tgz#9244ac915c696de336676fc64f668ed1e536e9d0"
+fela-plugin-fallback-value@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.5.tgz#21915064c5e5d007309037f2e27399d1e32c77f3"
   dependencies:
     css-in-js-utils "^1.0.3"
-    fela-utils "^5.0.3"
+    fela-utils "^5.0.4"
 
-fela-plugin-lvha@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela-plugin-lvha/-/fela-plugin-lvha-5.0.3.tgz#a5b2bf7ba479989e236ff23e298be0182aa9ea91"
-  dependencies:
-    fela-utils "^5.0.3"
-
-fela-plugin-prefixer@^5.0.4:
+fela-plugin-lvha@^5.0.4:
   version "5.0.4"
-  resolved "https://registry.yarnpkg.com/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.4.tgz#1277986e9871f1a76dd52a339d3d0818d964bef5"
+  resolved "https://registry.yarnpkg.com/fela-plugin-lvha/-/fela-plugin-lvha-5.0.4.tgz#36bfb0bb65e417d40ad4036fe0e594b7e8f1ac54"
+  dependencies:
+    fela-utils "^5.0.4"
+
+fela-plugin-prefixer@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.5.tgz#74428d507538753fd16525a629cb8395ac3ae066"
   dependencies:
     css-in-js-utils "^1.0.3"
-    fela-plugin-fallback-value "^5.0.4"
-    fela-utils "^5.0.3"
+    fela-plugin-fallback-value "^5.0.5"
+    fela-utils "^5.0.4"
     inline-style-prefixer "^3.0.0"
 
-fela-plugin-unit@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela-plugin-unit/-/fela-plugin-unit-5.0.3.tgz#a2b2c187f0cf2dc608864161997f85487c0059ba"
-  dependencies:
-    css-in-js-utils "^1.0.3"
-    fela-utils "^5.0.3"
-
-fela-preset-web@^5.0.4:
+fela-plugin-unit@^5.0.4:
   version "5.0.4"
-  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-5.0.4.tgz#d9a6e4aebac8dd69c12f20e3756cee19aa2a996a"
-  dependencies:
-    fela-plugin-extend "^5.0.3"
-    fela-plugin-fallback-value "^5.0.4"
-    fela-plugin-lvha "^5.0.3"
-    fela-plugin-prefixer "^5.0.4"
-    fela-plugin-unit "^5.0.3"
-
-fela-tools@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela-tools/-/fela-tools-5.0.3.tgz#de211ccbc24bd879b00b8e269412dba1de1cb82c"
+  resolved "https://registry.yarnpkg.com/fela-plugin-unit/-/fela-plugin-unit-5.0.4.tgz#c23678310d838f465cb9b26b24b3a5470a3424c2"
   dependencies:
     css-in-js-utils "^1.0.3"
-    fela-utils "^5.0.3"
+    fela-utils "^5.0.4"
 
-fela-utils@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela-utils/-/fela-utils-5.0.3.tgz#2482b29f113e5e53b828c13abde57dc70bf754b8"
+fela-preset-web@^5.0.5:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-5.0.5.tgz#4559708c951a4f728cf3f44ec2bd970f76edb818"
+  dependencies:
+    fela-plugin-extend "^5.0.4"
+    fela-plugin-fallback-value "^5.0.5"
+    fela-plugin-lvha "^5.0.4"
+    fela-plugin-prefixer "^5.0.5"
+    fela-plugin-unit "^5.0.4"
+
+fela-tools@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/fela-tools/-/fela-tools-5.0.4.tgz#1d93047b4cdc1214a295edb72943644981b3dd3d"
+  dependencies:
+    css-in-js-utils "^1.0.3"
+    fela-utils "^5.0.4"
+
+fela-utils@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/fela-utils/-/fela-utils-5.0.4.tgz#fc0600c0482414552b4c7868d66435c984726e2f"
   dependencies:
     css-in-js-utils "^1.0.3"
 
-fela@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/fela/-/fela-5.0.3.tgz#4c2d4d656becf25017c7dfcb29177b932cc9f8bb"
+fela@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/fela/-/fela-5.0.4.tgz#c1d9238c6a9e7cd3d4cf7ed69e347d5ad415d723"
   dependencies:
     css-in-js-utils "^1.0.3"
-    fela-tools "^5.0.3"
-    fela-utils "^5.0.3"
+    fela-tools "^5.0.4"
+    fela-utils "^5.0.4"
 
 hyphenate-style-name@^1.0.2:
   version "1.0.2"

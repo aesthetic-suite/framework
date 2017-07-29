@@ -79,7 +79,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'component-css-7pau8t',
+      animation: 'component-css-s8bawe',
     });
   });
 

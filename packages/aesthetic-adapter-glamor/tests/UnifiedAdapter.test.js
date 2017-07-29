@@ -22,7 +22,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'component-css-plme6f',
+      button: 'component-css-wb7zem',
     });
   });
 
@@ -44,7 +44,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
         color: ['#fff', 'rgba(0, 0, 0, 0)'],
-        animationName: 'fade_1d92vx2',
+        animationName: 'fade_1q3syk4',
         animationDuration: '.3s',
         ':hover': {
           backgroundColor: '#286090',
@@ -92,7 +92,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   it('supports animations', () => {
     expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
-        animationName: 'fade_1d92vx2',
+        animationName: 'fade_1q3syk4',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
