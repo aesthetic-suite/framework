@@ -3,6 +3,12 @@ node_js:
   - "6"
   - "7"
   - "node"
+# React native + Aphrodite in the latest versions cause syntax issue
+# in older environments, so let's just ignore them.
+matrix:
+  allow_failures:
+    - node_js: "6"
+    - node_js: "7"
 before_script: yarn run bootstrap:slow
 script: yarn test
 notifications:
