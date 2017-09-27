@@ -1,5 +1,13 @@
 {
-  "lerna": "2.0.0",
+  "lerna": "2.2.0",
   "version": "independent",
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "useWorkspaces": false,
+  "commands": {
+    "publish": {
+      "ignore": [
+        "*.md"
+      ]
+    }
+  }
 }

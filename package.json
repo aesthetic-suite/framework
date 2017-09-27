@@ -2,25 +2,25 @@
   "private": true,
   "name": "aesthetic",
   "scripts": {
-    "assemble": "yarn run clean && yarn run build && yarn test",
-    "bootstrap": "lerna bootstrap",
-    "bootstrap:slow": "lerna bootstrap --concurrency=1",
-    "build": "yarn run bootstrap && node ./scripts/build-packages.js && node ./scripts/verify-packages.js && yarn run docs",
-    "clean": "rimraf ./packages/*/lib/ && lerna clean --yes",
-    "coverage": "yarn run jest -- --coverage",
+    "assemble": "yarn run clean && yarn run bootstrap && yarn run build && yarn test",
+    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap:slow": "yarn run bootstrap -- --concurrency=1",
+    "build": "lerna run build && node ./scripts/verify-packages.js",
+    "clean": "rimraf ./packages/{*}/lib/ && lerna clean --yes",
+    "coverage": "run-coverage",
     "docs": "cp ./README.md ./packages/aesthetic/",
-    "eslint": "run-linter ./packages ./tests",
+    "eslint": "run-linter ./scripts ./tests ./packages/*/{src,tests}",
     "flow": "type-check",
     "jest": "run-tests",
-    "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && yarn outdated); done; lerna updated",
+    "outdated": "yarn outdated; for dir in `find ./packages/ -type d -maxdepth 1`; do (cd \"$dir\" && yarn outdated); done;",
     "posttest": "yarn run flow",
     "pretest": "yarn run eslint",
-    "preversion": "yarn run assemble",
-    "publish": "yarn run assemble && lerna publish --include-filtered-dependencies",
+    "publish": "lerna publish",
     "publish:explicit": "npm run publish -- --only-explicit-updates",
-    "publish:force": "npm run publish -- --force-publish=*",
+    "publish:force": "lerna publish --force-publish=*",
     "test": "yarn run jest",
-    "test:bundle": "bundle-lib -f iife -i ./tests/bundle.js -o ./tests/bundle.min.js"
+    "test:bundle": "bundle-lib -f iife -i ./tests/bundle.js -o ./tests/bundle.min.js",
+    "updated": "lerna updated"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.30.2",
@@ -39,9 +39,7 @@
   "babel": {
     "extends": "./node_modules/@milesj/build-tool-config/babel.json5",
     "ignore": "node_modules/**/*.js",
-    "plugins": [
-      "css-modules-transform"
-    ]
+    "plugins": ["css-modules-transform"]
   },
   "eslintConfig": {
     "extends": "./node_modules/@milesj/build-tool-config/eslint.json5",
@@ -50,21 +48,17 @@
       "no-magic-numbers": "off"
     }
   },
+  "eslintIgnore": [
+    "lib/",
+    "*.min.js",
+    "*.map"
+  ],
   "jest": {
-    "coverageDirectory": "./coverage",
-    "coverageReporters": [
-      "lcov"
-    ],
-    "globals": {
-      "__DEV__": true
-    },
-    "preset": "react-native",
+    "preset": "@milesj/build-tool-config",
     "roots": [
       "./packages",
       "./tests"
     ],
-    "setupTestFrameworkScriptFile": "./tests/setup.js",
-    "testRegex": "./packages/aesthetic([-a-z]+)?/tests/.*\\.test\\.js$",
-    "testEnvironment": "jsdom"
+    "testRegex": "./packages/([-a-z]+)?/tests/.*\\.test\\.js$"
   }
 }
