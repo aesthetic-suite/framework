@@ -4,10 +4,10 @@
  * @flow
  */
 
+import { Adapter } from 'aesthetic';
+import { createStyleElement } from 'aesthetic-utils';
 import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
-import Adapter from '../../aesthetic/src/Adapter';
-import createStyleElement from '../../aesthetic-utils/src/createStyleElement';
 
 import type { Renderer } from 'fela'; // eslint-disable-line
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';

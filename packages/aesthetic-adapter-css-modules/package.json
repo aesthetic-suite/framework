@@ -10,6 +10,9 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules",
   "license": "MIT",
+  "scripts": {
+    "build": "build-lib ./src -d ./lib"
+  },
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.0"

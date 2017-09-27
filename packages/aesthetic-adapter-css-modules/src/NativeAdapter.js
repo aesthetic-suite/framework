@@ -4,7 +4,7 @@
  * @flow
  */
 
-import Adapter from '../../aesthetic/src/Adapter';
+import { Adapter } from 'aesthetic';
 
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 

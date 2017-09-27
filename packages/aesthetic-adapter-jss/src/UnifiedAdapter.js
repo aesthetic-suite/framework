@@ -6,10 +6,9 @@
 
 /* eslint-disable no-param-reassign */
 
+import UnifiedSyntax from 'aesthetic/unified';
+import { injectAtRules, toArray } from 'aesthetic-utils';
 import JSS from 'jss';
-import UnifiedSyntax from '../../aesthetic/src/UnifiedSyntax';
-import injectAtRules from '../../aesthetic-utils/src/injectAtRules';
-import toArray from '../../aesthetic-utils/src/toArray';
 import JSSAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';

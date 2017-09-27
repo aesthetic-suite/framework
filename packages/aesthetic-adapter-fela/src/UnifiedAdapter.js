@@ -4,10 +4,8 @@
  * @flow
  */
 
-import UnifiedSyntax from '../../aesthetic/src/UnifiedSyntax';
-import injectAtRules from '../../aesthetic-utils/src/injectAtRules';
-import injectFallbacks from '../../aesthetic-utils/src/injectFallbacks';
-import injectRuleByLookup from '../../aesthetic-utils/src/injectRuleByLookup';
+import UnifiedSyntax from 'aesthetic/unified';
+import { injectAtRules, injectFallbacks, injectRuleByLookup } from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line

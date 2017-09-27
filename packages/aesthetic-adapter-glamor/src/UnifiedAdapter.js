@@ -6,10 +6,9 @@
 
 /* eslint-disable no-param-reassign */
 
+import UnifiedSyntax from 'aesthetic/unified';
+import { injectAtRules, injectFallbacks } from 'aesthetic-utils';
 import { css } from 'glamor';
-import UnifiedSyntax from '../../aesthetic/src/UnifiedSyntax';
-import injectAtRules from '../../aesthetic-utils/src/injectAtRules';
-import injectFallbacks from '../../aesthetic-utils/src/injectFallbacks';
 import GlamorAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';

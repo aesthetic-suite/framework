@@ -12,6 +12,11 @@ import isPrimitive from './isPrimitive';
 import toArray from './toArray';
 
 export {
-  createStyleElement, injectAtRules, injectFallbacks, injectRuleByLookup,
-  isObject, isPrimitive, toArray,
+  createStyleElement,
+  injectAtRules,
+  injectFallbacks,
+  injectRuleByLookup,
+  isObject,
+  isPrimitive,
+  toArray,
 };

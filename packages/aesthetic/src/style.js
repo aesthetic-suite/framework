@@ -79,11 +79,8 @@ export default function style(
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
 
-    class StyledComponent extends ParentComponent {
-      props: PropsAndState;
-      state: PropsAndState;
-
-      static displayName: string = `Aesthetic(${styleName})`;
+    class StyledComponent extends ParentComponent<PropsAndState, PropsAndState> {
+      static displayName: ?string = `Aesthetic(${styleName})`;
 
       static styleName: string = styleName;
 

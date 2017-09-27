@@ -10,6 +10,9 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
+  "scripts": {
+    "build": "build-lib ./src -d ./lib"
+  },
   "dependencies": {
     "aesthetic-utils": "^1.5.0",
     "babel-runtime": "^6.26.0",

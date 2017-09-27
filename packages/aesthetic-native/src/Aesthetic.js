@@ -4,9 +4,8 @@
  * @flow
  */
 
+import Aesthetic, { Adapter } from 'aesthetic';
 import { StyleSheet } from 'react-native';
-import Aesthetic from '../../aesthetic/src/Aesthetic';
-import Adapter from '../../aesthetic/src/Adapter';
 import ReactNativeAdapter from './Adapter';
 
 import type { TransformedStylesMap, StyleDeclaration } from '../../types';

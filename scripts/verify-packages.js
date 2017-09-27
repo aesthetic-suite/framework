@@ -1,4 +1,5 @@
-/* eslint-disable global-require, no-underscore-dangle, import/no-dynamic-require */
+/* eslint-env node */
+/* eslint-disable global-require, no-console, no-underscore-dangle, import/no-dynamic-require */
 
 const path = require('path');
 const glob = require('glob');

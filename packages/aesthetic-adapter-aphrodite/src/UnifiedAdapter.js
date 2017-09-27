@@ -4,9 +4,8 @@
  * @flow
  */
 
-import UnifiedSyntax from '../../aesthetic/src/UnifiedSyntax';
-import injectAtRules from '../../aesthetic-utils/src/injectAtRules';
-import injectRuleByLookup from '../../aesthetic-utils/src/injectRuleByLookup';
+import UnifiedSyntax from 'aesthetic/unified';
+import { injectAtRules, injectRuleByLookup } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';

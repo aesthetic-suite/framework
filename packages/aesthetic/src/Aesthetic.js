@@ -4,9 +4,9 @@
  * @flow
  */
 
+import { isObject } from 'aesthetic-utils';
 import deepMerge from 'lodash.merge';
 import Adapter from './Adapter';
-import isObject from '../../aesthetic-utils/src/isObject';
 
 import type {
   AestheticOptions,
@@ -123,7 +123,7 @@ export default class Aesthetic {
    * Set an adapter class to transform CSS style objects.
    */
   setAdapter(adapter: Adapter): this {
-    if (adapter instanceof Adapter) {
+    if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
       adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;
 

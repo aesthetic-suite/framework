@@ -4,4 +4,4 @@
  */
 
 // eslint-disable-next-line
-module.exports = require('./lib/index').default;
+module.exports = require('./lib/index');

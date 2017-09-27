@@ -7,7 +7,12 @@
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ThemeProvider extends React.Component {
+type ThemeProviderProps = {
+  children: React$Node,
+  name: string,
+};
+
+export default class ThemeProvider extends React.Component<ThemeProviderProps> {
   static propTypes = {
     children: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,

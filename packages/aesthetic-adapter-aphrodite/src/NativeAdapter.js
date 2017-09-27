@@ -4,8 +4,8 @@
  * @flow
  */
 
+import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
-import Adapter from '../../aesthetic/src/Adapter';
 
 import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 
