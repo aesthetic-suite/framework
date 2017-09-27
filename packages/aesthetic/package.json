@@ -1,25 +1,37 @@
 {
   "name": "aesthetic",
   "version": "1.5.0",
-  "description": "Abstract library to support a range of styling options for React components.",
+  "description": "Aesthetic is a powerful React library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
     "react",
-    "styles"
+    "react-native",
+    "native",
+    "style",
+    "components",
+    "hoc",
+    "css",
+    "css-in-js",
+    "css-modules",
+    "aphrodite",
+    "glamor",
+    "fela",
+    "jss"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic",
   "license": "MIT",
   "dependencies": {
     "aesthetic-utils": "^1.5.0",
-    "babel-runtime": "^6.25.0",
-    "hoist-non-react-statics": "^2.2.0",
+    "babel-runtime": "^6.26.0",
+    "hoist-non-react-statics": "^2.3.1",
     "lodash.merge": "^4.6.0",
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0"
+    "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "react": "^15.6.1"
+    "@milesj/build-tool-config": "^0.30.2",
+    "react": "^16.0.0"
   }
 }

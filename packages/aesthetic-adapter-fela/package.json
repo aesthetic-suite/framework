@@ -12,18 +12,19 @@
   "license": "MIT",
   "dependencies": {
     "aesthetic-utils": "^1.5.0",
-    "babel-runtime": "^6.25.0",
-    "prop-types": "^15.5.10"
+    "babel-runtime": "^6.26.0",
+    "prop-types": "^15.6.0"
   },
   "peerDependencies": {
     "aesthetic": "^1.5.0",
-    "fela": "^5.0.0",
-    "fela-dom": "^5.0.0"
+    "fela": "^6.0.0",
+    "fela-dom": "^6.0.0"
   },
   "devDependencies": {
+    "@milesj/build-tool-config": "^0.30.2",
     "aesthetic": "^1.5.0",
-    "fela": "^5.0.4",
-    "fela-dom": "^5.0.5",
-    "fela-preset-web": "^5.0.5"
+    "fela": "^6.0.0",
+    "fela-dom": "^6.0.0",
+    "fela-preset-web": "^5.0.9"
   }
 }
