@@ -3,13 +3,11 @@ node_js:
   - "6"
   - "7"
   - "node"
-# React native + Aphrodite in the latest versions cause syntax issue
-# in older environments, so let's just ignore them.
-matrix:
-  allow_failures:
-    - node_js: "6"
-    - node_js: "7"
-before_script: yarn run bootstrap:slow
+before_script:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH=$HOME/.yarn/bin:$PATH
 script: yarn test
 notifications:
   email: false
+cache:
+  yarn: true
