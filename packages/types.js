@@ -32,27 +32,27 @@ export type ClassNameMap = { [setName: string]: string };
 
 export type TransformedStylesMap = StyleDeclarationMap | ClassNameMap;
 
-export type WrappedComponent = ReactClass<*>;
+export type WrappedComponent = React$ComponentType<*>;
 
-export type HOCComponent = ReactClass<*>;
+export type HOCComponent = React$ComponentType<*>;
 
 export type HOCOptions = {
- extendable?: boolean,
- extendFrom?: string,
- pure?: boolean,
- styleName?: string,
- stylesPropName?: string,
- themePropName?: string,
+  extendable?: boolean,
+  extendFrom?: string,
+  pure?: boolean,
+  styleName?: string,
+  stylesPropName?: string,
+  themePropName?: string,
 };
 
 export type EventCallback = (() => void) |
- ((setName: string, properties: CSSStyle) => void) |
- ((setName: string, atRuleName: string, properties: CSSStyle) => void);
+  ((setName: string, properties: CSSStyle) => void) |
+  ((setName: string, atRuleName: string, properties: CSSStyle) => void);
 
 export type FallbackMap = { [setName: string]: CSSStyle };
 
 export type AestheticOptions = {
- extendable: boolean,
- stylesPropName: string,
- themePropName: string,
+  extendable: boolean,
+  stylesPropName: string,
+  themePropName: string,
 };

@@ -1,3 +1,4 @@
+import { StyleSheetTestUtils } from 'aphrodite';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAdapter from '../src/ClassNameAdapter';
 import AphroditeAdapter from '../../aesthetic-adapter-aphrodite/src/NativeAdapter';
@@ -17,6 +18,11 @@ describe('aesthetic/Aesthetic', () => {
 
   beforeEach(() => {
     instance = new Aesthetic(new TestAdapter());
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
   describe('extendTheme()', () => {

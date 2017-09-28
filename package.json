@@ -5,7 +5,8 @@
     "assemble": "yarn run clean && yarn run bootstrap && yarn run build && yarn test",
     "bootstrap": "lerna bootstrap --hoist",
     "bootstrap:slow": "yarn run bootstrap -- --concurrency=1",
-    "build": "lerna run build && node ./scripts/verify-packages.js",
+    "build": "lerna run build",
+    "build:verify": "node ./scripts/verify-packages.js",
     "clean": "rimraf ./packages/{*}/lib/ && lerna clean --yes",
     "coverage": "run-coverage",
     "docs": "cp ./README.md ./packages/aesthetic/",
@@ -19,27 +20,26 @@
     "publish:explicit": "npm run publish -- --only-explicit-updates",
     "publish:force": "lerna publish --force-publish=*",
     "test": "yarn run jest",
-    "test:bundle": "bundle-lib -f iife -i ./tests/bundle.js -o ./tests/bundle.min.js",
+    "test:bundle": "yarn run build && bundle-lib ./tests/bundle.js ./tests/bundle.min.js",
     "updated": "lerna updated"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.30.2",
+    "babel-loader": "^7.1.2",
     "babel-plugin-css-modules-transform": "1.2.7",
     "babel-register": "^6.26.0",
-    "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
     "chalk": "^2.1.0",
-    "envify": "^4.1.0",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.2",
     "lerna": "^2.2.0",
-    "react-native": "^0.48.4",
-    "rimraf": "^2.6.2"
+    "react-native": "^0.48.4"
   },
   "babel": {
     "extends": "./node_modules/@milesj/build-tool-config/babel.json5",
     "ignore": "node_modules/**/*.js",
-    "plugins": ["css-modules-transform"]
+    "plugins": [
+      "css-modules-transform"
+    ]
   },
   "eslintConfig": {
     "extends": "./node_modules/@milesj/build-tool-config/eslint.json5",

@@ -19,9 +19,15 @@ import type {
   HOCOptions,
 } from '../../types';
 
-type PropsAndState = {
+type StyleProps = {
+  theme?: string,
+  [key: string]: *,
+};
+
+type StyleState = {
   classNames?: TransformedStylesMap,
   theme?: string,
+  [key: string]: *,
 };
 
 // Keep track in production
@@ -33,13 +39,11 @@ export default function style(
   options: HOCOptions = {},
 ): (WrappedComponent) => HOCComponent {
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
-    let styleName = options.styleName || Component.displayName;
+    let styleName = options.styleName || Component.displayName || Component.name;
 
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
     if (__DEV__) {
-      styleName = styleName || Component.name;
-
       if (!(aesthetic instanceof Aesthetic)) {
         throw new TypeError('An instance of `Aesthetic` is required.');
 
@@ -64,7 +68,7 @@ export default function style(
       instanceID += 1;
 
       // eslint-disable-next-line no-magic-numbers
-      styleName = styleName || `${Math.random().toString(32).substr(2)}${instanceID}`;
+      styleName = `${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 
     const {
@@ -79,7 +83,8 @@ export default function style(
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
 
-    class StyledComponent extends ParentComponent<PropsAndState, PropsAndState> {
+    // $FlowIgnore
+    class StyledComponent extends ParentComponent<StyleProps, StyleState> {
       static displayName: ?string = `Aesthetic(${styleName})`;
 
       static styleName: string = styleName;
@@ -122,7 +127,7 @@ export default function style(
       }
 
       // Re-transform if the theme changes
-      componentWillReceiveProps(nextProps: PropsAndState) {
+      componentWillReceiveProps(nextProps: StyleProps) {
         const theme = this.getTheme(nextProps);
 
         if (theme !== this.state[themePropName]) {
@@ -130,7 +135,7 @@ export default function style(
         }
       }
 
-      getTheme(props: PropsAndState): string {
+      getTheme(props: StyleProps): string {
         return props[themePropName] || this.context.themeName || '';
       }
 
