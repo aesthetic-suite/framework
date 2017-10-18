@@ -140,7 +140,10 @@ export default function style(
       }
 
       getTheme(props: StyleProps): string {
-        return props[themePropName] || this.context.themeName || '';
+        return props[themePropName] ||
+          this.context.themeName ||
+          aesthetic.options.defaultTheme ||
+          '';
       }
 
       transformStyles(theme: string) {

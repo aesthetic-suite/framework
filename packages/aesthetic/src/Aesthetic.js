@@ -25,6 +25,7 @@ export default class Aesthetic {
   native: boolean = false;
 
   options: AestheticOptions = {
+    defaultTheme: '',
     extendable: false,
     pure: false,
     stylesPropName: 'classNames',
@@ -90,7 +91,13 @@ export default class Aesthetic {
    * Return a themes style object or throw an error.
    */
   getTheme(themeName: string): CSSStyle {
-    const theme = this.themes[themeName];
+    const { defaultTheme } = this.options;
+
+    let theme = this.themes[themeName];
+
+    if (!theme && defaultTheme) {
+      theme = this.themes[defaultTheme];
+    }
 
     if (__DEV__) {
       if (!theme) {
@@ -177,7 +184,7 @@ export default class Aesthetic {
    * defined component. Optionally support a custom theme.
    */
   transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
-    const cacheKey = `${styleName}:${themeName}`;
+    const cacheKey = `${styleName}:${themeName || this.options.defaultTheme}`;
 
     if (this.cache[cacheKey]) {
       return this.cache[cacheKey];

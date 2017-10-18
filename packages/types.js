@@ -52,6 +52,7 @@ export type EventCallback = (() => void) |
 export type FallbackMap = { [setName: string]: CSSStyle };
 
 export type AestheticOptions = {
+  defaultTheme: string,
   extendable: boolean,
   pure: boolean,
   stylesPropName: string,

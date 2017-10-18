@@ -1,7 +1,7 @@
 # 1.7.0
 #### 🚀 New
-* Aesthetic now supports a top-level `pure` option, which will force all styled components
-  to use `React.PureComponent`.
+* Added a `defaultTheme` option to `Aesthetic`, which is used when `themeName` is empty.
+* Added a `pure` option to `Aesthetic`, which forces components to extend `React.PureComponent`.
 
 #### 🛠 Internal
 * Enabled Yarn workspaces.

@@ -32,25 +32,26 @@ declare module 'aesthetic' {
   declare export type HOCComponent = ReactClass<*>;
 
   declare export type HOCOptions = {
-   extendable?: boolean,
-   extendFrom?: string,
-   pure?: boolean,
-   styleName?: string,
-   stylesPropName?: string,
-   themePropName?: string,
+    extendable?: boolean,
+    extendFrom?: string,
+    pure?: boolean,
+    styleName?: string,
+    stylesPropName?: string,
+    themePropName?: string,
   };
 
   declare export type EventCallback = (() => void) |
-   ((setName: string, properties: CSSStyle) => void) |
-   ((setName: string, atRuleName: string, properties: CSSStyle) => void);
+    ((setName: string, properties: CSSStyle) => void) |
+    ((setName: string, atRuleName: string, properties: CSSStyle) => void);
 
   declare export type FallbackMap = { [setName: string]: CSSStyle };
 
   declare export type AestheticOptions = {
-   extendable: boolean,
-   pure: boolean,
-   stylesPropName: string,
-   themePropName: string,
+    defaultTheme: string,
+    extendable: boolean,
+    pure: boolean,
+    stylesPropName: string,
+    themePropName: string,
   };
 
   declare export class Adapter {
