@@ -22,14 +22,25 @@ export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
-  fallbacks: FallbackMap = {}; // Local
-  fontFaces: AtRuleMap = {}; // Global
+
+  // Local
+  fallbacks: FallbackMap = {};
+
+  // Global
+  fontFaces: AtRuleMap = {};
+
   fontFaceNames: AtRuleCache = {};
-  keyframes: AtRuleMap = {}; // Global
+
+  // Global
+  keyframes: AtRuleMap = {};
+
   keyframeNames: AtRuleCache = {};
-  mediaQueries: AtRuleSet = {}; // Local
+
+  // Local
+  mediaQueries: AtRuleSet = {};
 
   static LOCAL: string = LOCAL;
+
   static GLOBAL: string = GLOBAL;
 
   /**

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../src/NativeAdapter';
@@ -69,14 +71,14 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   it('supports animations', () => {
     const nativeSyntax = {
       animation: {
-        animationName: KEYFRAME_FADE,
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
+        animationName: KEYFRAME_FADE,
       },
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'animation_1jgz2rv',
+      animation: 'animation_mab5hn',
     });
   });
 

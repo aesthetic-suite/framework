@@ -26,8 +26,10 @@ export default class ReactNativeAesthetic extends Aesthetic {
   transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
     const styles = super.transformStyles(styleName, themeName);
 
-    // Some adapters call `StyleSheet` themselves,
-    // so we need to avoid doing it twice.
+    /*
+     * Some adapters call `StyleSheet` themselves,
+     * so we need to avoid doing it twice.
+     */
     if (this.adapter.bypassNativeStyleSheet) {
       return styles;
     }

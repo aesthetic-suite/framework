@@ -40,6 +40,7 @@ describe('aesthetic/style()', () => {
     // eslint-disable-next-line
     class DisplayComponent extends React.Component {
       static displayName = 'CustomDisplayName';
+
       render() {
         return null;
       }
@@ -128,8 +129,8 @@ describe('aesthetic/style()', () => {
     })(BaseComponent);
 
     const Extended = Wrapped.extendStyles({}, {
-      styleName: 'ExtendedComponent',
       extendable: false,
+      styleName: 'ExtendedComponent',
     });
 
     expect(() => {
@@ -169,8 +170,8 @@ describe('aesthetic/style()', () => {
     }
 
     const Wrapped = style(aesthetic, {
-      header: { color: 'red' },
       footer: { color: 'blue' },
+      header: { color: 'red' },
     })(StylesComponent);
 
     expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
@@ -188,8 +189,8 @@ describe('aesthetic/style()', () => {
     }
 
     const Wrapped = style(aesthetic, {
-      header: { color: 'red' },
       footer: { color: 'blue' },
+      header: { color: 'red' },
     })(StylesComponent);
 
     expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
@@ -234,8 +235,8 @@ describe('aesthetic/style()', () => {
     }
 
     const Wrapped = style(aesthetic, {
-      header: { color: 'red' },
       footer: { color: 'blue' },
+      header: { color: 'red' },
     }, {
       stylesPropName: 'classes',
     })(StylesComponent);
@@ -257,8 +258,8 @@ describe('aesthetic/style()', () => {
     });
 
     const Wrapped = style(aesthetic, {
-      header: { color: 'red' },
       footer: { color: 'blue' },
+      header: { color: 'red' },
     })(StylesComponent);
 
     // eslint-disable-next-line

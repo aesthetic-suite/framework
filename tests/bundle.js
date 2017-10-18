@@ -1,4 +1,4 @@
-/* eslint-disable no-console, react/require-default-props */
+/* eslint-disable no-console, sort-keys, react/require-default-props, react/jsx-no-literals */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -51,7 +51,9 @@ BaseButton.propTypes = {
   primary: PropTypes.bool,
 };
 
-const Button = style(({ unit, bg, bgHover, fg, primary }) => ({
+const Button = style(({
+  unit, bg, bgHover, fg, primary,
+}) => ({
   button: {
     display: 'inline-block',
     border: 0,
@@ -81,17 +83,17 @@ function App() {
   return (
     <ThemeProvider name="default">
       <div>
-        <h3>{'Default Theme'}</h3>
+        <h3>Default Theme</h3>
 
-        <Button>{'Foo'}</Button>
-        <Button primary>{'Bar'}</Button>
+        <Button>Foo</Button>
+        <Button primary>Bar</Button>
 
         <ThemeProvider name="dark">
           <div>
-            <h3>{'Dark Theme'}</h3>
+            <h3>Dark Theme</h3>
 
-            <Button>{'Foo'}</Button>
-            <Button primary>{'Bar'}</Button>
+            <Button>Foo</Button>
+            <Button primary>Bar</Button>
           </div>
         </ThemeProvider>
       </div>

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { StyleSheetTestUtils } from 'aphrodite';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAdapter from '../src/ClassNameAdapter';
@@ -365,7 +367,7 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new JssAdapter());
 
       expect(instance.transformStyles('foo')).toEqual({
-        button: 'button-0-0',
+        button: 'button-0-1',
       });
     });
   });

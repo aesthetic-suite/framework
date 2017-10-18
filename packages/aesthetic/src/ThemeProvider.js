@@ -22,13 +22,13 @@ export default class ThemeProvider extends React.Component<ThemeProviderProps> {
     themeName: PropTypes.string,
   };
 
-  getChildContext() {
+  getChildContext(): Object {
     return {
       themeName: this.props.name,
     };
   }
 
-  render() {
+  render(): React$Node {
     return Children.only(this.props.children);
   }
 }

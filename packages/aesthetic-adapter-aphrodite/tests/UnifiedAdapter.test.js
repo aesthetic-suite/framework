@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import UnifiedAphroditeAdapter from '../src/UnifiedAdapter';
 import {

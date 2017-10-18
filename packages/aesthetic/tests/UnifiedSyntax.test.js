@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import UnifiedSyntax, { GLOBAL, LOCAL } from '../src/UnifiedSyntax';
 import { FONT_ROBOTO, KEYFRAME_FADE } from '../../../tests/mocks';
 

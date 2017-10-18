@@ -18,8 +18,8 @@ describe('aesthetic-utils/injectAtRules()', () => {
     const props = {};
 
     injectAtRules(props, '@font-face', {
-      roboto: FONT_ROBOTO,
       mrroboto: FONT_ROBOTO,
+      roboto: FONT_ROBOTO,
     });
 
     expect(props).toEqual({

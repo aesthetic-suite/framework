@@ -15,8 +15,11 @@ import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } f
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
   currentFontFaces: AtRuleMap = {};
+
   currentKeyframes: AtRuleMap = {};
+
   currentMediaQueries: AtRuleMap = {};
+
   syntax: UnifiedSyntax;
 
   constructor(jss: JSS, options: Object = {}) {

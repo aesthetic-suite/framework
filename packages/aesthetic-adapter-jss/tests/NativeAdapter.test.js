@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 import JSSAdapter from '../src/NativeAdapter';
@@ -32,7 +34,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button-0-0',
+      button: 'button-0-1',
     });
   });
 
@@ -50,9 +52,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      '.pseudo-0-0::before': 'pseudo-0-0::before',
-      '.pseudo-0-0:hover': 'pseudo-0-0:hover',
-      pseudo: 'pseudo-0-0',
+      pseudo: 'pseudo-0-1',
     });
   });
 
@@ -70,7 +70,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      fallback: 'fallback-0-0',
+      fallback: 'fallback-0-1',
     });
   });
 
@@ -84,7 +84,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font-0-0',
+      font: 'font-0-1',
     });
   });
 
@@ -99,9 +99,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'animation-0-0',
-      from: 'rom',
-      to: 'o',
+      animation: 'animation-0-1',
     });
   });
 
@@ -123,7 +121,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      media: 'media-0-0',
+      media: 'media-0-1',
     });
   });
 });

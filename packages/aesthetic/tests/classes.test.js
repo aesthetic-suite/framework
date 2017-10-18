@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import classes from '../src/classes';
 
 describe('aesthetic/classes()', () => {

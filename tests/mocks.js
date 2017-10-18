@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import Adapter from '../packages/aesthetic/src/Adapter';
 
 export const FONT_ROBOTO = {

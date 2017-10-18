@@ -11,8 +11,8 @@ describe('aesthetic/ClassNameAdapter', () => {
   it('errors if a non-string is provided', () => {
     expect(() => {
       instance.transform('foo', {
-        foo: '.valid-class',
         bar: { not: 'valid' },
+        foo: '.valid-class',
       });
     }).toThrowError('`ClassNameAdapter` expects valid CSS class names; non-string provided for "bar".');
   });

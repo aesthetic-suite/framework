@@ -26,8 +26,8 @@ export default class JSSAdapter extends Adapter {
     }
 
     const styleSheet = this.jss.createStyleSheet(declarations, {
-      named: true,
       meta: styleName,
+      named: true,
       ...this.options,
     }).attach();
 

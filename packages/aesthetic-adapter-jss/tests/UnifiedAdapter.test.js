@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 import UnifiedJSSAdapter from '../src/UnifiedAdapter';
@@ -25,11 +27,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      '.button-0-0::before': 'button-0-0::before',
-      '.button-0-0:hover': 'button-0-0:hover',
-      button: 'button-0-0',
-      from: 'rom',
-      to: 'o',
+      button: 'button-0-1',
     });
   });
 

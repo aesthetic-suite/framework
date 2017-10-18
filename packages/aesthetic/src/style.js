@@ -41,8 +41,10 @@ export default function style(
   return function wrapStyles(Component: WrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName || Component.name;
 
-    // Function/constructor name aren't always available when code is minified,
-    // so only use it in development.
+    /*
+     * Function/constructor name aren't always available when code is minified,
+     * so only use it in development.
+     */
     if (__DEV__) {
       if (!(aesthetic instanceof Aesthetic)) {
         throw new TypeError('An instance of `Aesthetic` is required.');
@@ -61,9 +63,11 @@ export default function style(
         );
       }
 
-    // When in production, we should generate a random string to use as the style name.
-    // If we don't do this, any minifiers that mangle function names would break
-    // Aesthetic's caching layer.
+    /*
+     * When in production, we should generate a random string to use as the style name.
+     * If we don't do this, any minifiers that mangle function names would break
+     * Aesthetic's caching layer.
+     */
     } else {
       instanceID += 1;
 
@@ -141,12 +145,12 @@ export default function style(
 
       transformStyles(theme: string) {
         this.setState({
-          [themePropName]: theme,
           [stylesPropName]: aesthetic.transformStyles(styleName, theme),
+          [themePropName]: theme,
         });
       }
 
-      render() {
+      render(): React$Node {
         return (
           <Component {...this.props} {...this.state} />
         );

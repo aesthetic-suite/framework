@@ -13,8 +13,8 @@ describe('aesthetic-adapter-css-modules/NativeAdapter', () => {
 
     // eslint-disable-next-line global-require
     expect(instance.transform('foo', require('./styles.css'))).toEqual({
-      header: 'foo-styles__header___3btY-',
       footer: 'foo-styles__footer___NPE7C',
+      header: 'foo-styles__header___3btY-',
     });
   });
 });

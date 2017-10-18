@@ -19,15 +19,21 @@ import type {
 
 export default class Aesthetic {
   adapter: Adapter;
+
   cache: { [styleName: string]: TransformedStylesMap } = {};
+
   native: boolean = false;
+
   options: AestheticOptions = {
+    extendable: false,
     stylesPropName: 'classNames',
     themePropName: 'theme',
-    extendable: false,
   };
+
   parents: { [childStyleName: string]: string } = {};
+
   styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
+
   themes: { [themeName: string]: CSSStyle } = {};
 
   constructor(adapter: Adapter, options: Object = {}) {

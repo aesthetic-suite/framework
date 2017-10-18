@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { speedy, flush } from 'glamor';
 import UnifiedGlamorAdapter from '../src/UnifiedAdapter';
 import {

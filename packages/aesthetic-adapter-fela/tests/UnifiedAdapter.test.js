@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../src/UnifiedAdapter';

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import { css, speedy, flush } from 'glamor';
 import GlamorAdapter from '../src/NativeAdapter';
 import {

@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+
 import Adapter from '../src/Adapter';
 import { TestAdapter, FONT_ROBOTO, KEYFRAME_FADE } from '../../../tests/mocks';
 
