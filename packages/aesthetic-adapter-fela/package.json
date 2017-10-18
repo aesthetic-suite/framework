@@ -24,10 +24,10 @@
     "fela-dom": "^6.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.30.2",
+    "@milesj/build-tool-config": "^0.33.0",
     "aesthetic": "^1.6.0",
-    "fela": "^6.0.0",
-    "fela-dom": "^6.0.0",
-    "fela-preset-web": "^5.0.9"
+    "fela": "^6.0.2",
+    "fela-dom": "^6.0.2",
+    "fela-preset-web": "^5.0.11"
   }
 }

@@ -23,8 +23,8 @@
     "aphrodite": "^1.2.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.30.2",
+    "@milesj/build-tool-config": "^0.33.0",
     "aesthetic": "^1.6.0",
-    "aphrodite": "^1.2.4"
+    "aphrodite": "^1.2.5"
   }
 }

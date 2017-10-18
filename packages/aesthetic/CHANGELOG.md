@@ -1,3 +1,7 @@
+# 1.7.0
+#### 🛠 Internal
+* Enabled Yarn workspaces.
+
 # 1.6.0 - 9/27/17
 #### 🚀 New
 * Added support for `react` 16.0.
