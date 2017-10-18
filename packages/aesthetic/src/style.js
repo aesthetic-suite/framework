@@ -80,7 +80,7 @@ export default function style(
       themePropName = aesthetic.options.themePropName,
       extendable = aesthetic.options.extendable,
       extendFrom,
-      pure = false,
+      pure = aesthetic.options.pure,
     } = options;
     const ParentComponent = (pure && React.PureComponent) ? React.PureComponent : React.Component;
 

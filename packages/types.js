@@ -53,6 +53,7 @@ export type FallbackMap = { [setName: string]: CSSStyle };
 
 export type AestheticOptions = {
   extendable: boolean,
+  pure: boolean,
   stylesPropName: string,
   themePropName: string,
 };
