@@ -38,7 +38,7 @@ export default class Aesthetic {
 
   themes: { [themeName: string]: CSSStyle } = {};
 
-  constructor(adapter: Adapter, options: Object = {}) {
+  constructor(adapter: Adapter, options?: Object = {}) {
     this.options = {
       ...this.options,
       ...options,
@@ -53,8 +53,8 @@ export default class Aesthetic {
   extendTheme(
     parentThemeName: string,
     themeName: string,
-    theme: CSSStyle = {},
-    globals: StyleDeclarationMap = {},
+    theme?: CSSStyle = {},
+    globals?: StyleDeclarationMap = {},
   ): this {
     return this.registerTheme(
       themeName,
@@ -67,7 +67,7 @@ export default class Aesthetic {
    * Extract the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and previous inherited styles.
    */
-  getStyles(styleName: string, themeName: string = ''): StyleDeclarationMap {
+  getStyles(styleName: string, themeName?: string = ''): StyleDeclarationMap {
     const parentStyleName = this.parents[styleName];
     const declarations = this.styles[styleName];
 
@@ -90,7 +90,7 @@ export default class Aesthetic {
   /**
    * Return a themes style object or throw an error.
    */
-  getTheme(themeName: string): CSSStyle {
+  getTheme(themeName?: string = ''): CSSStyle {
     const { defaultTheme } = this.options;
 
     let theme = this.themes[themeName];
@@ -111,7 +111,11 @@ export default class Aesthetic {
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(themeName: string, theme: CSSStyle = {}, globals: StyleDeclarationMap = {}): this {
+  registerTheme(
+    themeName: string,
+    theme?: CSSStyle = {},
+    globals?: StyleDeclarationMap = {},
+  ): this {
     if (__DEV__) {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -151,7 +155,11 @@ export default class Aesthetic {
   /**
    * Set multiple style declarations for a component.
    */
-  setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom: string = ''): this {
+  setStyles(
+    styleName: string,
+    declarations: StyleDeclarationOrCallback,
+    extendFrom?: string = '',
+  ): this {
     if (__DEV__) {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
@@ -183,15 +191,15 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, baseThemeName?: string): TransformedStylesMap {
-    const themeName = baseThemeName || this.options.defaultTheme || '';
-    const cacheKey = `${styleName}:${themeName}`;
+  transformStyles(styleName: string, themeName?: string): TransformedStylesMap {
+    const fallbackThemeName = themeName || this.options.defaultTheme || '';
+    const cacheKey = `${styleName}:${fallbackThemeName}`;
 
     if (this.cache[cacheKey]) {
       return this.cache[cacheKey];
     }
 
-    const declarations = this.getStyles(styleName, themeName);
+    const declarations = this.getStyles(styleName, fallbackThemeName);
     const toTransform = {};
     const output = {};
     let setCount = 0;

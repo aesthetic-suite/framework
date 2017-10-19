@@ -12,7 +12,7 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 export default class JSSAdapter extends Adapter {
   jss: JSS;
 
-  constructor(jss: JSS, options: Object = {}) {
+  constructor(jss: JSS, options?: Object = {}) {
     super(options);
 
     this.jss = jss || create();

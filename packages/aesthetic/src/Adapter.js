@@ -13,7 +13,7 @@ export default class Adapter {
 
   options: Object = {};
 
-  constructor(options: Object = {}) {
+  constructor(options?: Object = {}) {
     this.options = { ...options };
   }
 

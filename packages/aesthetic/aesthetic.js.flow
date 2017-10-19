@@ -59,6 +59,7 @@ declare module 'aesthetic' {
     native: boolean;
     options: Object;
     unifiedSyntax: boolean;
+    constructor(options?: Object): this;
     transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap;
   }
 
@@ -77,7 +78,7 @@ declare module 'aesthetic' {
     constructor(adapter: Adapter, options?: Object): this;
     extendTheme(parentThemeName: string, themeName: string, theme?: CSSStyle, globals?: StyleDeclarationMap): this;
     getStyles(styleName: string, themeName?: string): StyleDeclarationMap;
-    getTheme(themeName: string): CSSStyle;
+    getTheme(themeName?: string): CSSStyle;
     registerTheme(themeName: string, theme?: CSSStyle, globals?: StyleDeclarationMap): this;
     setAdapter(adapter: Adapter): this;
     setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom?: string): this;

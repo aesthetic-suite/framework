@@ -3,11 +3,14 @@ import UnifiedSyntax from 'aesthetic/unified';
 import JSSAdapter from 'aesthetic-adapter-jss';
 
 declare module 'aesthetic-adapter-jss' {
-  declare export default class JSSAdapter extends Adapter {}
+  declare export default class JSSAdapter extends Adapter {
+    constructor(jss: Object, options?: Object): this;
+  }
 }
 
 declare module 'aesthetic-adapter-jss/unified' {
   declare export default class UnifiedJSSAdapter extends JSSAdapter {
     syntax: UnifiedSyntax;
+    constructor(jss: Object, options?: Object): this;
   }
 }

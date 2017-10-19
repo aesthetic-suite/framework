@@ -22,8 +22,8 @@ export default function createStyler(aesthetic: Aesthetic): * {
   }
 
   return function styler(
-    defaultStyles: StyleDeclarationOrCallback = {},
-    options: HOCOptions = {},
+    defaultStyles?: StyleDeclarationOrCallback = {},
+    options?: HOCOptions = {},
   ): (WrappedComponent) => HOCComponent {
     return style(aesthetic, defaultStyles, options);
   };

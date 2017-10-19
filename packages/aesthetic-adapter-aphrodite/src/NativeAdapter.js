@@ -12,7 +12,7 @@ import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
 
-  constructor(aphrodite: Object, options: Object = {}) {
+  constructor(aphrodite: Object, options?: Object = {}) {
     super(options);
 
     this.aphrodite = aphrodite || StyleSheet;

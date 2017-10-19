@@ -13,7 +13,7 @@ import type { TransformedStylesMap, StyleDeclaration } from '../../types';
 export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
 
-  constructor(adapter: Adapter, options: Object = {}) {
+  constructor(adapter: Adapter, options?: Object = {}) {
     super(adapter || new ReactNativeAdapter(), {
       stylesPropName: 'styles',
       ...options,
@@ -23,7 +23,7 @@ export default class ReactNativeAesthetic extends Aesthetic {
   /**
    * Pass the transformed styles through React Native's `StyleSheet` layer.
    */
-  transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
+  transformStyles(styleName: string, themeName?: string = ''): TransformedStylesMap {
     const styles = super.transformStyles(styleName, themeName);
 
     /*

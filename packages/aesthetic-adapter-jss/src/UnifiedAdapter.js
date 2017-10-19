@@ -22,7 +22,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
   syntax: UnifiedSyntax;
 
-  constructor(jss: JSS, options: Object = {}) {
+  constructor(jss: JSS, options?: Object = {}) {
     super(jss, options);
 
     this.syntax = new UnifiedSyntax();

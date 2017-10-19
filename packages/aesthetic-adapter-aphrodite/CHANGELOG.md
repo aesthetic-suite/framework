@@ -1,6 +1,7 @@
 # 1.6.1 - 10/18/17
 #### 🛠 Internal
 * Enabled Yarn workspaces.
+* Updated Flowtype definitions.
 
 # 1.6.0 - 9/27/17
 #### 🚀 New

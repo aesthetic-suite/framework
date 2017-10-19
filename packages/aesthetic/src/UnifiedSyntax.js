@@ -110,8 +110,7 @@ export default class UnifiedSyntax {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  // eslint-disable-next-line flowtype/no-weak-types
-  extract(setName: string, atRule: string, rules: any, fromScope: string) {
+  extract(setName: string, atRule: string, rules: *, fromScope: string) {
     if (__DEV__) {
       if (!isObject(rules)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);

@@ -16,7 +16,7 @@ const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(fela: Renderer, options: Object = {}) {
+  constructor(fela: Renderer, options?: Object = {}) {
     super(fela, options);
 
     this.syntax = new UnifiedSyntax();

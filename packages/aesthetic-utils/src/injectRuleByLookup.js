@@ -12,7 +12,7 @@ export default function injectRuleByLookup(
   properties: CSSStyle,
   propName: string,
   lookup: AtRuleMap | AtRuleCache,
-  flatten: boolean = false,
+  flatten?: boolean = false,
 ) {
   let value = properties[propName];
 

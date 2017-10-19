@@ -17,7 +17,7 @@ export default class FelaAdapter extends Adapter {
 
   fela: Renderer;
 
-  constructor(fela: Renderer, options: Object = {}) {
+  constructor(fela: Renderer, options?: Object = {}) {
     super(options);
 
     this.fela = fela || createRenderer();

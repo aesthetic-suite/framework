@@ -106,7 +106,7 @@ export default function style(
       // Allow consumers to customize styles
       static extendStyles(
         customStyles: StyleDeclarationOrCallback,
-        extendOptions: HOCOptions = {},
+        extendOptions?: HOCOptions = {},
       ): HOCComponent {
         if (__DEV__) {
           if (!extendable) {
