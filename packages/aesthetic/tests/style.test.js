@@ -29,6 +29,22 @@ describe('aesthetic/style()', () => {
     expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
   });
 
+  it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
+    aesthetic.options.pure = true;
+
+    const Wrapped = style(aesthetic)(BaseComponent);
+
+    expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  });
+
+  it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
+    aesthetic.options.pure = true;
+
+    const Wrapped = style(aesthetic, {}, { pure: false })(BaseComponent);
+
+    expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
+  });
+
   it('inherits name from component `constructor.name`', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 

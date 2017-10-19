@@ -76,11 +76,11 @@ export default function style(
     }
 
     const {
+      extendable = aesthetic.options.extendable,
+      extendFrom = '',
+      pure = aesthetic.options.pure,
       stylesPropName = aesthetic.options.stylesPropName,
       themePropName = aesthetic.options.themePropName,
-      extendable = aesthetic.options.extendable,
-      extendFrom,
-      pure = aesthetic.options.pure,
     } = options;
     const ParentComponent = (pure && React.PureComponent) ? React.PureComponent : React.Component;
 
