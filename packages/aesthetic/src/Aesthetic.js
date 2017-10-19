@@ -183,8 +183,9 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, themeName: string = ''): TransformedStylesMap {
-    const cacheKey = `${styleName}:${themeName || this.options.defaultTheme}`;
+  transformStyles(styleName: string, baseThemeName?: string): TransformedStylesMap {
+    const themeName = baseThemeName || this.options.defaultTheme || '';
+    const cacheKey = `${styleName}:${themeName}`;
 
     if (this.cache[cacheKey]) {
       return this.cache[cacheKey];

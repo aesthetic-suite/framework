@@ -1,4 +1,4 @@
-# 1.8.0
+# 1.7.1 - 10/18/17
 #### 🛠 Internal
 * Enabled Yarn workspaces.
 

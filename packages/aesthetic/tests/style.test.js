@@ -162,6 +162,20 @@ describe('aesthetic/style()', () => {
     shallow(<ThemeProvider name="classic"><Wrapped /></ThemeProvider>).dive();
   });
 
+  it('inherits theme name from Aesthetic options', () => {
+    aesthetic.options.defaultTheme = 'default';
+
+    function ThemeComponent(props) {
+      expect(props.theme).toBe('default');
+
+      return null;
+    }
+
+    const Wrapped = style(aesthetic)(ThemeComponent);
+
+    shallow(<Wrapped />).dive();
+  });
+
   it('transforms styles on mount', () => {
     function StylesComponent(props) {
       expect(props.classNames).toEqual(TEST_CLASS_NAMES);

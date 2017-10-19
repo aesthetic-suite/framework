@@ -27,6 +27,27 @@ describe('aesthetic/Aesthetic', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
+  describe('getTheme()', () => {
+    it('errors if the theme doesnt exist', () => {
+      expect(() => instance.getTheme('foo'))
+        .toThrowError('Theme "foo" does not exist.');
+    });
+
+    it('returns the theme by name', () => {
+      instance.registerTheme('foo', { unitSize: 6 });
+
+      expect(instance.getTheme('foo')).toEqual({ unitSize: 6 });
+    });
+
+    it('returns the default theme if defined and requested them doesnt exist', () => {
+      instance.registerTheme('default', { unitSize: 1 });
+      instance.registerTheme('foo', { unitSize: 6 });
+      instance.options.defaultTheme = 'default';
+
+      expect(instance.getTheme('bar')).toEqual({ unitSize: 1 });
+    });
+  });
+
   describe('extendTheme()', () => {
     it('errors if the parent theme doesnt exist', () => {
       expect(() => instance.extendTheme('foo', 'bar', {}))
@@ -300,6 +321,21 @@ describe('aesthetic/Aesthetic', () => {
       instance.transformStyles('bar');
 
       expect(instance.cache['bar:']).toEqual(TEST_CLASS_NAMES);
+    });
+
+    it('uses default theme if available', () => {
+      instance.options.defaultTheme = 'default';
+
+      expect(instance.cache['bar:default']).toBeUndefined();
+
+      instance.setAdapter(new TestAdapter());
+      instance.setStyles('bar', {
+        header: { color: 'red' },
+        footer: { color: 'blue' },
+      });
+      instance.transformStyles('bar');
+
+      expect(instance.cache['bar:default']).toEqual(TEST_CLASS_NAMES);
     });
   });
 
