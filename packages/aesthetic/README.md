@@ -119,6 +119,7 @@ yarn add aesthetic react
 * [Theming Components](#theming-components)
   * [Using Theme Styles](#using-theme-styles)
   * [Activating Themes](#activating-themes)
+  * [Default Theme](#default-theme)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
   * [Pseudos](#pseudos)
@@ -231,12 +232,13 @@ export default style({
 })(Button);
 ```
 
-If you get tired of passing `stylesPropName`, `themePropName`, and `extendable` to every
-component, you can pass these as default options to the `Aesthetic` instance.
+If you get tired of passing `stylesPropName`, `themePropName`, `pure`, and `extendable`
+to every component, you can pass these as default options to the `Aesthetic` instance.
 
 ```javascript
 new Aesthetic(adapter, {
   extendable: true,
+  pure: true,
   stylesPropName: 'classes',
   themePropName: 'appTheme',
 })
@@ -472,7 +474,7 @@ Once a theme has been registered, we can access the style parameters by using a
 argument to the function.
 
 ```javascript
-style((theme) => ({
+style(theme => ({
   button: {
     fontSize: `${theme.unitSize}${theme.unit}`,
     fontFamily: theme.font,
@@ -493,7 +495,7 @@ import { ThemeProvider } from 'aesthetic';
   // All components within here will use the "default" theme
 
   <ThemeProvider name="dark">
-    // And all components here will use "dark"
+    // And all components here will use the "dark" theme
   </ThemeProvider>
 </ThemeProvider>
 ```
@@ -502,6 +504,12 @@ Or by passing a `theme` prop to an individual component.
 
 ```javascript
 <Button theme="dark">Save</Button>
+```
+
+Or by setting the default theme on the `Aesthetic` instance.
+
+```javascript
+new Aesthetic(adapter, { defaultTheme: 'default' });
 ```
 
 ### Unified Syntax
@@ -571,8 +579,9 @@ buttonGroup: {
 },
 ```
 
-> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-nested`
-> plugins for unified syntax support.
+> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
+
+> Fela requires the `fela-plugin-unit` plugin.
 
 #### Pseudos
 
@@ -591,6 +600,8 @@ button: {
   },
 },
 ```
+
+> JSS requires the `jss-nested` plugin.
 
 #### Fallbacks
 

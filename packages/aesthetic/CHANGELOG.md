@@ -1,4 +1,4 @@
-# 1.7.0
+# 1.7.0 - 10/18/17
 #### 🚀 New
 * Added a `defaultTheme` option to `Aesthetic`, which is used when `themeName` is empty.
 * Added a `pure` option to `Aesthetic`, which forces components to extend `React.PureComponent`.
