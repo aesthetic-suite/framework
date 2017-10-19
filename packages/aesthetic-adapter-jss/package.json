@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-jss",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -14,17 +14,17 @@
     "build": "build-lib ./src -d ./lib"
   },
   "dependencies": {
-    "aesthetic-utils": "^1.6.0",
+    "aesthetic-utils": "^1.6.1",
     "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "aesthetic": "^1.6.0",
+    "aesthetic": "^1.7.0",
     "jss": "^9.0.0"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.33.0",
-    "aesthetic": "^1.6.0",
+    "aesthetic": "^1.7.0",
     "jss": "^9.0.0",
     "jss-preset-default": "^4.0.1"
   }
