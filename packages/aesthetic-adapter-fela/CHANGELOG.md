@@ -1,3 +1,8 @@
+# 1.7.2 - 11/10/17
+#### 🛠 Internal
+* Tested against React 16.1.
+* Improved build process.
+
 # 1.7.1 - 10/18/17
 #### 🛠 Internal
 * Enabled Yarn workspaces.

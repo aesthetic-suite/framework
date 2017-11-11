@@ -1,3 +1,11 @@
+# 1.7.0 - 11/10/17
+#### 🚀 New
+* Updated `react-native` to 0.50.
+
+#### 🛠 Internal
+* Tested against React 16.1.
+* Improved build process.
+
 # 1.6.1 - 10/18/17
 #### 🛠 Internal
 * Enabled Yarn workspaces.

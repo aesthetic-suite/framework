@@ -1,3 +1,8 @@
+# 1.7.1 - 11/10/17
+#### 🛠 Internal
+* Tested against React 16.1.
+* Improved build process.
+
 # 1.7.0 - 10/18/17
 #### 🚀 New
 * Added a `defaultTheme` option to `Aesthetic`, which is used when `themeName` is empty.
