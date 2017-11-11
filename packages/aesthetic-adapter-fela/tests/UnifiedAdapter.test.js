@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 
 import { createRenderer } from 'fela';
-import { createWebPreset } from 'fela-preset-web';
+import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
@@ -18,7 +18,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
   beforeEach(() => {
     instance = new UnifiedFelaAdapter(createRenderer({
-      plugins: [...createWebPreset()],
+      plugins: [...webPreset],
     }));
   });
 

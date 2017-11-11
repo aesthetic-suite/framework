@@ -2,7 +2,7 @@
 
 import { createRenderer } from 'fela';
 // import { createRenderer as createNativeRenderer } from 'fela-native';
-import { createWebPreset } from 'fela-preset-web';
+import webPreset from 'fela-preset-web';
 import FelaAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO,
@@ -16,7 +16,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
 
   beforeEach(() => {
     instance = new FelaAdapter(createRenderer({
-      plugins: [...createWebPreset()],
+      plugins: [...webPreset],
     }));
   });
 

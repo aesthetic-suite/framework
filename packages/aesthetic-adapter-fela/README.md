@@ -46,10 +46,10 @@ to `FelaAdapter`.
 import Aesthetic from 'aesthetic';
 import FelaAdapter from 'aesthetic-adapter-fela';
 import { createRenderer } from 'fela';
-import { createWebPreset } from 'fela-preset-web';
+import webPreset from 'fela-preset-web';
 
 const aesthetic = new Aesthetic(new FelaAdapter(createRenderer({
-  plugins: [...createWebPreset()],
+  plugins: [...webPreset],
   selectorPrefix: 'foo-',
 })));
 ```
