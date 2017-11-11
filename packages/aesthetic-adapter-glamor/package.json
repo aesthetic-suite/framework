@@ -11,7 +11,7 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor",
   "license": "MIT",
   "scripts": {
-    "build": "build-lib ./src -d ./lib"
+    "build": "build-lib --react"
   },
   "dependencies": {
     "aesthetic-utils": "^1.6.1",
@@ -23,7 +23,7 @@
     "glamor": "^2.20.40"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0",
+    "@milesj/build-tool-config": "^0.41.2",
     "aesthetic": "^1.7.0",
     "glamor": "^2.20.40"
   }

@@ -11,7 +11,7 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
   "scripts": {
-    "build": "build-lib ./src -d ./lib"
+    "build": "build-lib --react"
   },
   "dependencies": {
     "aesthetic-utils": "^1.6.1",
@@ -24,10 +24,10 @@
     "fela-dom": "^6.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0",
+    "@milesj/build-tool-config": "^0.41.2",
     "aesthetic": "^1.7.0",
-    "fela": "^6.0.2",
-    "fela-dom": "^6.0.2",
-    "fela-preset-web": "^5.0.11"
+    "fela": "^6.0.4",
+    "fela-dom": "^6.0.5",
+    "fela-preset-web": "^7.0.0"
   }
 }

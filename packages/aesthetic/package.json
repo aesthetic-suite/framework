@@ -21,7 +21,7 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic",
   "license": "MIT",
   "scripts": {
-    "build": "build-lib ./src -d ./lib"
+    "build": "build-lib --react"
   },
   "dependencies": {
     "aesthetic-utils": "^1.6.1",
@@ -34,7 +34,7 @@
     "react": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0",
-    "react": "^16.0.0"
+    "@milesj/build-tool-config": "^0.41.2",
+    "react": "^16.1.0"
   }
 }

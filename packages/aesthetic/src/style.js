@@ -4,7 +4,7 @@
  * @flow
  */
 
-/* eslint-disable react/sort-comp, react/no-unused-prop-types, react/require-default-props */
+/* eslint-disable react/require-default-props */
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -70,8 +70,6 @@ export default function style(
      */
     } else {
       instanceID += 1;
-
-      // eslint-disable-next-line no-magic-numbers
       styleName = `${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 

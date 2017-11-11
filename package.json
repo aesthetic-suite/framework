@@ -3,7 +3,7 @@
   "name": "aesthetic",
   "scripts": {
     "assemble": "yarn run clean && yarn run bootstrap && yarn run build && yarn test",
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "bootstrap:slow": "yarn run bootstrap --concurrency=1",
     "build": "lerna run build",
     "build:verify": "node ./scripts/verify-packages.js",
@@ -22,43 +22,36 @@
     "updated": "lerna updated"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0",
+    "@milesj/build-tool-config": "^0.41.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-css-modules-transform": "1.2.7",
     "babel-register": "^6.26.0",
-    "chalk": "^2.2.0",
+    "chalk": "^2.3.0",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.2",
-    "lerna": "^2.4.0",
-    "react-native": "^0.49.3"
+    "lerna": "^2.5.1",
+    "react-native": "^0.50.3"
   },
   "babel": {
-    "extends": "./node_modules/@milesj/build-tool-config/babel.json5",
+    "presets": "@milesj/build-tool-config/babel",
     "ignore": "node_modules/**/*.js",
     "plugins": [
       "css-modules-transform"
     ]
   },
   "eslintConfig": {
-    "extends": "./node_modules/@milesj/build-tool-config/eslint.json5",
+    "extends": "./node_modules/@milesj/build-tool-config/eslint.js",
     "rules": {
       "no-invalid-this": "off",
       "no-magic-numbers": "off"
     }
   },
   "eslintIgnore": [
+    "esm/",
     "lib/",
     "*.min.js",
     "*.map"
   ],
-  "jest": {
-    "preset": "@milesj/build-tool-config",
-    "roots": [
-      "./packages",
-      "./tests"
-    ],
-    "testRegex": "./packages/([-a-z]+)?/tests/.*\\.test\\.js$"
-  },
   "workspaces": [
     "packages/*"
   ]

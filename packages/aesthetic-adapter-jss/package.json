@@ -11,7 +11,7 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss",
   "license": "MIT",
   "scripts": {
-    "build": "build-lib ./src -d ./lib"
+    "build": "build-lib --react"
   },
   "dependencies": {
     "aesthetic-utils": "^1.6.1",
@@ -20,12 +20,12 @@
   },
   "peerDependencies": {
     "aesthetic": "^1.7.0",
-    "jss": "^9.0.0"
+    "jss": "^9.2.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0",
+    "@milesj/build-tool-config": "^0.41.2",
     "aesthetic": "^1.7.0",
-    "jss": "^9.0.0",
+    "jss": "^9.2.0",
     "jss-preset-default": "^4.0.1"
   }
 }

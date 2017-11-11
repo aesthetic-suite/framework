@@ -1,4 +1,4 @@
-/* eslint-disable no-console, sort-keys, react/require-default-props, react/jsx-no-literals */
+/* eslint-disable no-console, sort-keys, react/require-default-props */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -105,5 +105,4 @@ function App() {
 console.log('Aesthetic', aesthetic);
 console.log('Adapter', adapter);
 
-// eslint-disable-next-line no-undef
 ReactDOM.render(<App />, document.getElementById('app'));

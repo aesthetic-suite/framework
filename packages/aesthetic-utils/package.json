@@ -11,12 +11,12 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-utils",
   "license": "MIT",
   "scripts": {
-    "build": "build-lib ./src -d ./lib"
+    "build": "build-lib --react"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.33.0"
+    "@milesj/build-tool-config": "^0.41.2"
   }
 }
