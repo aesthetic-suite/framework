@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-css-modules",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "CSS modules support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -18,10 +18,10 @@
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "aesthetic": "^1.7.0"
+    "aesthetic": "^1.7.1"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.41.2",
-    "aesthetic": "^1.7.0"
+    "aesthetic": "^1.7.1"
   }
 }
