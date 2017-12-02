@@ -175,7 +175,11 @@ describe('aesthetic/style()', () => {
 
     const Wrapped = style(aesthetic)(ThemeComponent);
 
-    shallow(<ThemeProvider name="classic"><Wrapped /></ThemeProvider>).dive();
+    shallow(
+      <ThemeProvider name="classic">
+        <Wrapped />
+      </ThemeProvider>,
+    ).dive();
   });
 
   it('inherits theme name from Aesthetic options', () => {

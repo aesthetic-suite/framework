@@ -17,6 +17,6 @@
     "babel-runtime": "^6.26.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.41.2"
+    "@milesj/build-tool-config": "^0.43.1"
   }
 }

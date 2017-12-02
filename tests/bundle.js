@@ -83,17 +83,31 @@ function App() {
   return (
     <ThemeProvider name="default">
       <div>
-        <h3>Default Theme</h3>
+        <h3>
+          Default Theme
+        </h3>
 
-        <Button>Foo</Button>
-        <Button primary>Bar</Button>
+        <Button>
+          Foo
+        </Button>
+
+        <Button primary>
+          Bar
+        </Button>
 
         <ThemeProvider name="dark">
           <div>
-            <h3>Dark Theme</h3>
+            <h3>
+              Dark Theme
+            </h3>
 
-            <Button>Foo</Button>
-            <Button primary>Bar</Button>
+            <Button>
+              Foo
+            </Button>
+
+            <Button primary>
+              Bar
+            </Button>
           </div>
         </ThemeProvider>
       </div>

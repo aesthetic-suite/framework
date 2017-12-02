@@ -21,13 +21,13 @@
   "peerDependencies": {
     "aesthetic": "^1.7.1",
     "fela": "^6.0.0",
-    "fela-dom": "^6.0.0"
+    "fela-dom": "^6.0.0 || ^7.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.41.2",
+    "@milesj/build-tool-config": "^0.43.1",
     "aesthetic": "^1.7.1",
-    "fela": "^6.0.4",
-    "fela-dom": "^6.0.5",
-    "fela-preset-web": "^7.0.0"
+    "fela": "^6.1.0",
+    "fela-dom": "^7.0.0",
+    "fela-preset-web": "^8.0.0"
   }
 }

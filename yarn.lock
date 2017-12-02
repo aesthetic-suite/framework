@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@milesj/build-tool-config@^0.41.2":
-  version "0.41.2"
-  resolved "https://registry.yarnpkg.com/@milesj/build-tool-config/-/build-tool-config-0.41.2.tgz#ef8b1fa8754f7c853ca57eafbef74bc30c1768ae"
+"@milesj/build-tool-config@^0.43.1":
+  version "0.43.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tool-config/-/build-tool-config-0.43.1.tgz#ddeb7ac49701a6aa81b2580845e23e4e2d062440"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
@@ -12,7 +12,7 @@
     babel-jest "^21.2.0"
     babel-loader "^7.1.2"
     babel-plugin-external-helpers "^6.22.0"
-    babel-plugin-transform-dev "^2.0.0"
+    babel-plugin-transform-dev "^2.0.1"
     babel-plugin-transform-export-extensions "^6.22.0"
     babel-plugin-transform-runtime "^6.23.0"
     babel-preset-env "^1.6.1"
@@ -23,26 +23,26 @@
     chalk "^2.3.0"
     clean-webpack-plugin "^0.1.17"
     copy "^0.3.1"
-    enzyme "^3.1.1"
-    enzyme-adapter-react-16 "^1.0.4"
-    eslint "^4.11.0"
+    enzyme "^3.2.0"
+    enzyme-adapter-react-16 "^1.1.0"
+    eslint "^4.12.1"
     eslint-config-airbnb "^16.1.0"
     eslint-plugin-flowtype "^2.39.1"
     eslint-plugin-import "^2.8.0"
     eslint-plugin-jest "^21.3.2"
     eslint-plugin-jsx-a11y "^6.0.2"
     eslint-plugin-promise "^3.6.0"
-    eslint-plugin-react "^7.4.0"
+    eslint-plugin-react "^7.5.1"
     eslint-plugin-unicorn "^3.0.0"
     execa "^0.8.0"
-    flow-bin "^0.59.0"
+    flow-bin "^0.60.1"
     jest "^21.2.1"
-    react "^16.1.0"
-    react-dom "^16.1.0"
-    react-test-renderer "^16.1.0"
+    react "^16.2.0"
+    react-dom "^16.2.0"
+    react-test-renderer "^16.2.0"
     rimraf "^2.6.1"
-    uglifyjs-webpack-plugin "1.0.1"
-    webpack "^3.8.1"
+    uglifyjs-webpack-plugin "1.1.2"
+    webpack "^3.9.1"
     yargs-parser "^8.0.0"
 
 "@types/node@^6.0.46":
@@ -691,9 +691,9 @@ babel-plugin-check-es2015-constants@^6.22.0, babel-plugin-check-es2015-constants
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-css-modules-transform@1.2.7:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.2.7.tgz#56bcc8ee2665bed8fe59dd8733767911b905bae3"
+babel-plugin-css-modules-transform@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.3.1.tgz#0d1264dab2769028c5cbb4f99a2760e119aeef3c"
   dependencies:
     css-modules-require-hook "^4.0.6"
     mkdirp "^0.5.1"
@@ -809,9 +809,9 @@ babel-plugin-transform-decorators@^6.24.1:
     babel-template "^6.24.1"
     babel-types "^6.24.1"
 
-babel-plugin-transform-dev@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-transform-dev/-/babel-plugin-transform-dev-2.0.0.tgz#7a0bb173ab32455de8d38042755b444abcca7743"
+babel-plugin-transform-dev@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/babel-plugin-transform-dev/-/babel-plugin-transform-dev-2.0.1.tgz#fec5bbfb6b9576cd8413df5bd0ae7aca32b0a2d4"
 
 babel-plugin-transform-es2015-arrow-functions@^6.22.0, babel-plugin-transform-es2015-arrow-functions@^6.5.0, babel-plugin-transform-es2015-arrow-functions@^6.8.0:
   version "6.22.0"
@@ -1840,6 +1840,10 @@ commander@^2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
+commander@~2.12.1:
+  version "2.12.2"
+  resolved "https://registry.npmjs.org/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
+
 commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
@@ -2522,6 +2526,12 @@ doctrine@^2.0.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
+doctrine@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.npmjs.org/doctrine/-/doctrine-2.0.2.tgz#68f96ce8efc56cc42651f1faadb4f175273b0075"
+  dependencies:
+    esutils "^2.0.2"
+
 dom-serializer@0, dom-serializer@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/dom-serializer/-/dom-serializer-0.1.0.tgz#073c697546ce0780ce23be4a28e293e40bc30c82"
@@ -2654,9 +2664,9 @@ envinfo@^3.0.0:
     os-name "^2.0.1"
     which "^1.2.14"
 
-enzyme-adapter-react-16@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.4.tgz#67f898cc053452f5c786424e395fe0c63a0607fe"
+enzyme-adapter-react-16@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.1.0.tgz#86c5db7c10f0be6ec25d54ca41b59f2abb397cf4"
   dependencies:
     enzyme-adapter-utils "^1.1.0"
     lodash "^4.17.4"
@@ -2673,19 +2683,20 @@ enzyme-adapter-utils@^1.1.0:
     object.assign "^4.0.4"
     prop-types "^15.5.10"
 
-enzyme@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-3.1.1.tgz#c6948dfccd055d75fbd8627ad1c96a024d0e247b"
+enzyme@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/enzyme/-/enzyme-3.2.0.tgz#998bdcda0fc71b8764a0017f7cc692c943f54a7a"
   dependencies:
     cheerio "^1.0.0-rc.2"
     function.prototype.name "^1.0.3"
+    has "^1.0.1"
     is-subset "^0.1.1"
     lodash "^4.17.4"
     object-is "^1.0.1"
     object.assign "^4.0.4"
     object.entries "^1.0.4"
     object.values "^1.0.4"
-    raf "^3.3.2"
+    raf "^3.4.0"
     rst-selector-parser "^2.2.3"
 
 "errno@>=0.1.1 <0.2.0-0", errno@^0.1.3, errno@^0.1.4:
@@ -2882,14 +2893,14 @@ eslint-plugin-promise@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-3.6.0.tgz#54b7658c8f454813dc2a870aff8152ec4969ba75"
 
-eslint-plugin-react@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.4.0.tgz#300a95861b9729c087d362dd64abcc351a74364a"
+eslint-plugin-react@^7.5.1:
+  version "7.5.1"
+  resolved "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.5.1.tgz#52e56e8d80c810de158859ef07b880d2f56ee30b"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
     jsx-ast-utils "^2.0.0"
-    prop-types "^15.5.10"
+    prop-types "^15.6.0"
 
 eslint-plugin-unicorn@^3.0.0:
   version "3.0.0"
@@ -2914,9 +2925,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.11.0.tgz#39a8c82bc0a3783adf5a39fa27fdd9d36fac9a34"
+eslint@^4.12.1:
+  version "4.12.1"
+  resolved "https://registry.npmjs.org/eslint/-/eslint-4.12.1.tgz#5ec1973822b4a066b353770c3c6d69a2a188e880"
   dependencies:
     ajv "^5.3.0"
     babel-code-frame "^6.22.0"
@@ -2924,7 +2935,7 @@ eslint@^4.11.0:
     concat-stream "^1.6.0"
     cross-spawn "^5.1.0"
     debug "^3.0.1"
-    doctrine "^2.0.0"
+    doctrine "^2.0.2"
     eslint-scope "^3.7.1"
     espree "^3.5.2"
     esquery "^1.0.0"
@@ -2933,7 +2944,7 @@ eslint@^4.11.0:
     file-entry-cache "^2.0.0"
     functional-red-black-tree "^1.0.1"
     glob "^7.1.2"
-    globals "^9.17.0"
+    globals "^11.0.1"
     ignore "^3.3.3"
     imurmurhash "^0.1.4"
     inquirer "^3.0.6"
@@ -3202,72 +3213,65 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fela-dom@^6.0.5:
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/fela-dom/-/fela-dom-6.0.5.tgz#fe4eb3308b94ba3194df3bf1cc0f75cf647bb5b4"
-  dependencies:
-    fela-tools "^5.0.12"
-    fela-utils "^7.0.4"
-
-fela-plugin-embedded@^5.1.7:
-  version "5.1.7"
-  resolved "https://registry.yarnpkg.com/fela-plugin-embedded/-/fela-plugin-embedded-5.1.7.tgz#6d74e4dfbf87de0c5df5f689b47c0dde6be3ad7a"
-  dependencies:
-    fela-utils "^7.0.4"
-
-fela-plugin-extend@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-plugin-extend/-/fela-plugin-extend-5.0.12.tgz#f3065fd0dc25e586c4e23a67448657c35a573ec0"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-plugin-fallback-value@^5.0.13:
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.13.tgz#995358943398117953627b2cb9b04c56019f2260"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-plugin-lvha@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-plugin-lvha/-/fela-plugin-lvha-5.0.12.tgz#ff996aa0e2403da90cd86b8e931efff99968648b"
-  dependencies:
-    fela-utils "^7.0.4"
-
-fela-plugin-prefixer@^5.0.13:
-  version "5.0.13"
-  resolved "https://registry.yarnpkg.com/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.13.tgz#3d77465e7730ce6ce646908f23f7e8e0c206647f"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-plugin-fallback-value "^5.0.13"
-    fela-utils "^7.0.4"
-    inline-style-prefixer "3.0.8"
-
-fela-plugin-unit@^5.0.12:
-  version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-plugin-unit/-/fela-plugin-unit-5.0.12.tgz#11069d9ac4a5ae0762ee4dea989c33523a46826b"
-  dependencies:
-    css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
-
-fela-preset-web@^7.0.0:
+fela-dom@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.yarnpkg.com/fela-preset-web/-/fela-preset-web-7.0.0.tgz#9ebc0c2ca00fdb5a12f0c2b68f61b27f266a90ac"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-7.0.0.tgz#58b49d038efc7a6f50e3050901fc588f32f2ed34"
   dependencies:
-    fela-plugin-embedded "^5.1.7"
-    fela-plugin-extend "^5.0.12"
-    fela-plugin-fallback-value "^5.0.13"
-    fela-plugin-lvha "^5.0.12"
-    fela-plugin-prefixer "^5.0.13"
-    fela-plugin-unit "^5.0.12"
+    fela-utils "^8.0.0"
+    lodash "^4.17.4"
 
-fela-tools@^5.0.12:
+fela-plugin-embedded@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-5.2.1.tgz#e90578e82d9bd9d1bb94d68e20e1bca5ad9b0beb"
+  dependencies:
+    lodash "^4.17.4"
+
+fela-plugin-extend@^5.0.11:
   version "5.0.12"
-  resolved "https://registry.yarnpkg.com/fela-tools/-/fela-tools-5.0.12.tgz#9311bc6e1e4d4139d35d9277908e74d6a41e113f"
+  resolved "https://registry.npmjs.org/fela-plugin-extend/-/fela-plugin-extend-5.0.12.tgz#f3065fd0dc25e586c4e23a67448657c35a573ec0"
   dependencies:
     css-in-js-utils "2.0.0"
     fela-utils "^7.0.4"
+
+fela-plugin-fallback-value@^5.0.15:
+  version "5.0.15"
+  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.15.tgz#8258b11b16fa772848b40f6fda32e24f425be884"
+  dependencies:
+    css-in-js-utils "2.0.0"
+    lodash "^4.17.4"
+
+fela-plugin-lvha@^5.0.14:
+  version "5.0.14"
+  resolved "https://registry.npmjs.org/fela-plugin-lvha/-/fela-plugin-lvha-5.0.14.tgz#a6d1831ae75307a3c3682cd81e3509b1d8c8c315"
+  dependencies:
+    lodash "^4.17.4"
+
+fela-plugin-prefixer@^5.0.15:
+  version "5.0.15"
+  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.15.tgz#ec799afcd9baa197747c9f21e95d660cbb52ef50"
+  dependencies:
+    css-in-js-utils "^2.0.0"
+    fela-plugin-fallback-value "^5.0.15"
+    inline-style-prefixer "^3.0.8"
+    lodash "^4.17.4"
+
+fela-plugin-unit@^5.0.14:
+  version "5.0.14"
+  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-5.0.14.tgz#bedb699fb77436773d574248e5c0d49457af5180"
+  dependencies:
+    css-in-js-utils "^2.0.0"
+    lodash "^4.17.4"
+
+fela-preset-web@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-8.0.0.tgz#2a113242dc353155d4813fd097d530e9e044de53"
+  dependencies:
+    fela-plugin-embedded "^5.2.1"
+    fela-plugin-extend "^5.0.11"
+    fela-plugin-fallback-value "^5.0.15"
+    fela-plugin-lvha "^5.0.14"
+    fela-plugin-prefixer "^5.0.15"
+    fela-plugin-unit "^5.0.14"
 
 fela-utils@^7.0.4:
   version "7.0.4"
@@ -3275,12 +3279,20 @@ fela-utils@^7.0.4:
   dependencies:
     css-in-js-utils "2.0.0"
 
-fela@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/fela/-/fela-6.0.4.tgz#f1403d8b718122b98aec2020eca8512acbd80998"
+fela-utils@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-8.0.0.tgz#99768cbc3ef1a2d45ecc2e21dc9bfe697322451e"
+  dependencies:
+    css-in-js-utils "^2.0.0"
+    lodash "^4.17.4"
+
+fela@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npmjs.org/fela/-/fela-6.1.0.tgz#c21f32bca8e68732072b5e50caabfda2fa3a119c"
   dependencies:
     css-in-js-utils "2.0.0"
-    fela-utils "^7.0.4"
+    fela-utils "^8.0.0"
+    lodash "^4.17.4"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -3401,9 +3413,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flow-bin@^0.59.0:
-  version "0.59.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.59.0.tgz#8c151ee7f09f1deed9bf0b9d1f2e8ab9d470f1bb"
+flow-bin@^0.60.1:
+  version "0.60.1"
+  resolved "https://registry.npmjs.org/flow-bin/-/flow-bin-0.60.1.tgz#0f4fa7b49be2a916f18cd946fc4a51e32ffe4b48"
 
 flush-write-stream@^1.0.0:
   version "1.0.2"
@@ -3715,11 +3727,15 @@ global@^4.3.0:
     min-document "^2.19.0"
     process "~0.5.1"
 
+globals@^11.0.1:
+  version "11.0.1"
+  resolved "https://registry.npmjs.org/globals/-/globals-11.0.1.tgz#12a87bb010e5154396acc535e1e43fc753b0e5e8"
+
 globals@^9.0.0:
   version "9.17.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.17.0.tgz#0c0ca696d9b9bb694d2e5470bd37777caad50286"
 
-globals@^9.17.0, globals@^9.18.0:
+globals@^9.18.0:
   version "9.18.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.18.0.tgz#aa3896b3e69b487f17e31ed2143d69a8e30c2d8a"
 
@@ -4025,7 +4041,7 @@ ini@^1.3.2, ini@^1.3.4, ini@~1.3.0:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
 
-inline-style-prefixer@3.0.8, inline-style-prefixer@^3.0.1, inline-style-prefixer@^3.0.6:
+inline-style-prefixer@^3.0.1, inline-style-prefixer@^3.0.6, inline-style-prefixer@^3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-3.0.8.tgz#8551b8e5b4d573244e66a34b04f7d32076a2b534"
   dependencies:
@@ -4835,9 +4851,9 @@ jss-vendor-prefixer@^7.0.0:
   dependencies:
     css-vendor "^0.3.8"
 
-jss@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/jss/-/jss-9.2.0.tgz#d4990049213a0907d51c0d676f829e9bc8a4f19c"
+jss@^9.3.3:
+  version "9.3.3"
+  resolved "https://registry.npmjs.org/jss/-/jss-9.3.3.tgz#d535ad8c64f6df9aeadb0219d5153c47493ff1c0"
   dependencies:
     is-in-browser "^1.1.3"
     symbol-observable "^1.0.4"
@@ -6225,9 +6241,9 @@ querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
-raf@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/raf/-/raf-3.3.2.tgz#0c13be0b5b49b46f76d6669248d527cf2b02fe27"
+raf@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npmjs.org/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
     performance-now "^2.1.0"
 
@@ -6302,18 +6318,18 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-dom@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.1.0.tgz#ab6fd2a285096f388aeba51919a573d06c9bdde4"
+react-dom@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-native@^0.50.3:
-  version "0.50.3"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.50.3.tgz#91282bd5356cc7d794969cdc443cc764389b9af4"
+react-native@^0.50.4:
+  version "0.50.4"
+  resolved "https://registry.npmjs.org/react-native/-/react-native-0.50.4.tgz#194f5da4939087b3acee712a503475f4942dca7e"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -6382,9 +6398,9 @@ react-test-renderer@^16.0.0-0:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
 
-react-test-renderer@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.1.0.tgz#33a1d3ce896311e0dd1547649b1456ffa7fda415"
+react-test-renderer@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-16.2.0.tgz#bddf259a6b8fcd8555f012afc8eacc238872a211"
   dependencies:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
@@ -6401,9 +6417,9 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@^16.1.0:
-  version "16.1.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.1.0.tgz#1c2bdac3c17fe7ee9282fa35aca6cc36387903e1"
+react@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.npmjs.org/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -6949,15 +6965,15 @@ source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1, sour
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
+source-map@^0.6.1, source-map@~0.6.1:
+  version "0.6.1"
+  resolved "https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+
 source-map@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.2.0.tgz#dab73fbcfc2ba819b4de03bd6f6eaa48164b3f9d"
   dependencies:
     amdefine ">=0.0.4"
-
-source-map@~0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
 
 sparkles@^1.0.0:
   version "1.0.0"
@@ -7442,11 +7458,18 @@ ua-parser-js@^0.7.9:
   version "0.7.12"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
-uglify-es@^3.1.3, uglify-es@^3.1.8:
+uglify-es@^3.1.8:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.1.8.tgz#2f21a56871d6354dcc21469cc034c3967f14c5b1"
   dependencies:
     commander "~2.11.0"
+    source-map "~0.6.1"
+
+uglify-es@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/uglify-es/-/uglify-es-3.2.0.tgz#fbbfb9dc465ec7e5065701b9720d0de977d0bc24"
+  dependencies:
+    commander "~2.12.1"
     source-map "~0.6.1"
 
 uglify-js@^2.6:
@@ -7471,15 +7494,15 @@ uglify-to-browserify@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/uglify-to-browserify/-/uglify-to-browserify-1.0.2.tgz#6e0924d6bda6b5afe349e39a6d632850a0f882b7"
 
-uglifyjs-webpack-plugin@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.0.1.tgz#d324da7144d321202df0968c09f6f8e057d5cdc2"
+uglifyjs-webpack-plugin@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-1.1.2.tgz#8a9abc238d01a33daaf86fa9a84c7ebc1e67b0f9"
   dependencies:
     cacache "^10.0.0"
     find-cache-dir "^1.0.0"
     schema-utils "^0.3.0"
-    source-map "^0.5.6"
-    uglify-es "^3.1.3"
+    source-map "^0.6.1"
+    uglify-es "^3.2.0"
     webpack-sources "^1.0.1"
     worker-farm "^1.4.1"
 
@@ -7687,9 +7710,9 @@ webpack-sources@^1.0.1:
     source-list-map "^2.0.0"
     source-map "~0.5.3"
 
-webpack@^3.8.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.8.1.tgz#b16968a81100abe61608b0153c9159ef8bb2bd83"
+webpack@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.npmjs.org/webpack/-/webpack-3.9.1.tgz#9a60aa544ed5d4d454c069e3f521aa007e02643c"
   dependencies:
     acorn "^5.0.0"
     acorn-dynamic-import "^2.0.0"

@@ -1,3 +1,7 @@
+# 1.7.3 - 12/01/17
+#### 🚀 New
+* Added support for `fela-dom` 7.0.
+
 # 1.7.2 - 11/10/17
 #### 🛠 Internal
 * Tested against React 16.1.
