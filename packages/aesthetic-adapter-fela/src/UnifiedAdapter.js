@@ -5,7 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectAtRules, injectFallbacks, injectRuleByLookup } from 'aesthetic-utils';
+import { injectAtRules, injectFallbacks, injectMediaQueries } from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line
@@ -41,17 +41,17 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   onDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
     if ('fontFamily' in properties) {
-      injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFaceNames, true);
+      injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFacesCache, true);
     }
 
     // Animation keyframes
     if ('animationName' in properties) {
-      injectRuleByLookup(properties, 'animationName', this.syntax.keyframeNames, true);
+      injectRuleByLookup(properties, 'animationName', this.syntax.keyframesCache, true);
     }
 
     // Media queries
     if (this.syntax.mediaQueries[selector]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[selector]);
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
 
     // Fallbacks
@@ -61,7 +61,7 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   };
 
   onFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
-    this.syntax.fontFaceNames[familyName] = fontFaces.map((face) => {
+    this.syntax.fontFacesCache[familyName] = fontFaces.map((face) => {
       const { src, ...props } = face;
 
       return this.fela.renderFont(familyName, src, props);
@@ -69,6 +69,6 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   }
 
   onKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
-    this.syntax.keyframeNames[animationName] = this.fela.renderKeyframe(() => keyframe);
+    this.syntax.keyframesCache[animationName] = this.fela.renderKeyframe(() => keyframe);
   };
 }

@@ -60,7 +60,7 @@ export const SYNTAX_NATIVE_PARTIAL = {
 
 export const SYNTAX_UNIFIED_FULL = {
   '@font-face': {
-    mrroboto: FONT_ROBOTO,
+    Roboto: FONT_ROBOTO,
   },
   '@keyframes': {
     fade: KEYFRAME_FADE,

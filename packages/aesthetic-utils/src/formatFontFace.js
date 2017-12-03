@@ -4,6 +4,8 @@
  * @flow
  */
 
+import type { FontFace } from '../../types';
+
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',
   '.otf': 'opentype',
@@ -15,9 +17,9 @@ const FORMATS: { [ext: string]: string } = {
 };
 
 export default function formatFontFace(
-  properties: StyleDeclaration,
+  properties: FontFace,
   flattenSrc?: boolean = false,
-): StyleDeclaration {
+): FontFace {
   const fontFace = { ...properties };
 
   if (!flattenSrc || (flattenSrc && typeof fontFace.src === 'string')) {
@@ -34,17 +36,20 @@ export default function formatFontFace(
     delete fontFace.localAlias;
   }
 
-  fontFace.src.forEach((srcPath) => {
-    const ext = srcPath.slice(srcPath.lastIndexOf('.'));
+  if (Array.isArray(fontFace.src)) {
+    fontFace.src.forEach((srcPath) => {
+      const ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
-    if (!FORMATS[ext] && __DEV__) {
-      throw new Error(`Unsupported font format "${ext}".`);
-    }
+      if (FORMATS[ext]) {
+        src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);
 
-    src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);
-  });
+      } else if (__DEV__) {
+        throw new Error(`Unsupported font format "${ext}".`);
+      }
+    });
 
-  fontFace.src = src.join(', ');
+    fontFace.src = src.join(', ');
+  }
 
   return fontFace;
 }

@@ -8,8 +8,9 @@ import createStyleElement from './createStyleElement';
 import formatFontFace from './formatFontFace';
 import injectAtRules from './injectAtRules';
 import injectFallbacks from './injectFallbacks';
-import injectFonts from './injectFonts';
-import injectRuleByLookup from './injectRuleByLookup';
+import injectFontFaces from './injectFontFaces';
+import injectKeyframes from './injectKeyframes';
+import injectMediaQueries from './injectMediaQueries';
 import isObject from './isObject';
 import isPrimitive from './isPrimitive';
 import toArray from './toArray';
@@ -19,8 +20,9 @@ export {
   formatFontFace,
   injectAtRules,
   injectFallbacks,
-  injectFonts,
-  injectRuleByLookup,
+  injectFontFaces,
+  injectKeyframes,
+  injectMediaQueries,
   isObject,
   isPrimitive,
   toArray,

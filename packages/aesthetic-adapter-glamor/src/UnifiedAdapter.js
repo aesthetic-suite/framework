@@ -4,10 +4,13 @@
  * @flow
  */
 
-/* eslint-disable no-param-reassign */
-
 import UnifiedSyntax from 'aesthetic/unified';
-import { formatFontFace, injectAtRules, injectFallbacks } from 'aesthetic-utils';
+import {
+  formatFontFace,
+  injectFallbacks,
+  injectKeyframes,
+  injectMediaQueries,
+} from 'aesthetic-utils';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
@@ -25,11 +28,10 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   constructor(options?: Object = {}) {
     super(options);
 
-    this.syntax = new UnifiedSyntax();
-    this.syntax
-      .on('declaration', this.onDeclaration)
-      .on('fontFace', this.onFontFace)
-      .on('keyframe', this.onKeyframe);
+    this.syntax = new UnifiedSyntax()
+      .on('declaration', this.handleDeclaration)
+      .on('fontFace', this.handleFontFace)
+      .on('keyframe', this.handleKeyframe);
   }
 
   convert(declarations: StyleDeclarations): StyleDeclarations {
@@ -40,30 +42,37 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onDeclaration = (selector: string, properties: StyleDeclaration) => {
+  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
+    // Font faces
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont
+    // Use the `fontFamily` property as-is.
+
     // Animation keyframes
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#csskeyframestimeline
     if ('animationName' in properties) {
-      properties.animationName = this.syntax.keyframeNames[String(properties.animationName)];
+      injectKeyframes(properties, this.syntax.keyframesCache, true);
     }
 
     // Media queries
+    // https://github.com/threepointone/glamor/blob/master/docs/selectors.md
     if (this.syntax.mediaQueries[selector]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[selector]);
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
 
     // Fallbacks
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssrules
     if (this.syntax.fallbacks[selector]) {
       injectFallbacks(properties, this.syntax.fallbacks[selector]);
     }
   };
 
-  onFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
-    this.syntax.fontFaceNames[familyName] = fontFaces.map(face => (
+  handleFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
+    this.syntax.fontFacesCache[familyName] = fontFaces.map(face => (
       css.fontFace(formatFontFace(face, true))
     ));
   };
 
-  onKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
-    this.syntax.keyframeNames[animationName] = css.keyframes(animationName, keyframe);
+  handleKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
+    this.syntax.keyframesCache[animationName] = css.keyframes(animationName, keyframe);
   };
 }

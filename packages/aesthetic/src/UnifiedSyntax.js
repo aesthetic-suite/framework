@@ -31,12 +31,12 @@ export default class UnifiedSyntax {
   // Global
   fontFaces: FontFaces = {};
 
-  fontFaceNames: AtRuleCache = {};
+  fontFacesCache: AtRuleCache<string[]> = {};
 
   // Global
   keyframes: Keyframes = {};
 
-  keyframeNames: AtRuleCache = {};
+  keyframesCache: AtRuleCache<string> = {};
 
   // Local
   mediaQueries: SelectorMap<MediaQueries> = {};

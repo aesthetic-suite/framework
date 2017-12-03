@@ -28,7 +28,7 @@ export default class AphroditeAdapter extends Adapter {
     const styleSheet = this.aphrodite.create(declarations);
     const output = {};
 
-    Object.keys(styleSheet).forEach((selector: string) => {
+    Object.keys(styleSheet).forEach((selector) => {
       output[selector] = css(styleSheet[selector]);
     });
 

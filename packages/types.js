@@ -20,7 +20,7 @@ export type AestheticOptions = {
   themePropName: string,
 };
 
-export type AtRuleCache = { [ruleName: string]: string };
+export type AtRuleCache<T> = { [rule: string]: T };
 
 export type ClassName = string;
 
@@ -41,11 +41,11 @@ export type FontFace = {
   fontStyle?: string,
   fontWeight?: string | number,
   localAlias?: string[],
-  src: string[],
+  src: string | string[],
   unicodeRange?: string,
 };
 
-export type FontFaces = { [fontFamily: string]: FontFace | FontFace[] };
+export type FontFaces = { [fontFamily: string]: FontFace[] };
 
 export type GlobalDeclaration = {
   '@font-face'?: FontFaces,

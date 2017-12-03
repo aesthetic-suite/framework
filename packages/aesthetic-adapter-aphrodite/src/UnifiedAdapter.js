@@ -5,7 +5,7 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectAtRules, injectRuleByLookup } from 'aesthetic-utils';
+import { injectFontFaces, injectKeyframes, injectMediaQueries } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
 import type { StyleDeclaration, StyleDeclarations, TransformedDeclarations } from '../../types';
@@ -30,18 +30,18 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
   onDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
-    // if ('fontFamily' in properties) {
-    //   injectFonts(properties, this.syntax.fontFaces, true);
-    // }
+    if ('fontFamily' in properties) {
+      injectFontFaces(properties, this.syntax.fontFaces);
+    }
 
     // Animation keyframes
     if ('animationName' in properties) {
-      injectRuleByLookup(properties, 'animationName', this.syntax.keyframes);
+      injectKeyframes(properties, this.syntax.keyframes);
     }
 
     // Media queries
     if (this.syntax.mediaQueries[selector]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[selector]);
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
   };
 }

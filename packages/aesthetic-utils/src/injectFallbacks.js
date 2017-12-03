@@ -6,10 +6,10 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { StyleDeclaration } from '../../types';
+import type { Fallbacks, StyleDeclaration } from '../../types';
 
-export default function injectFallbacks(properties: StyleDeclaration, fallbacks: StyleDeclaration) {
-  Object.keys(fallbacks).forEach((propName: string) => {
+export default function injectFallbacks(properties: StyleDeclaration, fallbacks: Fallbacks) {
+  Object.keys(fallbacks).forEach((propName) => {
     const prop = properties[propName];
     const fallback = fallbacks[propName];
 
@@ -17,6 +17,7 @@ export default function injectFallbacks(properties: StyleDeclaration, fallbacks:
       return;
     }
 
+    // $FlowIgnore Allow arrays here TODO
     properties[propName] = [].concat(fallback, prop);
   });
 }

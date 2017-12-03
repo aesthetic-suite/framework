@@ -102,9 +102,9 @@ declare module 'aesthetic/unified' {
     events: { [eventName: string]: EventCallback };
     fallbacks: FallbackMap;
     fontFaces: AtRuleMap;
-    fontFaceNames: AtRuleCache;
+    fontFacesCache: AtRuleCache;
     keyframes: AtRuleMap;
-    keyframeNames: AtRuleCache;
+    keyframesCache: AtRuleCache;
     mediaQueries: AtRuleSet;
     convert(declarations: StyleDeclarations): StyleDeclarations;
     convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
