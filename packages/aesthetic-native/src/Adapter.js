@@ -15,7 +15,7 @@ export default class ReactNativeAdapter extends Adapter {
    * Simply return the style declarations as-is because the RN `Aesthetic`
    * instance will automatically wrap it with RN `StyleSheet`.
    */
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return declarations;
   }
 }

@@ -36,7 +36,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 

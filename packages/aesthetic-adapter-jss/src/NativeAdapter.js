@@ -18,7 +18,7 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
         throw new Error('JSS does not support React Native.');

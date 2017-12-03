@@ -18,7 +18,7 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
         throw new Error('Aphrodite does not support React Native.');

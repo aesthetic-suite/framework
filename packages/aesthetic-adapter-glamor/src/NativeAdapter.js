@@ -10,7 +10,7 @@ import { css } from 'glamor';
 import type { TransformedDeclarations } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
         throw new Error('Glamor does not support React Native.');

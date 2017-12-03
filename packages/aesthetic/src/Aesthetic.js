@@ -19,7 +19,7 @@ import type {
 } from '../../types';
 
 export default class Aesthetic {
-  adapter: Adapter<*>;
+  adapter: Adapter;
 
   cache: { [styleName: string]: TransformedDeclarations } = {};
 
@@ -39,7 +39,7 @@ export default class Aesthetic {
 
   themes: { [themeName: string]: ThemeDeclaration } = {};
 
-  constructor(adapter: Adapter<*>, options?: Object = {}) {
+  constructor(adapter: Adapter, options?: Object = {}) {
     this.options = {
       ...this.options,
       ...options,
@@ -141,7 +141,7 @@ export default class Aesthetic {
   /**
    * Set an adapter class to transform CSS style objects.
    */
-  setAdapter(adapter: Adapter<*>): this {
+  setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
       adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;

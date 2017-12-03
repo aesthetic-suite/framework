@@ -31,7 +31,7 @@ export default class FelaAdapter extends Adapter {
     }
   }
 
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     const output = {};
 
     Object.keys(declarations).forEach((selector: string) => {

@@ -9,7 +9,7 @@ import { Adapter } from 'aesthetic';
 import type { TransformedDeclarations } from '../../types';
 
 export default class CSSModulesAdapter extends Adapter {
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
         throw new Error('CSS modules do not support React Native.');

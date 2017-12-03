@@ -55,7 +55,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     };
   }
 
-  transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 

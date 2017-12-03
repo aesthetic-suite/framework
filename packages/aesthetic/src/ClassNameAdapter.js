@@ -11,7 +11,7 @@ import type { TransformedDeclarations } from '../../types';
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     const classNames = {};
 
     Object.keys(declarations).forEach((selector: string) => {
