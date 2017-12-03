@@ -6,7 +6,6 @@
 
 import createStyleElement from './createStyleElement';
 import formatFontFace from './formatFontFace';
-import injectAtRules from './injectAtRules';
 import injectFallbacks from './injectFallbacks';
 import injectFontFaces from './injectFontFaces';
 import injectKeyframes from './injectKeyframes';
@@ -18,7 +17,6 @@ import toArray from './toArray';
 export {
   createStyleElement,
   formatFontFace,
-  injectAtRules,
   injectFallbacks,
   injectFontFaces,
   injectKeyframes,

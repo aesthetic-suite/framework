@@ -12,6 +12,7 @@ import type { AtRuleCache, FontFaces, StyleDeclaration } from '../../types';
 
 type InjectFontFacesOptions = {
   format?: boolean,
+  join?: boolean,
 };
 
 export default function injectFontFaces(
@@ -19,7 +20,7 @@ export default function injectFontFaces(
   fontFaces: FontFaces | AtRuleCache<string[]>,
   options?: InjectFontFacesOptions = {},
 ) {
-  const value = [];
+  let value = [];
 
   String(properties.fontFamily).split(',').forEach((name) => {
     const familyName = name.trim();
@@ -39,6 +40,10 @@ export default function injectFontFaces(
       value.push(familyName);
     }
   });
+
+  if (options.join) {
+    value = value.join(', ');
+  }
 
   // $FlowIgnore Allow arrays here TODO
   properties.fontFamily = value;

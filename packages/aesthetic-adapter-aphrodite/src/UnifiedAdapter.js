@@ -16,8 +16,8 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   constructor(aphrodite: Object, options?: Object = {}) {
     super(aphrodite, options);
 
-    this.syntax = new UnifiedSyntax();
-    this.syntax.on('declaration', this.handleDeclaration);
+    this.syntax = new UnifiedSyntax()
+      .on('declaration', this.handleDeclaration);
   }
 
   convert(declarations: StyleDeclarations): StyleDeclarations {

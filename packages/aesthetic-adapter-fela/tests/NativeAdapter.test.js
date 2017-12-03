@@ -5,7 +5,7 @@ import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import FelaAdapter from '../src/NativeAdapter';
 import {
-  FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
@@ -63,7 +63,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
   it('supports font faces', () => {
     const nativeSyntax = {
       font: {
-        fontFamily: instance.fela.renderFont('Roboto', ['roboto.woff2'], FONT_ROBOTO),
+        fontFamily: instance.fela.renderFont('Roboto', ['fonts/roboto.woff2'], FONT_ROBOTO_FLAT_SRC),
         fontSize: 20,
       },
     };

@@ -69,14 +69,6 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
     expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
   });
 
-  it('extracts font source paths', () => {
-    expect(instance.extractFontSources("url('roboto.woff2') format('roboto')"))
-      .toEqual(['roboto.woff2']);
-
-    expect(instance.extractFontSources('url(roboto.woff2) format("roboto"), url("roboto2.woff")'))
-      .toEqual(['roboto.woff2', 'roboto2.woff']);
-  });
-
   it('supports pseudos', () => {
     expect(instance.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
   });

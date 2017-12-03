@@ -16,6 +16,6 @@ export default function injectMediaQueries(properties: StyleDeclaration, queries
       query = `(${query})`;
     }
 
-    properties[`@media ${key}`] = queries[key];
+    properties[`@media ${query}`] = queries[key];
   });
 }
