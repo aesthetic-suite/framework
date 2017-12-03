@@ -6,27 +6,39 @@
 
 /* eslint-disable no-param-reassign */
 
+import formatFontFace from './formatFontFace';
+
 import type { AtRuleCache, FontFaces, StyleDeclaration } from '../../types';
+
+type InjectFontFacesOptions = {
+  format?: boolean,
+};
 
 export default function injectFontFaces(
   properties: StyleDeclaration,
   fontFaces: FontFaces | AtRuleCache<string[]>,
-  flatten?: boolean = false,
+  options?: InjectFontFacesOptions = {},
 ) {
-  let value = String(properties.fontFamily).split(',').map((name) => {
+  const value = [];
+
+  String(properties.fontFamily).split(',').forEach((name) => {
     const familyName = name.trim();
     const fonts = fontFaces[familyName];
 
-    if (!fonts || fonts.length === 0) {
-      return familyName;
+    if (fonts) {
+      value.push(...fonts.map((font) => {
+        if (typeof font === 'string') {
+          return font;
+        } else if (options.format) {
+          return formatFontFace(font);
+        }
+
+        return font;
+      }));
+    } else {
+      value.push(familyName);
     }
-
-    return fonts[0]; // TODO support multiple?
   });
-
-  if (flatten) {
-    value = value.join(', ');
-  }
 
   // $FlowIgnore Allow arrays here TODO
   properties.fontFamily = value;

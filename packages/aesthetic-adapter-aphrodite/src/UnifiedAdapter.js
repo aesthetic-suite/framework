@@ -17,7 +17,7 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     super(aphrodite, options);
 
     this.syntax = new UnifiedSyntax();
-    this.syntax.on('declaration', this.onDeclaration);
+    this.syntax.on('declaration', this.handleDeclaration);
   }
 
   convert(declarations: StyleDeclarations): StyleDeclarations {
@@ -28,20 +28,28 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onDeclaration = (selector: string, properties: StyleDeclaration) => {
+  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
+    // https://github.com/Khan/aphrodite#font-faces
     if ('fontFamily' in properties) {
-      injectFontFaces(properties, this.syntax.fontFaces);
+      injectFontFaces(properties, this.syntax.fontFaces, {
+        format: true,
+      });
     }
 
     // Animation keyframes
+    // https://github.com/Khan/aphrodite#animations
     if ('animationName' in properties) {
       injectKeyframes(properties, this.syntax.keyframes);
     }
 
     // Media queries
+    // https://github.com/Khan/aphrodite#api
     if (this.syntax.mediaQueries[selector]) {
       injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
+
+    // Fallbacks
+    // Aphrodite does not support fallbacks.
   };
 }

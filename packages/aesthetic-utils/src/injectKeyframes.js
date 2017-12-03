@@ -8,10 +8,14 @@
 
 import type { AtRuleCache, Keyframes, StyleDeclaration } from '../../types';
 
+type InjectKeyframesOptions = {
+  join?: boolean,
+};
+
 export default function injectKeyframes(
   properties: StyleDeclaration,
   keyframes: Keyframes | AtRuleCache<string>,
-  flatten?: boolean = false,
+  options?: InjectKeyframesOptions = {},
 ) {
   let value = String(properties.animationName).split(',').map((name) => {
     const animationName = name.trim();
@@ -19,7 +23,7 @@ export default function injectKeyframes(
     return keyframes[animationName] || animationName;
   });
 
-  if (flatten) {
+  if (options.join) {
     value = value.join(', ');
   }
 

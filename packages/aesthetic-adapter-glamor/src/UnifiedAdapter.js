@@ -50,7 +50,9 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     // Animation keyframes
     // https://github.com/threepointone/glamor/blob/master/docs/api.md#csskeyframestimeline
     if ('animationName' in properties) {
-      injectKeyframes(properties, this.syntax.keyframesCache, true);
+      injectKeyframes(properties, this.syntax.keyframesCache, {
+        join: true,
+      });
     }
 
     // Media queries

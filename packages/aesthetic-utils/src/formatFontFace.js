@@ -16,16 +16,8 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(
-  properties: FontFace,
-  flattenSrc?: boolean = false,
-): FontFace {
+export default function formatFontFace(properties: FontFace): FontFace {
   const fontFace = { ...properties };
-
-  if (!flattenSrc || (flattenSrc && typeof fontFace.src === 'string')) {
-    return fontFace;
-  }
-
   const src = [];
 
   if (fontFace.localAlias) {
