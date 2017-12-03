@@ -1,4 +1,4 @@
-import type { CSSStyle } from '../src/types';
+import type { StyleDeclaration } from '../src/types';
 
 declare module 'glamor' {
   declare type SheetDeclaration = {
@@ -6,13 +6,13 @@ declare module 'glamor' {
     toString(): string,
   };
 
-  declare export function fontFace(rule: CSSStyle): string;
+  declare export function fontFace(rule: StyleDeclaration): string;
 
-  declare export function keyframes(name?: string, rule: CSSStyle): string;
+  declare export function keyframes(name?: string, rule: StyleDeclaration): string;
 
   declare export var css: {
     fontFace: fontFace,
     keyframes: keyframes,
-    (...rules: CSSStyle[]): SheetDeclaration,
+    (...rules: StyleDeclaration[]): SheetDeclaration,
   };
 }

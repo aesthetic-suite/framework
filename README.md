@@ -443,11 +443,11 @@ aesthetic.registerTheme('dark', {
   bgColor: 'darkgray',
 }, {
   '@font-face': {
-    roboto: {
+    Roboto: {
       fontFamily: 'Roboto',
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: "url('roboto.woff2') format('roboto')",
+      src: ['fonts/roboto.woff'],
     },
   },
 });
@@ -643,15 +643,14 @@ tooltip: {
 #### Font Faces
 
 Font faces are defined outside the element using a `@font-face` object
-and are referenced by font family name.
+and are referenced by the font family name (the object key).
 
 ```javascript
 '@font-face': {
-  roboto: {
-    fontFamily: 'Roboto',
+  Roboto: {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    src: "url('roboto.woff2') format('roboto')",
+    src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
   },
 },
 button: {
@@ -661,6 +660,45 @@ button: {
 tooltip: {
   // ...
   fontFamily: 'Roboto, sans-serif',
+},
+```
+
+> The font face `fontFamily` property can be omitted, as it'll be inherited from the property name.
+
+To support multiple font variations, like bold and italics, pass an array of properties.
+
+```javascript
+'@font-face': {
+  Roboto: [
+    {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 'normal',
+      src: ['fonts/Roboto-Italic.woff2', 'fonts/Roboto-Italic.ttf'],
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      src: ['fonts/Roboto-Bold.woff2', 'fonts/Roboto-Bold.ttf'],
+    },
+  ],
+},
+```
+
+Lastly, to define `local()` source aliases, pass an array of strings to a `localAlias` property.
+
+```javascript
+'@font-face': {
+  OpenSans: {
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    localAlias: ['Open Sans', 'Open-Sans'],
+    src: ['fonts/OpenSans.ttf'],
+  },
 },
 ```
 

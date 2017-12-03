@@ -4,6 +4,7 @@ import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import UnifiedAphroditeAdapter from '../src/UnifiedAdapter';
 import {
   FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_AT_RULES,
@@ -81,7 +82,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   it('supports font faces', () => {
     expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
-        fontFamily: FONT_ROBOTO,
+        fontFamily: FONT_ROBOTO_FLAT_SRC,
         fontSize: 20,
       },
     });

@@ -10,17 +10,18 @@ import Adapter from './Adapter';
 
 import type {
   AestheticOptions,
-  StyleDeclaration,
-  StyleDeclarationMap,
-  StyleDeclarationOrCallback,
-  TransformedStylesMap,
-  CSSStyle,
+  ClassName,
+  GlobalDeclaration,
+  StyleCallback,
+  StyleDeclarations,
+  ThemeDeclaration,
+  TransformedDeclarations,
 } from '../../types';
 
 export default class Aesthetic {
-  adapter: Adapter;
+  adapter: Adapter<*>;
 
-  cache: { [styleName: string]: TransformedStylesMap } = {};
+  cache: { [styleName: string]: TransformedDeclarations } = {};
 
   native: boolean = false;
 
@@ -34,11 +35,11 @@ export default class Aesthetic {
 
   parents: { [childStyleName: string]: string } = {};
 
-  styles: { [styleName: string]: StyleDeclarationOrCallback } = {};
+  styles: { [styleName: string]: StyleCallback | StyleDeclarations } = {};
 
-  themes: { [themeName: string]: CSSStyle } = {};
+  themes: { [themeName: string]: ThemeDeclaration } = {};
 
-  constructor(adapter: Adapter, options?: Object = {}) {
+  constructor(adapter: Adapter<*>, options?: Object = {}) {
     this.options = {
       ...this.options,
       ...options,
@@ -53,8 +54,8 @@ export default class Aesthetic {
   extendTheme(
     parentThemeName: string,
     themeName: string,
-    theme?: CSSStyle = {},
-    globals?: StyleDeclarationMap = {},
+    theme?: ThemeDeclaration = {},
+    globals?: GlobalDeclaration = {},
   ): this {
     return this.registerTheme(
       themeName,
@@ -67,7 +68,7 @@ export default class Aesthetic {
    * Extract the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and previous inherited styles.
    */
-  getStyles(styleName: string, themeName?: string = ''): StyleDeclarationMap {
+  getStyles(styleName: string, themeName?: string = ''): StyleDeclarations {
     const parentStyleName = this.parents[styleName];
     const declarations = this.styles[styleName];
 
@@ -90,7 +91,7 @@ export default class Aesthetic {
   /**
    * Return a themes style object or throw an error.
    */
-  getTheme(themeName?: string = ''): CSSStyle {
+  getTheme(themeName?: string = ''): ThemeDeclaration {
     const { defaultTheme } = this.options;
 
     let theme = this.themes[themeName];
@@ -113,8 +114,8 @@ export default class Aesthetic {
    */
   registerTheme(
     themeName: string,
-    theme?: CSSStyle = {},
-    globals?: StyleDeclarationMap = {},
+    theme?: ThemeDeclaration = {},
+    globals?: GlobalDeclaration = {},
   ): this {
     if (__DEV__) {
       if (this.themes[themeName]) {
@@ -140,7 +141,7 @@ export default class Aesthetic {
   /**
    * Set an adapter class to transform CSS style objects.
    */
-  setAdapter(adapter: Adapter): this {
+  setAdapter(adapter: Adapter<*>): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
       adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;
@@ -157,7 +158,7 @@ export default class Aesthetic {
    */
   setStyles(
     styleName: string,
-    declarations: StyleDeclarationOrCallback,
+    declarations: StyleCallback | StyleDeclarations,
     extendFrom?: string = '',
   ): this {
     if (__DEV__) {
@@ -191,7 +192,7 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, themeName?: string): TransformedStylesMap {
+  transformStyles(styleName: string, themeName?: string): TransformedDeclarations {
     const fallbackThemeName = themeName || this.options.defaultTheme || '';
     const cacheKey = `${styleName}:${fallbackThemeName}`;
 
@@ -205,11 +206,11 @@ export default class Aesthetic {
     let setCount = 0;
 
     // Separate style objects from class names
-    Object.keys(declarations).forEach((setName: string) => {
-      if (typeof declarations[setName] === 'string') {
-        output[setName] = this.native ? {} : declarations[setName];
+    Object.keys(declarations).forEach((selector: string) => {
+      if (typeof declarations[selector] === 'string') {
+        output[selector] = this.native ? {} : declarations[selector];
       } else {
-        toTransform[setName] = declarations[setName];
+        toTransform[selector] = declarations[selector];
         setCount += 1;
       }
     });
@@ -218,8 +219,8 @@ export default class Aesthetic {
     if (setCount > 0) {
       const transformedOutput = this.adapter.transform(styleName, toTransform);
 
-      Object.keys(transformedOutput).forEach((setName: string) => {
-        output[setName] = this.validateTransform(styleName, setName, transformedOutput[setName]);
+      Object.keys(transformedOutput).forEach((selector: string) => {
+        output[selector] = this.validateTransform(styleName, selector, transformedOutput[selector]);
       });
     }
 
@@ -232,12 +233,12 @@ export default class Aesthetic {
   /**
    * Validate the object returned contains valid strings.
    */
-  validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
+  validateTransform(styleName: string, selector: string, value: ClassName): ClassName {
     if (__DEV__) {
       if (typeof value !== 'string') {
         throw new TypeError(
           `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-          `"${styleName}@${setName}" is not a valid string.`,
+          `"${styleName}@${selector}" is not a valid string.`,
         );
       }
     }

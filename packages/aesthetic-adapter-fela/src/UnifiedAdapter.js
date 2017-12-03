@@ -9,9 +9,13 @@ import { injectAtRules, injectFallbacks, injectRuleByLookup } from 'aesthetic-ut
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line
-import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
-
-const SRC_PATTERN = /url\((?:'|")?([^()'"]+)(?:'|")?\)/ig;
+import type {
+  FontFace,
+  Keyframe,
+  StyleDeclaration,
+  StyleDeclarations,
+  TransformedDeclarations,
+} from '../../types';
 
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
@@ -26,21 +30,15 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
       .on('keyframe', this.onKeyframe);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  extractFontSources(source: string): string[] {
-    return (source.match(SRC_PATTERN) || []).map((url: string) => (
-      url.replace(/"|'|url\(|\)/g, '')
-    ));
-  }
-
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  onDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
     if ('fontFamily' in properties) {
       injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFaceNames, true);
@@ -52,25 +50,25 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
     }
 
     // Media queries
-    if (this.syntax.mediaQueries[setName]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[setName]);
+    if (this.syntax.mediaQueries[selector]) {
+      injectAtRules(properties, '@media', this.syntax.mediaQueries[selector]);
     }
 
     // Fallbacks
-    if (this.syntax.fallbacks[setName]) {
-      injectFallbacks(properties, this.syntax.fallbacks[setName]);
+    if (this.syntax.fallbacks[selector]) {
+      injectFallbacks(properties, this.syntax.fallbacks[selector]);
     }
   };
 
-  onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
-    this.syntax.fontFaceNames[familyName] = this.fela.renderFont(
-      familyName,
-      this.extractFontSources(String(properties.src)),
-      properties,
-    );
+  onFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
+    this.syntax.fontFaceNames[familyName] = fontFaces.map((face) => {
+      const { src, ...props } = face;
+
+      return this.fela.renderFont(familyName, src, props);
+    });
   }
 
-  onKeyframe = (setName: string, animationName: string, properties: CSSStyle) => {
-    this.syntax.keyframeNames[animationName] = this.fela.renderKeyframe(() => properties);
+  onKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
+    this.syntax.keyframeNames[animationName] = this.fela.renderKeyframe(() => keyframe);
   };
 }

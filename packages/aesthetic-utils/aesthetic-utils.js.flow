@@ -1,11 +1,11 @@
 declare module 'aesthetic-utils' {
-  import type { CSSStyle, AtRuleMap, AtRuleCache } from 'aesthetic';
+  import type { StyleDeclaration, AtRuleMap, AtRuleCache } from 'aesthetic';
 
   declare export function createStyleElement(id: string): HTMLElement;
-  declare export function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap): void;
-  declare export function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle): void;
+  declare export function injectAtRules(properties: StyleDeclaration, atName: string, rules: AtRuleMap): void;
+  declare export function injectFallbacks(properties: StyleDeclaration, fallbacks: StyleDeclaration): void;
   declare export function injectRuleByLookup(
-    properties: CSSStyle,
+    properties: StyleDeclaration,
     propName: string,
     lookup: AtRuleMap | AtRuleCache,
     flatten: boolean,

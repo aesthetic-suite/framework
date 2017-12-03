@@ -47,7 +47,7 @@ describe('aesthetic/UnifiedSyntax', () => {
       })).toEqual({});
 
       expect(instance.fontFaces).toEqual({
-        Roboto: FONT_ROBOTO,
+        mrroboto: FONT_ROBOTO,
       });
       expect(instance.keyframes).toEqual({
         fade: KEYFRAME_FADE,
@@ -164,18 +164,6 @@ describe('aesthetic/UnifiedSyntax', () => {
         .toThrowError('Font faces must be declared in the global scope.');
     });
 
-    it('errors if font has already been extracted', () => {
-      instance.fontFaces = {
-        Roboto: FONT_ROBOTO,
-      };
-
-      expect(() => (
-        instance.extractFontFaces('foo', {
-          mrroboto: FONT_ROBOTO,
-        }, GLOBAL)
-      )).toThrowError('Font face "Roboto" has already been defined.');
-    });
-
     it('extracts font faces at-rule', () => {
       expect(instance.fontFaces).toEqual({});
 
@@ -184,7 +172,7 @@ describe('aesthetic/UnifiedSyntax', () => {
       }, GLOBAL);
 
       expect(instance.fontFaces).toEqual({
-        Roboto: FONT_ROBOTO,
+        mrroboto: FONT_ROBOTO,
       });
     });
   });

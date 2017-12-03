@@ -12,22 +12,21 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  TransformedStylesMap,
-  StyleDeclarationOrCallback,
-  WrappedComponent,
   HOCComponent,
   HOCOptions,
+  HOCWrappedComponent,
+  StyleCallback,
+  StyleDeclarations,
+  TransformedDeclarations,
 } from '../../types';
 
 type StyleProps = {
   theme?: string,
-  [key: string]: *,
 };
 
 type StyleState = {
-  classNames?: TransformedStylesMap,
+  classNames?: TransformedDeclarations,
   theme?: string,
-  [key: string]: *,
 };
 
 // Keep track in production
@@ -35,10 +34,10 @@ let instanceID = 0;
 
 export default function style(
   aesthetic: Aesthetic,
-  styles: StyleDeclarationOrCallback = {},
+  styles: StyleCallback | StyleDeclarations,
   options: HOCOptions = {},
-): (WrappedComponent) => HOCComponent {
-  return function wrapStyles(Component: WrappedComponent): HOCComponent {
+): (HOCWrappedComponent) => HOCComponent {
+  return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName || Component.name;
 
     /*
@@ -91,7 +90,7 @@ export default function style(
 
       static styleName: string = styleName;
 
-      static wrappedComponent: WrappedComponent = Component;
+      static WrappedComponent: HOCWrappedComponent = Component;
 
       static propTypes = {
         [themePropName]: PropTypes.string,
@@ -103,7 +102,7 @@ export default function style(
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStyles: StyleDeclarationOrCallback,
+        customStyles?: StyleCallback | StyleDeclarations = {},
         extendOptions?: HOCOptions = {},
       ): HOCComponent {
         if (__DEV__) {

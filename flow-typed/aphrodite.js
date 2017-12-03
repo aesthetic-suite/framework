@@ -1,4 +1,4 @@
-import type { CSSStyle } from '../src/types';
+import type { StyleDeclaration } from '../src/types';
 
 declare module 'aphrodite' {
   declare type SheetStruct = [string, Object];
@@ -8,7 +8,7 @@ declare module 'aphrodite' {
   };
 
   declare export var StyleSheet: {
-    create: (rules: CSSStyle) => SheetDeclaration,
+    create: (rules: StyleDeclaration) => SheetDeclaration,
     extend: (extensions: Object[]) => StyleSheet,
   };
 

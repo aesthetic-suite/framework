@@ -8,7 +8,7 @@ import UnifiedSyntax from 'aesthetic/unified';
 import { injectAtRules, injectRuleByLookup } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
+import type { StyleDeclaration, StyleDeclarations, TransformedDeclarations } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -20,19 +20,19 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     this.syntax.on('declaration', this.onDeclaration);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  onDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
-    if ('fontFamily' in properties) {
-      injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFaces);
-    }
+    // if ('fontFamily' in properties) {
+    //   injectFonts(properties, this.syntax.fontFaces, true);
+    // }
 
     // Animation keyframes
     if ('animationName' in properties) {
@@ -40,8 +40,8 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     }
 
     // Media queries
-    if (this.syntax.mediaQueries[setName]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[setName]);
+    if (this.syntax.mediaQueries[selector]) {
+      injectAtRules(properties, '@media', this.syntax.mediaQueries[selector]);
     }
   };
 }

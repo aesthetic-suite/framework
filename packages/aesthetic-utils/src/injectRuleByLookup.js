@@ -6,10 +6,10 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { AtRuleMap, AtRuleCache, CSSStyle } from '../../types';
+import type { AtRuleMap, AtRuleCache, StyleDeclaration } from '../../types';
 
 export default function injectRuleByLookup(
-  properties: CSSStyle,
+  properties: StyleDeclaration,
   propName: string,
   lookup: AtRuleMap | AtRuleCache,
   flatten?: boolean = false,

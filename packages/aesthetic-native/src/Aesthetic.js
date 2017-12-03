@@ -8,7 +8,7 @@ import Aesthetic, { Adapter } from 'aesthetic';
 import { StyleSheet } from 'react-native';
 import ReactNativeAdapter from './Adapter';
 
-import type { TransformedStylesMap, StyleDeclaration } from '../../types';
+import type { ClassName, TransformedDeclarations } from '../../types';
 
 export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
@@ -23,7 +23,7 @@ export default class ReactNativeAesthetic extends Aesthetic {
   /**
    * Pass the transformed styles through React Native's `StyleSheet` layer.
    */
-  transformStyles(styleName: string, themeName?: string = ''): TransformedStylesMap {
+  transformStyles(styleName: string, themeName?: string = ''): TransformedDeclarations {
     const styles = super.transformStyles(styleName, themeName);
 
     /*
@@ -40,12 +40,12 @@ export default class ReactNativeAesthetic extends Aesthetic {
   /**
    * The logic for React Native is reversed.
    */
-  validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration {
+  validateTransform(styleName: string, selector: string, value: StyleDeclaration): StyleDeclaration {
     if (__DEV__) {
       if (typeof value === 'string') {
         throw new TypeError(
           'React Native requires style objects to be returned from the adapter. ' +
-          `"${styleName}@${setName}" is a string.`,
+          `"${styleName}@${selector}" is a string.`,
         );
       }
     }

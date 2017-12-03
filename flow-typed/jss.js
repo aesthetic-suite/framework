@@ -1,4 +1,4 @@
-import type { StyleDeclarationMap } from '../src/types';
+import type { StyleDeclarations } from '../src/types';
 
 declare module 'jss' {
   declare export type StyleSheetOptions = {
@@ -18,7 +18,7 @@ declare module 'jss' {
 
   declare export default class Jss {
     constructor(options?: Object): void;
-    createStyleSheet(rules: StyleDeclarationMap, options?: StyleSheetOptions): StyleSheet;
+    createStyleSheet(rules: StyleDeclarations, options?: StyleSheetOptions): StyleSheet;
   }
 
   declare export function create(options?: Object): Jss;

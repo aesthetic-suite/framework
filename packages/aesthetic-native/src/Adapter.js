@@ -6,7 +6,7 @@
 
 import { Adapter } from 'aesthetic';
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { TransformedDeclarations } from '../../types';
 
 export default class ReactNativeAdapter extends Adapter {
   native: boolean = true;
@@ -15,7 +15,7 @@ export default class ReactNativeAdapter extends Adapter {
    * Simply return the style declarations as-is because the RN `Aesthetic`
    * instance will automatically wrap it with RN `StyleSheet`.
    */
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
     return declarations;
   }
 }

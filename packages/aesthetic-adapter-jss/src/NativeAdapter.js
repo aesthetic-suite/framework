@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { TransformedDeclarations } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -18,7 +18,7 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
         throw new Error('JSS does not support React Native.');

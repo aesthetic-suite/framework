@@ -7,13 +7,15 @@
 import { isObject } from 'aesthetic-utils';
 
 import type {
-  StyleDeclarationMap,
-  CSSStyle,
-  AtRuleSet,
-  AtRuleMap,
   AtRuleCache,
   EventCallback,
-  FallbackMap,
+  Fallbacks,
+  FontFaces,
+  Keyframes,
+  MediaQueries,
+  SelectorMap,
+  StyleDeclaration,
+  StyleDeclarations,
 } from '../../types';
 
 export const LOCAL = 'local';
@@ -24,20 +26,20 @@ export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
 
   // Local
-  fallbacks: FallbackMap = {};
+  fallbacks: SelectorMap<Fallbacks> = {};
 
   // Global
-  fontFaces: AtRuleMap = {};
+  fontFaces: FontFaces = {};
 
   fontFaceNames: AtRuleCache = {};
 
   // Global
-  keyframes: AtRuleMap = {};
+  keyframes: Keyframes = {};
 
   keyframeNames: AtRuleCache = {};
 
   // Local
-  mediaQueries: AtRuleSet = {};
+  mediaQueries: SelectorMap<MediaQueries> = {};
 
   static LOCAL: string = LOCAL;
 
@@ -47,7 +49,7 @@ export default class UnifiedSyntax {
    * Convert the unified syntax to adapter specific syntax
    * by extracting at-rules and applying conversions at each level.
    */
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     this.resetLocalCache();
     this.emit('converting');
 
@@ -63,11 +65,11 @@ export default class UnifiedSyntax {
     });
 
     // Apply conversion to properties
-    Object.keys(adaptedDeclarations).forEach((setName: string) => {
-      const declaration = declarations[setName];
+    Object.keys(adaptedDeclarations).forEach((selector) => {
+      const declaration = declarations[selector];
 
       if (typeof declaration !== 'string') {
-        adaptedDeclarations[setName] = this.convertDeclaration(setName, declaration);
+        adaptedDeclarations[selector] = this.convertDeclaration(selector, declaration);
       }
     });
 
@@ -80,18 +82,18 @@ export default class UnifiedSyntax {
    * Convert an object of properties by extracting local at-rules
    * and parsing fallbacks.
    */
-  convertDeclaration(setName: string, properties: CSSStyle): CSSStyle {
+  convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration {
     const nextProperties = { ...properties };
 
-    AT_RULES.forEach((atRule: string) => {
+    AT_RULES.forEach((atRule) => {
       if (atRule in nextProperties) {
-        this.extract(setName, atRule, nextProperties[atRule], LOCAL);
+        this.extract(selector, atRule, nextProperties[atRule], LOCAL);
 
         delete nextProperties[atRule];
       }
     });
 
-    this.emit('declaration', [setName, nextProperties]);
+    this.emit('declaration', [selector, nextProperties]);
 
     return nextProperties;
   }
@@ -110,7 +112,7 @@ export default class UnifiedSyntax {
   /**
    * Extract at-rules and parser rules from both the global and local levels.
    */
-  extract(setName: string, atRule: string, rules: *, fromScope: string) {
+  extract(selector: string, atRule: string, rules: *, fromScope: string) {
     if (__DEV__) {
       if (!isObject(rules)) {
         throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
@@ -119,19 +121,19 @@ export default class UnifiedSyntax {
 
     switch (atRule) {
       case '@fallbacks':
-        this.extractFallbacks(setName, (rules: CSSStyle), fromScope);
+        this.extractFallbacks(selector, (rules: Fallbacks), fromScope);
         break;
 
       case '@font-face':
-        this.extractFontFaces(setName, (rules: AtRuleMap), fromScope);
+        this.extractFontFaces(selector, (rules: FontFaces), fromScope);
         break;
 
       case '@keyframes':
-        this.extractKeyframes(setName, (rules: AtRuleMap), fromScope);
+        this.extractKeyframes(selector, (rules: Keyframes), fromScope);
         break;
 
       case '@media':
-        this.extractMediaQueries(setName, (rules: AtRuleMap), fromScope);
+        this.extractMediaQueries(selector, (rules: MediaQueries), fromScope);
         break;
 
       default: {
@@ -145,55 +147,57 @@ export default class UnifiedSyntax {
   /**
    * Extract property fallbacks.
    */
-  extractFallbacks(setName: string, properties: CSSStyle, fromScope: string) {
+  extractFallbacks(selector: string, properties: Fallbacks, fromScope: string) {
     if (__DEV__) {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Property fallbacks must be defined locally to an element.');
       }
     }
 
-    this.fallbacks[setName] = properties;
+    this.fallbacks[selector] = properties;
 
-    this.emit('fallback', [setName, properties]);
+    this.emit('fallback', [selector, properties]);
   }
 
   /**
    * Extract font face at-rules.
    */
-  extractFontFaces(setName: string, rules: AtRuleMap, fromScope: string) {
+  extractFontFaces(selector: string, rules: FontFaces, fromScope: string) {
     if (__DEV__) {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Font faces must be declared in the global scope.');
       }
     }
 
-    Object.keys(rules).forEach((name: string) => {
-      // Use the family name so raw CSS can reference it
-      const familyName = String(rules[name].fontFamily);
-
-      if (this.fontFaces[familyName]) {
+    Object.keys(rules).forEach((name) => {
+      if (this.fontFaces[name]) {
         if (__DEV__) {
-          throw new TypeError(`Font face "${familyName}" has already been defined.`);
+          throw new TypeError(`Font face "${name}" has already been defined.`);
         }
       } else {
-        this.fontFaces[familyName] = rules[name];
+        const fonts = Array.isArray(rules[name]) ? rules[name] : [rules[name]];
+
+        this.fontFaces[name] = fonts.map(font => ({
+          ...font,
+          fontFamily: name,
+        }));
       }
 
-      this.emit('fontFace', [setName, familyName, rules[name]]);
+      this.emit('fontFace', [selector, name, this.fontFaces[name]]);
     });
   }
 
   /**
    * Extract animation keyframes at-rules.
    */
-  extractKeyframes(setName: string, rules: AtRuleMap, fromScope: string) {
+  extractKeyframes(selector: string, rules: Keyframes, fromScope: string) {
     if (__DEV__) {
       if (fromScope === LOCAL) {
         throw new SyntaxError('Animation keyframes must be declared in the global scope.');
       }
     }
 
-    Object.keys(rules).forEach((name: string) => {
+    Object.keys(rules).forEach((name) => {
       if (this.keyframes[name]) {
         if (__DEV__) {
           throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
@@ -202,24 +206,24 @@ export default class UnifiedSyntax {
         this.keyframes[name] = rules[name];
       }
 
-      this.emit('keyframe', [setName, name, rules[name]]);
+      this.emit('keyframe', [selector, name, rules[name]]);
     });
   }
 
   /**
    * Extract media query at-rules.
    */
-  extractMediaQueries(setName: string, rules: AtRuleMap, fromScope: string) {
+  extractMediaQueries(selector: string, rules: MediaQueries, fromScope: string) {
     if (__DEV__) {
       if (fromScope === GLOBAL) {
         throw new SyntaxError('Media queries must be defined locally to an element.');
       }
     }
 
-    this.mediaQueries[setName] = rules;
+    this.mediaQueries[selector] = rules;
 
     Object.keys(rules).forEach((query: string) => {
-      this.emit('mediaQuery', [setName, query, rules[query]]);
+      this.emit('mediaQuery', [selector, query, rules[query]]);
     });
   }
 

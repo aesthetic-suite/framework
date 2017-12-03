@@ -11,14 +11,21 @@ import { injectAtRules, toArray } from 'aesthetic-utils';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';
+import type {
+  FontFace,
+  Keyframe,
+  MediaQuery,
+  StyleDeclaration,
+  StyleDeclarations,
+  TransformedDeclarations,
+} from '../../types';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
-  currentFontFaces: AtRuleMap = {};
+  currentFontFaces: FontFace[] = [];
 
-  currentKeyframes: AtRuleMap = {};
+  currentKeyframes: Keyframe = {};
 
-  currentMediaQueries: AtRuleMap = {};
+  currentMediaQueries: MediaQuery = {};
 
   syntax: UnifiedSyntax;
 
@@ -34,9 +41,9 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       .on('mediaQuery', this.onMediaQuery);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = this.syntax.convert(declarations);
-    const globalAtRules = ({}: CSSStyle);
+    const globalAtRules = ({}: StyleDeclaration);
 
     injectAtRules(globalAtRules, '@font-face', this.currentFontFaces);
     injectAtRules(globalAtRules, '@keyframes', this.currentKeyframes);
@@ -48,17 +55,17 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     };
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
   onConverting = () => {
-    this.currentFontFaces = {};
+    this.currentFontFaces = [];
     this.currentKeyframes = {};
     this.currentMediaQueries = {};
   };
 
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  onDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Prepend pseudos with an ampersand
     Object.keys(properties).forEach((propName: string) => {
       if (propName.charAt(0) === ':') {
@@ -69,11 +76,11 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     });
 
     // Fallbacks
-    if (this.syntax.fallbacks[setName]) {
+    if (this.syntax.fallbacks[selector]) {
       const fallbacks = [];
 
-      Object.keys(this.syntax.fallbacks[setName]).forEach((propName: string) => {
-        toArray(this.syntax.fallbacks[setName][propName]).forEach((propValue: *) => {
+      Object.keys(this.syntax.fallbacks[selector]).forEach((propName: string) => {
+        toArray(this.syntax.fallbacks[selector][propName]).forEach((propValue: *) => {
           fallbacks.push({ [propName]: propValue });
         });
       });
@@ -82,29 +89,29 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     }
   };
 
-  onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
-    this.currentFontFaces[familyName] = properties;
+  onFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
+    this.currentFontFaces[familyName] = fontFaces;
   };
 
-  onKeyframe = (setName: string, animationName: string, properties: CSSStyle) => {
-    this.currentKeyframes[animationName] = properties;
+  onKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
+    this.currentKeyframes[animationName] = keyframe;
   };
 
-  onMediaQuery = (setName: string, mediaQuery: string, properties: CSSStyle) => {
+  onMediaQuery = (selector: string, queryName: string, mediaQuery: MediaQuery) => {
     if (!this.currentMediaQueries[mediaQuery]) {
       this.currentMediaQueries[mediaQuery] = {};
     }
 
-    const currentSet = this.currentMediaQueries[mediaQuery][setName];
+    const currentSet = this.currentMediaQueries[mediaQuery][selector];
 
     /* istanbul ignore next Hard to test. Only exists because of Flow */
     if (typeof currentSet === 'object' && !Array.isArray(currentSet)) {
-      this.currentMediaQueries[mediaQuery][setName] = {
+      this.currentMediaQueries[mediaQuery][selector] = {
         ...currentSet,
         ...properties,
       };
     } else {
-      this.currentMediaQueries[mediaQuery][setName] = properties;
+      this.currentMediaQueries[mediaQuery][selector] = properties;
     }
   };
 }

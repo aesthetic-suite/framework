@@ -6,9 +6,9 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { CSSStyle } from '../../types';
+import type { StyleDeclaration } from '../../types';
 
-export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {
+export default function injectFallbacks(properties: StyleDeclaration, fallbacks: StyleDeclaration) {
   Object.keys(fallbacks).forEach((propName: string) => {
     const prop = properties[propName];
     const fallback = fallbacks[propName];

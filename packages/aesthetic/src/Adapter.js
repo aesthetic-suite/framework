@@ -4,23 +4,23 @@
  * @flow
  */
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { TransformedDeclarations } from '../../types';
 
-export default class Adapter {
+export default class Adapter<T: Object = {}> {
   bypassNativeStyleSheet: boolean = false;
 
   native: boolean = false;
 
-  options: Object = {};
+  options: T;
 
-  constructor(options?: Object = {}) {
+  constructor(options?: T) {
     this.options = { ...options };
   }
 
   /**
    * Transform the unified or native syntax using the registered adapter.
    */
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<S: Object>(styleName: string, declarations: S): TransformedDeclarations {
     throw new Error(`${this.constructor.name} must define the \`transform\` method.`);
   }
 }

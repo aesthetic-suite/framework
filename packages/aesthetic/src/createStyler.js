@@ -8,10 +8,11 @@ import Aesthetic from './Aesthetic';
 import style from './style';
 
 import type {
-  StyleDeclarationOrCallback,
   HOCComponent,
   HOCOptions,
-  WrappedComponent,
+  HOCWrappedComponent,
+  StyleCallback,
+  StyleDeclarations,
 } from '../../types';
 
 export default function createStyler(aesthetic: Aesthetic): * {
@@ -22,9 +23,9 @@ export default function createStyler(aesthetic: Aesthetic): * {
   }
 
   return function styler(
-    defaultStyles?: StyleDeclarationOrCallback = {},
+    defaultStyles?: StyleCallback | StyleDeclarations = {},
     options?: HOCOptions = {},
-  ): (WrappedComponent) => HOCComponent {
+  ): (HOCWrappedComponent) => HOCComponent {
     return style(aesthetic, defaultStyles, options);
   };
 }

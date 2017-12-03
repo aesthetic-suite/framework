@@ -6,13 +6,11 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { AtRuleMap, CSSStyle } from '../../types';
+import type { AtRuleMap, StyleDeclaration } from '../../types';
 
-export default function injectAtRules(properties: CSSStyle, atName: string, rules: AtRuleMap) {
-  /*
-   * Font faces don't have IDs in their declaration,
-   * so we need to handle this differently.
-   */
+export default function injectAtRules(properties: StyleDeclaration, atName: string, rules: AtRuleMap) {
+  // Font faces don't have IDs in their declaration,
+  // so we need to handle this differently.
   if (atName === '@font-face') {
     const fonts = Object.keys(rules).map(key => rules[key]);
 

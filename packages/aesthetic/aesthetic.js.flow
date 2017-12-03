@@ -3,29 +3,29 @@ import React from 'react';
 declare module 'aesthetic' {
   declare export type PrimitiveType = string | number | boolean;
 
-  declare export type CSSStyleValue = PrimitiveType | CSSStyle;
+  declare export type StyleDeclarationValue = PrimitiveType | StyleDeclaration;
 
-  declare export type CSSStyle = { [propName: string]: CSSStyleValue | CSSStyleValue[] };
+  declare export type StyleDeclaration = { [propName: string]: StyleDeclarationValue | StyleDeclarationValue[] };
 
-  declare export type AtRuleMap = { [ruleName: string]: CSSStyle };
+  declare export type AtRuleMap = { [ruleName: string]: StyleDeclaration };
 
-  declare export type AtRuleSet = { [setName: string]: AtRuleMap };
+  declare export type AtRuleSet = { [selector: string]: AtRuleMap };
 
   declare export type AtRuleCache = { [ruleName: string]: string };
 
-  declare export type StyleDeclaration = string | CSSStyle;
+  declare export type StyleDeclaration = string | StyleDeclaration;
 
-  declare export type StyleDeclarationMap = { [setName: string]: StyleDeclaration };
+  declare export type StyleDeclarations = { [selector: string]: StyleDeclaration };
 
-  declare export type StyleCallback = (theme: CSSStyle, prevStyles: StyleDeclarationMap) => StyleDeclarationMap;
+  declare export type StyleCallback = (theme: StyleDeclaration, prevStyles: StyleDeclarations) => StyleDeclarations;
 
-  declare export type StyleDeclarationOrCallback = StyleDeclarationMap | StyleCallback;
+  declare export type StyleDeclarationOrCallback = StyleDeclarations | StyleCallback;
 
   declare export type MaybeClassName = PrimitiveType | { [key: string]: boolean } | MaybeClassName[];
 
-  declare export type ClassNameMap = { [setName: string]: string };
+  declare export type ClassNameMap = { [selector: string]: string };
 
-  declare export type TransformedStylesMap = StyleDeclarationMap | ClassNameMap;
+  declare export type TransformedDeclarations = StyleDeclarations | ClassNameMap;
 
   declare export type WrappedComponent = ReactClass<*>;
 
@@ -41,10 +41,10 @@ declare module 'aesthetic' {
   };
 
   declare export type EventCallback = (() => void) |
-    ((setName: string, properties: CSSStyle) => void) |
-    ((setName: string, atRuleName: string, properties: CSSStyle) => void);
+    ((selector: string, properties: StyleDeclaration) => void) |
+    ((selector: string, atRuleName: string, properties: StyleDeclaration) => void);
 
-  declare export type FallbackMap = { [setName: string]: CSSStyle };
+  declare export type FallbackMap = { [selector: string]: StyleDeclaration };
 
   declare export type AestheticOptions = {
     defaultTheme: string,
@@ -60,7 +60,7 @@ declare module 'aesthetic' {
     options: Object;
     unifiedSyntax: boolean;
     constructor(options?: Object): this;
-    transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap;
+    transform(styleName: string, declarations: StyleDeclarations): TransformedDeclarations;
   }
 
   declare export class ClassNameAdapter extends Adapter {}
@@ -69,21 +69,21 @@ declare module 'aesthetic' {
 
   declare export default class Aesthetic {
     adapter: Adapter;
-    cache: { [styleName: string]: TransformedStylesMap };
+    cache: { [styleName: string]: TransformedDeclarations };
     native: boolean;
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
     styles: { [styleName: string]: StyleDeclarationOrCallback };
-    themes: { [themeName: string]: CSSStyle };
+    themes: { [themeName: string]: StyleDeclaration };
     constructor(adapter: Adapter, options?: Object): this;
-    extendTheme(parentThemeName: string, themeName: string, theme?: CSSStyle, globals?: StyleDeclarationMap): this;
-    getStyles(styleName: string, themeName?: string): StyleDeclarationMap;
-    getTheme(themeName?: string): CSSStyle;
-    registerTheme(themeName: string, theme?: CSSStyle, globals?: StyleDeclarationMap): this;
+    extendTheme(parentThemeName: string, themeName: string, theme?: StyleDeclaration, globals?: StyleDeclarations): this;
+    getStyles(styleName: string, themeName?: string): StyleDeclarations;
+    getTheme(themeName?: string): StyleDeclaration;
+    registerTheme(themeName: string, theme?: StyleDeclaration, globals?: StyleDeclarations): this;
     setAdapter(adapter: Adapter): this;
     setStyles(styleName: string, declarations: StyleDeclarationOrCallback, extendFrom?: string): this;
-    transformStyles(styleName: string, themeName?: string): TransformedStylesMap;
-    validateTransform(styleName: string, setName: string, value: StyleDeclaration): StyleDeclaration;
+    transformStyles(styleName: string, themeName?: string): TransformedDeclarations;
+    validateTransform(styleName: string, selector: string, value: StyleDeclaration): StyleDeclaration;
   }
 
   declare export function style(aesthetic: Aesthetic, styles: StyleDeclarationOrCallback, options?: HOCOptions): (WrappedComponent) => HOCComponent;
@@ -94,7 +94,7 @@ declare module 'aesthetic' {
 }
 
 declare module 'aesthetic/unified' {
-  import type { CSSStyle, StyleDeclarationMap, AtRuleSet, AtRuleMap, AtRuleCache, FallbackMap, EventCallback } from 'aesthetic';
+  import type { StyleDeclaration, StyleDeclarations, AtRuleSet, AtRuleMap, AtRuleCache, FallbackMap, EventCallback } from 'aesthetic';
 
   declare export default class UnifiedSyntax {
     static LOCAL: string;
@@ -106,14 +106,14 @@ declare module 'aesthetic/unified' {
     keyframes: AtRuleMap;
     keyframeNames: AtRuleCache;
     mediaQueries: AtRuleSet;
-    convert(declarations: StyleDeclarationMap): StyleDeclarationMap;
-    convertDeclaration(setName: string, properties: CSSStyle): CSSStyle;
+    convert(declarations: StyleDeclarations): StyleDeclarations;
+    convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
     emit(eventName: string, args: mixed[]): this;
-    extract(setName: string, atRule: string, rules: any, fromScope: string): void;
-    extractFallbacks(setName: string, properties: CSSStyle, fromScope: string): void;
-    extractFontFaces(setName: string, rules: AtRuleMap, fromScope: string): void;
-    extractKeyframes(setName: string, rules: AtRuleMap, fromScope: string): void;
-    extractMediaQueries(setName: string, rules: AtRuleMap, fromScope: string): void;
+    extract(selector: string, atRule: string, rules: any, fromScope: string): void;
+    extractFallbacks(selector: string, properties: StyleDeclaration, fromScope: string): void;
+    extractFontFaces(selector: string, rules: AtRuleMap, fromScope: string): void;
+    extractKeyframes(selector: string, rules: AtRuleMap, fromScope: string): void;
+    extractMediaQueries(selector: string, rules: AtRuleMap, fromScope: string): void;
     off(eventName: string): this;
     on(eventName: string, callback: EventCallback): this;
     resetGlobalCache(): void;
