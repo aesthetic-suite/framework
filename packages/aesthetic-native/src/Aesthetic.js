@@ -8,7 +8,7 @@ import Aesthetic, { Adapter } from 'aesthetic';
 import { StyleSheet } from 'react-native';
 import ReactNativeAdapter from './Adapter';
 
-import type { ClassName, TransformedDeclarations } from '../../types';
+import type { StyleDeclaration, TransformedDeclarations } from '../../types';
 
 export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
@@ -40,7 +40,11 @@ export default class ReactNativeAesthetic extends Aesthetic {
   /**
    * The logic for React Native is reversed.
    */
-  validateTransform(styleName: string, selector: string, value: StyleDeclaration): StyleDeclaration {
+  validateTransform(
+    styleName: string,
+    selector: string,
+    value: StyleDeclaration,
+  ): StyleDeclaration {
     if (__DEV__) {
       if (typeof value === 'string') {
         throw new TypeError(

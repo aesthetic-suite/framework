@@ -4,7 +4,7 @@ import { create } from 'jss';
 import preset from 'jss-preset-default';
 import UnifiedJSSAdapter from '../src/UnifiedAdapter';
 import {
-  FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_FALLBACK,
@@ -33,7 +33,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
   it('converts unified syntax to native syntax', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
-      '@font-face': FONT_ROBOTO,
+      '@font-face': [FONT_ROBOTO_FLAT_SRC],
       '@keyframes fade': KEYFRAME_FADE,
       button: {
         margin: 0,
@@ -66,9 +66,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         fallbacks: [
           { color: '#fff' },
         ],
-      },
-      '@media (max-width: 600px)': {
-        button: {
+        '@media (max-width: 600px)': {
           padding: '4px 8px',
         },
       },
@@ -109,7 +107,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
   it('supports font faces', () => {
     expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
-      '@font-face': FONT_ROBOTO,
+      '@font-face': [FONT_ROBOTO_FLAT_SRC],
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
@@ -132,14 +130,10 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
-      },
-      '@media (max-width: 1000px)': {
-        media: {
+        '@media (max-width: 1000px)': {
           color: 'green',
         },
-      },
-      '@media (min-width: 300px)': {
-        media: {
+        '@media (min-width: 300px)': {
           color: 'blue',
         },
       },
