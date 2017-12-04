@@ -80,7 +80,7 @@ describe('aesthetic/style()', () => {
   it('stores the original component as a static property', () => {
     const Wrapped = style(aesthetic)(BaseComponent);
 
-    expect(Wrapped.wrappedComponent).toBe(BaseComponent);
+    expect(Wrapped.WrappedComponent).toBe(BaseComponent);
   });
 
   it('sets default styles on the `Aesthetic` instance', () => {

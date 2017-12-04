@@ -4,6 +4,8 @@
  * @flow
  */
 
+import toArray from './toArray';
+
 import type { FontFace } from '../../types';
 
 const FORMATS: { [ext: string]: string } = {
@@ -21,8 +23,8 @@ export default function formatFontFace(properties: FontFace): FontFace {
   const src = [];
 
   if (fontFace.localAlias) {
-    fontFace.localAlias.forEach((alias) => {
-      src.push(`local('${alias}')`);
+    toArray(fontFace.localAlias).forEach((alias) => {
+      src.push(`local('${String(alias)}')`);
     });
 
     delete fontFace.localAlias;

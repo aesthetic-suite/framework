@@ -39,7 +39,7 @@ describe('aesthetic/UnifiedSyntax', () => {
 
       expect(instance.convert({
         '@font-face': {
-          mrroboto: FONT_ROBOTO,
+          Roboto: FONT_ROBOTO,
         },
         '@keyframes': {
           fade: KEYFRAME_FADE,
@@ -47,7 +47,7 @@ describe('aesthetic/UnifiedSyntax', () => {
       })).toEqual({});
 
       expect(instance.fontFaces).toEqual({
-        mrroboto: FONT_ROBOTO,
+        Roboto: [FONT_ROBOTO],
       });
       expect(instance.keyframes).toEqual({
         fade: KEYFRAME_FADE,
@@ -168,11 +168,11 @@ describe('aesthetic/UnifiedSyntax', () => {
       expect(instance.fontFaces).toEqual({});
 
       instance.extractFontFaces('foo', {
-        mrroboto: FONT_ROBOTO,
+        Roboto: FONT_ROBOTO,
       }, GLOBAL);
 
       expect(instance.fontFaces).toEqual({
-        mrroboto: FONT_ROBOTO,
+        Roboto: [FONT_ROBOTO],
       });
     });
   });
