@@ -164,6 +164,18 @@ describe('aesthetic/UnifiedSyntax', () => {
         .toThrowError('Font faces must be declared in the global scope.');
     });
 
+    it('errors if font has already been extracted', () => {
+      instance.fontFaces = {
+        Roboto: FONT_ROBOTO,
+      };
+
+      expect(() => (
+        instance.extractFontFaces('foo', {
+          Roboto: FONT_ROBOTO,
+        }, GLOBAL)
+      )).toThrowError('Font face "Roboto" has already been defined.');
+    });
+
     it('extracts font faces at-rule', () => {
       expect(instance.fontFaces).toEqual({});
 

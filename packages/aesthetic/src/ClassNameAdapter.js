@@ -14,7 +14,7 @@ export default class ClassNameAdapter extends Adapter {
   transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     const classNames = {};
 
-    Object.keys(declarations).forEach((selector: string) => {
+    Object.keys(declarations).forEach((selector) => {
       if (typeof declarations[selector] === 'string') {
         classNames[selector] = declarations[selector];
       } else if (__DEV__) {

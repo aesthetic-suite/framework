@@ -1,5 +1,5 @@
 import formatFontFace from '../src/formatFontFace';
-import { FONT_ROBOTO } from '../../../tests/mocks';
+import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../../tests/mocks';
 
 describe('aesthetic-utils/formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {
@@ -9,6 +9,10 @@ describe('aesthetic-utils/formatFontFace()', () => {
     });
   });
 
+  it('supports flat src strings', () => {
+    expect(formatFontFace(FONT_ROBOTO_FLAT_SRC)).toEqual(FONT_ROBOTO_FLAT_SRC);
+  });
+
   it('includes local aliases', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO,
@@ -16,6 +20,16 @@ describe('aesthetic-utils/formatFontFace()', () => {
     })).toEqual({
       ...FONT_ROBOTO,
       src: "local('MrRoboto'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+    });
+  });
+
+  it('includes local aliases for flat src strings', () => {
+    expect(formatFontFace({
+      ...FONT_ROBOTO_FLAT_SRC,
+      localAlias: ['MrRoboto'],
+    })).toEqual({
+      ...FONT_ROBOTO,
+      src: `local('MrRoboto'), ${FONT_ROBOTO_FLAT_SRC.src}`,
     });
   });
 

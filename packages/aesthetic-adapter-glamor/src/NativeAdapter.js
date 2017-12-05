@@ -19,7 +19,7 @@ export default class GlamorAdapter extends Adapter {
 
     const output = {};
 
-    Object.keys(declarations).forEach((selector: string) => {
+    Object.keys(declarations).forEach((selector) => {
       const value = declarations[selector];
 
       if (typeof value === 'string') {

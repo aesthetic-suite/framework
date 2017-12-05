@@ -25,8 +25,8 @@ export default function classes(...values: *[]): string {
       classNames.push(classes(...value));
 
     // Object of class names to boolean
-    } else if (typeof value === 'object') {
-      Object.keys(value).forEach((key: string) => {
+    } else if (typeof value === 'object' && value) {
+      Object.keys(value).forEach((key) => {
         if (value[key]) {
           classNames.push(stripChars(key));
         }

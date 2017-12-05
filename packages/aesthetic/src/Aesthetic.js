@@ -206,7 +206,7 @@ export default class Aesthetic {
     let setCount = 0;
 
     // Separate style objects from class names
-    Object.keys(declarations).forEach((selector: string) => {
+    Object.keys(declarations).forEach((selector) => {
       if (typeof declarations[selector] === 'string') {
         output[selector] = this.native ? {} : declarations[selector];
       } else {
@@ -219,7 +219,7 @@ export default class Aesthetic {
     if (setCount > 0) {
       const transformedOutput = this.adapter.transform(styleName, toTransform);
 
-      Object.keys(transformedOutput).forEach((selector: string) => {
+      Object.keys(transformedOutput).forEach((selector) => {
         output[selector] = this.validateTransform(styleName, selector, transformedOutput[selector]);
       });
     }

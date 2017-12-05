@@ -41,9 +41,11 @@ export default function formatFontFace(properties: FontFace): FontFace {
         throw new Error(`Unsupported font format "${ext}".`);
       }
     });
-
-    fontFace.src = src.join(', ');
+  } else {
+    src.push(fontFace.src);
   }
+
+  fontFace.src = src.join(', ');
 
   return fontFace;
 }

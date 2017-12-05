@@ -56,7 +56,7 @@ export default class UnifiedSyntax {
     const adaptedDeclarations = { ...declarations };
 
     // Extract at-rules first so that they are available for properties
-    AT_RULES.forEach((atRule: string) => {
+    AT_RULES.forEach((atRule) => {
       if (atRule in adaptedDeclarations) {
         this.extract(':root', atRule, adaptedDeclarations[atRule], GLOBAL);
 
@@ -222,7 +222,7 @@ export default class UnifiedSyntax {
 
     this.mediaQueries[selector] = rules;
 
-    Object.keys(rules).forEach((query: string) => {
+    Object.keys(rules).forEach((query) => {
       this.emit('mediaQuery', [selector, query, rules[query]]);
     });
   }

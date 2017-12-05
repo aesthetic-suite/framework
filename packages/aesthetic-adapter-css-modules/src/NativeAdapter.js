@@ -18,7 +18,7 @@ export default class CSSModulesAdapter extends Adapter {
 
     const output = {};
 
-    Object.keys(declarations).forEach((selector: string) => {
+    Object.keys(declarations).forEach((selector) => {
       output[selector] = `${styleName}-${String(declarations[selector])}`;
     });
 
