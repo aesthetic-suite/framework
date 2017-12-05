@@ -6,7 +6,7 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { AtRuleCache, Keyframes, StyleDeclaration } from '../../types';
+import type { Keyframe, StyleDeclaration } from '../../types';
 
 type InjectKeyframesOptions = {
   join?: boolean,
@@ -14,19 +14,19 @@ type InjectKeyframesOptions = {
 
 export default function injectKeyframes(
   properties: StyleDeclaration,
-  keyframes: Keyframes | AtRuleCache<string>,
+  keyframes: { [animationName: string]: string | Keyframe },
   options?: InjectKeyframesOptions = {},
 ) {
-  let value = String(properties.animationName).split(',').map((name) => {
+  const value = String(properties.animationName).split(',').map((name) => {
     const animationName = name.trim();
 
     return keyframes[animationName] || animationName;
   });
 
   if (options.join) {
-    value = value.join(', ');
+    properties.animationName = value.join(', ');
+  } else {
+    // $FlowIgnore Hard to resolve this type
+    properties.animationName = value;
   }
-
-  // $FlowIgnore Allow arrays here TODO
-  properties.animationName = value;
 }

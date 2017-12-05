@@ -12,6 +12,7 @@ import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
 import type {
+  StyleBlock,
   StyleDeclaration,
   StyleDeclarations,
   TransformedDeclarations,
@@ -80,7 +81,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     // Fallbacks
     // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
     if (this.syntax.fallbacks[selector]) {
-      const fallbacks = [];
+      const fallbacks: StyleBlock[] = [];
 
       Object.keys(this.syntax.fallbacks[selector]).forEach((propName) => {
         toArray(this.syntax.fallbacks[selector][propName]).forEach((propValue) => {
@@ -88,7 +89,6 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
         });
       });
 
-      // $FlowIgnore Allow array TODO
       properties.fallbacks = fallbacks;
     }
   };

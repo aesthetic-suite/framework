@@ -17,7 +17,6 @@ export default function injectFallbacks(properties: StyleDeclaration, fallbacks:
       return;
     }
 
-    // $FlowIgnore Allow arrays here TODO
-    properties[propName] = [].concat(fallback, prop);
+    properties[propName] = [].concat(fallback, prop).map(value => String(value));
   });
 }

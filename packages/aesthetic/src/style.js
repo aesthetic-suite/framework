@@ -84,7 +84,7 @@ export default function style(
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
 
-    // $FlowIgnore
+    // $FlowIgnore Silence polymorphic errors
     class StyledComponent extends ParentComponent<StyleProps, StyleState> {
       static displayName: ?string = `Aesthetic(${styleName})`;
 

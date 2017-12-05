@@ -79,7 +79,7 @@ export type MediaQueries = { [query: string]: MediaQuery };
 
 export type SelectorMap<T> = { [selector: string]: T };
 
-export type Style = string | number | boolean | StyleBlock;
+export type Style = string | string[] | number | StyleBlock | StyleBlock[];
 
 export type StyleBlock = { [propName: string]: Style };
 

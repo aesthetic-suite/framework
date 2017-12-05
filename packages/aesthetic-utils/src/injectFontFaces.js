@@ -8,7 +8,7 @@
 
 import formatFontFace from './formatFontFace';
 
-import type { AtRuleCache, FontFaces, StyleDeclaration } from '../../types';
+import type { FontFace, StyleDeclaration } from '../../types';
 
 type InjectFontFacesOptions = {
   format?: boolean,
@@ -17,20 +17,18 @@ type InjectFontFacesOptions = {
 
 export default function injectFontFaces(
   properties: StyleDeclaration,
-  fontFaces: FontFaces | AtRuleCache<string[]>,
+  fontFaces: { [fontFamily: string]: (string | FontFace)[] },
   options?: InjectFontFacesOptions = {},
 ) {
-  let value = [];
+  const value = [];
 
   String(properties.fontFamily).split(',').forEach((name) => {
     const familyName = name.trim();
     const fonts = fontFaces[familyName];
 
-    if (fonts) {
+    if (Array.isArray(fonts)) {
       value.push(...fonts.map((font) => {
-        if (typeof font === 'string') {
-          return font;
-        } else if (options.format) {
+        if (options.format && typeof font !== 'string') {
           return formatFontFace(font);
         }
 
@@ -42,9 +40,9 @@ export default function injectFontFaces(
   });
 
   if (options.join) {
-    value = value.join(', ');
+    properties.fontFamily = value.join(', ');
+  } else {
+    // $FlowIgnore Hard to resolve this type
+    properties.fontFamily = value;
   }
-
-  // $FlowIgnore Allow arrays here TODO
-  properties.fontFamily = value;
 }
