@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { isObject, toArray } from 'aesthetic-utils';
+import { isObject } from 'aesthetic-utils';
 
 import type {
   AtRuleCache,
@@ -175,7 +175,9 @@ export default class UnifiedSyntax {
           throw new TypeError(`Font face "${name}" has already been defined.`);
         }
       } else {
-        this.fontFaces[name] = toArray(rules[name]).map(font => ({
+        const fonts = Array.isArray(rules[name]) ? rules[name] : [rules[name]];
+
+        this.fontFaces[name] = fonts.map(font => ({
           ...font,
           fontFamily: name,
         }));

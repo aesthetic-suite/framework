@@ -35,7 +35,7 @@ let instanceID = 0;
 export default function style(
   aesthetic: Aesthetic,
   styles: StyleCallback | StyleDeclarations = {},
-  options: HOCOptions = {},
+  options?: HOCOptions = {},
 ): (HOCWrappedComponent) => HOCComponent {
   return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName || Component.name;

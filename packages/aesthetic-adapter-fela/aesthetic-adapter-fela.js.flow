@@ -9,8 +9,11 @@ declare module 'aesthetic-adapter-fela' {
 }
 
 declare module 'aesthetic-adapter-fela/unified' {
+  import type { StyleDeclarations } from 'aesthetic';
+
   declare export default class UnifiedFelaAdapter extends FelaAdapter {
     syntax: UnifiedSyntax;
     constructor(fela: Object, options?: Object): this;
+    convert(declarations: StyleDeclarations): StyleDeclarations;
   }
 }

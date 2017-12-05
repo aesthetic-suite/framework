@@ -561,7 +561,7 @@ Please refer to the readme of your chosen adapter.
 Standard structure for defining properties.
 
 * Supports camel case property names.
-* Units can be written is literal numbers.
+* Units can be written as literal numbers.
 
 ```javascript
 button: {

@@ -70,7 +70,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
 
   handleFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
     this.syntax.fontFacesCache[familyName] = fontFaces.map(face => (
-      css.fontFace(formatFontFace(face, true))
+      css.fontFace(formatFontFace(face))
     ));
   };
 

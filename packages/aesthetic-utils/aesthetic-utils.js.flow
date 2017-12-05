@@ -1,14 +1,27 @@
 declare module 'aesthetic-utils' {
-  import type { StyleDeclaration, AtRuleMap, AtRuleCache } from 'aesthetic';
+  import type { Fallbacks, FontFace, Keyframe, MediaQueries, StyleDeclaration } from 'aesthetic';
 
   declare export function createStyleElement(id: string): HTMLElement;
-  declare export function injectAtRules(properties: StyleDeclaration, atName: string, rules: AtRuleMap): void;
-  declare export function injectFallbacks(properties: StyleDeclaration, fallbacks: StyleDeclaration): void;
-  declare export function injectRuleByLookup(
+  declare export function formatFontFace(properties: FontFace): FontFace;
+  declare export function injectFallbacks(properties: StyleDeclaration, fallbacks: Fallbacks): void;
+  declare export function injectFontFaces(
     properties: StyleDeclaration,
-    propName: string,
-    lookup: AtRuleMap | AtRuleCache,
-    flatten: boolean,
+    fontFaces: { [fontFamily: string]: (string | FontFace)[] },
+    options?: {
+      format?: boolean,
+      join?: boolean,
+    },
+  ): void;
+  declare export function injectKeyframes(
+    properties: StyleDeclaration,
+    keyframes: { [animationName: string]: string | Keyframe },
+    options?: {
+      join?: boolean,
+    },
+  ): void;
+  declare export function injectMediaQueries(
+    properties: StyleDeclaration,
+    queries: MediaQueries,
   ): void;
   declare export function isObject<T>(value: T): boolean;
   declare export function isPrimitive<T>(value: T): boolean;

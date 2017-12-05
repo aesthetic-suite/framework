@@ -8,6 +8,14 @@
 .*\.test\.js
 
 [libs]
+./packages/aesthetic/aesthetic.js.flow
+./packages/aesthetic-adapter-aphrodite/aesthetic-adapter-aphrodite.js.flow
+./packages/aesthetic-adapter-css-modules/aesthetic-adapter-css-modules.js.flow
+./packages/aesthetic-adapter-fela/aesthetic-adapter-fela.js.flow
+./packages/aesthetic-adapter-glamor/aesthetic-adapter-glamor.js.flow
+./packages/aesthetic-adapter-jss/aesthetic-adapter-jss.js.flow
+./packages/aesthetic-native/aesthetic-native.js.flow
+./packages/aesthetic-utils/aesthetic-utils.js.flow
 
 [lints]
 all=warn

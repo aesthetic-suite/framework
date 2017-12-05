@@ -9,8 +9,11 @@ declare module 'aesthetic-adapter-jss' {
 }
 
 declare module 'aesthetic-adapter-jss/unified' {
+  import type { StyleDeclarations } from 'aesthetic';
+
   declare export default class UnifiedJSSAdapter extends JSSAdapter {
     syntax: UnifiedSyntax;
     constructor(jss: Object, options?: Object): this;
+    convert(declarations: StyleDeclarations): StyleDeclarations;
   }
 }
