@@ -6,9 +6,13 @@
   * The object value can now be an array of font face style declarations.
   * The `src` property can now be an array of paths (the `format()` is automatically added).
 * The HOC `wrappedComponent` static property was renamed to `WrappedComponent`.
+* The HOC `theme` prop (to toggle themes) was renamed to `themeName`.
 
 #### 🚀 New
 * Added support for a new `localAlias` property (the `@font-face local()` value).
+* The current theme style declaration will be passed to styled components under the `theme` prop.
+  * The previous `theme` prop was renamed to `themeName`.
+  * The `Aesthetic` `themePropName` option now controls this new prop.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

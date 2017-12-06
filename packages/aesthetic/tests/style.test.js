@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Aesthetic from '../src/Aesthetic';
-import ThemeProvider from '../src/ThemeProvider';
+import Aesthetic from '../src/Aesthetic'
 import style from '../src/style';
 import { TestAdapter, TEST_CLASS_NAMES } from '../../../tests/mocks';
 
@@ -14,7 +13,8 @@ describe('aesthetic/style()', () => {
 
   beforeEach(() => {
     aesthetic = new Aesthetic(new TestAdapter());
-    aesthetic.registerTheme('classic', {});
+    aesthetic.registerTheme('default', { color: 'red' });
+    aesthetic.registerTheme('classic', { color: 'blue' });
   });
 
   it('extends `React.Component` by default', () => {
@@ -154,118 +154,96 @@ describe('aesthetic/style()', () => {
     }).toThrowError('ExtendedComponent is not extendable.');
   });
 
-  it('inherits theme name from prop', () => {
-    function ThemeComponent(props) {
-      expect(props.theme).toBe('classic');
-
-      return null;
+  it('inherits theme from prop', () => {
+    function ThemeComponent1(props) {
+      return <div />;
     }
 
-    const Wrapped = style(aesthetic)(ThemeComponent);
+    const Wrapped = style(aesthetic)(ThemeComponent1);
+    const wrapper = shallow(<Wrapped themeName="classic" />);
 
-    shallow(<Wrapped theme="classic" />).dive();
+    expect(wrapper.prop('themeName')).toBe('classic');
+    expect(wrapper.prop('theme')).toEqual({ color: 'blue' });
   });
 
-  it('inherits theme name from context', () => {
-    function ThemeComponent(props) {
-      expect(props.theme).toBe('classic');
-
-      return null;
+  it('inherits theme from context', () => {
+    function ThemeComponent2(props) {
+      return <div />;
     }
 
-    const Wrapped = style(aesthetic)(ThemeComponent);
+    const Wrapped = style(aesthetic)(ThemeComponent2);
+    const wrapper = shallow(<Wrapped />, {
+      context: { themeName: 'classic' },
+    });
 
-    shallow(
-      <ThemeProvider name="classic">
-        <Wrapped />
-      </ThemeProvider>,
-    ).dive();
+    expect(wrapper.prop('themeName')).toBe('classic');
+    expect(wrapper.prop('theme')).toEqual({ color: 'blue' });
   });
 
-  it('inherits theme name from Aesthetic options', () => {
+  it('inherits theme from Aesthetic options', () => {
     aesthetic.options.defaultTheme = 'default';
 
-    function ThemeComponent(props) {
-      expect(props.theme).toBe('default');
-
-      return null;
+    function ThemeComponent3(props) {
+      return <div />;
     }
 
-    const Wrapped = style(aesthetic)(ThemeComponent);
+    const Wrapped = style(aesthetic)(ThemeComponent3);
+    const wrapper = shallow(<Wrapped />);
 
-    shallow(<Wrapped />).dive();
+    expect(wrapper.prop('themeName')).toBe('default');
+    expect(wrapper.prop('theme')).toEqual({ color: 'red' });
   });
 
   it('transforms styles on mount', () => {
-    function StylesComponent(props) {
-      expect(props.classNames).toEqual(TEST_CLASS_NAMES);
-
-      return null;
+    function StylesComponent1(props) {
+      return <div />;
     }
 
     const Wrapped = style(aesthetic, {
       footer: { color: 'blue' },
       header: { color: 'red' },
-    })(StylesComponent);
+    })(StylesComponent1);
 
-    expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent1:']).toBeUndefined();
 
-    shallow(<Wrapped />).dive();
+    const wrapper = shallow(<Wrapped />);
 
-    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
+    expect(wrapper.prop('classNames')).toEqual(TEST_CLASS_NAMES);
+
+    expect(aesthetic.cache['StylesComponent1:']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('transforms styles if theme changes', () => {
-    function StylesComponent(props) {
-      expect(props.classNames).toEqual(TEST_CLASS_NAMES);
-
-      return null;
+    function StylesComponent2(props) {
+      return <div />;
     }
 
     const Wrapped = style(aesthetic, {
       footer: { color: 'blue' },
       header: { color: 'red' },
-    })(StylesComponent);
+    })(StylesComponent2);
 
-    expect(aesthetic.cache['StylesComponent:']).toBeUndefined();
-    expect(aesthetic.cache['StylesComponent:classic']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent2:']).toBeUndefined();
+    expect(aesthetic.cache['StylesComponent2:classic']).toBeUndefined();
 
     const wrapper = shallow(<Wrapped />);
-    wrapper.dive();
 
-    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
-    expect(aesthetic.cache['StylesComponent:classic']).toBeUndefined();
+    expect(wrapper.prop('classNames')).toEqual(TEST_CLASS_NAMES);
+
+    expect(aesthetic.cache['StylesComponent2:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent2:classic']).toBeUndefined();
 
     wrapper.setProps({
-      theme: 'classic',
+      themeName: 'classic',
     });
 
-    expect(aesthetic.cache['StylesComponent:']).toEqual(TEST_CLASS_NAMES);
-    expect(aesthetic.cache['StylesComponent:classic']).toEqual(TEST_CLASS_NAMES);
-  });
-
-  it('can customize the theme prop type using `options.themePropName`', () => {
-    function ThemeComponent(props) {
-      expect(props.someThemeNameHere).toBe('classic');
-
-      return null;
-    }
-
-    const Wrapped = style(aesthetic, {}, {
-      themePropName: 'someThemeNameHere',
-    })(ThemeComponent);
-
-    // eslint-disable-next-line
-    expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
-
-    shallow(<Wrapped someThemeNameHere="classic" />).dive();
+    expect(aesthetic.cache['StylesComponent2:']).toEqual(TEST_CLASS_NAMES);
+    expect(aesthetic.cache['StylesComponent2:classic']).toEqual(TEST_CLASS_NAMES);
   });
 
   it('can customize the class names prop type using `options.stylesPropName`', () => {
-    function StylesComponent(props) {
-      expect(props.classes).toEqual(TEST_CLASS_NAMES);
-
-      return null;
+    function StylesComponent3(props) {
+      return <div />;
     }
 
     const Wrapped = style(aesthetic, {
@@ -273,33 +251,33 @@ describe('aesthetic/style()', () => {
       header: { color: 'red' },
     }, {
       stylesPropName: 'classes',
-    })(StylesComponent);
+    })(StylesComponent3);
 
-    shallow(<Wrapped />).dive();
+    const wrapper = shallow(<Wrapped />);
+
+    expect(wrapper.prop('classes')).toEqual(TEST_CLASS_NAMES);
   });
 
   it('can customize the options through the `Aesthetic` instance', () => {
-    function StylesComponent(props) {
-      expect(props.classes).toEqual(TEST_CLASS_NAMES);
-      expect(props.someThemeNameHere).toBe('classic');
-
-      return null;
+    function StylesComponent4(props) {
+      return <div />;
     }
 
     aesthetic = new Aesthetic(new TestAdapter(), {
       stylesPropName: 'classes',
       themePropName: 'someThemeNameHere',
     });
+    aesthetic.registerTheme('classic', {});
 
     const Wrapped = style(aesthetic, {
       footer: { color: 'blue' },
       header: { color: 'red' },
-    })(StylesComponent);
+    })(StylesComponent4);
 
-    // eslint-disable-next-line
-    expect(Wrapped.propTypes.someThemeNameHere).toBeDefined();
+    const wrapper = shallow(<Wrapped themeName="classic" />);
 
-    shallow(<Wrapped someThemeNameHere="classic" />).dive();
+    expect(wrapper.prop('classes')).toEqual(TEST_CLASS_NAMES);
+    expect(wrapper.prop('someThemeNameHere')).toEqual({});
   });
 
   it('errors if Aesthetic is not passed', () => {

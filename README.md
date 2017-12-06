@@ -16,7 +16,7 @@ import style from '../path/to/styler';
 class Carousel extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    classNames: ClassNamesPropType,
+    classNames: ClassNamesPropType.isRequired,
   };
 
   // ...
@@ -217,7 +217,7 @@ and an object of configurable options as the second. The following options are s
   creating a new component in the process. Defaults to `false`.
 * `stylesPropName` (string) - Name of the prop in which the compiled class names or styles
   object is passed to. Defaults to `classNames`.
-* `themePropName` (string) - Name of the prop in which the theme name is passed to.
+* `themePropName` (string) - Name of the prop in which the theme style declaration is passed to.
   Defaults to `theme`.
 * `pure` (boolean) - When true, the higher-order-component will extend `React.PureComponent`
   instead of `React.Component`. Only use this for static/dumb components.
@@ -272,7 +272,7 @@ function Button({ children, classNames, icon }) {
 
 Button.propTypes = {
   children: PropTypes.node,
-  classNames: ClassNamesPropType,
+  classNames: ClassNamesPropType.isRequired,
   icon: PropTypes.node,
 };
 
@@ -484,6 +484,8 @@ style(theme => ({
 }))(Component);
 ```
 
+> The theme style declaration can be accessed within a component via the `theme` prop.
+
 #### Activating Themes
 
 To activate and inform components to use a specific theme, we must use the `ThemeProvider`,
@@ -501,10 +503,10 @@ import { ThemeProvider } from 'aesthetic';
 </ThemeProvider>
 ```
 
-Or by passing a `theme` prop to an individual component.
+Or by passing a `themeName` prop to an individual component.
 
 ```javascript
-<Button theme="dark">Save</Button>
+<Button themeName="dark">Save</Button>
 ```
 
 Or by setting the default theme on the `Aesthetic` instance.
