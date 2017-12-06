@@ -1,3 +1,14 @@
+# 2.0.0
+#### 💥 Breaking
+* The `@font-face` unified syntax `src` property must now be an array of paths.
+
+#### 🚀 New
+* Added support for `fela-dom` 7.0.
+* Updated to support the new `@font-face` structure.
+
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
+
 # 1.7.2 - 11/10/17
 #### 🛠 Internal
 * Tested against React 16.1.

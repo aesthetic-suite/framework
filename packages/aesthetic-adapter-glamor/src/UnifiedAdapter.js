@@ -4,14 +4,23 @@
  * @flow
  */
 
-/* eslint-disable no-param-reassign */
-
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectAtRules, injectFallbacks } from 'aesthetic-utils';
+import {
+  formatFontFace,
+  injectFallbacks,
+  injectKeyframes,
+  injectMediaQueries,
+} from 'aesthetic-utils';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
+import type {
+  FontFace,
+  Keyframe,
+  StyleDeclaration,
+  StyleDeclarations,
+  TransformedDeclarations,
+} from '../../types';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;
@@ -19,43 +28,53 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   constructor(options?: Object = {}) {
     super(options);
 
-    this.syntax = new UnifiedSyntax();
-    this.syntax
-      .on('declaration', this.onDeclaration)
-      .on('fontFace', this.onFontFace)
-      .on('keyframe', this.onKeyframe);
+    this.syntax = new UnifiedSyntax()
+      .on('declaration', this.handleDeclaration)
+      .on('fontFace', this.handleFontFace)
+      .on('keyframe', this.handleKeyframe);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
+    // Font faces
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont
+    // Use the `fontFamily` property as-is.
+
     // Animation keyframes
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#csskeyframestimeline
     if ('animationName' in properties) {
-      properties.animationName = this.syntax.keyframeNames[String(properties.animationName)];
+      injectKeyframes(properties, this.syntax.keyframesCache, {
+        join: true,
+      });
     }
 
     // Media queries
-    if (this.syntax.mediaQueries[setName]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[setName]);
+    // https://github.com/threepointone/glamor/blob/master/docs/selectors.md
+    if (this.syntax.mediaQueries[selector]) {
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
 
     // Fallbacks
-    if (this.syntax.fallbacks[setName]) {
-      injectFallbacks(properties, this.syntax.fallbacks[setName]);
+    // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssrules
+    if (this.syntax.fallbacks[selector]) {
+      injectFallbacks(properties, this.syntax.fallbacks[selector]);
     }
   };
 
-  onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
-    this.syntax.fontFaceNames[familyName] = css.fontFace(properties);
+  handleFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
+    this.syntax.fontFacesCache[familyName] = fontFaces.map(face => (
+      css.fontFace(formatFontFace(face))
+    ));
   };
 
-  onKeyframe = (setName: string, animationName: string, properties: CSSStyle) => {
-    this.syntax.keyframeNames[animationName] = css.keyframes(animationName, properties);
+  handleKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
+    this.syntax.keyframesCache[animationName] = css.keyframes(animationName, keyframe);
   };
 }

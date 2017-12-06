@@ -4,7 +4,7 @@ import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../src/NativeAdapter';
 import {
-  FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
@@ -58,13 +58,13 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   it('supports font faces', () => {
     const nativeSyntax = {
       font: {
-        fontFamily: FONT_ROBOTO,
+        fontFamily: FONT_ROBOTO_FLAT_SRC,
         fontSize: 20,
       },
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font_1mw0xkz',
+      font: 'font_nxcmiz',
     });
   });
 

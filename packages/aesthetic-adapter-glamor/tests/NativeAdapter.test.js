@@ -3,7 +3,7 @@
 import { css, speedy, flush } from 'glamor';
 import GlamorAdapter from '../src/NativeAdapter';
 import {
-  FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
@@ -61,7 +61,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   it('supports font faces', () => {
     const nativeSyntax = {
       font: {
-        fontFamily: css.fontFace(FONT_ROBOTO),
+        fontFamily: css.fontFace(FONT_ROBOTO_FLAT_SRC),
         fontSize: 20,
       },
     };

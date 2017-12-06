@@ -12,10 +12,12 @@ Provides [JSS](https://github.com/cssinjs/jss) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-adapter-jss jss --save
+npm install aesthetic aesthetic-adapter-jss jss jss-nested --save
 // Or
-yarn add aesthetic aesthetic-adapter-jss jss
+yarn add aesthetic aesthetic-adapter-jss jss jss-nested
 ```
+
+> The `jss-nested` plugin is required.
 
 ## Usage
 

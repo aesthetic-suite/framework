@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { TransformedDeclarations } from '../../types';
 
 export default class Adapter {
   bypassNativeStyleSheet: boolean = false;
@@ -20,7 +20,7 @@ export default class Adapter {
   /**
    * Transform the unified or native syntax using the registered adapter.
    */
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     throw new Error(`${this.constructor.name} must define the \`transform\` method.`);
   }
 }

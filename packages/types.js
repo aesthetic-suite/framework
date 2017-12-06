@@ -4,35 +4,53 @@
  * @flow
  */
 
-/* eslint-disable */
+/* eslint-disable no-use-before-define */
 
-export type PrimitiveType = string | number | boolean;
+// TERMINOLOGY
+// Style = The individual value for a property.
+// Block = An object of style properties.
+// Declaration = Styles for a selector. Supports at-rules.
+// Selector = The name of an element.
 
-export type CSSStyleValue = PrimitiveType | CSSStyle;
+export type AestheticOptions = {
+  defaultTheme: string,
+  extendable: boolean,
+  pure: boolean,
+  stylesPropName: string,
+  themePropName: string,
+};
 
-export type CSSStyle = { [propName: string]: CSSStyleValue | CSSStyleValue[] };
+export type AtRuleCache<T> = { [key: string]: T };
 
-export type AtRuleMap = { [ruleName: string]: CSSStyle };
+export type ClassName = string;
 
-export type AtRuleSet = { [setName: string]: AtRuleMap };
+export type EventCallback = (() => void) |
+  ((selector: string, properties: StyleDeclaration) => void) |
+  ((selector: string, fallbacks: Fallbacks) => void) |
+  ((selector: string, fontFamily: string, fontFaces: FontFace[]) => void) |
+  ((selector: string, animationName: string, keyframe: Keyframe) => void) |
+  ((selector: string, queryName: string, mediaQuery: MediaQuery) => void);
 
-export type AtRuleCache = { [ruleName: string]: string };
+export type Fallback = string;
 
-export type StyleDeclaration = string | CSSStyle;
+export type Fallbacks = { [propName: string]: Fallback | Fallback[] };
 
-export type StyleDeclarationMap = { [setName: string]: StyleDeclaration };
+export type FontFace = {
+  fontDisplay?: string,
+  fontFamily: string,
+  fontStyle?: string,
+  fontWeight?: string | number,
+  localAlias?: string[],
+  src: string | string[],
+  unicodeRange?: string,
+};
 
-export type StyleCallback = (theme: CSSStyle, prevStyles: StyleDeclarationMap) => StyleDeclarationMap;
+export type FontFaces = { [fontFamily: string]: FontFace[] };
 
-export type StyleDeclarationOrCallback = StyleDeclarationMap | StyleCallback;
-
-export type MaybeClassName = PrimitiveType | { [key: string]: boolean } | MaybeClassName[];
-
-export type ClassNameMap = { [setName: string]: string };
-
-export type TransformedStylesMap = StyleDeclarationMap | ClassNameMap;
-
-export type WrappedComponent = React$ComponentType<*>;
+export type GlobalDeclaration = {
+  '@font-face'?: FontFaces,
+  '@keyframes'?: Keyframes,
+};
 
 export type HOCComponent = React$ComponentType<*>;
 
@@ -45,16 +63,41 @@ export type HOCOptions = {
   themePropName?: string,
 };
 
-export type EventCallback = (() => void) |
-  ((setName: string, properties: CSSStyle) => void) |
-  ((setName: string, atRuleName: string, properties: CSSStyle) => void);
+export type HOCWrappedComponent = React$ComponentType<*>;
 
-export type FallbackMap = { [setName: string]: CSSStyle };
-
-export type AestheticOptions = {
-  defaultTheme: string,
-  extendable: boolean,
-  pure: boolean,
-  stylesPropName: string,
-  themePropName: string,
+export type Keyframe = {
+  from?: StyleBlock,
+  to?: StyleBlock,
+  [percentage: string]: StyleBlock,
 };
+
+export type Keyframes = { [animationName: string]: Keyframe };
+
+export type MediaQuery = StyleBlock;
+
+export type MediaQueries = { [query: string]: MediaQuery };
+
+export type SelectorMap<T> = { [selector: string]: T };
+
+export type Style = string | string[] | number | StyleBlock | StyleBlock[];
+
+export type StyleBlock = { [propName: string]: Style };
+
+export type StyleCallback = (
+  theme: ThemeDeclaration,
+  prevStyles: StyleDeclarations,
+) => StyleDeclarations;
+
+export type StyleDeclaration = {
+  [propName: string]: Style,
+  '@fallbacks'?: Fallbacks,
+  '@font-face'?: FontFaces,
+  '@keyframes'?: Keyframes,
+  '@media'?: MediaQueries,
+};
+
+export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
+
+export type ThemeDeclaration = StyleBlock;
+
+export type TransformedDeclarations = SelectorMap<ClassName>;

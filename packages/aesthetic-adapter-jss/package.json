@@ -23,9 +23,9 @@
     "jss": "^9.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.41.2",
+    "@milesj/build-tool-config": "^0.43.1",
     "aesthetic": "^1.7.1",
-    "jss": "^9.2.0",
+    "jss": "^9.3.3",
     "jss-preset-default": "^4.0.1"
   }
 }

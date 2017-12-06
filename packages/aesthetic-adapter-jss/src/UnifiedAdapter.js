@@ -7,40 +7,48 @@
 /* eslint-disable no-param-reassign */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectAtRules, toArray } from 'aesthetic-utils';
+import { formatFontFace, injectMediaQueries, toArray } from 'aesthetic-utils';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap, AtRuleMap, CSSStyle } from '../../types';
+import type {
+  StyleBlock,
+  StyleDeclaration,
+  StyleDeclarations,
+  TransformedDeclarations,
+} from '../../types';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
-  currentFontFaces: AtRuleMap = {};
-
-  currentKeyframes: AtRuleMap = {};
-
-  currentMediaQueries: AtRuleMap = {};
-
   syntax: UnifiedSyntax;
 
   constructor(jss: JSS, options?: Object = {}) {
     super(jss, options);
 
-    this.syntax = new UnifiedSyntax();
-    this.syntax
-      .on('converting', this.onConverting)
-      .on('declaration', this.onDeclaration)
-      .on('fontFace', this.onFontFace)
-      .on('keyframe', this.onKeyframe)
-      .on('mediaQuery', this.onMediaQuery);
+    this.syntax = new UnifiedSyntax()
+      .on('declaration', this.handleDeclaration);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     const adaptedDeclarations = this.syntax.convert(declarations);
-    const globalAtRules = ({}: CSSStyle);
+    const { fontFaces, keyframes } = this.syntax;
+    const globalAtRules = {};
+    const fonts = [];
 
-    injectAtRules(globalAtRules, '@font-face', this.currentFontFaces);
-    injectAtRules(globalAtRules, '@keyframes', this.currentKeyframes);
-    injectAtRules(globalAtRules, '@media', this.currentMediaQueries);
+    // Font faces
+    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
+    Object.keys(fontFaces).forEach((fontFamily) => {
+      fonts.push(...fontFaces[fontFamily].map(font => formatFontFace(font)));
+    });
+
+    if (fonts.length > 0) {
+      globalAtRules['@font-face'] = fonts;
+    }
+
+    // Animation keyframes
+    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
+    Object.keys(keyframes).forEach((animationName) => {
+      globalAtRules[`@keyframes ${animationName}`] = keyframes[animationName];
+    });
 
     return {
       ...globalAtRules,
@@ -48,18 +56,13 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     };
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onConverting = () => {
-    this.currentFontFaces = {};
-    this.currentKeyframes = {};
-    this.currentMediaQueries = {};
-  };
-
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Prepend pseudos with an ampersand
+    // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
     Object.keys(properties).forEach((propName: string) => {
       if (propName.charAt(0) === ':') {
         properties[`&${propName}`] = properties[propName];
@@ -68,43 +71,25 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       }
     });
 
-    // Fallbacks
-    if (this.syntax.fallbacks[setName]) {
-      const fallbacks = [];
+    // Media queries
+    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#media-queries
+    // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
+    if (this.syntax.mediaQueries[selector]) {
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
+    }
 
-      Object.keys(this.syntax.fallbacks[setName]).forEach((propName: string) => {
-        toArray(this.syntax.fallbacks[setName][propName]).forEach((propValue: *) => {
+    // Fallbacks
+    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
+    if (this.syntax.fallbacks[selector]) {
+      const fallbacks: StyleBlock[] = [];
+
+      Object.keys(this.syntax.fallbacks[selector]).forEach((propName) => {
+        toArray(this.syntax.fallbacks[selector][propName]).forEach((propValue) => {
           fallbacks.push({ [propName]: propValue });
         });
       });
 
       properties.fallbacks = fallbacks;
-    }
-  };
-
-  onFontFace = (setName: string, familyName: string, properties: CSSStyle) => {
-    this.currentFontFaces[familyName] = properties;
-  };
-
-  onKeyframe = (setName: string, animationName: string, properties: CSSStyle) => {
-    this.currentKeyframes[animationName] = properties;
-  };
-
-  onMediaQuery = (setName: string, mediaQuery: string, properties: CSSStyle) => {
-    if (!this.currentMediaQueries[mediaQuery]) {
-      this.currentMediaQueries[mediaQuery] = {};
-    }
-
-    const currentSet = this.currentMediaQueries[mediaQuery][setName];
-
-    /* istanbul ignore next Hard to test. Only exists because of Flow */
-    if (typeof currentSet === 'object' && !Array.isArray(currentSet)) {
-      this.currentMediaQueries[mediaQuery][setName] = {
-        ...currentSet,
-        ...properties,
-      };
-    } else {
-      this.currentMediaQueries[mediaQuery][setName] = properties;
     }
   };
 }

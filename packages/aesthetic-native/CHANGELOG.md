@@ -1,3 +1,7 @@
+# 2.0.0
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
+
 # 1.7.0 - 11/10/17
 #### 🚀 New
 * Updated `react-native` to 0.50.

@@ -12,22 +12,23 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 
 import type {
-  TransformedStylesMap,
-  StyleDeclarationOrCallback,
-  WrappedComponent,
   HOCComponent,
   HOCOptions,
+  HOCWrappedComponent,
+  StyleCallback,
+  StyleDeclarations,
+  ThemeDeclaration,
+  TransformedDeclarations,
 } from '../../types';
 
 type StyleProps = {
-  theme?: string,
-  [key: string]: *,
+  themeName?: string,
 };
 
 type StyleState = {
-  classNames?: TransformedStylesMap,
-  theme?: string,
-  [key: string]: *,
+  classNames?: TransformedDeclarations,
+  theme?: ThemeDeclaration,
+  themeName: string,
 };
 
 // Keep track in production
@@ -35,16 +36,17 @@ let instanceID = 0;
 
 export default function style(
   aesthetic: Aesthetic,
-  styles: StyleDeclarationOrCallback = {},
-  options: HOCOptions = {},
-): (WrappedComponent) => HOCComponent {
-  return function wrapStyles(Component: WrappedComponent): HOCComponent {
+  styles: StyleCallback | StyleDeclarations = {},
+  options?: HOCOptions = {},
+): (HOCWrappedComponent) => HOCComponent {
+  return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
     let styleName = options.styleName || Component.displayName || Component.name;
 
     /*
      * Function/constructor name aren't always available when code is minified,
      * so only use it in development.
      */
+    /* istanbul ignore else */
     if (__DEV__) {
       if (!(aesthetic instanceof Aesthetic)) {
         throw new TypeError('An instance of `Aesthetic` is required.');
@@ -85,16 +87,16 @@ export default function style(
     // Set base styles
     aesthetic.setStyles(styleName, styles, extendFrom);
 
-    // $FlowIgnore
+    // $FlowIgnore Silence polymorphic errors
     class StyledComponent extends ParentComponent<StyleProps, StyleState> {
       static displayName: ?string = `Aesthetic(${styleName})`;
 
       static styleName: string = styleName;
 
-      static wrappedComponent: WrappedComponent = Component;
+      static WrappedComponent: HOCWrappedComponent = Component;
 
       static propTypes = {
-        [themePropName]: PropTypes.string,
+        themeName: PropTypes.string,
       };
 
       static contextTypes = {
@@ -103,7 +105,7 @@ export default function style(
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStyles: StyleDeclarationOrCallback,
+        customStyles?: StyleCallback | StyleDeclarations = {},
         extendOptions?: HOCOptions = {},
       ): HOCComponent {
         if (__DEV__) {
@@ -125,36 +127,35 @@ export default function style(
 
       // Start transforming styles before we mount
       componentWillMount() {
-        this.transformStyles(this.getTheme(this.props));
+        this.transformStyles(this.getThemeName(this.props));
       }
 
       // Re-transform if the theme changes
       componentWillReceiveProps(nextProps: StyleProps) {
-        const theme = this.getTheme(nextProps);
+        const themeName = this.getThemeName(nextProps);
 
-        if (theme !== this.state[themePropName]) {
-          this.transformStyles(theme);
+        if (themeName !== this.state.themeName) {
+          this.transformStyles(themeName);
         }
       }
 
-      getTheme(props: StyleProps): string {
-        return props[themePropName] ||
+      getThemeName(props: StyleProps): string {
+        return props.themeName ||
           this.context.themeName ||
           aesthetic.options.defaultTheme ||
           '';
       }
 
-      transformStyles(theme: string) {
+      transformStyles(themeName: string) {
         this.setState({
-          [stylesPropName]: aesthetic.transformStyles(styleName, theme),
-          [themePropName]: theme,
+          [stylesPropName]: aesthetic.transformStyles(styleName, themeName),
+          themeName,
+          [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
         });
       }
 
       render(): React$Node {
-        return (
-          <Component {...this.props} {...this.state} />
-        );
+        return <Component {...this.props} {...this.state} />;
       }
     }
 

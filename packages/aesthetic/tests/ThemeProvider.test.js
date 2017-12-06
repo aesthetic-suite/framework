@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-one-expression-per-line */
+
 import React from 'react';
 import { shallow } from 'enzyme';
 import ThemeProvider from '../src/ThemeProvider';

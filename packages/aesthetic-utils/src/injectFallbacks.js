@@ -6,10 +6,10 @@
 
 /* eslint-disable no-param-reassign */
 
-import type { CSSStyle } from '../../types';
+import type { Fallbacks, StyleDeclaration } from '../../types';
 
-export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyle) {
-  Object.keys(fallbacks).forEach((propName: string) => {
+export default function injectFallbacks(properties: StyleDeclaration, fallbacks: Fallbacks) {
+  Object.keys(fallbacks).forEach((propName) => {
     const prop = properties[propName];
     const fallback = fallbacks[propName];
 
@@ -17,6 +17,6 @@ export default function injectFallbacks(properties: CSSStyle, fallbacks: CSSStyl
       return;
     }
 
-    properties[propName] = [].concat(fallback, prop);
+    properties[propName] = [].concat(fallback, prop).map(value => String(value));
   });
 }

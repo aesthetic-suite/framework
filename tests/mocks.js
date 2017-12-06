@@ -6,7 +6,14 @@ export const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  src: "url('roboto.woff2') format('roboto')",
+  src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+};
+
+export const FONT_ROBOTO_FLAT_SRC = {
+  fontFamily: 'Roboto',
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
 export const KEYFRAME_FADE = {
@@ -53,7 +60,7 @@ export const SYNTAX_NATIVE_PARTIAL = {
 
 export const SYNTAX_UNIFIED_FULL = {
   '@font-face': {
-    mrroboto: FONT_ROBOTO,
+    Roboto: FONT_ROBOTO,
   },
   '@keyframes': {
     fade: KEYFRAME_FADE,
@@ -106,7 +113,7 @@ export const SYNTAX_FALLBACK = {
 
 export const SYNTAX_FONT_FACE = {
   '@font-face': {
-    roboto: FONT_ROBOTO,
+    Roboto: FONT_ROBOTO,
   },
   font: {
     fontFamily: 'Roboto',

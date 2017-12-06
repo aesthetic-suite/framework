@@ -1,7 +1,14 @@
 import Aesthetic from 'aesthetic';
 
 declare module 'aesthetic-native' {
+  import type { StyleDeclaration } from 'aesthetic';
+
   declare export default class ReactNativeAesthetic extends Aesthetic {
     native: boolean;
+    validateTransform(
+      styleName: string,
+      selector: string,
+      value: StyleDeclaration,
+    ): StyleDeclaration;
   }
 }

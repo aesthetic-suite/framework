@@ -4,16 +4,14 @@
  * @flow
  */
 
-import type { MaybeClassName } from '../../types';
-
 function stripChars(name: string): string {
   return (name.charAt(0) === '.') ? name.substring(1) : name;
 }
 
-export default function classes(...values: MaybeClassName[]): string {
+export default function classes(...values: *[]): string {
   const classNames: string[] = [];
 
-  values.forEach((value: MaybeClassName) => {
+  values.forEach((value) => {
     // Empty value or failed condition
     if (!value) {
       return; // eslint-disable-line
@@ -27,9 +25,8 @@ export default function classes(...values: MaybeClassName[]): string {
       classNames.push(classes(...value));
 
     // Object of class names to boolean
-    } else if (typeof value === 'object') {
-      Object.keys(value).forEach((key: string) => {
-        // $FlowIgnore We know its an object
+    } else if (typeof value === 'object' && value) {
+      Object.keys(value).forEach((key) => {
         if (value[key]) {
           classNames.push(stripChars(key));
         }

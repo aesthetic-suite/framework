@@ -6,21 +6,21 @@
 
 import Adapter from './Adapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap } from '../../types';
+import type { TransformedDeclarations } from '../../types';
 
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     const classNames = {};
 
-    Object.keys(declarations).forEach((setName: string) => {
-      if (typeof declarations[setName] === 'string') {
-        classNames[setName] = declarations[setName];
+    Object.keys(declarations).forEach((selector) => {
+      if (typeof declarations[selector] === 'string') {
+        classNames[selector] = declarations[selector];
       } else if (__DEV__) {
         throw new TypeError(
           '`ClassNameAdapter` expects valid CSS class names; ' +
-          `non-string provided for "${setName}".`,
+          `non-string provided for "${selector}".`,
         );
       }
     });

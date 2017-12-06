@@ -16,7 +16,7 @@ import style from '../path/to/styler';
 class Carousel extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    classNames: ClassNamesPropType,
+    classNames: ClassNamesPropType.isRequired,
   };
 
   // ...
@@ -167,15 +167,17 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ | |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | | | | ✓ | ✓ | | ✓ |
+| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [React Native][react-native] | | | | | ✓ | ✓ | | ✓ |
+
+> 1. Only supports `@font-face` and `@keyframes`.
 
 The following libraries are currently not supported.
 
@@ -215,7 +217,7 @@ and an object of configurable options as the second. The following options are s
   creating a new component in the process. Defaults to `false`.
 * `stylesPropName` (string) - Name of the prop in which the compiled class names or styles
   object is passed to. Defaults to `classNames`.
-* `themePropName` (string) - Name of the prop in which the theme name is passed to.
+* `themePropName` (string) - Name of the prop in which the theme style declaration is passed to.
   Defaults to `theme`.
 * `pure` (boolean) - When true, the higher-order-component will extend `React.PureComponent`
   instead of `React.Component`. Only use this for static/dumb components.
@@ -270,7 +272,7 @@ function Button({ children, classNames, icon }) {
 
 Button.propTypes = {
   children: PropTypes.node,
-  classNames: ClassNamesPropType,
+  classNames: ClassNamesPropType.isRequired,
   icon: PropTypes.node,
 };
 
@@ -357,7 +359,7 @@ function Button({ children, classNames, icon, active = false }) {
 
 As mentioned previously, to style a component, an object or function must be passed
 as the first argument to the [styler function](#creating-a-styler). This object
-represents a mapping of elements (and modifiers) to declarations. For example:
+represents a mapping of selectors (and modifiers) to declarations. For example:
 
 ```javascript
 style({
@@ -439,15 +441,14 @@ aesthetic.registerTheme('dark', {
   unit: 'em',
   unitSize: 8,
   spacing: 5,
-  font: 'Roboto',
+  font: 'Open Sans',
   bgColor: 'darkgray',
 }, {
   '@font-face': {
-    roboto: {
-      fontFamily: 'Roboto',
+    'Open Sans': {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: "url('roboto.woff2') format('roboto')",
+      src: ['fonts/OpenSans.woff'],
     },
   },
 });
@@ -483,6 +484,8 @@ style(theme => ({
 }))(Component);
 ```
 
+> The theme style declaration can be accessed within a component via the `theme` prop.
+
 #### Activating Themes
 
 To activate and inform components to use a specific theme, we must use the `ThemeProvider`,
@@ -500,10 +503,10 @@ import { ThemeProvider } from 'aesthetic';
 </ThemeProvider>
 ```
 
-Or by passing a `theme` prop to an individual component.
+Or by passing a `themeName` prop to an individual component.
 
 ```javascript
-<Button theme="dark">Save</Button>
+<Button themeName="dark">Save</Button>
 ```
 
 Or by setting the default theme on the `Aesthetic` instance.
@@ -561,7 +564,7 @@ Please refer to the readme of your chosen adapter.
 Standard structure for defining properties.
 
 * Supports camel case property names.
-* Units can be written is literal numbers.
+* Units can be written as literal numbers.
 
 ```javascript
 button: {
@@ -585,7 +588,7 @@ buttonGroup: {
 
 #### Pseudos
 
-Pseudo elements and classes are defined inside an element as nested objects.
+Pseudo elements and classes are defined inside a selector as nested objects.
 
 ```javascript
 button: {
@@ -626,47 +629,87 @@ wrapper: {
 
 #### Media Queries
 
-Media queries are defined inside an element using a `@media` object.
+Media queries are defined inside a selector using a `@media` object.
 
 ```javascript
 tooltip: {
   // ...
   maxWidth: 300,
   '@media': {
-    '(min-width: 400px)': {
+    'min-width: 400px': {
       maxWidth: 'auto',
     },
   },
 },
 ```
 
+> JSS requires the `jss-nested` plugin.
+
 #### Font Faces
 
-Font faces are defined outside the element using a `@font-face` object
-and are referenced by font family name.
+Font faces are defined outside the selector (in the root) using a `@font-face` object
+and are referenced by the font family name (the object key).
 
 ```javascript
 '@font-face': {
-  roboto: {
-    fontFamily: 'Roboto',
+  'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    src: "url('roboto.woff2') format('roboto')",
+    src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
   },
 },
 button: {
   // ...
-  fontFamily: 'Roboto',
+  fontFamily: 'Open Sans',
 },
 tooltip: {
   // ...
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'Open Sans, sans-serif',
+},
+```
+
+> The `fontFamily` property can be omitted as it'll be inherited from the property name.
+
+To support multiple font variations, like bold and italics, pass an array of properties.
+
+```javascript
+'@font-face': {
+  'Open Sans': [
+    {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+    },
+    {
+      fontStyle: 'italic',
+      fontWeight: 'normal',
+      src: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
+    },
+    {
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+      src: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
+    },
+  ],
+},
+```
+
+Lastly, to define `local()` source aliases, pass an array of strings to a `localAlias` property.
+
+```javascript
+'@font-face': {
+  'Open Sans': {
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    localAlias: ['OpenSans', 'Open-Sans'],
+    src: ['fonts/OpenSans.ttf'],
+  },
 },
 ```
 
 #### Animations
 
-Animation keyframes are defined outside the element using a `@keyframes` object
+Animation keyframes are defined outside the selector (in the root) using a `@keyframes` object
 and are referenced by animation name (the object key).
 
 ```javascript
@@ -686,7 +729,7 @@ button: {
 #### Selectors
 
 Parent, child, and sibling selectors are purposefully not supported. Use unique and
-isolated element names and style declarations instead.
+isolated element selectors and style declarations instead.
 
 ### Competitors Comparison
 

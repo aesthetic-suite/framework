@@ -5,10 +5,10 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectAtRules, injectRuleByLookup } from 'aesthetic-utils';
+import { injectFontFaces, injectKeyframes, injectMediaQueries } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclarationMap, TransformedStylesMap, CSSStyle } from '../../types';
+import type { StyleDeclaration, StyleDeclarations, TransformedDeclarations } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -16,32 +16,40 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   constructor(aphrodite: Object, options?: Object = {}) {
     super(aphrodite, options);
 
-    this.syntax = new UnifiedSyntax();
-    this.syntax.on('declaration', this.onDeclaration);
+    this.syntax = new UnifiedSyntax()
+      .on('declaration', this.handleDeclaration);
   }
 
-  convert(declarations: StyleDeclarationMap): StyleDeclarationMap {
+  convert(declarations: StyleDeclarations): StyleDeclarations {
     return this.syntax.convert(declarations);
   }
 
-  transform(styleName: string, declarations: StyleDeclarationMap): TransformedStylesMap {
+  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     return super.transform(styleName, this.convert(declarations));
   }
 
-  onDeclaration = (setName: string, properties: CSSStyle) => {
+  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
     // Font faces
+    // https://github.com/Khan/aphrodite#font-faces
     if ('fontFamily' in properties) {
-      injectRuleByLookup(properties, 'fontFamily', this.syntax.fontFaces);
+      injectFontFaces(properties, this.syntax.fontFaces, {
+        format: true,
+      });
     }
 
     // Animation keyframes
+    // https://github.com/Khan/aphrodite#animations
     if ('animationName' in properties) {
-      injectRuleByLookup(properties, 'animationName', this.syntax.keyframes);
+      injectKeyframes(properties, this.syntax.keyframes);
     }
 
     // Media queries
-    if (this.syntax.mediaQueries[setName]) {
-      injectAtRules(properties, '@media', this.syntax.mediaQueries[setName]);
+    // https://github.com/Khan/aphrodite#api
+    if (this.syntax.mediaQueries[selector]) {
+      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
     }
+
+    // Fallbacks
+    // Aphrodite does not support fallbacks.
   };
 }
