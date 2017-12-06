@@ -28,10 +28,10 @@ class Carousel extends React.Component {
     return (
       <div
         role="tablist"
-        className={classes({
+        className={classes(
           classNames.carousel,
           animating && classNames.carousel__animating,
-        })}
+        )}
       >
         <ul className={classNames.list}>
           {children}
