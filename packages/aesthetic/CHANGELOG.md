@@ -4,7 +4,7 @@
   same font family.
   * The object key is now the font family name, instead of a random name.
   * The object value can now be an array of font face style declarations.
-  * The `src` property can now be an array of paths (the `format()` is automatically added).
+  * The `src` property must now be an array of paths (the `format()` is automatically added).
 * The HOC `wrappedComponent` static property was renamed to `WrappedComponent`.
 * The HOC `theme` prop (to toggle themes) was renamed to `themeName`.
 
@@ -13,6 +13,7 @@
 * The current theme style declaration will be passed to styled components under the `theme` prop.
   * The previous `theme` prop was renamed to `themeName`.
   * The `Aesthetic` `themePropName` option now controls this new prop.
+* Wrapping parens in single clause `@media` queries can now be omitted.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.
