@@ -158,7 +158,6 @@ declare module 'aesthetic/unified' {
     FontFaces,
     Keyframes,
     MediaQueries,
-    SelectorMap,
     StyleDeclaration,
     StyleDeclarations,
   } from 'aesthetic';
@@ -167,12 +166,12 @@ declare module 'aesthetic/unified' {
     static LOCAL: string;
     static GLOBAL: string;
     events: { [eventName: string]: EventCallback };
-    fallbacks: SelectorMap<Fallbacks>;
+    fallbacks: AtRuleCache<Fallbacks>;
     fontFaces: FontFaces;
     fontFacesCache: AtRuleCache<string[]>;
     keyframes: Keyframes;
     keyframesCache: AtRuleCache<string>;
-    mediaQueries: SelectorMap<MediaQueries>;
+    mediaQueries: AtRuleCache<MediaQueries>;
     convert(declarations: StyleDeclarations): StyleDeclarations;
     convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
     emit(eventName: string, args: *[]): this;

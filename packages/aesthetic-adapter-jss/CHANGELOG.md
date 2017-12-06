@@ -1,3 +1,13 @@
+# 2.0.0
+#### 💥 Breaking
+* Plugin `jss-nested` is now a requirement.
+
+#### 🚀 New
+* Updated to support the new `@font-face` structure.
+
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
+
 # 1.7.1 - 11/10/17
 #### 🛠 Internal
 * Tested against React 16.1.

@@ -20,7 +20,7 @@ export type AestheticOptions = {
   themePropName: string,
 };
 
-export type AtRuleCache<T> = { [rule: string]: T };
+export type AtRuleCache<T> = { [key: string]: T };
 
 export type ClassName = string;
 

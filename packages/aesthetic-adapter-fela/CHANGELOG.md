@@ -1,6 +1,10 @@
-# 1.7.3 - 12/01/17
+# 2.0.0
 #### 🚀 New
 * Added support for `fela-dom` 7.0.
+* Updated to support the new `@font-face` structure.
+
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
 
 # 1.7.2 - 11/10/17
 #### 🛠 Internal

@@ -13,7 +13,6 @@ import type {
   FontFaces,
   Keyframes,
   MediaQueries,
-  SelectorMap,
   StyleDeclaration,
   StyleDeclarations,
 } from '../../types';
@@ -26,7 +25,7 @@ export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
 
   // Local
-  fallbacks: SelectorMap<Fallbacks> = {};
+  fallbacks: AtRuleCache<Fallbacks> = {};
 
   // Global
   fontFaces: FontFaces = {};
@@ -39,7 +38,7 @@ export default class UnifiedSyntax {
   keyframesCache: AtRuleCache<string> = {};
 
   // Local
-  mediaQueries: SelectorMap<MediaQueries> = {};
+  mediaQueries: AtRuleCache<MediaQueries> = {};
 
   static LOCAL: string = LOCAL;
 

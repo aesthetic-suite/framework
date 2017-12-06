@@ -1,3 +1,18 @@
+# 2.0.0
+#### 💥 Breaking
+* The `@font-face` unified syntax rule has been rewritten to support multiple variations of the
+  same font family.
+  * The object key is now the font family name, instead of a random name.
+  * The object value can now be an array of font face style declarations.
+  * The `src` property can now be an array of paths (the `format()` is automatically added).
+* The HOC `wrappedComponent` static property was renamed to `WrappedComponent`.
+
+#### 🚀 New
+* Added support for a new `localAlias` property (the `@font-face local()` value).
+
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
+
 # 1.7.1 - 11/10/17
 #### 🛠 Internal
 * Tested against React 16.1.
