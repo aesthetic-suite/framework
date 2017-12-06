@@ -3450,6 +3450,10 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
+free-style@2.5.1:
+  version "2.5.1"
+  resolved "https://registry.npmjs.org/free-style/-/free-style-2.5.1.tgz#5e3f684c470d3bba7e4dbb43524e0a08917e873c"
+
 fresh@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.3.0.tgz#651f838e22424e7566de161d8358caa199f83d4f"
@@ -7453,6 +7457,12 @@ type-is@~1.6.6:
 typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+typestyle@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/typestyle/-/typestyle-1.5.1.tgz#b2c79c4d6d5c6e2cc6bffdc9468665512910b8e5"
+  dependencies:
+    free-style "2.5.1"
 
 ua-parser-js@^0.7.9:
   version "0.7.12"

@@ -9,6 +9,7 @@
 * The HOC `theme` prop (to toggle themes) was renamed to `themeName`.
 
 #### 🚀 New
+* Added `TypeStyle` support as a new adapter!
 * Added support for a new `localAlias` property (the `@font-face local()` value).
 * The current theme style declaration will be passed to styled components under the `theme` prop.
   * The previous `theme` prop was renamed to `themeName`.

@@ -1,0 +1,30 @@
+{
+  "name": "aesthetic-adapter-typestyle",
+  "version": "0.1.0",
+  "description": "TypeStyle support for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "typestyle"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-typestyle",
+  "license": "MIT",
+  "scripts": {
+    "build": "build-lib --react"
+  },
+  "dependencies": {
+    "aesthetic-utils": "^1.6.2",
+    "babel-runtime": "^6.26.0",
+    "prop-types": "^15.6.0"
+  },
+  "peerDependencies": {
+    "aesthetic": "^1.7.1",
+    "typestyle": "^1.5.0"
+  },
+  "devDependencies": {
+    "@milesj/build-tool-config": "^0.43.1",
+    "aesthetic": "^1.7.1",
+    "typestyle": "^1.5.1"
+  }
+}
