@@ -167,15 +167,17 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [CSS modules][css-modules] | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [Aphrodite][aphrodite] | ✓ | ✓ | | ✓ | ✓ | ✓ | |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [JSS][jss] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | | | | ✓ | ✓ | | ✓ |
+| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [React Native][react-native] | | | | | ✓ | ✓ | | ✓ |
+
+> 1. Only supports `@font-face` and `@keyframes`.
 
 The following libraries are currently not supported.
 
@@ -357,7 +359,7 @@ function Button({ children, classNames, icon, active = false }) {
 
 As mentioned previously, to style a component, an object or function must be passed
 as the first argument to the [styler function](#creating-a-styler). This object
-represents a mapping of elements (and modifiers) to declarations. For example:
+represents a mapping of selectors (and modifiers) to declarations. For example:
 
 ```javascript
 style({
@@ -439,15 +441,14 @@ aesthetic.registerTheme('dark', {
   unit: 'em',
   unitSize: 8,
   spacing: 5,
-  font: 'Roboto',
+  font: 'Open Sans',
   bgColor: 'darkgray',
 }, {
   '@font-face': {
-    Roboto: {
-      fontFamily: 'Roboto',
+    'Open Sans': {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: ['fonts/roboto.woff'],
+      src: ['fonts/OpenSans.woff'],
     },
   },
 });
@@ -585,7 +586,7 @@ buttonGroup: {
 
 #### Pseudos
 
-Pseudo elements and classes are defined inside an element as nested objects.
+Pseudo elements and classes are defined inside a selector as nested objects.
 
 ```javascript
 button: {
@@ -626,64 +627,66 @@ wrapper: {
 
 #### Media Queries
 
-Media queries are defined inside an element using a `@media` object.
+Media queries are defined inside a selector using a `@media` object.
 
 ```javascript
 tooltip: {
   // ...
   maxWidth: 300,
   '@media': {
-    '(min-width: 400px)': {
+    'min-width: 400px': {
       maxWidth: 'auto',
     },
   },
 },
 ```
 
+> JSS requires the `jss-nested` plugin.
+
 #### Font Faces
 
-Font faces are defined outside the element using a `@font-face` object
+Font faces are defined outside the selector (in the root) using a `@font-face` object
 and are referenced by the font family name (the object key).
 
 ```javascript
 '@font-face': {
-  Roboto: {
+  'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+    src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
   },
 },
 button: {
   // ...
-  fontFamily: 'Roboto',
+  fontFamily: 'Open Sans',
 },
 tooltip: {
   // ...
-  fontFamily: 'Roboto, sans-serif',
+  fontFamily: 'Open Sans, sans-serif',
 },
 ```
 
-> The font face `fontFamily` property can be omitted, as it'll be inherited from the property name.
+> The `fontFamily` property can be omitted as it'll be inherited from the property name.
 
 To support multiple font variations, like bold and italics, pass an array of properties.
 
 ```javascript
 '@font-face': {
-  Roboto: [
+  'Open Sans': [
     {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+      src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
     },
     {
       fontStyle: 'italic',
       fontWeight: 'normal',
-      src: ['fonts/Roboto-Italic.woff2', 'fonts/Roboto-Italic.ttf'],
+      src: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
     },
     {
       fontStyle: 'normal',
       fontWeight: 'bold',
-      src: ['fonts/Roboto-Bold.woff2', 'fonts/Roboto-Bold.ttf'],
+      src: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
     },
   ],
 },
@@ -693,10 +696,10 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 
 ```javascript
 '@font-face': {
-  OpenSans: {
+  'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    localAlias: ['Open Sans', 'Open-Sans'],
+    localAlias: ['OpenSans', 'Open-Sans'],
     src: ['fonts/OpenSans.ttf'],
   },
 },
@@ -704,7 +707,7 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 
 #### Animations
 
-Animation keyframes are defined outside the element using a `@keyframes` object
+Animation keyframes are defined outside the selector (in the root) using a `@keyframes` object
 and are referenced by animation name (the object key).
 
 ```javascript
@@ -724,7 +727,7 @@ button: {
 #### Selectors
 
 Parent, child, and sibling selectors are purposefully not supported. Use unique and
-isolated element names and style declarations instead.
+isolated element selectors and style declarations instead.
 
 ### Competitors Comparison
 
