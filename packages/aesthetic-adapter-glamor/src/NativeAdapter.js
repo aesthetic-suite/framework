@@ -22,11 +22,7 @@ export default class GlamorAdapter extends Adapter {
     Object.keys(declarations).forEach((selector) => {
       const value = declarations[selector];
 
-      if (typeof value === 'string') {
-        output[selector] = this.native ? {} : value;
-      } else {
-        output[selector] = `${styleName}-${String(css(value))}`;
-      }
+      output[selector] = (typeof value === 'string') ? value : `${styleName}-${String(css(value))}`;
     });
 
     return output;
