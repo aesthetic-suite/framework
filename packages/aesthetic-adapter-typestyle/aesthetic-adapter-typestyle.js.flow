@@ -1,0 +1,16 @@
+import { Adapter } from 'aesthetic';
+import UnifiedSyntax from 'aesthetic/unified';
+import TypeStyleAdapter from 'aesthetic-adapter-typestyle';
+
+declare module 'aesthetic-adapter-typestyle' {
+  declare export default class TypeStyleAdapter extends Adapter {}
+}
+
+declare module 'aesthetic-adapter-typestyle/unified' {
+  import type { StyleDeclarations } from 'aesthetic';
+
+  declare export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
+    syntax: UnifiedSyntax;
+    convert(declarations: StyleDeclarations): StyleDeclarations;
+  }
+}

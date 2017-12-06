@@ -5,15 +5,15 @@
  */
 
 import { Adapter } from 'aesthetic';
-import { css } from 'glamor';
+import { style } from 'typestyle';
 
 import type { TransformedDeclarations } from '../../types';
 
-export default class GlamorAdapter extends Adapter {
+export default class TypeStyleAdapter extends Adapter {
   transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
     if (__DEV__) {
       if (this.native) {
-        throw new Error('Glamor does not support React Native.');
+        throw new Error('TypeStyle does not support React Native.');
       }
     }
 
@@ -22,7 +22,7 @@ export default class GlamorAdapter extends Adapter {
     Object.keys(declarations).forEach((selector) => {
       const value = declarations[selector];
 
-      output[selector] = (typeof value === 'string') ? value : `${styleName}-${String(css(value))}`;
+      output[selector] = (typeof value === 'string') ? value : style(value);
     });
 
     return output;

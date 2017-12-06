@@ -175,6 +175,7 @@ The following libraries and their features are officially supported by Aesthetic
 | [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
 | [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
 | [React Native][react-native] | | | | | ✓ | ✓ | | ✓ |
 
 > 1. Only supports `@font-face` and `@keyframes`.
@@ -756,6 +757,7 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
+| [TypeStyle][typestyle] | ✓ | | | |
 | [React Native][react-native] | ✓ | ✓ | | ||
 
 ### React Native Support
@@ -768,6 +770,7 @@ to integrate React Native with Aesthetic.
 [fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
+[typestyle]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-typestyle
 [radium]: https://github.com/FormidableLabs/radium
 [react-native]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles
