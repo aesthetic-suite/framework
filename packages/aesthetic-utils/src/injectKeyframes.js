@@ -17,6 +17,10 @@ export default function injectKeyframes(
   keyframes: { [animationName: string]: string | Keyframe },
   options?: InjectKeyframesOptions = {},
 ) {
+  if (!properties.animationName) {
+    return;
+  }
+
   const value = String(properties.animationName).split(',').map((name) => {
     const animationName = name.trim();
 

@@ -20,6 +20,10 @@ export default function injectFontFaces(
   fontFaces: { [fontFamily: string]: (string | FontFace)[] },
   options?: InjectFontFacesOptions = {},
 ) {
+  if (!properties.fontFamily) {
+    return;
+  }
+
   const value = [];
 
   String(properties.fontFamily).split(',').forEach((name) => {

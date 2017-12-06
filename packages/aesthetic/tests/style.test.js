@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Aesthetic from '../src/Aesthetic'
+import Aesthetic from '../src/Aesthetic';
 import style from '../src/style';
 import { TestAdapter, TEST_CLASS_NAMES } from '../../../tests/mocks';
 
