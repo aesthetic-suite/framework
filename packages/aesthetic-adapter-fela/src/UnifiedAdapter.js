@@ -10,6 +10,7 @@ import {
   injectFontFaces,
   injectKeyframes,
   injectMediaQueries,
+  injectSupports,
 } from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
@@ -71,6 +72,12 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
     // https://github.com/rofrischmann/fela/tree/master/packages/fela-plugin-fallback-value#example
     if (this.syntax.fallbacks[selector]) {
       injectFallbacks(properties, this.syntax.fallbacks[selector]);
+    }
+
+    // Supports
+    // TODO No docs/URL
+    if (this.syntax.supports[selector]) {
+      injectSupports(properties, this.syntax.supports[selector]);
     }
   };
 

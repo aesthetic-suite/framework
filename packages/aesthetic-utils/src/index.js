@@ -10,6 +10,7 @@ import injectFallbacks from './injectFallbacks';
 import injectFontFaces from './injectFontFaces';
 import injectKeyframes from './injectKeyframes';
 import injectMediaQueries from './injectMediaQueries';
+import injectSupports from './injectSupports';
 import isObject from './isObject';
 import isPrimitive from './isPrimitive';
 import toArray from './toArray';
@@ -21,6 +22,7 @@ export {
   injectFontFaces,
   injectKeyframes,
   injectMediaQueries,
+  injectSupports,
   isObject,
   isPrimitive,
   toArray,

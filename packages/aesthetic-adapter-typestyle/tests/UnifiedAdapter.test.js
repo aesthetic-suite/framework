@@ -9,6 +9,7 @@ import {
   SYNTAX_FONT_FACE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_SUPPORTS,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
@@ -20,7 +21,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'f1vevo4q',
+      button: 'f1hfp49j',
     });
   });
 
@@ -57,6 +58,9 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
           },
           '@media (max-width: 600px)': {
             padding: '4px 8px',
+          },
+          '@supports (display: flex)': {
+            display: 'flex',
           },
         },
       },
@@ -121,6 +125,22 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
           },
           '@media (min-width: 300px)': {
             color: 'blue',
+          },
+        },
+      },
+    });
+  });
+
+  it('supports supports', () => {
+    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+      sup: {
+        display: 'block',
+        $nest: {
+          '@supports (display: flex)': {
+            display: 'flex',
+          },
+          '@supports not (display: flex)': {
+            float: 'left',
           },
         },
       },

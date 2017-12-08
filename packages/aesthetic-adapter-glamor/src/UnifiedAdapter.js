@@ -10,6 +10,7 @@ import {
   injectFallbacks,
   injectKeyframes,
   injectMediaQueries,
+  injectSupports,
 } from 'aesthetic-utils';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
@@ -65,6 +66,12 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssrules
     if (this.syntax.fallbacks[selector]) {
       injectFallbacks(properties, this.syntax.fallbacks[selector]);
+    }
+
+    // Supports
+    // https://github.com/threepointone/glamor/blob/master/docs/selectors.md
+    if (this.syntax.supports[selector]) {
+      injectSupports(properties, this.syntax.supports[selector]);
     }
   };
 

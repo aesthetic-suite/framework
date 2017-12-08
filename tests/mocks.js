@@ -72,6 +72,11 @@ export const SYNTAX_UNIFIED_FULL = {
         padding: '4px 8px',
       },
     },
+    '@supports': {
+      '(display: flex)': {
+        display: 'flex',
+      },
+    },
     '@fallbacks': {
       color: '#fff',
     },
@@ -141,6 +146,20 @@ export const SYNTAX_MEDIA_QUERY = {
       },
       '(max-width: 1000px)': {
         color: 'green',
+      },
+    },
+  },
+};
+
+export const SYNTAX_SUPPORTS = {
+  sup: {
+    display: 'block',
+    '@supports': {
+      '(display: flex)': {
+        display: 'flex',
+      },
+      'not (display: flex)': {
+        float: 'left',
       },
     },
   },
