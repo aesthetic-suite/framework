@@ -51,5 +51,8 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
     // Fallbacks
     // Aphrodite does not support fallbacks.
+
+    // Supports
+    // Aphrodite does not support @supports.
   };
 }

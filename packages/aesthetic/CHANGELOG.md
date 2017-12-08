@@ -9,12 +9,12 @@
 * The HOC `theme` prop (to toggle themes) was renamed to `themeName`.
 
 #### 🚀 New
-* Added `TypeStyle` support as a new adapter!
-* Added support for a new `localAlias` property (the `@font-face local()` value).
+* Added `@supports` unified syntax support.
+* Added a new adapter, `TypeStyle`.
+* Added a new property `localAlias` for use within `@font-face` (the `local()` value).
 * The current theme style declaration will be passed to styled components under the `theme` prop.
   * The previous `theme` prop was renamed to `themeName`.
   * The `Aesthetic` `themePropName` option now controls this new prop.
-* Wrapping parens in single clause `@media` queries can now be omitted.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

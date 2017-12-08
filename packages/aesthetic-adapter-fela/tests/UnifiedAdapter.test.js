@@ -11,6 +11,7 @@ import {
   SYNTAX_FONT_FACE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_SUPPORTS,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
@@ -24,7 +25,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'a b c d e f g h i j k l m n o p q r s t u v w x',
+      button: 'a b c d e f g h i j k l m n o p q r s t u v w x y',
     });
   });
 
@@ -60,6 +61,9 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         },
         '@media (max-width: 600px)': {
           padding: '4px 8px',
+        },
+        '@supports (display: flex)': {
+          display: 'flex',
         },
       },
     });
@@ -110,6 +114,20 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         },
         '@media (min-width: 300px)': {
           color: 'blue',
+        },
+      },
+    });
+  });
+
+  it('supports supports', () => {
+    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+      sup: {
+        display: 'block',
+        '@supports (display: flex)': {
+          display: 'flex',
+        },
+        '@supports not (display: flex)': {
+          float: 'left',
         },
       },
     });

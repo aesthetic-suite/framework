@@ -83,9 +83,14 @@ declare module 'aesthetic' {
     '@font-face'?: FontFaces,
     '@keyframes'?: Keyframes,
     '@media'?: MediaQueries,
+    '@supports'?: Supports,
   };
 
   declare export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
+
+  declare export type Support = StyleBlock;
+
+  declare export type Supports = { [feature: string]: Support };
 
   declare export type ThemeDeclaration = StyleBlock;
 
@@ -96,6 +101,7 @@ declare module 'aesthetic' {
     native: boolean;
     options: Object;
     unifiedSyntax: boolean;
+
     constructor(options?: Object): this;
     transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations;
   }
@@ -115,6 +121,7 @@ declare module 'aesthetic' {
     parents: { [childStyleName: string]: string };
     styles: { [styleName: string]: StyleCallback | StyleDeclarations };
     themes: { [themeName: string]: ThemeDeclaration };
+
     constructor(adapter: Adapter, options?: Object): this;
     extendTheme(
       parentThemeName: string,
@@ -160,6 +167,7 @@ declare module 'aesthetic/unified' {
     MediaQueries,
     StyleDeclaration,
     StyleDeclarations,
+    Supports,
   } from 'aesthetic';
 
   declare export default class UnifiedSyntax {
@@ -172,6 +180,8 @@ declare module 'aesthetic/unified' {
     keyframes: Keyframes;
     keyframesCache: AtRuleCache<string>;
     mediaQueries: AtRuleCache<MediaQueries>;
+    supports: AtRuleCache<Supports>;
+
     convert(declarations: StyleDeclarations): StyleDeclarations;
     convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
     emit(eventName: string, args: *[]): this;
@@ -180,6 +190,7 @@ declare module 'aesthetic/unified' {
     extractFontFaces(selector: string, rules: FontFaces, fromScope: string): void;
     extractKeyframes(selector: string, rules: Keyframes, fromScope: string): void;
     extractMediaQueries(selector: string, rules: MediaQueries, fromScope: string): void;
+    extractSupports(selector: string, rules: Supports, fromScope: string): void;
     off(eventName: string): this;
     on(eventName: string, callback: EventCallback): this;
     resetGlobalCache(): void;

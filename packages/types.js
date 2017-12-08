@@ -94,9 +94,14 @@ export type StyleDeclaration = {
   '@font-face'?: FontFaces,
   '@keyframes'?: Keyframes,
   '@media'?: MediaQueries,
+  '@supports'?: Supports,
 };
 
 export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
+
+export type Support = StyleBlock;
+
+export type Supports = { [feature: string]: Support };
 
 export type ThemeDeclaration = StyleBlock;
 

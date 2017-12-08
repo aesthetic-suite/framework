@@ -15,11 +15,12 @@ import type {
   MediaQueries,
   StyleDeclaration,
   StyleDeclarations,
+  Supports,
 } from '../../types';
 
 export const LOCAL = 'local';
 export const GLOBAL = 'global';
-export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media'];
+export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media', '@supports'];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
@@ -39,6 +40,9 @@ export default class UnifiedSyntax {
 
   // Local
   mediaQueries: AtRuleCache<MediaQueries> = {};
+
+  // Local
+  supports: AtRuleCache<Supports> = {};
 
   static LOCAL: string = LOCAL;
 
@@ -135,6 +139,10 @@ export default class UnifiedSyntax {
         this.extractMediaQueries(selector, (rules: MediaQueries), fromScope);
         break;
 
+      case '@supports':
+        this.extractSupports(selector, (rules: Supports), fromScope);
+        break;
+
       default: {
         if (__DEV__) {
           throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
@@ -149,7 +157,7 @@ export default class UnifiedSyntax {
   extractFallbacks(selector: string, properties: Fallbacks, fromScope: string) {
     if (__DEV__) {
       if (fromScope === GLOBAL) {
-        throw new SyntaxError('Property fallbacks must be defined locally to an element.');
+        throw new SyntaxError('@fallbacks must be defined locally to an element.');
       }
     }
 
@@ -164,14 +172,14 @@ export default class UnifiedSyntax {
   extractFontFaces(selector: string, rules: FontFaces, fromScope: string) {
     if (__DEV__) {
       if (fromScope === LOCAL) {
-        throw new SyntaxError('Font faces must be declared in the global scope.');
+        throw new SyntaxError('@font-face must be declared in the global scope.');
       }
     }
 
     Object.keys(rules).forEach((name) => {
       if (this.fontFaces[name]) {
         if (__DEV__) {
-          throw new TypeError(`Font face "${name}" has already been defined.`);
+          throw new TypeError(`@font-face "${name}" has already been defined.`);
         }
       } else {
         const fonts = Array.isArray(rules[name]) ? rules[name] : [rules[name]];
@@ -192,14 +200,14 @@ export default class UnifiedSyntax {
   extractKeyframes(selector: string, rules: Keyframes, fromScope: string) {
     if (__DEV__) {
       if (fromScope === LOCAL) {
-        throw new SyntaxError('Animation keyframes must be declared in the global scope.');
+        throw new SyntaxError('@keyframes must be declared in the global scope.');
       }
     }
 
     Object.keys(rules).forEach((name) => {
       if (this.keyframes[name]) {
         if (__DEV__) {
-          throw new TypeError(`Animation keyframe "${name}" has already been defined.`);
+          throw new TypeError(`@keyframes "${name}" has already been defined.`);
         }
       } else {
         this.keyframes[name] = rules[name];
@@ -215,7 +223,7 @@ export default class UnifiedSyntax {
   extractMediaQueries(selector: string, rules: MediaQueries, fromScope: string) {
     if (__DEV__) {
       if (fromScope === GLOBAL) {
-        throw new SyntaxError('Media queries must be defined locally to an element.');
+        throw new SyntaxError('@media must be defined locally to an element.');
       }
     }
 
@@ -223,6 +231,23 @@ export default class UnifiedSyntax {
 
     Object.keys(rules).forEach((query) => {
       this.emit('mediaQuery', [selector, query, rules[query]]);
+    });
+  }
+
+  /**
+   * Extract supports at-rules.
+   */
+  extractSupports(selector: string, rules: Supports, fromScope: string) {
+    if (__DEV__) {
+      if (fromScope === GLOBAL) {
+        throw new SyntaxError('@supports must be defined locally to an element.');
+      }
+    }
+
+    this.supports[selector] = rules;
+
+    Object.keys(rules).forEach((query) => {
+      this.emit('support', [selector, query, rules[query]]);
     });
   }
 
@@ -258,5 +283,6 @@ export default class UnifiedSyntax {
   resetLocalCache() {
     this.fallbacks = {};
     this.mediaQueries = {};
+    this.supports = {};
   }
 }

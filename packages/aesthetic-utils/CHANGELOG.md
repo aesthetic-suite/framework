@@ -3,8 +3,8 @@
 * Removed `injectAtRules` and `injectRuleByLookup` functions.
 
 #### 🚀 New
-* Added new `formatFontFace`, `injectFontFaces`, `injectKeyframes`, and `injectMediaQueries`
-  functions.
+* Added new `formatFontFace`, `injectFontFaces`, `injectKeyframes`, `injectMediaQueries`,
+  and `injectSupports` functions.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

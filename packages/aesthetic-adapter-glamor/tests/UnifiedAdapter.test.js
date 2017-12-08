@@ -10,6 +10,7 @@ import {
   SYNTAX_FONT_FACE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_SUPPORTS,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
@@ -24,7 +25,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'component-css-wb7zem',
+      button: 'component-css-bu86dt',
     });
   });
 
@@ -60,6 +61,9 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
         },
         '@media (max-width: 600px)': {
           padding: '4px 8px',
+        },
+        '@supports (display: flex)': {
+          display: 'flex',
         },
       },
     });
@@ -110,6 +114,20 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
         },
         '@media (min-width: 300px)': {
           color: 'blue',
+        },
+      },
+    });
+  });
+
+  it('supports supports', () => {
+    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+      sup: {
+        display: 'block',
+        '@supports (display: flex)': {
+          display: 'flex',
+        },
+        '@supports not (display: flex)': {
+          float: 'left',
         },
       },
     });

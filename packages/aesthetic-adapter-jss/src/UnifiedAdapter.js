@@ -7,7 +7,7 @@
 /* eslint-disable no-param-reassign */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import { formatFontFace, injectMediaQueries, toArray } from 'aesthetic-utils';
+import { formatFontFace, injectMediaQueries, injectSupports, toArray } from 'aesthetic-utils';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
@@ -90,6 +90,12 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       });
 
       properties.fallbacks = fallbacks;
+    }
+
+    // Supports
+    // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
+    if (this.syntax.supports[selector]) {
+      injectSupports(properties, this.syntax.supports[selector]);
     }
   };
 }

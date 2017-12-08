@@ -12,6 +12,7 @@ import {
   injectFallbacks,
   injectKeyframes,
   injectMediaQueries,
+  injectSupports,
 } from 'aesthetic-utils';
 import { fontFace, keyframes } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
@@ -80,6 +81,12 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
     // https://typestyle.github.io/#/core/concept-fallbacks
     if (this.syntax.fallbacks[selector]) {
       injectFallbacks(properties, this.syntax.fallbacks[selector]);
+    }
+
+    // Supports
+    // https://github.com/typestyle/typestyle/blob/ef832aa4b7a4eb95aa5260d83d8e11bb57bbc6c5/src/tests/supports.ts#L9
+    if (this.syntax.supports[selector]) {
+      injectSupports(nested, this.syntax.supports[selector]);
     }
 
     if (Object.keys(nested).length > 0) {

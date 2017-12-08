@@ -138,7 +138,7 @@ describe('aesthetic/UnifiedSyntax', () => {
   describe('extractFallbacks()', () => {
     it('errors if from global scope', () => {
       expect(() => instance.extractFallbacks('foo', {}, GLOBAL))
-        .toThrowError('Property fallbacks must be defined locally to an element.');
+        .toThrowError('@fallbacks must be defined locally to an element.');
     });
 
     it('extracts fallbacks at-rule', () => {
@@ -161,7 +161,7 @@ describe('aesthetic/UnifiedSyntax', () => {
   describe('extractFontFaces()', () => {
     it('errors if from local scope', () => {
       expect(() => instance.extractFontFaces('foo', {}, LOCAL))
-        .toThrowError('Font faces must be declared in the global scope.');
+        .toThrowError('@font-face must be declared in the global scope.');
     });
 
     it('errors if font has already been extracted', () => {
@@ -173,7 +173,7 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.extractFontFaces('foo', {
           Roboto: FONT_ROBOTO,
         }, GLOBAL)
-      )).toThrowError('Font face "Roboto" has already been defined.');
+      )).toThrowError('@font-face "Roboto" has already been defined.');
     });
 
     it('extracts font faces at-rule', () => {
@@ -192,7 +192,7 @@ describe('aesthetic/UnifiedSyntax', () => {
   describe('extractKeyframes()', () => {
     it('errors if from local scope', () => {
       expect(() => instance.extractKeyframes('foo', {}, LOCAL))
-        .toThrowError('Animation keyframes must be declared in the global scope.');
+        .toThrowError('@keyframes must be declared in the global scope.');
     });
 
     it('errors if keyframe has already been extracted', () => {
@@ -204,7 +204,7 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.extractKeyframes('foo', {
           fade: KEYFRAME_FADE,
         }, GLOBAL)
-      )).toThrowError('Animation keyframe "fade" has already been defined.');
+      )).toThrowError('@keyframes "fade" has already been defined.');
     });
 
     it('extracts keyframes at-rule', () => {
@@ -223,7 +223,7 @@ describe('aesthetic/UnifiedSyntax', () => {
   describe('extractMediaQueries()', () => {
     it('errors if from global scope', () => {
       expect(() => instance.extractMediaQueries('foo', {}, GLOBAL))
-        .toThrowError('Media queries must be defined locally to an element.');
+        .toThrowError('@media must be defined locally to an element.');
     });
 
     it('extracts media query at-rule', () => {
@@ -239,6 +239,31 @@ describe('aesthetic/UnifiedSyntax', () => {
         foo: {
           '(min-width: 400px)': {
             maxWidth: 'auto',
+          },
+        },
+      });
+    });
+  });
+
+  describe('extractSupports()', () => {
+    it('errors if from global scope', () => {
+      expect(() => instance.extractSupports('foo', {}, GLOBAL))
+        .toThrowError('@supports must be defined locally to an element.');
+    });
+
+    it('extracts media query at-rule', () => {
+      expect(instance.supports).toEqual({});
+
+      instance.extractSupports('foo', {
+        '(display: flex)': {
+          display: 'flex',
+        },
+      }, LOCAL);
+
+      expect(instance.supports).toEqual({
+        foo: {
+          '(display: flex)': {
+            display: 'flex',
           },
         },
       });
@@ -261,11 +286,13 @@ describe('aesthetic/UnifiedSyntax', () => {
     it('deletes local cache', () => {
       instance.fallbacks.foo = { display: 'flex' };
       instance.mediaQueries.foo = { '(min-width: 300px)': {} };
+      instance.supports.foo = { '(display: flex)': {} };
 
       instance.resetLocalCache();
 
       expect(instance.fallbacks.foo).toBeUndefined();
       expect(instance.mediaQueries.foo).toBeUndefined();
+      expect(instance.supports.foo).toBeUndefined();
     });
   });
 });

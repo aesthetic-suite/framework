@@ -110,4 +110,6 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
       },
     });
   });
+
+  it.skip('supports supports');
 });

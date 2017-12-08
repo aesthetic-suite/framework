@@ -1,5 +1,5 @@
 declare module 'aesthetic-utils' {
-  import type { Fallbacks, FontFace, Keyframe, MediaQueries, StyleDeclaration } from 'aesthetic';
+  import type { Fallbacks, FontFace, Keyframe, MediaQueries, StyleDeclaration, Supports } from 'aesthetic';
 
   declare export function createStyleElement(id: string): HTMLElement;
   declare export function formatFontFace(properties: FontFace): FontFace;
@@ -22,6 +22,10 @@ declare module 'aesthetic-utils' {
   declare export function injectMediaQueries(
     properties: StyleDeclaration,
     queries: MediaQueries,
+  ): void;
+  declare export function injectSupports(
+    properties: StyleDeclaration,
+    queries: Supports,
   ): void;
   declare export function isObject<T>(value: T): boolean;
   declare export function isPrimitive<T>(value: T): boolean;

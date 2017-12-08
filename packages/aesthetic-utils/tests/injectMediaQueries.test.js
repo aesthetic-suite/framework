@@ -16,20 +16,4 @@ describe('aesthetic-utils/injectMediaQueries()', () => {
       },
     });
   });
-
-  it('can omit wrapping parens', () => {
-    const obj = {};
-
-    injectMediaQueries(obj, {
-      'min-width: 300px': {
-        color: 'blue',
-      },
-    });
-
-    expect(obj).toEqual({
-      '@media (min-width: 300px)': {
-        color: 'blue',
-      },
-    });
-  });
 });
