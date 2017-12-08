@@ -8,6 +8,7 @@ import CssModulesAdapter from '../../aesthetic-adapter-css-modules/src/NativeAda
 import FelaAdapter from '../../aesthetic-adapter-fela/src/NativeAdapter';
 import GlamorAdapter from '../../aesthetic-adapter-glamor/src/NativeAdapter';
 import JssAdapter from '../../aesthetic-adapter-jss/src/NativeAdapter';
+import TypeStyleAdapter from '../../aesthetic-adapter-typestyle/src/NativeAdapter';
 import {
   TestAdapter,
   TEST_CLASS_NAMES,
@@ -395,7 +396,7 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new GlamorAdapter());
 
       expect(instance.transformStyles('foo')).toEqual({
-        button: 'foo-css-1n8n9n3',
+        button: 'css-1n8n9n3',
       });
     });
 
@@ -404,6 +405,14 @@ describe('aesthetic/Aesthetic', () => {
 
       expect(instance.transformStyles('foo')).toEqual({
         button: 'button-0-1',
+      });
+    });
+
+    it('supports TypeStyle', () => {
+      instance.setAdapter(new TypeStyleAdapter());
+
+      expect(instance.transformStyles('foo')).toEqual({
+        button: 'f7tlree',
       });
     });
   });

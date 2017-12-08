@@ -35,13 +35,13 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'component-css-1n8n9n3',
+      button: 'css-1n8n9n3',
     });
   });
 
   it('supports pseudos', () => {
     expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'component-css-1g7aevf',
+      pseudo: 'css-1g7aevf',
     });
   });
 
@@ -54,7 +54,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      fallback: 'component-css-1nxkcks',
+      fallback: 'css-1nxkcks',
     });
   });
 
@@ -67,7 +67,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'component-css-1x6s9dk',
+      font: 'css-1x6s9dk',
     });
   });
 
@@ -81,7 +81,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      animation: 'component-css-s8bawe',
+      animation: 'css-s8bawe',
     });
   });
 
@@ -99,7 +99,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     };
 
     expect(instance.transform('component', nativeSyntax)).toEqual({
-      media: 'component-css-rr71yy',
+      media: 'css-rr71yy',
     });
   });
 });

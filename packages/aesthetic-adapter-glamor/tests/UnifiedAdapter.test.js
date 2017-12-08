@@ -25,7 +25,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'component-css-bu86dt',
+      button: 'css-bu86dt',
     });
   });
 

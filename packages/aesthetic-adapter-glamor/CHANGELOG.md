@@ -2,6 +2,9 @@
 #### 🚀 New
 * Updated to support the new `@font-face` structure.
 
+#### 🐞 Fixed
+* Fixed a bug in which wrong class names were being created.
+
 #### 🛠 Internal
 * Rewritten Flowtype definitions.
 

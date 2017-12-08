@@ -1,36 +1,82 @@
-/* eslint-disable no-console, sort-keys, react/require-default-props */
+/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import { createRenderer as createFela } from 'fela';
+import felaPreset from 'fela-preset-web';
+import { create as createJSS } from 'jss';
+import jssPreset from 'jss-preset-default';
 import Aesthetic from '../packages/aesthetic/src/Aesthetic';
 import createStyler from '../packages/aesthetic/src/createStyler';
 import classes from '../packages/aesthetic/src/classes';
 import ThemeProvider from '../packages/aesthetic/src/ThemeProvider';
-import FelaAdapter from '../packages/aesthetic-adapter-fela/src/NativeAdapter';
+import AphroditeAdapter from '../packages/aesthetic-adapter-aphrodite/src/UnifiedAdapter';
+import FelaAdapter from '../packages/aesthetic-adapter-fela/src/UnifiedAdapter';
+import GlamorAdapter from '../packages/aesthetic-adapter-glamor/src/UnifiedAdapter';
+import JSSAdapter from '../packages/aesthetic-adapter-jss/src/UnifiedAdapter';
+import TypeStyleAdapter from '../packages/aesthetic-adapter-typestyle/src/UnifiedAdapter';
 
-const adapter = new FelaAdapter();
-const aesthetic = new Aesthetic(adapter);
-const style = createStyler(aesthetic);
+function createStyledComponent(adapter, component) {
+  const aesthetic = new Aesthetic(adapter);
+  const style = createStyler(aesthetic);
 
-aesthetic.registerTheme('default', {
-  unit: 8,
-  fg: '#fff',
-  bg: '#B0BEC5',
-  bgHover: '#CFD8DC',
-  primary: '#29B6F6',
-});
+  aesthetic.registerTheme('default', {
+    unit: 8,
+    fg: '#fff',
+    bg: '#B0BEC5',
+    bgHover: '#CFD8DC',
+    primary: '#29B6F6',
+  });
 
-aesthetic.registerTheme('dark', {
-  unit: 8,
-  fg: '#eee',
-  bg: '#212121',
-  bgHover: '#424242',
-  primary: '#01579B',
-});
+  aesthetic.registerTheme('dark', {
+    unit: 8,
+    fg: '#eee',
+    bg: '#212121',
+    bgHover: '#424242',
+    primary: '#01579B',
+  });
 
-function BaseButton({ children, classNames, primary = false }) {
-  console.log('BaseButton', 'classNames', classNames);
+  // Log the objects so we can inspect them
+  console.log(adapter.constructor.name.replace('UnifiedAdapter', ''), aesthetic);
+
+  return style(({
+    unit,
+    bg,
+    bgHover,
+    fg,
+    primary,
+  }) => ({
+    button: {
+      display: 'inline-block',
+      border: 0,
+      margin: 0,
+      padding: `${unit}px ${unit * 2}px`,
+      cursor: 'pointer',
+      fontWeight: 'normal',
+      lineHeight: 'normal',
+      whiteSpace: 'nowrap',
+      textDecoration: 'none',
+      textAlign: 'center',
+      backgroundColor: bg,
+      color: fg,
+      ':hover': {
+        backgroundColor: bgHover,
+      },
+      '@media': {
+        '(max-width: 600px)': {
+          display: 'block',
+        },
+      },
+    },
+    button__primary: {
+      backgroundColor: primary,
+    },
+  }))(component);
+}
+
+function Button({ children, classNames, primary = false }) {
+  console.log('Button', 'classNames', classNames);
 
   return (
     <button
@@ -45,78 +91,84 @@ function BaseButton({ children, classNames, primary = false }) {
   );
 }
 
-BaseButton.propTypes = {
+Button.propTypes = {
   children: PropTypes.node,
   classNames: PropTypes.objectOf(PropTypes.string),
   primary: PropTypes.bool,
 };
 
-const Button = style(({
-  unit, bg, bgHover, fg, primary,
-}) => ({
-  button: {
-    display: 'inline-block',
-    border: 0,
-    margin: 0,
-    padding: `${unit}px ${unit * 2}px`,
-    cursor: 'pointer',
-    fontWeight: 'normal',
-    lineHeight: 'normal',
-    whiteSpace: 'nowrap',
-    textDecoration: 'none',
-    textAlign: 'center',
-    backgroundColor: bg,
-    color: fg,
-    ':hover': {
-      backgroundColor: bgHover,
-    },
-    '@media (max-width: 600px)': {
-      display: 'block',
-    },
-  },
-  button__primary: {
-    backgroundColor: primary,
-  },
-}))(BaseButton);
+const AphroditeButton = createStyledComponent(new AphroditeAdapter(), Button);
+const FelaButton = createStyledComponent(new FelaAdapter(createFela({
+  plugins: [...felaPreset],
+})), Button);
+const GlamorButton = createStyledComponent(new GlamorAdapter(), Button);
+const JSSButton = createStyledComponent(new JSSAdapter(createJSS(jssPreset())), Button);
+const TypeStyleButton = createStyledComponent(new TypeStyleAdapter(), Button);
 
 function App() {
   return (
     <ThemeProvider name="default">
       <div>
-        <h3>
-          Default Theme
-        </h3>
+        <h3>Default Theme</h3>
 
-        <Button>
-          Foo
-        </Button>
+        <div>
+          <AphroditeButton>Aphrodite</AphroditeButton>
+          <AphroditeButton primary>Aphrodite</AphroditeButton>
+        </div>
 
-        <Button primary>
-          Bar
-        </Button>
+        <div>
+          <FelaButton>Fela</FelaButton>
+          <FelaButton primary>Fela</FelaButton>
+        </div>
+
+        <div>
+          <GlamorButton>Glamor</GlamorButton>
+          <GlamorButton primary>Glamor</GlamorButton>
+        </div>
+
+        <div>
+          <JSSButton>JSS</JSSButton>
+          <JSSButton primary>JSS</JSSButton>
+        </div>
+
+        <div>
+          <TypeStyleButton>TypeStyle</TypeStyleButton>
+          <TypeStyleButton primary>TypeStyle</TypeStyleButton>
+        </div>
 
         <ThemeProvider name="dark">
           <div>
-            <h3>
-              Dark Theme
-            </h3>
+            <h3>Dark Theme</h3>
 
-            <Button>
-              Foo
-            </Button>
+            <div>
+              <AphroditeButton>Aphrodite</AphroditeButton>
+              <AphroditeButton primary>Aphrodite</AphroditeButton>
+            </div>
 
-            <Button primary>
-              Bar
-            </Button>
+            <div>
+              <FelaButton>Fela</FelaButton>
+              <FelaButton primary>Fela</FelaButton>
+            </div>
+
+            <div>
+              <GlamorButton>Glamor</GlamorButton>
+              <GlamorButton primary>Glamor</GlamorButton>
+            </div>
+
+            <div>
+              <JSSButton>JSS</JSSButton>
+              <JSSButton primary>JSS</JSSButton>
+            </div>
+
+            <div>
+              <TypeStyleButton>TypeStyle</TypeStyleButton>
+              <TypeStyleButton primary>TypeStyle</TypeStyleButton>
+            </div>
           </div>
         </ThemeProvider>
       </div>
     </ThemeProvider>
   );
 }
-
-// Log the objects so we can inspect them
-console.log('Aesthetic', aesthetic);
-console.log('Adapter', adapter);
 
 ReactDOM.render(<App />, document.getElementById('app'));
