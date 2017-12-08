@@ -11,7 +11,7 @@
 #### 🚀 New
 * Added `@supports` unified syntax support.
 * Added a new adapter, `TypeStyle`.
-* Added a new property `localAlias` for use within `@font-face` (the `local()` value).
+* Added a new property `local` for use within `@font-face` (the `local()` value).
 * The current theme style declaration will be passed to styled components under the `theme` prop.
   * The previous `theme` prop was renamed to `themeName`.
   * The `Aesthetic` `themePropName` option now controls this new prop.

@@ -715,14 +715,14 @@ To support multiple font variations, like bold and italics, pass an array of pro
 },
 ```
 
-Lastly, to define `local()` source aliases, pass an array of strings to a `localAlias` property.
+Lastly, to define `local()` source aliases, pass an array of strings to a `local` property.
 
 ```javascript
 '@font-face': {
   'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    localAlias: ['OpenSans', 'Open-Sans'],
+    local: ['OpenSans', 'Open-Sans'],
     src: ['fonts/OpenSans.ttf'],
   },
 },

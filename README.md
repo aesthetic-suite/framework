@@ -584,9 +584,9 @@ buttonGroup: {
 },
 ```
 
-> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
-
 > Fela requires the `fela-plugin-unit` plugin.
+
+> JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
 
 #### Pseudos
 
@@ -646,6 +646,8 @@ tooltip: {
 },
 ```
 
+Nested `@media` are currently not supported.
+
 > JSS requires the `jss-nested` plugin.
 
 #### Supports
@@ -666,6 +668,8 @@ grid: {
 },
 ```
 
+Nested `@support` are currently not supported.
+
 #### Font Faces
 
 Font faces are defined outside the selector (in the root) using a `@font-face` object
@@ -682,10 +686,6 @@ and are referenced by the font family name (the object key).
 button: {
   // ...
   fontFamily: 'Open Sans',
-},
-tooltip: {
-  // ...
-  fontFamily: 'Open Sans, sans-serif',
 },
 ```
 
@@ -715,14 +715,14 @@ To support multiple font variations, like bold and italics, pass an array of pro
 },
 ```
 
-Lastly, to define `local()` source aliases, pass an array of strings to a `localAlias` property.
+Lastly, to define `local()` source aliases, pass an array of strings to a `local` property.
 
 ```javascript
 '@font-face': {
   'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    localAlias: ['OpenSans', 'Open-Sans'],
+    local: ['OpenSans', 'Open-Sans'],
     src: ['fonts/OpenSans.ttf'],
   },
 },

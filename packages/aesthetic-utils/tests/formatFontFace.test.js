@@ -16,7 +16,7 @@ describe('aesthetic-utils/formatFontFace()', () => {
   it('includes local aliases', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO,
-      localAlias: ['MrRoboto'],
+      local: ['MrRoboto'],
     })).toEqual({
       ...FONT_ROBOTO,
       src: "local('MrRoboto'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
@@ -26,7 +26,7 @@ describe('aesthetic-utils/formatFontFace()', () => {
   it('includes local aliases for flat src strings', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO_FLAT_SRC,
-      localAlias: ['MrRoboto'],
+      local: ['MrRoboto'],
     })).toEqual({
       ...FONT_ROBOTO,
       src: `local('MrRoboto'), ${FONT_ROBOTO_FLAT_SRC.src}`,

@@ -40,7 +40,7 @@ export type FontFace = {
   fontFamily: string,
   fontStyle?: string,
   fontWeight?: string | number,
-  localAlias?: string[],
+  local?: string[],
   src: string | string[],
   unicodeRange?: string,
 };

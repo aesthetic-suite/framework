@@ -22,12 +22,12 @@ export default function formatFontFace(properties: FontFace): FontFace {
   const fontFace = { ...properties };
   const src = [];
 
-  if (fontFace.localAlias) {
-    toArray(fontFace.localAlias).forEach((alias) => {
+  if (fontFace.local) {
+    toArray(fontFace.local).forEach((alias) => {
       src.push(`local('${String(alias)}')`);
     });
 
-    delete fontFace.localAlias;
+    delete fontFace.local;
   }
 
   if (Array.isArray(fontFace.src)) {
