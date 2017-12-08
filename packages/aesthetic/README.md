@@ -28,10 +28,10 @@ class Carousel extends React.Component {
     return (
       <div
         role="tablist"
-        className={classes({
+        className={classes(
           classNames.carousel,
           animating && classNames.carousel__animating,
-        })}
+        )}
       >
         <ul className={classNames.list}>
           {children}
@@ -125,6 +125,7 @@ yarn add aesthetic react
   * [Pseudos](#pseudos)
   * [Fallbacks](#fallbacks)
   * [Media Queries](#media-queries)
+  * [Supports](#supports)
   * [Font Faces](#font-faces)
   * [Animations](#animations)
   * [Selectors](#selectors)
@@ -167,15 +168,16 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | React Native |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | | | | | ✓ | ✓ | | ✓ |
+| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | Supports | React Native |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [React Native][react-native] | | | | | ✓ | ✓ | | ✓ | | |
 
 > 1. Only supports `@font-face` and `@keyframes`.
 
@@ -629,14 +631,15 @@ wrapper: {
 
 #### Media Queries
 
-Media queries are defined inside a selector using a `@media` object.
+Media queries are defined inside a selector using a `@media` object,
+with the query conditional as the key, and style declarations as the value.
 
 ```javascript
 tooltip: {
   // ...
   maxWidth: 300,
   '@media': {
-    'min-width: 400px': {
+    '(min-width: 400px)': {
       maxWidth: 'auto',
     },
   },
@@ -644,6 +647,24 @@ tooltip: {
 ```
 
 > JSS requires the `jss-nested` plugin.
+
+#### Supports
+
+Feature queries are defined inside a selector using a `@supports` object,
+with the feature conditional as the key, and style declarations as the value.
+
+```javascript
+grid: {
+  // ...
+  float: 'left',
+  '@supports': {
+    '(display: flex)': {
+      float: 'none',
+      display: 'flex',
+    },
+  },
+},
+```
 
 #### Font Faces
 
@@ -756,6 +777,7 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
+| [TypeStyle][typestyle] | ✓ | | | |
 | [React Native][react-native] | ✓ | ✓ | | ||
 
 ### React Native Support
@@ -768,6 +790,7 @@ to integrate React Native with Aesthetic.
 [fela]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela
 [glamor]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
+[typestyle]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-typestyle
 [radium]: https://github.com/FormidableLabs/radium
 [react-native]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles

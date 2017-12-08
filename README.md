@@ -632,7 +632,7 @@ wrapper: {
 #### Media Queries
 
 Media queries are defined inside a selector using a `@media` object,
-with query conditional as the key, and style declarations as the value.
+with the query conditional as the key, and style declarations as the value.
 
 ```javascript
 tooltip: {
