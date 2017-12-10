@@ -12,6 +12,9 @@ import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
 import type {
+  Fallbacks,
+  MediaQuery,
+  Style,
   StyleBlock,
   StyleDeclaration,
   StyleDeclarations,
@@ -25,77 +28,92 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     super(jss, options);
 
     this.syntax = new UnifiedSyntax()
-      .on('declaration', this.handleDeclaration);
-  }
-
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    const adaptedDeclarations = this.syntax.convert(declarations);
-    const { fontFaces, keyframes } = this.syntax;
-    const globalAtRules = {};
-    const fonts = [];
-
-    // Font faces
-    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
-    Object.keys(fontFaces).forEach((fontFamily) => {
-      fonts.push(...fontFaces[fontFamily].map(font => formatFontFace(font)));
-    });
-
-    if (fonts.length > 0) {
-      globalAtRules['@font-face'] = fonts;
-    }
-
-    // Animation keyframes
-    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
-    Object.keys(keyframes).forEach((animationName) => {
-      globalAtRules[`@keyframes ${animationName}`] = keyframes[animationName];
-    });
-
-    return {
-      ...globalAtRules,
-      ...adaptedDeclarations,
-    };
+      .on('property', this.handleProperty)
+      .on('@fallbacks', this.handleFallbacks)
+      .on('@font-face', this.handleFontFace)
+      .on('@keyframes', this.handleKeyframes)
+      .on('@media', this.handleMedia)
+      .on('@supports', this.handleSupports);
   }
 
   transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
+    return super.transform(styleName, this.syntax.convert(declarations));
   }
 
-  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
-    // Prepend pseudos with an ampersand
-    // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
-    Object.keys(properties).forEach((propName: string) => {
-      if (propName.charAt(0) === ':') {
-        properties[`&${propName}`] = properties[propName];
+  // Fallbacks
+  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
+  handleFallbacks = (
+    statement: StyleDeclarations,
+    declaration: StyleDeclaration,
+    fallbacks: Fallbacks,
+  ) => {
+    declaration.fallbacks = [];
 
-        delete properties[propName];
-      }
-    });
-
-    // Media queries
-    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#media-queries
-    // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
-    if (this.syntax.mediaQueries[selector]) {
-      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
-    }
-
-    // Fallbacks
-    // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
-    if (this.syntax.fallbacks[selector]) {
-      const fallbacks: StyleBlock[] = [];
-
-      Object.keys(this.syntax.fallbacks[selector]).forEach((propName) => {
-        toArray(this.syntax.fallbacks[selector][propName]).forEach((propValue) => {
-          fallbacks.push({ [propName]: propValue });
+    Object.keys(fallbacks).forEach((property) => {
+      toArray(fallbacks[property]).forEach((fallback) => {
+        declaration.fallbacks.push({
+          [property]: fallback,
         });
       });
+    });
+  };
 
-      properties.fallbacks = fallbacks;
-    }
+  // Font faces
+  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
+  handleFontFace = (
+    statement: StyleDeclarations,
+    fontFaces: FontFace[],
+    fontFamily: string,
+  ) => {
+    statement['@font-face'] = fontFaces.map(font => formatFontFace(font));
+  };
 
-    // Supports
-    // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
-    if (this.syntax.supports[selector]) {
-      injectSupports(properties, this.syntax.supports[selector]);
+  // Animation keyframes
+  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
+  handleKeyframes = (
+    statement: StyleDeclarations,
+    keyframes: Keyframe,
+    animationName: string,
+  ) => {
+    statement[`@keyframes ${animationName}`] = keyframes;
+  };
+
+  // Media queries
+  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#media-queries
+  // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
+  handleMedia = (
+    statement: StyleDeclarations,
+    declaration: StyleDeclaration,
+    style: MediaQuery,
+    condition: string,
+  ) => {
+    declaration[`@media ${condition}`] = style;
+  };
+
+  // Prepend pseudos with an ampersand
+  // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
+  handleProperty = (
+    statement: StyleDeclarations,
+    declaration: StyleDeclaration,
+    style: Style,
+    property: string,
+  ) => {
+    console.log(property, style);
+    if (property.charAt(0) === ':') {
+      declaration[`&${property}`] = style;
+    } else {
+      declaration[property] = style;
     }
+  };
+
+  // Supports
+  // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
+  handleSupports = (
+    statement: StyleDeclarations,
+    declaration: StyleDeclaration,
+    style: Support,
+    condition: string,
+  ) => {
+    declaration[`@supports ${condition}`] = style;
   };
 }

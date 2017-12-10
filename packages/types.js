@@ -4,7 +4,7 @@
  * @flow
  */
 
-/* eslint-disable no-use-before-define */
+/* eslint-disable no-use-before-define, max-len */
 
 // TERMINOLOGY
 // Style = The individual value for a property.
@@ -20,16 +20,44 @@ export type AestheticOptions = {
   themePropName: string,
 };
 
-export type AtRuleCache<T> = { [key: string]: T };
+export type AtRule = '@charset' |
+  '@document' |
+  '@font-face' |
+  '@import' |
+  '@keyframes' |
+  '@media' |
+  '@namespace' |
+  '@page' |
+  '@supports' |
+  '@viewport' |
+  '@fallbacks';
+
+export type AtRuleConfig = {
+  cache: { [key: string]: boolean },
+  format: AtRuleFormatter,
+  nested: boolean,
+  rule: AtRule,
+};
+
+export type AtRuleFormatter = (rule: AtRule, value: *) => *;
 
 export type ClassName = string;
 
 export type EventCallback = (() => void) |
-  ((selector: string, properties: StyleDeclaration) => void) |
-  ((selector: string, fallbacks: Fallbacks) => void) |
-  ((selector: string, fontFamily: string, fontFaces: FontFace[]) => void) |
-  ((selector: string, animationName: string, keyframe: Keyframe) => void) |
-  ((selector: string, queryName: string, mediaQuery: MediaQuery) => void);
+  // @charset, @document, @import, @namespace, @page, @viewport
+  ((statement: StyleDeclarations, style: Style) => void) |
+  // @font-face
+  ((statement: StyleDeclarations, style: FontFace[], fontFamily: string) => void) |
+  // @keyframes
+  ((statement: StyleDeclarations, style: Keyframe, animationName: string) => void) |
+  // @fallbacks
+  ((declaration: StyleDeclaration, style: Fallbacks) => void) |
+  // @media
+  ((declaration: StyleDeclaration, style: MediaQuery, condition: string) => void) |
+  // @supports
+  ((declaration: StyleDeclaration, style: Support, condition: string) => void) |
+  // property
+  ((declaration: StyleDeclaration, style: Style, property: string) => void);
 
 export type Fallback = string;
 
@@ -48,8 +76,15 @@ export type FontFace = {
 export type FontFaces = { [fontFamily: string]: FontFace[] };
 
 export type GlobalDeclaration = {
+  [propName: string]: Style,
+  '@charset'?: string,
+  '@document'?: StyleDeclaration,
   '@font-face'?: FontFaces,
+  '@import'?: string,
   '@keyframes'?: Keyframes,
+  '@namespace'?: string,
+  '@page'?: StyleDeclaration,
+  '@viewport'?: StyleDeclaration,
 };
 
 export type HOCComponent = React$ComponentType<*>;
@@ -91,8 +126,6 @@ export type StyleCallback = (
 export type StyleDeclaration = {
   [propName: string]: Style,
   '@fallbacks'?: Fallbacks,
-  '@font-face'?: FontFaces,
-  '@keyframes'?: Keyframes,
   '@media'?: MediaQueries,
   '@supports'?: Supports,
 };

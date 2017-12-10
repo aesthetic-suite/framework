@@ -33,7 +33,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       '@font-face': [FONT_ROBOTO_FLAT_SRC],
       '@keyframes fade': KEYFRAME_FADE,
       button: {
@@ -78,11 +78,11 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+    expect(instance.syntax.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
   });
 
   it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',
         '&:hover': {
@@ -96,7 +96,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('supports fallbacks', () => {
-    expect(instance.convert(SYNTAX_FALLBACK)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_FALLBACK)).toEqual({
       fallback: {
         background: 'linear-gradient(...)',
         display: 'flex',
@@ -110,7 +110,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE)).toEqual({
       '@font-face': [FONT_ROBOTO_FLAT_SRC],
       font: {
         fontFamily: 'Roboto',
@@ -120,7 +120,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_KEYFRAMES)).toEqual({
       '@keyframes fade': KEYFRAME_FADE,
       animation: {
         animationName: 'fade',
@@ -131,7 +131,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {
@@ -145,7 +145,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('supports supports', () => {
-    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_SUPPORTS)).toEqual({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
