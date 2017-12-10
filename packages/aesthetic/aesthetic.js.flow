@@ -14,15 +14,24 @@ declare module 'aesthetic' {
   declare export type ClassName = string;
 
   declare export type EventCallback = (() => void) |
-    ((selector: string, properties: StyleDeclaration) => void) |
-    ((selector: string, fallbacks: Fallbacks) => void) |
-    ((selector: string, fontFamily: string, fontFaces: FontFace[]) => void) |
-    ((selector: string, animationName: string, keyframe: Keyframe) => void) |
-    ((selector: string, queryName: string, mediaQuery: MediaQuery) => void);
+    // @charset, @document, @import, @namespace, @page, @viewport
+    ((statement: Statement, style: Style) => void) |
+    // @font-face
+    ((statement: Statement, style: FontFace[], fontFamily: string) => void) |
+    // @keyframes
+    ((statement: Statement, style: Keyframe, animationName: string) => void) |
+    // @fallbacks
+    ((declaration: StyleDeclaration, style: Fallbacks) => void) |
+    // @media
+    ((declaration: StyleDeclaration, style: MediaQuery, condition: string) => void) |
+    // @supports
+    ((declaration: StyleDeclaration, style: Support, condition: string) => void) |
+    // property
+    ((declaration: StyleDeclaration, style: Style, property: string) => void);
 
   declare export type Fallback = string;
 
-  declare export type Fallbacks = { [propName: string]: Fallback | Fallback[] };
+  declare export type Fallbacks = { [property: string]: Fallback | Fallback[] };
 
   declare export type FontFace = {
     fontDisplay?: string,
@@ -37,8 +46,14 @@ declare module 'aesthetic' {
   declare export type FontFaces = { [fontFamily: string]: FontFace[] };
 
   declare export type GlobalDeclaration = {
+    '@charset'?: string,
+    '@document'?: StyleDeclaration,
     '@font-face'?: FontFaces,
+    '@import'?: string,
     '@keyframes'?: Keyframes,
+    '@namespace'?: string,
+    '@page'?: StyleDeclaration,
+    '@viewport'?: StyleDeclaration,
   };
 
   declare export type HOCComponent = React$ComponentType<*>;
@@ -66,27 +81,26 @@ declare module 'aesthetic' {
 
   declare export type MediaQueries = { [query: string]: MediaQuery };
 
-  declare export type SelectorMap<T> = { [selector: string]: T };
+  declare export type Statement = {
+    ...GlobalDeclaration,
+    [selector: string]: ClassName | StyleDeclaration,
+  };
 
   declare export type Style = string | string[] | number | StyleBlock | StyleBlock[];
 
-  declare export type StyleBlock = { [propName: string]: Style };
+  declare export type StyleBlock = { [property: string]: Style };
 
   declare export type StyleCallback = (
     theme: ThemeDeclaration,
-    prevStyles: StyleDeclarations,
-  ) => StyleDeclarations;
+    prevStyles: Statement,
+  ) => Statement;
 
   declare export type StyleDeclaration = {
-    [propName: string]: Style,
+    [property: string]: Style,
     '@fallbacks'?: Fallbacks,
-    '@font-face'?: FontFaces,
-    '@keyframes'?: Keyframes,
     '@media'?: MediaQueries,
     '@supports'?: Supports,
   };
-
-  declare export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
 
   declare export type Support = StyleBlock;
 
@@ -94,7 +108,7 @@ declare module 'aesthetic' {
 
   declare export type ThemeDeclaration = StyleBlock;
 
-  declare export type TransformedDeclarations = SelectorMap<ClassName>;
+  declare export type StyleSheet = { [selector: string]: ClassName };
 
   declare export class Adapter {
     bypassNativeStyleSheet: boolean;
@@ -103,7 +117,7 @@ declare module 'aesthetic' {
     unifiedSyntax: boolean;
 
     constructor(options?: Object): this;
-    transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations;
+    transform<T: Object>(styleName: string, statement: T): StyleSheet;
   }
 
   declare export class ClassNameAdapter extends Adapter {}
@@ -115,11 +129,11 @@ declare module 'aesthetic' {
 
   declare export default class Aesthetic {
     adapter: Adapter;
-    cache: { [styleName: string]: TransformedDeclarations };
+    cache: { [styleName: string]: StyleSheet };
     native: boolean;
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
-    styles: { [styleName: string]: StyleCallback | StyleDeclarations };
+    styles: { [styleName: string]: StyleCallback | Statement };
     themes: { [themeName: string]: ThemeDeclaration };
 
     constructor(adapter: Adapter, options?: Object): this;
@@ -129,7 +143,7 @@ declare module 'aesthetic' {
       theme?: ThemeDeclaration,
       globals?: GlobalDeclaration,
     ): this;
-    getStyles(styleName: string, themeName?: string): StyleDeclarations;
+    getStyles(styleName: string, themeName?: string): Statement;
     getTheme(themeName?: string): ThemeDeclaration;
     registerTheme(
       themeName: string,
@@ -139,16 +153,16 @@ declare module 'aesthetic' {
     setAdapter(adapter: Adapter): this;
     setStyles(
       styleName: string,
-      declarations: StyleCallback | StyleDeclarations,
+      statement: StyleCallback | Statement,
       extendFrom?: string,
     ): this;
-    transformStyles(styleName: string, themeName?: string): TransformedDeclarations;
+    transformStyles(styleName: string, themeName?: string): StyleSheet;
     validateTransform(styleName: string, selector: string, value: ClassName): ClassName;
   }
 
   declare export function style(
     aesthetic: Aesthetic,
-    styles: StyleCallback | StyleDeclarations,
+    styles: StyleCallback | Statement,
     options?: HOCOptions,
   ): (HOCWrappedComponent) => HOCComponent;
 
@@ -166,7 +180,7 @@ declare module 'aesthetic/unified' {
     Keyframes,
     MediaQueries,
     StyleDeclaration,
-    StyleDeclarations,
+    Statement,
     Supports,
   } from 'aesthetic';
 
@@ -182,7 +196,7 @@ declare module 'aesthetic/unified' {
     mediaQueries: AtRuleCache<MediaQueries>;
     supports: AtRuleCache<Supports>;
 
-    convert(declarations: StyleDeclarations): StyleDeclarations;
+    convert(statement: Statement): Statement;
     convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
     emit(eventName: string, args: *[]): this;
     extract(selector: string, atRule: string, rules: *, fromScope: string): void;

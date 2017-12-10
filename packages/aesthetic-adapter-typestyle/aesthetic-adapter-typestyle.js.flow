@@ -7,10 +7,10 @@ declare module 'aesthetic-adapter-typestyle' {
 }
 
 declare module 'aesthetic-adapter-typestyle/unified' {
-  import type { StyleDeclarations } from 'aesthetic';
+  import type { Statement } from 'aesthetic';
 
   declare export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
     syntax: UnifiedSyntax;
-    convert(declarations: StyleDeclarations): StyleDeclarations;
+    convert(statement: Statement): Statement;
   }
 }

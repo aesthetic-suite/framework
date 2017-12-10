@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { TransformedDeclarations } from '../../types';
+import type { StyleSheet } from '../../types';
 
 export default class Adapter {
   bypassNativeStyleSheet: boolean = false;
@@ -20,7 +20,7 @@ export default class Adapter {
   /**
    * Transform the unified or native syntax using the registered adapter.
    */
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
     throw new Error(`${this.constructor.name} must define the \`transform\` method.`);
   }
 }

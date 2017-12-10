@@ -20,7 +20,8 @@ export type AestheticOptions = {
   themePropName: string,
 };
 
-export type AtRule = '@charset' |
+export type AtRule =
+  '@charset' |
   '@document' |
   '@font-face' |
   '@import' |
@@ -45,11 +46,11 @@ export type ClassName = string;
 
 export type EventCallback = (() => void) |
   // @charset, @document, @import, @namespace, @page, @viewport
-  ((statement: StyleDeclarations, style: Style) => void) |
+  ((statement: Statement, style: Style) => void) |
   // @font-face
-  ((statement: StyleDeclarations, style: FontFace[], fontFamily: string) => void) |
+  ((statement: Statement, style: FontFace[], fontFamily: string) => void) |
   // @keyframes
-  ((statement: StyleDeclarations, style: Keyframe, animationName: string) => void) |
+  ((statement: Statement, style: Keyframe, animationName: string) => void) |
   // @fallbacks
   ((declaration: StyleDeclaration, style: Fallbacks) => void) |
   // @media
@@ -61,7 +62,7 @@ export type EventCallback = (() => void) |
 
 export type Fallback = string;
 
-export type Fallbacks = { [propName: string]: Fallback | Fallback[] };
+export type Fallbacks = { [property: string]: Fallback[] }; // Formatted
 
 export type FontFace = {
   fontDisplay?: string,
@@ -73,18 +74,17 @@ export type FontFace = {
   unicodeRange?: string,
 };
 
-export type FontFaces = { [fontFamily: string]: FontFace[] };
+export type FontFaces = { [fontFamily: string]: FontFace[] }; // Formatted
 
 export type GlobalDeclaration = {
-  [propName: string]: Style,
   '@charset'?: string,
-  '@document'?: StyleDeclaration,
-  '@font-face'?: FontFaces,
+  '@document'?: { [url: string]: StyleBlock },
+  '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] },
   '@import'?: string,
-  '@keyframes'?: Keyframes,
+  '@keyframes'?: { [animationName: string]: Keyframe },
   '@namespace'?: string,
-  '@page'?: StyleDeclaration,
-  '@viewport'?: StyleDeclaration,
+  '@page'?: StyleBlock,
+  '@viewport'?: StyleBlock,
 };
 
 export type HOCComponent = React$ComponentType<*>;
@@ -112,25 +112,23 @@ export type MediaQuery = StyleBlock;
 
 export type MediaQueries = { [query: string]: MediaQuery };
 
-export type SelectorMap<T> = { [selector: string]: T };
+export type Statement = {
+  ...GlobalDeclaration,
+  [selector: string]: ClassName | StyleDeclaration,
+};
 
 export type Style = string | string[] | number | StyleBlock | StyleBlock[];
 
-export type StyleBlock = { [propName: string]: Style };
+export type StyleBlock = { [property: string]: Style };
 
-export type StyleCallback = (
-  theme: ThemeDeclaration,
-  prevStyles: StyleDeclarations,
-) => StyleDeclarations;
+export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
 
 export type StyleDeclaration = {
-  [propName: string]: Style,
+  [property: string]: Style,
   '@fallbacks'?: Fallbacks,
   '@media'?: MediaQueries,
   '@supports'?: Supports,
 };
-
-export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
 
 export type Support = StyleBlock;
 
@@ -138,4 +136,4 @@ export type Supports = { [feature: string]: Support };
 
 export type ThemeDeclaration = StyleBlock;
 
-export type TransformedDeclarations = SelectorMap<ClassName>;
+export type StyleSheet = { [selector: string]: ClassName }

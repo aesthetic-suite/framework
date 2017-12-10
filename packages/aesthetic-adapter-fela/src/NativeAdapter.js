@@ -10,7 +10,7 @@ import { createRenderer } from 'fela';
 import { render } from 'fela-dom';
 
 import type { Renderer } from 'fela';
-import type { TransformedDeclarations } from '../../types';
+import type { StyleSheet } from '../../types';
 
 export default class FelaAdapter extends Adapter {
   bypassNativeStyleSheet: boolean = true;
@@ -31,11 +31,11 @@ export default class FelaAdapter extends Adapter {
     }
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
     const output = {};
 
-    Object.keys(declarations).forEach((selector) => {
-      const value = declarations[selector];
+    Object.keys(statement).forEach((selector) => {
+      const value = statement[selector];
 
       if (typeof value === 'string') {
         output[selector] = this.native ? {} : value;

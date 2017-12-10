@@ -8,7 +8,7 @@ import UnifiedSyntax from 'aesthetic/unified';
 import { injectFontFaces, injectKeyframes, injectMediaQueries } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclaration, StyleDeclarations, TransformedDeclarations } from '../../types';
+import type { StyleDeclaration, Statement, StyleSheet } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -20,12 +20,12 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
       .on('declaration', this.handleDeclaration);
   }
 
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    return this.syntax.convert(declarations);
+  convert(statement: Statement): Statement {
+    return this.syntax.convert(statement);
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+    return super.transform(styleName, this.convert(statement));
   }
 
   handleDeclaration = (selector: string, properties: StyleDeclaration) => {

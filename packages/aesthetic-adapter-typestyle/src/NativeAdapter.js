@@ -7,10 +7,10 @@
 import { Adapter } from 'aesthetic';
 import { style } from 'typestyle';
 
-import type { TransformedDeclarations } from '../../types';
+import type { StyleSheet } from '../../types';
 
 export default class TypeStyleAdapter extends Adapter {
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('TypeStyle does not support React Native.');
@@ -19,8 +19,8 @@ export default class TypeStyleAdapter extends Adapter {
 
     const output = {};
 
-    Object.keys(declarations).forEach((selector) => {
-      const value = declarations[selector];
+    Object.keys(statement).forEach((selector) => {
+      const value = statement[selector];
 
       output[selector] = (typeof value === 'string') ? value : style(value);
     });

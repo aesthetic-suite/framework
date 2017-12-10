@@ -6,10 +6,10 @@
 
 import { Adapter } from 'aesthetic';
 
-import type { TransformedDeclarations } from '../../types';
+import type { StyleSheet } from '../../types';
 
 export default class CSSModulesAdapter extends Adapter {
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('CSS modules do not support React Native.');
@@ -18,8 +18,8 @@ export default class CSSModulesAdapter extends Adapter {
 
     const output = {};
 
-    Object.keys(declarations).forEach((selector) => {
-      output[selector] = `${styleName}-${String(declarations[selector])}`;
+    Object.keys(statement).forEach((selector) => {
+      output[selector] = String(statement[selector]);
     });
 
     return output;

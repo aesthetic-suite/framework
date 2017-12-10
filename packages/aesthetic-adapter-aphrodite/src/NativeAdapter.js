@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
 
-import type { TransformedDeclarations } from '../../types';
+import type { StyleSheet as AestheticStyleSheet } from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
@@ -18,14 +18,14 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
+  transform<T: Object>(styleName: string, statement: T): AestheticStyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('Aphrodite does not support React Native.');
       }
     }
 
-    const styleSheet = this.aphrodite.create(declarations);
+    const styleSheet = this.aphrodite.create(statement);
     const output = {};
 
     Object.keys(styleSheet).forEach((selector) => {

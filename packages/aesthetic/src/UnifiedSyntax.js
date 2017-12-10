@@ -15,11 +15,11 @@ import type {
   EventCallback,
   Fallbacks,
   FontFaces,
-  Keyframes,
-  MediaQueries,
+  // Keyframes,
+  // MediaQueries,
   StyleDeclaration,
-  StyleDeclarations,
-  Supports,
+  Statement,
+  // Supports,
 } from '../../types';
 
 export default class UnifiedSyntax {
@@ -39,6 +39,7 @@ export default class UnifiedSyntax {
       .addGlobalRule('@font-face', this.formatFontFace, true)
       .addGlobalRule('@import', this.formatInline)
       .addGlobalRule('@keyframes', this.formatBlock, true)
+      .addGlobalRule('@namespace', this.formatInline)
       .addGlobalRule('@page', this.formatBlock)
       .addGlobalRule('@viewport', this.formatBlock);
   }
@@ -74,7 +75,7 @@ export default class UnifiedSyntax {
   /**
    * Format and verify a value is a style declaration object.
    */
-  formatBlock<T: Object>(rule: AtRule, value: T): Object {
+  formatBlock<T: Object>(rule: AtRule, value: T): T {
     if (!value || typeof value !== 'object') {
       throw new TypeError(`Invalid type for "${rule}", must be a style object.`);
     }
@@ -85,7 +86,7 @@ export default class UnifiedSyntax {
   /**
    * Format each fallback value into an array of possible values for each property.
    */
-  formatFallbacks<T: Object>(rule: AtRule, value: T): Fallbacks {
+  formatFallbacks<T: Object>(rule: AtRule, value: T): T {
     const fallbacks = {};
 
     Object.keys(this.formatBlock(rule, value)).forEach((key) => {
@@ -122,21 +123,21 @@ export default class UnifiedSyntax {
    * Convert the unified syntax to adapter specific syntax
    * by extracting at-rules and applying conversions at each selector level.
    */
-  convert(declarations: StyleDeclarations): StyleDeclarations {
+  convert(statement: Statement): Statement {
     const nextDeclarations = {};
 
     // Verify there are no local at-rules
     if (__DEV__) {
       Object.keys(this.localRules).forEach((rule) => {
-        if (declarations[rule]) {
+        if (statement[rule]) {
           throw new SyntaxError(`${rule} must be defined local within a selector.`);
         }
       });
     }
 
     // Convert global at-rules and selectors
-    Object.keys(declarations).forEach((selector) => {
-      const declaration = declarations[selector];
+    Object.keys(statement).forEach((selector) => {
+      const declaration = statement[selector];
       let value = {};
 
       // At-rule
@@ -165,6 +166,9 @@ export default class UnifiedSyntax {
     return nextDeclarations;
   }
 
+  /**
+   * Convert a style declaration including local at-rules and properties.
+   */
   convertDeclaration(selector: string, declaration: StyleDeclaration): StyleDeclaration {
     const nextDeclaration = {};
 
@@ -196,6 +200,9 @@ export default class UnifiedSyntax {
     return nextDeclaration;
   }
 
+  /**
+   * Convert an at-rule based on its config.
+   */
   convertRule(config: AtRuleConfig, value: *, declaration: *) {
     if (config.nested) {
       Object.keys(value).forEach((key) => {

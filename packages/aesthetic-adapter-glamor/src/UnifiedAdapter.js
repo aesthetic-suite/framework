@@ -19,8 +19,8 @@ import type {
   FontFace,
   Keyframe,
   StyleDeclaration,
-  StyleDeclarations,
-  TransformedDeclarations,
+  Statement,
+  StyleSheet,
 } from '../../types';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
@@ -35,12 +35,12 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
       .on('keyframe', this.handleKeyframe);
   }
 
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    return this.syntax.convert(declarations);
+  convert(statement: Statement): Statement {
+    return this.syntax.convert(statement);
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
+  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+    return super.transform(styleName, this.convert(statement));
   }
 
   handleDeclaration = (selector: string, properties: StyleDeclaration) => {

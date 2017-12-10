@@ -9,11 +9,11 @@ declare module 'aesthetic-adapter-aphrodite' {
 }
 
 declare module 'aesthetic-adapter-aphrodite/unified' {
-  import type { StyleDeclarations } from 'aesthetic';
+  import type { Statement } from 'aesthetic';
 
   declare export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     syntax: UnifiedSyntax;
     constructor(aphrodite: Object, options?: Object): this;
-    convert(declarations: StyleDeclarations): StyleDeclarations;
+    convert(statement: Statement): Statement;
   }
 }

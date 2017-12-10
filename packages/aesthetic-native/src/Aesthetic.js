@@ -8,7 +8,7 @@ import Aesthetic, { Adapter } from 'aesthetic';
 import { StyleSheet } from 'react-native';
 import ReactNativeAdapter from './Adapter';
 
-import type { StyleDeclaration, TransformedDeclarations } from '../../types';
+import type { StyleDeclaration, StyleSheet as AestheticStyleSheet } from '../../types';
 
 export default class ReactNativeAesthetic extends Aesthetic {
   native: boolean = true;
@@ -23,7 +23,7 @@ export default class ReactNativeAesthetic extends Aesthetic {
   /**
    * Pass the transformed styles through React Native's `StyleSheet` layer.
    */
-  transformStyles(styleName: string, themeName?: string): TransformedDeclarations {
+  transformStyles(styleName: string, themeName?: string): AestheticStyleSheet {
     const styles = super.transformStyles(styleName, themeName);
 
     // Some adapters call `StyleSheet` themselves, so we need to avoid doing it twice

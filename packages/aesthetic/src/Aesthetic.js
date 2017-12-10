@@ -13,15 +13,15 @@ import type {
   ClassName,
   GlobalDeclaration,
   StyleCallback,
-  StyleDeclarations,
+  Statement,
   ThemeDeclaration,
-  TransformedDeclarations,
+  StyleSheet,
 } from '../../types';
 
 export default class Aesthetic {
   adapter: Adapter;
 
-  cache: { [styleName: string]: TransformedDeclarations } = {};
+  cache: { [styleName: string]: StyleSheet } = {};
 
   native: boolean = false;
 
@@ -35,7 +35,7 @@ export default class Aesthetic {
 
   parents: { [childStyleName: string]: string } = {};
 
-  styles: { [styleName: string]: StyleCallback | StyleDeclarations } = {};
+  styles: { [styleName: string]: StyleCallback | Statement } = {};
 
   themes: { [themeName: string]: ThemeDeclaration } = {};
 
@@ -68,7 +68,7 @@ export default class Aesthetic {
    * Extract the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and previous inherited styles.
    */
-  getStyles(styleName: string, themeName?: string = ''): StyleDeclarations {
+  getStyles(styleName: string, themeName?: string = ''): Statement {
     const parentStyleName = this.parents[styleName];
     const declarations = this.styles[styleName];
 
@@ -158,19 +158,19 @@ export default class Aesthetic {
    */
   setStyles(
     styleName: string,
-    declarations: StyleCallback | StyleDeclarations,
+    statement: StyleCallback | Statement,
     extendFrom?: string = '',
   ): this {
     if (__DEV__) {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
 
-      } else if (!isObject(declarations) && typeof declarations !== 'function') {
+      } else if (!isObject(statement) && typeof statement !== 'function') {
         throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
       }
     }
 
-    this.styles[styleName] = declarations;
+    this.styles[styleName] = statement;
 
     if (extendFrom) {
       if (__DEV__) {
@@ -192,7 +192,7 @@ export default class Aesthetic {
    * Execute the adapter transformer on the set of style declarations for the
    * defined component. Optionally support a custom theme.
    */
-  transformStyles(styleName: string, themeName?: string): TransformedDeclarations {
+  transformStyles(styleName: string, themeName?: string): StyleSheet {
     const fallbackThemeName = themeName || this.options.defaultTheme || '';
     const cacheKey = `${styleName}:${fallbackThemeName}`;
 
