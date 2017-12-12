@@ -6,12 +6,12 @@
 
 import Adapter from './Adapter';
 
-import type { StyleSheet } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+  transform(styleName: string, statement: Statement): StyleSheet {
     const classNames = {};
 
     Object.keys(statement).forEach((selector) => {

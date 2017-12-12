@@ -4,15 +4,15 @@
  * @flow
  */
 
-import { isObject } from 'aesthetic-utils';
 import deepMerge from 'lodash.merge';
+import isObject from './helpers/isObject';
 import Adapter from './Adapter';
 
 import type {
   AestheticOptions,
   ClassName,
-  GlobalDeclaration,
   StyleCallback,
+  StyleDeclaration,
   Statement,
   ThemeDeclaration,
   StyleSheet,
@@ -55,7 +55,7 @@ export default class Aesthetic {
     parentThemeName: string,
     themeName: string,
     theme?: ThemeDeclaration = {},
-    globals?: GlobalDeclaration = {},
+    globals?: Statement = {},
   ): this {
     return this.registerTheme(
       themeName,
@@ -70,19 +70,19 @@ export default class Aesthetic {
    */
   getStyles(styleName: string, themeName?: string = ''): Statement {
     const parentStyleName = this.parents[styleName];
-    const declarations = this.styles[styleName];
+    const statement = this.styles[styleName];
 
     if (__DEV__) {
-      if (!declarations) {
+      if (!statement) {
         throw new Error(`Styles do not exist for "${styleName}".`);
       }
     }
 
-    if (typeof declarations !== 'function') {
-      return declarations;
+    if (typeof statement !== 'function') {
+      return statement;
     }
 
-    return declarations(
+    return statement(
       themeName ? this.getTheme(themeName) : {},
       parentStyleName ? this.getStyles(parentStyleName, themeName) : {},
     );
@@ -115,7 +115,7 @@ export default class Aesthetic {
   registerTheme(
     themeName: string,
     theme?: ThemeDeclaration = {},
-    globals?: GlobalDeclaration = {},
+    globals?: Statement = {},
   ): this {
     if (__DEV__) {
       if (this.themes[themeName]) {
@@ -200,17 +200,20 @@ export default class Aesthetic {
       return this.cache[cacheKey];
     }
 
-    const declarations = this.getStyles(styleName, fallbackThemeName);
-    const toTransform = {};
-    const output = {};
+    const statement = this.getStyles(styleName, fallbackThemeName);
+    const toTransform = ({}: Statement);
+    const output = ({}: StyleSheet);
     let setCount = 0;
 
     // Separate style objects from class names
-    Object.keys(declarations).forEach((selector) => {
-      if (typeof declarations[selector] === 'string') {
-        output[selector] = this.native ? {} : declarations[selector];
-      } else {
-        toTransform[selector] = declarations[selector];
+    Object.keys(statement).forEach((selector) => {
+      const value = statement[selector];
+
+      if (typeof value === 'string') {
+        output[selector] = this.native ? {} : value;
+
+      } else if (value) {
+        toTransform[selector] = value;
         setCount += 1;
       }
     });
