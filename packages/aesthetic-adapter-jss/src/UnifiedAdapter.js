@@ -5,7 +5,6 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-// import { formatFontFace, injectMediaQueries, injectSupports, toArray } from 'aesthetic-utils';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 

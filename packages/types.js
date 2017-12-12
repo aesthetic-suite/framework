@@ -9,8 +9,9 @@
 // TERMINOLOGY
 // Style = The individual value for a property.
 // Block = An object of style properties.
-// Declaration = Styles for a selector. Supports at-rules.
+// Declaration = Styles for a selector. Supports local at-rules.
 // Selector = The name of an element.
+// Statement = An object of declarations. Supports global at-rules.
 
 export type AestheticOptions = {
   defaultTheme: string,
@@ -32,15 +33,6 @@ export type AtRule =
   '@supports' |
   '@viewport' |
   '@fallbacks';
-
-export type AtRuleConfig = {
-  cache: { [key: string]: * },
-  format: AtRuleFormatter,
-  nested: boolean,
-  rule: AtRule,
-};
-
-export type AtRuleFormatter = (rule: AtRule, value: string | StyleBlock) => *;
 
 export type ClassName = string;
 
@@ -68,22 +60,6 @@ export type EventCallback = (() => void) |
   // property
   ((declaration: StyleDeclaration, style: Style, property: string) => void);
 
-export type Fallback = string;
-
-export type Fallbacks = { [property: string]: Fallback | Fallback[] };
-
-export type FontFace = {
-  fontDisplay?: string,
-  fontFamily: string,
-  fontStyle?: string,
-  fontWeight?: string | number,
-  local?: string[],
-  src: string | string[],
-  unicodeRange?: string,
-};
-
-export type FontFaces = { [fontFamily: string]: FontFace | FontFace[] };
-
 export type HOCComponent = React$ComponentType<*>;
 
 export type HOCOptions = {
@@ -96,18 +72,6 @@ export type HOCOptions = {
 };
 
 export type HOCWrappedComponent = React$ComponentType<*>;
-
-export type Keyframe = {
-  from?: StyleBlock,
-  to?: StyleBlock,
-  [percentage: string]: StyleBlock,
-};
-
-export type Keyframes = { [animationName: string]: Keyframe };
-
-export type MediaQuery = StyleBlock;
-
-export type MediaQueries = { [condition: string]: MediaQuery };
 
 export type Statement = {
   '@font-face'?: StyleBlock[],
@@ -149,7 +113,3 @@ export type StyleDeclarationUnified = {
 export type ThemeDeclaration = StyleBlock;
 
 export type StyleSheet = { [selector: string]: ClassName };
-
-export type Support = StyleBlock;
-
-export type Supports = { [condition: string]: Support };

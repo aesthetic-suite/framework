@@ -7,13 +7,6 @@
 /* eslint-disable no-param-reassign */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import {
-  formatFontFace,
-  injectFallbacks,
-  injectKeyframes,
-  injectMediaQueries,
-  injectSupports,
-} from 'aesthetic-utils';
 import { fontFace, keyframes } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
 

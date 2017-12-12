@@ -1,4 +1,4 @@
-import createStyleElement from '../src/createStyleElement';
+import createStyleElement from '../../src/helpers/createStyleElement';
 
 describe('aesthetic-utils/createStyleElement()', () => {
   it('creates a style tag and injects into the head', () => {

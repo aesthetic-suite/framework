@@ -1,4 +1,4 @@
-import toArray from '../src/toArray';
+import toArray from '../../src/helpers/toArray';
 
 describe('aesthetic-utils/toArray()', () => {
   it('returns an array from a non-array value', () => {

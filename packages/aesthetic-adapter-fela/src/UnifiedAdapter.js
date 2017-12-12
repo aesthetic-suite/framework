@@ -5,13 +5,6 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import {
-  injectFallbacks,
-  injectFontFaces,
-  injectKeyframes,
-  injectMediaQueries,
-  injectSupports,
-} from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line

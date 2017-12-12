@@ -5,13 +5,6 @@
  */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import {
-  formatFontFace,
-  injectFallbacks,
-  injectKeyframes,
-  injectMediaQueries,
-  injectSupports,
-} from 'aesthetic-utils';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 

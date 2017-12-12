@@ -6,7 +6,7 @@
 
 import toArray from './toArray';
 
-import type { FontFace } from '../../../types';
+import type { StyleBlock } from '../../../types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',
@@ -18,7 +18,7 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: FontFace): FontFace {
+export default function formatFontFace(properties: StyleBlock): StyleBlock {
   const fontFace = { ...properties };
   const src = [];
 

@@ -8,4 +8,3 @@
 * [aesthetic-adapter-jss](./packages/aesthetic-adapter-jss/CHANGELOG.md)
 * [aesthetic-adapter-typestyle](./packages/aesthetic-adapter-typestyle/CHANGELOG.md)
 * [aesthetic-native](./packages/aesthetic-native/CHANGELOG.md)
-* [aesthetic-utils](./packages/aesthetic-utils/CHANGELOG.md)

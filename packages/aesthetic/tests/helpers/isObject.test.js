@@ -1,4 +1,4 @@
-import isObject from '../src/isObject';
+import isObject from '../../src/helpers/isObject';
 
 describe('aesthetic-utils/isObject', () => {
   it('returns false for non-objects', () => {

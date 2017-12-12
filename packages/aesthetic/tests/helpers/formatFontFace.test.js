@@ -1,5 +1,5 @@
-import formatFontFace from '../src/formatFontFace';
-import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../../tests/mocks';
+import formatFontFace from '../../src/helpers/formatFontFace';
+import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../../../tests/mocks';
 
 describe('aesthetic-utils/formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {

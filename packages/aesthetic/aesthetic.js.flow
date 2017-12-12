@@ -9,52 +9,44 @@ declare module 'aesthetic' {
     themePropName: string,
   };
 
-  declare export type AtRuleCache<T> = { [rule: string]: T };
+  declare export type AtRule =
+    '@charset' |
+    '@document' |
+    '@font-face' |
+    '@import' |
+    '@keyframes' |
+    '@media' |
+    '@namespace' |
+    '@page' |
+    '@supports' |
+    '@viewport' |
+    '@fallbacks';
 
   declare export type ClassName = string;
 
   declare export type EventCallback = (() => void) |
-    // @charset, @document, @import, @namespace, @page, @viewport
-    ((statement: Statement, style: Style) => void) |
+    // @charset
+    ((statement: Statement, style: string) => void) |
+    // @document
+    ((statement: Statement, style: StyleBlock, url: string) => void) |
+    // @import
+    ((statement: Statement, style: string) => void) |
+    // @namespace
+    ((statement: Statement, style: string) => void) |
+    // @page, @viewport
+    ((statement: Statement, style: StyleBlock) => void) |
     // @font-face
-    ((statement: Statement, style: FontFace[], fontFamily: string) => void) |
+    ((statement: Statement, style: StyleBlock[], fontFamily: string) => void) |
     // @keyframes
-    ((statement: Statement, style: Keyframe, animationName: string) => void) |
+    ((statement: Statement, style: StyleBlock, animationName: string) => void) |
     // @fallbacks
-    ((declaration: StyleDeclaration, style: Fallbacks) => void) |
+    ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
     // @media
-    ((declaration: StyleDeclaration, style: MediaQuery, condition: string) => void) |
+    ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
     // @supports
-    ((declaration: StyleDeclaration, style: Support, condition: string) => void) |
+    ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
     // property
     ((declaration: StyleDeclaration, style: Style, property: string) => void);
-
-  declare export type Fallback = string;
-
-  declare export type Fallbacks = { [property: string]: Fallback | Fallback[] };
-
-  declare export type FontFace = {
-    fontDisplay?: string,
-    fontFamily: string,
-    fontStyle?: string,
-    fontWeight?: string | number,
-    local?: string[],
-    src: string | string[],
-    unicodeRange?: string,
-  };
-
-  declare export type FontFaces = { [fontFamily: string]: FontFace[] };
-
-  declare export type GlobalDeclaration = {
-    '@charset'?: string,
-    '@document'?: StyleDeclaration,
-    '@font-face'?: FontFaces,
-    '@import'?: string,
-    '@keyframes'?: Keyframes,
-    '@namespace'?: string,
-    '@page'?: StyleDeclaration,
-    '@viewport'?: StyleDeclaration,
-  };
 
   declare export type HOCComponent = React$ComponentType<*>;
 
@@ -69,42 +61,42 @@ declare module 'aesthetic' {
 
   declare export type HOCWrappedComponent = React$ComponentType<*>;
 
-  declare export type Keyframe = {
-    from?: StyleBlock,
-    to?: StyleBlock,
-    [percentage: string]: StyleBlock,
-  };
-
-  declare export type Keyframes = { [animationName: string]: Keyframe };
-
-  declare export type MediaQuery = StyleBlock;
-
-  declare export type MediaQueries = { [query: string]: MediaQuery };
-
   declare export type Statement = {
-    ...GlobalDeclaration,
-    [selector: string]: ClassName | StyleDeclaration,
+    '@font-face'?: StyleBlock[],
+    // At-rule values
+    // CSS class names
+    // Style objects
+    [selector: string]: string | ClassName | StyleDeclaration,
   };
 
-  declare export type Style = string | string[] | number | StyleBlock | StyleBlock[];
+  declare export type StatementUnified = {
+    '@charset': string,
+    '@document': StyleBlock,
+    '@font-face': StyleBlock,
+    '@import': string,
+    '@keyframes': StyleBlock,
+    '@namespace': string,
+    '@page': StyleBlock,
+    '@viewport': StyleBlock,
+    // CSS class names
+    // Style objects
+    [selector: string]: ClassName | StyleDeclarationUnified,
+  };
+
+  declare export type Style = string | number | StyleBlock | Style[];
 
   declare export type StyleBlock = { [property: string]: Style };
 
-  declare export type StyleCallback = (
-    theme: ThemeDeclaration,
-    prevStyles: Statement,
-  ) => Statement;
+  declare export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
 
-  declare export type StyleDeclaration = {
+  declare export type StyleDeclaration = { [property: string]: Style };
+
+  declare export type StyleDeclarationUnified = {
+    '@fallbacks': StyleBlock,
+    '@media': StyleBlock,
+    '@supports': StyleBlock,
     [property: string]: Style,
-    '@fallbacks'?: Fallbacks,
-    '@media'?: MediaQueries,
-    '@supports'?: Supports,
   };
-
-  declare export type Support = StyleBlock;
-
-  declare export type Supports = { [feature: string]: Support };
 
   declare export type ThemeDeclaration = StyleBlock;
 
@@ -117,7 +109,7 @@ declare module 'aesthetic' {
     unifiedSyntax: boolean;
 
     constructor(options?: Object): this;
-    transform<T: Object>(styleName: string, statement: T): StyleSheet;
+    transform(styleName: string, statement: Statement): StyleSheet;
   }
 
   declare export class ClassNameAdapter extends Adapter {}
@@ -141,14 +133,14 @@ declare module 'aesthetic' {
       parentThemeName: string,
       themeName: string,
       theme?: ThemeDeclaration,
-      globals?: GlobalDeclaration,
+      globals?: Statement,
     ): this;
     getStyles(styleName: string, themeName?: string): Statement;
     getTheme(themeName?: string): ThemeDeclaration;
     registerTheme(
       themeName: string,
       theme?: ThemeDeclaration,
-      globals?: GlobalDeclaration,
+      globals?: Statement,
     ): this;
     setAdapter(adapter: Adapter): this;
     setStyles(
@@ -173,41 +165,42 @@ declare module 'aesthetic' {
 
 declare module 'aesthetic/unified' {
   import type {
-    AtRuleCache,
+    AtRule,
     EventCallback,
-    Fallbacks,
-    FontFaces,
-    Keyframes,
-    MediaQueries,
-    StyleDeclaration,
     Statement,
-    Supports,
+    StatementUnified,
+    Style,
+    StyleBlock,
+    StyleDeclaration,
+    StyleDeclarationUnified,
   } from 'aesthetic';
 
-  declare export default class UnifiedSyntax {
-    static LOCAL: string;
-    static GLOBAL: string;
-    events: { [eventName: string]: EventCallback };
-    fallbacks: AtRuleCache<Fallbacks>;
-    fontFaces: FontFaces;
-    fontFacesCache: AtRuleCache<string[]>;
-    keyframes: Keyframes;
-    keyframesCache: AtRuleCache<string>;
-    mediaQueries: AtRuleCache<MediaQueries>;
-    supports: AtRuleCache<Supports>;
+  declare export var GLOBAL_RULES: AtRule[];
+  declare export var LOCAL_RULES: AtRule[];
 
-    convert(statement: Statement): Statement;
-    convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration;
+  declare export default class UnifiedSyntax {
+    events: { [eventName: string]: EventCallback };
+    fontFaces: { [fontFamily: string]: StyleBlock[] };
+    keyframes: { [animationName: string]: StyleBlock };
+
+    convert(statement: StatementUnified): Statement;
+    convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration;
     emit(eventName: string, args: *[]): this;
-    extract(selector: string, atRule: string, rules: *, fromScope: string): void;
-    extractFallbacks(selector: string, properties: Fallbacks, fromScope: string): void;
-    extractFontFaces(selector: string, rules: FontFaces, fromScope: string): void;
-    extractKeyframes(selector: string, rules: Keyframes, fromScope: string): void;
-    extractMediaQueries(selector: string, rules: MediaQueries, fromScope: string): void;
-    extractSupports(selector: string, rules: Supports, fromScope: string): void;
+    handleCharset(statement: Statement, style: string): void;
+    handleDocument(statement: Statement, style: StyleBlock, url: string): void;
+    handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string): void;
+    handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string): void;
+    handleImport(statement: Statement, style: string): void;
+    handleKeyframes(statement: Statement, style: StyleBlock, animationName: string): void;
+    handleMedia(declaration: StyleDeclaration, style: StyleBlock, condition: string): void;
+    handleNamespace(statement: Statement, style: string): void;
+    handlePage(statement: Statement, style: StyleBlock): void;
+    handleProperty(declaration: StyleDeclaration, style: Style, property: string): void;
+    handleSupports(declaration: StyleDeclaration, style: StyleBlock, condition: string): void;
+    handleViewport(statement: Statement, style: StyleBlock): void;
+    injectFontFaces(value: Style): (string | StyleBlock)[];
+    injectKeyframes(value: Style): (string | StyleBlock)[];
     off(eventName: string): this;
     on(eventName: string, callback: EventCallback): this;
-    resetGlobalCache(): void;
-    resetLocalCache(): void;
   }
 }

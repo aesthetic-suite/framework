@@ -12,7 +12,6 @@ import type {
   AestheticOptions,
   ClassName,
   StyleCallback,
-  StyleDeclaration,
   Statement,
   ThemeDeclaration,
   StyleSheet,
