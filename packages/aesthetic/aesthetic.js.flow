@@ -100,7 +100,11 @@ declare module 'aesthetic' {
 
   declare export type ThemeDeclaration = StyleBlock;
 
-  declare export type StyleSheet = { [selector: string]: ClassName };
+  declare export type StyleSheet = {
+    // Compiled CSS class names
+    // React Native style objects
+    [selector: string]: ClassName | Object,
+  };
 
   declare export class Adapter {
     bypassNativeStyleSheet: boolean;

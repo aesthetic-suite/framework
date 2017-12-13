@@ -2,6 +2,9 @@
 #### 🛠 Internal
 * Rewritten Flowtype definitions.
 
+#### 🐞 Fixed
+* Fixed a bug in which wrong class names were being created.
+
 # 1.6.2 - 11/10/17
 #### 🛠 Internal
 * Tested against React 16.1.

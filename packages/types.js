@@ -53,9 +53,7 @@ export type EventCallback = (() => void) |
   ((statement: Statement, style: StyleBlock, animationName: string) => void) |
   // @fallbacks
   ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
-  // @media
-  ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
-  // @supports
+  // @media, @supports
   ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
   // property
   ((declaration: StyleDeclaration, style: Style, property: string) => void);
@@ -112,4 +110,8 @@ export type StyleDeclarationUnified = {
 
 export type ThemeDeclaration = StyleBlock;
 
-export type StyleSheet = { [selector: string]: ClassName };
+export type StyleSheet = {
+  // Compiled CSS class names
+  // React Native style objects
+  [selector: string]: ClassName | Object,
+};

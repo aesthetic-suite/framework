@@ -6,10 +6,10 @@
 
 import { Adapter } from 'aesthetic';
 
-import type { StyleSheet } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class CSSModulesAdapter extends Adapter {
-  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+  transform(styleName: string, statement: Statement): StyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('CSS modules do not support React Native.');

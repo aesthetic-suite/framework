@@ -6,6 +6,7 @@
 
 /* eslint-disable no-param-reassign */
 
+import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 
@@ -39,6 +40,24 @@ export default class UnifiedSyntax {
   fontFaces: { [fontFamily: string]: StyleBlock[] } = {};
 
   keyframes: { [animationName: string]: StyleBlock } = {};
+
+  keyframesCache: { [animationName: string]: string } = {};
+
+  constructor() {
+    this
+      .on('property', this.handleProperty)
+      .on('@charset', this.handleCharset)
+      .on('@document', this.handleDocument)
+      .on('@fallbacks', this.handleFallbacks)
+      .on('@font-face', this.handleFontFace)
+      .on('@import', this.handleImport)
+      .on('@keyframes', this.handleKeyframes)
+      .on('@media', this.handleMedia)
+      .on('@namespace', this.handleNamespace)
+      .on('@page', this.handlePage)
+      .on('@supports', this.handleSupports)
+      .on('@viewport', this.handleViewport);
+  }
 
   /**
    * Convert a mapping of style declarations to their native syntax.
@@ -81,7 +100,7 @@ export default class UnifiedSyntax {
           const faces = statement['@font-face'];
 
           Object.keys(faces).forEach((fontFamily) => {
-            const fontFaces = toArray(faces[fontFamily]).map(font => ({
+            const fontFaces = toArray(faces[fontFamily]).map(font => formatFontFace({
               ...font,
               fontFamily,
             }));
@@ -183,7 +202,7 @@ export default class UnifiedSyntax {
 
           Object.keys(style).forEach((condition) => {
             if (isObject(style[condition])) {
-              this.emit(selector, [nextDeclaration, style[condition], condition]);
+              this.emit(key, [nextDeclaration, style[condition], condition]);
             } else if (__DEV__) {
               throw new Error(`${selector} must be a mapping of conditions to style objects.`);
             }
@@ -207,6 +226,15 @@ export default class UnifiedSyntax {
     });
 
     return nextDeclaration;
+  }
+
+  /**
+   * Create a noop function that throws an error for unsupported features.
+   */
+  createUnsupportedHandler(rule: AtRule): () => void {
+    return () => {
+      throw new Error(`Adapter does not support ${rule}.`);
+    };
   }
 
   /**
@@ -292,19 +320,18 @@ export default class UnifiedSyntax {
   /**
    * Handle CSS properties.
    */
-  handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
     let value = style;
 
     if (property === 'animationName') {
-      value = this.injectKeyframes(style);
+      value = this.injectKeyframes(style, this.fontFaces);
 
     } else if (property === 'fontFamily') {
-      value = this.injectFontFaces(style);
+      value = this.injectFontFaces(style, this.keyframes);
     }
 
-    // $FlowIgnore TODO
     declaration[property] = value;
-  }
+  };
 
   /**
    * Handle @supports.
@@ -323,8 +350,7 @@ export default class UnifiedSyntax {
   /**
    * Replace a `fontFamily` property with font face objects of the same name.
    */
-  injectFontFaces(value: Style): (string | StyleBlock)[] {
-    const cache = this.fontFaces;
+  injectFontFaces(value: Style, cache: Object): Style[] {
     const fontFaces = [];
 
     String(value).split(',').forEach((name) => {
@@ -344,9 +370,7 @@ export default class UnifiedSyntax {
   /**
    * Replace a `animationName` property with keyframe objects of the same name.
    */
-  injectKeyframes(value: Style): (string | StyleBlock)[] {
-    const cache = this.keyframes;
-
+  injectKeyframes(value: Style, cache: Object): Style[] {
     return String(value).split(',').map((name) => {
       const animationName = name.trim();
 
