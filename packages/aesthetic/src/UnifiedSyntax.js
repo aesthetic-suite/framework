@@ -63,33 +63,39 @@ export default class UnifiedSyntax {
    * Convert a mapping of style declarations to their native syntax.
    */
   convert(statement: StatementUnified): Statement {
+    const prevStatement = { ...statement };
     const nextStatement = {};
 
+    // Extract global at-rules first
     // eslint-disable-next-line complexity
-    Object.keys(statement).forEach((selector) => {
-      switch (selector) {
+    GLOBAL_RULES.forEach((rule) => {
+      if (!prevStatement[rule]) {
+        return;
+      }
+
+      switch (rule) {
         case '@charset':
         case '@import':
         case '@namespace': {
-          const path = statement[selector];
+          const path = prevStatement[rule];
 
           if (typeof path === 'string') {
-            this.emit(selector, [nextStatement, path]);
+            this.emit(rule, [nextStatement, path]);
           } else if (__DEV__) {
-            throw new Error(`${selector} value must be a string.`);
+            throw new Error(`${rule} value must be a string.`);
           }
 
           break;
         }
 
         case '@document': {
-          const doc = statement['@document'];
+          const doc = prevStatement['@document'];
 
           Object.keys(doc).forEach((url) => {
             if (isObject(doc[url])) {
-              this.emit(selector, [nextStatement, doc[url], url]);
+              this.emit(rule, [nextStatement, doc[url], url]);
             } else if (__DEV__) {
-              throw new Error(`${selector} must be a mapping of URLs to style objects.`);
+              throw new Error(`${rule} must be a mapping of URLs to style objects.`);
             }
           });
 
@@ -97,15 +103,19 @@ export default class UnifiedSyntax {
         }
 
         case '@font-face': {
-          const faces = statement['@font-face'];
+          const faces = prevStatement['@font-face'];
 
           Object.keys(faces).forEach((fontFamily) => {
-            const fontFaces = toArray(faces[fontFamily]).map(font => formatFontFace({
+            const fontFaces = toArray(faces[fontFamily]).map(font => ({
               ...font,
               fontFamily,
             }));
 
-            this.emit(selector, [nextStatement, fontFaces, fontFamily]);
+            this.emit(rule, [nextStatement, fontFaces, fontFamily]);
+
+            if (__DEV__ && this.fontFaces[fontFamily]) {
+              throw new Error(`@font-face "${fontFamily}" already exists.`);
+            }
 
             this.fontFaces[fontFamily] = fontFaces;
           });
@@ -114,15 +124,19 @@ export default class UnifiedSyntax {
         }
 
         case '@keyframes': {
-          const frames = statement['@keyframes'];
+          const frames = prevStatement['@keyframes'];
 
           Object.keys(frames).forEach((animationName) => {
             const keyframes = frames[animationName];
 
             if (isObject(keyframes)) {
-              this.emit(selector, [nextStatement, keyframes, animationName]);
+              this.emit(rule, [nextStatement, keyframes, animationName]);
             } else if (__DEV__) {
-              throw new Error(`${selector} must be a mapping of animation names to style objects.`);
+              throw new Error(`${rule} must be a mapping of animation names to style objects.`);
+            }
+
+            if (__DEV__ && this.keyframes[animationName]) {
+              throw new Error(`@keyframes "${animationName}" already exists.`);
             }
 
             // $FlowIgnore TODO
@@ -134,40 +148,48 @@ export default class UnifiedSyntax {
 
         case '@page':
         case '@viewport': {
-          const style = statement[selector];
+          const style = prevStatement[rule];
 
           if (isObject(style)) {
-            this.emit(selector, [nextStatement, style]);
+            this.emit(rule, [nextStatement, style]);
           } else if (__DEV__) {
-            throw new Error(`${selector} must be a style object.`);
+            throw new Error(`${rule} must be a style object.`);
           }
 
           break;
         }
 
-        default: {
-          const declaration = statement[selector];
-
-          // At-rule
-          if (selector.charAt(0) === '@') {
-            if (__DEV__) {
-              throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
-            }
-
-          // Class name
-          } else if (typeof declaration === 'string') {
-            nextStatement[selector] = declaration;
-
-          // Style object
-          } else if (isObject(declaration)) {
-            nextStatement[selector] = this.convertDeclaration(selector, declaration);
-
-          } else if (__DEV__) {
-            throw new Error(`Invalid style declaration for "${selector}".`);
-          }
-
+        default:
           break;
+      }
+
+      delete prevStatement[rule];
+    });
+
+    // Convert declarations last
+    Object.keys(prevStatement).forEach((selector) => {
+      const declaration = prevStatement[selector];
+
+      if (!declaration) {
+        return;
+      }
+
+      // At-rule
+      if (selector.charAt(0) === '@') {
+        if (__DEV__) {
+          throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
         }
+
+      // Class name
+      } else if (typeof declaration === 'string') {
+        nextStatement[selector] = declaration;
+
+      // Style object
+      } else if (isObject(declaration)) {
+        nextStatement[selector] = this.convertDeclaration(selector, declaration);
+
+      } else if (__DEV__) {
+        throw new Error(`Invalid style declaration for "${selector}".`);
       }
     });
 
@@ -178,51 +200,40 @@ export default class UnifiedSyntax {
    * Convert a style declaration including local at-rules and properties.
    */
   convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration {
+    const prevDeclaration = { ...declaration };
     const nextDeclaration = {};
 
-    Object.keys(declaration).forEach((key) => {
-      switch (key) {
-        case '@fallbacks': {
-          const fallbacks = declaration['@fallbacks'];
-
-          Object.keys(fallbacks).forEach((property) => {
-            this.emit(key, [
-              nextDeclaration,
-              toArray(fallbacks[property]),
-              property,
-            ]);
-          });
-
-          break;
-        }
-
-        case '@media':
-        case '@supports': {
-          const style = declaration[key];
-
-          Object.keys(style).forEach((condition) => {
-            if (isObject(style[condition])) {
-              this.emit(key, [nextDeclaration, style[condition], condition]);
-            } else if (__DEV__) {
-              throw new Error(`${selector} must be a mapping of conditions to style objects.`);
-            }
-          });
-
-          break;
-        }
-
-        default: {
-          if (key.charAt(0) === '@') {
-            if (__DEV__) {
-              throw new SyntaxError(`Unsupported local at-rule "${key}".`);
-            }
-          } else {
-            this.emit('property', [nextDeclaration, declaration[key], key]);
-          }
-
-          break;
-        }
+    // Convert properties first
+    Object.keys(prevDeclaration).forEach((key) => {
+      if (key.charAt(0) !== '@') {
+        this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
       }
+    });
+
+    // Extract local at-rules first
+    LOCAL_RULES.forEach((rule) => {
+      const style = prevDeclaration[rule];
+
+      if (!style || !isObject(style)) {
+        return;
+      }
+
+      if (rule === '@fallbacks') {
+        Object.keys(style).forEach((property) => {
+          this.emit(rule, [nextDeclaration, toArray(style[property]), property]);
+        });
+
+      } else if (rule === '@media' || rule === '@supports') {
+        Object.keys(style).forEach((condition) => {
+          if (isObject(style[condition])) {
+            this.emit(rule, [nextDeclaration, style[condition], condition]);
+          } else if (__DEV__) {
+            throw new Error(`${selector} must be a mapping of conditions to style objects.`);
+          }
+        });
+      }
+
+      delete prevDeclaration[rule];
     });
 
     return nextDeclaration;
@@ -324,10 +335,10 @@ export default class UnifiedSyntax {
     let value = style;
 
     if (property === 'animationName') {
-      value = this.injectKeyframes(style, this.fontFaces);
+      value = this.injectKeyframes(style, this.keyframes);
 
     } else if (property === 'fontFamily') {
-      value = this.injectFontFaces(style, this.keyframes);
+      value = this.injectFontFaces(style, this.fontFaces);
     }
 
     declaration[property] = value;
@@ -358,7 +369,9 @@ export default class UnifiedSyntax {
       const fonts = cache[familyName];
 
       if (Array.isArray(fonts)) {
-        fontFaces.push(...fonts);
+        fonts.forEach((font) => {
+          fontFaces.push(formatFontFace(font));
+        });
       } else {
         fontFaces.push(familyName);
       }

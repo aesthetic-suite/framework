@@ -31,7 +31,7 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
   }
 
   if (Array.isArray(fontFace.srcPaths)) {
-    fontFace.srcPaths.forEach((srcPath) => {
+    toArray(fontFace.srcPaths).forEach((srcPath) => {
       const ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
       if (FORMATS[ext]) {
@@ -42,6 +42,7 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
       }
     });
 
+    delete fontFace.srcPaths;
   } else {
     return fontFace;
   }

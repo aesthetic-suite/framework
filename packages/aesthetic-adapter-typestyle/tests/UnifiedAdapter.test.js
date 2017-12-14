@@ -27,7 +27,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'f1hfp49j',
+      button: 'fkp30lv',
     });
   });
 
@@ -48,7 +48,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         textAlign: 'center',
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
-        color: ['#fff', 'rgba(0, 0, 0, 0)'],
+        color: 'rgba(0, 0, 0, 0)',
         animationName: ['f1gwuh0p'],
         animationDuration: '.3s',
         $nest: {
@@ -64,9 +64,6 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
           },
           '@media (max-width: 600px)': {
             padding: '4px 8px',
-          },
-          '@supports (display: flex)': {
-            display: 'flex',
           },
         },
       },
@@ -143,12 +140,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
+    instance.syntax.fontFaces = {};
+
     expect(instance.transform('typestyle', SYNTAX_FONT_FACE)).toEqual({
       font: 'fd14wa4',
     });
 
     expect(instance.typeStyle.getStyles())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');src-paths:fonts/Roboto.woff2;src-paths:fonts/Roboto.ttf}.fd14wa4{font-family:Roboto;font-size:20px}");
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
   });
 
   it('handles @import', () => {
@@ -165,6 +164,8 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         animationIterationCount: 'infinite',
       },
     });
+
+    instance.syntax.keyframes = {};
 
     expect(instance.transform('typestyle', SYNTAX_KEYFRAMES)).toEqual({
       animation: 'f14e9xg1',

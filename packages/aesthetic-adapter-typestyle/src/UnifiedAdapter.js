@@ -7,6 +7,7 @@
 /* eslint-disable no-param-reassign */
 
 import UnifiedSyntax from 'aesthetic/unified';
+import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
@@ -43,7 +44,7 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   }
 
   handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
-    style.map(face => this.typeStyle.fontFace(face));
+    style.map(face => this.typeStyle.fontFace(formatFontFace(face)));
   };
 
   handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {

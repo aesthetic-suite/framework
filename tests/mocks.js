@@ -72,14 +72,6 @@ export const SYNTAX_UNIFIED_FULL = {
         padding: '4px 8px',
       },
     },
-    '@supports': {
-      '(display: flex)': {
-        display: 'flex',
-      },
-    },
-    '@fallbacks': {
-      color: '#fff',
-    },
   },
 };
 

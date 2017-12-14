@@ -7,7 +7,7 @@
 import UnifiedSyntax from 'aesthetic/unified';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { AtRule, Statement, StyleSheet } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -17,23 +17,19 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
-      .on('@charset', this.createUnsupportedHandler('@charset'))
-      .on('@document', this.createUnsupportedHandler('@document'))
-      .on('@fallbacks', this.createUnsupportedHandler('@fallbacks'))
-      .on('@import', this.createUnsupportedHandler('@import'))
-      .on('@namespace', this.createUnsupportedHandler('@namespace'))
-      .on('@page', this.createUnsupportedHandler('@page'))
-      .on('@supports', this.createUnsupportedHandler('@supports'))
-      .on('@viewport', this.createUnsupportedHandler('@viewport'));
+      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@document', this.syntax.createUnsupportedHandler('@document'))
+      .on('@fallbacks', this.syntax.createUnsupportedHandler('@fallbacks'))
+      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
+      .on('@page', this.syntax.createUnsupportedHandler('@page'))
+      .on('@supports', this.syntax.createUnsupportedHandler('@supports'))
+      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'))
+      .off('@font-face')
+      .off('@keyframes');
   }
 
   transform(styleName: string, statement: Statement): StyleSheet {
     return super.transform(styleName, this.syntax.convert(statement));
-  }
-
-  createUnsupportedHandler(rule: AtRule): () => void {
-    return () => {
-      throw new Error(`Aphrodite does not support ${rule}.`);
-    };
   }
 }
