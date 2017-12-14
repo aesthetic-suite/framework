@@ -26,7 +26,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.transform('typestyle', SYNTAX_UNIFIED_FULL)).toEqual({
       button: 'fkp30lv',
     });
   });

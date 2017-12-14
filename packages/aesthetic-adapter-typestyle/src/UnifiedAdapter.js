@@ -8,6 +8,7 @@
 
 import UnifiedSyntax from 'aesthetic/unified';
 import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
+import { TypeStyle } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
@@ -21,8 +22,8 @@ import type {
 export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(options?: Object = {}) {
-    super(options);
+  constructor(typeStyle?: TypeStyle, options?: Object = {}) {
+    super(typeStyle, options);
 
     this.syntax = new UnifiedSyntax();
     this.syntax

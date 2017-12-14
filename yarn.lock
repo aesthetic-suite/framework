@@ -3273,6 +3273,14 @@ fela-preset-web@^8.0.0:
     fela-plugin-prefixer "^5.0.15"
     fela-plugin-unit "^5.0.14"
 
+fela-tools@^5.0.14:
+  version "5.0.14"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-5.0.14.tgz#f668bc8103f6c76e9751459ac0b7df5d5ad98b57"
+  dependencies:
+    css-in-js-utils "2.0.0"
+    fela-utils "^8.0.0"
+    lodash "^4.17.4"
+
 fela-utils@^7.0.4:
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/fela-utils/-/fela-utils-7.0.4.tgz#26dd1d6b11a0fedc8920bfa62538672ed846fd5e"

@@ -12,7 +12,7 @@ import type { Statement, StyleSheet } from '../../types';
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(aphrodite: Object, options?: Object = {}) {
+  constructor(aphrodite?: Object, options?: Object = {}) {
     super(aphrodite, options);
 
     this.syntax = new UnifiedSyntax();

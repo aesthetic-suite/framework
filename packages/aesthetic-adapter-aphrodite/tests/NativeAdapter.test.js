@@ -43,13 +43,13 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'button_13l44zh',
     });
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'pseudo_q2zd6k',
     });
 
@@ -65,7 +65,7 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
       font: 'font_nxcmiz',
     });
 
@@ -82,7 +82,7 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
       animation: 'animation_mab5hn',
     });
 
@@ -103,7 +103,7 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
       media: 'media_1yqe7pa',
     });
 

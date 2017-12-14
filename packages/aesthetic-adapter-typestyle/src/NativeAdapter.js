@@ -10,10 +10,10 @@ import { TypeStyle } from 'typestyle';
 import type { Statement, StyleSheet } from '../../types';
 
 export default class TypeStyleAdapter extends Adapter {
-  constructor(options?: Object = {}) {
+  constructor(typeStyle?: TypeStyle, options?: Object = {}) {
     super(options);
 
-    this.typeStyle = new TypeStyle({ autoGenerateTag: true });
+    this.typeStyle = typeStyle || new TypeStyle({ autoGenerateTag: true });
   }
 
   transform(styleName: string, statement: Statement): StyleSheet {

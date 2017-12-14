@@ -35,7 +35,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_UNIFIED_FULL)).toEqual({
       button: 'button_1fihu6i',
     });
   });
@@ -80,7 +80,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('typestyle', SYNTAX_PROPERTIES)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_PROPERTIES)).toEqual({
       props: 'props_1pbzc6n',
     });
 
@@ -101,7 +101,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_PSEUDO)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'pseudo_q2zd6k',
     });
 
@@ -111,19 +111,19 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_CHARSET);
+      instance.transform('aphrodite', SYNTAX_CHARSET);
     }).toThrowError();
   });
 
   it('handles @document', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_DOCUMENT);
+      instance.transform('aphrodite', SYNTAX_DOCUMENT);
     }).toThrowError();
   });
 
   it('handles @fallbacks', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_FALLBACKS);
+      instance.transform('aphrodite', SYNTAX_FALLBACKS);
     }).toThrowError();
   });
 
@@ -137,7 +137,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('typestyle', SYNTAX_FONT_FACE)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_FONT_FACE)).toEqual({
       font: 'font_23ponh',
     });
 
@@ -147,7 +147,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_IMPORT);
+      instance.transform('aphrodite', SYNTAX_IMPORT);
     }).toThrowError();
   });
 
@@ -162,7 +162,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('typestyle', SYNTAX_KEYFRAMES)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_KEYFRAMES)).toEqual({
       animation: 'animation_1s7muh9',
     });
 
@@ -183,7 +183,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_MEDIA_QUERY)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_MEDIA_QUERY)).toEqual({
       media: 'media_1yqe7pa',
     });
 
@@ -193,25 +193,25 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_NAMESPACE);
+      instance.transform('aphrodite', SYNTAX_NAMESPACE);
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_PAGE);
+      instance.transform('aphrodite', SYNTAX_PAGE);
     }).toThrowError();
   });
 
   it('handles @supports', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_SUPPORTS);
+      instance.transform('aphrodite', SYNTAX_SUPPORTS);
     }).toThrowError();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_VIEWPORT);
+      instance.transform('aphrodite', SYNTAX_VIEWPORT);
     }).toThrowError();
   });
 });

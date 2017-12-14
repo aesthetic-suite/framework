@@ -39,6 +39,8 @@ export default class UnifiedSyntax {
 
   fontFaces: { [fontFamily: string]: StyleBlock[] } = {};
 
+  fontFacesCache: { [fontFamily: string]: string } = {};
+
   keyframes: { [animationName: string]: StyleBlock } = {};
 
   keyframesCache: { [animationName: string]: string } = {};

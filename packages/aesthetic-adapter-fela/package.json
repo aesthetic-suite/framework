@@ -27,6 +27,7 @@
     "aesthetic": "^1.7.1",
     "fela": "^6.1.0",
     "fela-dom": "^7.0.0",
-    "fela-preset-web": "^8.0.0"
+    "fela-preset-web": "^8.0.0",
+    "fela-tools": "^5.0.14"
   }
 }

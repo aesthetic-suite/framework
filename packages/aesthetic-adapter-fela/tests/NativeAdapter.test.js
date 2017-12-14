@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 
 import { createRenderer } from 'fela';
-// import { createRenderer as createNativeRenderer } from 'fela-native';
+import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
 import FelaAdapter from '../src/NativeAdapter';
 import {
@@ -28,7 +28,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
   });
 
   it('ignores string class names', () => {
-    expect(instance.transform('component', {
+    expect(instance.transform('fela', {
       button: 'button',
     })).toEqual({
       button: 'button',
@@ -36,18 +36,21 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
+    expect(instance.transform('fela', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'a b c d e f g h i j k l m n o p q r s t u v w',
     });
   });
 
-  it('supports pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
+  it('handles pseudos', () => {
+    expect(instance.transform('fela', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'a b c',
     });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
   });
 
-  it('supports fallbacks', () => {
+  it('handles fallbacks', () => {
     const nativeSyntax = {
       fallback: {
         background: ['red', 'linear-gradient(...)'],
@@ -55,25 +58,33 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('fela', nativeSyntax)).toEqual({
       fallback: 'a b',
     });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}');
   });
 
-  it('supports font faces', () => {
+  it('handles font faces', () => {
+    instance.fela.renderFont('Roboto', ['fonts/roboto.woff2'], FONT_ROBOTO_FLAT_SRC);
+
     const nativeSyntax = {
       font: {
-        fontFamily: instance.fela.renderFont('Roboto', ['fonts/roboto.woff2'], FONT_ROBOTO_FLAT_SRC),
+        fontFamily: 'Roboto',
         fontSize: 20,
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('fela', nativeSyntax)).toEqual({
       font: 'a b',
     });
+
+    expect(renderToString(instance.fela))
+      .toBe("@font-face{font-family:\"Roboto\";font-style:normal;font-weight:normal;src:url('fonts/roboto.woff2') format('woff2')}.a{font-family:Roboto}.b{font-size:20px}");
   });
 
-  it('supports animations', () => {
+  it('handles animations', () => {
     const nativeSyntax = {
       animation: {
         animationName: instance.fela.renderKeyframe(() => KEYFRAME_FADE),
@@ -82,12 +93,15 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('fela', nativeSyntax)).toEqual({
       animation: 'a b c',
     });
+
+    expect(renderToString(instance.fela))
+      .toBe('@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}');
   });
 
-  it('supports media queries', () => {
+  it('handles media queries', () => {
     const nativeSyntax = {
       media: {
         color: 'red',
@@ -100,24 +114,32 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('fela', nativeSyntax)).toEqual({
       media: 'a b c',
     });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}');
+  });
+
+  it('handles supports', () => {
+    const nativeSyntax = {
+      sup: {
+        display: 'block',
+        '@supports (display: flex)': {
+          display: 'flex',
+        },
+        '@supports not (display: flex)': {
+          float: 'left',
+        },
+      },
+    };
+
+    expect(instance.transform('fela', nativeSyntax)).toEqual({
+      sup: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}');
   });
 });
-
-/*
- * describe('adapters/fela/NativeAdapter (React Native)', () => {
- * let instance;
- *
- * beforeEach(() => {
- * instance = new FelaAdapter(createNativeRenderer({
- * plugins: [...webPreset],
- * }));
- * });
- *
- * it('returns the style declarations as-is', () => {
- * expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual(SYNTAX_NATIVE_PARTIAL);
- * });
- * });
- */
