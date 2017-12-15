@@ -4,113 +4,64 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import UnifiedSyntax from 'aesthetic/unified';
+import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
 import type {
-  // Fallbacks,
-  // MediaQuery,
-  // Style,
-  // StyleBlock,
-  // StyleDeclaration,
-  // Statement,
+  Style,
+  StyleBlock,
+  StyleDeclaration,
+  Statement,
   StyleSheet,
 } from '../../types';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(jss: JSS, options?: Object = {}) {
+  constructor(jss?: JSS, options?: Object = {}) {
     super(jss, options);
 
-    this.syntax = new UnifiedSyntax()
+    this.syntax = new UnifiedSyntax();
+    this.syntax
       .on('property', this.handleProperty)
+      .on('@document', this.syntax.createUnsupportedHandler('@document'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
-      .on('@keyframes', this.handleKeyframes)
-      .on('@media', this.handleMedia)
-      .on('@supports', this.handleSupports);
+      .on('@page', this.syntax.createUnsupportedHandler('@page'));
   }
 
-  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+  transform(styleName: string, statement: Statement): StyleSheet {
     return super.transform(styleName, this.syntax.convert(statement));
   }
 
-  // Fallbacks
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
-  // handleFallbacks = (
-  //   statement: Statement,
-  //   declaration: StyleDeclaration,
-  //   fallbacks: Fallbacks,
-  // ) => {
-  //   declaration.fallbacks = [];
-  //
-  //   Object.keys(fallbacks).forEach((property) => {
-  //     toArray(fallbacks[property]).forEach((fallback) => {
-  //       declaration.fallbacks.push({
-  //         [property]: fallback,
-  //       });
-  //     });
-  //   });
-  // };
+  handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
+    if (typeof declaration.fallbacks === 'undefined') {
+      declaration.fallbacks = [];
+    }
 
-  // Font faces
+    style.forEach((fallback) => {
+      declaration.fallbacks.push({
+        [property]: fallback,
+      });
+    });
+  }
+
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
-  // handleFontFace = (
-  //   statement: Statement,
-  //   fontFaces: FontFace[],
-  //   fontFamily: string,
-  // ) => {
-  //   statement['@font-face'] = fontFaces.map(font => formatFontFace(font));
-  // };
+  handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string) {
+    statement['@font-face'] = style.map(face => formatFontFace(face));
+  }
 
-  // Animation keyframes
-  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
-  // handleKeyframes = (
-  //   statement: Statement,
-  //   keyframes: Keyframe,
-  //   animationName: string,
-  // ) => {
-  //   statement[`@keyframes ${animationName}`] = keyframes;
-  // };
-
-  // Media queries
-  // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#media-queries
-  // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
-  // handleMedia = (
-  //   statement: Statement,
-  //   declaration: StyleDeclaration,
-  //   style: MediaQuery,
-  //   condition: string,
-  // ) => {
-  //   declaration[`@media ${condition}`] = style;
-  // };
-
-  // Prepend pseudos with an ampersand
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
-  // handleProperty = (
-  //   statement: Statement,
-  //   declaration: StyleDeclaration,
-  //   style: Style,
-  //   property: string,
-  // ) => {
-  //   console.log(property, style);
-  //   if (property.charAt(0) === ':') {
-  //     declaration[`&${property}`] = style;
-  //   } else {
-  //     declaration[property] = style;
-  //   }
-  // };
-
-  // Supports
-  // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
-  // handleSupports = (
-  //   statement: Statement,
-  //   declaration: StyleDeclaration,
-  //   style: Support,
-  //   condition: string,
-  // ) => {
-  //   declaration[`@supports ${condition}`] = style;
-  // };
+  handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
+    if (property.charAt(0) === ':') {
+      declaration[`&${property}`] = style;
+    } else {
+      declaration[property] = style;
+    }
+  }
 }

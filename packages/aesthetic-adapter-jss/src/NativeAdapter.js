@@ -7,30 +7,30 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { StyleSheet } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
 
-  constructor(jss: JSS, options?: Object = {}) {
+  constructor(jss?: JSS, options?: Object = {}) {
     super(options);
 
     this.jss = jss || create();
   }
 
-  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+  transform(styleName: string, statement: Statement): StyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('JSS does not support React Native.');
       }
     }
 
-    const styleSheet = this.jss.createStyleSheet(statement, {
+    this.sheet = this.jss.createStyleSheet(statement, {
       meta: styleName,
       named: true,
       ...this.options,
     }).attach();
 
-    return { ...styleSheet.classes };
+    return { ...this.sheet.classes };
   }
 }

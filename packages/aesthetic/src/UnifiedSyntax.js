@@ -299,7 +299,7 @@ export default class UnifiedSyntax {
    * Handle @namespace.
    */
   handleImport(statement: Statement, style: string) {
-    statement['@namespace'] = style;
+    statement['@import'] = style;
   }
 
   /**
