@@ -5,7 +5,7 @@ describe('aesthetic-utils/formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {
     expect(formatFontFace(FONT_ROBOTO)).toEqual({
       ...FONT_ROBOTO_FLAT_SRC,
-      src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+      src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
     });
   });
 
@@ -27,9 +27,10 @@ describe('aesthetic-utils/formatFontFace()', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO_FLAT_SRC,
       local: ['MrRoboto'],
+      src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
     })).toEqual({
       ...FONT_ROBOTO_FLAT_SRC,
-      src: `local('MrRoboto'), ${FONT_ROBOTO_FLAT_SRC.src}`,
+      src: "local('MrRoboto'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
     });
   });
 

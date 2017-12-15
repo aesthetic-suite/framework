@@ -147,7 +147,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     });
 
     expect(instance.typeStyle.getStyles())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
   });
 
   it('handles @import', () => {

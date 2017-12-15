@@ -36,7 +36,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform('aphrodite', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'button_1fihu6i',
+      button: 'button_jr9ve',
     });
   });
 
@@ -138,11 +138,11 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform('aphrodite', SYNTAX_FONT_FACE)).toEqual({
-      font: 'font_23ponh',
+      font: 'font_uk6a9p',
     });
 
     expect(flushToString())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_23ponh{font-family:\"Roboto\" !important;font-size:20px !important;}");
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_uk6a9p{font-family:\"Roboto\" !important;font-size:20px !important;}");
   });
 
   it('handles @import', () => {

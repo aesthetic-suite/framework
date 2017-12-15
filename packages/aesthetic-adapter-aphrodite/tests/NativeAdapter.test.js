@@ -66,11 +66,11 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     };
 
     expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
-      font: 'font_nxcmiz',
+      font: 'font_hg6jkr',
     });
 
     expect(flushToString())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_nxcmiz{font-family:\"undefined\" !important;font-size:20px !important;}");
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_hg6jkr{font-family:\"undefined\" !important;font-size:20px !important;}");
   });
 
   it('handles animations', () => {

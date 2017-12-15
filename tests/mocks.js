@@ -6,6 +6,7 @@ export const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
+  local: 'Robo',
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
@@ -13,7 +14,7 @@ export const FONT_ROBOTO_FLAT_SRC = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+  src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
 export const KEYFRAME_FADE = {

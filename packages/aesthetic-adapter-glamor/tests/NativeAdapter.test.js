@@ -84,7 +84,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     });
 
     expect(renderToString())
-      .toBe("@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.css-1x6s9dk,[data-css-1x6s9dk] {font-family: Roboto; font-size: 20px;}");
+      .toBe("@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.css-1x6s9dk,[data-css-1x6s9dk] {font-family: Roboto; font-size: 20px;}");
   });
 
   it('handles animations', () => {
