@@ -22,7 +22,7 @@
     "typestyle": "^1.5.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.43.1",
+    "@milesj/build-tool-config": "^0.44.0",
     "aesthetic": "^1.7.1",
     "typestyle": "^1.5.1"
   }
