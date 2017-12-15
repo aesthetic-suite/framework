@@ -37,15 +37,10 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  convert(statement: Statement): Statement {
-    return this.syntax.convert(statement);
-  }
-
   transform(styleName: string, statement: Statement): StyleSheet {
     return super.transform(styleName, this.syntax.convert(statement));
   }
 
-  // Font faces
   // http://fela.js.org/docs/basics/Fonts.html
   // http://fela.js.org/docs/basics/Renderer.html#renderfont
   handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
@@ -59,7 +54,6 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
     });
   }
 
-  // Animation keyframes
   // http://fela.js.org/docs/basics/Keyframes.html
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
   handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {

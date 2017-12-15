@@ -7,10 +7,10 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { StyleSheet } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform<T: Object>(styleName: string, statement: T): StyleSheet {
+  transform(styleName: string, statement: Statement): StyleSheet {
     if (__DEV__) {
       if (this.native) {
         throw new Error('Glamor does not support React Native.');
