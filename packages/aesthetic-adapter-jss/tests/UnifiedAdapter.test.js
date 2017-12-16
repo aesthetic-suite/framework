@@ -21,10 +21,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
-
-function renderToString(sheet) {
-  return sheet.toString().replace(/\n/g, '').replace(/\s{2,}/g, '');
-}
+import { renderJSSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   let instance;
@@ -88,8 +85,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       props: 'props-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.props-0-1 {color: black;margin: 10px;display: inline;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
@@ -109,8 +105,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       pseudo: 'pseudo-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.pseudo-0-1 {position: fixed;}.pseudo-0-1:hover {position: static;}.pseudo-0-1::before {position: absolute;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
@@ -120,8 +115,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     expect(instance.transform('jss', SYNTAX_CHARSET)).toEqual({});
 
-    expect(renderToString(instance.sheet))
-      .toBe('@charset utf8;');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @document', () => {
@@ -147,8 +141,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       fallback: 'fallback-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.fallback-0-1 {background: red;display: box;display: flex-box;display: flex;background: linear-gradient(...);}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @font-face', () => {
@@ -166,8 +159,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       font: 'font-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe("@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font-0-1 {font-size: 20px;font-family: Roboto;}");
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
@@ -177,8 +169,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     expect(instance.transform('jss', SYNTAX_IMPORT)).toEqual({});
 
-    expect(renderToString(instance.sheet))
-      .toBe('@import ./some/path.css;');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @keyframes', () => {
@@ -197,8 +188,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       animation: 'animation-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @media', () => {
@@ -218,8 +208,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       media: 'media-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.media-0-1 {color: red;}@media (min-width: 300px) {.media-0-1 {color: blue;}}@media (max-width: 1000px) {.media-0-1 {color: green;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
@@ -229,8 +218,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     expect(instance.transform('jss', SYNTAX_NAMESPACE)).toEqual({});
 
-    expect(renderToString(instance.sheet))
-      .toBe('@namespace url(http://www.w3.org/1999/xhtml);');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @page', () => {
@@ -256,8 +244,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       sup: 'sup-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.sup-0-1 {display: block;}@supports (display: flex) {.sup-0-1 {display: flex;}}@supports not (display: flex) {.sup-0-1 {float: left;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
@@ -270,7 +257,6 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     expect(instance.transform('jss', SYNTAX_VIEWPORT)).toEqual({});
 
-    expect(renderToString(instance.sheet))
-      .toBe('@viewport {width: device-width;orientation: landscape;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 });

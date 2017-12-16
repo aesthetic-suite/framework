@@ -7,6 +7,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
+import { renderTSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   let instance;
@@ -46,8 +47,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       pseudo: 'fh5c9i2',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fh5c9i2{position:fixed}.fh5c9i2 :hover{position:static}.fh5c9i2 ::before{position:absolute}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
@@ -62,8 +62,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       fallback: 'fxr1ybm',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
@@ -80,8 +79,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       font: 'fd14wa4',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fd14wa4{font-family:Roboto;font-size:20px}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
@@ -97,8 +95,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       animation: 'f14e9xg1',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
@@ -120,8 +117,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       media: 'fuxmg1k',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
@@ -143,7 +139,6 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       sup: 'f6m6wzj',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 });

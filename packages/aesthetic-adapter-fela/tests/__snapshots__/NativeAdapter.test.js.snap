@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles animations 1`] = `"@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}"`;
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles fallbacks 1`] = `".a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}"`;
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles font faces 1`] = `"@font-face{font-family:\\"Roboto\\";font-style:normal;font-weight:normal;src:url('fonts/roboto.woff2') format('woff2')}.a{font-family:Roboto}.b{font-size:20px}"`;
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles media queries 1`] = `".a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}"`;
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles pseudos 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;
+
+exports[`aesthetic-adapter-fela/NativeAdapter handles supports 1`] = `".a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}"`;

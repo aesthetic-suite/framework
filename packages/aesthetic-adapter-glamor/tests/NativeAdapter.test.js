@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 
-import { css, speedy, flush, styleSheet } from 'glamor';
+import { css, speedy, flush } from 'glamor';
 import GlamorAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -8,10 +8,7 @@ import {
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
-
-function renderToString() {
-  return styleSheet.rules().map(r => r.cssText).join('').replace(/\n/g, '');
-}
+import { renderGlamorStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   let instance;
@@ -42,8 +39,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
       pseudo: 'css-1g7aevf',
     });
 
-    expect(renderToString())
-      .toBe('.css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
@@ -59,8 +55,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     });
 
     // Verified it ran but fallbacks don't appear in the output
-    expect(renderToString())
-      .toBe('.css-1nxkcks,[data-css-1nxkcks] {background: linear-gradient(...); display: flex;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
@@ -77,8 +72,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
       font: 'css-1x6s9dk',
     });
 
-    expect(renderToString())
-      .toBe("@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.css-1x6s9dk,[data-css-1x6s9dk] {font-family: Roboto; font-size: 20px;}");
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
@@ -94,8 +88,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
       animation: 'css-s8bawe',
     });
 
-    expect(renderToString())
-      .toBe('@-webkit-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@-moz-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@-o-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }.css-s8bawe,[data-css-s8bawe] {animation-name: fade_1q3syk4; animation-duration: 3s, 1200ms; animation-iteration-count: infinite; -webkit-animation-name: fade_1q3syk4; -webkit-animation-duration: 3s, 1200ms; -webkit-animation-iteration-count: infinite;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
@@ -115,8 +108,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
       media: 'css-rr71yy',
     });
 
-    expect(renderToString())
-      .toBe('.css-rr71yy,[data-css-rr71yy] {color: red;}@media (min-width: 300px) {.css-rr71yy,[data-css-rr71yy] {color: blue;}}@media (max-width: 1000px) {.css-rr71yy,[data-css-rr71yy] {color: green;}}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
@@ -137,7 +129,6 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     });
 
     // Verified it ran but supports don't appear in the output
-    expect(renderToString())
-      .toBe('.css-1sp1mbh,[data-css-1sp1mbh] {display: block;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 });

@@ -17,6 +17,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
+import { renderTSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   let instance;
@@ -77,8 +78,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       props: 'f1tzsa69',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f1tzsa69{color:black;display:inline;margin:10px}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
@@ -100,8 +100,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       pseudo: 'fmow1iy',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
@@ -128,8 +127,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       fallback: 'fxr1ybm',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @font-face', () => {
@@ -146,8 +144,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       font: 'fd14wa4',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
@@ -171,8 +168,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       animation: 'f14e9xg1',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @media', () => {
@@ -194,8 +190,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       media: 'fuxmg1k',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
@@ -229,8 +224,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       sup: 'f6m6wzj',
     });
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {

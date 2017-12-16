@@ -8,10 +8,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
-
-function renderToString(sheet) {
-  return sheet.toString().replace(/\n/g, '').replace(/\s{2,}/g, '');
-}
+import { renderJSSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-jss/NativeAdapter', () => {
   let instance;
@@ -51,8 +48,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       pseudo: 'pseudo-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.pseudo-0-1 {position: fixed;}.pseudo-0-1:hover {position: static;}.pseudo-0-1::before {position: absolute;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
@@ -72,8 +68,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       fallback: 'fallback-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.fallback-0-1 {background: linear-gradient(...);display: flex-box;display: box;display: flex;background: red;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
@@ -89,8 +84,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       font: 'font-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe("@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font-0-1 {font-size: 20px;font-family: Roboto;}");
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
@@ -107,8 +101,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       animation: 'animation-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
@@ -128,8 +121,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       media: 'media-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.media-0-1 {color: red;}@media (min-width: 300px) {.media-0-1 {color: blue;}}@media (max-width: 1000px) {.media-0-1 {color: green;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
@@ -149,7 +141,6 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       sup: 'sup-0-1',
     });
 
-    expect(renderToString(instance.sheet))
-      .toBe('.sup-0-1 {display: block;}@supports (display: flex) {.sup-0-1 {display: flex;}}@supports not (display: flex) {.sup-0-1 {float: left;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 });

@@ -1,7 +1,6 @@
 /* eslint-disable sort-keys */
 
 import { createRenderer } from 'fela';
-import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
 import FelaAdapter from '../src/NativeAdapter';
 import {
@@ -10,6 +9,7 @@ import {
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
+import { renderFelaStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-fela/NativeAdapter', () => {
   let instance;
@@ -46,8 +46,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       pseudo: 'a b c',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
@@ -62,8 +61,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       fallback: 'a b',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
@@ -80,8 +78,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       font: 'a b',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe("@font-face{font-family:\"Roboto\";font-style:normal;font-weight:normal;src:url('fonts/roboto.woff2') format('woff2')}.a{font-family:Roboto}.b{font-size:20px}");
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
@@ -97,8 +94,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       animation: 'a b c',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe('@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
@@ -118,8 +114,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       media: 'a b c',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
@@ -139,7 +134,6 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       sup: 'a b c',
     });
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 });
