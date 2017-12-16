@@ -16,7 +16,6 @@
 ./packages/aesthetic-adapter-jss/aesthetic-adapter-jss.js.flow
 ./packages/aesthetic-adapter-typestyle/aesthetic-adapter-typestyle.js.flow
 ./packages/aesthetic-native/aesthetic-native.js.flow
-./packages/aesthetic-utils/aesthetic-utils.js.flow
 
 [lints]
 all=warn

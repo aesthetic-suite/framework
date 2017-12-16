@@ -12,7 +12,7 @@ import type {
   HOCOptions,
   HOCWrappedComponent,
   StyleCallback,
-  StyleDeclarations,
+  Statement,
 } from '../../types';
 
 export default function createStyler(aesthetic: Aesthetic): * {
@@ -23,7 +23,7 @@ export default function createStyler(aesthetic: Aesthetic): * {
   }
 
   return function styler(
-    defaultStyles?: StyleCallback | StyleDeclarations = {},
+    defaultStyles?: StyleCallback | Statement = {},
     options?: HOCOptions = {},
   ): (HOCWrappedComponent) => HOCComponent {
     return style(aesthetic, defaultStyles, options);

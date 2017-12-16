@@ -7,98 +7,87 @@
 /* eslint-disable no-param-reassign */
 
 import UnifiedSyntax from 'aesthetic/unified';
-import {
-  formatFontFace,
-  injectFallbacks,
-  injectKeyframes,
-  injectMediaQueries,
-  injectSupports,
-} from 'aesthetic-utils';
-import { fontFace, keyframes } from 'typestyle';
+import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
+import { TypeStyle } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
-  FontFace,
-  Keyframe,
+  Statement,
+  Style,
+  StyleBlock,
   StyleDeclaration,
-  StyleDeclarations,
-  TransformedDeclarations,
+  StyleSheet,
 } from '../../types';
 
 export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(options?: Object = {}) {
-    super(options);
+  constructor(typeStyle?: TypeStyle, options?: Object = {}) {
+    super(typeStyle, options);
 
-    this.syntax = new UnifiedSyntax()
-      .on('declaration', this.handleDeclaration)
-      .on('fontFace', this.handleFontFace)
-      .on('keyframe', this.handleKeyframe);
+    this.syntax = new UnifiedSyntax();
+    this.syntax
+      .on('property', this.handleProperty)
+      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@document', this.syntax.createUnsupportedHandler('@document'))
+      .on('@fallbacks', this.handleFallbacks)
+      .on('@font-face', this.handleFontFace)
+      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@keyframes', this.handleKeyframe)
+      .on('@media', this.handleMedia)
+      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
+      .on('@page', this.syntax.createUnsupportedHandler('@page'))
+      .on('@supports', this.handleSupports)
+      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    return this.syntax.convert(declarations);
+  transform(styleName: string, statement: Statement): StyleSheet {
+    return super.transform(styleName, this.syntax.convert(statement));
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
+  handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
+    declaration[property] = [...style, declaration[property]].filter(Boolean);
   }
 
-  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
-    const nested = {};
+  handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
+    style.map(face => this.typeStyle.fontFace(formatFontFace(face)));
+  };
 
-    // Move pseudos to a $nest property
-    // https://typestyle.github.io/#/core/concept-interpolation
-    Object.keys(properties).forEach((propName: string) => {
-      if (propName.charAt(0) === ':') {
-        nested[`&${propName}`] = properties[propName];
+  handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {
+    this.syntax.keyframesCache[animationName] = this.typeStyle.keyframes(style);
+  };
 
-        delete properties[propName];
-      }
+  handleMedia = (declaration: StyleDeclaration, style: StyleBlock, condition: string) => {
+    this.injectNested(declaration, {
+      [`@media ${condition}`]: style,
     });
+  };
 
-    // Font faces
-    // https://typestyle.github.io/#/raw/-fontface-
-    // Use the `fontFamily` property as-is.
-
-    // Animation keyframes
-    // https://typestyle.github.io/#/core/concept-keyframes
-    if ('animationName' in properties) {
-      injectKeyframes(properties, this.syntax.keyframesCache, {
-        join: true,
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+    if (property.charAt(0) === ':') {
+      this.injectNested(declaration, {
+        [`&${property}`]: style,
       });
-    }
 
-    // Media queries
-    // https://typestyle.github.io/#/core/concept-media-queries
-    // https://github.com/typestyle/typestyle/blob/master/src/internal/utilities.ts#L78
-    if (this.syntax.mediaQueries[selector]) {
-      injectMediaQueries(nested, this.syntax.mediaQueries[selector]);
-    }
+    } else if (property === 'animationName') {
+      declaration[property] = this.syntax.injectKeyframes(style, this.syntax.keyframesCache);
 
-    // Fallbacks
-    // https://typestyle.github.io/#/core/concept-fallbacks
-    if (this.syntax.fallbacks[selector]) {
-      injectFallbacks(properties, this.syntax.fallbacks[selector]);
-    }
-
-    // Supports
-    // https://github.com/typestyle/typestyle/blob/ef832aa4b7a4eb95aa5260d83d8e11bb57bbc6c5/src/tests/supports.ts#L9
-    if (this.syntax.supports[selector]) {
-      injectSupports(nested, this.syntax.supports[selector]);
-    }
-
-    if (Object.keys(nested).length > 0) {
-      properties.$nest = nested;
+    } else {
+      declaration[property] = style;
     }
   };
 
-  handleFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
-    fontFaces.map(face => fontFace(formatFontFace(face)));
+  handleSupports = (declaration: StyleDeclaration, style: StyleBlock, condition: string) => {
+    this.injectNested(declaration, {
+      [`@supports ${condition}`]: style,
+    });
   };
 
-  handleKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
-    this.syntax.keyframesCache[animationName] = keyframes(keyframe);
-  };
+  injectNested(declaration: StyleDeclaration, style: StyleBlock) {
+    if (typeof declaration.$nest === 'undefined') {
+      declaration.$nest = {};
+    }
+
+    Object.assign(declaration.$nest, style);
+  }
 }

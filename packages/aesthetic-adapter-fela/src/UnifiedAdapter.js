@@ -4,92 +4,69 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import UnifiedSyntax from 'aesthetic/unified';
-import {
-  injectFallbacks,
-  injectFontFaces,
-  injectKeyframes,
-  injectMediaQueries,
-  injectSupports,
-} from 'aesthetic-utils';
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line
 import type {
-  FontFace,
-  Keyframe,
+  Style,
+  StyleBlock,
   StyleDeclaration,
-  StyleDeclarations,
-  TransformedDeclarations,
+  Statement,
+  StyleSheet,
 } from '../../types';
 
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(fela: Renderer, options?: Object = {}) {
+  constructor(fela?: Renderer, options?: Object = {}) {
     super(fela, options);
 
-    this.syntax = new UnifiedSyntax()
-      .on('declaration', this.handleDeclaration)
-      .on('fontFace', this.handleFontFace)
-      .on('keyframe', this.handleKeyframe);
+    this.syntax = new UnifiedSyntax();
+    this.syntax
+      .on('property', this.handleProperty)
+      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@document', this.syntax.createUnsupportedHandler('@document'))
+      .on('@font-face', this.handleFontFace)
+      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@keyframes', this.handleKeyframe)
+      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
+      .on('@page', this.syntax.createUnsupportedHandler('@page'))
+      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    return this.syntax.convert(declarations);
+  transform(styleName: string, statement: Statement): StyleSheet {
+    return super.transform(styleName, this.syntax.convert(statement));
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
-  }
+  // http://fela.js.org/docs/basics/Fonts.html
+  // http://fela.js.org/docs/basics/Renderer.html#renderfont
+  handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
+    this.syntax.fontFacesCache[fontFamily] = style.map((face) => {
+      const { srcPaths, local, ...props } = face;
 
-  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
-    // Font faces
-    // http://fela.js.org/docs/basics/Fonts.html
-    // http://fela.js.org/docs/basics/Renderer.html#renderfont
-    if ('fontFamily' in properties) {
-      injectFontFaces(properties, this.syntax.fontFacesCache, {
-        join: true,
+      return this.fela.renderFont(fontFamily, srcPaths, {
+        ...props,
+        localAlias: local,
       });
-    }
-
-    // Animation keyframes
-    // http://fela.js.org/docs/basics/Keyframes.html
-    // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
-    if ('animationName' in properties) {
-      injectKeyframes(properties, this.syntax.keyframesCache, {
-        join: true,
-      });
-    }
-
-    // Media queries
-    // http://fela.js.org/docs/basics/Rules.html#3-media-queries
-    if (this.syntax.mediaQueries[selector]) {
-      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
-    }
-
-    // Fallbacks
-    // https://github.com/rofrischmann/fela/tree/master/packages/fela-plugin-fallback-value#example
-    if (this.syntax.fallbacks[selector]) {
-      injectFallbacks(properties, this.syntax.fallbacks[selector]);
-    }
-
-    // Supports
-    // TODO No docs/URL
-    if (this.syntax.supports[selector]) {
-      injectSupports(properties, this.syntax.supports[selector]);
-    }
-  };
-
-  handleFontFace = (selector: string, familyName: string, fontFaces: FontFace[]) => {
-    this.syntax.fontFacesCache[familyName] = fontFaces.map((face) => {
-      const { src, ...props } = face;
-
-      return this.fela.renderFont(familyName, src, props);
     });
   }
 
-  handleKeyframe = (selector: string, animationName: string, keyframe: Keyframe) => {
-    this.syntax.keyframesCache[animationName] = this.fela.renderKeyframe(() => keyframe);
+  // http://fela.js.org/docs/basics/Keyframes.html
+  // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
+  handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {
+    this.syntax.keyframesCache[animationName] = this.fela.renderKeyframe(() => style);
+  };
+
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+    if (property === 'animationName') {
+      declaration[property] = this.syntax
+        .injectKeyframes(style, this.syntax.keyframesCache).join(', ');
+
+    } else {
+      declaration[property] = style;
+    }
   };
 }

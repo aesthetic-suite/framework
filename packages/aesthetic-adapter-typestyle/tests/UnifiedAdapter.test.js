@@ -3,13 +3,19 @@
 import UnifiedTypeStyleAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
-  SYNTAX_FALLBACK,
-  SYNTAX_AT_RULES,
-  SYNTAX_PSEUDO,
+  SYNTAX_CHARSET,
+  SYNTAX_DOCUMENT,
+  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_NAMESPACE,
+  SYNTAX_PAGE,
+  SYNTAX_PROPERTIES,
+  SYNTAX_PSEUDO,
   SYNTAX_SUPPORTS,
+  SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
@@ -20,13 +26,13 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'f1hfp49j',
+    expect(instance.transform('typestyle', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'fkp30lv',
     });
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
         margin: 0,
         padding: '6px 12px',
@@ -42,8 +48,8 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         textAlign: 'center',
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
-        color: ['#fff', 'rgba(0, 0, 0, 0)'],
-        animationName: 'f1gwuh0p',
+        color: 'rgba(0, 0, 0, 0)',
+        animationName: ['f1gwuh0p'],
         animationDuration: '.3s',
         $nest: {
           '&:hover': {
@@ -59,20 +65,24 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
           '@media (max-width: 600px)': {
             padding: '4px 8px',
           },
-          '@supports (display: flex)': {
-            display: 'flex',
-          },
         },
       },
     });
   });
 
-  it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+  it('handles properties', () => {
+    expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
+
+    expect(instance.transform('typestyle', SYNTAX_PROPERTIES)).toEqual({
+      props: 'f1tzsa69',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.f1tzsa69{color:black;display:inline;margin:10px}');
   });
 
-  it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).toEqual({
+  it('handles pseudos', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',
         $nest: {
@@ -85,38 +95,88 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('typestyle', SYNTAX_PSEUDO)).toEqual({
+      pseudo: 'fmow1iy',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}');
   });
 
-  it('supports fallbacks', () => {
-    expect(instance.convert(SYNTAX_FALLBACK)).toEqual({
+  it('handles @charset', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_CHARSET);
+    }).toThrowError();
+  });
+
+  it('handles @document', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_DOCUMENT);
+    }).toThrowError();
+  });
+
+  it('handles @fallbacks', () => {
+    expect(instance.syntax.convert(SYNTAX_FALLBACKS)).toEqual({
       fallback: {
         background: ['red', 'linear-gradient(...)'],
         display: ['box', 'flex-box', 'flex'],
       },
     });
+
+    expect(instance.transform('typestyle', SYNTAX_FALLBACKS)).toEqual({
+      fallback: 'fxr1ybm',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
   });
 
-  it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
+  it('handles @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
     });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform('typestyle', SYNTAX_FONT_FACE)).toEqual({
+      font: 'fd14wa4',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
   });
 
-  it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
+  it('handles @import', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_IMPORT);
+    }).toThrowError();
+  });
+
+  it('handles @keyframes', () => {
+    expect(instance.syntax.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
-        animationName: 'f1gwuh0p',
+        animationName: ['f1gwuh0p'],
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     });
+
+    instance.syntax.keyframes = {};
+
+    expect(instance.transform('typestyle', SYNTAX_KEYFRAMES)).toEqual({
+      animation: 'f14e9xg1',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
   });
 
-  it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
+  it('handles @media', () => {
+    expect(instance.syntax.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         $nest: {
@@ -129,10 +189,29 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('typestyle', SYNTAX_MEDIA_QUERY)).toEqual({
+      media: 'fuxmg1k',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
   });
 
-  it('supports supports', () => {
-    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+  it('handles @namespace', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_NAMESPACE);
+    }).toThrowError();
+  });
+
+  it('handles @page', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_PAGE);
+    }).toThrowError();
+  });
+
+  it('handles @supports', () => {
+    expect(instance.syntax.convert(SYNTAX_SUPPORTS)).toEqual({
       sup: {
         display: 'block',
         $nest: {
@@ -145,5 +224,18 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('typestyle', SYNTAX_SUPPORTS)).toEqual({
+      sup: 'f6m6wzj',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
+  });
+
+  it('handles @viewport', () => {
+    expect(() => {
+      instance.transform('typestyle', SYNTAX_VIEWPORT);
+    }).toThrowError();
   });
 });

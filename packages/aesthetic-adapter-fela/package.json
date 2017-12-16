@@ -14,7 +14,6 @@
     "build": "build-lib --react"
   },
   "dependencies": {
-    "aesthetic-utils": "^1.6.2",
     "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.0"
   },
@@ -24,10 +23,11 @@
     "fela-dom": "^6.0.0 || ^7.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.43.1",
+    "@milesj/build-tool-config": "^0.44.0",
     "aesthetic": "^1.7.1",
     "fela": "^6.1.0",
     "fela-dom": "^7.0.0",
-    "fela-preset-web": "^8.0.0"
+    "fela-preset-web": "^8.0.0",
+    "fela-tools": "^5.0.14"
   }
 }

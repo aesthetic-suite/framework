@@ -4,107 +4,266 @@
  * @flow
  */
 
-import { isObject } from 'aesthetic-utils';
+/* eslint-disable no-param-reassign */
+
+import formatFontFace from './helpers/formatFontFace';
+import isObject from './helpers/isObject';
+import toArray from './helpers/toArray';
 
 import type {
-  AtRuleCache,
+  AtRule,
   EventCallback,
-  Fallbacks,
-  FontFaces,
-  Keyframes,
-  MediaQueries,
+  Statement,
+  StatementUnified,
+  Style,
+  StyleBlock,
   StyleDeclaration,
-  StyleDeclarations,
-  Supports,
+  StyleDeclarationUnified,
 } from '../../types';
 
-export const LOCAL = 'local';
-export const GLOBAL = 'global';
-export const AT_RULES = ['@fallbacks', '@font-face', '@keyframes', '@media', '@supports'];
+export const GLOBAL_RULES: AtRule[] = [
+  '@charset',
+  '@document',
+  '@font-face',
+  '@import',
+  '@keyframes',
+  '@namespace',
+  '@page',
+  '@viewport',
+];
+
+export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
 
-  // Local
-  fallbacks: AtRuleCache<Fallbacks> = {};
+  fontFaces: { [fontFamily: string]: StyleBlock[] } = {};
 
-  // Global
-  fontFaces: FontFaces = {};
+  fontFacesCache: { [fontFamily: string]: string } = {};
 
-  fontFacesCache: AtRuleCache<string[]> = {};
+  keyframes: { [animationName: string]: StyleBlock } = {};
 
-  // Global
-  keyframes: Keyframes = {};
+  keyframesCache: { [animationName: string]: string } = {};
 
-  keyframesCache: AtRuleCache<string> = {};
-
-  // Local
-  mediaQueries: AtRuleCache<MediaQueries> = {};
-
-  // Local
-  supports: AtRuleCache<Supports> = {};
-
-  static LOCAL: string = LOCAL;
-
-  static GLOBAL: string = GLOBAL;
-
-  /**
-   * Convert the unified syntax to adapter specific syntax
-   * by extracting at-rules and applying conversions at each level.
-   */
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    this.resetLocalCache();
-    this.emit('converting');
-
-    const adaptedDeclarations = { ...declarations };
-
-    // Extract at-rules first so that they are available for properties
-    AT_RULES.forEach((atRule) => {
-      if (atRule in adaptedDeclarations) {
-        this.extract(':root', atRule, adaptedDeclarations[atRule], GLOBAL);
-
-        delete adaptedDeclarations[atRule];
-      }
-    });
-
-    // Apply conversion to properties
-    Object.keys(adaptedDeclarations).forEach((selector) => {
-      const declaration = declarations[selector];
-
-      if (typeof declaration !== 'string') {
-        adaptedDeclarations[selector] = this.convertDeclaration(selector, declaration);
-      }
-    });
-
-    this.emit('converted');
-
-    return adaptedDeclarations;
+  constructor() {
+    this
+      .on('property', this.handleProperty)
+      .on('@charset', this.handleCharset)
+      .on('@document', this.handleDocument)
+      .on('@fallbacks', this.handleFallbacks)
+      .on('@font-face', this.handleFontFace)
+      .on('@import', this.handleImport)
+      .on('@keyframes', this.handleKeyframes)
+      .on('@media', this.handleMedia)
+      .on('@namespace', this.handleNamespace)
+      .on('@page', this.handlePage)
+      .on('@supports', this.handleSupports)
+      .on('@viewport', this.handleViewport);
   }
 
   /**
-   * Convert an object of properties by extracting local at-rules
-   * and parsing fallbacks.
+   * Convert a mapping of style declarations to their native syntax.
    */
-  convertDeclaration(selector: string, properties: StyleDeclaration): StyleDeclaration {
-    const nextProperties = { ...properties };
+  convert(statement: StatementUnified): Statement {
+    const prevStatement = { ...statement };
+    const nextStatement = {};
 
-    AT_RULES.forEach((atRule) => {
-      if (atRule in nextProperties) {
-        this.extract(selector, atRule, nextProperties[atRule], LOCAL);
+    // Extract global at-rules first
+    // eslint-disable-next-line complexity
+    GLOBAL_RULES.forEach((rule) => {
+      if (!prevStatement[rule]) {
+        delete prevStatement[rule];
 
-        delete nextProperties[atRule];
+        return;
+      }
+
+      switch (rule) {
+        case '@charset':
+        case '@import':
+        case '@namespace': {
+          const path = prevStatement[rule];
+
+          if (typeof path === 'string') {
+            this.emit(rule, [nextStatement, path]);
+          } else if (__DEV__) {
+            throw new Error(`${rule} value must be a string.`);
+          }
+
+          break;
+        }
+
+        case '@document': {
+          const doc = prevStatement['@document'];
+
+          Object.keys(doc).forEach((url) => {
+            if (isObject(doc[url])) {
+              this.emit(rule, [nextStatement, doc[url], url]);
+            } else if (__DEV__) {
+              throw new Error(`${rule} must be a mapping of URLs to style objects.`);
+            }
+          });
+
+          break;
+        }
+
+        case '@font-face': {
+          const faces = prevStatement['@font-face'];
+
+          Object.keys(faces).forEach((fontFamily) => {
+            const fontFaces = toArray(faces[fontFamily]).map(font => ({
+              ...font,
+              fontFamily,
+            }));
+
+            this.emit(rule, [nextStatement, fontFaces, fontFamily]);
+
+            if (__DEV__ && this.fontFaces[fontFamily]) {
+              throw new Error(`@font-face "${fontFamily}" already exists.`);
+            }
+
+            this.fontFaces[fontFamily] = fontFaces;
+          });
+
+          break;
+        }
+
+        case '@keyframes': {
+          const frames = prevStatement['@keyframes'];
+
+          Object.keys(frames).forEach((animationName) => {
+            const keyframes = frames[animationName];
+
+            this.emit(rule, [nextStatement, keyframes, animationName]);
+
+            if (__DEV__ && this.keyframes[animationName]) {
+              throw new Error(`@keyframes "${animationName}" already exists.`);
+            }
+
+            // $FlowIgnore TODO
+            this.keyframes[animationName] = keyframes;
+          });
+
+          break;
+        }
+
+        case '@page':
+        case '@viewport': {
+          const style = prevStatement[rule];
+
+          if (isObject(style)) {
+            this.emit(rule, [nextStatement, style]);
+          } else if (__DEV__) {
+            throw new Error(`${rule} must be a style object.`);
+          }
+
+          break;
+        }
+
+        /* istanbul ignore next */
+        default:
+          break;
+      }
+
+      delete prevStatement[rule];
+    });
+
+    // Convert declarations last
+    Object.keys(prevStatement).forEach((selector) => {
+      const declaration = prevStatement[selector];
+
+      delete prevStatement[selector];
+
+      if (!declaration) {
+        return;
+      }
+
+      // At-rule
+      if (selector.charAt(0) === '@') {
+        if (__DEV__) {
+          throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
+        }
+
+      // Class name
+      } else if (typeof declaration === 'string') {
+        nextStatement[selector] = declaration;
+
+      // Style object
+      } else if (isObject(declaration)) {
+        nextStatement[selector] = this.convertDeclaration(selector, declaration);
+
+      } else if (__DEV__) {
+        throw new Error(`Invalid style declaration for "${selector}".`);
       }
     });
 
-    this.emit('declaration', [selector, nextProperties]);
+    return nextStatement;
+  }
 
-    return nextProperties;
+  /**
+   * Convert a style declaration including local at-rules and properties.
+   */
+  convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration {
+    const prevDeclaration = { ...declaration };
+    const nextDeclaration = {};
+
+    // Convert properties first
+    Object.keys(prevDeclaration).forEach((key) => {
+      if (key.charAt(0) !== '@') {
+        this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
+
+        delete prevDeclaration[key];
+      }
+    });
+
+    // Extract local at-rules first
+    LOCAL_RULES.forEach((rule) => {
+      const style = prevDeclaration[rule];
+
+      delete prevDeclaration[rule];
+
+      if (!style || !isObject(style)) {
+        return;
+      }
+
+      if (rule === '@fallbacks') {
+        Object.keys(style).forEach((property) => {
+          this.emit(rule, [nextDeclaration, toArray(style[property]), property]);
+        });
+
+      } else if (rule === '@media' || rule === '@supports') {
+        Object.keys(style).forEach((condition) => {
+          if (isObject(style[condition])) {
+            this.emit(rule, [nextDeclaration, style[condition], condition]);
+          } else if (__DEV__) {
+            throw new Error(`${rule} ${condition} must be a mapping of conditions to style objects.`);
+          }
+        });
+      }
+    });
+
+    // Error for unknown at-rules
+    if (__DEV__) {
+      Object.keys(prevDeclaration).forEach((key) => {
+        throw new SyntaxError(`Unsupported local at-rule "${key}".`);
+      });
+    }
+
+    return nextDeclaration;
+  }
+
+  /**
+   * Create a noop function that throws an error for unsupported features.
+   */
+  createUnsupportedHandler(rule: AtRule): () => void {
+    return () => {
+      throw new Error(`Adapter does not support "${rule}".`);
+    };
   }
 
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: string, args: *[] = []): this {
+  emit(eventName: string, args: *[]): this {
     if (this.events[eventName]) {
       this.events[eventName](...args);
     }
@@ -113,141 +272,123 @@ export default class UnifiedSyntax {
   }
 
   /**
-   * Extract at-rules and parser rules from both the global and local levels.
+   * Handle @charset.
    */
-  extract(selector: string, atRule: string, rules: *, fromScope: string) {
-    if (__DEV__) {
-      if (!isObject(rules)) {
-        throw new SyntaxError(`At-rule declaration "${atRule}" must be an object.`);
-      }
-    }
-
-    switch (atRule) {
-      case '@fallbacks':
-        this.extractFallbacks(selector, (rules: Fallbacks), fromScope);
-        break;
-
-      case '@font-face':
-        this.extractFontFaces(selector, (rules: FontFaces), fromScope);
-        break;
-
-      case '@keyframes':
-        this.extractKeyframes(selector, (rules: Keyframes), fromScope);
-        break;
-
-      case '@media':
-        this.extractMediaQueries(selector, (rules: MediaQueries), fromScope);
-        break;
-
-      case '@supports':
-        this.extractSupports(selector, (rules: Supports), fromScope);
-        break;
-
-      default: {
-        if (__DEV__) {
-          throw new SyntaxError(`Unsupported at-rule "${atRule}".`);
-        }
-      }
-    }
+  handleCharset(statement: Statement, style: string) {
+    statement['@charset'] = style;
   }
 
   /**
-   * Extract property fallbacks.
+   * Handle @document.
    */
-  extractFallbacks(selector: string, properties: Fallbacks, fromScope: string) {
-    if (__DEV__) {
-      if (fromScope === GLOBAL) {
-        throw new SyntaxError('@fallbacks must be defined locally to an element.');
-      }
-    }
-
-    this.fallbacks[selector] = properties;
-
-    this.emit('fallback', [selector, properties]);
+  handleDocument(statement: Statement, style: StyleBlock, url: string) {
+    statement[`@document ${url}`] = style;
   }
 
   /**
-   * Extract font face at-rules.
+   * Handle fallback properties.
    */
-  extractFontFaces(selector: string, rules: FontFaces, fromScope: string) {
-    if (__DEV__) {
-      if (fromScope === LOCAL) {
-        throw new SyntaxError('@font-face must be declared in the global scope.');
-      }
+  handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
+    declaration[property] = [declaration[property], ...style].filter(Boolean);
+  }
+
+  /**
+   * Handle @font-face.
+   */
+  handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string) {
+    if (typeof statement['@font-face'] === 'undefined') {
+      statement['@font-face'] = [];
     }
 
-    Object.keys(rules).forEach((name) => {
-      if (this.fontFaces[name]) {
-        if (__DEV__) {
-          throw new TypeError(`@font-face "${name}" has already been defined.`);
-        }
+    statement['@font-face'].push(...style);
+  }
+
+  /**
+   * Handle @namespace.
+   */
+  handleImport(statement: Statement, style: string) {
+    statement['@import'] = style;
+  }
+
+  /**
+   * Handle @keyframes.
+   */
+  handleKeyframes(statement: Statement, style: StyleBlock, animationName: string) {
+    statement[`@keyframes ${animationName}`] = style;
+  }
+
+  /**
+   * Handle @media.
+   */
+  handleMedia(declaration: StyleDeclaration, style: StyleBlock, condition: string) {
+    declaration[`@media ${condition}`] = style;
+  }
+
+  /**
+   * Handle @namespace.
+   */
+  handleNamespace(statement: Statement, style: string) {
+    statement['@namespace'] = style;
+  }
+
+  /**
+   * Handle @page.
+   */
+  handlePage(statement: Statement, style: StyleBlock) {
+    statement['@page'] = style;
+  }
+
+  /**
+   * Handle CSS properties.
+   */
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+    declaration[property] = style;
+  };
+
+  /**
+   * Handle @supports.
+   */
+  handleSupports(declaration: StyleDeclaration, style: StyleBlock, condition: string) {
+    declaration[`@supports ${condition}`] = style;
+  }
+
+  /**
+   * Handle @viewport.
+   */
+  handleViewport(statement: Statement, style: StyleBlock) {
+    statement['@viewport'] = style;
+  }
+
+  /**
+   * Replace a `fontFamily` property with font face objects of the same name.
+   */
+  injectFontFaces(value: Style, cache: Object): Style[] {
+    const fontFaces = [];
+
+    String(value).split(',').forEach((name) => {
+      const familyName = name.trim();
+      const fonts = cache[familyName];
+
+      if (Array.isArray(fonts)) {
+        fonts.forEach((font) => {
+          fontFaces.push(formatFontFace(font));
+        });
       } else {
-        const fonts = Array.isArray(rules[name]) ? rules[name] : [rules[name]];
-
-        this.fontFaces[name] = fonts.map(font => ({
-          ...font,
-          fontFamily: name,
-        }));
+        fontFaces.push(familyName);
       }
-
-      this.emit('fontFace', [selector, name, this.fontFaces[name]]);
     });
+
+    return fontFaces;
   }
 
   /**
-   * Extract animation keyframes at-rules.
+   * Replace a `animationName` property with keyframe objects of the same name.
    */
-  extractKeyframes(selector: string, rules: Keyframes, fromScope: string) {
-    if (__DEV__) {
-      if (fromScope === LOCAL) {
-        throw new SyntaxError('@keyframes must be declared in the global scope.');
-      }
-    }
+  injectKeyframes(value: Style, cache: Object): Style[] {
+    return String(value).split(',').map((name) => {
+      const animationName = name.trim();
 
-    Object.keys(rules).forEach((name) => {
-      if (this.keyframes[name]) {
-        if (__DEV__) {
-          throw new TypeError(`@keyframes "${name}" has already been defined.`);
-        }
-      } else {
-        this.keyframes[name] = rules[name];
-      }
-
-      this.emit('keyframe', [selector, name, rules[name]]);
-    });
-  }
-
-  /**
-   * Extract media query at-rules.
-   */
-  extractMediaQueries(selector: string, rules: MediaQueries, fromScope: string) {
-    if (__DEV__) {
-      if (fromScope === GLOBAL) {
-        throw new SyntaxError('@media must be defined locally to an element.');
-      }
-    }
-
-    this.mediaQueries[selector] = rules;
-
-    Object.keys(rules).forEach((query) => {
-      this.emit('mediaQuery', [selector, query, rules[query]]);
-    });
-  }
-
-  /**
-   * Extract supports at-rules.
-   */
-  extractSupports(selector: string, rules: Supports, fromScope: string) {
-    if (__DEV__) {
-      if (fromScope === GLOBAL) {
-        throw new SyntaxError('@supports must be defined locally to an element.');
-      }
-    }
-
-    this.supports[selector] = rules;
-
-    Object.keys(rules).forEach((query) => {
-      this.emit('support', [selector, query, rules[query]]);
+      return cache[animationName] || animationName;
     });
   }
 
@@ -267,22 +408,5 @@ export default class UnifiedSyntax {
     this.events[eventName] = callback;
 
     return this;
-  }
-
-  /**
-   * Reset cached global at-rules.
-   */
-  resetGlobalCache() {
-    this.fontFaces = {};
-    this.keyframes = {};
-  }
-
-  /**
-   * Reset cached local at-rules.
-   */
-  resetLocalCache() {
-    this.fallbacks = {};
-    this.mediaQueries = {};
-    this.supports = {};
   }
 }

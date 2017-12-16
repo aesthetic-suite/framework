@@ -4,55 +4,48 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import UnifiedSyntax from 'aesthetic/unified';
-import { injectFontFaces, injectKeyframes, injectMediaQueries } from 'aesthetic-utils';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { StyleDeclaration, StyleDeclarations, TransformedDeclarations } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(aphrodite: Object, options?: Object = {}) {
+  constructor(aphrodite?: Object, options?: Object = {}) {
     super(aphrodite, options);
 
-    this.syntax = new UnifiedSyntax()
-      .on('declaration', this.handleDeclaration);
+    this.syntax = new UnifiedSyntax();
+    this.syntax
+      .on('property', this.handleProperty)
+      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@document', this.syntax.createUnsupportedHandler('@document'))
+      .on('@fallbacks', this.syntax.createUnsupportedHandler('@fallbacks'))
+      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
+      .on('@page', this.syntax.createUnsupportedHandler('@page'))
+      .on('@supports', this.syntax.createUnsupportedHandler('@supports'))
+      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'))
+      .off('@font-face')
+      .off('@keyframes');
   }
 
-  convert(declarations: StyleDeclarations): StyleDeclarations {
-    return this.syntax.convert(declarations);
+  transform(styleName: string, statement: Statement): StyleSheet {
+    return super.transform(styleName, this.syntax.convert(statement));
   }
 
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return super.transform(styleName, this.convert(declarations));
-  }
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+    let value = style;
 
-  handleDeclaration = (selector: string, properties: StyleDeclaration) => {
-    // Font faces
-    // https://github.com/Khan/aphrodite#font-faces
-    if ('fontFamily' in properties) {
-      injectFontFaces(properties, this.syntax.fontFaces, {
-        format: true,
-      });
+    if (property === 'animationName') {
+      value = this.syntax.injectKeyframes(style, this.syntax.keyframes);
+
+    } else if (property === 'fontFamily') {
+      value = this.syntax.injectFontFaces(style, this.syntax.fontFaces);
     }
 
-    // Animation keyframes
-    // https://github.com/Khan/aphrodite#animations
-    if ('animationName' in properties) {
-      injectKeyframes(properties, this.syntax.keyframes);
-    }
-
-    // Media queries
-    // https://github.com/Khan/aphrodite#api
-    if (this.syntax.mediaQueries[selector]) {
-      injectMediaQueries(properties, this.syntax.mediaQueries[selector]);
-    }
-
-    // Fallbacks
-    // Aphrodite does not support fallbacks.
-
-    // Supports
-    // Aphrodite does not support @supports.
+    declaration[property] = value;
   };
 }

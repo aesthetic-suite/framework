@@ -6,14 +6,15 @@ export const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  src: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+  local: 'Robo',
+  srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
 export const FONT_ROBOTO_FLAT_SRC = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+  src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
 export const KEYFRAME_FADE = {
@@ -72,40 +73,28 @@ export const SYNTAX_UNIFIED_FULL = {
         padding: '4px 8px',
       },
     },
-    '@supports': {
-      '(display: flex)': {
-        display: 'flex',
+  },
+};
+
+export const SYNTAX_CHARSET = {
+  '@charset': 'utf8',
+};
+
+export const SYNTAX_DOCUMENT = {
+  '@document': {
+    'domain(milesj.me)': {
+      body: {
+        color: 'black',
       },
     },
-    '@fallbacks': {
-      color: '#fff',
-    },
   },
 };
 
-export const SYNTAX_AT_RULES = {
-  '@charset': 'UTF-8',
-  '@page :left': {
-    size: 'A4 landscape',
-  },
-  '@viewport': {
-    orientation: 'landscape',
-  },
+export const SYNTAX_IMPORT = {
+  '@import': './some/path.css',
 };
 
-export const SYNTAX_PSEUDO = {
-  pseudo: {
-    position: 'fixed',
-    ':hover': {
-      position: 'static',
-    },
-    '::before': {
-      position: 'absolute',
-    },
-  },
-};
-
-export const SYNTAX_FALLBACK = {
+export const SYNTAX_FALLBACKS = {
   fallback: {
     background: 'linear-gradient(...)',
     display: 'flex',
@@ -151,6 +140,36 @@ export const SYNTAX_MEDIA_QUERY = {
   },
 };
 
+export const SYNTAX_NAMESPACE = {
+  '@namespace': 'url(http://www.w3.org/1999/xhtml)',
+};
+
+export const SYNTAX_PAGE = {
+  '@page': {
+    margin: '1cm',
+  },
+};
+
+export const SYNTAX_PROPERTIES = {
+  props: {
+    color: 'black',
+    display: 'inline',
+    margin: 10,
+  },
+};
+
+export const SYNTAX_PSEUDO = {
+  pseudo: {
+    position: 'fixed',
+    ':hover': {
+      position: 'static',
+    },
+    '::before': {
+      position: 'absolute',
+    },
+  },
+};
+
 export const SYNTAX_SUPPORTS = {
   sup: {
     display: 'block',
@@ -162,6 +181,13 @@ export const SYNTAX_SUPPORTS = {
         float: 'left',
       },
     },
+  },
+};
+
+export const SYNTAX_VIEWPORT = {
+  '@viewport': {
+    width: 'device-width',
+    orientation: 'landscape',
   },
 };
 

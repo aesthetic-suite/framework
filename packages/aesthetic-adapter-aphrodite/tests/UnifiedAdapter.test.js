@@ -1,16 +1,25 @@
 /* eslint-disable sort-keys */
 
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
+import { flushToString } from 'aphrodite/lib/inject';
 import UnifiedAphroditeAdapter from '../src/UnifiedAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
-  SYNTAX_AT_RULES,
-  SYNTAX_PSEUDO,
+  SYNTAX_CHARSET,
+  SYNTAX_DOCUMENT,
+  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_NAMESPACE,
+  SYNTAX_PAGE,
+  SYNTAX_PROPERTIES,
+  SYNTAX_PSEUDO,
+  SYNTAX_SUPPORTS,
+  SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
@@ -26,13 +35,13 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'button_1fihu6i',
+    expect(instance.transform('aphrodite', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'button_jr9ve',
     });
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
         margin: 0,
         padding: '6px 12px',
@@ -68,37 +77,101 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     });
   });
 
-  it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+  it('handles properties', () => {
+    expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
+
+    expect(instance.transform('aphrodite', SYNTAX_PROPERTIES)).toEqual({
+      props: 'props_1pbzc6n',
+    });
+
+    expect(flushToString())
+      .toBe('.props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}');
   });
 
-  it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
+  it('handles pseudos', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
+      pseudo: {
+        position: 'fixed',
+        ':hover': {
+          position: 'static',
+        },
+        '::before': {
+          position: 'absolute',
+        },
+      },
+    });
+
+    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
+      pseudo: 'pseudo_q2zd6k',
+    });
+
+    expect(flushToString())
+      .toBe('.pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}');
   });
 
-  it.skip('supports fallbacks');
+  it('handles @charset', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_CHARSET);
+    }).toThrowError();
+  });
 
-  it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
+  it('handles @document', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_DOCUMENT);
+    }).toThrowError();
+  });
+
+  it('handles @fallbacks', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_FALLBACKS);
+    }).toThrowError();
+  });
+
+  it('handles @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
         fontFamily: [FONT_ROBOTO_FLAT_SRC],
         fontSize: 20,
       },
     });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform('aphrodite', SYNTAX_FONT_FACE)).toEqual({
+      font: 'font_uk6a9p',
+    });
+
+    expect(flushToString())
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_uk6a9p{font-family:\"Roboto\" !important;font-size:20px !important;}");
   });
 
-  it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
+  it('handles @import', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_IMPORT);
+    }).toThrowError();
+  });
+
+  it('handles @keyframes', () => {
+    expect(instance.syntax.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
         animationName: [KEYFRAME_FADE],
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     });
+
+    instance.syntax.keyframes = {};
+
+    expect(instance.transform('aphrodite', SYNTAX_KEYFRAMES)).toEqual({
+      animation: 'animation_1s7muh9',
+    });
+
+    expect(flushToString())
+      .toBe('@keyframes keyframe_w18mkj{from{opacity:0;}to{opacity:1;}}.animation_1s7muh9{-webkit-animation-name:keyframe_w18mkj !important;animation-name:keyframe_w18mkj !important;-webkit-animation-duration:3s, 1200ms !important;animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-iteration-count:infinite !important;}');
   });
 
-  it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
+  it('handles @media', () => {
+    expect(instance.syntax.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {
@@ -109,7 +182,36 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('aphrodite', SYNTAX_MEDIA_QUERY)).toEqual({
+      media: 'media_1yqe7pa',
+    });
+
+    expect(flushToString())
+      .toBe('.media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}');
   });
 
-  it.skip('supports supports');
+  it('handles @namespace', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_NAMESPACE);
+    }).toThrowError();
+  });
+
+  it('handles @page', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_PAGE);
+    }).toThrowError();
+  });
+
+  it('handles @supports', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_SUPPORTS);
+    }).toThrowError();
+  });
+
+  it('handles @viewport', () => {
+    expect(() => {
+      instance.transform('aphrodite', SYNTAX_VIEWPORT);
+    }).toThrowError();
+  });
 });

@@ -450,7 +450,7 @@ aesthetic.registerTheme('dark', {
     'Open Sans': {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: ['fonts/OpenSans.woff'],
+      srcPaths: ['fonts/OpenSans.woff'],
     },
   },
 });
@@ -680,7 +680,7 @@ and are referenced by the font family name (the object key).
   'Open Sans': {
     fontStyle: 'normal',
     fontWeight: 'normal',
-    src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+    srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
   },
 },
 button: {
@@ -699,17 +699,17 @@ To support multiple font variations, like bold and italics, pass an array of pro
     {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      src: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+      srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
     },
     {
       fontStyle: 'italic',
       fontWeight: 'normal',
-      src: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
+      srcPaths: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
     },
     {
       fontStyle: 'normal',
       fontWeight: 'bold',
-      src: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
+      srcPaths: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
     },
   ],
 },
@@ -723,7 +723,7 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
     fontStyle: 'normal',
     fontWeight: 'normal',
     local: ['OpenSans', 'Open-Sans'],
-    src: ['fonts/OpenSans.ttf'],
+    srcPaths: ['fonts/OpenSans.ttf'],
   },
 },
 ```

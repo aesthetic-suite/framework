@@ -7,14 +7,24 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
-  SYNTAX_FALLBACK,
-  SYNTAX_AT_RULES,
-  SYNTAX_PSEUDO,
+  SYNTAX_CHARSET,
+  SYNTAX_DOCUMENT,
+  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_NAMESPACE,
+  SYNTAX_PAGE,
+  SYNTAX_PROPERTIES,
+  SYNTAX_PSEUDO,
   SYNTAX_SUPPORTS,
+  SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
+
+function renderToString(sheet) {
+  return sheet.toString().replace(/\n/g, '').replace(/\s{2,}/g, '');
+}
 
 describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   let instance;
@@ -33,7 +43,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       '@font-face': [FONT_ROBOTO_FLAT_SRC],
       '@keyframes fade': KEYFRAME_FADE,
       button: {
@@ -64,25 +74,26 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
           verticalAlign: 'middle',
           marginRight: 5,
         },
-        fallbacks: [
-          { color: '#fff' },
-        ],
         '@media (max-width: 600px)': {
           padding: '4px 8px',
-        },
-        '@supports (display: flex)': {
-          display: 'flex',
         },
       },
     });
   });
 
-  it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+  it('handles properties', () => {
+    expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
+
+    expect(instance.transform('jss', SYNTAX_PROPERTIES)).toEqual({
+      props: 'props-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('.props-0-1 {color: black;margin: 10px;display: inline;}');
   });
 
-  it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).toEqual({
+  it('handles pseudos', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',
         '&:hover': {
@@ -93,10 +104,34 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('jss', SYNTAX_PSEUDO)).toEqual({
+      pseudo: 'pseudo-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('.pseudo-0-1 {position: fixed;}.pseudo-0-1:hover {position: static;}.pseudo-0-1::before {position: absolute;}');
   });
 
-  it('supports fallbacks', () => {
-    expect(instance.convert(SYNTAX_FALLBACK)).toEqual({
+  it('handles @charset', () => {
+    expect(instance.syntax.convert(SYNTAX_CHARSET)).toEqual({
+      '@charset': 'utf8',
+    });
+
+    expect(instance.transform('jss', SYNTAX_CHARSET)).toEqual({});
+
+    expect(renderToString(instance.sheet))
+      .toBe('@charset utf8;');
+  });
+
+  it('handles @document', () => {
+    expect(() => {
+      instance.transform('jss', SYNTAX_DOCUMENT);
+    }).toThrowError();
+  });
+
+  it('handles @fallbacks', () => {
+    expect(instance.syntax.convert(SYNTAX_FALLBACKS)).toEqual({
       fallback: {
         background: 'linear-gradient(...)',
         display: 'flex',
@@ -107,20 +142,47 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         ],
       },
     });
+
+    expect(instance.transform('jss', SYNTAX_FALLBACKS)).toEqual({
+      fallback: 'fallback-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('.fallback-0-1 {background: red;display: box;display: flex-box;display: flex;background: linear-gradient(...);}');
   });
 
-  it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
+  it('handles @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE)).toEqual({
       '@font-face': [FONT_ROBOTO_FLAT_SRC],
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
     });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform('jss', SYNTAX_FONT_FACE)).toEqual({
+      font: 'font-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe("@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font-0-1 {font-size: 20px;font-family: Roboto;}");
   });
 
-  it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
+  it('handles @import', () => {
+    expect(instance.syntax.convert(SYNTAX_IMPORT)).toEqual({
+      '@import': './some/path.css',
+    });
+
+    expect(instance.transform('jss', SYNTAX_IMPORT)).toEqual({});
+
+    expect(renderToString(instance.sheet))
+      .toBe('@import ./some/path.css;');
+  });
+
+  it('handles @keyframes', () => {
+    expect(instance.syntax.convert(SYNTAX_KEYFRAMES)).toEqual({
       '@keyframes fade': KEYFRAME_FADE,
       animation: {
         animationName: 'fade',
@@ -128,10 +190,19 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         animationIterationCount: 'infinite',
       },
     });
+
+    instance.syntax.keyframes = {};
+
+    expect(instance.transform('jss', SYNTAX_KEYFRAMES)).toEqual({
+      animation: 'animation-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}');
   });
 
-  it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
+  it('handles @media', () => {
+    expect(instance.syntax.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {
@@ -142,10 +213,34 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('jss', SYNTAX_MEDIA_QUERY)).toEqual({
+      media: 'media-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('.media-0-1 {color: red;}@media (min-width: 300px) {.media-0-1 {color: blue;}}@media (max-width: 1000px) {.media-0-1 {color: green;}}');
   });
 
-  it('supports supports', () => {
-    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+  it('handles @namespace', () => {
+    expect(instance.syntax.convert(SYNTAX_NAMESPACE)).toEqual({
+      '@namespace': 'url(http://www.w3.org/1999/xhtml)',
+    });
+
+    expect(instance.transform('jss', SYNTAX_NAMESPACE)).toEqual({});
+
+    expect(renderToString(instance.sheet))
+      .toBe('@namespace url(http://www.w3.org/1999/xhtml);');
+  });
+
+  it('handles @page', () => {
+    expect(() => {
+      instance.transform('jss', SYNTAX_PAGE);
+    }).toThrowError();
+  });
+
+  it('handles @supports', () => {
+    expect(instance.syntax.convert(SYNTAX_SUPPORTS)).toEqual({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -156,5 +251,26 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('jss', SYNTAX_SUPPORTS)).toEqual({
+      sup: 'sup-0-1',
+    });
+
+    expect(renderToString(instance.sheet))
+      .toBe('.sup-0-1 {display: block;}@supports (display: flex) {.sup-0-1 {display: flex;}}@supports not (display: flex) {.sup-0-1 {float: left;}}');
+  });
+
+  it('handles @viewport', () => {
+    expect(instance.syntax.convert(SYNTAX_VIEWPORT)).toEqual({
+      '@viewport': {
+        width: 'device-width',
+        orientation: 'landscape',
+      },
+    });
+
+    expect(instance.transform('jss', SYNTAX_VIEWPORT)).toEqual({});
+
+    expect(renderToString(instance.sheet))
+      .toBe('@viewport {width: device-width;orientation: landscape;}');
   });
 });

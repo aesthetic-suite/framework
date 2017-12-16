@@ -4,6 +4,6 @@
  * @flow
  */
 
-export default function toArray<T>(value: T | T[]): T[] {
+export default function toArray(value: *): *[] {
   return Array.isArray(value) ? value : [value];
 }

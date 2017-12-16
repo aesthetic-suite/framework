@@ -16,9 +16,9 @@ import type {
   HOCOptions,
   HOCWrappedComponent,
   StyleCallback,
-  StyleDeclarations,
+  Statement,
   ThemeDeclaration,
-  TransformedDeclarations,
+  StyleSheet,
 } from '../../types';
 
 type StyleProps = {
@@ -26,7 +26,7 @@ type StyleProps = {
 };
 
 type StyleState = {
-  classNames?: TransformedDeclarations,
+  classNames?: StyleSheet,
   theme?: ThemeDeclaration,
   themeName: string,
 };
@@ -36,7 +36,7 @@ let instanceID = 0;
 
 export default function style(
   aesthetic: Aesthetic,
-  styles: StyleCallback | StyleDeclarations = {},
+  styles: StyleCallback | Statement = {},
   options?: HOCOptions = {},
 ): (HOCWrappedComponent) => HOCComponent {
   return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
@@ -105,7 +105,7 @@ export default function style(
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStyles?: StyleCallback | StyleDeclarations = {},
+        customStyles?: StyleCallback | Statement = {},
         extendOptions?: HOCOptions = {},
       ): HOCComponent {
         if (__DEV__) {

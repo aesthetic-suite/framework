@@ -4,6 +4,6 @@
  * @flow
  */
 
-export default function isObject<T>(value: T): boolean {
+export default function isObject(value: *): boolean {
   return (value !== null && !Array.isArray(value) && typeof value === 'object');
 }

@@ -4,13 +4,14 @@
  * @flow
  */
 
-/* eslint-disable no-use-before-define */
+/* eslint-disable no-use-before-define, max-len */
 
 // TERMINOLOGY
 // Style = The individual value for a property.
 // Block = An object of style properties.
-// Declaration = Styles for a selector. Supports at-rules.
+// Declaration = Styles for a selector. Supports local at-rules.
 // Selector = The name of an element.
+// Statement = An object of declarations. Supports global at-rules.
 
 export type AestheticOptions = {
   defaultTheme: string,
@@ -20,37 +21,42 @@ export type AestheticOptions = {
   themePropName: string,
 };
 
-export type AtRuleCache<T> = { [key: string]: T };
+export type AtRule =
+  '@charset' |
+  '@document' |
+  '@font-face' |
+  '@import' |
+  '@keyframes' |
+  '@media' |
+  '@namespace' |
+  '@page' |
+  '@supports' |
+  '@viewport' |
+  '@fallbacks';
 
 export type ClassName = string;
 
-export type EventCallback = (() => void) |
-  ((selector: string, properties: StyleDeclaration) => void) |
-  ((selector: string, fallbacks: Fallbacks) => void) |
-  ((selector: string, fontFamily: string, fontFaces: FontFace[]) => void) |
-  ((selector: string, animationName: string, keyframe: Keyframe) => void) |
-  ((selector: string, queryName: string, mediaQuery: MediaQuery) => void);
-
-export type Fallback = string;
-
-export type Fallbacks = { [propName: string]: Fallback | Fallback[] };
-
-export type FontFace = {
-  fontDisplay?: string,
-  fontFamily: string,
-  fontStyle?: string,
-  fontWeight?: string | number,
-  local?: string[],
-  src: string | string[],
-  unicodeRange?: string,
-};
-
-export type FontFaces = { [fontFamily: string]: FontFace[] };
-
-export type GlobalDeclaration = {
-  '@font-face'?: FontFaces,
-  '@keyframes'?: Keyframes,
-};
+export type EventCallback =
+  // @charset
+  ((statement: Statement, style: string) => void) |
+  // @document
+  ((statement: Statement, style: StyleBlock, url: string) => void) |
+  // @import
+  ((statement: Statement, style: string) => void) |
+  // @namespace
+  ((statement: Statement, style: string) => void) |
+  // @page, @viewport
+  ((statement: Statement, style: StyleBlock) => void) |
+  // @font-face
+  ((statement: Statement, style: StyleBlock[], fontFamily: string) => void) |
+  // @keyframes
+  ((statement: Statement, style: StyleBlock, animationName: string) => void) |
+  // @fallbacks
+  ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
+  // @media, @supports
+  ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
+  // property
+  ((declaration: StyleDeclaration, style: Style, property: string) => void);
 
 export type HOCComponent = React$ComponentType<*>;
 
@@ -65,44 +71,47 @@ export type HOCOptions = {
 
 export type HOCWrappedComponent = React$ComponentType<*>;
 
-export type Keyframe = {
-  from?: StyleBlock,
-  to?: StyleBlock,
-  [percentage: string]: StyleBlock,
+export type Statement = {
+  '@font-face'?: StyleBlock[],
+  // At-rule values
+  // CSS class names
+  // Style objects
+  [selector: string]: string | ClassName | StyleDeclaration,
 };
 
-export type Keyframes = { [animationName: string]: Keyframe };
-
-export type MediaQuery = StyleBlock;
-
-export type MediaQueries = { [query: string]: MediaQuery };
-
-export type SelectorMap<T> = { [selector: string]: T };
-
-export type Style = string | string[] | number | StyleBlock | StyleBlock[];
-
-export type StyleBlock = { [propName: string]: Style };
-
-export type StyleCallback = (
-  theme: ThemeDeclaration,
-  prevStyles: StyleDeclarations,
-) => StyleDeclarations;
-
-export type StyleDeclaration = {
-  [propName: string]: Style,
-  '@fallbacks'?: Fallbacks,
-  '@font-face'?: FontFaces,
-  '@keyframes'?: Keyframes,
-  '@media'?: MediaQueries,
-  '@supports'?: Supports,
+export type StatementUnified = {
+  '@charset': string,
+  '@document': StyleBlock,
+  '@font-face': StyleBlock,
+  '@import': string,
+  '@keyframes': StyleBlock,
+  '@namespace': string,
+  '@page': StyleBlock,
+  '@viewport': StyleBlock,
+  // CSS class names
+  // Style objects
+  [selector: string]: ClassName | StyleDeclarationUnified,
 };
 
-export type StyleDeclarations = SelectorMap<ClassName | StyleDeclaration>;
+export type Style = string | number | StyleBlock | Style[];
 
-export type Support = StyleBlock;
+export type StyleBlock = { [property: string]: Style };
 
-export type Supports = { [feature: string]: Support };
+export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
+
+export type StyleDeclaration = { [property: string]: Style };
+
+export type StyleDeclarationUnified = {
+  '@fallbacks': StyleBlock,
+  '@media': StyleBlock,
+  '@supports': StyleBlock,
+  [property: string]: Style,
+};
 
 export type ThemeDeclaration = StyleBlock;
 
-export type TransformedDeclarations = SelectorMap<ClassName>;
+export type StyleSheet = {
+  // Compiled CSS class names
+  // React Native style objects
+  [selector: string]: ClassName | Object,
+};

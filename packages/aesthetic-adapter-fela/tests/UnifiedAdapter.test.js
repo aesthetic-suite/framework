@@ -1,17 +1,24 @@
 /* eslint-disable sort-keys */
 
 import { createRenderer } from 'fela';
+import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
-  SYNTAX_FALLBACK,
-  SYNTAX_AT_RULES,
-  SYNTAX_PSEUDO,
+  SYNTAX_CHARSET,
+  SYNTAX_DOCUMENT,
+  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_NAMESPACE,
+  SYNTAX_PAGE,
+  SYNTAX_PROPERTIES,
+  SYNTAX_PSEUDO,
   SYNTAX_SUPPORTS,
+  SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
 
 describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
@@ -24,13 +31,13 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'a b c d e f g h i j k l m n o p q r s t u v w x y',
+    expect(instance.transform('fela', SYNTAX_UNIFIED_FULL)).toEqual({
+      button: 'a b c d e f g h i j k l m n o p q r s t u v w x',
     });
   });
 
   it('converts unified syntax to native syntax', () => {
-    expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
+    expect(instance.syntax.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       button: {
         margin: 0,
         padding: '6px 12px',
@@ -38,7 +45,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         borderRadius: 4,
         display: 'inline-block',
         cursor: 'pointer',
-        fontFamily: '"Roboto"',
+        fontFamily: 'Roboto',
         fontWeight: 'normal',
         lineHeight: 'normal',
         whiteSpace: 'nowrap',
@@ -46,7 +53,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         textAlign: 'center',
         backgroundColor: '#337ab7',
         verticalAlign: 'middle',
-        color: ['#fff', 'rgba(0, 0, 0, 0)'],
+        color: 'rgba(0, 0, 0, 0)',
         animationName: 'k1',
         animationDuration: '.3s',
         ':hover': {
@@ -62,51 +69,115 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         '@media (max-width: 600px)': {
           padding: '4px 8px',
         },
-        '@supports (display: flex)': {
-          display: 'flex',
+      },
+    });
+  });
+
+  it('handles properties', () => {
+    expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
+
+    expect(instance.transform('fela', SYNTAX_PROPERTIES)).toEqual({
+      props: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{color:black}.b{display:inline}.c{margin:10px}');
+  });
+
+  it('handles pseudos', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
+      pseudo: {
+        position: 'fixed',
+        ':hover': {
+          position: 'static',
+        },
+        '::before': {
+          position: 'absolute',
         },
       },
     });
+
+    expect(instance.transform('fela', SYNTAX_PSEUDO)).toEqual({
+      pseudo: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
   });
 
-  it('allows standard at-rules', () => {
-    expect(instance.convert(SYNTAX_AT_RULES)).toEqual(SYNTAX_AT_RULES);
+  it('handles @charset', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_CHARSET);
+    }).toThrowError();
   });
 
-  it('supports pseudos', () => {
-    expect(instance.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
+  it('handles @document', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_DOCUMENT);
+    }).toThrowError();
   });
 
-  it('supports fallbacks', () => {
-    expect(instance.convert(SYNTAX_FALLBACK)).toEqual({
+  it('handles @fallbacks', () => {
+    expect(instance.syntax.convert(SYNTAX_FALLBACKS)).toEqual({
       fallback: {
-        background: ['red', 'linear-gradient(...)'],
-        display: ['box', 'flex-box', 'flex'],
+        background: ['linear-gradient(...)', 'red'],
+        display: ['flex', 'box', 'flex-box'],
       },
     });
+
+    expect(instance.transform('fela', SYNTAX_FALLBACKS)).toEqual({
+      fallback: 'a b',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...);background:red}.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;display:box;display:flex-box}');
   });
 
-  it('supports font faces', () => {
-    expect(instance.convert(SYNTAX_FONT_FACE)).toEqual({
+  it('handles @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE)).toEqual({
       font: {
-        fontFamily: '"Roboto"',
+        fontFamily: 'Roboto',
         fontSize: 20,
       },
     });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform('fela', SYNTAX_FONT_FACE)).toEqual({
+      font: 'a b',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe("@font-face{font-family:\"Roboto\";font-style:normal;font-weight:normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype')}.a{font-family:Roboto}.b{font-size:20px}");
   });
 
-  it('supports animations', () => {
-    expect(instance.convert(SYNTAX_KEYFRAMES)).toEqual({
+  it('handles @import', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_IMPORT);
+    }).toThrowError();
+  });
+
+  it('handles @keyframes', () => {
+    expect(instance.syntax.convert(SYNTAX_KEYFRAMES)).toEqual({
       animation: {
         animationName: 'k1',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
     });
+
+    instance.syntax.keyframes = {};
+
+    expect(instance.transform('fela', SYNTAX_KEYFRAMES)).toEqual({
+      animation: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}');
   });
 
-  it('supports media queries', () => {
-    expect(instance.convert(SYNTAX_MEDIA_QUERY)).toEqual({
+  it('handles @media', () => {
+    expect(instance.syntax.convert(SYNTAX_MEDIA_QUERY)).toEqual({
       media: {
         color: 'red',
         '@media (max-width: 1000px)': {
@@ -117,10 +188,29 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('fela', SYNTAX_MEDIA_QUERY)).toEqual({
+      media: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}');
   });
 
-  it('supports supports', () => {
-    expect(instance.convert(SYNTAX_SUPPORTS)).toEqual({
+  it('handles @namespace', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_NAMESPACE);
+    }).toThrowError();
+  });
+
+  it('handles @page', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_PAGE);
+    }).toThrowError();
+  });
+
+  it('handles @supports', () => {
+    expect(instance.syntax.convert(SYNTAX_SUPPORTS)).toEqual({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -131,5 +221,18 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         },
       },
     });
+
+    expect(instance.transform('fela', SYNTAX_SUPPORTS)).toEqual({
+      sup: 'a b c',
+    });
+
+    expect(renderToString(instance.fela))
+      .toBe('.a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}');
+  });
+
+  it('handles @viewport', () => {
+    expect(() => {
+      instance.transform('fela', SYNTAX_VIEWPORT);
+    }).toThrowError();
   });
 });

@@ -4,16 +4,14 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
 declare module 'aesthetic-adapter-aphrodite' {
   declare export default class AphroditeAdapter extends Adapter {
-    constructor(aphrodite: Object, options?: Object): this;
+    constructor(aphrodite?: Object, options?: Object): this;
   }
 }
 
 declare module 'aesthetic-adapter-aphrodite/unified' {
-  import type { StyleDeclarations } from 'aesthetic';
-
   declare export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     syntax: UnifiedSyntax;
-    constructor(aphrodite: Object, options?: Object): this;
-    convert(declarations: StyleDeclarations): StyleDeclarations;
+
+    constructor(aphrodite?: Object, options?: Object): this;
   }
 }

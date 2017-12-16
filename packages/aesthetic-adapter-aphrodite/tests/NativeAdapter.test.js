@@ -2,6 +2,7 @@
 
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
+import { flushToString } from 'aphrodite/lib/inject';
 import AphroditeAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -42,20 +43,21 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
+    expect(instance.transform('aphrodite', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'button_13l44zh',
     });
   });
 
-  it('supports pseudos', () => {
-    expect(instance.transform('component', SYNTAX_PSEUDO)).toEqual({
+  it('handles pseudos', () => {
+    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
       pseudo: 'pseudo_q2zd6k',
     });
+
+    expect(flushToString())
+      .toBe('.pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}');
   });
 
-  it.skip('supports fallbacks');
-
-  it('supports font faces', () => {
+  it('handles font faces', () => {
     const nativeSyntax = {
       font: {
         fontFamily: FONT_ROBOTO_FLAT_SRC,
@@ -63,12 +65,15 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
-      font: 'font_nxcmiz',
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
+      font: 'font_hg6jkr',
     });
+
+    expect(flushToString())
+      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_hg6jkr{font-family:\"undefined\" !important;font-size:20px !important;}");
   });
 
-  it('supports animations', () => {
+  it('handles animations', () => {
     const nativeSyntax = {
       animation: {
         animationDuration: '3s, 1200ms',
@@ -77,12 +82,15 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
       animation: 'animation_mab5hn',
     });
+
+    expect(flushToString())
+      .toBe('@keyframes keyframe_18jn58a{from{opacity:0;}to{opacity:1;}}.animation_mab5hn{-webkit-animation-duration:3s, 1200ms !important;animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-iteration-count:infinite !important;-webkit-animation-name:keyframe_18jn58a !important;animation-name:keyframe_18jn58a !important;}');
   });
 
-  it('supports media queries', () => {
+  it('handles media queries', () => {
     const nativeSyntax = {
       media: {
         color: 'red',
@@ -95,8 +103,11 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
       media: 'media_1yqe7pa',
     });
+
+    expect(flushToString())
+      .toBe('.media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}');
   });
 });

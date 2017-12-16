@@ -22,7 +22,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   });
 
   it('ignores string class names', () => {
-    expect(instance.transform('component', {
+    expect(instance.transform('typestyle', {
       button: 'button',
     })).toEqual({
       button: 'button',
@@ -30,13 +30,13 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
+    expect(instance.transform('typestyle', SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'f7tlree',
     });
   });
 
-  it('supports pseudos', () => {
-    expect(instance.transform('component', {
+  it('handles pseudos', () => {
+    expect(instance.transform('typestyle', {
       pseudo: {
         position: 'fixed',
         $nest: {
@@ -51,9 +51,12 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     })).toEqual({
       pseudo: 'fh5c9i2',
     });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fh5c9i2{position:fixed}.fh5c9i2 :hover{position:static}.fh5c9i2 ::before{position:absolute}');
   });
 
-  it('supports fallbacks', () => {
+  it('handles fallbacks', () => {
     const nativeSyntax = {
       fallback: {
         background: ['red', 'linear-gradient(...)'],
@@ -61,12 +64,15 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
       fallback: 'fxr1ybm',
     });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
   });
 
-  it('supports font faces', () => {
+  it('handles font faces', () => {
     fontFace(FONT_ROBOTO_FLAT_SRC); // No return
 
     const nativeSyntax = {
@@ -76,12 +82,15 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
       font: 'fd14wa4',
     });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fd14wa4{font-family:Roboto;font-size:20px}');
   });
 
-  it('supports animations', () => {
+  it('handles animations', () => {
     const nativeSyntax = {
       animation: {
         animationName: keyframes(KEYFRAME_FADE),
@@ -90,12 +99,15 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
       animation: 'f14e9xg1',
     });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
   });
 
-  it('supports media queries', () => {
+  it('handles media queries', () => {
     const nativeSyntax = {
       media: {
         color: 'red',
@@ -110,8 +122,34 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       },
     };
 
-    expect(instance.transform('component', nativeSyntax)).toEqual({
+    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
       media: 'fuxmg1k',
     });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
+  });
+
+  it('handles supports', () => {
+    const nativeSyntax = {
+      sup: {
+        display: 'block',
+        $nest: {
+          '@supports (display: flex)': {
+            display: 'flex',
+          },
+          '@supports not (display: flex)': {
+            float: 'left',
+          },
+        },
+      },
+    };
+
+    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
+      sup: 'f6m6wzj',
+    });
+
+    expect(instance.typeStyle.getStyles())
+      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
   });
 });

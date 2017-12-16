@@ -4,16 +4,14 @@ import FelaAdapter from 'aesthetic-adapter-fela';
 
 declare module 'aesthetic-adapter-fela' {
   declare export default class FelaAdapter extends Adapter {
-    constructor(fela: Object, options?: Object): this;
+    constructor(fela?: Object, options?: Object): this;
   }
 }
 
 declare module 'aesthetic-adapter-fela/unified' {
-  import type { StyleDeclarations } from 'aesthetic';
-
   declare export default class UnifiedFelaAdapter extends FelaAdapter {
     syntax: UnifiedSyntax;
-    constructor(fela: Object, options?: Object): this;
-    convert(declarations: StyleDeclarations): StyleDeclarations;
+
+    constructor(fela?: Object, options?: Object): this;
   }
 }

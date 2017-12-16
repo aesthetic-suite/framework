@@ -6,7 +6,7 @@
 
 import { Adapter } from 'aesthetic';
 
-import type { TransformedDeclarations } from '../../types';
+import type { Statement, StyleSheet } from '../../types';
 
 export default class ReactNativeAdapter extends Adapter {
   native: boolean = true;
@@ -15,7 +15,7 @@ export default class ReactNativeAdapter extends Adapter {
    * Simply return the style declarations as-is because the RN `Aesthetic`
    * instance will automatically wrap it with RN `StyleSheet`.
    */
-  transform<T: Object>(styleName: string, declarations: T): TransformedDeclarations {
-    return declarations;
+  transform(styleName: string, statement: Statement): StyleSheet {
+    return statement;
   }
 }

@@ -6,7 +6,7 @@
 
 import toArray from './toArray';
 
-import type { FontFace } from '../../types';
+import type { StyleBlock } from '../../../types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',
@@ -18,7 +18,7 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: FontFace): FontFace {
+export default function formatFontFace(properties: StyleBlock): StyleBlock {
   const fontFace = { ...properties };
   const src = [];
 
@@ -30,8 +30,8 @@ export default function formatFontFace(properties: FontFace): FontFace {
     delete fontFace.local;
   }
 
-  if (Array.isArray(fontFace.src)) {
-    fontFace.src.forEach((srcPath) => {
+  if (Array.isArray(fontFace.srcPaths)) {
+    toArray(fontFace.srcPaths).forEach((srcPath) => {
       const ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
       if (FORMATS[ext]) {
@@ -41,8 +41,10 @@ export default function formatFontFace(properties: FontFace): FontFace {
         throw new Error(`Unsupported font format "${ext}".`);
       }
     });
+
+    delete fontFace.srcPaths;
   } else {
-    src.push(fontFace.src);
+    return fontFace;
   }
 
   fontFace.src = src.join(', ');
