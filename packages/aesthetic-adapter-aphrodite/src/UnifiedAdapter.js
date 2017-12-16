@@ -4,6 +4,8 @@
  * @flow
  */
 
+/* eslint-disable no-param-reassign */
+
 import UnifiedSyntax from 'aesthetic/unified';
 import AphroditeAdapter from './NativeAdapter';
 
@@ -17,6 +19,7 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
+      .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@document', this.syntax.createUnsupportedHandler('@document'))
       .on('@fallbacks', this.syntax.createUnsupportedHandler('@fallbacks'))
@@ -32,4 +35,17 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   transform(styleName: string, statement: Statement): StyleSheet {
     return super.transform(styleName, this.syntax.convert(statement));
   }
+
+  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+    let value = style;
+
+    if (property === 'animationName') {
+      value = this.syntax.injectKeyframes(style, this.syntax.keyframes);
+
+    } else if (property === 'fontFamily') {
+      value = this.syntax.injectFontFaces(style, this.syntax.fontFaces);
+    }
+
+    declaration[property] = value;
+  };
 }

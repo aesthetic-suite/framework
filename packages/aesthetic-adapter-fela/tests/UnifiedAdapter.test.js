@@ -120,8 +120,8 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   it('handles @fallbacks', () => {
     expect(instance.syntax.convert(SYNTAX_FALLBACKS)).toEqual({
       fallback: {
-        background: ['red', 'linear-gradient(...)'],
-        display: ['box', 'flex-box', 'flex'],
+        background: ['linear-gradient(...)', 'red'],
+        display: ['flex', 'box', 'flex-box'],
       },
     });
 
@@ -130,7 +130,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
     });
 
     expect(renderToString(instance.fela))
-      .toBe('.a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}');
+      .toBe('.a{background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...);background:red}.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;display:box;display:flex-box}');
   });
 
   it('handles @font-face', () => {

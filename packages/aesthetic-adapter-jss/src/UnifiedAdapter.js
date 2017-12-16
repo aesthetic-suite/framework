@@ -40,17 +40,15 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
-    if (typeof declaration.fallbacks === 'undefined') {
+    if (!Array.isArray(declaration.fallbacks)) {
       declaration.fallbacks = [];
     }
 
-    if (Array.isArray(declaration.fallbacks)) {
-      style.forEach((fallback) => {
-        declaration.fallbacks.push({
-          [property]: fallback,
-        });
+    style.forEach((fallback) => {
+      declaration.fallbacks.push({
+        [property]: fallback,
       });
-    }
+    });
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face

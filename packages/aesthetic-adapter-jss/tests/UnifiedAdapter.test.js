@@ -178,7 +178,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     expect(instance.transform('jss', SYNTAX_IMPORT)).toEqual({});
 
     expect(renderToString(instance.sheet))
-      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
+      .toBe('@import ./some/path.css;');
   });
 
   it('handles @keyframes', () => {
@@ -271,6 +271,6 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     expect(instance.transform('jss', SYNTAX_VIEWPORT)).toEqual({});
 
     expect(renderToString(instance.sheet))
-      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
+      .toBe('@viewport {width: device-width;orientation: landscape;}');
   });
 });

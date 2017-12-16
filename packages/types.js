@@ -36,7 +36,7 @@ export type AtRule =
 
 export type ClassName = string;
 
-export type EventCallback = (() => void) |
+export type EventCallback =
   // @charset
   ((statement: Statement, style: string) => void) |
   // @document

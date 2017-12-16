@@ -123,18 +123,18 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   it('handles @fallbacks', () => {
     expect(instance.syntax.convert(SYNTAX_FALLBACKS)).toEqual({
       fallback: {
-        background: ['red', 'linear-gradient(...)'],
-        display: ['box', 'flex-box', 'flex'],
+        background: ['linear-gradient(...)', 'red'],
+        display: ['flex', 'box', 'flex-box'],
       },
     });
 
     expect(instance.transform('glamor', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'css-1nxkcks',
+      fallback: 'css-1806hfp',
     });
 
     // Verified it ran but fallbacks don't appear in the output
     expect(renderToString())
-      .toBe('.css-1nxkcks,[data-css-1nxkcks] {background: linear-gradient(...); display: flex;}');
+      .toBe('.css-1806hfp,[data-css-1806hfp] {background: red; display: flex-box;}');
   });
 
   it('handles @font-face', () => {

@@ -1,6 +1,6 @@
 import isObject from '../../src/helpers/isObject';
 
-describe('aesthetic-utils/isObject', () => {
+describe('aesthetic/helpers/isObject', () => {
   it('returns false for non-objects', () => {
     expect(isObject('')).toBe(false);
     expect(isObject(123)).toBe(false);

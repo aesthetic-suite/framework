@@ -24,7 +24,7 @@ declare module 'aesthetic' {
 
   declare export type ClassName = string;
 
-  declare export type EventCallback = (() => void) |
+  declare export type EventCallback =
     // @charset
     ((statement: Statement, style: string) => void) |
     // @document

@@ -30,6 +30,7 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@document', this.syntax.createUnsupportedHandler('@document'))
+      .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@keyframes', this.handleKeyframe)
@@ -42,6 +43,10 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
 
   transform(styleName: string, statement: Statement): StyleSheet {
     return super.transform(styleName, this.syntax.convert(statement));
+  }
+
+  handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
+    declaration[property] = [...style, declaration[property]].filter(Boolean);
   }
 
   handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {

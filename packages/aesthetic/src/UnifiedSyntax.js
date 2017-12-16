@@ -72,6 +72,8 @@ export default class UnifiedSyntax {
     // eslint-disable-next-line complexity
     GLOBAL_RULES.forEach((rule) => {
       if (!prevStatement[rule]) {
+        delete prevStatement[rule];
+
         return;
       }
 
@@ -131,11 +133,7 @@ export default class UnifiedSyntax {
           Object.keys(frames).forEach((animationName) => {
             const keyframes = frames[animationName];
 
-            if (isObject(keyframes)) {
-              this.emit(rule, [nextStatement, keyframes, animationName]);
-            } else if (__DEV__) {
-              throw new Error(`${rule} must be a mapping of animation names to style objects.`);
-            }
+            this.emit(rule, [nextStatement, keyframes, animationName]);
 
             if (__DEV__ && this.keyframes[animationName]) {
               throw new Error(`@keyframes "${animationName}" already exists.`);
@@ -161,6 +159,7 @@ export default class UnifiedSyntax {
           break;
         }
 
+        /* istanbul ignore next */
         default:
           break;
       }
@@ -171,6 +170,8 @@ export default class UnifiedSyntax {
     // Convert declarations last
     Object.keys(prevStatement).forEach((selector) => {
       const declaration = prevStatement[selector];
+
+      delete prevStatement[selector];
 
       if (!declaration) {
         return;
@@ -209,12 +210,16 @@ export default class UnifiedSyntax {
     Object.keys(prevDeclaration).forEach((key) => {
       if (key.charAt(0) !== '@') {
         this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
+
+        delete prevDeclaration[key];
       }
     });
 
     // Extract local at-rules first
     LOCAL_RULES.forEach((rule) => {
       const style = prevDeclaration[rule];
+
+      delete prevDeclaration[rule];
 
       if (!style || !isObject(style)) {
         return;
@@ -230,13 +235,18 @@ export default class UnifiedSyntax {
           if (isObject(style[condition])) {
             this.emit(rule, [nextDeclaration, style[condition], condition]);
           } else if (__DEV__) {
-            throw new Error(`${selector} must be a mapping of conditions to style objects.`);
+            throw new Error(`${rule} ${condition} must be a mapping of conditions to style objects.`);
           }
         });
       }
-
-      delete prevDeclaration[rule];
     });
+
+    // Error for unknown at-rules
+    if (__DEV__) {
+      Object.keys(prevDeclaration).forEach((key) => {
+        throw new SyntaxError(`Unsupported local at-rule "${key}".`);
+      });
+    }
 
     return nextDeclaration;
   }
@@ -246,14 +256,14 @@ export default class UnifiedSyntax {
    */
   createUnsupportedHandler(rule: AtRule): () => void {
     return () => {
-      throw new Error(`Adapter does not support ${rule}.`);
+      throw new Error(`Adapter does not support "${rule}".`);
     };
   }
 
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: string, args: *[] = []): this {
+  emit(eventName: string, args: *[]): this {
     if (this.events[eventName]) {
       this.events[eventName](...args);
     }
@@ -279,20 +289,18 @@ export default class UnifiedSyntax {
    * Handle fallback properties.
    */
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
-    const value = declaration[property];
-
-    if (typeof value === 'undefined') {
-      return;
-    }
-
-    declaration[property] = [...style, value];
+    declaration[property] = [declaration[property], ...style].filter(Boolean);
   }
 
   /**
    * Handle @font-face.
    */
   handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string) {
-    statement['@font-face'] = style;
+    if (typeof statement['@font-face'] === 'undefined') {
+      statement['@font-face'] = [];
+    }
+
+    statement['@font-face'].push(...style);
   }
 
   /**
@@ -334,16 +342,7 @@ export default class UnifiedSyntax {
    * Handle CSS properties.
    */
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
-    let value = style;
-
-    if (property === 'animationName') {
-      value = this.injectKeyframes(style, this.keyframes);
-
-    } else if (property === 'fontFamily') {
-      value = this.injectFontFaces(style, this.fontFaces);
-    }
-
-    declaration[property] = value;
+    declaration[property] = style;
   };
 
   /**

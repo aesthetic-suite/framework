@@ -1,19 +1,16 @@
 import formatFontFace from '../../src/helpers/formatFontFace';
 import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../../../tests/mocks';
 
-describe('aesthetic-utils/formatFontFace()', () => {
+describe('aesthetic/helpers/formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {
-    expect(formatFontFace(FONT_ROBOTO)).toEqual({
-      ...FONT_ROBOTO_FLAT_SRC,
-      src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-    });
+    expect(formatFontFace(FONT_ROBOTO)).toEqual(FONT_ROBOTO_FLAT_SRC);
   });
 
   it('supports flat src strings', () => {
     expect(formatFontFace(FONT_ROBOTO_FLAT_SRC)).toEqual(FONT_ROBOTO_FLAT_SRC);
   });
 
-  it('includes local aliases', () => {
+  it('includes local aliases with src paths', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO,
       local: ['MrRoboto'],
@@ -23,22 +20,18 @@ describe('aesthetic-utils/formatFontFace()', () => {
     });
   });
 
-  it('includes local aliases for flat src strings', () => {
+  it('ignores local aliases for flat src strings', () => {
     expect(formatFontFace({
       ...FONT_ROBOTO_FLAT_SRC,
       local: ['MrRoboto'],
-      src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-    })).toEqual({
-      ...FONT_ROBOTO_FLAT_SRC,
-      src: "local('MrRoboto'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-    });
+    })).toEqual(FONT_ROBOTO_FLAT_SRC);
   });
 
   it('throws for an unsupported format', () => {
     expect(() => {
       formatFontFace({
         ...FONT_ROBOTO,
-        src: ['Roboto.foo'],
+        srcPaths: ['Roboto.foo'],
       });
     }).toThrowError('Unsupported font format ".foo".');
   });
