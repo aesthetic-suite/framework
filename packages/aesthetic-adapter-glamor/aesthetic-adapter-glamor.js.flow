@@ -7,10 +7,7 @@ declare module 'aesthetic-adapter-glamor' {
 }
 
 declare module 'aesthetic-adapter-glamor/unified' {
-  import type { Statement } from 'aesthetic';
-
   declare export default class UnifiedGlamorAdapter extends GlamorAdapter {
     syntax: UnifiedSyntax;
-    convert(statement: Statement): Statement;
   }
 }

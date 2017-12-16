@@ -44,11 +44,13 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       declaration.fallbacks = [];
     }
 
-    style.forEach((fallback) => {
-      declaration.fallbacks.push({
-        [property]: fallback,
+    if (Array.isArray(declaration.fallbacks)) {
+      style.forEach((fallback) => {
+        declaration.fallbacks.push({
+          [property]: fallback,
+        });
       });
-    });
+    }
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face

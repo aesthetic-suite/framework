@@ -11,7 +11,13 @@ import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
-import type { Statement, StyleDeclaration, StyleSheet } from '../../types';
+import type {
+  Statement,
+  Style,
+  StyleBlock,
+  StyleDeclaration,
+  StyleSheet,
+} from '../../types';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;

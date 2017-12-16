@@ -41,9 +41,7 @@ declare module 'aesthetic' {
     ((statement: Statement, style: StyleBlock, animationName: string) => void) |
     // @fallbacks
     ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
-    // @media
-    ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
-    // @supports
+    // @media, @supports
     ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
     // property
     ((declaration: StyleDeclaration, style: Style, property: string) => void);
@@ -66,7 +64,7 @@ declare module 'aesthetic' {
     // At-rule values
     // CSS class names
     // Style objects
-    [selector: string]: string | ClassName | StyleDeclaration,
+    [selector: string]: string | ClassName | Style | StyleDeclaration,
   };
 
   declare export type StatementUnified = {
@@ -185,10 +183,13 @@ declare module 'aesthetic/unified' {
   declare export default class UnifiedSyntax {
     events: { [eventName: string]: EventCallback };
     fontFaces: { [fontFamily: string]: StyleBlock[] };
+    fontFacesCache: { [fontFamily: string]: string };
     keyframes: { [animationName: string]: StyleBlock };
+    keyframesCache: { [animationName: string]: string };
 
     convert(statement: StatementUnified): Statement;
     convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration;
+    createUnsupportedHandler(rule: AtRule): () => void;
     emit(eventName: string, args: *[]): this;
     handleCharset(statement: Statement, style: string): void;
     handleDocument(statement: Statement, style: StyleBlock, url: string): void;
@@ -202,9 +203,27 @@ declare module 'aesthetic/unified' {
     handleProperty(declaration: StyleDeclaration, style: Style, property: string): void;
     handleSupports(declaration: StyleDeclaration, style: StyleBlock, condition: string): void;
     handleViewport(statement: Statement, style: StyleBlock): void;
-    injectFontFaces(value: Style): (string | StyleBlock)[];
-    injectKeyframes(value: Style): (string | StyleBlock)[];
+    injectFontFaces(value: Style): Style[];
+    injectKeyframes(value: Style): Style[];
     off(eventName: string): this;
     on(eventName: string, callback: EventCallback): this;
   }
+}
+
+declare module 'aesthetic/lib/helpers/createStyleElement' {
+  declare export default function createStyleElement(id: string): HTMLElement;
+}
+
+declare module 'aesthetic/lib/helpers/formatFontFace' {
+  import type { StyleBlock } from 'aesthetic';
+
+  declare export default function formatFontFace(properties: StyleBlock): StyleBlock;
+}
+
+declare module 'aesthetic/lib/helpers/isObject' {
+  declare export default function isObject(value: *): boolean;
+}
+
+declare module 'aesthetic/lib/helpers/toArray' {
+  declare export default function toArray(value: *): *[];
 }
