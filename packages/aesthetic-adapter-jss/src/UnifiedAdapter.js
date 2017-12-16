@@ -28,7 +28,6 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     this.syntax = new UnifiedSyntax();
     this.syntax
       .on('property', this.handleProperty)
-      .on('@document', this.syntax.createUnsupportedHandler('@document'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@page', this.syntax.createUnsupportedHandler('@page'));

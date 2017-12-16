@@ -7,7 +7,6 @@ import {
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -110,12 +109,6 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   it('handles @charset', () => {
     expect(() => {
       instance.transform('aphrodite', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('aphrodite', SYNTAX_DOCUMENT);
     }).toThrowError();
   });
 

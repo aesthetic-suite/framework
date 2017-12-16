@@ -80,16 +80,6 @@ export const SYNTAX_CHARSET = {
   '@charset': 'utf8',
 };
 
-export const SYNTAX_DOCUMENT = {
-  '@document': {
-    'domain(milesj.me)': {
-      body: {
-        color: 'black',
-      },
-    },
-  },
-};
-
 export const SYNTAX_IMPORT = {
   '@import': './some/path.css',
 };

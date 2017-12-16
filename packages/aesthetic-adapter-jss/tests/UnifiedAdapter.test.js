@@ -8,7 +8,6 @@ import {
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -116,12 +115,6 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     expect(instance.transform('jss', SYNTAX_CHARSET)).toEqual({});
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('jss', SYNTAX_DOCUMENT);
-    }).toThrowError();
   });
 
   it('handles @fallbacks', () => {

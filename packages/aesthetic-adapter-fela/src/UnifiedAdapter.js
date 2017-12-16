@@ -28,7 +28,6 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
     this.syntax
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
-      .on('@document', this.syntax.createUnsupportedHandler('@document'))
       .on('@font-face', this.handleFontFace)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@keyframes', this.handleKeyframe)

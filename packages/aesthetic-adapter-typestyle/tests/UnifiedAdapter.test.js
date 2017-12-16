@@ -4,7 +4,6 @@ import UnifiedTypeStyleAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -106,12 +105,6 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   it('handles @charset', () => {
     expect(() => {
       instance.transform('typestyle', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('typestyle', SYNTAX_DOCUMENT);
     }).toThrowError();
   });
 

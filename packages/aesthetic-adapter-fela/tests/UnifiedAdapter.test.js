@@ -6,7 +6,6 @@ import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -106,12 +105,6 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   it('handles @charset', () => {
     expect(() => {
       instance.transform('fela', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('fela', SYNTAX_DOCUMENT);
     }).toThrowError();
   });
 

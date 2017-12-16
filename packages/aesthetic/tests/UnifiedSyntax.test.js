@@ -8,7 +8,6 @@ import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_CHARSET,
-  // SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -131,10 +130,6 @@ describe('aesthetic/UnifiedSyntax', () => {
           });
         }).toThrowError('@charset value must be a string.');
       });
-    });
-
-    describe('@document', () => {
-      // TODO
     });
 
     describe('@font-face', () => {

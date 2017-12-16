@@ -23,7 +23,6 @@ export type AestheticOptions = {
 
 export type AtRule =
   '@charset' |
-  '@document' |
   '@font-face' |
   '@import' |
   '@keyframes' |
@@ -39,8 +38,6 @@ export type ClassName = string;
 export type EventCallback =
   // @charset
   ((statement: Statement, style: string) => void) |
-  // @document
-  ((statement: Statement, style: StyleBlock, url: string) => void) |
   // @import
   ((statement: Statement, style: string) => void) |
   // @namespace
@@ -81,7 +78,6 @@ export type Statement = {
 
 export type StatementUnified = {
   '@charset': string,
-  '@document': StyleBlock,
   '@font-face': StyleBlock,
   '@import': string,
   '@keyframes': StyleBlock,
