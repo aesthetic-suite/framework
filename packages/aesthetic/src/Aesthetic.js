@@ -22,8 +22,6 @@ export default class Aesthetic {
 
   cache: { [styleName: string]: StyleSheet } = {};
 
-  native: boolean = false;
-
   options: AestheticOptions = {
     defaultTheme: '',
     extendable: false,
@@ -142,7 +140,6 @@ export default class Aesthetic {
    */
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
-      adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;
 
     } else if (__DEV__) {
@@ -209,7 +206,7 @@ export default class Aesthetic {
       const value = statement[selector];
 
       if (typeof value === 'string') {
-        output[selector] = this.native ? {} : value;
+        output[selector] = value;
 
       } else if (value) {
         toTransform[selector] = value;

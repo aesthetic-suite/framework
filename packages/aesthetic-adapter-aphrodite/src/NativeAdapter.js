@@ -19,12 +19,6 @@ export default class AphroditeAdapter extends Adapter {
   }
 
   transform(styleName: string, statement: Statement): AestheticStyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('Aphrodite does not support React Native.');
-      }
-    }
-
     const styleSheet = this.aphrodite.create(statement);
     const output = {};
 

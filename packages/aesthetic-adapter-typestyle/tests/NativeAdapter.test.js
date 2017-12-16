@@ -15,12 +15,6 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     instance = new TypeStyleAdapter();
   });
 
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('TypeStyle does not support React Native.');
-  });
-
   it('ignores string class names', () => {
     expect(instance.transform('typestyle', {
       button: 'button',

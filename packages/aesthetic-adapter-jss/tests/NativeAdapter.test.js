@@ -23,12 +23,6 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     instance = new JSSAdapter(jss);
   });
 
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('JSS does not support React Native.');
-  });
-
   it('can customize the JSS instance through the constructor', () => {
     const jss = create();
     instance = new JSSAdapter(jss);

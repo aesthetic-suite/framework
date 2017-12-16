@@ -98,15 +98,9 @@ declare module 'aesthetic' {
 
   declare export type ThemeDeclaration = StyleBlock;
 
-  declare export type StyleSheet = {
-    // Compiled CSS class names
-    // React Native style objects
-    [selector: string]: ClassName | Object,
-  };
+  declare export type StyleSheet = { [selector: string]: ClassName };
 
   declare export class Adapter {
-    bypassNativeStyleSheet: boolean;
-    native: boolean;
     options: Object;
     unifiedSyntax: boolean;
 
@@ -124,7 +118,6 @@ declare module 'aesthetic' {
   declare export default class Aesthetic {
     adapter: Adapter;
     cache: { [styleName: string]: StyleSheet };
-    native: boolean;
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
     styles: { [styleName: string]: StyleCallback | Statement };

@@ -17,12 +17,6 @@ export default class TypeStyleAdapter extends Adapter {
   }
 
   transform(styleName: string, statement: Statement): StyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('TypeStyle does not support React Native.');
-      }
-    }
-
     const output = {};
 
     Object.keys(statement).forEach((selector) => {

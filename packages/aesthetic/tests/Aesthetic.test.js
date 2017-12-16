@@ -211,18 +211,6 @@ describe('aesthetic/Aesthetic', () => {
 
       expect(instance.adapter).toBe(adapter);
     });
-
-    it('passes native flag to adapter', () => {
-      const adapter = new TestAdapter();
-      adapter.native = false;
-
-      expect(adapter.native).toBe(false);
-
-      instance.native = true;
-      instance.setAdapter(adapter);
-
-      expect(adapter.native).toBe(true);
-    });
   });
 
   describe('setStyles()', () => {

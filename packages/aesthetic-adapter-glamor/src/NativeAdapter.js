@@ -11,12 +11,6 @@ import type { Statement, StyleSheet } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
   transform(styleName: string, statement: Statement): StyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('Glamor does not support React Native.');
-      }
-    }
-
     const output = {};
 
     Object.keys(statement).forEach((selector) => {

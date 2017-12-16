@@ -7,10 +7,6 @@
 import type { Statement, StyleSheet } from '../../types';
 
 export default class Adapter {
-  bypassNativeStyleSheet: boolean = false;
-
-  native: boolean = false;
-
   options: Object = {};
 
   constructor(options?: Object = {}) {

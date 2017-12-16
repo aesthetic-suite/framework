@@ -110,8 +110,4 @@ export type StyleDeclarationUnified = {
 
 export type ThemeDeclaration = StyleBlock;
 
-export type StyleSheet = {
-  // Compiled CSS class names
-  // React Native style objects
-  [selector: string]: ClassName | Object,
-};
+export type StyleSheet = { [selector: string]: ClassName };

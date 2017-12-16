@@ -23,12 +23,6 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('Aphrodite does not support React Native.');
-  });
-
   it('can customize the aphrodite instance through the constructor', () => {
     const extension = { selectorHandler() {} };
     instance = new AphroditeAdapter(StyleSheet.extend([extension]));
