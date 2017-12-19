@@ -43,10 +43,8 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     expect(instance.transform(sheet.foo)).toBe('css-1r6w0zj');
     expect(instance.transform(sheet.bar)).toBe('css-otvq3e');
     expect(instance.transform(sheet.baz)).toBe('css-1s3i2b7');
-    expect(instance.transform(sheet.foo, sheet.baz))
-      .toBe('css-1r6w0zj css-1s3i2b7');
-    expect(instance.transform(sheet.bar, sheet.foo))
-      .toBe('css-otvq3e css-1r6w0zj');
+    expect(instance.transform(sheet.foo, sheet.baz)).toBe('css-1pp6oml');
+    expect(instance.transform(sheet.bar, sheet.foo)).toBe('css-h4vsx0');
   });
 
   it('handles pseudos', () => {

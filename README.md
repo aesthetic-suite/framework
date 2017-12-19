@@ -173,9 +173,9 @@ The following libraries and their features are officially supported by Aesthetic
 | [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | | ✓ |
 | [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
+| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ||
+| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 > 1. Only supports `@font-face` and `@keyframes`.
 

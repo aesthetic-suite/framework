@@ -6,11 +6,12 @@
 
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
+import deepMerge from 'lodash.merge';
 
 import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
   transform(...styles: StyleDeclaration[]): ClassName {
-    return styles.map(style => String(css(style))).join(' ');
+    return String(css(deepMerge({}, ...styles)));
   }
 }

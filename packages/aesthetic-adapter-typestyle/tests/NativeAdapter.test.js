@@ -39,10 +39,8 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(sheet.foo)).toBe('fi2v7vn');
     expect(instance.transform(sheet.bar)).toBe('f13zjou3');
     expect(instance.transform(sheet.baz)).toBe('fv7opsh');
-    expect(instance.transform(sheet.foo, sheet.baz))
-      .toBe('fi2v7vn fv7opsh');
-    expect(instance.transform(sheet.bar, sheet.foo))
-      .toBe('f13zjou3 fi2v7vn');
+    expect(instance.transform(sheet.foo, sheet.baz)).toBe('f2xyygz');
+    expect(instance.transform(sheet.bar, sheet.foo)).toBe('f14rya1t');
   });
 
   it('handles pseudos', () => {
