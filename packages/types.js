@@ -68,6 +68,8 @@ export type HOCOptions = {
 
 export type HOCWrappedComponent = React$ComponentType<*>;
 
+export type HOCWrapper = (component: HOCWrappedComponent) => HOCComponent;
+
 export type Statement = {
   '@font-face'?: StyleBlock[],
   // At-rule values
@@ -93,7 +95,7 @@ export type Style = string | number | StyleBlock | Style[];
 
 export type StyleBlock = { [property: string]: Style };
 
-export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
+export type StatementCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
 
 export type StyleDeclaration = { [property: string]: Style };
 
@@ -106,4 +108,4 @@ export type StyleDeclarationUnified = {
 
 export type ThemeDeclaration = StyleBlock;
 
-export type StyleSheet = { [selector: string]: ClassName };
+export type StyleSheet = { [selector: string]: Object };

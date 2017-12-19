@@ -10,37 +10,37 @@ theming, and a unified syntax.
 ```javascript
 import React from 'react';
 import PropTypes from 'prop-types';
-import { classes, ClassNamesPropType } from 'aesthetic';
-import style from '../path/to/styler';
+import { StylesPropType } from 'aesthetic';
+import withStyles, { classes } from '../path/to/styler';
 
 class Carousel extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    classNames: ClassNamesPropType.isRequired,
+    styles: StylesPropType.isRequired,
   };
 
   // ...
 
   render() {
-    const { children, classNames } = this.props;
+    const { children, styles } = this.props;
     const { animating } = this.state;
 
     return (
       <div
         role="tablist"
         className={classes(
-          classNames.carousel,
-          animating && classNames.carousel__animating,
+          styles.carousel,
+          animating && styles.carousel__animating,
         )}
       >
-        <ul className={classNames.list}>
+        <ul className={classes(styles.list)}>
           {children}
         </ul>
 
         <button
           type="button"
           onClick={this.handlePrev}
-          className={classes(classNames.button, classNames.prev)}
+          className={classes(styles.button, styles.prev)}
         >
           ←
         </button>
@@ -48,7 +48,7 @@ class Carousel extends React.Component {
         <button
           type="button"
           onClick={this.handleNext}
-          className={classes(classNames.button, classNames.next)}
+          className={classes(styles.button, styles.next)}
         >
           →
         </button>
@@ -57,7 +57,7 @@ class Carousel extends React.Component {
   }
 }
 
-export default style({
+export default withStyles({
   carousel: {
     position: 'relative',
     maxWidth: '100%',
@@ -111,7 +111,7 @@ yarn add aesthetic react
 * [Creating A Styler](#creating-a-styler)
 * [Defining Components](#defining-components)
   * [Customizing Styles](#customizing-styles)
-  * [Combining Classes](#combining-classes)
+  * [Using Classes](#using-classes)
 * [Styling Components](#styling-components)
   * [External Classes](#external-classes)
   * [Style Objects](#style-objects)
@@ -196,16 +196,21 @@ acts as a factory for the creation of higher-order-components
 These HOC's are used in transforming styles via adapters and passing down CSS
 class names to the original wrapped component.
 
-To begin, we must create an instance of `Aesthetic` with an [adapter](#style-adapters),
-pass it to `createStyler`, and export the new function. I suggest doing this an a file
-that can be imported for reusability.
+To begin, we must instantiate `Aesthetic` with an [adapter](#style-adapters), and pass it to
+`createStyler` to create the `style` and `transform` functions. The `style` function is the HOC
+factory, while `transform` will combine and process multiple style objects into CSS class names.
 
 ```javascript
 import Aesthetic, { createStyler } from 'aesthetic';
 import JSSAdapter from 'aesthetic-adapter-jss'; // Or your chosen adapter
 
-export default createStyler(new Aesthetic(new JSSAdapter()));
+const { style, transform } = createStyler(new Aesthetic(new JSSAdapter()));
+
+export const classes = transform; // Or another utility name
+export default style;
 ```
+
+> I suggest doing this an a file that can be imported for reusability.
 
 Once we have a styler function, we can import it and wrap our React components.
 The styler function accepts a [style declaration](#styling-components) as its first argument,
@@ -216,20 +221,20 @@ and an object of configurable options as the second. The following options are s
 * `extendable` (boolean) - Allows the component and its styles to be extended,
   creating a new component in the process. Defaults to `false`.
 * `stylesPropName` (string) - Name of the prop in which the compiled class names or styles
-  object is passed to. Defaults to `classNames`.
+  object is passed to. Defaults to `styles`.
 * `themePropName` (string) - Name of the prop in which the theme style declaration is passed to.
   Defaults to `theme`.
 * `pure` (boolean) - When true, the higher-order-component will extend `React.PureComponent`
   instead of `React.Component`. Only use this for static/dumb components.
 
 ```javascript
-export default style({
+export default withStyles({
   button: { ... },
 }, {
   styleName: 'CustomButton',
   extendable: true,
   pure: true,
-  stylesPropName: 'classes',
+  stylesPropName: 'styleSheets',
   themePropName: 'appTheme',
 })(Button);
 ```
@@ -241,7 +246,7 @@ to every component, you can pass these as default options to the `Aesthetic` ins
 new Aesthetic(adapter, {
   extendable: true,
   pure: true,
-  stylesPropName: 'classes',
+  stylesPropName: 'styleSheets',
   themePropName: 'appTheme',
 })
 ```
@@ -251,18 +256,18 @@ new Aesthetic(adapter, {
 Now that we have a styler function, we can start styling our components by wrapping
 the component declaration with the styler function and passing an object of styles.
 When this component is rendered, the style object is transformed into an object of class names,
-and passed to the `classNames` prop.
+and passed to the `styles` prop.
 
 ```javascript
 import React, { PropTypes } from 'react';
-import { ClassNamesPropType } from 'aesthetic';
-import style from '../path/to/styler';
+import { StylesPropType } from 'aesthetic';
+import withStyles, { classes } from '../path/to/styler';
 
-function Button({ children, classNames, icon }) {
+function Button({ children, styles, icon }) {
   return (
-    <button type="button" className={classNames.button}>
+    <button type="button" className={classes(styles.button)}>
       {icon && (
-        <span className={classNames.icon}>{icon}</span>
+        <span className={classes(styles.icon)}>{icon}</span>
       )}
 
       {children}
@@ -272,11 +277,11 @@ function Button({ children, classNames, icon }) {
 
 Button.propTypes = {
   children: PropTypes.node,
-  classNames: ClassNamesPropType.isRequired,
+  styles: StylesPropType.isRequired,
   icon: PropTypes.node,
 };
 
-export default style({
+export default withStyles({
   button: { ... },
   icon: { ... }
 })(Button);
@@ -313,40 +318,37 @@ export const PrimaryButton = BaseButton.extendStyles({
 Parent styles (the component that was extended) are available when using a
 [style function](#style-functions), allowing multiple layers of styles to be inherited.
 
-#### Combining Classes
+#### Using Classes
 
-When multiple class names need to be applied to a single element, the `classes`
-function provided by Aesthetic can be used. This function accepts an arbitrary
-number of arguments, all of which can be strings, arrays, or objects that evaluate to true.
+When applying or combining class names to a component, the `transform` function provided by
+`createStyler` must be used. This function accepts an arbitrary number of arguments, all of
+which can be strings or style objects that evaluate to truthy.
 
 ```javascript
-import { classes } from 'aesthetic';
+import withStyles, { classes } from '../path/to/styler';
 
 classes(
-  'foo',
-  expression && 'bar',
-  {
-    baz: false,
-    qux: true,
-  },
-); // foo qux
+  styles.foo,
+  expression && styles.bar,
+  expression ? styles.baz : styles.qux,
+);
 ```
 
 Using our `Button` examples above, let's add an active state and combine classes
 like so. Specificity is important, so define styles from top to bottom!
 
 ```javascript
-function Button({ children, classNames, icon, active = false }) {
+function Button({ children, styles, icon, active = false }) {
   return (
     <button
       type="button"
       className={classes(
-        classNames.button,
-        active && classNames.button__active,
+        styles.button,
+        active && styles.button__active,
       )}
     >
       {icon && (
-        <span className={classNames.icon}>{icon}</span>
+        <span className={classes(styles.icon)}>{icon}</span>
       )}
 
       {children}
@@ -362,7 +364,7 @@ as the first argument to the [styler function](#creating-a-styler). This object
 represents a mapping of selectors (and modifiers) to declarations. For example:
 
 ```javascript
-style({
+withStyles({
   button: { ... },
   button__active: { ... },
   icon: { ... },
@@ -376,7 +378,7 @@ The following types of declarations are permitted.
 External CSS class names can be referenced by passing a string of the class name.
 
 ```javascript
-style({
+withStyles({
   button: 'button',
   button__active: 'button--active',
   icon: 'button__icon',
@@ -388,7 +390,7 @@ To make use of class names, the provided `ClassNameAdapter` must be used.
 ```javascript
 import Aesthetic, { createStyler, ClassNameAdapter } from 'aesthetic';
 
-export default createStyler(new Aesthetic(new ClassNameAdapter()));
+new Aesthetic(new ClassNameAdapter());
 ```
 
 #### Style Objects
@@ -398,7 +400,7 @@ transformed using [adapters](#style-adapters) and optionally support the
 [unified syntax](#unified-syntax) defined by Aesthetic.
 
 ```javascript
-style({
+withStyles({
   button: {
     background: '#eee',
     // ...
@@ -422,7 +424,7 @@ function is that it provides the [current theme](#using-themes) as the first arg
 and the [previous styles](#customizing-styles) as the second argument.
 
 ```javascript
-style((theme, prevStyles) => {
+withStyles((theme, prevStyles) => {
   // ...
 })(Button)
 ```
@@ -475,7 +477,7 @@ Once a theme has been registered, we can access the style parameters by using a
 argument to the function.
 
 ```javascript
-style(theme => ({
+withStyles(theme => ({
   button: {
     fontSize: `${theme.unitSize}${theme.unit}`,
     fontFamily: theme.font,
@@ -775,7 +777,7 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Fela][fela] | ✓ | | | |
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
-| [TypeStyle][typestyle] | ✓ | | | |
+| [TypeStyle][typestyle] | ✓ | | | ||
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite

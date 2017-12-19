@@ -4,11 +4,13 @@
  * @flow
  */
 
+import type { ClassName } from '../../types';
+
 function stripChars(name: string): string {
   return (name.charAt(0) === '.') ? name.substring(1) : name;
 }
 
-export default function classes(...values: *[]): string {
+export default function classes(...values: *[]): ClassName {
   const classNames: string[] = [];
 
   values.forEach((value) => {

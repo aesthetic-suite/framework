@@ -6,25 +6,22 @@
 
 import Adapter from './Adapter';
 
-import type { Statement, StyleSheet } from '../../types';
+import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class ClassNameAdapter extends Adapter {
   unifiedSyntax: boolean = false;
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    const classNames = {};
+  transform(...styles: StyleDeclaration[]): ClassName {
+    const classNames = [];
 
-    Object.keys(statement).forEach((selector) => {
-      if (typeof statement[selector] === 'string') {
-        classNames[selector] = statement[selector];
+    styles.forEach((className) => {
+      if (typeof className === 'string') {
+        classNames.push(className);
       } else if (__DEV__) {
-        throw new TypeError(
-          '`ClassNameAdapter` expects valid CSS class names; ' +
-          `non-string provided for "${selector}".`,
-        );
+        throw new TypeError(`${this.constructor.name} expects valid CSS class names.`);
       }
     });
 
-    return classNames;
+    return classNames.join(' ');
   }
 }

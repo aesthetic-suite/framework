@@ -37,13 +37,13 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('aphrodite', SYNTAX_NATIVE_PARTIAL)).toEqual({
+    expect(instance.transform(SYNTAX_NATIVE_PARTIAL)).toEqual({
       button: 'button_13l44zh',
     });
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
+    expect(instance.transform(SYNTAX_PSEUDO)).toEqual({
       pseudo: 'pseudo_q2zd6k',
     });
 

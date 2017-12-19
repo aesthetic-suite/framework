@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
 
-import type { Statement, StyleSheet as AestheticStyleSheet } from '../../types';
+import type { Statement, StyleDeclaration, StyleSheet as AestheticStyleSheet } from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
@@ -18,14 +18,11 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform(styleName: string, statement: Statement): AestheticStyleSheet {
-    const styleSheet = this.aphrodite.create(statement);
-    const output = {};
+  create(statement: Statement): AestheticStyleSheet {
+    return this.aphrodite.create(statement);
+  }
 
-    Object.keys(styleSheet).forEach((selector) => {
-      output[selector] = css(styleSheet[selector]);
-    });
-
-    return output;
+  transform(...styles: StyleDeclaration[]): string {
+    return css(...styles);
   }
 }

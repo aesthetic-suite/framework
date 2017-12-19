@@ -7,7 +7,7 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { Statement, StyleSheet } from '../../types';
+import type { StyleDeclaration } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -18,7 +18,7 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
+  transform(styles: StyleDeclaration[]): string {
     this.sheet = this.jss.createStyleSheet(statement, {
       meta: styleName,
       named: true,

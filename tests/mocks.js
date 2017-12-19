@@ -184,13 +184,16 @@ export const SYNTAX_VIEWPORT = {
 export class TestAdapter extends Adapter {
   lastTransform = {};
 
-  transform(styleName, declarations) {
-    if (styleName === 'foo') {
-      return declarations;
-    }
+  transform(...styles) {
+    this.lastTransform = styles;
 
-    this.lastTransform = declarations;
+    const classes = [
+      'header',
+      'footer',
+      'body',
+      'wrapper',
+    ];
 
-    return TEST_CLASS_NAMES;
+    return styles.map((row, i) => classes[i]).join('_');
   }
 }

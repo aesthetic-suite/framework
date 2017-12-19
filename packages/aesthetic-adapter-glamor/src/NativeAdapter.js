@@ -7,18 +7,10 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { Statement, StyleSheet } from '../../types';
+import type { StyleDeclaration } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform(styleName: string, statement: Statement): StyleSheet {
-    const output = {};
-
-    Object.keys(statement).forEach((selector) => {
-      const value = statement[selector];
-
-      output[selector] = (typeof value === 'string') ? value : String(css(value));
-    });
-
-    return output;
+  transform(styles: StyleDeclaration[]): string {
+    return css(...styles);
   }
 }

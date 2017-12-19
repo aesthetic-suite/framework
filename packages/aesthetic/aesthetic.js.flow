@@ -81,7 +81,7 @@ declare module 'aesthetic' {
 
   declare export type StyleBlock = { [property: string]: Style };
 
-  declare export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
+  declare export type StatementCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
 
   declare export type StyleDeclaration = { [property: string]: Style };
 
@@ -116,7 +116,7 @@ declare module 'aesthetic' {
     cache: { [styleName: string]: StyleSheet };
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
-    styles: { [styleName: string]: StyleCallback | Statement };
+    styles: { [styleName: string]: Statement | StatementCallback };
     themes: { [themeName: string]: ThemeDeclaration };
 
     constructor(adapter: Adapter, options?: Object): this;
@@ -136,7 +136,7 @@ declare module 'aesthetic' {
     setAdapter(adapter: Adapter): this;
     setStyles(
       styleName: string,
-      statement: StyleCallback | Statement,
+      statement: Statement | StatementCallback,
       extendFrom?: string,
     ): this;
     transformStyles(styleName: string, themeName?: string): StyleSheet;
@@ -145,7 +145,7 @@ declare module 'aesthetic' {
 
   declare export function style(
     aesthetic: Aesthetic,
-    styles: StyleCallback | Statement,
+    styles: Statement | StatementCallback,
     options?: HOCOptions,
   ): (HOCWrappedComponent) => HOCComponent;
 
