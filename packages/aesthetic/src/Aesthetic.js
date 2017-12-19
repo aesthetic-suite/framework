@@ -6,6 +6,7 @@
 
 import deepMerge from 'lodash.merge';
 import isObject from './helpers/isObject';
+import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
 import withStyles from './style';
 
@@ -202,11 +203,20 @@ export default class Aesthetic {
     const toTransform = [];
 
     styles.forEach((style) => {
-      // TODO combine with classes()
-      if (typeof style === 'string') {
-        classNames.push(style);
-      } else {
+      // Empty value or failed condition
+      if (!style) {
+        return; // eslint-disable-line
+
+      // Acceptable class names
+      } else if (typeof style === 'string' || typeof style === 'number') {
+        classNames.push(...String(style).split(' ').map(s => stripClassPrefix(s).trim()));
+
+      // Style objects
+      } else if (isObject(style)) {
         toTransform.push(style);
+
+      } else if (__DEV__) {
+        throw new Error('Unsupported style type to transform.');
       }
     });
 
@@ -214,7 +224,7 @@ export default class Aesthetic {
       classNames.push(this.adapter.transform(...toTransform));
     }
 
-    return classNames.join(' ');
+    return classNames.join(' ').trim();
   }
 
   /**

@@ -11,7 +11,6 @@ import JssAdapter from '../../aesthetic-adapter-jss/src/NativeAdapter';
 import TypeStyleAdapter from '../../aesthetic-adapter-typestyle/src/NativeAdapter';
 import {
   TestAdapter,
-  TEST_CLASS_NAMES,
   FONT_ROBOTO,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
@@ -373,6 +372,39 @@ describe('aesthetic/Aesthetic', () => {
         { color: 'red' },
         { display: 'block' },
       );
+    });
+
+    it('ignores falsey values', () => {
+      expect(instance.transformStyles([
+        null,
+        false,
+        0,
+        '',
+        undefined,
+      ])).toBe('');
+    });
+
+    it('strips period prefix', () => {
+      expect(instance.transformStyles([
+        '.foo',
+        'bar .qux',
+      ])).toBe('foo bar qux');
+    });
+
+    it('handles expression values', () => {
+      expect(instance.transformStyles([
+        'foo',
+        true && 'bar',
+        (5 > 10) && 'baz',
+      ])).toBe('foo bar');
+    });
+
+    it('joins strings and numbers', () => {
+      expect(instance.transformStyles([
+        'foo',
+        123,
+        'bar',
+      ])).toBe('foo 123 bar');
     });
   });
 

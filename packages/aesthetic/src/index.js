@@ -9,9 +9,8 @@ import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import ThemeProvider from './ThemeProvider';
 import createStyler from './createStyler';
-import classes from './classes';
 
 export const StylesPropType = PropTypes.objectOf(PropTypes.object);
 
-export { Adapter, ClassNameAdapter, ThemeProvider, createStyler, classes };
+export { Adapter, ClassNameAdapter, ThemeProvider, createStyler };
 export default Aesthetic;
