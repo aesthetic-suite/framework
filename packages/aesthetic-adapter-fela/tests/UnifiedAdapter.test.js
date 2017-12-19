@@ -30,9 +30,8 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('fela', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'a b c d e f g h i j k l m n o p q r s t u v w x',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button))
+      .toBe('a b c d e f g h i j k l m n o p q r s t u v w x');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -75,9 +74,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('fela', SYNTAX_PROPERTIES)).toEqual({
-      props: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
@@ -95,16 +92,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_CHARSET);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -116,9 +111,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'a b',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('a b');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
@@ -133,16 +126,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('fela', SYNTAX_FONT_FACE)).toEqual({
-      font: 'a b',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('a b');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -157,9 +148,7 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('fela', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
@@ -177,22 +166,20 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -209,16 +196,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

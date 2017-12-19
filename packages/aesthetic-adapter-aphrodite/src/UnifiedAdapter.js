@@ -9,7 +9,12 @@
 import UnifiedSyntax from 'aesthetic/unified';
 import AphroditeAdapter from './NativeAdapter';
 
-import type { Statement, StyleSheet } from '../../types';
+import type {
+  Statement,
+  Style,
+  StyleDeclaration,
+  StyleSheet,
+} from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -31,8 +36,8 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
       .off('@keyframes');
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    return super.transform(styleName, this.syntax.convert(statement));
+  create(statement: Statement): StyleSheet {
+    return super.create(this.syntax.convert(statement));
   }
 
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {

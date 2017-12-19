@@ -20,39 +20,48 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     instance = new GlamorAdapter();
   });
 
-  it('ignores string class names', () => {
-    expect(instance.transform('glamor', {
-      button: 'button',
-    })).toEqual({
-      button: 'button',
-    });
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('css-1n8n9n3');
   });
 
-  it('transforms style declarations into class names', () => {
-    expect(instance.transform('glamor', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'css-1n8n9n3',
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('css-1r6w0zj');
+    expect(instance.transform(sheet.bar)).toBe('css-otvq3e');
+    expect(instance.transform(sheet.baz)).toBe('css-1s3i2b7');
+    expect(instance.transform(sheet.foo, sheet.baz))
+      .toBe('css-1r6w0zj css-1s3i2b7');
+    expect(instance.transform(sheet.bar, sheet.foo))
+      .toBe('css-otvq3e css-1r6w0zj');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('glamor', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'css-1g7aevf',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       fallback: {
         background: ['red', 'linear-gradient(...)'],
         display: ['box', 'flex-box', 'flex'],
       },
-    };
-
-    expect(instance.transform('glamor', nativeSyntax)).toEqual({
-      fallback: 'css-1nxkcks',
-    });
+    }).fallback)).toBe('css-1nxkcks');
 
     // Verified it ran but fallbacks don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
@@ -61,38 +70,30 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   it('handles font faces', () => {
     css.fontFace(FONT_ROBOTO_FLAT_SRC);
 
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    };
-
-    expect(instance.transform('glamor', nativeSyntax)).toEqual({
-      font: 'css-1x6s9dk',
-    });
+    }).font)).toBe('css-1x6s9dk');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       animation: {
         animationName: css.keyframes('fade', KEYFRAME_FADE),
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    };
-
-    expect(instance.transform('glamor', nativeSyntax)).toEqual({
-      animation: 'css-s8bawe',
-    });
+    }).animation)).toBe('css-s8bawe');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         '@media (min-width: 300px)': {
@@ -102,17 +103,13 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
           color: 'green',
         },
       },
-    };
-
-    expect(instance.transform('glamor', nativeSyntax)).toEqual({
-      media: 'css-rr71yy',
-    });
+    }).media)).toBe('css-rr71yy');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -122,11 +119,7 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
           float: 'left',
         },
       },
-    };
-
-    expect(instance.transform('glamor', nativeSyntax)).toEqual({
-      sup: 'css-1sp1mbh',
-    });
+    }).sup)).toBe('css-1sp1mbh');
 
     // Verified it ran but supports don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();

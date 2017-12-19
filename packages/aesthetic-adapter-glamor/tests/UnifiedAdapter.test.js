@@ -30,9 +30,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('glamor', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'css-1hkljsl',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('css-1hkljsl');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -75,9 +73,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('glamor', SYNTAX_PROPERTIES)).toEqual({
-      props: 'css-115cnno',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('css-115cnno');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
@@ -95,16 +91,14 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'css-1g7aevf',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_CHARSET);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -116,9 +110,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'css-1806hfp',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('css-1806hfp');
 
     // Verified it ran but fallbacks don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
@@ -134,16 +126,14 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('glamor', SYNTAX_FONT_FACE)).toEqual({
-      font: 'css-1x6s9dk',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('css-1x6s9dk');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -158,9 +148,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('glamor', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'css-s8bawe',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('css-s8bawe');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
@@ -178,22 +166,20 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'css-rr71yy',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('css-rr71yy');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -210,9 +196,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'css-1sp1mbh',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('css-1sp1mbh');
 
     // Verified it ran but supports don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
@@ -220,7 +204,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

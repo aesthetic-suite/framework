@@ -7,10 +7,10 @@
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
 
-import type { StyleDeclaration } from '../../types';
+import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform(styles: StyleDeclaration[]): string {
-    return css(...styles);
+  transform(...styles: StyleDeclaration[]): ClassName {
+    return styles.map(style => String(css(style))).join(' ');
   }
 }

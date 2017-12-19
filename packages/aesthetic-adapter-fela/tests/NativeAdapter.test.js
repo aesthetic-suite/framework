@@ -27,39 +27,49 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
     expect(newInstance.fela).not.toEqual(instance.fela);
   });
 
-  it('ignores string class names', () => {
-    expect(instance.transform('fela', {
-      button: 'button',
-    })).toEqual({
-      button: 'button',
-    });
+  it('transforms style declarations into class names', () => {
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button))
+      .toBe('a b c d e f g h i j k l m n o p q r s t u v w');
   });
 
-  it('transforms style declarations into class names', () => {
-    expect(instance.transform('fela', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'a b c d e f g h i j k l m n o p q r s t u v w',
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('a b');
+    expect(instance.transform(sheet.bar)).toBe('c d');
+    expect(instance.transform(sheet.baz)).toBe('e f');
+    expect(instance.transform(sheet.foo, sheet.baz))
+      .toBe('e b f');
+    expect(instance.transform(sheet.bar, sheet.foo))
+      .toBe('a d b');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('fela', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       fallback: {
         background: ['red', 'linear-gradient(...)'],
         display: ['box', 'flex-box', 'flex'],
       },
-    };
-
-    expect(instance.transform('fela', nativeSyntax)).toEqual({
-      fallback: 'a b',
-    });
+    }).fallback)).toBe('a b');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
@@ -67,38 +77,30 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
   it('handles font faces', () => {
     instance.fela.renderFont('Roboto', ['fonts/roboto.woff2'], FONT_ROBOTO_FLAT_SRC);
 
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    };
-
-    expect(instance.transform('fela', nativeSyntax)).toEqual({
-      font: 'a b',
-    });
+    }).font)).toBe('a b');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       animation: {
         animationName: instance.fela.renderKeyframe(() => KEYFRAME_FADE),
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    };
-
-    expect(instance.transform('fela', nativeSyntax)).toEqual({
-      animation: 'a b c',
-    });
+    }).animation)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         '@media (min-width: 300px)': {
@@ -108,17 +110,13 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
           color: 'green',
         },
       },
-    };
-
-    expect(instance.transform('fela', nativeSyntax)).toEqual({
-      media: 'a b c',
-    });
+    }).media)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -128,11 +126,7 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
           float: 'left',
         },
       },
-    };
-
-    expect(instance.transform('fela', nativeSyntax)).toEqual({
-      sup: 'a b c',
-    });
+    }).sup)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });

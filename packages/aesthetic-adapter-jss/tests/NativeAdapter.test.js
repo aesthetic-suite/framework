@@ -28,13 +28,36 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button-0-1',
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('button-0-1');
+  });
+
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('foo-0-1');
+    expect(instance.transform(sheet.bar)).toBe('bar-0-2');
+    expect(instance.transform(sheet.baz)).toBe('baz-0-3');
+    expect(instance.transform(sheet.foo, sheet.baz))
+      .toBe('foo-0-1 baz-0-3');
+    expect(instance.transform(sheet.bar, sheet.foo))
+      .toBe('bar-0-2 foo-0-1');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('jss', {
+    expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
         '&:hover': {
@@ -44,15 +67,13 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           position: 'absolute',
         },
       },
-    })).toEqual({
-      pseudo: 'pseudo-0-1',
-    });
+    }).pseudo)).toBe('pseudo-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       fallback: {
         background: 'red',
         display: 'flex',
@@ -62,50 +83,38 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           { display: 'box' },
         ],
       },
-    };
-
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      fallback: 'fallback-0-1',
-    });
+    }).fallback)).toBe('fallback-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       '@font-face': FONT_ROBOTO_FLAT_SRC,
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    };
-
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      font: 'font-0-1',
-    });
+    }).font)).toBe('font-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       '@keyframes fade': KEYFRAME_FADE,
       animation: {
         animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    };
-
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      animation: 'animation-0-1',
-    });
+    }).animation)).toBe('animation-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         '@media (min-width: 300px)': {
@@ -115,17 +124,13 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           color: 'green',
         },
       },
-    };
-
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      media: 'media-0-1',
-    });
+    }).media)).toBe('media-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -135,11 +140,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           float: 'left',
         },
       },
-    };
-
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      sup: 'sup-0-1',
-    });
+    }).sup)).toBe('sup-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

@@ -34,9 +34,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('aphrodite', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'button_jr9ve',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('button_jr9ve');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -79,9 +77,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('aphrodite', SYNTAX_PROPERTIES)).toEqual({
-      props: 'props_1pbzc6n',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('props_1pbzc6n');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
@@ -99,22 +95,20 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'pseudo_q2zd6k',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_CHARSET);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
   it('handles @fallbacks', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_FALLBACKS);
+      instance.transform(instance.create(SYNTAX_FALLBACKS).fallback);
     }).toThrowError();
   });
 
@@ -128,16 +122,14 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('aphrodite', SYNTAX_FONT_FACE)).toEqual({
-      font: 'font_uk6a9p',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('font_uk6a9p');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -152,9 +144,8 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('aphrodite', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'animation_1s7muh9',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation))
+      .toBe('animation_1s7muh9');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
@@ -172,34 +163,32 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('aphrodite', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'media_1yqe7pa',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('media_1yqe7pa');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
   it('handles @supports', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_SUPPORTS);
+      instance.transform(instance.create(SYNTAX_SUPPORTS).sup);
     }).toThrowError();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('aphrodite', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

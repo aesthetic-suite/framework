@@ -376,71 +376,63 @@ describe('aesthetic/Aesthetic', () => {
     });
   });
 
-  describe.skip('adapters', () => {
+  describe('adapters', () => {
+    let styleSheet;
+
     beforeEach(() => {
       instance.setStyles('foo', SYNTAX_NATIVE_PARTIAL);
     });
 
     it('supports standard class names', () => {
       instance.setAdapter(new ClassNameAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
       // Only strings are supported
-      instance.styles.foo = { button: 'button' };
-
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'button',
-      });
+      expect(instance.transformStyles(['button'])).toBe('button');
     });
 
     it('supports Aphrodite', () => {
       instance.setAdapter(new AphroditeAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'button_13l44zh',
-      });
+      expect(instance.transformStyles([styleSheet.button])).toBe('button_13l44zh');
     });
 
     it('supports CSS modules', () => {
       instance.setAdapter(new CssModulesAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
       // Styles are passed as strings, so fake it
-      instance.styles.foo = { button: 'cssm-button' };
-
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'cssm-button',
-      });
+      expect(instance.transformStyles(['cssm-button'])).toBe('cssm-button');
     });
 
     it('supports Fela', () => {
       instance.setAdapter(new FelaAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'a b c d e f g h i j k l m n o p q r s t u v w',
-      });
+      expect(instance.transformStyles([styleSheet.button]))
+        .toBe('a b c d e f g h i j k l m n o p q r s t u v w');
     });
 
     it('supports Glamor', () => {
       instance.setAdapter(new GlamorAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'css-1n8n9n3',
-      });
+      expect(instance.transformStyles([styleSheet.button])).toBe('css-1n8n9n3');
     });
 
     it('supports JSS', () => {
       instance.setAdapter(new JssAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'button-0-1',
-      });
+      expect(instance.transformStyles([styleSheet.button])).toBe('button-0-1');
     });
 
     it('supports TypeStyle', () => {
       instance.setAdapter(new TypeStyleAdapter());
+      styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles('foo')).toEqual({
-        button: 'f7tlree',
-      });
+      expect(instance.transformStyles([styleSheet.button])).toBe('f7tlree');
     });
   });
 });

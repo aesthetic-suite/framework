@@ -5,9 +5,9 @@ describe('aesthetic-adapter-css-modules/NativeAdapter', () => {
     const instance = new CSSModulesAdapter();
 
     // eslint-disable-next-line global-require
-    expect(instance.transform('foo', require('./styles.css'))).toEqual({
-      footer: 'styles__footer___NPE7C',
-      header: 'styles__header___3btY-',
-    });
+    const classes = require('./styles.css');
+
+    expect(instance.transform(classes.header, classes.footer))
+      .toBe('styles__header___3btY- styles__footer___NPE7C');
   });
 });

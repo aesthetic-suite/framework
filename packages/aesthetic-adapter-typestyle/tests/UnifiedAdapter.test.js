@@ -26,9 +26,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('typestyle', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'fkp30lv',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('fkp30lv');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -73,9 +71,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('typestyle', SYNTAX_PROPERTIES)).toEqual({
-      props: 'f1tzsa69',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('f1tzsa69');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -95,16 +91,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'fmow1iy',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('fmow1iy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_CHARSET);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -116,9 +110,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'fxr1ybm',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('fxr1ybm');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -133,16 +125,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('typestyle', SYNTAX_FONT_FACE)).toEqual({
-      font: 'fd14wa4',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('fd14wa4');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -157,9 +147,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('typestyle', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'f14e9xg1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('f14e9xg1');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -179,22 +167,20 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'fuxmg1k',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('fuxmg1k');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -213,16 +199,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'f6m6wzj',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('f6m6wzj');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

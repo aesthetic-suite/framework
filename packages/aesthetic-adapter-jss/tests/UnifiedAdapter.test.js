@@ -33,9 +33,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'button-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('button-0-1');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -80,9 +78,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('jss', SYNTAX_PROPERTIES)).toEqual({
-      props: 'props-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('props-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -100,9 +96,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('jss', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'pseudo-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -112,7 +106,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       '@charset': 'utf8',
     });
 
-    expect(instance.transform('jss', SYNTAX_CHARSET)).toEqual({});
+    expect(instance.transform(instance.create(SYNTAX_CHARSET))).toBe('');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -130,9 +124,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('jss', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'fallback-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('fallback-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -148,9 +140,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('jss', SYNTAX_FONT_FACE)).toEqual({
-      font: 'font-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('font-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -160,7 +150,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       '@import': './some/path.css',
     });
 
-    expect(instance.transform('jss', SYNTAX_IMPORT)).toEqual({});
+    expect(instance.transform(instance.create(SYNTAX_IMPORT))).toBe('');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -177,9 +167,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('jss', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'animation-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('animation-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -197,9 +185,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('jss', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'media-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('media-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -209,14 +195,14 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       '@namespace': 'url(http://www.w3.org/1999/xhtml)',
     });
 
-    expect(instance.transform('jss', SYNTAX_NAMESPACE)).toEqual({});
+    expect(instance.transform(instance.create(SYNTAX_NAMESPACE))).toBe('');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('jss', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -233,9 +219,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('jss', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'sup-0-1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('sup-0-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -248,7 +232,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('jss', SYNTAX_VIEWPORT)).toEqual({});
+    expect(instance.transform(instance.create(SYNTAX_VIEWPORT))).toBe('');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

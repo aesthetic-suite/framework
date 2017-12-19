@@ -37,8 +37,8 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    return super.transform(styleName, this.syntax.convert(statement));
+  create(statement: Statement): StyleSheet {
+    return super.create(this.syntax.convert(statement));
   }
 
   // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont

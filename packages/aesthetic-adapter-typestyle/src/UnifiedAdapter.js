@@ -40,8 +40,8 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    return super.transform(styleName, this.syntax.convert(statement));
+  create(statement: Statement): StyleSheet {
+    return super.create(this.syntax.convert(statement));
   }
 
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
