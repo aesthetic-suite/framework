@@ -23,7 +23,6 @@ import type {
 
 export const GLOBAL_RULES: AtRule[] = [
   '@charset',
-  '@document',
   '@font-face',
   '@import',
   '@keyframes',
@@ -49,7 +48,6 @@ export default class UnifiedSyntax {
     this
       .on('property', this.handleProperty)
       .on('@charset', this.handleCharset)
-      .on('@document', this.handleDocument)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@import', this.handleImport)
@@ -88,20 +86,6 @@ export default class UnifiedSyntax {
           } else if (__DEV__) {
             throw new Error(`${rule} value must be a string.`);
           }
-
-          break;
-        }
-
-        case '@document': {
-          const doc = prevStatement['@document'];
-
-          Object.keys(doc).forEach((url) => {
-            if (isObject(doc[url])) {
-              this.emit(rule, [nextStatement, doc[url], url]);
-            } else if (__DEV__) {
-              throw new Error(`${rule} must be a mapping of URLs to style objects.`);
-            }
-          });
 
           break;
         }
@@ -276,13 +260,6 @@ export default class UnifiedSyntax {
    */
   handleCharset(statement: Statement, style: string) {
     statement['@charset'] = style;
-  }
-
-  /**
-   * Handle @document.
-   */
-  handleDocument(statement: Statement, style: StyleBlock, url: string) {
-    statement[`@document ${url}`] = style;
   }
 
   /**

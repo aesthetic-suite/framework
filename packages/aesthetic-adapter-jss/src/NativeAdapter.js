@@ -7,7 +7,12 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type { Statement, StyleSheet } from '../../types';
+import type {
+  ClassName,
+  Statement,
+  StyleDeclaration,
+  StyleSheet,
+} from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -18,19 +23,13 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('JSS does not support React Native.');
-      }
-    }
+  create(statement: Statement): StyleSheet {
+    this.sheet = this.jss.createStyleSheet(statement).attach();
 
-    this.sheet = this.jss.createStyleSheet(statement, {
-      meta: styleName,
-      named: true,
-      ...this.options,
-    }).attach();
+    return this.sheet.classes;
+  }
 
-    return { ...this.sheet.classes };
+  transform(...styles: StyleDeclaration[]): ClassName {
+    return styles.filter(style => typeof style === 'string').join(' ');
   }
 }

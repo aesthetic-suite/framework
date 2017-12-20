@@ -8,10 +8,16 @@ describe('aesthetic/createStyler()', () => {
     expect(() => createStyler(123)).toThrowError('An instance of `Aesthetic` must be provided.');
   });
 
-  it('returns an HOC function', () => {
+  it('returns an object with helper functions', () => {
     const styler = createStyler(new Aesthetic(new Adapter()));
 
-    expect(styler).toBeInstanceOf(Function);
-    expect(styler()).toBeInstanceOf(Function);
+    expect(styler.style).toBeInstanceOf(Function);
+    expect(styler.transform).toBeInstanceOf(Function);
+  });
+
+  it('style function returns an HOC function', () => {
+    const styler = createStyler(new Aesthetic(new Adapter()));
+
+    expect(styler.style()).toBeInstanceOf(Function);
   });
 });

@@ -7,4 +7,3 @@
 * [aesthetic-adapter-glamor](./packages/aesthetic-adapter-glamor/CHANGELOG.md)
 * [aesthetic-adapter-jss](./packages/aesthetic-adapter-jss/CHANGELOG.md)
 * [aesthetic-adapter-typestyle](./packages/aesthetic-adapter-typestyle/CHANGELOG.md)
-* [aesthetic-native](./packages/aesthetic-native/CHANGELOG.md)

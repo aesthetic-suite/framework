@@ -29,8 +29,7 @@
     "chalk": "^2.3.0",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.2",
-    "lerna": "^2.5.1",
-    "react-native": "^0.51.0"
+    "lerna": "^2.5.1"
   },
   "babel": {
     "presets": "@milesj/build-tool-config/babel",

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @fallbacks 1`] = `".css-1806hfp,[data-css-1806hfp] {background: red; display: flex-box;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @font-face 1`] = `"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.css-1x6s9dk,[data-css-1x6s9dk] {font-family: Roboto; font-size: 20px;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @keyframes 1`] = `"@-webkit-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-moz-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-o-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }.css-s8bawe,[data-css-s8bawe] {animation-name: fade_1q3syk4; animation-duration: 3s, 1200ms; animation-iteration-count: infinite; -webkit-animation-name: fade_1q3syk4; -webkit-animation-duration: 3s, 1200ms; -webkit-animation-iteration-count: infinite;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @media 1`] = `".css-rr71yy,[data-css-rr71yy] {color: red;}@media (min-width: 300px) {.css-rr71yy,[data-css-rr71yy] {color: blue;}}@media (max-width: 1000px) {.css-rr71yy,[data-css-rr71yy] {color: green;}}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @supports 1`] = `".css-1sp1mbh,[data-css-1sp1mbh] {display: block;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles properties 1`] = `".css-115cnno,[data-css-115cnno] {color: black; display: inline; margin: 10px;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles pseudos 1`] = `".css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}"`;

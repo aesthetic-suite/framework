@@ -1,11 +1,10 @@
 /* eslint-disable sort-keys */
 
-import { speedy, flush, styleSheet } from 'glamor';
+import { speedy, flush } from 'glamor';
 import UnifiedGlamorAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -18,10 +17,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
-
-function renderToString() {
-  return styleSheet.rules().map(r => r.cssText).join('').replace(/\n/g, '');
-}
+import { renderGlamorStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   let instance;
@@ -34,9 +30,7 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('glamor', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'css-1hkljsl',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('css-1hkljsl');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -79,12 +73,9 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('glamor', SYNTAX_PROPERTIES)).toEqual({
-      props: 'css-115cnno',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('css-115cnno');
 
-    expect(renderToString())
-      .toBe('.css-115cnno,[data-css-115cnno] {color: black; display: inline; margin: 10px;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
@@ -100,23 +91,14 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'css-1g7aevf',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 
-    expect(renderToString())
-      .toBe('.css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('glamor', SYNTAX_DOCUMENT);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -128,13 +110,10 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'css-1806hfp',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('css-1806hfp');
 
     // Verified it ran but fallbacks don't appear in the output
-    expect(renderToString())
-      .toBe('.css-1806hfp,[data-css-1806hfp] {background: red; display: flex-box;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @font-face', () => {
@@ -147,17 +126,14 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('glamor', SYNTAX_FONT_FACE)).toEqual({
-      font: 'css-1x6s9dk',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('css-1x6s9dk');
 
-    expect(renderToString())
-      .toBe("@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.css-1x6s9dk,[data-css-1x6s9dk] {font-family: Roboto; font-size: 20px;}");
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -172,12 +148,9 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('glamor', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'css-s8bawe',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('css-s8bawe');
 
-    expect(renderToString())
-      .toBe('@-webkit-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@-moz-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@-o-keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }@keyframes fade_1q3syk4 {   from {opacity: 0;}   to {opacity: 1;} }.css-s8bawe,[data-css-s8bawe] {animation-name: fade_1q3syk4; animation-duration: 3s, 1200ms; animation-iteration-count: infinite; -webkit-animation-name: fade_1q3syk4; -webkit-animation-duration: 3s, 1200ms; -webkit-animation-iteration-count: infinite;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @media', () => {
@@ -193,23 +166,20 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'css-rr71yy',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('css-rr71yy');
 
-    expect(renderToString())
-      .toBe('.css-rr71yy,[data-css-rr71yy] {color: red;}@media (min-width: 300px) {.css-rr71yy,[data-css-rr71yy] {color: blue;}}@media (max-width: 1000px) {.css-rr71yy,[data-css-rr71yy] {color: green;}}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -226,18 +196,15 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('glamor', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'css-1sp1mbh',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('css-1sp1mbh');
 
     // Verified it ran but supports don't appear in the output
-    expect(renderToString())
-      .toBe('.css-1sp1mbh,[data-css-1sp1mbh] {display: block;}');
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('glamor', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

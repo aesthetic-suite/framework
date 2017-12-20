@@ -6,8 +6,9 @@
 
 import { Adapter } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
+import deepMerge from 'lodash.merge';
 
-import type { Statement, StyleSheet } from '../../types';
+import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class TypeStyleAdapter extends Adapter {
   constructor(typeStyle?: TypeStyle, options?: Object = {}) {
@@ -16,21 +17,7 @@ export default class TypeStyleAdapter extends Adapter {
     this.typeStyle = typeStyle || new TypeStyle({ autoGenerateTag: true });
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('TypeStyle does not support React Native.');
-      }
-    }
-
-    const output = {};
-
-    Object.keys(statement).forEach((selector) => {
-      const value = statement[selector];
-
-      output[selector] = (typeof value === 'string') ? value : this.typeStyle.style(value);
-    });
-
-    return output;
+  transform(...styles: StyleDeclaration[]): ClassName {
+    return this.typeStyle.style(deepMerge({}, ...styles));
   }
 }

@@ -28,14 +28,13 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     this.syntax = new UnifiedSyntax();
     this.syntax
       .on('property', this.handleProperty)
-      .on('@document', this.syntax.createUnsupportedHandler('@document'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@page', this.syntax.createUnsupportedHandler('@page'));
   }
 
-  transform(styleName: string, statement: Statement): StyleSheet {
-    return super.transform(styleName, this.syntax.convert(statement));
+  create(statement: Statement): StyleSheet {
+    return super.create(this.syntax.convert(statement));
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

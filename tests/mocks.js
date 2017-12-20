@@ -80,16 +80,6 @@ export const SYNTAX_CHARSET = {
   '@charset': 'utf8',
 };
 
-export const SYNTAX_DOCUMENT = {
-  '@document': {
-    'domain(milesj.me)': {
-      body: {
-        color: 'black',
-      },
-    },
-  },
-};
-
 export const SYNTAX_IMPORT = {
   '@import': './some/path.css',
 };
@@ -194,13 +184,16 @@ export const SYNTAX_VIEWPORT = {
 export class TestAdapter extends Adapter {
   lastTransform = {};
 
-  transform(styleName, declarations) {
-    if (styleName === 'foo') {
-      return declarations;
-    }
+  transform(...styles) {
+    this.lastTransform = styles;
 
-    this.lastTransform = declarations;
+    const classes = [
+      'header',
+      'footer',
+      'body',
+      'wrapper',
+    ];
 
-    return TEST_CLASS_NAMES;
+    return styles.map((row, i) => classes[i]).join('_');
   }
 }

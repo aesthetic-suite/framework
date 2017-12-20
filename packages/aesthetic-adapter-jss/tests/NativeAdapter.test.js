@@ -8,10 +8,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
-
-function renderToString(sheet) {
-  return sheet.toString().replace(/\n/g, '').replace(/\s{2,}/g, '');
-}
+import { renderJSSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-jss/NativeAdapter', () => {
   let instance;
@@ -23,12 +20,6 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     instance = new JSSAdapter(jss);
   });
 
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('JSS does not support React Native.');
-  });
-
   it('can customize the JSS instance through the constructor', () => {
     const jss = create();
     instance = new JSSAdapter(jss);
@@ -37,13 +28,36 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('component', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button-0-1',
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('button-0-1');
+  });
+
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('foo-0-1');
+    expect(instance.transform(sheet.bar)).toBe('bar-0-2');
+    expect(instance.transform(sheet.baz)).toBe('baz-0-3');
+    expect(instance.transform(sheet.foo, sheet.baz))
+      .toBe('foo-0-1 baz-0-3');
+    expect(instance.transform(sheet.bar, sheet.foo))
+      .toBe('bar-0-2 foo-0-1');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('jss', {
+    expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
         '&:hover': {
@@ -53,16 +67,13 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           position: 'absolute',
         },
       },
-    })).toEqual({
-      pseudo: 'pseudo-0-1',
-    });
+    }).pseudo)).toBe('pseudo-0-1');
 
-    expect(renderToString(instance.sheet))
-      .toBe('.pseudo-0-1 {position: fixed;}.pseudo-0-1:hover {position: static;}.pseudo-0-1::before {position: absolute;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       fallback: {
         background: 'red',
         display: 'flex',
@@ -72,53 +83,38 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           { display: 'box' },
         ],
       },
-    };
+    }).fallback)).toBe('fallback-0-1');
 
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      fallback: 'fallback-0-1',
-    });
-
-    expect(renderToString(instance.sheet))
-      .toBe('.fallback-0-1 {background: linear-gradient(...);display: flex-box;display: box;display: flex;background: red;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       '@font-face': FONT_ROBOTO_FLAT_SRC,
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    };
+    }).font)).toBe('font-0-1');
 
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      font: 'font-0-1',
-    });
-
-    expect(renderToString(instance.sheet))
-      .toBe("@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font-0-1 {font-size: 20px;font-family: Roboto;}");
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       '@keyframes fade': KEYFRAME_FADE,
       animation: {
         animationName: 'fade',
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    };
+    }).animation)).toBe('animation-0-1');
 
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      animation: 'animation-0-1',
-    });
-
-    expect(renderToString(instance.sheet))
-      .toBe('@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         '@media (min-width: 300px)': {
@@ -128,18 +124,13 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           color: 'green',
         },
       },
-    };
+    }).media)).toBe('media-0-1');
 
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      media: 'media-0-1',
-    });
-
-    expect(renderToString(instance.sheet))
-      .toBe('.media-0-1 {color: red;}@media (min-width: 300px) {.media-0-1 {color: blue;}}@media (max-width: 1000px) {.media-0-1 {color: green;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       sup: {
         display: 'block',
         '@supports (display: flex)': {
@@ -149,13 +140,8 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           float: 'left',
         },
       },
-    };
+    }).sup)).toBe('sup-0-1');
 
-    expect(instance.transform('jss', nativeSyntax)).toEqual({
-      sup: 'sup-0-1',
-    });
-
-    expect(renderToString(instance.sheet))
-      .toBe('.sup-0-1 {display: block;}@supports (display: flex) {.sup-0-1 {display: flex;}}@supports not (display: flex) {.sup-0-1 {float: left;}}');
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 });

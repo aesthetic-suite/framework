@@ -1,5 +1,4 @@
 import ClassNameAdapter from '../src/ClassNameAdapter';
-import { TEST_CLASS_NAMES } from '../../../tests/mocks';
 
 describe('aesthetic/ClassNameAdapter', () => {
   let instance;
@@ -10,14 +9,14 @@ describe('aesthetic/ClassNameAdapter', () => {
 
   it('errors if a non-string is provided', () => {
     expect(() => {
-      instance.transform('foo', {
-        bar: { not: 'valid' },
-        foo: '.valid-class',
-      });
-    }).toThrowError('`ClassNameAdapter` expects valid CSS class names; non-string provided for "bar".');
+      instance.transform(
+        'valid-class',
+        { not: 'valid' },
+      );
+    }).toThrowError('ClassNameAdapter expects valid CSS class names.');
   });
 
-  it('sets and caches class names', () => {
-    expect(instance.transform('foo', TEST_CLASS_NAMES)).toEqual(TEST_CLASS_NAMES);
+  it('joins and returns class names', () => {
+    expect(instance.transform('foo', 'bar')).toBe('foo bar');
   });
 });

@@ -2,7 +2,6 @@
 
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
-import { flushToString } from 'aphrodite/lib/inject';
 import AphroditeAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -10,6 +9,7 @@ import {
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
+import { renderAphroditeStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   let instance;
@@ -21,12 +21,6 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
 
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  });
-
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('Aphrodite does not support React Native.');
   });
 
   it('can customize the aphrodite instance through the constructor', () => {
@@ -43,55 +37,66 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('aphrodite', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'button_13l44zh',
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button))
+      .toBe('button_13l44zh');
+  });
+
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('foo_1u9pmmq');
+    expect(instance.transform(sheet.bar)).toBe('bar_1etchdu');
+    expect(instance.transform(sheet.baz)).toBe('baz_xw1a2w');
+    expect(instance.transform(sheet.foo, sheet.baz))
+      .toBe('foo_1u9pmmq-o_O-baz_xw1a2w');
+    expect(instance.transform(sheet.bar, sheet.foo))
+      .toBe('bar_1etchdu-o_O-foo_1u9pmmq');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('aphrodite', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'pseudo_q2zd6k',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
 
-    expect(flushToString())
-      .toBe('.pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}');
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       font: {
-        fontFamily: FONT_ROBOTO_FLAT_SRC,
+        fontFamily: [FONT_ROBOTO_FLAT_SRC],
         fontSize: 20,
       },
-    };
+    }).font)).toBe('font_uk6a9p');
 
-    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
-      font: 'font_hg6jkr',
-    });
-
-    expect(flushToString())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_hg6jkr{font-family:\"undefined\" !important;font-size:20px !important;}");
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       animation: {
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
         animationName: KEYFRAME_FADE,
       },
-    };
+    }).animation)).toBe('animation_mab5hn');
 
-    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
-      animation: 'animation_mab5hn',
-    });
-
-    expect(flushToString())
-      .toBe('@keyframes keyframe_18jn58a{from{opacity:0;}to{opacity:1;}}.animation_mab5hn{-webkit-animation-duration:3s, 1200ms !important;animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-iteration-count:infinite !important;-webkit-animation-name:keyframe_18jn58a !important;animation-name:keyframe_18jn58a !important;}');
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         '@media (min-width: 300px)': {
@@ -101,13 +106,8 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
           color: 'green',
         },
       },
-    };
+    }).media)).toBe('media_1yqe7pa');
 
-    expect(instance.transform('aphrodite', nativeSyntax)).toEqual({
-      media: 'media_1yqe7pa',
-    });
-
-    expect(flushToString())
-      .toBe('.media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}');
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 });

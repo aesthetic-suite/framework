@@ -132,7 +132,6 @@ yarn add aesthetic react
 * [Competitors Comparison](#competitors-comparison)
   * [Features](#features)
   * [Adapters](#adapters)
-* [React Native Support](#react-native-support)
 
 ### Initial Setup
 
@@ -168,16 +167,15 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | Supports | React Native |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | | |
-| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | |
-| [React Native][react-native] | | | | | ✓ | ✓ | | ✓ | | |
+| Adapter | Unified Syntax | Globals | Pseudos | Fallbacks | Fonts | Animations | Media Queries | Supports |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Aphrodite][aphrodite] | ✓ | ✓¹ | ✓ | | ✓ | ✓ | ✓ | |
+| [Fela][fela] | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [Glamor][glamor] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [JSS][jss] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| [TypeStyle][typestyle] | ✓ | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 > 1. Only supports `@font-face` and `@keyframes`.
 
@@ -778,12 +776,6 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [Glamor][glamor] | ✓ | | ✓ | |
 | [JSS][jss] | ✓ | ✓ | | |
 | [TypeStyle][typestyle] | ✓ | | | |
-| [React Native][react-native] | ✓ | ✓ | | ||
-
-### React Native Support
-
-Please refer to the [aesthetic-native][react-native] package for more information on how
-to integrate React Native with Aesthetic.
 
 [css-modules]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules
 [aphrodite]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite
@@ -792,6 +784,5 @@ to integrate React Native with Aesthetic.
 [jss]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-jss
 [typestyle]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-typestyle
 [radium]: https://github.com/FormidableLabs/radium
-[react-native]: https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-native
 [react-with-styles]: https://github.com/airbnb/react-with-styles
 [styled-components]: https://github.com/styled-components/styled-components

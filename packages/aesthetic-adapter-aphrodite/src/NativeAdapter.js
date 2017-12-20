@@ -7,7 +7,12 @@
 import { Adapter } from 'aesthetic';
 import { StyleSheet, css } from 'aphrodite';
 
-import type { Statement, StyleSheet as AestheticStyleSheet } from '../../types';
+import type {
+  ClassName,
+  Statement,
+  StyleDeclaration,
+  StyleSheet as AestheticStyleSheet,
+} from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
@@ -18,20 +23,11 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  transform(styleName: string, statement: Statement): AestheticStyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('Aphrodite does not support React Native.');
-      }
-    }
+  create(statement: Statement): AestheticStyleSheet {
+    return this.aphrodite.create(statement);
+  }
 
-    const styleSheet = this.aphrodite.create(statement);
-    const output = {};
-
-    Object.keys(styleSheet).forEach((selector) => {
-      output[selector] = css(styleSheet[selector]);
-    });
-
-    return output;
+  transform(...styles: StyleDeclaration[]): ClassName {
+    return css(...styles);
   }
 }

@@ -11,7 +11,6 @@ declare module 'aesthetic' {
 
   declare export type AtRule =
     '@charset' |
-    '@document' |
     '@font-face' |
     '@import' |
     '@keyframes' |
@@ -27,8 +26,6 @@ declare module 'aesthetic' {
   declare export type EventCallback =
     // @charset
     ((statement: Statement, style: string) => void) |
-    // @document
-    ((statement: Statement, style: StyleBlock, url: string) => void) |
     // @import
     ((statement: Statement, style: string) => void) |
     // @namespace
@@ -69,7 +66,6 @@ declare module 'aesthetic' {
 
   declare export type StatementUnified = {
     '@charset': string,
-    '@document': StyleBlock,
     '@font-face': StyleBlock,
     '@import': string,
     '@keyframes': StyleBlock,
@@ -85,7 +81,7 @@ declare module 'aesthetic' {
 
   declare export type StyleBlock = { [property: string]: Style };
 
-  declare export type StyleCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
+  declare export type StatementCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
 
   declare export type StyleDeclaration = { [property: string]: Style };
 
@@ -98,15 +94,9 @@ declare module 'aesthetic' {
 
   declare export type ThemeDeclaration = StyleBlock;
 
-  declare export type StyleSheet = {
-    // Compiled CSS class names
-    // React Native style objects
-    [selector: string]: ClassName | Object,
-  };
+  declare export type StyleSheet = { [selector: string]: ClassName };
 
   declare export class Adapter {
-    bypassNativeStyleSheet: boolean;
-    native: boolean;
     options: Object;
     unifiedSyntax: boolean;
 
@@ -124,10 +114,9 @@ declare module 'aesthetic' {
   declare export default class Aesthetic {
     adapter: Adapter;
     cache: { [styleName: string]: StyleSheet };
-    native: boolean;
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
-    styles: { [styleName: string]: StyleCallback | Statement };
+    styles: { [styleName: string]: Statement | StatementCallback };
     themes: { [themeName: string]: ThemeDeclaration };
 
     constructor(adapter: Adapter, options?: Object): this;
@@ -147,7 +136,7 @@ declare module 'aesthetic' {
     setAdapter(adapter: Adapter): this;
     setStyles(
       styleName: string,
-      statement: StyleCallback | Statement,
+      statement: Statement | StatementCallback,
       extendFrom?: string,
     ): this;
     transformStyles(styleName: string, themeName?: string): StyleSheet;
@@ -156,7 +145,7 @@ declare module 'aesthetic' {
 
   declare export function style(
     aesthetic: Aesthetic,
-    styles: StyleCallback | Statement,
+    styles: Statement | StatementCallback,
     options?: HOCOptions,
   ): (HOCWrappedComponent) => HOCComponent;
 

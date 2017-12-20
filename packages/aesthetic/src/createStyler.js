@@ -5,27 +5,32 @@
  */
 
 import Aesthetic from './Aesthetic';
-import style from './style';
 
 import type {
-  HOCComponent,
+  ClassName,
   HOCOptions,
-  HOCWrappedComponent,
-  StyleCallback,
+  HOCWrapper,
+  StatementCallback,
+  StyleDeclaration,
   Statement,
 } from '../../types';
 
-export default function createStyler(aesthetic: Aesthetic): * {
+export default function createStyler(aesthetic: Aesthetic): {
+  style: (statement: Statement | StatementCallback, options?: HOCOptions) => HOCWrapper,
+  transform: (...styles: StyleDeclaration[]) => ClassName,
+} {
   if (__DEV__) {
     if (!(aesthetic instanceof Aesthetic)) {
       throw new TypeError('An instance of `Aesthetic` must be provided.');
     }
   }
 
-  return function styler(
-    defaultStyles?: StyleCallback | Statement = {},
-    options?: HOCOptions = {},
-  ): (HOCWrappedComponent) => HOCComponent {
-    return style(aesthetic, defaultStyles, options);
+  return {
+    style(statement: Statement | StatementCallback, options?: HOCOptions = {}): HOCWrapper {
+      return aesthetic.withStyles(statement, options);
+    },
+    transform(...styles: StyleDeclaration[]): ClassName {
+      return aesthetic.transformStyles(styles);
+    },
   };
 }

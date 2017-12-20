@@ -6,35 +6,36 @@
 
 import deepMerge from 'lodash.merge';
 import isObject from './helpers/isObject';
+import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
+import withStyles from './style';
 
 import type {
   AestheticOptions,
   ClassName,
-  StyleCallback,
+  HOCOptions,
+  HOCWrapper,
   Statement,
-  ThemeDeclaration,
+  StatementCallback,
+  StyleDeclaration,
   StyleSheet,
+  ThemeDeclaration,
 } from '../../types';
 
 export default class Aesthetic {
   adapter: Adapter;
 
-  cache: { [styleName: string]: StyleSheet } = {};
-
-  native: boolean = false;
-
   options: AestheticOptions = {
     defaultTheme: '',
     extendable: false,
     pure: false,
-    stylesPropName: 'classNames',
+    stylesPropName: 'styles',
     themePropName: 'theme',
   };
 
   parents: { [childStyleName: string]: string } = {};
 
-  styles: { [styleName: string]: StyleCallback | Statement } = {};
+  styles: { [styleName: string]: Statement | StatementCallback } = {};
 
   themes: { [themeName: string]: ThemeDeclaration } = {};
 
@@ -45,6 +46,37 @@ export default class Aesthetic {
     };
 
     this.setAdapter(adapter);
+  }
+
+  /**
+   * Extract the defined style declarations. If the declaratin is a function,
+   * execute it while passing the current theme and React props.
+   */
+  createStyleSheet(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
+    const parentStyleName = this.parents[styleName];
+    let styleSheet = this.styles[styleName];
+
+    if (__DEV__) {
+      if (!styleSheet) {
+        throw new Error(`Styles do not exist for "${styleName}".`);
+      }
+    }
+
+    // Extract statement from callback
+    if (typeof styleSheet === 'function') {
+      styleSheet = styleSheet(themeName ? this.getTheme(themeName) : {}, props);
+    }
+
+    // Merge from parent
+    if (parentStyleName) {
+      styleSheet = deepMerge(
+        {},
+        this.createStyleSheet(parentStyleName, themeName, props),
+        styleSheet,
+      );
+    }
+
+    return this.adapter.create(styleSheet);
   }
 
   /**
@@ -60,30 +92,6 @@ export default class Aesthetic {
       themeName,
       deepMerge({}, this.getTheme(parentThemeName), theme),
       globals,
-    );
-  }
-
-  /**
-   * Extract the defined style declarations. If the declaratin is a function,
-   * execute it while passing the current theme and previous inherited styles.
-   */
-  getStyles(styleName: string, themeName?: string = ''): Statement {
-    const parentStyleName = this.parents[styleName];
-    const statement = this.styles[styleName];
-
-    if (__DEV__) {
-      if (!statement) {
-        throw new Error(`Styles do not exist for "${styleName}".`);
-      }
-    }
-
-    if (typeof statement !== 'function') {
-      return statement;
-    }
-
-    return statement(
-      themeName ? this.getTheme(themeName) : {},
-      parentStyleName ? this.getStyles(parentStyleName, themeName) : {},
     );
   }
 
@@ -132,7 +140,8 @@ export default class Aesthetic {
     this.themes[themeName] = theme;
 
     // Transform the global styles
-    this.adapter.transform(':root', globals);
+    // TODO
+    // this.adapter.transform(':root', globals);
 
     return this;
   }
@@ -142,7 +151,6 @@ export default class Aesthetic {
    */
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
-      adapter.native = this.native; // eslint-disable-line
       this.adapter = adapter;
 
     } else if (__DEV__) {
@@ -157,7 +165,7 @@ export default class Aesthetic {
    */
   setStyles(
     styleName: string,
-    statement: StyleCallback | Statement,
+    statement: Statement | StatementCallback,
     extendFrom?: string = '',
   ): this {
     if (__DEV__) {
@@ -188,63 +196,41 @@ export default class Aesthetic {
   }
 
   /**
-   * Execute the adapter transformer on the set of style declarations for the
-   * defined component. Optionally support a custom theme.
+   * Execute the adapter transformer on the list of style declarations.
    */
-  transformStyles(styleName: string, themeName?: string): StyleSheet {
-    const fallbackThemeName = themeName || this.options.defaultTheme || '';
-    const cacheKey = `${styleName}:${fallbackThemeName}`;
+  transformStyles(styles: StyleDeclaration[]): ClassName {
+    const classNames = [];
+    const toTransform = [];
 
-    if (this.cache[cacheKey]) {
-      return this.cache[cacheKey];
-    }
+    styles.forEach((style) => {
+      // Empty value or failed condition
+      if (!style) {
+        return; // eslint-disable-line
 
-    const statement = this.getStyles(styleName, fallbackThemeName);
-    const toTransform = ({}: Statement);
-    const output = ({}: StyleSheet);
-    let setCount = 0;
+      // Acceptable class names
+      } else if (typeof style === 'string' || typeof style === 'number') {
+        classNames.push(...String(style).split(' ').map(s => stripClassPrefix(s).trim()));
 
-    // Separate style objects from class names
-    Object.keys(statement).forEach((selector) => {
-      const value = statement[selector];
+      // Style objects
+      } else if (isObject(style)) {
+        toTransform.push(style);
 
-      if (typeof value === 'string') {
-        output[selector] = this.native ? {} : value;
-
-      } else if (value) {
-        toTransform[selector] = value;
-        setCount += 1;
+      } else if (__DEV__) {
+        throw new Error('Unsupported style type to transform.');
       }
     });
 
-    // Transform the styles into a map of class names
-    if (setCount > 0) {
-      const transformedOutput = this.adapter.transform(styleName, toTransform);
-
-      Object.keys(transformedOutput).forEach((selector) => {
-        output[selector] = this.validateTransform(styleName, selector, transformedOutput[selector]);
-      });
+    if (toTransform.length > 0) {
+      classNames.push(this.adapter.transform(...toTransform));
     }
 
-    // Cache the values
-    this.cache[cacheKey] = output;
-
-    return output;
+    return classNames.join(' ').trim();
   }
 
   /**
-   * Validate the object returned contains valid strings.
+   * Utility method for wrapping a component with a styles HOC.
    */
-  validateTransform(styleName: string, selector: string, value: ClassName): ClassName {
-    if (__DEV__) {
-      if (typeof value !== 'string') {
-        throw new TypeError(
-          `\`${this.adapter.constructor.name}\` must return a mapping of CSS class names. ` +
-          `"${styleName}@${selector}" is not a valid string.`,
-        );
-      }
-    }
-
-    return value;
+  withStyles(statement: Statement | StatementCallback, options?: HOCOptions = {}): HOCWrapper {
+    return withStyles(this, statement, options);
   }
 }

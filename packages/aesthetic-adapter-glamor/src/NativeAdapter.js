@@ -6,25 +6,12 @@
 
 import { Adapter } from 'aesthetic';
 import { css } from 'glamor';
+import deepMerge from 'lodash.merge';
 
-import type { Statement, StyleSheet } from '../../types';
+import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class GlamorAdapter extends Adapter {
-  transform(styleName: string, statement: Statement): StyleSheet {
-    if (__DEV__) {
-      if (this.native) {
-        throw new Error('Glamor does not support React Native.');
-      }
-    }
-
-    const output = {};
-
-    Object.keys(statement).forEach((selector) => {
-      const value = statement[selector];
-
-      output[selector] = (typeof value === 'string') ? value : String(css(value));
-    });
-
-    return output;
+  transform(...styles: StyleDeclaration[]): ClassName {
+    return String(css(deepMerge({}, ...styles)));
   }
 }

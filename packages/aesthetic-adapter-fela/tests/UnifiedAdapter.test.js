@@ -1,13 +1,11 @@
 /* eslint-disable sort-keys */
 
 import { createRenderer } from 'fela';
-import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -20,6 +18,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
+import { renderFelaStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   let instance;
@@ -31,9 +30,8 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('fela', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'a b c d e f g h i j k l m n o p q r s t u v w x',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button))
+      .toBe('a b c d e f g h i j k l m n o p q r s t u v w x');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -76,12 +74,9 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('fela', SYNTAX_PROPERTIES)).toEqual({
-      props: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('a b c');
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{color:black}.b{display:inline}.c{margin:10px}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
@@ -97,23 +92,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{position:fixed}.b::before{position:absolute}.c:hover{position:static}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('fela', SYNTAX_DOCUMENT);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -125,12 +111,9 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'a b',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('a b');
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...);background:red}.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex;display:box;display:flex-box}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @font-face', () => {
@@ -143,17 +126,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('fela', SYNTAX_FONT_FACE)).toEqual({
-      font: 'a b',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('a b');
 
-    expect(renderToString(instance.fela))
-      .toBe("@font-face{font-family:\"Roboto\";font-style:normal;font-weight:normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype')}.a{font-family:Roboto}.b{font-size:20px}");
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -168,12 +148,9 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('fela', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('a b c');
 
-    expect(renderToString(instance.fela))
-      .toBe('@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @media', () => {
@@ -189,23 +166,20 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('a b c');
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -222,17 +196,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('fela', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'a b c',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('a b c');
 
-    expect(renderToString(instance.fela))
-      .toBe('.a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}');
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('fela', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });

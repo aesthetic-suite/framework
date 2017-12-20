@@ -7,6 +7,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
+import { renderTSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   let instance;
@@ -15,28 +16,35 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     instance = new TypeStyleAdapter();
   });
 
-  it('errors for no React Native support', () => {
-    instance.native = true;
-
-    expect(() => instance.transform()).toThrowError('TypeStyle does not support React Native.');
-  });
-
-  it('ignores string class names', () => {
-    expect(instance.transform('typestyle', {
-      button: 'button',
-    })).toEqual({
-      button: 'button',
-    });
-  });
-
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('typestyle', SYNTAX_NATIVE_PARTIAL)).toEqual({
-      button: 'f7tlree',
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('f7tlree');
+  });
+
+  it('combines different style declarations into unique class names', () => {
+    const sheet = instance.create({
+      foo: {
+        color: 'red',
+        display: 'block',
+      },
+      bar: {
+        color: 'green',
+        margin: 5,
+      },
+      baz: {
+        color: 'blue',
+        padding: 5,
+      },
     });
+
+    expect(instance.transform(sheet.foo)).toBe('fi2v7vn');
+    expect(instance.transform(sheet.bar)).toBe('f13zjou3');
+    expect(instance.transform(sheet.baz)).toBe('fv7opsh');
+    expect(instance.transform(sheet.foo, sheet.baz)).toBe('f2xyygz');
+    expect(instance.transform(sheet.bar, sheet.foo)).toBe('f14rya1t');
   });
 
   it('handles pseudos', () => {
-    expect(instance.transform('typestyle', {
+    expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
         $nest: {
@@ -48,67 +56,49 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
           },
         },
       },
-    })).toEqual({
-      pseudo: 'fh5c9i2',
-    });
+    }).pseudo)).toBe('fh5c9i2');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fh5c9i2{position:fixed}.fh5c9i2 :hover{position:static}.fh5c9i2 ::before{position:absolute}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       fallback: {
         background: ['red', 'linear-gradient(...)'],
         display: ['box', 'flex-box', 'flex'],
       },
-    };
+    }).fallback)).toBe('fxr1ybm');
 
-    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
-      fallback: 'fxr1ybm',
-    });
-
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
     fontFace(FONT_ROBOTO_FLAT_SRC); // No return
 
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       font: {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    };
+    }).font)).toBe('fd14wa4');
 
-    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
-      font: 'fd14wa4',
-    });
-
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fd14wa4{font-family:Roboto;font-size:20px}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       animation: {
         animationName: keyframes(KEYFRAME_FADE),
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    };
+    }).animation)).toBe('f14e9xg1');
 
-    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
-      animation: 'f14e9xg1',
-    });
-
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       media: {
         color: 'red',
         $nest: {
@@ -120,18 +110,13 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
           },
         },
       },
-    };
+    }).media)).toBe('fuxmg1k');
 
-    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
-      media: 'fuxmg1k',
-    });
-
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    const nativeSyntax = {
+    expect(instance.transform(instance.create({
       sup: {
         display: 'block',
         $nest: {
@@ -143,13 +128,8 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
           },
         },
       },
-    };
+    }).sup)).toBe('f6m6wzj');
 
-    expect(instance.transform('typestyle', nativeSyntax)).toEqual({
-      sup: 'f6m6wzj',
-    });
-
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 });

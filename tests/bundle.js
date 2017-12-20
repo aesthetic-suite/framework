@@ -1,4 +1,4 @@
-/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line */
+/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line, react/forbid-prop-types */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -9,7 +9,6 @@ import { create as createJSS } from 'jss';
 import jssPreset from 'jss-preset-default';
 import Aesthetic from '../packages/aesthetic/src/Aesthetic';
 import createStyler from '../packages/aesthetic/src/createStyler';
-import classes from '../packages/aesthetic/src/classes';
 import ThemeProvider from '../packages/aesthetic/src/ThemeProvider';
 import AphroditeAdapter from '../packages/aesthetic-adapter-aphrodite/src/UnifiedAdapter';
 import FelaAdapter from '../packages/aesthetic-adapter-fela/src/UnifiedAdapter';
@@ -17,9 +16,9 @@ import GlamorAdapter from '../packages/aesthetic-adapter-glamor/src/UnifiedAdapt
 import JSSAdapter from '../packages/aesthetic-adapter-jss/src/UnifiedAdapter';
 import TypeStyleAdapter from '../packages/aesthetic-adapter-typestyle/src/UnifiedAdapter';
 
-function createStyledComponent(adapter, component) {
+function createStyledComponent(adapter, Component) {
   const aesthetic = new Aesthetic(adapter);
-  const style = createStyler(aesthetic);
+  const { style, transform } = createStyler(aesthetic);
 
   aesthetic.registerTheme('default', {
     unit: 8,
@@ -39,6 +38,10 @@ function createStyledComponent(adapter, component) {
 
   // Log the objects so we can inspect them
   console.log(adapter.constructor.name.replace('UnifiedAdapter', ''), aesthetic);
+
+  function WrappedComponent(props) {
+    return <Component {...props} classes={transform} />;
+  }
 
   return style(({
     unit,
@@ -72,20 +75,24 @@ function createStyledComponent(adapter, component) {
     button__primary: {
       backgroundColor: primary,
     },
-  }))(component);
+  }))(WrappedComponent);
 }
 
-function Button({ children, classNames, primary = false }) {
-  console.log('Button', 'classNames', classNames);
+function Button({
+  children,
+  classes,
+  styles,
+  primary = false,
+}) {
+  const className = classes(
+    styles.button,
+    primary && styles.button__primary,
+  );
+
+  console.log('Button', 'classNames', styles, className);
 
   return (
-    <button
-      type="button"
-      className={classes(
-        classNames.button,
-        primary && classNames.button__primary,
-      )}
-    >
+    <button type="button" className={className}>
       {children}
     </button>
   );
@@ -93,8 +100,9 @@ function Button({ children, classNames, primary = false }) {
 
 Button.propTypes = {
   children: PropTypes.node,
-  classNames: PropTypes.objectOf(PropTypes.string),
+  classes: PropTypes.func,
   primary: PropTypes.bool,
+  styles: PropTypes.object,
 };
 
 const AphroditeButton = createStyledComponent(new AphroditeAdapter(), Button);

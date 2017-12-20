@@ -53,15 +53,3 @@ const aesthetic = new Aesthetic(new FelaAdapter(createRenderer({
   selectorPrefix: 'foo-',
 })));
 ```
-
-### React Native Support
-
-Fela supports React Native through the `fela-native` package.
-
-```javascript
-import Aesthetic from 'aesthetic-native';
-import FelaAdapter from 'aesthetic-adapter-fela';
-import { createRenderer } from 'fela-native';
-
-const aesthetic = new Aesthetic(new FelaAdapter(createRenderer()));
-```

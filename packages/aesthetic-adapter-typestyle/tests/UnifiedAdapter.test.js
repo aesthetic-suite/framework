@@ -4,7 +4,6 @@ import UnifiedTypeStyleAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
-  SYNTAX_DOCUMENT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -17,6 +16,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
+import { renderTSStyles } from '../../../tests/helpers';
 
 describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   let instance;
@@ -26,9 +26,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform('typestyle', SYNTAX_UNIFIED_FULL)).toEqual({
-      button: 'fkp30lv',
-    });
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe('fkp30lv');
   });
 
   it('converts unified syntax to native syntax', () => {
@@ -73,12 +71,9 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
   it('handles properties', () => {
     expect(instance.syntax.convert(SYNTAX_PROPERTIES)).toEqual(SYNTAX_PROPERTIES);
 
-    expect(instance.transform('typestyle', SYNTAX_PROPERTIES)).toEqual({
-      props: 'f1tzsa69',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PROPERTIES).props)).toBe('f1tzsa69');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f1tzsa69{color:black;display:inline;margin:10px}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
@@ -96,23 +91,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_PSEUDO)).toEqual({
-      pseudo: 'fmow1iy',
-    });
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('fmow1iy');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @charset', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_CHARSET);
-    }).toThrowError();
-  });
-
-  it('handles @document', () => {
-    expect(() => {
-      instance.transform('typestyle', SYNTAX_DOCUMENT);
+      instance.transform(instance.create(SYNTAX_CHARSET));
     }).toThrowError();
   });
 
@@ -124,12 +110,9 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_FALLBACKS)).toEqual({
-      fallback: 'fxr1ybm',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FALLBACKS).fallback)).toBe('fxr1ybm');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @font-face', () => {
@@ -142,17 +125,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
     instance.syntax.fontFaces = {};
 
-    expect(instance.transform('typestyle', SYNTAX_FONT_FACE)).toEqual({
-      font: 'fd14wa4',
-    });
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('fd14wa4');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe("@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fd14wa4{font-family:Roboto;font-size:20px}");
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @import', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_IMPORT);
+      instance.transform(instance.create(SYNTAX_IMPORT));
     }).toThrowError();
   });
 
@@ -167,12 +147,9 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform('typestyle', SYNTAX_KEYFRAMES)).toEqual({
-      animation: 'f14e9xg1',
-    });
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('f14e9xg1');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @media', () => {
@@ -190,23 +167,20 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_MEDIA_QUERY)).toEqual({
-      media: 'fuxmg1k',
-    });
+    expect(instance.transform(instance.create(SYNTAX_MEDIA_QUERY).media)).toBe('fuxmg1k');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @namespace', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_NAMESPACE);
+      instance.transform(instance.create(SYNTAX_NAMESPACE));
     }).toThrowError();
   });
 
   it('handles @page', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_PAGE);
+      instance.transform(instance.create(SYNTAX_PAGE));
     }).toThrowError();
   });
 
@@ -225,17 +199,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
       },
     });
 
-    expect(instance.transform('typestyle', SYNTAX_SUPPORTS)).toEqual({
-      sup: 'f6m6wzj',
-    });
+    expect(instance.transform(instance.create(SYNTAX_SUPPORTS).sup)).toBe('f6m6wzj');
 
-    expect(instance.typeStyle.getStyles())
-      .toBe('.f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}');
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles @viewport', () => {
     expect(() => {
-      instance.transform('typestyle', SYNTAX_VIEWPORT);
+      instance.transform(instance.create(SYNTAX_VIEWPORT));
     }).toThrowError();
   });
 });
