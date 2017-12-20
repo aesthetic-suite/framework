@@ -9,7 +9,6 @@ import { StyleSheet, css } from 'aphrodite';
 
 import type {
   ClassName,
-  Statement,
   StyleDeclaration,
   StyleSheet as AestheticStyleSheet,
 } from '../../types';
@@ -23,8 +22,8 @@ export default class AphroditeAdapter extends Adapter {
     this.aphrodite = aphrodite || StyleSheet;
   }
 
-  create(statement: Statement): AestheticStyleSheet {
-    return this.aphrodite.create(statement);
+  create(styleSheet: AestheticStyleSheet): AestheticStyleSheet {
+    return this.aphrodite.create(styleSheet);
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {

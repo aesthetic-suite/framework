@@ -12,7 +12,6 @@ import { TypeStyle } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
-  Statement,
   Style,
   StyleBlock,
   StyleDeclaration,
@@ -40,19 +39,19 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  create(statement: Statement): StyleSheet {
-    return super.create(this.syntax.convert(statement));
+  create(styleSheet: StyleSheet): StyleSheet {
+    return super.create(this.syntax.convert(styleSheet));
   }
 
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
     declaration[property] = [...style, declaration[property]].filter(Boolean);
   }
 
-  handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
+  handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
     style.map(face => this.typeStyle.fontFace(formatFontFace(face)));
   };
 
-  handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {
+  handleKeyframe = (styleSheet: StyleSheet, style: StyleBlock, animationName: string) => {
     this.syntax.keyframesCache[animationName] = this.typeStyle.keyframes(style);
   };
 

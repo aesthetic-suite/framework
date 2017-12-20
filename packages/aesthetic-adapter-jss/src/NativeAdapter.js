@@ -9,7 +9,6 @@ import JSS, { create } from 'jss';
 
 import type {
   ClassName,
-  Statement,
   StyleDeclaration,
   StyleSheet,
 } from '../../types';
@@ -23,8 +22,8 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  create(statement: Statement): StyleSheet {
-    this.sheet = this.jss.createStyleSheet(statement).attach();
+  create(styleSheet: StyleSheet): StyleSheet {
+    this.sheet = this.jss.createStyleSheet(styleSheet).attach();
 
     return this.sheet.classes;
   }

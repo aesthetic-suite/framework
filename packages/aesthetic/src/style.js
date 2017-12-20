@@ -14,10 +14,9 @@ import type {
   HOCOptions,
   HOCWrappedComponent,
   HOCWrapper,
-  Statement,
-  StatementCallback,
   StyleSheet,
-  ThemeDeclaration,
+  StyleSheetCallback,
+  ThemeSheet,
 } from '../../types';
 
 type StyleProps = {
@@ -26,7 +25,7 @@ type StyleProps = {
 
 type StyleState = {
   styles?: StyleSheet,
-  theme?: ThemeDeclaration,
+  theme?: ThemeSheet,
   themeName: string,
 };
 
@@ -35,7 +34,7 @@ let instanceID = 0;
 
 export default function style(
   aesthetic: Aesthetic,
-  statement: Statement | StatementCallback = {},
+  styleSheet: StyleSheet | StyleSheetCallback = {},
   options?: HOCOptions = {},
 ): HOCWrapper {
   return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
@@ -80,7 +79,7 @@ export default function style(
     const ParentComponent = (pure && React.PureComponent) ? React.PureComponent : React.Component;
 
     // Set base styles
-    aesthetic.setStyles(styleName, statement, extendFrom);
+    aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
     // $FlowIgnore Silence polymorphic errors
     class StyledComponent extends ParentComponent<StyleProps, StyleState> {
@@ -104,7 +103,7 @@ export default function style(
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStatement?: Statement | StatementCallback = {},
+        customStyleSheet?: StyleSheet | StyleSheetCallback = {},
         extendOptions?: HOCOptions = {},
       ): HOCComponent {
         if (__DEV__) {
@@ -113,7 +112,7 @@ export default function style(
           }
         }
 
-        return style(aesthetic, customStatement, {
+        return style(aesthetic, customStyleSheet, {
           ...options,
           ...extendOptions,
           extendFrom: styleName,

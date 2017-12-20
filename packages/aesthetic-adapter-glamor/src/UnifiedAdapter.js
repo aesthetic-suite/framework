@@ -12,7 +12,6 @@ import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
 import type {
-  Statement,
   Style,
   StyleBlock,
   StyleDeclaration,
@@ -37,19 +36,19 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  create(statement: Statement): StyleSheet {
-    return super.create(this.syntax.convert(statement));
+  create(styleSheet: StyleSheet): StyleSheet {
+    return super.create(this.syntax.convert(styleSheet));
   }
 
   // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont
-  handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
+  handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
     style.forEach((face) => {
       css.fontFace(formatFontFace(face));
     });
   };
 
   // https://github.com/threepointone/glamor/blob/master/docs/api.md#csskeyframestimeline
-  handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {
+  handleKeyframe = (styleSheet: StyleSheet, style: StyleBlock, animationName: string) => {
     this.syntax.keyframesCache[animationName] = css.keyframes(animationName, style);
   };
 

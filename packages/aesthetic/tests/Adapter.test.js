@@ -8,11 +8,11 @@ describe('aesthetic/Adapter', () => {
   });
 
   describe('create()', () => {
-    it('returns the statement as a stylesheet', () => {
-      const statement = { foo: {} };
-      const stylesheet = new Adapter().create(statement);
+    it('returns the styleSheet as a stylesheet', () => {
+      const styleSheet = { foo: {} };
+      const stylesheet = new Adapter().create(styleSheet);
 
-      expect(statement).toEqual(stylesheet);
+      expect(styleSheet).toEqual(stylesheet);
     });
   });
 

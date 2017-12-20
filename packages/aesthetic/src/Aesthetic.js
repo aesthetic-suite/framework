@@ -15,11 +15,10 @@ import type {
   ClassName,
   HOCOptions,
   HOCWrapper,
-  Statement,
-  StatementCallback,
   StyleDeclaration,
   StyleSheet,
-  ThemeDeclaration,
+  StyleSheetCallback,
+  ThemeSheet,
 } from '../../types';
 
 export default class Aesthetic {
@@ -35,9 +34,9 @@ export default class Aesthetic {
 
   parents: { [childStyleName: string]: string } = {};
 
-  styles: { [styleName: string]: Statement | StatementCallback } = {};
+  styles: { [styleName: string]: StyleSheet | StyleSheetCallback } = {};
 
-  themes: { [themeName: string]: ThemeDeclaration } = {};
+  themes: { [themeName: string]: ThemeSheet } = {};
 
   constructor(adapter: Adapter, options?: Object = {}) {
     this.options = {
@@ -62,7 +61,7 @@ export default class Aesthetic {
       }
     }
 
-    // Extract statement from callback
+    // Extract styleSheet from callback
     if (typeof styleSheet === 'function') {
       styleSheet = styleSheet(themeName ? this.getTheme(themeName) : {}, props);
     }
@@ -85,8 +84,8 @@ export default class Aesthetic {
   extendTheme(
     parentThemeName: string,
     themeName: string,
-    theme?: ThemeDeclaration = {},
-    globals?: Statement = {},
+    theme?: ThemeSheet = {},
+    globals?: StyleSheet = {},
   ): this {
     return this.registerTheme(
       themeName,
@@ -98,7 +97,7 @@ export default class Aesthetic {
   /**
    * Return a themes style object or throw an error.
    */
-  getTheme(themeName?: string = ''): ThemeDeclaration {
+  getTheme(themeName?: string = ''): ThemeSheet {
     const { defaultTheme } = this.options;
 
     let theme = this.themes[themeName];
@@ -121,8 +120,8 @@ export default class Aesthetic {
    */
   registerTheme(
     themeName: string,
-    theme?: ThemeDeclaration = {},
-    globals?: Statement = {},
+    theme?: ThemeSheet = {},
+    globals?: StyleSheet = {},
   ): this {
     if (__DEV__) {
       if (this.themes[themeName]) {
@@ -165,19 +164,19 @@ export default class Aesthetic {
    */
   setStyles(
     styleName: string,
-    statement: Statement | StatementCallback,
+    styleSheet: StyleSheet | StyleSheetCallback,
     extendFrom?: string = '',
   ): this {
     if (__DEV__) {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
 
-      } else if (!isObject(statement) && typeof statement !== 'function') {
+      } else if (!isObject(styleSheet) && typeof styleSheet !== 'function') {
         throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
       }
     }
 
-    this.styles[styleName] = statement;
+    this.styles[styleName] = styleSheet;
 
     if (extendFrom) {
       if (__DEV__) {
@@ -230,7 +229,7 @@ export default class Aesthetic {
   /**
    * Utility method for wrapping a component with a styles HOC.
    */
-  withStyles(statement: Statement | StatementCallback, options?: HOCOptions = {}): HOCWrapper {
-    return withStyles(this, statement, options);
+  withStyles(styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions = {}): HOCWrapper {
+    return withStyles(this, styleSheet, options);
   }
 }

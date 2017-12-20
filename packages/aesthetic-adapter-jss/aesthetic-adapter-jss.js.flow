@@ -10,7 +10,7 @@ declare module 'aesthetic-adapter-jss' {
 }
 
 declare module 'aesthetic-adapter-jss/unified' {
-  import type { Statement } from 'aesthetic';
+  import type { StyleSheet } from 'aesthetic';
 
   declare export default class UnifiedJSSAdapter extends JSSAdapter {
     syntax: UnifiedSyntax;

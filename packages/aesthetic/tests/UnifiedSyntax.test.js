@@ -48,7 +48,7 @@ describe('aesthetic/UnifiedSyntax', () => {
     }).toThrowError('Adapter does not support "@foo".');
   });
 
-  it('converts a full statement', () => {
+  it('converts a full styleSheet', () => {
     expect(instance.convert(SYNTAX_UNIFIED_FULL)).toEqual({
       '@font-face': [FONT_ROBOTO],
       '@keyframes fade': KEYFRAME_FADE,

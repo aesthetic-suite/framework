@@ -10,7 +10,7 @@ import { createRenderer, combineRules } from 'fela';
 import { render } from 'fela-dom';
 
 import type { Renderer } from 'fela';
-import type { StyleDeclaration } from '../../types';
+import type { ClassName, StyleDeclaration } from '../../types';
 
 export default class FelaAdapter extends Adapter {
   fela: Renderer;
@@ -23,7 +23,7 @@ export default class FelaAdapter extends Adapter {
     render(this.fela, createStyleElement('fela'));
   }
 
-  transform(...styles: StyleDeclaration[]): string {
+  transform(...styles: StyleDeclaration[]): ClassName {
     return this.fela.renderRule(combineRules(...styles.map(style => (
       (typeof style === 'function') ? style : () => style
     ))));

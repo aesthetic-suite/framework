@@ -13,12 +13,10 @@ import toArray from './helpers/toArray';
 import type {
   AtRule,
   EventCallback,
-  Statement,
-  StatementUnified,
   Style,
   StyleBlock,
   StyleDeclaration,
-  StyleDeclarationUnified,
+  StyleSheet,
 } from '../../types';
 
 export const GLOBAL_RULES: AtRule[] = [
@@ -60,17 +58,28 @@ export default class UnifiedSyntax {
   }
 
   /**
+   * Check that a value is a style declaration block.
+   */
+  checkBlock(value: *): Object {
+    if (isObject(value)) {
+      return value;
+    }
+
+    throw new Error('Must be a style declaration.');
+  }
+
+  /**
    * Convert a mapping of style declarations to their native syntax.
    */
-  convert(statement: StatementUnified): Statement {
-    const prevStatement = { ...statement };
-    const nextStatement = {};
+  convert(styleSheet: StyleSheet): StyleSheet {
+    const prevStyleSheet = { ...styleSheet };
+    const nextStyleSheet = {};
 
     // Extract global at-rules first
     // eslint-disable-next-line complexity
     GLOBAL_RULES.forEach((rule) => {
-      if (!prevStatement[rule]) {
-        delete prevStatement[rule];
+      if (!prevStyleSheet[rule]) {
+        delete prevStyleSheet[rule];
 
         return;
       }
@@ -79,10 +88,10 @@ export default class UnifiedSyntax {
         case '@charset':
         case '@import':
         case '@namespace': {
-          const path = prevStatement[rule];
+          const path = prevStyleSheet[rule];
 
           if (typeof path === 'string') {
-            this.emit(rule, [nextStatement, path]);
+            this.emit(rule, [nextStyleSheet, path]);
           } else if (__DEV__) {
             throw new Error(`${rule} value must be a string.`);
           }
@@ -91,40 +100,41 @@ export default class UnifiedSyntax {
         }
 
         case '@font-face': {
-          const faces = prevStatement['@font-face'];
+          const faces = prevStyleSheet['@font-face'];
 
-          Object.keys(faces).forEach((fontFamily) => {
-            const fontFaces = toArray(faces[fontFamily]).map(font => ({
-              ...font,
-              fontFamily,
-            }));
-
-            this.emit(rule, [nextStatement, fontFaces, fontFamily]);
-
-            if (__DEV__ && this.fontFaces[fontFamily]) {
-              throw new Error(`@font-face "${fontFamily}" already exists.`);
+          Object.keys(this.checkBlock(faces)).forEach((fontFamily) => {
+            if (__DEV__) {
+              if (this.fontFaces[fontFamily]) {
+                throw new Error(`@font-face "${fontFamily}" already exists.`);
+              }
             }
 
-            this.fontFaces[fontFamily] = fontFaces;
+            // $FlowIgnore Block check here isnt working
+            this.fontFaces[fontFamily] = toArray(faces[fontFamily])
+              .map(font => ({
+                ...font,
+                fontFamily,
+              }));
+
+            this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily]);
           });
 
           break;
         }
 
         case '@keyframes': {
-          const frames = prevStatement['@keyframes'];
+          const frames = prevStyleSheet['@keyframes'];
 
           Object.keys(frames).forEach((animationName) => {
-            const keyframes = frames[animationName];
-
-            this.emit(rule, [nextStatement, keyframes, animationName]);
-
-            if (__DEV__ && this.keyframes[animationName]) {
-              throw new Error(`@keyframes "${animationName}" already exists.`);
+            if (__DEV__) {
+              if (this.keyframes[animationName]) {
+                throw new Error(`@keyframes "${animationName}" already exists.`);
+              }
             }
 
-            // $FlowIgnore TODO
-            this.keyframes[animationName] = keyframes;
+            this.keyframes[animationName] = this.checkBlock(frames[animationName]);
+
+            this.emit(rule, [nextStyleSheet, this.keyframes[animationName], animationName]);
           });
 
           break;
@@ -132,10 +142,10 @@ export default class UnifiedSyntax {
 
         case '@page':
         case '@viewport': {
-          const style = prevStatement[rule];
+          const style = prevStyleSheet[rule];
 
           if (isObject(style)) {
-            this.emit(rule, [nextStatement, style]);
+            this.emit(rule, [nextStyleSheet, style]);
           } else if (__DEV__) {
             throw new Error(`${rule} must be a style object.`);
           }
@@ -148,14 +158,14 @@ export default class UnifiedSyntax {
           break;
       }
 
-      delete prevStatement[rule];
+      delete prevStyleSheet[rule];
     });
 
     // Convert declarations last
-    Object.keys(prevStatement).forEach((selector) => {
-      const declaration = prevStatement[selector];
+    Object.keys(prevStyleSheet).forEach((selector) => {
+      const declaration = prevStyleSheet[selector];
 
-      delete prevStatement[selector];
+      delete prevStyleSheet[selector];
 
       if (!declaration) {
         return;
@@ -169,24 +179,24 @@ export default class UnifiedSyntax {
 
       // Class name
       } else if (typeof declaration === 'string') {
-        nextStatement[selector] = declaration;
+        nextStyleSheet[selector] = declaration;
 
       // Style object
       } else if (isObject(declaration)) {
-        nextStatement[selector] = this.convertDeclaration(selector, declaration);
+        nextStyleSheet[selector] = this.convertDeclaration(selector, declaration);
 
       } else if (__DEV__) {
         throw new Error(`Invalid style declaration for "${selector}".`);
       }
     });
 
-    return nextStatement;
+    return nextStyleSheet;
   }
 
   /**
    * Convert a style declaration including local at-rules and properties.
    */
-  convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration {
+  convertDeclaration(selector: string, declaration: StyleDeclaration): StyleDeclaration {
     const prevDeclaration = { ...declaration };
     const nextDeclaration = {};
 
@@ -258,8 +268,8 @@ export default class UnifiedSyntax {
   /**
    * Handle @charset.
    */
-  handleCharset(statement: Statement, style: string) {
-    statement['@charset'] = style;
+  handleCharset(styleSheet: StyleSheet, style: string) {
+    styleSheet['@charset'] = style;
   }
 
   /**
@@ -272,26 +282,26 @@ export default class UnifiedSyntax {
   /**
    * Handle @font-face.
    */
-  handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string) {
-    if (typeof statement['@font-face'] === 'undefined') {
-      statement['@font-face'] = [];
+  handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) {
+    if (Array.isArray(styleSheet['@font-face'])) {
+      styleSheet['@font-face'].push(...style);
+    } else {
+      styleSheet['@font-face'] = style;
     }
-
-    statement['@font-face'].push(...style);
   }
 
   /**
    * Handle @namespace.
    */
-  handleImport(statement: Statement, style: string) {
-    statement['@import'] = style;
+  handleImport(styleSheet: StyleSheet, style: string) {
+    styleSheet['@import'] = style;
   }
 
   /**
    * Handle @keyframes.
    */
-  handleKeyframes(statement: Statement, style: StyleBlock, animationName: string) {
-    statement[`@keyframes ${animationName}`] = style;
+  handleKeyframes(styleSheet: StyleSheet, style: StyleBlock, animationName: string) {
+    styleSheet[`@keyframes ${animationName}`] = style;
   }
 
   /**
@@ -304,15 +314,15 @@ export default class UnifiedSyntax {
   /**
    * Handle @namespace.
    */
-  handleNamespace(statement: Statement, style: string) {
-    statement['@namespace'] = style;
+  handleNamespace(styleSheet: StyleSheet, style: string) {
+    styleSheet['@namespace'] = style;
   }
 
   /**
    * Handle @page.
    */
-  handlePage(statement: Statement, style: StyleBlock) {
-    statement['@page'] = style;
+  handlePage(styleSheet: StyleSheet, style: StyleBlock) {
+    styleSheet['@page'] = style;
   }
 
   /**
@@ -332,8 +342,8 @@ export default class UnifiedSyntax {
   /**
    * Handle @viewport.
    */
-  handleViewport(statement: Statement, style: StyleBlock) {
-    statement['@viewport'] = style;
+  handleViewport(styleSheet: StyleSheet, style: StyleBlock) {
+    styleSheet['@viewport'] = style;
   }
 
   /**

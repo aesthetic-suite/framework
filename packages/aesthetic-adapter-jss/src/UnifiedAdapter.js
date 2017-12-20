@@ -15,7 +15,6 @@ import type {
   Style,
   StyleBlock,
   StyleDeclaration,
-  Statement,
   StyleSheet,
 } from '../../types';
 
@@ -33,26 +32,24 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       .on('@page', this.syntax.createUnsupportedHandler('@page'));
   }
 
-  create(statement: Statement): StyleSheet {
-    return super.create(this.syntax.convert(statement));
+  create(styleSheet: StyleSheet): StyleSheet {
+    return super.create(this.syntax.convert(styleSheet));
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
-    if (!Array.isArray(declaration.fallbacks)) {
-      declaration.fallbacks = [];
-    }
+    const fallbacks = style.map(fallback => ({ [property]: fallback }));
 
-    style.forEach((fallback) => {
-      declaration.fallbacks.push({
-        [property]: fallback,
-      });
-    });
+    if (Array.isArray(declaration.fallbacks)) {
+      declaration.fallbacks.push(...fallbacks);
+    } else {
+      declaration.fallbacks = fallbacks;
+    }
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
-  handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string) {
-    statement['@font-face'] = style.map(face => formatFontFace(face));
+  handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) {
+    styleSheet['@font-face'] = style.map(face => formatFontFace(face));
   }
 
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule

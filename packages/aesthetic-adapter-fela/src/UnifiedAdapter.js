@@ -14,7 +14,6 @@ import type {
   Style,
   StyleBlock,
   StyleDeclaration,
-  Statement,
   StyleSheet,
 } from '../../types';
 
@@ -36,13 +35,13 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
       .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
   }
 
-  create(statement: Statement): StyleSheet {
-    return super.create(this.syntax.convert(statement));
+  create(styleSheet: StyleSheet): StyleSheet {
+    return super.create(this.syntax.convert(styleSheet));
   }
 
   // http://fela.js.org/docs/basics/Fonts.html
   // http://fela.js.org/docs/basics/Renderer.html#renderfont
-  handleFontFace = (statement: Statement, style: StyleBlock[], fontFamily: string) => {
+  handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
     this.syntax.fontFacesCache[fontFamily] = style.map((face) => {
       const { srcPaths, local, ...props } = face;
 
@@ -55,7 +54,7 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
 
   // http://fela.js.org/docs/basics/Keyframes.html
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
-  handleKeyframe = (statement: Statement, style: StyleBlock, animationName: string) => {
+  handleKeyframe = (styleSheet: StyleSheet, style: StyleBlock, animationName: string) => {
     this.syntax.keyframesCache[animationName] = this.fela.renderKeyframe(() => style);
   };
 

@@ -25,17 +25,17 @@ declare module 'aesthetic' {
 
   declare export type EventCallback =
     // @charset
-    ((statement: Statement, style: string) => void) |
+    ((styleSheet: StyleSheet, style: string) => void) |
     // @import
-    ((statement: Statement, style: string) => void) |
+    ((styleSheet: StyleSheet, style: string) => void) |
     // @namespace
-    ((statement: Statement, style: string) => void) |
+    ((styleSheet: StyleSheet, style: string) => void) |
     // @page, @viewport
-    ((statement: Statement, style: StyleBlock) => void) |
+    ((styleSheet: StyleSheet, style: StyleBlock) => void) |
     // @font-face
-    ((statement: Statement, style: StyleBlock[], fontFamily: string) => void) |
+    ((styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => void) |
     // @keyframes
-    ((statement: Statement, style: StyleBlock, animationName: string) => void) |
+    ((styleSheet: StyleSheet, style: StyleBlock, animationName: string) => void) |
     // @fallbacks
     ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
     // @media, @supports
@@ -56,52 +56,44 @@ declare module 'aesthetic' {
 
   declare export type HOCWrappedComponent = React$ComponentType<*>;
 
-  declare export type Statement = {
-    '@font-face'?: StyleBlock[],
-    // At-rule values
-    // CSS class names
-    // Style objects
-    [selector: string]: string | ClassName | Style | StyleDeclaration,
-  };
-
-  declare export type StatementUnified = {
-    '@charset': string,
-    '@font-face': StyleBlock,
-    '@import': string,
-    '@keyframes': StyleBlock,
-    '@namespace': string,
-    '@page': StyleBlock,
-    '@viewport': StyleBlock,
-    // CSS class names
-    // Style objects
-    [selector: string]: ClassName | StyleDeclarationUnified,
-  };
+  declare export type HOCWrapper = (component: HOCWrappedComponent) => HOCComponent;
 
   declare export type Style = string | number | StyleBlock | Style[];
 
   declare export type StyleBlock = { [property: string]: Style };
 
-  declare export type StatementCallback = (theme: ThemeDeclaration, prevStyles: Statement) => Statement;
-
-  declare export type StyleDeclaration = { [property: string]: Style };
-
-  declare export type StyleDeclarationUnified = {
-    '@fallbacks': StyleBlock,
-    '@media': StyleBlock,
-    '@supports': StyleBlock,
+  declare export type StyleDeclaration = {
+    '@fallbacks'?: StyleBlock,
+    '@media'?: StyleBlock,
+    '@supports'?: StyleBlock,
     [property: string]: Style,
   };
 
-  declare export type ThemeDeclaration = StyleBlock;
+  declare export type StyleSheet = {
+    '@charset'?: string,
+    '@font-face'?: StyleBlock | StyleBlock[],
+    '@import'?: string,
+    '@keyframes'?: StyleBlock,
+    '@namespace'?: string,
+    '@page'?: StyleBlock,
+    '@viewport'?: StyleBlock,
+    // At-rule values
+    // CSS class names
+    // Style objects
+    [selector: string]: string | ClassName | StyleBlock | StyleDeclaration,
+  };
 
-  declare export type StyleSheet = { [selector: string]: ClassName };
+  declare export type StyleSheetCallback = (theme: ThemeSheet, props: Object) => StyleSheet;
+
+  declare export type ThemeSheet = StyleBlock;
 
   declare export class Adapter {
     options: Object;
     unifiedSyntax: boolean;
 
     constructor(options?: Object): this;
-    transform(styleName: string, statement: Statement): StyleSheet;
+    create(styleSheet: StyleSheet): StyleSheet;
+    transform(...styles: StyleDeclaration[]): ClassName;
   }
 
   declare export class ClassNameAdapter extends Adapter {}
@@ -113,57 +105,55 @@ declare module 'aesthetic' {
 
   declare export default class Aesthetic {
     adapter: Adapter;
-    cache: { [styleName: string]: StyleSheet };
     options: AestheticOptions;
     parents: { [childStyleName: string]: string };
-    styles: { [styleName: string]: Statement | StatementCallback };
-    themes: { [themeName: string]: ThemeDeclaration };
+    styles: { [styleName: string]: StyleSheet | StyleSheetCallback };
+    themes: { [themeName: string]: ThemeSheet };
 
     constructor(adapter: Adapter, options?: Object): this;
+    createStyleSheet(styleName: string, themeName?: string, props?: Object): StyleSheet;
     extendTheme(
       parentThemeName: string,
       themeName: string,
-      theme?: ThemeDeclaration,
-      globals?: Statement,
+      theme?: ThemeSheet,
+      globals?: StyleSheet,
     ): this;
-    getStyles(styleName: string, themeName?: string): Statement;
-    getTheme(themeName?: string): ThemeDeclaration;
+    getTheme(themeName?: string): ThemeSheet;
     registerTheme(
       themeName: string,
-      theme?: ThemeDeclaration,
-      globals?: Statement,
+      theme?: ThemeSheet,
+      globals?: StyleSheet,
     ): this;
     setAdapter(adapter: Adapter): this;
     setStyles(
       styleName: string,
-      statement: Statement | StatementCallback,
+      styleSheet: StyleSheet | StyleSheetCallback,
       extendFrom?: string,
     ): this;
-    transformStyles(styleName: string, themeName?: string): StyleSheet;
-    validateTransform(styleName: string, selector: string, value: ClassName): ClassName;
+    transformStyles(styles: StyleDeclaration[]): ClassName;
+    withStyles(styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions): HOCWrapper;
   }
 
   declare export function style(
     aesthetic: Aesthetic,
-    styles: Statement | StatementCallback,
+    styles: StyleSheet | StyleSheetCallback,
     options?: HOCOptions,
-  ): (HOCWrappedComponent) => HOCComponent;
+  ): HOCWrapper;
 
-  declare export function createStyler(aesthetic: Aesthetic): style;
-
-  declare export function classes(...values: *[]): string;
+  declare export function createStyler(aesthetic: Aesthetic): {
+    style: (styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions) => HOCWrapper,
+    transform: (...styles: StyleDeclaration[]) => ClassName,
+  };
 }
 
 declare module 'aesthetic/unified' {
   import type {
     AtRule,
     EventCallback,
-    Statement,
-    StatementUnified,
+    StyleSheet,
     Style,
     StyleBlock,
     StyleDeclaration,
-    StyleDeclarationUnified,
   } from 'aesthetic';
 
   declare export var GLOBAL_RULES: AtRule[];
@@ -176,22 +166,23 @@ declare module 'aesthetic/unified' {
     keyframes: { [animationName: string]: StyleBlock };
     keyframesCache: { [animationName: string]: string };
 
-    convert(statement: StatementUnified): Statement;
-    convertDeclaration(selector: string, declaration: StyleDeclarationUnified): StyleDeclaration;
+    checkBlock(value: *): Object;
+    convert(styleSheet: StyleSheet): StyleSheet;
+    convertDeclaration(selector: string, declaration: StyleDeclaration): StyleDeclaration;
     createUnsupportedHandler(rule: AtRule): () => void;
     emit(eventName: string, args: *[]): this;
-    handleCharset(statement: Statement, style: string): void;
-    handleDocument(statement: Statement, style: StyleBlock, url: string): void;
+    handleCharset(styleSheet: StyleSheet, style: string): void;
+    handleDocument(styleSheet: StyleSheet, style: StyleBlock, url: string): void;
     handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string): void;
-    handleFontFace(statement: Statement, style: StyleBlock[], fontFamily: string): void;
-    handleImport(statement: Statement, style: string): void;
-    handleKeyframes(statement: Statement, style: StyleBlock, animationName: string): void;
+    handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string): void;
+    handleImport(styleSheet: StyleSheet, style: string): void;
+    handleKeyframes(styleSheet: StyleSheet, style: StyleBlock, animationName: string): void;
     handleMedia(declaration: StyleDeclaration, style: StyleBlock, condition: string): void;
-    handleNamespace(statement: Statement, style: string): void;
-    handlePage(statement: Statement, style: StyleBlock): void;
+    handleNamespace(styleSheet: StyleSheet, style: string): void;
+    handlePage(styleSheet: StyleSheet, style: StyleBlock): void;
     handleProperty(declaration: StyleDeclaration, style: Style, property: string): void;
     handleSupports(declaration: StyleDeclaration, style: StyleBlock, condition: string): void;
-    handleViewport(statement: Statement, style: StyleBlock): void;
+    handleViewport(styleSheet: StyleSheet, style: StyleBlock): void;
     injectFontFaces(value: Style): Style[];
     injectKeyframes(value: Style): Style[];
     off(eventName: string): this;

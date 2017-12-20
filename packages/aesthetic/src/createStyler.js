@@ -10,13 +10,13 @@ import type {
   ClassName,
   HOCOptions,
   HOCWrapper,
-  StatementCallback,
   StyleDeclaration,
-  Statement,
+  StyleSheet,
+  StyleSheetCallback,
 } from '../../types';
 
 export default function createStyler(aesthetic: Aesthetic): {
-  style: (statement: Statement | StatementCallback, options?: HOCOptions) => HOCWrapper,
+  style: (styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions) => HOCWrapper,
   transform: (...styles: StyleDeclaration[]) => ClassName,
 } {
   if (__DEV__) {
@@ -26,8 +26,8 @@ export default function createStyler(aesthetic: Aesthetic): {
   }
 
   return {
-    style(statement: Statement | StatementCallback, options?: HOCOptions = {}): HOCWrapper {
-      return aesthetic.withStyles(statement, options);
+    style(styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions = {}): HOCWrapper {
+      return aesthetic.withStyles(styleSheet, options);
     },
     transform(...styles: StyleDeclaration[]): ClassName {
       return aesthetic.transformStyles(styles);

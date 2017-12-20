@@ -4,7 +4,7 @@
  * @flow
  */
 
-import type { ClassName, Statement, StyleDeclaration, StyleSheet } from '../../types';
+import type { ClassName, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class Adapter {
   options: Object = {};
@@ -14,14 +14,14 @@ export default class Adapter {
   }
 
   /**
-   * Create a stylesheet from a component's styles statement.
+   * Create a stylesheet from a component's style styleSheet.
    */
-  create(statement: Statement): StyleSheet {
-    return (statement: Object);
+  create(styleSheet: StyleSheet): StyleSheet {
+    return styleSheet;
   }
 
   /**
-   * Transform the unified or native syntax using the registered adapter.
+   * Transform the style declarations using the registered adapter.
    */
   transform(...styles: StyleDeclaration[]): ClassName {
     throw new Error(`${this.constructor.name} must define the \`transform\` method.`);

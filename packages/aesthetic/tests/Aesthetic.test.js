@@ -73,7 +73,7 @@ describe('aesthetic/Aesthetic', () => {
       });
     });
 
-    it('returns the statement', () => {
+    it('returns the styleSheet', () => {
       instance.styles.foo = {
         display: 'block',
       };
@@ -83,7 +83,7 @@ describe('aesthetic/Aesthetic', () => {
       });
     });
 
-    it('returns the statement from a callback', () => {
+    it('returns the styleSheet from a callback', () => {
       instance.styles.foo = () => ({
         display: 'block',
       });
