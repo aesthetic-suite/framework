@@ -26,6 +26,7 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', this.syntax.createUnsupportedHandler('@fallbacks'))
+      .on('@global', this.handleGlobal)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
       .on('@page', this.syntax.createUnsupportedHandler('@page'))
@@ -37,6 +38,13 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
   create(styleSheet: StyleSheet): StyleSheet {
     return super.create(this.syntax.convert(styleSheet));
+  }
+
+  handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
+    styleSheet.globals = {
+      ...styleSheet.globals,
+      [`*${selector}`]: declaration,
+    };
   }
 
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {

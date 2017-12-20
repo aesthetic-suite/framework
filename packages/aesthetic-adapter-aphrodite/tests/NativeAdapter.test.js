@@ -1,7 +1,6 @@
 /* eslint-disable sort-keys */
 
 import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import { StyleSheet as NoImpStyleSheet } from 'aphrodite/no-important';
 import AphroditeAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -16,7 +15,7 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
-    instance = new AphroditeAdapter(StyleSheet);
+    instance = new AphroditeAdapter();
   });
 
   afterEach(() => {
@@ -26,12 +25,6 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   it('can customize the aphrodite instance through the constructor', () => {
     const extension = { selectorHandler() {} };
     instance = new AphroditeAdapter([extension]);
-
-    expect(instance.aphrodite).not.toEqual(StyleSheet);
-  });
-
-  it('supports no important mode', () => {
-    instance = new AphroditeAdapter(NoImpStyleSheet);
 
     expect(instance.aphrodite).not.toEqual(StyleSheet);
   });
@@ -64,6 +57,23 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       .toBe('foo_1u9pmmq-o_O-baz_xw1a2w');
     expect(instance.transform(sheet.bar, sheet.foo))
       .toBe('bar_1etchdu-o_O-foo_1u9pmmq');
+  });
+
+  it('handles globals', () => {
+    instance.transform(instance.create({
+      globals: {
+        '*body': { margin: 0 },
+        '*html': { height: '100%' },
+        '*a': {
+          color: 'red',
+          ':hover': {
+            color: 'darkred',
+          },
+        },
+      },
+    }).globals);
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudos', () => {
