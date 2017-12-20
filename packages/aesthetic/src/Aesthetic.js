@@ -138,9 +138,8 @@ export default class Aesthetic {
     // Register the theme
     this.themes[themeName] = theme;
 
-    // Transform the global styles
-    // TODO
-    // this.adapter.transform(':root', globals);
+    // Create global styles
+    this.adapter.create(globals);
 
     return this;
   }

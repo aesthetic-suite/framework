@@ -105,6 +105,19 @@ export const SYNTAX_FONT_FACE = {
   },
 };
 
+export const SYNTAX_GLOBAL = {
+  '@global': {
+    body: { margin: 0 },
+    html: { height: '100%' },
+    a: {
+      color: 'red',
+      ':hover': {
+        color: 'darkred',
+      },
+    },
+  },
+};
+
 export const SYNTAX_KEYFRAMES = {
   '@keyframes': {
     fade: KEYFRAME_FADE,

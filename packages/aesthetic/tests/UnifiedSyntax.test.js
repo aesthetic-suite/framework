@@ -10,6 +10,7 @@ import {
   SYNTAX_CHARSET,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
@@ -212,6 +213,47 @@ describe('aesthetic/UnifiedSyntax', () => {
           instance.convert(SYNTAX_FONT_FACE);
           instance.convert(SYNTAX_FONT_FACE);
         }).toThrowError('@font-face "Roboto" already exists.');
+      });
+    });
+
+    describe('@global', () => {
+      beforeEach(() => {
+        instance.on('@global', (styleSheet, declaration, selector) => {
+          // eslint-disable-next-line no-param-reassign
+          styleSheet[selector] = declaration;
+        });
+      });
+
+      it('converts value', () => {
+        expect(instance.convert(SYNTAX_GLOBAL)).toEqual({
+          body: { margin: 0 },
+          html: { height: '100%' },
+          a: {
+            color: 'red',
+            ':hover': {
+              color: 'darkred',
+            },
+          },
+        });
+      });
+
+      it('triggers event handler', () => {
+        const spy = jest.fn();
+
+        instance.on('@global', spy);
+        instance.convert(SYNTAX_GLOBAL);
+
+        expect(spy).toHaveBeenCalledWith({}, { margin: 0 }, 'body');
+      });
+
+      it('errors if invalid value', () => {
+        expect(() => {
+          instance.convert({
+            '@global': {
+              foo: 123,
+            },
+          });
+        }).toThrowError('Invalid @global selector style declaration.');
       });
     });
 

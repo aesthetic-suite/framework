@@ -13,6 +13,7 @@ import {
   TestAdapter,
   FONT_ROBOTO,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_GLOBAL,
 } from '../../../tests/mocks';
 
 describe('aesthetic/Aesthetic', () => {
@@ -237,22 +238,17 @@ describe('aesthetic/Aesthetic', () => {
         .toThrowError('Global styles for "foo" must be an object.');
     });
 
-    // TODO
-    it.skip('registers theme and transforms global styles', () => {
-      instance.registerTheme('foo', { unitSize: 6 }, {
-        '@font-face': {
-          roboto: FONT_ROBOTO,
-        },
-      });
+    it('registers theme and creates global stylesheet', () => {
+      const spy = jest.fn();
+
+      instance.adapter.create = spy;
+      instance.registerTheme('foo', { unitSize: 6 }, SYNTAX_GLOBAL);
 
       expect(instance.themes).toEqual({
         foo: { unitSize: 6 },
       });
-      expect(instance.adapter.lastTransform).toEqual({
-        '@font-face': {
-          roboto: FONT_ROBOTO,
-        },
-      });
+
+      expect(spy).toHaveBeenCalledWith(SYNTAX_GLOBAL);
     });
   });
 

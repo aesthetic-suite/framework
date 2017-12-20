@@ -25,7 +25,7 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
 
   it('can customize the aphrodite instance through the constructor', () => {
     const extension = { selectorHandler() {} };
-    instance = new AphroditeAdapter(StyleSheet.extend([extension]));
+    instance = new AphroditeAdapter([extension]);
 
     expect(instance.aphrodite).not.toEqual(StyleSheet);
   });

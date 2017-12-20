@@ -22,6 +22,7 @@ import type {
 export const GLOBAL_RULES: AtRule[] = [
   '@charset',
   '@font-face',
+  '@global',
   '@import',
   '@keyframes',
   '@namespace',
@@ -29,7 +30,11 @@ export const GLOBAL_RULES: AtRule[] = [
   '@viewport',
 ];
 
-export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
+export const LOCAL_RULES: AtRule[] = [
+  '@fallbacks',
+  '@media',
+  '@supports',
+];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
@@ -48,6 +53,7 @@ export default class UnifiedSyntax {
       .on('@charset', this.handleCharset)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
+      .on('@global', this.handleGlobal)
       .on('@import', this.handleImport)
       .on('@keyframes', this.handleKeyframes)
       .on('@media', this.handleMedia)
@@ -122,10 +128,28 @@ export default class UnifiedSyntax {
           break;
         }
 
+        case '@global': {
+          const globals = prevStyleSheet['@global'];
+
+          Object.keys(this.checkBlock(globals)).forEach((selector) => {
+            if (isObject(globals[selector])) {
+              this.emit(rule, [
+                nextStyleSheet,
+                this.convertDeclaration(selector, globals[selector]),
+                selector,
+              ]);
+            } else if (__DEV__) {
+              throw new Error('Invalid @global selector style declaration.');
+            }
+          });
+
+          break;
+        }
+
         case '@keyframes': {
           const frames = prevStyleSheet['@keyframes'];
 
-          Object.keys(frames).forEach((animationName) => {
+          Object.keys(this.checkBlock(frames)).forEach((animationName) => {
             if (__DEV__) {
               if (this.keyframes[animationName]) {
                 throw new Error(`@keyframes "${animationName}" already exists.`);
@@ -288,6 +312,13 @@ export default class UnifiedSyntax {
     } else {
       styleSheet['@font-face'] = style;
     }
+  }
+
+  /**
+   * Handle global styles (like body, html, etc).
+   */
+  handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
+    // Do nothing
   }
 
   /**
