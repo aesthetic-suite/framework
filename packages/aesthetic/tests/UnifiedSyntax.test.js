@@ -62,6 +62,14 @@ describe('aesthetic/UnifiedSyntax', () => {
     });
   });
 
+  describe('checkBlock()', () => {
+    it('errors for non-objects', () => {
+      expect(() => {
+        instance.checkBlock(123);
+      }).toThrowError('Must be a style declaration.');
+    });
+  });
+
   describe('convert()', () => {
     it('errors for invalid at-rule', () => {
       expect(() => {

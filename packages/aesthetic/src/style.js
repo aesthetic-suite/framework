@@ -119,6 +119,13 @@ export default function style(
         })(Component);
       }
 
+      state = {
+        firstMount: true,
+        [stylesPropName]: {},
+        themeName: '',
+        [themePropName]: {},
+      };
+
       componentWillMount() {
         this.transformStyles(this.props);
       }
@@ -137,15 +144,14 @@ export default function style(
       transformStyles(props: Object) {
         const themeName = this.getThemeName(props);
 
-        if (themeName === this.state.themeName) {
-          return;
+        if (this.state.firstMount || themeName !== this.state.themeName) {
+          this.setState({
+            firstMount: false,
+            [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, props),
+            themeName,
+            [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
+          });
         }
-
-        this.setState({
-          [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, props),
-          themeName,
-          [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
-        });
       }
 
       render(): React$Node {

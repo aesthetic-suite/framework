@@ -115,7 +115,7 @@ export default class UnifiedSyntax {
               }
             }
 
-            // $FlowIgnore Block check here isnt working
+            // $FlowIgnore
             this.fontFaces[fontFamily] = toArray(faces[fontFamily])
               .map(font => ({
                 ...font,

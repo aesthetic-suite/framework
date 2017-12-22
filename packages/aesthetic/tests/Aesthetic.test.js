@@ -339,6 +339,12 @@ describe('aesthetic/Aesthetic', () => {
   });
 
   describe('transformStyles()', () => {
+    it('errors for invalid value', () => {
+      expect(() => {
+        instance.transformStyles([[]]);
+      }).toThrowError('Unsupported style type to transform.');
+    });
+
     it('combines strings into a class name', () => {
       expect(instance.transformStyles(['foo', 'bar'])).toBe('foo bar');
     });
