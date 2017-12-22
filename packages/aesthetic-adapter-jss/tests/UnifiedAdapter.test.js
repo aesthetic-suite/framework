@@ -10,6 +10,7 @@ import {
   SYNTAX_CHARSET,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
@@ -73,6 +74,25 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
         },
       },
     });
+  });
+
+  it('handles globals', () => {
+    expect(instance.syntax.convert(SYNTAX_GLOBAL)).toEqual({
+      '@global': {
+        body: { margin: 0 },
+        html: { height: '100%' },
+        a: {
+          color: 'red',
+          '&:hover': {
+            color: 'darkred',
+          },
+        },
+      },
+    });
+
+    instance.transform(instance.create(SYNTAX_GLOBAL));
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles properties', () => {

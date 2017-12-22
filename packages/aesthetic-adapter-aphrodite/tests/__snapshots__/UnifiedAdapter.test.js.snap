@@ -6,6 +6,8 @@ exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles @keyframes 1`] = `"@
 
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles @media 1`] = `".media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}"`;
 
+exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles globals 1`] = `"body{margin:0px !important;}html{height:100% !important;}a{color:red !important;}a:hover{color:darkred !important;}"`;
+
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles properties 1`] = `".props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}"`;
 
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles pseudos 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;

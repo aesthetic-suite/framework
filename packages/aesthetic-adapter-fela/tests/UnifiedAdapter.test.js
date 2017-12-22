@@ -8,6 +8,7 @@ import {
   SYNTAX_CHARSET,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
@@ -69,6 +70,15 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
         },
       },
     });
+  });
+
+  it('handles globals', () => {
+    // Omits from stylesheet
+    expect(instance.syntax.convert(SYNTAX_GLOBAL)).toEqual({});
+
+    instance.transform(instance.create(SYNTAX_GLOBAL));
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('handles properties', () => {

@@ -9,6 +9,7 @@ import {
   SYNTAX_CHARSET,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
@@ -72,6 +73,25 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
         },
       },
     });
+  });
+
+  it('handles globals', () => {
+    expect(instance.syntax.convert(SYNTAX_GLOBAL)).toEqual({
+      globals: {
+        '*body': { margin: 0 },
+        '*html': { height: '100%' },
+        '*a': {
+          color: 'red',
+          ':hover': {
+            color: 'darkred',
+          },
+        },
+      },
+    });
+
+    instance.transform(instance.create(SYNTAX_GLOBAL).globals);
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles properties', () => {

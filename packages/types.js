@@ -24,6 +24,7 @@ export type AestheticOptions = {
 export type AtRule =
   '@charset' |
   '@font-face' |
+  '@global' |
   '@import' |
   '@keyframes' |
   '@media' |
@@ -48,6 +49,8 @@ export type EventCallback =
   ((styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => void) |
   // @keyframes
   ((styleSheet: StyleSheet, style: StyleBlock, animationName: string) => void) |
+  // @global
+  ((styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) => void) |
   // @fallbacks
   ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
   // @media, @supports
@@ -84,6 +87,7 @@ export type StyleDeclaration = {
 export type StyleSheet = {
   '@charset'?: string,
   '@font-face'?: StyleBlock | StyleBlock[],
+  '@global'?: { [selector: string]: StyleDeclaration },
   '@import'?: string,
   '@keyframes'?: StyleBlock,
   '@namespace'?: string,

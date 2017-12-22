@@ -5,7 +5,7 @@
  */
 
 import { Adapter } from 'aesthetic';
-import { StyleSheet, css } from 'aphrodite';
+import { StyleSheet } from 'aphrodite';
 
 import type {
   ClassName,
@@ -16,17 +16,32 @@ import type {
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
 
-  constructor(aphrodite?: Object, options?: Object = {}) {
+  constructor(extensions?: Object[] = [], options?: Object = {}) {
     super(options);
 
-    this.aphrodite = aphrodite || StyleSheet;
+    this.aphrodite = StyleSheet.extend([
+      ...extensions,
+      { selectorHandler: this.handleGlobalSelector },
+    ]);
   }
 
   create(styleSheet: AestheticStyleSheet): AestheticStyleSheet {
-    return this.aphrodite.create(styleSheet);
+    return this.aphrodite.StyleSheet.create(styleSheet);
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {
-    return css(...styles);
+    return this.aphrodite.css(...styles);
+  }
+
+  handleGlobalSelector(
+    selector: string,
+    baseSelector: string,
+    callback: (selector: string) => string | null,
+  ): string | null {
+    if (selector.charAt(0) !== '*') {
+      return null;
+    }
+
+    return callback(selector.slice(1));
   }
 }

@@ -10,6 +10,8 @@ exports[`aesthetic-adapter-fela/UnifiedAdapter handles @media 1`] = `".a{color:r
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles @supports 1`] = `".a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}"`;
 
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles globals 1`] = `"body{margin:0px}html{height:100%}a{color:red}"`;
+
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudos 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;

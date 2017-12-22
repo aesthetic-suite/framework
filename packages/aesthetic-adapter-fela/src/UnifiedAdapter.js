@@ -28,6 +28,7 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@font-face', this.handleFontFace)
+      .on('@global', this.handleGlobal)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@keyframes', this.handleKeyframe)
       .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
@@ -51,6 +52,12 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
       });
     });
   }
+
+  // http://fela.js.org/docs/advanced/StaticStyle.html
+  // http://fela.js.org/docs/api/fela/Renderer.html#renderstaticstyle-selector
+  handleGlobal = (styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) => {
+    this.fela.renderStatic(declaration, selector);
+  };
 
   // http://fela.js.org/docs/basics/Keyframes.html
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe

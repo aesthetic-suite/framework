@@ -18,14 +18,15 @@ import type {
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(aphrodite?: Object, options?: Object = {}) {
-    super(aphrodite, options);
+  constructor(extensions?: Object[] = [], options?: Object = {}) {
+    super(extensions, options);
 
     this.syntax = new UnifiedSyntax();
     this.syntax
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', this.syntax.createUnsupportedHandler('@fallbacks'))
+      .on('@global', this.handleGlobal)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
       .on('@page', this.syntax.createUnsupportedHandler('@page'))
@@ -37,6 +38,13 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
   create(styleSheet: StyleSheet): StyleSheet {
     return super.create(this.syntax.convert(styleSheet));
+  }
+
+  handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
+    styleSheet.globals = {
+      ...(typeof styleSheet.globals === 'object' ? styleSheet.globals : {}),
+      [`*${selector}`]: declaration,
+    };
   }
 
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {

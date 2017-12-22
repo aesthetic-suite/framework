@@ -29,6 +29,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       .on('property', this.handleProperty)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
+      .on('@global', this.handleGlobal)
       .on('@page', this.syntax.createUnsupportedHandler('@page'));
   }
 
@@ -50,6 +51,15 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
   handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) {
     styleSheet['@font-face'] = style.map(face => formatFontFace(face));
+  }
+
+  // https://github.com/cssinjs/jss-global
+  handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
+    if (typeof styleSheet['@global'] === 'undefined') {
+      styleSheet['@global'] = { [selector]: declaration };
+    } else {
+      styleSheet['@global'][selector] = declaration;
+    }
   }
 
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
