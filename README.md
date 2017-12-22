@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
 
 Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS
-using objects, importing stylesheets, or simply referencing external class names.
+using style objects, importing stylesheets, or simply referencing external class names.
 Simply put, Aesthetic is an abstraction layer that utilizes higher-order-components for
 the compilation of styles via third-party libraries, all the while providing customizability,
 theming, and a unified syntax.
@@ -123,12 +123,20 @@ yarn add aesthetic react
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
   * [Pseudos](#pseudos)
-  * [Fallbacks](#fallbacks)
-  * [Media Queries](#media-queries)
-  * [Supports](#supports)
-  * [Font Faces](#font-faces)
-  * [Animations](#animations)
   * [Selectors](#selectors)
+  * [Global At-rules](#global-at-rules)
+    * [@charset](#@charset)
+    * [@font-face](#@font-face)
+    * [@global](#@global)
+    * [@import](#@import)
+    * [@keyframes](#@keyframes)
+    * [@namespace](#@namespace)
+    * [@page](#@page)
+    * [@viewport](#@viewport)
+  * [Local At-rules](#local-at-rules)
+    * [@fallbacks](#@fallbacks)
+    * [@media](#@media)
+    * [@supports](#@supports)
 * [Competitors Comparison](#competitors-comparison)
   * [Features](#features)
   * [Adapters](#adapters)
@@ -194,12 +202,11 @@ The following libraries are currently not supported.
 To start using Aesthetic, a styler function must be created. This styler function
 acts as a factory for the creation of higher-order-components
 ([HOC](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)).
-These HOC's are used in transforming styles via adapters and passing down CSS
-class names to the original wrapped component.
+These HOC's are used in passing down styles to the original wrapped component.
 
 To begin, we must instantiate `Aesthetic` with an [adapter](#style-adapters), and pass it to
 `createStyler` to create the `style` and `transform` functions. The `style` function is the HOC
-factory, while `transform` will combine and process multiple style objects into CSS class names.
+factory, while `transform` will combine and process multiple style objects into a CSS class name.
 
 ```javascript
 import Aesthetic, { createStyler } from 'aesthetic';
@@ -214,16 +221,16 @@ export default style;
 > I suggest doing this an a file that can be imported for reusability.
 
 Once we have a styler function, we can import it and wrap our React components.
-The styler function accepts a [style declaration](#styling-components) as its first argument,
+The styler function accepts a [style sheet](#styling-components) as its 1st argument,
 and an object of configurable options as the second. The following options are supported.
 
 * `styleName` (string) - The unique style name of the component. This name is primarily
   used in logging and caching. Defaults to the component or function name.
 * `extendable` (boolean) - Allows the component and its styles to be extended,
   creating a new component in the process. Defaults to `false`.
-* `stylesPropName` (string) - Name of the prop in which the compiled class names or styles
-  object is passed to. Defaults to `styles`.
-* `themePropName` (string) - Name of the prop in which the theme style declaration is passed to.
+* `stylesPropName` (string) - Name of the prop in which the style sheet is passed to.
+  Defaults to `styles`.
+* `themePropName` (string) - Name of the prop in which the theme sheet is passed to.
   Defaults to `theme`.
 * `pure` (boolean) - When true, the higher-order-component will extend `React.PureComponent`
   instead of `React.Component`. Only use this for static/dumb components.
@@ -256,8 +263,8 @@ new Aesthetic(adapter, {
 
 Now that we have a styler function, we can start styling our components by wrapping
 the component declaration with the styler function and passing an object of styles.
-When this component is rendered, the style object is transformed into an object of class names,
-and passed to the `styles` prop.
+When this component is rendered, the style sheet is passed to the `styles` prop,
+and we can generate a class name using the `transform` function (`classes` in the example).
 
 ```javascript
 import React, { PropTypes } from 'react';
@@ -290,7 +297,7 @@ export default withStyles({
 
 #### Customizing Styles
 
-Since styles are isolated and colocated within a component, they can be impossible to
+Since styles are isolated and co-located within a component, they can be impossible to
 customize, especially if the component comes from a third-party library. If a component
 styled by Aesthetic is marked as `extendable`, styles can be customized by calling
 the static `extendStyles` method on the wrapped component instance.
@@ -316,8 +323,7 @@ export const PrimaryButton = BaseButton.extendStyles({
 });
 ```
 
-Parent styles (the component that was extended) are available when using a
-[style function](#style-functions), allowing multiple layers of styles to be inherited.
+Parent styles (the component that was extended) are automatically merged with the new styles.
 
 #### Using Classes
 
@@ -335,8 +341,8 @@ classes(
 );
 ```
 
-Using our `Button` examples above, let's add an active state and combine classes
-like so. Specificity is important, so define styles from top to bottom!
+Using our `Button` examples above, let's add an active state and combine classes like so.
+Specificity is important, so define styles from top to bottom!
 
 ```javascript
 function Button({ children, styles, icon, active = false }) {
@@ -361,7 +367,7 @@ function Button({ children, styles, icon, active = false }) {
 ### Styling Components
 
 As mentioned previously, to style a component, an object or function must be passed
-as the first argument to the [styler function](#creating-a-styler). This object
+as the 1st argument to the [styler function](#creating-a-styler). This object
 represents a mapping of selectors (and modifiers) to declarations. For example:
 
 ```javascript
@@ -386,13 +392,7 @@ withStyles({
 })(Button)
 ```
 
-To make use of class names, the provided `ClassNameAdapter` must be used.
-
-```javascript
-import Aesthetic, { createStyler, ClassNameAdapter } from 'aesthetic';
-
-new Aesthetic(new ClassNameAdapter());
-```
+> To only make use of class names, the provided `ClassNameAdapter` must be used.
 
 #### Style Objects
 
@@ -421,11 +421,11 @@ withStyles({
 #### Style Functions
 
 Style functions are simply functions that return a style object. The benefits of using a
-function is that it provides the [current theme](#using-themes) as the first argument,
-and the [previous styles](#customizing-styles) as the second argument.
+function is that it provides the [current theme](#using-themes) as the 1st argument,
+and the current React component props as the 2nd argument.
 
 ```javascript
-withStyles((theme, prevStyles) => {
+withStyles((theme, props) => {
   // ...
 })(Button)
 ```
@@ -447,6 +447,13 @@ aesthetic.registerTheme('dark', {
   font: 'Open Sans',
   bgColor: 'darkgray',
 }, {
+  '@global': {
+    body: {
+      margin: 0,
+      padding: 0,
+      height: '100%',  
+    },
+  },
   '@font-face': {
     'Open Sans': {
       fontStyle: 'normal',
@@ -457,7 +464,7 @@ aesthetic.registerTheme('dark', {
 });
 ```
 
-> Global styles are immediately compiled and attached the DOM. Be wary of conflicts.
+> Global styles are immediately compiled and attached to the DOM. Be wary of conflicts.
 
 If you'd like to extend a base theme to create a new theme, use `extendTheme`. This
 method accepts the theme name to inherit from as the first argument, with the remaining
@@ -473,8 +480,8 @@ aesthetic.extendTheme('dark', 'darker', {
 
 #### Using Theme Styles
 
-Once a theme has been registered, we can access the style parameters by using a
-[style function](#style-functions). The parameters object is passed as the first
+Once a theme has been registered, we can access the theme parameters by using a
+[style function](#style-functions). The parameters object is passed as the 1st
 argument to the function.
 
 ```javascript
@@ -609,31 +616,193 @@ button: {
 
 > JSS requires the `jss-nested` plugin.
 
-#### Fallbacks
+#### Selectors
 
-Property fallbacks for old browsers are defined under the `@fallbacks` object.
-Each property accepts a single value or an array of values.
+Parent, child, and sibling selectors are purposefully not supported. Use unique and
+isolated element selectors and style declarations instead.
+
+#### Global At-rules
+
+Not to be confused with global styles, global at-rules are at-rules that must be defined in the
+root of a style sheet and cannot be defined within a selector.
+
+> Not all adapters support global at-rules.
+
+##### @charset
 
 ```javascript
-wrapper: {
-  // ...
-  background: 'linear-gradient(...)',
-  display: 'flex',
-  '@fallbacks': {
-    background: 'red',
-    display: ['box', 'flex-box'],
+{
+  '@charset': 'utf8',
+}
+```
+
+##### @font-face
+
+```javascript
+{
+  '@font-face': {
+    'Open Sans': {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+    },
   },
-},
+  button: {
+    // ...
+    fontFamily: 'Open Sans',
+  },
+}
+```
+
+> The `fontFamily` property can be omitted as it'll be inherited from the property name.
+
+To support multiple font variations, like bold and italics, pass an array of declarations.
+
+```javascript
+{
+  '@font-face': {
+    'Open Sans': [
+      {
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+      },
+      {
+        fontStyle: 'italic',
+        fontWeight: 'normal',
+        srcPaths: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
+      },
+      {
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        srcPaths: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
+      },
+    ],
+  },
+}
+```
+
+Lastly, to define `local()` source aliases, pass an array of strings to a `local` property.
+
+```javascript
+{
+  '@font-face': {
+    'Open Sans': {
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      local: ['OpenSans', 'Open-Sans'],
+      srcPaths: ['fonts/OpenSans.ttf'],
+    },
+  },
+}
+```
+
+##### @global
+
+```javascript
+{
+  '@global': {
+    body: {
+      margin: 0,
+      padding: 0,
+      fontSize: 16,
+    },
+    'body, html': {
+      height: '100%',
+    },
+    a: {
+      color: 'red',
+      ':hover': {
+        color: 'darkred',
+      },
+    },
+  },
+}
+```
+
+##### @import
+
+```javascript
+{
+  '@import': 'css/reset.css',
+}
+```
+
+##### @keyframes
+
+```javascript
+{
+  '@keyframes': {
+    fade: {
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+    },
+  },
+  button: {
+    // ...
+    animationName: 'fade',
+    animationDuration: '3s',
+  },
+}
+```
+
+##### @namespace
+
+```javascript
+{
+  '@namespace': 'url(http://www.w3.org/1999/xhtml)',
+}
+```
+
+##### @page
+
+```javascript
+{
+  '@page': {
+    margin: '1cm',
+  },
+}
+```
+
+> `:left`, `:right`, and other pseudos are not supported.
+
+##### @viewport
+
+```javascript
+{
+  '@viewport': {
+    width: 'device-width',
+    orientation: 'landscape',
+  },
+}
+```
+
+#### Local At-rules
+
+Local at-rules are at-rules that must be defined within a selector and cannot be defined in the
+root of a style sheet.
+
+##### @fallbacks
+
+```javascript
+{
+  wrapper: {
+    // ...
+    background: 'linear-gradient(...)',
+    display: 'flex',
+    '@fallbacks': {
+      background: 'red',
+      display: ['box', 'flex-box'],
+    },
+  },
+}
 ```
 
 > Aphrodite does not support fallback styles.
 
 > Fela requires the `fela-plugin-fallback-value` plugin.
 
-#### Media Queries
-
-Media queries are defined inside a selector using a `@media` object,
-with the query conditional as the key, and style declarations as the value.
+##### @media
 
 ```javascript
 tooltip: {
@@ -647,14 +816,9 @@ tooltip: {
 },
 ```
 
-Nested `@media` are currently not supported.
+> Nested `@media` are currently not supported.
 
-> JSS requires the `jss-nested` plugin.
-
-#### Supports
-
-Feature queries are defined inside a selector using a `@supports` object,
-with the feature conditional as the key, and style declarations as the value.
+##### @supports
 
 ```javascript
 grid: {
@@ -669,89 +833,7 @@ grid: {
 },
 ```
 
-Nested `@support` are currently not supported.
-
-#### Font Faces
-
-Font faces are defined outside the selector (in the root) using a `@font-face` object
-and are referenced by the font family name (the object key).
-
-```javascript
-'@font-face': {
-  'Open Sans': {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
-  },
-},
-button: {
-  // ...
-  fontFamily: 'Open Sans',
-},
-```
-
-> The `fontFamily` property can be omitted as it'll be inherited from the property name.
-
-To support multiple font variations, like bold and italics, pass an array of properties.
-
-```javascript
-'@font-face': {
-  'Open Sans': [
-    {
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
-    },
-    {
-      fontStyle: 'italic',
-      fontWeight: 'normal',
-      srcPaths: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
-    },
-    {
-      fontStyle: 'normal',
-      fontWeight: 'bold',
-      srcPaths: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
-    },
-  ],
-},
-```
-
-Lastly, to define `local()` source aliases, pass an array of strings to a `local` property.
-
-```javascript
-'@font-face': {
-  'Open Sans': {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    local: ['OpenSans', 'Open-Sans'],
-    srcPaths: ['fonts/OpenSans.ttf'],
-  },
-},
-```
-
-#### Animations
-
-Animation keyframes are defined outside the selector (in the root) using a `@keyframes` object
-and are referenced by animation name (the object key).
-
-```javascript
-'@keyframes': {
-  fade: {
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-  },
-},
-button: {
-  // ...
-  animationName: 'fade',
-  animationDuration: '3s',
-},
-```
-
-#### Selectors
-
-Parent, child, and sibling selectors are purposefully not supported. Use unique and
-isolated element selectors and style declarations instead.
+> Nested `@supports` are currently not supported.
 
 ### Competitors Comparison
 

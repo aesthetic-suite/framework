@@ -1,4 +1,4 @@
-# 2.0.0 Migration
+# 2.0 Migration
 
 Aesthetic has been rewritten to properly support specificity and new at-rules. To support
 these new patterns, please migrate the following.
