@@ -13,18 +13,10 @@ import type {
   StyleSheet as AestheticStyleSheet,
 } from '../../types';
 
-type SelectorCallback = (selector: string) => mixed;
-type SelectorHandler = (
-    selector: string,
-    baseSelector: string,
-    callback: SelectorCallback,
-) => string | null;
-type Extension = { selectorHandler: SelectorHandler };
-
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};
 
-  constructor(extensions?: Extension[] = [], options?: Object = {}) {
+  constructor(extensions?: Object[] = [], options?: Object = {}) {
     super(options);
 
     this.aphrodite = StyleSheet.extend([
@@ -44,7 +36,7 @@ export default class AphroditeAdapter extends Adapter {
   handleGlobalSelector(
     selector: string,
     baseSelector: string,
-    callback: SelectorCallback,
+    callback: (selector: string) => string | null,
   ): string | null {
     if (selector.charAt(0) !== '*') {
       return null;

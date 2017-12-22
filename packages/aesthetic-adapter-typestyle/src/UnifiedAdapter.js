@@ -30,6 +30,7 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
+      .on('@global', this.handleGlobal)
       .on('@import', this.syntax.createUnsupportedHandler('@import'))
       .on('@keyframes', this.handleKeyframe)
       .on('@media', this.handleMedia)
@@ -49,6 +50,10 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
 
   handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
     style.map(face => this.typeStyle.fontFace(formatFontFace(face)));
+  };
+
+  handleGlobal = (styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) => {
+    this.typeStyle.cssRule(selector, declaration);
   };
 
   handleKeyframe = (styleSheet: StyleSheet, style: StyleBlock, animationName: string) => {

@@ -11,7 +11,6 @@ import JssAdapter from '../../aesthetic-adapter-jss/src/NativeAdapter';
 import TypeStyleAdapter from '../../aesthetic-adapter-typestyle/src/NativeAdapter';
 import {
   TestAdapter,
-  FONT_ROBOTO,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_GLOBAL,
 } from '../../../tests/mocks';

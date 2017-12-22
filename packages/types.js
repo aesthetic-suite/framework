@@ -87,7 +87,7 @@ export type StyleDeclaration = {
 export type StyleSheet = {
   '@charset'?: string,
   '@font-face'?: StyleBlock | StyleBlock[],
-  '@global'?: { [selector]: StyleDeclaration },
+  '@global'?: { [selector: string]: StyleDeclaration },
   '@import'?: string,
   '@keyframes'?: StyleBlock,
   '@namespace'?: string,

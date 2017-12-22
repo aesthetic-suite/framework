@@ -18,8 +18,8 @@ import type {
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
 
-  constructor(aphrodite?: Object, options?: Object = {}) {
-    super(aphrodite, options);
+  constructor(extensions?: Object[] = [], options?: Object = {}) {
+    super(extensions, options);
 
     this.syntax = new UnifiedSyntax();
     this.syntax
@@ -42,7 +42,7 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
   handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
     styleSheet.globals = {
-      ...styleSheet.globals,
+      ...(typeof styleSheet.globals === 'object' ? styleSheet.globals : {}),
       [`*${selector}`]: declaration,
     };
   }

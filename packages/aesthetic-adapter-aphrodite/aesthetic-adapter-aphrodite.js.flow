@@ -4,7 +4,7 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
 declare module 'aesthetic-adapter-aphrodite' {
   declare export default class AphroditeAdapter extends Adapter {
-    constructor(aphrodite?: Object, options?: Object): this;
+    constructor(extensions?: Object[], options?: Object): this;
   }
 }
 
@@ -12,6 +12,6 @@ declare module 'aesthetic-adapter-aphrodite/unified' {
   declare export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
     syntax: UnifiedSyntax;
 
-    constructor(aphrodite?: Object, options?: Object): this;
+    constructor(extensions?: Object[], options?: Object): this;
   }
 }
