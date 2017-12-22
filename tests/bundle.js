@@ -69,6 +69,7 @@ function createStyledComponent(adapter, Component) {
       '@media': {
         '(max-width: 600px)': {
           display: 'block',
+          width: '100%',
         },
       },
     },

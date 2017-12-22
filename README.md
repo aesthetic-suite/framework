@@ -634,6 +634,8 @@ root of a style sheet and cannot be defined within a selector.
 
 ##### @charset
 
+Supported by JSS.
+
 ```javascript
 {
   '@charset': 'utf8',
@@ -641,6 +643,8 @@ root of a style sheet and cannot be defined within a selector.
 ```
 
 ##### @font-face
+
+Supported by all adapters.
 
 ```javascript
 {
@@ -703,6 +707,8 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 
 ##### @global
 
+Supported by Aphrodite, Fela, JSS, and TypeStyle.
+
 ```javascript
 {
   '@global': {
@@ -724,7 +730,11 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 }
 ```
 
+> JSS requires the `jss-global` plugin.
+
 ##### @import
+
+Supported by JSS.
 
 ```javascript
 {
@@ -733,6 +743,8 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 ```
 
 ##### @keyframes
+
+Supported by all adapters.
 
 ```javascript
 {
@@ -752,6 +764,8 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 
 ##### @namespace
 
+Supported by JSS.
+
 ```javascript
 {
   '@namespace': 'url(http://www.w3.org/1999/xhtml)',
@@ -759,6 +773,8 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 ```
 
 ##### @page
+
+Currently supported by no adapters.
 
 ```javascript
 {
@@ -771,6 +787,8 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 > `:left`, `:right`, and other pseudos are not supported.
 
 ##### @viewport
+
+Supported by JSS.
 
 ```javascript
 {
@@ -787,6 +805,8 @@ Local at-rules are at-rules that must be defined within a selector and cannot be
 root of a style sheet.
 
 ##### @fallbacks
+
+Supported by Fela, Glamor, JSS, and TypeStyle.
 
 ```javascript
 {
@@ -808,6 +828,8 @@ root of a style sheet.
 
 ##### @media
 
+Supported by all adapters.
+
 ```javascript
 tooltip: {
   // ...
@@ -823,6 +845,8 @@ tooltip: {
 > Nested `@media` are currently not supported.
 
 ##### @supports
+
+Supported by Fela, Glamor, JSS, and TypeStyle.
 
 ```javascript
 grid: {
