@@ -139,7 +139,11 @@ export default class Aesthetic {
     this.themes[themeName] = theme;
 
     // Create global styles
-    this.adapter.create(globals);
+    const globalStyleSheet = this.adapter.create(globals);
+
+    if (globalStyleSheet.globals) {
+      this.transformStyles([globalStyleSheet.globals]);
+    }
 
     return this;
   }
