@@ -1,6 +1,15 @@
 # 2.0.0
+#### 💥 Breaking
+* Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+* Constructor 1st argument now requires an array of extensions instead of an Aphrodite `StyleSheet`.
+
 #### 🚀 New
-* Updated to support the new `@font-face` structure.
+* Supports global styles based on the [official Aphrodite extension example](https://github.com/Khan/aphrodite#creating-extensions).
+  * Styles must be nested within a `globals` object.
+  * Selectors must be prefixed with a `*`.
+* Unified Syntax
+  * Adds new `@global` at-rule.
+  * Supports the new `@font-face` structure.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

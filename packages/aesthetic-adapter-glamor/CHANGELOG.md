@@ -1,6 +1,11 @@
 # 2.0.0
+#### 💥 Breaking
+* Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+
 #### 🚀 New
-* Updated to support the new `@font-face` structure.
+* Unified Syntax
+  * Adds new `@supports` at-rule.
+  * Supports the new `@font-face` structure.
 
 #### 🐞 Fixed
 * Fixed a bug in which wrong class names were being created.

@@ -1,9 +1,12 @@
 # 2.0.0
-#### 🛠 Internal
-* Rewritten Flowtype definitions.
+#### 💥 Breaking
+* Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 
 #### 🐞 Fixed
 * Fixed a bug in which wrong class names were being created.
+
+#### 🛠 Internal
+* Rewritten Flowtype definitions.
 
 # 1.6.2 - 11/10/17
 #### 🛠 Internal

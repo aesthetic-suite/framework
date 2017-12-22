@@ -1,9 +1,12 @@
 # 2.0.0
 #### 💥 Breaking
+* Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 * Plugin `jss-nested` is now a requirement.
 
 #### 🚀 New
-* Updated to support the new `@font-face` structure.
+* Unified Syntax
+  * Adds new `@charset`, `@global`, `@import`, `@namespace`, `@supports`, and `@viewport` at-rules.
+  * Supports the new `@font-face` structure.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

@@ -1,10 +1,15 @@
 # 2.0.0
 #### 💥 Breaking
-* The `@font-face` unified syntax `src` property must now be an array of paths.
+* Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+* Removed `react-native` support.
+* Unified Syntax
+  * The `@font-face` at-rule now requires an array of `srcPaths`.
 
 #### 🚀 New
 * Added support for `fela-dom` 7.0.
-* Updated to support the new `@font-face` structure.
+* Unified Syntax
+  * Adds new `@global` and `@supports` at-rules.
+  * Supports the new `@font-face` structure.
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.

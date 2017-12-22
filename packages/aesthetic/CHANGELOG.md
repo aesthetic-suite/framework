@@ -1,20 +1,48 @@
 # 2.0.0
+Aesthetic has been rewritten to properly support specificity and new at-rules. Styles are no
+longer transformed on mount and will now be transformed on render using a new stylesheet layer.
+Furthermore, unified syntax now supports most common at-rules, and a new `@font-face` structure.
+
+[View the migration guide!](../../MIGRATE_2.0.md)
+
 #### 💥 Breaking
-* The `@font-face` unified syntax rule has been rewritten to support multiple variations of the
-  same font family.
-  * The object key is now the font family name, instead of a random name.
-  * The object value can now be an array of font face style declarations.
-  * The `src` property must now be an array of paths (the `format()` is automatically added).
-* The HOC `wrappedComponent` static property was renamed to `WrappedComponent`.
-* The HOC `theme` prop (to toggle themes) was renamed to `themeName`.
+* Removed React Native support (it was finicky and only supported by 1 adapter).
+* Removed `aesthetic-utils` package (any remaining helpers were moved to core).
+* Removed the `classes` function.
+  * Use the `transform` function provided by `createStyler` instead.
+* Removed `ClassNamesPropType` and `ClassOrStylesPropType` prop types.
+  * Use the `StylesPropType` instead.
+* Refactored `Aesthetic#transformStyles` and `Adapter#transform` to now require an array of style
+  declarations.
+  * Will now return a single combined class name for increased specificity.
+* Refactored `createStyler` to return 2 functions, `style` and `transform`.
+  * The `style` function is an HOC factory and works like the original 1.0 return value.
+  * The `transform` function is now required to generate class names from style declarations.
+* Renamed the HOC `wrappedComponent` static property to `WrappedComponent`.
+* Renamed the HOC `theme` prop (to toggle themes) to `themeName`.
+* Inherited and parent styles are no longer passed as the HOC styler callback 2nd argument.
+* Unified Syntax
+  * The `@font-face` unified syntax rule has been rewritten to support multiple variations of the
+    same font family.
+    * The object key is now the font family name, instead of a random name.
+    * The object value can now be an array of font face style declarations.
+    * The `srcPaths` property, an array of paths, is now required (instead of `src`).
 
 #### 🚀 New
-* Added `@supports` unified syntax support.
 * Added a new adapter, `TypeStyle`.
-* Added a new property `local` for use within `@font-face` (the `local()` value).
-* The current theme style declaration will be passed to styled components under the `theme` prop.
+* Added `Aesthetic#createStyleSheet` for converting a component's styles into an adapter
+  specific stylesheet.
+  * The component's current props are passed as the 2nd argument to the HOC styler callback.
+  * Inherited and parent styles are now automatically deep merged when extending.
+* Added `Adapter#create` for creating and adapting stylesheets.
+* Updated `Aesthetic#registerTheme` to use the new global styles system.
+* The current theme declarations will be passed to styled components under the `theme` prop.
   * The previous `theme` prop was renamed to `themeName`.
   * The `Aesthetic` `themePropName` option now controls this new prop.
+* Unified Syntax
+  * Added new `@charset`, `@global`, `@import`, `@namespace`, `@page`, `@supports`, and `@viewport`
+    at-rules (varies between adapters).
+  * Added a new property `local` for use within `@font-face` (the source `local()` value).
 
 #### 🛠 Internal
 * Rewritten Flowtype definitions.
