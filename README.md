@@ -125,18 +125,18 @@ yarn add aesthetic react
   * [Pseudos](#pseudos)
   * [Selectors](#selectors)
   * [Global At-rules](#global-at-rules)
-    * [@charset](#@charset)
-    * [@font-face](#@font-face)
-    * [@global](#@global)
-    * [@import](#@import)
-    * [@keyframes](#@keyframes)
-    * [@namespace](#@namespace)
-    * [@page](#@page)
-    * [@viewport](#@viewport)
+    * [@charset](#charset)
+    * [@font-face](#font-face)
+    * [@global](#global)
+    * [@import](#import)
+    * [@keyframes](#keyframes)
+    * [@namespace](#namespace)
+    * [@page](#page)
+    * [@viewport](#viewport)
   * [Local At-rules](#local-at-rules)
-    * [@fallbacks](#@fallbacks)
-    * [@media](#@media)
-    * [@supports](#@supports)
+    * [@fallbacks](#fallbacks)
+    * [@media](#media)
+    * [@supports](#supports)
 * [Competitors Comparison](#competitors-comparison)
   * [Features](#features)
   * [Adapters](#adapters)
@@ -577,19 +577,21 @@ Standard structure for defining properties.
 * Units can be written as literal numbers.
 
 ```javascript
-button: {
-  margin: 0,
-  padding: 5,
-  display: 'inline-block',
-  lineHeight: 'normal',
-  textAlign: 'center',
-  cursor: 'pointer',
-  backgroundColor: '#ccc',
-  color: '#000',
-},
-buttonGroup: {
-  // ...
-},
+{
+  button: {
+    margin: 0,
+    padding: 5,
+    display: 'inline-block',
+    lineHeight: 'normal',
+    textAlign: 'center',
+    cursor: 'pointer',
+    backgroundColor: '#ccc',
+    color: '#000',
+  },
+  buttonGroup: {
+    // ...
+  },
+}
 ```
 
 > Fela requires the `fela-plugin-unit` plugin.
@@ -601,17 +603,19 @@ buttonGroup: {
 Pseudo elements and classes are defined inside a selector as nested objects.
 
 ```javascript
-button: {
-  // ...
-  ':hover': {
-    backgroundColor: '#eee',
+{
+  button: {
+    // ...
+    ':hover': {
+      backgroundColor: '#eee',
+    },
+    '::before': {
+      content: '"★"',
+      display: 'inline-block',
+      marginRight: 5,
+    },
   },
-  '::before': {
-    content: '"★"',
-    display: 'inline-block',
-    marginRight: 5,
-  },
-},
+}
 ```
 
 > JSS requires the `jss-nested` plugin.
@@ -626,7 +630,7 @@ isolated element selectors and style declarations instead.
 Not to be confused with global styles, global at-rules are at-rules that must be defined in the
 root of a style sheet and cannot be defined within a selector.
 
-> Not all adapters support global at-rules.
+> Not all adapters support every global at-rule.
 
 ##### @charset
 

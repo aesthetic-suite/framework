@@ -1,7 +1,8 @@
 # 2.0.0
-Aesthetic has been rewritten to properly support specificity and new at-rules. Styles are no
-longer transformed on mount and will now be transformed on render using a new stylesheet layer.
-Furthermore, unified syntax now supports most common at-rules, and a new `@font-face` structure.
+Aesthetic has been rewritten to properly support specificity, new at-rules, and global styles.
+Styles are no longer transformed on mount and will now be transformed on render using a new
+stylesheet layer. Furthermore, unified syntax now supports most common at-rules, and a new
+`@font-face` structure.
 
 [View the migration guide!](../../MIGRATE_2.0.md)
 
