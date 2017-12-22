@@ -141,9 +141,8 @@ export default class Aesthetic {
     // Create global styles
     const globalStyleSheet = this.adapter.create(globals);
 
-    if (globalStyleSheet.globals) {
-      this.transformStyles([globalStyleSheet.globals]);
-    }
+    // $FlowIgnore
+    this.transformStyles(Object.values(globalStyleSheet));
 
     return this;
   }

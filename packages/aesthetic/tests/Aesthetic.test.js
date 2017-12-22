@@ -238,9 +238,8 @@ describe('aesthetic/Aesthetic', () => {
     });
 
     it('registers theme and creates global stylesheet', () => {
-      const spy = jest.fn();
+      const spy = jest.spyOn(instance.adapter, 'create');
 
-      instance.adapter.create = spy;
       instance.registerTheme('foo', { unitSize: 6 }, SYNTAX_GLOBAL);
 
       expect(instance.themes).toEqual({
