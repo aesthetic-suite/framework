@@ -7,6 +7,8 @@ stylesheet layer. Furthermore, unified syntax now supports most common at-rules,
 [View the migration guide!](../../MIGRATE_2.0.md)
 
 #### 💥 Breaking
+* Requires IE 11+.
+* Requires `WeakMap` support.
 * Removed React Native support (it was finicky and only supported by 1 adapter).
 * Removed `aesthetic-utils` package (any remaining helpers were moved to core).
 * Removed the `classes` function.

@@ -350,12 +350,12 @@ describe('aesthetic/Aesthetic', () => {
     });
 
     it('combines and transforms objects into a class name', () => {
-      expect(instance.transformStyles([{ color: 'red' }])).toBe('header');
+      expect(instance.transformStyles([{ color: 'red' }])).toBe('foo_1');
 
       expect(instance.transformStyles([
         { color: 'red' },
         { display: 'block' },
-      ])).toBe('header_footer');
+      ])).toBe('foo_2-bar_3');
     });
 
     it('calls adapters transform() method', () => {
@@ -405,6 +405,26 @@ describe('aesthetic/Aesthetic', () => {
         123,
         'bar',
       ])).toBe('foo 123 bar');
+    });
+
+    it('caches transformation', () => {
+      const a = [{ color: 'red' }];
+
+      expect(instance.transformStyles(a)).toBe('foo_1');
+      expect(instance.cache.get(a)).toBe('foo_1');
+
+      const b = [{ display: 'block' }];
+
+      expect(instance.transformStyles(b)).toBe('foo_2');
+      expect(instance.cache.get(b)).toBe('foo_2');
+
+      const c = [
+        { color: 'red' },
+        { display: 'block' },
+      ];
+
+      expect(instance.transformStyles(c)).toBe('foo_3-bar_4');
+      expect(instance.cache.get(c)).toBe('foo_3-bar_4');
     });
   });
 

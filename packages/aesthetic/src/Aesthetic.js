@@ -24,6 +24,8 @@ import type {
 export default class Aesthetic {
   adapter: Adapter;
 
+  cache: WeakMap<StyleDeclaration[], ClassName> = new WeakMap();
+
   options: AestheticOptions = {
     defaultTheme: '',
     extendable: false,
@@ -200,6 +202,11 @@ export default class Aesthetic {
    * Execute the adapter transformer on the list of style declarations.
    */
   transformStyles(styles: StyleDeclaration[]): ClassName {
+    if (this.cache.has(styles)) {
+      // $FlowIgnore We check return swith has()
+      return this.cache.get(styles);
+    }
+
     const classNames = [];
     const toTransform = [];
 
@@ -225,7 +232,11 @@ export default class Aesthetic {
       classNames.push(this.adapter.transform(...toTransform));
     }
 
-    return classNames.join(' ').trim();
+    const className = classNames.join(' ').trim();
+
+    this.cache.set(styles, className);
+
+    return className;
   }
 
   /**

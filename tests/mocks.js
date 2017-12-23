@@ -195,18 +195,17 @@ export const SYNTAX_VIEWPORT = {
 };
 
 export class TestAdapter extends Adapter {
-  lastTransform = {};
+  count = 0;
 
   transform(...styles) {
-    this.lastTransform = styles;
-
     const classes = [
-      'header',
-      'footer',
-      'body',
-      'wrapper',
+      'foo',
+      'bar',
+      'baz',
+      'qux',
     ];
 
-    return styles.map((row, i) => classes[i]).join('_');
+    // eslint-disable-next-line no-return-assign
+    return styles.map((row, i) => `${classes[i]}_${this.count += 1}`).join('-');
   }
 }
