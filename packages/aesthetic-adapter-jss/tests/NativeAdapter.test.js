@@ -28,7 +28,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('button-0-1');
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('button-0-3-1');
   });
 
   it('combines different style declarations into unique class names', () => {
@@ -47,13 +47,13 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       },
     });
 
-    expect(instance.transform(sheet.foo)).toBe('foo-0-1');
-    expect(instance.transform(sheet.bar)).toBe('bar-0-2');
-    expect(instance.transform(sheet.baz)).toBe('baz-0-3');
+    expect(instance.transform(sheet.foo)).toBe('foo-0-4-1');
+    expect(instance.transform(sheet.bar)).toBe('bar-0-4-2');
+    expect(instance.transform(sheet.baz)).toBe('baz-0-4-3');
     expect(instance.transform(sheet.foo, sheet.baz))
-      .toBe('foo-0-1 baz-0-3');
+      .toBe('foo-0-4-1 baz-0-4-3');
     expect(instance.transform(sheet.bar, sheet.foo))
-      .toBe('bar-0-2 foo-0-1');
+      .toBe('bar-0-4-2 foo-0-4-1');
   });
 
   it('handles pseudos', () => {
@@ -67,7 +67,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           position: 'absolute',
         },
       },
-    }).pseudo)).toBe('pseudo-0-1');
+    }).pseudo)).toBe('pseudo-0-5-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -83,7 +83,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           { display: 'box' },
         ],
       },
-    }).fallback)).toBe('fallback-0-1');
+    }).fallback)).toBe('fallback-0-6-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -95,7 +95,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
         fontFamily: 'Roboto',
         fontSize: 20,
       },
-    }).font)).toBe('font-0-1');
+    }).font)).toBe('font-0-7-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -108,7 +108,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },
-    }).animation)).toBe('animation-0-1');
+    }).animation)).toBe('animation-0-8-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -124,7 +124,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           color: 'green',
         },
       },
-    }).media)).toBe('media-0-1');
+    }).media)).toBe('media-0-9-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -140,7 +140,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
           float: 'left',
         },
       },
-    }).sup)).toBe('sup-0-1');
+    }).sup)).toBe('sup-0-10-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

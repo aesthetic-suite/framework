@@ -477,7 +477,7 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new JssAdapter());
       styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles([styleSheet.button])).toBe('button-0-1');
+      expect(instance.transformStyles([styleSheet.button])).toBe('button-0-1-1');
     });
 
     it('supports TypeStyle', () => {
