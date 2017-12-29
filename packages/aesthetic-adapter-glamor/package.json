@@ -23,7 +23,7 @@
     "glamor": "^2.20.40"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.44.0",
+    "@milesj/build-tool-config": "^0.46.0",
     "aesthetic": "^2.0.0-0",
     "glamor": "^2.20.40"
   }
