@@ -44,20 +44,6 @@ describe('aesthetic/Aesthetic', () => {
   });
 
   describe('createStyleSheet()', () => {
-    it('errors if no styles', () => {
-      expect(() => instance.createStyleSheet('foo'))
-        .toThrowError('Styles do not exist for "foo".');
-    });
-
-    it('errors if no theme', () => {
-      instance.styles.foo = () => ({
-        display: 'block',
-      });
-
-      expect(() => instance.createStyleSheet('foo', 'classic'))
-        .toThrowError('Theme "classic" does not exist.');
-    });
-
     it('calls adapters create() method', () => {
       const spy = jest.fn();
 
@@ -73,93 +59,13 @@ describe('aesthetic/Aesthetic', () => {
       });
     });
 
-    it('returns the styleSheet', () => {
+    it('returns the style sheet', () => {
       instance.styles.foo = {
         display: 'block',
       };
 
       expect(instance.createStyleSheet('foo')).toEqual({
         display: 'block',
-      });
-    });
-
-    it('returns the styleSheet from a callback', () => {
-      instance.styles.foo = () => ({
-        display: 'block',
-      });
-
-      expect(instance.createStyleSheet('foo')).toEqual({
-        display: 'block',
-      });
-    });
-
-    it('passes theme to the style callback', () => {
-      instance.themes.classic = {
-        unitSize: 5,
-      };
-
-      instance.styles.foo = theme => ({
-        padding: theme.unitSize * 2,
-      });
-
-      expect(instance.createStyleSheet('foo', 'classic')).toEqual({
-        padding: 10,
-      });
-    });
-
-    it('passes props to the style callback', () => {
-      instance.styles.foo = (theme, props) => ({
-        padding: props.unitSize * 2,
-      });
-
-      expect(instance.createStyleSheet('foo', '', {
-        unitSize: 5,
-      })).toEqual({
-        padding: 10,
-      });
-    });
-
-    it('inherits styles from parent', () => {
-      instance.setStyles('foo', () => ({
-        color: 'red',
-        ':hover': {
-          color: 'darkred',
-        },
-      }));
-
-      instance.setStyles('bar', () => ({
-        background: 'blue',
-        ':hover': {
-          color: 'green',
-        },
-      }), 'foo');
-
-      instance.setStyles('baz', () => ({
-        display: 'block',
-      }), 'bar');
-
-      expect(instance.createStyleSheet('foo')).toEqual({
-        color: 'red',
-        ':hover': {
-          color: 'darkred',
-        },
-      });
-
-      expect(instance.createStyleSheet('bar')).toEqual({
-        color: 'red',
-        background: 'blue',
-        ':hover': {
-          color: 'green',
-        },
-      });
-
-      expect(instance.createStyleSheet('baz')).toEqual({
-        color: 'red',
-        background: 'blue',
-        display: 'block',
-        ':hover': {
-          color: 'green',
-        },
       });
     });
   });
@@ -193,6 +99,112 @@ describe('aesthetic/Aesthetic', () => {
         colors: {
           primary: 'blue',
           secondary: 'orange',
+        },
+      });
+    });
+  });
+
+  describe('getStyles()', () => {
+    it('errors if no styles', () => {
+      expect(() => instance.getStyles('foo'))
+        .toThrowError('Styles do not exist for "foo".');
+    });
+
+    it('errors if no theme', () => {
+      instance.styles.foo = () => ({
+        display: 'block',
+      });
+
+      expect(() => instance.getStyles('foo', 'classic'))
+        .toThrowError('Theme "classic" does not exist.');
+    });
+
+    it('returns the styleSheet', () => {
+      instance.styles.foo = {
+        display: 'block',
+      };
+
+      expect(instance.getStyles('foo')).toEqual({
+        display: 'block',
+      });
+    });
+
+    it('returns the styleSheet from a callback', () => {
+      instance.styles.foo = () => ({
+        display: 'block',
+      });
+
+      expect(instance.getStyles('foo')).toEqual({
+        display: 'block',
+      });
+    });
+
+    it('passes theme to the style callback', () => {
+      instance.themes.classic = {
+        unitSize: 5,
+      };
+
+      instance.styles.foo = theme => ({
+        padding: theme.unitSize * 2,
+      });
+
+      expect(instance.getStyles('foo', 'classic')).toEqual({
+        padding: 10,
+      });
+    });
+
+    it('passes props to the style callback', () => {
+      instance.styles.foo = (theme, props) => ({
+        padding: props.unitSize * 2,
+      });
+
+      expect(instance.getStyles('foo', '', {
+        unitSize: 5,
+      })).toEqual({
+        padding: 10,
+      });
+    });
+
+    it('inherits styles from parent', () => {
+      instance.setStyles('foo', () => ({
+        color: 'red',
+        ':hover': {
+          color: 'darkred',
+        },
+      }));
+
+      instance.setStyles('bar', () => ({
+        background: 'blue',
+        ':hover': {
+          color: 'green',
+        },
+      }), 'foo');
+
+      instance.setStyles('baz', () => ({
+        display: 'block',
+      }), 'bar');
+
+      expect(instance.getStyles('foo')).toEqual({
+        color: 'red',
+        ':hover': {
+          color: 'darkred',
+        },
+      });
+
+      expect(instance.getStyles('bar')).toEqual({
+        color: 'red',
+        background: 'blue',
+        ':hover': {
+          color: 'green',
+        },
+      });
+
+      expect(instance.getStyles('baz')).toEqual({
+        color: 'red',
+        background: 'blue',
+        display: 'block',
+        ':hover': {
+          color: 'green',
         },
       });
     });

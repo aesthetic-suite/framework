@@ -50,10 +50,33 @@ export default class Aesthetic {
   }
 
   /**
-   * Extract the defined style declarations. If the declaratin is a function,
-   * execute it while passing the current theme and React props.
+   * Return a stylesheet unique to an adapter.
    */
   createStyleSheet(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
+    return this.adapter.create(this.getStyles(styleName, themeName, props));
+  }
+
+  /**
+   * Register a theme by extending and merging with a previously defined theme.
+   */
+  extendTheme(
+    parentThemeName: string,
+    themeName: string,
+    theme?: ThemeSheet = {},
+    globals?: StyleSheet = {},
+  ): this {
+    return this.registerTheme(
+      themeName,
+      deepMerge({}, this.getTheme(parentThemeName), theme),
+      globals,
+    );
+  }
+
+  /**
+   * Retrieve the defined style declarations. If the declaratin is a function,
+   * execute it while passing the current theme and React props.
+   */
+  getStyles(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
@@ -72,28 +95,12 @@ export default class Aesthetic {
     if (parentStyleName) {
       styleSheet = deepMerge(
         {},
-        this.createStyleSheet(parentStyleName, themeName, props),
+        this.getStyles(parentStyleName, themeName, props),
         styleSheet,
       );
     }
 
-    return this.adapter.create(styleSheet);
-  }
-
-  /**
-   * Register a theme by extending and merging with a previously defined theme.
-   */
-  extendTheme(
-    parentThemeName: string,
-    themeName: string,
-    theme?: ThemeSheet = {},
-    globals?: StyleSheet = {},
-  ): this {
-    return this.registerTheme(
-      themeName,
-      deepMerge({}, this.getTheme(parentThemeName), theme),
-      globals,
-    );
+    return styleSheet;
   }
 
   /**

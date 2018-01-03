@@ -122,6 +122,7 @@ declare module 'aesthetic' {
       theme?: ThemeSheet,
       globals?: StyleSheet,
     ): this;
+    getStyles(styleName: string, themeName?: string, props?: Object): StyleSheet;
     getTheme(themeName?: string): ThemeSheet;
     registerTheme(
       themeName: string,
