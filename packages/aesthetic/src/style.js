@@ -155,7 +155,9 @@ export default function style(
       }
 
       render(): React$Node {
-        return <Component {...this.props} {...this.state} />;
+        const { firstMount, ...state } = this.state;
+
+        return <Component {...this.props} {...state} />;
       }
     }
 

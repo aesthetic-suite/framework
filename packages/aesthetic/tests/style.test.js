@@ -239,6 +239,17 @@ describe('aesthetic/style()', () => {
     });
   });
 
+  it('doesnt pass `firstMount` prop', () => {
+    function ThemeComponent4(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic)(ThemeComponent4);
+    const wrapper = shallow(<Wrapped />);
+
+    expect(wrapper.prop('firstMount')).toBeUndefined();
+  });
+
   it('can customize the styles prop type using `options.stylesPropName`', () => {
     function StylesComponent3(props) {
       return <div />;
