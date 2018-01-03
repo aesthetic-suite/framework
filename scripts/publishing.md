@@ -6,7 +6,6 @@ using the following commands.
 
 ```
 npm run publish
-npm version <semver>
 ```
 
 If Lerna balks with "No updated packages to publish", we need to force publish.

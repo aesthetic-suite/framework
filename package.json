@@ -14,6 +14,7 @@
     "flow": "type-check",
     "jest": "run-tests",
     "posttest": "yarn run flow",
+    "prepublishOnly": "yarn run assemble && yarn run build:verify",
     "pretest": "yarn run eslint",
     "publish": "lerna publish",
     "publish:force": "lerna publish --force-publish=*",
@@ -53,6 +54,5 @@
   ],
   "workspaces": [
     "packages/*"
-  ],
-  "version": "2.0.0"
+  ]
 }
