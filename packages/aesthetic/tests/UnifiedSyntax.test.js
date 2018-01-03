@@ -215,13 +215,6 @@ describe('aesthetic/UnifiedSyntax', () => {
 
         expect(spy).toHaveBeenCalledWith(expect.objectContaining({}), [FONT_ROBOTO], 'Roboto');
       });
-
-      it('errors if font family was used multiple times', () => {
-        expect(() => {
-          instance.convert(SYNTAX_FONT_FACE);
-          instance.convert(SYNTAX_FONT_FACE);
-        }).toThrowError('@font-face "Roboto" already exists.');
-      });
     });
 
     describe('@global', () => {
@@ -317,13 +310,6 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.convert(SYNTAX_KEYFRAMES);
 
         expect(spy).toHaveBeenCalledWith(expect.objectContaining({}), KEYFRAME_FADE, 'fade');
-      });
-
-      it('errors if animation name was used multiple times', () => {
-        expect(() => {
-          instance.convert(SYNTAX_KEYFRAMES);
-          instance.convert(SYNTAX_KEYFRAMES);
-        }).toThrowError('@keyframes "fade" already exists.');
       });
     });
 

@@ -109,12 +109,6 @@ export default class UnifiedSyntax {
           const faces = prevStyleSheet['@font-face'];
 
           Object.keys(this.checkBlock(faces)).forEach((fontFamily) => {
-            if (__DEV__) {
-              if (this.fontFaces[fontFamily]) {
-                throw new Error(`@font-face "${fontFamily}" already exists.`);
-              }
-            }
-
             // $FlowIgnore
             this.fontFaces[fontFamily] = toArray(faces[fontFamily])
               .map(font => ({
@@ -150,12 +144,6 @@ export default class UnifiedSyntax {
           const frames = prevStyleSheet['@keyframes'];
 
           Object.keys(this.checkBlock(frames)).forEach((animationName) => {
-            if (__DEV__) {
-              if (this.keyframes[animationName]) {
-                throw new Error(`@keyframes "${animationName}" already exists.`);
-              }
-            }
-
             this.keyframes[animationName] = this.checkBlock(frames[animationName]);
 
             this.emit(rule, [nextStyleSheet, this.keyframes[animationName], animationName]);
