@@ -4,7 +4,7 @@
 * Plugin `jss-nested` is now a requirement.
 
 #### 🚀 New
-* Updated `jss` to 9.4.
+* Updated `jss` to 9.5.
 * Unified Syntax
   * Adds new `@charset`, `@global`, `@import`, `@namespace`, `@supports`, and `@viewport` at-rules.
   * Supports the new `@font-face` structure.

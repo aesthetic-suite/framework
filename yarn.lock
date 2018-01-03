@@ -4611,9 +4611,9 @@ jss-vendor-prefixer@^7.0.0:
   dependencies:
     css-vendor "^0.3.8"
 
-jss@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/jss/-/jss-9.4.0.tgz#fbfd1a63556c5afd5bfcffd98df3c50eb2614ed3"
+jss@^9.5.0:
+  version "9.5.0"
+  resolved "https://registry.npmjs.org/jss/-/jss-9.5.0.tgz#17bffda16042b03fa3b757ff3617c6c99f0d791e"
   dependencies:
     is-in-browser "^1.1.3"
     symbol-observable "^1.1.0"
