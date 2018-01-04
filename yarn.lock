@@ -6839,9 +6839,9 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typestyle@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.npmjs.org/typestyle/-/typestyle-1.5.1.tgz#b2c79c4d6d5c6e2cc6bffdc9468665512910b8e5"
+typestyle@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/typestyle/-/typestyle-1.6.0.tgz#4790d1c6d92e3ecff6d05a8ab7be22bf3b8f3d98"
   dependencies:
     free-style "2.5.1"
 
