@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-typestyle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeStyle support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -19,12 +19,12 @@
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
-    "aesthetic": "^2.0.0",
+    "aesthetic": "^2.1.0",
     "typestyle": "^1.5.0"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.46.0",
-    "aesthetic": "^2.0.0",
+    "aesthetic": "^2.1.0",
     "typestyle": "^1.6.0"
   }
 }
