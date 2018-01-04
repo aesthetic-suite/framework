@@ -144,4 +144,9 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
+
+  it('prefixes class names with style name', () => {
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL, 'prefix').button))
+      .toBe('prefix-button-0-11-1');
+  });
 });

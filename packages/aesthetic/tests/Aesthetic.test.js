@@ -56,7 +56,7 @@ describe('aesthetic/Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith({
         display: 'block',
-      });
+      }, 'foo');
     });
 
     it('returns the style sheet', () => {
@@ -258,7 +258,7 @@ describe('aesthetic/Aesthetic', () => {
         foo: { unitSize: 6 },
       });
 
-      expect(spy).toHaveBeenCalledWith(SYNTAX_GLOBAL);
+      expect(spy).toHaveBeenCalledWith(SYNTAX_GLOBAL, ':root');
     });
   });
 
@@ -489,7 +489,7 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new JssAdapter());
       styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles([styleSheet.button])).toBe('button-0-1-1');
+      expect(instance.transformStyles([styleSheet.button])).toBe('foo-button-0-1-1');
     });
 
     it('supports TypeStyle', () => {

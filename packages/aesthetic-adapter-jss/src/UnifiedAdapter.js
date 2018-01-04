@@ -33,8 +33,8 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       .on('@page', this.syntax.createUnsupportedHandler('@page'));
   }
 
-  create(styleSheet: StyleSheet): StyleSheet {
-    return super.create(this.syntax.convert(styleSheet));
+  create(styleSheet: StyleSheet, styleName: string): StyleSheet {
+    return super.create(this.syntax.convert(styleSheet), styleName);
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

@@ -16,7 +16,7 @@ export default class Adapter {
   /**
    * Create a stylesheet from a component's style styleSheet.
    */
-  create(styleSheet: StyleSheet): StyleSheet {
+  create(styleSheet: StyleSheet, styleName: string): StyleSheet {
     return styleSheet;
   }
 

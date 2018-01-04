@@ -1,3 +1,8 @@
+# 2.1.0
+#### 🚀 New
+* Style names (usually the component name) are now passed to adapters during the stylesheet
+  creation phase.
+
 # 2.0.0
 Aesthetic has been rewritten to properly support specificity, new at-rules, and global styles.
 Styles are no longer transformed on mount and will now be transformed on render using a new

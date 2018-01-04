@@ -22,8 +22,12 @@ export default class JSSAdapter extends Adapter {
     this.jss = jss || create();
   }
 
-  create(styleSheet: StyleSheet): StyleSheet {
-    this.sheet = this.jss.createStyleSheet(styleSheet).attach();
+  create(styleSheet: StyleSheet, styleName: string): StyleSheet {
+    this.sheet = this.jss.createStyleSheet(styleSheet, {
+      classNamePrefix: styleName ? `${styleName}-` : '',
+      media: 'screen',
+      meta: { styleName },
+    }).attach();
 
     return this.sheet.classes;
   }

@@ -1,3 +1,8 @@
+# 2.1.0
+#### 🚀 New
+* Class names are now prefixed using the component name (the style name).
+* Stylesheet media now defaults to `screen`.
+
 # 2.0.0
 #### 💥 Breaking
 * Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).

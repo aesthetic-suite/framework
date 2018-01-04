@@ -53,7 +53,7 @@ export default class Aesthetic {
    * Return a stylesheet unique to an adapter.
    */
   createStyleSheet(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
-    return this.adapter.create(this.getStyles(styleName, themeName, props));
+    return this.adapter.create(this.getStyles(styleName, themeName, props), styleName);
   }
 
   /**
@@ -148,7 +148,7 @@ export default class Aesthetic {
     this.themes[themeName] = theme;
 
     // Create global styles
-    const globalStyleSheet = this.adapter.create(globals);
+    const globalStyleSheet = this.adapter.create(globals, ':root');
 
     // $FlowIgnore
     this.transformStyles(Object.values(globalStyleSheet));

@@ -96,7 +96,7 @@ declare module 'aesthetic' {
     unifiedSyntax: boolean;
 
     constructor(options?: Object): this;
-    create(styleSheet: StyleSheet): StyleSheet;
+    create(styleSheet: StyleSheet, styleName: string): StyleSheet;
     transform(...styles: StyleDeclaration[]): ClassName;
   }
 
