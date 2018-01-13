@@ -80,6 +80,16 @@ export const SYNTAX_CHARSET = {
   '@charset': 'utf8',
 };
 
+export const SYNTAX_DESCENDANT = {
+  list: {
+    margin: 0,
+    padding: 0,
+    '> li': {
+      listStyle: 'bullet',
+    },
+  },
+};
+
 export const SYNTAX_IMPORT = {
   '@import': './some/path.css',
 };

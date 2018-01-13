@@ -5,6 +5,7 @@ import UnifiedGlamorAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -92,6 +93,14 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('css-iq5gps');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });

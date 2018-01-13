@@ -49,6 +49,7 @@ export default class UnifiedSyntax {
 
   constructor() {
     this
+      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
       .on('@charset', this.handleCharset)
       .on('@fallbacks', this.handleFallbacks)
@@ -214,11 +215,16 @@ export default class UnifiedSyntax {
 
     // Convert properties first
     Object.keys(prevDeclaration).forEach((key) => {
-      if (key.charAt(0) !== '@') {
-        this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
-
-        delete prevDeclaration[key];
+      if (key.charAt(0) === '@') {
+        return;
       }
+
+      this.emit(
+        (key.charAt(0) === '>') ? 'descendant' : 'property',
+        [nextDeclaration, prevDeclaration[key], key],
+      );
+
+      delete prevDeclaration[key];
     });
 
     // Extract local at-rules first
@@ -285,6 +291,13 @@ export default class UnifiedSyntax {
   }
 
   /**
+   * Handle descendant selector styles.
+   */
+  handleDescendant(declaration: StyleDeclaration, style: Style, selector: string) {
+    declaration[selector] = style;
+  }
+
+  /**
    * Handle fallback properties.
    */
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
@@ -347,9 +360,9 @@ export default class UnifiedSyntax {
   /**
    * Handle CSS properties.
    */
-  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+  handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
     declaration[property] = style;
-  };
+  }
 
   /**
    * Handle @supports.

@@ -26,6 +26,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
+      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
@@ -35,6 +36,11 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
   create(styleSheet: StyleSheet, styleName: string): StyleSheet {
     return super.create(this.syntax.convert(styleSheet), styleName);
+  }
+
+  // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
+  handleDescendant(declaration: StyleDeclaration, style: Style, selector: string) {
+    declaration[`& ${selector}`] = style;
   }
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

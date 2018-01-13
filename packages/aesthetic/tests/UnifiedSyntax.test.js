@@ -8,6 +8,7 @@ import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -434,6 +435,27 @@ describe('aesthetic/UnifiedSyntax', () => {
         });
 
         expect(spy).toHaveBeenCalledWith({}, 10, 'margin');
+      });
+    });
+
+    describe('descendants', () => {
+      it('converts value', () => {
+        expect(instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list))
+          .toEqual(SYNTAX_DESCENDANT.list);
+      });
+
+      it('triggers event handler', () => {
+        const spy = jest.fn();
+
+        instance.on('descendant', spy);
+        instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list);
+
+        expect(spy).toHaveBeenCalledWith({
+          margin: 0,
+          padding: 0,
+        }, {
+          listStyle: 'bullet',
+        }, '> li');
       });
     });
 

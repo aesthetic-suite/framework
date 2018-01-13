@@ -18,6 +18,8 @@ exports[`aesthetic-adapter-jss/UnifiedAdapter handles @supports 1`] = `".sup-0-1
 
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles @viewport 1`] = `"@viewport {width: device-width;orientation: landscape;}"`;
 
+exports[`aesthetic-adapter-jss/UnifiedAdapter handles descendant selectors 1`] = `".list-0-16-1 {margin: 0;padding: 0;}"`;
+
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles globals 1`] = `"body {margin: 0;}html {height: 100%;}a {color: red;}a:hover {color: darkred;}"`;
 
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles properties 1`] = `".props-0-4-1 {color: black;margin: 10px;display: inline;}"`;

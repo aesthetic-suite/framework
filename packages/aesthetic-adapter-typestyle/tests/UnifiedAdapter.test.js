@@ -4,6 +4,7 @@ import UnifiedTypeStyleAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -102,6 +103,14 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('fmow1iy');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('f1kadczy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

@@ -26,6 +26,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
+      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@font-face', this.handleFontFace)
@@ -39,6 +40,11 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   create(styleSheet: StyleSheet): StyleSheet {
     return super.create(this.syntax.convert(styleSheet));
   }
+
+  // https://github.com/threepointone/glamor/blob/master/docs/howto.md#child-selectors
+  handleProperty = (declaration: StyleDeclaration, style: Style, selector: string) => {
+    declaration[`& ${selector}`] = style;
+  };
 
   // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont
   handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {

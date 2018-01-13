@@ -6,6 +6,7 @@ import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -103,6 +104,14 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });

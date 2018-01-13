@@ -26,6 +26,7 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
+      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', this.handleFallbacks)
@@ -43,6 +44,12 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   create(styleSheet: StyleSheet): StyleSheet {
     return super.create(this.syntax.convert(styleSheet));
   }
+
+  handleDescendant = (declaration: StyleDeclaration, style: Style, selector: string) => {
+    this.injectNested(declaration, {
+      [`&${selector}`]: style,
+    });
+  };
 
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
     declaration[property] = [...style, declaration[property]].filter(Boolean);
