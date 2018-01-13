@@ -1,8 +1,10 @@
 # 2.1.0
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).
+* Unified Syntax
+  * Direct descendant selectors are now supported with `>`.
 
-# 2.0.0 - 12/02/17
+# 2.0.0 - 01/02/18
 #### 💥 Breaking
 * Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 * Constructor 1st argument now requires an array of extensions instead of an Aphrodite `StyleSheet`.

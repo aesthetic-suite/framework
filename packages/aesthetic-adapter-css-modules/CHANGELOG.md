@@ -1,4 +1,4 @@
-# 2.0.0
+# 2.0.0 - 01/02/18
 #### 💥 Breaking
 * Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 

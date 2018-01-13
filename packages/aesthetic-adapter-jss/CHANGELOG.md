@@ -1,13 +1,15 @@
 # 2.2.0
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).
+* Unified Syntax
+  * Direct descendant selectors are now supported with `>`.
 
-# 2.1.0 - 12/03/17
+# 2.1.0 - 01/03/18
 #### 🚀 New
 * Class names are now prefixed using the component name (the style name).
 * Stylesheet media now defaults to `screen`.
 
-# 2.0.0 - 12/02/17
+# 2.0.0 - 01/02/18
 #### 💥 Breaking
 * Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 * Plugin `jss-nested` is now a requirement.

@@ -6,7 +6,6 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
-  SYNTAX_DESCENDANT,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderGlamorStyles } from '../../../tests/helpers';

@@ -1,9 +1,14 @@
-# 2.1.0
+# 2.2.0
+#### 🚀 New
+* Unified Syntax
+  * Direct descendant selectors are now supported with `>`.
+
+# 2.1.0 - 01/03/18
 #### 🚀 New
 * Style names (usually the component name) are now passed to adapters during the stylesheet
   creation phase.
 
-# 2.0.0
+# 2.0.0 - 01/02/18
 Aesthetic has been rewritten to properly support specificity, new at-rules, and global styles.
 Styles are no longer transformed on mount and will now be transformed on render using a new
 stylesheet layer. Furthermore, unified syntax now supports most common at-rules, and a new
