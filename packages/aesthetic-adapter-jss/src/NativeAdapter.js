@@ -33,6 +33,24 @@ export default class JSSAdapter extends Adapter {
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {
-    return styles.filter(style => typeof style === 'string').join(' ');
+    const legitStyles = [];
+    const tempStylesheet = {};
+    let counter = 0;
+
+    styles.forEach((style, i) => {
+      if (typeof style === 'string') {
+        legitStyles.push(style);
+
+      } else if (typeof style === 'object' && style && Object.keys(style).length > 0) {
+        tempStylesheet[counter] = style;
+        counter += 1;
+      }
+    });
+
+    if (counter > 0) {
+      legitStyles.push(...Object.values(this.create(tempStylesheet, 'inline')));
+    }
+
+    return legitStyles.join(' ');
   }
 }

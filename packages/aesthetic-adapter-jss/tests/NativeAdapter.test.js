@@ -149,4 +149,11 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL, 'prefix').button))
       .toBe('prefix-button-0-11-1');
   });
+
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('inline-0-0-12-1');
+  });
 });

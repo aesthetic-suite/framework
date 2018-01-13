@@ -20,6 +20,13 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('f7tlree');
   });
 
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('fe13ew7');
+  });
+
   it('combines different style declarations into unique class names', () => {
     const sheet = instance.create({
       foo: {

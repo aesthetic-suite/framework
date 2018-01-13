@@ -24,6 +24,13 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('css-1n8n9n3');
   });
 
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('css-s3feo0');
+  });
+
   it('combines different style declarations into unique class names', () => {
     const sheet = instance.create({
       foo: {

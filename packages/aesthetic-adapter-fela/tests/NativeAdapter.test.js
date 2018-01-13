@@ -27,6 +27,13 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
     expect(newInstance.fela).not.toEqual(instance.fela);
   });
 
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('a b');
+  });
+
   it('transforms style declarations into class names', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button))
       .toBe('a b c d e f g h i j k l m n o p q r s t u v w');

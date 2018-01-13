@@ -30,7 +30,25 @@ export default class AphroditeAdapter extends Adapter {
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {
-    return this.aphrodite.css(...styles);
+    const legitStyles = [];
+    const tempStylesheet = {};
+    let counter = 0;
+
+    styles.forEach((style, i) => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (style._name && style._definition) {
+        legitStyles.push(style);
+      } else {
+        tempStylesheet[counter] = style;
+        counter += 1;
+      }
+    });
+
+    if (counter > 0) {
+      legitStyles.push(...Object.values(this.create(tempStylesheet)));
+    }
+
+    return this.aphrodite.css(...legitStyles);
   }
 
   handleGlobalSelector(

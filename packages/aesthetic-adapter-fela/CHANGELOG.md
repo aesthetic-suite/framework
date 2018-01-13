@@ -1,4 +1,8 @@
-# 2.0.0
+# 2.1.0
+#### 🚀 New
+* Can now pass dynamic style objects to `transform` (will be akin to inline).
+
+# 2.0.0 - 12/02/17
 #### 💥 Breaking
 * Rewritten to support the [core 2.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 * Removed `react-native` support.

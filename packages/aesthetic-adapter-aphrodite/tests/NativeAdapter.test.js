@@ -29,6 +29,13 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     expect(instance.aphrodite).not.toEqual(StyleSheet);
   });
 
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('0_7in6ye');
+  });
+
   it('transforms style declarations into class names', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button))
       .toBe('button_13l44zh');
