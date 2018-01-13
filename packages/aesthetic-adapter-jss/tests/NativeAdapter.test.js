@@ -56,7 +56,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       .toBe('bar-0-4-2 foo-0-4-1');
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
@@ -155,5 +155,19 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       width: 10,
       height: 10,
     })).toBe('inline-0-0-12-1');
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create({
+      list: {
+        margin: 0,
+        padding: 0,
+        '& > li': {
+          listStyle: 'bullet',
+        },
+      },
+    }).list)).toBe('list-0-13-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 });

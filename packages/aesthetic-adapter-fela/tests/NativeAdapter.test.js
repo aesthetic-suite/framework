@@ -7,6 +7,7 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_DESCENDANT,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderFelaStyles } from '../../../tests/helpers';
@@ -64,8 +65,14 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       .toBe('a d b');
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });

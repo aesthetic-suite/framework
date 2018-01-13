@@ -21,6 +21,7 @@ export default class AphroditeAdapter extends Adapter {
 
     this.aphrodite = StyleSheet.extend([
       ...extensions,
+      { selectorHandler: this.handleDescendantSelector },
       { selectorHandler: this.handleGlobalSelector },
     ]);
   }
@@ -49,6 +50,18 @@ export default class AphroditeAdapter extends Adapter {
     }
 
     return this.aphrodite.css(...legitStyles);
+  }
+
+  handleDescendantSelector(
+    selector: string,
+    baseSelector: string,
+    callback: (selector: string) => string | null,
+  ): string | null {
+    if (selector.charAt(0) !== '>') {
+      return null;
+    }
+
+    return callback(`${baseSelector} ${selector}`);
   }
 
   handleGlobalSelector(

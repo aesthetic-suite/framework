@@ -87,7 +87,7 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',

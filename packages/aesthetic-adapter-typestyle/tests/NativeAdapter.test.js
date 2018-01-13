@@ -50,7 +50,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(sheet.bar, sheet.foo)).toBe('f14rya1t');
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
@@ -64,6 +64,22 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
         },
       },
     }).pseudo)).toBe('fh5c9i2');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create({
+      list: {
+        margin: 0,
+        padding: 0,
+        $nest: {
+          '> li': {
+            listStyle: 'bullet',
+          },
+        },
+      },
+    }).list)).toBe('f1kadczy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

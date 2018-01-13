@@ -24,4 +24,4 @@ exports[`aesthetic-adapter-jss/UnifiedAdapter handles globals 1`] = `"body {marg
 
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles properties 1`] = `".props-0-4-1 {color: black;margin: 10px;display: inline;}"`;
 
-exports[`aesthetic-adapter-jss/UnifiedAdapter handles pseudos 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;
+exports[`aesthetic-adapter-jss/UnifiedAdapter handles pseudo selectors 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;

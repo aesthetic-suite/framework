@@ -16,4 +16,4 @@ exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles globals 1`] = `"body
 
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
 
-exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles pseudos 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
+exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;

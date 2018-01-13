@@ -16,4 +16,4 @@ exports[`aesthetic-adapter-fela/UnifiedAdapter handles globals 1`] = `"body{marg
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
-exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudos 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudo selectors 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;

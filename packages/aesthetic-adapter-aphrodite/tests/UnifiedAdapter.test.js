@@ -7,6 +7,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -102,7 +103,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',
@@ -116,6 +117,14 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('list_1lo5lhe');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });

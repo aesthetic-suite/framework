@@ -42,7 +42,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   }
 
   // https://github.com/threepointone/glamor/blob/master/docs/howto.md#child-selectors
-  handleProperty = (declaration: StyleDeclaration, style: Style, selector: string) => {
+  handleDescendant = (declaration: StyleDeclaration, style: Style, selector: string) => {
     declaration[`& ${selector}`] = style;
   };
 

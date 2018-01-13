@@ -2,12 +2,14 @@
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles animations 1`] = `"@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-8-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}"`;
 
+exports[`aesthetic-adapter-jss/NativeAdapter handles descendant selectors 1`] = `".list-0-13-1 {margin: 0;padding: 0;}.list-0-13-1 > li {list-style: bullet;}"`;
+
 exports[`aesthetic-adapter-jss/NativeAdapter handles fallbacks 1`] = `".fallback-0-6-1 {background: linear-gradient(...);display: flex-box;display: box;display: flex;background: red;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles font faces 1`] = `"@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font-0-7-1 {font-size: 20px;font-family: Roboto;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles media queries 1`] = `".media-0-9-1 {color: red;}@media (min-width: 300px) {.media-0-9-1 {color: blue;}}@media (max-width: 1000px) {.media-0-9-1 {color: green;}}"`;
 
-exports[`aesthetic-adapter-jss/NativeAdapter handles pseudos 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;
+exports[`aesthetic-adapter-jss/NativeAdapter handles pseudo selectors 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles supports 1`] = `".sup-0-10-1 {display: block;}@supports (display: flex) {.sup-0-10-1 {display: flex;}}@supports not (display: flex) {.sup-0-10-1 {float: left;}}"`;
