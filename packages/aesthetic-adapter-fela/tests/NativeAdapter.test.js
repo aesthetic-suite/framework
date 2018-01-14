@@ -7,6 +7,8 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_ATTRIBUTE,
+  SYNTAX_DESCENDANT,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderFelaStyles } from '../../../tests/helpers';
@@ -25,6 +27,15 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
     const newInstance = new FelaAdapter(renderer);
 
     expect(newInstance.fela).not.toEqual(instance.fela);
+  });
+
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('a b');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('transforms style declarations into class names', () => {
@@ -57,7 +68,19 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       .toBe('a d b');
   });
 
-  it('handles pseudos', () => {
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('a b');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('a b c');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();

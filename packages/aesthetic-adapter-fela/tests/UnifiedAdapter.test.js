@@ -5,7 +5,9 @@ import webPreset from 'fela-preset-web';
 import UnifiedFelaAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -89,18 +91,24 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
-    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
-      pseudo: {
-        position: 'fixed',
-        ':hover': {
-          position: 'static',
-        },
-        '::before': {
-          position: 'absolute',
-        },
-      },
-    });
+  it('handles attribute selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_ATTRIBUTE)).toEqual(SYNTAX_ATTRIBUTE);
+
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('a b');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('a b c');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
 

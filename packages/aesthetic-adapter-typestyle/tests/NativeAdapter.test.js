@@ -20,6 +20,15 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('f7tlree');
   });
 
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('fe13ew7');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
   it('combines different style declarations into unique class names', () => {
     const sheet = instance.create({
       foo: {
@@ -43,20 +52,51 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(sheet.bar, sheet.foo)).toBe('f14rya1t');
   });
 
-  it('handles pseudos', () => {
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create({
+      attr: {
+        display: 'block',
+        $nest: {
+          '&[disabled]': {
+            opacity: 0.5,
+          },
+        },
+      },
+    }).attr)).toBe('f14zstro');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create({
+      list: {
+        margin: 0,
+        padding: 0,
+        $nest: {
+          '&> li': {
+            listStyle: 'bullet',
+          },
+        },
+      },
+    }).list)).toBe('f1qve63s');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
         $nest: {
-          ':hover': {
+          '&:hover': {
             position: 'static',
           },
-          '::before': {
+          '&::before': {
             position: 'absolute',
           },
         },
       },
-    }).pseudo)).toBe('fh5c9i2');
+    }).pseudo)).toBe('fmow1iy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

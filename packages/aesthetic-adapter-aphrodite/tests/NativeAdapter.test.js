@@ -6,6 +6,8 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_ATTRIBUTE,
+  SYNTAX_DESCENDANT,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderAphroditeStyles } from '../../../tests/helpers';
@@ -27,6 +29,15 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     instance = new AphroditeAdapter([extension]);
 
     expect(instance.aphrodite).not.toEqual(StyleSheet);
+  });
+
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('inline0_7in6ye');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('transforms style declarations into class names', () => {
@@ -76,7 +87,19 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('attr_424cv8');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('list_1lo5lhe');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();

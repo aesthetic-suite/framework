@@ -6,6 +6,7 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderGlamorStyles } from '../../../tests/helpers';
@@ -22,6 +23,15 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
 
   it('transforms style declarations into class names', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe('css-1n8n9n3');
+  });
+
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('css-s3feo0');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('combines different style declarations into unique class names', () => {
@@ -47,7 +57,27 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     expect(instance.transform(sheet.bar, sheet.foo)).toBe('css-h4vsx0');
   });
 
-  it('handles pseudos', () => {
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('css-blwook');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create({
+      list: {
+        margin: 0,
+        padding: 0,
+        '& > li': {
+          listStyle: 'bullet',
+        },
+      },
+    }).list)).toBe('css-191gc4j');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();

@@ -27,6 +27,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     this.syntax = new UnifiedSyntax();
     this.syntax
       .on('property', this.handleProperty)
+      .on('selector', this.handleSelector)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@global', this.handleGlobal)
@@ -64,10 +65,11 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
   handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
-    if (property.charAt(0) === ':') {
-      declaration[`&${property}`] = style;
-    } else {
-      declaration[property] = style;
-    }
+    declaration[property] = style;
+  }
+
+  // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
+  handleSelector(declaration: StyleDeclaration, style: Style, selector: string) {
+    declaration[`&${selector}`] = style;
   }
 }

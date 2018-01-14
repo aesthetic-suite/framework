@@ -7,7 +7,9 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -103,7 +105,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',
@@ -253,6 +255,37 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_VIEWPORT))).toBe('');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual({
+      list: {
+        margin: 0,
+        padding: 0,
+        '&> li': {
+          listStyle: 'bullet',
+        },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('list-0-16-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles attribute selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_ATTRIBUTE)).toEqual({
+      attr: {
+        display: 'block',
+        '&[disabled]': {
+          opacity: 0.5,
+        },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('attr-0-17-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

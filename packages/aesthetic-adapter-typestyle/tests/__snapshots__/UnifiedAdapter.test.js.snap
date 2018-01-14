@@ -10,8 +10,12 @@ exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles @media 1`] = `".fuxm
 
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles @supports 1`] = `".f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}"`;
 
+exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
+
+exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
+
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
 
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
 
-exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles pseudos 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
+exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;

@@ -76,8 +76,27 @@ export const SYNTAX_UNIFIED_FULL = {
   },
 };
 
+export const SYNTAX_ATTRIBUTE = {
+  attr: {
+    display: 'block',
+    '[disabled]': {
+      opacity: 0.5,
+    },
+  },
+};
+
 export const SYNTAX_CHARSET = {
   '@charset': 'utf8',
+};
+
+export const SYNTAX_DESCENDANT = {
+  list: {
+    margin: 0,
+    padding: 0,
+    '> li': {
+      listStyle: 'bullet',
+    },
+  },
 };
 
 export const SYNTAX_IMPORT = {

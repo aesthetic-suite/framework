@@ -10,8 +10,12 @@ exports[`aesthetic-adapter-fela/UnifiedAdapter handles @media 1`] = `".a{color:r
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles @supports 1`] = `".a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}"`;
 
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles attribute selectors 1`] = `".a{display:block}.b[disabled]{opacity:0.5}"`;
+
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles descendant selectors 1`] = `".a{margin:0px}.b{padding:0px}.c> li{list-style:bullet}"`;
+
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles globals 1`] = `"body{margin:0px}html{height:100%}a{color:red}"`;
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
-exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudos 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudo selectors 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;

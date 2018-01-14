@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`aesthetic-adapter-glamor/NativeAdapter can transform dynamic styles 1`] = `".css-s3feo0,[data-css-s3feo0] {width: 10px; height: 10px;}"`;
+
 exports[`aesthetic-adapter-glamor/NativeAdapter handles animations 1`] = `"@-webkit-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-moz-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-o-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }.css-s8bawe,[data-css-s8bawe] {animation-name: fade_1q3syk4; animation-duration: 3s, 1200ms; animation-iteration-count: infinite; -webkit-animation-name: fade_1q3syk4; -webkit-animation-duration: 3s, 1200ms; -webkit-animation-iteration-count: infinite;}"`;
+
+exports[`aesthetic-adapter-glamor/NativeAdapter handles attribute selectors 1`] = `".css-blwook,[data-css-blwook] {display: block;}.css-blwook[disabled],[data-css-blwook][disabled] {opacity: 0.5;}"`;
+
+exports[`aesthetic-adapter-glamor/NativeAdapter handles descendant selectors 1`] = `".css-191gc4j,[data-css-191gc4j] {margin: 0; padding: 0;}.css-191gc4j > li,[data-css-191gc4j] > li {list-style: bullet;}"`;
 
 exports[`aesthetic-adapter-glamor/NativeAdapter handles fallbacks 1`] = `".css-1nxkcks,[data-css-1nxkcks] {background: linear-gradient(...); display: flex;}"`;
 
@@ -8,6 +14,6 @@ exports[`aesthetic-adapter-glamor/NativeAdapter handles font faces 1`] = `"@font
 
 exports[`aesthetic-adapter-glamor/NativeAdapter handles media queries 1`] = `".css-rr71yy,[data-css-rr71yy] {color: red;}@media (min-width: 300px) {.css-rr71yy,[data-css-rr71yy] {color: blue;}}@media (max-width: 1000px) {.css-rr71yy,[data-css-rr71yy] {color: green;}}"`;
 
-exports[`aesthetic-adapter-glamor/NativeAdapter handles pseudos 1`] = `".css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}"`;
+exports[`aesthetic-adapter-glamor/NativeAdapter handles pseudo selectors 1`] = `".css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}"`;
 
 exports[`aesthetic-adapter-glamor/NativeAdapter handles supports 1`] = `".css-1sp1mbh,[data-css-1sp1mbh] {display: block;}"`;

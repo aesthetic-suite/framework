@@ -10,6 +10,10 @@ exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @media 1`] = `".css-rr7
 
 exports[`aesthetic-adapter-glamor/UnifiedAdapter handles @supports 1`] = `".css-1sp1mbh,[data-css-1sp1mbh] {display: block;}"`;
 
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles attribute selectors 1`] = `".css-blwook,[data-css-blwook] {display: block;}.css-blwook[disabled],[data-css-blwook][disabled] {opacity: 0.5;}"`;
+
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles descendant selectors 1`] = `".css-iq5gps,[data-css-iq5gps] {margin: 0; padding: 0;}.css-iq5gps> li,[data-css-iq5gps]> li {list-style: bullet;}"`;
+
 exports[`aesthetic-adapter-glamor/UnifiedAdapter handles properties 1`] = `".css-115cnno,[data-css-115cnno] {color: black; display: inline; margin: 10px;}"`;
 
-exports[`aesthetic-adapter-glamor/UnifiedAdapter handles pseudos 1`] = `".css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}"`;
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles pseudo selectors 1`] = `".css-1g7aevf,[data-css-1g7aevf] {position: fixed;}.css-1g7aevf:hover,[data-css-1g7aevf]:hover {position: static;}.css-1g7aevf::before,[data-css-1g7aevf]::before {position: absolute;}"`;

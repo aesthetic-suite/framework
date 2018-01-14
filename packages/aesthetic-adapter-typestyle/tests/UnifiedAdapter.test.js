@@ -3,7 +3,9 @@
 import UnifiedTypeStyleAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
@@ -86,7 +88,42 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
+  it('handles attribute selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_ATTRIBUTE)).toEqual({
+      attr: {
+        display: 'block',
+        $nest: {
+          '&[disabled]': {
+            opacity: 0.5,
+          },
+        },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('f14zstro');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual({
+      list: {
+        margin: 0,
+        padding: 0,
+        $nest: {
+          '&> li': {
+            listStyle: 'bullet',
+          },
+        },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('f1qve63s');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
     expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
       pseudo: {
         position: 'fixed',

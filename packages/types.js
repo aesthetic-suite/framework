@@ -55,7 +55,7 @@ export type EventCallback =
   ((declaration: StyleDeclaration, style: Style[], property: string) => void) |
   // @media, @supports
   ((declaration: StyleDeclaration, style: StyleBlock, condition: string) => void) |
-  // property
+  // property, selector
   ((declaration: StyleDeclaration, style: Style, property: string) => void);
 
 export type HOCComponent = React$ComponentType<*>;

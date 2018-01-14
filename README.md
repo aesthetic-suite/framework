@@ -123,8 +123,9 @@ yarn add aesthetic react
   * [Default Theme](#default-theme)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
-  * [Pseudos](#pseudos)
-  * [Selectors](#selectors)
+  * [Attribute Selectors](#attribute-selectors)
+  * [Pseudo Selectors](#pseudo-selectors)
+  * [Descendant Selectors](#descendant-selectors)
   * [Global At-rules](#global-at-rules)
     * [@charset](#charset)
     * [@font-face](#font-face)
@@ -176,7 +177,7 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter | Unified Syntax | Globals¹ | Pseudos | Fallbacks | Fonts | Animations | Media Queries | Supports | Specificity |
+| Adapter | Unified Syntax | Globals¹ | Selectors | Fallbacks | Fonts | Animations | Media Queries | Supports | Specificity |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | [CSS class names](#external-classes) | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
 | [CSS modules][css-modules] | | | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
@@ -599,9 +600,24 @@ Standard structure for defining properties.
 
 > JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
 
-#### Pseudos
+#### Attribute Selectors
 
-Pseudo elements and classes are defined inside a selector as nested objects.
+Attribute selectors are defined inside a selector using `[]`.
+
+```javascript
+{
+  button: {
+    // ...
+    '[disabled]': {
+      opacity: 0.3,
+    },
+  },
+}
+```
+
+#### Pseudo Selectors
+
+Pseudo elements and pseudo classes are defined inside a selector using `:` or `::`.
 
 ```javascript
 {
@@ -619,12 +635,22 @@ Pseudo elements and classes are defined inside a selector as nested objects.
 }
 ```
 
-> JSS requires the `jss-nested` plugin.
+#### Descendant Selectors
 
-#### Selectors
+Direct descendant selectors are defined inside a selector using `>`. Only direct descendants are
+allowed.
 
-Parent, child, and sibling selectors are purposefully not supported. Use unique and
-isolated element selectors and style declarations instead.
+```javascript
+{
+  list: {
+    // ...
+    '> li': {
+      listStyle: 'none',
+      padding: 5,
+    },
+  },
+}
+```
 
 #### Global At-rules
 

@@ -4,7 +4,9 @@ import { speedy, flush } from 'glamor';
 import UnifiedGlamorAdapter from '../src/UnifiedAdapter';
 import {
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
+  SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_IMPORT,
@@ -78,18 +80,32 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudos', () => {
-    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
-      pseudo: {
-        position: 'fixed',
-        ':hover': {
-          position: 'static',
-        },
-        '::before': {
-          position: 'absolute',
+  it('handles attribute selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_ATTRIBUTE)).toEqual(SYNTAX_ATTRIBUTE);
+
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('css-blwook');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual({
+      list: {
+        margin: 0,
+        padding: 0,
+        '&> li': {
+          listStyle: 'bullet',
         },
       },
     });
+
+    expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('css-iq5gps');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 

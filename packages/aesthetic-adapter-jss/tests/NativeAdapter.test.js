@@ -56,7 +56,7 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       .toBe('bar-0-4-2 foo-0-4-1');
   });
 
-  it('handles pseudos', () => {
+  it('handles pseudo selectors', () => {
     expect(instance.transform(instance.create({
       pseudo: {
         position: 'fixed',
@@ -148,5 +148,41 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
   it('prefixes class names with style name', () => {
     expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL, 'prefix').button))
       .toBe('prefix-button-0-11-1');
+  });
+
+  it('can transform dynamic styles', () => {
+    expect(instance.transform({
+      width: 10,
+      height: 10,
+    })).toBe('dynamic-inline0-0-12-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles descendant selectors', () => {
+    expect(instance.transform(instance.create({
+      list: {
+        margin: 0,
+        padding: 0,
+        '&> li': {
+          listStyle: 'bullet',
+        },
+      },
+    }).list)).toBe('list-0-13-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create({
+      attr: {
+        display: 'block',
+        '&[disabled]': {
+          opacity: 0.5,
+        },
+      },
+    }).attr)).toBe('attr-0-14-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 });

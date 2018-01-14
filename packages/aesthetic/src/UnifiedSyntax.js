@@ -50,6 +50,7 @@ export default class UnifiedSyntax {
   constructor() {
     this
       .on('property', this.handleProperty)
+      .on('selector', this.handleSelector)
       .on('@charset', this.handleCharset)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
@@ -214,11 +215,22 @@ export default class UnifiedSyntax {
 
     // Convert properties first
     Object.keys(prevDeclaration).forEach((key) => {
-      if (key.charAt(0) !== '@') {
-        this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
+      switch (key.charAt(0)) {
+        case '@':
+          return;
 
-        delete prevDeclaration[key];
+        case ':':
+        case '>':
+        case '[':
+          this.emit('selector', [nextDeclaration, prevDeclaration[key], key]);
+          break;
+
+        default:
+          this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
+          break;
       }
+
+      delete prevDeclaration[key];
     });
 
     // Extract local at-rules first
@@ -347,9 +359,16 @@ export default class UnifiedSyntax {
   /**
    * Handle CSS properties.
    */
-  handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
+  handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
     declaration[property] = style;
-  };
+  }
+
+  /**
+   * Handle selector styles.
+   */
+  handleSelector(declaration: StyleDeclaration, style: Style, selector: string) {
+    declaration[selector] = style;
+  }
 
   /**
    * Handle @supports.
