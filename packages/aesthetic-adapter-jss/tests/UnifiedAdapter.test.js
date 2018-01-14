@@ -16,6 +16,7 @@ import {
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_MULTI_SELECTOR,
   SYNTAX_NAMESPACE,
   SYNTAX_PAGE,
   SYNTAX_PROPERTIES,
@@ -286,6 +287,21 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('attr-0-17-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple selectors (comma separated)', () => {
+    expect(instance.syntax.convert(SYNTAX_MULTI_SELECTOR)).toEqual({
+      multi: {
+        cursor: 'pointer',
+        '&:disabled': { cursor: 'default' },
+        '&[disabled]': { cursor: 'default' },
+        '&> span': { cursor: 'default' },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_MULTI_SELECTOR).multi)).toBe('multi-0-18-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

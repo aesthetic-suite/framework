@@ -16,6 +16,8 @@ exports[`aesthetic-adapter-fela/UnifiedAdapter handles descendant selectors 1`] 
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles globals 1`] = `"body{margin:0px}html{height:100%}a{color:red}"`;
 
+exports[`aesthetic-adapter-fela/UnifiedAdapter handles multiple selectors (comma separated) 1`] = `".a{cursor:pointer}.b:disabled{cursor:default}.c[disabled]{cursor:default}.d> span{cursor:default}"`;
+
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
 exports[`aesthetic-adapter-fela/UnifiedAdapter handles pseudo selectors 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;

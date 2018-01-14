@@ -14,6 +14,7 @@ import {
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_MULTI_SELECTOR,
   SYNTAX_NAMESPACE,
   SYNTAX_PAGE,
   SYNTAX_PROPERTIES,
@@ -111,6 +112,21 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
     expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('a b c');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple selectors (comma separated)', () => {
+    expect(instance.syntax.convert(SYNTAX_MULTI_SELECTOR)).toEqual({
+      multi: {
+        cursor: 'pointer',
+        ':disabled': { cursor: 'default' },
+        '[disabled]': { cursor: 'default' },
+        '> span': { cursor: 'default' },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_MULTI_SELECTOR).multi)).toBe('a b c d');
 
     expect(renderFelaStyles(instance)).toMatchSnapshot();
   });

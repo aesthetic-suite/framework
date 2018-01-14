@@ -221,9 +221,14 @@ export default class UnifiedSyntax {
 
         case ':':
         case '>':
-        case '[':
-          this.emit('selector', [nextDeclaration, prevDeclaration[key], key]);
+        case '[': {
+          // Support comma separated selectors
+          key.split(',').forEach((k) => {
+            this.emit('selector', [nextDeclaration, prevDeclaration[key], k.trim()]);
+          });
+
           break;
+        }
 
         default:
           this.emit('property', [nextDeclaration, prevDeclaration[key], key]);

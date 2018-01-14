@@ -12,6 +12,7 @@ import {
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_MULTI_SELECTOR,
   SYNTAX_NAMESPACE,
   SYNTAX_PAGE,
   SYNTAX_PROPERTIES,
@@ -139,6 +140,23 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('fmow1iy');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple selectors (comma separated)', () => {
+    expect(instance.syntax.convert(SYNTAX_MULTI_SELECTOR)).toEqual({
+      multi: {
+        cursor: 'pointer',
+        $nest: {
+          '&:disabled': { cursor: 'default' },
+          '&[disabled]': { cursor: 'default' },
+          '&> span': { cursor: 'default' },
+        },
+      },
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_MULTI_SELECTOR).multi)).toBe('fkkhpct');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

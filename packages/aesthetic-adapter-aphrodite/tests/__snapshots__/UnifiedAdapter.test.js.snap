@@ -12,6 +12,8 @@ exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles descendant selectors
 
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles globals 1`] = `"body{margin:0px !important;}html{height:100% !important;}a{color:red !important;}a:hover{color:darkred !important;}"`;
 
+exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles multiple selectors (comma separated) 1`] = `".multi_1xnvdcd{cursor:pointer !important;}.multi_1xnvdcd:disabled{cursor:default !important;}.multi_1xnvdcd[disabled]{cursor:default !important;}.multi_1xnvdcd> span{cursor:default !important;}"`;
+
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles properties 1`] = `".props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}"`;
 
 exports[`aesthetic-adapter-aphrodite/UnifiedAdapter handles pseudo selectors 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;

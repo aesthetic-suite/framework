@@ -162,6 +162,15 @@ export const SYNTAX_MEDIA_QUERY = {
   },
 };
 
+export const SYNTAX_MULTI_SELECTOR = {
+  multi: {
+    cursor: 'pointer',
+    ':disabled, [disabled], > span': {
+      cursor: 'default',
+    },
+  },
+};
+
 export const SYNTAX_NAMESPACE = {
   '@namespace': 'url(http://www.w3.org/1999/xhtml)',
 };

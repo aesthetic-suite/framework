@@ -16,6 +16,7 @@ import {
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_MULTI_SELECTOR,
   SYNTAX_NAMESPACE,
   SYNTAX_PAGE,
   SYNTAX_PROPERTIES,
@@ -488,6 +489,28 @@ describe('aesthetic/UnifiedSyntax', () => {
         expect(spy).toHaveBeenCalledWith({ position: 'fixed' }, {
           position: 'static',
         }, ':hover');
+      });
+    });
+
+    describe('multiple selectors (comma separated)', () => {
+      it('converts value', () => {
+        expect(instance.convertDeclaration('multi', SYNTAX_MULTI_SELECTOR.multi))
+          .toEqual({
+            cursor: 'pointer',
+            ':disabled': { cursor: 'default' },
+            '[disabled]': { cursor: 'default' },
+            '> span': { cursor: 'default' },
+          });
+      });
+
+      it('triggers event handler', () => {
+        const spy = jest.fn();
+
+        instance.on('selector', spy);
+        instance.convertDeclaration('multi', SYNTAX_MULTI_SELECTOR.multi);
+
+        expect(spy).toHaveBeenCalledWith({ cursor: 'pointer' }, { cursor: 'default' }, '> span');
+        expect(spy).toHaveBeenCalledTimes(3);
       });
     });
 

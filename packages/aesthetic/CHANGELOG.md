@@ -1,8 +1,9 @@
-# 2.2.0
+# 2.2.0 - 01/13/18
 #### 🚀 New
 * Unified Syntax
   * Attribute selectors are now supported when starting with `[`.
   * Direct descendant selectors are now supported with `>`.
+  * Multiple selectors are now supported by separating each selector with a comma.
 
 # 2.1.0 - 01/03/18
 #### 🚀 New

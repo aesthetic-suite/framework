@@ -24,6 +24,8 @@ exports[`aesthetic-adapter-jss/UnifiedAdapter handles descendant selectors 1`] =
 
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles globals 1`] = `"body {margin: 0;}html {height: 100%;}a {color: red;}a:hover {color: darkred;}"`;
 
+exports[`aesthetic-adapter-jss/UnifiedAdapter handles multiple selectors (comma separated) 1`] = `".multi-0-18-1 {cursor: pointer;}.multi-0-18-1:disabled {cursor: default;}.multi-0-18-1[disabled] {cursor: default;}.multi-0-18-1> span {cursor: default;}"`;
+
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles properties 1`] = `".props-0-4-1 {color: black;margin: 10px;display: inline;}"`;
 
 exports[`aesthetic-adapter-jss/UnifiedAdapter handles pseudo selectors 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;
