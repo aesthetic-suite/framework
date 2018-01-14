@@ -30,6 +30,8 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
       width: 10,
       height: 10,
     })).toBe('css-s3feo0');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('combines different style declarations into unique class names', () => {

@@ -123,6 +123,7 @@ yarn add aesthetic react
   * [Default Theme](#default-theme)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
+  * [Attribute Selectors](#attribute-selectors)
   * [Pseudo Selectors](#pseudo-selectors)
   * [Descendant Selectors](#descendant-selectors)
   * [Global At-rules](#global-at-rules)
@@ -599,6 +600,21 @@ Standard structure for defining properties.
 
 > JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
 
+#### Attribute Selectors
+
+Attribute selectors are defined inside a selector using `[]`.
+
+```javascript
+{
+  button: {
+    // ...
+    '[disabled]': {
+      opacity: 0.3,
+    },
+  },
+}
+```
+
 #### Pseudo Selectors
 
 Pseudo elements and pseudo classes are defined inside a selector using `:` or `::`.
@@ -621,7 +637,8 @@ Pseudo elements and pseudo classes are defined inside a selector using `:` or `:
 
 #### Descendant Selectors
 
-Direct descendant selectors are defined inside a selector using `>`.
+Direct descendant selectors are defined inside a selector using `>`. Only direct descendants are
+allowed.
 
 ```javascript
 {

@@ -25,6 +25,8 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
       width: 10,
       height: 10,
     })).toBe('fe13ew7');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('combines different style declarations into unique class names', () => {

@@ -34,6 +34,8 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
       width: 10,
       height: 10,
     })).toBe('a b');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
   });
 
   it('transforms style declarations into class names', () => {

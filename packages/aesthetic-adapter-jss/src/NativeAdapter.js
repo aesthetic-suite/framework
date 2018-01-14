@@ -42,13 +42,13 @@ export default class JSSAdapter extends Adapter {
         legitStyles.push(style);
 
       } else if (typeof style === 'object' && style && Object.keys(style).length > 0) {
-        tempStylesheet[counter] = style;
+        tempStylesheet[`inline${counter}`] = style;
         counter += 1;
       }
     });
 
     if (counter > 0) {
-      legitStyles.push(...Object.values(this.create(tempStylesheet, 'inline')));
+      legitStyles.push(...Object.values(this.create(tempStylesheet, 'dynamic')));
     }
 
     return legitStyles.join(' ');

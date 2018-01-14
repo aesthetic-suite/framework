@@ -154,7 +154,9 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     expect(instance.transform({
       width: 10,
       height: 10,
-    })).toBe('inline-0-0-12-1');
+    })).toBe('dynamic-inline0-0-12-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles descendant selectors', () => {

@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`aesthetic-adapter-jss/NativeAdapter can transform dynamic styles 1`] = `".dynamic-inline0-0-12-1 {width: 10px;height: 10px;}"`;
+
 exports[`aesthetic-adapter-jss/NativeAdapter handles animations 1`] = `"@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-8-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles attribute selectors 1`] = `".attr-0-14-1 {display: block;}.attr-0-14-1[disabled] {opacity: 0.5;}"`;

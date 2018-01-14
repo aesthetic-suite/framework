@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`aesthetic-adapter-aphrodite/NativeAdapter can transform dynamic styles 1`] = `".inline0_7in6ye{width:10px !important;height:10px !important;}"`;
+
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles animations 1`] = `"@keyframes keyframe_18jn58a{from{opacity:0;}to{opacity:1;}}.animation_mab5hn{-webkit-animation-duration:3s, 1200ms !important;animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-iteration-count:infinite !important;-webkit-animation-name:keyframe_18jn58a !important;animation-name:keyframe_18jn58a !important;}"`;
 
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles attribute selectors 1`] = `".attr_424cv8{display:block !important;}.attr_424cv8[disabled]{opacity:0.5 !important;}"`;

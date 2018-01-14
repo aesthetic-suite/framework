@@ -35,7 +35,9 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     expect(instance.transform({
       width: 10,
       height: 10,
-    })).toBe('0_7in6ye');
+    })).toBe('inline0_7in6ye');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('transforms style declarations into class names', () => {

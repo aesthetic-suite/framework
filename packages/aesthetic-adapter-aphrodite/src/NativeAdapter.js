@@ -40,7 +40,7 @@ export default class AphroditeAdapter extends Adapter {
       if (style._name && style._definition) {
         legitStyles.push(style);
       } else {
-        tempStylesheet[counter] = style;
+        tempStylesheet[`inline${counter}`] = style;
         counter += 1;
       }
     });

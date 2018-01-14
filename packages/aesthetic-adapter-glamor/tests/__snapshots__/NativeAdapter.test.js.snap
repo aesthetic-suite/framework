@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`aesthetic-adapter-glamor/NativeAdapter can transform dynamic styles 1`] = `".css-s3feo0,[data-css-s3feo0] {width: 10px; height: 10px;}"`;
+
 exports[`aesthetic-adapter-glamor/NativeAdapter handles animations 1`] = `"@-webkit-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-moz-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@-o-keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }@keyframes fade_1q3syk4 {from {opacity: 0;}to {opacity: 1;} }.css-s8bawe,[data-css-s8bawe] {animation-name: fade_1q3syk4; animation-duration: 3s, 1200ms; animation-iteration-count: infinite; -webkit-animation-name: fade_1q3syk4; -webkit-animation-duration: 3s, 1200ms; -webkit-animation-iteration-count: infinite;}"`;
 
 exports[`aesthetic-adapter-glamor/NativeAdapter handles attribute selectors 1`] = `".css-blwook,[data-css-blwook] {display: block;}.css-blwook[disabled],[data-css-blwook][disabled] {opacity: 0.5;}"`;
