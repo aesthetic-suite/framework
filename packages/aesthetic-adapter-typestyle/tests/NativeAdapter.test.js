@@ -50,20 +50,17 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(instance.transform(sheet.bar, sheet.foo)).toBe('f14rya1t');
   });
 
-  it('handles pseudo selectors', () => {
+  it('handles attribute selectors', () => {
     expect(instance.transform(instance.create({
-      pseudo: {
-        position: 'fixed',
+      attr: {
+        display: 'block',
         $nest: {
-          ':hover': {
-            position: 'static',
-          },
-          '::before': {
-            position: 'absolute',
+          '&[disabled]': {
+            opacity: 0.5,
           },
         },
       },
-    }).pseudo)).toBe('fh5c9i2');
+    }).attr)).toBe('f14zstro');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -74,12 +71,30 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
         margin: 0,
         padding: 0,
         $nest: {
-          '> li': {
+          '&> li': {
             listStyle: 'bullet',
           },
         },
       },
-    }).list)).toBe('f1kadczy');
+    }).list)).toBe('f1qve63s');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
+    expect(instance.transform(instance.create({
+      pseudo: {
+        position: 'fixed',
+        $nest: {
+          '&:hover': {
+            position: 'static',
+          },
+          '&::before': {
+            position: 'absolute',
+          },
+        },
+      },
+    }).pseudo)).toBe('fmow1iy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

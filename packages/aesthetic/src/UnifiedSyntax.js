@@ -49,8 +49,8 @@ export default class UnifiedSyntax {
 
   constructor() {
     this
-      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
+      .on('selector', this.handleSelector)
       .on('@charset', this.handleCharset)
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
@@ -215,14 +215,20 @@ export default class UnifiedSyntax {
 
     // Convert properties first
     Object.keys(prevDeclaration).forEach((key) => {
-      if (key.charAt(0) === '@') {
-        return;
-      }
+      switch (key.charAt(0)) {
+        case '@':
+          return;
 
-      this.emit(
-        (key.charAt(0) === '>') ? 'descendant' : 'property',
-        [nextDeclaration, prevDeclaration[key], key],
-      );
+        case ':':
+        case '>':
+        case '[':
+          this.emit('selector', [nextDeclaration, prevDeclaration[key], key]);
+          break;
+
+        default:
+          this.emit('property', [nextDeclaration, prevDeclaration[key], key]);
+          break;
+      }
 
       delete prevDeclaration[key];
     });
@@ -291,13 +297,6 @@ export default class UnifiedSyntax {
   }
 
   /**
-   * Handle descendant selector styles.
-   */
-  handleDescendant(declaration: StyleDeclaration, style: Style, selector: string) {
-    declaration[selector] = style;
-  }
-
-  /**
    * Handle fallback properties.
    */
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
@@ -362,6 +361,13 @@ export default class UnifiedSyntax {
    */
   handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
     declaration[property] = style;
+  }
+
+  /**
+   * Handle selector styles.
+   */
+  handleSelector(declaration: StyleDeclaration, style: Style, selector: string) {
+    declaration[selector] = style;
   }
 
   /**

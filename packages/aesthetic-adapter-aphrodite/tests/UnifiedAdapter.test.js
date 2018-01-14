@@ -6,6 +6,7 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
@@ -103,20 +104,10 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
-  it('handles pseudo selectors', () => {
-    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual({
-      pseudo: {
-        position: 'fixed',
-        ':hover': {
-          position: 'static',
-        },
-        '::before': {
-          position: 'absolute',
-        },
-      },
-    });
+  it('handles attribute selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_ATTRIBUTE)).toEqual(SYNTAX_ATTRIBUTE);
 
-    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('attr_424cv8');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
@@ -125,6 +116,14 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
     expect(instance.syntax.convert(SYNTAX_DESCENDANT)).toEqual(SYNTAX_DESCENDANT);
 
     expect(instance.transform(instance.create(SYNTAX_DESCENDANT).list)).toBe('list_1lo5lhe');
+
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
+    expect(instance.syntax.convert(SYNTAX_PSEUDO)).toEqual(SYNTAX_PSEUDO);
+
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('pseudo_q2zd6k');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });

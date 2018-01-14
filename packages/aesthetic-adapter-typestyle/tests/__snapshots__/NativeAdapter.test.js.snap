@@ -2,7 +2,9 @@
 
 exports[`aesthetic-adapter-typestyle/NativeAdapter handles animations 1`] = `".f14e9xg1{animation-duration:3s, 1200ms;animation-iteration-count:infinite;animation-name:f1gwuh0p}"`;
 
-exports[`aesthetic-adapter-typestyle/NativeAdapter handles descendant selectors 1`] = `".f1kadczy{margin:0;padding:0}.f1kadczy > li{list-style:bullet}"`;
+exports[`aesthetic-adapter-typestyle/NativeAdapter handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
+
+exports[`aesthetic-adapter-typestyle/NativeAdapter handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
 
 exports[`aesthetic-adapter-typestyle/NativeAdapter handles fallbacks 1`] = `".fxr1ybm{background:red;background:linear-gradient(...);display:box;display:flex-box;display:flex}"`;
 
@@ -10,6 +12,6 @@ exports[`aesthetic-adapter-typestyle/NativeAdapter handles font faces 1`] = `".f
 
 exports[`aesthetic-adapter-typestyle/NativeAdapter handles media queries 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}"`;
 
-exports[`aesthetic-adapter-typestyle/NativeAdapter handles pseudo selectors 1`] = `".fh5c9i2{position:fixed}.fh5c9i2 :hover{position:static}.fh5c9i2 ::before{position:absolute}"`;
+exports[`aesthetic-adapter-typestyle/NativeAdapter handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
 
 exports[`aesthetic-adapter-typestyle/NativeAdapter handles supports 1`] = `".f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}"`;

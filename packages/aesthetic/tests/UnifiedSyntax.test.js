@@ -7,6 +7,7 @@ import {
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_CHARSET,
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
@@ -421,11 +422,6 @@ describe('aesthetic/UnifiedSyntax', () => {
           .toEqual(SYNTAX_PROPERTIES.props);
       });
 
-      it('converts pseudos', () => {
-        expect(instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo))
-          .toEqual(SYNTAX_PSEUDO.pseudo);
-      });
-
       it('triggers event handler', () => {
         const spy = jest.fn();
 
@@ -438,7 +434,25 @@ describe('aesthetic/UnifiedSyntax', () => {
       });
     });
 
-    describe('descendants', () => {
+    describe('attribute selectors', () => {
+      it('converts value', () => {
+        expect(instance.convertDeclaration('attributes', SYNTAX_ATTRIBUTE.attr))
+          .toEqual(SYNTAX_ATTRIBUTE.attr);
+      });
+
+      it('triggers event handler', () => {
+        const spy = jest.fn();
+
+        instance.on('selector', spy);
+        instance.convertDeclaration('attributes', SYNTAX_ATTRIBUTE.attr);
+
+        expect(spy).toHaveBeenCalledWith({ display: 'block' }, {
+          opacity: 0.5,
+        }, '[disabled]');
+      });
+    });
+
+    describe('descendant selectors', () => {
       it('converts value', () => {
         expect(instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list))
           .toEqual(SYNTAX_DESCENDANT.list);
@@ -447,7 +461,7 @@ describe('aesthetic/UnifiedSyntax', () => {
       it('triggers event handler', () => {
         const spy = jest.fn();
 
-        instance.on('descendant', spy);
+        instance.on('selector', spy);
         instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list);
 
         expect(spy).toHaveBeenCalledWith({
@@ -456,6 +470,24 @@ describe('aesthetic/UnifiedSyntax', () => {
         }, {
           listStyle: 'bullet',
         }, '> li');
+      });
+    });
+
+    describe('pseudo selectors', () => {
+      it('converts value', () => {
+        expect(instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo))
+          .toEqual(SYNTAX_PSEUDO.pseudo);
+      });
+
+      it('triggers event handler', () => {
+        const spy = jest.fn();
+
+        instance.on('selector', spy);
+        instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo);
+
+        expect(spy).toHaveBeenCalledWith({ position: 'fixed' }, {
+          position: 'static',
+        }, ':hover');
       });
     });
 

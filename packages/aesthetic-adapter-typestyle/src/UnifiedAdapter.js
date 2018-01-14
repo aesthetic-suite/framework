@@ -9,6 +9,7 @@
 import UnifiedSyntax from 'aesthetic/unified';
 import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import { TypeStyle } from 'typestyle';
+import merge from 'lodash.merge';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
@@ -26,8 +27,8 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
 
     this.syntax = new UnifiedSyntax();
     this.syntax
-      .on('descendant', this.handleDescendant)
       .on('property', this.handleProperty)
+      .on('selector', this.handleSelector)
       .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
@@ -44,12 +45,6 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   create(styleSheet: StyleSheet): StyleSheet {
     return super.create(this.syntax.convert(styleSheet));
   }
-
-  handleDescendant = (declaration: StyleDeclaration, style: Style, selector: string) => {
-    this.injectNested(declaration, {
-      [`&${selector}`]: style,
-    });
-  };
 
   handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
     declaration[property] = [...style, declaration[property]].filter(Boolean);
@@ -74,17 +69,18 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   };
 
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
-    if (property.charAt(0) === ':') {
-      this.injectNested(declaration, {
-        [`&${property}`]: style,
-      });
-
-    } else if (property === 'animationName') {
+    if (property === 'animationName') {
       declaration[property] = this.syntax.injectKeyframes(style, this.syntax.keyframesCache);
 
     } else {
       declaration[property] = style;
     }
+  };
+
+  handleSelector = (declaration: StyleDeclaration, style: Style, selector: string) => {
+    this.injectNested(declaration, {
+      [`&${selector}`]: style,
+    });
   };
 
   handleSupports = (declaration: StyleDeclaration, style: StyleBlock, condition: string) => {
@@ -98,6 +94,6 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       declaration.$nest = {};
     }
 
-    Object.assign(declaration.$nest, style);
+    merge(declaration.$nest, style);
   }
 }

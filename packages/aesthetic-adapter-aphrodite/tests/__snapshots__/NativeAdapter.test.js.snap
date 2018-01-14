@@ -2,7 +2,9 @@
 
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles animations 1`] = `"@keyframes keyframe_18jn58a{from{opacity:0;}to{opacity:1;}}.animation_mab5hn{-webkit-animation-duration:3s, 1200ms !important;animation-duration:3s, 1200ms !important;-webkit-animation-iteration-count:infinite !important;animation-iteration-count:infinite !important;-webkit-animation-name:keyframe_18jn58a !important;animation-name:keyframe_18jn58a !important;}"`;
 
-exports[`aesthetic-adapter-aphrodite/NativeAdapter handles descendant selectors 1`] = `".list_1lo5lhe{margin:0px !important;padding:0px !important;}.list_1lo5lhe > li{list-style:bullet !important;}"`;
+exports[`aesthetic-adapter-aphrodite/NativeAdapter handles attribute selectors 1`] = `".attr_424cv8{display:block !important;}.attr_424cv8[disabled]{opacity:0.5 !important;}"`;
+
+exports[`aesthetic-adapter-aphrodite/NativeAdapter handles descendant selectors 1`] = `".list_1lo5lhe{margin:0px !important;padding:0px !important;}.list_1lo5lhe> li{list-style:bullet !important;}"`;
 
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles font faces 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.font_uk6a9p{font-family:\\"Roboto\\" !important;font-size:20px !important;}"`;
 

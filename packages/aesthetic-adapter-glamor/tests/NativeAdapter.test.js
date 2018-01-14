@@ -6,6 +6,7 @@ import {
   FONT_ROBOTO_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_ATTRIBUTE,
   SYNTAX_PSEUDO,
 } from '../../../tests/mocks';
 import { renderGlamorStyles } from '../../../tests/helpers';
@@ -54,8 +55,8 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
     expect(instance.transform(sheet.bar, sheet.foo)).toBe('css-h4vsx0');
   });
 
-  it('handles pseudo selectors', () => {
-    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_ATTRIBUTE).attr)).toBe('css-blwook');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
@@ -70,6 +71,12 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
         },
       },
     }).list)).toBe('css-191gc4j');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles pseudo selectors', () => {
+    expect(instance.transform(instance.create(SYNTAX_PSEUDO).pseudo)).toBe('css-1g7aevf');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });

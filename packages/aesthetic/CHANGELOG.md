@@ -1,6 +1,7 @@
 # 2.2.0
 #### 🚀 New
 * Unified Syntax
+  * Attribute selectors are now supported when starting with `[`.
   * Direct descendant selectors are now supported with `>`.
 
 # 2.1.0 - 01/03/18

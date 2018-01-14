@@ -2,7 +2,9 @@
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles animations 1`] = `"@keyframes fade {from {opacity: 0;}to {opacity: 1;}}.animation-0-8-1 {animation-name: fade;animation-duration: 3s, 1200ms;animation-iteration-count: infinite;}"`;
 
-exports[`aesthetic-adapter-jss/NativeAdapter handles descendant selectors 1`] = `".list-0-13-1 {margin: 0;padding: 0;}.list-0-13-1 > li {list-style: bullet;}"`;
+exports[`aesthetic-adapter-jss/NativeAdapter handles attribute selectors 1`] = `".attr-0-14-1 {display: block;}.attr-0-14-1[disabled] {opacity: 0.5;}"`;
+
+exports[`aesthetic-adapter-jss/NativeAdapter handles descendant selectors 1`] = `".list-0-13-1 {margin: 0;padding: 0;}.list-0-13-1> li {list-style: bullet;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles fallbacks 1`] = `".fallback-0-6-1 {background: linear-gradient(...);display: flex-box;display: box;display: flex;background: red;}"`;
 

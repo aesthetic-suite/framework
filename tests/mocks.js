@@ -76,6 +76,15 @@ export const SYNTAX_UNIFIED_FULL = {
   },
 };
 
+export const SYNTAX_ATTRIBUTE = {
+  attr: {
+    display: 'block',
+    '[disabled]': {
+      opacity: 0.5,
+    },
+  },
+};
+
 export const SYNTAX_CHARSET = {
   '@charset': 'utf8',
 };

@@ -162,11 +162,24 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
       list: {
         margin: 0,
         padding: 0,
-        '& > li': {
+        '&> li': {
           listStyle: 'bullet',
         },
       },
     }).list)).toBe('list-0-13-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles attribute selectors', () => {
+    expect(instance.transform(instance.create({
+      attr: {
+        display: 'block',
+        '&[disabled]': {
+          opacity: 0.5,
+        },
+      },
+    }).attr)).toBe('attr-0-14-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

@@ -2,6 +2,8 @@
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles animations 1`] = `"@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}"`;
 
+exports[`aesthetic-adapter-fela/NativeAdapter handles attribute selectors 1`] = `".a{display:block}.b[disabled]{opacity:0.5}"`;
+
 exports[`aesthetic-adapter-fela/NativeAdapter handles descendant selectors 1`] = `".a{margin:0px}.b{padding:0px}.c> li{list-style:bullet}"`;
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles fallbacks 1`] = `".a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}"`;

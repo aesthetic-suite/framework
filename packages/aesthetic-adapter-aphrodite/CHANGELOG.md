@@ -2,6 +2,7 @@
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).
 * Unified Syntax
+  * Attribute selectors are now supported when starting with `[`.
   * Direct descendant selectors are now supported with `>`.
 
 # 2.0.0 - 01/02/18
