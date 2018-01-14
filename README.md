@@ -123,9 +123,10 @@ yarn add aesthetic react
   * [Default Theme](#default-theme)
 * [Unified Syntax](#unified-syntax)
   * [Properties](#properties)
-  * [Attribute Selectors](#attribute-selectors)
-  * [Pseudo Selectors](#pseudo-selectors)
-  * [Descendant Selectors](#descendant-selectors)
+  * [Selectors](#selectors)
+    * [Attribute](#attribute)
+    * [Pseudo](#pseudo)
+    * [Descendant](#descendant)
   * [Global At-rules](#global-at-rules)
     * [@charset](#charset)
     * [@font-face](#font-face)
@@ -600,9 +601,12 @@ Standard structure for defining properties.
 
 > JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
 
-#### Attribute Selectors
+#### Selectors
 
-Attribute selectors are defined inside a selector using `[]`.
+Selectors can be defined inside a style declaration. Multiple selectors can also be defined
+by passing a comma separated list.
+
+##### Attribute
 
 ```javascript
 {
@@ -615,9 +619,7 @@ Attribute selectors are defined inside a selector using `[]`.
 }
 ```
 
-#### Pseudo Selectors
-
-Pseudo elements and pseudo classes are defined inside a selector using `:` or `::`.
+##### Pseudo
 
 ```javascript
 {
@@ -635,10 +637,7 @@ Pseudo elements and pseudo classes are defined inside a selector using `:` or `:
 }
 ```
 
-#### Descendant Selectors
-
-Direct descendant selectors are defined inside a selector using `>`. Only direct descendants are
-allowed.
+##### Descendant
 
 ```javascript
 {
@@ -651,6 +650,8 @@ allowed.
   },
 }
 ```
+
+> Only direct descendants are allowed.
 
 #### Global At-rules
 
