@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-fela",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Fela support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.48.0",
-    "aesthetic": "^2.0.0",
+    "aesthetic": "^2.2.0",
     "fela": "^6.1.3",
     "fela-dom": "^7.0.4",
     "fela-preset-web": "^8.0.3",

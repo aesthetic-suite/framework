@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-jss",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.48.0",
-    "aesthetic": "^2.1.0",
+    "aesthetic": "^2.2.0",
     "jss": "^9.5.1",
     "jss-preset-default": "^4.0.1"
   }
