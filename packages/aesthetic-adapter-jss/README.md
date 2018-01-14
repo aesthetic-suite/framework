@@ -57,7 +57,7 @@ const aesthetic = new Aesthetic(new JSSAdapter(jss));
 ### Configuration
 
 Furthermore, options to be passed to `jss.createStyleSheet` can be defined through the
-second argument of the constructor.
+2nd argument of the constructor.
 
 ```javascript
 import Aesthetic from 'aesthetic';

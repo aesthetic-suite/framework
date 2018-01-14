@@ -33,6 +33,47 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 const aesthetic = new Aesthetic(new AphroditeAdapter());
 ```
 
+### Custom Selectors
+
+Aphrodite does not support some core CSS functionality, so Aesthetic has filled in these gaps.
+The following examples are supported by default.
+
+Attribute and direct descendant selectors.
+
+```javascript
+{
+  button: {
+    '[disabled]': {
+      opacity: 0.3,
+    },
+  },
+  list: {
+    '> li': {
+      listStyle: 'none',
+    },
+  },
+}
+```
+
+Global styles (to easily style `body`, `a`, and others). Selectors must be prefixed with `*`.
+
+```javascript
+{
+  globals: {
+    '*body': { margin: 0 },
+    '*html': { height: '100%' },
+    '*a': {
+      color: 'red',
+      ':hover': {
+        color: 'darkred',
+      },
+    },
+  },
+}
+```
+
+> Global styles should be passed to `Aesthetic#registerTheme()`.
+
 ### Unified Syntax
 
 To make use of the unified syntax, simply import the adapter from the unified path.
@@ -44,29 +85,15 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite/unified';
 ### Extensions
 
 [Aphrodite extensions](https://github.com/Khan/aphrodite#advanced-extensions)
-can be customized by passing an instance of `StyleSheet` to the adapter.
+can be customized by passing an array of extensions to the constructor.
 
 ```javascript
 import Aesthetic from 'aesthetic';
 import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
-import { StyleSheet } from 'aphrodite';
 
-const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet.extend([
+const aesthetic = new Aesthetic(new AphroditeAdapter([
   extension1,
   extension2,
   // ...
-])));
-```
-
-### No !Important Mode
-
-Like extensions, [no !important mode](https://github.com/Khan/aphrodite#disabling-important) can
-be used by importing the the `no-important` path.
-
-```javascript
-import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
-import { StyleSheet } from 'aphrodite/no-important';
-
-const aesthetic = new Aesthetic(new AphroditeAdapter(StyleSheet));
+]));
 ```

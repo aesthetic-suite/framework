@@ -24,9 +24,11 @@ export default class JSSAdapter extends Adapter {
 
   create(styleSheet: StyleSheet, styleName: string): StyleSheet {
     this.sheet = this.jss.createStyleSheet(styleSheet, {
-      classNamePrefix: styleName ? `${styleName}-` : '',
       media: 'screen',
       meta: { styleName },
+      ...this.options,
+      // eslint-disable-next-line sort-keys
+      classNamePrefix: styleName ? `${styleName}-` : '',
     }).attach();
 
     return this.sheet.classes;
