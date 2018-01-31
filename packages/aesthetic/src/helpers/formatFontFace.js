@@ -32,7 +32,11 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
 
   if (Array.isArray(fontFace.srcPaths)) {
     toArray(fontFace.srcPaths).forEach((srcPath) => {
-      const ext = srcPath.slice(srcPath.lastIndexOf('.'));
+      let ext = srcPath.slice(srcPath.lastIndexOf('.'));
+
+      if (ext.indexOf('?') >= 0) {
+        [ext] = ext.split('?');
+      }
 
       if (FORMATS[ext]) {
         src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);

@@ -35,4 +35,14 @@ describe('aesthetic/helpers/formatFontFace()', () => {
       });
     }).toThrowError('Unsupported font format ".foo".');
   });
+
+  it('supports paths with query strings', () => {
+    expect(formatFontFace({
+      ...FONT_ROBOTO,
+      srcPaths: ['Roboto.woff2?abc'],
+    })).toEqual({
+      ...FONT_ROBOTO_FLAT_SRC,
+      src: "local('Robo'), url('Roboto.woff2?abc') format('woff2')",
+    });
+  });
 });

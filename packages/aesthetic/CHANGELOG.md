@@ -1,3 +1,8 @@
+# 2.2.1 - 01/30/18
+#### 🐞 Fixed
+* Unified Syntax
+  * Font face `srcPaths` will now work with query strings.
+
 # 2.2.0 - 01/13/18
 #### 🚀 New
 * Unified Syntax
