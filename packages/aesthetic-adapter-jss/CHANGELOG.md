@@ -1,3 +1,7 @@
+# 2.2.1 - 01/30/18
+#### 🛠 Internal
+* Tested against `jss` 9.6.
+
 # 2.2.0 - 01/13/18
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).
