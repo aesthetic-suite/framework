@@ -90,7 +90,7 @@ to [extend and inherit styles](#customizing-styles) from the provided base compo
 ## Requirements
 
 * React 15/16+
-* IE 11+
+* IE 10+
 * `WeakMap`
 
 ## Installation
