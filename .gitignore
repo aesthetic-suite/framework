@@ -46,3 +46,4 @@ esm/
 lib/
 tests/bundle.min.js
 tests/bundle.min.js.map
+_book/
