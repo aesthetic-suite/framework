@@ -33,7 +33,8 @@ under the `styles` prop, all of which need to be passed to the new `transform` f
 
 ```javascript
 // Old
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { classes, ClassNamesPropType } from 'aesthetic';
 import withStyles from '../path/to/styler';
 
@@ -69,7 +70,8 @@ export default withStyles({
 })(Button);
 
 // New
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { StylesPropType } from 'aesthetic';
 import withStyles, { classes } from '../path/to/styler';
 

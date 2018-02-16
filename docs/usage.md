@@ -6,7 +6,8 @@ When this component is rendered, the style sheet is passed to the `styles` prop,
 and we can generate a class name using the `transform` function (`classes` in the example).
 
 ```javascript
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { StylesPropType } from 'aesthetic';
 import withStyles, { classes } from '../path/to/styler';
 

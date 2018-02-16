@@ -7,6 +7,34 @@ Simply put, Aesthetic is an abstraction layer that utilizes higher-order-compone
 the compilation of styles via third-party libraries, all the while providing customizability,
 theming, and a unified syntax.
 
+```javascript
+import React from 'react';
+import PropTypes from 'prop-types';
+import { StylesPropType } from 'aesthetic';
+import withStyles, { classes } from '../path/to/styler';
+
+function Button({ children, styles }) {
+  return (
+    <button type="button" className={classes(styles.button)}>
+      {children}
+    </button>
+  );
+}
+
+Button.propTypes = {
+  children: PropTypes.node.isRequire,
+  styles: StylesPropType.isRequired,
+};
+
+export default withStyles(({ unit }) => ({
+  button: {
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: unit,
+  },
+}))(Button);
+```
+
 ## Requirements
 
 * React 15/16+
