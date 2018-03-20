@@ -66,7 +66,7 @@ export default function style(
     // Aesthetic's caching layer.
     } else {
       instanceID += 1;
-      styleName = `${Math.random().toString(32).substr(2)}${instanceID}`;
+      styleName = `c${Math.random().toString(32).substr(2)}${instanceID}`;
     }
 
     const {
