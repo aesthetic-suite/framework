@@ -1,3 +1,7 @@
+# 1.2.1 - 03/20/18
+#### 🐞 Fixed
+* Fixed incorrectly built and published files.
+
 # 1.2.0 - 03/20/18
 #### 🚀 New
 * Updated `typestyle` to 1.7.

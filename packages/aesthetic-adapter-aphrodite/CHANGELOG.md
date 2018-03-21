@@ -1,3 +1,7 @@
+# 2.2.1 - 03/20/18
+#### 🐞 Fixed
+* Fixed incorrectly built and published files.
+
 # 2.2.0 - 03/20/18
 #### 🚀 New
 * Updated `aphrodite` to 2.1.

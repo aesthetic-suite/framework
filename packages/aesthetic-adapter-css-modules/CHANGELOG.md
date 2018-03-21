@@ -1,3 +1,7 @@
+# 2.0.3 - 03/20/18
+#### 🐞 Fixed
+* Fixed incorrectly built and published files.
+
 # 2.0.2 - 03/20/18
 #### 🛠 Internal
 * Updated dependencies.

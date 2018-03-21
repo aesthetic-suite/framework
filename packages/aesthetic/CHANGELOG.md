@@ -1,3 +1,7 @@
+# 2.2.3 - 03/20/18
+#### 🐞 Fixed
+* Fixed incorrectly built and published files.
+
 # 2.2.2 - 03/20/18
 #### 🐞 Fixed
 * Fixed a bug where generated class names would start with an invalid number.

@@ -1,3 +1,7 @@
+# 2.3.1 - 03/20/18
+#### 🐞 Fixed
+* Fixed incorrectly built and published files.
+
 # 2.3.0 - 03/20/18
 #### 🚀 New
 * Updated `jss` to 9.8.
