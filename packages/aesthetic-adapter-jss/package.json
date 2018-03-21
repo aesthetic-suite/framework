@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.1"
   },
   "peerDependencies": {
     "aesthetic": "^2.1.0",
-    "jss": "^9.5.0"
+    "jss": "^9.8.0"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.2.0",
-    "jss": "^9.6.0",
-    "jss-preset-default": "^4.1.0"
+    "jss": "^9.8.1",
+    "jss-preset-default": "^4.3.0"
   }
 }

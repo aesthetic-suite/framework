@@ -9,7 +9,6 @@
     "build:verify": "node ./scripts/verify-packages.js",
     "clean": "rimraf ./packages/{*}/lib/ && lerna clean --yes",
     "coverage": "run-coverage",
-    "docs": "cp ./README.md ./packages/aesthetic/",
     "eslint": "run-linter ./scripts ./tests ./packages/*/{src,tests}",
     "flow": "type-check",
     "jest": "run-tests",
@@ -27,13 +26,13 @@
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-css-modules-transform": "1.4.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-css-modules-transform": "1.5.0",
     "babel-register": "^6.26.0",
-    "chalk": "^2.3.0",
+    "chalk": "^2.3.2",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.2",
-    "lerna": "^2.8.0"
+    "lerna": "^2.9.0"
   },
   "babel": {
     "presets": "@milesj/build-tool-config/babel",

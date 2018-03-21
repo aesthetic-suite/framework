@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.1"
   },
   "peerDependencies": {
     "aesthetic": "^2.0.0",
@@ -25,9 +25,9 @@
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.2.0",
-    "fela": "^6.1.3",
-    "fela-dom": "^7.0.4",
-    "fela-preset-web": "^8.0.3",
-    "fela-tools": "^5.1.2"
+    "fela": "^6.1.5",
+    "fela-dom": "^7.0.6",
+    "fela-preset-web": "^8.0.5",
+    "fela-tools": "^5.1.4"
   }
 }

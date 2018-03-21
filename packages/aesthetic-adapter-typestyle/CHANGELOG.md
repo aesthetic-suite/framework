@@ -1,3 +1,7 @@
+# 1.2.0 - 03/20/18
+#### 🚀 New
+* Updated `typestyle` to 1.7.
+
 # 1.1.0 - 01/13/18
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).

@@ -1,3 +1,7 @@
+# 2.0.2 - 03/20/18
+#### 🛠 Internal
+* Updated dependencies.
+
 # 2.0.1 - 01/13/18
 #### 🛠 Internal
 * Updated dependencies.

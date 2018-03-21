@@ -1,3 +1,7 @@
+# 2.1.1 - 03/20/18
+#### 🛠 Internal
+* Updated dependencies.
+
 # 2.1.0 - 01/13/18
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).

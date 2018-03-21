@@ -1,3 +1,7 @@
+# 2.3.0 - 03/20/18
+#### 🚀 New
+* Updated `jss` to 9.8.
+
 # 2.2.1 - 01/30/18
 #### 🛠 Internal
 * Tested against `jss` 9.6.

@@ -2,7 +2,7 @@
 
 exports[`aesthetic-adapter-fela/NativeAdapter can transform dynamic styles 1`] = `".a{width:10px}.b{height:10px}"`;
 
-exports[`aesthetic-adapter-fela/NativeAdapter handles animations 1`] = `"@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{animation-name:k1;-webkit-animation-name:k1}.b{animation-duration:3s, 1200ms;-webkit-animation-duration:3s, 1200ms}.c{animation-iteration-count:infinite;-webkit-animation-iteration-count:infinite}"`;
+exports[`aesthetic-adapter-fela/NativeAdapter handles animations 1`] = `"@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{-webkit-animation-name:k1;animation-name:k1}.b{-webkit-animation-duration:3s, 1200ms;animation-duration:3s, 1200ms}.c{-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite}"`;
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles attribute selectors 1`] = `".a{display:block}.b[disabled]{opacity:0.5}"`;
 

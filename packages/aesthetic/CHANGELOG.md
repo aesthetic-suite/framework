@@ -1,3 +1,7 @@
+# 2.2.2 - 03/20/18
+#### 🐞 Fixed
+* Fixed a bug where generated class names would start with an invalid number.
+
 # 2.2.1 - 01/30/18
 #### 🐞 Fixed
 * Unified Syntax

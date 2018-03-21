@@ -1,4 +1,4 @@
-import { flushToString } from 'aphrodite/lib/inject';
+import { StyleSheetTestUtils } from 'aphrodite';
 import { renderToString } from 'fela-tools';
 import { styleSheet } from 'glamor';
 
@@ -7,7 +7,7 @@ export function cleanStyles(source) {
 }
 
 export function renderAphroditeStyles() {
-  return cleanStyles(flushToString());
+  return cleanStyles(StyleSheetTestUtils.getBufferedStyles().join(''));
 }
 
 export function renderFelaStyles(instance) {

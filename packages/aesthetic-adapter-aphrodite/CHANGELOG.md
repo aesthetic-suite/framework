@@ -1,3 +1,7 @@
+# 2.2.0 - 03/20/18
+#### 🚀 New
+* Updated `aphrodite` to 2.1.
+
 # 2.1.0 - 01/13/18
 #### 🚀 New
 * Can now pass dynamic style objects to `transform` (will be akin to inline).
