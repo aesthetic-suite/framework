@@ -280,9 +280,9 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-aphrodite@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.1.0.tgz#bc88191d12759c2baee6af414a7cd788c2e02880"
+aphrodite@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.1.1.tgz#ebf40e2bda9e9852911bb5b7da85dc2812e12845"
   dependencies:
     asap "^2.0.3"
     inline-style-prefixer "^4.0.0"
@@ -1592,9 +1592,9 @@ chalk@^2.3.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chalk@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/chalk/-/chalk-2.3.2.tgz#250dc96b07491bfd601e648d66ddf5f60c7a5c65"
+chalk@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.0.tgz#a060a297a6b57e15b61ca63ce84995daa0fe6e52"
   dependencies:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
@@ -3008,13 +3008,13 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fela-dom@^7.0.6:
-  version "7.0.6"
-  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-7.0.6.tgz#10e84a8cf65c6ffc4b2449820799d214b74f191f"
+fela-dom@^7.0.7:
+  version "7.0.7"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-7.0.7.tgz#d12c4cbd3f1be8fe6f423c572dce1487db1721bd"
   dependencies:
     css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^8.0.5"
+    fela-utils "^8.0.6"
 
 fela-plugin-embedded@^5.2.6:
   version "5.2.6"
@@ -3071,14 +3071,14 @@ fela-preset-web@^8.0.5:
     fela-plugin-prefixer "^5.0.18"
     fela-plugin-unit "^5.0.16"
 
-fela-tools@^5.1.4:
-  version "5.1.4"
-  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-5.1.4.tgz#3fe20f2135ce607b52a93caad6c695da1cca380c"
+fela-tools@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-5.1.5.tgz#f8f845daab2b22da62cad965f868f945d2606c73"
   dependencies:
     css-in-js-utils "2.0.0"
     fast-loops "^1.0.0"
-    fela "^6.1.5"
-    fela-utils "^8.0.5"
+    fela "^6.1.7"
+    fela-utils "^8.0.6"
 
 fela-utils@^7.0.4:
   version "7.0.4"
@@ -3086,21 +3086,21 @@ fela-utils@^7.0.4:
   dependencies:
     css-in-js-utils "2.0.0"
 
-fela-utils@^8.0.5:
-  version "8.0.5"
-  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-8.0.5.tgz#2017ac77d85b7ba396c91121feb0b59050f9c7d4"
+fela-utils@^8.0.6:
+  version "8.0.6"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-8.0.6.tgz#f88bbf26f5d6bced52389fcac9a8fa4be82c0933"
   dependencies:
     css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
     string-hash "^1.1.3"
 
-fela@^6.1.5:
-  version "6.1.5"
-  resolved "https://registry.npmjs.org/fela/-/fela-6.1.5.tgz#7d675ace877f99d61ef356aa3629d75023c831bc"
+fela@^6.1.7:
+  version "6.1.7"
+  resolved "https://registry.npmjs.org/fela/-/fela-6.1.7.tgz#be82e46d7337452a143e6504314c8015b9a9512d"
   dependencies:
     css-in-js-utils "2.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^8.0.5"
+    fela-utils "^8.0.6"
     isobject "^3.0.1"
 
 figures@^2.0.0:
@@ -4736,9 +4736,9 @@ left-pad@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/left-pad/-/left-pad-1.2.0.tgz#d30a73c6b8201d8f7d8e7956ba9616087a68e0ee"
 
-lerna@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.npmjs.org/lerna/-/lerna-2.9.0.tgz#303f70bc50b1c4541bdcf54eda13c36fe54401f3"
+lerna@^2.10.2:
+  version "2.10.2"
+  resolved "https://registry.npmjs.org/lerna/-/lerna-2.10.2.tgz#3a0d54d398360fecc5918207c6d7ab68a5443d9f"
   dependencies:
     async "^1.5.0"
     chalk "^2.1.0"
@@ -5995,6 +5995,15 @@ react-test-renderer@^16.2.0:
 react@^16.2.0:
   version "16.2.0"
   resolved "https://registry.npmjs.org/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
+react@^16.3.2:
+  version "16.3.2"
+  resolved "https://registry.npmjs.org/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
