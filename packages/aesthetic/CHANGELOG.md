@@ -1,3 +1,7 @@
+# 2.2.4 - 04/16/18
+#### 🐞 Fixed
+* Updated `componentWillMount` to `componentDidMount` and `componentWillReceiveProps` to `componentDidUpdate` in preparation for React 16.3.
+
 # 2.2.3 - 03/20/18
 #### 🐞 Fixed
 * Fixed incorrectly built and published files.

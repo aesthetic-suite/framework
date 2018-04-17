@@ -126,28 +126,28 @@ export default function style(
         [themePropName]: {},
       };
 
-      componentWillMount() {
-        this.transformStyles(this.props);
+      componentDidMount() {
+        this.transformStyles();
       }
 
-      componentWillReceiveProps(nextProps: StyleProps) {
-        this.transformStyles(nextProps);
+      componentDidUpdate() {
+        this.transformStyles();
       }
 
-      getThemeName(props: StyleProps): string {
-        return props.themeName ||
+      getThemeName(): string {
+        return this.props.themeName ||
           this.context.themeName ||
           aesthetic.options.defaultTheme ||
           '';
       }
 
-      transformStyles(props: Object) {
-        const themeName = this.getThemeName(props);
+      transformStyles() {
+        const themeName = this.getThemeName();
 
         if (this.state.firstMount || themeName !== this.state.themeName) {
           this.setState({
             firstMount: false,
-            [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, props),
+            [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, this.props),
             themeName,
             [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
           });
