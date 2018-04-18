@@ -21,6 +21,7 @@ import type {
 
 type StyleProps = {
   themeName: string,
+  wrappedRef: ?React$Ref<React$ElementType>,
 };
 
 type StyleState = {
@@ -95,10 +96,12 @@ export default function style(
 
       static propTypes = {
         themeName: PropTypes.string,
+        wrappedRef: PropTypes.func,
       };
 
       static defaultProps = {
         themeName: '',
+        wrappedRef: null,
       };
 
       // Allow consumers to customize styles
@@ -158,8 +161,14 @@ export default function style(
 
       render(): React$Node {
         const { firstMount, ...state } = this.state;
+        const { wrappedRef, ...props } = this.props;
 
-        return <Component {...this.props} {...state} />;
+        if (wrappedRef) {
+          // $FlowIgnore
+          props.ref = wrappedRef;
+        }
+
+        return <Component {...props} {...state} />;
       }
     }
 

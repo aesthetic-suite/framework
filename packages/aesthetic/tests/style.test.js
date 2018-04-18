@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Aesthetic from '../src/Aesthetic';
 import style from '../src/style';
 import { TestAdapter } from '../../../tests/mocks';
@@ -345,5 +345,22 @@ describe('aesthetic/style()', () => {
       style(aesthetic)(BaseComponent);
       style(aesthetic)(BaseComponent);
     }).toThrowError('A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.');
+  });
+
+  it('can bubble up the ref with `onRef`', () => {
+    // eslint-disable-next-line
+    class StylesComponent5 extends React.Component {
+      render() {
+        return <div />;
+      }
+    }
+
+    let refInstance = null;
+    const Wrapped = style(aesthetic)(StylesComponent5);
+
+    mount(<Wrapped themeName="classic" wrappedRef={(ref) => { refInstance = ref; }} />);
+
+    expect(refInstance).not.toBeNull();
+    expect(refInstance.constructor.name).toBe('StylesComponent5');
   });
 });

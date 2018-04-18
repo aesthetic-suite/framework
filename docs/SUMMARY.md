@@ -14,6 +14,7 @@
 * [Defining Components](./usage.md)
   * [Customizing Styles](./usage.md#customizing-styles)
   * [Using Classes](./usage.md#using-classes)
+  * [Using Refs](./usage.md#using-refs)
 * [Styling Components](./style.md)
   * [External Classes](./style.md#external-classes)
   * [Style Objects](./style.md#style-objects)

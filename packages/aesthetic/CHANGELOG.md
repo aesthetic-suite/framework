@@ -1,4 +1,7 @@
 # 2.3.0 - 04/17/18
+#### 🚀 New
+* Added a `wrappedRef` prop to access the underlying wrapped component.
+
 #### 🐞 Fixed
 * Fixed an issue in which styles would transform infinitely on update.
 

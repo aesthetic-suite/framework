@@ -103,3 +103,17 @@ function Button({ children, styles, icon, active = false }) {
   );
 }
 ```
+
+## Using Refs
+
+Since Aesthetic uses an HOC approach, the underlying wrapped component is abstracted away.
+Sometimes access to this wrapped component is required, and as such, a specialized ref can be used.
+When using the `wrappedRef` prop, the wrapped component instance is returned.
+
+```js
+let buttonInstance = null; // Button component
+
+<StyledButton wrappedRef={ref => { buttonInstance = ref; }} />
+```
+
+> Normal ref functionality applies.
