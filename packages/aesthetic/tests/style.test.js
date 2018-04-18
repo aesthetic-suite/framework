@@ -239,6 +239,57 @@ describe('aesthetic/style()', () => {
     });
   });
 
+  it('doesnt transforms styles if theme changes to the same name', () => {
+    function StylesComponent2(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic, theme => ({
+      wrapper: { color: theme.color },
+    }))(StylesComponent2);
+
+    const wrapper = shallow(<Wrapped themeName="default" />);
+    const styles = wrapper.state('styles');
+
+    expect(styles).toEqual({
+      wrapper: { color: 'red' },
+    });
+
+    wrapper.setProps({
+      themeName: 'default',
+    });
+
+    const styles2 = wrapper.state('styles');
+
+    expect(styles2).toEqual(styles);
+  });
+
+
+  it('doesnt transforms styles if other props change', () => {
+    function StylesComponent2(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic, theme => ({
+      wrapper: { color: theme.color },
+    }))(StylesComponent2);
+
+    const wrapper = shallow(<Wrapped themeName="default" foo="123" />);
+    const styles = wrapper.state('styles');
+
+    expect(styles).toEqual({
+      wrapper: { color: 'red' },
+    });
+
+    wrapper.setProps({
+      foo: '456',
+    });
+
+    const styles2 = wrapper.state('styles');
+
+    expect(styles2).toEqual(styles);
+  });
+
   it('doesnt pass `firstMount` prop', () => {
     function ThemeComponent4(props) {
       return <div />;

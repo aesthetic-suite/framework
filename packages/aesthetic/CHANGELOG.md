@@ -1,3 +1,7 @@
+# 2.3.0 - 04/17/18
+#### 🐞 Fixed
+* Fixed an issue in which styles would transform infinitely on update.
+
 # 2.2.4 - 04/16/18
 #### 🐞 Fixed
 * Updated `componentWillMount` to `componentDidMount` and `componentWillReceiveProps` to `componentDidUpdate` in preparation for React 16.3.

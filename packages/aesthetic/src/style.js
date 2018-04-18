@@ -130,19 +130,21 @@ export default function style(
         this.transformStyles();
       }
 
-      componentDidUpdate() {
-        this.transformStyles();
+      componentDidUpdate(prevProps: StyleProps) {
+        if (this.getThemeName(this.props) !== this.getThemeName(prevProps)) {
+          this.transformStyles();
+        }
       }
 
-      getThemeName(): string {
-        return this.props.themeName ||
+      getThemeName(props: StyleProps): string {
+        return props.themeName ||
           this.context.themeName ||
           aesthetic.options.defaultTheme ||
           '';
       }
 
       transformStyles() {
-        const themeName = this.getThemeName();
+        const themeName = this.getThemeName(this.props);
 
         if (this.state.firstMount || themeName !== this.state.themeName) {
           this.setState({
