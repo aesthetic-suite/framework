@@ -45,7 +45,8 @@
     "extends": "./node_modules/@milesj/build-tool-config/eslint.js",
     "rules": {
       "no-invalid-this": "off",
-      "no-magic-numbers": "off"
+      "no-magic-numbers": "off",
+      "react/no-did-update-set-state": "off"
     }
   },
   "eslintIgnore": [

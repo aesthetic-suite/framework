@@ -122,20 +122,18 @@ export default function style(
         })(Component);
       }
 
-      state = {
-        firstMount: true,
-        [stylesPropName]: {},
-        themeName: '',
-        [themePropName]: {},
-      };
+      // eslint-disable-next-line flowtype/no-weak-types
+      constructor(props: StyleProps, context: any) {
+        super(props, context);
 
-      componentDidMount() {
-        this.transformStyles();
+        this.state = this.transformStyles(this.getThemeName(props));
       }
 
       componentDidUpdate(prevProps: StyleProps) {
-        if (this.getThemeName(this.props) !== this.getThemeName(prevProps)) {
-          this.transformStyles();
+        const themeName = this.getThemeName(this.props);
+
+        if (themeName !== this.getThemeName(prevProps)) {
+          this.setState(this.transformStyles(themeName));
         }
       }
 
@@ -146,21 +144,15 @@ export default function style(
           '';
       }
 
-      transformStyles() {
-        const themeName = this.getThemeName(this.props);
-
-        if (this.state.firstMount || themeName !== this.state.themeName) {
-          this.setState({
-            firstMount: false,
-            [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, this.props),
-            themeName,
-            [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
-          });
-        }
+      transformStyles(themeName: string): StyleState {
+        return {
+          [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, this.props),
+          themeName,
+          [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
+        };
       }
 
       render(): React$Node {
-        const { firstMount, ...state } = this.state;
         const { wrappedRef, ...props } = this.props;
 
         if (wrappedRef) {
@@ -168,7 +160,7 @@ export default function style(
           props.ref = wrappedRef;
         }
 
-        return <Component {...props} {...state} />;
+        return <Component {...props} {...this.state} />;
       }
     }
 
