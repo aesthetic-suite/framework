@@ -1,3 +1,7 @@
+# 2.3.1 - 04/19/18
+#### 🐞 Fixed
+* Moved initial style transformation to the constructor to avoid possible race conditions.
+
 # 2.3.0 - 04/17/18
 #### 🚀 New
 * Added a `wrappedRef` prop to access the underlying wrapped component.
