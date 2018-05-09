@@ -4,10 +4,10 @@
  * @flow
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import Aesthetic from './Aesthetic';
+import React from "react";
+import PropTypes from "prop-types";
+import hoistNonReactStatics from "hoist-non-react-statics";
+import Aesthetic from "./Aesthetic";
 
 import type {
   HOCComponent,
@@ -16,18 +16,18 @@ import type {
   HOCWrapper,
   StyleSheet,
   StyleSheetCallback,
-  ThemeSheet,
-} from '../../types';
+  ThemeSheet
+} from "../../types";
 
 type StyleProps = {
   themeName: string,
-  wrappedRef: ?React$Ref<React$ElementType>,
+  wrappedRef: ?React$Ref<React$ElementType>
 };
 
 type StyleState = {
   styles?: StyleSheet,
   theme?: ThemeSheet,
-  themeName: string,
+  themeName: string
 };
 
 // Keep track in production
@@ -36,48 +36,50 @@ let instanceID = 0;
 export default function style(
   aesthetic: Aesthetic,
   styleSheet: StyleSheet | StyleSheetCallback = {},
-  options?: HOCOptions = {},
+  options?: HOCOptions = {}
 ): HOCWrapper {
   return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
-    let styleName = options.styleName || Component.displayName || Component.name;
+    let styleName =
+      options.styleName || Component.displayName || Component.name;
 
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
     /* istanbul ignore else */
     if (__DEV__) {
       if (!(aesthetic instanceof Aesthetic)) {
-        throw new TypeError('An instance of `Aesthetic` is required.');
-
+        throw new TypeError("An instance of `Aesthetic` is required.");
       } else if (!styleName) {
         /* istanbul ignore next Hard to test */
         throw new Error(
-          'A component name could not be derived. Please provide a unique ' +
-          'name using `options.styleName` or `displayName`.',
+          "A component name could not be derived. Please provide a unique " +
+            "name using `options.styleName` or `displayName`."
         );
-
       } else if (aesthetic.styles[styleName]) {
         throw new Error(
           `A component has already been styled under the name "${styleName}". ` +
-          'Either rename the component or define `options.styleName`.',
+            "Either rename the component or define `options.styleName`."
         );
       }
 
-    // When in production, we should generate a random string to use as the style name.
-    // If we don't do this, any minifiers that mangle function names would break
-    // Aesthetic's caching layer.
+      // When in production, we should generate a random string to use as the style name.
+      // If we don't do this, any minifiers that mangle function names would break
+      // Aesthetic's caching layer.
     } else {
       instanceID += 1;
-      styleName = `c${Math.random().toString(32).substr(2)}${instanceID}`;
+      styleName = `c${Math.random()
+        .toString(32)
+        .substr(2)}${instanceID}`;
     }
 
     const {
       extendable = aesthetic.options.extendable,
-      extendFrom = '',
+      extendFrom = "",
       pure = aesthetic.options.pure,
       stylesPropName = aesthetic.options.stylesPropName,
-      themePropName = aesthetic.options.themePropName,
+      themePropName = aesthetic.options.themePropName
     } = options;
-    const ParentComponent = (pure && React.PureComponent) ? React.PureComponent : React.Component;
+    const ParentComponent =
+      pure && React.PureComponent ? React.PureComponent : React.Component;
 
     // Set base styles
     aesthetic.setStyles(styleName, styleSheet, extendFrom);
@@ -91,23 +93,23 @@ export default function style(
       static WrappedComponent: HOCWrappedComponent = Component;
 
       static contextTypes = {
-        themeName: PropTypes.string,
+        themeName: PropTypes.string
       };
 
       static propTypes = {
         themeName: PropTypes.string,
-        wrappedRef: PropTypes.func,
+        wrappedRef: PropTypes.func
       };
 
       static defaultProps = {
-        themeName: '',
-        wrappedRef: null,
+        themeName: "",
+        wrappedRef: null
       };
 
       // Allow consumers to customize styles
       static extendStyles(
         customStyleSheet?: StyleSheet | StyleSheetCallback = {},
-        extendOptions?: HOCOptions = {},
+        extendOptions?: HOCOptions = {}
       ): HOCComponent {
         if (__DEV__) {
           if (!extendable) {
@@ -118,7 +120,7 @@ export default function style(
         return style(aesthetic, customStyleSheet, {
           ...options,
           ...extendOptions,
-          extendFrom: styleName,
+          extendFrom: styleName
         })(Component);
       }
 
@@ -138,10 +140,19 @@ export default function style(
       }
 
       getThemeName(props: StyleProps): string {
-        return props.themeName ||
+        return (
+          props.themeName ||
           this.context.themeName ||
           aesthetic.options.defaultTheme ||
-          '';
+          ""
+        );
+      }
+
+      getWrappedProps(): Object {
+        return {
+          ...Component.defaultProps,
+          ...this.props,
+        };
       }
 
       transformStyles(themeName: string): StyleState {

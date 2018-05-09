@@ -336,7 +336,7 @@ describe('aesthetic/style()', () => {
     }).toThrowError('A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.');
   });
 
-  it('can bubble up the ref with `onRef`', () => {
+  it('can bubble up the ref with `wrappedRef`', () => {
     // eslint-disable-next-line
     class StylesComponent5 extends React.Component {
       render() {
@@ -351,5 +351,80 @@ describe('aesthetic/style()', () => {
 
     expect(refInstance).not.toBeNull();
     expect(refInstance.constructor.name).toBe('StylesComponent5');
+  });
+
+  it('passes props to style function', () => {
+    function StylesComponent4(props) {
+      return <div />;
+    }
+
+    const spy = jest.spyOn(aesthetic, 'createStyleSheet');
+
+    const Wrapped = style(aesthetic)(StylesComponent4);
+
+    shallow(<Wrapped foo={123} bar="abc" baz />);
+
+    expect(spy).toHaveBeenCalledWith('StylesComponent4', '', {
+      bar: 'abc',
+      baz: true,
+      foo: 123,
+      themeName: '',
+      wrappedRef: null,
+    });
+  });
+
+  it('passes SFC default props to style function', () => {
+    function StylesComponent5(props) {
+      return <div />;
+    }
+
+    StylesComponent5.defaultProps = {
+      bar: 'abc',
+      baz: true,
+      foo: 123,
+    };
+
+    const spy = jest.spyOn(aesthetic, 'createStyleSheet');
+
+    const Wrapped = style(aesthetic)(StylesComponent5);
+
+    shallow(<Wrapped />);
+
+    expect(spy).toHaveBeenCalledWith('StylesComponent5', '', {
+      bar: 'abc',
+      baz: true,
+      foo: 123,
+      themeName: '',
+      wrappedRef: null,
+    });
+  });
+
+  it('passes class component default props to style function', () => {
+    // eslint-disable-next-line
+    class StylesComponent6 extends React.Component {
+      static defaultProps = {
+        bar: 'abc',
+        baz: true,
+        foo: 123,
+      };
+
+      render() {
+        return <div />;
+      }
+    }
+
+    const spy = jest.spyOn(aesthetic, 'createStyleSheet');
+
+    const Wrapped = style(aesthetic)(StylesComponent6);
+
+    shallow(<Wrapped />);
+
+    expect(spy).toHaveBeenCalledWith('StylesComponent6', '', {
+      bar: 'abc',
+      baz: true,
+      foo: 123,
+      themeName: '',
+      wrappedRef: null,
+    });
   });
 });

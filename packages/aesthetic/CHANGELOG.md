@@ -1,3 +1,7 @@
+# 2.4.0 - 05/08/18
+#### 🐞 Fixed
+* Fixed a bug in which a component's `defaultProps` were not being passed to the styler function.
+
 # 2.3.1 - 04/19/18
 #### 🐞 Fixed
 * Moved initial style transformation to the constructor to avoid possible race conditions.
