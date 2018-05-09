@@ -1,4 +1,7 @@
 # 2.4.0 - 05/08/18
+#### 🚀 New
+* Added new `passThemeProp` and `passThemeNameProp` options to control which props are passed to the underlying component.
+
 #### 🐞 Fixed
 * Fixed a bug in which a component's `defaultProps` were not being passed to the styler function.
 

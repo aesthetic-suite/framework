@@ -29,6 +29,8 @@ export default class Aesthetic {
   options: AestheticOptions = {
     defaultTheme: '',
     extendable: false,
+    passThemeNameProp: true,
+    passThemeProp: true,
     pure: false,
     stylesPropName: 'styles',
     themePropName: 'theme',

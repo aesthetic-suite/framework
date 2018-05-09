@@ -25,8 +25,8 @@ type StyleProps = {
 };
 
 type StyleState = {
-  styles?: StyleSheet,
-  theme?: ThemeSheet,
+  styles: StyleSheet,
+  theme: ThemeSheet,
   themeName: string
 };
 
@@ -74,6 +74,8 @@ export default function style(
     const {
       extendable = aesthetic.options.extendable,
       extendFrom = "",
+      passThemeNameProp = aesthetic.options.passThemeNameProp,
+      passThemeProp = aesthetic.options.passThemeProp,
       pure = aesthetic.options.pure,
       stylesPropName = aesthetic.options.stylesPropName,
       themePropName = aesthetic.options.themePropName
@@ -157,21 +159,34 @@ export default function style(
 
       transformStyles(themeName: string): StyleState {
         return {
-          [stylesPropName]: aesthetic.createStyleSheet(styleName, themeName, this.props),
+          styles: aesthetic.createStyleSheet(styleName, themeName, this.getWrappedProps()),
+          theme: themeName ? aesthetic.getTheme(themeName) : {},
           themeName,
-          [themePropName]: themeName ? aesthetic.getTheme(themeName) : {},
         };
       }
 
       render(): React$Node {
+        const { state } = this;
         const { wrappedRef, ...props } = this.props;
+        const extraProps = {
+          [stylesPropName]: state.styles,
+        };
+
+        if (passThemeProp) {
+          extraProps[themePropName] = state.theme;
+        }
+
+        if (passThemeNameProp) {
+          // $FlowIgnore
+          extraProps.themeName = state.themeName;
+        }
 
         if (wrappedRef) {
           // $FlowIgnore
-          props.ref = wrappedRef;
+          extraProps.ref = wrappedRef;
         }
 
-        return <Component {...props} {...this.state} />;
+        return <Component {...props} {...extraProps} />;
       }
     }
 

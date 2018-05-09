@@ -427,4 +427,32 @@ describe('aesthetic/style()', () => {
       wrappedRef: null,
     });
   });
+
+  it('doesnt pass theme prop if `options.passThemeProp` is false', () => {
+    function StylesComponent7(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic, TEST_STATEMENT, {
+      passThemeProp: false,
+    })(StylesComponent7);
+
+    const wrapper = shallow(<Wrapped />).dive();
+
+    expect(wrapper.prop('theme')).toBeUndefined();
+  });
+
+  it('doesnt pass themeName prop if `options.passThemeNameProp` is false', () => {
+    function StylesComponent8(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic, TEST_STATEMENT, {
+      passThemeNameProp: false,
+    })(StylesComponent8);
+
+    const wrapper = shallow(<Wrapped />).dive();
+
+    expect(wrapper.prop('themeName')).toBeUndefined();
+  });
 });

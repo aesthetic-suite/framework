@@ -16,6 +16,8 @@
 export type AestheticOptions = {
   defaultTheme: string,
   extendable: boolean,
+  passThemeNameProp: boolean,
+  passThemeProp: boolean,
   pure: boolean,
   stylesPropName: string,
   themePropName: string,
@@ -63,6 +65,8 @@ export type HOCComponent = React$ComponentType<*>;
 export type HOCOptions = {
   extendable?: boolean,
   extendFrom?: string,
+  passThemeNameProp?: boolean,
+  passThemeProp?: boolean,
   pure?: boolean,
   styleName?: string,
   stylesPropName?: string,

@@ -36,6 +36,8 @@ describe('aesthetic/Aesthetic', () => {
       expect(instance.options).toEqual({
         defaultTheme: '',
         extendable: false,
+        passThemeNameProp: true,
+        passThemeProp: true,
         pure: false,
         stylesPropName: 'styleSheet',
         themePropName: 'theme',
