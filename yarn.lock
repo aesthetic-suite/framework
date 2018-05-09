@@ -280,9 +280,9 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-aphrodite@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.1.1.tgz#ebf40e2bda9e9852911bb5b7da85dc2812e12845"
+aphrodite@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.2.0.tgz#3540afe0af1573872bbf15d08e24698e649a4374"
   dependencies:
     asap "^2.0.3"
     inline-style-prefixer "^4.0.0"
@@ -743,9 +743,9 @@ babel-plugin-check-es2015-constants@^6.22.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-css-modules-transform@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.5.0.tgz#89f81e4098a51310780179e5d95dcd14923c3258"
+babel-plugin-css-modules-transform@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.npmjs.org/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.6.1.tgz#5af9483bd62d09af18eeebdc7e6c4370e5125eed"
   dependencies:
     css-modules-require-hook "^4.0.6"
     mkdirp "^0.5.1"
@@ -1592,9 +1592,9 @@ chalk@^2.3.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chalk@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.0.tgz#a060a297a6b57e15b61ca63ce84995daa0fe6e52"
+chalk@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npmjs.org/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
   dependencies:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
@@ -4641,9 +4641,9 @@ jss-default-unit@^8.0.2:
   version "8.0.2"
   resolved "https://registry.npmjs.org/jss-default-unit/-/jss-default-unit-8.0.2.tgz#cc1e889bae4c0b9419327b314ab1c8e2826890e6"
 
-jss-expand@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.npmjs.org/jss-expand/-/jss-expand-5.1.0.tgz#b1ad74ec18631f34f65a2124fcfceb6400610e3d"
+jss-expand@^5.3.0:
+  version "5.3.0"
+  resolved "https://registry.npmjs.org/jss-expand/-/jss-expand-5.3.0.tgz#02be076efe650125c842f5bb6fb68786fe441ed6"
 
 jss-extend@^6.2.0:
   version "6.2.0"
@@ -4661,14 +4661,14 @@ jss-nested@^6.0.1:
   dependencies:
     warning "^3.0.0"
 
-jss-preset-default@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.npmjs.org/jss-preset-default/-/jss-preset-default-4.3.0.tgz#7bc91b0b282492557d36ed4e5c6d7c8cb3154bb8"
+jss-preset-default@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/jss-preset-default/-/jss-preset-default-4.5.0.tgz#d3a457012ccd7a551312014e394c23c4b301cadd"
   dependencies:
     jss-camel-case "^6.1.0"
     jss-compose "^5.0.0"
     jss-default-unit "^8.0.2"
-    jss-expand "^5.1.0"
+    jss-expand "^5.3.0"
     jss-extend "^6.2.0"
     jss-global "^3.0.0"
     jss-nested "^6.0.1"
@@ -4736,9 +4736,9 @@ left-pad@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/left-pad/-/left-pad-1.2.0.tgz#d30a73c6b8201d8f7d8e7956ba9616087a68e0ee"
 
-lerna@^2.10.2:
-  version "2.10.2"
-  resolved "https://registry.npmjs.org/lerna/-/lerna-2.10.2.tgz#3a0d54d398360fecc5918207c6d7ab68a5443d9f"
+lerna@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.npmjs.org/lerna/-/lerna-2.11.0.tgz#89b5681e286d388dda5bbbdbbf6b84c8094eff65"
   dependencies:
     async "^1.5.0"
     chalk "^2.1.0"

@@ -25,6 +25,6 @@
     "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.2.3",
     "jss": "^9.8.1",
-    "jss-preset-default": "^4.3.0"
+    "jss-preset-default": "^4.5.0"
   }
 }

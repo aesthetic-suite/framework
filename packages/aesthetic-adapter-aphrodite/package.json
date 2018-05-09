@@ -24,6 +24,6 @@
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.2.3",
-    "aphrodite": "^2.1.1"
+    "aphrodite": "^2.2.0"
   }
 }

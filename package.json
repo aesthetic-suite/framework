@@ -27,12 +27,12 @@
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
     "babel-loader": "^7.1.4",
-    "babel-plugin-css-modules-transform": "1.5.0",
+    "babel-plugin-css-modules-transform": "1.6.1",
     "babel-register": "^6.26.0",
-    "chalk": "^2.4.0",
+    "chalk": "^2.4.1",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.2",
-    "lerna": "^2.10.2"
+    "lerna": "^2.11.0"
   },
   "babel": {
     "presets": "@milesj/build-tool-config/babel",
