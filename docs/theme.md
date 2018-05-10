@@ -62,7 +62,7 @@ withStyles(theme => ({
 }))(Component);
 ```
 
-> The theme style declaration can be accessed within a component via the `theme` prop.
+The theme style declaration and theme name can be accessed within the underlying component via the `theme` prop and `themeName` prop respectively. This functionality can be toggled with the `passThemeProp` and `passThemeNameProp` options.
 
 ## Activating Themes
 
