@@ -168,7 +168,7 @@ export default function style(
 
       render(): React$Node {
         const { state } = this;
-        const { wrappedRef, ...props } = this.props;
+        const { themeName, wrappedRef, ...props } = this.props;
         const extraProps = {
           [stylesPropName]: state.styles,
         };

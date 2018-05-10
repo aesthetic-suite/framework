@@ -437,7 +437,7 @@ describe('aesthetic/style()', () => {
       passThemeProp: false,
     })(StylesComponent7);
 
-    const wrapper = shallow(<Wrapped />).dive();
+    const wrapper = shallow(<Wrapped />);
 
     expect(wrapper.prop('theme')).toBeUndefined();
   });
@@ -451,8 +451,24 @@ describe('aesthetic/style()', () => {
       passThemeNameProp: false,
     })(StylesComponent8);
 
-    const wrapper = shallow(<Wrapped />).dive();
+    const wrapper = shallow(<Wrapped />);
 
     expect(wrapper.prop('themeName')).toBeUndefined();
+  });
+
+  it('doesnt pass both props', () => {
+    function StylesComponent8(props) {
+      return <div />;
+    }
+
+    const Wrapped = style(aesthetic, TEST_STATEMENT, {
+      passThemeNameProp: false,
+      passThemeProp: false,
+    })(StylesComponent8);
+
+    const wrapper = shallow(<Wrapped />);
+
+    expect(wrapper.prop('themeName')).toBeUndefined();
+    expect(wrapper.prop('theme')).toBeUndefined();
   });
 });
