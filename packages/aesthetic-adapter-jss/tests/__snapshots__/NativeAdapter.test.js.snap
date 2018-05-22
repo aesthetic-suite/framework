@@ -14,6 +14,8 @@ exports[`aesthetic-adapter-jss/NativeAdapter handles font faces 1`] = `"@font-fa
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles media queries 1`] = `".media-0-9-1 {color: red;}@media (min-width: 300px) {.media-0-9-1 {color: blue;}}@media (max-width: 1000px) {.media-0-9-1 {color: green;}}"`;
 
+exports[`aesthetic-adapter-jss/NativeAdapter handles multiple font faces 1`] = `"@font-face {font-family: Circular;font-style: normal;font-weight: normal;src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular;font-style: italic;font-weight: normal;src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 300;src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 700;src: url('fonts/Circular-Bold.woff2') format('woff2');}.font-0-15-1 {font-size: 20px;font-family: Circular;}"`;
+
 exports[`aesthetic-adapter-jss/NativeAdapter handles pseudo selectors 1`] = `".pseudo-0-5-1 {position: fixed;}.pseudo-0-5-1:hover {position: static;}.pseudo-0-5-1::before {position: absolute;}"`;
 
 exports[`aesthetic-adapter-jss/NativeAdapter handles supports 1`] = `".sup-0-10-1 {display: block;}@supports (display: flex) {.sup-0-10-1 {display: flex;}}@supports not (display: flex) {.sup-0-10-1 {float: left;}}"`;

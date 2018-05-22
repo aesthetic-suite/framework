@@ -5,6 +5,8 @@ import webPreset from 'fela-preset-web';
 import FelaAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_ATTRIBUTE,
@@ -103,6 +105,21 @@ describe('aesthetic-adapter-fela/NativeAdapter', () => {
     expect(instance.transform(instance.create({
       font: {
         fontFamily: 'Roboto',
+        fontSize: 20,
+      },
+    }).font)).toBe('a b');
+
+    expect(renderFelaStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple font faces', () => {
+    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach((font, i) => {
+      instance.fela.renderFont('Circular', FONT_CIRCULAR_MULTIPLE[i].srcPaths, font);
+    });
+
+    expect(instance.transform(instance.create({
+      font: {
+        fontFamily: 'Circular',
         fontSize: 20,
       },
     }).font)).toBe('a b');

@@ -1,9 +1,9 @@
 /* eslint-disable sort-keys */
 
-import { fontFace, keyframes } from 'typestyle';
 import TypeStyleAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
@@ -113,7 +113,7 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   });
 
   it('handles font faces', () => {
-    fontFace(FONT_ROBOTO_FLAT_SRC); // No return
+    instance.typeStyle.fontFace(FONT_ROBOTO_FLAT_SRC); // No return
 
     expect(instance.transform(instance.create({
       font: {
@@ -125,10 +125,25 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
+  it('handles multiple font faces', () => {
+    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach((font) => {
+      instance.typeStyle.fontFace(font); // No return
+    });
+
+    expect(instance.transform(instance.create({
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    }).font)).toBe('fszcu3a');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
   it('handles animations', () => {
     expect(instance.transform(instance.create({
       animation: {
-        animationName: keyframes(KEYFRAME_FADE),
+        animationName: instance.typeStyle.keyframes(KEYFRAME_FADE),
         animationDuration: '3s, 1200ms',
         animationIterationCount: 'infinite',
       },

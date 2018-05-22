@@ -4,6 +4,7 @@ import { StyleSheet, StyleSheetTestUtils } from 'aphrodite';
 import AphroditeAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_ATTRIBUTE,
@@ -113,6 +114,18 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
       },
     }).font)).toBe('font_uk6a9p');
 
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple font faces', () => {
+    expect(instance.transform(instance.create({
+      font: {
+        fontFamily: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+        fontSize: 20,
+      },
+    }).font)).toBe('font_f7iz6d');
+
+    // TODO: Aphrodite returns the font family for each object in the array
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 

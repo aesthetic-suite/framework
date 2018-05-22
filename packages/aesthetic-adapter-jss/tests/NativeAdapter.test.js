@@ -5,6 +5,7 @@ import preset from 'jss-preset-default';
 import JSSAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
 } from '../../../tests/mocks';
@@ -182,6 +183,18 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
         },
       },
     }).attr)).toBe('attr-0-14-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple font faces', () => {
+    expect(instance.transform(instance.create({
+      '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    }).font)).toBe('font-0-15-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

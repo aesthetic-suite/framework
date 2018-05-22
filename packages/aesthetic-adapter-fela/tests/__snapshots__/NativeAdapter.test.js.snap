@@ -14,6 +14,8 @@ exports[`aesthetic-adapter-fela/NativeAdapter handles font faces 1`] = `"@font-f
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles media queries 1`] = `".a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}"`;
 
+exports[`aesthetic-adapter-fela/NativeAdapter handles multiple font faces 1`] = `"@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}.a{font-family:Circular}.b{font-size:20px}"`;
+
 exports[`aesthetic-adapter-fela/NativeAdapter handles pseudo selectors 1`] = `".a{position:fixed}.b::before{position:absolute}.c:hover{position:static}"`;
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles supports 1`] = `".a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}"`;

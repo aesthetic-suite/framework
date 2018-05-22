@@ -17,6 +17,60 @@ export const FONT_ROBOTO_FLAT_SRC = {
   src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
+export const FONT_CIRCULAR_MULTIPLE = [
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    srcPaths: ['fonts/Circular.woff2'],
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'italic',
+    fontWeight: 'normal',
+    srcPaths: ['fonts/Circular-Italic.woff2'],
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 300,
+    srcPaths: ['fonts/Circular-Light.woff2'],
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    srcPaths: ['fonts/Circular-Bold.woff2'],
+  },
+];
+
+export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC = [
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    src: "url('fonts/Circular.woff2') format('woff2')",
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'italic',
+    fontWeight: 'normal',
+    src: "url('fonts/Circular-Italic.woff2') format('woff2')",
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 300,
+    src: "url('fonts/Circular-Light.woff2') format('woff2')",
+  },
+  {
+    fontFamily: 'Circular',
+    fontStyle: 'normal',
+    fontWeight: 700,
+    src: "url('fonts/Circular-Bold.woff2') format('woff2')",
+  },
+];
+
 export const KEYFRAME_FADE = {
   from: { opacity: 0 },
   to: { opacity: 1 },
@@ -120,6 +174,16 @@ export const SYNTAX_FONT_FACE = {
   },
   font: {
     fontFamily: 'Roboto',
+    fontSize: 20,
+  },
+};
+
+export const SYNTAX_FONT_FACE_MULTIPLE = {
+  '@font-face': {
+    Circular: FONT_CIRCULAR_MULTIPLE,
+  },
+  font: {
+    fontFamily: 'Circular',
     fontSize: 20,
   },
 };

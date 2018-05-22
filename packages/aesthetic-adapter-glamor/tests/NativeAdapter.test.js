@@ -4,6 +4,7 @@ import { css, speedy, flush } from 'glamor';
 import GlamorAdapter from '../src/NativeAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_NATIVE_PARTIAL,
   SYNTAX_ATTRIBUTE,
@@ -104,6 +105,21 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
         fontSize: 20,
       },
     }).font)).toBe('css-1x6s9dk');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple font faces', () => {
+    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach((font) => {
+      css.fontFace(font);
+    });
+
+    expect(instance.transform(instance.create({
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    }).font)).toBe('css-ydlv7p');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });

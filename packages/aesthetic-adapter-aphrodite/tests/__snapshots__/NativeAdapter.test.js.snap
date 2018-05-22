@@ -14,4 +14,6 @@ exports[`aesthetic-adapter-aphrodite/NativeAdapter handles globals 1`] = `"body{
 
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles media queries 1`] = `".media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}"`;
 
+exports[`aesthetic-adapter-aphrodite/NativeAdapter handles multiple font faces 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2');}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2');}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2');}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2');}.font_f7iz6d{font-family:\\"Circular\\",\\"Circular\\",\\"Circular\\",\\"Circular\\" !important;font-size:20px !important;}"`;
+
 exports[`aesthetic-adapter-aphrodite/NativeAdapter handles pseudo selectors 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;
