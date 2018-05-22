@@ -12,6 +12,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
@@ -170,6 +171,34 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('font_uk6a9p');
 
+    expect(renderAphroditeStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles mixed @font-face', () => {
+    // Aphrodite needs the font family for the snapshot to work
+    const syntax = {
+      ...SYNTAX_FONT_FACE_MIXED,
+      font: {
+        fontFamily: 'Roboto, Circular',
+        fontSize: 20,
+      },
+    };
+
+    expect(instance.syntax.convert(syntax)).toEqual({
+      font: {
+        fontFamily: [
+          FONT_ROBOTO_FLAT_SRC,
+          ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+        ],
+        fontSize: 20,
+      },
+    });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform(instance.create(syntax).font)).toBe('font_n41ews');
+
+    // TODO: Aphrodite returns the font family for each object in the array
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 

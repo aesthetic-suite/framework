@@ -13,6 +13,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
@@ -320,6 +321,21 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('font-0-19-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles mixed @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MIXED)).toEqual({
+      '@font-face': [
+        FONT_ROBOTO_FLAT_SRC,
+        ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+      ],
+    });
+
+    instance.syntax.fontFaces = {};
+
+    instance.create(SYNTAX_FONT_FACE_MIXED);
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

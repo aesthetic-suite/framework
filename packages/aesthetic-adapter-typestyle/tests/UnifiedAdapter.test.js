@@ -8,6 +8,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
@@ -192,6 +193,16 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('fd14wa4');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles mixed @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MIXED)).toEqual({});
+
+    instance.syntax.fontFaces = {};
+
+    instance.create(SYNTAX_FONT_FACE_MIXED);
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

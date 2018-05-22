@@ -9,6 +9,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
@@ -175,6 +176,16 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('css-ydlv7p');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles mixed @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MIXED)).toEqual({});
+
+    instance.syntax.fontFaces = {};
+
+    instance.create(SYNTAX_FONT_FACE_MIXED);
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });

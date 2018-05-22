@@ -51,7 +51,14 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
   handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) {
-    styleSheet['@font-face'] = style.map(face => formatFontFace(face));
+    const fontFaces = style.map(face => formatFontFace(face));
+
+    if (typeof styleSheet['@font-face'] === 'undefined') {
+      styleSheet['@font-face'] = fontFaces;
+    } else {
+      // $FlowIgnore
+      styleSheet['@font-face'].push(...fontFaces);
+    }
   }
 
   // https://github.com/cssinjs/jss-global

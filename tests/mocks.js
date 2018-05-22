@@ -188,6 +188,13 @@ export const SYNTAX_FONT_FACE_MULTIPLE = {
   },
 };
 
+export const SYNTAX_FONT_FACE_MIXED = {
+  '@font-face': {
+    Roboto: FONT_ROBOTO,
+    Circular: FONT_CIRCULAR_MULTIPLE,
+  },
+};
+
 export const SYNTAX_GLOBAL = {
   '@global': {
     body: { margin: 0 },
