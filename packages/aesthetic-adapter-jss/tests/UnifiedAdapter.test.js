@@ -5,6 +5,7 @@ import preset from 'jss-preset-default';
 import UnifiedJSSAdapter from '../src/UnifiedAdapter';
 import {
   FONT_ROBOTO_FLAT_SRC,
+  FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
   SYNTAX_UNIFIED_FULL,
   SYNTAX_ATTRIBUTE,
@@ -12,6 +13,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
@@ -302,6 +304,22 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     });
 
     expect(instance.transform(instance.create(SYNTAX_MULTI_SELECTOR).multi)).toBe('multi-0-18-1');
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MULTIPLE)).toEqual({
+      '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('font-0-19-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

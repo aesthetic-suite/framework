@@ -14,6 +14,8 @@ exports[`aesthetic-adapter-glamor/UnifiedAdapter handles attribute selectors 1`]
 
 exports[`aesthetic-adapter-glamor/UnifiedAdapter handles descendant selectors 1`] = `".css-iq5gps,[data-css-iq5gps] {margin: 0; padding: 0;}.css-iq5gps> li,[data-css-iq5gps]> li {list-style: bullet;}"`;
 
+exports[`aesthetic-adapter-glamor/UnifiedAdapter handles multiple @font-face 1`] = `"@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}.css-ydlv7p,[data-css-ydlv7p] {font-family: Circular; font-size: 20px;}"`;
+
 exports[`aesthetic-adapter-glamor/UnifiedAdapter handles multiple selectors (comma separated) 1`] = `".css-1b6uhd0,[data-css-1b6uhd0] {cursor: pointer;}.css-1b6uhd0:disabled,[data-css-1b6uhd0]:disabled {cursor: default;}.css-1b6uhd0[disabled],[data-css-1b6uhd0][disabled] {cursor: default;}.css-1b6uhd0> span,[data-css-1b6uhd0]> span {cursor: default;}"`;
 
 exports[`aesthetic-adapter-glamor/UnifiedAdapter handles properties 1`] = `".css-115cnno,[data-css-115cnno] {color: black; display: inline; margin: 10px;}"`;

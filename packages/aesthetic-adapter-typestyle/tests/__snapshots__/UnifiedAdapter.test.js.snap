@@ -16,6 +16,8 @@ exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles descendant selectors
 
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
 
+exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles multiple @font-face 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}.fszcu3a{font-family:Circular;font-size:20px}"`;
+
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
 
 exports[`aesthetic-adapter-typestyle/UnifiedAdapter handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;

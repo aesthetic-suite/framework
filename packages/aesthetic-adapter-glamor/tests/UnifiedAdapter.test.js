@@ -9,6 +9,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
@@ -159,6 +160,21 @@ describe('aesthetic-adapter-glamor/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('css-1x6s9dk');
+
+    expect(renderGlamorStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MULTIPLE)).toEqual({
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('css-ydlv7p');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });

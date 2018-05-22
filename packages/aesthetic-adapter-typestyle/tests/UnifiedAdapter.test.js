@@ -8,6 +8,7 @@ import {
   SYNTAX_DESCENDANT,
   SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
   SYNTAX_KEYFRAMES,
@@ -191,6 +192,21 @@ describe('aesthetic-adapter-typestyle/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE).font)).toBe('fd14wa4');
+
+    expect(renderTSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple @font-face', () => {
+    expect(instance.syntax.convert(SYNTAX_FONT_FACE_MULTIPLE)).toEqual({
+      font: {
+        fontFamily: 'Circular',
+        fontSize: 20,
+      },
+    });
+
+    instance.syntax.fontFaces = {};
+
+    expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('fszcu3a');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
