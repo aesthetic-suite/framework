@@ -9,7 +9,6 @@
 import UnifiedSyntax from 'aesthetic/unified';
 import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import { TypeStyle } from 'typestyle';
-import merge from 'lodash.merge';
 import TypeStyleAdapter from './NativeAdapter';
 
 import type {
@@ -94,6 +93,6 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
       declaration.$nest = {};
     }
 
-    merge(declaration.$nest, style);
+    declaration.$nest = this.merge(declaration.$nest, style);
   }
 }

@@ -4,7 +4,6 @@
  * @flow
  */
 
-import deepMerge from 'lodash.merge';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
@@ -69,7 +68,7 @@ export default class Aesthetic {
   ): this {
     return this.registerTheme(
       themeName,
-      deepMerge({}, this.getTheme(parentThemeName), theme),
+      this.adapter.merge(this.getTheme(parentThemeName), theme),
       globals,
     );
   }
@@ -95,8 +94,7 @@ export default class Aesthetic {
 
     // Merge from parent
     if (parentStyleName) {
-      styleSheet = deepMerge(
-        {},
+      styleSheet = this.adapter.merge(
         this.getStyles(parentStyleName, themeName, props),
         styleSheet,
       );

@@ -4,6 +4,8 @@
  * @flow
  */
 
+import deepMerge from 'lodash/merge';
+
 import type { ClassName, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class Adapter {
@@ -18,6 +20,13 @@ export default class Adapter {
    */
   create(styleSheet: StyleSheet, styleName: string): StyleSheet {
     return styleSheet;
+  }
+
+  /**
+   * Deep merge multiple style declarations.
+   */
+  merge(...styles: Object[]): Object {
+    return deepMerge({}, ...styles);
   }
 
   /**

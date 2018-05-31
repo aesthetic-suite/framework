@@ -1,3 +1,7 @@
+# 2.4.0 - 05/30/18
+#### 🚀 New
+* Updated `aesthetic` peer requirement to 2.5.
+
 # 2.3.2 - 05/21/18
 #### 🐞 Fixed
 * Fixed a bug in which the last font face in a list of multiple font faces (with different font families) was only being used, instead of the whole list.

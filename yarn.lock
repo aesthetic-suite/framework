@@ -280,9 +280,9 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-aphrodite@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.2.0.tgz#3540afe0af1573872bbf15d08e24698e649a4374"
+aphrodite@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmjs.org/aphrodite/-/aphrodite-2.2.1.tgz#9515a680744b9ebcb5c7707f503a1aea838834d8"
   dependencies:
     asap "^2.0.3"
     inline-style-prefixer "^4.0.0"
@@ -3008,17 +3008,17 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fela-dom@^7.0.7:
-  version "7.0.7"
-  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-7.0.7.tgz#d12c4cbd3f1be8fe6f423c572dce1487db1721bd"
+fela-dom@^7.0.8:
+  version "7.0.8"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-7.0.8.tgz#a5fb2144e20c0432a03e98c058d79004399e0f24"
   dependencies:
     css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^8.0.6"
+    fela-utils "^8.0.7"
 
-fela-plugin-embedded@^5.2.6:
-  version "5.2.6"
-  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-5.2.6.tgz#601be89155299dc816d168c4bd177672edfb9ba3"
+fela-plugin-embedded@^5.2.8:
+  version "5.2.8"
+  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-5.2.8.tgz#af9666edbf45285f052f551b63305c7958b60c76"
   dependencies:
     fast-loops "^1.0.0"
     isobject "^3.0.1"
@@ -3030,11 +3030,11 @@ fela-plugin-extend@^5.0.11:
     css-in-js-utils "2.0.0"
     fela-utils "^7.0.4"
 
-fela-plugin-fallback-value@^5.0.17:
-  version "5.0.17"
-  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.17.tgz#09be0508030905b111d5195f57d29fbdfffade3d"
+fela-plugin-fallback-value@^5.0.18:
+  version "5.0.18"
+  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-5.0.18.tgz#af8644b68d6d03b2ffadf322634c95e205079f20"
   dependencies:
-    css-in-js-utils "2.0.0"
+    css-in-js-utils "^2.0.0"
     isobject "^3.0.1"
 
 fela-plugin-lvha@^5.0.15:
@@ -3043,42 +3043,42 @@ fela-plugin-lvha@^5.0.15:
   dependencies:
     fast-loops "^1.0.0"
 
-fela-plugin-prefixer@^5.0.18:
-  version "5.0.18"
-  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.18.tgz#df83836566492dc1f96e1184f3f7a8dfacbe59e6"
+fela-plugin-prefixer@^5.0.19:
+  version "5.0.19"
+  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-5.0.19.tgz#a25a5223abfadfefa32193d60df82f4d09316926"
   dependencies:
     css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
-    fela-plugin-fallback-value "^5.0.17"
+    fela-plugin-fallback-value "^5.0.18"
     inline-style-prefixer "^4.0.0"
     isobject "^3.0.1"
 
-fela-plugin-unit@^5.0.16:
-  version "5.0.16"
-  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-5.0.16.tgz#74ea91aedd6e21f90279c589cfebe0d809b5b770"
+fela-plugin-unit@^5.0.17:
+  version "5.0.17"
+  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-5.0.17.tgz#6f6e631b6caff02ac9751c95169a43948ac7d667"
   dependencies:
     css-in-js-utils "^2.0.0"
     isobject "^3.0.1"
 
-fela-preset-web@^8.0.5:
-  version "8.0.5"
-  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-8.0.5.tgz#fa2c18420723a0ce407f83d2b310d7b46ec6bfda"
+fela-preset-web@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-8.0.7.tgz#104e9cf565006c95a2940534d87ceed9417f91a5"
   dependencies:
-    fela-plugin-embedded "^5.2.6"
+    fela-plugin-embedded "^5.2.8"
     fela-plugin-extend "^5.0.11"
-    fela-plugin-fallback-value "^5.0.17"
+    fela-plugin-fallback-value "^5.0.18"
     fela-plugin-lvha "^5.0.15"
-    fela-plugin-prefixer "^5.0.18"
-    fela-plugin-unit "^5.0.16"
+    fela-plugin-prefixer "^5.0.19"
+    fela-plugin-unit "^5.0.17"
 
-fela-tools@^5.1.5:
-  version "5.1.5"
-  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-5.1.5.tgz#f8f845daab2b22da62cad965f868f945d2606c73"
+fela-tools@^5.1.6:
+  version "5.1.6"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-5.1.6.tgz#cecdf8ad865adc59aa5ce2952f9daec761bdd740"
   dependencies:
-    css-in-js-utils "2.0.0"
+    css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
-    fela "^6.1.7"
-    fela-utils "^8.0.6"
+    fela "^6.1.8"
+    fela-utils "^8.0.7"
 
 fela-utils@^7.0.4:
   version "7.0.4"
@@ -3086,21 +3086,21 @@ fela-utils@^7.0.4:
   dependencies:
     css-in-js-utils "2.0.0"
 
-fela-utils@^8.0.6:
-  version "8.0.6"
-  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-8.0.6.tgz#f88bbf26f5d6bced52389fcac9a8fa4be82c0933"
+fela-utils@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-8.0.7.tgz#3360547c8fd8bd6bb2e685d14733bc3b94df5815"
   dependencies:
     css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
     string-hash "^1.1.3"
 
-fela@^6.1.7:
-  version "6.1.7"
-  resolved "https://registry.npmjs.org/fela/-/fela-6.1.7.tgz#be82e46d7337452a143e6504314c8015b9a9512d"
+fela@^6.1.8:
+  version "6.1.8"
+  resolved "https://registry.npmjs.org/fela/-/fela-6.1.8.tgz#091275886a220423a65c5038f485a12e06b68999"
   dependencies:
-    css-in-js-utils "2.0.0"
+    css-in-js-utils "^2.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^8.0.6"
+    fela-utils "^8.0.7"
     isobject "^3.0.1"
 
 figures@^2.0.0:
@@ -4914,10 +4914,6 @@ lodash.keys@^3.0.0:
     lodash.isarguments "^3.0.0"
     lodash.isarray "^3.0.0"
 
-lodash.merge@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
-
 lodash.snakecase@^4.0.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
@@ -4950,6 +4946,10 @@ lodash.zip@^4.2.0:
 lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
+lodash@^4.17.10:
+  version "4.17.10"
+  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
 log-ok@^0.1.1:
   version "0.1.1"
@@ -6001,9 +6001,9 @@ react@^16.2.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react@^16.3.2:
-  version "16.3.2"
-  resolved "https://registry.npmjs.org/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
+react@^16.4.0:
+  version "16.4.0"
+  resolved "https://registry.npmjs.org/react/-/react-16.4.0.tgz#402c2db83335336fba1962c08b98c6272617d585"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"

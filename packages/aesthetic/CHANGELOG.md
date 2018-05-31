@@ -1,3 +1,7 @@
+# 2.5.0 - 05/30/18
+#### 🚀 New
+* Added an `Adapter#merge` method.
+
 # 2.4.1 - 05/09/18
 #### 🐞 Fixed
 * Fixed a bug in which `themeName` was being passed from the HOC.

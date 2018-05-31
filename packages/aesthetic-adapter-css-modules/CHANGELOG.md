@@ -1,3 +1,7 @@
+# 2.1.0 - 05/30/18
+#### 🚀 New
+* Updated `aesthetic` peer requirement to 2.5.
+
 # 2.0.3 - 03/20/18
 #### 🐞 Fixed
 * Fixed incorrectly built and published files.

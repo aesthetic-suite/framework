@@ -18,7 +18,7 @@
     "prop-types": "^15.6.1"
   },
   "peerDependencies": {
-    "aesthetic": "^2.0.0"
+    "aesthetic": "^2.5.0"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",

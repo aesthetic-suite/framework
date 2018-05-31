@@ -18,16 +18,16 @@
     "prop-types": "^15.6.1"
   },
   "peerDependencies": {
-    "aesthetic": "^2.0.0",
+    "aesthetic": "^2.5.0",
     "fela": "^6.0.0",
     "fela-dom": "^6.0.0 || ^7.0.0"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.2.3",
-    "fela": "^6.1.7",
-    "fela-dom": "^7.0.7",
-    "fela-preset-web": "^8.0.5",
-    "fela-tools": "^5.1.5"
+    "fela": "^6.1.8",
+    "fela-dom": "^7.0.8",
+    "fela-preset-web": "^8.0.7",
+    "fela-tools": "^5.1.6"
   }
 }

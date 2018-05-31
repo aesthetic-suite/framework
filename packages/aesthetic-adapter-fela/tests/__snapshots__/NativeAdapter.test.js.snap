@@ -6,7 +6,7 @@ exports[`aesthetic-adapter-fela/NativeAdapter handles animations 1`] = `"@-webki
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles attribute selectors 1`] = `".a{display:block}.b[disabled]{opacity:0.5}"`;
 
-exports[`aesthetic-adapter-fela/NativeAdapter handles descendant selectors 1`] = `".a{margin:0px}.b{padding:0px}.c> li{list-style:bullet}"`;
+exports[`aesthetic-adapter-fela/NativeAdapter handles descendant selectors 1`] = `".a{margin:0}.b{padding:0}.c> li{list-style:bullet}"`;
 
 exports[`aesthetic-adapter-fela/NativeAdapter handles fallbacks 1`] = `".a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:box;display:flex-box;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}"`;
 

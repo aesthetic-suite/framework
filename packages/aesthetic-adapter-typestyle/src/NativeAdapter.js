@@ -6,7 +6,6 @@
 
 import { Adapter } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
-import deepMerge from 'lodash.merge';
 
 import type { ClassName, StyleDeclaration } from '../../types';
 
@@ -18,6 +17,6 @@ export default class TypeStyleAdapter extends Adapter {
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {
-    return this.typeStyle.style(deepMerge({}, ...styles));
+    return this.typeStyle.style(this.merge(...styles));
   }
 }
