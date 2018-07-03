@@ -46,3 +46,5 @@
   - [Features](./comparison.md#features)
   - [Adapters](./comparison.md#adapters)
 - [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
+- Migration
+  - [2.0](./migrate/2.0.md)
