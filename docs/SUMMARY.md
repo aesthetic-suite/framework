@@ -45,6 +45,6 @@
 - [Competitors Comparison](./comparison.md)
   - [Features](./comparison.md#features)
   - [Adapters](./comparison.md#adapters)
-- [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
-- Migration
+- Migration Guides
   - [2.0](./migrate/2.0.md)
+- [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
