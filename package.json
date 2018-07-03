@@ -19,10 +19,7 @@
     "publish:force": "lerna publish --force-publish=*",
     "test": "yarn run jest",
     "test:bundle": "yarn run build && bundle-lib ./tests/bundle.js ./tests/bundle.min.js",
-    "updated": "lerna updated",
-    "docs": "gitbook build --log=debug --debug",
-    "docs:serve": "gitbook serve",
-    "docs:install": "gitbook install"
+    "updated": "lerna updated"
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
