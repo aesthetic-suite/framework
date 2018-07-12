@@ -14,6 +14,7 @@ import {
   SYNTAX_FONT_FACE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
+  SYNTAX_IMPORT_MULTIPLE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
   SYNTAX_MULTI_SELECTOR,
@@ -268,6 +269,12 @@ describe('aesthetic/UnifiedSyntax', () => {
         });
       });
 
+      it('supports multiple values', () => {
+        expect(instance.convert(SYNTAX_IMPORT_MULTIPLE)).toEqual({
+          '@import': ['./some/path.css', './another/path.css'],
+        });
+      });
+
       it('triggers event handler', () => {
         const spy = jest.fn();
 
@@ -282,7 +289,7 @@ describe('aesthetic/UnifiedSyntax', () => {
           instance.convert({
             '@import': 123,
           });
-        }).toThrowError('@import value must be a string.');
+        }).toThrowError('@import value must be a string, or an array of strings.');
       });
     });
 

@@ -93,7 +93,6 @@ export default class UnifiedSyntax {
 
       switch (rule) {
         case '@charset':
-        case '@import':
         case '@namespace': {
           const path = prevStyleSheet[rule];
 
@@ -101,6 +100,18 @@ export default class UnifiedSyntax {
             this.emit(rule, [nextStyleSheet, path]);
           } else if (__DEV__) {
             throw new Error(`${rule} value must be a string.`);
+          }
+
+          break;
+        }
+
+        case '@import': {
+          const paths = prevStyleSheet[rule];
+
+          if (typeof paths === 'string' || Array.isArray(paths)) {
+            this.emit(rule, [nextStyleSheet, paths]);
+          } else if (__DEV__) {
+            throw new Error(`${rule} value must be a string, or an array of strings.`);
           }
 
           break;
@@ -329,7 +340,7 @@ export default class UnifiedSyntax {
   /**
    * Handle @namespace.
    */
-  handleImport(styleSheet: StyleSheet, style: string) {
+  handleImport(styleSheet: StyleSheet, style: string | string[]) {
     styleSheet['@import'] = style;
   }
 

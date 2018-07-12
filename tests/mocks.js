@@ -157,6 +157,10 @@ export const SYNTAX_IMPORT = {
   '@import': './some/path.css',
 };
 
+export const SYNTAX_IMPORT_MULTIPLE = {
+  '@import': ['./some/path.css', './another/path.css'],
+};
+
 export const SYNTAX_FALLBACKS = {
   fallback: {
     background: 'linear-gradient(...)',

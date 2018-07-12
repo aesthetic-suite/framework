@@ -1,3 +1,8 @@
+# 2.6.0 - 07/11/18
+#### 🚀 New
+* Unified Syntax
+  * Updated `@import` to support an array of paths.
+
 # 2.5.0 - 05/30/18
 #### 🚀 New
 * Added an `Adapter#merge` method.

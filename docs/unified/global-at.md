@@ -112,6 +112,8 @@ Supported by JSS.
 ```javascript
 {
   '@import': 'css/reset.css',
+  // OR
+  '@import': ['css/reset.css', 'css/global.css'],
 }
 ```
 

@@ -17,6 +17,7 @@ import {
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT,
+  SYNTAX_IMPORT_MULTIPLE,
   SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
   SYNTAX_MULTI_SELECTOR,
@@ -336,6 +337,16 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
     instance.syntax.fontFaces = {};
 
     instance.create(SYNTAX_FONT_FACE_MIXED);
+
+    expect(renderJSSStyles(instance)).toMatchSnapshot();
+  });
+
+  it('handles multiple @import', () => {
+    expect(instance.syntax.convert(SYNTAX_IMPORT_MULTIPLE)).toEqual({
+      '@import': ['./some/path.css', './another/path.css'],
+    });
+
+    expect(instance.transform(instance.create(SYNTAX_IMPORT_MULTIPLE))).toBe('');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
