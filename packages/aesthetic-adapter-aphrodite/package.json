@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-aphrodite",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
-    "aesthetic": "^2.5.0",
+    "aesthetic": "^2.6.0",
     "aphrodite": "^2.2.2"
   }
 }
