@@ -198,7 +198,6 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     expect(instance.transform(instance.create(syntax).font)).toBe('font_n41ews');
 
-    // TODO: Aphrodite returns the font family for each object in the array
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
@@ -214,7 +213,6 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     expect(instance.transform(instance.create(SYNTAX_FONT_FACE_MULTIPLE).font)).toBe('font_f7iz6d');
 
-    // TODO: Aphrodite returns the font family for each object in the array
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 

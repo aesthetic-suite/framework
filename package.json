@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@milesj/build-tool-config": "^0.50.0",
-    "babel-loader": "^7.1.4",
+    "babel-loader": "^7.1.5",
     "babel-plugin-css-modules-transform": "1.6.1",
     "babel-register": "^6.26.0",
     "chalk": "^2.4.1",
