@@ -14,14 +14,12 @@
     "build": "build-lib --react"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
     "aesthetic": "^2.5.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.6.0"
   }
 }

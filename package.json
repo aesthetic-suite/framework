@@ -1,27 +1,21 @@
 {
+  "name": "aesthetic-root",
   "private": true,
-  "name": "aesthetic",
   "scripts": {
-    "assemble": "yarn run clean && yarn run bootstrap && yarn run build && yarn test",
-    "bootstrap": "lerna bootstrap",
-    "bootstrap:slow": "yarn run bootstrap --concurrency=1",
-    "build": "lerna run build",
-    "build:verify": "node ./scripts/verify-packages.js",
-    "clean": "rimraf ./packages/{*}/lib/ && lerna clean --yes",
-    "coverage": "run-coverage",
-    "eslint": "run-linter ./scripts ./tests ./packages/*/{src,tests}",
-    "jest": "run-tests",
-    "posttest": "yarn run flow",
-    "prepublishOnly": "yarn run assemble && yarn run build:verify",
-    "pretest": "yarn run eslint",
-    "publish": "lerna publish",
-    "publish:force": "lerna publish --force-publish=*",
+    "build": "beemo typescript --workspaces=* --priority --react",
+    "coverage": "yarn run jest --coverage",
+    "eslint": "beemo eslint",
+    "jest": "beemo jest --react",
+    "prettier": "beemo prettier",
+    "release": "lerna publish",
+    "type": "beemo typescript --workspaces=* --noEmit --react",
+    "prerelease": "yarn test && yarn run build",
+    "pretest": "yarn run type",
     "test": "yarn run jest",
-    "test:bundle": "yarn run build && bundle-lib ./tests/bundle.js ./tests/bundle.min.js",
-    "updated": "lerna updated"
+    "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.50.0",
+    "@milesj/build-tool-config": "^0.113.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-css-modules-transform": "1.6.1",
     "babel-register": "^6.26.0",
@@ -30,28 +24,25 @@
     "glob": "^7.1.2",
     "lerna": "^2.11.0"
   },
-  "babel": {
-    "presets": "@milesj/build-tool-config/babel",
-    "ignore": "node_modules/**/*.js",
-    "plugins": [
-      "css-modules-transform"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "./node_modules/@milesj/build-tool-config/eslint.js",
-    "rules": {
-      "no-invalid-this": "off",
-      "no-magic-numbers": "off",
-      "react/no-did-update-set-state": "off"
+  "beemo": {
+    "module": "@milesj/build-tool-config",
+    "drivers": [
+      "babel",
+      "eslint",
+      "jest",
+      "prettier",
+      "typescript"
+    ],
+    "babel": {
+      "plugins": [
+        "css-modules-transform"
+      ]
     }
   },
-  "eslintIgnore": [
-    "esm/",
-    "lib/",
-    "*.min.js",
-    "*.map"
-  ],
   "workspaces": [
     "packages/*"
+  ],
+  "browserslist": [
+    "ie 10"
   ]
 }
