@@ -1,5 +1,0 @@
-import { Adapter } from 'aesthetic';
-
-declare module 'aesthetic-adapter-css-modules' {
-  declare export default class CSSModulesAdapter extends Adapter {}
-}

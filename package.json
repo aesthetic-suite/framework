@@ -10,7 +10,6 @@
     "clean": "rimraf ./packages/{*}/lib/ && lerna clean --yes",
     "coverage": "run-coverage",
     "eslint": "run-linter ./scripts ./tests ./packages/*/{src,tests}",
-    "flow": "type-check",
     "jest": "run-tests",
     "posttest": "yarn run flow",
     "prepublishOnly": "yarn run assemble && yarn run build:verify",
