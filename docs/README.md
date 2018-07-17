@@ -13,14 +13,14 @@ competing styling libraries fail to solve.
 
 Want to use external CSS or Sass files? Or maybe CSS modules? Or perhaps CSS-in-JS?
 What about JSS instead of Aphrodite? All of these patterns and choices are supported through
-the use of [adapters](#style-adapters). However, inline styles *are not supported*
+the use of [adapters](./adapters/README.md). However, inline styles _are not supported_
 as we prefer the more performant option of compiling styles and attaching them to the DOM.
 
 **Styling third-party libraries**
 
 Using a third-party provided UI component library has the unintended side-effect
 of hard-coded and non-customizable styles. Aesthetic solves this by allowing consumers
-to [extend and inherit styles](#customizing-styles) from the provided base component.
+to [extend and inherit styles](./usage.md) from the provided base component.
 
 ```javascript
 import React from 'react';
