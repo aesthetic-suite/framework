@@ -44,7 +44,7 @@ export default function style(
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
     /* istanbul ignore else */
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       if (!(aesthetic instanceof Aesthetic)) {
         throw new TypeError('An instance of `Aesthetic` is required.');
       } else if (!styleName) {
@@ -111,7 +111,7 @@ export default function style(
         customStyleSheet?: StyleSheet | StyleSheetCallback = {},
         extendOptions?: HOCOptions = {},
       ): HOCComponent {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
           if (!extendable) {
             throw new Error(`${styleName} is not extendable.`);
           }

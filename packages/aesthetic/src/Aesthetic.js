@@ -81,7 +81,7 @@ export default class Aesthetic {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       if (!styleSheet) {
         throw new Error(`Styles do not exist for "${styleName}".`);
       }
@@ -115,7 +115,7 @@ export default class Aesthetic {
       theme = this.themes[defaultTheme];
     }
 
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       if (!theme) {
         throw new Error(`Theme "${themeName}" does not exist.`);
       }
@@ -128,7 +128,7 @@ export default class Aesthetic {
    * Register a theme with a pre-defined set of theme settings.
    */
   registerTheme(themeName: string, theme?: ThemeSheet = {}, globals?: StyleSheet = {}): this {
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
       } else if (!isObject(theme)) {
@@ -156,7 +156,7 @@ export default class Aesthetic {
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
       this.adapter = adapter;
-    } else if (__DEV__) {
+    } else if (process.env.NODE_ENV !== 'production') {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
 
@@ -171,7 +171,7 @@ export default class Aesthetic {
     styleSheet: StyleSheet | StyleSheetCallback,
     extendFrom?: string = '',
   ): this {
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
       } else if (!isObject(styleSheet) && typeof styleSheet !== 'function') {
@@ -182,7 +182,7 @@ export default class Aesthetic {
     this.styles[styleName] = styleSheet;
 
     if (extendFrom) {
-      if (__DEV__) {
+      if (process.env.NODE_ENV !== 'production') {
         if (!this.styles[extendFrom]) {
           throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
         } else if (extendFrom === styleName) {
@@ -224,7 +224,7 @@ export default class Aesthetic {
         // Style objects
       } else if (isObject(style)) {
         toTransform.push(style);
-      } else if (__DEV__) {
+      } else if (process.env.NODE_ENV !== 'production') {
         throw new Error('Unsupported style type to transform.');
       }
     });

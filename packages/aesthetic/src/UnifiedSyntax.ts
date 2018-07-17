@@ -94,7 +94,7 @@ export default class UnifiedSyntax<T = Declaration> {
 
           if (typeof path === 'string') {
             this.emit(rule, [nextStyleSheet, path]);
-          } else if (__DEV__) {
+          } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(`${rule} value must be a string.`);
           }
 
@@ -106,7 +106,7 @@ export default class UnifiedSyntax<T = Declaration> {
 
           if (typeof paths === 'string' || Array.isArray(paths)) {
             this.emit(rule, [nextStyleSheet, toArray(paths)]);
-          } else if (__DEV__) {
+          } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(`${rule} value must be a string, or an array of strings.`);
           }
 
@@ -146,7 +146,7 @@ export default class UnifiedSyntax<T = Declaration> {
                 this.convertDeclaration(selector, globals[selector]),
                 selector,
               ]);
-            } else if (__DEV__) {
+            } else if (process.env.NODE_ENV !== 'production') {
               throw new Error('Invalid @global selector style declaration.');
             }
           });
@@ -172,7 +172,7 @@ export default class UnifiedSyntax<T = Declaration> {
 
           if (isObject(style)) {
             this.emit(rule, [nextStyleSheet, style]);
-          } else if (__DEV__) {
+          } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(`${rule} must be a style object.`);
           }
 
@@ -199,7 +199,7 @@ export default class UnifiedSyntax<T = Declaration> {
 
       // At-rule
       if (selector.charAt(0) === '@') {
-        if (__DEV__) {
+        if (process.env.NODE_ENV !== 'production') {
           throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
         }
 
@@ -210,7 +210,7 @@ export default class UnifiedSyntax<T = Declaration> {
         // Style object
       } else if (isObject(declaration)) {
         nextStyleSheet[selector] = this.convertDeclaration(selector, declaration);
-      } else if (__DEV__) {
+      } else if (process.env.NODE_ENV !== 'production') {
         throw new Error(`Invalid style declaration for "${selector}".`);
       }
     });
@@ -268,7 +268,7 @@ export default class UnifiedSyntax<T = Declaration> {
         Object.keys(style).forEach(condition => {
           if (isObject(style[condition])) {
             this.emit(rule, [nextDeclaration, style[condition], condition]);
-          } else if (__DEV__) {
+          } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(
               `${rule} ${condition} must be a mapping of conditions to style objects.`,
             );
@@ -278,7 +278,7 @@ export default class UnifiedSyntax<T = Declaration> {
     });
 
     // Error for unknown at-rules
-    if (__DEV__) {
+    if (process.env.NODE_ENV !== 'production') {
       Object.keys(prevDeclaration).forEach(key => {
         throw new SyntaxError(`Unsupported local at-rule "${key}".`);
       });

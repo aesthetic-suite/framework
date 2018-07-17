@@ -21,7 +21,7 @@ export default function createStyler(
   style: (styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions) => HOCWrapper,
   transform: (...styles: StyleDeclaration[]) => ClassName,
 } {
-  if (__DEV__) {
+  if (process.env.NODE_ENV !== 'production') {
     if (!(aesthetic instanceof Aesthetic)) {
       throw new TypeError('An instance of `Aesthetic` must be provided.');
     }

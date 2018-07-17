@@ -17,7 +17,7 @@ export default class ClassNameAdapter extends Adapter {
     styles.forEach(style => {
       if (style && typeof style === 'string') {
         classNames.push(style);
-      } else if (__DEV__) {
+      } else if (process.env.NODE_ENV !== 'production') {
         throw new TypeError(`${this.constructor.name} expects valid CSS class names.`);
       }
     });

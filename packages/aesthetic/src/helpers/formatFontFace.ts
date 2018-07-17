@@ -38,7 +38,7 @@ export default function formatFontFace(properties: UnifiedFontFace): FontFace {
 
       if (FORMATS[ext]) {
         src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);
-      } else if (__DEV__) {
+      } else if (process.env.NODE_ENV !== 'production') {
         throw new Error(`Unsupported font format "${ext}".`);
       }
     });
