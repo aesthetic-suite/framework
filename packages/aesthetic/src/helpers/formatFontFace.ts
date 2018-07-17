@@ -1,12 +1,10 @@
 /**
  * @copyright   2017, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
- * @flow
  */
 
 import toArray from './toArray';
-
-import type { StyleBlock } from '../../../types';
+import { UnifiedFontFace, FontFace } from '../types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',
@@ -18,9 +16,9 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: StyleBlock): StyleBlock {
+export default function formatFontFace(properties: UnifiedFontFace): FontFace {
   const fontFace = { ...properties };
-  const src = [];
+  const src: string[] = [];
 
   if (fontFace.local) {
     toArray(fontFace.local).forEach(alias => {

@@ -1,7 +1,6 @@
 /**
  * @copyright   2017, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
- * @flow
  */
 
 /* eslint-disable no-param-reassign */
@@ -9,15 +8,17 @@
 import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
-
-import type {
+import {
   AtRule,
-  EventCallback,
-  Style,
-  StyleBlock,
-  StyleDeclaration,
+  UnifiedFontFace,
+  UnifiedKeyframes,
+  Handler,
   StyleSheet,
-} from '../../types';
+  UnifiedStyleSheet,
+  FontFace,
+  UnifiedDeclaration,
+  Declaration,
+} from './types';
 
 export const GLOBAL_RULES: AtRule[] = [
   '@charset',
@@ -32,14 +33,14 @@ export const GLOBAL_RULES: AtRule[] = [
 
 export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
-export default class UnifiedSyntax {
-  events: { [eventName: string]: EventCallback } = {};
+export default class UnifiedSyntax<T = Declaration> {
+  events: { [eventName: string]: Handler } = {};
 
-  fontFaces: { [fontFamily: string]: StyleBlock[] } = {};
+  fontFaces: { [fontFamily: string]: UnifiedFontFace[] } = {};
 
   fontFacesCache: { [fontFamily: string]: string } = {};
 
-  keyframes: { [animationName: string]: StyleBlock } = {};
+  keyframes: { [animationName: string]: UnifiedKeyframes } = {};
 
   keyframesCache: { [animationName: string]: string } = {};
 
@@ -62,7 +63,7 @@ export default class UnifiedSyntax {
   /**
    * Check that a value is a style declaration block.
    */
-  checkBlock(value: *): Object {
+  checkBlock(value: any): value is object {
     if (isObject(value)) {
       return value;
     }
@@ -73,9 +74,9 @@ export default class UnifiedSyntax {
   /**
    * Convert a mapping of style declarations to their native syntax.
    */
-  convert(styleSheet: StyleSheet): StyleSheet {
+  convert(styleSheet: UnifiedStyleSheet): StyleSheet<T> {
     const prevStyleSheet = { ...styleSheet };
-    const nextStyleSheet = {};
+    const nextStyleSheet: StyleSheet<T> = {};
 
     // Extract global at-rules first
     // eslint-disable-next-line complexity
@@ -104,7 +105,7 @@ export default class UnifiedSyntax {
           const paths = prevStyleSheet[rule];
 
           if (typeof paths === 'string' || Array.isArray(paths)) {
-            this.emit(rule, [nextStyleSheet, paths]);
+            this.emit(rule, [nextStyleSheet, toArray(paths)]);
           } else if (__DEV__) {
             throw new Error(`${rule} value must be a string, or an array of strings.`);
           }
@@ -115,8 +116,11 @@ export default class UnifiedSyntax {
         case '@font-face': {
           const faces = prevStyleSheet['@font-face'];
 
+          if (!faces) {
+            return;
+          }
+
           Object.keys(this.checkBlock(faces)).forEach(fontFamily => {
-            // $FlowIgnore
             this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => ({
               ...font,
               fontFamily,
@@ -130,6 +134,10 @@ export default class UnifiedSyntax {
 
         case '@global': {
           const globals = prevStyleSheet['@global'];
+
+          if (!globals) {
+            return;
+          }
 
           Object.keys(this.checkBlock(globals)).forEach(selector => {
             if (isObject(globals[selector])) {
@@ -213,7 +221,7 @@ export default class UnifiedSyntax {
   /**
    * Convert a style declaration including local at-rules and properties.
    */
-  convertDeclaration(selector: string, declaration: StyleDeclaration): StyleDeclaration {
+  convertDeclaration(selector: string, declaration: UnifiedDeclaration): Declaration {
     const prevDeclaration = { ...declaration };
     const nextDeclaration = {};
 
@@ -291,7 +299,7 @@ export default class UnifiedSyntax {
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: string, args: *[]): this {
+  emit(eventName: string, args: any[]): this {
     if (this.events[eventName]) {
       this.events[eventName](...args);
     }
@@ -302,8 +310,8 @@ export default class UnifiedSyntax {
   /**
    * Handle @charset.
    */
-  handleCharset(styleSheet: StyleSheet, style: string) {
-    styleSheet['@charset'] = style;
+  handleCharset(styleSheet: StyleSheet<T>, charset: string) {
+    styleSheet['@charset'] = charset;
   }
 
   /**
@@ -316,33 +324,37 @@ export default class UnifiedSyntax {
   /**
    * Handle @font-face.
    */
-  handleFontFace(styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) {
+  handleFontFace(styleSheet: StyleSheet<T>, fontFaces: UnifiedFontFace[], fontFamily: string) {
     if (Array.isArray(styleSheet['@font-face'])) {
-      styleSheet['@font-face'].push(...style);
+      styleSheet['@font-face'].push(...fontFaces);
     } else {
-      styleSheet['@font-face'] = style;
+      styleSheet['@font-face'] = fontFaces;
     }
   }
 
   /**
    * Handle global styles (like body, html, etc).
    */
-  handleGlobal(styleSheet: StyleSheet, declaration: StyleDeclaration, selector: string) {
+  handleGlobal(styleSheet: StyleSheet<T>, declaration: UnifiedDeclaration, selector: string) {
     // Do nothing
   }
 
   /**
    * Handle @namespace.
    */
-  handleImport(styleSheet: StyleSheet, style: string | string[]) {
-    styleSheet['@import'] = style;
+  handleImport(styleSheet: StyleSheet<T>, paths: string[]) {
+    styleSheet['@import'] = paths;
   }
 
   /**
    * Handle @keyframes.
    */
-  handleKeyframes(styleSheet: StyleSheet, style: StyleBlock, animationName: string) {
-    styleSheet[`@keyframes ${animationName}`] = style;
+  handleKeyframes(
+    styleSheet: StyleSheet<T>,
+    declaration: UnifiedDeclaration,
+    animationName: string,
+  ) {
+    styleSheet[`@keyframes ${animationName}`] = declaration;
   }
 
   /**
@@ -355,15 +367,15 @@ export default class UnifiedSyntax {
   /**
    * Handle @namespace.
    */
-  handleNamespace(styleSheet: StyleSheet, style: string) {
-    styleSheet['@namespace'] = style;
+  handleNamespace(styleSheet: StyleSheet<T>, namespace: string) {
+    styleSheet['@namespace'] = namespace;
   }
 
   /**
    * Handle @page.
    */
-  handlePage(styleSheet: StyleSheet, style: StyleBlock) {
-    styleSheet['@page'] = style;
+  handlePage(styleSheet: StyleSheet<T>, declaration: UnifiedDeclaration) {
+    styleSheet['@page'] = declaration;
   }
 
   /**
@@ -390,14 +402,14 @@ export default class UnifiedSyntax {
   /**
    * Handle @viewport.
    */
-  handleViewport(styleSheet: StyleSheet, style: StyleBlock) {
-    styleSheet['@viewport'] = style;
+  handleViewport(styleSheet: StyleSheet, declaration: UnifiedDeclaration) {
+    styleSheet['@viewport'] = declaration;
   }
 
   /**
    * Replace a `fontFamily` property with font face objects of the same name.
    */
-  injectFontFaces(value: Style, cache: Object): Style[] {
+  injectFontFaces(value: string, cache: { [key: string]: string }): Style[] {
     const fontFaces = [];
 
     String(value)
@@ -443,7 +455,7 @@ export default class UnifiedSyntax {
   /**
    * Register an event listener.
    */
-  on(eventName: string, callback: EventCallback): this {
+  on(eventName: string, callback: Handler): this {
     this.events[eventName] = callback;
 
     return this;
