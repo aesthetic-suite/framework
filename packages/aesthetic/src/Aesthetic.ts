@@ -1,24 +1,23 @@
 /**
  * @copyright   2017, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
- * @flow
  */
 
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
 import withStyles from './style';
+import { ClassName, StyleSheet, ThemeSheet, $FixMe } from './types';
 
-import type {
-  AestheticOptions,
-  ClassName,
-  HOCOptions,
-  HOCWrapper,
-  StyleDeclaration,
-  StyleSheet,
-  StyleSheetCallback,
-  ThemeSheet,
-} from '../../types';
+export interface AestheticOptions {
+  defaultTheme: string;
+  extendable: boolean;
+  passThemeNameProp: boolean;
+  passThemeProp: boolean;
+  pure: boolean;
+  stylesPropName: string;
+  themePropName: string;
+}
 
 export default class Aesthetic {
   adapter: Adapter;
@@ -41,7 +40,7 @@ export default class Aesthetic {
 
   themes: { [themeName: string]: ThemeSheet } = {};
 
-  constructor(adapter: Adapter, options?: Object = {}) {
+  constructor(adapter: Adapter, options: Partial<AestheticOptions> = {}) {
     this.options = {
       ...this.options,
       ...options,
@@ -53,7 +52,7 @@ export default class Aesthetic {
   /**
    * Return a stylesheet unique to an adapter.
    */
-  createStyleSheet(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
+  createStyleSheet(styleName: string, themeName: string = '', props: $FixMe = {}): StyleSheet {
     return this.adapter.create(this.getStyles(styleName, themeName, props), styleName);
   }
 
@@ -63,8 +62,8 @@ export default class Aesthetic {
   extendTheme(
     parentThemeName: string,
     themeName: string,
-    theme?: ThemeSheet = {},
-    globals?: StyleSheet = {},
+    theme: ThemeSheet = {},
+    globals: StyleSheet = {},
   ): this {
     return this.registerTheme(
       themeName,
@@ -77,7 +76,7 @@ export default class Aesthetic {
    * Retrieve the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles(styleName: string, themeName?: string = '', props?: Object = {}): StyleSheet {
+  getStyles(styleName: string, themeName: string = '', props: $FixMe = {}): StyleSheet {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
@@ -106,7 +105,7 @@ export default class Aesthetic {
   /**
    * Return a themes style object or throw an error.
    */
-  getTheme(themeName?: string = ''): ThemeSheet {
+  getTheme(themeName: string = ''): ThemeSheet {
     const { defaultTheme } = this.options;
 
     let theme = this.themes[themeName];
@@ -127,7 +126,7 @@ export default class Aesthetic {
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(themeName: string, theme?: ThemeSheet = {}, globals?: StyleSheet = {}): this {
+  registerTheme(themeName: string, theme: ThemeSheet = {}, globals: StyleSheet = {}): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -144,7 +143,6 @@ export default class Aesthetic {
     // Create global styles
     const globalStyleSheet = this.adapter.create(globals, ':root');
 
-    // $FlowIgnore
     this.transformStyles(Object.values(globalStyleSheet));
 
     return this;
@@ -169,7 +167,7 @@ export default class Aesthetic {
   setStyles(
     styleName: string,
     styleSheet: StyleSheet | StyleSheetCallback,
-    extendFrom?: string = '',
+    extendFrom: string = '',
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
@@ -201,7 +199,6 @@ export default class Aesthetic {
    */
   transformStyles(styles: StyleDeclaration[]): ClassName {
     if (this.cache.has(styles)) {
-      // $FlowIgnore We check return swith has()
       return this.cache.get(styles);
     }
 

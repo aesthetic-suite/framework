@@ -213,7 +213,11 @@
   version "1.13.2"
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.13.2.tgz#ffe96278e712a8d4e467e367a338b05e22872646"
 
-"@types/react@*":
+"@types/prop-types@^15.5.3":
+  version "15.5.3"
+  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.5.3.tgz#bef071852dca2a2dbb65fecdb7bfb30cedae2de2"
+
+"@types/react@*", "@types/react@^16.4.6":
   version "16.4.6"
   resolved "https://registry.npmjs.org/@types/react/-/react-16.4.6.tgz#5024957c6bcef4f02823accf5974faba2e54fada"
   dependencies:

@@ -51,7 +51,6 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
     if (typeof styleSheet['@font-face'] === 'undefined') {
       styleSheet['@font-face'] = fontFaces;
     } else {
-      // $FlowIgnore
       styleSheet['@font-face'].push(...fontFaces);
     }
   }

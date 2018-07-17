@@ -7,22 +7,14 @@ import CSS from 'csstype';
 
 /* eslint-disable no-use-before-define, max-len */
 
+export type $FixMe = any;
+
 // TERMINOLOGY
 // Style = The individual value for a property.
 // Properties = An object of style properties.
 // Declaration = Styles for a selector. Supports local at-rules.
 // Selector = The name of an element.
 // StyleSheet = An object of declarations. Supports global at-rules.
-
-export interface AestheticOptions {
-  defaultTheme: string;
-  extendable: boolean;
-  passThemeNameProp: boolean;
-  passThemeProp: boolean;
-  pure: boolean;
-  stylesPropName: string;
-  themePropName: string;
-}
 
 export interface HOCOptions {
   extendable?: boolean;
@@ -76,9 +68,15 @@ export interface GlobalAtRules<T> {
   '@viewport'?: T;
 }
 
-export type StyleSheet<T = Declaration> = GlobalAtRules<T> & {
+export type StyleSheet<T> = GlobalAtRules<T> & {
   [selector: string]: T;
 };
+
+// THEMES
+
+export type ThemeName = string;
+
+export type ThemeSheet = any;
 
 // UNIFIED SYNTAX
 
