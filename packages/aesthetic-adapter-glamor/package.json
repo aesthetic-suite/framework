@@ -10,8 +10,10 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-glamor",
   "license": "MIT",
-  "scripts": {
-    "build": "build-lib --react"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "prop-types": "^15.6.2"

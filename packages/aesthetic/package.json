@@ -19,8 +19,10 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic",
   "license": "MIT",
-  "scripts": {
-    "build": "build-lib --react"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "hoist-non-react-statics": "^2.5.5",
