@@ -11,12 +11,7 @@ import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import { TypeStyle } from 'typestyle';
 import TypeStyleAdapter from './NativeAdapter';
 
-import type {
-  Style,
-  StyleBlock,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { Style, StyleBlock, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   syntax: UnifiedSyntax;
@@ -70,7 +65,6 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
     if (property === 'animationName') {
       declaration[property] = this.syntax.injectKeyframes(style, this.syntax.keyframesCache);
-
     } else {
       declaration[property] = style;
     }

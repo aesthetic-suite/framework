@@ -5,9 +5,9 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 
 ## Requirements
 
-* React 15+
-* Aesthetic
-* Aphrodite
+- React 15+
+- Aesthetic
+- Aphrodite
 
 ## Installation
 

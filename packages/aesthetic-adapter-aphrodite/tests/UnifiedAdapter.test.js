@@ -186,10 +186,7 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     expect(instance.syntax.convert(syntax)).toEqual({
       font: {
-        fontFamily: [
-          FONT_ROBOTO_FLAT_SRC,
-          ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-        ],
+        fontFamily: [FONT_ROBOTO_FLAT_SRC, ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC],
         fontSize: 20,
       },
     });
@@ -233,8 +230,9 @@ describe('aesthetic-adapter-aphrodite/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation))
-      .toBe('animation_1s7muh9');
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe(
+      'animation_1s7muh9',
+    );
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });

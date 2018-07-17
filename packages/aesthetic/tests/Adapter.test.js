@@ -18,8 +18,9 @@ describe('aesthetic/Adapter', () => {
 
   describe('transform()', () => {
     it('errors if not defined', () => {
-      expect(() => (new Adapter()).transform())
-        .toThrowError('Adapter must define the `transform` method.');
+      expect(() => new Adapter().transform()).toThrowError(
+        'Adapter must define the `transform` method.',
+      );
     });
   });
 });

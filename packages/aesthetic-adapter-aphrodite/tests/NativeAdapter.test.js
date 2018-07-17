@@ -33,17 +33,20 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('can transform dynamic styles', () => {
-    expect(instance.transform({
-      width: 10,
-      height: 10,
-    })).toBe('inline0_7in6ye');
+    expect(
+      instance.transform({
+        width: 10,
+        height: 10,
+      }),
+    ).toBe('inline0_7in6ye');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button))
-      .toBe('button_13l44zh');
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL).button)).toBe(
+      'button_13l44zh',
+    );
   });
 
   it('combines different style declarations into unique class names', () => {
@@ -65,25 +68,25 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
     expect(instance.transform(sheet.foo)).toBe('foo_1u9pmmq');
     expect(instance.transform(sheet.bar)).toBe('bar_1etchdu');
     expect(instance.transform(sheet.baz)).toBe('baz_xw1a2w');
-    expect(instance.transform(sheet.foo, sheet.baz))
-      .toBe('foo_1u9pmmq-o_O-baz_xw1a2w');
-    expect(instance.transform(sheet.bar, sheet.foo))
-      .toBe('bar_1etchdu-o_O-foo_1u9pmmq');
+    expect(instance.transform(sheet.foo, sheet.baz)).toBe('foo_1u9pmmq-o_O-baz_xw1a2w');
+    expect(instance.transform(sheet.bar, sheet.foo)).toBe('bar_1etchdu-o_O-foo_1u9pmmq');
   });
 
   it('handles globals', () => {
-    instance.transform(instance.create({
-      globals: {
-        '*body': { margin: 0 },
-        '*html': { height: '100%' },
-        '*a': {
-          color: 'red',
-          ':hover': {
-            color: 'darkred',
+    instance.transform(
+      instance.create({
+        globals: {
+          '*body': { margin: 0 },
+          '*html': { height: '100%' },
+          '*a': {
+            color: 'red',
+            ':hover': {
+              color: 'darkred',
+            },
           },
         },
-      },
-    }).globals);
+      }).globals,
+    );
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
@@ -107,51 +110,67 @@ describe('aesthetic-adapter-aphrodite/NativeAdapter', () => {
   });
 
   it('handles font faces', () => {
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: [FONT_ROBOTO_FLAT_SRC],
-        fontSize: 20,
-      },
-    }).font)).toBe('font_uk6a9p');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: [FONT_ROBOTO_FLAT_SRC],
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('font_uk6a9p');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles multiple font faces', () => {
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-        fontSize: 20,
-      },
-    }).font)).toBe('font_f7iz6d');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('font_f7iz6d');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    expect(instance.transform(instance.create({
-      animation: {
-        animationDuration: '3s, 1200ms',
-        animationIterationCount: 'infinite',
-        animationName: KEYFRAME_FADE,
-      },
-    }).animation)).toBe('animation_mab5hn');
+    expect(
+      instance.transform(
+        instance.create({
+          animation: {
+            animationDuration: '3s, 1200ms',
+            animationIterationCount: 'infinite',
+            animationName: KEYFRAME_FADE,
+          },
+        }).animation,
+      ),
+    ).toBe('animation_mab5hn');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    expect(instance.transform(instance.create({
-      media: {
-        color: 'red',
-        '@media (min-width: 300px)': {
-          color: 'blue',
-        },
-        '@media (max-width: 1000px)': {
-          color: 'green',
-        },
-      },
-    }).media)).toBe('media_1yqe7pa');
+    expect(
+      instance.transform(
+        instance.create({
+          media: {
+            color: 'red',
+            '@media (min-width: 300px)': {
+              color: 'blue',
+            },
+            '@media (max-width: 1000px)': {
+              color: 'green',
+            },
+          },
+        }).media,
+      ),
+    ).toBe('media_1yqe7pa');
 
     expect(renderAphroditeStyles(instance)).toMatchSnapshot();
   });

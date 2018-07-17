@@ -39,8 +39,7 @@ export default function style(
   options?: HOCOptions = {},
 ): HOCWrapper {
   return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
-    let styleName =
-      options.styleName || Component.displayName || Component.name;
+    let styleName = options.styleName || Component.displayName || Component.name;
 
     // Function/constructor name aren't always available when code is minified,
     // so only use it in development.
@@ -80,8 +79,7 @@ export default function style(
       stylesPropName = aesthetic.options.stylesPropName,
       themePropName = aesthetic.options.themePropName,
     } = options;
-    const ParentComponent =
-      pure && React.PureComponent ? React.PureComponent : React.Component;
+    const ParentComponent = pure && React.PureComponent ? React.PureComponent : React.Component;
 
     // Set base styles
     aesthetic.setStyles(styleName, styleSheet, extendFrom);
@@ -142,12 +140,7 @@ export default function style(
       }
 
       getThemeName(props: StyleProps): string {
-        return (
-          props.themeName ||
-          this.context.themeName ||
-          aesthetic.options.defaultTheme ||
-          ''
-        );
+        return props.themeName || this.context.themeName || aesthetic.options.defaultTheme || '';
       }
 
       getWrappedProps(): Object {

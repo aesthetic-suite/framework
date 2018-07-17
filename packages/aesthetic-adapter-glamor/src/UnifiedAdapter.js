@@ -11,12 +11,7 @@ import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import { css } from 'glamor';
 import GlamorAdapter from './NativeAdapter';
 
-import type {
-  Style,
-  StyleBlock,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { Style, StyleBlock, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class UnifiedGlamorAdapter extends GlamorAdapter {
   syntax: UnifiedSyntax;
@@ -43,7 +38,7 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
 
   // https://github.com/threepointone/glamor/blob/master/docs/api.md#cssfontfacefont
   handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
-    style.forEach((face) => {
+    style.forEach(face => {
       css.fontFace(formatFontFace(face));
     });
   };
@@ -56,8 +51,8 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
     if (property === 'animationName') {
       declaration[property] = this.syntax
-        .injectKeyframes(style, this.syntax.keyframesCache).join(', ');
-
+        .injectKeyframes(style, this.syntax.keyframesCache)
+        .join(', ');
     } else {
       declaration[property] = style;
     }
@@ -65,6 +60,6 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
 
   // https://github.com/threepointone/glamor/blob/master/docs/howto.md#child-selectors
   handleSelector = (declaration: StyleDeclaration, style: Style, selector: string) => {
-    declaration[(selector.charAt(0) === '>') ? `&${selector}` : selector] = style;
+    declaration[selector.charAt(0) === '>' ? `&${selector}` : selector] = style;
   };
 }

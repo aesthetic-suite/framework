@@ -23,7 +23,7 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
   const src = [];
 
   if (fontFace.local) {
-    toArray(fontFace.local).forEach((alias) => {
+    toArray(fontFace.local).forEach(alias => {
       src.push(`local('${String(alias)}')`);
     });
 
@@ -31,7 +31,7 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
   }
 
   if (Array.isArray(fontFace.srcPaths)) {
-    toArray(fontFace.srcPaths).forEach((srcPath) => {
+    toArray(fontFace.srcPaths).forEach(srcPath => {
       let ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
       if (ext.indexOf('?') >= 0) {
@@ -40,7 +40,6 @@ export default function formatFontFace(properties: StyleBlock): StyleBlock {
 
       if (FORMATS[ext]) {
         src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);
-
       } else if (__DEV__) {
         throw new Error(`Unsupported font format "${ext}".`);
       }

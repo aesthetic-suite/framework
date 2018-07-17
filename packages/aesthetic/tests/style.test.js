@@ -74,9 +74,13 @@ describe('aesthetic/style()', () => {
   });
 
   it('inherits style name from `options.styleName`', () => {
-    const Wrapped = style(aesthetic, {}, {
-      styleName: 'CustomStyleName',
-    })(BaseComponent);
+    const Wrapped = style(
+      aesthetic,
+      {},
+      {
+        styleName: 'CustomStyleName',
+      },
+    )(BaseComponent);
 
     expect(Wrapped.displayName).toBe('Aesthetic(CustomStyleName)');
     expect(Wrapped.styleName).toBe('CustomStyleName');
@@ -113,14 +117,18 @@ describe('aesthetic/style()', () => {
   });
 
   it('can set styles using `extendStyles`', () => {
-    const Wrapped = style(aesthetic, {
-      button: {
-        display: 'inline-block',
-        padding: 5,
+    const Wrapped = style(
+      aesthetic,
+      {
+        button: {
+          display: 'inline-block',
+          padding: 5,
+        },
       },
-    }, {
-      extendable: true,
-    })(BaseComponent);
+      {
+        extendable: true,
+      },
+    )(BaseComponent);
 
     expect(aesthetic.styles.BaseComponent).toEqual({
       button: {
@@ -129,13 +137,16 @@ describe('aesthetic/style()', () => {
       },
     });
 
-    Wrapped.extendStyles({
-      notButton: {
-        color: 'red',
+    Wrapped.extendStyles(
+      {
+        notButton: {
+          color: 'red',
+        },
       },
-    }, {
-      styleName: 'ExtendedComponent',
-    });
+      {
+        styleName: 'ExtendedComponent',
+      },
+    );
 
     expect(aesthetic.styles.ExtendedComponent).toEqual({
       notButton: {
@@ -145,14 +156,21 @@ describe('aesthetic/style()', () => {
   });
 
   it('can set extended components as non-extendable', () => {
-    const Wrapped = style(aesthetic, {}, {
-      extendable: true,
-    })(BaseComponent);
+    const Wrapped = style(
+      aesthetic,
+      {},
+      {
+        extendable: true,
+      },
+    )(BaseComponent);
 
-    const Extended = Wrapped.extendStyles({}, {
-      extendable: false,
-      styleName: 'ExtendedComponent',
-    });
+    const Extended = Wrapped.extendStyles(
+      {},
+      {
+        extendable: false,
+        styleName: 'ExtendedComponent',
+      },
+    );
 
     expect(() => {
       Extended.extendStyles({});
@@ -264,7 +282,6 @@ describe('aesthetic/style()', () => {
     expect(styles2).toEqual(styles);
   });
 
-
   it('doesnt transforms styles if other props change', () => {
     function StylesComponent2(props) {
       return <div />;
@@ -333,7 +350,9 @@ describe('aesthetic/style()', () => {
     expect(() => {
       style(aesthetic)(BaseComponent);
       style(aesthetic)(BaseComponent);
-    }).toThrowError('A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.');
+    }).toThrowError(
+      'A component has already been styled under the name "BaseComponent". Either rename the component or define `options.styleName`.',
+    );
   });
 
   it('can bubble up the ref with `wrappedRef`', () => {
@@ -347,7 +366,14 @@ describe('aesthetic/style()', () => {
     let refInstance = null;
     const Wrapped = style(aesthetic)(StylesComponent5);
 
-    mount(<Wrapped themeName="classic" wrappedRef={(ref) => { refInstance = ref; }} />);
+    mount(
+      <Wrapped
+        themeName="classic"
+        wrappedRef={ref => {
+          refInstance = ref;
+        }}
+      />,
+    );
 
     expect(refInstance).not.toBeNull();
     expect(refInstance.constructor.name).toBe('StylesComponent5');

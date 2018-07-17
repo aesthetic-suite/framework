@@ -13,7 +13,11 @@ describe('aesthetic/ThemeProvider', () => {
   });
 
   it('passes child context', () => {
-    const wrapper = shallow(<ThemeProvider name="foo"><div>Child</div></ThemeProvider>);
+    const wrapper = shallow(
+      <ThemeProvider name="foo">
+        <div>Child</div>
+      </ThemeProvider>,
+    );
 
     expect(wrapper.instance().getChildContext()).toEqual({
       themeName: 'foo',

@@ -11,12 +11,7 @@ import formatFontFace from 'aesthetic/lib/helpers/formatFontFace';
 import JSS from 'jss';
 import JSSAdapter from './NativeAdapter';
 
-import type {
-  Style,
-  StyleBlock,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { Style, StyleBlock, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class UnifiedJSSAdapter extends JSSAdapter {
   syntax: UnifiedSyntax;

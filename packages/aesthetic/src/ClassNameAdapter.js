@@ -14,7 +14,7 @@ export default class ClassNameAdapter extends Adapter {
   transform(...styles: StyleDeclaration[]): ClassName {
     const classNames = [];
 
-    styles.forEach((style) => {
+    styles.forEach(style => {
       if (style && typeof style === 'string') {
         classNames.push(style);
       } else if (__DEV__) {

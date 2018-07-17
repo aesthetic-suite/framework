@@ -10,12 +10,7 @@ import UnifiedSyntax from 'aesthetic/unified';
 import FelaAdapter from './NativeAdapter';
 
 import type { Renderer } from 'fela'; // eslint-disable-line
-import type {
-  Style,
-  StyleBlock,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { Style, StyleBlock, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class UnifiedFelaAdapter extends FelaAdapter {
   syntax: UnifiedSyntax;
@@ -43,7 +38,7 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   // http://fela.js.org/docs/basics/Fonts.html
   // http://fela.js.org/docs/basics/Renderer.html#renderfont
   handleFontFace = (styleSheet: StyleSheet, style: StyleBlock[], fontFamily: string) => {
-    this.syntax.fontFacesCache[fontFamily] = style.map((face) => {
+    this.syntax.fontFacesCache[fontFamily] = style.map(face => {
       const { srcPaths, local, ...props } = face;
 
       return this.fela.renderFont(fontFamily, srcPaths, {
@@ -51,7 +46,7 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
         localAlias: local,
       });
     });
-  }
+  };
 
   // http://fela.js.org/docs/advanced/StaticStyle.html
   // http://fela.js.org/docs/api/fela/Renderer.html#renderstaticstyle-selector
@@ -68,8 +63,8 @@ export default class UnifiedFelaAdapter extends FelaAdapter {
   handleProperty = (declaration: StyleDeclaration, style: Style, property: string) => {
     if (property === 'animationName') {
       declaration[property] = this.syntax
-        .injectKeyframes(style, this.syntax.keyframesCache).join(', ');
-
+        .injectKeyframes(style, this.syntax.keyframesCache)
+        .join(', ');
     } else {
       declaration[property] = style;
     }

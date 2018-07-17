@@ -21,10 +21,12 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   });
 
   it('can transform dynamic styles', () => {
-    expect(instance.transform({
-      width: 10,
-      height: 10,
-    })).toBe('fe13ew7');
+    expect(
+      instance.transform({
+        width: 10,
+        height: 10,
+      }),
+    ).toBe('fe13ew7');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -53,61 +55,77 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   });
 
   it('handles attribute selectors', () => {
-    expect(instance.transform(instance.create({
-      attr: {
-        display: 'block',
-        $nest: {
-          '&[disabled]': {
-            opacity: 0.5,
+    expect(
+      instance.transform(
+        instance.create({
+          attr: {
+            display: 'block',
+            $nest: {
+              '&[disabled]': {
+                opacity: 0.5,
+              },
+            },
           },
-        },
-      },
-    }).attr)).toBe('f14zstro');
+        }).attr,
+      ),
+    ).toBe('f14zstro');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles descendant selectors', () => {
-    expect(instance.transform(instance.create({
-      list: {
-        margin: 0,
-        padding: 0,
-        $nest: {
-          '&> li': {
-            listStyle: 'bullet',
+    expect(
+      instance.transform(
+        instance.create({
+          list: {
+            margin: 0,
+            padding: 0,
+            $nest: {
+              '&> li': {
+                listStyle: 'bullet',
+              },
+            },
           },
-        },
-      },
-    }).list)).toBe('f1qve63s');
+        }).list,
+      ),
+    ).toBe('f1qve63s');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles pseudo selectors', () => {
-    expect(instance.transform(instance.create({
-      pseudo: {
-        position: 'fixed',
-        $nest: {
-          '&:hover': {
-            position: 'static',
+    expect(
+      instance.transform(
+        instance.create({
+          pseudo: {
+            position: 'fixed',
+            $nest: {
+              '&:hover': {
+                position: 'static',
+              },
+              '&::before': {
+                position: 'absolute',
+              },
+            },
           },
-          '&::before': {
-            position: 'absolute',
-          },
-        },
-      },
-    }).pseudo)).toBe('fmow1iy');
+        }).pseudo,
+      ),
+    ).toBe('fmow1iy');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    expect(instance.transform(instance.create({
-      fallback: {
-        background: ['red', 'linear-gradient(...)'],
-        display: ['box', 'flex-box', 'flex'],
-      },
-    }).fallback)).toBe('fxr1ybm');
+    expect(
+      instance.transform(
+        instance.create({
+          fallback: {
+            background: ['red', 'linear-gradient(...)'],
+            display: ['box', 'flex-box', 'flex'],
+          },
+        }).fallback,
+      ),
+    ).toBe('fxr1ybm');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
@@ -115,75 +133,95 @@ describe('aesthetic-adapter-typestyle/NativeAdapter', () => {
   it('handles font faces', () => {
     instance.typeStyle.fontFace(FONT_ROBOTO_FLAT_SRC); // No return
 
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: 'Roboto',
-        fontSize: 20,
-      },
-    }).font)).toBe('fd14wa4');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: 'Roboto',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('fd14wa4');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles multiple font faces', () => {
-    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach((font) => {
+    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach(font => {
       instance.typeStyle.fontFace(font); // No return
     });
 
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: 'Circular',
-        fontSize: 20,
-      },
-    }).font)).toBe('fszcu3a');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: 'Circular',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('fszcu3a');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    expect(instance.transform(instance.create({
-      animation: {
-        animationName: instance.typeStyle.keyframes(KEYFRAME_FADE),
-        animationDuration: '3s, 1200ms',
-        animationIterationCount: 'infinite',
-      },
-    }).animation)).toBe('f14e9xg1');
+    expect(
+      instance.transform(
+        instance.create({
+          animation: {
+            animationName: instance.typeStyle.keyframes(KEYFRAME_FADE),
+            animationDuration: '3s, 1200ms',
+            animationIterationCount: 'infinite',
+          },
+        }).animation,
+      ),
+    ).toBe('f14e9xg1');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    expect(instance.transform(instance.create({
-      media: {
-        color: 'red',
-        $nest: {
-          '@media (min-width: 300px)': {
-            color: 'blue',
+    expect(
+      instance.transform(
+        instance.create({
+          media: {
+            color: 'red',
+            $nest: {
+              '@media (min-width: 300px)': {
+                color: 'blue',
+              },
+              '@media (max-width: 1000px)': {
+                color: 'green',
+              },
+            },
           },
-          '@media (max-width: 1000px)': {
-            color: 'green',
-          },
-        },
-      },
-    }).media)).toBe('fuxmg1k');
+        }).media,
+      ),
+    ).toBe('fuxmg1k');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    expect(instance.transform(instance.create({
-      sup: {
-        display: 'block',
-        $nest: {
-          '@supports (display: flex)': {
-            display: 'flex',
+    expect(
+      instance.transform(
+        instance.create({
+          sup: {
+            display: 'block',
+            $nest: {
+              '@supports (display: flex)': {
+                display: 'flex',
+              },
+              '@supports not (display: flex)': {
+                float: 'left',
+              },
+            },
           },
-          '@supports not (display: flex)': {
-            float: 'left',
-          },
-        },
-      },
-    }).sup)).toBe('f6m6wzj');
+        }).sup,
+      ),
+    ).toBe('f6m6wzj');
 
     expect(renderTSStyles(instance)).toMatchSnapshot();
   });

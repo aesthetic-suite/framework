@@ -30,11 +30,7 @@ export const GLOBAL_RULES: AtRule[] = [
   '@viewport',
 ];
 
-export const LOCAL_RULES: AtRule[] = [
-  '@fallbacks',
-  '@media',
-  '@supports',
-];
+export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
 export default class UnifiedSyntax {
   events: { [eventName: string]: EventCallback } = {};
@@ -48,8 +44,7 @@ export default class UnifiedSyntax {
   keyframesCache: { [animationName: string]: string } = {};
 
   constructor() {
-    this
-      .on('property', this.handleProperty)
+    this.on('property', this.handleProperty)
       .on('selector', this.handleSelector)
       .on('@charset', this.handleCharset)
       .on('@fallbacks', this.handleFallbacks)
@@ -84,7 +79,7 @@ export default class UnifiedSyntax {
 
     // Extract global at-rules first
     // eslint-disable-next-line complexity
-    GLOBAL_RULES.forEach((rule) => {
+    GLOBAL_RULES.forEach(rule => {
       if (!prevStyleSheet[rule]) {
         delete prevStyleSheet[rule];
 
@@ -120,13 +115,12 @@ export default class UnifiedSyntax {
         case '@font-face': {
           const faces = prevStyleSheet['@font-face'];
 
-          Object.keys(this.checkBlock(faces)).forEach((fontFamily) => {
+          Object.keys(this.checkBlock(faces)).forEach(fontFamily => {
             // $FlowIgnore
-            this.fontFaces[fontFamily] = toArray(faces[fontFamily])
-              .map(font => ({
-                ...font,
-                fontFamily,
-              }));
+            this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => ({
+              ...font,
+              fontFamily,
+            }));
 
             this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily]);
           });
@@ -137,7 +131,7 @@ export default class UnifiedSyntax {
         case '@global': {
           const globals = prevStyleSheet['@global'];
 
-          Object.keys(this.checkBlock(globals)).forEach((selector) => {
+          Object.keys(this.checkBlock(globals)).forEach(selector => {
             if (isObject(globals[selector])) {
               this.emit(rule, [
                 nextStyleSheet,
@@ -155,7 +149,7 @@ export default class UnifiedSyntax {
         case '@keyframes': {
           const frames = prevStyleSheet['@keyframes'];
 
-          Object.keys(this.checkBlock(frames)).forEach((animationName) => {
+          Object.keys(this.checkBlock(frames)).forEach(animationName => {
             this.keyframes[animationName] = this.checkBlock(frames[animationName]);
 
             this.emit(rule, [nextStyleSheet, this.keyframes[animationName], animationName]);
@@ -186,7 +180,7 @@ export default class UnifiedSyntax {
     });
 
     // Convert declarations last
-    Object.keys(prevStyleSheet).forEach((selector) => {
+    Object.keys(prevStyleSheet).forEach(selector => {
       const declaration = prevStyleSheet[selector];
 
       delete prevStyleSheet[selector];
@@ -201,14 +195,13 @@ export default class UnifiedSyntax {
           throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
         }
 
-      // Class name
+        // Class name
       } else if (typeof declaration === 'string') {
         nextStyleSheet[selector] = declaration;
 
-      // Style object
+        // Style object
       } else if (isObject(declaration)) {
         nextStyleSheet[selector] = this.convertDeclaration(selector, declaration);
-
       } else if (__DEV__) {
         throw new Error(`Invalid style declaration for "${selector}".`);
       }
@@ -225,7 +218,7 @@ export default class UnifiedSyntax {
     const nextDeclaration = {};
 
     // Convert properties first
-    Object.keys(prevDeclaration).forEach((key) => {
+    Object.keys(prevDeclaration).forEach(key => {
       switch (key.charAt(0)) {
         case '@':
           return;
@@ -234,7 +227,7 @@ export default class UnifiedSyntax {
         case '>':
         case '[': {
           // Support comma separated selectors
-          key.split(',').forEach((k) => {
+          key.split(',').forEach(k => {
             this.emit('selector', [nextDeclaration, prevDeclaration[key], k.trim()]);
           });
 
@@ -250,7 +243,7 @@ export default class UnifiedSyntax {
     });
 
     // Extract local at-rules first
-    LOCAL_RULES.forEach((rule) => {
+    LOCAL_RULES.forEach(rule => {
       const style = prevDeclaration[rule];
 
       delete prevDeclaration[rule];
@@ -260,16 +253,17 @@ export default class UnifiedSyntax {
       }
 
       if (rule === '@fallbacks') {
-        Object.keys(style).forEach((property) => {
+        Object.keys(style).forEach(property => {
           this.emit(rule, [nextDeclaration, toArray(style[property]), property]);
         });
-
       } else if (rule === '@media' || rule === '@supports') {
-        Object.keys(style).forEach((condition) => {
+        Object.keys(style).forEach(condition => {
           if (isObject(style[condition])) {
             this.emit(rule, [nextDeclaration, style[condition], condition]);
           } else if (__DEV__) {
-            throw new Error(`${rule} ${condition} must be a mapping of conditions to style objects.`);
+            throw new Error(
+              `${rule} ${condition} must be a mapping of conditions to style objects.`,
+            );
           }
         });
       }
@@ -277,7 +271,7 @@ export default class UnifiedSyntax {
 
     // Error for unknown at-rules
     if (__DEV__) {
-      Object.keys(prevDeclaration).forEach((key) => {
+      Object.keys(prevDeclaration).forEach(key => {
         throw new SyntaxError(`Unsupported local at-rule "${key}".`);
       });
     }
@@ -406,18 +400,20 @@ export default class UnifiedSyntax {
   injectFontFaces(value: Style, cache: Object): Style[] {
     const fontFaces = [];
 
-    String(value).split(',').forEach((name) => {
-      const familyName = name.trim();
-      const fonts = cache[familyName];
+    String(value)
+      .split(',')
+      .forEach(name => {
+        const familyName = name.trim();
+        const fonts = cache[familyName];
 
-      if (Array.isArray(fonts)) {
-        fonts.forEach((font) => {
-          fontFaces.push(formatFontFace(font));
-        });
-      } else {
-        fontFaces.push(familyName);
-      }
-    });
+        if (Array.isArray(fonts)) {
+          fonts.forEach(font => {
+            fontFaces.push(formatFontFace(font));
+          });
+        } else {
+          fontFaces.push(familyName);
+        }
+      });
 
     return fontFaces;
   }
@@ -426,11 +422,13 @@ export default class UnifiedSyntax {
    * Replace a `animationName` property with keyframe objects of the same name.
    */
   injectKeyframes(value: Style, cache: Object): Style[] {
-    return String(value).split(',').map((name) => {
-      const animationName = name.trim();
+    return String(value)
+      .split(',')
+      .map(name => {
+        const animationName = name.trim();
 
-      return cache[animationName] || animationName;
-    });
+        return cache[animationName] || animationName;
+      });
   }
 
   /**

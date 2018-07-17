@@ -1,12 +1,12 @@
 # Initial Setup
 
-Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development.
-These errors will be entirely removed in production if the following build steps are configured.
+Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development. These errors
+will be entirely removed in production if the following build steps are configured.
 
 ## Webpack
 
-[DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) plugin
-is required when using Webpack.
+[DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) plugin is required
+when using Webpack.
 
 ```javascript
 new webpack.DefinePlugin({

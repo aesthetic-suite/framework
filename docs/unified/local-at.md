@@ -1,7 +1,7 @@
 # Local At-rules
 
-Local at-rules are at-rules that must be defined within a selector and cannot be defined in the
-root of a style sheet.
+Local at-rules are at-rules that must be defined within a selector and cannot be defined in the root
+of a style sheet.
 
 ## @fallbacks
 

@@ -9,11 +9,7 @@ import FelaAdapter from '../../aesthetic-adapter-fela/src/NativeAdapter';
 import GlamorAdapter from '../../aesthetic-adapter-glamor/src/NativeAdapter';
 import JssAdapter from '../../aesthetic-adapter-jss/src/NativeAdapter';
 import TypeStyleAdapter from '../../aesthetic-adapter-typestyle/src/NativeAdapter';
-import {
-  TestAdapter,
-  SYNTAX_NATIVE_PARTIAL,
-  SYNTAX_GLOBAL,
-} from '../../../tests/mocks';
+import { TestAdapter, SYNTAX_NATIVE_PARTIAL, SYNTAX_GLOBAL } from '../../../tests/mocks';
 
 describe('aesthetic/Aesthetic', () => {
   let instance = null;
@@ -56,9 +52,12 @@ describe('aesthetic/Aesthetic', () => {
 
       instance.createStyleSheet('foo');
 
-      expect(spy).toHaveBeenCalledWith({
-        display: 'block',
-      }, 'foo');
+      expect(spy).toHaveBeenCalledWith(
+        {
+          display: 'block',
+        },
+        'foo',
+      );
     });
 
     it('returns the style sheet', () => {
@@ -74,8 +73,9 @@ describe('aesthetic/Aesthetic', () => {
 
   describe('extendTheme()', () => {
     it('errors if the parent theme doesnt exist', () => {
-      expect(() => instance.extendTheme('foo', 'bar', {}))
-        .toThrowError('Theme "foo" does not exist.');
+      expect(() => instance.extendTheme('foo', 'bar', {})).toThrowError(
+        'Theme "foo" does not exist.',
+      );
     });
 
     it('deep merges the parent and child theme', () => {
@@ -108,8 +108,7 @@ describe('aesthetic/Aesthetic', () => {
 
   describe('getStyles()', () => {
     it('errors if no styles', () => {
-      expect(() => instance.getStyles('foo'))
-        .toThrowError('Styles do not exist for "foo".');
+      expect(() => instance.getStyles('foo')).toThrowError('Styles do not exist for "foo".');
     });
 
     it('errors if no theme', () => {
@@ -117,8 +116,9 @@ describe('aesthetic/Aesthetic', () => {
         display: 'block',
       });
 
-      expect(() => instance.getStyles('foo', 'classic'))
-        .toThrowError('Theme "classic" does not exist.');
+      expect(() => instance.getStyles('foo', 'classic')).toThrowError(
+        'Theme "classic" does not exist.',
+      );
     });
 
     it('returns the styleSheet', () => {
@@ -160,9 +160,11 @@ describe('aesthetic/Aesthetic', () => {
         padding: props.unitSize * 2,
       });
 
-      expect(instance.getStyles('foo', '', {
-        unitSize: 5,
-      })).toEqual({
+      expect(
+        instance.getStyles('foo', '', {
+          unitSize: 5,
+        }),
+      ).toEqual({
         padding: 10,
       });
     });
@@ -175,16 +177,24 @@ describe('aesthetic/Aesthetic', () => {
         },
       }));
 
-      instance.setStyles('bar', () => ({
-        background: 'blue',
-        ':hover': {
-          color: 'green',
-        },
-      }), 'foo');
+      instance.setStyles(
+        'bar',
+        () => ({
+          background: 'blue',
+          ':hover': {
+            color: 'green',
+          },
+        }),
+        'foo',
+      );
 
-      instance.setStyles('baz', () => ({
-        display: 'block',
-      }), 'bar');
+      instance.setStyles(
+        'baz',
+        () => ({
+          display: 'block',
+        }),
+        'bar',
+      );
 
       expect(instance.getStyles('foo')).toEqual({
         color: 'red',
@@ -214,8 +224,7 @@ describe('aesthetic/Aesthetic', () => {
 
   describe('getTheme()', () => {
     it('errors if the theme doesnt exist', () => {
-      expect(() => instance.getTheme('foo'))
-        .toThrowError('Theme "foo" does not exist.');
+      expect(() => instance.getTheme('foo')).toThrowError('Theme "foo" does not exist.');
     });
 
     it('returns the theme by name', () => {
@@ -237,18 +246,19 @@ describe('aesthetic/Aesthetic', () => {
     it('errors if a theme name has been used', () => {
       instance.themes.foo = {};
 
-      expect(() => instance.registerTheme('foo'))
-        .toThrowError('Theme "foo" already exists.');
+      expect(() => instance.registerTheme('foo')).toThrowError('Theme "foo" already exists.');
     });
 
     it('errors if a theme style is not an object', () => {
-      expect(() => instance.registerTheme('foo', 123))
-        .toThrowError('Theme "foo" must be a style object.');
+      expect(() => instance.registerTheme('foo', 123)).toThrowError(
+        'Theme "foo" must be a style object.',
+      );
     });
 
     it('errors if global styles is not an object', () => {
-      expect(() => instance.registerTheme('foo', {}, 123))
-        .toThrowError('Global styles for "foo" must be an object.');
+      expect(() => instance.registerTheme('foo', {}, 123)).toThrowError(
+        'Global styles for "foo" must be an object.',
+      );
     });
 
     it('registers theme and creates global stylesheet', () => {
@@ -290,13 +300,15 @@ describe('aesthetic/Aesthetic', () => {
     it('errors if styles have been set', () => {
       instance.styles.foo = {};
 
-      expect(() => instance.setStyles('foo', {}))
-        .toThrowError('Styles have already been set for "foo".');
+      expect(() => instance.setStyles('foo', {})).toThrowError(
+        'Styles have already been set for "foo".',
+      );
     });
 
     it('errors if styles are empty', () => {
-      expect(() => instance.setStyles('foo'))
-        .toThrowError('Styles defined for "foo" must be an object or function.');
+      expect(() => instance.setStyles('foo')).toThrowError(
+        'Styles defined for "foo" must be an object or function.',
+      );
     });
 
     it('errors if styles are not an object', () => {
@@ -309,13 +321,15 @@ describe('aesthetic/Aesthetic', () => {
     });
 
     it('errors if extended styles do not exist', () => {
-      expect(() => instance.setStyles('foo', {}, 'parent'))
-        .toThrowError('Cannot extend from "parent" as those styles do not exist.');
+      expect(() => instance.setStyles('foo', {}, 'parent')).toThrowError(
+        'Cannot extend from "parent" as those styles do not exist.',
+      );
     });
 
     it('errors if extended and style names match', () => {
-      expect(() => instance.setStyles('foo', {}, 'foo'))
-        .toThrowError('Cannot extend styles from itself.');
+      expect(() => instance.setStyles('foo', {}, 'foo')).toThrowError(
+        'Cannot extend styles from itself.',
+      );
     });
 
     it('sets styles', () => {
@@ -341,9 +355,13 @@ describe('aesthetic/Aesthetic', () => {
         footer: { padding: 5 },
       });
 
-      instance.setStyles('bar', {
-        child: { margin: 5 },
-      }, 'foo');
+      instance.setStyles(
+        'bar',
+        {
+          child: { margin: 5 },
+        },
+        'foo',
+      );
 
       expect(instance.styles.bar).toEqual({
         child: { margin: 5 },
@@ -366,10 +384,9 @@ describe('aesthetic/Aesthetic', () => {
     it('combines and transforms objects into a class name', () => {
       expect(instance.transformStyles([{ color: 'red' }])).toBe('foo_1');
 
-      expect(instance.transformStyles([
-        { color: 'red' },
-        { display: 'block' },
-      ])).toBe('foo_2-bar_3');
+      expect(instance.transformStyles([{ color: 'red' }, { display: 'block' }])).toBe(
+        'foo_2-bar_3',
+      );
     });
 
     it('calls adapters transform() method', () => {
@@ -377,48 +394,25 @@ describe('aesthetic/Aesthetic', () => {
 
       instance.adapter.transform = spy;
 
-      instance.transformStyles([
-        { color: 'red' },
-        { display: 'block' },
-      ]);
+      instance.transformStyles([{ color: 'red' }, { display: 'block' }]);
 
-      expect(spy).toHaveBeenCalledWith(
-        { color: 'red' },
-        { display: 'block' },
-      );
+      expect(spy).toHaveBeenCalledWith({ color: 'red' }, { display: 'block' });
     });
 
     it('ignores falsey values', () => {
-      expect(instance.transformStyles([
-        null,
-        false,
-        0,
-        '',
-        undefined,
-      ])).toBe('');
+      expect(instance.transformStyles([null, false, 0, '', undefined])).toBe('');
     });
 
     it('strips period prefix', () => {
-      expect(instance.transformStyles([
-        '.foo',
-        'bar .qux',
-      ])).toBe('foo bar qux');
+      expect(instance.transformStyles(['.foo', 'bar .qux'])).toBe('foo bar qux');
     });
 
     it('handles expression values', () => {
-      expect(instance.transformStyles([
-        'foo',
-        true && 'bar',
-        (5 > 10) && 'baz',
-      ])).toBe('foo bar');
+      expect(instance.transformStyles(['foo', true && 'bar', 5 > 10 && 'baz'])).toBe('foo bar');
     });
 
     it('joins strings and numbers', () => {
-      expect(instance.transformStyles([
-        'foo',
-        123,
-        'bar',
-      ])).toBe('foo 123 bar');
+      expect(instance.transformStyles(['foo', 123, 'bar'])).toBe('foo 123 bar');
     });
 
     it('caches transformation', () => {
@@ -432,10 +426,7 @@ describe('aesthetic/Aesthetic', () => {
       expect(instance.transformStyles(b)).toBe('foo_2');
       expect(instance.cache.get(b)).toBe('foo_2');
 
-      const c = [
-        { color: 'red' },
-        { display: 'block' },
-      ];
+      const c = [{ color: 'red' }, { display: 'block' }];
 
       expect(instance.transformStyles(c)).toBe('foo_3-bar_4');
       expect(instance.cache.get(c)).toBe('foo_3-bar_4');
@@ -476,8 +467,9 @@ describe('aesthetic/Aesthetic', () => {
       instance.setAdapter(new FelaAdapter());
       styleSheet = instance.createStyleSheet('foo');
 
-      expect(instance.transformStyles([styleSheet.button]))
-        .toBe('a b c d e f g h i j k l m n o p q r s t u v w');
+      expect(instance.transformStyles([styleSheet.button])).toBe(
+        'a b c d e f g h i j k l m n o p q r s t u v w',
+      );
     });
 
     it('supports Glamor', () => {

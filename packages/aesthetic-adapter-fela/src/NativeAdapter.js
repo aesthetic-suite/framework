@@ -24,8 +24,8 @@ export default class FelaAdapter extends Adapter {
   }
 
   transform(...styles: StyleDeclaration[]): ClassName {
-    return this.fela.renderRule(combineRules(...styles.map(style => (
-      (typeof style === 'function') ? style : () => style
-    ))));
+    return this.fela.renderRule(
+      combineRules(...styles.map(style => (typeof style === 'function' ? style : () => style))),
+    );
   }
 }

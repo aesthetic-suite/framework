@@ -143,11 +143,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
       fallback: {
         background: 'linear-gradient(...)',
         display: 'flex',
-        fallbacks: [
-          { background: 'red' },
-          { display: 'box' },
-          { display: 'flex-box' },
-        ],
+        fallbacks: [{ background: 'red' }, { display: 'box' }, { display: 'flex-box' }],
       },
     });
 
@@ -194,7 +190,9 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
     instance.syntax.keyframes = {};
 
-    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe('animation-0-10-1');
+    expect(instance.transform(instance.create(SYNTAX_KEYFRAMES).animation)).toBe(
+      'animation-0-10-1',
+    );
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
@@ -328,10 +326,7 @@ describe('aesthetic-adapter-jss/UnifiedAdapter', () => {
 
   it('handles mixed @font-face', () => {
     expect(instance.syntax.convert(SYNTAX_FONT_FACE_MIXED)).toEqual({
-      '@font-face': [
-        FONT_ROBOTO_FLAT_SRC,
-        ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-      ],
+      '@font-face': [FONT_ROBOTO_FLAT_SRC, ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC],
     });
 
     instance.syntax.fontFaces = {};

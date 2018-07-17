@@ -7,11 +7,7 @@
 import { Adapter } from 'aesthetic';
 import JSS, { create } from 'jss';
 
-import type {
-  ClassName,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { ClassName, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class JSSAdapter extends Adapter {
   jss: JSS;
@@ -23,13 +19,15 @@ export default class JSSAdapter extends Adapter {
   }
 
   create(styleSheet: StyleSheet, styleName: string): StyleSheet {
-    this.sheet = this.jss.createStyleSheet(styleSheet, {
-      media: 'screen',
-      meta: { styleName },
-      ...this.options,
-      // eslint-disable-next-line sort-keys
-      classNamePrefix: styleName ? `${styleName}-` : '',
-    }).attach();
+    this.sheet = this.jss
+      .createStyleSheet(styleSheet, {
+        media: 'screen',
+        meta: { styleName },
+        ...this.options,
+        // eslint-disable-next-line sort-keys
+        classNamePrefix: styleName ? `${styleName}-` : '',
+      })
+      .attach();
 
     return this.sheet.classes;
   }
@@ -42,7 +40,6 @@ export default class JSSAdapter extends Adapter {
     styles.forEach((style, i) => {
       if (typeof style === 'string') {
         legitStyles.push(style);
-
       } else if (typeof style === 'object' && style && Object.keys(style).length > 0) {
         tempStylesheet[`inline${counter}`] = style;
         counter += 1;

@@ -92,28 +92,34 @@ describe('aesthetic/UnifiedSyntax', () => {
     });
 
     it('skips falsy value', () => {
-      expect(instance.convert({
-        foo: '',
-        bar: false,
-        baz: undefined,
-        '@qux': 0,
-      })).toEqual({});
+      expect(
+        instance.convert({
+          foo: '',
+          bar: false,
+          baz: undefined,
+          '@qux': 0,
+        }),
+      ).toEqual({});
     });
 
     it('passes strings (class names) through', () => {
-      expect(instance.convert({
-        foo: 'foo-123',
-      })).toEqual({
+      expect(
+        instance.convert({
+          foo: 'foo-123',
+        }),
+      ).toEqual({
         foo: 'foo-123',
       });
     });
 
     it('passes style declarations through', () => {
-      expect(instance.convert({
-        foo: {
-          display: 'block',
-        },
-      })).toEqual({
+      expect(
+        instance.convert({
+          foo: {
+            display: 'block',
+          },
+        }),
+      ).toEqual({
         foo: {
           display: 'block',
         },
@@ -157,28 +163,30 @@ describe('aesthetic/UnifiedSyntax', () => {
       });
 
       it('converts an array of values and injects font family', () => {
-        expect(instance.convert({
-          '@font-face': {
-            Roboto: FONT_ROBOTO,
-            'Open Sans': [
-              {
-                fontStyle: 'normal',
-                fontWeight: 'normal',
-                srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
-              },
-              {
-                fontStyle: 'italic',
-                fontWeight: 'normal',
-                srcPaths: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
-              },
-              {
-                fontStyle: 'normal',
-                fontWeight: 'bold',
-                srcPaths: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
-              },
-            ],
-          },
-        })).toEqual({
+        expect(
+          instance.convert({
+            '@font-face': {
+              Roboto: FONT_ROBOTO,
+              'Open Sans': [
+                {
+                  fontStyle: 'normal',
+                  fontWeight: 'normal',
+                  srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+                },
+                {
+                  fontStyle: 'italic',
+                  fontWeight: 'normal',
+                  srcPaths: ['fonts/OpenSans-Italic.woff2', 'fonts/OpenSans-Italic.ttf'],
+                },
+                {
+                  fontStyle: 'normal',
+                  fontWeight: 'bold',
+                  srcPaths: ['fonts/OpenSans-Bold.woff2', 'fonts/OpenSans-Bold.ttf'],
+                },
+              ],
+            },
+          }),
+        ).toEqual({
           '@font-face': [
             FONT_ROBOTO,
             {
@@ -363,9 +371,12 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('@page', spy);
         instance.convert(SYNTAX_PAGE);
 
-        expect(spy).toHaveBeenCalledWith({}, {
-          margin: '1cm',
-        });
+        expect(spy).toHaveBeenCalledWith(
+          {},
+          {
+            margin: '1cm',
+          },
+        );
       });
 
       it('errors if invalid value', () => {
@@ -393,10 +404,13 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('@viewport', spy);
         instance.convert(SYNTAX_VIEWPORT);
 
-        expect(spy).toHaveBeenCalledWith({}, {
-          width: 'device-width',
-          orientation: 'landscape',
-        });
+        expect(spy).toHaveBeenCalledWith(
+          {},
+          {
+            width: 'device-width',
+            orientation: 'landscape',
+          },
+        );
       });
 
       it('errors if invalid value', () => {
@@ -419,15 +433,18 @@ describe('aesthetic/UnifiedSyntax', () => {
     });
 
     it('skips falsy at-rules', () => {
-      expect(instance.convertDeclaration('test', {
-        '@fallbacks': 0,
-      })).toEqual({});
+      expect(
+        instance.convertDeclaration('test', {
+          '@fallbacks': 0,
+        }),
+      ).toEqual({});
     });
 
     describe('properties', () => {
       it('converts value', () => {
-        expect(instance.convertDeclaration('props', SYNTAX_PROPERTIES.props))
-          .toEqual(SYNTAX_PROPERTIES.props);
+        expect(instance.convertDeclaration('props', SYNTAX_PROPERTIES.props)).toEqual(
+          SYNTAX_PROPERTIES.props,
+        );
       });
 
       it('triggers event handler', () => {
@@ -444,8 +461,9 @@ describe('aesthetic/UnifiedSyntax', () => {
 
     describe('attribute selectors', () => {
       it('converts value', () => {
-        expect(instance.convertDeclaration('attributes', SYNTAX_ATTRIBUTE.attr))
-          .toEqual(SYNTAX_ATTRIBUTE.attr);
+        expect(instance.convertDeclaration('attributes', SYNTAX_ATTRIBUTE.attr)).toEqual(
+          SYNTAX_ATTRIBUTE.attr,
+        );
       });
 
       it('triggers event handler', () => {
@@ -454,16 +472,21 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('selector', spy);
         instance.convertDeclaration('attributes', SYNTAX_ATTRIBUTE.attr);
 
-        expect(spy).toHaveBeenCalledWith({ display: 'block' }, {
-          opacity: 0.5,
-        }, '[disabled]');
+        expect(spy).toHaveBeenCalledWith(
+          { display: 'block' },
+          {
+            opacity: 0.5,
+          },
+          '[disabled]',
+        );
       });
     });
 
     describe('descendant selectors', () => {
       it('converts value', () => {
-        expect(instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list))
-          .toEqual(SYNTAX_DESCENDANT.list);
+        expect(instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list)).toEqual(
+          SYNTAX_DESCENDANT.list,
+        );
       });
 
       it('triggers event handler', () => {
@@ -472,19 +495,24 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('selector', spy);
         instance.convertDeclaration('descendants', SYNTAX_DESCENDANT.list);
 
-        expect(spy).toHaveBeenCalledWith({
-          margin: 0,
-          padding: 0,
-        }, {
-          listStyle: 'bullet',
-        }, '> li');
+        expect(spy).toHaveBeenCalledWith(
+          {
+            margin: 0,
+            padding: 0,
+          },
+          {
+            listStyle: 'bullet',
+          },
+          '> li',
+        );
       });
     });
 
     describe('pseudo selectors', () => {
       it('converts value', () => {
-        expect(instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo))
-          .toEqual(SYNTAX_PSEUDO.pseudo);
+        expect(instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo)).toEqual(
+          SYNTAX_PSEUDO.pseudo,
+        );
       });
 
       it('triggers event handler', () => {
@@ -493,21 +521,24 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('selector', spy);
         instance.convertDeclaration('pseudo', SYNTAX_PSEUDO.pseudo);
 
-        expect(spy).toHaveBeenCalledWith({ position: 'fixed' }, {
-          position: 'static',
-        }, ':hover');
+        expect(spy).toHaveBeenCalledWith(
+          { position: 'fixed' },
+          {
+            position: 'static',
+          },
+          ':hover',
+        );
       });
     });
 
     describe('multiple selectors (comma separated)', () => {
       it('converts value', () => {
-        expect(instance.convertDeclaration('multi', SYNTAX_MULTI_SELECTOR.multi))
-          .toEqual({
-            cursor: 'pointer',
-            ':disabled': { cursor: 'default' },
-            '[disabled]': { cursor: 'default' },
-            '> span': { cursor: 'default' },
-          });
+        expect(instance.convertDeclaration('multi', SYNTAX_MULTI_SELECTOR.multi)).toEqual({
+          cursor: 'pointer',
+          ':disabled': { cursor: 'default' },
+          '[disabled]': { cursor: 'default' },
+          '> span': { cursor: 'default' },
+        });
       });
 
       it('triggers event handler', () => {
@@ -562,9 +593,13 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('@media', spy);
         instance.convertDeclaration('media', SYNTAX_MEDIA_QUERY.media);
 
-        expect(spy).toHaveBeenCalledWith(expect.objectContaining({}), {
-          color: 'blue',
-        }, '(min-width: 300px)');
+        expect(spy).toHaveBeenCalledWith(
+          expect.objectContaining({}),
+          {
+            color: 'blue',
+          },
+          '(min-width: 300px)',
+        );
       });
 
       it('errors if invalid value', () => {
@@ -574,7 +609,9 @@ describe('aesthetic/UnifiedSyntax', () => {
               '(min-width: 300px)': 123,
             },
           });
-        }).toThrowError('@media (min-width: 300px) must be a mapping of conditions to style objects.');
+        }).toThrowError(
+          '@media (min-width: 300px) must be a mapping of conditions to style objects.',
+        );
       });
     });
 
@@ -597,9 +634,13 @@ describe('aesthetic/UnifiedSyntax', () => {
         instance.on('@supports', spy);
         instance.convertDeclaration('supports', SYNTAX_SUPPORTS.sup);
 
-        expect(spy).toHaveBeenCalledWith(expect.objectContaining({}), {
-          display: 'flex',
-        }, '(display: flex)');
+        expect(spy).toHaveBeenCalledWith(
+          expect.objectContaining({}),
+          {
+            display: 'flex',
+          },
+          '(display: flex)',
+        );
       });
 
       it('errors if invalid value', () => {
@@ -609,7 +650,9 @@ describe('aesthetic/UnifiedSyntax', () => {
               '(display: flex)': 123,
             },
           });
-        }).toThrowError('@supports (display: flex) must be a mapping of conditions to style objects.');
+        }).toThrowError(
+          '@supports (display: flex) must be a mapping of conditions to style objects.',
+        );
       });
     });
   });
@@ -624,31 +667,25 @@ describe('aesthetic/UnifiedSyntax', () => {
     });
 
     it('replaces font family with font face object', () => {
-      expect(instance.injectFontFaces('Roboto, Verdana, sans-serif', {
-        Roboto: [FONT_ROBOTO],
-      })).toEqual([
-        FONT_ROBOTO_FLAT_SRC,
-        'Verdana',
-        'sans-serif',
-      ]);
+      expect(
+        instance.injectFontFaces('Roboto, Verdana, sans-serif', {
+          Roboto: [FONT_ROBOTO],
+        }),
+      ).toEqual([FONT_ROBOTO_FLAT_SRC, 'Verdana', 'sans-serif']);
     });
   });
 
   describe('injectKeyframes()', () => {
     it('converts to an array', () => {
-      expect(instance.injectKeyframes('fade, twist', {})).toEqual([
-        'fade',
-        'twist',
-      ]);
+      expect(instance.injectKeyframes('fade, twist', {})).toEqual(['fade', 'twist']);
     });
 
     it('replaces animation name with keyframes object', () => {
-      expect(instance.injectKeyframes('fade, twist', {
-        fade: KEYFRAME_FADE,
-      })).toEqual([
-        KEYFRAME_FADE,
-        'twist',
-      ]);
+      expect(
+        instance.injectKeyframes('fade, twist', {
+          fade: KEYFRAME_FADE,
+        }),
+      ).toEqual([KEYFRAME_FADE, 'twist']);
     });
   });
 });

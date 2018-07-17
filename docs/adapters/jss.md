@@ -19,8 +19,8 @@ import JSSAdapter from 'aesthetic-adapter-jss/unified';
 
 ## Plugins
 
-[JSS plugins](https://github.com/cssinjs/jss/blob/master/docs/plugins.md)
-can be customized by instantiating a new JSS instance and passing it the adapter.
+[JSS plugins](https://github.com/cssinjs/jss/blob/master/docs/plugins.md) can be customized by
+instantiating a new JSS instance and passing it the adapter.
 
 ```javascript
 import Aesthetic from 'aesthetic';
@@ -34,8 +34,8 @@ const aesthetic = new Aesthetic(new JSSAdapter(jss));
 
 ## Configuration
 
-Furthermore, options to be passed to `jss.createStyleSheet` can be defined through the
-2nd argument of the constructor.
+Furthermore, options to be passed to `jss.createStyleSheet` can be defined through the 2nd argument
+of the constructor.
 
 ```javascript
 import Aesthetic from 'aesthetic';

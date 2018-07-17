@@ -7,11 +7,7 @@
 import { Adapter } from 'aesthetic';
 import { StyleSheet } from 'aphrodite';
 
-import type {
-  ClassName,
-  StyleDeclaration,
-  StyleSheet as AestheticStyleSheet,
-} from '../../types';
+import type { ClassName, StyleDeclaration, StyleSheet as AestheticStyleSheet } from '../../types';
 
 export default class AphroditeAdapter extends Adapter {
   aphrodite: Object = {};

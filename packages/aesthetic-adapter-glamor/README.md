@@ -5,9 +5,9 @@ Provides [Glamor](https://github.com/threepointone/glamor) support for
 
 ## Requirements
 
-* React 15+
-* Aesthetic
-* Glamor
+- React 15+
+- Aesthetic
+- Glamor
 
 ## Installation
 

@@ -30,14 +30,17 @@ describe('aesthetic-adapter-fela/UnifiedAdapter', () => {
   let instance;
 
   beforeEach(() => {
-    instance = new UnifiedFelaAdapter(createRenderer({
-      plugins: [...webPreset],
-    }));
+    instance = new UnifiedFelaAdapter(
+      createRenderer({
+        plugins: [...webPreset],
+      }),
+    );
   });
 
   it('transforms style declarations into class names', () => {
-    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button))
-      .toBe('a b c d e f g h i j k l m n o p q r s t u v w x');
+    expect(instance.transform(instance.create(SYNTAX_UNIFIED_FULL).button)).toBe(
+      'a b c d e f g h i j k l m n o p q r s t u v w x',
+    );
   });
 
   it('converts unified syntax to native syntax', () => {

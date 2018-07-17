@@ -1,7 +1,7 @@
 # Global At-rules
 
-Not to be confused with global styles, global at-rules are at-rules that must be defined in the
-root of a style sheet and cannot be defined within a selector.
+Not to be confused with global styles, global at-rules are at-rules that must be defined in the root
+of a style sheet and cannot be defined within a selector.
 
 > Not all adapters support every global at-rule.
 

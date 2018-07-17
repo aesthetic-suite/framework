@@ -2,8 +2,8 @@
 
 Standard structure for defining properties.
 
-* Supports camel case property names.
-* Units can be written as literal numbers.
+- Supports camel case property names.
+- Units can be written as literal numbers.
 
 ```javascript
 {

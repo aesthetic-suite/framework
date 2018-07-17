@@ -27,10 +27,12 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   });
 
   it('can transform dynamic styles', () => {
-    expect(instance.transform({
-      width: 10,
-      height: 10,
-    })).toBe('css-s3feo0');
+    expect(
+      instance.transform({
+        width: 10,
+        height: 10,
+      }),
+    ).toBe('css-s3feo0');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
@@ -65,15 +67,19 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   });
 
   it('handles descendant selectors', () => {
-    expect(instance.transform(instance.create({
-      list: {
-        margin: 0,
-        padding: 0,
-        '& > li': {
-          listStyle: 'bullet',
-        },
-      },
-    }).list)).toBe('css-191gc4j');
+    expect(
+      instance.transform(
+        instance.create({
+          list: {
+            margin: 0,
+            padding: 0,
+            '& > li': {
+              listStyle: 'bullet',
+            },
+          },
+        }).list,
+      ),
+    ).toBe('css-191gc4j');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
@@ -85,12 +91,16 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   });
 
   it('handles fallbacks', () => {
-    expect(instance.transform(instance.create({
-      fallback: {
-        background: ['red', 'linear-gradient(...)'],
-        display: ['box', 'flex-box', 'flex'],
-      },
-    }).fallback)).toBe('css-1nxkcks');
+    expect(
+      instance.transform(
+        instance.create({
+          fallback: {
+            background: ['red', 'linear-gradient(...)'],
+            display: ['box', 'flex-box', 'flex'],
+          },
+        }).fallback,
+      ),
+    ).toBe('css-1nxkcks');
 
     // Verified it ran but fallbacks don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
@@ -99,71 +109,91 @@ describe('aesthetic-adapter-glamor/NativeAdapter', () => {
   it('handles font faces', () => {
     css.fontFace(FONT_ROBOTO_FLAT_SRC);
 
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: 'Roboto',
-        fontSize: 20,
-      },
-    }).font)).toBe('css-1x6s9dk');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: 'Roboto',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('css-1x6s9dk');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles multiple font faces', () => {
-    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach((font) => {
+    FONT_CIRCULAR_MULTIPLE_FLAT_SRC.forEach(font => {
       css.fontFace(font);
     });
 
-    expect(instance.transform(instance.create({
-      font: {
-        fontFamily: 'Circular',
-        fontSize: 20,
-      },
-    }).font)).toBe('css-ydlv7p');
+    expect(
+      instance.transform(
+        instance.create({
+          font: {
+            fontFamily: 'Circular',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('css-ydlv7p');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    expect(instance.transform(instance.create({
-      animation: {
-        animationName: css.keyframes('fade', KEYFRAME_FADE),
-        animationDuration: '3s, 1200ms',
-        animationIterationCount: 'infinite',
-      },
-    }).animation)).toBe('css-s8bawe');
+    expect(
+      instance.transform(
+        instance.create({
+          animation: {
+            animationName: css.keyframes('fade', KEYFRAME_FADE),
+            animationDuration: '3s, 1200ms',
+            animationIterationCount: 'infinite',
+          },
+        }).animation,
+      ),
+    ).toBe('css-s8bawe');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    expect(instance.transform(instance.create({
-      media: {
-        color: 'red',
-        '@media (min-width: 300px)': {
-          color: 'blue',
-        },
-        '@media (max-width: 1000px)': {
-          color: 'green',
-        },
-      },
-    }).media)).toBe('css-rr71yy');
+    expect(
+      instance.transform(
+        instance.create({
+          media: {
+            color: 'red',
+            '@media (min-width: 300px)': {
+              color: 'blue',
+            },
+            '@media (max-width: 1000px)': {
+              color: 'green',
+            },
+          },
+        }).media,
+      ),
+    ).toBe('css-rr71yy');
 
     expect(renderGlamorStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    expect(instance.transform(instance.create({
-      sup: {
-        display: 'block',
-        '@supports (display: flex)': {
-          display: 'flex',
-        },
-        '@supports not (display: flex)': {
-          float: 'left',
-        },
-      },
-    }).sup)).toBe('css-1sp1mbh');
+    expect(
+      instance.transform(
+        instance.create({
+          sup: {
+            display: 'block',
+            '@supports (display: flex)': {
+              display: 'flex',
+            },
+            '@supports not (display: flex)': {
+              float: 'left',
+            },
+          },
+        }).sup,
+      ),
+    ).toBe('css-1sp1mbh');
 
     // Verified it ran but supports don't appear in the output
     expect(renderGlamorStyles(instance)).toMatchSnapshot();

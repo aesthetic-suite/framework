@@ -51,150 +51,187 @@ describe('aesthetic-adapter-jss/NativeAdapter', () => {
     expect(instance.transform(sheet.foo)).toBe('foo-0-4-1');
     expect(instance.transform(sheet.bar)).toBe('bar-0-4-2');
     expect(instance.transform(sheet.baz)).toBe('baz-0-4-3');
-    expect(instance.transform(sheet.foo, sheet.baz))
-      .toBe('foo-0-4-1 baz-0-4-3');
-    expect(instance.transform(sheet.bar, sheet.foo))
-      .toBe('bar-0-4-2 foo-0-4-1');
+    expect(instance.transform(sheet.foo, sheet.baz)).toBe('foo-0-4-1 baz-0-4-3');
+    expect(instance.transform(sheet.bar, sheet.foo)).toBe('bar-0-4-2 foo-0-4-1');
   });
 
   it('handles pseudo selectors', () => {
-    expect(instance.transform(instance.create({
-      pseudo: {
-        position: 'fixed',
-        '&:hover': {
-          position: 'static',
-        },
-        '&::before': {
-          position: 'absolute',
-        },
-      },
-    }).pseudo)).toBe('pseudo-0-5-1');
+    expect(
+      instance.transform(
+        instance.create({
+          pseudo: {
+            position: 'fixed',
+            '&:hover': {
+              position: 'static',
+            },
+            '&::before': {
+              position: 'absolute',
+            },
+          },
+        }).pseudo,
+      ),
+    ).toBe('pseudo-0-5-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles fallbacks', () => {
-    expect(instance.transform(instance.create({
-      fallback: {
-        background: 'red',
-        display: 'flex',
-        fallbacks: [
-          { background: 'linear-gradient(...)' },
-          { display: 'flex-box' },
-          { display: 'box' },
-        ],
-      },
-    }).fallback)).toBe('fallback-0-6-1');
+    expect(
+      instance.transform(
+        instance.create({
+          fallback: {
+            background: 'red',
+            display: 'flex',
+            fallbacks: [
+              { background: 'linear-gradient(...)' },
+              { display: 'flex-box' },
+              { display: 'box' },
+            ],
+          },
+        }).fallback,
+      ),
+    ).toBe('fallback-0-6-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles font faces', () => {
-    expect(instance.transform(instance.create({
-      '@font-face': FONT_ROBOTO_FLAT_SRC,
-      font: {
-        fontFamily: 'Roboto',
-        fontSize: 20,
-      },
-    }).font)).toBe('font-0-7-1');
+    expect(
+      instance.transform(
+        instance.create({
+          '@font-face': FONT_ROBOTO_FLAT_SRC,
+          font: {
+            fontFamily: 'Roboto',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('font-0-7-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles animations', () => {
-    expect(instance.transform(instance.create({
-      '@keyframes fade': KEYFRAME_FADE,
-      animation: {
-        animationName: 'fade',
-        animationDuration: '3s, 1200ms',
-        animationIterationCount: 'infinite',
-      },
-    }).animation)).toBe('animation-0-8-1');
+    expect(
+      instance.transform(
+        instance.create({
+          '@keyframes fade': KEYFRAME_FADE,
+          animation: {
+            animationName: 'fade',
+            animationDuration: '3s, 1200ms',
+            animationIterationCount: 'infinite',
+          },
+        }).animation,
+      ),
+    ).toBe('animation-0-8-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles media queries', () => {
-    expect(instance.transform(instance.create({
-      media: {
-        color: 'red',
-        '@media (min-width: 300px)': {
-          color: 'blue',
-        },
-        '@media (max-width: 1000px)': {
-          color: 'green',
-        },
-      },
-    }).media)).toBe('media-0-9-1');
+    expect(
+      instance.transform(
+        instance.create({
+          media: {
+            color: 'red',
+            '@media (min-width: 300px)': {
+              color: 'blue',
+            },
+            '@media (max-width: 1000px)': {
+              color: 'green',
+            },
+          },
+        }).media,
+      ),
+    ).toBe('media-0-9-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles supports', () => {
-    expect(instance.transform(instance.create({
-      sup: {
-        display: 'block',
-        '@supports (display: flex)': {
-          display: 'flex',
-        },
-        '@supports not (display: flex)': {
-          float: 'left',
-        },
-      },
-    }).sup)).toBe('sup-0-10-1');
+    expect(
+      instance.transform(
+        instance.create({
+          sup: {
+            display: 'block',
+            '@supports (display: flex)': {
+              display: 'flex',
+            },
+            '@supports not (display: flex)': {
+              float: 'left',
+            },
+          },
+        }).sup,
+      ),
+    ).toBe('sup-0-10-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('prefixes class names with style name', () => {
-    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL, 'prefix').button))
-      .toBe('prefix-button-0-11-1');
+    expect(instance.transform(instance.create(SYNTAX_NATIVE_PARTIAL, 'prefix').button)).toBe(
+      'prefix-button-0-11-1',
+    );
   });
 
   it('can transform dynamic styles', () => {
-    expect(instance.transform({
-      width: 10,
-      height: 10,
-    })).toBe('dynamic-inline0-0-12-1');
+    expect(
+      instance.transform({
+        width: 10,
+        height: 10,
+      }),
+    ).toBe('dynamic-inline0-0-12-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles descendant selectors', () => {
-    expect(instance.transform(instance.create({
-      list: {
-        margin: 0,
-        padding: 0,
-        '&> li': {
-          listStyle: 'bullet',
-        },
-      },
-    }).list)).toBe('list-0-13-1');
+    expect(
+      instance.transform(
+        instance.create({
+          list: {
+            margin: 0,
+            padding: 0,
+            '&> li': {
+              listStyle: 'bullet',
+            },
+          },
+        }).list,
+      ),
+    ).toBe('list-0-13-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles attribute selectors', () => {
-    expect(instance.transform(instance.create({
-      attr: {
-        display: 'block',
-        '&[disabled]': {
-          opacity: 0.5,
-        },
-      },
-    }).attr)).toBe('attr-0-14-1');
+    expect(
+      instance.transform(
+        instance.create({
+          attr: {
+            display: 'block',
+            '&[disabled]': {
+              opacity: 0.5,
+            },
+          },
+        }).attr,
+      ),
+    ).toBe('attr-0-14-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });
 
   it('handles multiple font faces', () => {
-    expect(instance.transform(instance.create({
-      '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-      font: {
-        fontFamily: 'Circular',
-        fontSize: 20,
-      },
-    }).font)).toBe('font-0-15-1');
+    expect(
+      instance.transform(
+        instance.create({
+          '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          font: {
+            fontFamily: 'Circular',
+            fontSize: 20,
+          },
+        }).font,
+      ),
+    ).toBe('font-0-15-1');
 
     expect(renderJSSStyles(instance)).toMatchSnapshot();
   });

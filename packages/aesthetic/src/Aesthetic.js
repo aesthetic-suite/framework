@@ -127,18 +127,12 @@ export default class Aesthetic {
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(
-    themeName: string,
-    theme?: ThemeSheet = {},
-    globals?: StyleSheet = {},
-  ): this {
+  registerTheme(themeName: string, theme?: ThemeSheet = {}, globals?: StyleSheet = {}): this {
     if (__DEV__) {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
-
       } else if (!isObject(theme)) {
         throw new TypeError(`Theme "${themeName}" must be a style object.`);
-
       } else if (!isObject(globals)) {
         throw new TypeError(`Global styles for "${themeName}" must be an object.`);
       }
@@ -162,7 +156,6 @@ export default class Aesthetic {
   setAdapter(adapter: Adapter): this {
     if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
       this.adapter = adapter;
-
     } else if (__DEV__) {
       throw new TypeError('Adapter must be an instance of `Adapter`.');
     }
@@ -181,7 +174,6 @@ export default class Aesthetic {
     if (__DEV__) {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
-
       } else if (!isObject(styleSheet) && typeof styleSheet !== 'function') {
         throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
       }
@@ -193,7 +185,6 @@ export default class Aesthetic {
       if (__DEV__) {
         if (!this.styles[extendFrom]) {
           throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
-
         } else if (extendFrom === styleName) {
           throw new Error('Cannot extend styles from itself.');
         }
@@ -217,19 +208,22 @@ export default class Aesthetic {
     const classNames = [];
     const toTransform = [];
 
-    styles.forEach((style) => {
+    styles.forEach(style => {
       // Empty value or failed condition
       if (!style) {
         return; // eslint-disable-line
 
-      // Acceptable class names
+        // Acceptable class names
       } else if (typeof style === 'string' || typeof style === 'number') {
-        classNames.push(...String(style).split(' ').map(s => stripClassPrefix(s).trim()));
+        classNames.push(
+          ...String(style)
+            .split(' ')
+            .map(s => stripClassPrefix(s).trim()),
+        );
 
-      // Style objects
+        // Style objects
       } else if (isObject(style)) {
         toTransform.push(style);
-
       } else if (__DEV__) {
         throw new Error('Unsupported style type to transform.');
       }

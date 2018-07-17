@@ -9,11 +9,7 @@
 import UnifiedSyntax from 'aesthetic/unified';
 import AphroditeAdapter from './NativeAdapter';
 
-import type {
-  Style,
-  StyleDeclaration,
-  StyleSheet,
-} from '../../types';
+import type { Style, StyleDeclaration, StyleSheet } from '../../types';
 
 export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
   syntax: UnifiedSyntax;
@@ -52,7 +48,6 @@ export default class UnifiedAphroditeAdapter extends AphroditeAdapter {
 
     if (property === 'animationName') {
       value = this.syntax.injectKeyframes(style, this.syntax.keyframes);
-
     } else if (property === 'fontFamily') {
       value = this.syntax.injectFontFaces(style, this.syntax.fontFaces);
     }

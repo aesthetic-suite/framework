@@ -15,7 +15,9 @@ import type {
   StyleSheetCallback,
 } from '../../types';
 
-export default function createStyler(aesthetic: Aesthetic): {
+export default function createStyler(
+  aesthetic: Aesthetic,
+): {
   style: (styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions) => HOCWrapper,
   transform: (...styles: StyleDeclaration[]) => ClassName,
 } {
