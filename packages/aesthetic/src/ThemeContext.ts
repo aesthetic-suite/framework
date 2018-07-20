@@ -6,4 +6,4 @@
 import React from 'react';
 import { ThemeName } from './types';
 
-export default React.createContext<ThemeName>('');
+export default React.createContext<ThemeName>('default');

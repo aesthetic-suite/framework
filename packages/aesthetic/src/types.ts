@@ -27,7 +27,15 @@ export interface HOCOptions {
   themePropName?: string;
 }
 
+export type StyleName = string;
+
+export type ThemeName = string;
+
 export type ClassName = string;
+
+export interface ClassNameSheet {
+  [selector: string]: ClassName;
+}
 
 // STYLES
 
@@ -54,10 +62,7 @@ export interface Properties extends CSS.Properties, CSS.PropertiesHyphen {}
 
 export interface PropertiesFallback extends CSS.PropertiesFallback, CSS.PropertiesHyphenFallback {}
 
-export interface Declaration extends Properties, Pseudos {
-  // Support attributes ([disabled]) and descendent selectors (> div)
-  [property: string]: any;
-}
+export interface Declaration extends Properties, Pseudos {}
 
 export interface GlobalAtRules<T> {
   '@charset'?: string;
@@ -68,19 +73,12 @@ export interface GlobalAtRules<T> {
   '@viewport'?: T;
 }
 
-export type StyleSheet<T> = GlobalAtRules<T> & {
-  [selector: string]: T;
-};
-
-// THEMES
-
-export type ThemeName = string;
-
-export type ThemeSheet = any;
-
 // UNIFIED SYNTAX
 
-export interface UnifiedDeclaration extends Declaration, UnifiedLocalAtRules {}
+export interface UnifiedDeclaration extends Declaration, UnifiedLocalAtRules {
+  // Support attributes ([disabled]) and descendent selectors (> div)
+  [property: string]: any;
+}
 
 export interface UnifiedFontFace extends FontFace {
   local?: string[];
@@ -116,31 +114,31 @@ export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
 
 export type Handler = (...args: any[]) => void;
 
-export type CharsetHandler = (styleSheet: StyleSheet, charset: string) => void;
+export type CharsetHandler = (styleSheet: any, charset: string) => void;
 
 export type FontFaceHandler = (
-  styleSheet: StyleSheet,
+  styleSheet: any,
   fontFaces: UnifiedFontFace[],
   fontFamily: string,
 ) => void;
 
 export type GlobalHandler = (
-  styleSheet: StyleSheet,
+  styleSheet: any,
   declaration: UnifiedDeclaration,
   animationName: string,
 ) => void;
 
 export type KeyframesHandler = (
-  styleSheet: StyleSheet,
+  styleSheet: any,
   declaration: UnifiedDeclaration,
   animationName: string,
 ) => void;
 
-export type ImportHandler = (styleSheet: StyleSheet, paths: string[]) => void;
+export type ImportHandler = (styleSheet: any, paths: string[]) => void;
 
-export type NamespaceHandler = (styleSheet: StyleSheet, namespace: string) => void;
+export type NamespaceHandler = (styleSheet: any, namespace: string) => void;
 
-export type PageHandler = (styleSheet: StyleSheet, declaration: UnifiedDeclaration) => void;
+export type PageHandler = (styleSheet: any, declaration: UnifiedDeclaration) => void;
 
 export type ViewportHandler = (
   styleSheet: UnifiedStyleSheet,

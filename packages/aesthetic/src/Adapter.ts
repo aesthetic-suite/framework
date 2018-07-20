@@ -4,35 +4,25 @@
  */
 
 import deepMerge from 'lodash/merge';
-import { ClassName, StyleSheet } from './types';
+import { ClassName, StyleName } from './types';
 
-export default class Adapter<Declaration, Options = {}> {
-  options: Options;
-
-  constructor(options: Partial<Options> = {}) {
-    // @ts-ignore
-    this.options = { ...options };
-  }
-
+export default abstract class Adapter<StyleSheet, Declaration> {
   /**
    * Create a stylesheet from a component's style styleSheet.
    */
-  // TODO
-  create<T>(styleSheet: T, styleName: string): StyleSheet<Declaration> {
+  create(styleSheet: any, styleName: StyleName): StyleSheet {
     return styleSheet;
   }
 
   /**
    * Deep merge multiple style declarations.
    */
-  merge(...styles: Declaration[]): any {
+  merge<T>(...styles: T[]): T {
     return deepMerge({}, ...styles);
   }
 
   /**
    * Transform the style declarations using the registered adapter.
    */
-  transform(...styles: Declaration[]): ClassName {
-    throw new Error(`${this.constructor.name} must define the \`transform\` method.`);
-  }
+  abstract transform(...styles: Declaration[]): ClassName;
 }

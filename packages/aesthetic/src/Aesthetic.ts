@@ -7,10 +7,10 @@ import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
 import withStyles from './style';
-import { ClassName, StyleSheet, ThemeSheet, $FixMe } from './types';
+import { ClassName, $FixMe, StyleName, ThemeName } from './types';
 
 export interface AestheticOptions {
-  defaultTheme: string;
+  defaultTheme: ThemeName;
   extendable: boolean;
   passThemeNameProp: boolean;
   passThemeProp: boolean;
@@ -19,10 +19,10 @@ export interface AestheticOptions {
   themePropName: string;
 }
 
-export default class Aesthetic {
-  adapter: Adapter;
+export default class Aesthetic<Theme, StyleSheet, Declaration> {
+  adapter: Adapter<StyleSheet, Declaration>;
 
-  cache: WeakMap<StyleDeclaration[], ClassName> = new WeakMap();
+  cache: WeakMap<Declaration[], ClassName> = new WeakMap();
 
   options: AestheticOptions = {
     defaultTheme: '',
@@ -38,21 +38,24 @@ export default class Aesthetic {
 
   styles: { [styleName: string]: StyleSheet | StyleSheetCallback } = {};
 
-  themes: { [themeName: string]: ThemeSheet } = {};
+  themes: { [themeName: string]: Theme } = {};
 
-  constructor(adapter: Adapter, options: Partial<AestheticOptions> = {}) {
+  constructor(adapter: Adapter<StyleSheet, Declaration>, options: Partial<AestheticOptions> = {}) {
+    this.adapter = adapter;
     this.options = {
       ...this.options,
       ...options,
     };
-
-    this.setAdapter(adapter);
   }
 
   /**
    * Return a stylesheet unique to an adapter.
    */
-  createStyleSheet(styleName: string, themeName: string = '', props: $FixMe = {}): StyleSheet {
+  createStyleSheet(
+    styleName: StyleName,
+    themeName: ThemeName = '',
+    props: $FixMe = {},
+  ): StyleSheet {
     return this.adapter.create(this.getStyles(styleName, themeName, props), styleName);
   }
 
@@ -60,10 +63,10 @@ export default class Aesthetic {
    * Register a theme by extending and merging with a previously defined theme.
    */
   extendTheme(
-    parentThemeName: string,
-    themeName: string,
-    theme: ThemeSheet = {},
-    globals: StyleSheet = {},
+    parentThemeName: ThemeName,
+    themeName: ThemeName,
+    theme: Theme,
+    globals?: $FixMe,
   ): this {
     return this.registerTheme(
       themeName,
@@ -76,7 +79,7 @@ export default class Aesthetic {
    * Retrieve the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles(styleName: string, themeName: string = '', props: $FixMe = {}): StyleSheet {
+  getStyles(styleName: StyleName, themeName: ThemeName = '', props: $FixMe = {}): StyleSheet {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
@@ -105,7 +108,7 @@ export default class Aesthetic {
   /**
    * Return a themes style object or throw an error.
    */
-  getTheme(themeName: string = ''): ThemeSheet {
+  getTheme(themeName: ThemeName = ''): Theme {
     const { defaultTheme } = this.options;
 
     let theme = this.themes[themeName];
@@ -126,7 +129,7 @@ export default class Aesthetic {
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(themeName: string, theme: ThemeSheet = {}, globals: StyleSheet = {}): this {
+  registerTheme(themeName: ThemeName, theme: Theme, globals?: StyleSheet): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -141,21 +144,10 @@ export default class Aesthetic {
     this.themes[themeName] = theme;
 
     // Create global styles
-    const globalStyleSheet = this.adapter.create(globals, ':root');
+    if (globals) {
+      const globalStyleSheet = this.adapter.create(globals, ':root');
 
-    this.transformStyles(Object.values(globalStyleSheet));
-
-    return this;
-  }
-
-  /**
-   * Set an adapter class to transform CSS style objects.
-   */
-  setAdapter(adapter: Adapter): this {
-    if (adapter instanceof Adapter || (adapter && typeof adapter.transform === 'function')) {
-      this.adapter = adapter;
-    } else if (process.env.NODE_ENV !== 'production') {
-      throw new TypeError('Adapter must be an instance of `Adapter`.');
+      this.transformStyles(Object.values(globalStyleSheet));
     }
 
     return this;
@@ -165,9 +157,9 @@ export default class Aesthetic {
    * Set multiple style declarations for a component.
    */
   setStyles(
-    styleName: string,
+    styleName: StyleName,
     styleSheet: StyleSheet | StyleSheetCallback,
-    extendFrom: string = '',
+    extendFrom: StyleName = '',
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
@@ -197,13 +189,13 @@ export default class Aesthetic {
   /**
    * Execute the adapter transformer on the list of style declarations.
    */
-  transformStyles(styles: StyleDeclaration[]): ClassName {
+  transformStyles(styles: Declaration[]): ClassName {
     if (this.cache.has(styles)) {
-      return this.cache.get(styles);
+      return this.cache.get(styles)!;
     }
 
-    const classNames = [];
-    const toTransform = [];
+    const classNames: ClassName[] = [];
+    const toTransform: Declaration[] = [];
 
     styles.forEach(style => {
       // Empty value or failed condition

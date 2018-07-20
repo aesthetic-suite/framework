@@ -311,7 +311,7 @@ export default class UnifiedSyntax<T = Declaration> {
    * Handle @charset.
    */
   handleCharset(styleSheet: StyleSheet<T>, charset: string) {
-    styleSheet['@charset'] = charset;
+    styleSheet['@charset'] = `"${charset}"`;
   }
 
   /**

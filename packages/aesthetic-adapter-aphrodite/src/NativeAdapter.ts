@@ -1,37 +1,38 @@
 /**
  * @copyright   2017, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
- * @flow
  */
 
-import { Adapter } from 'aesthetic';
-import { StyleSheet } from 'aphrodite';
+import { Adapter, ClassName } from 'aesthetic';
+import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
+import { StyleSheet, Declaration } from './types';
 
-import type { ClassName, StyleDeclaration, StyleSheet as AestheticStyleSheet } from '../../types';
+export default class AphroditeAdapter extends Adapter<StyleSheet, Declaration> {
+  aphrodite: {
+    css(...styles: Declaration[]): string;
+    StyleSheet: typeof Aphrodite;
+  };
 
-export default class AphroditeAdapter extends Adapter {
-  aphrodite: Object = {};
+  constructor(extensions: Extension[] = []) {
+    super();
 
-  constructor(extensions?: Object[] = [], options?: Object = {}) {
-    super(options);
-
-    this.aphrodite = StyleSheet.extend([
+    this.aphrodite = Aphrodite.extend([
       ...extensions,
       { selectorHandler: this.handleHierarchySelector },
       { selectorHandler: this.handleGlobalSelector },
     ]);
   }
 
-  create(styleSheet: AestheticStyleSheet): AestheticStyleSheet {
-    return this.aphrodite.StyleSheet.create(styleSheet);
+  create(styleSheet: any): StyleSheet {
+    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheet;
   }
 
-  transform(...styles: StyleDeclaration[]): ClassName {
-    const legitStyles = [];
-    const tempStylesheet = {};
+  transform(...styles: Declaration[]): ClassName {
+    const legitStyles: Declaration[] = [];
+    const tempStylesheet: { [key: string]: Declaration } = {};
     let counter = 0;
 
-    styles.forEach((style, i) => {
+    styles.forEach(style => {
       // eslint-disable-next-line no-underscore-dangle
       if (style._name && style._definition) {
         legitStyles.push(style);
@@ -51,7 +52,7 @@ export default class AphroditeAdapter extends Adapter {
   handleHierarchySelector(
     selector: string,
     baseSelector: string,
-    callback: (selector: string) => string | null,
+    callback: (selector: string) => string,
   ): string | null {
     if (selector.charAt(0) !== '>' && selector.charAt(0) !== '[') {
       return null;
@@ -63,7 +64,7 @@ export default class AphroditeAdapter extends Adapter {
   handleGlobalSelector(
     selector: string,
     baseSelector: string,
-    callback: (selector: string) => string | null,
+    callback: (selector: string) => string,
   ): string | null {
     if (selector.charAt(0) !== '*') {
       return null;
