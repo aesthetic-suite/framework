@@ -4,14 +4,16 @@
  */
 
 import deepMerge from 'lodash/merge';
-import { ClassName, StyleName } from './types';
+import { ClassName, StyleName, UnifiedStyleSheet } from './types';
+import UnifiedSyntax from './UnifiedSyntax';
 
-export default abstract class Adapter<StyleSheet, Declaration> {
+export default abstract class Adapter<StyleSheet, Declaration, ParsedStyleSheet = StyleSheet> {
   /**
    * Create a stylesheet from a component's style styleSheet.
    */
-  create(styleSheet: any, styleName: StyleName): StyleSheet {
-    return styleSheet;
+  create(styleSheet: StyleSheet, styleName: StyleName): ParsedStyleSheet {
+    // @ts-ignore Allow spread
+    return { ...styleSheet };
   }
 
   /**
@@ -25,4 +27,9 @@ export default abstract class Adapter<StyleSheet, Declaration> {
    * Transform the style declarations using the registered adapter.
    */
   abstract transform(...styles: Declaration[]): ClassName;
+
+  /**
+   * Register handlers for unified syntax.
+   */
+  unify(syntax: UnifiedSyntax<StyleSheet, Declaration>) {}
 }

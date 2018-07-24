@@ -7,8 +7,6 @@ import CSS from 'csstype';
 
 /* eslint-disable no-use-before-define, max-len */
 
-export type $FixMe = any;
-
 // TERMINOLOGY
 // Style = The individual value for a property.
 // Properties = An object of style properties.
@@ -16,26 +14,11 @@ export type $FixMe = any;
 // Selector = The name of an element.
 // StyleSheet = An object of declarations. Supports global at-rules.
 
-export interface HOCOptions {
-  extendable?: boolean;
-  extendFrom?: string;
-  passThemeNameProp?: boolean;
-  passThemeProp?: boolean;
-  pure?: boolean;
-  styleName?: string;
-  stylesPropName?: string;
-  themePropName?: string;
-}
-
 export type StyleName = string;
 
 export type ThemeName = string;
 
 export type ClassName = string;
-
-export interface ClassNameSheet {
-  [selector: string]: ClassName;
-}
 
 // STYLES
 
@@ -54,9 +37,7 @@ export type AtRule =
 
 export interface FontFace extends CSS.FontFace, CSS.FontFaceHyphen {}
 
-export interface Pseudos {
-  [P in CSS.Pseudos]?: Properties;
-}
+export type Pseudos = { [P in CSS.SimplePseudos]?: Properties };
 
 export interface Properties extends CSS.Properties, CSS.PropertiesHyphen {}
 
@@ -64,21 +45,17 @@ export interface PropertiesFallback extends CSS.PropertiesFallback, CSS.Properti
 
 export interface Declaration extends Properties, Pseudos {}
 
-export interface GlobalAtRules<T> {
-  '@charset'?: string;
-  '@font-face'?: FontFace[];
-  '@import'?: string[];
-  '@namespace'?: string;
-  '@page'?: T;
-  '@viewport'?: T;
+export interface StyleSheetMap<T> {
+  [selector: string]: T;
 }
+
+export type StyleSheetDefinition<Theme, StyleSheet, Props = any> =
+  | null
+  | StyleSheet
+  | UnifiedStyleSheet
+  | ((theme: Theme, props: Props) => StyleSheet | UnifiedStyleSheet);
 
 // UNIFIED SYNTAX
-
-export interface UnifiedDeclaration extends Declaration, UnifiedLocalAtRules {
-  // Support attributes ([disabled]) and descendent selectors (> div)
-  [property: string]: any;
-}
 
 export interface UnifiedFontFace extends FontFace {
   local?: string[];
@@ -106,6 +83,11 @@ export interface UnifiedGlobalAtRules {
   '@viewport'?: UnifiedDeclaration;
 }
 
+export interface UnifiedDeclaration extends Declaration, UnifiedLocalAtRules {
+  // Support attributes ([disabled]) and descendent selectors (> div)
+  [property: string]: any;
+}
+
 export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
   [selector: string]: UnifiedDeclaration;
 };
@@ -114,33 +96,33 @@ export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
 
 export type Handler = (...args: any[]) => void;
 
-export type CharsetHandler = (styleSheet: any, charset: string) => void;
+export type CharsetHandler<T> = (styleSheet: T, charset: string) => void;
 
-export type FontFaceHandler = (
-  styleSheet: any,
-  fontFaces: UnifiedFontFace[],
+export type FallbacksHandler<D, P = any> = (declaration: D, values: P[], property: string) => void;
+
+export type FontFaceHandler<T> = (
+  styleSheet: T,
+  fontFaces: FontFace[],
   fontFamily: string,
+  srcPaths: string[][],
 ) => void;
 
-export type GlobalHandler = (
-  styleSheet: any,
-  declaration: UnifiedDeclaration,
-  animationName: string,
-) => void;
+export type GlobalHandler<T, D> = (styleSheet: T, declaration: D, selector: string) => void;
 
-export type KeyframesHandler = (
-  styleSheet: any,
-  declaration: UnifiedDeclaration,
-  animationName: string,
-) => void;
+export type KeyframesHandler<T, D> = (styleSheet: T, declaration: D, animationName: string) => void;
 
-export type ImportHandler = (styleSheet: any, paths: string[]) => void;
+export type ImportHandler<T> = (styleSheet: T, paths: string[]) => void;
 
-export type NamespaceHandler = (styleSheet: any, namespace: string) => void;
+export type MediaHandler<D> = (declaration: D, value: D, query: string) => void;
 
-export type PageHandler = (styleSheet: any, declaration: UnifiedDeclaration) => void;
+export type NamespaceHandler<T> = (styleSheet: T, namespace: string) => void;
 
-export type ViewportHandler = (
-  styleSheet: UnifiedStyleSheet,
-  declaration: UnifiedDeclaration,
-) => void;
+export type PageHandler<T, D> = (styleSheet: T, declaration: D) => void;
+
+export type PropertyHandler<D, P = any> = (declaration: D, value: P, property: string) => void;
+
+export type SelectorHandler<D, P = any> = (declaration: D, value: P, selector: string) => void;
+
+export type SupportsHandler<D> = (declaration: D, value: D, query: string) => void;
+
+export type ViewportHandler<T, D> = (styleSheet: T, declaration: D) => void;

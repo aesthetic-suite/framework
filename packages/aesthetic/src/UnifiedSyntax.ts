@@ -5,19 +5,28 @@
 
 /* eslint-disable no-param-reassign */
 
-import formatFontFace from './helpers/formatFontFace';
+import formatFontFace from './unified/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import {
   AtRule,
-  UnifiedFontFace,
-  UnifiedKeyframes,
   Handler,
-  StyleSheet,
-  UnifiedStyleSheet,
   FontFace,
+  UnifiedStyleSheet,
   UnifiedDeclaration,
-  Declaration,
+  CharsetHandler,
+  NamespaceHandler,
+  ImportHandler,
+  FontFaceHandler,
+  KeyframesHandler,
+  GlobalHandler,
+  PageHandler,
+  ViewportHandler,
+  SelectorHandler,
+  PropertyHandler,
+  FallbacksHandler,
+  MediaHandler,
+  SupportsHandler,
 } from './types';
 
 export const GLOBAL_RULES: AtRule[] = [
@@ -33,14 +42,14 @@ export const GLOBAL_RULES: AtRule[] = [
 
 export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
-export default class UnifiedSyntax<T = Declaration> {
+export default class UnifiedSyntax<StyleSheet, Declaration> {
   events: { [eventName: string]: Handler } = {};
 
-  fontFaces: { [fontFamily: string]: UnifiedFontFace[] } = {};
+  fontFaces: { [fontFamily: string]: FontFace[] } = {};
 
   fontFacesCache: { [fontFamily: string]: string } = {};
 
-  keyframes: { [animationName: string]: UnifiedKeyframes } = {};
+  keyframes: { [animationName: string]: Declaration } = {};
 
   keyframesCache: { [animationName: string]: string } = {};
 
@@ -61,22 +70,11 @@ export default class UnifiedSyntax<T = Declaration> {
   }
 
   /**
-   * Check that a value is a style declaration block.
-   */
-  checkBlock(value: any): value is object {
-    if (isObject(value)) {
-      return value;
-    }
-
-    throw new Error('Must be a style declaration.');
-  }
-
-  /**
    * Convert a mapping of style declarations to their native syntax.
    */
-  convert(styleSheet: UnifiedStyleSheet): StyleSheet<T> {
-    const prevStyleSheet = { ...styleSheet };
-    const nextStyleSheet: StyleSheet<T> = {};
+  convert(styleSheet: UnifiedStyleSheet): StyleSheet {
+    const prevStyleSheet: UnifiedStyleSheet = { ...styleSheet };
+    const nextStyleSheet: any = {};
 
     // Extract global at-rules first
     // eslint-disable-next-line complexity
@@ -114,32 +112,38 @@ export default class UnifiedSyntax<T = Declaration> {
         }
 
         case '@font-face': {
-          const faces = prevStyleSheet['@font-face'];
+          const faces = prevStyleSheet[rule];
 
           if (!faces) {
             return;
           }
 
-          Object.keys(this.checkBlock(faces)).forEach(fontFamily => {
-            this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => ({
-              ...font,
-              fontFamily,
-            }));
+          Object.keys(faces).forEach(fontFamily => {
+            const srcPaths: string[][] = [];
 
-            this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily]);
+            this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => {
+              srcPaths.push(font.srcPaths);
+
+              return formatFontFace({
+                ...font,
+                fontFamily,
+              });
+            });
+
+            this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily, srcPaths]);
           });
 
           break;
         }
 
         case '@global': {
-          const globals = prevStyleSheet['@global'];
+          const globals = prevStyleSheet[rule];
 
           if (!globals) {
             return;
           }
 
-          Object.keys(this.checkBlock(globals)).forEach(selector => {
+          Object.keys(globals).forEach(selector => {
             if (isObject(globals[selector])) {
               this.emit(rule, [
                 nextStyleSheet,
@@ -155,10 +159,17 @@ export default class UnifiedSyntax<T = Declaration> {
         }
 
         case '@keyframes': {
-          const frames = prevStyleSheet['@keyframes'];
+          const frames = prevStyleSheet[rule];
 
-          Object.keys(this.checkBlock(frames)).forEach(animationName => {
-            this.keyframes[animationName] = this.checkBlock(frames[animationName]);
+          if (!frames) {
+            return;
+          }
+
+          Object.keys(frames).forEach(animationName => {
+            this.keyframes[animationName] = this.convertDeclaration(
+              animationName,
+              frames[animationName],
+            );
 
             this.emit(rule, [nextStyleSheet, this.keyframes[animationName], animationName]);
           });
@@ -171,7 +182,7 @@ export default class UnifiedSyntax<T = Declaration> {
           const style = prevStyleSheet[rule];
 
           if (isObject(style)) {
-            this.emit(rule, [nextStyleSheet, style]);
+            this.emit(rule, [nextStyleSheet, this.convertDeclaration(rule, style)]);
           } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(`${rule} must be a style object.`);
           }
@@ -191,8 +202,6 @@ export default class UnifiedSyntax<T = Declaration> {
     Object.keys(prevStyleSheet).forEach(selector => {
       const declaration = prevStyleSheet[selector];
 
-      delete prevStyleSheet[selector];
-
       if (!declaration) {
         return;
       }
@@ -210,6 +219,8 @@ export default class UnifiedSyntax<T = Declaration> {
         // Style object
       } else if (isObject(declaration)) {
         nextStyleSheet[selector] = this.convertDeclaration(selector, declaration);
+
+        // Unknown
       } else if (process.env.NODE_ENV !== 'production') {
         throw new Error(`Invalid style declaration for "${selector}".`);
       }
@@ -222,7 +233,7 @@ export default class UnifiedSyntax<T = Declaration> {
    * Convert a style declaration including local at-rules and properties.
    */
   convertDeclaration(selector: string, declaration: UnifiedDeclaration): Declaration {
-    const prevDeclaration = { ...declaration };
+    const prevDeclaration: UnifiedDeclaration = { ...declaration };
     const nextDeclaration = {};
 
     // Convert properties first
@@ -260,20 +271,32 @@ export default class UnifiedSyntax<T = Declaration> {
         return;
       }
 
-      if (rule === '@fallbacks') {
-        Object.keys(style).forEach(property => {
-          this.emit(rule, [nextDeclaration, toArray(style[property]), property]);
-        });
-      } else if (rule === '@media' || rule === '@supports') {
-        Object.keys(style).forEach(condition => {
-          if (isObject(style[condition])) {
-            this.emit(rule, [nextDeclaration, style[condition], condition]);
-          } else if (process.env.NODE_ENV !== 'production') {
-            throw new Error(
-              `${rule} ${condition} must be a mapping of conditions to style objects.`,
-            );
-          }
-        });
+      switch (rule) {
+        case '@fallbacks':
+          const fallbacks = prevDeclaration[rule] || {};
+
+          Object.keys(fallbacks).forEach(property => {
+            this.emit(rule, [nextDeclaration, toArray((fallbacks as any)[property]), property]);
+          });
+          break;
+
+        case '@media':
+        case '@supports':
+          const styles = prevDeclaration[rule] || {};
+
+          Object.keys(styles).forEach(condition => {
+            if (isObject(styles[condition])) {
+              this.emit(rule, [nextDeclaration, styles[condition], condition]);
+            } else if (process.env.NODE_ENV !== 'production') {
+              throw new Error(
+                `${rule} ${condition} must be a mapping of conditions to style objects.`,
+              );
+            }
+          });
+          break;
+
+        default:
+          return;
       }
     });
 
@@ -284,7 +307,7 @@ export default class UnifiedSyntax<T = Declaration> {
       });
     }
 
-    return nextDeclaration;
+    return nextDeclaration as Declaration;
   }
 
   /**
@@ -310,137 +333,97 @@ export default class UnifiedSyntax<T = Declaration> {
   /**
    * Handle @charset.
    */
-  handleCharset(styleSheet: StyleSheet<T>, charset: string) {
+  handleCharset(styleSheet: any, charset: string) {
     styleSheet['@charset'] = `"${charset}"`;
   }
 
   /**
    * Handle fallback properties.
    */
-  handleFallbacks(declaration: StyleDeclaration, style: Style[], property: string) {
-    declaration[property] = [declaration[property], ...style].filter(Boolean);
+  handleFallbacks(declaration: any, fallbacks: any[], property: string) {
+    declaration[property] = [declaration[property], ...fallbacks].filter(Boolean);
   }
 
   /**
    * Handle @font-face.
    */
-  handleFontFace(styleSheet: StyleSheet<T>, fontFaces: UnifiedFontFace[], fontFamily: string) {
-    if (Array.isArray(styleSheet['@font-face'])) {
-      styleSheet['@font-face'].push(...fontFaces);
-    } else {
-      styleSheet['@font-face'] = fontFaces;
-    }
+  handleFontFace(styleSheet: any, fontFaces: FontFace[], fontFamily: string, srcPaths: string[][]) {
+    const prevValue = styleSheet['@font-face'];
+
+    styleSheet['@font-face'] = [
+      ...(Array.isArray(prevValue) ? prevValue : [prevValue]),
+      ...fontFaces,
+    ];
   }
 
   /**
    * Handle global styles (like body, html, etc).
    */
-  handleGlobal(styleSheet: StyleSheet<T>, declaration: UnifiedDeclaration, selector: string) {
+  handleGlobal(styleSheet: any, declaration: any, selector: string) {
     // Do nothing
   }
 
   /**
    * Handle @namespace.
    */
-  handleImport(styleSheet: StyleSheet<T>, paths: string[]) {
+  handleImport(styleSheet: any, paths: string[]) {
     styleSheet['@import'] = paths;
   }
 
   /**
    * Handle @keyframes.
    */
-  handleKeyframes(
-    styleSheet: StyleSheet<T>,
-    declaration: UnifiedDeclaration,
-    animationName: string,
-  ) {
+  handleKeyframes(styleSheet: any, declaration: any, animationName: string) {
     styleSheet[`@keyframes ${animationName}`] = declaration;
   }
 
   /**
    * Handle @media.
    */
-  handleMedia(declaration: StyleDeclaration, style: StyleBlock, condition: string) {
-    declaration[`@media ${condition}`] = style;
+  handleMedia(declaration: any, style: any, query: string) {
+    declaration[`@media ${query}`] = style;
   }
 
   /**
    * Handle @namespace.
    */
-  handleNamespace(styleSheet: StyleSheet<T>, namespace: string) {
+  handleNamespace(styleSheet: any, namespace: string) {
     styleSheet['@namespace'] = namespace;
   }
 
   /**
    * Handle @page.
    */
-  handlePage(styleSheet: StyleSheet<T>, declaration: UnifiedDeclaration) {
+  handlePage(styleSheet: any, declaration: any) {
     styleSheet['@page'] = declaration;
   }
 
   /**
    * Handle CSS properties.
    */
-  handleProperty(declaration: StyleDeclaration, style: Style, property: string) {
-    declaration[property] = style;
+  handleProperty(declaration: any, value: any, property: string) {
+    declaration[property] = value;
   }
 
   /**
    * Handle selector styles.
    */
-  handleSelector(declaration: StyleDeclaration, style: Style, selector: string) {
-    declaration[selector] = style;
+  handleSelector(declaration: any, value: any, selector: string) {
+    declaration[selector] = value;
   }
 
   /**
    * Handle @supports.
    */
-  handleSupports(declaration: StyleDeclaration, style: StyleBlock, condition: string) {
-    declaration[`@supports ${condition}`] = style;
+  handleSupports(declaration: any, style: any, query: string) {
+    declaration[`@supports ${query}`] = style;
   }
 
   /**
    * Handle @viewport.
    */
-  handleViewport(styleSheet: StyleSheet, declaration: UnifiedDeclaration) {
+  handleViewport(styleSheet: any, declaration: any) {
     styleSheet['@viewport'] = declaration;
-  }
-
-  /**
-   * Replace a `fontFamily` property with font face objects of the same name.
-   */
-  injectFontFaces(value: string, cache: { [key: string]: string }): Style[] {
-    const fontFaces = [];
-
-    String(value)
-      .split(',')
-      .forEach(name => {
-        const familyName = name.trim();
-        const fonts = cache[familyName];
-
-        if (Array.isArray(fonts)) {
-          fonts.forEach(font => {
-            fontFaces.push(formatFontFace(font));
-          });
-        } else {
-          fontFaces.push(familyName);
-        }
-      });
-
-    return fontFaces;
-  }
-
-  /**
-   * Replace a `animationName` property with keyframe objects of the same name.
-   */
-  injectKeyframes(value: Style, cache: Object): Style[] {
-    return String(value)
-      .split(',')
-      .map(name => {
-        const animationName = name.trim();
-
-        return cache[animationName] || animationName;
-      });
   }
 
   /**
@@ -455,6 +438,19 @@ export default class UnifiedSyntax<T = Declaration> {
   /**
    * Register an event listener.
    */
+  on(eventName: '@charset', callback: CharsetHandler<StyleSheet>): this;
+  on(eventName: '@fallbacks', callback: FallbacksHandler<Declaration>): this;
+  on(eventName: '@font-face', callback: FontFaceHandler<StyleSheet>): this;
+  on(eventName: '@global', callback: GlobalHandler<StyleSheet, Declaration>): this;
+  on(eventName: '@import', callback: ImportHandler<StyleSheet>): this;
+  on(eventName: '@keyframes', callback: KeyframesHandler<StyleSheet, Declaration>): this;
+  on(eventName: '@media', callback: MediaHandler<Declaration>): this;
+  on(eventName: '@namespace', callback: NamespaceHandler<StyleSheet>): this;
+  on(eventName: '@page', callback: PageHandler<StyleSheet, Declaration>): this;
+  on(eventName: '@supports', callback: SupportsHandler<Declaration>): this;
+  on(eventName: '@viewport', callback: ViewportHandler<StyleSheet, Declaration>): this;
+  on(eventName: 'property', callback: PropertyHandler<Declaration>): this;
+  on(eventName: 'selector', callback: SelectorHandler<Declaration>): this;
   on(eventName: string, callback: Handler): this {
     this.events[eventName] = callback;
 

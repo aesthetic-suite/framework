@@ -3,11 +3,13 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import React from 'react'; // Required for createStyler()
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
-import withStyles from './style';
-import { ClassName, $FixMe, StyleName, ThemeName } from './types';
+import UnifiedSyntax from './UnifiedSyntax';
+import withStyles, { WithStylesOptions } from './withStyles';
+import { ClassName, StyleName, ThemeName, StyleSheetDefinition, UnifiedStyleSheet } from './types';
 
 export interface AestheticOptions {
   defaultTheme: ThemeName;
@@ -17,10 +19,11 @@ export interface AestheticOptions {
   pure: boolean;
   stylesPropName: string;
   themePropName: string;
+  unifiedSyntax: boolean;
 }
 
-export default class Aesthetic<Theme, StyleSheet, Declaration> {
-  adapter: Adapter<StyleSheet, Declaration>;
+export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet = StyleSheet> {
+  adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet>;
 
   cache: WeakMap<Declaration[], ClassName> = new WeakMap();
 
@@ -32,31 +35,69 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
     pure: false,
     stylesPropName: 'styles',
     themePropName: 'theme',
+    unifiedSyntax: false,
   };
 
-  parents: { [childStyleName: string]: string } = {};
+  parents: { [childStyleName: string]: StyleName } = {};
 
-  styles: { [styleName: string]: StyleSheet | StyleSheetCallback } = {};
+  styles: { [styleName: string]: StyleSheetDefinition<Theme, StyleSheet> } = {};
 
   themes: { [themeName: string]: Theme } = {};
 
-  constructor(adapter: Adapter<StyleSheet, Declaration>, options: Partial<AestheticOptions> = {}) {
-    this.adapter = adapter;
+  unifiedSyntax: UnifiedSyntax<StyleSheet, Declaration> | null = null;
+
+  constructor(
+    adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet>,
+    options: Partial<AestheticOptions> = {},
+  ) {
     this.options = {
       ...this.options,
       ...options,
     };
+
+    this.adapter = adapter;
+
+    if (this.options.unifiedSyntax) {
+      this.unifiedSyntax = new UnifiedSyntax();
+
+      this.adapter.unify(this.unifiedSyntax);
+    }
   }
 
   /**
    * Return a stylesheet unique to an adapter.
    */
-  createStyleSheet(
+  createStyleSheet<Props>(
     styleName: StyleName,
     themeName: ThemeName = '',
-    props: $FixMe = {},
-  ): StyleSheet {
-    return this.adapter.create(this.getStyles(styleName, themeName, props), styleName);
+    props: Props,
+  ): ParsedStyleSheet {
+    let styleSheet = this.getStyles(styleName, themeName, props);
+
+    if (this.unifiedSyntax) {
+      styleSheet = this.unifiedSyntax.convert(styleSheet as UnifiedStyleSheet);
+    }
+
+    return this.adapter.create(styleSheet as StyleSheet, styleName);
+  }
+
+  /**
+   * Factory to create styling related methods.
+   */
+  createStyler() /* infer */ {
+    const self = this;
+
+    return {
+      style(
+        styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
+        options: Partial<WithStylesOptions> = {},
+      ): ReturnType<typeof withStyles> {
+        return withStyles(self, styleSheet, options);
+      },
+      transform(...styles: Declaration[]): ClassName {
+        return self.transformStyles(styles);
+      },
+    };
   }
 
   /**
@@ -66,7 +107,7 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
     parentThemeName: ThemeName,
     themeName: ThemeName,
     theme: Theme,
-    globals?: $FixMe,
+    globals?: StyleSheetDefinition<Theme, StyleSheet>,
   ): this {
     return this.registerTheme(
       themeName,
@@ -79,7 +120,11 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
    * Retrieve the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles(styleName: StyleName, themeName: ThemeName = '', props: $FixMe = {}): StyleSheet {
+  getStyles<Props>(
+    styleName: StyleName,
+    themeName: ThemeName = '',
+    props: Props,
+  ): StyleSheet | UnifiedStyleSheet {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
@@ -89,9 +134,9 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
       }
     }
 
-    // Extract styleSheet from callback
+    // Extract from callback
     if (typeof styleSheet === 'function') {
-      styleSheet = styleSheet(themeName ? this.getTheme(themeName) : {}, props);
+      styleSheet = styleSheet(this.getTheme(themeName), props);
     }
 
     // Merge from parent
@@ -102,7 +147,7 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
       );
     }
 
-    return styleSheet;
+    return styleSheet as StyleSheet | UnifiedStyleSheet;
   }
 
   /**
@@ -129,7 +174,11 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(themeName: ThemeName, theme: Theme, globals?: StyleSheet): this {
+  registerTheme(
+    themeName: ThemeName,
+    theme: Theme,
+    globals?: StyleSheetDefinition<Theme, StyleSheet>,
+  ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -145,9 +194,9 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
 
     // Create global styles
     if (globals) {
-      const globalStyleSheet = this.adapter.create(globals, ':root');
-
-      this.transformStyles(Object.values(globalStyleSheet));
+      this.setStyles(':root', globals).transformStyles(
+        Object.values(this.createStyleSheet(':root', themeName, {})),
+      );
     }
 
     return this;
@@ -158,7 +207,7 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
    */
   setStyles(
     styleName: StyleName,
-    styleSheet: StyleSheet | StyleSheetCallback,
+    styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
     extendFrom: StyleName = '',
   ): this {
     if (process.env.NODE_ENV !== 'production') {
@@ -198,19 +247,16 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
     const toTransform: Declaration[] = [];
 
     styles.forEach(style => {
-      // Empty value or failed condition
       if (!style) {
-        return; // eslint-disable-line
+        return;
+      }
 
-        // Acceptable class names
-      } else if (typeof style === 'string' || typeof style === 'number') {
+      if (typeof style === 'string' || typeof style === 'number') {
         classNames.push(
           ...String(style)
             .split(' ')
             .map(s => stripClassPrefix(s).trim()),
         );
-
-        // Style objects
       } else if (isObject(style)) {
         toTransform.push(style);
       } else if (process.env.NODE_ENV !== 'production') {
@@ -227,12 +273,5 @@ export default class Aesthetic<Theme, StyleSheet, Declaration> {
     this.cache.set(styles, className);
 
     return className;
-  }
-
-  /**
-   * Utility method for wrapping a component with a styles HOC.
-   */
-  withStyles(styleSheet: StyleSheet | StyleSheetCallback, options?: HOCOptions = {}): HOCWrapper {
-    return withStyles(this, styleSheet, options);
   }
 }

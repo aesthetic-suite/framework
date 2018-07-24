@@ -5,9 +5,9 @@
 
 import { Adapter, ClassName } from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
-import { StyleSheet, Declaration } from './types';
+import { StyleSheet, ParsedStyleSheet, Declaration } from './types';
 
-export default class AphroditeAdapter extends Adapter<StyleSheet, Declaration> {
+export default class AphroditeAdapter extends Adapter<StyleSheet, Declaration, ParsedStyleSheet> {
   aphrodite: {
     css(...styles: Declaration[]): string;
     StyleSheet: typeof Aphrodite;
@@ -23,8 +23,8 @@ export default class AphroditeAdapter extends Adapter<StyleSheet, Declaration> {
     ]);
   }
 
-  create(styleSheet: any): StyleSheet {
-    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheet;
+  create(styleSheet: StyleSheet): ParsedStyleSheet {
+    return this.aphrodite.StyleSheet.create(styleSheet);
   }
 
   transform(...styles: Declaration[]): ClassName {

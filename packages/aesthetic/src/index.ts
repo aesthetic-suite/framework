@@ -8,11 +8,20 @@ import Aesthetic from './Aesthetic';
 import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import ThemeContext from './ThemeContext';
-import createStyler from './createStyler';
+import formatFontFace from './unified/formatFontFace';
+import injectFontFaces from './unified/injectFontFaces';
+import injectKeyframes from './unified/injectKeyframes';
 
 export const StylesPropType = PropTypes.objectOf(PropTypes.object);
 
-export { Adapter, ClassNameAdapter, ThemeContext, createStyler };
+export {
+  Adapter,
+  ClassNameAdapter,
+  ThemeContext,
+  formatFontFace,
+  injectFontFaces,
+  injectKeyframes,
+};
 
 export * from './types';
 

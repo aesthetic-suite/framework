@@ -5,11 +5,11 @@
  */
 
 import Adapter from './Adapter';
-import { ClassName, ClassNameSheet } from './types';
+import { ClassName, StyleSheetMap } from './types';
 
-export default class ClassNameAdapter extends Adapter<ClassNameSheet, ClassName> {
-  transform(...styles: string[]): ClassName {
-    const classNames: string[] = [];
+export default class ClassNameAdapter extends Adapter<StyleSheetMap<ClassName>, ClassName> {
+  transform(...styles: ClassName[]): ClassName {
+    const classNames: ClassName[] = [];
 
     styles.forEach(style => {
       if (style && typeof style === 'string') {

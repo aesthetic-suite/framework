@@ -3,6 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { StyleSheetMap } from 'aesthetic';
 import { StyleDeclaration } from 'aphrodite';
 
 export interface Declaration {
@@ -11,6 +12,6 @@ export interface Declaration {
   _definition: StyleDeclaration;
 }
 
-export interface StyleSheet {
-  [selector: string]: Declaration;
-}
+export type ParsedStyleSheet = StyleSheetMap<Declaration>;
+
+export type StyleSheet = StyleSheetMap<StyleDeclaration>;

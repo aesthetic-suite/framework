@@ -1,44 +1,55 @@
 /**
  * @copyright   2017, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
- * @flow
  */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
+import ThemeContext from './ThemeContext';
+import { ThemeName, StyleName, StyleSheetDefinition } from './types';
 
-import type {
-  HOCComponent,
-  HOCOptions,
-  HOCWrappedComponent,
-  HOCWrapper,
-  StyleSheet,
-  StyleSheetCallback,
-  ThemeSheet,
-} from '../../types';
+export interface WithStylesWrapperProps {
+  themeName?: ThemeName;
+  wrappedRef?: React.Ref<any>;
+}
 
-type StyleProps = {
-  themeName: string,
-  wrappedRef: ?React$Ref<React$ElementType>,
-};
+export interface WithStylesProps<Theme, ParsedStyleSheet> {
+  ref?: React.Ref<any>;
+  styles: ParsedStyleSheet;
+  theme?: Theme;
+  themeName?: ThemeName;
+}
 
-type StyleState = {
-  styles: StyleSheet,
-  theme: ThemeSheet,
-  themeName: string,
-};
+export interface WithStylesState<Theme, ParsedStyleSheet> {
+  styles: ParsedStyleSheet;
+  theme: Theme;
+  themeName: ThemeName;
+}
+
+export interface WithStylesOptions {
+  extendable: boolean;
+  extendFrom: string;
+  passThemeNameProp: boolean;
+  passThemeProp: boolean;
+  pure: boolean;
+  styleName: StyleName;
+  stylesPropName: string;
+  themePropName: string;
+}
 
 // Keep track in production
 let instanceID = 0;
 
-export default function style(
-  aesthetic: Aesthetic,
-  styleSheet: StyleSheet | StyleSheetCallback = {},
-  options?: HOCOptions = {},
-): HOCWrapper {
-  return function wrapStyles(Component: HOCWrappedComponent): HOCComponent {
+export default function withStyles<Theme, StyleSheet, Declaration, ParsedStyleSheet = StyleSheet>(
+  aesthetic: Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet>,
+  styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
+  options: Partial<WithStylesOptions> = {},
+) {
+  return function<Props extends {} = {}>(
+    Component: React.ComponentType<Props & WithStylesProps<Theme, ParsedStyleSheet>>,
+  ): React.ComponentType<Props & WithStylesWrapperProps> {
     let styleName = options.styleName || Component.displayName || Component.name;
 
     // Function/constructor name aren't always available when code is minified,
@@ -84,16 +95,15 @@ export default function style(
     // Set base styles
     aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
-    class StyledComponent extends ParentComponent<StyleProps, StyleState> {
-      static displayName: ?string = `Aesthetic(${styleName})`;
+    class WithStyles extends ParentComponent<
+      WithStylesWrapperProps,
+      WithStylesState<Theme, ParsedStyleSheet>
+    > {
+      static displayName: string = `withAestheticStyles(${styleName})`;
 
       static styleName: string = styleName;
 
-      static WrappedComponent: HOCWrappedComponent = Component;
-
-      static contextTypes = {
-        themeName: PropTypes.string,
-      };
+      static WrappedComponent = Component;
 
       static propTypes = {
         themeName: PropTypes.string,
@@ -102,35 +112,29 @@ export default function style(
 
       static defaultProps = {
         themeName: '',
-        wrappedRef: null,
       };
 
       // Allow consumers to customize styles
       static extendStyles(
-        customStyleSheet?: StyleSheet | StyleSheetCallback = {},
-        extendOptions?: HOCOptions = {},
-      ): HOCComponent {
+        customStyleSheet: StyleSheetDefinition<Theme, StyleSheet, Props>,
+        extendOptions: Partial<WithStylesOptions> = {},
+      ) {
         if (process.env.NODE_ENV !== 'production') {
           if (!extendable) {
             throw new Error(`${styleName} is not extendable.`);
           }
         }
 
-        return style(aesthetic, customStyleSheet, {
+        return withStyles(aesthetic, customStyleSheet, {
           ...options,
           ...extendOptions,
           extendFrom: styleName,
         })(Component);
       }
 
-      // eslint-disable-next-line flowtype/no-weak-types
-      constructor(props: StyleProps, context: any) {
-        super(props, context);
+      state = this.transformStyles(this.getThemeName(this.props));
 
-        this.state = this.transformStyles(this.getThemeName(props));
-      }
-
-      componentDidUpdate(prevProps: StyleProps) {
+      componentDidUpdate(prevProps: WithStylesWrapperProps) {
         const themeName = this.getThemeName(this.props);
 
         if (themeName !== this.getThemeName(prevProps)) {
@@ -138,34 +142,35 @@ export default function style(
         }
       }
 
-      getThemeName(props: StyleProps): string {
-        return props.themeName || this.context.themeName || aesthetic.options.defaultTheme || '';
+      getThemeName(props: WithStylesWrapperProps): ThemeName {
+        return props.themeName || aesthetic.options.defaultTheme || '';
       }
 
-      getWrappedProps(): Object {
+      getWrappedProps(): Props {
         return {
+          // @ts-ignore
           ...Component.defaultProps,
           ...this.props,
         };
       }
 
-      transformStyles(themeName: string): StyleState {
+      transformStyles(themeName: ThemeName): WithStylesState<Theme, ParsedStyleSheet> {
         return {
-          styles: aesthetic.createStyleSheet(styleName, themeName, this.getWrappedProps()),
-          theme: themeName ? aesthetic.getTheme(themeName) : {},
+          styles: aesthetic.createStyleSheet<Props>(styleName, themeName, this.getWrappedProps()),
+          theme: aesthetic.getTheme(themeName),
           themeName,
         };
       }
 
-      render(): React$Node {
+      render() {
         const { state } = this;
         const { themeName, wrappedRef, ...props } = this.props;
-        const extraProps = {
-          [stylesPropName]: state.styles,
+        const extraProps: WithStylesProps<Theme, ParsedStyleSheet> = {
+          [stylesPropName as 'styles']: state.styles,
         };
 
         if (passThemeProp) {
-          extraProps[themePropName] = state.theme;
+          extraProps[themePropName as 'theme'] = state.theme;
         }
 
         if (passThemeNameProp) {
@@ -180,6 +185,14 @@ export default function style(
       }
     }
 
-    return hoistNonReactStatics(StyledComponent, Component);
+    function WithStylesWrapper(props: WithStylesWrapperProps) {
+      return (
+        <ThemeContext.Consumer>
+          {themeName => <WithStyles {...props} themeName={themeName} />}
+        </ThemeContext.Consumer>
+      );
+    }
+
+    return hoistNonReactStatics<any, any>(WithStylesWrapper, Component);
   };
 }
