@@ -11,7 +11,8 @@ import toArray from './helpers/toArray';
 import {
   AtRule,
   Handler,
-  FontFace,
+  UnifiedFontFace,
+  UnifiedKeyframes,
   UnifiedStyleSheet,
   UnifiedDeclaration,
   CharsetHandler,
@@ -27,7 +28,9 @@ import {
   FallbacksHandler,
   MediaHandler,
   SupportsHandler,
+  Declaration as NativeDeclaration,
 } from './types';
+import joinProperties from './unified/joinProperties';
 
 export const GLOBAL_RULES: AtRule[] = [
   '@charset',
@@ -44,14 +47,6 @@ export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
 export default class UnifiedSyntax<StyleSheet, Declaration> {
   events: { [eventName: string]: Handler } = {};
-
-  fontFaces: { [fontFamily: string]: FontFace[] } = {};
-
-  fontFacesCache: { [fontFamily: string]: string } = {};
-
-  keyframes: { [animationName: string]: Declaration } = {};
-
-  keyframesCache: { [animationName: string]: string } = {};
 
   constructor() {
     this.on('property', this.handleProperty)
@@ -114,24 +109,18 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
         case '@font-face': {
           const faces = prevStyleSheet[rule];
 
-          if (!faces) {
-            return;
-          }
-
-          Object.keys(faces).forEach(fontFamily => {
-            const srcPaths: string[][] = [];
-
-            this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => {
-              srcPaths.push(font.srcPaths);
-
-              return formatFontFace({
-                ...font,
+          if (faces) {
+            Object.keys(faces).forEach(fontFamily => {
+              this.emit(rule, [
+                nextStyleSheet,
+                toArray(faces[fontFamily]).map(font => ({
+                  ...font,
+                  fontFamily,
+                })),
                 fontFamily,
-              });
+              ]);
             });
-
-            this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily, srcPaths]);
-          });
+          }
 
           break;
         }
@@ -161,18 +150,11 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
         case '@keyframes': {
           const frames = prevStyleSheet[rule];
 
-          if (!frames) {
-            return;
+          if (frames) {
+            Object.keys(frames).forEach(animationName => {
+              this.emit(rule, [nextStyleSheet, frames[animationName], animationName]);
+            });
           }
-
-          Object.keys(frames).forEach(animationName => {
-            this.keyframes[animationName] = this.convertDeclaration(
-              animationName,
-              frames[animationName],
-            );
-
-            this.emit(rule, [nextStyleSheet, this.keyframes[animationName], animationName]);
-          });
 
           break;
         }
@@ -182,7 +164,7 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
           const style = prevStyleSheet[rule];
 
           if (isObject(style)) {
-            this.emit(rule, [nextStyleSheet, this.convertDeclaration(rule, style)]);
+            this.emit(rule, [nextStyleSheet, style]);
           } else if (process.env.NODE_ENV !== 'production') {
             throw new Error(`${rule} must be a style object.`);
           }
@@ -341,19 +323,17 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
    * Handle fallback properties.
    */
   handleFallbacks(declaration: any, fallbacks: any[], property: string) {
-    declaration[property] = [declaration[property], ...fallbacks].filter(Boolean);
+    declaration[property] = joinProperties(declaration[property], fallbacks);
   }
 
   /**
    * Handle @font-face.
    */
-  handleFontFace(styleSheet: any, fontFaces: FontFace[], fontFamily: string, srcPaths: string[][]) {
-    const prevValue = styleSheet['@font-face'];
-
-    styleSheet['@font-face'] = [
-      ...(Array.isArray(prevValue) ? prevValue : [prevValue]),
-      ...fontFaces,
-    ];
+  handleFontFace(styleSheet: any, fontFaces: UnifiedFontFace[], fontFamily: string) {
+    styleSheet['@font-face'] = joinProperties(
+      styleSheet['@font-face'],
+      fontFaces.map(fontFace => formatFontFace(fontFace)),
+    );
   }
 
   /**
@@ -374,13 +354,13 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
    * Handle @keyframes.
    */
   handleKeyframes(styleSheet: any, declaration: any, animationName: string) {
-    styleSheet[`@keyframes ${animationName}`] = declaration;
+    styleSheet[`@keyframes ${animationName}`] = this.convertDeclaration(animationName, declaration);
   }
 
   /**
    * Handle @media.
    */
-  handleMedia(declaration: any, style: any, query: string) {
+  handleMedia(declaration: any, style: NativeDeclaration, query: string) {
     declaration[`@media ${query}`] = style;
   }
 
@@ -394,8 +374,8 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
   /**
    * Handle @page.
    */
-  handlePage(styleSheet: any, declaration: any) {
-    styleSheet['@page'] = declaration;
+  handlePage(styleSheet: any, declaration: UnifiedDeclaration) {
+    styleSheet['@page'] = this.convertDeclaration('@page', declaration);
   }
 
   /**
@@ -415,15 +395,15 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
   /**
    * Handle @supports.
    */
-  handleSupports(declaration: any, style: any, query: string) {
+  handleSupports(declaration: any, style: NativeDeclaration, query: string) {
     declaration[`@supports ${query}`] = style;
   }
 
   /**
    * Handle @viewport.
    */
-  handleViewport(styleSheet: any, declaration: any) {
-    styleSheet['@viewport'] = declaration;
+  handleViewport(styleSheet: any, declaration: UnifiedDeclaration) {
+    styleSheet['@viewport'] = this.convertDeclaration('@viewport', declaration);
   }
 
   /**
@@ -446,9 +426,9 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
   on(eventName: '@keyframes', callback: KeyframesHandler<StyleSheet, Declaration>): this;
   on(eventName: '@media', callback: MediaHandler<Declaration>): this;
   on(eventName: '@namespace', callback: NamespaceHandler<StyleSheet>): this;
-  on(eventName: '@page', callback: PageHandler<StyleSheet, Declaration>): this;
+  on(eventName: '@page', callback: PageHandler<StyleSheet>): this;
   on(eventName: '@supports', callback: SupportsHandler<Declaration>): this;
-  on(eventName: '@viewport', callback: ViewportHandler<StyleSheet, Declaration>): this;
+  on(eventName: '@viewport', callback: ViewportHandler<StyleSheet>): this;
   on(eventName: 'property', callback: PropertyHandler<Declaration>): this;
   on(eventName: 'selector', callback: SelectorHandler<Declaration>): this;
   on(eventName: string, callback: Handler): this {

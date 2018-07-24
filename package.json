@@ -2,7 +2,7 @@
   "name": "aesthetic-root",
   "private": true,
   "scripts": {
-    "build": "beemo typescript --workspaces=* --priority --react",
+    "build": "beemo typescript --workspaces=aesthetic --priority --react",
     "coverage": "yarn run jest --coverage",
     "eslint": "beemo eslint",
     "jest": "beemo jest --react",

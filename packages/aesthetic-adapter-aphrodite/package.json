@@ -16,7 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/aphrodite": "^0.5.10",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {

@@ -35,7 +35,9 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export interface FontFace extends CSS.FontFace, CSS.FontFaceHyphen {}
+export interface FontFace extends CSS.FontFace, CSS.FontFaceHyphen {
+  fontFamily: string;
+}
 
 export type Pseudos = { [P in CSS.SimplePseudos]?: Properties };
 
@@ -63,7 +65,7 @@ export interface UnifiedFontFace extends FontFace {
 }
 
 export interface UnifiedKeyframes {
-  [phase: string]: UnifiedDeclaration;
+  [phase: string]: Declaration;
 }
 
 export interface UnifiedLocalAtRules {
@@ -102,27 +104,30 @@ export type FallbacksHandler<D, P = any> = (declaration: D, values: P[], propert
 
 export type FontFaceHandler<T> = (
   styleSheet: T,
-  fontFaces: FontFace[],
+  fontFaces: UnifiedFontFace[],
   fontFamily: string,
-  srcPaths: string[][],
 ) => void;
 
 export type GlobalHandler<T, D> = (styleSheet: T, declaration: D, selector: string) => void;
 
-export type KeyframesHandler<T, D> = (styleSheet: T, declaration: D, animationName: string) => void;
+export type KeyframesHandler<T, D> = (
+  styleSheet: T,
+  keyframes: UnifiedKeyframes,
+  animationName: string,
+) => void;
 
 export type ImportHandler<T> = (styleSheet: T, paths: string[]) => void;
 
-export type MediaHandler<D> = (declaration: D, value: D, query: string) => void;
+export type MediaHandler<D> = (declaration: D, value: Declaration, query: string) => void;
 
 export type NamespaceHandler<T> = (styleSheet: T, namespace: string) => void;
 
-export type PageHandler<T, D> = (styleSheet: T, declaration: D) => void;
+export type PageHandler<T> = (styleSheet: T, declaration: UnifiedDeclaration) => void;
 
 export type PropertyHandler<D, P = any> = (declaration: D, value: P, property: string) => void;
 
 export type SelectorHandler<D, P = any> = (declaration: D, value: P, selector: string) => void;
 
-export type SupportsHandler<D> = (declaration: D, value: D, query: string) => void;
+export type SupportsHandler<D> = (declaration: D, value: Declaration, query: string) => void;
 
-export type ViewportHandler<T, D> = (styleSheet: T, declaration: D) => void;
+export type ViewportHandler<T> = (styleSheet: T, declaration: UnifiedDeclaration) => void;

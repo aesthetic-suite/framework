@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import NativeAdapter from './NativeAdapter';
+import AphroditeAdapter from './AphroditeAdapter';
 
 export * from './types';
 
-export default NativeAdapter;
+export default AphroditeAdapter;

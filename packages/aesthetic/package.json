@@ -25,9 +25,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/prop-types": "^15.5.3",
-    "@types/react": "^16.4.6",
-    "csstype": "^2.5.5",
+    "@types/prop-types": "^15.5.4",
+    "@types/react": "^16.4.7",
+    "csstype": "^2.5.6",
     "hoist-non-react-statics": "^2.5.5",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.2"
