@@ -3,10 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { StyleSheetMap } from 'aesthetic';
 import { IStyle } from 'fela';
 
-export interface Declaration extends IStyle {}
+export type Declaration = IStyle;
 
-export interface StyleSheet {
-  [selector: string]: Declaration;
-}
+export type StyleSheet = StyleSheetMap<Declaration>;

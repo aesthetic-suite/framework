@@ -115,6 +115,7 @@ export type FontFaceHandler<S, F = FontFace> = (
   styleSheet: S,
   fontFaces: F[],
   fontFamily: string,
+  srcPaths: string[][],
 ) => void;
 
 export type GlobalHandler<S, D> = (styleSheet: S, declaration: D, selector: string) => void;

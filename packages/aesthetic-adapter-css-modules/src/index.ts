@@ -3,6 +3,6 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import NativeAdapter from './NativeAdapter';
+import CSSModulesAdapter from './CSSModulesAdapter';
 
-export default NativeAdapter;
+export default CSSModulesAdapter;

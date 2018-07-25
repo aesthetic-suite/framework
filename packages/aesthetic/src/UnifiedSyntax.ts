@@ -116,14 +116,18 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
 
           if (faces) {
             Object.keys(faces).forEach(fontFamily => {
-              this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font =>
-                formatFontFace({
+              const srcPaths: string[][] = [];
+
+              this.fontFaces[fontFamily] = toArray(faces[fontFamily]).map(font => {
+                srcPaths.push(font.srcPaths);
+
+                return formatFontFace({
                   ...font,
                   fontFamily,
-                }),
-              );
+                });
+              });
 
-              this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily]);
+              this.emit(rule, [nextStyleSheet, this.fontFaces[fontFamily], fontFamily, srcPaths]);
             });
           }
 

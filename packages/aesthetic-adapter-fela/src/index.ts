@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import NativeAdapter from './NativeAdapter';
+import FelaAdapter from './FelaAdapter';
 
 export * from './types';
 
-export default NativeAdapter;
+export default FelaAdapter;
