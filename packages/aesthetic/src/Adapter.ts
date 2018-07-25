@@ -4,10 +4,17 @@
  */
 
 import deepMerge from 'lodash/merge';
-import { ClassName, StyleName, UnifiedStyleSheet } from './types';
 import UnifiedSyntax from './UnifiedSyntax';
+import { ClassName, StyleName } from './types';
 
-export default abstract class Adapter<StyleSheet, Declaration, ParsedStyleSheet = StyleSheet> {
+export default abstract class Adapter<
+  StyleSheet,
+  Declaration,
+  ParsedStyleSheet = StyleSheet,
+  ParsedDeclaration = Declaration
+> {
+  unifiedSyntax: UnifiedSyntax<StyleSheet, Declaration> | null = null;
+
   /**
    * Create a stylesheet from a component's style styleSheet.
    */
@@ -26,7 +33,7 @@ export default abstract class Adapter<StyleSheet, Declaration, ParsedStyleSheet 
   /**
    * Transform the style declarations using the registered adapter.
    */
-  abstract transform(...styles: Declaration[]): ClassName;
+  abstract transform(...styles: ParsedDeclaration[]): ClassName;
 
   /**
    * Register handlers for unified syntax.

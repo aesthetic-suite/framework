@@ -3,32 +3,20 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import {
-  Adapter,
-  ClassName,
-  UnifiedSyntax,
-  UnifiedFontFace,
-  FontFace,
-  formatFontFace,
-  injectKeyframes,
-  injectFontFaces,
-} from 'aesthetic';
+import { Adapter, ClassName, UnifiedSyntax, injectKeyframes, injectFontFaces } from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
 import { StyleSheet, ParsedStyleSheet, Declaration, ParsedDeclaration } from './types';
 
 export default class AphroditeAdapter extends Adapter<
   StyleSheet,
-  ParsedDeclaration,
-  ParsedStyleSheet
+  Declaration,
+  ParsedStyleSheet,
+  ParsedDeclaration
 > {
   aphrodite: {
     css(...styles: ParsedDeclaration[]): ClassName;
     StyleSheet: typeof Aphrodite;
   };
-
-  fontFaces: { [fontFamily: string]: FontFace[] } = {};
-
-  keyframes: { [animationName: string]: Declaration } = {};
 
   constructor(extensions: Extension[] = []) {
     super();
@@ -66,12 +54,11 @@ export default class AphroditeAdapter extends Adapter<
     return this.aphrodite.css(...legitStyles);
   }
 
-  unify(syntax: UnifiedSyntax<StyleSheet, ParsedDeclaration>) {
+  unify(syntax: UnifiedSyntax<StyleSheet, Declaration>) {
     syntax
       .on('property', this.handleProperty)
       .on('@charset', syntax.createUnsupportedHandler('@charset'))
       .on('@fallbacks', syntax.createUnsupportedHandler('@fallbacks'))
-      .on('@font-face', this.handleFontFace)
       .on('@global', this.handleGlobal)
       .on('@import', syntax.createUnsupportedHandler('@import'))
       .on('@namespace', syntax.createUnsupportedHandler('@namespace'))
@@ -80,10 +67,6 @@ export default class AphroditeAdapter extends Adapter<
       .on('@viewport', syntax.createUnsupportedHandler('@viewport'))
       .off('@font-face')
       .off('@keyframes');
-  }
-
-  handleFontFace(styleSheet: any, fontFaces: UnifiedFontFace[], fontFamily: string) {
-    this.fontFaces[fontFamily] = fontFaces.map(fontFace => formatFontFace(fontFace));
   }
 
   handleGlobal(styleSheet: StyleSheet, declaration: Declaration, selector: string) {
@@ -117,15 +100,11 @@ export default class AphroditeAdapter extends Adapter<
     return callback(`${baseSelector}${selector}`);
   }
 
-  handleKeyframes(styleSheet: any, declaration: any, animationName: string) {
-    this.keyframes[animationName] = declaration;
-  }
-
   handleProperty(declaration: Declaration, value: any, property: string) {
     if (property === 'animationName') {
-      declaration[property] = injectKeyframes(value, this.keyframes);
+      declaration[property] = injectKeyframes(value, this.unifiedSyntax!.keyframes);
     } else if (property === 'fontFamily') {
-      declaration[property] = injectFontFaces(value, this.fontFaces);
+      declaration[property] = injectFontFaces(value, this.unifiedSyntax!.fontFaces);
     } else {
       declaration[property] = value;
     }

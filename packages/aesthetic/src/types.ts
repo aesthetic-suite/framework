@@ -37,6 +37,13 @@ export type AtRule =
 
 export interface FontFace extends CSS.FontFace, CSS.FontFaceHyphen {
   fontFamily: string;
+  src: string;
+}
+
+export interface Keyframes {
+  from?: Declaration;
+  to?: Declaration;
+  [percent: string]: Declaration | undefined;
 }
 
 export type Pseudos = { [P in CSS.SimplePseudos]?: Properties };
@@ -65,13 +72,15 @@ export interface UnifiedFontFace extends FontFace {
 }
 
 export interface UnifiedKeyframes {
-  [phase: string]: Declaration;
+  from?: UnifiedDeclaration;
+  to?: UnifiedDeclaration;
+  [percent: string]: UnifiedDeclaration | undefined;
 }
 
 export interface UnifiedLocalAtRules {
   '@fallbacks'?: PropertiesFallback;
-  '@media'?: { [mediaQuery: string]: Declaration };
-  '@supports'?: { [featureQuery: string]: Declaration };
+  '@media'?: { [mediaQuery: string]: UnifiedDeclaration };
+  '@supports'?: { [featureQuery: string]: UnifiedDeclaration };
 }
 
 export interface UnifiedGlobalAtRules {
@@ -98,36 +107,36 @@ export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
 
 export type Handler = (...args: any[]) => void;
 
-export type CharsetHandler<T> = (styleSheet: T, charset: string) => void;
+export type CharsetHandler<S> = (styleSheet: S, charset: string) => void;
 
-export type FallbacksHandler<D, P = any> = (declaration: D, values: P[], property: string) => void;
+export type FallbacksHandler<D> = (declaration: D, values: any[], property: string) => void;
 
-export type FontFaceHandler<T> = (
-  styleSheet: T,
-  fontFaces: UnifiedFontFace[],
+export type FontFaceHandler<S, F = FontFace> = (
+  styleSheet: S,
+  fontFaces: F[],
   fontFamily: string,
 ) => void;
 
-export type GlobalHandler<T, D> = (styleSheet: T, declaration: D, selector: string) => void;
+export type GlobalHandler<S, D> = (styleSheet: S, declaration: D, selector: string) => void;
 
-export type KeyframesHandler<T, D> = (
-  styleSheet: T,
-  keyframes: UnifiedKeyframes,
+export type KeyframesHandler<S, K = Keyframes> = (
+  styleSheet: S,
+  keyframes: K,
   animationName: string,
 ) => void;
 
-export type ImportHandler<T> = (styleSheet: T, paths: string[]) => void;
+export type ImportHandler<S> = (styleSheet: S, paths: string[]) => void;
 
-export type MediaHandler<D> = (declaration: D, value: Declaration, query: string) => void;
+export type MediaHandler<D> = (declaration: D, value: D, query: string) => void;
 
-export type NamespaceHandler<T> = (styleSheet: T, namespace: string) => void;
+export type NamespaceHandler<S> = (styleSheet: S, namespace: string) => void;
 
-export type PageHandler<T> = (styleSheet: T, declaration: UnifiedDeclaration) => void;
+export type PageHandler<S, D> = (styleSheet: S, declaration: D) => void;
 
-export type PropertyHandler<D, P = any> = (declaration: D, value: P, property: string) => void;
+export type PropertyHandler<D> = (declaration: D, value: any, property: string) => void;
 
-export type SelectorHandler<D, P = any> = (declaration: D, value: P, selector: string) => void;
+export type SelectorHandler<D> = (declaration: D, value: any, selector: string) => void;
 
-export type SupportsHandler<D> = (declaration: D, value: Declaration, query: string) => void;
+export type SupportsHandler<D> = (declaration: D, value: D, query: string) => void;
 
-export type ViewportHandler<T> = (styleSheet: T, declaration: UnifiedDeclaration) => void;
+export type ViewportHandler<S, D> = (styleSheet: S, declaration: D) => void;

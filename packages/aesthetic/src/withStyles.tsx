@@ -42,8 +42,14 @@ export interface WithStylesOptions {
 // Keep track in production
 let instanceID = 0;
 
-export default function withStyles<Theme, StyleSheet, Declaration, ParsedStyleSheet = StyleSheet>(
-  aesthetic: Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet>,
+export default function withStyles<
+  Theme,
+  StyleSheet,
+  Declaration,
+  ParsedStyleSheet = StyleSheet,
+  ParsedDeclaration = Declaration
+>(
+  aesthetic: Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet, ParsedDeclaration>,
   styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
   options: Partial<WithStylesOptions> = {},
 ) {

@@ -22,10 +22,16 @@ export interface AestheticOptions {
   unifiedSyntax: boolean;
 }
 
-export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet = StyleSheet> {
-  adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet>;
+export default class Aesthetic<
+  Theme,
+  StyleSheet,
+  Declaration,
+  ParsedStyleSheet = StyleSheet,
+  ParsedDeclaration = Declaration
+> {
+  adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet, ParsedDeclaration>;
 
-  cache: WeakMap<Declaration[], ClassName> = new WeakMap();
+  cache: WeakMap<ParsedDeclaration[], ClassName> = new WeakMap();
 
   options: AestheticOptions = {
     defaultTheme: '',
@@ -44,10 +50,8 @@ export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet 
 
   themes: { [themeName: string]: Theme } = {};
 
-  unifiedSyntax: UnifiedSyntax<StyleSheet, Declaration> | null = null;
-
   constructor(
-    adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet>,
+    adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet, ParsedDeclaration>,
     options: Partial<AestheticOptions> = {},
   ) {
     this.options = {
@@ -58,9 +62,10 @@ export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet 
     this.adapter = adapter;
 
     if (this.options.unifiedSyntax) {
-      this.unifiedSyntax = new UnifiedSyntax();
+      const syntax = new UnifiedSyntax<StyleSheet, Declaration>();
 
-      this.adapter.unify(this.unifiedSyntax);
+      this.adapter.unify(syntax);
+      this.adapter.unifiedSyntax = syntax;
     }
   }
 
@@ -74,8 +79,8 @@ export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet 
   ): ParsedStyleSheet {
     let styleSheet = this.getStyles(styleName, themeName, props);
 
-    if (this.unifiedSyntax) {
-      styleSheet = this.unifiedSyntax.convert(styleSheet as UnifiedStyleSheet);
+    if (this.options.unifiedSyntax && this.adapter.unifiedSyntax) {
+      styleSheet = this.adapter.unifiedSyntax.convert(styleSheet as UnifiedStyleSheet);
     }
 
     return this.adapter.create(styleSheet as StyleSheet, styleName);
@@ -94,7 +99,7 @@ export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet 
       ): ReturnType<typeof withStyles> {
         return withStyles(self, styleSheet, options);
       },
-      transform(...styles: Declaration[]): ClassName {
+      transform(...styles: ParsedDeclaration[]): ClassName {
         return self.transformStyles(styles);
       },
     };
@@ -238,13 +243,13 @@ export default class Aesthetic<Theme, StyleSheet, Declaration, ParsedStyleSheet 
   /**
    * Execute the adapter transformer on the list of style declarations.
    */
-  transformStyles(styles: Declaration[]): ClassName {
+  transformStyles(styles: ParsedDeclaration[]): ClassName {
     if (this.cache.has(styles)) {
       return this.cache.get(styles)!;
     }
 
     const classNames: ClassName[] = [];
-    const toTransform: Declaration[] = [];
+    const toTransform: ParsedDeclaration[] = [];
 
     styles.forEach(style => {
       if (!style) {
