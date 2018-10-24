@@ -61,10 +61,10 @@ export default class FelaAdapter extends Adapter<StyleSheet, Declaration> {
   // http://fela.js.org/docs/basics/Keyframes.html
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
   handleKeyframe = (styleSheet: StyleSheet, keyframes: Keyframes, animationName: string) => {
-    this.keyframesCache[animationName] = this.fela.renderKeyframe(() => keyframes);
+    this.keyframesCache[animationName] = this.fela.renderKeyframe(() => keyframes, {});
   };
 
-  handleProperty = (declaration: Declaration, value: any, property: string) => {
+  handleProperty = (declaration: Declaration, value: any, property: keyof Declaration) => {
     if (property === 'animationName') {
       declaration[property] = injectKeyframes(value, this.keyframesCache).join(', ');
     } else {

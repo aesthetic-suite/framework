@@ -11,26 +11,36 @@ import {
   AtRule,
   Handler,
   FontFace,
-  UnifiedFontFace,
-  UnifiedKeyframes,
+  Keyframes,
   UnifiedStyleSheet,
   UnifiedDeclaration,
+  CharsetArgs,
   CharsetHandler,
-  NamespaceHandler,
-  ImportHandler,
-  FontFaceHandler,
-  KeyframesHandler,
-  GlobalHandler,
-  PageHandler,
-  ViewportHandler,
-  SelectorHandler,
-  PropertyHandler,
+  FallbacksArgs,
   FallbacksHandler,
+  FontFaceArgs,
+  FontFaceHandler,
+  GlobalArgs,
+  GlobalHandler,
+  ImportArgs,
+  ImportHandler,
+  KeyframesArgs,
+  KeyframesHandler,
+  MediaArgs,
   MediaHandler,
+  NamespaceArgs,
+  NamespaceHandler,
+  PageArgs,
+  PageHandler,
+  PropertyArgs,
+  PropertyHandler,
+  SelectorArgs,
+  SelectorHandler,
+  SupportsArgs,
   SupportsHandler,
-  Keyframes,
+  ViewportArgs,
+  ViewportHandler,
 } from './types';
-import joinProperties from './unified/joinProperties';
 import { formatFontFace } from '.';
 
 export const GLOBAL_RULES: AtRule[] = [
@@ -47,27 +57,11 @@ export const GLOBAL_RULES: AtRule[] = [
 export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@supports'];
 
 export default class UnifiedSyntax<StyleSheet, Declaration> {
-  events: { [eventName: string]: Handler } = {};
-
   fontFaces: { [fontFamily: string]: FontFace[] } = {};
 
-  keyframes: { [animationName: string]: Keyframes } = {};
+  handlers: { [eventName: string]: Handler } = {};
 
-  constructor() {
-    this.on('property', this.handleProperty)
-      .on('selector', this.handleSelector)
-      .on('@charset', this.handleCharset)
-      .on('@fallbacks', this.handleFallbacks)
-      .on('@font-face', this.handleFontFace)
-      .on('@global', this.handleGlobal)
-      .on('@import', this.handleImport)
-      .on('@keyframes', this.handleKeyframes)
-      .on('@media', this.handleMedia)
-      .on('@namespace', this.handleNamespace)
-      .on('@page', this.handlePage)
-      .on('@supports', this.handleSupports)
-      .on('@viewport', this.handleViewport);
-  }
+  keyframes: { [animationName: string]: Keyframes } = {};
 
   /**
    * Convert a mapping of style declarations to their native syntax.
@@ -229,7 +223,7 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
    */
   convertDeclaration<T = Declaration>(declaration: UnifiedDeclaration): T {
     const prevDeclaration: UnifiedDeclaration = { ...declaration };
-    const nextDeclaration = {};
+    const nextDeclaration: any = {};
 
     // Convert properties first
     Object.keys(prevDeclaration).forEach(key => {
@@ -321,110 +315,32 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
   /**
    * Execute the defined event listener with the arguments.
    */
+  emit(eventName: '@charset', args: CharsetArgs<StyleSheet>): this;
+  emit(eventName: '@fallbacks', args: FallbacksArgs<Declaration>): this;
+  emit(eventName: '@font-face', args: FontFaceArgs<StyleSheet>): this;
+  emit(eventName: '@global', args: GlobalArgs<StyleSheet, Declaration>): this;
+  emit(eventName: '@import', args: ImportArgs<StyleSheet>): this;
+  emit(eventName: '@keyframes', args: KeyframesArgs<StyleSheet>): this;
+  emit(eventName: '@media', args: MediaArgs<Declaration>): this;
+  emit(eventName: '@namespace', args: NamespaceArgs<StyleSheet>): this;
+  emit(eventName: '@page', args: PageArgs<StyleSheet, Declaration>): this;
+  emit(eventName: '@supports', args: SupportsArgs<Declaration>): this;
+  emit(eventName: '@viewport', args: ViewportArgs<StyleSheet, Declaration>): this;
+  emit(eventName: 'property', args: PropertyArgs<Declaration>): this;
+  emit(eventName: 'selector', args: SelectorArgs<Declaration>): this;
   emit(eventName: string, args: any[]): this {
-    if (this.events[eventName]) {
-      this.events[eventName](...args);
+    if (this.handlers[eventName]) {
+      this.handlers[eventName](...args);
     }
 
     return this;
   }
 
   /**
-   * Handle @charset.
-   */
-  handleCharset(styleSheet: any, charset: string) {
-    styleSheet['@charset'] = `"${charset}"`;
-  }
-
-  /**
-   * Handle fallback properties.
-   */
-  handleFallbacks(declaration: any, fallbacks: any[], property: string) {
-    declaration[property] = joinProperties(declaration[property], fallbacks);
-  }
-
-  /**
-   * Handle @font-face.
-   */
-  handleFontFace(styleSheet: any, fontFaces: FontFace[], fontFamily: string) {
-    styleSheet['@font-face'] = joinProperties(styleSheet['@font-face'], fontFaces);
-  }
-
-  /**
-   * Handle global styles (like body, html, etc).
-   */
-  handleGlobal(styleSheet: any, declaration: any, selector: string) {
-    // Do nothing
-  }
-
-  /**
-   * Handle @namespace.
-   */
-  handleImport(styleSheet: any, paths: string[]) {
-    styleSheet['@import'] = paths;
-  }
-
-  /**
-   * Handle @keyframes.
-   */
-  handleKeyframes(styleSheet: any, declaration: Keyframes, animationName: string) {
-    styleSheet[`@keyframes ${animationName}`] = declaration;
-  }
-
-  /**
-   * Handle @media.
-   */
-  handleMedia(declaration: any, style: Declaration, query: string) {
-    declaration[`@media ${query}`] = style;
-  }
-
-  /**
-   * Handle @namespace.
-   */
-  handleNamespace(styleSheet: any, namespace: string) {
-    styleSheet['@namespace'] = namespace;
-  }
-
-  /**
-   * Handle @page.
-   */
-  handlePage(styleSheet: any, declaration: Declaration) {
-    styleSheet['@page'] = declaration;
-  }
-
-  /**
-   * Handle CSS properties.
-   */
-  handleProperty(declaration: any, value: any, property: string) {
-    declaration[property] = value;
-  }
-
-  /**
-   * Handle selector styles.
-   */
-  handleSelector(declaration: any, value: any, selector: string) {
-    declaration[selector] = value;
-  }
-
-  /**
-   * Handle @supports.
-   */
-  handleSupports(declaration: any, style: Declaration, query: string) {
-    declaration[`@supports ${query}`] = style;
-  }
-
-  /**
-   * Handle @viewport.
-   */
-  handleViewport(styleSheet: any, declaration: Declaration) {
-    styleSheet['@viewport'] = declaration;
-  }
-
-  /**
    * Delete an event listener.
    */
   off(eventName: string): this {
-    delete this.events[eventName];
+    delete this.handlers[eventName];
 
     return this;
   }
@@ -446,7 +362,7 @@ export default class UnifiedSyntax<StyleSheet, Declaration> {
   on(eventName: 'property', callback: PropertyHandler<Declaration>): this;
   on(eventName: 'selector', callback: SelectorHandler<Declaration>): this;
   on(eventName: string, callback: Handler): this {
-    this.events[eventName] = callback;
+    this.handlers[eventName] = callback;
 
     return this;
   }

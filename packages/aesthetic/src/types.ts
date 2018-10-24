@@ -107,9 +107,15 @@ export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
 
 export type Handler = (...args: any[]) => void;
 
+export type CharsetArgs<S> = [S, string];
+
 export type CharsetHandler<S> = (styleSheet: S, charset: string) => void;
 
+export type FallbacksArgs<D> = [D, any[], string];
+
 export type FallbacksHandler<D> = (declaration: D, values: any[], property: string) => void;
+
+export type FontFaceArgs<S, F = FontFace> = [S, F[], string, string[][]];
 
 export type FontFaceHandler<S, F = FontFace> = (
   styleSheet: S,
@@ -118,7 +124,11 @@ export type FontFaceHandler<S, F = FontFace> = (
   srcPaths: string[][],
 ) => void;
 
+export type GlobalArgs<S, D> = [S, D, string];
+
 export type GlobalHandler<S, D> = (styleSheet: S, declaration: D, selector: string) => void;
+
+export type KeyframesArgs<S, K = Keyframes> = [S, K, string];
 
 export type KeyframesHandler<S, K = Keyframes> = (
   styleSheet: S,
@@ -126,18 +136,34 @@ export type KeyframesHandler<S, K = Keyframes> = (
   animationName: string,
 ) => void;
 
+export type ImportArgs<S> = [S, string[]];
+
 export type ImportHandler<S> = (styleSheet: S, paths: string[]) => void;
+
+export type MediaArgs<D> = [D, D, string];
 
 export type MediaHandler<D> = (declaration: D, value: D, query: string) => void;
 
+export type NamespaceArgs<S> = [S, string];
+
 export type NamespaceHandler<S> = (styleSheet: S, namespace: string) => void;
+
+export type PageArgs<S, D> = [S, D];
 
 export type PageHandler<S, D> = (styleSheet: S, declaration: D) => void;
 
-export type PropertyHandler<D> = (declaration: D, value: any, property: string) => void;
+export type PropertyArgs<D> = [D, any, keyof D];
+
+export type PropertyHandler<D> = (declaration: D, value: any, property: keyof D) => void;
+
+export type SelectorArgs<D> = [D, any, string];
 
 export type SelectorHandler<D> = (declaration: D, value: any, selector: string) => void;
 
+export type SupportsArgs<D> = [D, D, string];
+
 export type SupportsHandler<D> = (declaration: D, value: D, query: string) => void;
+
+export type ViewportArgs<S, D> = [S, D];
 
 export type ViewportHandler<S, D> = (styleSheet: S, declaration: D) => void;
