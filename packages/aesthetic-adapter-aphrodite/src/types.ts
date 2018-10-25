@@ -6,14 +6,12 @@
 import { StyleSheetMap } from 'aesthetic';
 import { CSSProperties } from 'aphrodite';
 
-export type Declaration = CSSProperties;
-
-export type StyleSheet = StyleSheetMap<Declaration>;
+export type Properties = CSSProperties;
 
 export interface ParsedDeclaration {
   _len: number;
   _name: string;
-  _definition: Declaration;
+  _definition: Properties;
 }
 
 export type ParsedStyleSheet = StyleSheetMap<ParsedDeclaration>;

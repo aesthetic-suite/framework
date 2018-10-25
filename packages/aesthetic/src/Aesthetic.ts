@@ -9,7 +9,14 @@ import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
 import UnifiedSyntax from './UnifiedSyntax';
 import withStyles, { WithStylesOptions } from './withStyles';
-import { ClassName, StyleName, ThemeName, StyleSheetDefinition, UnifiedStyleSheet } from './types';
+import {
+  ClassName,
+  StyleName,
+  ThemeName,
+  StyleSheetDefinition,
+  UnifiedStyleSheet,
+  StyleSheetMap,
+} from './types';
 
 export interface AestheticOptions {
   defaultTheme: ThemeName;
@@ -19,17 +26,15 @@ export interface AestheticOptions {
   pure: boolean;
   stylesPropName: string;
   themePropName: string;
-  unifiedSyntax: boolean;
 }
 
 export default class Aesthetic<
   Theme,
-  StyleSheet,
-  Declaration,
-  ParsedStyleSheet = StyleSheet,
-  ParsedDeclaration = Declaration
+  Properties extends object,
+  ParsedStyleSheet = StyleSheetMap<Properties>,
+  ParsedDeclaration = Properties
 > {
-  adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet, ParsedDeclaration>;
+  adapter: Adapter<Properties, ParsedStyleSheet, ParsedDeclaration>;
 
   cache: WeakMap<ParsedDeclaration[], ClassName> = new WeakMap();
 
@@ -41,7 +46,6 @@ export default class Aesthetic<
     pure: false,
     stylesPropName: 'styles',
     themePropName: 'theme',
-    unifiedSyntax: false,
   };
 
   parents: { [childStyleName: string]: StyleName } = {};
@@ -51,7 +55,7 @@ export default class Aesthetic<
   themes: { [themeName: string]: Theme } = {};
 
   constructor(
-    adapter: Adapter<StyleSheet, Declaration, ParsedStyleSheet, ParsedDeclaration>,
+    adapter: Adapter<Properties, ParsedStyleSheet, ParsedDeclaration>,
     options: Partial<AestheticOptions> = {},
   ) {
     this.options = {
@@ -61,12 +65,10 @@ export default class Aesthetic<
 
     this.adapter = adapter;
 
-    if (this.options.unifiedSyntax) {
-      const syntax = new UnifiedSyntax<StyleSheet, Declaration>();
+    const syntax = new UnifiedSyntax<Properties>();
 
-      this.adapter.unify(syntax);
-      this.adapter.unifiedSyntax = syntax;
-    }
+    this.adapter.unify(syntax);
+    this.adapter.unifiedSyntax = syntax;
   }
 
   /**

@@ -35,38 +35,22 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export interface FontFace extends CSS.FontFace, CSS.FontFaceHyphen {
-  fontFamily: string;
-  src: string;
-}
-
-export interface Keyframes {
-  from?: Declaration;
-  to?: Declaration;
-  [percent: string]: Declaration | undefined;
-}
-
-export type Pseudos = { [P in CSS.SimplePseudos]?: Properties };
-
 export interface Properties extends CSS.Properties, CSS.PropertiesHyphen {}
 
 export interface PropertiesFallback extends CSS.PropertiesFallback, CSS.PropertiesHyphenFallback {}
 
-export interface Declaration extends Properties, Pseudos {}
+export type Pseudos = { [P in CSS.SimplePseudos]?: Properties };
 
-export interface StyleSheetMap<T> {
-  [selector: string]: T;
-}
+export type StyleSheetMap<T> = { [selector: string]: T };
 
-export type StyleSheetDefinition<Theme, StyleSheet, Props = any> =
+export type StyleSheetDefinition<Theme, Props = any> =
   | null
-  | StyleSheet
   | UnifiedStyleSheet
-  | ((theme: Theme, props: Props) => StyleSheet | UnifiedStyleSheet);
+  | ((theme: Theme, props: Props) => UnifiedStyleSheet);
 
 // UNIFIED SYNTAX
 
-export interface UnifiedFontFace extends FontFace {
+export interface UnifiedFontFace extends CSS.FontFace, CSS.FontFaceHyphen {
   local?: string[];
   srcPaths: string[];
 }
@@ -94,13 +78,13 @@ export interface UnifiedGlobalAtRules {
   '@viewport'?: UnifiedDeclaration;
 }
 
-export interface UnifiedDeclaration extends Declaration, UnifiedLocalAtRules {
+export interface UnifiedDeclaration extends Properties, Pseudos {
   // Support attributes ([disabled]) and descendent selectors (> div)
   [property: string]: any;
 }
 
 export type UnifiedStyleSheet = UnifiedGlobalAtRules & {
-  [selector: string]: UnifiedDeclaration;
+  [selector: string]: UnifiedLocalAtRules & UnifiedDeclaration;
 };
 
 // UNIFIED HANDLERS

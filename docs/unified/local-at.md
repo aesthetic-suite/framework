@@ -13,6 +13,7 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
     // ...
     background: 'linear-gradient(...)',
     display: 'flex',
+
     '@fallbacks': {
       background: 'red',
       display: ['box', 'flex-box'],
@@ -33,6 +34,7 @@ Supported by all adapters.
 tooltip: {
   // ...
   maxWidth: 300,
+
   '@media': {
     '(min-width: 400px)': {
       maxWidth: 'auto',
@@ -51,6 +53,7 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
 grid: {
   // ...
   float: 'left',
+
   '@supports': {
     '(display: flex)': {
       float: 'none',

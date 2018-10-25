@@ -10,10 +10,10 @@ import ClassNameAdapter from './ClassNameAdapter';
 import ThemeContext from './ThemeContext';
 import UnifiedSyntax from './UnifiedSyntax';
 import { WithStylesProps, WithStylesWrapperProps, WithStylesOptions } from './withStyles';
-import formatFontFace from './unified/formatFontFace';
-import injectFontFaces from './unified/injectFontFaces';
-import injectKeyframes from './unified/injectKeyframes';
-import joinProperties from './unified/joinProperties';
+import formatFontFace from './syntax/formatFontFace';
+import injectFontFaces from './syntax/injectFontFaces';
+import injectKeyframes from './syntax/injectKeyframes';
+import joinProperties from './syntax/joinProperties';
 
 export const StylesPropType = PropTypes.objectOf(PropTypes.object);
 
