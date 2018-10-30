@@ -9,6 +9,8 @@ import Aesthetic from './Aesthetic';
 import ThemeContext from './ThemeContext';
 import { ThemeName, StyleName, StyleSheetDefinition, StyleSheetMap } from './types';
 
+type OmitStylesProps<T> = Pick<T, Exclude<keyof T, 'ref' | 'styles' | 'theme'>>;
+
 export interface WithStylesWrapperProps {
   themeName?: ThemeName;
   wrappedRef?: React.Ref<any>;
@@ -38,9 +40,16 @@ export interface WithStylesOptions {
   themePropName: string;
 }
 
-export type WithStylesReturnSignature<Props, Theme, ParsedBlock> = (
-  WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
-) => React.ComponentType<Props & WithStylesWrapperProps>;
+export interface StyledComponent<Theme, Props> extends React.ComponentClass<Props> {
+  displayName: string;
+  styleName: StyleName;
+  WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
+
+  extendStyles(
+    customStyleSheet: StyleSheetDefinition<Theme, Props>,
+    extendOptions?: Partial<WithStylesOptions>,
+  ): StyledComponent<Theme, Props>;
+}
 
 // Keep track in production
 let instanceID = 0;
@@ -52,7 +61,7 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 ) {
   return function<Props>(
     WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
-  ): React.ComponentType<Props & WithStylesWrapperProps> {
+  ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
     let styleName = options.styleName || WrappedComponent.displayName || WrappedComponent.name;
 
     // Function/constructor name aren't always available when code is minified,
@@ -98,8 +107,8 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
     // Set base styles
     aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
-    class WithStyles extends Component<
-      WithStylesWrapperProps,
+    return class WithStyles extends Component<
+      Props & WithStylesWrapperProps,
       WithStylesState<Theme, ParsedBlock>
     > {
       static displayName: string = `withAestheticStyles(${styleName})`;
@@ -108,9 +117,8 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 
       static WrappedComponent = WrappedComponent;
 
-      static defaultProps = {
-        themeName: '',
-      };
+      // @ts-ignore
+      static contextType: ThemeContext;
 
       state = this.transformStyles(this.getThemeName(this.props));
 
@@ -141,7 +149,12 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
       }
 
       getThemeName(props: WithStylesWrapperProps): ThemeName {
-        return props.themeName || aesthetic.options.defaultTheme || '';
+        return (
+          props.themeName ||
+          (this.context && this.context.themeName) ||
+          aesthetic.options.defaultTheme ||
+          ''
+        );
       }
 
       getWrappedProps(): Props {
@@ -154,7 +167,7 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 
       transformStyles(themeName: ThemeName): WithStylesState<Theme, ParsedBlock> {
         return {
-          styles: aesthetic.createStyleSheet<Props>(styleName, themeName, this.getWrappedProps()),
+          styles: aesthetic.createStyleSheet(styleName, themeName, this.getWrappedProps()),
           theme: aesthetic.getTheme(themeName),
           themeName,
         };
@@ -162,6 +175,7 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 
       render() {
         const { state } = this;
+        // @ts-ignore Allow rest
         const { themeName, wrappedRef, ...props } = this.props;
         const extraProps: WithStylesProps<Theme, ParsedBlock> = {
           [stylesPropName as 'styles']: state.styles,
@@ -181,16 +195,8 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 
         return <Component {...props} {...extraProps} />;
       }
-    }
+    };
 
-    function WithStylesWrapper(props: WithStylesWrapperProps) {
-      return (
-        <ThemeContext.Consumer>
-          {themeName => <WithStyles themeName={themeName} {...props} />}
-        </ThemeContext.Consumer>
-      );
-    }
-
-    return hoistNonReactStatics(WithStylesWrapper, Component);
+    // return hoistNonReactStatics(WithStylesWrapper, Component);
   };
 }

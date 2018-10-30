@@ -3,18 +3,16 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import React from 'react'; // Required for createStyler()
+import deepMerge from 'lodash/merge';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
-import Adapter from './Adapter';
 import UnifiedSyntax from './UnifiedSyntax';
-import withStyles, { WithStylesOptions, WithStylesReturnSignature } from './withStyles';
+import withStyles, { WithStylesOptions } from './withStyles';
 import {
   ClassName,
   StyleName,
   ThemeName,
   StyleSheetDefinition,
-  StyleSheetDefinitionCallback,
   StyleSheetMap,
   ComponentStyleSheet,
 } from './types';
@@ -29,20 +27,10 @@ export interface AestheticOptions {
   themePropName: string;
 }
 
-export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
-  adapter: Adapter<ParsedBlock>;
-
+export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
   cache: WeakMap<ParsedBlock[], ClassName> = new WeakMap();
 
-  options: AestheticOptions = {
-    defaultTheme: '',
-    extendable: false,
-    passThemeNameProp: true,
-    passThemeProp: true,
-    pure: false,
-    stylesPropName: 'styles',
-    themePropName: 'theme',
-  };
+  options: AestheticOptions;
 
   parents: { [childStyleName: string]: StyleName } = {};
 
@@ -52,25 +40,43 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
 
   themes: { [themeName: string]: Theme } = {};
 
-  constructor(adapter: Adapter<ParsedBlock>, options: Partial<AestheticOptions> = {}) {
+  constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
-      ...this.options,
+      defaultTheme: '',
+      extendable: false,
+      passThemeNameProp: true,
+      passThemeProp: true,
+      pure: false,
+      stylesPropName: 'styles',
+      themePropName: 'theme',
       ...options,
     };
 
     this.syntax = new UnifiedSyntax();
 
-    this.adapter = adapter;
-    this.adapter.bootstrap(this.syntax);
+    this.bootstrap();
   }
 
   /**
-   * Return a stylesheet unique to an adapter.
+   * Bootstrap the adapter with the unified syntax layer, allowing events to be registered.
    */
-  createStyleSheet<Props>(
+  bootstrap() {}
+
+  /**
+   * Convert an adapter native style sheet from an Aesthetic style sheet.
+   */
+  convertStyleSheet<T>(styleSheet: T, styleName: StyleName): StyleSheetMap<ParsedBlock> {
+    // @ts-ignore
+    return { ...styleSheet };
+  }
+
+  /**
+   * Create and return a stylesheet unique to an adapter.
+   */
+  createStyleSheet(
     styleName: StyleName,
     themeName: ThemeName = '',
-    props: Props,
+    props: any,
   ): StyleSheetMap<ParsedBlock> {
     let styleSheet = this.getStyles(styleName, themeName, props);
 
@@ -78,7 +84,7 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
     //   styleSheet = this.adapter.unifiedSyntax.convert(styleSheet as ComponentStyleSheet);
     // }
 
-    return this.adapter.createStyleSheet(styleSheet, styleName);
+    return this.convertStyleSheet(styleSheet, styleName);
   }
 
   /**
@@ -92,7 +98,7 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
   ): this {
     return this.registerTheme(
       themeName,
-      this.adapter.mergeDeclarations(this.getTheme(parentThemeName), theme),
+      deepMerge({}, this.getTheme(parentThemeName), theme),
       globals,
     );
   }
@@ -118,10 +124,7 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
 
     // Merge from parent
     if (parentStyleName) {
-      styleSheet = this.adapter.mergeDeclarations(
-        this.getStyles(parentStyleName, themeName, props),
-        styleSheet,
-      );
+      styleSheet = deepMerge({}, this.getStyles(parentStyleName, themeName, props), styleSheet);
     }
 
     return styleSheet || {};
@@ -239,7 +242,7 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
     });
 
     if (toTransform.length > 0) {
-      classNames.push(this.adapter.transformToClassName(...toTransform));
+      classNames.push(this.transformToClassName(...toTransform));
     }
 
     const className = classNames.join(' ').trim();
@@ -249,16 +252,21 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
     return className;
   }
 
+  /**
+   * Transform the style declarations into CSS class names.
+   */
+  abstract transformToClassName(...styles: ParsedBlock[]): ClassName;
+
   // Null
-  withStyles<Props>(
-    sheet: null,
-    options?: Partial<WithStylesOptions>,
-  ): WithStylesReturnSignature<Props, Theme, ParsedBlock>;
+  // withStyles<Props>(
+  //   sheet: null,
+  //   options?: Partial<WithStylesOptions>,
+  // ): ReturnType<typeof withStyles>;
   // Object
-  withStyles<Props>(
-    sheet: ComponentStyleSheet,
-    options?: Partial<WithStylesOptions>,
-  ): WithStylesReturnSignature<Props, Theme, ParsedBlock>;
+  // withStyles<Props>(
+  //   sheet: ComponentStyleSheet,
+  //   options?: Partial<WithStylesOptions>,
+  // ): ReturnType<typeof withStyles>;
   // Function
   // withStyles<Props>(
   //   sheet: StyleSheetDefinitionCallback<Theme, Props>,
@@ -267,8 +275,8 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
   // All
   withStyles<Props>(
     sheet: StyleSheetDefinition<Theme, Props>,
-    options?: Partial<WithStylesOptions>,
-  ): WithStylesReturnSignature<Props, Theme, ParsedBlock> {
+    options: Partial<WithStylesOptions> = {},
+  ) {
     return withStyles<Theme, NativeBlock, ParsedBlock>(this, sheet, options);
   }
 }

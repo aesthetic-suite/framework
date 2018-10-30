@@ -4,11 +4,15 @@
  */
 
 import Aesthetic, { AestheticOptions } from './Aesthetic';
-import Adapter from './Adapter';
-import ClassNameAdapter from './ClassNameAdapter';
+import ClassNameAesthetic from './ClassNameAesthetic';
 import ThemeContext from './ThemeContext';
 import UnifiedSyntax from './UnifiedSyntax';
-import { WithStylesProps, WithStylesWrapperProps, WithStylesOptions } from './withStyles';
+import {
+  WithStylesProps,
+  WithStylesWrapperProps,
+  WithStylesOptions,
+  StyledComponent,
+} from './withStyles';
 import Ruleset from './syntax/Ruleset';
 import StyleSheet from './syntax/StyleSheet';
 import formatFontFace from './syntax/formatFontFace';
@@ -18,13 +22,13 @@ import joinProperties from './syntax/joinProperties';
 
 export {
   AestheticOptions,
-  Adapter,
-  ClassNameAdapter,
+  ClassNameAesthetic,
   ThemeContext,
   UnifiedSyntax,
   WithStylesProps,
   WithStylesWrapperProps,
   WithStylesOptions,
+  StyledComponent,
   Ruleset,
   StyleSheet,
   formatFontFace,

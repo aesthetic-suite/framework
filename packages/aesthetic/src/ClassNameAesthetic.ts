@@ -4,14 +4,10 @@
  * @flow
  */
 
-import Adapter from './Adapter';
+import Aesthetic from './Aesthetic';
 import { ClassName } from './types';
 
-export default class ClassNameAdapter extends Adapter<ClassName> {
-  bootstrap() {
-    // Not required
-  }
-
+export default class ClassNameAesthetic<Theme> extends Aesthetic<Theme, ClassName> {
   transformToClassName(...styles: ClassName[]): ClassName {
     const classNames: ClassName[] = [];
 

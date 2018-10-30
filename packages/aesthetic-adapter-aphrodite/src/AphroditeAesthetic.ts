@@ -3,26 +3,22 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import {
-  Adapter,
-  ClassName,
-  Declaration,
-  UnifiedSyntax,
-  injectKeyframes,
-  injectFontFaces,
-  StyleSheetMap,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, StyleSheetMap } from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
-import { NativeDeclaration as Properties, ParsedDeclaration } from './types';
+import { NativeBlock, ParsedBlock } from './types';
 
-export default class AphroditeAdapter extends Adapter<ParsedDeclaration> {
+export interface AphroditeOptions extends AestheticOptions {
+  extensions: Extension[];
+}
+
+export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
   aphrodite: {
-    css(...styles: ParsedDeclaration[]): ClassName;
+    css(...styles: ParsedBlock[]): ClassName;
     StyleSheet: typeof Aphrodite;
   };
 
-  constructor(extensions: Extension[] = []) {
-    super();
+  constructor(extensions: Extension[] = [], options: Partial<AestheticOptions> = {}) {
+    super(options);
 
     this.aphrodite = Aphrodite.extend([
       ...extensions,
@@ -31,16 +27,16 @@ export default class AphroditeAdapter extends Adapter<ParsedDeclaration> {
     ]);
   }
 
-  bootstrap(syntax: UnifiedSyntax<Properties>) {
-    syntax.on('property', this.handleProperty); //.on('@global', this.handleGlobal);
+  bootstrap() {
+    this.syntax.on('property', this.handleProperty); //.on('@global', this.handleGlobal);
   }
 
-  createStyleSheet(styleSheet: any): StyleSheetMap<ParsedDeclaration> {
-    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedDeclaration>;
+  convertStyleSheet(styleSheet: any): StyleSheetMap<ParsedBlock> {
+    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedBlock>;
   }
 
-  transformToClassName(...styles: ParsedDeclaration[]): ClassName {
-    const legitStyles: ParsedDeclaration[] = [];
+  transformToClassName(...styles: ParsedBlock[]): ClassName {
+    const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: any } = {};
     let counter = 0;
 
@@ -55,7 +51,7 @@ export default class AphroditeAdapter extends Adapter<ParsedDeclaration> {
     });
 
     if (counter > 0) {
-      legitStyles.push(...Object.values(this.create(tempStylesheet)));
+      legitStyles.push(...Object.values(this.createStyleSheet(tempStylesheet)));
     }
 
     return this.aphrodite.css(...legitStyles);
@@ -92,13 +88,13 @@ export default class AphroditeAdapter extends Adapter<ParsedDeclaration> {
     return callback(`${baseSelector}${selector}`);
   }
 
-  handleProperty(declaration: Declaration<Properties>, property: string, value: any) {
-    if (property === 'animationName') {
-      declaration[property] = injectKeyframes(value, this.unifiedSyntax!.keyframes);
-    } else if (property === 'fontFamily') {
-      declaration[property] = injectFontFaces(value, this.unifiedSyntax!.fontFaces);
-    } else {
-      declaration.addProperty(property, value);
-    }
+  handleProperty(ruleset: Ruleset<NativeBlock>, property: string, value: any) {
+    // if (property === 'animationName') {
+    //   declaration[property] = injectKeyframes(value, this.unifiedSyntax!.keyframes);
+    // } else if (property === 'fontFamily') {
+    //   declaration[property] = injectFontFaces(value, this.unifiedSyntax!.fontFaces);
+    // } else {
+    //   declaration.addProperty(property, value);
+    // }
   }
 }

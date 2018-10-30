@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import AphroditeAdapter from './AphroditeAdapter';
+import AphroditeAesthetic from './AphroditeAesthetic';
 
 export * from './types';
 
-export default AphroditeAdapter;
+export default AphroditeAesthetic;
