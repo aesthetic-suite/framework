@@ -3,15 +3,12 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { StyleSheetMap } from 'aesthetic';
 import { CSSProperties } from 'aphrodite';
 
-export type Properties = CSSProperties;
+export type NativeBlock = CSSProperties;
 
-export interface ParsedDeclaration {
+export type ParsedBlock = {
   _len: number;
   _name: string;
-  _definition: Properties;
-}
-
-export type ParsedStyleSheet = StyleSheetMap<ParsedDeclaration>;
+  _definition: NativeBlock;
+};

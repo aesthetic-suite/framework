@@ -46,7 +46,7 @@ describe('aesthetic/UnifiedSyntax', () => {
   });
 
   it('creates an unsupported handler', () => {
-    const handler = instance.createUnsupportedHandler('@foo');
+    const handler = instance.handleUnsupported('@foo');
 
     expect(() => {
       handler();

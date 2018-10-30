@@ -19,6 +19,7 @@ node_modules/
 # Custom
 *.min.js
 *.map
+scripts/attrs.ts
 
 # Configs
 .babelrc

@@ -5,38 +5,31 @@
 
 import deepMerge from 'lodash/merge';
 import UnifiedSyntax from './UnifiedSyntax';
-import { ClassName, StyleName } from './types';
+import { ClassName, StyleName, StyleSheetMap } from './types';
 
-export default abstract class Adapter<
-  StyleSheet,
-  Declaration,
-  ParsedStyleSheet = StyleSheet,
-  ParsedDeclaration = Declaration
-> {
-  unifiedSyntax: UnifiedSyntax<StyleSheet, Declaration> | null = null;
+export default abstract class Adapter<ParsedBlock> {
+  /**
+   * Bootstrap the adapter with the unified syntax layer, allowing events to be registered.
+   */
+  abstract bootstrap(syntax: UnifiedSyntax<any>): void;
 
   /**
-   * Create a stylesheet from a component's style styleSheet.
+   * Create an adapter native style sheet from an Aesthetic style sheet.
    */
-  create(styleSheet: StyleSheet, styleName: StyleName): ParsedStyleSheet {
-    // @ts-ignore Allow spread
+  createStyleSheet<T>(styleSheet: T, styleName: StyleName): StyleSheetMap<ParsedBlock> {
+    // @ts-ignore
     return { ...styleSheet };
   }
 
   /**
-   * Deep merge multiple style declarations.
+   * Deep merge multiple style or theme declarations.
    */
-  merge<T>(...styles: T[]): T {
+  mergeDeclarations<T>(...styles: T[]): T {
     return deepMerge({}, ...styles);
   }
 
   /**
-   * Transform the style declarations using the registered adapter.
+   * Transform the style declarations into CSS class names.
    */
-  abstract transform(...styles: ParsedDeclaration[]): ClassName;
-
-  /**
-   * Register handlers for unified syntax.
-   */
-  unify(syntax: UnifiedSyntax<StyleSheet, Declaration>) {}
+  abstract transformToClassName(...styles: ParsedBlock[]): ClassName;
 }

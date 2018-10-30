@@ -3,8 +3,6 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { FontFace } from '../types';
-
 /**
  * Replace a `animationName` property with keyframe objects of the same name.
  */

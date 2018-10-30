@@ -23,13 +23,13 @@ export default class UnifiedGlamorAdapter extends GlamorAdapter {
     this.syntax
       .on('property', this.handleProperty)
       .on('selector', this.handleSelector)
-      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@charset', this.syntax.handleUnsupported('@charset'))
       .on('@font-face', this.handleFontFace)
-      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@import', this.syntax.handleUnsupported('@import'))
       .on('@keyframes', this.handleKeyframe)
-      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
-      .on('@page', this.syntax.createUnsupportedHandler('@page'))
-      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
+      .on('@namespace', this.syntax.handleUnsupported('@namespace'))
+      .on('@page', this.syntax.handleUnsupported('@page'))
+      .on('@viewport', this.syntax.handleUnsupported('@viewport'));
   }
 
   create(styleSheet: StyleSheet): StyleSheet {

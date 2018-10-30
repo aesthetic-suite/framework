@@ -1,16 +1,16 @@
 import Adapter from '../src/Adapter';
 
-describe('aesthetic/Adapter', () => {
-  it('inherits options through the constructor', () => {
-    const instance = new Adapter({ foo: 'bar' });
-
-    expect(instance.options).toEqual({ foo: 'bar' });
-  });
+describe('Adapter', () => {
+  class TestAdapter extends Adapter<any> {
+    transform() {
+      return 'class';
+    }
+  }
 
   describe('create()', () => {
     it('returns the styleSheet as a stylesheet', () => {
       const styleSheet = { foo: {} };
-      const stylesheet = new Adapter().create(styleSheet);
+      const stylesheet = new TestAdapter().create(styleSheet, 'styleName');
 
       expect(styleSheet).toEqual(stylesheet);
     });
@@ -18,7 +18,7 @@ describe('aesthetic/Adapter', () => {
 
   describe('transform()', () => {
     it('errors if not defined', () => {
-      expect(() => new Adapter().transform()).toThrowError(
+      expect(() => new TestAdapter().transform()).toThrowError(
         'Adapter must define the `transform` method.',
       );
     });

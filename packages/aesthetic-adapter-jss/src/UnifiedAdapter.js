@@ -26,7 +26,7 @@ export default class UnifiedJSSAdapter extends JSSAdapter {
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@global', this.handleGlobal)
-      .on('@page', this.syntax.createUnsupportedHandler('@page'));
+      .on('@page', this.syntax.handleUnsupported('@page'));
   }
 
   create(styleSheet: StyleSheet, styleName: string): StyleSheet {

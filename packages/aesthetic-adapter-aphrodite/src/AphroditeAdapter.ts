@@ -3,16 +3,19 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { Adapter, ClassName, UnifiedSyntax, injectKeyframes, injectFontFaces } from 'aesthetic';
-import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
-import { StyleSheet, ParsedStyleSheet, Declaration, ParsedDeclaration } from './types';
-
-export default class AphroditeAdapter extends Adapter<
-  StyleSheet,
+import {
+  Adapter,
+  ClassName,
   Declaration,
-  ParsedStyleSheet,
-  ParsedDeclaration
-> {
+  UnifiedSyntax,
+  injectKeyframes,
+  injectFontFaces,
+  StyleSheetMap,
+} from 'aesthetic';
+import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
+import { NativeDeclaration as Properties, ParsedDeclaration } from './types';
+
+export default class AphroditeAdapter extends Adapter<ParsedDeclaration> {
   aphrodite: {
     css(...styles: ParsedDeclaration[]): ClassName;
     StyleSheet: typeof Aphrodite;
@@ -28,11 +31,15 @@ export default class AphroditeAdapter extends Adapter<
     ]);
   }
 
-  create(styleSheet: StyleSheet): ParsedStyleSheet {
-    return this.aphrodite.StyleSheet.create(styleSheet) as ParsedStyleSheet;
+  bootstrap(syntax: UnifiedSyntax<Properties>) {
+    syntax.on('property', this.handleProperty); //.on('@global', this.handleGlobal);
   }
 
-  transform(...styles: ParsedDeclaration[]): ClassName {
+  createStyleSheet(styleSheet: any): StyleSheetMap<ParsedDeclaration> {
+    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedDeclaration>;
+  }
+
+  transformToClassName(...styles: ParsedDeclaration[]): ClassName {
     const legitStyles: ParsedDeclaration[] = [];
     const tempStylesheet: { [key: string]: any } = {};
     let counter = 0;
@@ -54,27 +61,12 @@ export default class AphroditeAdapter extends Adapter<
     return this.aphrodite.css(...legitStyles);
   }
 
-  unify(syntax: UnifiedSyntax<StyleSheet, Declaration>) {
-    syntax
-      .on('property', this.handleProperty)
-      .on('@charset', syntax.createUnsupportedHandler('@charset'))
-      .on('@fallbacks', syntax.createUnsupportedHandler('@fallbacks'))
-      .on('@global', this.handleGlobal)
-      .on('@import', syntax.createUnsupportedHandler('@import'))
-      .on('@namespace', syntax.createUnsupportedHandler('@namespace'))
-      .on('@page', syntax.createUnsupportedHandler('@page'))
-      .on('@supports', syntax.createUnsupportedHandler('@supports'))
-      .on('@viewport', syntax.createUnsupportedHandler('@viewport'))
-      .off('@font-face')
-      .off('@keyframes');
-  }
-
-  handleGlobal(styleSheet: StyleSheet, declaration: Declaration, selector: string) {
-    styleSheet.globals = {
-      ...styleSheet.globals,
-      [`*${selector}`]: declaration,
-    };
-  }
+  // handleGlobal(styleSheet: StyleSheet, declaration: Declaration, selector: string) {
+  //   styleSheet.globals = {
+  //     ...styleSheet.globals,
+  //     [`*${selector}`]: declaration,
+  //   };
+  // }
 
   handleGlobalSelector(
     selector: string,
@@ -100,13 +92,13 @@ export default class AphroditeAdapter extends Adapter<
     return callback(`${baseSelector}${selector}`);
   }
 
-  handleProperty(declaration: Declaration, value: any, property: string) {
+  handleProperty(declaration: Declaration<Properties>, property: string, value: any) {
     if (property === 'animationName') {
       declaration[property] = injectKeyframes(value, this.unifiedSyntax!.keyframes);
     } else if (property === 'fontFamily') {
       declaration[property] = injectFontFaces(value, this.unifiedSyntax!.fontFaces);
     } else {
-      declaration[property] = value;
+      declaration.addProperty(property, value);
     }
   }
 }

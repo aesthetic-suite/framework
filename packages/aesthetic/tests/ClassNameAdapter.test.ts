@@ -1,7 +1,7 @@
 import ClassNameAdapter from '../src/ClassNameAdapter';
 
 describe('aesthetic/ClassNameAdapter', () => {
-  let instance;
+  let instance: ClassNameAdapter;
 
   beforeEach(() => {
     instance = new ClassNameAdapter();
@@ -9,6 +9,7 @@ describe('aesthetic/ClassNameAdapter', () => {
 
   it('errors if a non-string is provided', () => {
     expect(() => {
+      // @ts-ignore Allow non-string
       instance.transform('valid-class', { not: 'valid' });
     }).toThrowError('ClassNameAdapter expects valid CSS class names.');
   });

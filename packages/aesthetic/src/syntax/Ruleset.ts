@@ -6,61 +6,61 @@
 import { Pseudos } from 'csstype';
 import StyleSheet from './StyleSheet';
 
-export default class Declaration<P extends object> {
-  parent: Declaration<P> | null = null;
+export default class Ruleset<Block> {
+  parent: Ruleset<Block> | null = null;
 
-  root: StyleSheet<P>;
+  root: StyleSheet<Block>;
 
   selector: string;
 
-  protected mediaQueries: { [mediaQuery: string]: Declaration<P> } = {};
+  protected mediaQueries: { [mediaQuery: string]: Ruleset<Block> } = {};
 
-  protected nested: { [selector: string]: Declaration<P> } = {};
+  protected nested: { [selector: string]: Ruleset<Block> } = {};
 
-  protected pseudos: { [K in Pseudos]?: Declaration<P> } = {};
+  protected pseudos: { [K in Pseudos]?: Ruleset<Block> } = {};
 
-  protected properties: Partial<P> = {};
+  protected properties: Partial<Block> = {};
 
-  protected supports: { [featureQuery: string]: Declaration<P> } = {};
+  protected supports: { [featureQuery: string]: Ruleset<Block> } = {};
 
-  constructor(selector: string, root: StyleSheet<P>, parent: Declaration<P> | null = null) {
+  constructor(selector: string, root: StyleSheet<Block>, parent: Ruleset<Block> | null = null) {
     this.selector = selector;
     this.root = root;
     this.parent = parent;
   }
 
-  addMediaQuery(mediaQuery: string, value: Declaration<P>): this {
+  addMediaQuery(mediaQuery: string, value: Ruleset<Block>): this {
     this.mediaQueries[mediaQuery] = value;
 
     return this;
   }
 
-  addNested(selector: string, value: Declaration<P>): this {
+  addNested(selector: string, value: Ruleset<Block>): this {
     this.nested[selector] = value;
 
     return this;
   }
 
-  addPseudo<K extends Pseudos>(pseudo: K, value: Declaration<P>): this {
+  addPseudo<K extends Pseudos>(pseudo: K, value: Ruleset<Block>): this {
     this.pseudos[pseudo] = value;
 
     return this;
   }
 
-  addProperty<K extends keyof P>(key: K, value: P[K]): this {
+  addProperty<K extends keyof Block>(key: K, value: Block[K]): this {
     this.properties[key] = value;
 
     return this;
   }
 
-  addSupports(key: string, value: Declaration<P>): this {
+  addSupports(key: string, value: Ruleset<Block>): this {
     this.supports[key] = value;
 
     return this;
   }
 
-  createChild(selector: string): Declaration<P> {
-    return new Declaration(selector, this.root, this);
+  createChild(selector: string): Ruleset<Block> {
+    return new Ruleset(selector, this.root, this);
   }
 
   getFullSelector(): string {
@@ -78,7 +78,7 @@ export default class Declaration<P extends object> {
     };
   }
 
-  private toObjectRecursive(map: { [key: string]: Declaration<P> }): P {
+  private toObjectRecursive(map: { [key: string]: Ruleset<Block> }): Block {
     const object: any = {};
 
     Object.keys(map).forEach(key => {

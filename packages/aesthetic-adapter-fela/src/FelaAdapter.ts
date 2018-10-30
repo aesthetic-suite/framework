@@ -31,14 +31,14 @@ export default class FelaAdapter extends Adapter<StyleSheet, Declaration> {
   unify(syntax: UnifiedSyntax<StyleSheet, Declaration>) {
     syntax
       .on('property', this.handleProperty)
-      .on('@charset', syntax.createUnsupportedHandler('@charset'))
+      .on('@charset', syntax.handleUnsupported('@charset'))
       .on('@font-face', this.handleFontFace)
       .on('@global', this.handleGlobal)
-      .on('@import', syntax.createUnsupportedHandler('@import'))
+      .on('@import', syntax.handleUnsupported('@import'))
       .on('@keyframes', this.handleKeyframe)
-      .on('@namespace', syntax.createUnsupportedHandler('@namespace'))
-      .on('@page', syntax.createUnsupportedHandler('@page'))
-      .on('@viewport', syntax.createUnsupportedHandler('@viewport'));
+      .on('@namespace', syntax.handleUnsupported('@namespace'))
+      .on('@page', syntax.handleUnsupported('@page'))
+      .on('@viewport', syntax.handleUnsupported('@viewport'));
   }
 
   // http://fela.js.org/docs/basics/Fonts.html

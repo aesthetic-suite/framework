@@ -3,27 +3,27 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Declaration from './Declaration';
+import Ruleset from './Ruleset';
 import { ClassName } from '../types';
 
-export default class StyleSheet<P extends object> {
+export default class StyleSheet<Block> {
   charset: string = 'utf8';
 
-  fontFaces: Declaration<P>[] = [];
+  fontFaces: Ruleset<Block>[] = [];
 
   imports: string[] = [];
 
   namespace: string = '';
 
-  protected declarations: { [selector: string]: ClassName | Declaration<P> } = {};
+  protected ruleSets: { [selector: string]: ClassName | Ruleset<Block> } = {};
 
-  addDeclaration(selector: string, value: ClassName | Declaration<P>): this {
-    this.declarations[selector] = value;
+  addRuleset(selector: string, value: ClassName | Ruleset<Block>): this {
+    this.ruleSets[selector] = value;
 
     return this;
   }
 
-  createDeclaration(selector: string): Declaration<P> {
-    return new Declaration(selector, this);
+  createRuleset(selector: string): Ruleset<Block> {
+    return new Ruleset(selector, this);
   }
 }

@@ -14,8 +14,9 @@ import {
   StyleName,
   ThemeName,
   StyleSheetDefinition,
-  UnifiedStyleSheet,
+  StyleSheetDefinitionCallback,
   StyleSheetMap,
+  ComponentStyleSheet,
 } from './types';
 
 export interface AestheticOptions {
@@ -28,15 +29,10 @@ export interface AestheticOptions {
   themePropName: string;
 }
 
-export default class Aesthetic<
-  Theme,
-  Properties extends object,
-  ParsedStyleSheet = StyleSheetMap<Properties>,
-  ParsedDeclaration = Properties
-> {
-  adapter: Adapter<Properties, ParsedStyleSheet, ParsedDeclaration>;
+export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
+  adapter: Adapter<ParsedBlock>;
 
-  cache: WeakMap<ParsedDeclaration[], ClassName> = new WeakMap();
+  cache: WeakMap<ParsedBlock[], ClassName> = new WeakMap();
 
   options: AestheticOptions = {
     defaultTheme: '',
@@ -50,25 +46,22 @@ export default class Aesthetic<
 
   parents: { [childStyleName: string]: StyleName } = {};
 
-  styles: { [styleName: string]: StyleSheetDefinition<Theme, StyleSheet> } = {};
+  styles: { [styleName: string]: StyleSheetDefinition<Theme> } = {};
+
+  syntax: UnifiedSyntax<NativeBlock>;
 
   themes: { [themeName: string]: Theme } = {};
 
-  constructor(
-    adapter: Adapter<Properties, ParsedStyleSheet, ParsedDeclaration>,
-    options: Partial<AestheticOptions> = {},
-  ) {
+  constructor(adapter: Adapter<ParsedBlock>, options: Partial<AestheticOptions> = {}) {
     this.options = {
       ...this.options,
       ...options,
     };
 
+    this.syntax = new UnifiedSyntax();
+
     this.adapter = adapter;
-
-    const syntax = new UnifiedSyntax<Properties>();
-
-    this.adapter.unify(syntax);
-    this.adapter.unifiedSyntax = syntax;
+    this.adapter.bootstrap(this.syntax);
   }
 
   /**
@@ -78,33 +71,14 @@ export default class Aesthetic<
     styleName: StyleName,
     themeName: ThemeName = '',
     props: Props,
-  ): ParsedStyleSheet {
+  ): StyleSheetMap<ParsedBlock> {
     let styleSheet = this.getStyles(styleName, themeName, props);
 
-    if (this.options.unifiedSyntax && this.adapter.unifiedSyntax) {
-      styleSheet = this.adapter.unifiedSyntax.convert(styleSheet as UnifiedStyleSheet);
-    }
+    // if (this.options.unifiedSyntax && this.adapter.unifiedSyntax) {
+    //   styleSheet = this.adapter.unifiedSyntax.convert(styleSheet as ComponentStyleSheet);
+    // }
 
-    return this.adapter.create(styleSheet as StyleSheet, styleName);
-  }
-
-  /**
-   * Factory to create styling related methods.
-   */
-  createStyler() /* infer */ {
-    const self = this;
-
-    return {
-      style(
-        styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
-        options: Partial<WithStylesOptions> = {},
-      ): ReturnType<typeof withStyles> {
-        return withStyles(self, styleSheet, options);
-      },
-      transform(...styles: ParsedDeclaration[]): ClassName {
-        return self.transformStyles(styles);
-      },
-    };
+    return this.adapter.createStyleSheet(styleSheet, styleName);
   }
 
   /**
@@ -114,11 +88,11 @@ export default class Aesthetic<
     parentThemeName: ThemeName,
     themeName: ThemeName,
     theme: Theme,
-    globals?: StyleSheetDefinition<Theme, StyleSheet>,
+    globals?: StyleSheetDefinition<Theme>,
   ): this {
     return this.registerTheme(
       themeName,
-      this.adapter.merge(this.getTheme(parentThemeName), theme),
+      this.adapter.mergeDeclarations(this.getTheme(parentThemeName), theme),
       globals,
     );
   }
@@ -127,11 +101,7 @@ export default class Aesthetic<
    * Retrieve the defined style declarations. If the declaratin is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles<Props>(
-    styleName: StyleName,
-    themeName: ThemeName = '',
-    props: Props,
-  ): StyleSheet | UnifiedStyleSheet {
+  getStyles(styleName: StyleName, themeName: ThemeName = '', props: any): ComponentStyleSheet {
     const parentStyleName = this.parents[styleName];
     let styleSheet = this.styles[styleName];
 
@@ -148,13 +118,13 @@ export default class Aesthetic<
 
     // Merge from parent
     if (parentStyleName) {
-      styleSheet = this.adapter.merge(
+      styleSheet = this.adapter.mergeDeclarations(
         this.getStyles(parentStyleName, themeName, props),
         styleSheet,
       );
     }
 
-    return styleSheet as StyleSheet | UnifiedStyleSheet;
+    return styleSheet || {};
   }
 
   /**
@@ -181,11 +151,7 @@ export default class Aesthetic<
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(
-    themeName: ThemeName,
-    theme: Theme,
-    globals?: StyleSheetDefinition<Theme, StyleSheet>,
-  ): this {
+  registerTheme(themeName: ThemeName, theme: Theme, globals?: StyleSheetDefinition<Theme>): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -201,8 +167,9 @@ export default class Aesthetic<
 
     // Create global styles
     if (globals) {
+      // TODO should only happen when theme is chosen
       this.setStyles(':root', globals).transformStyles(
-        Object.values(this.createStyleSheet(':root', themeName, {})),
+        ...Object.values(this.createStyleSheet(':root', themeName, {})),
       );
     }
 
@@ -214,13 +181,13 @@ export default class Aesthetic<
    */
   setStyles(
     styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme, StyleSheet>,
+    styleSheet: StyleSheetDefinition<Theme>,
     extendFrom: StyleName = '',
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
         throw new Error(`Styles have already been set for "${styleName}".`);
-      } else if (!isObject(styleSheet) && typeof styleSheet !== 'function') {
+      } else if (!isObject(styleSheet) && typeof styleSheet !== 'function' && styleSheet !== null) {
         throw new TypeError(`Styles defined for "${styleName}" must be an object or function.`);
       }
     }
@@ -245,13 +212,13 @@ export default class Aesthetic<
   /**
    * Execute the adapter transformer on the list of style declarations.
    */
-  transformStyles(styles: ParsedDeclaration[]): ClassName {
+  transformStyles(...styles: ParsedBlock[]): ClassName {
     if (this.cache.has(styles)) {
       return this.cache.get(styles)!;
     }
 
     const classNames: ClassName[] = [];
-    const toTransform: ParsedDeclaration[] = [];
+    const toTransform: ParsedBlock[] = [];
 
     styles.forEach(style => {
       if (!style) {
@@ -272,7 +239,7 @@ export default class Aesthetic<
     });
 
     if (toTransform.length > 0) {
-      classNames.push(this.adapter.transform(...toTransform));
+      classNames.push(this.adapter.transformToClassName(...toTransform));
     }
 
     const className = classNames.join(' ').trim();
@@ -280,5 +247,28 @@ export default class Aesthetic<
     this.cache.set(styles, className);
 
     return className;
+  }
+
+  // Null
+  withStyles<Props>(
+    sheet: null,
+    options?: Partial<WithStylesOptions>,
+  ): ReturnType<typeof withStyles>;
+  // Object
+  withStyles<Props>(
+    sheet: ComponentStyleSheet,
+    options?: Partial<WithStylesOptions>,
+  ): ReturnType<typeof withStyles>;
+  // Function
+  // withStyles<Props>(
+  //   sheet: StyleSheetDefinitionCallback<Theme, Props>,
+  //   options?: Partial<WithStylesOptions>,
+  // ): ReturnType<typeof withStyles>;
+  // All
+  withStyles<Props>(
+    sheet: StyleSheetDefinition<Theme, Props>,
+    options?: Partial<WithStylesOptions>,
+  ): ReturnType<typeof withStyles> {
+    return withStyles<Theme, NativeBlock, ParsedBlock>(this, sheet, options);
   }
 }

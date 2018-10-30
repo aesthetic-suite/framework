@@ -5,10 +5,14 @@
  */
 
 import Adapter from './Adapter';
-import { ClassName, StyleSheetMap } from './types';
+import { ClassName } from './types';
 
-export default class ClassNameAdapter extends Adapter<StyleSheetMap<ClassName>, ClassName> {
-  transform(...styles: ClassName[]): ClassName {
+export default class ClassNameAdapter extends Adapter<ClassName> {
+  bootstrap() {
+    // Not required
+  }
+
+  transformToClassName(...styles: ClassName[]): ClassName {
     const classNames: ClassName[] = [];
 
     styles.forEach(style => {

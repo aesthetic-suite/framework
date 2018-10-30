@@ -3,16 +3,14 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { FontFace } from '../types';
-
 /**
  * Replace a `fontFamily` property with font face objects of the same name.
  */
-export default function injectFontFaces(
+export default function injectFontFaces<D>(
   value: string,
-  cache: { [fontFamily: string]: FontFace[] },
-): (string | FontFace)[] {
-  const fontFaces: (string | FontFace)[] = [];
+  cache: { [fontFamily: string]: D[] },
+): (string | D)[] {
+  const fontFaces: (string | D)[] = [];
 
   value.split(',').forEach(name => {
     const familyName = name.trim();

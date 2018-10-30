@@ -23,17 +23,17 @@ export default class UnifiedTypeStyleAdapter extends TypeStyleAdapter {
     this.syntax
       .on('property', this.handleProperty)
       .on('selector', this.handleSelector)
-      .on('@charset', this.syntax.createUnsupportedHandler('@charset'))
+      .on('@charset', this.syntax.handleUnsupported('@charset'))
       .on('@fallbacks', this.handleFallbacks)
       .on('@font-face', this.handleFontFace)
       .on('@global', this.handleGlobal)
-      .on('@import', this.syntax.createUnsupportedHandler('@import'))
+      .on('@import', this.syntax.handleUnsupported('@import'))
       .on('@keyframes', this.handleKeyframe)
       .on('@media', this.handleMedia)
-      .on('@namespace', this.syntax.createUnsupportedHandler('@namespace'))
-      .on('@page', this.syntax.createUnsupportedHandler('@page'))
+      .on('@namespace', this.syntax.handleUnsupported('@namespace'))
+      .on('@page', this.syntax.handleUnsupported('@page'))
       .on('@supports', this.handleSupports)
-      .on('@viewport', this.syntax.createUnsupportedHandler('@viewport'));
+      .on('@viewport', this.syntax.handleUnsupported('@viewport'));
   }
 
   create(styleSheet: StyleSheet): StyleSheet {
