@@ -38,6 +38,10 @@ export interface WithStylesOptions {
   themePropName: string;
 }
 
+export type WithStylesReturnSignature<Props, Theme, ParsedBlock> = (
+  WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
+) => React.ComponentType<Props & WithStylesWrapperProps>;
+
 // Keep track in production
 let instanceID = 0;
 

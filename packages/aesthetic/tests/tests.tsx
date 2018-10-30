@@ -8,11 +8,11 @@ type Theme = {
   unit: number;
 };
 
-type Props = { foo: string; bar: number } & WithStylesProps<Theme, string>;
+type Props = { foo: string; bar?: number };
 
 const aesthetic = new Aesthetic<Theme, string, string>(new ClassNameAdapter());
 
-const Comp: React.SFC<Props> = props => {
+const Comp: React.SFC<Props & WithStylesProps<Theme, string>> = props => {
   return <div className={aesthetic.transformStyles(props.styles.button)} />;
 };
 
@@ -55,7 +55,7 @@ const ruleset: ComponentRuleset = {
 
 const NullStyles = aesthetic.withStyles(null)(Comp);
 
-<NullStyles foo={123} />;
+<NullStyles foo="foo" />;
 
 const ObjectStyles = aesthetic.withStyles({
   button: {

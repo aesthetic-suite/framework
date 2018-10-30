@@ -8,7 +8,7 @@ import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import Adapter from './Adapter';
 import UnifiedSyntax from './UnifiedSyntax';
-import withStyles, { WithStylesOptions } from './withStyles';
+import withStyles, { WithStylesOptions, WithStylesReturnSignature } from './withStyles';
 import {
   ClassName,
   StyleName,
@@ -253,22 +253,22 @@ export default class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
   withStyles<Props>(
     sheet: null,
     options?: Partial<WithStylesOptions>,
-  ): ReturnType<typeof withStyles>;
+  ): WithStylesReturnSignature<Props, Theme, ParsedBlock>;
   // Object
   withStyles<Props>(
     sheet: ComponentStyleSheet,
     options?: Partial<WithStylesOptions>,
-  ): ReturnType<typeof withStyles>;
+  ): WithStylesReturnSignature<Props, Theme, ParsedBlock>;
   // Function
   // withStyles<Props>(
   //   sheet: StyleSheetDefinitionCallback<Theme, Props>,
   //   options?: Partial<WithStylesOptions>,
-  // ): ReturnType<typeof withStyles>;
+  // ): WithStylesReturnSignature<Props, Theme, ParsedBlock>;
   // All
   withStyles<Props>(
     sheet: StyleSheetDefinition<Theme, Props>,
     options?: Partial<WithStylesOptions>,
-  ): ReturnType<typeof withStyles> {
+  ): WithStylesReturnSignature<Props, Theme, ParsedBlock> {
     return withStyles<Theme, NativeBlock, ParsedBlock>(this, sheet, options);
   }
 }
