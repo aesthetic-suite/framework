@@ -109,25 +109,15 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
    */
   getStyles(styleName: StyleName, themeName: ThemeName = '', props: any): ComponentStyleSheet {
     const parentStyleName = this.parents[styleName];
-    let styleSheet = this.styles[styleName];
-
-    if (process.env.NODE_ENV !== 'production') {
-      if (!styleSheet) {
-        throw new Error(`Styles do not exist for "${styleName}".`);
-      }
-    }
-
-    // Extract from callback
-    if (typeof styleSheet === 'function') {
-      styleSheet = styleSheet(this.getTheme(themeName), props);
-    }
+    const styleDef = this.styles[styleName];
+    const styleSheet = styleDef ? styleDef(this.getTheme(themeName), props) : {};
 
     // Merge from parent
     if (parentStyleName) {
-      styleSheet = deepMerge({}, this.getStyles(parentStyleName, themeName, props), styleSheet);
+      return deepMerge({}, this.getStyles(parentStyleName, themeName, props), styleSheet);
     }
 
-    return styleSheet || {};
+    return styleSheet;
   }
 
   /**

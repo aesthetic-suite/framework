@@ -18,7 +18,6 @@ export const GLOBAL_RULES: AtRule[] = [
   '@global',
   '@import',
   '@keyframes',
-  '@namespace',
   '@page',
   '@viewport',
 ];
@@ -44,8 +43,7 @@ export default class UnifiedSyntax<NativeBlock> {
       }
 
       switch (rule) {
-        case '@charset':
-        case '@namespace': {
+        case '@charset': {
           const path = unifiedSheet[rule];
 
           if (typeof path === 'string') {

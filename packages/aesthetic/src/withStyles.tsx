@@ -4,12 +4,11 @@
  */
 
 import React from 'react';
+import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import Aesthetic from './Aesthetic';
 import ThemeContext from './ThemeContext';
-import { ThemeName, StyleName, StyleSheetDefinition, StyleSheetMap } from './types';
-
-type OmitStylesProps<T> = Pick<T, Exclude<keyof T, 'ref' | 'styles' | 'theme'>>;
+import { ThemeName, StyleName, StyleSheetDefinition, StyleSheetMap, Omit } from './types';
 
 export interface WithStylesWrapperProps {
   themeName?: ThemeName;
@@ -23,9 +22,8 @@ export interface WithStylesProps<Theme, ParsedBlock> {
   themeName?: ThemeName;
 }
 
-export interface WithStylesState<Theme, ParsedBlock> {
+export interface WithStylesState<ParsedBlock> {
   styles: StyleSheetMap<ParsedBlock>;
-  theme: Theme;
   themeName: ThemeName;
 }
 
@@ -35,7 +33,6 @@ export interface WithStylesOptions {
   passThemeNameProp: boolean;
   passThemeProp: boolean;
   pure: boolean;
-  styleName: StyleName;
   stylesPropName: string;
   themePropName: string;
 }
@@ -46,13 +43,10 @@ export interface StyledComponent<Theme, Props> extends React.ComponentClass<Prop
   WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
 
   extendStyles(
-    customStyleSheet: StyleSheetDefinition<Theme, Props>,
-    extendOptions?: Partial<WithStylesOptions>,
+    styleSheet: StyleSheetDefinition<Theme, Props>,
+    extendOptions?: Partial<Omit<WithStylesOptions, 'extendFrom'>>,
   ): StyledComponent<Theme, Props>;
 }
-
-// Keep track in production
-let instanceID = 0;
 
 export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock>(
   aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>,
@@ -62,37 +56,6 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
   return function<Props>(
     WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
   ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
-    let styleName = options.styleName || WrappedComponent.displayName || WrappedComponent.name;
-
-    // Function/constructor name aren't always available when code is minified,
-    // so only use it in development.
-    /* istanbul ignore else */
-    if (process.env.NODE_ENV !== 'production') {
-      if (!(aesthetic instanceof Aesthetic)) {
-        throw new TypeError('An instance of `Aesthetic` is required.');
-      } else if (!styleName) {
-        /* istanbul ignore next Hard to test */
-        throw new Error(
-          'A component name could not be derived. Please provide a unique ' +
-            'name using `options.styleName` or `displayName`.',
-        );
-      } else if (aesthetic.styles[styleName]) {
-        throw new Error(
-          `A component has already been styled under the name "${styleName}". ` +
-            'Either rename the component or define `options.styleName`.',
-        );
-      }
-
-      // When in production, we should generate a random string to use as the style name.
-      // If we don't do this, any minifiers that mangle function names would break
-      // Aesthetic's caching layer.
-    } else {
-      instanceID += 1;
-      styleName = `c${Math.random()
-        .toString(32)
-        .substr(2)}${instanceID}`;
-    }
-
     const {
       extendable = aesthetic.options.extendable,
       extendFrom = '',
@@ -102,34 +65,33 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
       stylesPropName = aesthetic.options.stylesPropName,
       themePropName = aesthetic.options.themePropName,
     } = options;
-    const Component = pure && React.PureComponent ? React.PureComponent : React.Component;
+    const baseName = WrappedComponent.displayName || WrappedComponent.name;
+    const styleName = `${baseName}-${uuid()}`;
+    const Component = pure ? React.PureComponent : React.Component;
 
     // Set base styles
     aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
-    return class WithStyles extends Component<
+    class WithStyles extends Component<
       Props & WithStylesWrapperProps,
-      WithStylesState<Theme, ParsedBlock>
+      WithStylesState<ParsedBlock>
     > {
-      static displayName: string = `withAestheticStyles(${styleName})`;
+      // @ts-ignore
+      static contextType = ThemeContext;
 
-      static styleName: string = styleName;
+      static displayName = `withAestheticStyles(${baseName})`;
+
+      static styleName = styleName;
 
       static WrappedComponent = WrappedComponent;
 
-      // @ts-ignore
-      static contextType: ThemeContext;
-
-      state = this.transformStyles(this.getThemeName(this.props));
-
-      // Allow consumers to customize styles
       static extendStyles(
         customStyleSheet: StyleSheetDefinition<Theme, Props>,
         extendOptions: Partial<WithStylesOptions> = {},
       ) {
         if (process.env.NODE_ENV !== 'production') {
           if (!extendable) {
-            throw new Error(`${styleName} is not extendable.`);
+            throw new Error(`${baseName} is not extendable.`);
           }
         }
 
@@ -140,6 +102,8 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
         })(WrappedComponent);
       }
 
+      state = this.transformStyles(this.getThemeName(this.props));
+
       componentDidUpdate(prevProps: WithStylesWrapperProps) {
         const themeName = this.getThemeName(this.props);
 
@@ -149,12 +113,7 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
       }
 
       getThemeName(props: WithStylesWrapperProps): ThemeName {
-        return (
-          props.themeName ||
-          (this.context && this.context.themeName) ||
-          aesthetic.options.defaultTheme ||
-          ''
-        );
+        return props.themeName || this.context || aesthetic.options.defaultTheme || '';
       }
 
       getWrappedProps(): Props {
@@ -165,10 +124,9 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
         };
       }
 
-      transformStyles(themeName: ThemeName): WithStylesState<Theme, ParsedBlock> {
+      transformStyles(themeName: ThemeName): WithStylesState<ParsedBlock> {
         return {
           styles: aesthetic.createStyleSheet(styleName, themeName, this.getWrappedProps()),
-          theme: aesthetic.getTheme(themeName),
           themeName,
         };
       }
@@ -182,7 +140,7 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
         };
 
         if (passThemeProp) {
-          extraProps[themePropName as 'theme'] = state.theme;
+          extraProps[themePropName as 'theme'] = aesthetic.getTheme(state.themeName);
         }
 
         if (passThemeNameProp) {
@@ -195,8 +153,8 @@ export default function withStyles<Theme, NativeBlock, ParsedBlock = NativeBlock
 
         return <Component {...props} {...extraProps} />;
       }
-    };
+    }
 
-    // return hoistNonReactStatics(WithStylesWrapper, Component);
+    return hoistNonReactStatics(WithStyles, Component);
   };
 }

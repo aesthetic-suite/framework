@@ -13,8 +13,6 @@ export default class StyleSheet<Block> {
 
   imports: string[] = [];
 
-  namespace: string = '';
-
   protected ruleSets: { [selector: string]: ClassName | Ruleset<Block> } = {};
 
   addRuleset(selector: string, value: ClassName | Ruleset<Block>): this {

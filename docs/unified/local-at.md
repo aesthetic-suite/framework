@@ -31,16 +31,18 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
 Supported by all adapters.
 
 ```javascript
-tooltip: {
-  // ...
-  maxWidth: 300,
+{
+  tooltip: {
+    // ...
+    maxWidth: 300,
 
-  '@media': {
-    '(min-width: 400px)': {
-      maxWidth: 'auto',
+    '@media': {
+      '(min-width: 400px)': {
+        maxWidth: 'auto',
+      },
     },
   },
-},
+}
 ```
 
 > Nested `@media` are currently not supported.
@@ -50,17 +52,19 @@ tooltip: {
 Supported by Fela, Glamor, JSS, and TypeStyle.
 
 ```javascript
-grid: {
-  // ...
-  float: 'left',
+{
+  grid: {
+    // ...
+    float: 'left',
 
-  '@supports': {
-    '(display: flex)': {
-      float: 'none',
-      display: 'flex',
+    '@supports': {
+      '(display: flex)': {
+        float: 'none',
+        display: 'flex',
+      },
     },
   },
-},
+}
 ```
 
 > Nested `@supports` are currently not supported.

@@ -23,6 +23,11 @@ const ruleset: ComponentRuleset = {
   backgroundColor: 'white',
   invalid: 'property',
 
+  animationName: {
+    from: { color: 'red' },
+    to: { color: 'blue' },
+  },
+
   ':hover': {
     color: 'red',
 
@@ -42,6 +47,12 @@ const ruleset: ComponentRuleset = {
       ':hover': {
         color: 'blue',
       },
+    },
+  },
+
+  '@selectors': {
+    '> [data-attr="foo"]': {
+      position: 'absolute',
     },
   },
 
@@ -110,5 +121,4 @@ const ExtendedStyles = NullStyles.extendStyles({
 <ExtendedStyles foo={123} />;
 
 ExtendedStyles.displayName;
-ExtendedStyles.styleName;
 ExtendedStyles.WrappedComponent;

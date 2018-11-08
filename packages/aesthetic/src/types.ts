@@ -7,6 +7,8 @@ import CSS from 'csstype';
 
 /* eslint-disable no-use-before-define, max-len */
 
+export type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
+
 // TERMINOLOGY
 // https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax
 // Declaration - The property and value pair.
@@ -412,22 +414,21 @@ export type AtRule =
   | '@import'
   | '@keyframes'
   | '@media'
-  | '@namespace'
   | '@page'
   | '@selectors'
   | '@supports'
   | '@viewport'
   | '@fallbacks';
 
-export type Properties = CSS.Properties;
+export interface Properties extends Omit<CSS.Properties, 'animationName'> {
+  animationName?: CSS.AnimationNameProperty | Keyframes | (string | Keyframes)[];
+}
 
 export type PropertiesFallback = CSS.PropertiesFallback;
 
 export type Pseudos = { [P in CSS.Pseudos]?: Properties & Attributes };
 
 export type Attributes = { [A in HTMLAttributes | SVGAttributes]?: Properties & Pseudos };
-
-export interface Block extends Properties, Pseudos, Attributes {}
 
 export interface FontFace extends CSS.FontFace {
   local?: string[];
@@ -440,6 +441,8 @@ export interface Keyframes {
   [percent: string]: Block | undefined;
 }
 
+export type Block = Properties & Pseudos & Attributes;
+
 export interface LocalAtRules {
   '@fallbacks'?: PropertiesFallback;
   '@media'?: { [mediaQuery: string]: Block };
@@ -449,30 +452,23 @@ export interface LocalAtRules {
 
 export interface GlobalAtRules {
   '@charset'?: string;
-  '@font-face'?: { [fontFamily: string]: FontFace[] };
+  '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: { [selector: string]: Block };
   '@import'?: string | string[];
   '@keyframes'?: { [animationName: string]: Keyframes };
-  '@namespace'?: string;
   '@page'?: Block;
   '@viewport'?: Block;
 }
 
-export type ComponentRuleset = Block & LocalAtRules;
-
-export type ComponentStyleSheet = { [selector: string]: ComponentRuleset }; // GlobalAtRules
-
 export type StyleSheetMap<T> = { [selector: string]: T };
-
-export type StyleSheetDefinitionCallback<Theme, Props = any> = (
-  theme: Theme,
-  props: Props,
-) => ComponentStyleSheet;
 
 export type StyleSheetDefinition<Theme, Props = any> =
   | null
-  | ComponentStyleSheet
-  | StyleSheetDefinitionCallback<Theme, Props>;
+  | ((theme: Theme, props: Props) => ComponentStyleSheet);
+
+export type ComponentRuleset = Block & LocalAtRules;
+
+export type ComponentStyleSheet = StyleSheetMap<ComponentRuleset>;
 
 //  HANDLERS
 
@@ -514,10 +510,6 @@ export type Handler = (...args: any[]) => void;
 // export type MediaArgs<D> = [D, D, string];
 
 // export type MediaHandler<D> = (declaration: D, value: D, query: string) => void;
-
-// export type NamespaceArgs<S> = [S, string];
-
-// export type NamespaceHandler<S> = (styleSheet: S, namespace: string) => void;
 
 // export type PageArgs<S, D> = [S, D];
 
