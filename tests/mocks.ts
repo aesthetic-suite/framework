@@ -1,7 +1,5 @@
 /* eslint-disable sort-keys */
 
-import Adapter from '../packages/aesthetic/src/Adapter';
-
 export const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
@@ -14,7 +12,8 @@ export const FONT_ROBOTO_FLAT_SRC = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  src: "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+  src:
+    "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
 export const FONT_CIRCULAR_MULTIPLE = [
@@ -296,19 +295,3 @@ export const SYNTAX_VIEWPORT = {
     orientation: 'landscape',
   },
 };
-
-export class TestAdapter extends Adapter {
-  count = 0;
-
-  transform(...styles) {
-    const classes = [
-      'foo',
-      'bar',
-      'baz',
-      'qux',
-    ];
-
-    // eslint-disable-next-line no-return-assign
-    return styles.map((row, i) => `${classes[i]}_${this.count += 1}`).join('-');
-  }
-}

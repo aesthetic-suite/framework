@@ -1,7 +1,6 @@
 import React from 'react';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { WithStylesProps } from '../src/withStyles';
-import { ComponentRuleset } from '../src/types';
+import { ComponentRuleset, WithStylesProps } from '../src/types';
 
 type Theme = {
   unit: number;
@@ -111,11 +110,11 @@ const FuncStyles = aesthetic.withStyles<Props>((theme, { foo, baz }) => {
 <FuncStyles foo={123} />;
 
 // EXTENDING
-const ExtendedStyles = NullStyles.extendStyles({
+const ExtendedStyles = NullStyles.extendStyles(() => ({
   button: {
     color: 'blue',
   },
-});
+}));
 
 <ExtendedStyles foo="foo" />;
 <ExtendedStyles foo={123} />;

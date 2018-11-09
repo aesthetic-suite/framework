@@ -420,11 +420,11 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export interface Properties extends Omit<CSS.Properties, 'animationName'> {
+export interface Properties extends Omit<CSS.Properties<string | number>, 'animationName'> {
   animationName?: CSS.AnimationNameProperty | Keyframes | (string | Keyframes)[];
 }
 
-export type PropertiesFallback = CSS.PropertiesFallback;
+export type PropertiesFallback = CSS.PropertiesFallback<string | number>;
 
 export type Pseudos = { [P in CSS.Pseudos]?: Properties & Attributes };
 
@@ -470,7 +470,49 @@ export type ComponentRuleset = Block & LocalAtRules;
 
 export type ComponentStyleSheet = StyleSheetMap<ComponentRuleset>;
 
-//  HANDLERS
+export type GlobalDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalAtRules);
+
+// COMPONENT
+
+export interface WithStylesWrapperProps {
+  themeName?: ThemeName;
+  wrappedRef?: React.Ref<any>;
+}
+
+export interface WithStylesProps<Theme, ParsedBlock> {
+  ref?: React.Ref<any>;
+  styles: StyleSheetMap<ParsedBlock>;
+  theme?: Theme;
+  themeName?: ThemeName;
+}
+
+export interface WithStylesState<ParsedBlock> {
+  styles: StyleSheetMap<ParsedBlock>;
+  themeName: ThemeName;
+}
+
+export interface WithStylesOptions {
+  extendable: boolean;
+  extendFrom: string;
+  passThemeNameProp: boolean;
+  passThemeProp: boolean;
+  pure: boolean;
+  stylesPropName: string;
+  themePropName: string;
+}
+
+export interface StyledComponent<Theme, Props> extends React.ComponentClass<Props> {
+  displayName: string;
+  styleName: StyleName;
+  WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
+
+  extendStyles(
+    styleSheet: StyleSheetDefinition<Theme, Props>,
+    extendOptions?: Partial<Omit<WithStylesOptions, 'extendFrom'>>,
+  ): StyledComponent<Theme, Props>;
+}
+
+// HANDLERS
 
 export type Handler = (...args: any[]) => void;
 

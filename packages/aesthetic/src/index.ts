@@ -7,12 +7,6 @@ import Aesthetic, { AestheticOptions } from './Aesthetic';
 import ClassNameAesthetic from './ClassNameAesthetic';
 import ThemeContext from './ThemeContext';
 import UnifiedSyntax from './UnifiedSyntax';
-import {
-  WithStylesProps,
-  WithStylesWrapperProps,
-  WithStylesOptions,
-  StyledComponent,
-} from './withStyles';
 import Ruleset from './syntax/Ruleset';
 import StyleSheet from './syntax/StyleSheet';
 import formatFontFace from './syntax/formatFontFace';
@@ -25,10 +19,6 @@ export {
   ClassNameAesthetic,
   ThemeContext,
   UnifiedSyntax,
-  WithStylesProps,
-  WithStylesWrapperProps,
-  WithStylesOptions,
-  StyledComponent,
   Ruleset,
   StyleSheet,
   formatFontFace,

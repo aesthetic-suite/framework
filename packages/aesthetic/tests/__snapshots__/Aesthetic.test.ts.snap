@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
+
+exports[`Aesthetic getStyles() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
+
+exports[`Aesthetic getTheme() errors if the theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
+
+exports[`Aesthetic registerTheme() errors if a theme name has been used 1`] = `"Theme \\"foo\\" already exists."`;
+
+exports[`Aesthetic registerTheme() errors if a theme style is not an object 1`] = `"Theme \\"foo\\" must be a style object."`;
+
+exports[`Aesthetic registerTheme() errors if global styles is not an object 1`] = `"Global styles for \\"foo\\" must be a function."`;
+
+exports[`Aesthetic setStyles() errors if extended and style names match 1`] = `"Cannot extend from \\"foo\\" as those styles do not exist."`;
+
+exports[`Aesthetic setStyles() errors if extended styles do not exist 1`] = `"Cannot extend from \\"parent\\" as those styles do not exist."`;
+
+exports[`Aesthetic setStyles() errors if styles are not a function 1`] = `"Styles defined for \\"foo\\" must be a function."`;
+
+exports[`Aesthetic setStyles() errors if styles are not a function 2`] = `"Styles defined for \\"foo\\" must be a function."`;
+
+exports[`Aesthetic setStyles() errors if styles are not a function 3`] = `"Styles defined for \\"foo\\" must be a function."`;
+
+exports[`Aesthetic setStyles() errors if styles are not a function 4`] = `"Styles defined for \\"foo\\" must be a function."`;
+
+exports[`Aesthetic setStyles() errors if styles have been set 1`] = `"Styles have already been set for \\"foo\\"."`;
+
+exports[`Aesthetic transformStyles() errors for invalid value 1`] = `"Unsupported style type to transform."`;
