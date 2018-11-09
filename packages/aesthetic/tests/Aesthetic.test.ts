@@ -273,6 +273,12 @@ describe('Aesthetic', () => {
       expect(() => instance.setStyles('foo', null)).toThrowErrorMatchingSnapshot();
     });
 
+    it('errors if styles try to extend from itself', () => {
+      instance.styles.foo = () => ({});
+
+      expect(() => instance.setStyles('foo', () => ({}), 'foo')).toThrowErrorMatchingSnapshot();
+    });
+
     it('errors if styles are not a function', () => {
       // @ts-ignore Allow invalid type
       expect(() => instance.setStyles('foo', 123)).toThrowErrorMatchingSnapshot();

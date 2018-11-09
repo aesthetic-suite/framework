@@ -77,12 +77,12 @@ const NullStyles = aesthetic.withStyles(null, {
 
 // INVALID
 const ObjectStyles = aesthetic.withStyles(
-  {
+  () => ({
     button: {
       color: 'red',
       invalid: 'property',
     },
-  },
+  }),
   {
     // invalid: 'option',
   },

@@ -8,128 +8,118 @@
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import Ruleset from './syntax/Ruleset';
-import StyleSheet from './syntax/StyleSheet';
+import Sheet from './syntax/Sheet';
+import GlobalSheet from './syntax/GlobalSheet';
 import formatFontFace from './syntax/formatFontFace';
-import { AtRule, Handler, ComponentStyleSheet, ComponentRuleset } from './types';
-
-export const GLOBAL_RULES: AtRule[] = [
-  '@charset',
-  '@font-face',
-  '@global',
-  '@import',
-  '@keyframes',
-  '@page',
-  '@viewport',
-];
+import {
+  AtRule,
+  ComponentStyleSheet,
+  ComponentRuleset,
+  GlobalStyleSheet,
+  Keyframes,
+} from './types';
 
 export const LOCAL_RULES: AtRule[] = ['@fallbacks', '@media', '@selectors', '@supports'];
+
+export type Handler = (...args: any[]) => void;
 
 export default class UnifiedSyntax<NativeBlock> {
   handlers: { [eventName: string]: Handler } = {};
 
   /**
-   * Convert a mapping of unified rulesets to their native syntax.
+   * Convert all at-rules within a global stylesheet.
    */
-  convert(unifiedSheet: ComponentStyleSheet): StyleSheet<NativeBlock> {
-    const sheet = new StyleSheet<NativeBlock>();
+  convertGlobalSheet(globalSheet: GlobalStyleSheet): Sheet<NativeBlock> {
+    const sheet = new GlobalSheet<NativeBlock>();
 
-    // Extract global at-rules first
-    // eslint-disable-next-line complexity
-    GLOBAL_RULES.forEach(rule => {
-      if (!unifiedSheet[rule]) {
-        delete unifiedSheet[rule];
-
-        return;
-      }
-
+    Object.keys(globalSheet).forEach(rule => {
       switch (rule) {
         case '@charset': {
-          const path = unifiedSheet[rule];
+          const path = globalSheet[rule];
 
           if (typeof path === 'string') {
             this.emit(rule, [sheet, path]);
           } else if (process.env.NODE_ENV !== 'production') {
-            throw new Error(`${rule} value must be a string.`);
-          }
-
-          break;
-        }
-
-        case '@import': {
-          const paths = unifiedSheet[rule];
-
-          if (typeof paths === 'string' || Array.isArray(paths)) {
-            this.emit(rule, [sheet, toArray(paths)]);
-          } else if (process.env.NODE_ENV !== 'production') {
-            throw new Error(`${rule} value must be a string, or an array of strings.`);
+            throw new Error('@charset must be a string.');
           }
 
           break;
         }
 
         case '@font-face': {
-          const faces = unifiedSheet[rule];
+          const faces = globalSheet[rule] || {};
 
-          if (faces) {
-            Object.keys(faces).forEach(fontFamily => {
-              const srcPaths: string[][] = [];
-              const fontFaces = toArray(faces[fontFamily]).map(font => {
-                srcPaths.push(font.srcPaths);
+          if (process.env.NODE_ENV !== 'production') {
+            if (!isObject(faces)) {
+              throw new Error('@font-face must be an object of font family names to font faces.');
+            }
+          }
 
-                return this.convertRuleset(
-                  formatFontFace({
-                    ...font,
-                    fontFamily,
-                  }) as ComponentRuleset,
-                  sheet.createRuleset(fontFamily),
-                );
+          Object.keys(faces).forEach(fontFamily => {
+            const srcPaths: string[][] = [];
+            const fontFaces = toArray(faces[fontFamily]).map(font => {
+              srcPaths.push(font.srcPaths);
+
+              return formatFontFace({
+                ...font,
+                fontFamily,
               });
+            }) as NativeBlock[];
 
-              this.emit(rule, [sheet, fontFaces, fontFamily, srcPaths]);
-            });
+            this.emit(rule, [sheet, fontFaces, fontFamily, srcPaths]);
+          });
+
+          break;
+        }
+
+        case '@global': {
+          const globals = globalSheet[rule] || {};
+
+          Object.keys(globals).forEach(selector => {
+            if (isObject(globals[selector])) {
+              this.emit(rule, [
+                sheet,
+                this.convertRuleset(globals[selector], sheet.createRuleset(selector)),
+              ]);
+            } else if (process.env.NODE_ENV !== 'production') {
+              throw new Error(`Invalid @global selector "${selector}" ruleset.`);
+            }
+          });
+
+          break;
+        }
+
+        case '@import': {
+          const paths = globalSheet[rule];
+
+          if (typeof paths === 'string' || Array.isArray(paths)) {
+            this.emit(rule, [sheet, toArray(paths).map(path => String(path))]);
+          } else if (process.env.NODE_ENV !== 'production') {
+            throw new Error('@import must be a string or an array of strings.');
           }
 
           break;
         }
 
-        // case '@global': {
-        //   const globals = unifiedSheet[rule];
-
-        //   if (!globals) {
-        //     return;
-        //   }
-
-        //   Object.keys(globals).forEach(selector => {
-        //     if (isObject(globals[selector])) {
-        //       this.emit(rule, [sheet, this.convertRuleset(sheet, globals[selector]), selector]);
-        //     } else if (process.env.NODE_ENV !== 'production') {
-        //       throw new Error('Invalid @global selector style block.');
-        //     }
-        //   });
-
-        //   break;
-        // }
-
         case '@keyframes': {
-          const frames = unifiedSheet[rule];
+          const frames = globalSheet[rule] || {};
 
-          if (frames) {
-            Object.keys(frames).forEach(animationName => {
-              const keyframes = this.convertRuleset(
-                frames[animationName] as ComponentRuleset,
-                sheet.createRuleset(`${rule} ${animationName}`),
-              );
-
-              this.emit(rule, [sheet, keyframes, animationName]);
-            });
+          if (process.env.NODE_ENV !== 'production') {
+            if (!isObject(frames)) {
+              throw new Error('@keyframes must be an object of animation names to keyframes.');
+            }
           }
+
+          Object.keys(frames).forEach(animationName => {
+            this.emit(rule, [sheet, frames[animationName] as any, animationName]);
+          });
 
           break;
         }
 
         case '@page':
         case '@viewport': {
-          const style = unifiedSheet[rule];
+          const style = globalSheet[rule];
 
           if (isObject(style)) {
             this.emit(rule, [sheet, this.convertRuleset(style, sheet.createRuleset(rule))]);
@@ -140,17 +130,27 @@ export default class UnifiedSyntax<NativeBlock> {
           break;
         }
 
-        /* istanbul ignore next */
         default:
+          if (process.env.NODE_ENV !== 'production') {
+            throw new Error(
+              `Unknown property "${rule}". Only at-rules are allowed in the global stylesheet.`,
+            );
+          }
           break;
       }
-
-      delete unifiedSheet[rule];
     });
 
-    // Convert rulesets last
-    Object.keys(unifiedSheet).forEach(selector => {
-      const ruleset = unifiedSheet[selector];
+    return sheet;
+  }
+
+  /**
+   * Convert a mapping of unified rulesets to their native syntax.
+   */
+  convertStyleSheet(styleSheet: ComponentStyleSheet): Sheet<NativeBlock> {
+    const sheet = new Sheet<NativeBlock>();
+
+    Object.keys(styleSheet).forEach(selector => {
+      const ruleset = styleSheet[selector];
 
       if (!ruleset) {
         return;
@@ -159,7 +159,7 @@ export default class UnifiedSyntax<NativeBlock> {
       // At-rule
       if (selector.charAt(0) === '@') {
         if (process.env.NODE_ENV !== 'production') {
-          throw new SyntaxError(`Unsupported global at-rule "${selector}".`);
+          throw new SyntaxError(`At-rules may not be defined in the root, found "${selector}".`);
         }
 
         // Class name
@@ -168,7 +168,7 @@ export default class UnifiedSyntax<NativeBlock> {
 
         // Style object
       } else if (isObject(ruleset)) {
-        sheet.addRuleset(selector, this.convertRuleset(ruleset, new Ruleset(selector, sheet)));
+        sheet.addRuleset(selector, this.convertRuleset(ruleset, sheet.createRuleset(selector)));
 
         // Unknown
       } else if (process.env.NODE_ENV !== 'production') {
@@ -277,12 +277,18 @@ export default class UnifiedSyntax<NativeBlock> {
   /**
    * Execute the defined event listener with the arguments.
    */
-  // emit(eventName: '@charset', args: CharsetArgs<StyleSheet>): this;
+  emit(eventName: '@charset', args: [GlobalSheet<NativeBlock>, string]): this;
   // emit(eventName: '@fallbacks', args: FallbacksArgs<Ruleset>): this;
-  // emit(eventName: '@font-face', args: FontFaceArgs<StyleSheet>): this;
+  emit(
+    eventName: '@font-face',
+    args: [GlobalSheet<NativeBlock>, NativeBlock[], string, string[][]],
+  ): this;
   // emit(eventName: '@global', args: GlobalArgs<StyleSheet, Ruleset>): this;
-  // emit(eventName: '@import', args: ImportArgs<StyleSheet>): this;
-  // emit(eventName: '@keyframes', args: KeyframesArgs<StyleSheet>): this;
+  emit(eventName: '@import', args: [GlobalSheet<NativeBlock>, string[]]): this;
+  emit(
+    eventName: '@keyframes',
+    args: [GlobalSheet<NativeBlock>, Keyframes<NativeBlock>, string],
+  ): this;
   // emit(eventName: '@media', args: MediaArgs<Ruleset>): this;
   // emit(eventName: '@namespace', args: NamespaceArgs<StyleSheet>): this;
   // emit(eventName: '@page', args: PageArgs<StyleSheet, Ruleset>): this;
@@ -310,12 +316,33 @@ export default class UnifiedSyntax<NativeBlock> {
   /**
    * Register an event listener.
    */
-  // on(eventName: '@charset', callback: CharsetHandler<StyleSheet>): this;
+  on(
+    eventName: '@charset',
+    callback: (sheet: GlobalSheet<NativeBlock>, charset: string) => void,
+  ): this;
   // on(eventName: '@fallbacks', callback: FallbacksHandler<Ruleset>): this;
-  // on(eventName: '@font-face', callback: FontFaceHandler<StyleSheet>): this;
+  on(
+    eventName: '@font-face',
+    callback: (
+      sheet: GlobalSheet<NativeBlock>,
+      fontFaces: NativeBlock[],
+      fontFamily: string,
+      srcPaths: string[][],
+    ) => void,
+  ): this;
   // on(eventName: '@global', callback: GlobalHandler<StyleSheet, Ruleset>): this;
-  // on(eventName: '@import', callback: ImportHandler<StyleSheet>): this;
-  // on(eventName: '@keyframes', callback: KeyframesHandler<StyleSheet>): this;
+  on(
+    eventName: '@import',
+    callback: (sheet: GlobalSheet<NativeBlock>, paths: string[]) => void,
+  ): this;
+  on(
+    eventName: '@keyframes',
+    callback: (
+      sheet: GlobalSheet<NativeBlock>,
+      keyframes: Keyframes<NativeBlock>,
+      animationName: string,
+    ) => void,
+  ): this;
   // on(eventName: '@media', callback: MediaHandler<Ruleset>): this;
   // on(eventName: '@namespace', callback: NamespaceHandler<StyleSheet>): this;
   // on(eventName: '@page', callback: PageHandler<StyleSheet, Ruleset>): this;

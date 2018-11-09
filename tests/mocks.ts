@@ -4,7 +4,7 @@ export const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
-  local: 'Robo',
+  local: ['Robo'],
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
@@ -73,6 +73,12 @@ export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC = [
 export const KEYFRAME_FADE = {
   from: { opacity: 0 },
   to: { opacity: 1 },
+};
+
+export const KEYFRAME_SLIDE_PERCENT = {
+  '0%': { opacity: 0 },
+  '50%': { opacity: 0.5 },
+  '100%': { opacity: 1 },
 };
 
 export const TEST_CLASS_NAMES = {
@@ -173,11 +179,7 @@ export const SYNTAX_FALLBACKS = {
 
 export const SYNTAX_FONT_FACE = {
   '@font-face': {
-    Roboto: FONT_ROBOTO,
-  },
-  font: {
-    fontFamily: 'Roboto',
-    fontSize: 20,
+    Roboto: [FONT_ROBOTO],
   },
 };
 
@@ -185,15 +187,11 @@ export const SYNTAX_FONT_FACE_MULTIPLE = {
   '@font-face': {
     Circular: FONT_CIRCULAR_MULTIPLE,
   },
-  font: {
-    fontFamily: 'Circular',
-    fontSize: 20,
-  },
 };
 
 export const SYNTAX_FONT_FACE_MIXED = {
   '@font-face': {
-    Roboto: FONT_ROBOTO,
+    Roboto: [FONT_ROBOTO],
     Circular: FONT_CIRCULAR_MULTIPLE,
   },
 };
@@ -215,10 +213,18 @@ export const SYNTAX_KEYFRAMES = {
   '@keyframes': {
     fade: KEYFRAME_FADE,
   },
-  animation: {
-    animationName: 'fade',
-    animationDuration: '3s, 1200ms',
-    animationIterationCount: 'infinite',
+};
+
+export const SYNTAX_KEYFRAMES_PERCENT = {
+  '@keyframes': {
+    slide: KEYFRAME_SLIDE_PERCENT,
+  },
+};
+
+export const SYNTAX_KEYFRAMES_MIXED = {
+  '@keyframes': {
+    fade: KEYFRAME_FADE,
+    slide: KEYFRAME_SLIDE_PERCENT,
   },
 };
 

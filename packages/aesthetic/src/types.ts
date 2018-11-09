@@ -430,35 +430,27 @@ export type Pseudos = { [P in CSS.Pseudos]?: Properties & Attributes };
 
 export type Attributes = { [A in HTMLAttributes | SVGAttributes]?: Properties & Pseudos };
 
+export type Ruleset = Properties & Pseudos & Attributes;
+
 export interface FontFace extends CSS.FontFace {
   local?: string[];
   srcPaths: string[];
 }
 
-export interface Keyframes {
+export interface Keyframes<Block = Ruleset> {
   from?: Block;
   to?: Block;
   [percent: string]: Block | undefined;
 }
 
-export type Block = Properties & Pseudos & Attributes;
-
-export interface LocalAtRules {
+export type ComponentRuleset = Ruleset & {
   '@fallbacks'?: PropertiesFallback;
-  '@media'?: { [mediaQuery: string]: Block };
-  '@selectors'?: { [selector: string]: Block };
-  '@supports'?: { [featureQuery: string]: Block };
-}
+  '@media'?: { [mediaQuery: string]: Ruleset };
+  '@selectors'?: { [selector: string]: Ruleset };
+  '@supports'?: { [featureQuery: string]: Ruleset };
+};
 
-export interface GlobalAtRules {
-  '@charset'?: string;
-  '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
-  '@global'?: { [selector: string]: Block };
-  '@import'?: string | string[];
-  '@keyframes'?: { [animationName: string]: Keyframes };
-  '@page'?: Block;
-  '@viewport'?: Block;
-}
+export type ComponentStyleSheet = StyleSheetMap<ComponentRuleset>;
 
 export type StyleSheetMap<T> = { [selector: string]: T };
 
@@ -466,11 +458,17 @@ export type StyleSheetDefinition<Theme, Props = any> =
   | null
   | ((theme: Theme, props: Props) => ComponentStyleSheet);
 
-export type ComponentRuleset = Block & LocalAtRules;
+export interface GlobalStyleSheet {
+  '@charset'?: string;
+  '@font-face'?: { [fontFamily: string]: FontFace[] };
+  '@global'?: { [selector: string]: Ruleset };
+  '@import'?: string | string[];
+  '@keyframes'?: { [animationName: string]: Keyframes };
+  '@page'?: Ruleset;
+  '@viewport'?: Ruleset;
+}
 
-export type ComponentStyleSheet = StyleSheetMap<ComponentRuleset>;
-
-export type GlobalDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalAtRules);
+export type GlobalDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalStyleSheet);
 
 // COMPONENT
 
@@ -514,40 +512,13 @@ export interface StyledComponent<Theme, Props> extends React.ComponentClass<Prop
 
 // HANDLERS
 
-export type Handler = (...args: any[]) => void;
-
-// export type CharsetArgs<S> = [S, string];
-
-// export type CharsetHandler<S> = (styleSheet: S, charset: string) => void;
-
 // export type FallbacksArgs<D> = [D, any[], string];
 
 // export type FallbacksHandler<D> = (declaration: D, values: any[], property: string) => void;
 
-// export type FontFaceArgs<S, F = FontFace> = [S, F[], string, string[][]];
-
-// export type FontFaceHandler<S, F = FontFace> = (
-//   styleSheet: S,
-//   fontFaces: F[],
-//   fontFamily: string,
-//   srcPaths: string[][],
-// ) => void;
-
 // export type GlobalArgs<S, D> = [S, D, string];
 
 // export type GlobalHandler<S, D> = (styleSheet: S, declaration: D, selector: string) => void;
-
-// export type KeyframesArgs<S, K = Keyframes> = [S, K, string];
-
-// export type KeyframesHandler<S, K = Keyframes> = (
-//   styleSheet: S,
-//   keyframes: K,
-//   animationName: string,
-// ) => void;
-
-// export type ImportArgs<S> = [S, string[]];
-
-// export type ImportHandler<S> = (styleSheet: S, paths: string[]) => void;
 
 // export type MediaArgs<D> = [D, D, string];
 

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnifiedSyntax convertGlobalSheet() @charset errors if not a string 1`] = `"@charset must be a string."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @font-face errors if not an object 1`] = `"@font-face must be an object of font family names to font faces."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @import errors if not a string 1`] = `"@import must be a string or an array of strings."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @keyframes errors if not a string 1`] = `"@keyframes must be an object of animation names to keyframes."`;

@@ -4,12 +4,12 @@
  */
 
 import { Pseudos } from 'csstype';
-import StyleSheet from './StyleSheet';
+import Sheet from './Sheet';
 
 export default class Ruleset<Block> {
   parent: Ruleset<Block> | null = null;
 
-  root: StyleSheet<Block>;
+  root: Sheet<Block>;
 
   selector: string;
 
@@ -23,7 +23,7 @@ export default class Ruleset<Block> {
 
   protected supports: { [featureQuery: string]: Ruleset<Block> } = {};
 
-  constructor(selector: string, root: StyleSheet<Block>, parent: Ruleset<Block> | null = null) {
+  constructor(selector: string, root: Sheet<Block>, parent: Ruleset<Block> | null = null) {
     this.selector = selector;
     this.root = root;
     this.parent = parent;

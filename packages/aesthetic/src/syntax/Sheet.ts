@@ -6,13 +6,7 @@
 import Ruleset from './Ruleset';
 import { ClassName } from '../types';
 
-export default class StyleSheet<Block> {
-  charset: string = 'utf8';
-
-  fontFaces: Ruleset<Block>[] = [];
-
-  imports: string[] = [];
-
+export default class Sheet<Block> {
   protected ruleSets: { [selector: string]: ClassName | Ruleset<Block> } = {};
 
   addRuleset(selector: string, value: ClassName | Ruleset<Block>): this {
