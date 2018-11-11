@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import NativeAdapter from './NativeAdapter';
+import JSSAesthetic from './JSSAesthetic';
 
 export * from './types';
 
-export default NativeAdapter;
+export default JSSAesthetic;

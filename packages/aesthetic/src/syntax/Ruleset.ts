@@ -3,36 +3,23 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { Pseudos } from 'csstype';
 import Sheet from './Sheet';
 
 export default class Ruleset<Block> {
+  nested: { [selector: string]: Ruleset<Block> } = {};
+
   parent: Ruleset<Block> | null = null;
+
+  properties: Partial<Block> = {};
 
   root: Sheet<Block>;
 
   selector: string;
 
-  protected mediaQueries: { [mediaQuery: string]: Ruleset<Block> } = {};
-
-  protected nested: { [selector: string]: Ruleset<Block> } = {};
-
-  protected pseudos: { [K in Pseudos]?: Ruleset<Block> } = {};
-
-  protected properties: Partial<Block> = {};
-
-  protected supports: { [featureQuery: string]: Ruleset<Block> } = {};
-
   constructor(selector: string, root: Sheet<Block>, parent: Ruleset<Block> | null = null) {
     this.selector = selector;
     this.root = root;
     this.parent = parent;
-  }
-
-  addMediaQuery(mediaQuery: string, value: Ruleset<Block>): this {
-    this.mediaQueries[mediaQuery] = value;
-
-    return this;
   }
 
   addNested(selector: string, value: Ruleset<Block>): this {
@@ -41,20 +28,8 @@ export default class Ruleset<Block> {
     return this;
   }
 
-  addPseudo<K extends Pseudos>(pseudo: K, value: Ruleset<Block>): this {
-    this.pseudos[pseudo] = value;
-
-    return this;
-  }
-
-  addProperty<K extends keyof Block>(key: K, value: Block[K]): this {
+  addProperty(key: keyof Block, value: any): this {
     this.properties[key] = value;
-
-    return this;
-  }
-
-  addSupports(key: string, value: Ruleset<Block>): this {
-    this.supports[key] = value;
 
     return this;
   }
@@ -71,10 +46,7 @@ export default class Ruleset<Block> {
     return {
       // @ts-ignore
       ...this.properties,
-      ...this.toObjectRecursive(this.pseudos),
       ...this.toObjectRecursive(this.nested),
-      ...this.toObjectRecursive(this.mediaQueries),
-      ...this.toObjectRecursive(this.supports),
     };
   }
 

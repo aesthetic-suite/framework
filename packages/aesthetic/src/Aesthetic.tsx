@@ -37,7 +37,7 @@ export interface AestheticOptions {
 }
 
 export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
-  cache: WeakMap<ParsedBlock[], ClassName> = new WeakMap();
+  cache: WeakMap<any[], ClassName> = new WeakMap();
 
   options: AestheticOptions;
 
@@ -209,13 +209,13 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   /**
    * Execute the adapter transformer on the list of style declarations.
    */
-  transformStyles(...styles: ParsedBlock[]): ClassName {
+  transformStyles(...styles: (ClassName | NativeBlock | ParsedBlock)[]): ClassName {
     if (this.cache.has(styles)) {
       return this.cache.get(styles)!;
     }
 
     const classNames: ClassName[] = [];
-    const toTransform: ParsedBlock[] = [];
+    const toTransform: (NativeBlock | ParsedBlock)[] = [];
 
     styles.forEach(style => {
       if (!style) {
@@ -249,8 +249,9 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   /**
    * Transform the style declarations into CSS class names.
    */
-  abstract transformToClassName(styles: ParsedBlock[]): ClassName;
+  abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
+  // TODO
   withStyles<P>(
     styleSheet: StyleSheetDefinition<Theme, P>,
     options: Partial<WithStylesOptions> = {},

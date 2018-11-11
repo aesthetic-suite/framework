@@ -9,7 +9,6 @@ import ThemeContext from './ThemeContext';
 import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './syntax/Ruleset';
 import Sheet from './syntax/Sheet';
-import GlobalSheet from './syntax/GlobalSheet';
 import formatFontFace from './syntax/formatFontFace';
 import injectFontFaces from './syntax/injectFontFaces';
 import injectKeyframes from './syntax/injectKeyframes';
@@ -22,7 +21,6 @@ export {
   UnifiedSyntax,
   Ruleset,
   Sheet,
-  GlobalSheet,
   formatFontFace,
   injectFontFaces,
   injectKeyframes,
