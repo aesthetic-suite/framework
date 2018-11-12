@@ -20,7 +20,7 @@ export default class UnifiedSyntax<NativeBlock> {
   /**
    * Convert all at-rules within a global stylesheet.
    */
-  convertSheet(globalSheet: GlobalStyleSheet): Sheet<NativeBlock> {
+  convertGlobalSheet(globalSheet: GlobalStyleSheet): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
 
     Object.keys(globalSheet).forEach(rule => {
@@ -159,7 +159,7 @@ export default class UnifiedSyntax<NativeBlock> {
 
         // Class name
       } else if (typeof ruleset === 'string') {
-        sheet.addRuleset(selector, ruleset);
+        sheet.addClassName(selector, ruleset);
 
         // Style object
       } else if (isObject(ruleset)) {

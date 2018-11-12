@@ -468,7 +468,7 @@ export interface GlobalStyleSheet {
   '@viewport'?: Ruleset;
 }
 
-export type GlobalDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalStyleSheet);
+export type GlobalSheetDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalStyleSheet);
 
 // COMPONENT
 

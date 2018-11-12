@@ -13,10 +13,9 @@ import Aesthetic, {
   StyleSheetMap,
 } from 'aesthetic';
 import { JSS, create } from 'jss';
-import { NativeBlock } from './types';
+import { NativeBlock, ParsedBlock } from './types';
 
-// TODO ParsedBlock = string?
-export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock> {
+export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
   jss: JSS;
 
   constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
@@ -41,19 +40,6 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock> {
       .on('viewport', this.handleViewport);
   }
 
-  convertStyleSheet<T>(styleSheet: T, styleName: StyleName): StyleSheetMap<NativeBlock> {
-    const sheet = this.jss
-      .createStyleSheet(styleSheet, {
-        media: 'screen',
-        meta: styleName,
-        classNamePrefix: styleName ? `${styleName}-` : '',
-      })
-      // TODO flush
-      .attach();
-
-    return sheet.classes;
-  }
-
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
   handleCharset = (sheet: Sheet<NativeBlock>, charset: string) => {
     sheet.addAtRule('@charset', `"${charset}"`);
@@ -76,8 +62,9 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock> {
 
   // https://github.com/cssinjs/jss-global
   handleGlobal = (sheet: Sheet<NativeBlock>, selector: string, ruleset: Ruleset<NativeBlock>) => {
-    const current = sheet.atRules['@global'] || {};
-    current[selector] = ruleset;
+    const current: Sheet<NativeBlock> = sheet.atRules['@global'] || new Sheet<NativeBlock>();
+
+    current.addRuleset(selector, ruleset);
 
     sheet.addAtRule('@global', current);
   };
@@ -126,24 +113,32 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock> {
     sheet.addAtRule('@viewport', ruleset);
   };
 
-  transformToClassName(styles: NativeBlock[]): ClassName {
-    const legitStyles: (string | NativeBlock)[] = [];
+  processStyleSheet(styleSheet: object, styleName: StyleName): StyleSheetMap<ParsedBlock> {
+    return this.jss
+      .createStyleSheet(styleSheet, {
+        media: 'screen',
+        meta: styleName,
+        classNamePrefix: styleName ? `${styleName}-` : '',
+      })
+      .attach().classes;
+  }
+
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+    const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;
 
     styles.forEach(style => {
       if (typeof style === 'string') {
         legitStyles.push(style);
-      } else if (typeof style === 'object' && style !== null && Object.keys(style).length > 0) {
-        tempStylesheet[`inline${counter}`] = style;
+      } else if (typeof style === 'object' && style !== null) {
+        tempStylesheet[`inline-${counter}`] = style;
         counter += 1;
       }
     });
 
     if (counter > 0) {
-      legitStyles.push(
-        ...Object.values(this.convertStyleSheet(tempStylesheet, `:dynamic-${counter}`)),
-      );
+      legitStyles.push(...Object.values(this.processStyleSheet(tempStylesheet, 'inline-dynamic')));
     }
 
     return legitStyles.join(' ');

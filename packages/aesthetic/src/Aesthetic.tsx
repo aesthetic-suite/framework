@@ -23,7 +23,7 @@ import {
   WithStylesProps,
   WithStylesWrapperProps,
   WithStylesState,
-  GlobalDefinition,
+  GlobalSheetDefinition,
 } from './types';
 
 export interface AestheticOptions {
@@ -39,11 +39,13 @@ export interface AestheticOptions {
 export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
   cache: WeakMap<any[], ClassName> = new WeakMap();
 
+  globals: { [themeName: string]: GlobalSheetDefinition<Theme> } = {};
+
   options: AestheticOptions;
 
   parents: { [childStyleName: string]: StyleName } = {};
 
-  styles: { [styleName: string]: StyleSheetDefinition<Theme> | GlobalDefinition<Theme> } = {};
+  styles: { [styleName: string]: StyleSheetDefinition<Theme> } = {};
 
   syntax: UnifiedSyntax<NativeBlock>;
 
@@ -72,14 +74,6 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   bootstrap() {}
 
   /**
-   * Convert an adapter native style sheet from an Aesthetic style sheet.
-   */
-  convertStyleSheet<T>(styleSheet: T, styleName: StyleName): StyleSheetMap<ParsedBlock> {
-    // @ts-ignore
-    return { ...styleSheet };
-  }
-
-  /**
    * Create and return a stylesheet unique to an adapter.
    */
   createStyleSheet(
@@ -87,13 +81,10 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
     themeName: ThemeName,
     props: any = {},
   ): StyleSheetMap<ParsedBlock> {
-    let styleSheet = this.getStyles(styleName, themeName, props);
-
-    // if (this.options.unifiedSyntax && this.adapter.unifiedSyntax) {
-    //   styleSheet = this.adapter.unifiedSyntax.convert(styleSheet as ComponentStyleSheet);
-    // }
-
-    return this.convertStyleSheet(styleSheet, styleName);
+    return this.processStyleSheet(
+      this.syntax.convertStyleSheet(this.getStyles(styleName, themeName, props)).toObject(),
+      styleName,
+    );
   }
 
   /**
@@ -113,7 +104,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   }
 
   /**
-   * Retrieve the defined style declarations. If the declaratin is a function,
+   * Retrieve the defined component styles. If the definition is a function,
    * execute it while passing the current theme and React props.
    */
   getStyles(styleName: StyleName, themeName: ThemeName, props: any = {}): ComponentStyleSheet {
@@ -126,11 +117,11 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
       return deepMerge({}, this.getStyles(parentStyleName, themeName, props), styleSheet);
     }
 
-    return styleSheet as any;
+    return styleSheet;
   }
 
   /**
-   * Return a themes style object or throw an error.
+   * Return a theme object or throw an error.
    */
   getTheme(themeName: ThemeName): Theme {
     const { defaultTheme } = this.options;
@@ -151,9 +142,20 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   }
 
   /**
+   * Process from an Aesthetic style sheet to an adapter native style sheet.
+   */
+  processStyleSheet(styleSheet: object, styleName: StyleName): StyleSheetMap<ParsedBlock> {
+    return { ...styleSheet };
+  }
+
+  /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(themeName: ThemeName, theme: Theme, globals: GlobalDefinition<Theme> = null): this {
+  registerTheme(
+    themeName: ThemeName,
+    theme: Theme,
+    globals: GlobalSheetDefinition<Theme> = null,
+  ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
@@ -168,7 +170,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
     this.themes[themeName] = theme;
 
     // Set global styles
-    this.setStyles(`${themeName}:root`, globals);
+    this.setStyles(themeName, globals, '', true);
 
     return this;
   }
@@ -178,8 +180,9 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
    */
   setStyles(
     styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme> | GlobalDefinition<Theme>,
+    styleSheet: StyleSheetDefinition<Theme> | GlobalSheetDefinition<Theme>,
     extendFrom: StyleName = '',
+    global: boolean = true,
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
@@ -189,7 +192,11 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
       }
     }
 
-    this.styles[styleName] = styleSheet;
+    if (global) {
+      this.globals[styleName] = styleSheet as GlobalSheetDefinition<Theme>;
+    } else {
+      this.styles[styleName] = styleSheet as StyleSheetDefinition<Theme>;
+    }
 
     if (extendFrom) {
       if (process.env.NODE_ENV !== 'production') {
@@ -207,7 +214,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   }
 
   /**
-   * Execute the adapter transformer on the list of style declarations.
+   * Transform the list of style declarations to a list of class name.
    */
   transformStyles(...styles: (ClassName | NativeBlock | ParsedBlock)[]): ClassName {
     if (this.cache.has(styles)) {
@@ -251,7 +258,10 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
    */
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
-  // TODO
+  /**
+   * Wrap a React component with an HOC that handles the entire styling, converting,
+   * and transforming process.
+   */
   withStyles<P>(
     styleSheet: StyleSheetDefinition<Theme, P>,
     options: Partial<WithStylesOptions> = {},

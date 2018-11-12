@@ -3,7 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import deepMerge from 'lodash/merge';
 import Sheet from './Sheet';
+import toObjectRecursive from './toObjectRecursive';
 
 export default class Ruleset<Block> {
   nested: { [selector: string]: Ruleset<Block> } = {};
@@ -22,8 +24,12 @@ export default class Ruleset<Block> {
     this.parent = parent;
   }
 
-  addNested(selector: string, value: Ruleset<Block>): this {
-    this.nested[selector] = value;
+  addNested(selector: string, value: Ruleset<Block>, merge: boolean = true): this {
+    if (merge && this.nested[selector]) {
+      this.nested[selector].merge(value);
+    } else {
+      this.nested[selector] = value;
+    }
 
     return this;
   }
@@ -42,21 +48,27 @@ export default class Ruleset<Block> {
     return `${this.parent ? this.parent.getFullSelector() : ''}${this.selector}`;
   }
 
-  toObject<T>(): T {
+  merge(ruleset: Ruleset<Block>): this {
+    Object.assign(this.properties, ruleset.properties);
+
+    Object.keys(ruleset.nested).forEach(selector => {
+      const set = ruleset.nested[selector];
+
+      if (this.nested[selector]) {
+        this.nested[selector].merge(set);
+      } else {
+        this.addNested(selector, set);
+      }
+    });
+
+    return this;
+  }
+
+  toObject(): any {
     return {
       // @ts-ignore
       ...this.properties,
-      ...this.toObjectRecursive(this.nested),
+      ...toObjectRecursive(this.nested),
     };
-  }
-
-  private toObjectRecursive(map: { [key: string]: Ruleset<Block> }): Block {
-    const object: any = {};
-
-    Object.keys(map).forEach(key => {
-      object[key] = map[key].toObject();
-    });
-
-    return object;
   }
 }
