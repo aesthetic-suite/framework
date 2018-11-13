@@ -3,6 +3,6 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import CSSModulesAdapter from './CSSModulesAdapter';
+import { ClassNameAesthetic } from 'aesthetic';
 
-export default CSSModulesAdapter;
+export default ClassNameAesthetic;
