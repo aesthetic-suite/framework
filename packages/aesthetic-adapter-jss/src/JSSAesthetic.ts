@@ -64,7 +64,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   handleGlobal = (sheet: Sheet<NativeBlock>, selector: string, ruleset: Ruleset<NativeBlock>) => {
     const current: Sheet<NativeBlock> = sheet.atRules['@global'] || new Sheet<NativeBlock>();
 
-    current.addRuleset(selector, ruleset);
+    current.addRuleset(ruleset);
 
     sheet.addAtRule('@global', current);
   };
