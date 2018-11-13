@@ -163,7 +163,7 @@ export default class UnifiedSyntax<NativeBlock> {
 
         // Style object
       } else if (isObject(ruleset)) {
-        sheet.addRuleset(selector, this.convertRuleset(ruleset, sheet.createRuleset(selector)));
+        sheet.addRuleset(this.convertRuleset(ruleset, sheet.createRuleset(selector)));
 
         // Unknown
       } else if (process.env.NODE_ENV !== 'production') {

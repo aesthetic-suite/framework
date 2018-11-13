@@ -3,7 +3,16 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, StyleSheetMap } from 'aesthetic';
+import Aesthetic, {
+  injectFontFaces,
+  injectKeyframes,
+  AestheticOptions,
+  ClassName,
+  Keyframes,
+  Ruleset,
+  Sheet,
+  StyleSheetMap,
+} from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -17,6 +26,10 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     StyleSheet: typeof Aphrodite;
   };
 
+  fontFaces: { [fontFamily: string]: NativeBlock[] } = {};
+
+  keyframes: { [animationName: string]: Keyframes<NativeBlock> } = {};
+
   constructor(extensions: Extension[] = [], options: Partial<AestheticOptions> = {}) {
     super(options);
 
@@ -28,41 +41,29 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   }
 
   bootstrap() {
-    this.syntax.on('property', this.handleProperty); //.on('@global', this.handleGlobal);
+    this.syntax
+      .on('attribute', this.handleNested)
+      .on('font-face', this.handleFontFace)
+      .on('global', this.handleGlobal)
+      .on('keyframes', this.handleKeyframes)
+      .on('media', this.handleMedia)
+      .on('property', this.handleProperty)
+      .on('pseudo', this.handleNested)
+      .on('selector', this.handleNested);
   }
 
-  convertStyleSheet(styleSheet: any): StyleSheetMap<ParsedBlock> {
-    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedBlock>;
-  }
+  // https://github.com/Khan/aphrodite#font-faces
+  handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[], fontFamily: string) => {
+    this.fontFaces[fontFamily] = fontFaces;
+  };
 
-  transformToClassName(...styles: ParsedBlock[]): ClassName {
-    const legitStyles: ParsedBlock[] = [];
-    const tempStylesheet: { [key: string]: any } = {};
-    let counter = 0;
+  handleGlobal = (sheet: Sheet<NativeBlock>, selector: string, ruleset: Ruleset<NativeBlock>) => {
+    const current: Ruleset<NativeBlock> = sheet.ruleSets.globals || sheet.createRuleset('globals');
 
-    styles.forEach(style => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (style._name && style._definition) {
-        legitStyles.push(style);
-      } else {
-        tempStylesheet[`inline${counter}`] = style;
-        counter += 1;
-      }
-    });
+    current.addNested(`*${selector}`, ruleset);
 
-    if (counter > 0) {
-      legitStyles.push(...Object.values(this.createStyleSheet(tempStylesheet)));
-    }
-
-    return this.aphrodite.css(...legitStyles);
-  }
-
-  // handleGlobal(styleSheet: StyleSheet, declaration: Declaration, selector: string) {
-  //   styleSheet.globals = {
-  //     ...styleSheet.globals,
-  //     [`*${selector}`]: declaration,
-  //   };
-  // }
+    sheet.addRuleset(current);
+  };
 
   handleGlobalSelector(
     selector: string,
@@ -88,13 +89,59 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     return callback(`${baseSelector}${selector}`);
   }
 
-  handleProperty(ruleset: Ruleset<NativeBlock>, property: string, value: any) {
-    // if (property === 'animationName') {
-    //   declaration[property] = injectKeyframes(value, this.unifiedSyntax!.keyframes);
-    // } else if (property === 'fontFamily') {
-    //   declaration[property] = injectFontFaces(value, this.unifiedSyntax!.fontFaces);
-    // } else {
-    //   declaration.addProperty(property, value);
-    // }
+  // https://github.com/Khan/aphrodite#animations
+  handleKeyframes = (
+    sheet: Sheet<NativeBlock>,
+    keyframes: Keyframes<NativeBlock>,
+    animationName: string,
+  ) => {
+    this.keyframes[animationName] = keyframes;
+  };
+
+  // https://github.com/Khan/aphrodite#api
+  handleMedia = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+    ruleset.addNested(`@media ${query}`, value);
+  };
+
+  // https://github.com/Khan/aphrodite#api
+  handleNested = (ruleset: Ruleset<NativeBlock>, selector: string, value: Ruleset<NativeBlock>) => {
+    ruleset.addNested(selector, value);
+  };
+
+  // https://github.com/Khan/aphrodite#api
+  handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+    if (name === 'animationName') {
+      ruleset.addProperty(name, injectKeyframes(value, this.keyframes));
+    } else if (name === 'fontFamily') {
+      ruleset.addProperty(name, injectFontFaces(value, this.fontFaces));
+    } else {
+      ruleset.addProperty(name, value);
+    }
+  };
+
+  processStyleSheet(styleSheet: object): StyleSheetMap<ParsedBlock> {
+    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedBlock>;
+  }
+
+  transformToClassName(...styles: any[]): ClassName {
+    const legitStyles: ParsedBlock[] = [];
+    const tempStylesheet: { [key: string]: NativeBlock } = {};
+    let counter = 0;
+
+    styles.forEach(style => {
+      // eslint-disable-next-line no-underscore-dangle
+      if (style._name && style._definition) {
+        legitStyles.push(style as ParsedBlock);
+      } else {
+        tempStylesheet[`inline-${counter}`] = style;
+        counter += 1;
+      }
+    });
+
+    if (counter > 0) {
+      legitStyles.push(...Object.values(this.processStyleSheet(tempStylesheet)));
+    }
+
+    return this.aphrodite.css(...legitStyles);
   }
 }

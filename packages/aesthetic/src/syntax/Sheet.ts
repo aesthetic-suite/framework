@@ -26,8 +26,8 @@ export default class Sheet<Block> {
     return this;
   }
 
-  addRuleset(selector: string, value: Ruleset<Block>): this {
-    this.ruleSets[selector] = value;
+  addRuleset(set: Ruleset<Block>): this {
+    this.ruleSets[set.selector] = set;
 
     return this;
   }
