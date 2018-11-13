@@ -32,6 +32,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
       .on('import', this.handleImport)
+      .on('keyframes', this.handleKeyframes)
       .on('media', this.handleMedia)
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)

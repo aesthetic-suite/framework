@@ -3,9 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { StyleSheetMap } from 'aesthetic';
 import { IStyle } from 'fela';
 
-export type Declaration = IStyle;
+export type NativeBlock = IStyle;
 
-export type StyleSheet = StyleSheetMap<Declaration>;
+export type ParsedBlock = IStyle;
