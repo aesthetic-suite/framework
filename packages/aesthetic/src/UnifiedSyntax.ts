@@ -5,11 +5,11 @@
 
 /* eslint-disable no-param-reassign */
 
+import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
-import Ruleset from './syntax/Ruleset';
-import Sheet from './syntax/Sheet';
-import formatFontFace from './syntax/formatFontFace';
+import Ruleset from './Ruleset';
+import Sheet from './Sheet';
 import { ComponentStyleSheet, ComponentRuleset, GlobalStyleSheet, Keyframes } from './types';
 
 export type Handler = (...args: any[]) => void;
@@ -292,6 +292,37 @@ export default class UnifiedSyntax<NativeBlock> {
         selector,
         this.convertRuleset(value, ruleset.createChild(selector)),
       ]);
+    });
+  }
+
+  /**
+   * Replace a `fontFamily` property with font face objects of the same name.
+   */
+  injectFontFaces<D>(value: string, cache: { [fontFamily: string]: D[] }): (string | D)[] {
+    const fontFaces: (string | D)[] = [];
+
+    value.split(',').forEach(name => {
+      const familyName = name.trim();
+      const fonts = cache[familyName];
+
+      if (Array.isArray(fonts)) {
+        fontFaces.push(...fonts);
+      } else {
+        fontFaces.push(familyName);
+      }
+    });
+
+    return fontFaces;
+  }
+
+  /**
+   * Replace a `animationName` property with keyframe objects of the same name.
+   */
+  injectKeyframes<D>(value: string, cache: { [animationName: string]: D }): (string | D)[] {
+    return value.split(',').map(name => {
+      const animationName = name.trim();
+
+      return cache[animationName] || animationName;
     });
   }
 

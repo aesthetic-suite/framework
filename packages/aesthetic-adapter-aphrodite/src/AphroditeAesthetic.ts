@@ -4,8 +4,6 @@
  */
 
 import Aesthetic, {
-  injectFontFaces,
-  injectKeyframes,
   AestheticOptions,
   ClassName,
   Keyframes,
@@ -111,9 +109,9 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   // https://github.com/Khan/aphrodite#api
   handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, injectKeyframes(value, this.keyframes));
+      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes));
     } else if (name === 'fontFamily') {
-      ruleset.addProperty(name, injectFontFaces(value, this.fontFaces));
+      ruleset.addProperty(name, this.syntax.injectFontFaces(value, this.fontFaces));
     } else {
       ruleset.addProperty(name, value);
     }

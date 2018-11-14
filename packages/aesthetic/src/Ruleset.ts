@@ -3,9 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import deepMerge from 'lodash/merge';
+import toObjectRecursive from './helpers/toObjectRecursive';
 import Sheet from './Sheet';
-import toObjectRecursive from './toObjectRecursive';
 
 export default class Ruleset<Block> {
   nested: { [selector: string]: Ruleset<Block> } = {};

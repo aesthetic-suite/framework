@@ -3,14 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, {
-  injectKeyframes,
-  AestheticOptions,
-  ClassName,
-  Keyframes,
-  Ruleset,
-  Sheet,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Keyframes, Ruleset, Sheet } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -86,7 +79,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   // https://typestyle.github.io/#/core
   handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, injectKeyframes(value, this.keyframes).join(', '));
+      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
     } else {
       ruleset.addProperty(name, value);
     }

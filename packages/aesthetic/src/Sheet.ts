@@ -3,9 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
-import toObjectRecursive from './toObjectRecursive';
-import { ClassName } from '../types';
+import { ClassName } from './types';
 
 export default class Sheet<Block> {
   atRules: { [rule: string]: any } = {};
