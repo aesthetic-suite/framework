@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import NativeAdapter from './NativeAdapter';
+import TypeStyleAesthetic from './TypeStyleAesthetic';
 
 export * from './types';
 
-export default NativeAdapter;
+export default TypeStyleAesthetic;

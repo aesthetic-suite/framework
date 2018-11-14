@@ -5,8 +5,6 @@
 
 import { types } from 'typestyle';
 
-export type Declaration = types.NestedCSSProperties;
+export type NativeBlock = types.NestedCSSProperties;
 
-export interface StyleSheet {
-  [selector: string]: Declaration;
-}
+export type ParsedBlock = NativeBlock;

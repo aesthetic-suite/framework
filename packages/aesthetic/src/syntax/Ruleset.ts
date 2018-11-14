@@ -64,7 +64,7 @@ export default class Ruleset<Block> {
     return this;
   }
 
-  toObject(): any {
+  toObject(): object {
     return {
       // @ts-ignore
       ...this.properties,

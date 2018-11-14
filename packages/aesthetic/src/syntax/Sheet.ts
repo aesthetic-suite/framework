@@ -36,7 +36,7 @@ export default class Sheet<Block> {
     return new Ruleset(selector, this);
   }
 
-  toObject(): any {
+  toObject(): object {
     const atRules: { [key: string]: any } = {};
     const sets: { [key: string]: Sheet<Block> | Ruleset<Block> } = {};
 
