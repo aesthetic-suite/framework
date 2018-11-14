@@ -69,7 +69,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
 
   // https://typestyle.github.io/#/core/concept-interpolation
   handleNested = (ruleset: Ruleset<NativeBlock>, selector: string, value: Ruleset<NativeBlock>) => {
-    const nest = ruleset.nested['$nest'] || ruleset.createChild('$nest');
+    const nest = ruleset.nested['$nest'] || ruleset.createRuleset('$nest');
 
     nest.addNested(`&${selector}`, value);
 

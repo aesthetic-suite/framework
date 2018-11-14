@@ -1,6 +1,5 @@
 import { StyleSheetTestUtils } from 'aphrodite';
 import { renderToString } from 'fela-tools';
-import { styleSheet } from 'glamor';
 
 export function cleanStyles(source) {
   return source.replace(/\n/g, '').replace(/\s{2,}/g, '');
@@ -12,10 +11,6 @@ export function renderAphroditeStyles() {
 
 export function renderFelaStyles(instance) {
   return cleanStyles(renderToString(instance.fela));
-}
-
-export function renderGlamorStyles() {
-  return cleanStyles(styleSheet.rules().map(rule => rule.cssText).join(''));
 }
 
 export function renderJSSStyles(instance) {

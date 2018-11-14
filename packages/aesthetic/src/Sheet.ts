@@ -7,8 +7,10 @@ import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
 import { ClassName } from './types';
 
-export default class Sheet<Block> {
-  atRules: { [rule: string]: any } = {};
+export default class Sheet<Block extends Object> {
+  atRules: {
+    [rule: string]: string | string[] | Block | Block[] | Ruleset<Block> | Sheet<Block>;
+  } = {};
 
   classNames: { [selector: string]: ClassName } = {};
 

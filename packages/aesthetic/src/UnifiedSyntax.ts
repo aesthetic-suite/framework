@@ -225,7 +225,7 @@ export default class UnifiedSyntax<NativeBlock> {
               this.emit(key.slice(1) as any, [
                 ruleset,
                 query,
-                this.convertRuleset(styles[query], ruleset.createChild(`${key} ${query}`)),
+                this.convertRuleset(styles[query], ruleset.createRuleset(`${key} ${query}`)),
               ]);
             } else if (process.env.NODE_ENV !== 'production') {
               throw new Error(`${key} ${query} must be a mapping of conditions to style objects.`);
@@ -290,7 +290,7 @@ export default class UnifiedSyntax<NativeBlock> {
       this.emit(type as any, [
         ruleset,
         selector,
-        this.convertRuleset(value, ruleset.createChild(selector)),
+        this.convertRuleset(value, ruleset.createRuleset(selector)),
       ]);
     });
   }

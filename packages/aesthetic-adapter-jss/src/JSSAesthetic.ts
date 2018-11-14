@@ -56,14 +56,14 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
   handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[]) => {
-    const current = sheet.atRules['@font-face'] || [];
+    const current = (sheet.atRules['@font-face'] as NativeBlock[]) || [];
 
     sheet.addAtRule('@font-face', [...current, ...fontFaces]);
   };
 
   // https://github.com/cssinjs/jss-global
   handleGlobal = (sheet: Sheet<NativeBlock>, selector: string, ruleset: Ruleset<NativeBlock>) => {
-    const current: Sheet<NativeBlock> = sheet.atRules['@global'] || new Sheet<NativeBlock>();
+    const current = (sheet.atRules['@global'] as Sheet<NativeBlock>) || new Sheet<NativeBlock>();
 
     current.addRuleset(ruleset);
 
@@ -97,7 +97,6 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
   handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
-      // TODO object form
       ruleset.addProperty(name, `$${value}`);
     } else {
       ruleset.addProperty(name, value);

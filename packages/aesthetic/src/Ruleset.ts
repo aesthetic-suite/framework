@@ -23,11 +23,11 @@ export default class Ruleset<Block> {
     this.parent = parent;
   }
 
-  addNested(selector: string, value: Ruleset<Block>, merge: boolean = true): this {
+  addNested(selector: string, ruleset: Ruleset<Block>, merge: boolean = true): this {
     if (merge && this.nested[selector]) {
-      this.nested[selector].merge(value);
+      this.nested[selector].merge(ruleset);
     } else {
-      this.nested[selector] = value;
+      this.nested[selector] = ruleset;
     }
 
     return this;
@@ -39,12 +39,8 @@ export default class Ruleset<Block> {
     return this;
   }
 
-  createChild(selector: string): Ruleset<Block> {
+  createRuleset(selector: string): Ruleset<Block> {
     return new Ruleset(selector, this.root, this);
-  }
-
-  getFullSelector(): string {
-    return `${this.parent ? this.parent.getFullSelector() : ''}${this.selector}`;
   }
 
   merge(ruleset: Ruleset<Block>): this {
