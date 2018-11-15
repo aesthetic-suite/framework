@@ -1,11 +1,5 @@
-import { renderToString } from 'fela-tools';
-
 export function cleanStyles(source) {
   return source.replace(/\n/g, '').replace(/\s{2,}/g, '');
-}
-
-export function renderFelaStyles(instance) {
-  return cleanStyles(renderToString(instance.fela));
 }
 
 export function renderJSSStyles(instance) {

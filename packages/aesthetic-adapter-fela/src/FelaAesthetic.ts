@@ -18,10 +18,6 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
 
     this.fela = fela || createRenderer();
 
-    render(this.fela);
-  }
-
-  bootstrap() {
     this.syntax
       .on('attribute', this.handleNested)
       .on('fallback', this.handleFallback)
@@ -33,6 +29,8 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
       .on('supports', this.handleSupports);
+
+    render(this.fela);
   }
 
   // https://github.com/rofrischmann/fela/tree/master/packages/fela-plugin-fallback-value
