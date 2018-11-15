@@ -14,10 +14,6 @@ import Aesthetic, {
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
-export interface AphroditeOptions extends AestheticOptions {
-  extensions: Extension[];
-}
-
 export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
   aphrodite: {
     css(...styles: ParsedBlock[]): ClassName;
@@ -36,9 +32,7 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       { selectorHandler: this.handleHierarchySelector },
       { selectorHandler: this.handleGlobalSelector },
     ]);
-  }
 
-  bootstrap() {
     this.syntax
       .on('attribute', this.handleNested)
       .on('font-face', this.handleFontFace)
@@ -80,11 +74,15 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     baseSelector: string,
     callback: (selector: string) => string,
   ): string | null {
-    if (selector.charAt(0) !== '>' && selector.charAt(0) !== '[') {
-      return null;
+    if (selector.charAt(0) === '>') {
+      return callback(`${baseSelector} ${selector}`);
     }
 
-    return callback(`${baseSelector}${selector}`);
+    if (selector.charAt(0) === '[') {
+      return callback(`${baseSelector}${selector}`);
+    }
+
+    return null;
   }
 
   // https://github.com/Khan/aphrodite#animations
@@ -121,7 +119,7 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedBlock>;
   }
 
-  transformToClassName(...styles: any[]): ClassName {
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;

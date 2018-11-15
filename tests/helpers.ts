@@ -1,12 +1,7 @@
-import { StyleSheetTestUtils } from 'aphrodite';
 import { renderToString } from 'fela-tools';
 
 export function cleanStyles(source) {
   return source.replace(/\n/g, '').replace(/\s{2,}/g, '');
-}
-
-export function renderAphroditeStyles() {
-  return cleanStyles(StyleSheetTestUtils.getBufferedStyles().join(''));
 }
 
 export function renderFelaStyles(instance) {

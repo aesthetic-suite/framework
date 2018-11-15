@@ -182,7 +182,7 @@ export default class UnifiedSyntax<NativeBlock> {
     ruleset: Ruleset<NativeBlock>,
   ): Ruleset<NativeBlock> {
     if (process.env.NODE_ENV !== 'production') {
-      if (!unifiedRuleset || typeof unifiedRuleset !== 'object') {
+      if (!isObject(unifiedRuleset)) {
         throw new TypeError('Ruleset must be an object of properties.');
       }
     }
@@ -191,7 +191,7 @@ export default class UnifiedSyntax<NativeBlock> {
       const key = baseKey as keyof ComponentRuleset;
       const value = unifiedRuleset[key];
 
-      if (!value) {
+      if (typeof value === 'undefined') {
         return;
       }
 

@@ -1,6 +1,8 @@
+import { FontFace } from 'aesthetic';
+
 /* eslint-disable sort-keys */
 
-export const FONT_ROBOTO = {
+export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -86,7 +88,7 @@ export const TEST_CLASS_NAMES = {
   footer: '.footer',
 };
 
-export const SYNTAX_NATIVE_PARTIAL = {
+export const SYNTAX_UNIFIED_LOCAL = {
   button: {
     margin: 0,
     padding: '6px 12px',
@@ -118,15 +120,18 @@ export const SYNTAX_NATIVE_PARTIAL = {
   },
 };
 
-export const SYNTAX_UNIFIED_FULL = {
+export const SYNTAX_UNIFIED_GLOBAL_FULL = {
   '@font-face': {
     Roboto: FONT_ROBOTO,
   },
   '@keyframes': {
     fade: KEYFRAME_FADE,
   },
+};
+
+export const SYNTAX_UNIFIED_LOCAL_FULL = {
   button: {
-    ...SYNTAX_NATIVE_PARTIAL.button,
+    ...SYNTAX_UNIFIED_LOCAL.button,
     '@media': {
       '(max-width: 600px)': {
         padding: '4px 8px',

@@ -64,14 +64,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
     };
 
     this.syntax = new UnifiedSyntax();
-
-    this.bootstrap();
   }
-
-  /**
-   * Bootstrap the adapter with the unified syntax layer, allowing events to be registered.
-   */
-  bootstrap() {}
 
   /**
    * Create and return a stylesheet unique to an adapter.

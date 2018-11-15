@@ -60,10 +60,6 @@ export default class Ruleset<Block> {
   }
 
   toObject(): object {
-    return {
-      // @ts-ignore
-      ...this.properties,
-      ...toObjectRecursive(this.nested),
-    };
+    return Object.assign({}, this.properties, toObjectRecursive(this.nested));
   }
 }
