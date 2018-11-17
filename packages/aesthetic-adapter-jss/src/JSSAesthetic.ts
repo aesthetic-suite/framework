@@ -12,19 +12,19 @@ import Aesthetic, {
   StyleName,
   StyleSheetMap,
 } from 'aesthetic';
-import { JSS, create } from 'jss';
+import { JSS, create, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
   jss: JSS;
 
+  sheet: JSSSheet<any> | null = null;
+
   constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
     super(options);
 
     this.jss = jss || create();
-  }
 
-  bootstrap() {
     this.syntax
       .on('attribute', this.handleNested)
       .on('charset', this.handleCharset)
@@ -43,7 +43,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
 
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
   handleCharset = (sheet: Sheet<NativeBlock>, charset: string) => {
-    sheet.addAtRule('@charset', `"${charset}"`);
+    sheet.addAtRule('@charset', charset);
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks
@@ -114,13 +114,15 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   };
 
   processStyleSheet(styleSheet: object, styleName: StyleName): StyleSheetMap<ParsedBlock> {
-    return this.jss
-      .createStyleSheet(styleSheet, {
+    this.sheet = this.jss
+      .createStyleSheet<any>(styleSheet, {
         media: 'screen',
         meta: styleName,
         classNamePrefix: styleName ? `${styleName}-` : '',
       })
-      .attach().classes;
+      .attach();
+
+    return this.sheet!.classes;
   }
 
   transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
