@@ -16,9 +16,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     super(options);
 
     this.typeStyle = typeStyle || new TypeStyle({ autoGenerateTag: true });
-  }
 
-  bootstrap() {
     this.syntax
       .on('attribute', this.handleNested)
       .on('fallback', this.handleFallback)
@@ -71,7 +69,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   handleNested = (ruleset: Ruleset<NativeBlock>, selector: string, value: Ruleset<NativeBlock>) => {
     const nest = ruleset.nested['$nest'] || ruleset.createRuleset('$nest');
 
-    nest.addNested(`&${selector}`, value);
+    nest.addNested(selector.startsWith('@') ? selector : `&${selector}`, value);
 
     ruleset.addNested('$nest', nest);
   };

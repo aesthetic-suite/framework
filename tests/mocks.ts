@@ -157,8 +157,10 @@ export const SYNTAX_DESCENDANT = {
   list: {
     margin: 0,
     padding: 0,
-    '> li': {
-      listStyle: 'bullet',
+    '@selectors': {
+      '> li': {
+        listStyle: 'bullet',
+      },
     },
   },
 };

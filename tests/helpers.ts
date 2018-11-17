@@ -5,7 +5,3 @@ export function cleanStyles(source) {
 export function renderJSSStyles(instance) {
   return cleanStyles(instance.sheet.toString());
 }
-
-export function renderTSStyles(instance) {
-  return cleanStyles(instance.typeStyle.getStyles());
-}
