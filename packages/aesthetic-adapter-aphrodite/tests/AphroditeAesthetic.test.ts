@@ -49,6 +49,12 @@ describe('AphroditeAesthetic', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
+  it('converts and transforms inline styles', () => {
+    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe(
+      'inline-0_16pg94n-o_O-inline-1_igcoje',
+    );
+  });
+
   describe('global sheet', () => {
     it('handles globals', () => {
       renderAndTest(

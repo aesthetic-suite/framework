@@ -55,6 +55,10 @@ describe('FelaAesthetic', () => {
     );
   });
 
+  it('converts and transforms inline styles', () => {
+    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe('a b');
+  });
+
   describe('global sheet', () => {
     it('handles globals', () => {
       renderAndTest(SYNTAX_GLOBAL, {}, '', true);

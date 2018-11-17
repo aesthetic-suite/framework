@@ -103,9 +103,6 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
   };
 
   transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
-    return this.fela.renderRule(
-      combineRules(...styles.map(style => (typeof style === 'function' ? style : () => style))),
-      {},
-    );
+    return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 }
