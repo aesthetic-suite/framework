@@ -225,9 +225,10 @@ describe('TypeStyleAesthetic', () => {
           fallback: {
             background: ['red', 'linear-gradient(...)'],
             display: ['box', 'flex-box', 'flex'],
+            color: ['blue'],
           },
         },
-        'fxr1ybm',
+        'f1u1zj9c',
       );
     });
 

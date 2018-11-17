@@ -22,12 +22,12 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       .on('fallback', this.handleFallback)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
-      .on('keyframes', this.handleKeyframes)
+      .on('keyframe', this.handleKeyframe)
       .on('media', this.handleMedia)
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
-      .on('supports', this.handleSupports);
+      .on('support', this.handleSupport);
   }
 
   // https://typestyle.github.io/#/core/concept-fallbacks
@@ -51,8 +51,8 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
     this.typeStyle.cssRule(selector, ruleset.toObject());
   };
 
-  // https: //typestyle.github.io/#/core/concept-keyframes
-  handleKeyframes = (
+  // https://typestyle.github.io/#/core/concept-keyframes
+  handleKeyframe = (
     sheet: Sheet<NativeBlock>,
     keyframes: Keyframes<NativeBlock>,
     animationName: string,
@@ -84,7 +84,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/core/concept-media-queries
-  handleSupports = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+  handleSupport = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
     this.handleNested(ruleset, `@supports ${query}`, value);
   };
 

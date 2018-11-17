@@ -12,7 +12,7 @@ import Aesthetic, {
   StyleName,
   StyleSheetMap,
 } from 'aesthetic';
-import { JSS, create, StyleSheet as JSSSheet } from 'jss';
+import { JSS, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
@@ -23,7 +23,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
     super(options);
 
-    this.jss = jss || create();
+    this.jss = jss;
 
     this.syntax
       .on('attribute', this.handleNested)
@@ -32,12 +32,12 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
       .on('import', this.handleImport)
-      .on('keyframes', this.handleKeyframes)
+      .on('keyframe', this.handleKeyframe)
       .on('media', this.handleMedia)
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
-      .on('supports', this.handleSupports)
+      .on('support', this.handleSupport)
       .on('viewport', this.handleViewport);
   }
 
@@ -76,7 +76,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
-  handleKeyframes = (
+  handleKeyframe = (
     sheet: Sheet<NativeBlock>,
     keyframes: Keyframes<NativeBlock>,
     animationName: string,
@@ -104,7 +104,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   };
 
   // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules
-  handleSupports = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+  handleSupport = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
     ruleset.addNested(`@supports ${query}`, value);
   };
 
@@ -118,7 +118,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
       .createStyleSheet<any>(styleSheet, {
         media: 'screen',
         meta: styleName,
-        classNamePrefix: styleName ? `${styleName}-` : '',
+        classNamePrefix: `${styleName}-`,
       })
       .attach();
 

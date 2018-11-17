@@ -37,7 +37,7 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       .on('attribute', this.handleNested)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
-      .on('keyframes', this.handleKeyframes)
+      .on('keyframe', this.handleKeyframe)
       .on('media', this.handleMedia)
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)
@@ -86,7 +86,7 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   }
 
   // https://github.com/Khan/aphrodite#animations
-  handleKeyframes = (
+  handleKeyframe = (
     sheet: Sheet<NativeBlock>,
     keyframes: Keyframes<NativeBlock>,
     animationName: string,

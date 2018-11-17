@@ -2,6 +2,8 @@
 
 exports[`JSSAesthetic converts and transforms inline styles 1`] = `"foo inline-dynamic-inline-0-0-1-1 inline-dynamic-inline-1-0-1-2"`;
 
+exports[`JSSAesthetic converts and transforms inline styles 2`] = `"foo"`;
+
 exports[`JSSAesthetic global sheet handles @charset 1`] = `""`;
 
 exports[`JSSAesthetic global sheet handles @charset 2`] = `"@charset utf8;"`;
@@ -44,7 +46,7 @@ exports[`JSSAesthetic style sheet converts unified syntax to native syntax and t
 
 exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"test-fallback-0-17-1"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: box;display: flex-box;display: flex;background: linear-gradient(...);}"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: box;display: flex-box;color: blue;display: flex;background: linear-gradient(...);}"`;
 
 exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-18-1"`;
 

@@ -180,6 +180,8 @@ export const SYNTAX_FALLBACKS = {
     '@fallbacks': {
       background: 'red',
       display: ['box', 'flex-box'],
+      // Test property without a non-fallback
+      color: 'blue',
     },
   },
 };

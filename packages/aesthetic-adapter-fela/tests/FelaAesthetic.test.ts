@@ -164,7 +164,19 @@ describe('FelaAesthetic', () => {
     });
 
     it('handles descendant selectors', () => {
-      renderAndTest(SYNTAX_DESCENDANT, SYNTAX_DESCENDANT, 'a b c');
+      renderAndTest(
+        SYNTAX_DESCENDANT,
+        {
+          list: {
+            margin: 0,
+            padding: 0,
+            '> li': {
+              listStyle: 'bullet',
+            },
+          },
+        },
+        'a b c',
+      );
     });
 
     it('handles pseudo selectors', () => {
@@ -193,9 +205,10 @@ describe('FelaAesthetic', () => {
           fallback: {
             background: ['linear-gradient(...)', 'red'],
             display: ['flex', 'box', 'flex-box'],
+            color: ['blue'],
           },
         },
-        'a b',
+        'a b c',
       );
     });
 

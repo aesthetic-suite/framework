@@ -164,7 +164,19 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles descendant selectors', () => {
-      renderAndTest(SYNTAX_DESCENDANT, SYNTAX_DESCENDANT, 'list_1lo5lhe');
+      renderAndTest(
+        SYNTAX_DESCENDANT,
+        {
+          list: {
+            margin: 0,
+            padding: 0,
+            '> li': {
+              listStyle: 'bullet',
+            },
+          },
+        },
+        'list_1lo5lhe',
+      );
     });
 
     it('handles pseudo selectors', () => {

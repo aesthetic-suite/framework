@@ -18,7 +18,7 @@ export default class UnifiedSyntax<NativeBlock> {
   handlers: { [eventName: string]: Handler } = {};
 
   /**
-   * Convert all at-rules within a global stylesheet.
+   * Convert at-rules within a global stylesheet.
    */
   convertGlobalSheet(globalSheet: GlobalStyleSheet): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
@@ -74,7 +74,7 @@ export default class UnifiedSyntax<NativeBlock> {
                 this.convertRuleset(globals[selector], sheet.createRuleset(selector)),
               ]);
             } else if (process.env.NODE_ENV !== 'production') {
-              throw new Error(`Invalid @global selector "${selector}" ruleset, must be an object.`);
+              throw new Error(`@global "${selector}" must be a ruleset object.`);
             }
           });
 
@@ -103,7 +103,11 @@ export default class UnifiedSyntax<NativeBlock> {
           }
 
           Object.keys(frames).forEach(animationName => {
-            this.emit('keyframes', [sheet, frames[animationName] as any, animationName]);
+            this.emit('keyframe', [
+              sheet,
+              frames[animationName] as Keyframes<NativeBlock>,
+              animationName,
+            ]);
           });
 
           break;
@@ -187,14 +191,26 @@ export default class UnifiedSyntax<NativeBlock> {
       }
     }
 
+    const atRules: string[] = [];
+
     Object.keys(unifiedRuleset).forEach(baseKey => {
       const key = baseKey as keyof ComponentRuleset;
       const value = unifiedRuleset[key];
 
       if (typeof value === 'undefined') {
         return;
+      } else if (key.startsWith('@')) {
+        atRules.push(key);
+      } else if (key.startsWith(':') || key.startsWith('[')) {
+        this.convertSelector(key, value as ComponentRuleset, ruleset);
+      } else {
+        this.emit('property', [ruleset, key as keyof NativeBlock, value]);
       }
+    });
 
+    // Process at-rule's after properties, as some at-rule's may require
+    // a property or nested value to exist before modifying it.
+    atRules.forEach(key => {
       switch (key) {
         case '@fallbacks': {
           const fallbacks = unifiedRuleset[key] || {};
@@ -222,7 +238,9 @@ export default class UnifiedSyntax<NativeBlock> {
 
           Object.keys(styles).forEach(query => {
             if (isObject(styles[query])) {
-              this.emit(key.slice(1) as any, [
+              const event = key === '@media' ? 'media' : 'support';
+
+              this.emit(event as any, [
                 ruleset,
                 query,
                 this.convertRuleset(styles[query], ruleset.createRuleset(`${key} ${query}`)),
@@ -252,14 +270,8 @@ export default class UnifiedSyntax<NativeBlock> {
         }
 
         default: {
-          if (key.startsWith('@')) {
-            if (process.env.NODE_ENV !== 'production') {
-              throw new SyntaxError(`Unsupported local at-rule "${key}".`);
-            }
-          } else if (key.startsWith(':') || key.startsWith('[')) {
-            this.convertSelector(key, value as ComponentRuleset, ruleset);
-          } else {
-            this.emit('property', [ruleset, key as keyof NativeBlock, value]);
+          if (process.env.NODE_ENV !== 'production') {
+            throw new SyntaxError(`Unsupported local at-rule "${key}".`);
           }
 
           break;
@@ -270,6 +282,9 @@ export default class UnifiedSyntax<NativeBlock> {
     return ruleset;
   }
 
+  /**
+   * Convert a nested selector ruleset by emitting the appropriate name.
+   */
   convertSelector(key: string, value: ComponentRuleset, ruleset: Ruleset<NativeBlock>) {
     if (process.env.NODE_ENV !== 'production') {
       if (!isObject(value)) {
@@ -335,13 +350,13 @@ export default class UnifiedSyntax<NativeBlock> {
   emit(eventName: 'font-face', args: [Sheet<NativeBlock>, NativeBlock[], string, string[][]]): this;
   emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): this;
-  emit(eventName: 'keyframes', args: [Sheet<NativeBlock>, Keyframes<NativeBlock>, string]): this;
+  emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Keyframes<NativeBlock>, string]): this;
   emit(eventName: 'media', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'page', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): this;
   emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, any]): this;
   emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
-  emit(eventName: 'supports', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
+  emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'viewport', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): this;
   emit(eventName: string, args: any[]): this {
     if (this.handlers[eventName]) {
@@ -387,7 +402,7 @@ export default class UnifiedSyntax<NativeBlock> {
   ): this;
   on(eventName: 'import', callback: (sheet: Sheet<NativeBlock>, paths: string[]) => void): this;
   on(
-    eventName: 'keyframes',
+    eventName: 'keyframe',
     callback: (
       sheet: Sheet<NativeBlock>,
       keyframes: Keyframes<NativeBlock>,
@@ -415,7 +430,7 @@ export default class UnifiedSyntax<NativeBlock> {
     callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(
-    eventName: 'supports',
+    eventName: 'support',
     callback: (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(

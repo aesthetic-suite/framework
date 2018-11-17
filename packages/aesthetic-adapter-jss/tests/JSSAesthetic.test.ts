@@ -51,6 +51,7 @@ describe('JSSAesthetic', () => {
 
   it('converts and transforms inline styles', () => {
     expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toMatchSnapshot();
+    expect(instance.transformToClassName(['foo', null])).toMatchSnapshot();
   });
 
   describe('global sheet', () => {
@@ -252,7 +253,12 @@ describe('JSSAesthetic', () => {
         fallback: {
           background: 'linear-gradient(...)',
           display: 'flex',
-          fallbacks: [{ background: 'red' }, { display: 'box' }, { display: 'flex-box' }],
+          fallbacks: [
+            { background: 'red' },
+            { display: 'box' },
+            { display: 'flex-box' },
+            { color: 'blue' },
+          ],
         },
       });
     });

@@ -4,7 +4,7 @@
  */
 
 import Aesthetic, { AestheticOptions, ClassName, Keyframes, Ruleset, Sheet } from 'aesthetic';
-import { createRenderer, combineRules, IRenderer } from 'fela';
+import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -13,22 +13,22 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
 
   keyframes: { [animationName: string]: ClassName } = {};
 
-  constructor(fela?: IRenderer, options: Partial<AestheticOptions> = {}) {
+  constructor(fela: IRenderer, options: Partial<AestheticOptions> = {}) {
     super(options);
 
-    this.fela = fela || createRenderer();
+    this.fela = fela;
 
     this.syntax
       .on('attribute', this.handleNested)
       .on('fallback', this.handleFallback)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
-      .on('keyframes', this.handleKeyframes)
+      .on('keyframe', this.handleKeyframe)
       .on('media', this.handleMedia)
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
-      .on('supports', this.handleSupports);
+      .on('support', this.handleSupport);
 
     render(this.fela);
   }
@@ -70,12 +70,12 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
 
   // http://fela.js.org/docs/basics/Keyframes.html
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
-  handleKeyframes = (
+  handleKeyframe = (
     sheet: Sheet<NativeBlock>,
     keyframes: Keyframes<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframes as any, {});
+    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframes as NativeBlock, {});
   };
 
   // http://fela.js.org/docs/basics/Rules.html#3-media-queries
@@ -98,7 +98,7 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
   };
 
   // http://fela.js.org/docs/basics/Rules.html
-  handleSupports = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+  handleSupport = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
     ruleset.addNested(`@supports ${query}`, value);
   };
 
