@@ -450,7 +450,7 @@ export type ComponentRuleset = Ruleset & {
   '@supports'?: { [featureQuery: string]: Ruleset };
 };
 
-export type ComponentStyleSheet = StyleSheetMap<ComponentRuleset>;
+export type ComponentStyleSheet = StyleSheetMap<ClassName | ComponentRuleset>;
 
 export type StyleSheetMap<T> = { [selector: string]: T };
 

@@ -1,18 +1,25 @@
 /* eslint-disable sort-keys */
 
 import { StyleSheetTestUtils } from 'aphrodite';
+import { createRenderer } from 'fela';
+import webPreset from 'fela-preset-web';
+import { create } from 'jss';
+import preset from 'jss-preset-default';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
-// import AphroditeAdapter from '../../aesthetic-adapter-aphrodite/src/NativeAdapter';
-// import CssModulesAdapter from '../../aesthetic-adapter-css-modules/src/NativeAdapter';
-// import FelaAdapter from '../../aesthetic-adapter-fela/src/NativeAdapter';
-import GlamorAdapter from '../../aesthetic-adapter-glamor/src/NativeAdapter';
-import JssAdapter from '../../aesthetic-adapter-jss/src/NativeAdapter';
-import TypeStyleAdapter from '../../aesthetic-adapter-typestyle/src/NativeAdapter';
-import { SYNTAX_NATIVE_PARTIAL, SYNTAX_GLOBAL } from '../../../tests/mocks';
+import AphroditeAesthetic from '../../aesthetic-adapter-aphrodite/src';
+import CSSModulesAesthetic from '../../aesthetic-adapter-css-modules/src';
+import FelaAesthetic from '../../aesthetic-adapter-fela/src';
+import JSSAesthetic from '../../aesthetic-adapter-jss/src';
+import TypeStyleAesthetic from '../../aesthetic-adapter-typestyle/src';
+import {
+  SYNTAX_NATIVE_PARTIAL,
+  SYNTAX_GLOBAL,
+  SYNTAX_UNIFIED_LOCAL_FULL,
+} from '../../../tests/mocks';
 
 describe('Aesthetic', () => {
-  let instance: Aesthetic<any, any>;
+  let instance: Aesthetic<any, any, any>;
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
@@ -42,15 +49,6 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('convertStyleSheet()', () => {
-    it('returns the styleSheet as a stylesheet', () => {
-      const styleSheet = { el: {} };
-      const stylesheet = instance.convertStyleSheet(styleSheet, 'styleName');
-
-      expect(styleSheet).toEqual(stylesheet);
-    });
-  });
-
   describe('createStyleSheet()', () => {
     it('returns the style sheet', () => {
       instance.themes.classic = {};
@@ -58,8 +56,9 @@ describe('Aesthetic', () => {
         el: { display: 'block' },
       });
 
+      // Will have no properties as no syntax handlers are defined
       expect(instance.createStyleSheet('foo', 'classic')).toEqual({
-        el: { display: 'block' },
+        el: {},
       });
     });
   });
@@ -237,6 +236,15 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('processStyleSheet()', () => {
+    it('returns the styleSheet as a stylesheet', () => {
+      const styleSheet = { el: {} };
+      const stylesheet = instance.processStyleSheet(styleSheet, 'styleName');
+
+      expect(styleSheet).toEqual(stylesheet);
+    });
+  });
+
   describe('registerTheme()', () => {
     it('errors if a theme name has been used', () => {
       instance.themes.foo = {};
@@ -254,7 +262,7 @@ describe('Aesthetic', () => {
     });
 
     it('registers theme and sets global styles', () => {
-      expect(instance.styles['foo:root']).toBeUndefined();
+      expect(instance.globals.foo).toBeUndefined();
 
       instance.registerTheme('foo', { unitSize: 6 }, () => SYNTAX_GLOBAL);
 
@@ -262,7 +270,7 @@ describe('Aesthetic', () => {
         foo: { unitSize: 6 },
       });
 
-      expect(instance.styles['foo:root']).toBeDefined();
+      expect(instance.globals.foo).toBeDefined();
     });
   });
 
@@ -334,6 +342,10 @@ describe('Aesthetic', () => {
   });
 
   describe('transformStyles()', () => {
+    beforeEach(() => {
+      instance = new AphroditeAesthetic();
+    });
+
     it('errors for invalid value', () => {
       expect(() => {
         instance.transformStyles([[]]);
@@ -341,118 +353,101 @@ describe('Aesthetic', () => {
     });
 
     it('combines strings into a class name', () => {
-      expect(instance.transformStyles(['foo', 'bar'])).toBe('foo bar');
-    });
-
-    it('combines and transforms objects into a class name', () => {
-      expect(instance.transformStyles([{ color: 'red' }])).toBe('foo_1');
-
-      expect(instance.transformStyles([{ color: 'red' }, { display: 'block' }])).toBe(
-        'foo_2-bar_3',
-      );
+      expect(instance.transformStyles('foo', 'bar')).toBe('foo bar');
     });
 
     it('calls transformToClassName() method', () => {
       const spy = jest.fn();
 
       instance.transformToClassName = spy;
-      instance.transformStyles([{ color: 'red' }, { display: 'block' }]);
+      instance.transformStyles({ color: 'red' }, { display: 'block' });
 
-      expect(spy).toHaveBeenCalledWith({ color: 'red' }, { display: 'block' });
+      expect(spy).toHaveBeenCalledWith([{ color: 'red' }, { display: 'block' }]);
     });
 
     it('ignores falsey values', () => {
-      expect(instance.transformStyles([null, false, 0, '', undefined])).toBe('');
+      expect(instance.transformStyles(null, false, 0, '', undefined)).toBe('');
     });
 
     it('strips period prefix', () => {
-      expect(instance.transformStyles(['.foo', 'bar .qux'])).toBe('foo bar qux');
+      expect(instance.transformStyles('.foo', 'bar .qux')).toBe('foo bar qux');
     });
 
     it('handles expression values', () => {
-      expect(instance.transformStyles(['foo', true && 'bar', 5 > 10 && 'baz'])).toBe('foo bar');
+      expect(instance.transformStyles('foo', true && 'bar', 5 > 10 && 'baz')).toBe('foo bar');
     });
 
     it('joins strings and numbers', () => {
-      expect(instance.transformStyles(['foo', 123, 'bar'])).toBe('foo 123 bar');
-    });
-
-    it('caches transformation', () => {
-      const a = [{ color: 'red' }];
-
-      expect(instance.transformStyles(a)).toBe('foo_1');
-      expect(instance.cache.get(a)).toBe('foo_1');
-
-      const b = [{ display: 'block' }];
-
-      expect(instance.transformStyles(b)).toBe('foo_2');
-      expect(instance.cache.get(b)).toBe('foo_2');
-
-      const c = [{ color: 'red' }, { display: 'block' }];
-
-      expect(instance.transformStyles(c)).toBe('foo_3-bar_4');
-      expect(instance.cache.get(c)).toBe('foo_3-bar_4');
+      expect(instance.transformStyles('foo', 123, 'bar')).toBe('foo 123 bar');
     });
   });
 
-  // describe.skip('adapters', () => {
-  //   let styleSheet;
+  describe('adapters', () => {
+    it('supports class names', () => {
+      instance = new ClassNameAesthetic();
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => ({ button: 'button' }));
 
-  //   beforeEach(() => {
-  //     instance.setStyles('foo', SYNTAX_NATIVE_PARTIAL);
-  //   });
+      const styleSheet = instance.createStyleSheet('foo', 'default');
 
-  //   it('supports standard class names', () => {
-  //     instance.setAdapter(new ClassNameAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
 
-  //     // Only strings are supported
-  //     expect(instance.transformStyles(['button'])).toBe('button');
-  //   });
+    it('supports Aphrodite', () => {
+      instance = new AphroditeAesthetic();
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
 
-  //   it('supports Aphrodite', () => {
-  //     instance.setAdapter(new AphroditeAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = instance.createStyleSheet('foo', 'default');
 
-  //     expect(instance.transformStyles([styleSheet.button])).toBe('button_13l44zh');
-  //   });
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
 
-  //   it('supports CSS modules', () => {
-  //     instance.setAdapter(new CssModulesAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+    it('supports CSS modules', () => {
+      instance = new CSSModulesAesthetic();
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => ({ button: 'button' }));
 
-  //     // Styles are passed as strings, so fake it
-  //     expect(instance.transformStyles(['cssm-button'])).toBe('cssm-button');
-  //   });
+      const styleSheet = instance.createStyleSheet('foo', 'default');
 
-  //   it('supports Fela', () => {
-  //     instance.setAdapter(new FelaAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
 
-  //     expect(instance.transformStyles([styleSheet.button])).toBe(
-  //       'a b c d e f g h i j k l m n o p q r s t u v w',
-  //     );
-  //   });
+    it('supports Fela', () => {
+      instance = new FelaAesthetic(
+        createRenderer({
+          plugins: [...webPreset],
+        }),
+      );
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
 
-  //   it('supports Glamor', () => {
-  //     instance.setAdapter(new GlamorAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = instance.createStyleSheet('foo', 'default');
 
-  //     expect(instance.transformStyles([styleSheet.button])).toBe('css-1n8n9n3');
-  //   });
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
 
-  //   it('supports JSS', () => {
-  //     instance.setAdapter(new JssAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+    it('supports JSS', () => {
+      const jss = create();
+      jss.setup(preset());
 
-  //     expect(instance.transformStyles([styleSheet.button])).toBe('foo-button-0-1-1');
-  //   });
+      instance = new JSSAesthetic(jss);
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
 
-  //   it('supports TypeStyle', () => {
-  //     instance.setAdapter(new TypeStyleAdapter());
-  //     styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = instance.createStyleSheet('foo', 'default');
 
-  //     expect(instance.transformStyles([styleSheet.button])).toBe('f7tlree');
-  //   });
-  // });
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
+
+    it('supports TypeStyle', () => {
+      instance = new TypeStyleAesthetic();
+      instance.registerTheme('default', {});
+      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
+
+      const styleSheet = instance.createStyleSheet('foo', 'default');
+
+      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+    });
+  });
 });

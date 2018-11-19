@@ -1,7 +1,7 @@
 import formatFontFace from '../../src/helpers/formatFontFace';
 import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../../../tests/mocks';
 
-describe('aesthetic/helpers/formatFontFace()', () => {
+describe('formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {
     expect(formatFontFace(FONT_ROBOTO)).toEqual(FONT_ROBOTO_FLAT_SRC);
   });

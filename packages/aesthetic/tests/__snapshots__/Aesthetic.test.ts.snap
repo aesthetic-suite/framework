@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Aesthetic adapters supports Aphrodite 1`] = `"button_17ap0k4"`;
+
+exports[`Aesthetic adapters supports CSS modules 1`] = `"button"`;
+
+exports[`Aesthetic adapters supports Fela 1`] = `"a b c d e f g h i j k l m n o p q r s t u v w x"`;
+
+exports[`Aesthetic adapters supports JSS 1`] = `"foo-button-0-1-1"`;
+
+exports[`Aesthetic adapters supports TypeStyle 1`] = `"f1lp6j3"`;
+
+exports[`Aesthetic adapters supports class names 1`] = `"button"`;
+
 exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
 
 exports[`Aesthetic getStyles() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
@@ -25,5 +37,7 @@ exports[`Aesthetic setStyles() errors if styles are not a function 3`] = `"Style
 exports[`Aesthetic setStyles() errors if styles are not a function 4`] = `"Styles defined for \\"foo\\" must be a function."`;
 
 exports[`Aesthetic setStyles() errors if styles have been set 1`] = `"Styles have already been set for \\"foo\\"."`;
+
+exports[`Aesthetic setStyles() errors if styles try to extend from itself 1`] = `"Styles have already been set for \\"foo\\"."`;
 
 exports[`Aesthetic transformStyles() errors for invalid value 1`] = `"Unsupported style type to transform."`;

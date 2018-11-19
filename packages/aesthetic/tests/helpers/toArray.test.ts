@@ -1,6 +1,6 @@
 import toArray from '../../src/helpers/toArray';
 
-describe('aesthetic/helpers/toArray()', () => {
+describe('toArray()', () => {
   it('returns an array from a non-array value', () => {
     expect(toArray(123)).toEqual([123]);
     expect(toArray('foo')).toEqual(['foo']);

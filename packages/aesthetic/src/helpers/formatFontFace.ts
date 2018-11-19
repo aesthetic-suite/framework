@@ -16,7 +16,9 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: FontFace): Omit<FontFace, 'local' | 'srcPaths'> {
+export default function formatFontFace(
+  properties: Partial<FontFace>,
+): Omit<FontFace, 'local' | 'srcPaths'> {
   const fontFace = { ...properties };
   const src: string[] = [];
 

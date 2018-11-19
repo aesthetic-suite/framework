@@ -1,9 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UnifiedSyntax convertSheet() @charset errors if not a string 1`] = `"@charset must be a string."`;
+exports[`UnifiedSyntax convertGlobalSheet() @charset errors if not a string 1`] = `"@charset must be a string."`;
 
-exports[`UnifiedSyntax convertSheet() @font-face errors if not an object 1`] = `"@font-face must be an object of font family names to font faces."`;
+exports[`UnifiedSyntax convertGlobalSheet() @font-face errors if not an object 1`] = `"@font-face must be an object of font family names to font faces."`;
 
-exports[`UnifiedSyntax convertSheet() @import errors if not a string 1`] = `"@import must be a string or an array of strings."`;
+exports[`UnifiedSyntax convertGlobalSheet() @import errors if not a string 1`] = `"@import must be a string or an array of strings."`;
 
-exports[`UnifiedSyntax convertSheet() @keyframes errors if not a string 1`] = `"@keyframes must be an object of animation names to keyframes."`;
+exports[`UnifiedSyntax convertGlobalSheet() @keyframes errors if not a string 1`] = `"@keyframes must be an object of animation names to keyframes."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() errors for unknown properties (not at-rules) 1`] = `"Unknown property \\"unknown\\". Only at-rules are allowed in the global stylesheet."`;

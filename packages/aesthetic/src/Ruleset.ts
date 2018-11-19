@@ -47,13 +47,7 @@ export default class Ruleset<Block> {
     Object.assign(this.properties, ruleset.properties);
 
     Object.keys(ruleset.nested).forEach(selector => {
-      const set = ruleset.nested[selector];
-
-      if (this.nested[selector]) {
-        this.nested[selector].merge(set);
-      } else {
-        this.addNested(selector, set);
-      }
+      this.addNested(selector, ruleset.nested[selector]);
     });
 
     return this;

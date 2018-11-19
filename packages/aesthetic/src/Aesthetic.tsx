@@ -175,7 +175,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
     styleName: StyleName,
     styleSheet: StyleSheetDefinition<Theme> | GlobalSheetDefinition<Theme>,
     extendFrom: StyleName = '',
-    global: boolean = true,
+    global: boolean = false,
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.styles[styleName]) {
