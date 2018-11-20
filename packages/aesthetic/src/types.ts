@@ -468,12 +468,11 @@ export interface GlobalStyleSheet {
   '@viewport'?: Ruleset;
 }
 
-export type GlobalSheetDefinition<Theme> = null | ((theme: Theme, props: any) => GlobalStyleSheet);
+export type GlobalSheetDefinition<Theme> = null | ((theme: Theme) => GlobalStyleSheet);
 
 // COMPONENT
 
 export interface WithStylesWrapperProps {
-  themeName?: ThemeName;
   wrappedRef?: React.Ref<any>;
 }
 
@@ -486,7 +485,6 @@ export interface WithStylesProps<Theme, ParsedBlock> {
 
 export interface WithStylesState<ParsedBlock> {
   styles: StyleSheetMap<ParsedBlock>;
-  themeName: ThemeName;
 }
 
 export interface WithStylesOptions {

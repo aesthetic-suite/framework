@@ -8,7 +8,7 @@ import Aesthetic from './Aesthetic';
 import { ClassName } from './types';
 
 export default class ClassNameAesthetic<Theme> extends Aesthetic<Theme, ClassName> {
-  transformToClassName(styles: ClassName[]): ClassName {
+  protected transformToClassName(styles: ClassName[]): ClassName {
     return styles.filter(style => style && typeof style === 'string').join(' ');
   }
 }

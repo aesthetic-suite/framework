@@ -30,8 +30,16 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       .on('support', this.handleSupport);
   }
 
+  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+    return this.typeStyle.style(...styles);
+  }
+
   // https://typestyle.github.io/#/core/concept-fallbacks
-  handleFallback = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any[]) => {
+  private handleFallback = (
+    ruleset: Ruleset<NativeBlock>,
+    name: keyof NativeBlock,
+    value: any[],
+  ) => {
     let fallbacks: any = ruleset.properties[name] || [];
 
     if (!Array.isArray(fallbacks)) {
@@ -42,17 +50,21 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/raw/fontface
-  handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[]) => {
+  private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[]) => {
     fontFaces.map(face => this.typeStyle.fontFace(face));
   };
 
   // https://typestyle.github.io/#/raw/cssrule
-  handleGlobal = (sheet: Sheet<NativeBlock>, selector: string, ruleset: Ruleset<NativeBlock>) => {
+  private handleGlobal = (
+    sheet: Sheet<NativeBlock>,
+    selector: string,
+    ruleset: Ruleset<NativeBlock>,
+  ) => {
     this.typeStyle.cssRule(selector, ruleset.toObject());
   };
 
   // https://typestyle.github.io/#/core/concept-keyframes
-  handleKeyframe = (
+  private handleKeyframe = (
     sheet: Sheet<NativeBlock>,
     keyframes: Keyframes<NativeBlock>,
     animationName: string,
@@ -61,12 +73,20 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/core/concept-media-queries
-  handleMedia = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+  private handleMedia = (
+    ruleset: Ruleset<NativeBlock>,
+    query: string,
+    value: Ruleset<NativeBlock>,
+  ) => {
     this.handleNested(ruleset, `@media ${query}`, value);
   };
 
   // https://typestyle.github.io/#/core/concept-interpolation
-  handleNested = (ruleset: Ruleset<NativeBlock>, selector: string, value: Ruleset<NativeBlock>) => {
+  private handleNested = (
+    ruleset: Ruleset<NativeBlock>,
+    selector: string,
+    value: Ruleset<NativeBlock>,
+  ) => {
     const nest = ruleset.nested['$nest'] || ruleset.createRuleset('$nest');
 
     nest.addNested(selector.startsWith('@') ? selector : `&${selector}`, value);
@@ -75,7 +95,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/core
-  handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+  private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
       ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
     } else {
@@ -84,11 +104,11 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/core/concept-media-queries
-  handleSupport = (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => {
+  private handleSupport = (
+    ruleset: Ruleset<NativeBlock>,
+    query: string,
+    value: Ruleset<NativeBlock>,
+  ) => {
     this.handleNested(ruleset, `@supports ${query}`, value);
   };
-
-  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
-    return this.typeStyle.style(...styles);
-  }
 }
