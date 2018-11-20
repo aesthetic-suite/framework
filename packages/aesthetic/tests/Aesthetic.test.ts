@@ -12,11 +12,7 @@ import CSSModulesAesthetic from '../../aesthetic-adapter-css-modules/src';
 import FelaAesthetic from '../../aesthetic-adapter-fela/src';
 import JSSAesthetic from '../../aesthetic-adapter-jss/src';
 import TypeStyleAesthetic from '../../aesthetic-adapter-typestyle/src';
-import {
-  SYNTAX_NATIVE_PARTIAL,
-  SYNTAX_GLOBAL,
-  SYNTAX_UNIFIED_LOCAL_FULL,
-} from '../../../tests/mocks';
+import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<any, any, any>;
@@ -38,12 +34,12 @@ describe('Aesthetic', () => {
       });
 
       expect(instance.options).toEqual({
-        defaultTheme: '',
         extendable: false,
         passThemeNameProp: true,
         passThemeProp: true,
         pure: false,
         stylesPropName: 'styleSheet',
+        theme: 'default',
         themePropName: 'theme',
       });
     });

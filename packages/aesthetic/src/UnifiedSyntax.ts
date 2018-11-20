@@ -66,6 +66,12 @@ export default class UnifiedSyntax<NativeBlock> {
         case '@global': {
           const globals = globalSheet[rule] || {};
 
+          if (process.env.NODE_ENV !== 'production') {
+            if (!isObject(globals)) {
+              throw new Error('@global must be an object of selectors to ruleset objects.');
+            }
+          }
+
           Object.keys(globals).forEach(selector => {
             if (isObject(globals[selector])) {
               this.emit('global', [
@@ -129,13 +135,13 @@ export default class UnifiedSyntax<NativeBlock> {
           break;
         }
 
-        default:
+        default: {
           if (process.env.NODE_ENV !== 'production') {
             throw new Error(
               `Unknown property "${rule}". Only at-rules are allowed in the global stylesheet.`,
             );
           }
-          break;
+        }
       }
     });
 

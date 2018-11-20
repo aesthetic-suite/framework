@@ -17,6 +17,9 @@ import {
   SYNTAX_KEYFRAMES_PERCENT,
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_KEYFRAMES_MIXED,
+  SYNTAX_GLOBAL,
+  SYNTAX_PAGE,
+  SYNTAX_VIEWPORT,
 } from '../../../tests/mocks';
 
 describe('UnifiedSyntax', () => {
@@ -34,6 +37,10 @@ describe('UnifiedSyntax', () => {
           unknown: 'property',
         });
       }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('returns a sheet object', () => {
+      expect(syntax.convertGlobalSheet({})).toBeInstanceOf(Sheet);
     });
 
     describe('@charset', () => {
@@ -110,6 +117,40 @@ describe('UnifiedSyntax', () => {
       });
     });
 
+    describe('@global', () => {
+      it('emits event per selector', () => {
+        const spy = jest.fn();
+        const sheet = new Sheet<any>();
+
+        syntax.on('global', spy);
+        syntax.convertGlobalSheet(SYNTAX_GLOBAL);
+
+        expect(spy).toHaveBeenCalledWith(sheet, 'body', sheet.createRuleset('body'));
+        expect(spy).toHaveBeenCalledWith(sheet, 'html', sheet.createRuleset('html'));
+        expect(spy).toHaveBeenCalledWith(sheet, 'a', sheet.createRuleset('a'));
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertGlobalSheet({
+            // @ts-ignore Allow invalid type
+            '@global': 123,
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if select value is not an object', () => {
+        expect(() => {
+          syntax.convertGlobalSheet({
+            '@global': {
+              // @ts-ignore Allow invalid type
+              foo: 123,
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+
     describe('@import', () => {
       it('emits event for a string', () => {
         const spy = jest.fn();
@@ -173,6 +214,48 @@ describe('UnifiedSyntax', () => {
           syntax.convertGlobalSheet({
             // @ts-ignore Allow invalid type
             '@keyframes': 123,
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+
+    describe('@page', () => {
+      it('emits event', () => {
+        const spy = jest.fn();
+        const sheet = new Sheet<any>();
+
+        syntax.on('page', spy);
+        syntax.convertGlobalSheet(SYNTAX_PAGE);
+
+        expect(spy).toHaveBeenCalledWith(sheet, sheet.createRuleset('@page'));
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertGlobalSheet({
+            // @ts-ignore Allow invalid type
+            '@page': 123,
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+
+    describe('@viewport', () => {
+      it('emits event', () => {
+        const spy = jest.fn();
+        const sheet = new Sheet<any>();
+
+        syntax.on('viewport', spy);
+        syntax.convertGlobalSheet(SYNTAX_VIEWPORT);
+
+        expect(spy).toHaveBeenCalledWith(sheet, sheet.createRuleset('@viewport'));
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertGlobalSheet({
+            // @ts-ignore Allow invalid type
+            '@viewport': 123,
           });
         }).toThrowErrorMatchingSnapshot();
       });
