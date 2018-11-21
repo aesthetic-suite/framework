@@ -1,6 +1,7 @@
 import UnifiedSyntax from '../src/UnifiedSyntax';
+import Ruleset from '../src/Ruleset';
 import Sheet from '../src/Sheet';
-import { Ruleset } from '../src/types';
+import { Properties } from '../src/types';
 import {
   SYNTAX_CHARSET,
   SYNTAX_FONT_FACE,
@@ -20,10 +21,13 @@ import {
   SYNTAX_GLOBAL,
   SYNTAX_PAGE,
   SYNTAX_VIEWPORT,
+  SYNTAX_FALLBACKS,
+  SYNTAX_MEDIA_QUERY,
+  SYNTAX_SUPPORTS,
 } from '../../../tests/mocks';
 
 describe('UnifiedSyntax', () => {
-  let syntax: UnifiedSyntax<Ruleset>;
+  let syntax: UnifiedSyntax<Properties>;
 
   beforeEach(() => {
     syntax = new UnifiedSyntax();
@@ -257,6 +261,289 @@ describe('UnifiedSyntax', () => {
             // @ts-ignore Allow invalid type
             '@viewport': 123,
           });
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+  });
+
+  describe('convertStyleSheet()', () => {
+    it('errors for an at-rule', () => {
+      expect(() => {
+        syntax.convertStyleSheet({
+          '@rule': {},
+        });
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('errors for invalid value type', () => {
+      expect(() => {
+        syntax.convertStyleSheet({
+          // @ts-ignore Allow invalid type
+          el: 123,
+        });
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('skips over falsy values', () => {
+      const sheet = syntax.convertStyleSheet({
+        string: '',
+        object: undefined,
+      });
+
+      expect(sheet).toEqual(new Sheet());
+    });
+
+    it('sets string as class name on sheet', () => {
+      const sheet = syntax.convertStyleSheet({
+        foo: 'foo',
+        bar: 'bar',
+        baz: {},
+      });
+
+      expect(sheet.classNames).toEqual({
+        foo: 'foo',
+        bar: 'bar',
+      });
+    });
+
+    it('converts ruleset and adds to sheet', () => {
+      const spy = jest.spyOn(syntax, 'convertRuleset');
+      const sheet = syntax.convertStyleSheet({
+        el: { display: 'block' },
+      });
+
+      expect(spy).toHaveBeenCalledWith({ display: 'block' }, sheet.createRuleset('el'));
+      expect(sheet).toEqual(new Sheet().addRuleset(sheet.createRuleset('el')));
+    });
+  });
+
+  describe('convertRuleset()', () => {
+    let ruleset: Ruleset<Properties>;
+
+    beforeEach(() => {
+      ruleset = new Ruleset('test', new Sheet());
+    });
+
+    it('errors for a non-object', () => {
+      expect(() => {
+        // @ts-ignore Allow invalid type
+        syntax.convertRuleset(123, ruleset);
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('doesnt emit for undefined values', () => {
+      const spy = jest.spyOn(syntax, 'emit');
+
+      syntax.convertRuleset(
+        {
+          // @ts-ignore Allow undefined
+          undef: undefined,
+        },
+        ruleset,
+      );
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('emits for falsy values', () => {
+      const spy = jest.spyOn(syntax, 'emit');
+
+      syntax.convertRuleset(
+        {
+          padding: 0,
+          margin: 0.0,
+          display: '',
+        },
+        ruleset,
+      );
+
+      expect(spy).toHaveBeenCalledTimes(3);
+    });
+
+    it('calls `convertSelector` for pseudos and attributes', () => {
+      const spy = jest.spyOn(syntax, 'convertSelector');
+
+      syntax.convertRuleset(
+        {
+          ':hover': {},
+          '::after': {},
+          '[disabled]': {},
+        },
+        ruleset,
+      );
+
+      expect(spy).toHaveBeenCalledTimes(3);
+    });
+
+    it('calls at-rules after properties', () => {
+      function handleProperty(parent: Ruleset<Properties>, name: keyof Properties, value: any) {
+        parent.addProperty(name, value);
+      }
+
+      function handleMedia(parent: Ruleset<Properties>, query: string, value: Ruleset<Properties>) {
+        // @ts-ignore
+        parent.properties.padding *= 3;
+        parent.addNested(`@media ${query}`, value);
+      }
+
+      syntax.on('media', handleMedia);
+      syntax.on('property', handleProperty);
+      syntax.convertRuleset(
+        {
+          '@media': {
+            '(max-width: 100px)': {
+              padding: 10,
+            },
+          },
+          padding: 5,
+        },
+        ruleset,
+      );
+
+      expect(ruleset.toObject()).toEqual({
+        padding: 15,
+        '@media (max-width: 100px)': {
+          padding: 10,
+        },
+      });
+    });
+
+    describe('property', () => {
+      it('emits event for each property', () => {
+        const spy = jest.fn();
+
+        syntax.on('property', spy);
+        syntax.convertRuleset(
+          {
+            display: 'block',
+            color: 'red',
+            padding: 0,
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledWith(ruleset, 'display', 'block');
+        expect(spy).toHaveBeenCalledWith(ruleset, 'color', 'red');
+        expect(spy).toHaveBeenCalledWith(ruleset, 'padding', 0);
+      });
+    });
+
+    describe('@fallbacks', () => {
+      it('emits event for each fallback', () => {
+        const spy = jest.fn();
+
+        syntax.on('fallback', spy);
+        syntax.convertRuleset(SYNTAX_FALLBACKS.fallback, ruleset);
+
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(spy).toHaveBeenCalledWith(ruleset, 'background', ['red']);
+        expect(spy).toHaveBeenCalledWith(ruleset, 'display', ['box', 'flex-box']);
+        expect(spy).toHaveBeenCalledWith(ruleset, 'color', ['blue']);
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              // @ts-ignore Allow invalid type
+              '@fallbacks': 123,
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+
+    describe('@media', () => {
+      it('emits event for each query', () => {
+        const spy = jest.fn();
+
+        syntax.on('media', spy);
+        syntax.convertRuleset(SYNTAX_MEDIA_QUERY.media, ruleset);
+
+        expect(spy).toHaveBeenCalledTimes(2);
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          '(min-width: 300px)',
+          ruleset.createRuleset('@media (min-width: 300px)'),
+        );
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          '(max-width: 1000px)',
+          ruleset.createRuleset('@media (max-width: 1000px)'),
+        );
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              // @ts-ignore Allow invalid type
+              '@media': 123,
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if query not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              '@media': {
+                // @ts-ignore Allow invalid type
+                '(max-width: 100px)': 123,
+              },
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+    });
+
+    describe('@supports', () => {
+      it('emits event for each query', () => {
+        const spy = jest.fn();
+
+        syntax.on('support', spy);
+        syntax.convertRuleset(SYNTAX_SUPPORTS.sup, ruleset);
+
+        expect(spy).toHaveBeenCalledTimes(2);
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          '(display: flex)',
+          ruleset.createRuleset('@supports (display: flex)'),
+        );
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          'not (display: flex)',
+          ruleset.createRuleset('@supports not (display: flex)'),
+        );
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              // @ts-ignore Allow invalid type
+              '@supports': 123,
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if query not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              '@supports': {
+                // @ts-ignore Allow invalid type
+                '(display: flex)': 123,
+              },
+            },
+            ruleset,
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });

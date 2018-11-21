@@ -177,7 +177,7 @@ export default class UnifiedSyntax<NativeBlock> {
 
         // Unknown
       } else if (process.env.NODE_ENV !== 'production') {
-        throw new Error(`Invalid ruleset for "${selector}".`);
+        throw new Error(`Invalid ruleset for "${selector}". Must be an object or class name.`);
       }
     });
 
@@ -241,6 +241,12 @@ export default class UnifiedSyntax<NativeBlock> {
         case '@media':
         case '@supports': {
           const styles = unifiedRuleset[key] || {};
+
+          if (process.env.NODE_ENV !== 'production') {
+            if (!isObject(styles)) {
+              throw new Error(`${key} must be an object of queries to rulesets.`);
+            }
+          }
 
           Object.keys(styles).forEach(query => {
             if (isObject(styles[query])) {
