@@ -3,27 +3,28 @@ import Ruleset from '../src/Ruleset';
 import Sheet from '../src/Sheet';
 import { Properties } from '../src/types';
 import {
-  SYNTAX_CHARSET,
-  SYNTAX_FONT_FACE,
-  FONT_ROBOTO,
-  FONT_ROBOTO_FLAT_SRC,
-  SYNTAX_FONT_FACE_MULTIPLE,
-  FONT_CIRCULAR_MULTIPLE,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-  SYNTAX_FONT_FACE_MIXED,
-  SYNTAX_IMPORT,
-  SYNTAX_IMPORT_MULTIPLE,
-  SYNTAX_KEYFRAMES,
+  FONT_CIRCULAR_MULTIPLE,
+  FONT_ROBOTO_FLAT_SRC,
+  FONT_ROBOTO,
   KEYFRAME_FADE,
-  SYNTAX_KEYFRAMES_PERCENT,
   KEYFRAME_SLIDE_PERCENT,
-  SYNTAX_KEYFRAMES_MIXED,
-  SYNTAX_GLOBAL,
-  SYNTAX_PAGE,
-  SYNTAX_VIEWPORT,
+  SYNTAX_CHARSET,
   SYNTAX_FALLBACKS,
+  SYNTAX_FONT_FACE_MIXED,
+  SYNTAX_FONT_FACE_MULTIPLE,
+  SYNTAX_FONT_FACE,
+  SYNTAX_GLOBAL,
+  SYNTAX_IMPORT_MULTIPLE,
+  SYNTAX_IMPORT,
+  SYNTAX_KEYFRAMES_MIXED,
+  SYNTAX_KEYFRAMES_PERCENT,
+  SYNTAX_KEYFRAMES,
   SYNTAX_MEDIA_QUERY,
+  SYNTAX_PAGE,
   SYNTAX_SUPPORTS,
+  SYNTAX_VIEWPORT,
+  SYNTAX_MULTI_SELECTOR,
 } from '../../../tests/mocks';
 
 describe('UnifiedSyntax', () => {
@@ -31,6 +32,23 @@ describe('UnifiedSyntax', () => {
 
   beforeEach(() => {
     syntax = new UnifiedSyntax();
+  });
+
+  it('can add, remove, and emit an event handler', () => {
+    const spy = jest.fn();
+    const ruleset = new Ruleset('test', new Sheet());
+
+    syntax.on('property', spy);
+
+    expect(syntax.handlers.property).toBe(spy);
+
+    syntax.emit('property', [ruleset, 'display', 'block']);
+
+    expect(spy).toHaveBeenCalledWith(ruleset, 'display', 'block');
+
+    syntax.off('property');
+
+    expect(syntax.handlers.property).toBeUndefined();
   });
 
   describe('convertGlobalSheet()', () => {
@@ -331,6 +349,18 @@ describe('UnifiedSyntax', () => {
       }).toThrowErrorMatchingSnapshot();
     });
 
+    it('errors for unknown at-rule', () => {
+      expect(() => {
+        syntax.convertRuleset(
+          {
+            // @ts-ignore Allow
+            '@unknown': {},
+          },
+          ruleset,
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
     it('doesnt emit for undefined values', () => {
       const spy = jest.spyOn(syntax, 'emit');
 
@@ -546,6 +576,180 @@ describe('UnifiedSyntax', () => {
           );
         }).toThrowErrorMatchingSnapshot();
       });
+    });
+
+    describe('@selectors', () => {
+      it('emits event for a multi selector', () => {
+        const spy = jest.fn();
+
+        syntax.on('attribute', spy);
+        syntax.on('pseudo', spy);
+        syntax.on('selector', spy);
+        syntax.convertRuleset(SYNTAX_MULTI_SELECTOR.multi, ruleset);
+
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(spy).toHaveBeenCalledWith(ruleset, ':disabled', ruleset.createRuleset(':disabled'));
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          '[disabled]',
+          ruleset.createRuleset('[disabled]'),
+        );
+        expect(spy).toHaveBeenCalledWith(ruleset, '> span', ruleset.createRuleset('> span'));
+      });
+
+      it('emits event for descendent selectors', () => {
+        const spy = jest.fn();
+
+        syntax.on('selector', spy);
+        syntax.convertRuleset(
+          {
+            '@selectors': {
+              '> div': { display: 'block' },
+            },
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledWith(ruleset, '> div', ruleset.createRuleset('> div'));
+      });
+
+      it('emits event for attribute selectors', () => {
+        const spy = jest.fn();
+
+        syntax.on('attribute', spy);
+        syntax.convertRuleset(
+          {
+            '@selectors': {
+              '[name="*foo"]': { display: 'block' },
+            },
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          '[name="*foo"]',
+          ruleset.createRuleset('[name="*foo"]'),
+        );
+      });
+
+      it('emits event for pseudo selectors', () => {
+        const spy = jest.fn();
+
+        syntax.on('pseudo', spy);
+        syntax.convertRuleset(
+          {
+            '@selectors': {
+              ':not(:nth-child(2))': { display: 'block' },
+            },
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledWith(
+          ruleset,
+          ':not(:nth-child(2))',
+          ruleset.createRuleset(':not(:nth-child(2))'),
+        );
+      });
+
+      it('errors if not an object', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              // @ts-ignore Allow invalid type
+              '@selectors': 123,
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('calls `convertSelector` with each rulset', () => {
+        const spy = jest.spyOn(syntax, 'convertSelector');
+
+        syntax.convertRuleset(
+          {
+            '@selectors': {
+              '> li': {},
+              '[attr]': {},
+            },
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledTimes(2);
+      });
+    });
+  });
+
+  describe('convertSelector()', () => {
+    let ruleset: Ruleset<Properties>;
+
+    beforeEach(() => {
+      ruleset = new Ruleset('test', new Sheet());
+    });
+
+    it('errors for a non-object', () => {
+      expect(() => {
+        // @ts-ignore Allow invalid type
+        syntax.convertSelector(':hover', 123, ruleset);
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('emits for a comma separate list', () => {
+      const spy = jest.spyOn(syntax, 'emit');
+
+      syntax.convertSelector(':disabled, [disabled], > span', {}, ruleset);
+
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledWith('attribute', [
+        ruleset,
+        '[disabled]',
+        ruleset.createRuleset('[disabled]'),
+      ]);
+      expect(spy).toHaveBeenCalledWith('pseudo', [
+        ruleset,
+        ':disabled',
+        ruleset.createRuleset(':disabled'),
+      ]);
+      expect(spy).toHaveBeenCalledWith('selector', [
+        ruleset,
+        '> span',
+        ruleset.createRuleset('> span'),
+      ]);
+    });
+  });
+
+  describe('injectFontFaces()', () => {
+    it('converts to an array', () => {
+      expect(syntax.injectFontFaces('Roboto, Verdana, sans-serif', {})).toEqual([
+        'Roboto',
+        'Verdana',
+        'sans-serif',
+      ]);
+    });
+
+    it('replaces font family with font face object', () => {
+      expect(
+        syntax.injectFontFaces('Roboto, Verdana, sans-serif', {
+          Roboto: [FONT_ROBOTO],
+        }),
+      ).toEqual([FONT_ROBOTO, 'Verdana', 'sans-serif']);
+    });
+  });
+
+  describe('injectKeyframes()', () => {
+    it('converts to an array', () => {
+      expect(syntax.injectKeyframes('fade, twist', {})).toEqual(['fade', 'twist']);
+    });
+
+    it('replaces animation name with keyframes object', () => {
+      expect(
+        syntax.injectKeyframes('fade, twist', {
+          fade: KEYFRAME_FADE,
+        }),
+      ).toEqual([KEYFRAME_FADE, 'twist']);
     });
   });
 });

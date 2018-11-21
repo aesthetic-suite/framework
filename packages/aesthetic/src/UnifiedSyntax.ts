@@ -285,8 +285,6 @@ export default class UnifiedSyntax<NativeBlock> {
           if (process.env.NODE_ENV !== 'production') {
             throw new SyntaxError(`Unsupported local at-rule "${key}".`);
           }
-
-          break;
         }
       }
     });

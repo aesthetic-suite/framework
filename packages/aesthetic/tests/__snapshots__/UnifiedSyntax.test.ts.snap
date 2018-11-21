@@ -24,7 +24,17 @@ exports[`UnifiedSyntax convertRuleset() @media errors if not an object 1`] = `"@
 
 exports[`UnifiedSyntax convertRuleset() @media errors if query not an object 1`] = `"@media (max-width: 100px) must be a mapping of conditions to style objects."`;
 
+exports[`UnifiedSyntax convertRuleset() @selectors errors if not an object 1`] = `"@selectors must be an object of selectors to rulesets."`;
+
+exports[`UnifiedSyntax convertRuleset() @supports errors if not an object 1`] = `"@supports must be an object of queries to rulesets."`;
+
+exports[`UnifiedSyntax convertRuleset() @supports errors if query not an object 1`] = `"@supports (display: flex) must be a mapping of conditions to style objects."`;
+
 exports[`UnifiedSyntax convertRuleset() errors for a non-object 1`] = `"Ruleset must be an object of properties."`;
+
+exports[`UnifiedSyntax convertRuleset() errors for unknown at-rule 1`] = `"Unsupported local at-rule \\"@unknown\\"."`;
+
+exports[`UnifiedSyntax convertSelector() errors for a non-object 1`] = `"Selector \\":hover\\" must be a ruleset object."`;
 
 exports[`UnifiedSyntax convertStyleSheet() errors for an at-rule 1`] = `"At-rules may not be defined in the root, found \\"@rule\\"."`;
 
