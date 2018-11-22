@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, { AestheticOptions, ClassName, Keyframes, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -66,10 +66,10 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   // https://typestyle.github.io/#/core/concept-keyframes
   private handleKeyframe = (
     sheet: Sheet<NativeBlock>,
-    keyframes: Keyframes<NativeBlock>,
+    keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.typeStyle.keyframes(keyframes);
+    this.keyframes[animationName] = this.typeStyle.keyframes(keyframe.toObject() as any);
   };
 
   // https://typestyle.github.io/#/core/concept-media-queries

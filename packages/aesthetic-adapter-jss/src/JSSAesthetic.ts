@@ -6,7 +6,6 @@
 import Aesthetic, {
   AestheticOptions,
   ClassName,
-  Keyframes,
   Ruleset,
   Sheet,
   StyleName,
@@ -122,10 +121,10 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#keyframes-animation
   private handleKeyframe = (
     sheet: Sheet<NativeBlock>,
-    keyframes: Keyframes<NativeBlock>,
+    keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    sheet.addAtRule(`@keyframes ${animationName}`, keyframes);
+    sheet.addAtRule(`@keyframes ${animationName}`, keyframe);
   };
 
   // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules

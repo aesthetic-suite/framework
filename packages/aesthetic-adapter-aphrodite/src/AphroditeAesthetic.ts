@@ -3,14 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, {
-  AestheticOptions,
-  ClassName,
-  Keyframes,
-  Ruleset,
-  Sheet,
-  StyleSheetMap,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, StyleSheetMap } from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -22,7 +15,7 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
 
   fontFaces: { [fontFamily: string]: NativeBlock[] } = {};
 
-  keyframes: { [animationName: string]: Keyframes<NativeBlock> } = {};
+  keyframes: { [animationName: string]: NativeBlock } = {};
 
   constructor(extensions: Extension[] = [], options: Partial<AestheticOptions> = {}) {
     super(options);
@@ -122,10 +115,10 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   // https://github.com/Khan/aphrodite#animations
   private handleKeyframe = (
     sheet: Sheet<NativeBlock>,
-    keyframes: Keyframes<NativeBlock>,
+    keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = keyframes;
+    this.keyframes[animationName] = keyframe.toObject();
   };
 
   // https://github.com/Khan/aphrodite#api

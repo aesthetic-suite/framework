@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, { AestheticOptions, ClassName, Keyframes, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
@@ -84,10 +84,10 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
   // http://fela.js.org/docs/basics/Renderer.html#renderkeyframe
   private handleKeyframe = (
     sheet: Sheet<NativeBlock>,
-    keyframes: Keyframes<NativeBlock>,
+    keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframes as NativeBlock, {});
+    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframe.toObject(), {});
   };
 
   // http://fela.js.org/docs/basics/Rules.html#3-media-queries

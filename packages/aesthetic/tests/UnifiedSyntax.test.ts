@@ -26,7 +26,7 @@ import {
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
 } from '../../../tests/mocks';
-import { createTestRulesets } from '../../../tests/helpers';
+import { createTestRulesets, createTestKeyframes } from '../../../tests/helpers';
 
 describe('UnifiedSyntax', () => {
   let syntax: UnifiedSyntax<Properties>;
@@ -218,13 +218,19 @@ describe('UnifiedSyntax', () => {
     });
 
     describe('@keyframes', () => {
+      beforeEach(() => {
+        syntax.on('property', (parent: Ruleset<Properties>, key: keyof Properties, value: any) => {
+          parent.addProperty(key, value);
+        });
+      });
+
       it('emits event', () => {
         const spy = jest.fn();
 
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
 
-        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_FADE, 'fade');
+        expect(spy).toHaveBeenCalledWith(sheet, createTestKeyframes('fade', KEYFRAME_FADE), 'fade');
       });
 
       it('emits event with percentage based keyframes', () => {
@@ -233,7 +239,11 @@ describe('UnifiedSyntax', () => {
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_PERCENT);
 
-        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_SLIDE_PERCENT, 'slide');
+        expect(spy).toHaveBeenCalledWith(
+          sheet,
+          createTestKeyframes('slide', KEYFRAME_SLIDE_PERCENT),
+          'slide',
+        );
       });
 
       it('emits event for multiple keyframes', () => {
@@ -242,8 +252,12 @@ describe('UnifiedSyntax', () => {
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_MIXED);
 
-        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_FADE, 'fade');
-        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_SLIDE_PERCENT, 'slide');
+        expect(spy).toHaveBeenCalledWith(sheet, createTestKeyframes('fade', KEYFRAME_FADE), 'fade');
+        expect(spy).toHaveBeenCalledWith(
+          sheet,
+          createTestKeyframes('slide', KEYFRAME_SLIDE_PERCENT),
+          'slide',
+        );
       });
 
       it('errors if not a string', () => {

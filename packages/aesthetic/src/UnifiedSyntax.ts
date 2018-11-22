@@ -112,11 +112,19 @@ export default class UnifiedSyntax<NativeBlock> {
           }
 
           Object.keys(frames).forEach(animationName => {
-            this.emit('keyframe', [
-              sheet,
-              frames[animationName] as Keyframes<NativeBlock>,
-              animationName,
-            ]);
+            const keyframe = sheet.createRuleset(animationName);
+
+            // from, to, and percent keys aren't easily detectable
+            // when converting a ruleset. We also don't want adapters
+            // to have to worry about it, so do it manually here.
+            Object.keys(frames[animationName]).forEach(key => {
+              keyframe.addNested(
+                key,
+                this.convertRuleset(frames[animationName]![key]!, keyframe.createRuleset(key)),
+              );
+            });
+
+            this.emit('keyframe', [sheet, keyframe, animationName]);
           });
 
           break;
@@ -366,7 +374,7 @@ export default class UnifiedSyntax<NativeBlock> {
   ): this;
   emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): this;
-  emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Keyframes<NativeBlock>, string]): this;
+  emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>, string]): this;
   emit(eventName: 'media', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'page', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): this;
   emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, any]): this;
@@ -421,7 +429,7 @@ export default class UnifiedSyntax<NativeBlock> {
     eventName: 'keyframe',
     callback: (
       sheet: Sheet<NativeBlock>,
-      keyframes: Keyframes<NativeBlock>,
+      keyframe: Ruleset<NativeBlock>,
       animationName: string,
     ) => void,
   ): this;
