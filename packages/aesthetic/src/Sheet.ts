@@ -7,16 +7,16 @@ import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
 import { ClassName } from './types';
 
+type AtRuleType<Block> = string | string[] | Ruleset<Block> | Ruleset<Block>[] | Sheet<Block>;
+
 export default class Sheet<Block extends Object> {
-  atRules: {
-    [rule: string]: string | string[] | Block | Block[] | Ruleset<Block> | Sheet<Block>;
-  } = {};
+  atRules: { [rule: string]: AtRuleType<Block> } = {};
 
   classNames: { [selector: string]: ClassName } = {};
 
   ruleSets: { [selector: string]: Ruleset<Block> } = {};
 
-  addAtRule(rule: string, value: any): this {
+  addAtRule(rule: string, value: AtRuleType<Block>): this {
     this.atRules[rule] = value;
 
     return this;
@@ -38,7 +38,7 @@ export default class Sheet<Block extends Object> {
     return new Ruleset(selector, this);
   }
 
-  toObject(): object {
+  toObject(): Block {
     const atRules: { [key: string]: any } = {};
     const sets: { [key: string]: Sheet<Block> | Ruleset<Block> } = {};
 
@@ -47,6 +47,9 @@ export default class Sheet<Block extends Object> {
 
       if (value instanceof Sheet || value instanceof Ruleset) {
         sets[key] = value;
+      } else if (Array.isArray(value)) {
+        // @ts-ignore This type is resolving weird
+        atRules[key] = value.map(item => (item instanceof Ruleset ? item.toObject() : item));
       } else {
         atRules[key] = value;
       }
@@ -57,6 +60,6 @@ export default class Sheet<Block extends Object> {
       ...this.classNames,
       ...toObjectRecursive(sets),
       ...toObjectRecursive(this.ruleSets),
-    };
+    } as Block;
   }
 }

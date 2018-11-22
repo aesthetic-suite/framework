@@ -80,7 +80,12 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
 
       expect(instance.fontFaces).toEqual({
-        Roboto: [FONT_ROBOTO_FLAT_SRC],
+        Roboto: [
+          {
+            ...FONT_ROBOTO_FLAT_SRC,
+            fontFamily: ['Roboto'],
+          },
+        ],
       });
     });
 
@@ -88,8 +93,16 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
 
       expect(instance.fontFaces).toEqual({
-        Roboto: [FONT_ROBOTO_FLAT_SRC],
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+        Roboto: [
+          {
+            ...FONT_ROBOTO_FLAT_SRC,
+            fontFamily: ['Roboto'],
+          },
+        ],
+        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC.map(face => ({
+          ...face,
+          fontFamily: ['Circular'],
+        })),
       });
     });
 
@@ -97,7 +110,10 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
 
       expect(instance.fontFaces).toEqual({
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC.map(face => ({
+          ...face,
+          fontFamily: ['Circular'],
+        })),
       });
     });
 

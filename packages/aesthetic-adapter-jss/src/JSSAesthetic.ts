@@ -95,8 +95,8 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
-  private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[]) => {
-    const current = (sheet.atRules['@font-face'] as NativeBlock[]) || [];
+  private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: Ruleset<NativeBlock>[]) => {
+    const current = (sheet.atRules['@font-face'] as Ruleset<NativeBlock>[]) || [];
 
     sheet.addAtRule('@font-face', [...current, ...fontFaces]);
   };

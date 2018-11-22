@@ -47,11 +47,11 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
 
   styles: { [styleName: string]: StyleSheetDefinition<Theme> } = {};
 
+  syntax: UnifiedSyntax<NativeBlock>;
+
   themes: { [themeName: string]: Theme } = {};
 
   protected appliedGlobals: boolean = false;
-
-  protected syntax: UnifiedSyntax<NativeBlock>;
 
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
@@ -349,9 +349,10 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
    * Process from an Aesthetic style sheet to an adapter native style sheet.
    */
   protected processStyleSheet(
-    styleSheet: object,
+    styleSheet: NativeBlock,
     styleName: StyleName,
   ): StyleSheetMap<ParsedBlock> {
+    // @ts-ignore Allow spread
     return { ...styleSheet };
   }
 

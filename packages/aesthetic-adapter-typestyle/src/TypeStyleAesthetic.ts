@@ -50,8 +50,8 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   };
 
   // https://typestyle.github.io/#/raw/fontface
-  private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: NativeBlock[]) => {
-    fontFaces.map(face => this.typeStyle.fontFace(face));
+  private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: Ruleset<NativeBlock>[]) => {
+    fontFaces.map(face => this.typeStyle.fontFace(face.toObject()));
   };
 
   // https://typestyle.github.io/#/raw/cssrule

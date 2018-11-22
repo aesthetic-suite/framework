@@ -51,11 +51,14 @@ export default class UnifiedSyntax<NativeBlock> {
             const fontFaces = toArray(faces[fontFamily]).map(font => {
               srcPaths.push(font.srcPaths);
 
-              return formatFontFace({
-                ...font,
-                fontFamily,
-              });
-            }) as NativeBlock[];
+              return this.convertRuleset(
+                formatFontFace({
+                  ...font,
+                  fontFamily,
+                }) as ComponentRuleset,
+                sheet.createRuleset(fontFamily),
+              );
+            });
 
             this.emit('font-face', [sheet, fontFaces, fontFamily, srcPaths]);
           });
@@ -357,7 +360,10 @@ export default class UnifiedSyntax<NativeBlock> {
   emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): this;
   emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, any[]]): this;
-  emit(eventName: 'font-face', args: [Sheet<NativeBlock>, NativeBlock[], string, string[][]]): this;
+  emit(
+    eventName: 'font-face',
+    args: [Sheet<NativeBlock>, Ruleset<NativeBlock>[], string, string[][]],
+  ): this;
   emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): this;
   emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): this;
   emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Keyframes<NativeBlock>, string]): this;
@@ -401,7 +407,7 @@ export default class UnifiedSyntax<NativeBlock> {
     eventName: 'font-face',
     callback: (
       sheet: Sheet<NativeBlock>,
-      fontFaces: NativeBlock[],
+      fontFaces: Ruleset<NativeBlock>[],
       fontFamily: string,
       srcPaths: string[][],
     ) => void,

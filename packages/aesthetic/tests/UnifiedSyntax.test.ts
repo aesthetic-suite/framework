@@ -26,17 +26,20 @@ import {
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
 } from '../../../tests/mocks';
+import { createTestRulesets } from '../../../tests/helpers';
 
 describe('UnifiedSyntax', () => {
   let syntax: UnifiedSyntax<Properties>;
+  let sheet: Sheet<Properties>;
 
   beforeEach(() => {
     syntax = new UnifiedSyntax();
+    sheet = new Sheet();
   });
 
   it('can add, remove, and emit an event handler', () => {
     const spy = jest.fn();
-    const ruleset = new Ruleset('test', new Sheet());
+    const ruleset = new Ruleset('test', sheet);
 
     syntax.on('property', spy);
 
@@ -72,7 +75,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('charset', spy);
         syntax.convertGlobalSheet(SYNTAX_CHARSET);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), 'utf8');
+        expect(spy).toHaveBeenCalledWith(sheet, 'utf8');
       });
 
       it('errors if not a string', () => {
@@ -86,15 +89,24 @@ describe('UnifiedSyntax', () => {
     });
 
     describe('@font-face', () => {
+      beforeEach(() => {
+        syntax.on('property', (parent: Ruleset<Properties>, key: keyof Properties, value: any) => {
+          parent.addProperty(key, value);
+        });
+      });
+
       it('emits event for a single font', () => {
         const spy = jest.fn();
 
         syntax.on('font-face', spy);
         syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), [FONT_ROBOTO_FLAT_SRC], 'Roboto', [
-          FONT_ROBOTO.srcPaths,
-        ]);
+        expect(spy).toHaveBeenCalledWith(
+          sheet,
+          createTestRulesets('Roboto', [FONT_ROBOTO_FLAT_SRC]),
+          'Roboto',
+          [FONT_ROBOTO.srcPaths],
+        );
       });
 
       it('emits event for a single font with multiple faces', () => {
@@ -104,8 +116,8 @@ describe('UnifiedSyntax', () => {
         syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
 
         expect(spy).toHaveBeenCalledWith(
-          new Sheet(),
-          FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          sheet,
+          createTestRulesets('Circular', FONT_CIRCULAR_MULTIPLE_FLAT_SRC),
           'Circular',
           FONT_CIRCULAR_MULTIPLE.map(font => font.srcPaths),
         );
@@ -117,13 +129,16 @@ describe('UnifiedSyntax', () => {
         syntax.on('font-face', spy);
         syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), [FONT_ROBOTO_FLAT_SRC], 'Roboto', [
-          FONT_ROBOTO.srcPaths,
-        ]);
+        expect(spy).toHaveBeenCalledWith(
+          sheet,
+          createTestRulesets('Roboto', [FONT_ROBOTO_FLAT_SRC]),
+          'Roboto',
+          [FONT_ROBOTO.srcPaths],
+        );
 
         expect(spy).toHaveBeenCalledWith(
-          new Sheet(),
-          FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          sheet,
+          createTestRulesets('Circular', FONT_CIRCULAR_MULTIPLE_FLAT_SRC),
           'Circular',
           FONT_CIRCULAR_MULTIPLE.map(font => font.srcPaths),
         );
@@ -180,7 +195,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('import', spy);
         syntax.convertGlobalSheet(SYNTAX_IMPORT);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), ['./some/path.css']);
+        expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css']);
       });
 
       it('emits event for an array of strings', () => {
@@ -189,7 +204,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('import', spy);
         syntax.convertGlobalSheet(SYNTAX_IMPORT_MULTIPLE);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), ['./some/path.css', './another/path.css']);
+        expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css', './another/path.css']);
       });
 
       it('errors if not a string', () => {
@@ -209,7 +224,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), KEYFRAME_FADE, 'fade');
+        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_FADE, 'fade');
       });
 
       it('emits event with percentage based keyframes', () => {
@@ -218,7 +233,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_PERCENT);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), KEYFRAME_SLIDE_PERCENT, 'slide');
+        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_SLIDE_PERCENT, 'slide');
       });
 
       it('emits event for multiple keyframes', () => {
@@ -227,8 +242,8 @@ describe('UnifiedSyntax', () => {
         syntax.on('keyframe', spy);
         syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_MIXED);
 
-        expect(spy).toHaveBeenCalledWith(new Sheet(), KEYFRAME_FADE, 'fade');
-        expect(spy).toHaveBeenCalledWith(new Sheet(), KEYFRAME_SLIDE_PERCENT, 'slide');
+        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_FADE, 'fade');
+        expect(spy).toHaveBeenCalledWith(sheet, KEYFRAME_SLIDE_PERCENT, 'slide');
       });
 
       it('errors if not a string', () => {
@@ -308,7 +323,7 @@ describe('UnifiedSyntax', () => {
         object: undefined,
       });
 
-      expect(sheet).toEqual(new Sheet());
+      expect(sheet).toEqual(sheet);
     });
 
     it('sets string as class name on sheet', () => {
@@ -331,7 +346,7 @@ describe('UnifiedSyntax', () => {
       });
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, sheet.createRuleset('el'));
-      expect(sheet).toEqual(new Sheet().addRuleset(sheet.createRuleset('el')));
+      expect(sheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
     });
   });
 
@@ -339,7 +354,7 @@ describe('UnifiedSyntax', () => {
     let ruleset: Ruleset<Properties>;
 
     beforeEach(() => {
-      ruleset = new Ruleset('test', new Sheet());
+      ruleset = new Ruleset('test', sheet);
     });
 
     it('errors for a non-object', () => {
@@ -687,7 +702,7 @@ describe('UnifiedSyntax', () => {
     let ruleset: Ruleset<Properties>;
 
     beforeEach(() => {
-      ruleset = new Ruleset('test', new Sheet());
+      ruleset = new Ruleset('test', sheet);
     });
 
     it('errors for a non-object', () => {

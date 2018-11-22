@@ -56,12 +56,12 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
   // http://fela.js.org/docs/api/fela/Renderer.html
   private handleFontFace = (
     sheet: Sheet<NativeBlock>,
-    fontFaces: NativeBlock[],
+    fontFaces: Ruleset<NativeBlock>[],
     fontFamily: string,
     srcPaths: string[][],
   ) => {
     fontFaces.map((face, i) => {
-      const { local, ...style } = face as any;
+      const { local, ...style } = face.toObject() as any;
 
       this.fela.renderFont(fontFamily, srcPaths[i], {
         ...style,

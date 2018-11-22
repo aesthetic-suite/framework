@@ -53,7 +53,7 @@ export default class Ruleset<Block> {
     return this;
   }
 
-  toObject(): object {
-    return Object.assign({}, this.properties, toObjectRecursive(this.nested));
+  toObject(): Block {
+    return Object.assign({}, this.properties, toObjectRecursive(this.nested)) as Block;
   }
 }

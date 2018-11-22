@@ -73,10 +73,10 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
   // https://github.com/Khan/aphrodite#font-faces
   private handleFontFace = (
     sheet: Sheet<NativeBlock>,
-    fontFaces: NativeBlock[],
+    fontFaces: Ruleset<NativeBlock>[],
     fontFamily: string,
   ) => {
-    this.fontFaces[fontFamily] = fontFaces;
+    this.fontFaces[fontFamily] = fontFaces.map(face => face.toObject());
   };
 
   private handleGlobal = (
