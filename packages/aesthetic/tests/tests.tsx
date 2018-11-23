@@ -71,7 +71,6 @@ const NullStyles = aesthetic.withStyles(null, {
   extendable: true,
 })(Comp);
 
-<NullStyles foo="foo" themeName="default" />;
 <NullStyles foo="foo" bar={123} />;
 <NullStyles foo="foo" wrappedRef={() => {}} />;
 
@@ -90,7 +89,6 @@ const ObjectStyles = aesthetic.withStyles(
 
 <ObjectStyles foo={123} />;
 <ObjectStyles foo="foo" bar="bar" />;
-<ObjectStyles foo="foo" themeName={123} />;
 <ObjectStyles foo="foo" wrappedRef={true} />;
 <ObjectStyles foo="foo" unknown={123} />;
 <ObjectStyles foo="foo" styles={{}} />;

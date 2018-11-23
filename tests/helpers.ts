@@ -18,7 +18,7 @@ export function createTestKeyframes(selector: string, data: any): Ruleset<any> {
   const ruleset = new Ruleset(selector, new Sheet());
 
   Object.keys(data).forEach(key => {
-    const nested = new Ruleset(key, ruleset.root);
+    const nested = new Ruleset(key, ruleset.root, ruleset);
     nested.properties = data[key] as any;
     nested.parent = ruleset;
 
