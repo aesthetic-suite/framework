@@ -9,12 +9,16 @@ import Aesthetic, {
   Ruleset,
   Sheet,
   StyleName,
-  StyleSheetMap,
+  SheetMap,
 } from 'aesthetic';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
+export default class JSSAesthetic<Theme extends object> extends Aesthetic<
+  Theme,
+  NativeBlock,
+  ParsedBlock
+> {
   jss: JSS;
 
   sheets: { [styleName: string]: JSSSheet<any> } = {};
@@ -40,10 +44,10 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
       .on('viewport', this.handleViewport);
   }
 
-  protected processStyleSheet(
-    styleSheet: object,
+  processStyleSheet(
+    styleSheet: SheetMap<NativeBlock>,
     styleName: StyleName,
-  ): StyleSheetMap<ParsedBlock> {
+  ): SheetMap<ParsedBlock> {
     this.sheets[styleName] = this.jss
       .createStyleSheet<any>(styleSheet, {
         media: 'screen',
@@ -55,7 +59,7 @@ export default class JSSAdapter<Theme> extends Aesthetic<Theme, NativeBlock, Par
     return this.sheets[styleName].classes;
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;

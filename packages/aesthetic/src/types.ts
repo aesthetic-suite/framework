@@ -430,45 +430,45 @@ export type Pseudos = { [P in CSS.Pseudos]?: Properties & Attributes };
 
 export type Attributes = { [A in HTMLAttributes | SVGAttributes]?: Properties & Pseudos };
 
-export type Ruleset = Properties & Pseudos & Attributes;
+export type Block = Properties & Pseudos & Attributes;
 
 export interface FontFace extends CSS.FontFace {
   local?: string[];
   srcPaths: string[];
 }
 
-export interface Keyframes<Block = Ruleset> {
-  from?: Block;
-  to?: Block;
-  [percent: string]: Block | undefined;
+export interface Keyframes<T = Block> {
+  from?: T;
+  to?: T;
+  [percent: string]: T | undefined;
 }
 
-export type ComponentRuleset = Ruleset & {
+export type SheetMap<T> = { [selector: string]: T };
+
+export type ComponentBlock = Block & {
   '@fallbacks'?: PropertiesFallback;
-  '@media'?: { [mediaQuery: string]: Ruleset };
-  '@selectors'?: { [selector: string]: Ruleset };
-  '@supports'?: { [featureQuery: string]: Ruleset };
+  '@media'?: { [mediaQuery: string]: Block };
+  '@selectors'?: { [selector: string]: Block };
+  '@supports'?: { [featureQuery: string]: Block };
 };
 
-export type ComponentStyleSheet = StyleSheetMap<ClassName | ComponentRuleset>;
-
-export type StyleSheetMap<T> = { [selector: string]: T };
+export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
 export type StyleSheetDefinition<Theme, Props = any> =
   | null
-  | ((theme: Theme, props: Props) => ComponentStyleSheet);
+  | ((theme: Theme, props: Props) => StyleSheet);
 
-export interface GlobalStyleSheet {
+export interface GlobalSheet {
   '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace[] };
-  '@global'?: { [selector: string]: Ruleset };
+  '@global'?: { [selector: string]: Block };
   '@import'?: string | string[];
   '@keyframes'?: { [animationName: string]: Keyframes };
-  '@page'?: Ruleset;
-  '@viewport'?: Ruleset;
+  '@page'?: Block;
+  '@viewport'?: Block;
 }
 
-export type GlobalSheetDefinition<Theme> = null | ((theme: Theme) => GlobalStyleSheet);
+export type GlobalSheetDefinition<Theme> = null | ((theme: Theme) => GlobalSheet);
 
 // COMPONENT
 
@@ -478,13 +478,13 @@ export interface WithStylesWrapperProps {
 
 export interface WithStylesProps<Theme, ParsedBlock> {
   ref?: React.Ref<any>;
-  styles: StyleSheetMap<ParsedBlock>;
+  styles: SheetMap<ParsedBlock>;
   theme?: Theme;
   themeName?: ThemeName;
 }
 
 export interface WithStylesState<ParsedBlock> {
-  styles: StyleSheetMap<ParsedBlock>;
+  styles: SheetMap<ParsedBlock>;
 }
 
 export interface WithStylesOptions {

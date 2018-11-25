@@ -6,7 +6,7 @@
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Sheet from './Sheet';
 
-export default class Ruleset<Block> {
+export default class Ruleset<Block extends object> {
   nested: { [selector: string]: Ruleset<Block> } = {};
 
   parent: Ruleset<Block> | null = null;

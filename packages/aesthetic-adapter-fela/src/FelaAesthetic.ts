@@ -8,7 +8,11 @@ import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
+export default class FelaAesthetic<Theme extends object> extends Aesthetic<
+  Theme,
+  NativeBlock,
+  ParsedBlock
+> {
   fela: IRenderer;
 
   keyframes: { [animationName: string]: ClassName } = {};
@@ -33,7 +37,7 @@ export default class FelaAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, 
     render(this.fela);
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 

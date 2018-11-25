@@ -5,11 +5,16 @@
 
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
-import { ClassName } from './types';
+import { ClassName, SheetMap } from './types';
 
-type AtRuleType<Block> = string | string[] | Ruleset<Block> | Ruleset<Block>[] | Sheet<Block>;
+type AtRuleType<Block extends object> =
+  | string
+  | string[]
+  | Ruleset<Block>
+  | Ruleset<Block>[]
+  | Sheet<Block>;
 
-export default class Sheet<Block extends Object> {
+export default class Sheet<Block extends object> {
   atRules: { [rule: string]: AtRuleType<Block> } = {};
 
   classNames: { [selector: string]: ClassName } = {};
@@ -38,7 +43,7 @@ export default class Sheet<Block extends Object> {
     return new Ruleset(selector, this);
   }
 
-  toObject(): Block {
+  toObject(): SheetMap<Block> {
     const atRules: { [key: string]: any } = {};
     const sets: { [key: string]: Sheet<Block> | Ruleset<Block> } = {};
 
@@ -60,6 +65,6 @@ export default class Sheet<Block extends Object> {
       ...this.classNames,
       ...toObjectRecursive(sets),
       ...toObjectRecursive(this.ruleSets),
-    } as Block;
+    } as SheetMap<Block>;
   }
 }

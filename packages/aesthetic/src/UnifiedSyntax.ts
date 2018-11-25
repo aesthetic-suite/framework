@@ -10,17 +10,17 @@ import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
-import { ComponentStyleSheet, ComponentRuleset, GlobalStyleSheet, Keyframes } from './types';
+import { StyleSheet, ComponentBlock, GlobalSheet } from './types';
 
 export type Handler = (...args: any[]) => void;
 
-export default class UnifiedSyntax<NativeBlock> {
+export default class UnifiedSyntax<NativeBlock extends object> {
   handlers: { [eventName: string]: Handler } = {};
 
   /**
    * Convert at-rules within a global stylesheet.
    */
-  convertGlobalSheet(globalSheet: GlobalStyleSheet): Sheet<NativeBlock> {
+  convertGlobalSheet(globalSheet: GlobalSheet): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
 
     Object.keys(globalSheet).forEach(rule => {
@@ -55,7 +55,7 @@ export default class UnifiedSyntax<NativeBlock> {
                 formatFontFace({
                   ...font,
                   fontFamily,
-                }) as ComponentRuleset,
+                }) as ComponentBlock,
                 sheet.createRuleset(fontFamily),
               );
             });
@@ -162,7 +162,7 @@ export default class UnifiedSyntax<NativeBlock> {
   /**
    * Convert a mapping of unified rulesets to their native syntax.
    */
-  convertStyleSheet(styleSheet: ComponentStyleSheet): Sheet<NativeBlock> {
+  convertStyleSheet(styleSheet: StyleSheet): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
 
     Object.keys(styleSheet).forEach(selector => {
@@ -199,7 +199,7 @@ export default class UnifiedSyntax<NativeBlock> {
    * Convert a ruleset including local at-rules, blocks, and properties.
    */
   convertRuleset(
-    unifiedRuleset: ComponentRuleset,
+    unifiedRuleset: ComponentBlock,
     ruleset: Ruleset<NativeBlock>,
   ): Ruleset<NativeBlock> {
     if (process.env.NODE_ENV !== 'production') {
@@ -211,7 +211,7 @@ export default class UnifiedSyntax<NativeBlock> {
     const atRules: string[] = [];
 
     Object.keys(unifiedRuleset).forEach(baseKey => {
-      const key = baseKey as keyof ComponentRuleset;
+      const key = baseKey as keyof ComponentBlock;
       const value = unifiedRuleset[key];
 
       if (typeof value === 'undefined') {
@@ -219,7 +219,7 @@ export default class UnifiedSyntax<NativeBlock> {
       } else if (key.startsWith('@')) {
         atRules.push(key);
       } else if (key.startsWith(':') || key.startsWith('[')) {
-        this.convertSelector(key, value as ComponentRuleset, ruleset);
+        this.convertSelector(key, value as ComponentBlock, ruleset);
       } else {
         this.emit('property', [ruleset, key as keyof NativeBlock, value]);
       }
@@ -306,7 +306,7 @@ export default class UnifiedSyntax<NativeBlock> {
   /**
    * Convert a nested selector ruleset by emitting the appropriate name.
    */
-  convertSelector(key: string, value: ComponentRuleset, ruleset: Ruleset<NativeBlock>) {
+  convertSelector(key: string, value: ComponentBlock, ruleset: Ruleset<NativeBlock>) {
     if (process.env.NODE_ENV !== 'production') {
       if (!isObject(value)) {
         throw new Error(`Selector "${key}" must be a ruleset object.`);

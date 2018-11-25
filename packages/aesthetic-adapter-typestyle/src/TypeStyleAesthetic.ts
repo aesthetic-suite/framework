@@ -7,7 +7,11 @@ import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aestheti
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
+export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
+  Theme,
+  NativeBlock,
+  ParsedBlock
+> {
   typeStyle: TypeStyle;
 
   keyframes: { [animationName: string]: ClassName } = {};
@@ -30,7 +34,7 @@ export default class TypeStyleAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       .on('support', this.handleSupport);
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     return this.typeStyle.style(...styles);
   }
 

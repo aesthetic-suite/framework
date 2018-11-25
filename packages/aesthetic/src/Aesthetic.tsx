@@ -15,9 +15,9 @@ import {
   ClassName,
   StyleName,
   ThemeName,
-  ComponentStyleSheet,
+  StyleSheet,
   StyleSheetDefinition,
-  StyleSheetMap,
+  SheetMap,
   StyledComponent,
   WithStylesOptions,
   WithStylesProps,
@@ -36,8 +36,12 @@ export interface AestheticOptions {
   themePropName: string;
 }
 
-export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = NativeBlock> {
-  cache: { [styleName: string]: StyleSheetMap<ParsedBlock> } = {};
+export default abstract class Aesthetic<
+  Theme extends object,
+  NativeBlock extends object,
+  ParsedBlock extends object | string = NativeBlock
+> {
+  cache: { [styleName: string]: SheetMap<ParsedBlock> } = {};
 
   globals: { [themeName: string]: GlobalSheetDefinition<Theme> } = {};
 
@@ -51,7 +55,7 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
 
   themes: { [themeName: string]: Theme } = {};
 
-  protected appliedGlobals: boolean = false;
+  private appliedGlobals: boolean = false;
 
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
@@ -69,19 +73,108 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
   }
 
   /**
+   * Apply and inject global styles for the current theme.
+   * This should only happen once!
+   */
+  applyGlobalStyles() {
+    if (this.appliedGlobals) {
+      return;
+    }
+
+    const globalDef = this.globals[this.options.theme];
+    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
+
+    if (globalSheet) {
+      this.processStyleSheet(this.syntax.convertGlobalSheet(globalSheet).toObject(), ':root');
+    }
+
+    this.appliedGlobals = true;
+    this.flushStyles(':root');
+  }
+
+  /**
+   * Create and return a stylesheet unique to an adapter.
+   */
+  createStyleSheet(styleName: StyleName, props: object = {}): SheetMap<ParsedBlock> {
+    if (this.cache[styleName]) {
+      return this.cache[styleName];
+    }
+
+    this.applyGlobalStyles();
+
+    const styleSheet = this.processStyleSheet(
+      this.syntax.convertStyleSheet(this.getStyles(styleName, props)).toObject(),
+      styleName,
+    );
+
+    this.cache[styleName] = styleSheet;
+
+    return styleSheet;
+  }
+
+  /**
    * Register a theme by extending and merging with a previously defined theme.
    */
   extendTheme(
     themeName: ThemeName,
     parentThemeName: ThemeName,
     theme: Theme,
-    globals?: GlobalSheetDefinition<Theme>,
+    globals: GlobalSheetDefinition<Theme> = null,
   ): this {
     return this.registerTheme(
       themeName,
       deepMerge({}, this.getTheme(parentThemeName), theme),
       globals,
     );
+  }
+
+  /**
+   * Flush parsed styles and inject them into the DOM.
+   */
+  flushStyles(styleName: StyleName) {}
+
+  /**
+   * Retrieve the defined component styles. If the definition is a function,
+   * execute it while passing the current theme and React props.
+   */
+  getStyles(styleName: StyleName, props: object = {}): StyleSheet {
+    const parentStyleName = this.parents[styleName];
+    const styleDef = this.styles[styleName];
+    const styleSheet = styleDef ? styleDef(this.getTheme(), props) : {};
+
+    // Merge from parent
+    if (parentStyleName) {
+      return deepMerge({}, this.getStyles(parentStyleName, props), styleSheet);
+    }
+
+    return styleSheet;
+  }
+
+  /**
+   * Return a theme object or throw an error.
+   */
+  getTheme(customTheme: ThemeName = ''): Theme {
+    const themeName = customTheme || this.options.theme;
+    const theme = this.themes[themeName];
+
+    if (process.env.NODE_ENV !== 'production') {
+      if (!theme || !isObject(theme)) {
+        throw new Error(`Theme "${themeName}" does not exist.`);
+      }
+    }
+
+    return theme;
+  }
+
+  /**
+   * Process from an Aesthetic style sheet to an adapter native style sheet.
+   */
+  processStyleSheet(
+    styleSheet: SheetMap<NativeBlock>,
+    styleName: StyleName,
+  ): SheetMap<ParsedBlock> {
+    // @ts-ignore Allow spread
+    return { ...styleSheet };
   }
 
   /**
@@ -172,6 +265,11 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
 
     return classNames.join(' ').trim();
   }
+
+  /**
+   * Transform the styles into CSS class names.
+   */
+  abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
   /**
    * Wrap a React component with an HOC that handles the entire styling, converting,
@@ -266,98 +364,4 @@ export default abstract class Aesthetic<Theme, NativeBlock, ParsedBlock = Native
       return hoistNonReactStatics(WithStyles, WrappedComponent);
     };
   }
-
-  /**
-   * Apply and inject global styles for the current theme.
-   * This should only happen once!
-   */
-  protected applyGlobalStyles() {
-    if (this.appliedGlobals) {
-      return;
-    }
-
-    const globalDef = this.globals[this.options.theme];
-    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
-
-    if (globalSheet) {
-      this.processStyleSheet(this.syntax.convertGlobalSheet(globalSheet).toObject(), ':root');
-    }
-
-    this.appliedGlobals = true;
-    this.flushStyles(':root');
-  }
-
-  /**
-   * Create and return a stylesheet unique to an adapter.
-   */
-  protected createStyleSheet(styleName: StyleName, props: Object = {}): StyleSheetMap<ParsedBlock> {
-    if (this.cache[styleName]) {
-      return this.cache[styleName];
-    }
-
-    this.applyGlobalStyles();
-
-    const styleSheet = this.processStyleSheet(
-      this.syntax.convertStyleSheet(this.getStyles(styleName, props)).toObject(),
-      styleName,
-    );
-
-    this.cache[styleName] = styleSheet;
-
-    return styleSheet;
-  }
-
-  /**
-   * Flush parsed styles and inject them into the DOM.
-   */
-  protected flushStyles(styleName: StyleName) {}
-
-  /**
-   * Retrieve the defined component styles. If the definition is a function,
-   * execute it while passing the current theme and React props.
-   */
-  protected getStyles(styleName: StyleName, props: Object = {}): ComponentStyleSheet {
-    const parentStyleName = this.parents[styleName];
-    const styleDef = this.styles[styleName];
-    const styleSheet = styleDef ? styleDef(this.getTheme(), props) : {};
-
-    // Merge from parent
-    if (parentStyleName) {
-      return deepMerge({}, this.getStyles(parentStyleName, props), styleSheet);
-    }
-
-    return styleSheet;
-  }
-
-  /**
-   * Return a theme object or throw an error.
-   */
-  protected getTheme(customTheme: ThemeName = ''): Theme {
-    const themeName = customTheme || this.options.theme;
-    const theme = this.themes[themeName];
-
-    if (process.env.NODE_ENV !== 'production') {
-      if (!theme) {
-        throw new Error(`Theme "${themeName}" does not exist.`);
-      }
-    }
-
-    return theme;
-  }
-
-  /**
-   * Process from an Aesthetic style sheet to an adapter native style sheet.
-   */
-  protected processStyleSheet(
-    styleSheet: NativeBlock,
-    styleName: StyleName,
-  ): StyleSheetMap<ParsedBlock> {
-    // @ts-ignore Allow spread
-    return { ...styleSheet };
-  }
-
-  /**
-   * Transform the styles into CSS class names.
-   */
-  protected abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 }

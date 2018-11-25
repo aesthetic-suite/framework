@@ -3,11 +3,15 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, StyleSheetMap } from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
 import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBlock, ParsedBlock> {
+export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
+  Theme,
+  NativeBlock,
+  ParsedBlock
+> {
   aphrodite: {
     css(...styles: ParsedBlock[]): ClassName;
     StyleSheet: typeof Aphrodite;
@@ -37,11 +41,11 @@ export default class AphroditeAesthetic<Theme> extends Aesthetic<Theme, NativeBl
       .on('selector', this.handleNested);
   }
 
-  protected processStyleSheet(styleSheet: object): StyleSheetMap<ParsedBlock> {
-    return this.aphrodite.StyleSheet.create(styleSheet) as StyleSheetMap<ParsedBlock>;
+  processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
+    return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;

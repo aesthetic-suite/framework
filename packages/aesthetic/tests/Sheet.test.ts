@@ -1,8 +1,9 @@
 import Ruleset from '../src/Ruleset';
 import Sheet from '../src/Sheet';
+import { Block } from '../src/types';
 
 describe('Sheet', () => {
-  let sheet: Sheet<any>;
+  let sheet: Sheet<Block>;
 
   beforeEach(() => {
     sheet = new Sheet();

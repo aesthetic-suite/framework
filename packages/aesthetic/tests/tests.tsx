@@ -1,6 +1,6 @@
 import React from 'react';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { ComponentRuleset, WithStylesProps } from '../src/types';
+import { ComponentBlock, WithStylesProps } from '../src/types';
 
 type Theme = {
   unit: number;
@@ -17,7 +17,7 @@ const Comp: React.SFC<Props & WithStylesProps<Theme, string>> = props => {
   return <div className={aesthetic.transformStyles(props.styles.button)} />;
 };
 
-const ruleset: ComponentRuleset = {
+const ruleset: ComponentBlock = {
   display: 'block',
   backgroundColor: 'white',
   invalid: 'property',
