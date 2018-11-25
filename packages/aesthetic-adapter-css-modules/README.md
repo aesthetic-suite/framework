@@ -5,7 +5,7 @@ Provides [CSS Modules](https://github.com/css-modules/css-modules) support for
 
 ## Requirements
 
-- React 15+
+- React 16.3+
 - Aesthetic
 - CSS Modules
 

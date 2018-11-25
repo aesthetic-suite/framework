@@ -1,3 +1,16 @@
+# 3.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 3.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Refactored `CSSModulesAdapter` into `CSSModulesAesthetic`. Adapters are no longer passed to
+  `Aesthetic`, they extend it.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 2.1.0 - 05/30/18
 
 #### 🚀 New

@@ -5,7 +5,7 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 
 ## Requirements
 
-- React 15+
+- React 16.3+
 - Aesthetic
 - Aphrodite
 

@@ -281,7 +281,7 @@ export default abstract class Aesthetic<
       themePropName = this.options.themePropName,
     } = options;
 
-    return function<Props extends object>(
+    return function withStylesFactory<Props extends object>(
       WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
     ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;

@@ -5,7 +5,7 @@ Provides [Fela](https://github.com/rofrischmann/fela) support for
 
 ## Requirements
 
-- React 15+
+- React 16.3+
 - Aesthetic
 - Fela
 

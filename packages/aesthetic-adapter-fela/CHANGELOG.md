@@ -1,3 +1,20 @@
+# 3.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 3.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Refactored `FelaAdapter` into `FelaAesthetic`. Adapters are no longer passed to `Aesthetic`, they
+  extend it.
+  - A `fela` instance must now be passed to the constructor.
+- Removed `aesthetic-adapter-fela/unified` import. Unified syntax is now required and enabled by
+  default.
+- Dropped `fela-dom` v6 support.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 2.2.0 - 05/30/18
 
 #### 🚀 New

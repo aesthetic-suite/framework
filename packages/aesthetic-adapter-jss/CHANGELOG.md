@@ -1,3 +1,20 @@
+# 3.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 3.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Refactored `JSSAdapter` into `JSSAesthetic`. Adapters are no longer passed to `Aesthetic`, they
+  extend it.
+  - A `jss` instance must now be passed to the constructor.
+- Removed `aesthetic-adapter-jss/unified` import. Unified syntax is now required and enabled by
+  default.
+- Removed the ability to pass custom options to `jss.createStyleSheet`.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 2.4.0 - 05/30/18
 
 #### 🚀 New

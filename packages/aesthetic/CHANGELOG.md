@@ -1,3 +1,74 @@
+# 3.0.0
+
+Aesthetic has been rewritten in TypeScript, and as such, many existing patterns were not type safe
+and had to be refactored. With this rewrite comes a new adapter layer, easier theme layer, removal
+of stylers, and unified syntax as the default.
+
+[View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/3.0.md)
+
+#### 💥 Breaking
+
+**Core**
+
+- Dropped support for Glamor and the `aesthetic-adapter-glamor` package.
+- Dropped support for style objects passed directly to `withStyles`. Styles must now be a definition
+  function that returns an object.
+- Removed the `Adapter` class. Adapters now extend `Aesthetic` instead of being passed to it through
+  the constructor.
+  - `Adapter#create` is now `Aesthetic#processStyleSheet`.
+  - `Adapter#transform` is now `Aesthetic#transformToClassName`.
+  - `Adapter#merge` has been removed, and now relies on `lodash` merge.
+- Removed the `Aesthetic` option `defaultTheme`, use `theme` option instead.
+- Removed the `ThemeProvider` component, use `theme` option instead.
+- Removed the `createStyler` factory function.
+  - Use `Aesthetic#withStyles` instead of `style`.
+  - Use `Aesthetic#transformStyles` instead of `transform`.
+- Removed `createStyleElement` helper function.
+- Removed `PropType`s exported from the index.
+- Updated `Aesthetic#registerTheme` and `Aesthetic#extendTheme` global styles to require a
+  definition function that returns an object, or null.
+- Moved `Aesthetic#constructor` options to the 1st argument.
+- Moved `Aesthetic#extendTheme` theme name to 1st argument, and parent theme name to 2nd argument
+  (swapped positions).
+
+**Unified Syntax**
+
+- Unified syntax is now required and is the default syntax. Native adapter syntax is no longer
+  supported.
+- Dropped support for `@namespace` (was rarely supported by adapters).
+- Dropped support for global at-rules being defined within a component stylesheet (via
+  `withStyles`). This includes `@charset`, `@import`, `@font-face`, `@global`, `@keyframes`,
+  `@page`, and `@viewport`.
+  - They must only be defined within the global stylesheet when registering a theme.
+  - Local `@keyframes` can be defined within a component by setting the keyframes object to
+    `animationName`.
+- Dropped support for local at-rules being definef within a global stylesheet (via theme global
+  styles). This includes `@fallbacks`, `@media`, `@supports`, and `@selectors`.
+- Descendent selectors (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
+  (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
+
+#### 🚀 New
+
+**Core**
+
+- Added new `Aesthetic` option `theme` to denote the currently active theme.
+- Updated `withStyles` to use `getDerivedStateFromProps` for better performance.
+- DOM styles are now flushed on mount to properly support server-side rendering.
+- Global styles now have access to the current theme object.
+
+**Unified Syntax**
+
+- Added new `@selectors` at-rule to support all advanced selectors.
+- Updated `animationName` property to support inline keyframes objects.
+
+#### 🐞 Fixed
+
+- Global theme styles will no longer collide with other themes.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 2.6.0 - 07/11/18
 
 #### 🚀 New
@@ -93,7 +164,7 @@ Styles are no longer transformed on mount and will now be transformed on render 
 stylesheet layer. Furthermore, unified syntax now supports most common at-rules, and a new
 `@font-face` structure.
 
-[View the migration guide!](../../MIGRATE_2.0.md)
+[View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/2.0.md)
 
 #### 💥 Breaking
 

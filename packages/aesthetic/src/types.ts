@@ -458,7 +458,7 @@ export type StyleSheetDefinition<Theme, Props = any> =
 
 export interface GlobalSheet {
   '@charset'?: string;
-  '@font-face'?: { [fontFamily: string]: FontFace[] };
+  '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: { [selector: string]: Block };
   '@import'?: string | string[];
   '@keyframes'?: { [animationName: string]: Keyframes };

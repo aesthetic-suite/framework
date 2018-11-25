@@ -1,3 +1,20 @@
+# 2.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 3.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Refactored `TypeStyleAdapter` into `TypeStyleAesthetic`. Adapters are no longer passed to
+  `Aesthetic`, they extend it.
+  - A `TypeStyle` instance must now be passed to the constructor.
+- Removed `aesthetic-adapter-typestyle/unified` import. Unified syntax is now required and enabled
+  by default.
+- Updated `typestyle` peer requirement to 2.0.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 1.3.0 - 05/30/18
 
 #### 🚀 New

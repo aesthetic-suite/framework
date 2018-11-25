@@ -1,3 +1,18 @@
+# 3.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 3.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Refactored `AphroditeAdapter` into `AphroditeAesthetic`. Adapters are no longer passed to
+  `Aesthetic`, they extend it.
+- Removed `aesthetic-adapter-aphrodite/unified` import. Unified syntax is now required and enabled
+  by default.
+
+#### 🛠 Internal
+
+- Converted from Flow to TypeScript.
+
 # 2.3.0 - 05/30/18
 
 #### 🚀 New

@@ -37,7 +37,7 @@ export default withStyles(({ unit }) => ({
 
 ## Requirements
 
-- React 15/16+
+- React 16.3+
 - IE 10+
 - `WeakMap`
 

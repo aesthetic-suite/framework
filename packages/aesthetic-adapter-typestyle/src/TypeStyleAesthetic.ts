@@ -16,10 +16,10 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
 
   keyframes: { [animationName: string]: ClassName } = {};
 
-  constructor(typeStyle?: TypeStyle, options: Partial<AestheticOptions> = {}) {
+  constructor(typeStyle: TypeStyle, options: Partial<AestheticOptions> = {}) {
     super(options);
 
-    this.typeStyle = typeStyle || new TypeStyle({ autoGenerateTag: true });
+    this.typeStyle = typeStyle;
 
     this.syntax
       .on('attribute', this.handleNested)

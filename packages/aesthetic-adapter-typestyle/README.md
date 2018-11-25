@@ -5,7 +5,7 @@ Provides [TypeStyle](https://github.com/threepointone/typestyle) support for
 
 ## Requirements
 
-- React 15+
+- React 16.3+
 - Aesthetic
 - TypeStyle
 
