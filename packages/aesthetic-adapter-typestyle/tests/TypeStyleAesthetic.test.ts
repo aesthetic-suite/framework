@@ -1,5 +1,6 @@
 /* eslint-disable jest/expect-expect, no-underscore-dangle */
 
+import { TypeStyle } from 'typestyle';
 import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -46,7 +47,7 @@ describe('TypeStyleAesthetic', () => {
   }
 
   beforeEach(() => {
-    instance = new TypeStyleAesthetic();
+    instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
   });
 
   it('converts and transforms inline styles', () => {

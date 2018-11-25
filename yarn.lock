@@ -2226,10 +2226,10 @@ babel-messages@^6.23.0:
   dependencies:
     babel-runtime "^6.22.0"
 
-babel-plugin-css-modules-transform@1.6.1:
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.6.1.tgz#5af9483bd62d09af18eeebdc7e6c4370e5125eed"
-  integrity sha512-Iv98dKRgQnhuHFcn2heHH1OpHo9LGyoKjlsAkj6/Q3wkwpVyHrNfVua/WHnrwe2f7EHy1KANnOSg+q4AJ6ZzaQ==
+babel-plugin-css-modules-transform@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.npmjs.org/babel-plugin-css-modules-transform/-/babel-plugin-css-modules-transform-1.6.2.tgz#eecf4889637bf1c56cda25ee21df060775d1bd22"
+  integrity sha512-zBsI54N5n979vfYpqFzQ6oRwEiVcmLH5REyaincNW+Ecl52nvRsQPYIbDcJzHePrXI20YSRUw6G/qbPwZZDgfg==
   dependencies:
     css-modules-require-hook "^4.0.6"
     mkdirp "^0.5.1"
@@ -3203,7 +3203,7 @@ csstype@^2.0.0, csstype@^2.2.0:
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.5.6.tgz#2ae1db2319642d8b80a668d2d025c6196071e788"
   integrity sha512-tKPyhy0FmfYD2KQYXD5GzkvAYLYj96cMLXr648CKGd3wBe0QqoPipImjGiLze9c8leJK8J3n7ap90tpk3E6HGQ==
 
-csstype@^2.5.5, csstype@^2.5.7:
+csstype@^2.4.0, csstype@^2.5.5, csstype@^2.5.7:
   version "2.5.7"
   resolved "https://registry.npmjs.org/csstype/-/csstype-2.5.7.tgz#bf9235d5872141eccfb2d16d82993c6b149179ff"
   integrity sha512-Nt5VDyOTIIV4/nRFswoCKps1R5CD1hkiyjBE9/thNaNZILLEviVw9yWQw15+O+CpNjQKB/uvdcxFFOrSflY3Yw==
@@ -9459,11 +9459,12 @@ typescript@^3.1.6:
   resolved "https://registry.npmjs.org/typescript/-/typescript-3.1.6.tgz#b6543a83cfc8c2befb3f4c8fba6896f5b0c9be68"
   integrity sha512-tDMYfVtvpb96msS1lDX9MEdHrW4yOuZ4Kdc4Him9oU796XldPYF/t2+uKoX0BBa0hXXwDlqYQbXY5Rzjzc5hBA==
 
-typestyle@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.npmjs.org/typestyle/-/typestyle-1.7.2.tgz#22ca9dfeaf334f755030cc6d7799b468bb1ee132"
-  integrity sha512-tqkWXC6PWidyPZojL60xapIdwCEix+UFiKys+j4xBGepZJwEs9stvsGr2WU4/yk5F+7qgyyR88njn7/OtR6rhg==
+typestyle@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/typestyle/-/typestyle-2.0.1.tgz#9593e6029ce5f23f1a5728ddd3ed6bf1ffa781f8"
+  integrity sha512-3Mv5ZZbYJ3y3G6rX3iRLrgYibAlafK2nsc9VlTsYcEaK8w+9vtNDx0T2TJsznI5FIh+WoBnjJ5F0/26WaGRxXQ==
   dependencies:
+    csstype "^2.4.0"
     free-style "2.5.1"
 
 ua-parser-js@^0.7.18:

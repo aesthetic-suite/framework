@@ -358,7 +358,7 @@ describe('UnifiedSyntax', () => {
         el: { display: 'block' },
       });
 
-      expect(spy).toHaveBeenCalledWith({ display: 'block' }, sheet.createRuleset('el'));
+      expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
       expect(stylesheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
     });
   });

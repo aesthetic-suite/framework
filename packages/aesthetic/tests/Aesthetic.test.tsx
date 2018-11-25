@@ -7,6 +7,7 @@ import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import { create } from 'jss';
 import preset from 'jss-preset-default';
+import { TypeStyle } from 'typestyle';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { Block } from '../src/types';
@@ -856,7 +857,7 @@ describe('Aesthetic', () => {
     });
 
     it('supports TypeStyle', () => {
-      instance = new TypeStyleAesthetic();
+      instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
       instance.registerTheme('default', {});
       instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
 

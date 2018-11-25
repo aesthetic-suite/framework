@@ -24,6 +24,6 @@
   },
   "devDependencies": {
     "aesthetic": "^2.6.0",
-    "typestyle": "^1.7.2"
+    "typestyle": "^2.0.1"
   }
 }
