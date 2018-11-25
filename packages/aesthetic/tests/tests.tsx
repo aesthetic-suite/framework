@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { ComponentBlock, WithStylesProps } from '../src/types';

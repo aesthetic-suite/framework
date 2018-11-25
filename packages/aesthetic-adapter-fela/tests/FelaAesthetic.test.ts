@@ -1,3 +1,5 @@
+/* eslint-disable jest/expect-expect */
+
 import { createRenderer } from 'fela';
 // @ts-ignore
 import { renderToString } from 'fela-tools';

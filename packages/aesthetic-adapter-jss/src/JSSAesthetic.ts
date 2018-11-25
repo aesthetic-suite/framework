@@ -50,9 +50,9 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   ): SheetMap<ParsedBlock> {
     this.sheets[styleName] = this.jss
       .createStyleSheet<any>(styleSheet, {
+        classNamePrefix: `${styleName}-`,
         media: 'screen',
         meta: styleName,
-        classNamePrefix: `${styleName}-`,
       })
       .attach();
 

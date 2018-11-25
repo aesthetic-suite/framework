@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import toArray from '../helpers/toArray';
+import toArray from './toArray';
 import { FontFace, Omit } from '../types';
 
 const FORMATS: { [ext: string]: string } = {

@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-/* eslint-disable no-param-reassign */
+/* eslint-disable lines-between-class-members, no-dupe-class-members, complexity */
 
 import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
@@ -216,7 +216,9 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
       if (typeof value === 'undefined') {
         return;
-      } else if (key.startsWith('@')) {
+      }
+
+      if (key.startsWith('@')) {
         atRules.push(key);
       } else if (key.startsWith(':') || key.startsWith('[')) {
         this.convertSelector(key, value as ComponentBlock, ruleset);
@@ -285,8 +287,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
             }
           }
 
-          Object.keys(selectors).forEach(key => {
-            this.convertSelector(key, selectors[key], ruleset);
+          Object.keys(selectors).forEach(selector => {
+            this.convertSelector(selector, selectors[selector], ruleset);
           });
 
           break;

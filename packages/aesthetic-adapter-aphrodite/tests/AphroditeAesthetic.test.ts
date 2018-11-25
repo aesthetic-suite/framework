@@ -1,3 +1,5 @@
+/* eslint-disable jest/expect-expect */
+
 import { StyleSheetTestUtils } from 'aphrodite';
 import AphroditeAesthetic from '../src/AphroditeAesthetic';
 import {

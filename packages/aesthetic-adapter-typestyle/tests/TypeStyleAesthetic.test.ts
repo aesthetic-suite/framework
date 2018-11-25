@@ -1,3 +1,5 @@
+/* eslint-disable jest/expect-expect, no-underscore-dangle */
+
 import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 import {
   FONT_ROBOTO_FLAT_SRC,
@@ -18,7 +20,6 @@ import {
   SYNTAX_PSEUDO,
   SYNTAX_SUPPORTS,
   FONT_ROBOTO,
-  FONT_CIRCULAR_MULTIPLE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 

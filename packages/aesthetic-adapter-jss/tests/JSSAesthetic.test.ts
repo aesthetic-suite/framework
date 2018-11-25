@@ -1,3 +1,5 @@
+/* eslint-disable jest/expect-expect */
+
 import { create } from 'jss';
 import preset from 'jss-preset-default';
 import JSSAesthetic from '../src/JSSAesthetic';

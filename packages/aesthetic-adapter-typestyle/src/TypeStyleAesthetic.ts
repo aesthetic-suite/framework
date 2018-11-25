@@ -91,7 +91,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     selector: string,
     value: Ruleset<NativeBlock>,
   ) => {
-    const nest = ruleset.nested['$nest'] || ruleset.createRuleset('$nest');
+    const nest = ruleset.nested.$nest || ruleset.createRuleset('$nest');
 
     nest.addNested(selector.startsWith('@') ? selector : `&${selector}`, value);
 

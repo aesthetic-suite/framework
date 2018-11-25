@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys */
+/* eslint-disable react/prefer-stateless-function, react/no-multi-comp */
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
@@ -500,7 +500,7 @@ describe('Aesthetic', () => {
       const Wrapped = instance.withStyles(null)(BaseComponent);
 
       expect(Wrapped.displayName).toBe('withAesthetic(BaseComponent)');
-      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/i));
+      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/u));
     });
 
     it('inherits name from component `displayName`', () => {
@@ -515,7 +515,7 @@ describe('Aesthetic', () => {
       const Wrapped = instance.withStyles(null)(DisplayComponent);
 
       expect(Wrapped.displayName).toBe('withAesthetic(CustomDisplayName)');
-      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/i));
+      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/u));
     });
 
     it('stores the original component as a static property', () => {

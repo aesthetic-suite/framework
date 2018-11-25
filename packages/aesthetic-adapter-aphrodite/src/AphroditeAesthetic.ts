@@ -13,8 +13,8 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   ParsedBlock
 > {
   aphrodite: {
-    css(...styles: ParsedBlock[]): ClassName;
     StyleSheet: typeof Aphrodite;
+    css(...styles: ParsedBlock[]): ClassName;
   };
 
   fontFaces: { [fontFamily: string]: NativeBlock[] } = {};

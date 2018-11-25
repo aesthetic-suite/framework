@@ -54,6 +54,7 @@ export default class Ruleset<Block extends object> {
   }
 
   toObject(): Block {
+    // eslint-disable-next-line prefer-object-spread
     return Object.assign({}, this.properties, toObjectRecursive(this.nested)) as Block;
   }
 }

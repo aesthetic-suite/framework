@@ -2,7 +2,7 @@
   "name": "aesthetic-root",
   "private": true,
   "scripts": {
-    "build": "beemo typescript --workspaces=aesthetic",
+    "build": "beemo typescript --workspaces=*",
     "coverage": "yarn run jest --coverage",
     "eslint": "beemo eslint",
     "jest": "beemo jest",
@@ -15,7 +15,7 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.4.2",
+    "@milesj/build-tools": "^0.8.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-css-modules-transform": "1.6.1",
     "babel-register": "^6.26.0",

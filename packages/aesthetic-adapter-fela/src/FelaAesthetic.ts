@@ -64,7 +64,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     fontFamily: string,
     srcPaths: string[][],
   ) => {
-    fontFaces.map((face, i) => {
+    fontFaces.forEach((face, i) => {
       const { local, ...style } = face.toObject() as any;
 
       this.fela.renderFont(fontFamily, srcPaths[i], {

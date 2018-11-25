@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import UnifiedSyntax from '../src/UnifiedSyntax';
 import Ruleset from '../src/Ruleset';
 import Sheet from '../src/Sheet';
@@ -157,7 +159,6 @@ describe('UnifiedSyntax', () => {
     describe('@global', () => {
       it('emits event per selector', () => {
         const spy = jest.fn();
-        const sheet = new Sheet<any>();
 
         syntax.on('global', spy);
         syntax.convertGlobalSheet(SYNTAX_GLOBAL);
@@ -273,7 +274,6 @@ describe('UnifiedSyntax', () => {
     describe('@page', () => {
       it('emits event', () => {
         const spy = jest.fn();
-        const sheet = new Sheet<any>();
 
         syntax.on('page', spy);
         syntax.convertGlobalSheet(SYNTAX_PAGE);
@@ -294,7 +294,6 @@ describe('UnifiedSyntax', () => {
     describe('@viewport', () => {
       it('emits event', () => {
         const spy = jest.fn();
-        const sheet = new Sheet<any>();
 
         syntax.on('viewport', spy);
         syntax.convertGlobalSheet(SYNTAX_VIEWPORT);
@@ -332,22 +331,22 @@ describe('UnifiedSyntax', () => {
     });
 
     it('skips over falsy values', () => {
-      const sheet = syntax.convertStyleSheet({
+      const stylesheet = syntax.convertStyleSheet({
         string: '',
         object: undefined,
       });
 
-      expect(sheet).toEqual(sheet);
+      expect(stylesheet).toEqual(sheet);
     });
 
     it('sets string as class name on sheet', () => {
-      const sheet = syntax.convertStyleSheet({
+      const stylesheet = syntax.convertStyleSheet({
         foo: 'foo',
         bar: 'bar',
         baz: {},
       });
 
-      expect(sheet.classNames).toEqual({
+      expect(stylesheet.classNames).toEqual({
         foo: 'foo',
         bar: 'bar',
       });
@@ -355,12 +354,12 @@ describe('UnifiedSyntax', () => {
 
     it('converts ruleset and adds to sheet', () => {
       const spy = jest.spyOn(syntax, 'convertRuleset');
-      const sheet = syntax.convertStyleSheet({
+      const stylesheet = syntax.convertStyleSheet({
         el: { display: 'block' },
       });
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, sheet.createRuleset('el'));
-      expect(sheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
+      expect(stylesheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
     });
   });
 

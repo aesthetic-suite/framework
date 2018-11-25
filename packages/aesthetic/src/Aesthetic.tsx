@@ -321,7 +321,10 @@ export default abstract class Aesthetic<
           })(WrappedComponent);
         }
 
-        static getDerivedStateFromProps(props: any, state: WithStylesState<Props, ParsedBlock>) {
+        static getDerivedStateFromProps(
+          props: Readonly<Props>,
+          state: WithStylesState<Props, ParsedBlock>,
+        ): Partial<WithStylesState<Props, ParsedBlock>> | null {
           if (shallowEqual(props, state.props)) {
             return null;
           }
@@ -337,7 +340,6 @@ export default abstract class Aesthetic<
         }
 
         state: any = {
-          props: {},
           styles: {},
         };
 
@@ -368,6 +370,7 @@ export default abstract class Aesthetic<
         }
       }
 
+      // @ts-ignore
       return hoistNonReactStatics(WithStyles, WrappedComponent);
     };
   }

@@ -3,9 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import CSS from 'csstype';
-
-/* eslint-disable no-use-before-define, max-len */
+import CSS from 'csstype'; // eslint-disable-line import/no-unresolved
 
 export type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
 
