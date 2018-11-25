@@ -39,7 +39,7 @@ describe('JSSAesthetic', () => {
 
     expect(instance.transformStyles(...Object.values(styleSheet))).toMatchSnapshot();
 
-    expect(cleanStyles(instance.sheet.toString())).toMatchSnapshot();
+    expect(cleanStyles(instance.sheets.test.toString())).toMatchSnapshot();
   }
 
   beforeEach(() => {

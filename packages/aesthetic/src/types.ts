@@ -483,7 +483,8 @@ export interface WithStylesProps<Theme, ParsedBlock> {
   themeName?: ThemeName;
 }
 
-export interface WithStylesState<ParsedBlock> {
+export interface WithStylesState<Props, ParsedBlock> {
+  props: Props;
   styles: SheetMap<ParsedBlock>;
 }
 

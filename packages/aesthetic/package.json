@@ -27,10 +27,12 @@
   "dependencies": {
     "@types/hoist-non-react-statics": "^3.0.1",
     "@types/react": "^16.4.18",
+    "@types/shallowequal": "^0.2.3",
     "@types/uuid": "^3.4.4",
     "csstype": "^2.5.7",
     "hoist-non-react-statics": "^3.0.1",
     "lodash": "^4.17.11",
+    "shallowequal": "^1.1.0",
     "uuid": "^3.3.2"
   },
   "peerDependencies": {

@@ -6,6 +6,7 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import shallowEqual from 'shallowequal';
 import deepMerge from 'lodash/merge';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
@@ -280,7 +281,7 @@ export default abstract class Aesthetic<
       themePropName = this.options.themePropName,
     } = options;
 
-    return function<Props>(
+    return function<Props extends object>(
       WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
     ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
@@ -291,13 +292,17 @@ export default abstract class Aesthetic<
 
       class WithStyles extends Component<
         Props & WithStylesWrapperProps,
-        WithStylesState<ParsedBlock>
+        WithStylesState<Props, ParsedBlock>
       > {
         static displayName = `withAesthetic(${baseName})`;
 
         static styleName = styleName;
 
         static WrappedComponent = WrappedComponent;
+
+        static defaultProps = {
+          wrappedRef: null,
+        };
 
         static extendStyles(
           customStyleSheet: StyleSheetDefinition<Theme, Props>,
@@ -316,12 +321,24 @@ export default abstract class Aesthetic<
           })(WrappedComponent);
         }
 
-        state = {
-          styles: aesthetic.createStyleSheet(styleName, {
-            // @ts-ignore
-            ...WrappedComponent.defaultProps,
-            ...this.props,
-          }),
+        static getDerivedStateFromProps(props: any, state: WithStylesState<Props, ParsedBlock>) {
+          if (shallowEqual(props, state.props)) {
+            return null;
+          }
+
+          return {
+            props,
+            styles: aesthetic.createStyleSheet(styleName, {
+              // @ts-ignore Allow spread
+              ...WrappedComponent.defaultProps,
+              ...props,
+            }),
+          };
+        }
+
+        state: any = {
+          props: {},
+          styles: {},
         };
 
         componentDidMount() {
