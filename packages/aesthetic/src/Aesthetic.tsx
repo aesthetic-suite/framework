@@ -119,12 +119,12 @@ export default abstract class Aesthetic<
     themeName: ThemeName,
     parentThemeName: ThemeName,
     theme: Theme,
-    globals: GlobalSheetDefinition<Theme> = null,
+    globalSheet: GlobalSheetDefinition<Theme> = null,
   ): this {
     return this.registerTheme(
       themeName,
       deepMerge({}, this.getTheme(parentThemeName), theme),
-      globals,
+      globalSheet,
     );
   }
 
@@ -183,20 +183,18 @@ export default abstract class Aesthetic<
   registerTheme(
     themeName: ThemeName,
     theme: Theme,
-    globals: GlobalSheetDefinition<Theme> = null,
+    globalSheet: GlobalSheetDefinition<Theme> = null,
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
       } else if (!isObject(theme)) {
         throw new TypeError(`Theme "${themeName}" must be a style object.`);
-      } else if (globals !== null && typeof globals !== 'function') {
-        throw new TypeError(`Global styles for "${themeName}" must be a function.`);
       }
     }
 
     this.themes[themeName] = theme;
-    this.globals[themeName] = globals;
+    this.globals[themeName] = this.validateDefinition(themeName, globalSheet, this.globals);
 
     return this;
   }
@@ -209,15 +207,7 @@ export default abstract class Aesthetic<
     styleSheet: StyleSheetDefinition<Theme>,
     extendFrom: StyleName = '',
   ): this {
-    if (process.env.NODE_ENV !== 'production') {
-      if (this.styles[styleName]) {
-        throw new Error(`Styles have already been set for "${styleName}".`);
-      } else if (styleSheet !== null && typeof styleSheet !== 'function') {
-        throw new TypeError(`Styles defined for "${styleName}" must be a function.`);
-      }
-    }
-
-    this.styles[styleName] = styleSheet;
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
 
     if (extendFrom) {
       if (process.env.NODE_ENV !== 'production') {
@@ -363,5 +353,17 @@ export default abstract class Aesthetic<
 
       return hoistNonReactStatics(WithStyles, WrappedComponent);
     };
+  }
+
+  private validateDefinition<T>(key: string, value: T, cache: { [key: string]: T }): T {
+    if (process.env.NODE_ENV !== 'production') {
+      if (cache[key]) {
+        throw new Error(`Styles have already been defined for "${key}".`);
+      } else if (value !== null && typeof value !== 'function') {
+        throw new TypeError(`Definition for "${key}" must be null or a function.`);
+      }
+    }
+
+    return value;
   }
 }
