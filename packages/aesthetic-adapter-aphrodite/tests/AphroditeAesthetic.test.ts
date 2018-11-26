@@ -18,6 +18,7 @@ import {
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_PROPERTIES,
   SYNTAX_PSEUDO,
+  SYNTAX_MEDIA_QUERY_NESTED,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -231,6 +232,24 @@ describe('AphroditeAesthetic', () => {
           },
         },
         'media_1yqe7pa',
+      );
+    });
+
+    it('handles nested @media', () => {
+      renderAndTest(
+        SYNTAX_MEDIA_QUERY_NESTED,
+        {
+          media: {
+            color: 'red',
+            '@media (min-width: 300px)': {
+              color: 'blue',
+              '@media (max-width: 1000px)': {
+                color: 'green',
+              },
+            },
+          },
+        },
+        'media_y3eou6',
       );
     });
   });

@@ -251,6 +251,23 @@ export const SYNTAX_MEDIA_QUERY = {
   },
 };
 
+export const SYNTAX_MEDIA_QUERY_NESTED = {
+  media: {
+    color: 'red',
+    '@media': {
+      '(min-width: 300px)': {
+        color: 'blue',
+
+        '@media': {
+          '(max-width: 1000px)': {
+            color: 'green',
+          },
+        },
+      },
+    },
+  },
+};
+
 export const SYNTAX_MULTI_SELECTOR = {
   multi: {
     cursor: 'pointer',

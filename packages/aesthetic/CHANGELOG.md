@@ -46,6 +46,7 @@ of stylers, and unified syntax as the default.
   styles). This includes `@fallbacks`, `@media`, `@supports`, and `@selectors`.
 - Descendent selectors (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
   (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
+- Properly supports nested at-rules, like `@media` and `@supports`.
 
 #### 🚀 New
 

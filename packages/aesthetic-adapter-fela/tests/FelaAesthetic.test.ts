@@ -25,6 +25,7 @@ import {
   SYNTAX_SUPPORTS,
   FONT_ROBOTO,
   FONT_CIRCULAR_MULTIPLE,
+  SYNTAX_MEDIA_QUERY_NESTED,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -225,6 +226,24 @@ describe('FelaAesthetic', () => {
             },
             '@media (min-width: 300px)': {
               color: 'blue',
+            },
+          },
+        },
+        'a b c',
+      );
+    });
+
+    it('handles nested @media', () => {
+      renderAndTest(
+        SYNTAX_MEDIA_QUERY_NESTED,
+        {
+          media: {
+            color: 'red',
+            '@media (min-width: 300px)': {
+              color: 'blue',
+              '@media (max-width: 1000px)': {
+                color: 'green',
+              },
             },
           },
         },

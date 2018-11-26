@@ -52,9 +52,9 @@ exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-18-1"`;
 
 exports[`JSSAesthetic style sheet handles @media 2`] = `".test-media-0-18-1 {color: red;}@media (min-width: 300px) {.test-media-0-18-1 {color: blue;}}@media (max-width: 1000px) {.test-media-0-18-1 {color: green;}}"`;
 
-exports[`JSSAesthetic style sheet handles @supports 1`] = `"test-sup-0-19-1"`;
+exports[`JSSAesthetic style sheet handles @supports 1`] = `"test-sup-0-20-1"`;
 
-exports[`JSSAesthetic style sheet handles @supports 2`] = `".test-sup-0-19-1 {display: block;}@supports (display: flex) {.test-sup-0-19-1 {display: flex;}}@supports not (display: flex) {.test-sup-0-19-1 {float: left;}}"`;
+exports[`JSSAesthetic style sheet handles @supports 2`] = `".test-sup-0-20-1 {display: block;}@supports (display: flex) {.test-sup-0-20-1 {display: flex;}}@supports not (display: flex) {.test-sup-0-20-1 {float: left;}}"`;
 
 exports[`JSSAesthetic style sheet handles attribute selectors 1`] = `"test-attr-0-13-1"`;
 
@@ -67,6 +67,10 @@ exports[`JSSAesthetic style sheet handles descendant selectors 2`] = `".test-lis
 exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"test-multi-0-16-1"`;
 
 exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 2`] = `".test-multi-0-16-1 {cursor: pointer;}.test-multi-0-16-1:disabled {cursor: default;}.test-multi-0-16-1[disabled] {cursor: default;}.test-multi-0-16-1> span {cursor: default;}"`;
+
+exports[`JSSAesthetic style sheet handles nested @media 1`] = `"test-media-0-19-1"`;
+
+exports[`JSSAesthetic style sheet handles nested @media 2`] = `".test-media-0-19-1 {color: red;}@media (min-width: 300px) {.test-media-0-19-1 {color: blue;}@media (max-width: 1000px) {.test-media-0-19-1 {color: green;}}}"`;
 
 exports[`JSSAesthetic style sheet handles properties 1`] = `"test-props-0-12-1"`;
 

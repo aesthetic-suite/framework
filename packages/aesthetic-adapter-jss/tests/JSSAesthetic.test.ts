@@ -25,6 +25,7 @@ import {
   SYNTAX_CHARSET,
   SYNTAX_IMPORT,
   SYNTAX_IMPORT_MULTIPLE,
+  SYNTAX_MEDIA_QUERY_NESTED,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -274,6 +275,20 @@ describe('JSSAesthetic', () => {
           },
           '@media (min-width: 300px)': {
             color: 'blue',
+          },
+        },
+      });
+    });
+
+    it('handles nested @media', () => {
+      renderAndTest(SYNTAX_MEDIA_QUERY_NESTED, {
+        media: {
+          color: 'red',
+          '@media (min-width: 300px)': {
+            color: 'blue',
+            '@media (max-width: 1000px)': {
+              color: 'green',
+            },
           },
         },
       });

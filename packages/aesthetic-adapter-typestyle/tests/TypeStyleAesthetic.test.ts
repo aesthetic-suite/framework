@@ -21,6 +21,7 @@ import {
   SYNTAX_PSEUDO,
   SYNTAX_SUPPORTS,
   FONT_ROBOTO,
+  SYNTAX_MEDIA_QUERY_NESTED,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -246,6 +247,28 @@ describe('TypeStyleAesthetic', () => {
               },
               '@media (min-width: 300px)': {
                 color: 'blue',
+              },
+            },
+          },
+        },
+        'fuxmg1k',
+      );
+    });
+
+    it('handles nested @media', () => {
+      renderAndTest(
+        SYNTAX_MEDIA_QUERY_NESTED,
+        {
+          media: {
+            color: 'red',
+            $nest: {
+              '@media (min-width: 300px)': {
+                color: 'blue',
+                $nest: {
+                  '@media (max-width: 1000px)': {
+                    color: 'green',
+                  },
+                },
               },
             },
           },

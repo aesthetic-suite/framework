@@ -16,6 +16,8 @@ exports[`TypeStyleAesthetic style sheet handles descendant selectors 1`] = `".f1
 
 exports[`TypeStyleAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
 
+exports[`TypeStyleAesthetic style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;
+
 exports[`TypeStyleAesthetic style sheet handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
 
 exports[`TypeStyleAesthetic style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;

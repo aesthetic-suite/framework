@@ -12,6 +12,8 @@ exports[`AphroditeAesthetic style sheet handles descendant selectors 1`] = `".li
 
 exports[`AphroditeAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".multi_1xnvdcd{cursor:pointer !important;}.multi_1xnvdcd:disabled{cursor:default !important;}.multi_1xnvdcd[disabled]{cursor:default !important;}.multi_1xnvdcd > span{cursor:default !important;}"`;
 
+exports[`AphroditeAesthetic style sheet handles nested @media 1`] = `".media_y3eou6{color:red !important;}@media (min-width: 300px){.media_y3eou6{color:blue !important;}@media (max-width: 1000px){.media_y3eou6{color:green !important;}}}"`;
+
 exports[`AphroditeAesthetic style sheet handles properties 1`] = `".props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}"`;
 
 exports[`AphroditeAesthetic style sheet handles pseudo selectors 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;

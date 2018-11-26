@@ -16,6 +16,8 @@ exports[`FelaAesthetic style sheet handles descendant selectors 1`] = `".a{margi
 
 exports[`FelaAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".a{cursor:pointer}.b:disabled{cursor:default}.c[disabled]{cursor:default}.d> span{cursor:default}"`;
 
+exports[`FelaAesthetic style sheet handles nested @media 1`] = `".a{color:red}@media (min-width: 300px){.b{color:blue}}@media (min-width: 300px) and (max-width: 1000px){.c{color:green}}"`;
+
 exports[`FelaAesthetic style sheet handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
 exports[`FelaAesthetic style sheet handles pseudo selectors 1`] = `".a{position:fixed}.c::before{position:absolute}.b:hover{position:static}"`;
