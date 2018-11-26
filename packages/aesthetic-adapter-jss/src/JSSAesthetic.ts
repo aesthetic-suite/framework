@@ -44,17 +44,23 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
       .on('viewport', this.handleViewport);
   }
 
+  flushStyles(styleName: StyleName) {
+    const sheet = this.sheets[styleName];
+
+    if (sheet) {
+      sheet.attach();
+    }
+  }
+
   processStyleSheet(
     styleSheet: SheetMap<NativeBlock>,
     styleName: StyleName,
   ): SheetMap<ParsedBlock> {
-    this.sheets[styleName] = this.jss
-      .createStyleSheet<any>(styleSheet, {
-        classNamePrefix: `${styleName}-`,
-        media: 'screen',
-        meta: styleName,
-      })
-      .attach();
+    this.sheets[styleName] = this.jss.createStyleSheet<any>(styleSheet, {
+      classNamePrefix: `${styleName}-`,
+      media: 'screen',
+      meta: styleName,
+    });
 
     return this.sheets[styleName].classes;
   }

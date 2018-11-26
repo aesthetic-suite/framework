@@ -33,7 +33,9 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
       .on('support', this.handleSupport);
+  }
 
+  flushStyles() {
     render(this.fela);
   }
 

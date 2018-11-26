@@ -4,7 +4,8 @@
  */
 
 import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
-import { StyleSheet as Aphrodite, Extension } from 'aphrodite';
+// @ts-ignore flushToStyleTag is not typed
+import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
@@ -39,6 +40,10 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
       .on('property', this.handleProperty)
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested);
+  }
+
+  flushStyles() {
+    flushToStyleTag();
   }
 
   processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
