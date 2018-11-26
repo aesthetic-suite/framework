@@ -56,7 +56,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   // https://typestyle.github.io/#/raw/fontface
   private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: Ruleset<NativeBlock>[]) => {
     fontFaces.forEach(face => {
-      this.typeStyle.fontFace(face.toObject());
+      this.typeStyle.fontFace(face.toObject() as any);
     });
   };
 
