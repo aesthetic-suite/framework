@@ -9,8 +9,8 @@ import CSSModulesAdapter from 'aesthetic-adapter-css-modules';
 const aesthetic = new Aesthetic(new CSSModulesAdapter());
 ```
 
-> This library does not enable CSS modules, it simply applies the class names to the
-> React component. Supporting CSS modules will need to be enabled with
+> This library does not enable CSS modules, it simply applies the class names to the React
+> component. Supporting CSS modules will need to be enabled with
 > [Webpack](https://github.com/webpack/css-loader) or
 > [Babel](https://github.com/michalkvasnicak/babel-plugin-css-modules-transform).
 
@@ -20,8 +20,8 @@ CSS modules do not support Aesthetic's unified syntax.
 
 ## Usage
 
-When defining styles for a React component, simply pass the CSS modules object to
-the styler function, instead of setting the element `className` props directly.
+When defining styles for a React component, simply pass the CSS modules object to the styler
+function, instead of setting the element `className` props directly.
 
 ```javascript
 import React from 'react';

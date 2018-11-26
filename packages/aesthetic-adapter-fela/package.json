@@ -10,24 +10,24 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-fela",
   "license": "MIT",
-  "scripts": {
-    "build": "build-lib --react"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
     "aesthetic": "^2.5.0",
     "fela": "^6.0.0",
-    "fela-dom": "^6.0.0 || ^7.0.0"
+    "fela-dom": "^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.6.0",
-    "fela": "^6.1.9",
-    "fela-dom": "^7.0.9",
-    "fela-preset-web": "^8.0.8",
-    "fela-tools": "^5.1.7"
+    "fela": "^6.2.3",
+    "fela-dom": "^8.0.4",
+    "fela-preset-web": "^8.0.13",
+    "fela-tools": "^5.2.3"
   }
 }

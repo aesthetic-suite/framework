@@ -19,20 +19,26 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic",
   "license": "MIT",
-  "scripts": {
-    "build": "build-lib --react"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
-    "hoist-non-react-statics": "^2.5.5",
-    "lodash": "^4.17.10",
-    "prop-types": "^15.6.2"
+    "@types/hoist-non-react-statics": "^3.0.1",
+    "@types/react": "^16.7.7",
+    "@types/shallowequal": "^0.2.3",
+    "@types/uuid": "^3.4.4",
+    "csstype": "^2.5.7",
+    "hoist-non-react-statics": "^3.1.0",
+    "lodash": "^4.17.11",
+    "shallowequal": "^1.1.0",
+    "uuid": "^3.3.2"
   },
   "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0"
+    "react": "^16.3.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.50.0",
-    "react": "^16.4.1"
+    "react": "^16.6.3"
   }
 }

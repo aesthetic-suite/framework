@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TypeStyleAesthetic global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
+
+exports[`TypeStyleAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;local:Robo;src-paths:fonts/Roboto.woff2;src-paths:fonts/Roboto.ttf}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.fkp30lv{animation-duration:.3s;animation-name:f1gwuh0p;background-color:#337ab7;border:1px solid #2e6da4;border-radius:4px;color:rgba(0, 0, 0, 0);cursor:pointer;display:inline-block;font-family:Roboto;font-weight:normal;line-height:normal;margin:0;padding:6px 12px;text-align:center;text-decoration:none;vertical-align:middle;white-space:nowrap}.fkp30lv:hover{background-color:#286090;border-color:#204d74}.fkp30lv::before{content:\\"★\\";display:inline-block;margin-right:5px;vertical-align:middle}@media (max-width: 600px){.fkp30lv{padding:4px 8px}}"`;
+
+exports[`TypeStyleAesthetic style sheet handles @fallbacks 1`] = `".f35p7vi{background:red;background:linear-gradient(...);color:blue;display:block;display:inline-block;display:flex}"`;
+
+exports[`TypeStyleAesthetic style sheet handles @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}"`;
+
+exports[`TypeStyleAesthetic style sheet handles @supports 1`] = `".f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}"`;
+
+exports[`TypeStyleAesthetic style sheet handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
+
+exports[`TypeStyleAesthetic style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
+
+exports[`TypeStyleAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
+
+exports[`TypeStyleAesthetic style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;
+
+exports[`TypeStyleAesthetic style sheet handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
+
+exports[`TypeStyleAesthetic style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;

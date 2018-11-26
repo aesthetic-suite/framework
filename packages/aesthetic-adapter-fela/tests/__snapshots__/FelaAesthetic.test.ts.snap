@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FelaAesthetic global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}"`;
+
+exports[`FelaAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:\\"Roboto\\";font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype')}@-webkit-keyframes k1{from{opacity:0}to{opacity:1}}@-moz-keyframes k1{from{opacity:0}to{opacity:1}}@keyframes k1{from{opacity:0}to{opacity:1}}.a{margin:0}.b{padding:6px 12px}.c{border:1px solid #2e6da4}.d{border-radius:4px}.e{display:inline-block}.f{cursor:pointer}.g{font-family:Roboto}.h{font-weight:normal}.i{line-height:normal}.j{white-space:nowrap}.k{text-decoration:none}.l{text-align:center}.m{background-color:#337ab7}.n{vertical-align:middle}.o{color:rgba(0, 0, 0, 0)}.p{animation-name:k1}.q{animation-duration:.3s}.t::before{content:\\"★\\"}.u::before{display:inline-block}.v::before{vertical-align:middle}.w::before{margin-right:5px}.r:hover{background-color:#286090}.s:hover{border-color:#204d74}@media (max-width: 600px){.x{padding:4px 8px}}"`;
+
+exports[`FelaAesthetic style sheet handles @fallbacks 1`] = `".a{background:red;background:-webkit-linear-gradient(...);background:-moz-linear-gradient(...);background:linear-gradient(...)}.b{display:block;display:inline-block;display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}.c{color:blue}"`;
+
+exports[`FelaAesthetic style sheet handles @media 1`] = `".a{color:red}@media (min-width: 300px){.b{color:blue}}@media (max-width: 1000px){.c{color:green}}"`;
+
+exports[`FelaAesthetic style sheet handles @supports 1`] = `".a{display:block}@supports (display: flex){.b{display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:-webkit-flex;display:flex}}@supports not (display: flex){.c{float:left}}"`;
+
+exports[`FelaAesthetic style sheet handles attribute selectors 1`] = `".a{display:block}.b[disabled]{opacity:0.5}"`;
+
+exports[`FelaAesthetic style sheet handles descendant selectors 1`] = `".a{margin:0}.b{padding:0}.c> li{list-style:bullet}"`;
+
+exports[`FelaAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".a{cursor:pointer}.b:disabled{cursor:default}.c[disabled]{cursor:default}.d> span{cursor:default}"`;
+
+exports[`FelaAesthetic style sheet handles nested @media 1`] = `".a{color:red}@media (min-width: 300px){.b{color:blue}}@media (min-width: 300px) and (max-width: 1000px){.c{color:green}}"`;
+
+exports[`FelaAesthetic style sheet handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
+
+exports[`FelaAesthetic style sheet handles pseudo selectors 1`] = `".a{position:fixed}.c::before{position:absolute}.b:hover{position:static}"`;

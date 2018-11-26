@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JSSAesthetic converts and transforms inline styles 1`] = `"foo inline-dynamic-inline-0-0-1-1 inline-dynamic-inline-1-0-1-2"`;
+
+exports[`JSSAesthetic converts and transforms inline styles 2`] = `"foo"`;
+
+exports[`JSSAesthetic global sheet handles @charset 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles @charset 2`] = `"@charset utf8;"`;
+
+exports[`JSSAesthetic global sheet handles @font-face 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles @font-face 2`] = `"@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}"`;
+
+exports[`JSSAesthetic global sheet handles @keyframes 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles @keyframes 2`] = `"@keyframes fade {from {opacity: 0;}to {opacity: 1;}}"`;
+
+exports[`JSSAesthetic global sheet handles @viewport 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles @viewport 2`] = `"@viewport {width: device-width;orientation: landscape;}"`;
+
+exports[`JSSAesthetic global sheet handles globals 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles globals 2`] = `"body {margin: 0;}html {height: 100%;}a {color: red;}a:hover {color: darkred;}"`;
+
+exports[`JSSAesthetic global sheet handles mixed @font-face 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles mixed @font-face 2`] = `"@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}@font-face {font-family: Circular;font-style: normal;font-weight: normal;src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular;font-style: italic;font-weight: normal;src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 300;src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 700;src: url('fonts/Circular-Bold.woff2') format('woff2');}"`;
+
+exports[`JSSAesthetic global sheet handles multiple @font-face 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles multiple @font-face 2`] = `"@font-face {font-family: Circular;font-style: normal;font-weight: normal;src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular;font-style: italic;font-weight: normal;src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 300;src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 700;src: url('fonts/Circular-Bold.woff2') format('woff2');}"`;
+
+exports[`JSSAesthetic global sheet handles multiple @import 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles multiple @import 2`] = `"@import ./some/path.css;@import ./another/path.css;"`;
+
+exports[`JSSAesthetic global sheet handles single @import 1`] = `""`;
+
+exports[`JSSAesthetic global sheet handles single @import 2`] = `"@import ./some/path.css;"`;
+
+exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"test-button-0-11-1"`;
+
+exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `".test-button-0-11-1 {color: rgba(0, 0, 0, 0);margin: 0;border: 1px solid #2e6da4;cursor: pointer;display: inline-block;padding: 6px 12px;text-align: center;font-weight: normal;line-height: normal;white-space: nowrap;font-family: Roboto;border-radius: 4px;vertical-align: middle;animation-name: $fade;text-decoration: none;background-color: #337ab7;animation-duration: .3s;}.test-button-0-11-1:hover {border-color: #204d74;background-color: #286090;}.test-button-0-11-1::before {content: \\"★\\";display: inline-block;margin-right: 5px;vertical-align: middle;}@media (max-width: 600px) {.test-button-0-11-1 {padding: 4px 8px;}}"`;
+
+exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"test-fallback-0-17-1"`;
+
+exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
+
+exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-18-1"`;
+
+exports[`JSSAesthetic style sheet handles @media 2`] = `".test-media-0-18-1 {color: red;}@media (min-width: 300px) {.test-media-0-18-1 {color: blue;}}@media (max-width: 1000px) {.test-media-0-18-1 {color: green;}}"`;
+
+exports[`JSSAesthetic style sheet handles @supports 1`] = `"test-sup-0-20-1"`;
+
+exports[`JSSAesthetic style sheet handles @supports 2`] = `".test-sup-0-20-1 {display: block;}@supports (display: flex) {.test-sup-0-20-1 {display: flex;}}@supports not (display: flex) {.test-sup-0-20-1 {float: left;}}"`;
+
+exports[`JSSAesthetic style sheet handles attribute selectors 1`] = `"test-attr-0-13-1"`;
+
+exports[`JSSAesthetic style sheet handles attribute selectors 2`] = `".test-attr-0-13-1 {display: block;}.test-attr-0-13-1[disabled] {opacity: 0.5;}"`;
+
+exports[`JSSAesthetic style sheet handles descendant selectors 1`] = `"test-list-0-14-1"`;
+
+exports[`JSSAesthetic style sheet handles descendant selectors 2`] = `".test-list-0-14-1 {margin: 0;padding: 0;}.test-list-0-14-1> li {list-style: bullet;}"`;
+
+exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"test-multi-0-16-1"`;
+
+exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 2`] = `".test-multi-0-16-1 {cursor: pointer;}.test-multi-0-16-1:disabled {cursor: default;}.test-multi-0-16-1[disabled] {cursor: default;}.test-multi-0-16-1> span {cursor: default;}"`;
+
+exports[`JSSAesthetic style sheet handles nested @media 1`] = `"test-media-0-19-1"`;
+
+exports[`JSSAesthetic style sheet handles nested @media 2`] = `".test-media-0-19-1 {color: red;}@media (min-width: 300px) {.test-media-0-19-1 {color: blue;}@media (max-width: 1000px) {.test-media-0-19-1 {color: green;}}}"`;
+
+exports[`JSSAesthetic style sheet handles properties 1`] = `"test-props-0-12-1"`;
+
+exports[`JSSAesthetic style sheet handles properties 2`] = `".test-props-0-12-1 {color: black;margin: 10px;display: inline;}"`;
+
+exports[`JSSAesthetic style sheet handles pseudo selectors 1`] = `"test-pseudo-0-15-1"`;
+
+exports[`JSSAesthetic style sheet handles pseudo selectors 2`] = `".test-pseudo-0-15-1 {position: fixed;}.test-pseudo-0-15-1:hover {position: static;}.test-pseudo-0-15-1::before {position: absolute;}"`;

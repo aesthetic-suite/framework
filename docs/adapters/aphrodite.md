@@ -19,8 +19,8 @@ import AphroditeAdapter from 'aesthetic-adapter-aphrodite/unified';
 
 ## Custom Selectors
 
-Aphrodite does not support some core CSS functionality, so Aesthetic has filled in these gaps.
-The following examples are supported by default.
+Aphrodite does not support some core CSS functionality, so Aesthetic has filled in these gaps. The
+following examples are supported by default.
 
 Attribute and direct descendant selectors.
 
@@ -60,16 +60,18 @@ Global styles (to easily style `body`, `a`, and others). Selectors must be prefi
 
 ## Extensions
 
-[Aphrodite extensions](https://github.com/Khan/aphrodite#advanced-extensions)
-can be customized by passing an array of extensions to the constructor.
+[Aphrodite extensions](https://github.com/Khan/aphrodite#advanced-extensions) can be customized by
+passing an array of extensions to the constructor.
 
 ```javascript
 import Aesthetic from 'aesthetic';
 import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
-const aesthetic = new Aesthetic(new AphroditeAdapter([
-  extension1,
-  extension2,
-  // ...
-]));
+const aesthetic = new Aesthetic(
+  new AphroditeAdapter([
+    extension1,
+    extension2,
+    // ...
+  ]),
+);
 ```

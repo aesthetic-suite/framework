@@ -10,11 +10,12 @@
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite",
   "license": "MIT",
-  "scripts": {
-    "build": "build-lib --react"
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
@@ -22,8 +23,7 @@
     "aphrodite": "^2.1.0"
   },
   "devDependencies": {
-    "@milesj/build-tool-config": "^0.50.0",
     "aesthetic": "^2.6.0",
-    "aphrodite": "^2.2.2"
+    "aphrodite": "^2.2.3"
   }
 }

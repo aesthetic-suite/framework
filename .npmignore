@@ -1,16 +1,40 @@
-coverage/
-flow-typed/
-tests/
-.babelrc
+
+# Logs
+logs/
+*.log
+
+# Cache
 .eslintcache
-.eslintignore
-.eslintrc
-.esprintrc
-.flowconfig
-.gitignore
-.npmignore
-.travis.yml
+.idea
+.npm
+.vscode
 .yarnclean
-jest.json
-lerna.json
-yarn-error.log
+yarn.lock
+
+# Directories
+_book/
+coverage/
+docs/
+src/
+tests/
+types/
+node_modules/
+
+# Custom
+*.min.js
+*.map
+
+# Configs
+.babelrc
+.eslintignore
+.eslintrc.js
+.flowconfig
+.gitbook.yaml
+.prettierignore
+.travis.yml
+babel.config.js
+book.json
+jest.config.js
+prettier.config.js
+tsconfig.json
+webpack.config.js

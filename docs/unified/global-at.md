@@ -1,7 +1,6 @@
 # Global At-rules
 
-Not to be confused with global styles, global at-rules are at-rules that must be defined in the
-root of a style sheet and cannot be defined within a selector.
+Global at-rules must be defined as global styles when registering a theme.
 
 > Not all adapters support every global at-rule.
 
@@ -27,10 +26,6 @@ Supported by all adapters.
       fontWeight: 'normal',
       srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
     },
-  },
-  button: {
-    // ...
-    fontFamily: 'Open Sans',
   },
 }
 ```
@@ -129,21 +124,6 @@ Supported by all adapters.
       to: { opacity: 1 },
     },
   },
-  button: {
-    // ...
-    animationName: 'fade',
-    animationDuration: '3s',
-  },
-}
-```
-
-## @namespace
-
-Supported by JSS.
-
-```javascript
-{
-  '@namespace': 'url(http://www.w3.org/1999/xhtml)',
 }
 ```
 

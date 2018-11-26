@@ -5,9 +5,9 @@ Provides [TypeStyle](https://github.com/threepointone/typestyle) support for
 
 ## Requirements
 
-* React 15+
-* Aesthetic
-* TypeStyle
+- React 16.3+
+- Aesthetic
+- TypeStyle
 
 ## Installation
 

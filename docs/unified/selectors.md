@@ -1,7 +1,7 @@
 # Selectors
 
-Selectors can be defined inside a style declaration. Multiple selectors can also be defined
-by passing a comma separated list.
+Selectors can be defined inside a style declaration. Multiple selectors can also be defined by
+passing a comma separated list.
 
 ## Attributes
 

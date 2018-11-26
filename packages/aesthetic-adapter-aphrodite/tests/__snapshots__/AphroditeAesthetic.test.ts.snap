@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AphroditeAesthetic global sheet handles globals 1`] = `"body{margin:0px !important;}html{height:100% !important;}a{color:red !important;}a:hover{color:darkred !important;}"`;
+
+exports[`AphroditeAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}@keyframes keyframe_w18mkj{from{opacity:0;}to{opacity:1;}}.button_jr9ve{margin:0px !important;padding:6px 12px !important;border:1px solid #2e6da4 !important;border-radius:4px !important;display:inline-block !important;cursor:pointer !important;font-family:\\"Roboto\\" !important;font-weight:normal !important;line-height:normal !important;white-space:nowrap !important;text-decoration:none !important;text-align:center !important;background-color:#337ab7 !important;vertical-align:middle !important;color:rgba(0, 0, 0, 0) !important;-webkit-animation-name:keyframe_w18mkj !important;animation-name:keyframe_w18mkj !important;-webkit-animation-duration:.3s !important;animation-duration:.3s !important;}.button_jr9ve:hover{background-color:#286090 !important;border-color:#204d74 !important;}.button_jr9ve::before{content:\\"★\\" !important;display:inline-block !important;vertical-align:middle !important;margin-right:5px !important;}@media (max-width: 600px){.button_jr9ve{padding:4px 8px !important;}}"`;
+
+exports[`AphroditeAesthetic style sheet handles @media 1`] = `".media_1yqe7pa{color:red !important;}@media (min-width: 300px){.media_1yqe7pa{color:blue !important;}}@media (max-width: 1000px){.media_1yqe7pa{color:green !important;}}"`;
+
+exports[`AphroditeAesthetic style sheet handles attribute selectors 1`] = `".attr_424cv8{display:block !important;}.attr_424cv8[disabled]{opacity:0.5 !important;}"`;
+
+exports[`AphroditeAesthetic style sheet handles descendant selectors 1`] = `".list_1lo5lhe{margin:0px !important;padding:0px !important;}.list_1lo5lhe > li{list-style:bullet !important;}"`;
+
+exports[`AphroditeAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".multi_1xnvdcd{cursor:pointer !important;}.multi_1xnvdcd:disabled{cursor:default !important;}.multi_1xnvdcd[disabled]{cursor:default !important;}.multi_1xnvdcd > span{cursor:default !important;}"`;
+
+exports[`AphroditeAesthetic style sheet handles nested @media 1`] = `".media_y3eou6{color:red !important;}@media (min-width: 300px){.media_y3eou6{color:blue !important;}@media (max-width: 1000px){.media_y3eou6{color:green !important;}}}"`;
+
+exports[`AphroditeAesthetic style sheet handles properties 1`] = `".props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}"`;
+
+exports[`AphroditeAesthetic style sheet handles pseudo selectors 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;

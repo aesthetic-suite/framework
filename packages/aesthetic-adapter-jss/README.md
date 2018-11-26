@@ -5,9 +5,9 @@ Provides [JSS](https://github.com/cssinjs/jss) support for
 
 ## Requirements
 
-* React 15+
-* Aesthetic
-* JSS
+- React 16.3+
+- Aesthetic
+- JSS
 
 ## Installation
 
