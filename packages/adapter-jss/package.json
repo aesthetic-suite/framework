@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-jss",
-  "version": "2.4.1",
+  "version": "3.0.0-alpha.0",
   "description": "JSS support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -24,7 +24,7 @@
     "jss": "^9.8.0"
   },
   "devDependencies": {
-    "aesthetic": "^2.6.0",
+    "aesthetic": "^3.0.0-alpha.0",
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0"
   }
