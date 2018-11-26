@@ -75,7 +75,7 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 
 ## @global
 
-Supported by Aphrodite, Fela, JSS, and TypeStyle.
+Supported by all adapters.
 
 ```javascript
 {

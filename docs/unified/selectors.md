@@ -1,7 +1,10 @@
 # Selectors
 
-Selectors can be defined inside a style declaration. Multiple selectors can also be defined by
-passing a comma separated list.
+Selectors can be defined inside a ruleset. Multiple selectors can also be defined by passing a comma
+separated list.
+
+Advanced selectors or direct descendents must use the
+[`@selectors` at-rule](./local-at.md#selectors).
 
 ## Attributes
 
@@ -9,7 +12,7 @@ passing a comma separated list.
 {
   button: {
     // ...
-    '[disabled]': {
+    '[disabled], [readonly]': {
       opacity: 0.3,
     },
   },
@@ -33,19 +36,3 @@ passing a comma separated list.
   },
 }
 ```
-
-## Descendants
-
-```javascript
-{
-  list: {
-    // ...
-    '> li': {
-      listStyle: 'none',
-      padding: 5,
-    },
-  },
-}
-```
-
-> Only direct descendants are allowed.

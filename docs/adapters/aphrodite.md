@@ -2,19 +2,11 @@
 
 Provides [Aphrodite](https://github.com/Khan/aphrodite) support.
 
-```javascript
-import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
+```ts
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
 
-const aesthetic = new Aesthetic(new AphroditeAdapter());
-```
-
-## Unified Syntax
-
-To make use of the unified syntax, simply import the adapter from the unified path.
-
-```javascript
-import AphroditeAdapter from 'aesthetic-adapter-aphrodite/unified';
+const aesthetic = new AphroditeAesthetic<Theme>();
 ```
 
 ## Custom Selectors
@@ -32,8 +24,10 @@ Attribute and direct descendant selectors.
     },
   },
   list: {
-    '> li': {
-      listStyle: 'none',
+    '@selectors': {
+      '> li': {
+        listStyle: 'none',
+      },
     },
   },
 }
@@ -43,7 +37,7 @@ Global styles (to easily style `body`, `a`, and others). Selectors must be prefi
 
 ```javascript
 {
-  globals: {
+  '@global': {
     '*body': { margin: 0 },
     '*html': { height: '100%' },
     '*a': {
@@ -63,15 +57,13 @@ Global styles (to easily style `body`, `a`, and others). Selectors must be prefi
 [Aphrodite extensions](https://github.com/Khan/aphrodite#advanced-extensions) can be customized by
 passing an array of extensions to the constructor.
 
-```javascript
-import Aesthetic from 'aesthetic';
-import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
+```ts
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
 
-const aesthetic = new Aesthetic(
-  new AphroditeAdapter([
-    extension1,
-    extension2,
-    // ...
-  ]),
-);
+const aesthetic = new AphroditeAesthetic<Theme>([
+  extension1,
+  extension2,
+  // ...
+]);
 ```

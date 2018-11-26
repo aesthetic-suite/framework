@@ -2,11 +2,10 @@
 
 Provides [CSS Modules](https://github.com/css-modules/css-modules) support.
 
-```javascript
-import Aesthetic from 'aesthetic';
-import CSSModulesAdapter from 'aesthetic-adapter-css-modules';
+```ts
+import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
 
-const aesthetic = new Aesthetic(new CSSModulesAdapter());
+const aesthetic = new CSSModulesAesthetic();
 ```
 
 > This library does not enable CSS modules, it simply applies the class names to the React
@@ -20,17 +19,17 @@ CSS modules do not support Aesthetic's unified syntax.
 
 ## Usage
 
-When defining styles for a React component, simply pass the CSS modules object to the styler
+When defining styles for a React component, pass the CSS modules object to the `withStyles` HOC
 function, instead of setting the element `className` props directly.
 
-```javascript
+```ts
 import React from 'react';
-import style from '../path/to/styler';
+import withStyles from '../path/to/aesthetic';
 import styles from './styles.css';
 
 function Component() {
   // ...
 }
 
-export default style(styles)(Component);
+export default withStyles(() => styles)(Component);
 ```

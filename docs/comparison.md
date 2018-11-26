@@ -21,7 +21,6 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 | [CSS class names](./style.md#external-classes) |     ✓     |                                        |                                        |                  |
 | [CSS Modules](./adapters/css-modules.md)       |     ✓     |                                        |                                        |                  |
 | [Fela](./adapters/fela.md)                     |     ✓     |                                        |                                        |                  |
-| [Glamor](./adapters/glamor.md)                 |     ✓     |                                        |                   ✓                    |                  |
 | [JSS](./adapters/jss.md)                       |     ✓     |                   ✓                    |                                        |                  |
 | [TypeStyle](./adapters/typestyle.md)           |     ✓     |                                        |                                        |                  |  |
 

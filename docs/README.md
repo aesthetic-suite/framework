@@ -21,18 +21,15 @@ Using a third-party provided UI component library has the unintended side-effect
 non-customizable styles. Aesthetic solves this by allowing consumers to
 [extend and inherit styles](./usage.md) from the provided base component.
 
-```javascript
+```tsx
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StylesPropType } from 'aesthetic';
-import withStyles, { classes } from '../path/to/styler';
+import withStyles, { classes, WithStylesProps } from '../path/to/aesthetic';
 
-class Carousel extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-    styles: StylesPropType.isRequired,
-  };
+type Props = {
+  children: React.ReactNode;
+};
 
+class Carousel extends React.Component<Props & WithStylesProps> {
   // ...
 
   render() {
@@ -42,14 +39,9 @@ class Carousel extends React.Component {
     return (
       <div
         role="tablist"
-        className={classes(
-          styles.carousel,
-          animating && styles.carousel__animating,
-        )}
+        className={classes(styles.carousel, animating && styles.carousel__animating)}
       >
-        <ul className={classes(styles.list)}>
-          {children}
-        </ul>
+        <ul className={classes(styles.list)}>{children}</ul>
 
         <button
           type="button"
@@ -71,16 +63,17 @@ class Carousel extends React.Component {
   }
 }
 
-export default withStyles({
+export default withStyles(theme => ({
   carousel: {
     position: 'relative',
     maxWidth: '100%',
+    padding: theme.unit,
     // ...
   },
-  carousel__animating: { ... },
-  list: { ... },
-  button: { ... },
-  prev: { ... },
-  next: { ... },
-})(Carousel);
+  carousel__animating: {},
+  list: {},
+  button: {},
+  prev: {},
+  next: {},
+}))(Carousel);
 ```

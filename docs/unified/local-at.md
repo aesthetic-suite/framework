@@ -1,7 +1,7 @@
 # Local At-rules
 
 Local at-rules are at-rules that must be defined within a selector and cannot be defined in the root
-of a style sheet.
+of a component style sheet.
 
 ## @fallbacks
 
@@ -9,20 +9,18 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
 
 ```javascript
 {
-  wrapper: {
+  element: {
     // ...
     background: 'linear-gradient(...)',
     display: 'flex',
 
     '@fallbacks': {
       background: 'red',
-      display: ['box', 'flex-box'],
+      display: ['block', 'inline-block'],
     },
   },
 }
 ```
-
-> Aphrodite does not support fallback styles.
 
 > Fela requires the `fela-plugin-fallback-value` plugin.
 
@@ -32,8 +30,7 @@ Supported by all adapters.
 
 ```javascript
 {
-  tooltip: {
-    // ...
+  element: {
     maxWidth: 300,
 
     '@media': {
@@ -45,7 +42,31 @@ Supported by all adapters.
 }
 ```
 
-> Nested `@media` are currently not supported.
+## @selectors
+
+Supported by all adapters.
+
+```javascript
+{
+  element: {
+    '@selectors': {
+      '> li': {
+        listStyle: 'none',
+      },
+
+      '[href*="foo"]': {
+        color: 'red',
+      },
+
+      ':not(:nth-child(9))': {
+        display: 'hidden',
+      },
+    },
+  },
+}
+```
+
+> Should only be used for advanced attributes, pseudos, and direct descendents.
 
 ## @supports
 
@@ -53,8 +74,7 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
 
 ```javascript
 {
-  grid: {
-    // ...
+  element: {
     float: 'left',
 
     '@supports': {
@@ -66,5 +86,3 @@ Supported by Fela, Glamor, JSS, and TypeStyle.
   },
 }
 ```
-
-> Nested `@supports` are currently not supported.

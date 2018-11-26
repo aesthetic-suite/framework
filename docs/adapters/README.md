@@ -12,7 +12,6 @@ The following libraries and their features are officially supported by Aesthetic
 | [CSS class names](../style.md#external-classes) |                |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
 | [CSS modules](./css-modules.md)                 |                |          |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
 | [Fela](./fela.md)                               |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
-| [Glamor](./glamor.md)                           |       ✓        |          |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
 | [JSS](./jss.md)                                 |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |             |
 | [TypeStyle](./typestyle.md)                     |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
 

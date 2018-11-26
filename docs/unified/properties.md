@@ -2,7 +2,7 @@
 
 Standard structure for defining properties.
 
-- Supports camel case property names.
+- Camel case property names (including vendor prefixes).
 - Units can be written as literal numbers.
 
 ```javascript
@@ -16,9 +16,6 @@ Standard structure for defining properties.
     cursor: 'pointer',
     backgroundColor: '#ccc',
     color: '#000',
-  },
-  buttonGroup: {
-    // ...
   },
 }
 ```

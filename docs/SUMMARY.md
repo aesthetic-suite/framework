@@ -5,7 +5,6 @@
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)
   - [Fela](./adapters/fela.md)
-  - [Glamor](./adapters/glamor.md)
   - [JSS](./adapters/jss.md)
   - [TypeStyle](./adapters/typestyle.md)
 - [Creating A Styler](./setup.md)
