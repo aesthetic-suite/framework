@@ -22,7 +22,7 @@ function Button({ children, styles }) {
 }
 
 Button.propTypes = {
-  children: PropTypes.node.isRequire,
+  children: PropTypes.node.isRequired,
   styles: StylesPropType.isRequired,
 };
 

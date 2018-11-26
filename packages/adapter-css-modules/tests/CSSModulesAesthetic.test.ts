@@ -8,7 +8,7 @@ describe('CSSModulesAesthetic', () => {
     const classes = require('./styles.css');
 
     expect(instance.transformStyles(classes.header, classes.footer)).toBe(
-      'styles__header___3btY- styles__footer___NPE7C',
+      'styles__header___3JVTA styles__footer___1Vp0S',
     );
   });
 });

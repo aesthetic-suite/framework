@@ -41,6 +41,9 @@
       "plugins": [
         "css-modules-transform"
       ]
+    },
+    "typescript": {
+      "exclude": ["tests/tests.tsx"]
     }
   },
   "workspaces": [

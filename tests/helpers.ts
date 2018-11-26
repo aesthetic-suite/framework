@@ -1,8 +1,8 @@
-import Ruleset from '../packages/aesthetic/src/Ruleset';
-import Sheet from '../packages/aesthetic/src/Sheet';
+import Ruleset from '../packages/core/src/Ruleset';
+import Sheet from '../packages/core/src/Sheet';
 
-export function cleanStyles(source) {
-  return source.replace(/\n/g, '').replace(/\s{2,}/g, '');
+export function cleanStyles(source: string): string {
+  return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
 }
 
 export function createTestRulesets(selector: string, data: any[]): Ruleset<any>[] {

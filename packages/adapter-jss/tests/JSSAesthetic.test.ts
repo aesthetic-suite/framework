@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 import { create } from 'jss';
+// @ts-ignore
 import preset from 'jss-preset-default';
 import JSSAesthetic from '../src/JSSAesthetic';
 import {
@@ -54,6 +55,7 @@ describe('JSSAesthetic', () => {
 
   it('converts and transforms inline styles', () => {
     expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toMatchSnapshot();
+    // @ts-ignore Allow null
     expect(instance.transformToClassName(['foo', null])).toMatchSnapshot();
   });
 

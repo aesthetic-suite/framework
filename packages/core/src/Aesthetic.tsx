@@ -56,7 +56,7 @@ export default abstract class Aesthetic<
 
   themes: { [themeName: string]: Theme } = {};
 
-  private appliedGlobals: boolean = false;
+  protected appliedGlobals: boolean = false;
 
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {

@@ -6,16 +6,17 @@ import { StyleSheetTestUtils } from 'aphrodite';
 import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import { create } from 'jss';
+// @ts-ignore
 import preset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
+import FelaAesthetic from 'aesthetic-adapter-fela';
+import JSSAesthetic from 'aesthetic-adapter-jss';
+import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { Block } from '../src/types';
-import AphroditeAesthetic from '../../aesthetic-adapter-aphrodite/src';
-import CSSModulesAesthetic from '../../aesthetic-adapter-css-modules/src';
-import FelaAesthetic from '../../aesthetic-adapter-fela/src';
-import JSSAesthetic from '../../aesthetic-adapter-jss/src';
-import TypeStyleAesthetic from '../../aesthetic-adapter-typestyle/src';
 import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
 
 describe('Aesthetic', () => {
@@ -717,20 +718,20 @@ describe('Aesthetic', () => {
         }
       }
 
-      let refInstance = null;
+      let refInstance: any = null;
       const Wrapped = instance.withStyles(null)(RefComponent);
 
       mount(
         <Wrapped
           themeName="classic"
-          wrappedRef={ref => {
+          wrappedRef={(ref: any) => {
             refInstance = ref;
           }}
         />,
       );
 
       expect(refInstance).not.toBeNull();
-      expect(refInstance.constructor.name).toBe('RefComponent');
+      expect(refInstance!.constructor.name).toBe('RefComponent');
     });
 
     it('passes props to style function', () => {
@@ -800,70 +801,70 @@ describe('Aesthetic', () => {
 
   describe('adapters', () => {
     it('supports class names', () => {
-      instance = new ClassNameAesthetic();
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => ({ button: 'button' }));
+      const adapter = new ClassNameAesthetic();
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => ({ button: 'button' }));
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
 
     it('supports Aphrodite', () => {
-      instance = new AphroditeAesthetic();
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
+      const adapter = new AphroditeAesthetic();
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
 
     it('supports CSS modules', () => {
-      instance = new CSSModulesAesthetic();
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => ({ button: 'button' }));
+      const adapter = new CSSModulesAesthetic();
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => ({ button: 'button' }));
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
 
     it('supports Fela', () => {
-      instance = new FelaAesthetic(
+      const adapter = new FelaAesthetic(
         createRenderer({
           plugins: [...webPreset],
         }),
       );
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
 
     it('supports JSS', () => {
       const jss = create();
       jss.setup(preset());
 
-      instance = new JSSAesthetic(jss);
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
+      const adapter = new JSSAesthetic(jss);
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
 
     it('supports TypeStyle', () => {
-      instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
-      instance.registerTheme('default', {});
-      instance.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL);
+      const adapter = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
+      adapter.registerTheme('default', {});
+      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = instance.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo');
 
-      expect(instance.transformStyles(styleSheet.button)).toMatchSnapshot();
+      expect(adapter.transformStyles(styleSheet.button)).toMatchSnapshot();
     });
   });
 });

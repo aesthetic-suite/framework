@@ -180,8 +180,8 @@ describe('UnifiedSyntax', () => {
       it('errors if select value is not an object', () => {
         expect(() => {
           syntax.convertGlobalSheet({
+            // @ts-ignore Allow invalid type
             '@global': {
-              // @ts-ignore Allow invalid type
               foo: 123,
             },
           });
@@ -333,6 +333,7 @@ describe('UnifiedSyntax', () => {
     it('skips over falsy values', () => {
       const stylesheet = syntax.convertStyleSheet({
         string: '',
+        // @ts-ignore Allow undefined
         object: undefined,
       });
 
@@ -548,8 +549,8 @@ describe('UnifiedSyntax', () => {
         expect(() => {
           syntax.convertRuleset(
             {
+              // @ts-ignore Allow invalid type
               '@media': {
-                // @ts-ignore Allow invalid type
                 '(max-width: 100px)': 123,
               },
             },
@@ -595,8 +596,8 @@ describe('UnifiedSyntax', () => {
         expect(() => {
           syntax.convertRuleset(
             {
+              // @ts-ignore Allow invalid type
               '@supports': {
-                // @ts-ignore Allow invalid type
                 '(display: flex)': 123,
               },
             },

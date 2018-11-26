@@ -7,14 +7,13 @@ import { createRenderer as createFela } from 'fela';
 import felaPreset from 'fela-preset-web';
 import { create as createJSS } from 'jss';
 import jssPreset from 'jss-preset-default';
-import Aesthetic from '../packages/aesthetic/src/Aesthetic';
-import createStyler from '../packages/aesthetic/src/createStyler';
-import ThemeProvider from '../packages/aesthetic/src/ThemeProvider';
-import AphroditeAdapter from '../packages/aesthetic-adapter-aphrodite/src/UnifiedAdapter';
-import FelaAdapter from '../packages/aesthetic-adapter-fela/src/UnifiedAdapter';
-import GlamorAdapter from '../packages/aesthetic-adapter-glamor/src/UnifiedAdapter';
-import JSSAdapter from '../packages/aesthetic-adapter-jss/src/UnifiedAdapter';
-import TypeStyleAdapter from '../packages/aesthetic-adapter-typestyle/src/UnifiedAdapter';
+import Aesthetic from '../packages/core/src/Aesthetic';
+import createStyler from '../packages/core/src/createStyler';
+import ThemeProvider from '../packages/core/src/ThemeProvider';
+import AphroditeAdapter from '../packages/adapter-aphrodite/src/UnifiedAdapter';
+import FelaAdapter from '../packages/adapter-fela/src/UnifiedAdapter';
+import JSSAdapter from '../packages/adapter-jss/src/UnifiedAdapter';
+import TypeStyleAdapter from '../packages/adapter-typestyle/src/UnifiedAdapter';
 
 function createStyledComponent(adapter, Component) {
   const aesthetic = new Aesthetic(adapter);
@@ -43,13 +42,7 @@ function createStyledComponent(adapter, Component) {
     return <Component {...props} classes={transform} />;
   }
 
-  return style(({
-    unit,
-    bg,
-    bgHover,
-    fg,
-    primary,
-  }) => ({
+  return style(({ unit, bg, bgHover, fg, primary }) => ({
     button: {
       display: 'inline-block',
       border: 0,
@@ -79,16 +72,8 @@ function createStyledComponent(adapter, Component) {
   }))(WrappedComponent);
 }
 
-function Button({
-  children,
-  classes,
-  styles,
-  primary = false,
-}) {
-  const className = classes(
-    styles.button,
-    primary && styles.button__primary,
-  );
+function Button({ children, classes, styles, primary = false }) {
+  const className = classes(styles.button, primary && styles.button__primary);
 
   console.log('Button', 'classNames', styles, className);
 
@@ -107,10 +92,14 @@ Button.propTypes = {
 };
 
 const AphroditeButton = createStyledComponent(new AphroditeAdapter(), Button);
-const FelaButton = createStyledComponent(new FelaAdapter(createFela({
-  plugins: [...felaPreset],
-})), Button);
-const GlamorButton = createStyledComponent(new GlamorAdapter(), Button);
+const FelaButton = createStyledComponent(
+  new FelaAdapter(
+    createFela({
+      plugins: [...felaPreset],
+    }),
+  ),
+  Button,
+);
 const JSSButton = createStyledComponent(new JSSAdapter(createJSS(jssPreset())), Button);
 const TypeStyleButton = createStyledComponent(new TypeStyleAdapter(), Button);
 
@@ -128,11 +117,6 @@ function App() {
         <div>
           <FelaButton>Fela</FelaButton>
           <FelaButton primary>Fela</FelaButton>
-        </div>
-
-        <div>
-          <GlamorButton>Glamor</GlamorButton>
-          <GlamorButton primary>Glamor</GlamorButton>
         </div>
 
         <div>

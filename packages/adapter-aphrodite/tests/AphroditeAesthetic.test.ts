@@ -131,7 +131,7 @@ describe('AphroditeAesthetic', () => {
 
   describe('style sheet', () => {
     it('converts unified syntax to native syntax and transforms to a class name', () => {
-      instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC];
+      instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
       instance.keyframes.fade = KEYFRAME_FADE;
 
       renderAndTest(
