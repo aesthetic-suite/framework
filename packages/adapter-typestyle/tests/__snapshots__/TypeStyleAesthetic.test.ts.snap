@@ -14,6 +14,8 @@ exports[`TypeStyleAesthetic style sheet handles attribute selectors 1`] = `".f14
 
 exports[`TypeStyleAesthetic style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
 
+exports[`TypeStyleAesthetic style sheet handles inline @keyframes 1`] = `"@keyframes f1croar1{0%{opacity:0}100%{opacity:1}50%{opacity:0.5}}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1dmlnkq{animation-name:f1croar1, unknown, f1gwuh0p}"`;
+
 exports[`TypeStyleAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
 
 exports[`TypeStyleAesthetic style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;

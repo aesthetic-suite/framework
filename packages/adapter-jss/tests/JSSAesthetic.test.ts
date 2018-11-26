@@ -27,6 +27,8 @@ import {
   SYNTAX_IMPORT,
   SYNTAX_IMPORT_MULTIPLE,
   SYNTAX_MEDIA_QUERY_NESTED,
+  SYNTAX_KEYFRAMES_INLINE,
+  KEYFRAME_SLIDE_PERCENT,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -182,7 +184,7 @@ describe('JSSAesthetic', () => {
           backgroundColor: '#337ab7',
           verticalAlign: 'middle',
           color: 'rgba(0, 0, 0, 0)',
-          animationName: '$fade',
+          animationName: 'fade',
           animationDuration: '.3s',
           '&:hover': {
             backgroundColor: '#286090',
@@ -249,6 +251,19 @@ describe('JSSAesthetic', () => {
           '&:disabled': { cursor: 'default' },
           '&[disabled]': { cursor: 'default' },
           '&> span': { cursor: 'default' },
+        },
+      });
+    });
+
+    it('handles inline @keyframes', () => {
+      renderAndTest(SYNTAX_KEYFRAMES_INLINE, {
+        '@keyframes slide': KEYFRAME_SLIDE_PERCENT,
+        '@keyframes keyframe-1': KEYFRAME_FADE,
+        single: {
+          animationName: '$slide',
+        },
+        multiple: {
+          animationName: '$slide, unknown, $keyframe-1',
         },
       });
     });

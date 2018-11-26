@@ -22,6 +22,7 @@ import {
   SYNTAX_SUPPORTS,
   FONT_ROBOTO,
   SYNTAX_MEDIA_QUERY_NESTED,
+  SYNTAX_KEYFRAMES_INLINE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -218,6 +219,21 @@ describe('TypeStyleAesthetic', () => {
           },
         },
         'fkkhpct',
+      );
+    });
+
+    it('handles inline @keyframes', () => {
+      renderAndTest(
+        SYNTAX_KEYFRAMES_INLINE,
+        {
+          single: {
+            animationName: 'f1croar1',
+          },
+          multiple: {
+            animationName: 'f1croar1, unknown, f1gwuh0p',
+          },
+        },
+        'f1dmlnkq',
       );
     });
 

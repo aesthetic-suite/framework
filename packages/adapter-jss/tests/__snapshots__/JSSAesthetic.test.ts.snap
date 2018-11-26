@@ -42,19 +42,19 @@ exports[`JSSAesthetic global sheet handles single @import 2`] = `"@import ./some
 
 exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"test-button-0-11-1"`;
 
-exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `".test-button-0-11-1 {color: rgba(0, 0, 0, 0);margin: 0;border: 1px solid #2e6da4;cursor: pointer;display: inline-block;padding: 6px 12px;text-align: center;font-weight: normal;line-height: normal;white-space: nowrap;font-family: Roboto;border-radius: 4px;vertical-align: middle;animation-name: $fade;text-decoration: none;background-color: #337ab7;animation-duration: .3s;}.test-button-0-11-1:hover {border-color: #204d74;background-color: #286090;}.test-button-0-11-1::before {content: \\"★\\";display: inline-block;margin-right: 5px;vertical-align: middle;}@media (max-width: 600px) {.test-button-0-11-1 {padding: 4px 8px;}}"`;
+exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `".test-button-0-11-1 {color: rgba(0, 0, 0, 0);margin: 0;border: 1px solid #2e6da4;cursor: pointer;display: inline-block;padding: 6px 12px;text-align: center;font-weight: normal;line-height: normal;white-space: nowrap;font-family: Roboto;border-radius: 4px;vertical-align: middle;animation-name: fade;text-decoration: none;background-color: #337ab7;animation-duration: .3s;}.test-button-0-11-1:hover {border-color: #204d74;background-color: #286090;}.test-button-0-11-1::before {content: \\"★\\";display: inline-block;margin-right: 5px;vertical-align: middle;}@media (max-width: 600px) {.test-button-0-11-1 {padding: 4px 8px;}}"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"test-fallback-0-17-1"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"test-fallback-0-18-1"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-18-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
 
-exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-18-1"`;
+exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-19-1"`;
 
-exports[`JSSAesthetic style sheet handles @media 2`] = `".test-media-0-18-1 {color: red;}@media (min-width: 300px) {.test-media-0-18-1 {color: blue;}}@media (max-width: 1000px) {.test-media-0-18-1 {color: green;}}"`;
+exports[`JSSAesthetic style sheet handles @media 2`] = `".test-media-0-19-1 {color: red;}@media (min-width: 300px) {.test-media-0-19-1 {color: blue;}}@media (max-width: 1000px) {.test-media-0-19-1 {color: green;}}"`;
 
-exports[`JSSAesthetic style sheet handles @supports 1`] = `"test-sup-0-20-1"`;
+exports[`JSSAesthetic style sheet handles @supports 1`] = `"test-sup-0-21-1"`;
 
-exports[`JSSAesthetic style sheet handles @supports 2`] = `".test-sup-0-20-1 {display: block;}@supports (display: flex) {.test-sup-0-20-1 {display: flex;}}@supports not (display: flex) {.test-sup-0-20-1 {float: left;}}"`;
+exports[`JSSAesthetic style sheet handles @supports 2`] = `".test-sup-0-21-1 {display: block;}@supports (display: flex) {.test-sup-0-21-1 {display: flex;}}@supports not (display: flex) {.test-sup-0-21-1 {float: left;}}"`;
 
 exports[`JSSAesthetic style sheet handles attribute selectors 1`] = `"test-attr-0-13-1"`;
 
@@ -64,13 +64,17 @@ exports[`JSSAesthetic style sheet handles descendant selectors 1`] = `"test-list
 
 exports[`JSSAesthetic style sheet handles descendant selectors 2`] = `".test-list-0-14-1 {margin: 0;padding: 0;}.test-list-0-14-1> li {list-style: bullet;}"`;
 
+exports[`JSSAesthetic style sheet handles inline @keyframes 1`] = `"test-single-0-17-1 test-multiple-0-17-2"`;
+
+exports[`JSSAesthetic style sheet handles inline @keyframes 2`] = `"@keyframes slide {0% {opacity: 0;}50% {opacity: 0.5;}100% {opacity: 1;}}@keyframes keyframe-1 {from {opacity: 0;}to {opacity: 1;}}.test-single-0-17-1 {animation-name: $slide;}.test-multiple-0-17-2 {animation-name: $slide, unknown, $keyframe-1;}"`;
+
 exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"test-multi-0-16-1"`;
 
 exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 2`] = `".test-multi-0-16-1 {cursor: pointer;}.test-multi-0-16-1:disabled {cursor: default;}.test-multi-0-16-1[disabled] {cursor: default;}.test-multi-0-16-1> span {cursor: default;}"`;
 
-exports[`JSSAesthetic style sheet handles nested @media 1`] = `"test-media-0-19-1"`;
+exports[`JSSAesthetic style sheet handles nested @media 1`] = `"test-media-0-20-1"`;
 
-exports[`JSSAesthetic style sheet handles nested @media 2`] = `".test-media-0-19-1 {color: red;}@media (min-width: 300px) {.test-media-0-19-1 {color: blue;}@media (max-width: 1000px) {.test-media-0-19-1 {color: green;}}}"`;
+exports[`JSSAesthetic style sheet handles nested @media 2`] = `".test-media-0-20-1 {color: red;}@media (min-width: 300px) {.test-media-0-20-1 {color: blue;}@media (max-width: 1000px) {.test-media-0-20-1 {color: green;}}}"`;
 
 exports[`JSSAesthetic style sheet handles properties 1`] = `"test-props-0-12-1"`;
 

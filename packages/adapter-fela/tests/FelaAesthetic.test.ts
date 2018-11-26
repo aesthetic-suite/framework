@@ -26,6 +26,7 @@ import {
   FONT_ROBOTO,
   FONT_CIRCULAR_MULTIPLE,
   SYNTAX_MEDIA_QUERY_NESTED,
+  SYNTAX_KEYFRAMES_INLINE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -198,6 +199,21 @@ describe('FelaAesthetic', () => {
           },
         },
         'a b c d',
+      );
+    });
+
+    it('handles inline @keyframes', () => {
+      renderAndTest(
+        SYNTAX_KEYFRAMES_INLINE,
+        {
+          single: {
+            animationName: 'k1',
+          },
+          multiple: {
+            animationName: 'k1, unknown, k2',
+          },
+        },
+        'a',
       );
     });
 

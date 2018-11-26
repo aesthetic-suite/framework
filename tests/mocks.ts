@@ -237,6 +237,18 @@ export const SYNTAX_KEYFRAMES_MIXED = {
   },
 };
 
+export const SYNTAX_KEYFRAMES_INLINE = {
+  single: {
+    animationName: {
+      ...KEYFRAME_SLIDE_PERCENT,
+      name: 'slide',
+    },
+  },
+  multiple: {
+    animationName: [{ ...KEYFRAME_SLIDE_PERCENT, name: 'slide' }, 'unknown', KEYFRAME_FADE],
+  },
+};
+
 export const SYNTAX_MEDIA_QUERY = {
   media: {
     color: 'red',

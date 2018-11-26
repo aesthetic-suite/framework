@@ -27,21 +27,23 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
+  SYNTAX_KEYFRAMES_INLINE,
 } from '../../../tests/mocks';
 import { createTestRulesets, createTestKeyframes } from '../../../tests/helpers';
 
 describe('UnifiedSyntax', () => {
   let syntax: UnifiedSyntax<Properties>;
   let sheet: Sheet<Properties>;
+  let ruleset: Ruleset<Properties>;
 
   beforeEach(() => {
     syntax = new UnifiedSyntax();
     sheet = new Sheet();
+    ruleset = new Ruleset('test', sheet);
   });
 
   it('can add, remove, and emit an event handler', () => {
     const spy = jest.fn();
-    const ruleset = new Ruleset('test', sheet);
 
     syntax.on('property', spy);
 
@@ -365,12 +367,6 @@ describe('UnifiedSyntax', () => {
   });
 
   describe('convertRuleset()', () => {
-    let ruleset: Ruleset<Properties>;
-
-    beforeEach(() => {
-      ruleset = new Ruleset('test', sheet);
-    });
-
     it('errors for a non-object', () => {
       expect(() => {
         // @ts-ignore Allow invalid type
@@ -416,7 +412,7 @@ describe('UnifiedSyntax', () => {
         ruleset,
       );
 
-      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledTimes(6);
     });
 
     it('calls `convertSelector` for pseudos and attributes', () => {
@@ -484,6 +480,44 @@ describe('UnifiedSyntax', () => {
         expect(spy).toHaveBeenCalledWith(ruleset, 'display', 'block');
         expect(spy).toHaveBeenCalledWith(ruleset, 'color', 'red');
         expect(spy).toHaveBeenCalledWith(ruleset, 'padding', 0);
+      });
+
+      it('emits event for each individual property', () => {
+        const spy = jest.fn();
+
+        // @ts-ignore
+        syntax.on('property:display', spy);
+        syntax.convertRuleset(
+          {
+            display: 'block',
+            color: 'red',
+            padding: 0,
+          },
+          ruleset,
+        );
+
+        expect(spy).toHaveBeenCalledWith(ruleset, 'block');
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
+
+      describe('animationName', () => {
+        it('converts single keyframe', () => {
+          const spy = jest.fn();
+
+          syntax.on('keyframe', spy);
+          syntax.convertRuleset(SYNTAX_KEYFRAMES_INLINE.single, ruleset);
+
+          expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        it('converts multiple keyframes', () => {
+          const spy = jest.fn();
+
+          syntax.on('keyframe', spy);
+          syntax.convertRuleset(SYNTAX_KEYFRAMES_INLINE.multiple, ruleset);
+
+          expect(spy).toHaveBeenCalledTimes(2);
+        });
       });
     });
 
@@ -713,12 +747,6 @@ describe('UnifiedSyntax', () => {
   });
 
   describe('convertSelector()', () => {
-    let ruleset: Ruleset<Properties>;
-
-    beforeEach(() => {
-      ruleset = new Ruleset('test', sheet);
-    });
-
     it('errors for a non-object', () => {
       expect(() => {
         // @ts-ignore Allow invalid type
@@ -747,6 +775,44 @@ describe('UnifiedSyntax', () => {
         '> span',
         ruleset.createRuleset('> span'),
       ]);
+    });
+  });
+
+  describe('handleAnimationName', () => {
+    it('returns undefined if falsy', () => {
+      expect(syntax.handleAnimationName(ruleset, '')).toBeUndefined();
+    });
+
+    it('returns string as is', () => {
+      expect(syntax.handleAnimationName(ruleset, 'foo, bar')).toBe('foo, bar');
+    });
+
+    it('converts single keyframe', () => {
+      const spy = jest.fn();
+
+      syntax.on('keyframe', spy);
+
+      const name = syntax.handleAnimationName(
+        ruleset,
+        SYNTAX_KEYFRAMES_INLINE.single.animationName,
+      );
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(name).toBe('slide');
+    });
+
+    it('converts multiple keyframes', () => {
+      const spy = jest.fn();
+
+      syntax.on('keyframe', spy);
+
+      const name = syntax.handleAnimationName(
+        ruleset,
+        SYNTAX_KEYFRAMES_INLINE.multiple.animationName,
+      );
+
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(name).toBe('slide, unknown, keyframe-1');
     });
   });
 

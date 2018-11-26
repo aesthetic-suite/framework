@@ -418,8 +418,13 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
+export type PropertyAnimationName =
+  | CSS.AnimationNameProperty
+  | Keyframes
+  | (CSS.AnimationNameProperty | Keyframes)[];
+
 export interface Properties extends Omit<CSS.Properties<string | number>, 'animationName'> {
-  animationName?: CSS.AnimationNameProperty | Keyframes | (string | Keyframes)[];
+  animationName?: PropertyAnimationName;
 }
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;
@@ -435,10 +440,11 @@ export interface FontFace extends CSS.FontFace {
   srcPaths: string[];
 }
 
-export interface Keyframes<T = Block> {
-  from?: T;
-  to?: T;
-  [percent: string]: T | undefined;
+export interface Keyframes {
+  from?: Block;
+  to?: Block;
+  name?: string;
+  [percent: string]: Block | string | undefined;
 }
 
 export type SheetMap<T> = { [selector: string]: T };

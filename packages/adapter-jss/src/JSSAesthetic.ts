@@ -21,6 +21,8 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
 > {
   jss: JSS;
 
+  keyframes: { [animationName: string]: string } = {};
+
   sheets: { [styleName: string]: JSSSheet<any> } = {};
 
   constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
@@ -134,6 +136,8 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
+    this.keyframes[animationName] = `$${animationName}`;
+
     sheet.addAtRule(`@keyframes ${animationName}`, keyframe);
   };
 
@@ -158,7 +162,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
   private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, `$${value}`);
+      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
     } else {
       ruleset.addProperty(name, value);
     }

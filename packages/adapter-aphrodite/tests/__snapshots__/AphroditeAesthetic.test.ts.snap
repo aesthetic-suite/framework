@@ -10,6 +10,8 @@ exports[`AphroditeAesthetic style sheet handles attribute selectors 1`] = `".att
 
 exports[`AphroditeAesthetic style sheet handles descendant selectors 1`] = `".list_1lo5lhe{margin:0px !important;padding:0px !important;}.list_1lo5lhe > li{list-style:bullet !important;}"`;
 
+exports[`AphroditeAesthetic style sheet handles inline @keyframes 1`] = `"@keyframes keyframe_khqws7{0%{opacity:0;}50%{opacity:0.5;}100%{opacity:1;}}@keyframes keyframe_w18mkj{from{opacity:0;}to{opacity:1;}}.single_1j39j3w-o_O-multiple_19eoumq{-webkit-animation-name:keyframe_khqws7,unknown,keyframe_w18mkj !important;animation-name:keyframe_khqws7,unknown,keyframe_w18mkj !important;}"`;
+
 exports[`AphroditeAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".multi_1xnvdcd{cursor:pointer !important;}.multi_1xnvdcd:disabled{cursor:default !important;}.multi_1xnvdcd[disabled]{cursor:default !important;}.multi_1xnvdcd > span{cursor:default !important;}"`;
 
 exports[`AphroditeAesthetic style sheet handles nested @media 1`] = `".media_y3eou6{color:red !important;}@media (min-width: 300px){.media_y3eou6{color:blue !important;}@media (max-width: 1000px){.media_y3eou6{color:green !important;}}}"`;

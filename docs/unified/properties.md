@@ -23,3 +23,21 @@ Standard structure for defining properties.
 > Fela requires the `fela-plugin-unit` plugin.
 
 > JSS requires the `jss-default-unit`, `jss-camel-case`, and `jss-global` plugins.
+
+## Animations
+
+Inline keyframes can be defined by passing an object, or an array of objects to `animationName`.
+
+```javascript
+{
+  element: {
+    animationName: {
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+      name: 'fade',
+    },
+  },
+}
+```
+
+> An optional `name` property can be used to customize the animation name.

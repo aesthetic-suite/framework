@@ -19,6 +19,8 @@ import {
   SYNTAX_PROPERTIES,
   SYNTAX_PSEUDO,
   SYNTAX_MEDIA_QUERY_NESTED,
+  SYNTAX_KEYFRAMES_INLINE,
+  KEYFRAME_SLIDE_PERCENT,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -214,6 +216,21 @@ describe('AphroditeAesthetic', () => {
           },
         },
         'multi_1xnvdcd',
+      );
+    });
+
+    it('handles inline @keyframes', () => {
+      renderAndTest(
+        SYNTAX_KEYFRAMES_INLINE,
+        {
+          single: {
+            animationName: [KEYFRAME_SLIDE_PERCENT],
+          },
+          multiple: {
+            animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
+          },
+        },
+        'single_1j39j3w-o_O-multiple_19eoumq',
       );
     });
 
