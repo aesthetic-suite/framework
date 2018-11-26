@@ -8,6 +8,7 @@
   `Aesthetic`, they extend it.
 - Removed `aesthetic-adapter-aphrodite/unified` import. Unified syntax is now required and enabled
   by default.
+- Updated to always use `!important`.
 
 #### 🛠 Internal
 

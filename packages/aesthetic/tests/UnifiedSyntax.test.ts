@@ -495,7 +495,7 @@ describe('UnifiedSyntax', () => {
 
         expect(spy).toHaveBeenCalledTimes(3);
         expect(spy).toHaveBeenCalledWith(ruleset, 'background', ['red']);
-        expect(spy).toHaveBeenCalledWith(ruleset, 'display', ['box', 'flex-box']);
+        expect(spy).toHaveBeenCalledWith(ruleset, 'display', ['block', 'inline-block']);
         expect(spy).toHaveBeenCalledWith(ruleset, 'color', ['blue']);
       });
 

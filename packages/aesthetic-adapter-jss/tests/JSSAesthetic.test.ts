@@ -257,8 +257,8 @@ describe('JSSAesthetic', () => {
           display: 'flex',
           fallbacks: [
             { background: 'red' },
-            { display: 'box' },
-            { display: 'flex-box' },
+            { display: 'block' },
+            { display: 'inline-block' },
             { color: 'blue' },
           ],
         },

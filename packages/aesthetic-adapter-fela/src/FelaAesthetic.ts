@@ -53,7 +53,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
       fallbacks = [fallbacks];
     }
 
-    ruleset.addProperty(name, [...fallbacks, ...value]);
+    ruleset.addProperty(name, [...value, ...fallbacks]);
   };
 
   // http://fela.js.org/docs/basics/Fonts.html

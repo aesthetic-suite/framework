@@ -179,7 +179,7 @@ export const SYNTAX_FALLBACKS = {
     display: 'flex',
     '@fallbacks': {
       background: 'red',
-      display: ['box', 'flex-box'],
+      display: ['block', 'inline-block'],
       // Test property without a non-fallback
       color: 'blue',
     },

@@ -205,8 +205,8 @@ describe('FelaAesthetic', () => {
         SYNTAX_FALLBACKS,
         {
           fallback: {
-            background: ['linear-gradient(...)', 'red'],
-            display: ['flex', 'box', 'flex-box'],
+            background: ['red', 'linear-gradient(...)'],
+            display: ['block', 'inline-block', 'flex'],
             color: ['blue'],
           },
         },

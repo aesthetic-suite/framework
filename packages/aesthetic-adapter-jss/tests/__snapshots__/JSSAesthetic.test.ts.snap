@@ -46,7 +46,7 @@ exports[`JSSAesthetic style sheet converts unified syntax to native syntax and t
 
 exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"test-fallback-0-17-1"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: box;display: flex-box;color: blue;display: flex;background: linear-gradient(...);}"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".test-fallback-0-17-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
 
 exports[`JSSAesthetic style sheet handles @media 1`] = `"test-media-0-18-1"`;
 
