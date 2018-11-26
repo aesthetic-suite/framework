@@ -119,13 +119,13 @@ export default abstract class Aesthetic<
   extendTheme(
     themeName: ThemeName,
     parentThemeName: ThemeName,
-    theme: Theme,
+    theme: Partial<Theme>,
     globalSheet: GlobalSheetDefinition<Theme> = null,
   ): this {
     return this.registerTheme(
       themeName,
       deepMerge({}, this.getTheme(parentThemeName), theme),
-      globalSheet,
+      globalSheet || this.globals[parentThemeName],
     );
   }
 

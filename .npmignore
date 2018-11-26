@@ -19,6 +19,7 @@ src/
 tests/
 types/
 node_modules/
+dist/
 
 # Custom
 *.min.js

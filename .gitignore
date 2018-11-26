@@ -16,6 +16,7 @@ coverage/
 esm/
 lib/
 node_modules/
+dist/
 
 # Custom
 *.min.js
@@ -32,4 +33,3 @@ babel.config.js
 jest.config.js
 prettier.config.js
 tsconfig.json
-webpack.config.js

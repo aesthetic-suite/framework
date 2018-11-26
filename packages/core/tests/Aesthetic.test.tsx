@@ -184,6 +184,15 @@ describe('Aesthetic', () => {
         },
       });
     });
+
+    it('inherits parent theme global styles', () => {
+      const spy = jest.fn();
+
+      instance.registerTheme('foo', {}, spy);
+      instance.extendTheme('bar', 'foo', {});
+
+      expect(instance.globals.bar).toBe(spy);
+    });
   });
 
   describe('getStyles()', () => {
