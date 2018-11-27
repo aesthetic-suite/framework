@@ -15,9 +15,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "prop-types": "^15.6.2"
-  },
   "peerDependencies": {
     "aesthetic": "^3.0.0"
   },

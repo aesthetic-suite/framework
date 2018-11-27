@@ -16,8 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/jss": "^9.5.7",
-    "prop-types": "^15.6.2"
+    "@types/jss": "^9.5.7"
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",
