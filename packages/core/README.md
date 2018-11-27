@@ -7,24 +7,21 @@ objects, importing stylesheets, or simply referencing external class names. Simp
 an abstraction layer that utilizes higher-order-components for the compilation of styles via
 third-party libraries, all the while providing customizability, theming, and a unified syntax.
 
-```javascript
+```tsx
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StylesPropType } from 'aesthetic';
-import withStyles, { classes } from '../path/to/styler';
+import withStyles, { WithStylesProps, classes } from '../path/to/aesthetic';
 
-function Button({ children, styles }) {
+export type Props = {
+  children: React.ReactNode;
+};
+
+function Button({ children, styles }: Props & WithStylesProps) {
   return (
     <button type="button" className={classes(styles.button)}>
       {children}
     </button>
   );
 }
-
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  styles: StylesPropType.isRequired,
-};
 
 export default withStyles(({ unit }) => ({
   button: {
@@ -46,9 +43,9 @@ export default withStyles(({ unit }) => ({
 Aesthetic requires React as a peer dependency.
 
 ```
-npm install aesthetic react --save
-// Or
 yarn add aesthetic react
+// Or
+npm install aesthetic react
 ```
 
 ## Documentation

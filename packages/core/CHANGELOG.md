@@ -23,6 +23,7 @@ of stylers, and unified syntax as the default.
 - Removed the `createStyler` factory function.
   - Use `Aesthetic#withStyles` instead of `style`.
   - Use `Aesthetic#transformStyles` instead of `transform`.
+- Removed the `withStyles` option `styleName`. Names are now generated with a unique ID.
 - Removed `createStyleElement` helper function.
 - Removed `PropType`s exported from the index.
 - Updated `Aesthetic#registerTheme` and `Aesthetic#extendTheme` global styles to require a

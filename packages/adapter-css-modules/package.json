@@ -8,7 +8,7 @@
     "styles",
     "css modules"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-css-modules",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/adapter-css-modules",
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -19,7 +19,7 @@
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
-    "aesthetic": "^2.5.0"
+    "aesthetic": "^3.0.0"
   },
   "devDependencies": {
     "aesthetic": "^3.0.0-alpha.0"

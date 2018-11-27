@@ -8,7 +8,7 @@
     "styles",
     "aphrodite"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/aesthetic-adapter-aphrodite",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/adapter-aphrodite",
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -19,8 +19,8 @@
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
-    "aesthetic": "^2.5.0",
-    "aphrodite": "^2.1.0"
+    "aesthetic": "^3.0.0",
+    "aphrodite": "^2.2.0"
   },
   "devDependencies": {
     "aesthetic": "^3.0.0-alpha.0",
