@@ -7,7 +7,7 @@ import React from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import shallowEqual from 'shallowequal';
-import deepMerge from 'lodash/merge';
+import deepMerge from 'extend';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import UnifiedSyntax from './UnifiedSyntax';
@@ -124,7 +124,7 @@ export default abstract class Aesthetic<
   ): this {
     return this.registerTheme(
       themeName,
-      deepMerge({}, this.getTheme(parentThemeName), theme),
+      deepMerge(true, {}, this.getTheme(parentThemeName), theme),
       globalSheet || this.globals[parentThemeName],
     );
   }
@@ -145,7 +145,7 @@ export default abstract class Aesthetic<
 
     // Merge from parent
     if (parentStyleName) {
-      return deepMerge({}, this.getStyles(parentStyleName, props), styleSheet);
+      return deepMerge(true, {}, this.getStyles(parentStyleName, props), styleSheet);
     }
 
     return styleSheet;

@@ -17,7 +17,8 @@ of stylers, and unified syntax as the default.
   the constructor.
   - `Adapter#create` is now `Aesthetic#processStyleSheet`.
   - `Adapter#transform` is now `Aesthetic#transformToClassName`.
-  - `Adapter#merge` has been removed, and now relies on `lodash` merge.
+  - `Adapter#merge` has been removed, and now relies on
+    [extend](https://github.com/justmoon/node-extend).
 - Removed the `Aesthetic` option `defaultTheme`, use `theme` option instead.
 - Removed the `ThemeProvider` component, use `theme` option instead.
 - Removed the `createStyler` factory function.

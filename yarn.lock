@@ -1557,6 +1557,11 @@
   resolved "http://registry.npmjs.org/@types/exit/-/exit-0.1.30.tgz#7078b736a7d166c80b6394dc0d9de1577ca76daf"
   integrity sha1-cHi3NqfRZsgLY5TcDZ3hV3ynba8=
 
+"@types/extend@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/@types/extend/-/extend-3.0.0.tgz#d269e5af1463cd6344272abd814c8a833b914d07"
+  integrity sha512-Eo8NQCbgjlMPQarlFAE3vpyCvFda4dg1Ob5ZJb6BJI9x4NAZVWowyMNB8GJJDgDI4lr2oqiQvXlPB0Fn1NoXnQ==
+
 "@types/fs-extra@^5.0.4":
   version "5.0.4"
   resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-5.0.4.tgz#b971134d162cc0497d221adde3dbb67502225599"
@@ -4348,7 +4353,7 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
 
-extend@3.0.2, extend@~3.0.2:
+extend@3.0.2, extend@^3.0.2, extend@~3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
