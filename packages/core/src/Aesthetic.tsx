@@ -63,7 +63,7 @@ export default abstract class Aesthetic<
       extendable: false,
       passThemeNameProp: true,
       passThemeProp: true,
-      pure: false,
+      pure: true,
       stylesPropName: 'styles',
       theme: 'default',
       themePropName: 'theme',
@@ -268,10 +268,7 @@ export default abstract class Aesthetic<
    * Wrap a React component with an HOC that handles the entire styling, converting,
    * and transforming process.
    */
-  withStyles<P>(
-    styleSheet: StyleSheetDefinition<Theme, P>,
-    options: Partial<WithStylesOptions> = {},
-  ) {
+  withStyles<P>(styleSheet: StyleSheetDefinition<Theme, P>, options: WithStylesOptions = {}) {
     const aesthetic = this;
     const {
       extendable = this.options.extendable,
@@ -308,7 +305,7 @@ export default abstract class Aesthetic<
 
         static extendStyles(
           customStyleSheet: StyleSheetDefinition<Theme, Props>,
-          extendOptions: Partial<Omit<WithStylesOptions, 'extendFrom'>> = {},
+          extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
         ) {
           if (process.env.NODE_ENV !== 'production') {
             if (!extendable) {

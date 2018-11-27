@@ -477,13 +477,18 @@ export type GlobalSheetDefinition<Theme> = null | ((theme: Theme) => GlobalSheet
 // COMPONENT
 
 export interface WithStylesWrapperProps {
+  /** Gain a reference to the wrapped component. Provided by `withStyles`. */
   wrappedRef?: React.Ref<any>;
 }
 
 export interface WithStylesProps<Theme, ParsedBlock> {
+  /** The ref passed through the `wrappedRef` prop. Provided by `withStyles`. */
   ref?: React.Ref<any>;
+  /** The parsed component style sheet in which rulesets can be transformed to class names. Provided by `withStyles`. */
   styles: SheetMap<ParsedBlock>;
+  /** The theme object when `passThemeProp` is true. Provided by `withStyles`. */
   theme?: Theme;
+  /** The theme name when `passThemeNameProp` is true. Provided by `withStyles`. */
   themeName?: ThemeName;
 }
 
@@ -493,13 +498,20 @@ export interface WithStylesState<Props, ParsedBlock> {
 }
 
 export interface WithStylesOptions {
-  extendable: boolean;
-  extendFrom: string;
-  passThemeNameProp: boolean;
-  passThemeProp: boolean;
-  pure: boolean;
-  stylesPropName: string;
-  themePropName: string;
+  /** Can this component's styles be extended to create a new component. Provided by `withStyles`. */
+  extendable?: boolean;
+  /** The parent component ID in which to extend styles from. This is usually defined automatically. Provided by `withStyles`. */
+  extendFrom?: string;
+  /** Pass the theme name prop to the wrapped component. Provided by `withStyles`. */
+  passThemeNameProp?: boolean;
+  /** Pass the theme object prop to the wrapped component. Provided by `withStyles`. */
+  passThemeProp?: boolean;
+  /** Render a pure component instead of a regular component. Provided by `withStyles`. */
+  pure?: boolean;
+  /** Name of the prop in which to pass styles to the wrapped component. Provided by `withStyles`. */
+  stylesPropName?: string;
+  /** Name of the prop in which to pass the theme object to the wrapped component. Provided by `withStyles`. */
+  themePropName?: string;
 }
 
 export interface StyledComponent<Theme, Props> extends React.ComponentClass<Props> {
@@ -509,6 +521,6 @@ export interface StyledComponent<Theme, Props> extends React.ComponentClass<Prop
 
   extendStyles(
     styleSheet: StyleSheetDefinition<Theme, Props>,
-    extendOptions?: Partial<Omit<WithStylesOptions, 'extendFrom'>>,
+    extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
   ): StyledComponent<Theme, Props>;
 }

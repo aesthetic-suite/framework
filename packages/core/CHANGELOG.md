@@ -26,6 +26,7 @@ of stylers, and unified syntax as the default.
 - Removed the `withStyles` option `styleName`. Names are now generated with a unique ID.
 - Removed `createStyleElement` helper function.
 - Removed `PropType`s exported from the index.
+- Updated the `Aesthetic` option `pure` to be enabled by default.
 - Updated `Aesthetic#registerTheme` and `Aesthetic#extendTheme` global styles to require a
   definition function that returns an object, or null.
 - Moved `Aesthetic#constructor` options to the 1st argument.

@@ -55,7 +55,7 @@ describe('Aesthetic', () => {
         extendable: false,
         passThemeNameProp: true,
         passThemeProp: true,
-        pure: false,
+        pure: true,
         stylesPropName: 'styleSheet',
         theme: 'default',
         themePropName: 'theme',
@@ -479,16 +479,16 @@ describe('Aesthetic', () => {
       expect(hoc).toBeInstanceOf(Function);
     });
 
-    it('extends `React.Component` by default', () => {
+    it('extends `React.PureComponent` by default', () => {
       const Wrapped = instance.withStyles(null)(BaseComponent);
 
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
+      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
     });
 
-    it('extends `React.PureComponent` when `pure` is true', () => {
-      const Wrapped = instance.withStyles(null, { pure: true })(BaseComponent);
+    it('extends `React.Component` when `pure` is false', () => {
+      const Wrapped = instance.withStyles(null, { pure: false })(BaseComponent);
 
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+      expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
     });
 
     it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
