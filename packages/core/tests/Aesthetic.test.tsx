@@ -454,8 +454,8 @@ describe('Aesthetic', () => {
       expect(instance.transformStyles('foo', true && 'bar', 5 > 10 && 'baz')).toBe('foo bar');
     });
 
-    it('joins strings and numbers', () => {
-      expect(instance.transformStyles('foo', 123, 'bar')).toBe('foo 123 bar');
+    it('joins strings', () => {
+      expect(instance.transformStyles('foo', '123', 'bar')).toBe('foo 123 bar');
     });
   });
 

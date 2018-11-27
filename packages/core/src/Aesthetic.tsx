@@ -228,7 +228,9 @@ export default abstract class Aesthetic<
   /**
    * Transform the list of style declarations to a list of class name.
    */
-  transformStyles(...styles: (ClassName | NativeBlock | ParsedBlock)[]): ClassName {
+  transformStyles(
+    ...styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[]
+  ): ClassName {
     const classNames: ClassName[] = [];
     const toTransform: (NativeBlock | ParsedBlock)[] = [];
 
@@ -237,7 +239,7 @@ export default abstract class Aesthetic<
         return;
       }
 
-      if (typeof style === 'string' || typeof style === 'number') {
+      if (typeof style === 'string') {
         classNames.push(
           ...String(style)
             .split(' ')
