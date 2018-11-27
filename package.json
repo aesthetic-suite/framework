@@ -49,7 +49,7 @@
     },
     "typescript": {
       "exclude": [
-        "tests/tests.tsx"
+        "tests/typings.tsx"
       ]
     }
   },

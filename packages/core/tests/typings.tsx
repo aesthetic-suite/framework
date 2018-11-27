@@ -6,6 +6,7 @@ import { ComponentBlock, WithStylesProps } from '../src/types';
 
 type Theme = {
   unit: number;
+  color: string;
 };
 
 type Props = {
@@ -14,6 +15,15 @@ type Props = {
 };
 
 const aesthetic = new ClassNameAesthetic<Theme>();
+
+aesthetic.registerTheme('default', {
+  unit: 8,
+  color: 'black',
+});
+
+aesthetic.extendTheme('classic', 'default', {
+  color: 'white',
+});
 
 const Comp: React.SFC<Props & WithStylesProps<Theme, string>> = props => {
   return <div className={aesthetic.transformStyles(props.styles.button)} />;
