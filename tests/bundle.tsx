@@ -24,16 +24,13 @@ type Theme = {
 
 type Props = {
   children: React.ReactNode;
-  classes?: any;
   primary?: boolean;
-} & WithStylesProps<Theme, any>;
+};
 
 const theme = location.search.slice(1) || 'default';
 
-function createStyledComponent(
-  aesthetic: Aesthetic<Theme, any, any>,
-  Component: React.ComponentType<Props>,
-) {
+// Aesthetic instances
+function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
   aesthetic.registerTheme(
     'default',
     {
@@ -64,18 +61,41 @@ function createStyledComponent(
     primary: '#01579B',
   });
 
-  // Log the objects so we can inspect them
   console.log(aesthetic.constructor.name, aesthetic);
 
-  function css(...styles: any[]): string {
-    return aesthetic.transformStyles(...styles);
-  }
+  return aesthetic;
+}
 
-  function WrappedComponent(props: Props) {
-    return <Component {...props} classes={css} />;
-  }
+const aphrodite = registerThemes(new AphroditeAesthetic<Theme>([], { theme }));
 
-  return aesthetic.withStyles(({ unit, bg, bgHover, fg, primary }) => ({
+const fela = registerThemes(
+  new FelaAesthetic<Theme>(
+    createFela({
+      plugins: [...felaPreset],
+    }),
+    { theme },
+  ),
+);
+
+const jss = registerThemes(
+  new JSSAesthetic<Theme>(
+    createJSS(
+      // @ts-ignore
+      jssPreset(),
+    ),
+    { theme },
+  ),
+);
+
+const typeStyle = registerThemes(
+  new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag: true }), {
+    theme,
+  }),
+);
+
+// Helper functions
+function createStyleSheet({ unit, bg, bgHover, fg, primary }: Theme): any {
+  return {
     button: {
       display: 'inline-block',
       border: 0,
@@ -102,48 +122,61 @@ function createStyledComponent(
     button__primary: {
       backgroundColor: primary,
     },
-  }))(WrappedComponent);
+  };
 }
 
-function Button({ children, classes, styles, primary = false }: Props) {
-  const className = classes(styles.button, primary && styles.button__primary);
+// withStyles HOC
+function createHOCComponent(aesthetic: Aesthetic<Theme, any, any>) {
+  function Button({
+    children,
+    styles,
+    theme,
+    primary = false,
+  }: Props & WithStylesProps<Theme, any>) {
+    const className = aesthetic.transformStyles(styles.button, primary && styles.button__primary);
 
-  console.log('Button', 'classNames', styles, className);
+    console.log('HOC Button', styles, className, theme);
 
-  return (
-    <button type="button" className={className}>
-      {children}
-    </button>
-  );
+    return (
+      <button type="button" className={className}>
+        {children}
+      </button>
+    );
+  }
+
+  return aesthetic.withStyles(createStyleSheet, { passThemeProp: true })(Button);
 }
 
-const AphroditeButton = createStyledComponent(new AphroditeAesthetic([], { theme }), Button);
+const AphroditeButton = createHOCComponent(aphrodite);
+const FelaButton = createHOCComponent(fela);
+const JSSButton = createHOCComponent(jss);
+const TypeStyleButton = createHOCComponent(typeStyle);
 
-const FelaButton = createStyledComponent(
-  new FelaAesthetic(
-    createFela({
-      plugins: [...felaPreset],
-    }),
-    { theme },
-  ),
-  Button,
-);
+// useStyles Hook
+function createHookComponent(aesthetic: Aesthetic<Theme, any, any>) {
+  const useStyles = aesthetic.useStyles();
+  const useTheme = () => aesthetic.getTheme();
 
-const JSSButton = createStyledComponent(
-  new JSSAesthetic(
-    createJSS(
-      // @ts-ignore
-      jssPreset(),
-    ),
-    { theme },
-  ),
-  Button,
-);
+  return function Button(props: Props) {
+    const { children, primary = false } = props;
+    const styles = useStyles(createStyleSheet, props);
+    const theme = useTheme();
+    const className = aesthetic.transformStyles(styles.button, primary && styles.button__primary);
 
-const TypeStyleButton = createStyledComponent(
-  new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), { theme }),
-  Button,
-);
+    console.log('Hook Button', className, styles, theme);
+
+    return (
+      <button type="button" className={className}>
+        {children}
+      </button>
+    );
+  };
+}
+
+const AphroditeHook = createHookComponent(aphrodite);
+const FelaHook = createHookComponent(fela);
+const JSSHook = createHookComponent(jss);
+const TypeStyleHook = createHookComponent(typeStyle);
 
 function App() {
   return (
@@ -151,23 +184,54 @@ function App() {
       <h3>Theme: {theme}</h3>
 
       <div>
-        <AphroditeButton>Aphrodite</AphroditeButton>
-        <AphroditeButton primary>Aphrodite</AphroditeButton>
+        <h4>withStyles HOC</h4>
+
+        <div>
+          <AphroditeButton>Aphrodite</AphroditeButton>
+          <AphroditeButton primary>Aphrodite</AphroditeButton>
+        </div>
+
+        <div>
+          <FelaButton>Fela</FelaButton>
+          <FelaButton primary>Fela</FelaButton>
+        </div>
+
+        <div>
+          <JSSButton>JSS</JSSButton>
+          <JSSButton primary>JSS</JSSButton>
+        </div>
+
+        <div>
+          <TypeStyleButton>TypeStyle</TypeStyleButton>
+          <TypeStyleButton primary>TypeStyle</TypeStyleButton>
+        </div>
       </div>
 
-      <div>
-        <FelaButton>Fela</FelaButton>
-        <FelaButton primary>Fela</FelaButton>
-      </div>
+      <br />
+      <br />
 
       <div>
-        <JSSButton>JSS</JSSButton>
-        <JSSButton primary>JSS</JSSButton>
-      </div>
+        <h4>useStyles Hook</h4>
 
-      <div>
-        <TypeStyleButton>TypeStyle</TypeStyleButton>
-        <TypeStyleButton primary>TypeStyle</TypeStyleButton>
+        <div>
+          <AphroditeHook>Aphrodite</AphroditeHook>
+          <AphroditeHook primary>Aphrodite</AphroditeHook>
+        </div>
+
+        <div>
+          <FelaHook>Fela</FelaHook>
+          <FelaHook primary>Fela</FelaHook>
+        </div>
+
+        <div>
+          <JSSHook>JSS</JSSHook>
+          <JSSHook primary>JSS</JSSHook>
+        </div>
+
+        <div>
+          <TypeStyleHook>TypeStyle</TypeStyleHook>
+          <TypeStyleHook primary>TypeStyle</TypeStyleHook>
+        </div>
       </div>
     </div>
   );

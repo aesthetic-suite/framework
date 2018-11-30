@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import shallowEqual from 'shallowequal';
@@ -29,7 +29,6 @@ import {
 
 export interface AestheticOptions {
   extendable: boolean;
-  passThemeNameProp: boolean;
   passThemeProp: boolean;
   pure: boolean;
   stylesPropName: string;
@@ -61,7 +60,6 @@ export default abstract class Aesthetic<
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
       extendable: false,
-      passThemeNameProp: true,
       passThemeProp: true,
       pure: true,
       stylesPropName: 'styles',
@@ -264,16 +262,55 @@ export default abstract class Aesthetic<
    */
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
+  useStyles<P extends object>(
+    styleSheet: StyleSheetDefinition<Theme, P>,
+    props: P,
+    baseName: string = 'Component',
+  ): SheetMap<ParsedBlock> {
+    const [styleName] = useState(() => `${baseName}-${uuid()}`);
+
+    this.setStyles(styleName, styleSheet);
+
+    // Create and parse the stylesheet
+    const handleCreate = () => this.createStyleSheet(styleName, props);
+    const [cachedProps, setProps] = useState(props);
+    const [styles, setStyles] = useState(handleCreate);
+
+    if (!shallowEqual(props, cachedProps)) {
+      setProps(props);
+      setStyles(handleCreate());
+    }
+
+    // Flush styles as a mount effect
+    let flushed = false;
+
+    useLayoutEffect(
+      () => {
+        this.flushStyles(styleName);
+        flushed = true;
+      },
+      [flushed],
+    );
+
+    return styles;
+  }
+
+  useTheme(): Theme {
+    return this.getTheme();
+  }
+
   /**
    * Wrap a React component with an HOC that handles the entire styling, converting,
    * and transforming process.
    */
-  withStyles<P>(styleSheet: StyleSheetDefinition<Theme, P>, options: WithStylesOptions = {}) {
+  withStyles<P extends object>(
+    styleSheet: StyleSheetDefinition<Theme, P>,
+    options: WithStylesOptions = {},
+  ) {
     const aesthetic = this;
     const {
       extendable = this.options.extendable,
       extendFrom = '',
-      passThemeNameProp = this.options.passThemeNameProp,
       passThemeProp = this.options.passThemeProp,
       pure = this.options.pure,
       stylesPropName = this.options.stylesPropName,
@@ -353,11 +390,7 @@ export default abstract class Aesthetic<
             extraProps[themePropName as 'theme'] = aesthetic.getTheme();
           }
 
-          if (passThemeNameProp) {
-            extraProps.themeName = aesthetic.options.theme;
-          }
-
-          return <WrappedComponent {...props} {...extraProps} />;
+          return <WrappedComponent {...props as any} {...extraProps} />;
         }
       }
 

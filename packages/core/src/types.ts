@@ -488,8 +488,6 @@ export interface WithStylesProps<Theme, ParsedBlock> {
   styles: SheetMap<ParsedBlock>;
   /** The theme object when `passThemeProp` is true. Provided by `withStyles`. */
   theme?: Theme;
-  /** The theme name when `passThemeNameProp` is true. Provided by `withStyles`. */
-  themeName?: ThemeName;
 }
 
 export interface WithStylesState<Props, ParsedBlock> {
@@ -502,8 +500,6 @@ export interface WithStylesOptions {
   extendable?: boolean;
   /** The parent component ID in which to extend styles from. This is usually defined automatically. Provided by `withStyles`. */
   extendFrom?: string;
-  /** Pass the theme name prop to the wrapped component. Provided by `withStyles`. */
-  passThemeNameProp?: boolean;
   /** Pass the theme object prop to the wrapped component. Provided by `withStyles`. */
   passThemeProp?: boolean;
   /** Render a pure component instead of a regular component. Provided by `withStyles`. */
