@@ -633,7 +633,7 @@ describe('Aesthetic', () => {
       const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
       const wrapper = shallow(<Wrapped foo="abc" />);
 
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc', wrappedRef: null });
+      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc' });
       expect(wrapper.state('styles')).toEqual({
         header: {},
         footer: {},
@@ -645,13 +645,13 @@ describe('Aesthetic', () => {
       const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
       const wrapper = shallow(<Wrapped foo="abc" />);
 
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc', wrappedRef: null });
+      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc' });
 
       wrapper.setProps({
         foo: 'xyz',
       });
 
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'xyz', wrappedRef: null });
+      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'xyz' });
       expect(spy).toHaveBeenCalledTimes(2);
     });
 
@@ -753,7 +753,6 @@ describe('Aesthetic', () => {
         bar: 'abc',
         baz: true,
         foo: 123,
-        wrappedRef: null,
       });
     });
 
@@ -777,7 +776,6 @@ describe('Aesthetic', () => {
         bar: 'abc',
         baz: true,
         foo: 123,
-        wrappedRef: null,
       });
     });
 
@@ -803,7 +801,6 @@ describe('Aesthetic', () => {
         bar: 'abc',
         baz: true,
         foo: 123,
-        wrappedRef: null,
       });
     });
   });

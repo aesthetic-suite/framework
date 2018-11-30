@@ -287,21 +287,16 @@ export default abstract class Aesthetic<
       const styleName = `${baseName}-${uuid()}`;
       const Component = pure ? React.PureComponent : React.Component;
 
+      type OwnState = WithStylesState<Props, ParsedBlock>;
+
       aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
-      class WithStyles extends Component<
-        Props & WithStylesWrapperProps,
-        WithStylesState<Props, ParsedBlock>
-      > {
+      class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
         static displayName = `withAesthetic(${baseName})`;
 
         static styleName = styleName;
 
         static WrappedComponent = WrappedComponent;
-
-        static defaultProps = {
-          wrappedRef: null,
-        };
 
         static extendStyles(
           customStyleSheet: StyleSheetDefinition<Theme, Props>,
@@ -321,15 +316,15 @@ export default abstract class Aesthetic<
         }
 
         static getDerivedStateFromProps(
-          props: Readonly<Props>,
-          state: WithStylesState<Props, ParsedBlock>,
-        ): Partial<WithStylesState<Props, ParsedBlock>> | null {
+          props: Readonly<any>,
+          state: OwnState,
+        ): Partial<OwnState> | null {
           if (shallowEqual(props, state.props)) {
             return null;
           }
 
           return {
-            props,
+            props: props as Readonly<Props>,
             styles: aesthetic.createStyleSheet(styleName, {
               // @ts-ignore Allow spread
               ...WrappedComponent.defaultProps,
@@ -338,7 +333,7 @@ export default abstract class Aesthetic<
           };
         }
 
-        state: any = {
+        state: OwnState = {
           styles: {},
         };
 
@@ -351,6 +346,7 @@ export default abstract class Aesthetic<
           const { wrappedRef, ...props } = this.props;
           const extraProps: WithStylesProps<Theme, ParsedBlock> = {
             [stylesPropName as 'styles']: this.state.styles,
+            ref: wrappedRef,
           };
 
           if (passThemeProp) {
@@ -361,16 +357,13 @@ export default abstract class Aesthetic<
             extraProps.themeName = aesthetic.options.theme;
           }
 
-          if (wrappedRef) {
-            extraProps.ref = wrappedRef;
-          }
-
           return <WrappedComponent {...props} {...extraProps} />;
         }
       }
 
-      // @ts-ignore
-      return hoistNonReactStatics(WithStyles, WrappedComponent);
+      hoistNonReactStatics(WithStyles, WrappedComponent);
+
+      return WithStyles;
     };
   }
 

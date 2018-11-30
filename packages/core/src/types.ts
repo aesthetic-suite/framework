@@ -493,7 +493,7 @@ export interface WithStylesProps<Theme, ParsedBlock> {
 }
 
 export interface WithStylesState<Props, ParsedBlock> {
-  props: Props;
+  props?: Props;
   styles: SheetMap<ParsedBlock>;
 }
 
