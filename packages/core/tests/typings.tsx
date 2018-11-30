@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { ComponentBlock, WithStylesProps } from '../src/types';
 
@@ -131,3 +132,10 @@ const ExtendedStyles = NullStyles.extendStyles(() => ({
 
 ExtendedStyles.displayName;
 ExtendedStyles.WrappedComponent;
+
+// PROP TYPES
+function childrenOf<T>(...types: React.ComponentType<any>[]): PropTypes.Requireable<T> {
+  return null;
+}
+
+childrenOf(Comp, NullStyles, ObjectStyles, FuncStyles, ExtendedStyles);
