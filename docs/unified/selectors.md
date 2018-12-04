@@ -1,10 +1,9 @@
 # Selectors
 
 Selectors can be defined inside a ruleset. Multiple selectors can also be defined by passing a comma
-separated list.
+separated list within the key.
 
-Advanced selectors or direct descendents must use the
-[`@selectors` at-rule](./local-at.md#selectors).
+Advanced selectors must use the [`@selectors` at-rule](./local-at.md#selectors).
 
 ## Attributes
 

@@ -12,9 +12,9 @@ const aesthetic = new AphroditeAesthetic<Theme>();
 ## Custom Selectors
 
 Aphrodite does not support some core CSS functionality, so Aesthetic has filled in these gaps. The
-following examples are supported by default.
+following examples are supported out of the box.
 
-Attribute and direct descendant selectors.
+Attribute and child combinator selectors.
 
 ```javascript
 {
@@ -33,14 +33,14 @@ Attribute and direct descendant selectors.
 }
 ```
 
-Global styles (to easily style `body`, `a`, and others). Selectors must be prefixed with `*`.
+Global styles (to easily style `body`, `a`, and others).
 
 ```javascript
 {
   '@global': {
-    '*body': { margin: 0 },
-    '*html': { height: '100%' },
-    '*a': {
+    body: { margin: 0 },
+    html: { height: '100%' },
+    a: {
       color: 'red',
       ':hover': {
         color: 'darkred',
@@ -50,7 +50,7 @@ Global styles (to easily style `body`, `a`, and others). Selectors must be prefi
 }
 ```
 
-> Global styles should be passed to `Aesthetic#registerTheme()`.
+> Global styles must be passed to `Aesthetic#registerTheme()`.
 
 ## Extensions
 

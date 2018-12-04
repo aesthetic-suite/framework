@@ -8,10 +8,6 @@ import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
 import { Theme } from './types';
 
-const aesthetic = new FelaAesthetic<Theme>(
-  createRenderer({
-    plugins: [...webPreset],
-    selectorPrefix: 'foo-',
-  }),
-);
+const fela = createRenderer({ plugins: [...webPreset] });
+const aesthetic = new FelaAesthetic<Theme>(fela);
 ```

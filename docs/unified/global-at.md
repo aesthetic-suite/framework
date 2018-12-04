@@ -2,11 +2,18 @@
 
 Global at-rules must be defined as global styles when registering a theme.
 
-> Not all adapters support every global at-rule.
+| Adapter   | @charset | @font-face | @global | @import | @keyframes | @page | @viewport |
+| :-------- | :------: | :--------: | :-----: | :-----: | :--------: | :---: | :-------: |
+| Aphrodite |          |     ✓      |    ✓    |         |     ✓      |       |           |
+| Fela      |          |     ✓      |    ✓    |         |     ✓      |       |           |
+| JSS       |    ✓     |     ✓      |   ✓¹    |    ✓    |     ✓      |       |     ✓     |
+| TypeStyle |          |     ✓      |    ✓    |         |     ✓      |       |           |
+
+> 1. Requires a plugin.
 
 ## @charset
 
-Supported by JSS.
+Set the document character set.
 
 ```javascript
 {
@@ -16,7 +23,9 @@ Supported by JSS.
 
 ## @font-face
 
-Supported by all adapters.
+Define a font face to be referenced with the `fontFamily` property. The at-rule requires an object,
+with the font family name as the key, and the font face(s) as the value. Each font face requires an
+array of `srcPaths`.
 
 ```javascript
 {
@@ -30,9 +39,7 @@ Supported by all adapters.
 }
 ```
 
-> The `fontFamily` property can be omitted as it'll be inherited from the property name.
-
-To support multiple font variations, like bold and italics, pass an array of declarations.
+To support multiple font variations, like bold and italics, pass an array of font faces.
 
 ```javascript
 {
@@ -58,7 +65,7 @@ To support multiple font variations, like bold and italics, pass an array of dec
 }
 ```
 
-Lastly, to define `local()` source aliases, pass an array of strings to a `local` property.
+To define `local()` source aliases, pass an array of strings to a `local` property.
 
 ```javascript
 {
@@ -73,9 +80,11 @@ Lastly, to define `local()` source aliases, pass an array of strings to a `local
 }
 ```
 
+> The `fontFamily` property can be omitted as it'll be inherited from the at-rule key.
+
 ## @global
 
-Supported by all adapters.
+Define global rulesets to be applied to the entire document.
 
 ```javascript
 {
@@ -102,19 +111,21 @@ Supported by all adapters.
 
 ## @import
 
-Supported by JSS.
+Define one or many CSS files to import.
 
 ```javascript
 {
+  // Single
   '@import': 'css/reset.css',
-  // OR
+  // Multiple
   '@import': ['css/reset.css', 'css/global.css'],
 }
 ```
 
 ## @keyframes
 
-Supported by all adapters.
+Define an animation keyframe to be referenced with the `animationName` property. The at-rule
+requires an object, with the animation name name as the key, and the keyframe as the value.
 
 ```javascript
 {
@@ -129,21 +140,23 @@ Supported by all adapters.
 
 ## @page
 
-Currently supported by no adapters.
+Define a ruleset to be applied when the document is printed.
 
 ```javascript
 {
   '@page': {
     margin: '1cm',
+
+    ':left': {
+      margin: 0,
+    },
   },
 }
 ```
 
-> `:left`, `:right`, and other pseudos are not supported.
-
 ## @viewport
 
-Supported by JSS.
+Define a ruleset that dictates how the viewport functions.
 
 ```javascript
 {
