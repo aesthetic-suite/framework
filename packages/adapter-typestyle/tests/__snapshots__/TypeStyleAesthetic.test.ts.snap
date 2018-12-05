@@ -14,6 +14,8 @@ exports[`TypeStyleAesthetic style sheet handles attribute selectors 1`] = `".f14
 
 exports[`TypeStyleAesthetic style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
 
+exports[`TypeStyleAesthetic style sheet handles inline @font-face 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fqopoa{font-family:Circular, OtherFont, Roboto}"`;
+
 exports[`TypeStyleAesthetic style sheet handles inline @keyframes 1`] = `"@keyframes f1croar1{0%{opacity:0}100%{opacity:1}50%{opacity:0.5}}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1dmlnkq{animation-name:f1croar1, unknown, f1gwuh0p}"`;
 
 exports[`TypeStyleAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;

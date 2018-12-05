@@ -14,6 +14,8 @@ exports[`FelaAesthetic style sheet handles attribute selectors 1`] = `".a{displa
 
 exports[`FelaAesthetic style sheet handles descendant selectors 1`] = `".a{margin:0}.b{padding:0}.c> li{list-style:bullet}"`;
 
+exports[`FelaAesthetic style sheet handles inline @font-face 1`] = `"@font-face{font-family:\\"Roboto\\";font-style:normal;font-weight:normal;src:url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype')}@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:\\"Circular\\";font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}.a{font-family:Circular, OtherFont, Roboto}"`;
+
 exports[`FelaAesthetic style sheet handles inline @keyframes 1`] = `"@-webkit-keyframes k1{0%{opacity:0}50%{opacity:0.5}100%{opacity:1}}@-moz-keyframes k1{0%{opacity:0}50%{opacity:0.5}100%{opacity:1}}@keyframes k1{0%{opacity:0}50%{opacity:0.5}100%{opacity:1}}@-webkit-keyframes k2{from{opacity:0}to{opacity:1}}@-moz-keyframes k2{from{opacity:0}to{opacity:1}}@keyframes k2{from{opacity:0}to{opacity:1}}.a{animation-name:k1, unknown, k2}"`;
 
 exports[`FelaAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".a{cursor:pointer}.b:disabled{cursor:default}.c[disabled]{cursor:default}.d> span{cursor:default}"`;

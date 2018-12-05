@@ -16,6 +16,7 @@ import {
   SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
   SYNTAX_FONT_FACE,
+  SYNTAX_FONT_FACES_INLINE,
   SYNTAX_GLOBAL,
   SYNTAX_IMPORT_MULTIPLE,
   SYNTAX_IMPORT,
@@ -519,6 +520,26 @@ describe('UnifiedSyntax', () => {
           expect(spy).toHaveBeenCalledTimes(2);
         });
       });
+
+      describe('fontFamily', () => {
+        it('converts single font face', () => {
+          const spy = jest.fn();
+
+          syntax.on('font-face', spy);
+          syntax.convertRuleset(SYNTAX_FONT_FACES_INLINE.single, ruleset);
+
+          expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        it('converts multiple font face', () => {
+          const spy = jest.fn();
+
+          syntax.on('font-face', spy);
+          syntax.convertRuleset(SYNTAX_FONT_FACES_INLINE.multiple, ruleset);
+
+          expect(spy).toHaveBeenCalledTimes(2);
+        });
+      });
     });
 
     describe('@fallbacks', () => {
@@ -813,6 +834,47 @@ describe('UnifiedSyntax', () => {
 
       expect(spy).toHaveBeenCalledTimes(2);
       expect(name).toBe('slide, unknown, keyframe-1');
+    });
+  });
+
+  describe('handleFontFamily', () => {
+    it('returns undefined if falsy', () => {
+      expect(syntax.handleFontFamily(ruleset, '')).toBeUndefined();
+    });
+
+    it('returns string as is', () => {
+      expect(syntax.handleFontFamily(ruleset, 'foo, bar')).toBe('foo, bar');
+    });
+
+    it('converts single font face', () => {
+      const spy = jest.fn();
+
+      syntax.on('font-face', spy);
+
+      const name = syntax.handleFontFamily(ruleset, SYNTAX_FONT_FACES_INLINE.single.fontFamily);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(name).toBe('Roboto');
+    });
+
+    it('converts multiple font face', () => {
+      const spy = jest.fn();
+
+      syntax.on('font-face', spy);
+
+      const name = syntax.handleFontFamily(ruleset, SYNTAX_FONT_FACES_INLINE.multiple.fontFamily);
+
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(name).toBe('Circular, OtherFont, Roboto');
+    });
+
+    it('calls `convertFontFaces` with correct values', () => {
+      const spy = jest.spyOn(syntax, 'convertFontFaces');
+
+      syntax.handleFontFamily(ruleset, SYNTAX_FONT_FACES_INLINE.multiple.fontFamily);
+
+      expect(spy).toHaveBeenCalledWith('Circular', FONT_CIRCULAR_MULTIPLE, expect.anything());
+      expect(spy).toHaveBeenCalledWith('Roboto', [FONT_ROBOTO], expect.anything());
     });
   });
 

@@ -27,6 +27,7 @@ import {
   FONT_CIRCULAR_MULTIPLE,
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
+  SYNTAX_FONT_FACES_INLINE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -211,6 +212,21 @@ describe('FelaAesthetic', () => {
           },
           multiple: {
             animationName: 'k1, unknown, k2',
+          },
+        },
+        'a',
+      );
+    });
+
+    it('handles inline @font-face', () => {
+      renderAndTest(
+        SYNTAX_FONT_FACES_INLINE,
+        {
+          single: {
+            fontFamily: 'Roboto',
+          },
+          multiple: {
+            fontFamily: 'Circular, OtherFont, Roboto',
           },
         },
         'a',

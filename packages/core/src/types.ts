@@ -423,8 +423,15 @@ export type PropertyAnimationName =
   | Keyframes
   | (CSS.AnimationNameProperty | Keyframes)[];
 
-export interface Properties extends Omit<CSS.Properties<string | number>, 'animationName'> {
+export type PropertyFontFamily =
+  | CSS.FontFamilyProperty
+  | FontFace
+  | (CSS.FontFamilyProperty | FontFace)[];
+
+export interface Properties
+  extends Omit<CSS.Properties<string | number>, 'animationName' | 'fontFamily'> {
   animationName?: PropertyAnimationName;
+  fontFamily?: PropertyFontFamily;
 }
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;

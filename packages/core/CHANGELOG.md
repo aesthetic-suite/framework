@@ -45,11 +45,12 @@ of stylers, and unified syntax as the default.
   - They must only be defined within the global stylesheet when registering a theme.
   - Local `@keyframes` can be defined within a component by setting the keyframes object to
     `animationName`.
+  - Local `@font-face` can be defined within a component by setting the font face object to
+    `fontFamily`.
 - Dropped support for local at-rules being definef within a global stylesheet (via theme global
   styles). This includes `@fallbacks`, `@media`, `@supports`, and `@selectors`.
-- Descendent selectors (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
+- Child combinators (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
   (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
-- Properly supports nested at-rules, like `@media` and `@supports`.
 
 #### 🚀 New
 
@@ -63,7 +64,10 @@ of stylers, and unified syntax as the default.
 **Unified Syntax**
 
 - Added new `@selectors` at-rule to support all advanced selectors.
+- Updated `@page` to support `:left` and `:right` pseudos.
 - Updated `animationName` property to support inline keyframes objects.
+- Updated `fontFamily` property to support inline font face objects.
+- Properly supports nested at-rules, like `@media` and `@supports`.
 
 #### 🐞 Fixed
 

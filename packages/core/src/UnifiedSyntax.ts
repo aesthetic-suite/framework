@@ -10,7 +10,15 @@ import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
-import { StyleSheet, ComponentBlock, GlobalSheet, PropertyAnimationName, Keyframes } from './types';
+import {
+  ComponentBlock,
+  FontFace,
+  GlobalSheet,
+  Keyframes,
+  PropertyAnimationName,
+  PropertyFontFamily,
+  StyleSheet,
+} from './types';
 
 export type Handler = (...args: any[]) => void;
 
@@ -21,6 +29,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
   constructor() {
     this.on('property:animationName', this.handleAnimationName);
+    this.on('property:fontFamily', this.handleFontFamily);
   }
 
   /**
@@ -53,20 +62,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           }
 
           Object.keys(faces).forEach(fontFamily => {
-            const srcPaths: string[][] = [];
-            const fontFaces = toArray(faces[fontFamily]).map(font => {
-              srcPaths.push(font.srcPaths);
-
-              return this.convertRuleset(
-                formatFontFace({
-                  ...font,
-                  fontFamily,
-                }) as ComponentBlock,
-                sheet.createRuleset(fontFamily),
-              );
-            });
-
-            this.emit('font-face', [sheet, fontFaces, fontFamily, srcPaths]);
+            this.convertFontFaces(fontFamily, toArray(faces[fontFamily]), sheet);
           });
 
           break;
@@ -331,6 +327,26 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   }
 
   /**
+   * Convert a unified syntax list of font face objects to rulesets.
+   */
+  convertFontFaces(fontFamily: string, faces: FontFace[], sheet: Sheet<NativeBlock>) {
+    const srcPaths: string[][] = [];
+    const fontFaces = faces.map(font => {
+      srcPaths.push(font.srcPaths);
+
+      return this.convertRuleset(
+        formatFontFace({
+          ...font,
+          fontFamily,
+        }) as ComponentBlock,
+        sheet.createRuleset(fontFamily),
+      );
+    });
+
+    this.emit('font-face', [sheet, fontFaces, fontFamily, srcPaths]);
+  }
+
+  /**
    * Convert a unified syntax keyframes object to a ruleset.
    */
   convertKeyframe(animationName: string, frames: Keyframes, sheet: Sheet<NativeBlock>) {
@@ -375,9 +391,52 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   };
 
   /**
+   * Support font face objets within the `fontFamily` property.
+   */
+  handleFontFamily = (ruleset: Ruleset<NativeBlock>, value: PropertyFontFamily) => {
+    if (!value) {
+      return undefined;
+    }
+
+    const output: Set<string> = new Set();
+    const fontFaces: { [fontFamily: string]: FontFace[] } = {};
+
+    toArray(value).forEach(item => {
+      if (typeof item === 'string') {
+        output.add(item);
+
+        return;
+      }
+
+      const name = item.fontFamily;
+
+      if (!name) {
+        return;
+      }
+
+      output.add(name);
+
+      if (fontFaces[name]) {
+        fontFaces[name].push(item);
+      } else {
+        fontFaces[name] = [item];
+      }
+    });
+
+    Object.keys(fontFaces).forEach(fontFamily => {
+      this.convertFontFaces(fontFamily, fontFaces[fontFamily], ruleset.root);
+    });
+
+    return Array.from(output).join(', ');
+  };
+
+  /**
    * Replace a `fontFamily` property with font face objects of the same name.
    */
-  injectFontFaces<D>(value: string, cache: { [fontFamily: string]: D[] }): (string | D)[] {
+  injectFontFaces<D>(
+    value: string = '',
+    cache: { [fontFamily: string]: D[] } = {},
+  ): (string | D)[] {
     const fontFaces: (string | D)[] = [];
 
     value.split(',').forEach(name => {
@@ -397,7 +456,10 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Replace a `animationName` property with keyframe objects of the same name.
    */
-  injectKeyframes<D>(value: string, cache: { [animationName: string]: D }): (string | D)[] {
+  injectKeyframes<D>(
+    value: string = '',
+    cache: { [animationName: string]: D } = {},
+  ): (string | D)[] {
     return value.split(',').map(name => {
       const animationName = name.trim();
 
@@ -425,6 +487,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     eventName: 'property:animationName',
     args: [Ruleset<NativeBlock>, PropertyAnimationName],
   ): any;
+  emit(eventName: 'property:fontFamily', args: [Ruleset<NativeBlock>, PropertyFontFamily]): any;
   emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
@@ -495,6 +558,10 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   on(
     eventName: 'property:animationName',
     callback: (ruleset: Ruleset<NativeBlock>, value: PropertyAnimationName) => any,
+  ): this;
+  on(
+    eventName: 'property:fontFamily',
+    callback: (ruleset: Ruleset<NativeBlock>, value: PropertyFontFamily) => any,
   ): this;
   on(
     eventName: 'pseudo',

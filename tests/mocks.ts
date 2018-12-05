@@ -205,6 +205,15 @@ export const SYNTAX_FONT_FACE_MIXED = {
   },
 };
 
+export const SYNTAX_FONT_FACES_INLINE = {
+  single: {
+    fontFamily: FONT_ROBOTO,
+  },
+  multiple: {
+    fontFamily: [...FONT_CIRCULAR_MULTIPLE, 'OtherFont', FONT_ROBOTO],
+  },
+};
+
 export const SYNTAX_GLOBAL = {
   '@global': {
     body: { margin: 0 },
@@ -296,6 +305,9 @@ export const SYNTAX_NAMESPACE = {
 export const SYNTAX_PAGE = {
   '@page': {
     margin: '1cm',
+    ':left': {
+      margin: 0,
+    },
   },
 };
 

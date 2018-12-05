@@ -29,6 +29,7 @@ import {
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
   KEYFRAME_SLIDE_PERCENT,
+  SYNTAX_FONT_FACES_INLINE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -264,6 +265,22 @@ describe('JSSAesthetic', () => {
         },
         multiple: {
           animationName: '$slide, unknown, $keyframe-1',
+        },
+      });
+    });
+
+    it('handles inline @font-face', () => {
+      renderAndTest(SYNTAX_FONT_FACES_INLINE, {
+        '@font-face': [
+          FONT_ROBOTO_FLAT_SRC,
+          ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          FONT_ROBOTO_FLAT_SRC,
+        ],
+        single: {
+          fontFamily: 'Roboto',
+        },
+        multiple: {
+          fontFamily: 'Circular, OtherFont, Roboto',
         },
       });
     });

@@ -21,6 +21,7 @@ import {
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
   KEYFRAME_SLIDE_PERCENT,
+  SYNTAX_FONT_FACES_INLINE,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -85,12 +86,7 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
 
       expect(instance.fontFaces).toEqual({
-        Roboto: [
-          {
-            ...FONT_ROBOTO_FLAT_SRC,
-            fontFamily: ['Roboto'],
-          },
-        ],
+        Roboto: [FONT_ROBOTO_FLAT_SRC],
       });
     });
 
@@ -98,16 +94,8 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
 
       expect(instance.fontFaces).toEqual({
-        Roboto: [
-          {
-            ...FONT_ROBOTO_FLAT_SRC,
-            fontFamily: ['Roboto'],
-          },
-        ],
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC.map(face => ({
-          ...face,
-          fontFamily: ['Circular'],
-        })),
+        Roboto: [FONT_ROBOTO_FLAT_SRC],
+        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
       });
     });
 
@@ -115,10 +103,7 @@ describe('AphroditeAesthetic', () => {
       instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
 
       expect(instance.fontFaces).toEqual({
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC.map(face => ({
-          ...face,
-          fontFamily: ['Circular'],
-        })),
+        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
       });
     });
 
@@ -231,6 +216,21 @@ describe('AphroditeAesthetic', () => {
           },
         },
         'single_1j39j3w-o_O-multiple_19eoumq',
+      );
+    });
+
+    it('handles inline @font-face', () => {
+      renderAndTest(
+        SYNTAX_FONT_FACES_INLINE,
+        {
+          single: {
+            fontFamily: [FONT_ROBOTO_FLAT_SRC],
+          },
+          multiple: {
+            fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
+          },
+        },
+        'single_vfwy7z-o_O-multiple_17z04zp',
       );
     });
 
