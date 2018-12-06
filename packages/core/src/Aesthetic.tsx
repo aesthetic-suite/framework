@@ -29,7 +29,6 @@ import {
 
 export interface AestheticOptions {
   extendable: boolean;
-  passThemeNameProp: boolean;
   passThemeProp: boolean;
   pure: boolean;
   stylesPropName: string;
@@ -61,7 +60,6 @@ export default abstract class Aesthetic<
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
       extendable: false,
-      passThemeNameProp: true,
       passThemeProp: true,
       pure: true,
       stylesPropName: 'styles',
@@ -273,7 +271,6 @@ export default abstract class Aesthetic<
     const {
       extendable = this.options.extendable,
       extendFrom = '',
-      passThemeNameProp = this.options.passThemeNameProp,
       passThemeProp = this.options.passThemeProp,
       pure = this.options.pure,
       stylesPropName = this.options.stylesPropName,
@@ -351,10 +348,6 @@ export default abstract class Aesthetic<
 
           if (passThemeProp) {
             extraProps[themePropName as 'theme'] = aesthetic.getTheme();
-          }
-
-          if (passThemeNameProp) {
-            extraProps.themeName = aesthetic.options.theme;
           }
 
           return <WrappedComponent {...props} {...extraProps} />;

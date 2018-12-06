@@ -53,7 +53,6 @@ describe('Aesthetic', () => {
 
       expect(instance.options).toEqual({
         extendable: false,
-        passThemeNameProp: true,
         passThemeProp: true,
         pure: true,
         stylesPropName: 'styleSheet',
@@ -619,12 +618,9 @@ describe('Aesthetic', () => {
         return <div />;
       }
 
-      const Wrapped = instance.withStyles(null, { passThemeProp: true, passThemeNameProp: true })(
-        ThemeComponent,
-      );
+      const Wrapped = instance.withStyles(null, { passThemeProp: true })(ThemeComponent);
       const wrapper = shallow(<Wrapped />);
 
-      expect(wrapper.prop('themeName')).toBe('default');
       expect(wrapper.prop('theme')).toEqual({ unit: 8 });
     });
 
@@ -697,26 +693,6 @@ describe('Aesthetic', () => {
       );
       const wrapper = shallow(<Wrapped />);
 
-      expect(wrapper.prop('theme')).toBeUndefined();
-    });
-
-    it('doesnt pass themeName prop if `options.passThemeNameProp` is false', () => {
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT, { passThemeNameProp: false })(
-        StylesComponent,
-      );
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('themeName')).toBeUndefined();
-    });
-
-    it('doesnt pass both props', () => {
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT, {
-        passThemeNameProp: false,
-        passThemeProp: false,
-      })(StylesComponent);
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('themeName')).toBeUndefined();
       expect(wrapper.prop('theme')).toBeUndefined();
     });
 

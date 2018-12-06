@@ -25,6 +25,8 @@ of stylers, and unified syntax as the default.
   - Use `Aesthetic#withStyles` instead of `style`.
   - Use `Aesthetic#transformStyles` instead of `transform`.
 - Removed the `withStyles` option `styleName`. Names are now generated with a unique ID.
+- Removed the `withStyles` option `passThemeNameProp`. Access the current theme from `Aesthetic`
+  options.
 - Removed `createStyleElement` helper function.
 - Removed `PropType`s exported from the index.
 - Updated the `Aesthetic` option `pure` to be enabled by default.
