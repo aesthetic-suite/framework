@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-typestyle",
-  "version": "2.0.0-alpha.2",
+  "version": "2.0.0-alpha.3",
   "description": "TypeStyle support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -20,7 +20,7 @@
     "typestyle": "^2.0.0"
   },
   "devDependencies": {
-    "aesthetic": "^3.0.0-alpha.2",
+    "aesthetic": "^3.0.0-alpha.3",
     "typestyle": "^2.0.1"
   }
 }
