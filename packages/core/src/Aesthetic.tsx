@@ -75,9 +75,9 @@ export default abstract class Aesthetic<
    * Apply and inject global styles for the current theme.
    * This should only happen once!
    */
-  applyGlobalStyles() {
+  applyGlobalStyles(): this {
     if (this.appliedGlobals) {
-      return;
+      return this;
     }
 
     const globalDef = this.globals[this.options.theme];
@@ -89,6 +89,8 @@ export default abstract class Aesthetic<
 
     this.appliedGlobals = true;
     this.flushStyles(':root');
+
+    return this;
   }
 
   /**
@@ -266,7 +268,10 @@ export default abstract class Aesthetic<
    * Wrap a React component with an HOC that handles the entire styling, converting,
    * and transforming process.
    */
-  withStyles<P>(styleSheet: StyleSheetDefinition<Theme, P>, options: WithStylesOptions = {}) {
+  withStyles<P>(
+    styleSheet: StyleSheetDefinition<Theme, P>,
+    options: WithStylesOptions = {},
+  ) /* infer */ {
     const aesthetic = this;
     const {
       extendable = this.options.extendable,
