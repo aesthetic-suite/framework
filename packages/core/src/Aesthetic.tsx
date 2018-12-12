@@ -313,7 +313,7 @@ export default abstract class Aesthetic<
         }
 
         static getDerivedStateFromProps(
-          props: Readonly<any>,
+          props: Readonly<Props>,
           state: OwnState,
         ): Partial<OwnState> | null {
           if (shallowEqual(props, state.props)) {
@@ -321,16 +321,15 @@ export default abstract class Aesthetic<
           }
 
           return {
-            props: props as Readonly<Props>,
+            props,
             styles: aesthetic.createStyleSheet(styleName, {
-              // @ts-ignore Allow spread
               ...WrappedComponent.defaultProps,
               ...props,
             }),
           };
         }
 
-        state: OwnState = {
+        state = {
           styles: {},
         };
 
@@ -339,7 +338,6 @@ export default abstract class Aesthetic<
         }
 
         render() {
-          // @ts-ignore Allow rest
           const { wrappedRef, ...props } = this.props;
           const extraProps: WithStylesProps<Theme, ParsedBlock> = {
             [stylesPropName as 'styles']: this.state.styles,
@@ -350,7 +348,7 @@ export default abstract class Aesthetic<
             extraProps[themePropName as 'theme'] = aesthetic.getTheme();
           }
 
-          return <WrappedComponent {...props} {...extraProps} />;
+          return <WrappedComponent {...props as any} {...extraProps} />;
         }
       }
 

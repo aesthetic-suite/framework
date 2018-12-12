@@ -9,7 +9,7 @@
   - A `fela` instance must now be passed to the constructor.
 - Removed `aesthetic-adapter-fela/unified` import. Unified syntax is now required and enabled by
   default.
-- Dropped `fela-dom` v6 support.
+- Updated `fela` and `fela-dom` to 10.0.
 
 #### 🛠 Internal
 

@@ -436,7 +436,7 @@ export interface Properties
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;
 
-export type Pseudos = { [P in CSS.Pseudos]?: Properties & Attributes };
+export type Pseudos = { [P in CSS.SimplePseudos]?: Properties & Attributes };
 
 export type Attributes = { [A in HTMLAttributes | SVGAttributes]?: Properties & Pseudos };
 

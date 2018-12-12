@@ -17,14 +17,14 @@
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",
-    "fela": "^6.0.0",
-    "fela-dom": "^7.0.0 || ^8.0.0"
+    "fela": "^10.0.0",
+    "fela-dom": "^10.0.0"
   },
   "devDependencies": {
     "aesthetic": "^3.0.0-alpha.2",
-    "fela": "^6.2.3",
-    "fela-dom": "^8.0.4",
-    "fela-preset-web": "^8.0.13",
-    "fela-tools": "^5.2.3"
+    "fela": "^10.0.0",
+    "fela-dom": "^10.0.0",
+    "fela-preset-web": "^10.0.0",
+    "fela-tools": "^10.0.0"
   }
 }
