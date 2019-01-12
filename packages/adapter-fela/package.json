@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-fela",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.4",
   "description": "Fela support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -21,7 +21,7 @@
     "fela-dom": "^10.0.0"
   },
   "devDependencies": {
-    "aesthetic": "^3.0.0-alpha.3",
+    "aesthetic": "^3.0.0-alpha.4",
     "fela": "^10.1.0",
     "fela-dom": "^10.1.0",
     "fela-preset-web": "^10.1.0",
