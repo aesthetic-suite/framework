@@ -26,7 +26,7 @@ import React from 'react';
 import withStyles, { classes, WithStylesProps } from '../path/to/aesthetic';
 
 type Props = {
-  children: React.ReactNode;
+  children: NonNullable<React.ReactNode>;
 };
 
 class Carousel extends React.Component<Props & WithStylesProps> {

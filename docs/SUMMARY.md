@@ -1,16 +1,14 @@
 # Summary
 
-- [Initial Setup](./install.md)
+- [Setup](./setup.md)
+- [`withStyles` HOC](./hoc.md)
+- [`useStyles` Hook](./hook.md)
 - [Style Adapters](./adapters/README.md)
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)
   - [Fela](./adapters/fela.md)
   - [JSS](./adapters/jss.md)
   - [TypeStyle](./adapters/typestyle.md)
-- [Creating A Styler](./setup.md)
-- [Defining Components](./usage.md)
-- [Styling Components](./style.md)
-- [Theming Components](./theme.md)
 - [Unified Syntax](./unified/README.md)
   - [Properties](./unified/properties.md)
   - [Selectors](./unified/selectors.md)
@@ -19,4 +17,5 @@
 - [Competitors Comparison](./comparison.md)
 - Migration Guides
   - [2.0](./migrate/2.0.md)
+  - [3.0](./migrate/3.0.md)
 - [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
