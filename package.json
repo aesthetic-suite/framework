@@ -50,6 +50,7 @@
     },
     "typescript": {
       "exclude": [
+        "tests/properties.tsx",
         "tests/typings.tsx"
       ]
     }
