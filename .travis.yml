@@ -4,6 +4,7 @@ node_js:
   - '10'
   - 'node'
 matrix:
+  fast_finish: true
   allow_failures:
     # Different snapshot output
     - node_js: 'node'
