@@ -15,7 +15,7 @@ Global at-rules must be defined as global styles when registering a theme.
 
 Set the document character set.
 
-```javascript
+```js
 {
   '@charset': 'utf8',
 }
@@ -27,7 +27,7 @@ Define a font face to be referenced with the `fontFamily` property. The at-rule 
 with the font family name as the key, and the font face(s) as the value. Each font face requires an
 array of `srcPaths`.
 
-```javascript
+```js
 {
   '@font-face': {
     'Open Sans': {
@@ -41,7 +41,7 @@ array of `srcPaths`.
 
 To support multiple font variations, like bold and italics, pass an array of font faces.
 
-```javascript
+```js
 {
   '@font-face': {
     'Open Sans': [
@@ -67,7 +67,7 @@ To support multiple font variations, like bold and italics, pass an array of fon
 
 To define `local()` source aliases, pass an array of strings to a `local` property.
 
-```javascript
+```js
 {
   '@font-face': {
     'Open Sans': {
@@ -86,7 +86,7 @@ To define `local()` source aliases, pass an array of strings to a `local` proper
 
 Define global rulesets to be applied to the entire document.
 
-```javascript
+```js
 {
   '@global': {
     body: {
@@ -113,7 +113,7 @@ Define global rulesets to be applied to the entire document.
 
 Define one or many CSS files to import.
 
-```javascript
+```js
 {
   // Single
   '@import': 'css/reset.css',
@@ -127,7 +127,7 @@ Define one or many CSS files to import.
 Define an animation keyframe to be referenced with the `animationName` property. The at-rule
 requires an object, with the animation name name as the key, and the keyframe as the value.
 
-```javascript
+```js
 {
   '@keyframes': {
     fade: {
@@ -142,7 +142,7 @@ requires an object, with the animation name name as the key, and the keyframe as
 
 Define a ruleset to be applied when the document is printed.
 
-```javascript
+```js
 {
   '@page': {
     margin: '1cm',
@@ -158,7 +158,7 @@ Define a ruleset to be applied when the document is printed.
 
 Define a ruleset that dictates how the viewport functions.
 
-```javascript
+```js
 {
   '@viewport': {
     width: 'device-width',

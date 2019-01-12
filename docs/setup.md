@@ -6,7 +6,7 @@ an adapter specific library instance as the 1st argument, and an options object 
 ```tsx
 import FelaAesthetic from 'aesthetic-adapter-fela';
 
-export default
+// TODO
 ```
 
 ## Bundler Config
@@ -19,7 +19,7 @@ will be entirely removed in production if the following build steps are configur
 [DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) plugin is required
 when using Webpack.
 
-```js
+```ts
 new webpack.DefinePlugin({
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
 }),
@@ -29,7 +29,7 @@ new webpack.DefinePlugin({
 
 [Envify](https://github.com/hughsk/envify) transformer is required when using Browserify.
 
-```js
+```ts
 envify({
   NODE_ENV: process.env.NODE_ENV || 'production',
 });

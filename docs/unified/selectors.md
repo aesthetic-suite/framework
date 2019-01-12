@@ -7,11 +7,11 @@ Advanced selectors must use the [`@selectors` at-rule](./local-at.md#selectors).
 
 ## Attributes
 
-```javascript
+```js
 {
   button: {
     // ...
-    '[disabled], [readonly]': {
+    '[disabled]': {
       opacity: 0.3,
     },
   },
@@ -20,7 +20,7 @@ Advanced selectors must use the [`@selectors` at-rule](./local-at.md#selectors).
 
 ## Pseudos
 
-```javascript
+```js
 {
   button: {
     // ...

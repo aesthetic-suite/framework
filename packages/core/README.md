@@ -1,6 +1,8 @@
 # Aesthetic
 
 [![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
+[![npm version](https://badge.fury.io/js/aesthetic.svg)](https://www.npmjs.com/package/aesthetic)
+[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core)](https://www.npmjs.com/package/aesthetic)
 
 Aesthetic is a powerful type-safe React library for styling components, whether it be CSS-in-JS
 using style objects, importing stylesheets, or simply referencing external class names. Simply put,

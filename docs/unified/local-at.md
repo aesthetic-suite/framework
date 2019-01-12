@@ -19,7 +19,7 @@ Define
 for legacy browsers that do not support newer functionality. The at-rule requires an object, with
 the key being a property name, and the value being a value, or an array of values.
 
-```javascript
+```js
 {
   element: {
     background: 'linear-gradient(...)',
@@ -42,7 +42,7 @@ the key being a property name, and the value being a value, or an array of value
 Define [media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) by mapping
 breakpoints and queries to style rulesets. Can nest additional at-rules.
 
-```javascript
+```js
 {
   element: {
     maxWidth: 300,
@@ -67,11 +67,11 @@ Define advanced selectors that aren't type-safe or supported by
 - [Child combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) denoted by
   a leading `>` (also known as direct descendents).
 - [Attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) that
-  match against a value.
+  match against a value using patterns.
 - [Pseudo class functions](https://developer.mozilla.org/en-US/docs/Web/CSS/:not) like `:not()` and
   `:nth-child()` (as they incur infinite combinations).
 
-```javascript
+```js
 {
   element: {
     '@selectors': {
@@ -99,7 +99,7 @@ Define advanced selectors that aren't type-safe or supported by
 Define [feature support](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports) by mapping
 property name queries to style rulesets. Can nest additional at-rules.
 
-```javascript
+```js
 {
   element: {
     float: 'left',

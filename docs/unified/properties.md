@@ -5,7 +5,7 @@ Standard structure for defining ruleset properties.
 - Camel case property names (including vendor prefixes).
 - Units that default to `px` can be written as literal numbers.
 
-```javascript
+```js
 {
   button: {
     margin: 0,
@@ -28,7 +28,7 @@ Standard structure for defining ruleset properties.
 
 Inline keyframes can be defined by passing an object, or an array of objects to `animationName`.
 
-```javascript
+```js
 {
   // Single animation
   single: {
@@ -64,7 +64,7 @@ Inline keyframes can be defined by passing an object, or an array of objects to 
 
 Inline font faces can be defined by passing an object, or an array of objects to `fontFamily`.
 
-```javascript
+```js
 {
   // Single font
   single: {

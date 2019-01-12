@@ -16,7 +16,7 @@ following examples are supported out of the box.
 
 Attribute and child combinator selectors.
 
-```javascript
+```js
 {
   button: {
     '[disabled]': {
@@ -35,7 +35,7 @@ Attribute and child combinator selectors.
 
 Global styles (to easily style `body`, `a`, and others).
 
-```javascript
+```js
 {
   '@global': {
     body: { margin: 0 },
