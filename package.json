@@ -16,20 +16,20 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.13.3",
+    "@milesj/build-tools": "^0.17.0",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.0",
-    "babel-loader": "^8.0.4",
+    "babel-loader": "^8.0.5",
     "babel-plugin-css-modules-transform": "1.6.2",
     "babel-register": "^6.26.0",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.3",
-    "lerna": "^3.8.0",
+    "lerna": "^3.10.5",
     "react-dom": "^16.7.0",
-    "webpack": "^4.28.1",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "beemo": {
     "module": "@milesj/build-tools",

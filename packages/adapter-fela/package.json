@@ -22,9 +22,9 @@
   },
   "devDependencies": {
     "aesthetic": "^3.0.0-alpha.3",
-    "fela": "^10.0.2",
-    "fela-dom": "^10.0.2",
-    "fela-preset-web": "^10.0.2",
-    "fela-tools": "^10.0.2"
+    "fela": "^10.1.0",
+    "fela-dom": "^10.1.0",
+    "fela-preset-web": "^10.1.0",
+    "fela-tools": "^10.1.0"
   }
 }
