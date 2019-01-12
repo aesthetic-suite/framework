@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { ComponentBlock } from '../src/types';
+import { ComponentBlock, StyleSheet } from '../src/types';
 
 type Theme = { unit: number };
 
@@ -26,6 +26,17 @@ const ruleset: ComponentBlock = {
   '> invalid': {
     color: 'blue',
   },
+};
+
+const stylesheet: StyleSheet = {
+  foo: {
+    display: 'block',
+    invalid: 'property',
+  },
+  bar: {
+    another: 'invalid',
+  },
+  baz: 'direct-css-class-name',
 };
 
 // Styled component using arrow function
