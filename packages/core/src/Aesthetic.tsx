@@ -317,10 +317,7 @@ export default abstract class Aesthetic<
           })(WrappedComponent);
         }
 
-        static getDerivedStateFromProps(
-          props: Readonly<Props>,
-          state: OwnState,
-        ): Partial<OwnState> | null {
+        static getDerivedStateFromProps(props: any, state: OwnState): Partial<OwnState> | null {
           if (shallowEqual(props, state.props)) {
             return null;
           }
@@ -334,7 +331,7 @@ export default abstract class Aesthetic<
           };
         }
 
-        state = {
+        state: OwnState = {
           styles: {},
         };
 
