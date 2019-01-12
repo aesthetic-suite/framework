@@ -3,8 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { Omit } from 'utility-types';
 import toArray from './toArray';
-import { FontFace, Omit } from '../types';
+import { FontFace } from '../types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',

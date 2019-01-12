@@ -34,6 +34,7 @@
     "extend": "^3.0.2",
     "hoist-non-react-statics": "^3.2.1",
     "shallowequal": "^1.1.0",
+    "utility-types": "^3.2.1",
     "uuid": "^3.3.2"
   },
   "peerDependencies": {

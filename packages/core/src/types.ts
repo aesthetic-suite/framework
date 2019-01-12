@@ -4,8 +4,7 @@
  */
 
 import CSS from 'csstype'; // eslint-disable-line import/no-unresolved
-
-export type Omit<T, U> = Pick<T, Exclude<keyof T, U>>;
+import { Omit } from 'utility-types';
 
 // TERMINOLOGY
 // https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax
@@ -20,6 +19,8 @@ export type StyleName = string;
 export type ThemeName = string;
 
 export type ClassName = string;
+
+export type ExtendedProperty<B, T> = B | T | (B | T)[];
 
 //  SYNTAX
 
@@ -36,41 +37,32 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export type PropertyAnimationName =
-  | CSS.AnimationNameProperty
-  | Keyframes
-  | (CSS.AnimationNameProperty | Keyframes)[];
-
-export type PropertyFontFamily =
-  | CSS.FontFamilyProperty
-  | FontFace
-  | (CSS.FontFamilyProperty | FontFace)[];
-
-export interface Properties
-  extends Omit<CSS.Properties<string | number>, 'animationName' | 'fontFamily'> {
-  animationName?: PropertyAnimationName;
-  fontFamily?: PropertyFontFamily;
-}
+export type Properties = Omit<CSS.Properties<string | number>, 'animationName' | 'fontFamily'> & {
+  animationName?: ExtendedProperty<CSS.AnimationNameProperty, Keyframes>;
+  fontFamily?: ExtendedProperty<CSS.FontFamilyProperty, FontFace>;
+};
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;
 
-export type Pseudos = { [P in CSS.SimplePseudos]?: Properties & Attributes };
+export type Pseudos = { [P in CSS.SimplePseudos]?: Block };
 
-export type Attributes = { [A in CSS.HtmlAttributes & CSS.SvgAttributes]?: Properties & Pseudos };
+export type Attributes = { [A in CSS.HtmlAttributes]?: Block };
 
 export type Block = Properties & Pseudos & Attributes;
 
-export interface FontFace extends CSS.FontFace {
+export type StyleBlock = Block; // Alias for consumers
+
+export type FontFace = CSS.FontFace & {
   local?: string[];
   srcPaths: string[];
-}
+};
 
-export interface Keyframes {
+export type Keyframes = {
   from?: Block;
   to?: Block;
   name?: string;
   [percent: string]: Block | string | undefined;
-}
+};
 
 export type SheetMap<T> = { [selector: string]: T };
 
@@ -84,10 +76,10 @@ export type ComponentBlock = Block & {
 export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
 export type StyleSheetDefinition<Theme, Props = any> =
-  | null
-  | ((theme: Theme, props: Props) => StyleSheet);
+  | ((theme: Theme, props: Props) => StyleSheet)
+  | null;
 
-export interface GlobalSheet {
+export type GlobalSheet = {
   '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: { [selector: string]: Block };
@@ -95,9 +87,9 @@ export interface GlobalSheet {
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Block;
   '@viewport'?: Block;
-}
+};
 
-export type GlobalSheetDefinition<Theme> = null | ((theme: Theme) => GlobalSheet);
+export type GlobalSheetDefinition<Theme> = ((theme: Theme) => GlobalSheet) | null;
 
 // COMPONENT
 
@@ -135,7 +127,7 @@ export interface WithStylesOptions {
   themePropName?: string;
 }
 
-export interface StyledComponent<Theme, Props> extends React.ComponentClass<Props> {
+export interface StyledComponentClass<Theme, Props> extends React.ComponentClass<Props> {
   displayName: string;
   styleName: StyleName;
   WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
@@ -143,5 +135,5 @@ export interface StyledComponent<Theme, Props> extends React.ComponentClass<Prop
   extendStyles(
     styleSheet: StyleSheetDefinition<Theme, Props>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
-  ): StyledComponent<Theme, Props>;
+  ): StyledComponentClass<Theme, Props>;
 }

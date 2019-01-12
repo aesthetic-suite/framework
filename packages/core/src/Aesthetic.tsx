@@ -8,18 +8,18 @@ import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import shallowEqual from 'shallowequal';
 import deepMerge from 'extend';
+import { Omit } from 'utility-types';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
-  Omit,
   ClassName,
   StyleName,
   ThemeName,
   StyleSheet,
   StyleSheetDefinition,
   SheetMap,
-  StyledComponent,
+  StyledComponentClass,
   WithStylesOptions,
   WithStylesProps,
   WithStylesWrapperProps,
@@ -284,7 +284,7 @@ export default abstract class Aesthetic<
 
     return function withStylesFactory<Props extends object>(
       WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
-    ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
+    ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const styleName = `${baseName}-${uuid()}`;
       const Component = pure ? React.PureComponent : React.Component;

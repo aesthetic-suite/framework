@@ -10,15 +10,7 @@ import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
-import {
-  ComponentBlock,
-  FontFace,
-  GlobalSheet,
-  Keyframes,
-  PropertyAnimationName,
-  PropertyFontFamily,
-  StyleSheet,
-} from './types';
+import { ComponentBlock, FontFace, GlobalSheet, Keyframes, Properties, StyleSheet } from './types';
 
 export type Handler = (...args: any[]) => void;
 
@@ -370,7 +362,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Support keyframe objects within the `animationName` property.
    */
-  handleAnimationName = (ruleset: Ruleset<NativeBlock>, value: PropertyAnimationName) => {
+  handleAnimationName = (ruleset: Ruleset<NativeBlock>, value: Properties['animationName']) => {
     if (!value) {
       return undefined;
     }
@@ -393,7 +385,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Support font face objets within the `fontFamily` property.
    */
-  handleFontFamily = (ruleset: Ruleset<NativeBlock>, value: PropertyFontFamily) => {
+  handleFontFamily = (ruleset: Ruleset<NativeBlock>, value: Properties['fontFamily']) => {
     if (!value) {
       return undefined;
     }
@@ -485,9 +477,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, any]): any;
   emit(
     eventName: 'property:animationName',
-    args: [Ruleset<NativeBlock>, PropertyAnimationName],
+    args: [Ruleset<NativeBlock>, Properties['animationName']],
   ): any;
-  emit(eventName: 'property:fontFamily', args: [Ruleset<NativeBlock>, PropertyFontFamily]): any;
+  emit(
+    eventName: 'property:fontFamily',
+    args: [Ruleset<NativeBlock>, Properties['fontFamily']],
+  ): any;
   emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
@@ -557,11 +552,11 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   ): this;
   on(
     eventName: 'property:animationName',
-    callback: (ruleset: Ruleset<NativeBlock>, value: PropertyAnimationName) => any,
+    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['animationName']) => any,
   ): this;
   on(
     eventName: 'property:fontFamily',
-    callback: (ruleset: Ruleset<NativeBlock>, value: PropertyFontFamily) => any,
+    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['fontFamily']) => any,
   ): this;
   on(
     eventName: 'pseudo',
