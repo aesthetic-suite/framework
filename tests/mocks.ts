@@ -292,8 +292,10 @@ export const SYNTAX_MEDIA_QUERY_NESTED = {
 export const SYNTAX_MULTI_SELECTOR = {
   multi: {
     cursor: 'pointer',
-    ':disabled, [disabled], > span': {
-      cursor: 'default',
+    '@selectors': {
+      ':disabled, [disabled], > span': {
+        cursor: 'default',
+      },
     },
   },
 };

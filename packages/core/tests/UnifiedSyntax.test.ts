@@ -749,6 +749,18 @@ describe('UnifiedSyntax', () => {
         }).toThrowErrorMatchingSnapshot();
       });
 
+      it('errors if advanced selectors not in an @selectors block', () => {
+        expect(() => {
+          syntax.convertRuleset(
+            {
+              // @ts-ignore Allow invalid type
+              '[disabled], :disabled': {},
+            },
+            ruleset,
+          );
+        }).toThrowErrorMatchingSnapshot();
+      });
+
       it('calls `convertSelector` with each rulset', () => {
         const spy = jest.spyOn(syntax, 'convertSelector');
 
@@ -778,7 +790,7 @@ describe('UnifiedSyntax', () => {
     it('emits for a comma separate list', () => {
       const spy = jest.spyOn(syntax, 'emit');
 
-      syntax.convertSelector(':disabled, [disabled], > span', {}, ruleset);
+      syntax.convertSelector(':disabled, [disabled], > span', {}, ruleset, true);
 
       expect(spy).toHaveBeenCalledTimes(3);
       expect(spy).toHaveBeenCalledWith('attribute', [
@@ -796,6 +808,12 @@ describe('UnifiedSyntax', () => {
         '> span',
         ruleset.createRuleset('> span'),
       ]);
+    });
+
+    it('errors for a comma separate list if not in an at-rule', () => {
+      expect(() =>
+        syntax.convertSelector(':disabled, [disabled], > span', {}, ruleset, false),
+      ).toThrowErrorMatchingSnapshot();
     });
   });
 

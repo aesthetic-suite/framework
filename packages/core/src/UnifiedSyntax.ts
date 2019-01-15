@@ -12,6 +12,8 @@ import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 import { ComponentBlock, FontFace, GlobalSheet, Keyframes, Properties, StyleSheet } from './types';
 
+const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
+
 export type Handler = (...args: any[]) => void;
 
 export default class UnifiedSyntax<NativeBlock extends object> {
@@ -273,7 +275,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           }
 
           Object.keys(selectors).forEach(selector => {
-            this.convertSelector(selector, selectors[selector], ruleset);
+            this.convertSelector(selector, selectors[selector], ruleset, true);
           });
 
           break;
@@ -293,10 +295,17 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a nested selector ruleset by emitting the appropriate name.
    */
-  convertSelector(key: string, value: ComponentBlock, ruleset: Ruleset<NativeBlock>) {
+  convertSelector(
+    key: string,
+    value: ComponentBlock,
+    ruleset: Ruleset<NativeBlock>,
+    inAtRule: boolean = false,
+  ) {
     if (process.env.NODE_ENV !== 'production') {
       if (!isObject(value)) {
         throw new Error(`Selector "${key}" must be a ruleset object.`);
+      } else if ((key.includes(',') || !key.match(SELECTOR)) && !inAtRule) {
+        throw new Error(`Advanced selector "${key}" must be nested within an @selectors block.`);
       }
     }
 

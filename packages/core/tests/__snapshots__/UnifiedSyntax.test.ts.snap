@@ -24,6 +24,8 @@ exports[`UnifiedSyntax convertRuleset() @media errors if not an object 1`] = `"@
 
 exports[`UnifiedSyntax convertRuleset() @media errors if query not an object 1`] = `"@media (max-width: 100px) must be a mapping of conditions to style objects."`;
 
+exports[`UnifiedSyntax convertRuleset() @selectors errors if advanced selectors not in an @selectors block 1`] = `"Advanced selector \\"[disabled], :disabled\\" must be nested within an @selectors block."`;
+
 exports[`UnifiedSyntax convertRuleset() @selectors errors if not an object 1`] = `"@selectors must be an object of selectors to rulesets."`;
 
 exports[`UnifiedSyntax convertRuleset() @supports errors if not an object 1`] = `"@supports must be an object of queries to rulesets."`;
@@ -33,6 +35,8 @@ exports[`UnifiedSyntax convertRuleset() @supports errors if query not an object 
 exports[`UnifiedSyntax convertRuleset() errors for a non-object 1`] = `"Ruleset must be an object of properties."`;
 
 exports[`UnifiedSyntax convertRuleset() errors for unknown at-rule 1`] = `"Unsupported local at-rule \\"@unknown\\"."`;
+
+exports[`UnifiedSyntax convertSelector() errors for a comma separate list if not in an at-rule 1`] = `"Advanced selector \\":disabled, [disabled], > span\\" must be nested within an @selectors block."`;
 
 exports[`UnifiedSyntax convertSelector() errors for a non-object 1`] = `"Selector \\":hover\\" must be a ruleset object."`;
 
