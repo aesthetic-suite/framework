@@ -94,11 +94,11 @@ describe('Aesthetic', () => {
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
-      instance.setStyles('foo', ({ unit }, { color = 'black' }) => ({
+      instance.setStyles('foo', ({ unit }) => ({
         el: {
           display: 'block',
           padding: unit,
-          color,
+          color: 'black',
         },
       }));
     });
@@ -109,16 +109,16 @@ describe('Aesthetic', () => {
       });
     });
 
-    it('calls `convertStyleSheet` for unified syntax, while passing theme and props', () => {
+    it('calls `convertStyleSheet` for unified syntax while passing theme', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
-      instance.createStyleSheet('foo', { color: 'red' });
+      instance.createStyleSheet('foo');
 
       expect(spy).toHaveBeenCalledWith({
         el: {
           display: 'block',
           padding: 8,
-          color: 'red',
+          color: 'black',
         },
       });
     });
@@ -226,20 +226,6 @@ describe('Aesthetic', () => {
 
       expect(instance.getStyles('bar')).toEqual({
         el: { padding: 16 },
-      });
-    });
-
-    it('passes props to the style callback', () => {
-      instance.setStyles('baz', (theme, props) => ({
-        el: { padding: props.unit * 2 },
-      }));
-
-      expect(
-        instance.getStyles('baz', {
-          unit: 5,
-        }),
-      ).toEqual({
-        el: { padding: 10 },
       });
     });
 
@@ -629,40 +615,11 @@ describe('Aesthetic', () => {
       const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
       const wrapper = shallow(<Wrapped foo="abc" />);
 
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc' });
+      expect(spy).toHaveBeenCalledWith(Wrapped.styleName);
       expect(wrapper.state('styles')).toEqual({
         header: {},
         footer: {},
       });
-    });
-
-    it('transforms styles when props change', () => {
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
-      const wrapper = shallow(<Wrapped foo="abc" />);
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'abc' });
-
-      wrapper.setProps({
-        foo: 'xyz',
-      });
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { foo: 'xyz' });
-      expect(spy).toHaveBeenCalledTimes(2);
-    });
-
-    it('doesnt transform styles if props are the same', () => {
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
-      const wrapper = shallow(<Wrapped foo="abc" />);
-
-      expect(spy).toHaveBeenCalled();
-
-      wrapper.setProps({
-        foo: 'abc',
-      });
-
-      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('can customize props with the withStyles options', () => {
@@ -717,67 +674,6 @@ describe('Aesthetic', () => {
 
       expect(refInstance).not.toBeNull();
       expect(refInstance!.constructor.name).toBe('RefComponent');
-    });
-
-    it('passes props to style function', () => {
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(null)(StylesComponent);
-
-      shallow(<Wrapped foo={123} bar="abc" baz />);
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
-        bar: 'abc',
-        baz: true,
-        foo: 123,
-      });
-    });
-
-    it('passes function component default props to style function', () => {
-      function FuncComp(props: { [key: string]: any }) {
-        return <div />;
-      }
-
-      FuncComp.defaultProps = {
-        bar: 'abc',
-        baz: true,
-        foo: 123,
-      };
-
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(null)(FuncComp);
-
-      shallow(<Wrapped />);
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
-        bar: 'abc',
-        baz: true,
-        foo: 123,
-      });
-    });
-
-    it('passes class component default props to style function', () => {
-      class ClassComp extends React.Component<any> {
-        static defaultProps = {
-          bar: 'abc',
-          baz: true,
-          foo: 123,
-        };
-
-        render() {
-          return <div />;
-        }
-      }
-
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(null)(ClassComp);
-
-      shallow(<Wrapped />);
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
-        bar: 'abc',
-        baz: true,
-        foo: 123,
-      });
     });
   });
 

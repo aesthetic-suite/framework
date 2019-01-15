@@ -13,6 +13,8 @@ of stylers, and unified syntax as the default.
 - Dropped support for Glamor and the `aesthetic-adapter-glamor` package.
 - Dropped support for style objects passed directly to `withStyles`. Styles must now be a definition
   function that returns an object.
+- Dropped support for current props passed as the 2nd argument to the `withStyles` styling function.
+  This pattern was non-deterministic and caused cache invalidation issues.
 - Removed the `Adapter` class. Adapters now extend `Aesthetic` instead of being passed to it through
   the constructor.
   - `Adapter#create` is now `Aesthetic#processStyleSheet`.

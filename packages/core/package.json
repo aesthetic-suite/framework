@@ -28,12 +28,10 @@
     "@types/extend": "^3.0.0",
     "@types/hoist-non-react-statics": "^3.0.1",
     "@types/react": "^16.7.18",
-    "@types/shallowequal": "^1.1.0",
     "@types/uuid": "^3.4.4",
     "csstype": "^2.6.0",
     "extend": "^3.0.2",
     "hoist-non-react-statics": "^3.2.1",
-    "shallowequal": "^1.1.0",
     "utility-types": "^3.2.1",
     "uuid": "^3.3.2"
   },

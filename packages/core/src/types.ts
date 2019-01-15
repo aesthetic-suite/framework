@@ -75,9 +75,7 @@ export type ComponentBlock = Block & {
 
 export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
-export type StyleSheetDefinition<Theme, Props = any> =
-  | ((theme: Theme, props: Props) => StyleSheet)
-  | null;
+export type StyleSheetDefinition<Theme> = ((theme: Theme) => StyleSheet) | null;
 
 export type GlobalSheet = {
   '@charset'?: string;
@@ -133,7 +131,7 @@ export interface StyledComponentClass<Theme, Props> extends React.ComponentClass
   WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
 
   extendStyles(
-    styleSheet: StyleSheetDefinition<Theme, Props>,
+    styleSheet: StyleSheetDefinition<Theme>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
   ): StyledComponentClass<Theme, Props>;
 }

@@ -6,7 +6,6 @@
 import React from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import shallowEqual from 'shallowequal';
 import deepMerge from 'extend';
 import { Omit } from 'utility-types';
 import isObject from './helpers/isObject';
@@ -96,7 +95,7 @@ export default abstract class Aesthetic<
   /**
    * Create and return a stylesheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, props: object = {}): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
@@ -104,7 +103,7 @@ export default abstract class Aesthetic<
     this.applyGlobalStyles();
 
     const styleSheet = this.processStyleSheet(
-      this.syntax.convertStyleSheet(this.getStyles(styleName, props)).toObject(),
+      this.syntax.convertStyleSheet(this.getStyles(styleName)).toObject(),
       styleName,
     );
 
@@ -138,14 +137,14 @@ export default abstract class Aesthetic<
    * Retrieve the defined component styles. If the definition is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles(styleName: StyleName, props: object = {}): StyleSheet {
+  getStyles(styleName: StyleName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
-    const styleSheet = styleDef ? styleDef(this.getTheme(), props) : {};
+    const styleSheet = styleDef ? styleDef(this.getTheme()) : {};
 
     // Merge from parent
     if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyles(parentStyleName, props), styleSheet);
+      return deepMerge(true, {}, this.getStyles(parentStyleName), styleSheet);
     }
 
     return styleSheet;
@@ -268,10 +267,7 @@ export default abstract class Aesthetic<
    * Wrap a React component with an HOC that handles the entire styling, converting,
    * and transforming process.
    */
-  withStyles<P>(
-    styleSheet: StyleSheetDefinition<Theme, P>,
-    options: WithStylesOptions = {},
-  ) /* infer */ {
+  withStyles(styleSheet: StyleSheetDefinition<Theme>, options: WithStylesOptions = {}) /* infer */ {
     const aesthetic = this;
     const {
       extendable = this.options.extendable,
@@ -301,7 +297,7 @@ export default abstract class Aesthetic<
         static WrappedComponent = WrappedComponent;
 
         static extendStyles(
-          customStyleSheet: StyleSheetDefinition<Theme, Props>,
+          customStyleSheet: StyleSheetDefinition<Theme>,
           extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
         ) {
           if (process.env.NODE_ENV !== 'production') {
@@ -317,22 +313,8 @@ export default abstract class Aesthetic<
           })(WrappedComponent);
         }
 
-        static getDerivedStateFromProps(props: any, state: OwnState): Partial<OwnState> | null {
-          if (shallowEqual(props, state.props)) {
-            return null;
-          }
-
-          return {
-            props,
-            styles: aesthetic.createStyleSheet(styleName, {
-              ...WrappedComponent.defaultProps,
-              ...props,
-            }),
-          };
-        }
-
         state: OwnState = {
-          styles: {},
+          styles: aesthetic.createStyleSheet(styleName),
         };
 
         componentDidMount() {
