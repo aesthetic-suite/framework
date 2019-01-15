@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-aphrodite",
-  "version": "3.0.0-alpha.4",
+  "version": "3.0.0-alpha.5",
   "description": "Aphrodite support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -20,7 +20,7 @@
     "aphrodite": "^2.2.0"
   },
   "devDependencies": {
-    "aesthetic": "^3.0.0-alpha.4",
+    "aesthetic": "^3.0.0-alpha.5",
     "aphrodite": "^2.2.3"
   }
 }
