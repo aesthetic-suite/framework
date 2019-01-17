@@ -12,7 +12,7 @@ import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 import { ComponentBlock, FontFace, GlobalSheet, Keyframes, Properties, StyleSheet } from './types';
 
-const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
+export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
 
 export type Handler = (...args: any[]) => void;
 

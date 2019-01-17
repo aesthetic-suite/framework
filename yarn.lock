@@ -771,12 +771,12 @@
     semver "^5.6.0"
     yargs "^12.0.5"
 
-"@beemo/core@^0.26.0":
-  version "0.26.0"
-  resolved "https://registry.npmjs.org/@beemo/core/-/core-0.26.0.tgz#b7d200ef58abc5509667106f330766edbba302bb"
-  integrity sha512-su6FmEYlc21FSkh+xRvsi3hyM8OgMq9xkqtZvnam0yK94fm9rdWvRK+SCwLU/bqkfD0bcd2UdxFG3825FdZnOg==
+"@beemo/core@^0.26.1":
+  version "0.26.1"
+  resolved "https://registry.npmjs.org/@beemo/core/-/core-0.26.1.tgz#d3d302d93bdc1396b8591e034f5d6ec8a22e4550"
+  integrity sha512-aJ2T3LDERVZ2adlGY3/bTnuqHeY1wLgpP79uvuZvlyx9y93BHokVuvSCWPOA0SH58T3aFb4cO3LUluyqt4/Z7Q==
   dependencies:
-    "@boost/core" "^1.4.1"
+    "@boost/core" "^1.5.0"
     "@types/execa" "^0.9.0"
     "@types/fs-extra" "^5.0.4"
     "@types/is-glob" "^4.0.0"
@@ -809,10 +809,10 @@
   resolved "https://registry.npmjs.org/@beemo/driver-eslint/-/driver-eslint-0.26.0.tgz#c97692b10b515f4a88fc84570a8e28b44a00f135"
   integrity sha512-Lsn1W82jBiY4/j8zl2GrGAG1yMMl7aNcU44BjawYyQC9OB/1qVPqiTFk+AbQrMz+R/L88boWvRjQ6jNvPcVr6g==
 
-"@beemo/driver-jest@^0.26.0":
-  version "0.26.0"
-  resolved "https://registry.npmjs.org/@beemo/driver-jest/-/driver-jest-0.26.0.tgz#88eecc8d160cec92d672ee48c635c7d668f27708"
-  integrity sha512-KxKCiAlmzasoJwKz7IYioqnxPg0E4QdA49Atbsk+PUeUhzye6CFWX2D+Fq02SS7acZAxjko/VVoBm+2BYYo/fQ==
+"@beemo/driver-jest@^0.26.1":
+  version "0.26.1"
+  resolved "https://registry.npmjs.org/@beemo/driver-jest/-/driver-jest-0.26.1.tgz#af4cb0c0720dc04b28837c15a304d61c995eb074"
+  integrity sha512-IjUW/NS+T199NL3ildQArIjQ4OSNAZLKx5ugmv7EPx0Ctxz74JhNjDs30g/ZPnBEX3W1VUWswIIK1MRSkBzuzg==
 
 "@beemo/driver-prettier@^0.26.0":
   version "0.26.0"
@@ -828,10 +828,10 @@
   dependencies:
     rimraf "^2.6.3"
 
-"@boost/core@^1.4.1":
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/@boost/core/-/core-1.4.1.tgz#dd41af54347b00573a46d00d332b6bfa19a0adad"
-  integrity sha512-69TVPg/6NLhbvTZ/U+aGFdsG9u6Ofjk6Y5zzEFlnFfADewg34OCcAZr5jy1ysugLy0ckb1hyA/TdlEGiXAJ1FA==
+"@boost/core@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/@boost/core/-/core-1.5.0.tgz#2bab732c9351bb6b27dc7881e0f5b1b5fd93bb87"
+  integrity sha512-7CpXLaV4ISlokBBgIy9Ccxk9Hz3T5Xvdn3Crzh2kf5UG6P5gWFHzRve/abvl/ACQ1qR5Cl8NaO/3AdH+oDVnsw==
   dependencies:
     "@types/ansi-escapes" "^3.0.0"
     "@types/cli-truncate" "^1.1.0"
@@ -852,12 +852,12 @@
     chalk "^2.4.2"
     cli-truncate "^1.1.0"
     debug "^4.1.1"
-    env-ci "^3.1.3"
+    env-ci "^3.2.0"
     execa "^1.0.0"
     exit "^0.1.2"
     fast-glob "^2.2.6"
     fs-extra "^7.0.1"
-    i18next "^13.1.0"
+    i18next "^13.1.1"
     json5 "^2.1.0"
     lodash "^4.17.11"
     os-locale "^3.1.0"
@@ -1460,10 +1460,10 @@
     libnpm "^2.0.1"
     write-file-atomic "^2.3.0"
 
-"@milesj/build-tool-config@^0.139.0":
-  version "0.139.0"
-  resolved "https://registry.npmjs.org/@milesj/build-tool-config/-/build-tool-config-0.139.0.tgz#4940147f1213d41a40210030b7e99c8024537fd3"
-  integrity sha512-74noRzxFJCJux2QQTIFTGmpASTtob6TL23H/9Idm5rZ7v9USaCnyGcY41TyyPp2qjZtFqCrRDabT7qmaOTdTJA==
+"@milesj/build-tool-config@^0.139.1":
+  version "0.139.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tool-config/-/build-tool-config-0.139.1.tgz#ea578b164248ae169145ebfc00e220e7fd981979"
+  integrity sha512-wYBNGx4U0oyFa43Q3K7LwoLFRFsy8PB1+rDlWM3E9sByAmxSv8v4M9kEjrZ0LwTR/frwjp7bJOf5hw3FjoUkng==
   dependencies:
     "@babel/cli" "^7.2.3"
     "@babel/core" "^7.2.2"
@@ -1485,7 +1485,7 @@
     enzyme-to-json "^3.3.5"
     eslint "^5.12.0"
     eslint-config-airbnb "^17.1.0"
-    eslint-config-prettier "^3.3.0"
+    eslint-config-prettier "^3.4.0"
     eslint-plugin-babel "^5.3.0"
     eslint-plugin-compat "^2.6.3"
     eslint-plugin-import "^2.14.0"
@@ -1504,17 +1504,17 @@
     typescript "^3.2.2"
     typescript-eslint-parser "^21.0.2"
 
-"@milesj/build-tool-runtime@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/@milesj/build-tool-runtime/-/build-tool-runtime-0.15.0.tgz#ddef4eec8375830f5b03b95b0a3a5796266b8006"
-  integrity sha512-l0bBWLUKHLn5O76EI0q2xcl6/FS9SXXtSGZq3IRDmAV0dXJYFSzu+NqsxCnH/eh2DM3Tl25aOhQJyFlzDiZd2Q==
+"@milesj/build-tool-runtime@^0.15.1":
+  version "0.15.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tool-runtime/-/build-tool-runtime-0.15.1.tgz#e767def6f75bc454215bfe5a8b39e351cc32e1e9"
+  integrity sha512-WQx2eFaFgwhCd8UxpirYEPayML0B9hgSSsSE3717d6WMUQkb0i8FMx0/yy4giYdtA4rIT8I29Io5qKElBChUgw==
   dependencies:
     "@babel/core" "^7.2.2"
     "@beemo/cli" "^0.26.0"
-    "@beemo/core" "^0.26.0"
+    "@beemo/core" "^0.26.1"
     "@beemo/driver-babel" "^0.26.0"
     "@beemo/driver-eslint" "^0.26.0"
-    "@beemo/driver-jest" "^0.26.0"
+    "@beemo/driver-jest" "^0.26.1"
     "@beemo/driver-prettier" "^0.26.0"
     "@beemo/driver-typescript" "^0.15.0"
     eslint "^5.12.0"
@@ -1522,13 +1522,13 @@
     prettier "^1.15.3"
     typescript "^3.2.2"
 
-"@milesj/build-tools@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.npmjs.org/@milesj/build-tools/-/build-tools-0.17.0.tgz#a7568fef00fec90115af2ea3021c4ab8778abd5c"
-  integrity sha512-OQaPohB2CIe7xPg/awCHJEg354ekF92ATyU4ngkNamAKtrCKhce4qlsIF/6+bbhix+SqunT+Uo9aVLunPk8K4A==
+"@milesj/build-tools@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tools/-/build-tools-0.17.1.tgz#8a33db4ceb9e57671f9eb1c99333b8dd9a205998"
+  integrity sha512-THc8LdTIw7rbtXZW8BUk/+itQWalMgCVX+Im9OLPHcOA7fKXWX4PRN3hs1rUKfNwhnkPCPMVcs059DAYSNUHzA==
   dependencies:
-    "@milesj/build-tool-config" "^0.139.0"
-    "@milesj/build-tool-runtime" "^0.15.0"
+    "@milesj/build-tool-config" "^0.139.1"
+    "@milesj/build-tool-runtime" "^0.15.1"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -1695,10 +1695,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.7.18":
-  version "16.7.18"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.7.18.tgz#f4ce0d539a893dd61e36cd11ae3a5e54f5a48337"
-  integrity sha512-Tx4uu3ppK53/iHk6VpamMP3f3ahfDLEVt3ZQc8TFm30a1H3v9lMsCntBREswZIW/SKrvJjkb3Hq8UwO6GREBng==
+"@types/react@*", "@types/react@^16.7.20":
+  version "16.7.20"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.7.20.tgz#13ae752c012710d0fa800985ca809814b51d3b58"
+  integrity sha512-Qd5RWkwl6SL7R2XzLk/cicjVQm1Mhc6HqXY5Ei4pWd1Vi8Fkbd5O0sA398x8fRSTPAuHdDYD9nrWmJMYTJI0vQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -4002,7 +4002,7 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.npmjs.org/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-env-ci@^3.1.3:
+env-ci@^3.2.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/env-ci/-/env-ci-3.2.0.tgz#982f02a0501ca8c43bf0765c5bd3d83ffb28b23a"
   integrity sha512-TFjNiDlXrL8/pfHswdvJGEZzJcq3aBPb8Eka83hlGLwuNw9F9BC9S9ETlkfkItLRT9k5JgpGgeP+rL6/3cEbcw==
@@ -4160,10 +4160,10 @@ eslint-config-airbnb@^17.1.0:
     object.assign "^4.1.0"
     object.entries "^1.0.4"
 
-eslint-config-prettier@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-3.3.0.tgz#41afc8d3b852e757f06274ed6c44ca16f939a57d"
-  integrity sha512-Bc3bh5bAcKNvs3HOpSi6EfGA2IIp7EzWcg2tS4vP7stnXu/J1opihHDM7jI9JCIckyIDTgZLSWn7J3HY0j2JfA==
+eslint-config-prettier@^3.4.0:
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-3.5.0.tgz#fb29575c5be7ed79c1637c5a0c58985833290805"
+  integrity sha512-LcZEoAY5lL3/H2NTFSeUl/z8X8oMea1IxLEIb5uDbRxPTdQeeT7oGpRWT6UwHXGcoRbYH0TZmfRsh8iXbpyW7A==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -4611,19 +4611,19 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fela-dom@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-10.1.0.tgz#33cabddabc686e6c8b9a8339b27bca716004eec6"
-  integrity sha512-D6JBP2z8Dw8G6f6qQahtnprmlQCMBb5o1yVF1/wmzQoErh5oVE+ufi7A1/634mP4e+yowm3bC2TQs+vhOaGJZQ==
+fela-dom@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-10.1.1.tgz#203824b57ae0239f28f87ef01e57dd2e51b800a3"
+  integrity sha512-lKB3nSafHsOmn8eu7xMz94xM74jM2RT9xJjpc7kx3KkTs4JzEmiX62LOMDrKC6AsozSAGDQWtLbdnVOja1IJMA==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.1"
-    fela-utils "^10.1.0"
+    fela-utils "^10.1.1"
 
-fela-plugin-embedded@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-10.1.0.tgz#bfacd43b8474c48dceae173008c02ebab6b0c0ee"
-  integrity sha512-rL36X6+htO80v1whyKtHbRj7no+CD+lpREnenFFAlEfJAOxi5KIge3tUHf2gVUof06+VOQighB+80uF1nPzGCA==
+fela-plugin-embedded@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-10.1.1.tgz#2da29a98f484ece7cff97c0eca719d98b944c9d7"
+  integrity sha512-4Ncw5ueyubEgHlvD0uViza8Zdq1+FSaMp5U1lM/2LX968j2W3nZPAZ7e3jIMpQ8o48ICzPdBPgDy+QjMOTWOpA==
   dependencies:
     fast-loops "^1.0.0"
     isobject "^3.0.1"
@@ -4636,58 +4636,58 @@ fela-plugin-extend@^5.0.11:
     css-in-js-utils "2.0.0"
     fela-utils "^7.0.4"
 
-fela-plugin-fallback-value@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-10.1.0.tgz#1a134c340a79ab87b3ce19b9a2364f03e3e7a5eb"
-  integrity sha512-qYG1H1sNkY9WPCHCRStNzdJx0AgedAFWOe9A/PlIsT75QXJSTustGmeKkq9tEoKQKUhG08M/IECQFVKEnlQMmg==
+fela-plugin-fallback-value@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-10.1.1.tgz#b612476aeab68a1566bcaa3efe6c03e137a43699"
+  integrity sha512-CUjP3plBMTMbXotc5BuuBdKesjLKAWObTyhEWzenptnBva1FVfrcpY5U4zsGUI1nEgx7lWWDOWuSVmCPuYq5Pg==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-plugin-prefixer@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-10.1.0.tgz#29f83b311eadec7caae9d7f9b2529f72591be6c8"
-  integrity sha512-4Z5qQLSmwzSTfztIXgLl8jIGySoaNeFd59IFj9CKUBL5IkrC3+amSpuqz+qZNZfQmSYyqhUbp4sdRo2wLgqROw==
+fela-plugin-prefixer@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-10.1.1.tgz#176f03567e874850cf8008a73018548bcfa11ebc"
+  integrity sha512-hY3dgxLxQ9ozwIR99yBIKoDQ28WvaPS8w65LzCFpTTUUkAKuiRw+drIkd8W3fl8ZwB2/qduCIp5vozAyGXrMjA==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela-plugin-fallback-value "^10.1.0"
+    fela-plugin-fallback-value "^10.1.1"
     inline-style-prefixer "^5.0.1"
     isobject "^3.0.1"
 
-fela-plugin-unit@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-10.1.0.tgz#9101b57160c8b4f8e451750aa078740476c95d9d"
-  integrity sha512-F2QVfajpLAk7VPQ4xcOTUN06Nx1UlKlKt8HpcPx7XXvY5kkUKpnvkNm8x9T7U/bi0DFv/FU8o/hAhd4y0Q2Hmg==
+fela-plugin-unit@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-10.1.1.tgz#fc1935606e7dfda39030a39d41c5802cd2162392"
+  integrity sha512-8+FYyYSO03HLZSWqsfSujGC1KhgMnSry3L008bBLmd2bna3gvA5KuRS+Ee14R/R+x6FhpDMyJEFOns0yXN8c2g==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-preset-web@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-10.1.0.tgz#803835b8f14edca2943fca9185aefed497f3bb8c"
-  integrity sha512-UWyj7aRIiySuA+iozh46+wYGP8k7Q2VhfSsf5bOyjQkeQFf+DN+cdbiDr+bqAXup6bk7jcGQBP2+wVW7kVI6Ww==
+fela-preset-web@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-10.1.1.tgz#97806c9986df98765f8137907a0e16eab61f987e"
+  integrity sha512-XNTEfJYmRF/w0iwwfP1Rox9zSL3XG4BscBwd4WMDJ1xNdOKXq4WL+vWFY2Yi+l3255BzUnK7PqgnZjwU3xYfWg==
   dependencies:
-    fela-plugin-embedded "^10.1.0"
+    fela-plugin-embedded "^10.1.1"
     fela-plugin-extend "^5.0.11"
-    fela-plugin-fallback-value "^10.1.0"
-    fela-plugin-prefixer "^10.1.0"
-    fela-plugin-unit "^10.1.0"
+    fela-plugin-fallback-value "^10.1.1"
+    fela-plugin-prefixer "^10.1.1"
+    fela-plugin-unit "^10.1.1"
 
-fela-tools@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-10.1.0.tgz#b155e001008e424ce05a8a30330d33715adc2ffe"
-  integrity sha512-ryArfNtzzEaPb7jRiUU7MSer0Wow8+XfNXqOG7jFNpxogCPgD85uo+IFaaPeD5eDCKtGPQ+MzWSoU9HqUGIQIA==
+fela-tools@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-10.1.1.tgz#343581ed2a35f14d1a5687a7608ebf564e057ba8"
+  integrity sha512-c0OO6XxUZdmxzjd+z2UquufGwO6w5VEjSpRb5bkXKjQfmIz1jEcDhEV2K4j6YmsHskquQjsVro8zDF/A8GYYwg==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela "^10.1.0"
-    fela-utils "^10.1.0"
+    fela "^10.1.1"
+    fela-utils "^10.1.1"
 
-fela-utils@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-10.1.0.tgz#ae0c606e57c20afb9be46262bd06538a57ac6efe"
-  integrity sha512-JbzRF+TIYYpHzPQOqWdF4RHmXZPGX+NPY5DDGw5xBJ1Jwezb/jX7ub3sGd7J3xS7lT09UJpTH92h3IuWVDLUww==
+fela-utils@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-10.1.1.tgz#626b96201f9c9d87c85f8666c5ccd7e85748016d"
+  integrity sha512-DM00bRyYkRx1LFE2rQhcV+e2k869G1D//F9kgfpuT4sWeMTvdvkoOGwu6rAcHy3+aUyI653Yk1YytYOHKnc3zg==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
@@ -4699,15 +4699,15 @@ fela-utils@^7.0.4:
   dependencies:
     css-in-js-utils "2.0.0"
 
-fela@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.npmjs.org/fela/-/fela-10.1.0.tgz#e606ee59345d6b2773e01708195d022c2c9567c0"
-  integrity sha512-08zEwQ3aUTFCBvl7JcIyC+Itd4vki9nKUBCXcG4fD8tg9pZnHkESEDrmYpxCoeKpOcFunreXh/oUp9nkCl0Ziw==
+fela@^10.1.1:
+  version "10.1.1"
+  resolved "https://registry.npmjs.org/fela/-/fela-10.1.1.tgz#e2801759bd7ec7de003e96268fe4a663c9a0c265"
+  integrity sha512-BNwcCe9/NWYEKp7kTsfomwO+wYOLSZy4J9v5jHtggVwD0/r375kVscgy80Kh7IbguerKUR/PaxbGJ1+Y29M68g==
   dependencies:
     css-in-js-utils "^3.0.0"
     csstype "^2.5.5"
     fast-loops "^1.0.0"
-    fela-utils "^10.1.0"
+    fela-utils "^10.1.1"
     isobject "^3.0.1"
 
 figgy-pudding@^3.4.1, figgy-pudding@^3.5.1:
@@ -5530,10 +5530,10 @@ hyphenate-style-name@^1.0.2:
   resolved "https://registry.npmjs.org/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
   integrity sha1-MRYKNpMK2vH8BMYHT360FGXU7Es=
 
-i18next@^13.1.0:
-  version "13.1.1"
-  resolved "https://registry.npmjs.org/i18next/-/i18next-13.1.1.tgz#2c3adf91884b1d5a6d72ddba4814a678109a95d4"
-  integrity sha512-g/Aov1Xtj+XCs9hkT4S0UFuQxAGweX5MLXgoc9XgLR/8nmgKDflmEDHTNaPun16Thc8ojD8AJLAr8e5HawHB6A==
+i18next@^13.1.1:
+  version "13.1.2"
+  resolved "https://registry.npmjs.org/i18next/-/i18next-13.1.2.tgz#25b663e6562e76cc4f384f1b5c21bbe4f81b3e85"
+  integrity sha512-W7qVWQiuLcVeq39QE5y1tMh1SFZR1BQ4PdGILuVLYa9dd1Hf7KfFpxqEcRx/UxTiqHpdC99e6C58oqie1bxyGg==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.17, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
   version "0.4.24"
