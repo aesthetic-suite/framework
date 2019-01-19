@@ -47,13 +47,13 @@ export default abstract class Aesthetic<
 > {
   cache: { [styleName: string]: SheetMap<ParsedBlock> } = {};
 
-  globals: { [themeName: string]: GlobalSheetDefinition<Theme> } = {};
+  globals: { [themeName: string]: GlobalSheetDefinition<Theme, any> } = {};
 
   options: AestheticOptions;
 
   parents: { [childStyleName: string]: StyleName } = {};
 
-  styles: { [styleName: string]: StyleSheetDefinition<Theme> } = {};
+  styles: { [styleName: string]: StyleSheetDefinition<Theme, any> } = {};
 
   syntax: UnifiedSyntax<NativeBlock>;
 
@@ -120,11 +120,11 @@ export default abstract class Aesthetic<
   /**
    * Register a theme by extending and merging with a previously defined theme.
    */
-  extendTheme(
+  extendTheme<T>(
     themeName: ThemeName,
     parentThemeName: ThemeName,
     theme: Partial<Theme>,
-    globalSheet: GlobalSheetDefinition<Theme> = null,
+    globalSheet: GlobalSheetDefinition<Theme, T> = null,
   ): this {
     return this.registerTheme(
       themeName,
@@ -185,10 +185,10 @@ export default abstract class Aesthetic<
   /**
    * Register a theme with a pre-defined set of theme settings.
    */
-  registerTheme(
+  registerTheme<T>(
     themeName: ThemeName,
     theme: Theme,
-    globalSheet: GlobalSheetDefinition<Theme> = null,
+    globalSheet: GlobalSheetDefinition<Theme, T> = null,
   ): this {
     if (process.env.NODE_ENV !== 'production') {
       if (this.themes[themeName]) {
@@ -207,9 +207,9 @@ export default abstract class Aesthetic<
   /**
    * Set multiple style declarations for a component.
    */
-  setStyles(
+  setStyles<T>(
     styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme>,
+    styleSheet: StyleSheetDefinition<Theme, T>,
     extendFrom: StyleName = '',
   ): this {
     if (extendFrom) {
@@ -271,7 +271,10 @@ export default abstract class Aesthetic<
   /**
    * Wrap a React component with an HOC that injects the defined stylesheet as a prop.
    */
-  withStyles(styleSheet: StyleSheetDefinition<Theme>, options: WithStylesOptions = {}) /* infer */ {
+  withStyles<T>(
+    styleSheet: StyleSheetDefinition<Theme, T>,
+    options: WithStylesOptions = {},
+  ) /* infer */ {
     const aesthetic = this;
     const {
       extendable = this.options.extendable,
@@ -300,8 +303,8 @@ export default abstract class Aesthetic<
 
         static WrappedComponent = WrappedComponent;
 
-        static extendStyles(
-          customStyleSheet: StyleSheetDefinition<Theme>,
+        static extendStyles<ET>(
+          customStyleSheet: StyleSheetDefinition<Theme, ET>,
           extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
         ) {
           if (process.env.NODE_ENV !== 'production') {
