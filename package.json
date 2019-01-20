@@ -26,7 +26,7 @@
     "cheerio": "^1.0.0-rc.2",
     "fs-promise": "^2.0.3",
     "glob": "^7.1.3",
-    "lerna": "^3.10.5",
+    "lerna": "^3.10.6",
     "react-dom": "^16.7.0",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
