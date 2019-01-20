@@ -12,7 +12,7 @@ syntax.
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps, classes } from '../path/to/aesthetic';
+import withStyles, { WithStylesProps, css } from '../path/to/aesthetic';
 
 export type Props = {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export type Props = {
 
 function Button({ children, styles }: Props & WithStylesProps) {
   return (
-    <button type="button" className={classes(styles.button)}>
+    <button type="button" className={css(styles.button)}>
       {children}
     </button>
   );
@@ -42,8 +42,6 @@ export default withStyles(({ unit }) => ({
 - `WeakMap`
 
 ## Installation
-
-Aesthetic requires React as a peer dependency.
 
 ```
 yarn add aesthetic react

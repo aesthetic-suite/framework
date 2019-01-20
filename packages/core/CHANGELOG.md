@@ -33,7 +33,7 @@ of stylers, and unified syntax as the default.
 - Removed `PropType`s exported from the index.
 - Updated the `Aesthetic` option `pure` to be enabled by default.
 - Updated `Aesthetic#registerTheme` and `Aesthetic#extendTheme` global styles to require a
-  definition function that returns an object, or null.
+  definition function that returns an object.
 - Moved `Aesthetic#constructor` options to the 1st argument.
 - Moved `Aesthetic#extendTheme` theme name to 1st argument, and parent theme name to 2nd argument
   (swapped positions).
@@ -51,7 +51,7 @@ of stylers, and unified syntax as the default.
     `animationName`.
   - Local `@font-face` can be defined within a component by setting the font face object to
     `fontFamily`.
-- Dropped support for local at-rules being definef within a global stylesheet (via theme global
+- Dropped support for local at-rules being defined within a global stylesheet (via theme global
   styles). This includes `@fallbacks`, `@media`, `@supports`, and `@selectors`.
 - Child combinators (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
   (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
@@ -61,7 +61,6 @@ of stylers, and unified syntax as the default.
 **Core**
 
 - Added new `Aesthetic` option `theme` to denote the currently active theme.
-- Updated `withStyles` to use `getDerivedStateFromProps` for better performance.
 - DOM styles are now flushed on mount to properly support server-side rendering.
 - Global styles now have access to the current theme object.
 
