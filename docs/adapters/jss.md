@@ -11,3 +11,11 @@ import { Theme } from './types';
 const jss = create(preset());
 const aesthetic = new JSSAesthetic<Theme>(jss, options);
 ```
+
+## Installation
+
+```
+yarn add aesthetic aesthetic-adapter-jss jss jss-nested
+// Or
+npm install aesthetic aesthetic-adapter-jss jss jss-nested
+```

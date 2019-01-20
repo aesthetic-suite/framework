@@ -9,3 +9,11 @@ import { Theme } from './types';
 
 const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag: true }), options);
 ```
+
+## Installation
+
+```
+yarn add aesthetic aesthetic-adapter-typestyle typestyle
+// Or
+npm install aesthetic aesthetic-adapter-typestyle typestyle
+```

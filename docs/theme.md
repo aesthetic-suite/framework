@@ -1,0 +1,4 @@
+- Dont use names like "red", "green", etc
+- Use shades for colors
+- Theme object should be exactly the same between themes
+- Dark mode color shades are reversed

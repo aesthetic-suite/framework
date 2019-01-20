@@ -64,7 +64,7 @@ export default abstract class Aesthetic<
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
       extendable: false,
-      passThemeProp: true,
+      passThemeProp: false,
       pure: true,
       stylesPropName: 'styles',
       theme: 'default',

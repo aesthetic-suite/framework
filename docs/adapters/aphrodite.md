@@ -9,6 +9,14 @@ import { Theme } from './types';
 const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
 ```
 
+## Installation
+
+```
+yarn add aesthetic aesthetic-adapter-aphrodite aphrodite
+// Or
+npm install aesthetic aesthetic-adapter-aphrodite aphrodite
+```
+
 ## Custom Selectors
 
 Aphrodite does not support some core CSS functionality, so Aesthetic has filled in these gaps. The

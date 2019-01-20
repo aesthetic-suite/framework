@@ -11,3 +11,11 @@ import { Theme } from './types';
 const fela = createRenderer({ plugins: [...webPreset] });
 const aesthetic = new FelaAesthetic<Theme>(fela, options);
 ```
+
+## Installation
+
+```
+yarn add aesthetic aesthetic-adapter-fela fela fela-dom
+// Or
+npm install aesthetic aesthetic-adapter-fela fela fela-dom
+```

@@ -13,6 +13,14 @@ const aesthetic = new CSSModulesAesthetic(options);
 > [Webpack](https://github.com/webpack/css-loader) or
 > [Babel](https://github.com/michalkvasnicak/babel-plugin-css-modules-transform).
 
+## Installation
+
+```
+yarn add aesthetic aesthetic-adapter-css-modules
+// Or
+npm install aesthetic aesthetic-adapter-css-modules
+```
+
 ## Unified Syntax
 
 CSS modules do not support Aesthetic's unified syntax.

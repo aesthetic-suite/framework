@@ -53,7 +53,7 @@ describe('Aesthetic', () => {
 
       expect(instance.options).toEqual({
         extendable: false,
-        passThemeProp: true,
+        passThemeProp: false,
         pure: true,
         stylesPropName: 'styleSheet',
         theme: 'default',
@@ -605,6 +605,8 @@ describe('Aesthetic', () => {
     });
 
     it('can customize props with the withStyles options', () => {
+      instance.options.passThemeProp = true;
+
       const Wrapped = instance.withStyles(() => TEST_STATEMENT, {
         stylesPropName: 'styleSheet',
         themePropName: 'someThemeNameHere',
@@ -618,6 +620,7 @@ describe('Aesthetic', () => {
     it('can customize props with the options through the `Aesthetic` instance', () => {
       instance.options.stylesPropName = 'styleSheet';
       instance.options.themePropName = 'someThemeNameHere';
+      instance.options.passThemeProp = true;
 
       const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
       const wrapper = shallow(<Wrapped />);

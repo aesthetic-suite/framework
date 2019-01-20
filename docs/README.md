@@ -1,9 +1,10 @@
 # Aesthetic
 
-Aesthetic is a powerful React library for styling components, whether it be CSS-in-JS using style
-objects, importing stylesheets, or simply referencing external class names. Simply put, Aesthetic is
-an abstraction layer that utilizes higher-order-components for the compilation of styles via
-third-party libraries, all the while providing customizability, theming, and a unified syntax.
+Aesthetic is a powerful type-safe React library for styling components, whether it be CSS-in-JS
+using style objects, importing stylesheets, or simply referencing external class names. Simply put,
+Aesthetic is an abstraction layer that utilizes higher-order-components for the compilation of
+styles via third-party libraries, all the while providing customizability, theming, and a unified
+syntax.
 
 Aesthetic was built for the sole purpose of solving the following scenarios, most of which competing
 styling libraries fail to solve.
@@ -18,8 +19,8 @@ performant option of compiling styles and attaching them to the DOM.
 **Styling third-party libraries**
 
 Using a third-party provided UI component library has the unintended side-effect of hard-coded and
-non-customizable styles. Aesthetic solves this by allowing consumers to
-[extend and inherit styles](./usage.md) from the provided base component.
+non-customizable styles, and unwanted files within your bundle. Aesthetic solves this by allowing
+consumers to [extend and inherit styles](./usage.md) from the provided base component.
 
 ```tsx
 import React from 'react';
