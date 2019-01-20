@@ -75,7 +75,7 @@ export type ComponentBlock = Block & {
 
 export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
-export type StyleSheetDefinition<Theme> = ((theme: Theme) => StyleSheet) | null;
+export type StyleSheetDefinition<Theme> = (theme: Theme) => StyleSheet;
 
 export type GlobalSheet = {
   '@charset'?: string;

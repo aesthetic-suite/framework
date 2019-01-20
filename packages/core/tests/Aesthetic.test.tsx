@@ -207,12 +207,6 @@ describe('Aesthetic', () => {
       expect(() => instance.getStyles('foo')).toThrowErrorMatchingSnapshot();
     });
 
-    it('returns an empty object if styles are null', () => {
-      instance.styles.foo = null;
-
-      expect(instance.getStyles('foo')).toEqual({});
-    });
-
     it('returns the stylesheet', () => {
       expect(instance.getStyles('foo')).toEqual({
         el: { display: 'block' },
@@ -350,10 +344,12 @@ describe('Aesthetic', () => {
     it('errors if styles have been set', () => {
       instance.styles.foo = () => ({});
 
-      expect(() => instance.setStyles('foo', null)).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyles('foo', () => ({}))).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if styles try to extend from itself', () => {
+      instance.styles.foo = () => ({});
+
       expect(() => instance.setStyles('foo', () => ({}), 'foo')).toThrowErrorMatchingSnapshot();
     });
 
@@ -369,11 +365,7 @@ describe('Aesthetic', () => {
     });
 
     it('errors if extended styles do not exist', () => {
-      expect(() => instance.setStyles('foo', null, 'parent')).toThrowErrorMatchingSnapshot();
-    });
-
-    it('errors if extended and style names match', () => {
-      expect(() => instance.setStyles('foo', null, 'foo')).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyles('foo', () => ({}), 'parent')).toThrowErrorMatchingSnapshot();
     });
 
     it('sets styles', () => {
@@ -465,13 +457,13 @@ describe('Aesthetic', () => {
     });
 
     it('extends `React.PureComponent` by default', () => {
-      const Wrapped = instance.withStyles(null)(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
       expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
     });
 
     it('extends `React.Component` when `pure` is false', () => {
-      const Wrapped = instance.withStyles(null, { pure: false })(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
 
       expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
     });
@@ -479,7 +471,7 @@ describe('Aesthetic', () => {
     it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
       instance.options.pure = true;
 
-      const Wrapped = instance.withStyles(null)(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
       expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
     });
@@ -487,13 +479,13 @@ describe('Aesthetic', () => {
     it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
       instance.options.pure = true;
 
-      const Wrapped = instance.withStyles(null, { pure: false })(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
 
       expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
     });
 
     it('inherits name from component `constructor.name`', () => {
-      const Wrapped = instance.withStyles(null)(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
       expect(Wrapped.displayName).toBe('withAesthetic(BaseComponent)');
       expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/u));
@@ -508,20 +500,20 @@ describe('Aesthetic', () => {
         }
       }
 
-      const Wrapped = instance.withStyles(null)(DisplayComponent);
+      const Wrapped = instance.withStyles(() => ({}))(DisplayComponent);
 
       expect(Wrapped.displayName).toBe('withAesthetic(CustomDisplayName)');
       expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/u));
     });
 
     it('stores the original component as a static property', () => {
-      const Wrapped = instance.withStyles(null)(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
       expect(Wrapped.WrappedComponent).toBe(BaseComponent);
     });
 
     it('defines static method for extending styles', () => {
-      const Wrapped = instance.withStyles(null)(BaseComponent);
+      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
       expect(Wrapped.extendStyles).toBeInstanceOf(Function);
     });
@@ -589,22 +581,12 @@ describe('Aesthetic', () => {
       }).toThrowErrorMatchingSnapshot();
     });
 
-    it('errors if extending styles that dont exist', () => {
-      const Wrapped = instance.withStyles(null, {
-        extendable: true,
-      })(BaseComponent);
-
-      expect(() => {
-        Wrapped.extendStyles(null);
-      }).toThrowError();
-    });
-
     it('inherits theme from Aesthetic options', () => {
       function ThemeComponent() {
         return <div />;
       }
 
-      const Wrapped = instance.withStyles(null, { passThemeProp: true })(ThemeComponent);
+      const Wrapped = instance.withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
       const wrapper = shallow(<Wrapped />);
 
       expect(wrapper.prop('theme')).toEqual({ unit: 8 });
@@ -661,7 +643,7 @@ describe('Aesthetic', () => {
       }
 
       let refInstance: any = null;
-      const Wrapped = instance.withStyles(null)(RefComponent);
+      const Wrapped = instance.withStyles(() => ({}))(RefComponent);
 
       mount(
         <Wrapped

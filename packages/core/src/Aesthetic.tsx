@@ -140,7 +140,7 @@ export default abstract class Aesthetic<
   getStyles(styleName: StyleName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
-    const styleSheet = styleDef ? styleDef(this.getTheme()) : {};
+    const styleSheet = styleDef(this.getTheme());
 
     // Merge from parent
     if (parentStyleName) {
@@ -207,8 +207,6 @@ export default abstract class Aesthetic<
     styleSheet: StyleSheetDefinition<Theme>,
     extendFrom: StyleName = '',
   ): this {
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
-
     if (extendFrom) {
       if (process.env.NODE_ENV !== 'production') {
         if (!this.styles[extendFrom]) {
@@ -220,6 +218,8 @@ export default abstract class Aesthetic<
 
       this.parents[styleName] = extendFrom;
     }
+
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
 
     return this;
   }
