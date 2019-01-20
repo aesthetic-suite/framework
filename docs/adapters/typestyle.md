@@ -7,5 +7,5 @@ import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 import { TypeStyle } from 'typestyle';
 import { Theme } from './types';
 
-const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag: true }));
+const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag: true }), options);
 ```

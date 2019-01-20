@@ -9,5 +9,5 @@ import preset from 'jss-preset-default';
 import { Theme } from './types';
 
 const jss = create(preset());
-const aesthetic = new JSSAesthetic<Theme>(jss);
+const aesthetic = new JSSAesthetic<Theme>(jss, options);
 ```

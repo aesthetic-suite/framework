@@ -6,7 +6,7 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support.
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 import { Theme } from './types';
 
-const aesthetic = new AphroditeAesthetic<Theme>();
+const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
 ```
 
 ## Custom Selectors

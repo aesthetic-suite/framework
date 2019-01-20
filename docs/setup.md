@@ -4,12 +4,16 @@ To make use of Aesthetic, we must instantiate an [adapter](./adapters/README.md)
 an adapter specific library instance as the 1st argument, and an options object as the 2nd argument.
 
 ```tsx
-import FelaAesthetic from 'aesthetic-adapter-fela';
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
 
-// TODO
+const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
+  theme: 'dark',
+  pure: true,
+});
 ```
 
-## Bundler Config
+## Bundlers
 
 Aesthetic makes heavy use of `process.env.NODE_ENV` for logging errors in development. These errors
 will be entirely removed in production if the following build steps are configured.

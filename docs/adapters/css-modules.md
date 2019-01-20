@@ -5,7 +5,7 @@ Provides [CSS Modules](https://github.com/css-modules/css-modules) support.
 ```ts
 import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
 
-const aesthetic = new CSSModulesAesthetic();
+const aesthetic = new CSSModulesAesthetic(options);
 ```
 
 > This library does not enable CSS modules, it simply applies the class names to the React

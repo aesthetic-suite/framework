@@ -70,6 +70,7 @@ Define advanced selectors that aren't type-safe or supported by
   match against a value using patterns.
 - [Pseudo class functions](https://developer.mozilla.org/en-US/docs/Web/CSS/:not) like `:not()` and
   `:nth-child()` (as they incur infinite combinations).
+- Multiple selectors separated by a comma.
 
 ```js
 {
@@ -88,6 +89,11 @@ Define advanced selectors that aren't type-safe or supported by
       // Must start with :
       ':not(:nth-child(9))': {
         display: 'hidden',
+      },
+
+      // Must be separated with a comma
+      ':disabled, [disabled]': {
+        opacity: .75,
       },
     },
   },

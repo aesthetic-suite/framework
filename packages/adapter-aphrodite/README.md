@@ -7,6 +7,13 @@
 Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 [Aesthetic](https://github.com/milesj/aesthetic), a React styling library.
 
+```ts
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
+
+const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
+```
+
 ## Requirements
 
 - React 16.3+
@@ -16,7 +23,7 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-adapter-aphrodite aphrodite --save
-// Or
 yarn add aesthetic aesthetic-adapter-aphrodite aphrodite
+// Or
+npm install aesthetic aesthetic-adapter-aphrodite aphrodite
 ```

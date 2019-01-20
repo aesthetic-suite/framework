@@ -7,6 +7,12 @@
 Provides [CSS Modules](https://github.com/css-modules/css-modules) support for
 [Aesthetic](https://github.com/milesj/aesthetic), a React styling library.
 
+```ts
+import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
+
+const aesthetic = new CSSModulesAesthetic(options);
+```
+
 ## Requirements
 
 - React 16.3+
@@ -16,7 +22,7 @@ Provides [CSS Modules](https://github.com/css-modules/css-modules) support for
 ## Installation
 
 ```
-npm install aesthetic aesthetic-adapter-css-modules --save
-// Or
 yarn add aesthetic aesthetic-adapter-css-modules
+// Or
+npm install aesthetic aesthetic-adapter-css-modules
 ```

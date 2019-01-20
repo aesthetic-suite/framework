@@ -23,7 +23,7 @@ non-customizable styles. Aesthetic solves this by allowing consumers to
 
 ```tsx
 import React from 'react';
-import withStyles, { classes, WithStylesProps } from '../path/to/aesthetic';
+import withStyles, { WithStylesProps, css } from '../path/to/aesthetic';
 
 type Props = {
   children: NonNullable<React.ReactNode>;
@@ -37,25 +37,14 @@ class Carousel extends React.Component<Props & WithStylesProps> {
     const { animating } = this.state;
 
     return (
-      <div
-        role="tablist"
-        className={classes(styles.carousel, animating && styles.carousel__animating)}
-      >
-        <ul className={classes(styles.list)}>{children}</ul>
+      <div role="tablist" className={css(styles.carousel, animating && styles.carousel__animating)}>
+        <ul className={css(styles.list)}>{children}</ul>
 
-        <button
-          type="button"
-          onClick={this.handlePrev}
-          className={classes(styles.button, styles.prev)}
-        >
+        <button type="button" onClick={this.handlePrev} className={css(styles.button, styles.prev)}>
           ←
         </button>
 
-        <button
-          type="button"
-          onClick={this.handleNext}
-          className={classes(styles.button, styles.next)}
-        >
+        <button type="button" onClick={this.handleNext} className={css(styles.button, styles.next)}>
           →
         </button>
       </div>
