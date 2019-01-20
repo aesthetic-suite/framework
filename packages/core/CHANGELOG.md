@@ -60,7 +60,8 @@ of stylers, and unified syntax as the default.
 
 **Core**
 
-- Added new `Aesthetic` option `theme` to denote the currently active theme.
+- Added `Aesthetic` option `theme` to denote the currently active theme.
+- Added `Aesthetic#withTheme` HOC factory to gain access to the active theme object.
 - DOM styles are now flushed on mount to properly support server-side rendering.
 - Global styles now have access to the current theme object.
 

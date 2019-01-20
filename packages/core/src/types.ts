@@ -91,6 +91,25 @@ export type GlobalSheetDefinition<Theme> = ((theme: Theme) => GlobalSheet) | nul
 
 // COMPONENT
 
+export interface WithThemeWrapperProps {
+  /** Gain a reference to the wrapped component. Provided by `withTheme`. */
+  wrappedRef?: React.Ref<any>;
+}
+
+export interface WithThemeProps<Theme> {
+  /** The ref passed through the `wrappedRef` prop. Provided by `withTheme`. */
+  ref?: React.Ref<any>;
+  /** The theme object. Provided by `withTheme`. */
+  theme: Theme;
+}
+
+export interface WithThemeOptions {
+  /** Render a pure component instead of a regular component. Provided by `withTheme`. */
+  pure?: boolean;
+  /** Name of the prop in which to pass the theme object to the wrapped component. Provided by `withTheme`. */
+  themePropName?: string;
+}
+
 export interface WithStylesWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withStyles`. */
   wrappedRef?: React.Ref<any>;

@@ -3,6 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+/* eslint-disable max-classes-per-file, react/no-multi-comp */
+
 import React from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -13,17 +15,20 @@ import stripClassPrefix from './helpers/stripClassPrefix';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
-  StyleName,
-  ThemeName,
-  StyleSheet,
-  StyleSheetDefinition,
+  GlobalSheetDefinition,
   SheetMap,
   StyledComponentClass,
+  StyleName,
+  StyleSheet,
+  StyleSheetDefinition,
+  ThemeName,
   WithStylesOptions,
   WithStylesProps,
-  WithStylesWrapperProps,
   WithStylesState,
-  GlobalSheetDefinition,
+  WithStylesWrapperProps,
+  WithThemeOptions,
+  WithThemeProps,
+  WithThemeWrapperProps,
 } from './types';
 
 export interface AestheticOptions {
@@ -264,8 +269,7 @@ export default abstract class Aesthetic<
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
   /**
-   * Wrap a React component with an HOC that handles the entire styling, converting,
-   * and transforming process.
+   * Wrap a React component with an HOC that injects the defined stylesheet as a prop.
    */
   withStyles(styleSheet: StyleSheetDefinition<Theme>, options: WithStylesOptions = {}) /* infer */ {
     const aesthetic = this;
@@ -278,7 +282,7 @@ export default abstract class Aesthetic<
       themePropName = this.options.themePropName,
     } = options;
 
-    return function withStylesFactory<Props extends object>(
+    return function withStylesFactory<Props extends object = {}>(
       WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
     ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
@@ -290,7 +294,7 @@ export default abstract class Aesthetic<
       aesthetic.setStyles(styleName, styleSheet, extendFrom);
 
       class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
-        static displayName = `withAesthetic(${baseName})`;
+        static displayName = `withStyles(${baseName})`;
 
         static styleName = styleName;
 
@@ -339,6 +343,41 @@ export default abstract class Aesthetic<
       hoistNonReactStatics(WithStyles, WrappedComponent);
 
       return WithStyles;
+    };
+  }
+
+  /**
+   * Wrap a React component with an HOC that injects the current theme object as a prop.
+   */
+  withTheme(options: WithThemeOptions = {}) /* infer */ {
+    const aesthetic = this;
+    const { pure = this.options.pure, themePropName = this.options.themePropName } = options;
+
+    return function withThemeFactory<Props extends object = {}>(
+      WrappedComponent: React.ComponentType<Props & WithThemeProps<Theme>>,
+    ): React.ComponentClass<Props & WithThemeWrapperProps> {
+      const baseName = WrappedComponent.displayName || WrappedComponent.name;
+      const Component = pure ? React.PureComponent : React.Component;
+
+      class WithTheme extends Component<Props & WithThemeWrapperProps> {
+        static displayName = `withTheme(${baseName})`;
+
+        static WrappedComponent = WrappedComponent;
+
+        render() {
+          const { wrappedRef, ...props } = this.props;
+          const extraProps: WithThemeProps<Theme> = {
+            [themePropName as 'theme']: aesthetic.getTheme(),
+            ref: wrappedRef,
+          };
+
+          return <WrappedComponent {...props as any} {...extraProps} />;
+        }
+      }
+
+      hoistNonReactStatics(WithTheme, WrappedComponent);
+
+      return WithTheme;
     };
   }
 

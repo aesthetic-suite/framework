@@ -487,7 +487,7 @@ describe('Aesthetic', () => {
     it('inherits name from component `constructor.name`', () => {
       const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
-      expect(Wrapped.displayName).toBe('withAesthetic(BaseComponent)');
+      expect(Wrapped.displayName).toBe('withStyles(BaseComponent)');
       expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/u));
     });
 
@@ -502,7 +502,7 @@ describe('Aesthetic', () => {
 
       const Wrapped = instance.withStyles(() => ({}))(DisplayComponent);
 
-      expect(Wrapped.displayName).toBe('withAesthetic(CustomDisplayName)');
+      expect(Wrapped.displayName).toBe('withStyles(CustomDisplayName)');
       expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/u));
     });
 
@@ -644,6 +644,107 @@ describe('Aesthetic', () => {
 
       let refInstance: any = null;
       const Wrapped = instance.withStyles(() => ({}))(RefComponent);
+
+      mount(
+        <Wrapped
+          themeName="classic"
+          wrappedRef={(ref: any) => {
+            refInstance = ref;
+          }}
+        />,
+      );
+
+      expect(refInstance).not.toBeNull();
+      expect(refInstance!.constructor.name).toBe('RefComponent');
+    });
+  });
+
+  describe('withTheme()', () => {
+    function BaseComponent() {
+      return null;
+    }
+
+    it('returns an HOC factory', () => {
+      const hoc = instance.withTheme();
+
+      expect(hoc).toBeInstanceOf(Function);
+    });
+
+    it('extends `React.PureComponent` by default', () => {
+      const Wrapped = instance.withTheme()(BaseComponent);
+
+      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+    });
+
+    it('extends `React.Component` when `pure` is false', () => {
+      const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
+
+      expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
+    });
+
+    it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
+      instance.options.pure = true;
+
+      const Wrapped = instance.withTheme()(BaseComponent);
+
+      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+    });
+
+    it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
+      instance.options.pure = true;
+
+      const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
+
+      expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
+    });
+
+    it('inherits name from component `constructor.name`', () => {
+      const Wrapped = instance.withTheme()(BaseComponent);
+
+      expect(Wrapped.displayName).toBe('withTheme(BaseComponent)');
+    });
+
+    it('inherits name from component `displayName`', () => {
+      class DisplayComponent extends React.Component<any> {
+        static displayName = 'CustomDisplayName';
+
+        render() {
+          return null;
+        }
+      }
+
+      const Wrapped = instance.withTheme()(DisplayComponent);
+
+      expect(Wrapped.displayName).toBe('withTheme(CustomDisplayName)');
+    });
+
+    it('stores the original component as a static property', () => {
+      const Wrapped = instance.withTheme()(BaseComponent);
+
+      // @ts-ignore
+      expect(Wrapped.WrappedComponent).toBe(BaseComponent);
+    });
+
+    it('inherits theme from Aesthetic options', () => {
+      function ThemeComponent() {
+        return <div />;
+      }
+
+      const Wrapped = instance.withTheme()(ThemeComponent);
+      const wrapper = shallow(<Wrapped />);
+
+      expect(wrapper.prop('theme')).toEqual({ unit: 8 });
+    });
+
+    it('can bubble up the ref with `wrappedRef`', () => {
+      class RefComponent extends React.Component<any> {
+        render() {
+          return <div />;
+        }
+      }
+
+      let refInstance: any = null;
+      const Wrapped = instance.withTheme()(RefComponent);
 
       mount(
         <Wrapped
