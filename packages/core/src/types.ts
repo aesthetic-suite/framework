@@ -8,6 +8,9 @@
 import CSS from 'csstype';
 import { Omit } from 'utility-types';
 
+// NEVERIZE
+// https://github.com/Microsoft/TypeScript/issues/29390
+
 // TERMINOLOGY
 // https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax
 // Declaration - The property and value pair.
@@ -23,15 +26,6 @@ export type ThemeName = string;
 export type ClassName = string;
 
 export type ExtendedProperty<B, T> = B | T | (B | T)[];
-
-// NEVERIZE
-// https://github.com/Microsoft/TypeScript/issues/29390
-
-export type Neverize<T> = T extends { [key: string]: Block } ? NeverizeBlockIndex<T> : T;
-
-export type NeverizeBlock<T> = { [K in keyof T]: K extends keyof Block ? Block[K] : never };
-
-export type NeverizeBlockIndex<T> = { [K in keyof T]: NeverizeBlock<T[K]> };
 
 // SYNTAX
 
@@ -84,17 +78,17 @@ export type ComponentBlock = Block & {
   '@supports'?: { [featureQuery: string]: Block };
 };
 
-export type ComponentBlockNeverize<T> = {
-  [K in keyof T]: K extends keyof ComponentBlock ? Neverize<ComponentBlock[K]> : never
-};
+export type ComponentBlockNeverize<T> = T extends string
+  ? string
+  : { [K in keyof T]: K extends keyof ComponentBlock ? ComponentBlock[K] : never };
 
 export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
-export type StyleSheetNeverize<T> = {
-  [K in keyof T]: T[K] extends string ? string : ComponentBlockNeverize<T[K]>
-};
+export type StyleSheetNeverize<T> = { [K in keyof T]: ComponentBlockNeverize<T[K]> };
 
-export type StyleSheetDefinition<Theme, T> = (theme: Theme) => StyleSheet & StyleSheetNeverize<T>;
+export type StyleSheetDefinition<Theme, T> = (
+  theme: Theme,
+) => T extends any ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
 
 export type GlobalSheet = {
   '@charset'?: string;

@@ -207,9 +207,9 @@ export default abstract class Aesthetic<
   /**
    * Set multiple style declarations for a component.
    */
-  setStyles<T>(
+  setStyles(
     styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme, T>,
+    styleSheet: StyleSheetDefinition<Theme, any>,
     extendFrom: StyleName = '',
   ): this {
     if (extendFrom) {

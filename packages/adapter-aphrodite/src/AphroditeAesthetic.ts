@@ -60,7 +60,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
       if (style._name && style._definition) {
         legitStyles.push(style as ParsedBlock);
       } else {
-        tempStylesheet[`inline-${counter}`] = style;
+        tempStylesheet[`inline-${counter}`] = style as NativeBlock;
         counter += 1;
       }
     });

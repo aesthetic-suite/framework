@@ -129,7 +129,7 @@ const CompA = aesthetic.withStyles(() => ({
     },
   },
 
-  className: 'foo',
+  // className: 'foo',
 }))(Comp);
 
 // Styled component using arrow function with body

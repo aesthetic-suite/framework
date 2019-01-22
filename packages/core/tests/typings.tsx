@@ -107,7 +107,7 @@ const ObjectStyles = aesthetic.withStyles(
 <ObjectStyles foo="foo" styles={{}} />;
 <ObjectStyles foo="foo" theme={{}} />;
 
-const FuncStyles = aesthetic.withStyles<Props>((theme, { foo, baz }) => {
+const FuncStyles = aesthetic.withStyles(theme => {
   const { unit, unknown } = theme;
 
   return {
