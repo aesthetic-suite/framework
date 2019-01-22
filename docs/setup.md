@@ -132,8 +132,8 @@ import aesthetic, { Theme } from './aesthetic/instance';
 
 export type WithStylesProps = BaseWithStylesProps<Theme, ParsedBlock>;
 
-export default function withStyles(
-  styleSheet: StyleSheetDefinition<Theme>,
+export default function withStyles<T>(
+  styleSheet: StyleSheetDefinition<Theme, T>,
   options: WithStylesOptions = {},
 ) /* infer */ {
   return aesthetic.withStyles(styleSheet, options);

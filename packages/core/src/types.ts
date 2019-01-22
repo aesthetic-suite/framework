@@ -3,8 +3,13 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import CSS from 'csstype'; // eslint-disable-line import/no-unresolved
+/* eslint-disable import/no-unresolved, @typescript-eslint/prefer-interface */
+
+import CSS from 'csstype';
 import { Omit } from 'utility-types';
+
+// NEVERIZE
+// https://github.com/Microsoft/TypeScript/issues/29390
 
 // TERMINOLOGY
 // https://developer.mozilla.org/en-US/docs/Web/CSS/Syntax
@@ -22,7 +27,7 @@ export type ClassName = string;
 
 export type ExtendedProperty<B, T> = B | T | (B | T)[];
 
-//  SYNTAX
+// SYNTAX
 
 export type AtRule =
   | '@charset'
@@ -73,9 +78,17 @@ export type ComponentBlock = Block & {
   '@supports'?: { [featureQuery: string]: Block };
 };
 
+export type ComponentBlockNeverize<T> = T extends string
+  ? string
+  : { [K in keyof T]: K extends keyof ComponentBlock ? ComponentBlock[K] : never };
+
 export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
 
-export type StyleSheetDefinition<Theme> = (theme: Theme) => StyleSheet;
+export type StyleSheetNeverize<T> = { [K in keyof T]: ComponentBlockNeverize<T[K]> };
+
+export type StyleSheetDefinition<Theme, T> = (
+  theme: Theme,
+) => T extends any ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
 
 export type GlobalSheet = {
   '@charset'?: string;
@@ -87,7 +100,13 @@ export type GlobalSheet = {
   '@viewport'?: Block;
 };
 
-export type GlobalSheetDefinition<Theme> = ((theme: Theme) => GlobalSheet) | null;
+export type GlobalSheetNeverize<T> = {
+  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never
+};
+
+export type GlobalSheetDefinition<Theme, T> =
+  | ((theme: Theme) => GlobalSheet & GlobalSheetNeverize<T>)
+  | null;
 
 // COMPONENT
 
@@ -149,8 +168,8 @@ export interface StyledComponentClass<Theme, Props> extends React.ComponentClass
   styleName: StyleName;
   WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
 
-  extendStyles(
-    styleSheet: StyleSheetDefinition<Theme>,
+  extendStyles<T>(
+    styleSheet: StyleSheetDefinition<Theme, T>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
   ): StyledComponentClass<Theme, Props>;
 }
