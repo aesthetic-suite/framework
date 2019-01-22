@@ -441,6 +441,7 @@ describe('Aesthetic', () => {
       return null;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function StylesComponent(props: { [key: string]: any }) {
       return <div />;
     }

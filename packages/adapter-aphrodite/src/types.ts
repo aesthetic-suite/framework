@@ -7,8 +7,8 @@ import { CSSProperties } from 'aphrodite';
 
 export type NativeBlock = CSSProperties;
 
-export type ParsedBlock = {
+export interface ParsedBlock {
   _len: number;
   _name: string;
   _definition: NativeBlock;
-};
+}

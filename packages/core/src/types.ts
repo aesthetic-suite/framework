@@ -3,7 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import CSS from 'csstype'; // eslint-disable-line import/no-unresolved
+/* eslint-disable import/no-unresolved, @typescript-eslint/prefer-interface */
+
+import CSS from 'csstype';
 import { Omit } from 'utility-types';
 
 // TERMINOLOGY
