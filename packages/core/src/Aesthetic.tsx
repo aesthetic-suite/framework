@@ -136,6 +136,7 @@ export default abstract class Aesthetic<
   /**
    * Flush parsed styles and inject them into the DOM.
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   flushStyles(styleName: StyleName) {}
 
   /**
@@ -176,6 +177,7 @@ export default abstract class Aesthetic<
    */
   processStyleSheet(
     styleSheet: SheetMap<NativeBlock>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     styleName: StyleName,
   ): SheetMap<ParsedBlock> {
     // @ts-ignore Allow spread
