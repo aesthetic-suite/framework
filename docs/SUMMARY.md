@@ -1,10 +1,8 @@
 # Summary
 
 - [Setup](./setup.md)
-- [Usage](./usage.md)
-- [`withStyles` HOC](./with-styles.md)
-- [`withTheme` HOC](./with-theme.md)
-- [`useStyles` Hook](./use-styles.md)
+- [Using Themes](./theme.md)
+- [Styling Components](./)
 - [Style Adapters](./adapters/README.md)
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)
