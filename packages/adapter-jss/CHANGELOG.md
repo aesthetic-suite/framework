@@ -1,4 +1,4 @@
-# 3.0.0
+# 3.0.0 - 2019-01-28
 
 #### 💥 Breaking
 
@@ -15,38 +15,38 @@
 
 - Converted from Flow to TypeScript.
 
-# 2.4.0 - 05/30/18
+# 2.4.0 - 2018-05-30
 
 #### 🚀 New
 
 - Updated `aesthetic` peer requirement to 2.5.
 
-# 2.3.2 - 05/21/18
+# 2.3.2 - 2018-05-21
 
 #### 🐞 Fixed
 
 - Fixed a bug in which the last font face in a list of multiple font faces (with different font
   families) was only being used, instead of the whole list.
 
-# 2.3.1 - 03/20/18
+# 2.3.1 - 2018-03-20
 
 #### 🐞 Fixed
 
 - Fixed incorrectly built and published files.
 
-# 2.3.0 - 03/20/18
+# 2.3.0 - 2018-03-20
 
 #### 🚀 New
 
 - Updated `jss` to 9.8.
 
-# 2.2.1 - 01/30/18
+# 2.2.1 - 2018-01-30
 
 #### 🛠 Internal
 
 - Tested against `jss` 9.6.
 
-# 2.2.0 - 01/13/18
+# 2.2.0 - 2018-01-13
 
 #### 🚀 New
 
@@ -56,14 +56,14 @@
   - Direct descendant selectors are now supported with `>`.
   - Multiple selectors are now supported by separating each selector with a comma.
 
-# 2.1.0 - 01/03/18
+# 2.1.0 - 2018-01-03
 
 #### 🚀 New
 
 - Class names are now prefixed using the component name (the style name).
 - Stylesheet media now defaults to `screen`.
 
-# 2.0.0 - 01/02/18
+# 2.0.0 - 2018-01-02
 
 #### 💥 Breaking
 
@@ -82,14 +82,14 @@
 
 - Rewritten Flowtype definitions.
 
-# 1.7.1 - 11/10/17
+# 1.7.1 - 2017-11-10
 
 #### 🛠 Internal
 
 - Tested against React 16.1.
 - Improved build process.
 
-# 1.7.0 - 10/18/17
+# 1.7.0 - 2017-10-18
 
 #### 🚀 New
 
@@ -100,7 +100,7 @@
 - Enabled Yarn workspaces.
 - Updated Flowtype definitions.
 
-# 1.6.0 - 9/27/17
+# 1.6.0 - 2017-09-27
 
 #### 🚀 New
 
@@ -112,27 +112,27 @@
 - Updated cross package imports to use CommonJS paths.
 - Improved the build process.
 
-# 1.5.0 - 7/28/17
+# 1.5.0 - 2017-07-28
 
 - Updated `jss` to 8.1.
 - Updated Flow definitions.
 - Wrapped errors in `__DEV__` environment checks.
 
-# 1.4.2 - 6/19/17
+# 1.4.2 - 2017-06-19
 
 - Fixed an issue with the Lerna package.
 
-# 1.4.1 - 6/19/17
+# 1.4.1 - 2017-06-19
 
 - Updated `react` to 15.6.
 - Updated `prop-types` to 15.5.10.
 
-# 1.4.0 - 5/11/17
+# 1.4.0 - 2017-05-11
 
 - Updated IE requirement to 11+.
 - Updated to include src/ files in the published package.
 
-# 1.3.0 - 4/24/17
+# 1.3.0 - 2017-04-24
 
 - Updated to support React 15.5 and the new `prop-types` package.
 - Updated JSS to 7.1.

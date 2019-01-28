@@ -1,4 +1,4 @@
-# 3.0.0
+# 3.0.0 - 2019-01-28
 
 #### 💥 Breaking
 
@@ -11,31 +11,31 @@
 
 - Converted from Flow to TypeScript.
 
-# 2.1.0 - 05/30/18
+# 2.1.0 - 2018-05-30
 
 #### 🚀 New
 
 - Updated `aesthetic` peer requirement to 2.5.
 
-# 2.0.3 - 03/20/18
+# 2.0.3 - 2018-03-20
 
 #### 🐞 Fixed
 
 - Fixed incorrectly built and published files.
 
-# 2.0.2 - 03/20/18
+# 2.0.2 - 2018-03-20
 
 #### 🛠 Internal
 
 - Updated dependencies.
 
-# 2.0.1 - 01/13/18
+# 2.0.1 - 2018-01-13
 
 #### 🛠 Internal
 
 - Updated dependencies.
 
-# 2.0.0 - 01/02/18
+# 2.0.0 - 2018-01-02
 
 #### 💥 Breaking
 
@@ -50,20 +50,20 @@
 
 - Rewritten Flowtype definitions.
 
-# 1.6.2 - 11/10/17
+# 1.6.2 - 2017-11-10
 
 #### 🛠 Internal
 
 - Tested against React 16.1.
 - Improved build process.
 
-# 1.6.1 - 10/18/17
+# 1.6.1 - 2017-10-18
 
 #### 🛠 Internal
 
 - Enabled Yarn workspaces.
 
-# 1.6.0 - 9/27/17
+# 1.6.0 - 2017-09-27
 
 #### 🚀 New
 
@@ -75,25 +75,25 @@
 - Updated cross package imports to use CommonJS paths.
 - Improved the build process.
 
-# 1.5.0 - 7/28/17
+# 1.5.0 - 2017-07-28
 
 - Updated Flow definitions.
 - Wrapped errors in `__DEV__` environment checks.
 
-# 1.4.2 - 6/19/17
+# 1.4.2 - 2017-06-19
 
 - Fixed an issue with the Lerna package.
 
-# 1.4.1 - 6/19/17
+# 1.4.1 - 2017-06-19
 
 - Updated `react` to 15.6.
 - Updated `prop-types` to 15.5.10.
 
-# 1.4.0 - 5/11/17
+# 1.4.0 - 2017-05-11
 
 - Updated IE requirement to 11+.
 - Updated to include src/ files in the published package.
 
-# 1.3.0 - 4/24/17
+# 1.3.0 - 2017-04-24
 
 - Updated to support React 15.5 and the new `prop-types` package.

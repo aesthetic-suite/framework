@@ -1,4 +1,4 @@
-# 2.0.0
+# 2.0.0 - 2019-01-28
 
 #### 💥 Breaking
 
@@ -15,7 +15,7 @@
 
 - Converted from Flow to TypeScript.
 
-# 1.3.0 - 05/30/18
+# 1.3.0 - 2018-05-30
 
 #### 🚀 New
 
@@ -25,19 +25,19 @@
 
 - Removed `lodash.merge` dependency.
 
-# 1.2.1 - 03/20/18
+# 1.2.1 - 2018-03-20
 
 #### 🐞 Fixed
 
 - Fixed incorrectly built and published files.
 
-# 1.2.0 - 03/20/18
+# 1.2.0 - 2018-03-20
 
 #### 🚀 New
 
 - Updated `typestyle` to 1.7.
 
-# 1.1.0 - 01/13/18
+# 1.1.0 - 2018-01-13
 
 #### 🚀 New
 
@@ -51,13 +51,13 @@
 
 - Resolved some issues with pseudo classes.
 
-# 1.0.1 - 01/03/18
+# 1.0.1 - 2018-01-03
 
 #### 🛠 Internal
 
 - Tested against TypeStyle 1.6.
 
-# 1.0.0 - 01/02/18
+# 1.0.0 - 2018-01-02
 
 #### 🎉 Release
 
