@@ -11,7 +11,7 @@ matrix:
 before_script:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn install --frozen-lockfile
+  - yarn install --frozen-lockfile --ignore-engines
   # Workspaces only
   - yarn run build
 script: yarn test
