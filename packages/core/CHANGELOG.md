@@ -1,3 +1,7 @@
+# 3.0.1 - 2019-01-31
+
+- Fixed an issue in which global styles weren't flushing for some adapters.
+
 # 3.0.0 - 2019-01-28
 
 Aesthetic has been rewritten in TypeScript, and as such, many existing patterns were not type safe

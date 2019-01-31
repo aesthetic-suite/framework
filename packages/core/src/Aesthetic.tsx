@@ -88,7 +88,13 @@ export default abstract class Aesthetic<
     const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
 
     if (globalSheet) {
-      this.processStyleSheet(this.syntax.convertGlobalSheet(globalSheet).toObject(), ':root');
+      const sheet = this.processStyleSheet(
+        this.syntax.convertGlobalSheet(globalSheet).toObject(),
+        ':root',
+      );
+
+      // Some adapters require the styles to be transformed to be flushed
+      this.transformToClassName(Object.values(sheet));
     }
 
     this.appliedGlobals = true;
