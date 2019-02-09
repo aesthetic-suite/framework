@@ -1,4 +1,13 @@
+# 3.1.0 - 2019-02-09
+
+#### 🚀 New
+
+- Added ECMAScript module support via `esm/` built files.
+- Removed copyright docblocks from source files to reduce bundle size.
+
 # 3.0.1 - 2019-01-31
+
+#### 🐞 Fixed
 
 - Fixed an issue in which global styles weren't flushing for some adapters.
 

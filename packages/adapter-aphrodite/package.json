@@ -11,7 +11,9 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/adapter-aphrodite",
   "license": "MIT",
   "main": "./lib/index.js",
+  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
@@ -20,7 +22,6 @@
     "aphrodite": "^2.2.0"
   },
   "devDependencies": {
-    "aesthetic": "^3.0.1",
     "aphrodite": "^2.2.3"
   }
 }

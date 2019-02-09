@@ -1,3 +1,10 @@
+# 3.1.0 - 2019-02-09
+
+#### 🚀 New
+
+- Added ECMAScript module support via `esm/` built files.
+- Removed copyright docblocks from source files to reduce bundle size.
+
 # 3.0.0 - 2019-01-28
 
 #### 💥 Breaking
