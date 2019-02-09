@@ -82,7 +82,11 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     });
 
     if (counter > 0) {
-      legitStyles.push(...Object.values(this.processStyleSheet(tempStylesheet, 'inline-dynamic')));
+      const stylesheet = this.processStyleSheet(tempStylesheet, 'inline-dynamic');
+
+      Object.keys(stylesheet).forEach(key => {
+        legitStyles.push(stylesheet[key]);
+      });
     }
 
     return legitStyles.join(' ');

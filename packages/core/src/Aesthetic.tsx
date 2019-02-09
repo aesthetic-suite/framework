@@ -94,7 +94,13 @@ export default abstract class Aesthetic<
       );
 
       // Some adapters require the styles to be transformed to be flushed
-      this.transformToClassName(Object.values(sheet));
+      const styles: ParsedBlock[] = [];
+
+      Object.keys(sheet).forEach(key => {
+        styles.push(sheet[key]);
+      });
+
+      this.transformToClassName(styles);
     }
 
     this.appliedGlobals = true;
