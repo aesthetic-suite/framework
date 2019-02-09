@@ -1,8 +1,3 @@
-/**
- * @copyright   2017-2019, Miles Johnson
- * @license     https://opensource.org/licenses/MIT
- */
-
 /* eslint-disable max-classes-per-file, react/no-multi-comp */
 
 import React from 'react';

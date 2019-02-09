@@ -1,8 +1,3 @@
-/**
- * @copyright   2017-2019, Miles Johnson
- * @license     https://opensource.org/licenses/MIT
- */
-
 import { Omit } from 'utility-types';
 import toArray from './toArray';
 import { FontFace } from '../types';

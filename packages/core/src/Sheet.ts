@@ -1,8 +1,3 @@
-/**
- * @copyright   2017-2019, Miles Johnson
- * @license     https://opensource.org/licenses/MIT
- */
-
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
 import { ClassName, SheetMap } from './types';

@@ -1,8 +1,3 @@
-/**
- * @copyright   2017-2019, Miles Johnson
- * @license     https://opensource.org/licenses/MIT
- */
-
 /* eslint-disable lines-between-class-members, no-dupe-class-members, complexity */
 
 import formatFontFace from './helpers/formatFontFace';
