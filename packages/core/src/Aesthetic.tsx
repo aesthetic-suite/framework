@@ -169,7 +169,7 @@ export default abstract class Aesthetic<
     const themeName = customTheme || this.options.theme;
     const theme = this.themes[themeName];
 
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (!theme || !isObject(theme)) {
         throw new Error(`Theme "${themeName}" does not exist.`);
       }
@@ -197,7 +197,7 @@ export default abstract class Aesthetic<
     theme: Theme,
     globalSheet: GlobalSheetDefinition<Theme, T> = null,
   ): this {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
       } else if (!isObject(theme)) {
@@ -220,7 +220,7 @@ export default abstract class Aesthetic<
     extendFrom: StyleName = '',
   ): this {
     if (extendFrom) {
-      if (process.env.NODE_ENV !== 'production') {
+      if (__DEV__) {
         if (!this.styles[extendFrom]) {
           throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
         } else if (extendFrom === styleName) {
@@ -258,7 +258,7 @@ export default abstract class Aesthetic<
         );
       } else if (isObject(style)) {
         toTransform.push(style);
-      } else if (process.env.NODE_ENV !== 'production') {
+      } else if (__DEV__) {
         throw new Error('Unsupported style type to transform.');
       }
     });
@@ -314,7 +314,7 @@ export default abstract class Aesthetic<
           customStyleSheet: StyleSheetDefinition<Theme, ET>,
           extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
         ) {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!extendable) {
               throw new Error(`${baseName} is not extendable.`);
             }
@@ -392,7 +392,7 @@ export default abstract class Aesthetic<
   }
 
   private validateDefinition<T>(key: string, value: T, cache: { [key: string]: T }): T {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (cache[key]) {
         throw new Error(`Styles have already been defined for "${key}".`);
       } else if (value !== null && typeof value !== 'function') {

@@ -34,7 +34,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
           if (typeof path === 'string') {
             this.emit('charset', [sheet, path]);
-          } else if (process.env.NODE_ENV !== 'production') {
+          } else if (__DEV__) {
             throw new Error('@charset must be a string.');
           }
 
@@ -44,7 +44,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@font-face': {
           const faces = globalSheet[rule] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(faces)) {
               throw new Error('@font-face must be an object of font family names to font faces.');
             }
@@ -60,7 +60,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@global': {
           const globals = globalSheet[rule] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(globals)) {
               throw new Error('@global must be an object of selectors to ruleset objects.');
             }
@@ -73,7 +73,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
                 selector,
                 this.convertRuleset(globals[selector], sheet.createRuleset(selector)),
               ]);
-            } else if (process.env.NODE_ENV !== 'production') {
+            } else if (__DEV__) {
               throw new Error(`@global "${selector}" must be a ruleset object.`);
             }
           });
@@ -86,7 +86,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
           if (typeof paths === 'string' || Array.isArray(paths)) {
             this.emit('import', [sheet, toArray(paths).map(path => String(path))]);
-          } else if (process.env.NODE_ENV !== 'production') {
+          } else if (__DEV__) {
             throw new Error('@import must be a string or an array of strings.');
           }
 
@@ -96,7 +96,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@keyframes': {
           const frames = globalSheet[rule] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(frames)) {
               throw new Error('@keyframes must be an object of animation names to keyframes.');
             }
@@ -118,7 +118,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
               sheet,
               this.convertRuleset(style, sheet.createRuleset(rule)),
             ]);
-          } else if (process.env.NODE_ENV !== 'production') {
+          } else if (__DEV__) {
             throw new Error(`${rule} must be a ruleset object.`);
           }
 
@@ -126,7 +126,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         }
 
         default: {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             throw new Error(
               `Unknown property "${rule}". Only at-rules are allowed in the global stylesheet.`,
             );
@@ -153,7 +153,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
       // At-rule
       if (selector.charAt(0) === '@') {
-        if (process.env.NODE_ENV !== 'production') {
+        if (__DEV__) {
           throw new SyntaxError(`At-rules may not be defined in the root, found "${selector}".`);
         }
 
@@ -166,7 +166,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         sheet.addRuleset(this.convertRuleset(ruleset, sheet.createRuleset(selector)));
 
         // Unknown
-      } else if (process.env.NODE_ENV !== 'production') {
+      } else if (__DEV__) {
         throw new Error(`Invalid ruleset for "${selector}". Must be an object or class name.`);
       }
     });
@@ -181,7 +181,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     unifiedRuleset: ComponentBlock,
     ruleset: Ruleset<NativeBlock>,
   ): Ruleset<NativeBlock> {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (!isObject(unifiedRuleset)) {
         throw new TypeError('Ruleset must be an object of properties.');
       }
@@ -216,7 +216,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@fallbacks': {
           const fallbacks = unifiedRuleset[key] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(fallbacks)) {
               throw new Error('@fallbacks must be an object of property names to fallback values.');
             }
@@ -237,7 +237,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@supports': {
           const styles = unifiedRuleset[key] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(styles)) {
               throw new Error(`${key} must be an object of queries to rulesets.`);
             }
@@ -252,7 +252,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
                 query,
                 this.convertRuleset(styles[query], ruleset.createRuleset(`${key} ${query}`)),
               ]);
-            } else if (process.env.NODE_ENV !== 'production') {
+            } else if (__DEV__) {
               throw new Error(`${key} ${query} must be a mapping of conditions to style objects.`);
             }
           });
@@ -263,7 +263,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         case '@selectors': {
           const selectors = unifiedRuleset[key] || {};
 
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             if (!isObject(selectors)) {
               throw new Error('@selectors must be an object of selectors to rulesets.');
             }
@@ -277,7 +277,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         }
 
         default: {
-          if (process.env.NODE_ENV !== 'production') {
+          if (__DEV__) {
             throw new SyntaxError(`Unsupported local at-rule "${key}".`);
           }
         }
@@ -296,7 +296,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     ruleset: Ruleset<NativeBlock>,
     inAtRule: boolean = false,
   ) {
-    if (process.env.NODE_ENV !== 'production') {
+    if (__DEV__) {
       if (!isObject(value)) {
         throw new Error(`Selector "${key}" must be a ruleset object.`);
       } else if ((key.includes(',') || !key.match(SELECTOR)) && !inAtRule) {
