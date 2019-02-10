@@ -1,4 +1,4 @@
-/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line, react/jsx-no-literals */
+/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line, react/jsx-no-literals, @typescript-eslint/camelcase */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,13 +14,13 @@ import FelaAesthetic from 'aesthetic-adapter-fela';
 import JSSAesthetic from 'aesthetic-adapter-jss';
 import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 
-type Theme = {
+interface Theme {
   unit: number;
   fg: string;
   bg: string;
   bgHover: string;
   primary: string;
-};
+}
 
 type Props = {
   children: React.ReactNode;
