@@ -177,11 +177,11 @@ Instead of using colors like `grayLight`, `grayDark`, or `gray.darkest`, colors 
 hexcode shades, ranging from lighest to darkest (or vice versa). There's a few reasons this is the
 best solution:
 
-- Avoids names like dark, darker, darkest, darkerest, etc. What happens when you need _more_ colors?
-  This breaks down quickly.
-- Use an odd number of shades as the middle index shade is the common usage, with the sides having
-  an equal distribution. For example, a range of 7 colors would have index 0 as the lighest, 1-2 as
-  lighter, 3 as the regular, 4-5 as darker, and 6 as the darkest.
+- It avoids names like dark, darker, darkest, darkerest, etc. What happens when you need _more_
+  colors? This breaks down quickly.
+- Use an odd number of shades in the array so that the middle index shade is the common usage, with
+  the sides having an equal distribution. For example, a range of 7 colors would have index 0 as the
+  lighest, 1-2 as lighter, 3 as the regular, 4-5 as darker, and 6 as the darkest.
 - To properly support light and dark modes, an indexed array is preferred, as colors are reversed
-  between modes. Because of this, the light mode would have 0 as lightest and 6 as darkest, while
-  the dark mode is reversed, 0 as darkest and 6 as lightest.
+  between modes. For example, the light mode would have 0 as lightest and 6 as darkest, while the
+  dark mode is reversed, with 0 as darkest and 6 as lightest.

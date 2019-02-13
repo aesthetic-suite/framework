@@ -42,20 +42,48 @@ export default withStyles(theme => ({
 
 ## Defining Style Sheets
 
-TODO
+A style sheet is an object that maps selector names to 1 of 2 possible styling patterns, all of
+which can be used in unison. The following styling patterns are available:
 
 ### Style Objects
 
+A style object is a plain JavaScript object that defines CSS properties and styles according to the
+[unified syntax specification](./unified). This is the standard approach for styling components.
+
+```ts
+withStyles(() => ({
+  button: {
+    display: 'inline-block',
+    color: 'red',
+
+    ':hover': {
+      color: 'darkred',
+    },
+  },
+  button__active: {
+    color: 'darkred',
+  },
+}));
+```
+
 ### Class Names
 
-### CSS Declarations
+A class name is just that, a class name. This pattern can be used to reference CSS class names that
+already exist in the document. This is a great pattern for third-party or reusable libraries.
 
-## Accessing Current Theme
+```ts
+withStyles(() => ({
+  button: 'btn',
+  button__active: 'btn--active',
+}));
+```
 
-Once a [theme has been registered](./theme.md), we can access the theme object using the 1st
-argument to the styling function.
+## Accessing Theme
 
-```javascript
+Once a [theme has been registered](./theme.md), we can access the theme object with the 1st argument
+in the style sheet function.
+
+```ts
 withStyles(theme => ({
   button: {
     fontSize: `${theme.fontSizes.normal}px`,
@@ -69,17 +97,26 @@ withStyles(theme => ({
 
 When transforming styles into a CSS class name, the
 [`transformStyles` function](./setup.md#transformStyles) (referred to as `cx` in the docs) must be
-used. This function accepts an arbitrary number of arguments, all of which can be strings or style
-objects that evaluate to truthy.
+used. This function accepts an arbitrary number of arguments, all of which can be expressions,
+values, or style objects that evaluate to a truthy value.
 
+Furthermore, this function allows for inline styles to also be declared. These styles will be
+compiled to an additional class name instead of relying on the `style` attribute.
+
+<!-- prettier-ignore -->
 ```ts
 import cx from './cx';
 
-cx(styles.foo, expression && styles.bar, expression ? styles.baz : styles.qux);
+cx(
+  styles.foo,
+  expression && styles.bar,
+  expression ? styles.baz : styles.qux,
+  { marginTop: -16 },
+);
 ```
 
 Using our `Button` example above, let's add an active state and generate class names dynamically.
-Specificity is important, so define styles and render class names in order, from top to bottom!
+Specificity is important, so define styles and class names in order, from top to bottom!
 
 ```tsx
 function Button({ children, styles, icon, active = false }: Props & WithStylesProps) {
@@ -91,13 +128,6 @@ function Button({ children, styles, icon, active = false }: Props & WithStylesPr
     </button>
   );
 }
-```
-
-Furthermore, this function allows for inline styles to also be declared. These styles will be
-compiled to an additional class name instead of relying on the `style` attribute.
-
-```ts
-cx(styles.foo, { marginTop: -16 });
 ```
 
 ## Extending Styles

@@ -24,13 +24,18 @@ consumers to [extend and inherit styles](./usage.md) from the provided base comp
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps, css } from '../path/to/aesthetic';
+import withStyles, { WithStylesProps } from './withStyles';
+import cx from './cx';
 
-type Props = {
+export type Props = {
   children: NonNullable<React.ReactNode>;
 };
 
-class Carousel extends React.Component<Props & WithStylesProps> {
+export type State = {
+  animating: boolean;
+};
+
+class Carousel extends React.Component<Props & WithStylesProps, State> {
   // ...
 
   render() {
@@ -38,14 +43,14 @@ class Carousel extends React.Component<Props & WithStylesProps> {
     const { animating } = this.state;
 
     return (
-      <div role="tablist" className={css(styles.carousel, animating && styles.carousel__animating)}>
-        <ul className={css(styles.list)}>{children}</ul>
+      <div role="tablist" className={cx(styles.carousel, animating && styles.carousel__animating)}>
+        <ul className={cx(styles.list)}>{children}</ul>
 
-        <button type="button" onClick={this.handlePrev} className={css(styles.button, styles.prev)}>
+        <button type="button" onClick={this.handlePrev} className={cx(styles.button, styles.prev)}>
           ←
         </button>
 
-        <button type="button" onClick={this.handleNext} className={css(styles.button, styles.next)}>
+        <button type="button" onClick={this.handleNext} className={cxs(styles.button, styles.next)}>
           →
         </button>
       </div>

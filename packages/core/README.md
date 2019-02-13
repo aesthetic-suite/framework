@@ -39,7 +39,6 @@ export default withStyles(({ unit }) => ({
 
 - React 16.3+
 - IE 10+
-- `WeakMap`
 
 ## Installation
 
