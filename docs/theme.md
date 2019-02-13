@@ -2,11 +2,12 @@
 
 Before we can start styling our components, we must register a theme using
 `Aesthetic#registerTheme`. This method accepts a theme name, a theme object, and an optional
-[global stylesheet](./unified/global-at.md) function.
+[global style sheet](./unified/global-at.md) function.
 
 Theme objects are simply plain objects that define reusable constants, like font sizes, font
 families, color ranges, spacing, patterns, utilities, and more. The theme object structure _must be
-exactly the same_ across all themes, otherwise styled components would break.
+exactly the same_ across all themes, otherwise styled components would access unknown or invalid
+properties when themes change.
 
 ```ts
 interface Theme {
@@ -99,6 +100,8 @@ const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
 });
 ```
 
+> Changing themes requires a page refresh.
+
 ### Accessing Theme In Components
 
 There are 2 ways to access the currently enabled theme in a component. The first is with the aptly
@@ -126,8 +129,8 @@ function Component({ children, theme }: Props & WithThemeProps) {
 export default withTheme()(Component);
 ```
 
-The second form of access is with the `withStyles` HOC. When the `passThemeProp` option is enabled,
-the current theme object is passed as a prop. The HOC supports the same options as `withTheme`.
+The second form of access is the `withStyles` HOC. When the `passThemeProp` option is enabled, the
+current theme object is passed as a prop. The HOC supports the same options as `withTheme`.
 
 ```tsx
 import React from 'react';
@@ -161,7 +164,24 @@ More information on `withStyles` can be found in the [styling components documen
 
 ### Tips & Guidelines
 
-- Dont use names like "red", "green", etc
-- Use shades for colors
-- Theme object should be exactly the same between themes
-- Dark mode color shades are reversed
+#### Use custom words for color names
+
+Instead of using `red`, `blue`, or `green` as the name of colors in your theme object, I suggest
+using other words that correlate to the color. For example, lava, ocean, and forest. This allows
+different themes to roughly change the color (red to orange, blue to teal, etc), while getting the
+intent across.
+
+#### Use index based arrays for colors
+
+Instead of using colors like `grayLight`, `grayDark`, or `gray.darkest`, colors should be array of
+hexcode shades, ranging from lighest to darkest (or vice versa). There's a few reasons this is the
+best solution:
+
+- Avoids names like dark, darker, darkest, darkerest, etc. What happens when you need _more_ colors?
+  This breaks down quickly.
+- Use an odd number of shades as the middle index shade is the common usage, with the sides having
+  an equal distribution. For example, a range of 7 colors would have index 0 as the lighest, 1-2 as
+  lighter, 3 as the regular, 4-5 as darker, and 6 as the darkest.
+- To properly support light and dark modes, an indexed array is preferred, as colors are reversed
+  between modes. Because of this, the light mode would have 0 as lightest and 6 as darkest, while
+  the dark mode is reversed, 0 as darkest and 6 as lightest.

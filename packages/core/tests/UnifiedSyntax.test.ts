@@ -334,23 +334,23 @@ describe('UnifiedSyntax', () => {
     });
 
     it('skips over falsy values', () => {
-      const stylesheet = syntax.convertStyleSheet({
+      const styleSheet = syntax.convertStyleSheet({
         string: '',
         // @ts-ignore Allow undefined
         object: undefined,
       });
 
-      expect(stylesheet).toEqual(sheet);
+      expect(styleSheet).toEqual(sheet);
     });
 
     it('sets string as class name on sheet', () => {
-      const stylesheet = syntax.convertStyleSheet({
+      const styleSheet = syntax.convertStyleSheet({
         foo: 'foo',
         bar: 'bar',
         baz: {},
       });
 
-      expect(stylesheet.classNames).toEqual({
+      expect(styleSheet.classNames).toEqual({
         foo: 'foo',
         bar: 'bar',
       });
@@ -358,12 +358,12 @@ describe('UnifiedSyntax', () => {
 
     it('converts ruleset and adds to sheet', () => {
       const spy = jest.spyOn(syntax, 'convertRuleset');
-      const stylesheet = syntax.convertStyleSheet({
+      const styleSheet = syntax.convertStyleSheet({
         el: { display: 'block' },
       });
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
-      expect(stylesheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
+      expect(styleSheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
     });
   });
 

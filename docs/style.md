@@ -1,1 +1,147 @@
 # Styling Components
+
+Now that [Aesthetic has been setup](./setup.md), we can style our components by wrapping the
+component declaration in a [`withStyles` HOC](./setup.md#withStyles), which requires a function that
+returns a CSS object known as a style sheet. When the styled component is rendered, the style sheet
+is parsed and passed to the `styles` prop, which we can then use to dynamically generate CSS class
+names at runtime.
+
+```tsx
+import React from 'react';
+import withStyles, { WithStylesProps } from './withStyles';
+import cx from './cx';
+
+export type Props = {
+  children: NonNullable<React.ReactNode>;
+  icon?: React.ReactNode;
+};
+
+function Button({ children, styles, icon }: Props & WithStylesProps) {
+  return (
+    <button type="button" className={cx(styles.button)}>
+      {icon && <span className={cx(styles.icon)}>{icon}</span>}
+
+      {children}
+    </button>
+  );
+}
+
+export default withStyles(theme => ({
+  button: {
+    display: 'inline-block',
+    padding: theme.unit,
+    // ...
+  },
+  icon: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginRight: theme.unit,
+  },
+}))(Button);
+```
+
+## Defining Style Sheets
+
+TODO
+
+### Style Objects
+
+### Class Names
+
+### CSS Declarations
+
+## Accessing Current Theme
+
+Once a [theme has been registered](./theme.md), we can access the theme object using the 1st
+argument to the styling function.
+
+```javascript
+withStyles(theme => ({
+  button: {
+    fontSize: `${theme.fontSizes.normal}px`,
+    fontFamily: theme.fontFamily,
+    padding: theme.unit,
+  },
+}))(Component);
+```
+
+## Generating Class Names
+
+When transforming styles into a CSS class name, the
+[`transformStyles` function](./setup.md#transformStyles) (referred to as `cx` in the docs) must be
+used. This function accepts an arbitrary number of arguments, all of which can be strings or style
+objects that evaluate to truthy.
+
+```ts
+import cx from './cx';
+
+cx(styles.foo, expression && styles.bar, expression ? styles.baz : styles.qux);
+```
+
+Using our `Button` example above, let's add an active state and generate class names dynamically.
+Specificity is important, so define styles and render class names in order, from top to bottom!
+
+```tsx
+function Button({ children, styles, icon, active = false }: Props & WithStylesProps) {
+  return (
+    <button type="button" className={cx(styles.button, active && styles.button__active)}>
+      {icon && <span className={cx(styles.icon)}>{icon}</span>}
+
+      {children}
+    </button>
+  );
+}
+```
+
+Furthermore, this function allows for inline styles to also be declared. These styles will be
+compiled to an additional class name instead of relying on the `style` attribute.
+
+```ts
+cx(styles.foo, { marginTop: -16 });
+```
+
+## Extending Styles
+
+Since styles are isolated and co-located within a component, they can be impossible to customize,
+especially if the component comes from a third-party library. If a component styled by Aesthetic is
+marked as `extendable`, styles can be customized by calling the static `extendStyles` method on the
+wrapped component instance.
+
+Extending styles will return the original component wrapped with new styles, instead of wrapping the
+styled component and stacking on an unnecessary layer.
+
+```ts
+import BaseButton from '../path/to/styled/Button';
+
+export const TransparentButton = BaseButton.extendStyles(() => ({
+  button: {
+    background: 'transparent',
+    // ...
+  },
+}));
+
+export const PrimaryButton = BaseButton.extendStyles(theme => ({
+  button: {
+    background: theme.color.primary,
+    // ...
+  },
+}));
+```
+
+> Parent styles (the component that was extended) are automatically merged with the new styles.
+
+## Using Refs
+
+Since Aesthetic uses an HOC approach, the underlying wrapped component is abstracted away. Sometimes
+access to this wrapped component is required, and as such, a specialized ref can be used. When using
+the `wrappedRef` prop, the wrapped component instance is returned.
+
+```ts
+let buttonInstance = null; // Button component
+
+<StyledButton
+  wrappedRef={ref => {
+    buttonInstance = ref;
+  }}
+/>;
+```

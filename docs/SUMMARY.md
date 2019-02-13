@@ -2,7 +2,7 @@
 
 - [Setup](./setup.md)
 - [Using Themes](./theme.md)
-- [Styling Components](./)
+- [Styling Components](./style.md)
 - [Style Adapters](./adapters/README.md)
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)

@@ -106,7 +106,7 @@ const ruleset: ComponentBlock = {
   },
 };
 
-const stylesheet: StyleSheet = {
+const styleSheet: StyleSheet = {
   foo: {
     display: 'block',
     invalid: 'property',

@@ -66,15 +66,15 @@ of stylers, and unified syntax as the default.
 - Unified syntax is now required and is the default syntax. Native adapter syntax is no longer
   supported.
 - Dropped support for `@namespace` (was rarely supported by adapters).
-- Dropped support for global at-rules being defined within a component stylesheet (via
+- Dropped support for global at-rules being defined within a component style sheet (via
   `withStyles`). This includes `@charset`, `@import`, `@font-face`, `@global`, `@keyframes`,
   `@page`, and `@viewport`.
-  - They must only be defined within the global stylesheet when registering a theme.
+  - They must only be defined within the global style sheet when registering a theme.
   - Local `@keyframes` can be defined within a component by setting the keyframes object to
     `animationName`.
   - Local `@font-face` can be defined within a component by setting the font face object to
     `fontFamily`.
-- Dropped support for local at-rules being defined within a global stylesheet (via theme global
+- Dropped support for local at-rules being defined within a global style sheet (via theme global
   styles). This includes `@fallbacks`, `@media`, `@supports`, and `@selectors`.
 - Child combinators (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
   (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
@@ -189,15 +189,15 @@ of stylers, and unified syntax as the default.
 
 #### 🚀 New
 
-- Style names (usually the component name) are now passed to adapters during the stylesheet creation
-  phase.
+- Style names (usually the component name) are now passed to adapters during the style sheet
+  creation phase.
 
 # 2.0.0 - 2018-01-02
 
 Aesthetic has been rewritten to properly support specificity, new at-rules, and global styles.
-Styles are no longer transformed on mount and will now be transformed on render using a new
-stylesheet layer. Furthermore, unified syntax now supports most common at-rules, and a new
-`@font-face` structure.
+Styles are no longer transformed on mount and will now be transformed on render using a new style
+sheet layer. Furthermore, unified syntax now supports most common at-rules, and a new `@font-face`
+structure.
 
 [View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/2.0.md)
 
@@ -231,10 +231,10 @@ stylesheet layer. Furthermore, unified syntax now supports most common at-rules,
 
 - Added a new adapter, `TypeStyle`.
 - Added `Aesthetic#createStyleSheet` for converting a component's styles into an adapter specific
-  stylesheet.
+  style sheet.
   - The component's current props are passed as the 2nd argument to the HOC styler callback.
   - Inherited and parent styles are now automatically deep merged when extending.
-- Added `Adapter#create` for creating and adapting stylesheets.
+- Added `Adapter#create` for creating and adapting style sheets.
 - Updated `Aesthetic#registerTheme` to use the new global styles system.
 - The current theme declarations will be passed to styled components under the `theme` prop.
   - The previous `theme` prop was renamed to `themeName`.

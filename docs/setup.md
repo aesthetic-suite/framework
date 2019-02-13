@@ -33,6 +33,8 @@ All of Aesthetic's functionality, including HOCs and hooks, are utilized through
 which can be quite cumbersome to use. It's suggested to wrap this functionality in reusablity helper
 functions.
 
+### withStyles
+
 The `Aesthetic#withStyles` HOC can be written as the following. If using TypeScript, all adapters
 export a `ParsedBlock` type that must be passed to the `WithStylesProps` type.
 
@@ -56,6 +58,8 @@ export default function withStyles<T>(
 }
 ```
 
+### withTheme
+
 The `Aesthetic#withTheme` HOC can be written as the following.
 
 ```ts
@@ -69,6 +73,8 @@ export default function withTheme(options: WithThemeOptions = {}) /* infer */ {
   return aesthetic.withTheme(options);
 }
 ```
+
+### transformStyles
 
 And lastly, the `Aesthetic#transformStyles` method, which is required to transform styles into CSS
 class names, can be written as the following. If using TypeScript, the `NativeBlock` and

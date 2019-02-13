@@ -22,7 +22,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   }
 
   /**
-   * Convert at-rules within a global stylesheet.
+   * Convert at-rules within a global style sheet.
    */
   convertGlobalSheet(globalSheet: GlobalSheet): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
@@ -128,7 +128,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         default: {
           if (__DEV__) {
             throw new Error(
-              `Unknown property "${rule}". Only at-rules are allowed in the global stylesheet.`,
+              `Unknown property "${rule}". Only at-rules are allowed in the global style sheet.`,
             );
           }
         }

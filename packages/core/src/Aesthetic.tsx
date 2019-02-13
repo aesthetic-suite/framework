@@ -105,7 +105,7 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Create and return a stylesheet unique to an adapter.
+   * Create and return a style sheet unique to an adapter.
    */
   createStyleSheet(styleName: StyleName): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
@@ -276,7 +276,7 @@ export default abstract class Aesthetic<
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
   /**
-   * Wrap a React component with an HOC that injects the defined stylesheet as a prop.
+   * Wrap a React component with an HOC that injects the defined style sheet as a prop.
    */
   withStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,

@@ -77,10 +77,10 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     });
 
     if (counter > 0) {
-      const stylesheet = this.processStyleSheet(tempStylesheet, 'inline-dynamic');
+      const styleSheet = this.processStyleSheet(tempStylesheet, 'inline-dynamic');
 
-      Object.keys(stylesheet).forEach(key => {
-        legitStyles.push(stylesheet[key]);
+      Object.keys(styleSheet).forEach(key => {
+        legitStyles.push(styleSheet[key]);
       });
     }
 

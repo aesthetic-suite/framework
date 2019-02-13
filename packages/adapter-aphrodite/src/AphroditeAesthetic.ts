@@ -61,10 +61,10 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     });
 
     if (counter > 0) {
-      const stylesheet = this.processStyleSheet(tempStylesheet);
+      const styleSheet = this.processStyleSheet(tempStylesheet);
 
-      Object.keys(stylesheet).forEach(key => {
-        legitStyles.push(stylesheet[key]);
+      Object.keys(styleSheet).forEach(key => {
+        legitStyles.push(styleSheet[key]);
       });
     }
 

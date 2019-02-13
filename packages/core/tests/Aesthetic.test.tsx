@@ -207,7 +207,7 @@ describe('Aesthetic', () => {
       expect(() => instance.getStyles('foo')).toThrowErrorMatchingSnapshot();
     });
 
-    it('returns the stylesheet', () => {
+    it('returns the style sheet', () => {
       expect(instance.getStyles('foo')).toEqual({
         el: { display: 'block' },
       });
@@ -309,9 +309,9 @@ describe('Aesthetic', () => {
   describe('processStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
       const sheet = { el: {} };
-      const stylesheet = instance.processStyleSheet(sheet, 'styleName');
+      const styleSheet = instance.processStyleSheet(sheet, 'styleName');
 
-      expect(sheet).toEqual(stylesheet);
+      expect(sheet).toEqual(styleSheet);
     });
   });
 
