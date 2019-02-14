@@ -16,14 +16,14 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 
 ## Adapters
 
-|                                                | aesthetic | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [emotion][emotion] |
-| ---------------------------------------------- | :-------: | :------------------------------------: | :------------------------------------: | :----------------: |
-| [Aphrodite](./adapters/aphrodite.md)           |     ✓     |                   ✓                    |                                        |                    |
-| [CSS class names](./style.md#external-classes) |     ✓     |                                        |                                        |                    |
-| [CSS Modules](./adapters/css-modules.md)       |     ✓     |                                        |                                        |                    |
-| [Fela](./adapters/fela.md)                     |     ✓     |                                        |                                        |                    |
-| [JSS](./adapters/jss.md)                       |     ✓     |                   ✓                    |                                        |                    |
-| [TypeStyle](./adapters/typestyle.md)           |     ✓     |                                        |                                        |                    |
+|                                           | aesthetic | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [emotion][emotion] |
+| ----------------------------------------- | :-------: | :------------------------------------: | :------------------------------------: | :----------------: |
+| [Aphrodite](./adapters/aphrodite.md)      |     ✓     |                   ✓                    |                                        |                    |
+| [CSS class names](./style.md#class-names) |     ✓     |                                        |                                        |                    |
+| [CSS Modules](./adapters/css-modules.md)  |     ✓     |                                        |                                        |                    |
+| [Fela](./adapters/fela.md)                |     ✓     |                                        |                                        |                    |
+| [JSS](./adapters/jss.md)                  |     ✓     |                   ✓                    |                                        |                    |
+| [TypeStyle](./adapters/typestyle.md)      |     ✓     |                                        |                                        |                    |
 
 [emotion]: https://github.com/emotion-js/emotion
 [react-with-styles]: https://github.com/airbnb/react-with-styles

@@ -187,8 +187,8 @@ export default function Component({ children }: Props) {
 
 Instead of using `red`, `blue`, or `green` as the name of colors in your theme object, I suggest
 using other words that correlate to the color. For example, lava, ocean, and forest. This allows
-different themes to roughly change the color (red to orange, blue to teal, etc), while getting the
-intent across.
+different themes to roughly change the color (red to orange, blue to teal, etc), while providing the
+same intent.
 
 #### Use index based arrays for colors
 

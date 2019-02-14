@@ -38,7 +38,7 @@ export default withStyles(({ unit }) => ({
 
 ## Requirements
 
-- React 16.3+
+- React 16.3+ (16.8 if using hooks)
 - IE 10+
 
 ## Installation
