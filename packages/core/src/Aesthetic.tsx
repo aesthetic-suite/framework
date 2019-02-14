@@ -291,7 +291,9 @@ export default abstract class Aesthetic<
       return name;
     });
 
-    // Flush styles as a mount effect
+    const sheet = this.createStyleSheet(styleName);
+
+    // Flush styles on mount
     let flushed = false;
 
     useLayoutEffect(() => {
@@ -299,7 +301,7 @@ export default abstract class Aesthetic<
       flushed = true;
     }, [flushed]);
 
-    return [this.createStyleSheet(styleName), this.transformStyles, styleName];
+    return [sheet, this.transformStyles, styleName];
   }
 
   /**

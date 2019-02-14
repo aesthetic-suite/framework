@@ -485,7 +485,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(styleName);
     });
 
-    it('flushes styles on mount only once', () => {
+    it('flushes styles only once', () => {
       const spy = jest.spyOn(instance, 'flushStyles');
 
       function Component() {
@@ -500,14 +500,16 @@ describe('Aesthetic', () => {
 
       act(() => {
         // Trigger layout effect
+        ReactDOM.render(<Component />, container);
       });
 
       act(() => {
         // Check that its called once
+        ReactDOM.render(<Component />, container);
       });
 
       expect(spy).toHaveBeenCalledWith(styleName);
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(2); // Once for :root
     });
 
     it('only sets styles once', () => {
@@ -525,10 +527,7 @@ describe('Aesthetic', () => {
 
       act(() => {
         // Check that its called once
-      });
-
-      act(() => {
-        // Check that its called once
+        ReactDOM.render(<Component />, container);
       });
 
       expect(spy).toHaveBeenCalledTimes(1);
@@ -544,6 +543,22 @@ describe('Aesthetic', () => {
       const wrapper = shallow(<Component />);
 
       expect(wrapper.prop('className')).toBe('class-0 class-1');
+    });
+  });
+
+  describe('useTheme()', () => {
+    it('returns the theme object', () => {
+      let theme;
+
+      function Component() {
+        theme = instance.useTheme();
+
+        return null;
+      }
+
+      shallow(<Component />);
+
+      expect(theme).toEqual({ unit: 8 });
     });
   });
 
