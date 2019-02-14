@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file, react/no-multi-comp */
 
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import deepMerge from 'extend';
@@ -274,6 +274,29 @@ export default abstract class Aesthetic<
    * Transform the styles into CSS class names.
    */
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
+
+  useStyles<T>(
+    styleSheet: StyleSheetDefinition<Theme, T>,
+    baseName: string = 'Component',
+  ) /* infer */ {
+    const [styleName] = useState(() => `${baseName}-${uuid()}`);
+
+    this.setStyles(styleName, styleSheet);
+
+    // Flush styles as a mount effect
+    let flushed = false;
+
+    useLayoutEffect(() => {
+      this.flushStyles(styleName);
+      flushed = true;
+    }, [flushed]);
+
+    return this.createStyleSheet(styleName);
+  }
+
+  useTheme(): Theme {
+    return this.getTheme();
+  }
 
   /**
    * Wrap a React component with an HOC that injects the defined style sheet as a prop.

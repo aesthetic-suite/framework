@@ -12,7 +12,8 @@ syntax.
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps, css } from '../path/to/aesthetic';
+import withStyles, { WithStylesProps } from './withStyles';
+import cx from './cx';
 
 export type Props = {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export type Props = {
 
 function Button({ children, styles }: Props & WithStylesProps) {
   return (
-    <button type="button" className={css(styles.button)}>
+    <button type="button" className={cx(styles.button)}>
       {children}
     </button>
   );

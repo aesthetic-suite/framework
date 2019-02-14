@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './tests/bundle.tsx',
+  entry: './tests/hooks.tsx',
   mode: 'development',
   module: {
     rules: [
