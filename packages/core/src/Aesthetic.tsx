@@ -279,9 +279,13 @@ export default abstract class Aesthetic<
     styleSheet: StyleSheetDefinition<Theme, T>,
     baseName: string = 'Component',
   ) /* infer */ {
-    const [styleName] = useState(() => `${baseName}-${uuid()}`);
+    const [styleName] = useState(() => {
+      const name = `${baseName}-${uuid()}`;
 
-    this.setStyles(styleName, styleSheet);
+      this.setStyles(name, styleSheet);
+
+      return name;
+    });
 
     // Flush styles as a mount effect
     let flushed = false;
