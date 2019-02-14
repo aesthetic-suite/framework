@@ -122,7 +122,7 @@ export default function cx(
 }
 ```
 
-> If using hooks, this function is automatically returned as the 2nd value from `useStyles`.
+> This function is returned as the 2nd value from the `useStyles` hook.
 
 ## Bundler Integration
 

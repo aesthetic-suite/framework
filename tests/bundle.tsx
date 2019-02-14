@@ -24,15 +24,15 @@ interface Theme {
   primary: string;
 }
 
-const theme = location.search.slice(1) || 'default';
+const activeTheme = location.search.slice(1) || 'light';
 
 function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
-  if (aesthetic.themes.default) {
+  if (aesthetic.themes.light) {
     return;
   }
 
   aesthetic.registerTheme(
-    'default',
+    'light',
     {
       unit: 8,
       fg: '#fff',
@@ -54,7 +54,7 @@ function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
     }),
   );
 
-  aesthetic.extendTheme('dark', 'default', {
+  aesthetic.extendTheme('dark', 'light', {
     fg: '#eee',
     bg: '#212121',
     bgHover: '#424242',
@@ -95,13 +95,13 @@ function styleSheet({ unit, bg, bgHover, fg, primary }: Theme): any {
 
 // SETUP AESTHETIC ADAPTERS
 
-const aphrodite = new AphroditeAesthetic([], { theme });
+const aphrodite = new AphroditeAesthetic([], { theme: activeTheme });
 
 const fela = new FelaAesthetic(
   createFela({
     plugins: [...felaPreset],
   }),
-  { theme },
+  { theme: activeTheme },
 );
 
 const jss = new JSSAesthetic(
@@ -109,10 +109,12 @@ const jss = new JSSAesthetic(
     // @ts-ignore
     jssPreset(),
   ),
-  { theme },
+  { theme: activeTheme },
 );
 
-const typeStyle = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), { theme });
+const typeStyle = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), {
+  theme: activeTheme,
+});
 
 // DEFINE HOC COMPONENT
 
@@ -176,7 +178,7 @@ function DemoColumn({ aesthetic, title }: { aesthetic: Aesthetic<any, any>; titl
   const HookButton = createHookComponent(aesthetic);
 
   return (
-    <div>
+    <div style={{ marginRight: 25 }}>
       <h3>{title}</h3>
 
       <p>
@@ -195,14 +197,14 @@ function DemoColumn({ aesthetic, title }: { aesthetic: Aesthetic<any, any>; titl
 function App() {
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex' }}>
         <DemoColumn aesthetic={aphrodite} title="Aphrodite" />
         <DemoColumn aesthetic={fela} title="Fela" />
         <DemoColumn aesthetic={jss} title="JSS" />
         <DemoColumn aesthetic={typeStyle} title="TypeStyle" />
       </div>
 
-      <h3>Theme: {theme}</h3>
+      <h3>Theme: {activeTheme}</h3>
     </div>
   );
 }

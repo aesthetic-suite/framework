@@ -211,9 +211,9 @@ export const PrimaryButton = BaseButton.extendStyles(theme => ({
 
 ## Using Refs
 
-When using the HOC `withStyles` approach, the underlying wrapped component is abstracted away.
-Sometimes access to this wrapped component is required, and as such, a specialized ref can be used.
-When using the `wrappedRef` prop, the wrapped component instance is returned.
+When using `withStyles`, the underlying wrapped component is abstracted away. Sometimes access to
+this wrapped component is required, and as such, a specialized ref can be used. When using the
+`wrappedRef` prop, the wrapped component instance is returned.
 
 ```ts
 let buttonInstance = null; // Button component
