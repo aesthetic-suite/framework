@@ -282,7 +282,7 @@ export default abstract class Aesthetic<
   useStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
     customName: string = 'Component',
-  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>] {
+  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>, string] {
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
@@ -299,7 +299,7 @@ export default abstract class Aesthetic<
       flushed = true;
     }, [flushed]);
 
-    return [this.createStyleSheet(styleName), this.transformStyles];
+    return [this.createStyleSheet(styleName), this.transformStyles, styleName];
   }
 
   /**

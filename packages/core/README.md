@@ -10,6 +10,8 @@ Aesthetic is an abstraction layer that utilizes higher-order-components for the 
 styles via third-party libraries, all the while providing customizability, theming, and a unified
 syntax.
 
+Supports both an HOC and hook styled API!
+
 ```tsx
 import React from 'react';
 import withStyles, { WithStylesProps } from './withStyles';

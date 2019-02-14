@@ -1,6 +1,8 @@
-/* eslint-disable react/prefer-stateless-function, react/no-multi-comp */
+/* eslint-disable react/prefer-stateless-function, react/no-multi-comp, prefer-destructuring */
 
 import React from 'react';
+import ReactDOM from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme';
 import { StyleSheetTestUtils } from 'aphrodite';
 import { createRenderer } from 'fela';
@@ -21,6 +23,11 @@ import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<any, any, any>;
+
+  const TEST_STATEMENT = {
+    footer: { color: 'blue' },
+    header: { color: 'red' },
+  };
 
   class TestAesthetic extends Aesthetic<any, Block, Block> {
     transformToClassName(styles: any[]): string {
@@ -436,6 +443,110 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('useStyles()', () => {
+    let styleName = '';
+    let container: HTMLDivElement;
+
+    afterEach(() => {
+      styleName = '';
+      container = document.createElement('div');
+    });
+
+    it('sets styles on the `Aesthetic` instance', () => {
+      const styles = () => ({
+        button: {
+          display: 'inline-block',
+          padding: 5,
+        },
+      });
+
+      function Component() {
+        styleName = instance.useStyles(styles)[2];
+
+        return null;
+      }
+
+      shallow(<Component />);
+
+      expect(instance.styles[styleName]).toBe(styles);
+    });
+
+    it('creates a style sheet', () => {
+      const spy = jest.spyOn(instance, 'createStyleSheet');
+
+      function Component() {
+        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+
+        return null;
+      }
+
+      shallow(<Component />);
+
+      expect(spy).toHaveBeenCalledWith(styleName);
+    });
+
+    it('flushes styles on mount only once', () => {
+      const spy = jest.spyOn(instance, 'flushStyles');
+
+      function Component() {
+        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+
+        return null;
+      }
+
+      act(() => {
+        ReactDOM.render(<Component />, container);
+      });
+
+      act(() => {
+        // Trigger layout effect
+      });
+
+      act(() => {
+        // Check that its called once
+      });
+
+      expect(spy).toHaveBeenCalledWith(styleName);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('only sets styles once', () => {
+      const spy = jest.spyOn(instance, 'setStyles');
+
+      function Component() {
+        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+
+        return null;
+      }
+
+      act(() => {
+        ReactDOM.render(<Component />, container);
+      });
+
+      act(() => {
+        // Check that its called once
+      });
+
+      act(() => {
+        // Check that its called once
+      });
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('can transform class names', () => {
+      function Component() {
+        const [styles, cx] = instance.useStyles(() => TEST_STATEMENT);
+
+        return <div className={cx(styles.header, styles.footer)} />;
+      }
+
+      const wrapper = shallow(<Component />);
+
+      expect(wrapper.prop('className')).toBe('class-0 class-1');
+    });
+  });
+
   describe('withStyles()', () => {
     function BaseComponent() {
       return null;
@@ -444,11 +555,6 @@ describe('Aesthetic', () => {
     function StylesComponent(props: { [key: string]: any }) {
       return <div />;
     }
-
-    const TEST_STATEMENT = {
-      footer: { color: 'blue' },
-      header: { color: 'red' },
-    };
 
     it('returns an HOC factory', () => {
       const hoc = instance.withStyles(() => ({}));
@@ -592,7 +698,7 @@ describe('Aesthetic', () => {
       expect(wrapper.prop('theme')).toEqual({ unit: 8 });
     });
 
-    it('transforms styles on mount', () => {
+    it('creates a style sheet', () => {
       const spy = jest.spyOn(instance, 'createStyleSheet');
       const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
       const wrapper = shallow(<Wrapped foo="abc" />);
