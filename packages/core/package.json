@@ -27,9 +27,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/extend": "^3.0.0",
+    "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.0.1",
-    "@types/react": "^16.8.2",
+    "@types/react": "^16.8.3",
     "@types/uuid": "^3.4.4",
     "csstype": "^2.6.2",
     "extend": "^3.0.2",
@@ -41,8 +41,8 @@
     "react": "^16.3.0"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.5.8",
-    "prop-types": "^15.7.1",
+    "@types/prop-types": "^15.5.9",
+    "prop-types": "^15.7.2",
     "react": "^16.8.1"
   }
 }
