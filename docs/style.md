@@ -9,7 +9,8 @@ runtime.
 ### HOC
 
 When the styled and wrapped component is rendered, the style sheet is parsed and passed to the
-`styles` prop, which then are transformed to class names using our `cx` helper.
+`styles` prop. These styles can then be transformed to class names using our
+[`cx` helper](./setup.md#transformStyles).
 
 ```tsx
 import React from 'react';
@@ -47,8 +48,8 @@ export default withStyles(theme => ({
 
 ### Hook
 
-When the component is rendered, the style sheet is parsed and returned from the hook, alongside the
-`cx` helper for transforming to class names.
+When the component is rendered, the style sheet is parsed and returned from the hook alongside the
+[`cx` helper](./setup.md#transformStyles), which is used for transforming the styles to class names.
 
 ```tsx
 import React from 'react';
