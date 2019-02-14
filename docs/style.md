@@ -1,10 +1,15 @@
 # Styling Components
 
 Now that [Aesthetic has been setup](./setup.md), we can style our components by wrapping the
-component declaration in a [`withStyles` HOC](./setup.md#withStyles), which requires a function that
-returns a CSS object known as a style sheet. When the styled component is rendered, the style sheet
-is parsed and passed to the `styles` prop, which we can then use to dynamically generate CSS class
-names at runtime.
+component declaration in a [`withStyles` HOC](./setup.md#withStyles) or utilizing the
+[`useStyles` hook](./setup.md#useStyles), both of which require a function that returns a CSS object
+known as a style sheet. This style sheet can then be used to dynamically generate CSS class names at
+runtime.
+
+### HOC
+
+When the styled and wrapped component is rendered, the style sheet is parsed and passed to the
+`styles` prop, which then are transformed to class names using our `cx` helper.
 
 ```tsx
 import React from 'react';
@@ -40,6 +45,46 @@ export default withStyles(theme => ({
 }))(Button);
 ```
 
+### Hook
+
+When the component is rendered, the style sheet is parsed and returned from the hook, alongside the
+`cx` helper for transforming to class names.
+
+```tsx
+import React from 'react';
+import useStyles from './useStyles';
+
+const styleSheet = theme => ({
+  button: {
+    display: 'inline-block',
+    padding: theme.unit,
+    // ...
+  },
+  icon: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    marginRight: theme.unit,
+  },
+});
+
+export type Props = {
+  children: NonNullable<React.ReactNode>;
+  icon?: React.ReactNode;
+};
+
+export default function Button({ children, icon }: Props) {
+  const [styles, cx] = useStyles(styleSheet);
+
+  return (
+    <button type="button" className={cx(styles.button)}>
+      {icon && <span className={cx(styles.icon)}>{icon}</span>}
+
+      {children}
+    </button>
+  );
+}
+```
+
 ## Defining Style Sheets
 
 A style sheet is an object that maps selector names to 1 of 2 possible styling patterns, all of
@@ -51,7 +96,7 @@ A style object is a plain JavaScript object that defines CSS properties and styl
 [unified syntax specification](./unified). This is the standard approach for styling components.
 
 ```ts
-withStyles(() => ({
+() => ({
   button: {
     display: 'inline-block',
     color: 'red',
@@ -63,7 +108,7 @@ withStyles(() => ({
   button__active: {
     color: 'darkred',
   },
-}));
+});
 ```
 
 ### Class Names
@@ -72,10 +117,10 @@ A class name is just that, a class name. This pattern can be used to reference C
 already exist in the document. This is a great pattern for third-party or reusable libraries.
 
 ```ts
-withStyles(() => ({
+() => ({
   button: 'btn',
   button__active: 'btn--active',
-}));
+});
 ```
 
 ## Accessing Theme
@@ -84,13 +129,13 @@ Once a [theme has been registered](./theme.md), we can access the theme object w
 in the style sheet function.
 
 ```ts
-withStyles(theme => ({
+theme => ({
   button: {
     fontSize: `${theme.fontSizes.normal}px`,
     fontFamily: theme.fontFamily,
     padding: theme.unit,
   },
-}))(Component);
+});
 ```
 
 ## Generating Class Names
@@ -100,26 +145,28 @@ When transforming styles into a CSS class name, the
 used. This function accepts an arbitrary number of arguments, all of which can be expressions,
 values, or style objects that evaluate to a truthy value.
 
-Furthermore, this function allows for inline styles to also be declared. These styles will be
-compiled to an additional class name instead of relying on the `style` attribute.
+Furthermore, this function allows for inline styles and external class names to also be declared.
+These styles will be compiled to an additional class name instead of relying on the `style`
+attribute.
 
-<!-- prettier-ignore -->
 ```ts
-import cx from './cx';
-
 cx(
   styles.foo,
   expression && styles.bar,
   expression ? styles.baz : styles.qux,
   { marginTop: -16 },
+  'global-class-name',
 );
 ```
 
-Using our `Button` example above, let's add an active state and generate class names dynamically.
-Specificity is important, so define styles and class names in order, from top to bottom!
+Using our hook powered `Button` example above, let's add an active state and generate class names
+dynamically. Specificity is important, so define styles and class names in order, from top to
+bottom!
 
 ```tsx
-function Button({ children, styles, icon, active = false }: Props & WithStylesProps) {
+function Button({ children, icon, active = false }: Props) {
+  const [styles, cx] = useStyles(styleSheet);
+
   return (
     <button type="button" className={cx(styles.button, active && styles.button__active)}>
       {icon && <span className={cx(styles.icon)}>{icon}</span>}
@@ -160,11 +207,13 @@ export const PrimaryButton = BaseButton.extendStyles(theme => ({
 
 > Parent styles (the component that was extended) are automatically merged with the new styles.
 
+> Hooks _do not_ support extending styles.
+
 ## Using Refs
 
-Since Aesthetic uses an HOC approach, the underlying wrapped component is abstracted away. Sometimes
-access to this wrapped component is required, and as such, a specialized ref can be used. When using
-the `wrappedRef` prop, the wrapped component instance is returned.
+When using the HOC `withStyles` approach, the underlying wrapped component is abstracted away.
+Sometimes access to this wrapped component is required, and as such, a specialized ref can be used.
+When using the `wrappedRef` prop, the wrapped component instance is returned.
 
 ```ts
 let buttonInstance = null; // Button component

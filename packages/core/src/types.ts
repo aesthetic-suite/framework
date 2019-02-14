@@ -20,6 +20,10 @@ export type ThemeName = string;
 
 export type ClassName = string;
 
+export type ClassNameGenerator<N extends object, P extends object | string> = (
+  ...styles: (undefined | false | ClassName | N | P)[]
+) => ClassName;
+
 export type ExtendedProperty<B, T> = B | T | (B | T)[];
 
 // SYNTAX

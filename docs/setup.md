@@ -7,7 +7,7 @@ the 2nd argument. Please refer to each adapter for explicit usage.
 ```ts
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 
-const aesthetic = new AphroditeAesthetic(extensions, {
+export default new AphroditeAesthetic(extensions, {
   pure: true,
   theme: 'dark',
 });
@@ -32,6 +32,36 @@ The following options are available, most of which can be overridden per compone
 All of Aesthetic's functionality, including HOCs and hooks, are utilized through a class instance,
 which can be quite cumbersome to use. It's suggested to wrap this functionality in reusablity helper
 functions.
+
+### useStyles
+
+The `Aesthetic#useStyles` hook can be written as the following.
+
+```ts
+// useStyles.ts
+import { StyleSheetDefinition } from 'aesthetic';
+import aesthetic, { Theme } from './aesthetic';
+
+export default function useStyles<T>(
+  styleSheet: StyleSheetDefinition<Theme, T>,
+  customName?: string,
+) /* infer */ {
+  return aesthetic.useStyles(styleSheet, customName);
+}
+```
+
+### useTheme
+
+The `Aesthetic#useTheme` hook can be written as the following.
+
+```ts
+// useTheme.ts
+import aesthetic from './aesthetic';
+
+export default function useTheme() /* infer */ {
+  return aesthetic.useTheme();
+}
+```
 
 ### withStyles
 
@@ -91,6 +121,8 @@ export default function cx(
   return aesthetic.transformStyles(...styles);
 }
 ```
+
+> If using hooks, this function is automatically returned as the 2nd value from `useStyles`.
 
 ## Bundler Integration
 

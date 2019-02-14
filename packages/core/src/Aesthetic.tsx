@@ -10,6 +10,7 @@ import stripClassPrefix from './helpers/stripClassPrefix';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
+  ClassNameGenerator,
   GlobalSheetDefinition,
   SheetMap,
   StyledComponentClass,
@@ -239,9 +240,9 @@ export default abstract class Aesthetic<
   /**
    * Transform the list of style declarations to a list of class name.
    */
-  transformStyles(
+  transformStyles = (
     ...styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[]
-  ): ClassName {
+  ): ClassName => {
     const classNames: ClassName[] = [];
     const toTransform: (NativeBlock | ParsedBlock)[] = [];
 
@@ -268,19 +269,22 @@ export default abstract class Aesthetic<
     }
 
     return classNames.join(' ').trim();
-  }
+  };
 
   /**
    * Transform the styles into CSS class names.
    */
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
+  /**
+   * Hook within a component to provide a style sheet.
+   */
   useStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
-    baseName: string = 'Component',
-  ) /* infer */ {
+    customName: string = 'Component',
+  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>] {
     const [styleName] = useState(() => {
-      const name = `${baseName}-${uuid()}`;
+      const name = `${customName}-${uuid()}`;
 
       this.setStyles(name, styleSheet);
 
@@ -295,9 +299,12 @@ export default abstract class Aesthetic<
       flushed = true;
     }, [flushed]);
 
-    return this.createStyleSheet(styleName);
+    return [this.createStyleSheet(styleName), this.transformStyles];
   }
 
+  /**
+   * Hook within a component to provide the current theme object.
+   */
   useTheme(): Theme {
     return this.getTheme();
   }

@@ -104,7 +104,7 @@ const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
 
 ### Accessing Theme In Components
 
-There are 2 ways to access the currently enabled theme in a component. The first is with the aptly
+There are 3 ways to access the currently enabled theme in a component. The first is with the aptly
 named `withTheme` HOC, which passes the theme object as a prop. The HOC supports the following
 options.
 
@@ -161,6 +161,25 @@ More information on `withStyles` can be found in the [styling components documen
 
 > When using TypeScript, the `theme` property for `WithStylesProps` is marked as optional, since the
 > functionality is opt-in. Using `!` is required here.
+
+And lastly, the easiest form for accessing the theme is with the `useTheme` hook. This simply
+returns the theme object.
+
+```tsx
+import React from 'react';
+import useTheme from './useTheme';
+import cx from './cx';
+
+export interface Props {
+  children: NonNullable<React.ReactNode>;
+}
+
+export default function Component({ children }: Props) {
+  const theme = useTheme();
+
+  return <div className={cx({ spacing: theme.unit })}>{children}</div>;
+}
+```
 
 ### Tips & Guidelines
 
