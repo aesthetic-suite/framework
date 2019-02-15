@@ -3,8 +3,6 @@
 - [Setup](./setup.md)
 - [Using Themes](./theme.md)
 - [Styling Components](./style.md)
-  - [HOC](./style.md#hoc)
-  - [Hook](./style.md#hook)
 - [Style Adapters](./adapters/README.md)
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)
