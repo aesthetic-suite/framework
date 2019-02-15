@@ -1,3 +1,16 @@
+# 3.2.0
+
+#### 🎉 Release
+
+This release includes experimental support for the new hooks API. Peer dependency requirements will
+be updated once the Aesthetic API is finalized. Until then, the API may change without a breaking
+major version.
+
+#### 🚀 New
+
+- Added `Aesthetic#useStyles` hook.
+- Added `Aesthetic#useTheme` hook.
+
 # 3.1.1 - 2019-02-10
 
 #### 🐞 Fixed

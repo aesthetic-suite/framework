@@ -10,9 +10,12 @@ Aesthetic is an abstraction layer that utilizes higher-order-components for the 
 styles via third-party libraries, all the while providing customizability, theming, and a unified
 syntax.
 
+Supports both an HOC and hook styled API!
+
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps, css } from '../path/to/aesthetic';
+import withStyles, { WithStylesProps } from './withStyles';
+import cx from './cx';
 
 export type Props = {
   children: React.ReactNode;
@@ -20,7 +23,7 @@ export type Props = {
 
 function Button({ children, styles }: Props & WithStylesProps) {
   return (
-    <button type="button" className={css(styles.button)}>
+    <button type="button" className={cx(styles.button)}>
       {children}
     </button>
   );
@@ -37,7 +40,7 @@ export default withStyles(({ unit }) => ({
 
 ## Requirements
 
-- React 16.3+
+- React 16.3+ (16.8 if using hooks)
 - IE 10+
 
 ## Installation

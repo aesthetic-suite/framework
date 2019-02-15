@@ -20,7 +20,8 @@ performant option of compiling styles and attaching them to the DOM.
 
 Using a third-party provided UI component library has the unintended side-effect of hard-coded and
 non-customizable styles, and unwanted files within your bundle. Aesthetic solves this by allowing
-consumers to [extend and inherit styles](./usage.md) from the provided base component.
+consumers to [extend and inherit styles](./style.md#extending-styles) from the provided base
+component.
 
 ```tsx
 import React from 'react';

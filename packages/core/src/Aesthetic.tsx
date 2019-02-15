@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file, react/no-multi-comp */
 
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import deepMerge from 'extend';
@@ -10,6 +10,7 @@ import stripClassPrefix from './helpers/stripClassPrefix';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
+  ClassNameGenerator,
   GlobalSheetDefinition,
   SheetMap,
   StyledComponentClass,
@@ -239,9 +240,9 @@ export default abstract class Aesthetic<
   /**
    * Transform the list of style declarations to a list of class name.
    */
-  transformStyles(
+  transformStyles = (
     ...styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[]
-  ): ClassName {
+  ): ClassName => {
     const classNames: ClassName[] = [];
     const toTransform: (NativeBlock | ParsedBlock)[] = [];
 
@@ -268,12 +269,47 @@ export default abstract class Aesthetic<
     }
 
     return classNames.join(' ').trim();
-  }
+  };
 
   /**
    * Transform the styles into CSS class names.
    */
   abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
+
+  /**
+   * Hook within a component to provide a style sheet.
+   */
+  useStyles<T>(
+    styleSheet: StyleSheetDefinition<Theme, T>,
+    customName: string = 'Component',
+  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>, string] {
+    const [styleName] = useState(() => {
+      const name = `${customName}-${uuid()}`;
+
+      this.setStyles(name, styleSheet);
+
+      return name;
+    });
+
+    const sheet = this.createStyleSheet(styleName);
+
+    // Flush styles on mount
+    let flushed = false;
+
+    useLayoutEffect(() => {
+      this.flushStyles(styleName);
+      flushed = true;
+    }, [flushed]);
+
+    return [sheet, this.transformStyles, styleName];
+  }
+
+  /**
+   * Hook within a component to provide the current theme object.
+   */
+  useTheme(): Theme {
+    return this.getTheme();
+  }
 
   /**
    * Wrap a React component with an HOC that injects the defined style sheet as a prop.

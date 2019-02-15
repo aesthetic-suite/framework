@@ -16,9 +16,9 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.25.7",
-    "@types/react": "^16.8.2",
-    "@types/react-dom": "^16.8.0",
+    "@milesj/build-tools": "^0.26.0",
+    "@types/react": "^16.8.3",
+    "@types/react-dom": "^16.8.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-css-modules-transform": "1.6.2",
     "babel-register": "^6.26.0",
@@ -27,7 +27,7 @@
     "fs-promise": "^2.0.3",
     "glob": "^7.1.3",
     "lerna": "^3.11.1",
-    "react-dom": "^16.8.1",
+    "react-dom": "^16.8.2",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3"
   },
