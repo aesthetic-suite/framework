@@ -6,7 +6,7 @@ export default class ClassNameAesthetic<Theme extends object> extends Aesthetic<
   any,
   ClassName
 > {
-  transformToClassName(styles: any[]): ClassName {
+  protected transformToClassName(styles: any[]): ClassName {
     return styles.filter(style => style && typeof style === 'string').join(' ');
   }
 }

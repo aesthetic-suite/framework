@@ -39,6 +39,7 @@ describe('TypeStyleAesthetic', () => {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
       : instance.syntax.convertStyleSheet(styles).toObject();
+    // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'fela');
 
     expect(nativeSheet).toEqual(expStyles);
@@ -54,6 +55,7 @@ describe('TypeStyleAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
+    // @ts-ignore Allow access
     expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe('f1rvgqmz');
   });
 

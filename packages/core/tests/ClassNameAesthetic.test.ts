@@ -9,6 +9,7 @@ describe('ClassNameAesthetic', () => {
 
   describe('transformToClassName()', () => {
     it('joins and returns class names', () => {
+      // @ts-ignore Allow access
       expect(instance.transformToClassName(['foo', 'bar'])).toBe('foo bar');
     });
   });

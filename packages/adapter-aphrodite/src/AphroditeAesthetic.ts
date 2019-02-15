@@ -41,11 +41,11 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     flushToStyleTag();
   }
 
-  processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
+  protected processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;

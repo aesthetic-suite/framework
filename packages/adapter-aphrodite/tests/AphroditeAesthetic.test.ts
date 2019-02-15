@@ -37,6 +37,7 @@ describe('AphroditeAesthetic', () => {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
       : instance.syntax.convertStyleSheet(styles).toObject();
+    // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet);
 
     expect(nativeSheet).toEqual(expStyles);
@@ -56,6 +57,7 @@ describe('AphroditeAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
+    // @ts-ignore Allow access
     expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe(
       'inline-0_16pg94n-o_O-inline-1_igcoje',
     );

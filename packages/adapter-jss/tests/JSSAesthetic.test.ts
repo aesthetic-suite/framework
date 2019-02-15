@@ -40,6 +40,7 @@ describe('JSSAesthetic', () => {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
       : instance.syntax.convertStyleSheet(styles).toObject();
+    // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'test');
 
     expect(nativeSheet).toEqual(expStyles);
@@ -57,6 +58,7 @@ describe('JSSAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
+    // @ts-ignore Allow access
     expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toMatchSnapshot();
     // @ts-ignore Allow null
     expect(instance.transformToClassName(['foo', null])).toMatchSnapshot();

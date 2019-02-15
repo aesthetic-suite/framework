@@ -72,40 +72,6 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Apply and inject global styles for the current theme.
-   * This should only happen once!
-   */
-  applyGlobalStyles(): this {
-    if (this.appliedGlobals) {
-      return this;
-    }
-
-    const globalDef = this.globals[this.options.theme];
-    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
-
-    if (globalSheet) {
-      const sheet = this.processStyleSheet(
-        this.syntax.convertGlobalSheet(globalSheet).toObject(),
-        ':root',
-      );
-
-      // Some adapters require the styles to be transformed to be flushed
-      const styles: ParsedBlock[] = [];
-
-      Object.keys(sheet).forEach(key => {
-        styles.push(sheet[key]);
-      });
-
-      this.transformToClassName(styles);
-    }
-
-    this.appliedGlobals = true;
-    this.flushStyles(':root');
-
-    return this;
-  }
-
-  /**
    * Create and return a style sheet unique to an adapter.
    */
   createStyleSheet(styleName: StyleName): SheetMap<ParsedBlock> {
@@ -147,50 +113,6 @@ export default abstract class Aesthetic<
   flushStyles(styleName: StyleName) {}
 
   /**
-   * Retrieve the defined component styles. If the definition is a function,
-   * execute it while passing the current theme and React props.
-   */
-  getStyleSheet(styleName: StyleName): StyleSheet {
-    const parentStyleName = this.parents[styleName];
-    const styleDef = this.styles[styleName];
-    const styleSheet = styleDef(this.getTheme());
-
-    // Merge from parent
-    if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
-    }
-
-    return styleSheet;
-  }
-
-  /**
-   * Return a theme object or throw an error.
-   */
-  getTheme(customTheme: ThemeName = ''): Theme {
-    const themeName = customTheme || this.options.theme;
-    const theme = this.themes[themeName];
-
-    if (__DEV__) {
-      if (!theme || !isObject(theme)) {
-        throw new Error(`Theme "${themeName}" does not exist.`);
-      }
-    }
-
-    return theme;
-  }
-
-  /**
-   * Process from an Aesthetic style sheet to an adapter native style sheet.
-   */
-  processStyleSheet(
-    styleSheet: SheetMap<NativeBlock>,
-    styleName: StyleName,
-  ): SheetMap<ParsedBlock> {
-    // @ts-ignore Allow spread
-    return { ...styleSheet };
-  }
-
-  /**
    * Register a theme with a pre-defined set of theme settings.
    */
   registerTheme<T>(
@@ -208,31 +130,6 @@ export default abstract class Aesthetic<
 
     this.themes[themeName] = theme;
     this.globals[themeName] = this.validateDefinition(themeName, globalSheet, this.globals);
-
-    return this;
-  }
-
-  /**
-   * Set multiple style declarations for a component.
-   */
-  setStyleSheet(
-    styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme, any>,
-    extendFrom: StyleName = '',
-  ): this {
-    if (extendFrom) {
-      if (__DEV__) {
-        if (!this.styles[extendFrom]) {
-          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
-        } else if (extendFrom === styleName) {
-          throw new Error('Cannot extend styles from itself.');
-        }
-      }
-
-      this.parents[styleName] = extendFrom;
-    }
-
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
 
     return this;
   }
@@ -270,11 +167,6 @@ export default abstract class Aesthetic<
 
     return classNames.join(' ').trim();
   };
-
-  /**
-   * Transform the styles into CSS class names.
-   */
-  abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
 
   /**
    * Hook within a component to provide a style sheet.
@@ -427,6 +319,117 @@ export default abstract class Aesthetic<
     };
   }
 
+  /**
+   * Apply and inject global styles for the current theme.
+   * This should only happen once!
+   */
+  protected applyGlobalStyles(): this {
+    if (this.appliedGlobals) {
+      return this;
+    }
+
+    const globalDef = this.globals[this.options.theme];
+    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
+
+    if (globalSheet) {
+      const sheet = this.processStyleSheet(
+        this.syntax.convertGlobalSheet(globalSheet).toObject(),
+        ':root',
+      );
+
+      // Some adapters require the styles to be transformed to be flushed
+      const styles: ParsedBlock[] = [];
+
+      Object.keys(sheet).forEach(key => {
+        styles.push(sheet[key]);
+      });
+
+      this.transformToClassName(styles);
+    }
+
+    this.appliedGlobals = true;
+    this.flushStyles(':root');
+
+    return this;
+  }
+
+  /**
+   * Retrieve the defined component styles. If the definition is a function,
+   * execute it while passing the current theme and React props.
+   */
+  protected getStyleSheet(styleName: StyleName): StyleSheet {
+    const parentStyleName = this.parents[styleName];
+    const styleDef = this.styles[styleName];
+    const styleSheet = styleDef(this.getTheme());
+
+    // Merge from parent
+    if (parentStyleName) {
+      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
+    }
+
+    return styleSheet;
+  }
+
+  /**
+   * Return a theme object or throw an error.
+   */
+  protected getTheme(customTheme: ThemeName = ''): Theme {
+    const themeName = customTheme || this.options.theme;
+    const theme = this.themes[themeName];
+
+    if (__DEV__) {
+      if (!theme || !isObject(theme)) {
+        throw new Error(`Theme "${themeName}" does not exist.`);
+      }
+    }
+
+    return theme;
+  }
+
+  /**
+   * Process from an Aesthetic style sheet to an adapter native style sheet.
+   */
+  protected processStyleSheet(
+    styleSheet: SheetMap<NativeBlock>,
+    styleName: StyleName,
+  ): SheetMap<ParsedBlock> {
+    // @ts-ignore Allow spread
+    return { ...styleSheet };
+  }
+
+  /**
+   * Set a style sheet definition for a component.
+   */
+  protected setStyleSheet(
+    styleName: StyleName,
+    styleSheet: StyleSheetDefinition<Theme, any>,
+    extendFrom: StyleName = '',
+  ): this {
+    if (extendFrom) {
+      if (__DEV__) {
+        if (!this.styles[extendFrom]) {
+          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
+        } else if (extendFrom === styleName) {
+          throw new Error('Cannot extend styles from itself.');
+        }
+      }
+
+      this.parents[styleName] = extendFrom;
+    }
+
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
+
+    return this;
+  }
+
+  /**
+   * Transform the styles into CSS class names.
+   */
+  protected abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
+
+  /**
+   * Validate a style sheet or theme definition.
+   */
   private validateDefinition<T>(key: string, value: T, cache: { [key: string]: T }): T {
     if (__DEV__) {
       if (cache[key]) {

@@ -1,3 +1,10 @@
+# 3.2.0 - 2019-02-14
+
+#### 🛠 Internal
+
+- Support for the new React hooks API.
+- TS: Marked some `FelaAesthetic` class methods with access modifiers.
+
 # 3.1.0 - 2019-02-09
 
 #### 🚀 New

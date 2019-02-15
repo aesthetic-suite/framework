@@ -1,3 +1,10 @@
+# 2.2.0 - 2019-02-14
+
+#### 🛠 Internal
+
+- Support for the new React hooks API.
+- TS: Marked some `TypeStyleAesthetic` class methods with access modifiers.
+
 # 2.1.0 - 2019-02-09
 
 #### 🚀 New

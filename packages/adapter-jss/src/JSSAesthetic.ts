@@ -49,7 +49,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     }
   }
 
-  processStyleSheet(
+  protected processStyleSheet(
     styleSheet: SheetMap<NativeBlock>,
     styleName: StyleName,
   ): SheetMap<ParsedBlock> {
@@ -62,7 +62,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
-  transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     const legitStyles: ParsedBlock[] = [];
     const tempStylesheet: { [key: string]: NativeBlock } = {};
     let counter = 0;
