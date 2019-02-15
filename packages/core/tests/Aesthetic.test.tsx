@@ -101,7 +101,7 @@ describe('Aesthetic', () => {
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
-      instance.setStyles('foo', ({ unit }) => ({
+      instance.setStyleSheet('foo', ({ unit }) => ({
         el: {
           display: 'block',
           padding: unit,
@@ -201,9 +201,9 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('getStyles()', () => {
+  describe('getStyleSheet()', () => {
     beforeEach(() => {
-      instance.setStyles('foo', () => ({
+      instance.setStyleSheet('foo', () => ({
         el: { display: 'block' },
       }));
     });
@@ -211,27 +211,27 @@ describe('Aesthetic', () => {
     it('errors if no theme', () => {
       instance.options.theme = 'unknown';
 
-      expect(() => instance.getStyles('foo')).toThrowErrorMatchingSnapshot();
+      expect(() => instance.getStyleSheet('foo')).toThrowErrorMatchingSnapshot();
     });
 
     it('returns the style sheet', () => {
-      expect(instance.getStyles('foo')).toEqual({
+      expect(instance.getStyleSheet('foo')).toEqual({
         el: { display: 'block' },
       });
     });
 
     it('passes theme to the style callback', () => {
-      instance.setStyles('bar', theme => ({
+      instance.setStyleSheet('bar', theme => ({
         el: { padding: theme.unit * 2 },
       }));
 
-      expect(instance.getStyles('bar')).toEqual({
+      expect(instance.getStyleSheet('bar')).toEqual({
         el: { padding: 16 },
       });
     });
 
     it('inherits styles from parent', () => {
-      instance.setStyles('bar', () => ({
+      instance.setStyleSheet('bar', () => ({
         el: {
           color: 'red',
           ':hover': {
@@ -240,7 +240,7 @@ describe('Aesthetic', () => {
         },
       }));
 
-      instance.setStyles(
+      instance.setStyleSheet(
         'baz',
         () => ({
           el: {
@@ -253,7 +253,7 @@ describe('Aesthetic', () => {
         'bar',
       );
 
-      instance.setStyles(
+      instance.setStyleSheet(
         'qux',
         () => ({
           el: { display: 'block' },
@@ -261,7 +261,7 @@ describe('Aesthetic', () => {
         'baz',
       );
 
-      expect(instance.getStyles('bar')).toEqual({
+      expect(instance.getStyleSheet('bar')).toEqual({
         el: {
           color: 'red',
           ':hover': {
@@ -270,7 +270,7 @@ describe('Aesthetic', () => {
         },
       });
 
-      expect(instance.getStyles('baz')).toEqual({
+      expect(instance.getStyleSheet('baz')).toEqual({
         el: {
           color: 'red',
           background: 'blue',
@@ -280,7 +280,7 @@ describe('Aesthetic', () => {
         },
       });
 
-      expect(instance.getStyles('qux')).toEqual({
+      expect(instance.getStyleSheet('qux')).toEqual({
         el: {
           color: 'red',
           background: 'blue',
@@ -347,38 +347,40 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('setStyles()', () => {
+  describe('setStyleSheet()', () => {
     it('errors if styles have been set', () => {
       instance.styles.foo = () => ({});
 
-      expect(() => instance.setStyles('foo', () => ({}))).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', () => ({}))).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if styles try to extend from itself', () => {
       instance.styles.foo = () => ({});
 
-      expect(() => instance.setStyles('foo', () => ({}), 'foo')).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', () => ({}), 'foo')).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if styles are not a function', () => {
       // @ts-ignore Allow invalid type
-      expect(() => instance.setStyles('foo', 123)).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', 123)).toThrowErrorMatchingSnapshot();
       // @ts-ignore Allow invalid type
-      expect(() => instance.setStyles('foo', 'abc')).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', 'abc')).toThrowErrorMatchingSnapshot();
       // @ts-ignore Allow invalid type
-      expect(() => instance.setStyles('foo', [])).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', [])).toThrowErrorMatchingSnapshot();
       // @ts-ignore Allow invalid type
-      expect(() => instance.setStyles('foo', true)).toThrowErrorMatchingSnapshot();
+      expect(() => instance.setStyleSheet('foo', true)).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if extended styles do not exist', () => {
-      expect(() => instance.setStyles('foo', () => ({}), 'parent')).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        instance.setStyleSheet('foo', () => ({}), 'parent'),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('sets styles', () => {
       expect(instance.styles.foo).toBeUndefined();
 
-      instance.setStyles('foo', () => ({
+      instance.setStyleSheet('foo', () => ({
         header: { color: 'red' },
         footer: { padding: 5 },
       }));
@@ -390,12 +392,12 @@ describe('Aesthetic', () => {
       expect(instance.styles.bar).toBeUndefined();
       expect(instance.parents.bar).toBeUndefined();
 
-      instance.setStyles('foo', () => ({
+      instance.setStyleSheet('foo', () => ({
         header: { color: 'red' },
         footer: { padding: 5 },
       }));
 
-      instance.setStyles(
+      instance.setStyleSheet(
         'bar',
         () => ({
           child: { margin: 5 },
@@ -513,7 +515,7 @@ describe('Aesthetic', () => {
     });
 
     it('only sets styles once', () => {
-      const spy = jest.spyOn(instance, 'setStyles');
+      const spy = jest.spyOn(instance, 'setStyleSheet');
 
       function Component() {
         styleName = instance.useStyles(() => TEST_STATEMENT)[2];
@@ -664,7 +666,7 @@ describe('Aesthetic', () => {
         },
       )(BaseComponent);
 
-      expect(instance.getStyles(Wrapped.styleName)).toEqual({
+      expect(instance.getStyleSheet(Wrapped.styleName)).toEqual({
         button: {
           display: 'inline-block',
           padding: 5,
@@ -677,7 +679,7 @@ describe('Aesthetic', () => {
         },
       }));
 
-      expect(instance.getStyles(Extended.styleName)).toEqual({
+      expect(instance.getStyleSheet(Extended.styleName)).toEqual({
         button: {
           display: 'inline-block',
           padding: 5,
@@ -888,7 +890,7 @@ describe('Aesthetic', () => {
     it('supports class names', () => {
       const adapter = new ClassNameAesthetic();
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => ({ button: 'button' }));
+      adapter.setStyleSheet('foo', () => ({ button: 'button' }));
 
       const styleSheet = adapter.createStyleSheet('foo');
 
@@ -898,7 +900,7 @@ describe('Aesthetic', () => {
     it('supports Aphrodite', () => {
       const adapter = new AphroditeAesthetic();
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo');
 
@@ -908,7 +910,7 @@ describe('Aesthetic', () => {
     it('supports CSS modules', () => {
       const adapter = new CSSModulesAesthetic();
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => ({ button: 'button' }));
+      adapter.setStyleSheet('foo', () => ({ button: 'button' }));
 
       const styleSheet = adapter.createStyleSheet('foo');
 
@@ -922,7 +924,7 @@ describe('Aesthetic', () => {
         }),
       );
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo');
 
@@ -935,7 +937,7 @@ describe('Aesthetic', () => {
 
       const adapter = new JSSAesthetic(jss);
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo');
 
@@ -945,7 +947,7 @@ describe('Aesthetic', () => {
     it('supports TypeStyle', () => {
       const adapter = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
       adapter.registerTheme('default', {});
-      adapter.setStyles('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo');
 

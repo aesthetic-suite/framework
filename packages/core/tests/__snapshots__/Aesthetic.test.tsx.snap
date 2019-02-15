@@ -14,7 +14,7 @@ exports[`Aesthetic adapters supports class names 1`] = `"button"`;
 
 exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
 
-exports[`Aesthetic getStyles() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
+exports[`Aesthetic getStyleSheet() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
 
 exports[`Aesthetic getTheme() errors if the theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
 
@@ -26,19 +26,19 @@ exports[`Aesthetic registerTheme() errors if a theme style is not an object 1`] 
 
 exports[`Aesthetic registerTheme() errors if global styles is not an object 1`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic setStyles() errors if extended styles do not exist 1`] = `"Cannot extend from \\"parent\\" as those styles do not exist."`;
+exports[`Aesthetic setStyleSheet() errors if extended styles do not exist 1`] = `"Cannot extend from \\"parent\\" as those styles do not exist."`;
 
-exports[`Aesthetic setStyles() errors if styles are not a function 1`] = `"Definition for \\"foo\\" must be null or a function."`;
+exports[`Aesthetic setStyleSheet() errors if styles are not a function 1`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic setStyles() errors if styles are not a function 2`] = `"Definition for \\"foo\\" must be null or a function."`;
+exports[`Aesthetic setStyleSheet() errors if styles are not a function 2`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic setStyles() errors if styles are not a function 3`] = `"Definition for \\"foo\\" must be null or a function."`;
+exports[`Aesthetic setStyleSheet() errors if styles are not a function 3`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic setStyles() errors if styles are not a function 4`] = `"Definition for \\"foo\\" must be null or a function."`;
+exports[`Aesthetic setStyleSheet() errors if styles are not a function 4`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic setStyles() errors if styles have been set 1`] = `"Styles have already been defined for \\"foo\\"."`;
+exports[`Aesthetic setStyleSheet() errors if styles have been set 1`] = `"Styles have already been defined for \\"foo\\"."`;
 
-exports[`Aesthetic setStyles() errors if styles try to extend from itself 1`] = `"Cannot extend styles from itself."`;
+exports[`Aesthetic setStyleSheet() errors if styles try to extend from itself 1`] = `"Cannot extend styles from itself."`;
 
 exports[`Aesthetic transformStyles() errors for invalid value 1`] = `"Unsupported style type to transform."`;
 

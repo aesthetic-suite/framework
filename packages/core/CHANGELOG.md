@@ -11,6 +11,11 @@ major version.
 - Added `Aesthetic#useStyles` hook.
 - Added `Aesthetic#useTheme` hook.
 
+#### 🛠 Internal
+
+- Renamed some `Aesthetic` class methods.
+- TS: Marked some `Aesthetic` class methods with access modifiers.
+
 # 3.1.1 - 2019-02-10
 
 #### 🐞 Fixed

@@ -116,7 +116,7 @@ export default abstract class Aesthetic<
     this.applyGlobalStyles();
 
     const styleSheet = this.processStyleSheet(
-      this.syntax.convertStyleSheet(this.getStyles(styleName)).toObject(),
+      this.syntax.convertStyleSheet(this.getStyleSheet(styleName)).toObject(),
       styleName,
     );
 
@@ -150,14 +150,14 @@ export default abstract class Aesthetic<
    * Retrieve the defined component styles. If the definition is a function,
    * execute it while passing the current theme and React props.
    */
-  getStyles(styleName: StyleName): StyleSheet {
+  getStyleSheet(styleName: StyleName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
     const styleSheet = styleDef(this.getTheme());
 
     // Merge from parent
     if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyles(parentStyleName), styleSheet);
+      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
     }
 
     return styleSheet;
@@ -215,7 +215,7 @@ export default abstract class Aesthetic<
   /**
    * Set multiple style declarations for a component.
    */
-  setStyles(
+  setStyleSheet(
     styleName: StyleName,
     styleSheet: StyleSheetDefinition<Theme, any>,
     extendFrom: StyleName = '',
@@ -286,7 +286,7 @@ export default abstract class Aesthetic<
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
-      this.setStyles(name, styleSheet);
+      this.setStyleSheet(name, styleSheet);
 
       return name;
     });
@@ -337,7 +337,7 @@ export default abstract class Aesthetic<
 
       type OwnState = WithStylesState<Props, ParsedBlock>;
 
-      aesthetic.setStyles(styleName, styleSheet, extendFrom);
+      aesthetic.setStyleSheet(styleName, styleSheet, extendFrom);
 
       class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
         static displayName = `withStyles(${baseName})`;
