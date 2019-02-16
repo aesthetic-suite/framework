@@ -8,6 +8,7 @@ import Sheet from './Sheet';
 import { ComponentBlock, FontFace, GlobalSheet, Keyframes, Properties, StyleSheet } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
+export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 export type Handler = (...args: any[]) => void;
 
@@ -159,7 +160,11 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
         // Class name
       } else if (typeof ruleset === 'string') {
-        sheet.addClassName(selector, ruleset);
+        if (ruleset.match(CLASS_NAME)) {
+          sheet.addClassName(selector, ruleset);
+        } else {
+          this.emit('css', [sheet, selector, ruleset]);
+        }
 
         // Style object
       } else if (isObject(ruleset)) {
@@ -173,6 +178,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
     return sheet;
   }
+
+  convertRawCss(css: string) {}
 
   /**
    * Convert a ruleset including local at-rules, blocks, and properties.
@@ -468,6 +475,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
    */
   emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): any;
+  emit(eventName: 'css', args: [Sheet<NativeBlock>, string, string]): any;
   emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, any[]]): any;
   emit(
     eventName: 'font-face',
@@ -516,6 +524,10 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(eventName: 'charset', callback: (sheet: Sheet<NativeBlock>, charset: string) => void): this;
+  on(
+    eventName: 'css',
+    callback: (sheet: Sheet<NativeBlock>, selector: string, css: string) => void,
+  ): this;
   on(
     eventName: 'fallback',
     callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, values: any[]) => void,

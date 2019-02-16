@@ -6,14 +6,14 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter                                    | Unified Syntax | Globals¹ | Selectors | Fallbacks | Fonts | Animations | Media Queries | Supports | Specificity |
-| :----------------------------------------- | :------------: | :------: | :-------: | :-------: | :---: | :--------: | :-----------: | :------: | :---------: |
-| [Aphrodite](./aphrodite.md)                |       ✓        |    ✓²    |     ✓     |           |   ✓   |     ✓      |       ✓       |          |      ✓      |
-| [CSS class names](../style.md#class-names) |                |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
-| [CSS modules](./css-modules.md)            |                |          |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
-| [Fela](./fela.md)                          |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
-| [JSS](./jss.md)                            |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |             |
-| [TypeStyle](./typestyle.md)                |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |
+| Adapter                                    | Unified Syntax | Globals¹ | Selectors | Fallbacks | Fonts | Animations | Media Queries | Supports | Specificity | Raw CSS |
+| :----------------------------------------- | :------------: | :------: | :-------: | :-------: | :---: | :--------: | :-----------: | :------: | :---------: | :-----: |
+| [Aphrodite](./aphrodite.md)                |       ✓        |    ✓²    |     ✓     |           |   ✓   |     ✓      |       ✓       |          |      ✓      |         |
+| [CSS class names](../style.md#class-names) |                |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |         |
+| [CSS modules](./css-modules.md)            |                |          |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |         |
+| [Fela](./fela.md)                          |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |         |
+| [JSS](./jss.md)                            |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |             |    ✓    |
+| [TypeStyle](./typestyle.md)                |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |         |
 
 > 1.  Unified syntax only.
 > 2.  Is accomplished through a custom

@@ -1,6 +1,6 @@
 {
   "name": "aesthetic",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Aesthetic is a powerful type-safe React library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
