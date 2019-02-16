@@ -164,6 +164,34 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('extendStyles()', () => {
+    it('returns a stylesheet', () => {
+      const styleSheet = instance.extendStyles(() => ({ element: { display: 'block' } }));
+
+      expect(typeof styleSheet).toBe('function');
+      expect(styleSheet({})).toEqual({ element: { display: 'block' } });
+    });
+
+    it('passes theme variables', () => {
+      const styleSheet = instance.extendStyles(theme => ({ element: { padding: theme.unit } }));
+
+      expect(styleSheet({ unit: 8 })).toEqual({ element: { padding: 8 } });
+    });
+
+    it('deep merges multiple stylesheets', () => {
+      const styleSheet = instance.extendStyles(
+        theme => ({ element: { padding: theme.unit } }),
+        () => ({ element: { display: 'block' } }),
+        ({ color }) => ({ elementActive: { color } }),
+      );
+
+      expect(styleSheet({ unit: 8, color: 'red' })).toEqual({
+        element: { padding: 8, display: 'block' },
+        elementActive: { color: 'red' },
+      });
+    });
+  });
+
   describe('extendTheme()', () => {
     it('errors if the parent theme doesnt exist', () => {
       expect(() => instance.extendTheme('bar', 'foo', {})).toThrowErrorMatchingSnapshot();

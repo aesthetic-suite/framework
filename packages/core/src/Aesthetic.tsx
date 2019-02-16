@@ -126,6 +126,19 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Compose and extend multiple stylesheets to create 1 stylesheet.
+   */
+  extendStyles(
+    ...styleSheets: StyleSheetDefinition<Theme, any>[]
+  ): StyleSheetDefinition<Theme, any> {
+    return (theme: Theme) => {
+      const sheets = styleSheets.map(sheet => sheet(theme));
+
+      return deepMerge(true, {}, ...sheets);
+    };
+  }
+
+  /**
    * Register a theme by extending and merging with a previously defined theme.
    */
   extendTheme<T>(

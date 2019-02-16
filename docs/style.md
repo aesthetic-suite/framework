@@ -55,7 +55,7 @@ When the component is rendered, the style sheet is parsed and returned from the 
 import React from 'react';
 import useStyles from './useStyles';
 
-const styleSheet = theme => ({
+export const styleSheet = theme => ({
   button: {
     display: 'inline-block',
     padding: theme.unit,
@@ -181,15 +181,44 @@ function Button({ children, icon, active = false }: Props) {
 ## Extending Styles
 
 Since styles are isolated and co-located within a component, they can be impossible to customize,
-especially if the component comes from a third-party library. If a component styled by Aesthetic is
-marked as `extendable`, styles can be customized by calling the static `extendStyles` method on the
-wrapped component instance.
+especially if the component comes from a third-party library. Aesthetic supports 2 forms of style
+extending based on the API you choose to use.
 
-Extending styles will return the original component wrapped with new styles, instead of wrapping the
-styled component and stacking on an unnecessary layer.
+### Composing Style Sheets
+
+The `Aesthetic#extendStyles` method can be used to compose multiple style sheet providing functions
+into a single style sheet function.
 
 ```ts
-import BaseButton from '../path/to/styled/Button';
+import aesthetic from './aesthetic';
+import { styleSheet } from './path/to/Component';
+
+const styleSheet = aesthetic.extendStyles(
+  () => ({
+    button: {
+      background: 'transparent',
+      // ...
+    },
+  }),
+  // Another style sheet function
+  theme => ({
+    button: {
+      background: theme.color.primary,
+      // ...
+    },
+  }),
+  // An imported style sheet function
+  styleSheet,
+);
+```
+
+### From A Component
+
+If a component is styled by `Aesthetic#withStyles` and marked as `extendable`, styles can be
+customized by calling the static `extendStyles` method on the wrapped component instance.
+
+```ts
+import BaseButton from './path/to/Button';
 
 export const TransparentButton = BaseButton.extendStyles(() => ({
   button: {
@@ -206,9 +235,8 @@ export const PrimaryButton = BaseButton.extendStyles(theme => ({
 }));
 ```
 
-> Parent styles (the component that was extended) are automatically merged with the new styles.
-
-> Hooks _do not_ support extending styles.
+> Extending styles will return the original component wrapped with new styles, instead of wrapping
+> the styled component and stacking on an unnecessary layer.
 
 ## Using Refs
 
@@ -216,7 +244,7 @@ When using `withStyles`, the underlying wrapped component is abstracted away. So
 this wrapped component is required, and as such, a specialized ref can be used. When using the
 `wrappedRef` prop, the wrapped component instance is returned.
 
-```ts
+```tsx
 let buttonInstance = null; // Button component
 
 <StyledButton

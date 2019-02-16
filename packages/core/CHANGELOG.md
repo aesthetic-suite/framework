@@ -1,5 +1,9 @@
 # 3.3.0 - 2019-02-15
 
+#### 🚀 New
+
+- Added `Aesthetic#extendStyles` to support hook style extending.
+
 #### 🛠 Internal
 
 - TS: More access modifier work.
