@@ -34,6 +34,7 @@
     "csstype": "^2.6.2",
     "extend": "^3.0.2",
     "hoist-non-react-statics": "^3.3.0",
+    "stylis": "^3.5.4",
     "utility-types": "^3.4.1",
     "uuid": "^3.3.2"
   },

@@ -116,7 +116,7 @@ export default abstract class Aesthetic<
     this.applyGlobalStyles();
 
     const styleSheet = this.processStyleSheet(
-      this.syntax.convertStyleSheet(this.getStyleSheet(styleName)).toObject(),
+      this.syntax.convertStyleSheet(this.getStyleSheet(styleName), styleName).toObject(),
       styleName,
     );
 

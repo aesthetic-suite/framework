@@ -1,4 +1,11 @@
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
+import Aesthetic, {
+  AestheticOptions,
+  ClassName,
+  Ruleset,
+  Sheet,
+  SheetMap,
+  injectCSS,
+} from 'aesthetic';
 // @ts-ignore flushToStyleTag is not typed
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
@@ -28,6 +35,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
     this.syntax
       .on('attribute', this.handleNested)
+      .on('css', this.handleCss)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
       .on('keyframe', this.handleKeyframe)
@@ -70,6 +78,10 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
     return this.aphrodite.css(...legitStyles);
   }
+
+  private handleCss = (css: string) => {
+    injectCSS(css);
+  };
 
   // https://github.com/Khan/aphrodite#font-faces
   private handleFontFace = (

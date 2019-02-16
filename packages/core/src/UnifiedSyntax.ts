@@ -1,11 +1,20 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members, complexity */
 
+import Stylis from 'stylis';
 import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
-import { ComponentBlock, FontFace, GlobalSheet, Keyframes, Properties, StyleSheet } from './types';
+import {
+  ComponentBlock,
+  FontFace,
+  GlobalSheet,
+  Keyframes,
+  Properties,
+  StyleSheet,
+  ClassName,
+} from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
@@ -17,9 +26,18 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
   keyframesCount: number = 0;
 
+  stylis: typeof Stylis;
+
   constructor() {
     this.on('property:animationName', this.handleAnimationName);
     this.on('property:fontFamily', this.handleFontFamily);
+
+    this.stylis = new Stylis({
+      compress: !__DEV__,
+      global: false,
+      keyframe: true,
+      prefix: true,
+    });
   }
 
   /**
@@ -142,7 +160,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a mapping of unified rulesets to their native syntax.
    */
-  convertStyleSheet(styleSheet: StyleSheet): Sheet<NativeBlock> {
+  convertStyleSheet(styleSheet: StyleSheet, styleName: string): Sheet<NativeBlock> {
     const sheet = new Sheet<NativeBlock>();
 
     Object.keys(styleSheet).forEach(selector => {
@@ -158,12 +176,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           throw new SyntaxError(`At-rules may not be defined in the root, found "${selector}".`);
         }
 
-        // Class name
+        // Class name or CSS
       } else if (typeof ruleset === 'string') {
         if (ruleset.match(CLASS_NAME)) {
           sheet.addClassName(selector, ruleset);
         } else {
-          this.emit('css', [sheet, selector, ruleset]);
+          sheet.addClassName(selector, this.convertRawCss(styleName, selector, ruleset));
         }
 
         // Style object
@@ -179,7 +197,18 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     return sheet;
   }
 
-  convertRawCss(css: string) {}
+  /**
+   * Convert a pseudo CSS declaration block to raw CSS using Stylis.
+   * Emit the raw CSS so that adapters can inject it into the DOM.
+   */
+  convertRawCss(styleName: string, selector: string, declaration: string): ClassName {
+    const className = `${styleName}-${selector}`;
+    const css = stylis(`.${className}`, declaration);
+
+    this.emit('css', [css, className]);
+
+    return className;
+  }
 
   /**
    * Convert a ruleset including local at-rules, blocks, and properties.
@@ -475,7 +504,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
    */
   emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
   emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): any;
-  emit(eventName: 'css', args: [Sheet<NativeBlock>, string, string]): any;
+  emit(eventName: 'css', args: [string, string]): any;
   emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, any[]]): any;
   emit(
     eventName: 'font-face',
@@ -524,10 +553,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(eventName: 'charset', callback: (sheet: Sheet<NativeBlock>, charset: string) => void): this;
-  on(
-    eventName: 'css',
-    callback: (sheet: Sheet<NativeBlock>, selector: string, css: string) => void,
-  ): this;
+  on(eventName: 'css', callback: (css: string, className: string) => void): this;
   on(
     eventName: 'fallback',
     callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, values: any[]) => void,

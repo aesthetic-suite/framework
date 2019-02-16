@@ -5,6 +5,7 @@ import Aesthetic, {
   Sheet,
   StyleName,
   SheetMap,
+  injectCSS,
 } from 'aesthetic';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
@@ -93,13 +94,8 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     sheet.addAtRule('@charset', charset);
   };
 
-  // https://typestyle.github.io/#/raw/-cssraw-
-  private handleCss = (sheet: Sheet<NativeBlock>, selector: string, css: string) => {
-    const className = this.generateClassName();
-
-    this.typeStyle.cssRaw(`${className} { ${css} }`);
-
-    sheet.addClassName(selector, className);
+  private handleCss = (css: string) => {
+    injectCSS(css);
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

@@ -29,6 +29,7 @@ import {
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_KEYFRAMES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { createTestRulesets, createTestKeyframes } from '../../../tests/helpers';
 
@@ -360,6 +361,15 @@ describe('UnifiedSyntax', () => {
       const spy = jest.spyOn(syntax, 'convertRuleset');
       const styleSheet = syntax.convertStyleSheet({
         el: { display: 'block' },
+      });
+
+      expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
+      expect(styleSheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
+    });
+
+    it('converts CSS declaration and adds to sheet', () => {
+      const styleSheet = syntax.convertStyleSheet({
+        el: SYNTAX_RAW_CSS,
       });
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());

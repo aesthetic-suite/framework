@@ -40,12 +40,8 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
   }
 
   // http://fela.js.org/docs/api/fela/Renderer.html
-  private handleCss = (sheet: Sheet<NativeBlock>, selector: string, css: string) => {
-    const className = this.generateClassName();
-
-    this.fela.renderStatic(`${className} { ${css} }`);
-
-    sheet.addClassName(selector, className);
+  private handleCss = (css: string) => {
+    this.fela.renderStatic(css);
   };
 
   // https://github.com/rofrischmann/fela/tree/master/packages/fela-plugin-fallback-value

@@ -35,12 +35,8 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   }
 
   // https://typestyle.github.io/#/raw/-cssraw-
-  private handleCss = (sheet: Sheet<NativeBlock>, selector: string, css: string) => {
-    const className = this.generateClassName();
-
-    this.typeStyle.cssRaw(`${className} { ${css} }`);
-
-    sheet.addClassName(selector, className);
+  private handleCss = (css: string) => {
+    this.typeStyle.cssRaw(css);
   };
 
   // https://typestyle.github.io/#/core/concept-fallbacks
