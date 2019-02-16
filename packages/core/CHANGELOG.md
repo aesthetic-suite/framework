@@ -1,3 +1,9 @@
+# 3.3.0 - 2019-02-15
+
+#### 🛠 Internal
+
+- TS: More access modifier work.
+
 # 3.2.0 - 2019-02-14
 
 #### 🎉 Release

@@ -72,6 +72,40 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Apply and inject global styles for the current theme.
+   * This should only happen once!
+   */
+  applyGlobalStyles(): this {
+    if (this.appliedGlobals) {
+      return this;
+    }
+
+    const globalDef = this.globals[this.options.theme];
+    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
+
+    if (globalSheet) {
+      const sheet = this.processStyleSheet(
+        this.syntax.convertGlobalSheet(globalSheet).toObject(),
+        ':root',
+      );
+
+      // Some adapters require the styles to be transformed to be flushed
+      const styles: ParsedBlock[] = [];
+
+      Object.keys(sheet).forEach(key => {
+        styles.push(sheet[key]);
+      });
+
+      this.transformToClassName(styles);
+    }
+
+    this.appliedGlobals = true;
+    this.flushStyles(':root');
+
+    return this;
+  }
+
+  /**
    * Create and return a style sheet unique to an adapter.
    */
   createStyleSheet(styleName: StyleName): SheetMap<ParsedBlock> {
@@ -317,40 +351,6 @@ export default abstract class Aesthetic<
 
       return WithTheme;
     };
-  }
-
-  /**
-   * Apply and inject global styles for the current theme.
-   * This should only happen once!
-   */
-  protected applyGlobalStyles(): this {
-    if (this.appliedGlobals) {
-      return this;
-    }
-
-    const globalDef = this.globals[this.options.theme];
-    const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
-
-    if (globalSheet) {
-      const sheet = this.processStyleSheet(
-        this.syntax.convertGlobalSheet(globalSheet).toObject(),
-        ':root',
-      );
-
-      // Some adapters require the styles to be transformed to be flushed
-      const styles: ParsedBlock[] = [];
-
-      Object.keys(sheet).forEach(key => {
-        styles.push(sheet[key]);
-      });
-
-      this.transformToClassName(styles);
-    }
-
-    this.appliedGlobals = true;
-    this.flushStyles(':root');
-
-    return this;
   }
 
   /**

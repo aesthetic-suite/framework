@@ -75,7 +75,6 @@ describe('Aesthetic', () => {
 
       // @ts-ignore Allow override
       instance.appliedGlobals = true;
-      // @ts-ignore Allow access
       instance.applyGlobalStyles();
 
       expect(spy).not.toHaveBeenCalled();
@@ -86,7 +85,6 @@ describe('Aesthetic', () => {
       const spy = jest.spyOn(instance, 'processStyleSheet');
 
       instance.globals.default = null;
-      // @ts-ignore Allow access
       instance.applyGlobalStyles();
 
       expect(spy).not.toHaveBeenCalled();
@@ -96,7 +94,6 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'processStyleSheet');
 
-      // @ts-ignore Allow access
       instance.applyGlobalStyles();
 
       expect(spy).toHaveBeenCalledWith({}, ':root');
