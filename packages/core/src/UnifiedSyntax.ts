@@ -204,7 +204,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   convertRawCss(styleName: string, selector: string, declaration: string): ClassName {
     const className = `${styleName}-${selector}`;
 
-    this.emit('css', [this.stylis(`.${className}`, declaration), className]);
+    this.emit('css', [this.stylis(`.${className}`, declaration.trim()), className]);
 
     return className;
   }

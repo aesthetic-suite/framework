@@ -88,7 +88,7 @@ export default function Button({ children, icon }: Props) {
 
 ## Defining Style Sheets
 
-A style sheet is an object that maps selector names to 1 of 2 possible styling patterns, all of
+A style sheet is an object that maps selector names to 1 of 3 possible styling patterns, all of
 which can be used in unison. The following styling patterns are available:
 
 ### Style Objects
@@ -97,8 +97,9 @@ A style object is a plain JavaScript object that defines CSS properties and styl
 [unified syntax specification](./unified). This is the standard approach for styling components.
 
 ```ts
-() => ({
+theme => ({
   button: {
+    padding: theme.unit,
     display: 'inline-block',
     color: 'red',
 
@@ -111,6 +112,33 @@ A style object is a plain JavaScript object that defines CSS properties and styl
   },
 });
 ```
+
+### CSS Declarations
+
+If you prefer to write standard CSS instead of JS objects, you can do just that by passing a string
+to each selector. This functionality is powered by [Stylis](https://github.com/thysultan/stylis.js).
+
+This pattern requires explicit values, for example, defining "px" instead of relying on automatic
+unit insertion. To reference the current class name, use `&` as an insertion point.
+
+```ts
+theme => ({
+  button: `
+    padding: ${theme.unit}px;
+    display: inline-block;
+    color: red;
+
+    &:hover {
+      color: darkred;
+    }
+  `,
+  button__active: `
+    color: darkred;
+  `,
+});
+```
+
+> Type safety is lost and chosen adapter is bypassed when using this approach.
 
 ### Class Names
 
