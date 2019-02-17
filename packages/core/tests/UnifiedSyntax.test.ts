@@ -29,7 +29,6 @@ import {
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_KEYFRAMES_INLINE,
-  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { createTestRulesets, createTestKeyframes } from '../../../tests/helpers';
 
@@ -319,37 +318,49 @@ describe('UnifiedSyntax', () => {
   describe('convertStyleSheet()', () => {
     it('errors for an at-rule', () => {
       expect(() => {
-        syntax.convertStyleSheet({
-          '@rule': {},
-        });
+        syntax.convertStyleSheet(
+          {
+            '@rule': {},
+          },
+          'styleName',
+        );
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('errors for invalid value type', () => {
       expect(() => {
-        syntax.convertStyleSheet({
-          // @ts-ignore Allow invalid type
-          el: 123,
-        });
+        syntax.convertStyleSheet(
+          {
+            // @ts-ignore Allow invalid type
+            el: 123,
+          },
+          'styleName',
+        );
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('skips over falsy values', () => {
-      const styleSheet = syntax.convertStyleSheet({
-        string: '',
-        // @ts-ignore Allow undefined
-        object: undefined,
-      });
+      const styleSheet = syntax.convertStyleSheet(
+        {
+          string: '',
+          // @ts-ignore Allow undefined
+          object: undefined,
+        },
+        'styleName',
+      );
 
       expect(styleSheet).toEqual(sheet);
     });
 
     it('sets string as class name on sheet', () => {
-      const styleSheet = syntax.convertStyleSheet({
-        foo: 'foo',
-        bar: 'bar',
-        baz: {},
-      });
+      const styleSheet = syntax.convertStyleSheet(
+        {
+          foo: 'foo',
+          bar: 'bar',
+          baz: {},
+        },
+        'styleName',
+      );
 
       expect(styleSheet.classNames).toEqual({
         foo: 'foo',
@@ -359,18 +370,12 @@ describe('UnifiedSyntax', () => {
 
     it('converts ruleset and adds to sheet', () => {
       const spy = jest.spyOn(syntax, 'convertRuleset');
-      const styleSheet = syntax.convertStyleSheet({
-        el: { display: 'block' },
-      });
-
-      expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
-      expect(styleSheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
-    });
-
-    it('converts CSS declaration and adds to sheet', () => {
-      const styleSheet = syntax.convertStyleSheet({
-        el: SYNTAX_RAW_CSS,
-      });
+      const styleSheet = syntax.convertStyleSheet(
+        {
+          el: { display: 'block' },
+        },
+        'styleName',
+      );
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
       expect(styleSheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));

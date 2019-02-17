@@ -176,7 +176,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           throw new SyntaxError(`At-rules may not be defined in the root, found "${selector}".`);
         }
 
-        // Class name or CSS
+        // Class name or raw CSS
       } else if (typeof ruleset === 'string') {
         if (ruleset.match(CLASS_NAME)) {
           sheet.addClassName(selector, ruleset);
@@ -203,9 +203,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
    */
   convertRawCss(styleName: string, selector: string, declaration: string): ClassName {
     const className = `${styleName}-${selector}`;
-    const css = stylis(`.${className}`, declaration);
 
-    this.emit('css', [css, className]);
+    this.emit('css', [this.stylis(`.${className}`, declaration), className]);
 
     return className;
   }

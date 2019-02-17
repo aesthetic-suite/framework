@@ -354,23 +354,25 @@ export const SYNTAX_VIEWPORT = {
   },
 };
 
-export const SYNTAX_RAW_CSS = `
-  display: 'block';
-  font-size: 16px;
+export const SYNTAX_RAW_CSS = {
+  button: `
+    display: 'block';
+    font-size: 16px;
 
-  &:hover {
-    color: 'red';
-  }
+    &:hover {
+      color: 'red';
+    }
 
-  & {
-    vertical-align: 'middle';
-  }
+    & {
+      vertical-align: 'middle';
+    }
 
-  @media (max-width: 600px) {
-    display: 'none';
-  }
+    @media (max-width: 600px) {
+      display: 'none';
+    }
 
-  @supports (display: flex) {
-    display: 'flex';
-  }
-`;
+    @supports (display: flex) {
+      display: 'flex';
+    }
+  `,
+};
