@@ -28,6 +28,7 @@ import {
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -42,7 +43,7 @@ describe('FelaAesthetic', () => {
   ) {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles).toObject();
+      : instance.syntax.convertStyleSheet(styles, 'fela').toObject();
     // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'fela');
 
@@ -300,6 +301,16 @@ describe('FelaAesthetic', () => {
           },
         },
         'a b c',
+      );
+    });
+
+    it('handles raw CSS', () => {
+      renderAndTest(
+        SYNTAX_RAW_CSS,
+        {
+          button: 'fela-button',
+        },
+        'fela-button',
       );
     });
   });

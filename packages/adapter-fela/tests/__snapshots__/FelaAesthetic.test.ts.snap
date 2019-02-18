@@ -25,3 +25,5 @@ exports[`FelaAesthetic style sheet handles nested @media 1`] = `".a{color:red}@m
 exports[`FelaAesthetic style sheet handles properties 1`] = `".a{color:black}.b{display:inline}.c{margin:10px}"`;
 
 exports[`FelaAesthetic style sheet handles pseudo selectors 1`] = `".a{position:fixed}.c::before{position:absolute}.b:hover{position:static}"`;
+
+exports[`FelaAesthetic style sheet handles raw CSS 1`] = `".fela-button{display:'block';font-size:16px;}.fela-button:hover{color:'red';}.fela-button{vertical-align:'middle';}@media (max-width:600px){.fela-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.fela-button{display:'flex';}}"`;
