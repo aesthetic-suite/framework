@@ -1,11 +1,4 @@
-import Aesthetic, {
-  AestheticOptions,
-  ClassName,
-  Ruleset,
-  Sheet,
-  SheetMap,
-  injectCSS,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
 // @ts-ignore flushToStyleTag is not typed
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
@@ -80,7 +73,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   }
 
   private handleCss = (css: string) => {
-    injectCSS(css);
+    this.getStyleSheetManager().injectStatements(css);
   };
 
   // https://github.com/Khan/aphrodite#font-faces

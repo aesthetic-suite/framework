@@ -21,3 +21,5 @@ exports[`AphroditeAesthetic style sheet handles nested @media 1`] = `".media_y3e
 exports[`AphroditeAesthetic style sheet handles properties 1`] = `".props_1pbzc6n{color:black !important;display:inline !important;margin:10px !important;}"`;
 
 exports[`AphroditeAesthetic style sheet handles pseudo selectors 1`] = `".pseudo_q2zd6k{position:fixed !important;}.pseudo_q2zd6k:hover{position:static !important;}.pseudo_q2zd6k::before{position:absolute !important;}"`;
+
+exports[`AphroditeAesthetic style sheet handles raw CSS 1`] = `".aphrodite-button{display:'block';font-size:16px;}.aphrodite-button:hover{color:'red';}.aphrodite-button{vertical-align:'middle';}@media (max-width:600px){.aphrodite-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.aphrodite-button{display:'flex';}}"`;

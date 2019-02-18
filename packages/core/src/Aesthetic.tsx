@@ -7,6 +7,7 @@ import deepMerge from 'extend';
 import { Omit } from 'utility-types';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
+import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
@@ -56,6 +57,8 @@ export default abstract class Aesthetic<
   themes: { [themeName: string]: Theme } = {};
 
   protected appliedGlobals: boolean = false;
+
+  protected sheetManager: StyleSheetManager | null = null;
 
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
@@ -381,6 +384,19 @@ export default abstract class Aesthetic<
     }
 
     return styleSheet;
+  }
+
+  /**
+   * Return a native style sheet manager used for injecting CSS.
+   */
+  protected getStyleSheetManager(): StyleSheetManager {
+    if (this.sheetManager) {
+      return this.sheetManager;
+    }
+
+    this.sheetManager = new StyleSheetManager();
+
+    return this.sheetManager;
   }
 
   /**

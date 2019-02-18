@@ -8,9 +8,8 @@ import ClassNameAesthetic from './ClassNameAesthetic';
 import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
-import injectCSS from './helpers/injectCSS';
 
-export { AestheticOptions, ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet, injectCSS };
+export { AestheticOptions, ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
 
 export * from './types';
 

@@ -30,24 +30,35 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
 describe('JSSAesthetic', () => {
   let instance: JSSAesthetic<any>;
 
-  function renderAndTest(styles: any, expStyles: any, global: boolean = false) {
+  function renderAndTest(
+    styles: any,
+    expStyles: any,
+    global: boolean = false,
+    raw: boolean = false,
+  ) {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles).toObject();
+      : instance.syntax.convertStyleSheet(styles, 'jss').toObject();
     // @ts-ignore Allow access
-    const styleSheet = instance.processStyleSheet(nativeSheet, 'test');
+    const styleSheet = instance.processStyleSheet(nativeSheet, 'jss');
 
     expect(nativeSheet).toEqual(expStyles);
 
     expect(instance.transformStyles(...Object.values(styleSheet))).toMatchSnapshot();
 
-    expect(cleanStyles(instance.sheets.test.toString())).toMatchSnapshot();
+    if (raw) {
+      // @ts-ignore
+      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
+    } else {
+      expect(cleanStyles(instance.sheets.test.toString())).toMatchSnapshot();
+    }
   }
 
   beforeEach(() => {
@@ -342,6 +353,17 @@ describe('JSSAesthetic', () => {
           },
         },
       });
+    });
+
+    it('handles raw CSS', () => {
+      renderAndTest(
+        SYNTAX_RAW_CSS,
+        {
+          button: 'jss-button-0-23-1',
+        },
+        false,
+        true,
+      );
     });
   });
 });

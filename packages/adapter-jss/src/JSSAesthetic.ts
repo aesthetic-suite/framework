@@ -5,7 +5,6 @@ import Aesthetic, {
   Sheet,
   StyleName,
   SheetMap,
-  injectCSS,
 } from 'aesthetic';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
@@ -95,7 +94,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   };
 
   private handleCss = (css: string) => {
-    injectCSS(css);
+    this.getStyleSheetManager().injectStatements(css);
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

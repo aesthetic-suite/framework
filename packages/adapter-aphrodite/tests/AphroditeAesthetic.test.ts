@@ -22,6 +22,7 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -33,18 +34,24 @@ describe('AphroditeAesthetic', () => {
     expStyles: any,
     expClassName: string,
     global: boolean = false,
+    raw: boolean = false,
   ) {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles).toObject();
+      : instance.syntax.convertStyleSheet(styles, 'aphrodite').toObject();
     // @ts-ignore Allow access
-    const styleSheet = instance.processStyleSheet(nativeSheet);
+    const styleSheet = instance.processStyleSheet(nativeSheet, 'aphrodite');
 
     expect(nativeSheet).toEqual(expStyles);
 
     expect(instance.transformStyles(...Object.values(styleSheet))).toBe(expClassName);
 
-    expect(cleanStyles(StyleSheetTestUtils.getBufferedStyles().join(''))).toMatchSnapshot();
+    if (raw) {
+      // @ts-ignore
+      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
+    } else {
+      expect(cleanStyles(StyleSheetTestUtils.getBufferedStyles().join(''))).toMatchSnapshot();
+    }
   }
 
   beforeEach(() => {
@@ -269,6 +276,18 @@ describe('AphroditeAesthetic', () => {
           },
         },
         'media_y3eou6',
+      );
+    });
+
+    it('handles raw CSS', () => {
+      renderAndTest(
+        SYNTAX_RAW_CSS,
+        {
+          button: 'aphrodite-button',
+        },
+        'button_1by5fty',
+        false,
+        true,
       );
     });
   });
