@@ -20,6 +20,7 @@ import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { Block } from '../src/types';
 import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
+import StyleSheetManager from '../src/StyleSheetManager';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<any, any, any>;
@@ -339,6 +340,20 @@ describe('Aesthetic', () => {
           },
         },
       });
+    });
+  });
+
+  describe('getStyleSheetManager', () => {
+    it('returns and sets a style sheet manager', () => {
+      // @ts-ignore Allow access
+      expect(instance.sheetManager).toBeNull();
+
+      // @ts-ignore Allow access
+      const manager = instance.getStyleSheetManager();
+
+      // @ts-ignore Allow access
+      expect(instance.sheetManager).not.toBeNull();
+      expect(manager).toBeInstanceOf(StyleSheetManager);
     });
   });
 

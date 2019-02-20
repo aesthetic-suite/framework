@@ -7,6 +7,7 @@ export default class StyleSheetManager {
     this.element = document.createElement('style');
     this.element.type = 'text/css';
     this.element.media = 'screen';
+    this.element.setAttribute('data-aesthetic', 'true');
 
     document.head.append(this.element);
 

@@ -29,6 +29,7 @@ import {
   SYNTAX_VIEWPORT,
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_KEYFRAMES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { createTestRulesets, createTestKeyframes } from '../../../tests/helpers';
 
@@ -365,6 +366,14 @@ describe('UnifiedSyntax', () => {
       expect(styleSheet.classNames).toEqual({
         foo: 'foo',
         bar: 'bar',
+      });
+    });
+
+    it('converts raw css and sets a class name on sheet', () => {
+      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, 'styleName');
+
+      expect(styleSheet.classNames).toEqual({
+        button: 'styleName-button',
       });
     });
 
