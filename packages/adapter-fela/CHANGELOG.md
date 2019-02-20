@@ -1,3 +1,13 @@
+# 3.3.0
+
+#### 🚀 New
+
+- Added support for raw CSS declarations in a style sheet.
+
+#### 🐞 Fixed
+
+- Added missing `@babel/runtime` package.
+
 # 3.2.0 - 2019-02-14
 
 #### 🛠 Internal
