@@ -22,6 +22,6 @@
     "aphrodite": "^2.2.0"
   },
   "devDependencies": {
-    "aphrodite": "^2.2.3"
+    "aphrodite": "^2.3.1"
   }
 }
