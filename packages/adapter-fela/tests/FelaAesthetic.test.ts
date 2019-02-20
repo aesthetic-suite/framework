@@ -37,8 +37,8 @@ describe('FelaAesthetic', () => {
 
   function renderAndTest(
     styles: any,
-    expStyles: any,
-    expClassName: string,
+    expStyles: any = {},
+    expClassName: string = '',
     global: boolean = false,
   ) {
     const nativeSheet = global
@@ -305,13 +305,7 @@ describe('FelaAesthetic', () => {
     });
 
     it('handles raw CSS', () => {
-      renderAndTest(
-        SYNTAX_RAW_CSS,
-        {
-          button: 'fela-button',
-        },
-        'fela-button',
-      );
+      renderAndTest(SYNTAX_RAW_CSS);
     });
   });
 });

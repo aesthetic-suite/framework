@@ -4,6 +4,10 @@
 
 - Added `Aesthetic#extendStyles` to support hook style extending.
 
+#### 🐞 Fixed
+
+- Fixed a bug with explicit class names in style sheets being passed to adapters.
+
 #### 🛠 Internal
 
 - TS: More access modifier work.

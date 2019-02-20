@@ -39,7 +39,7 @@ describe('JSSAesthetic', () => {
 
   function renderAndTest(
     styles: any,
-    expStyles: any,
+    expStyles: any = {},
     global: boolean = false,
     raw: boolean = false,
   ) {
@@ -57,7 +57,7 @@ describe('JSSAesthetic', () => {
       // @ts-ignore
       expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
     } else {
-      expect(cleanStyles(instance.sheets.test.toString())).toMatchSnapshot();
+      expect(cleanStyles(instance.sheets.jss.toString())).toMatchSnapshot();
     }
   }
 
@@ -356,14 +356,7 @@ describe('JSSAesthetic', () => {
     });
 
     it('handles raw CSS', () => {
-      renderAndTest(
-        SYNTAX_RAW_CSS,
-        {
-          button: 'jss-button-0-23-1',
-        },
-        false,
-        true,
-      );
+      renderAndTest(SYNTAX_RAW_CSS, {}, false, true);
     });
   });
 });

@@ -124,13 +124,16 @@ describe('Aesthetic', () => {
 
       instance.createStyleSheet('foo');
 
-      expect(spy).toHaveBeenCalledWith({
-        el: {
-          display: 'block',
-          padding: 8,
-          color: 'black',
+      expect(spy).toHaveBeenCalledWith(
+        {
+          el: {
+            display: 'block',
+            padding: 8,
+            color: 'black',
+          },
         },
-      });
+        'foo',
+      );
     });
 
     it('calls `processStyleSheet` with converted syntax', () => {

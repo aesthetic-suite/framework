@@ -31,8 +31,8 @@ describe('AphroditeAesthetic', () => {
 
   function renderAndTest(
     styles: any,
-    expStyles: any,
-    expClassName: string,
+    expStyles: any = {},
+    expClassName: string = '',
     global: boolean = false,
     raw: boolean = false,
   ) {
@@ -280,15 +280,7 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles raw CSS', () => {
-      renderAndTest(
-        SYNTAX_RAW_CSS,
-        {
-          button: 'aphrodite-button',
-        },
-        'button_1by5fty',
-        false,
-        true,
-      );
+      renderAndTest(SYNTAX_RAW_CSS, {}, '', false, true);
     });
   });
 });

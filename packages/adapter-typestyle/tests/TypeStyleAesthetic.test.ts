@@ -33,8 +33,8 @@ describe('TypeStyleAesthetic', () => {
 
   function renderAndTest(
     styles: any,
-    expStyles: any,
-    expClassName: string,
+    expStyles: any = {},
+    expClassName: string = '',
     global: boolean = false,
   ) {
     const nativeSheet = global
@@ -339,13 +339,7 @@ describe('TypeStyleAesthetic', () => {
     });
 
     it('handles raw CSS', () => {
-      renderAndTest(
-        SYNTAX_RAW_CSS,
-        {
-          button: 'typestyle-button',
-        },
-        'typestyle-button',
-      );
+      renderAndTest(SYNTAX_RAW_CSS);
     });
   });
 });

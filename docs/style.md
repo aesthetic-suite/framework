@@ -138,7 +138,8 @@ theme => ({
 });
 ```
 
-> Type safety is lost and chosen adapter is bypassed when using this approach.
+> Type safety is lost, unified syntax is ignored, and chosen adapter is bypassed when using this
+> approach.
 
 ### Class Names
 

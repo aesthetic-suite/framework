@@ -118,14 +118,15 @@ export default abstract class Aesthetic<
 
     this.applyGlobalStyles();
 
-    const styleSheet = this.processStyleSheet(
-      this.syntax.convertStyleSheet(this.getStyleSheet(styleName), styleName).toObject(),
-      styleName,
-    );
+    const baseSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), styleName);
+    const styleSheet = this.processStyleSheet(baseSheet.toObject(), styleName);
 
-    this.cache[styleName] = styleSheet;
+    this.cache[styleName] = {
+      ...styleSheet,
+      ...baseSheet.classNames,
+    } as SheetMap<ParsedBlock>;
 
-    return styleSheet;
+    return this.cache[styleName];
   }
 
   /**
