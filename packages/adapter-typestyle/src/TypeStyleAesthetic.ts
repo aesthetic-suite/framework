@@ -18,6 +18,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
 
     this.syntax
       .on('attribute', this.handleNested)
+      .on('css', this.handleCss)
       .on('fallback', this.handleFallback)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
@@ -32,6 +33,11 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     return this.typeStyle.style(...styles);
   }
+
+  // https://typestyle.github.io/#/raw/-cssraw-
+  private handleCss = (css: string) => {
+    this.typeStyle.cssRaw(css);
+  };
 
   // https://typestyle.github.io/#/core/concept-fallbacks
   private handleFallback = (

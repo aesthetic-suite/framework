@@ -19,6 +19,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
 
     this.syntax
       .on('attribute', this.handleNested)
+      .on('css', this.handleCss)
       .on('fallback', this.handleFallback)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
@@ -37,6 +38,11 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
   protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
+
+  // http://fela.js.org/docs/api/fela/Renderer.html
+  private handleCss = (css: string) => {
+    this.fela.renderStatic(css);
+  };
 
   // https://github.com/rofrischmann/fela/tree/master/packages/fela-plugin-fallback-value
   private handleFallback = (

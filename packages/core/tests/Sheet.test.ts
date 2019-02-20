@@ -104,16 +104,6 @@ describe('Sheet', () => {
       });
     });
 
-    describe('class names', () => {
-      it('returns class names', () => {
-        sheet.addClassName('foo', 'foo');
-
-        expect(sheet.toObject()).toEqual({
-          foo: 'foo',
-        });
-      });
-    });
-
     describe('rulesets', () => {
       it('returns rulesets', () => {
         const foo = sheet.createRuleset('foo').addProperty('color', 'red');

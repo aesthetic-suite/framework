@@ -24,6 +24,7 @@ import {
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
+  SYNTAX_RAW_CSS,
 } from '../../../tests/mocks';
 import { cleanStyles } from '../../../tests/helpers';
 
@@ -32,22 +33,28 @@ describe('TypeStyleAesthetic', () => {
 
   function renderAndTest(
     styles: any,
-    expStyles: any,
-    expClassName: string,
+    expStyles: any = {},
+    expClassName: string = '',
     global: boolean = false,
   ) {
     const nativeSheet = global
       ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles).toObject();
+      : instance.syntax.convertStyleSheet(styles, 'typestyle').toObject();
     // @ts-ignore Allow access
-    const styleSheet = instance.processStyleSheet(nativeSheet, 'fela');
+    const styleSheet = instance.processStyleSheet(nativeSheet, 'typestyle');
 
     expect(nativeSheet).toEqual(expStyles);
 
     expect(instance.transformStyles(...Object.values(styleSheet))).toBe(expClassName);
 
     // @ts-ignore
-    expect(cleanStyles(instance.typeStyle._freeStyle.sheet.join(''))).toMatchSnapshot();
+    if (instance.typeStyle._raw) {
+      // @ts-ignore
+      expect(cleanStyles(instance.typeStyle._raw)).toMatchSnapshot();
+    } else {
+      // @ts-ignore
+      expect(cleanStyles(instance.typeStyle._freeStyle.sheet.join(''))).toMatchSnapshot();
+    }
   }
 
   beforeEach(() => {
@@ -329,6 +336,10 @@ describe('TypeStyleAesthetic', () => {
         },
         'f6m6wzj',
       );
+    });
+
+    it('handles raw CSS', () => {
+      renderAndTest(SYNTAX_RAW_CSS);
     });
   });
 });

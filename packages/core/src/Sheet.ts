@@ -57,7 +57,6 @@ export default class Sheet<Block extends object> {
 
     return {
       ...atRules,
-      ...this.classNames,
       ...toObjectRecursive(sets),
       ...toObjectRecursive(this.ruleSets),
     } as SheetMap<Block>;

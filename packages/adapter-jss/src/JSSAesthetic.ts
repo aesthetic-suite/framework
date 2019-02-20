@@ -28,6 +28,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     this.syntax
       .on('attribute', this.handleNested)
       .on('charset', this.handleCharset)
+      .on('css', this.handleCss)
       .on('fallback', this.handleFallback)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
@@ -90,6 +91,10 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
   private handleCharset = (sheet: Sheet<NativeBlock>, charset: string) => {
     sheet.addAtRule('@charset', charset);
+  };
+
+  private handleCss = (css: string) => {
+    this.getStyleSheetManager().injectStatements(css);
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#fallbacks

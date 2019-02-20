@@ -25,3 +25,5 @@ exports[`TypeStyleAesthetic style sheet handles nested @media 1`] = `".fuxmg1k{c
 exports[`TypeStyleAesthetic style sheet handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
 
 exports[`TypeStyleAesthetic style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
+
+exports[`TypeStyleAesthetic style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;

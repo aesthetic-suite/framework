@@ -353,3 +353,26 @@ export const SYNTAX_VIEWPORT = {
     orientation: 'landscape',
   },
 };
+
+export const SYNTAX_RAW_CSS = {
+  button: `
+    display: 'block';
+    font-size: 16px;
+
+    &:hover {
+      color: 'red';
+    }
+
+    & {
+      vertical-align: 'middle';
+    }
+
+    @media (max-width: 600px) {
+      display: 'none';
+    }
+
+    @supports (display: flex) {
+      display: 'flex';
+    }
+  `,
+};

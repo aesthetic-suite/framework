@@ -1,3 +1,14 @@
+# 3.4.0
+
+#### 🚀 New
+
+- Added support for raw CSS declarations in a style sheet.
+
+#### 🐞 Fixed
+
+- Added missing `@babel/runtime` package.
+- Fixed a bug with explicit class names in style sheets being passed to adapters.
+
 # 3.3.0 - 2019-02-15
 
 #### 🚀 New

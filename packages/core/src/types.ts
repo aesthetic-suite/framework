@@ -24,6 +24,8 @@ export type ClassNameGenerator<N extends object, P extends object | string> = (
   ...styles: (undefined | false | ClassName | N | P)[]
 ) => ClassName;
 
+export type RawCss = string;
+
 export type ExtendedProperty<B, T> = B | T | (B | T)[];
 
 // SYNTAX
@@ -81,7 +83,7 @@ export type ComponentBlockNeverize<T> = T extends string
   ? string
   : { [K in keyof T]: K extends keyof ComponentBlock ? ComponentBlock[K] : never };
 
-export type StyleSheet = SheetMap<ClassName | ComponentBlock>;
+export type StyleSheet = SheetMap<ClassName | RawCss | ComponentBlock>;
 
 export type StyleSheetNeverize<T> = { [K in keyof T]: ComponentBlockNeverize<T[K]> };
 

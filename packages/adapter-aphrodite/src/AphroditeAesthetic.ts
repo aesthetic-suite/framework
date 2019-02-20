@@ -28,6 +28,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
     this.syntax
       .on('attribute', this.handleNested)
+      .on('css', this.handleCss)
       .on('font-face', this.handleFontFace)
       .on('global', this.handleGlobal)
       .on('keyframe', this.handleKeyframe)
@@ -70,6 +71,10 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
     return this.aphrodite.css(...legitStyles);
   }
+
+  private handleCss = (css: string) => {
+    this.getStyleSheetManager().injectStatements(css);
+  };
 
   // https://github.com/Khan/aphrodite#font-faces
   private handleFontFace = (

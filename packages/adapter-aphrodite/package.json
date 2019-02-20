@@ -19,9 +19,9 @@
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",
-    "aphrodite": "^2.2.0"
+    "aphrodite": "^2.3.0"
   },
   "devDependencies": {
-    "aphrodite": "^2.2.3"
+    "aphrodite": "^2.3.1"
   }
 }
