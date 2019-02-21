@@ -13,8 +13,10 @@ export default new AphroditeAesthetic(extensions, {
 });
 ```
 
-The following options are available, most of which can be overridden per component, and all of which
-only apply to the `withStyles` API.
+### Options
+
+The following options are available, most of which can be overridden per component when using
+`withStyles`.
 
 - `extendable` (boolean) - Can component styles be extended by other components? Otherwise, the
   styles are locked and isolated. Defaults to `false`.
@@ -28,15 +30,16 @@ only apply to the `withStyles` API.
 - `themePropName` (string) - Name of the prop in which to pass the theme object to the wrapped
   component. Defaults to `theme`.
 
-## Creating Helper Functions
+## API
 
 All of Aesthetic's functionality, including HOCs and hooks, are utilized through a class instance,
-which can be quite cumbersome to use. It's suggested to wrap this functionality in reusable helper
-functions.
+which can be quite cumbersome to use. It's suggested to wrap the following public API methods into
+reusable helper functions.
 
 ### useStyles
 
-The `Aesthetic#useStyles` hook can be written as the following.
+The `Aesthetic#useStyles` hook supports an _optional_ custom component name for use in debugging and
+generating class names. This defaults to "Component" if not defined.
 
 ```ts
 // useStyles.ts
@@ -45,15 +48,15 @@ import aesthetic, { Theme } from './aesthetic';
 
 export default function useStyles<T>(
   styleSheet: StyleSheetDefinition<Theme, T>,
-  customName?: string,
+  componentName?: string,
 ) /* infer */ {
-  return aesthetic.useStyles(styleSheet, customName);
+  return aesthetic.useStyles(styleSheet, componentName);
 }
 ```
 
 ### useTheme
 
-The `Aesthetic#useTheme` hook can be written as the following.
+The `Aesthetic#useTheme` hook returns the current theme.
 
 ```ts
 // useTheme.ts
@@ -66,8 +69,8 @@ export default function useTheme() /* infer */ {
 
 ### withStyles
 
-The `Aesthetic#withStyles` HOC can be written as the following. If using TypeScript, all adapters
-export a `ParsedBlock` type that must be passed to the `WithStylesProps` type.
+The `Aesthetic#withStyles` HOC supports all of the [options](#options) mentioned previously, except
+for `theme`.
 
 ```ts
 // withStyles.ts
@@ -89,9 +92,13 @@ export default function withStyles<T>(
 }
 ```
 
+> If using TypeScript, all adapters export a `ParsedBlock` type that must be passed to the
+> `WithStylesProps` type.
+
 ### withTheme
 
-The `Aesthetic#withTheme` HOC can be written as the following.
+The `Aesthetic#withTheme` HOC passes the current theme as a prop. It supports the `themePropName`
+and `pure` [options](#options) mentioned previously.
 
 ```ts
 // withTheme.ts
@@ -108,8 +115,7 @@ export default function withTheme(options: WithThemeOptions = {}) /* infer */ {
 ### transformStyles
 
 And lastly, the `Aesthetic#transformStyles` method, which is required to transform styles into CSS
-class names, can be written as the following. If using TypeScript, the `NativeBlock` and
-`ParsedBlock` adapter types must be used for proper type safety.
+class names. This function is also returned as the 2nd value from the `useStyles` hook.
 
 ```ts
 // cx.ts
@@ -123,7 +129,8 @@ export default function cx(
 }
 ```
 
-> This function is returned as the 2nd value from the `useStyles` hook.
+> If using TypeScript, the `NativeBlock` and `ParsedBlock` adapter types must be used for proper
+> type safety.
 
 ## Bundler Integration
 
