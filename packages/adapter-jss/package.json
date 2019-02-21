@@ -18,6 +18,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@babel/runtime": "^7.3.1",
     "@types/jss": "^9.5.7"
   },
   "peerDependencies": {
