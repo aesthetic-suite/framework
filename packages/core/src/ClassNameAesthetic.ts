@@ -1,5 +1,5 @@
+import { ClassName } from 'unified-css-syntax';
 import Aesthetic from './Aesthetic';
-import { ClassName } from './types';
 
 export default class ClassNameAesthetic<Theme extends object> extends Aesthetic<
   Theme,

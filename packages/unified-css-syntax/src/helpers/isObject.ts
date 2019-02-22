@@ -1,3 +1,3 @@
-export default function isObject(value: unknown): value is object {
+export default function isObject(value: any): value is object {
   return value !== null && !Array.isArray(value) && typeof value === 'object';
 }

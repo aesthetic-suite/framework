@@ -20,7 +20,7 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core",
   "license": "MIT",
   "main": "./lib/index.js",
-  "module": "./module.js",
+  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
@@ -36,6 +36,7 @@
     "extend": "^3.0.2",
     "hoist-non-react-statics": "^3.3.0",
     "stylis": "^3.5.4",
+    "unified-css-syntax": "^0.0.0",
     "utility-types": "^3.4.1",
     "uuid": "^3.3.2"
   },

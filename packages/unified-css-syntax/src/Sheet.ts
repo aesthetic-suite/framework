@@ -2,7 +2,7 @@ import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
 import { ClassName, SheetMap } from './types';
 
-type AtRuleType<Block extends object> =
+export type AtRuleType<Block extends object> =
   | string
   | string[]
   | Ruleset<Block>

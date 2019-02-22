@@ -5,18 +5,16 @@ import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import deepMerge from 'extend';
 import { Omit } from 'utility-types';
+import UnifiedSyntax, { ClassName, StyleSheet, SheetMap } from 'unified-css-syntax';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
 import StyleSheetManager from './StyleSheetManager';
-import UnifiedSyntax from './UnifiedSyntax';
 import {
-  ClassName,
+  AestheticOptions,
   ClassNameGenerator,
   GlobalSheetDefinition,
-  SheetMap,
   StyledComponentClass,
   StyleName,
-  StyleSheet,
   StyleSheetDefinition,
   ThemeName,
   WithStylesOptions,
@@ -27,15 +25,6 @@ import {
   WithThemeProps,
   WithThemeWrapperProps,
 } from './types';
-
-export interface AestheticOptions {
-  extendable: boolean;
-  passThemeProp: boolean;
-  pure: boolean;
-  stylesPropName: string;
-  theme: ThemeName;
-  themePropName: string;
-}
 
 export default abstract class Aesthetic<
   Theme extends object,

@@ -1,0 +1,29 @@
+{
+  "name": "unified-css-syntax",
+  "version": "0.0.0",
+  "description": "A type-safe unified syntax for CSS-in-JS libraries.",
+  "keywords": [
+    "aesthetic",
+    "unified",
+    "syntax",
+    "css",
+    "css-in-js",
+    "stylesheet"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/unified-css-syntax",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "priority": 100,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.3.1",
+    "csstype": "^2.6.2",
+    "utility-types": "^3.4.1",
+    "stylis": "^3.5.4"
+  }
+}
