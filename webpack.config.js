@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: './tests/bundle.tsx',
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
