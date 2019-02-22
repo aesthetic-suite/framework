@@ -1,3 +1,9 @@
+# 3.4.1
+
+#### 🐞 Fixed
+
+- More ESM improvements.
+
 # 3.4.0
 
 #### 🚀 New
