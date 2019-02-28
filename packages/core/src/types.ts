@@ -88,7 +88,7 @@ export interface WithStylesState<Props, ParsedBlock> {
 
 export type WithStylesOptions = Partial<Omit<AestheticOptions, 'theme'>> & {
   /** The parent component ID in which to extend styles from. This is usually defined automatically. Provided by `withStyles`. */
-  extendFrom: string;
+  extendFrom?: string;
 };
 
 export interface StyledComponentClass<Theme, Props> extends React.ComponentClass<Props> {

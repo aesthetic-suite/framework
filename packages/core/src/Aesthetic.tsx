@@ -5,9 +5,7 @@ import uuid from 'uuid/v4';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import deepMerge from 'extend';
 import { Omit } from 'utility-types';
-import UnifiedSyntax, { ClassName, StyleSheet, SheetMap } from 'unified-css-syntax';
-import isObject from './helpers/isObject';
-import stripClassPrefix from './helpers/stripClassPrefix';
+import UnifiedSyntax, { isObject, ClassName, StyleSheet, SheetMap } from 'unified-css-syntax';
 import StyleSheetManager from './StyleSheetManager';
 import {
   AestheticOptions,
@@ -192,7 +190,7 @@ export default abstract class Aesthetic<
         classNames.push(
           ...String(style)
             .split(' ')
-            .map(s => stripClassPrefix(s).trim()),
+            .map(s => (s.charAt(0) === '.' ? s.substring(1) : name).trim()),
         );
       } else if (isObject(style)) {
         toTransform.push(style);

@@ -6,8 +6,10 @@
 import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
+import isObject from './helpers/isObject';
+import toArray from './helpers/toArray';
 
-export { Ruleset, Sheet };
+export { Ruleset, Sheet, isObject, toArray };
 
 export * from './types';
 

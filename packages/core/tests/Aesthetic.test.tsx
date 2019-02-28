@@ -11,6 +11,7 @@ import { create } from 'jss';
 // @ts-ignore
 import preset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
+import { Block } from 'unified-css-syntax';
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
 import FelaAesthetic from 'aesthetic-adapter-fela';
@@ -18,7 +19,6 @@ import JSSAesthetic from 'aesthetic-adapter-jss';
 import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { Block } from '../src/types';
 import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
 import StyleSheetManager from '../src/StyleSheetManager';
 
