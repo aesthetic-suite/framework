@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/prefer-interface */
+/* eslint-disable import/no-unresolved, @typescript-eslint/prefer-interface */
 
 import CSS from 'csstype';
 import { Omit } from 'utility-types';

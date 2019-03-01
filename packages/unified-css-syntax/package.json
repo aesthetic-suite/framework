@@ -1,6 +1,6 @@
 {
   "name": "unified-css-syntax",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A type-safe unified syntax for CSS-in-JS libraries.",
   "keywords": [
     "aesthetic",

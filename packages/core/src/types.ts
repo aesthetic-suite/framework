@@ -1,5 +1,3 @@
-/* eslint-disable import/no-unresolved, @typescript-eslint/prefer-interface */
-
 import { ClassName, ComponentBlock, GlobalSheet, StyleSheet, SheetMap } from 'unified-css-syntax';
 import { Omit } from 'utility-types';
 

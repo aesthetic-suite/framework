@@ -1,5 +1,5 @@
-import Ruleset from '../packages/core/src/Ruleset';
-import Sheet from '../packages/core/src/Sheet';
+import Ruleset from '../packages/unified-css-syntax/src/Ruleset';
+import Sheet from '../packages/unified-css-syntax/src/Sheet';
 
 export function cleanStyles(source: string): string {
   return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');

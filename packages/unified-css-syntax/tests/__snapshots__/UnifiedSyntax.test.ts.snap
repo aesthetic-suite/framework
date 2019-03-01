@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnifiedSyntax convertGlobalSheet() @charset errors if not a string 1`] = `"@charset must be a string."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @font-face errors if not an object 1`] = `"@font-face must be an object of font family names to font faces."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @global errors if not an object 1`] = `"@global must be an object of selectors to ruleset objects."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @global errors if select value is not an object 1`] = `"@global \\"foo\\" must be a ruleset object."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @import errors if not a string 1`] = `"@import must be a string or an array of strings."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @keyframes errors if not a string 1`] = `"@keyframes must be an object of animation names to keyframes."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @page errors if not an object 1`] = `"@page must be a ruleset object."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() @viewport errors if not an object 1`] = `"@viewport must be a ruleset object."`;
+
+exports[`UnifiedSyntax convertGlobalSheet() errors for unknown properties (not at-rules) 1`] = `"Unknown property \\"unknown\\". Only at-rules are allowed in the global style sheet."`;
+
+exports[`UnifiedSyntax convertRuleset() @fallbacks errors if not an object 1`] = `"@fallbacks must be an object of property names to fallback values."`;
+
+exports[`UnifiedSyntax convertRuleset() @media errors if not an object 1`] = `"@media must be an object of queries to rulesets."`;
+
+exports[`UnifiedSyntax convertRuleset() @media errors if query not an object 1`] = `"@media (max-width: 100px) must be a mapping of conditions to style objects."`;
+
+exports[`UnifiedSyntax convertRuleset() @selectors errors if advanced selectors not in an @selectors block 1`] = `"Advanced selector \\"[disabled], :disabled\\" must be nested within an @selectors block."`;
+
+exports[`UnifiedSyntax convertRuleset() @selectors errors if not an object 1`] = `"@selectors must be an object of selectors to rulesets."`;
+
+exports[`UnifiedSyntax convertRuleset() @supports errors if not an object 1`] = `"@supports must be an object of queries to rulesets."`;
+
+exports[`UnifiedSyntax convertRuleset() @supports errors if query not an object 1`] = `"@supports (display: flex) must be a mapping of conditions to style objects."`;
+
+exports[`UnifiedSyntax convertRuleset() errors for a non-object 1`] = `"Ruleset must be an object of properties."`;
+
+exports[`UnifiedSyntax convertRuleset() errors for unknown at-rule 1`] = `"Unsupported local at-rule \\"@unknown\\"."`;
+
+exports[`UnifiedSyntax convertSelector() errors for a comma separate list if not in an at-rule 1`] = `"Advanced selector \\":disabled, [disabled], > span\\" must be nested within an @selectors block."`;
+
+exports[`UnifiedSyntax convertSelector() errors for a non-object 1`] = `"Selector \\":hover\\" must be a ruleset object."`;
+
+exports[`UnifiedSyntax convertStyleSheet() errors for an at-rule 1`] = `"At-rules may not be defined in the root, found \\"@rule\\"."`;
+
+exports[`UnifiedSyntax convertStyleSheet() errors for invalid value type 1`] = `"Invalid ruleset for \\"el\\". Must be an object or class name."`;
