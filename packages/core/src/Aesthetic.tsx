@@ -190,7 +190,7 @@ export default abstract class Aesthetic<
         classNames.push(
           ...String(style)
             .split(' ')
-            .map(s => (s.charAt(0) === '.' ? s.substring(1) : name).trim()),
+            .map(s => (s.charAt(0) === '.' ? s.substring(1) : s).trim()),
         );
       } else if (isObject(style)) {
         toTransform.push(style);
