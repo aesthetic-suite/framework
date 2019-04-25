@@ -18,8 +18,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1",
-    "@types/jss": "^9.5.7"
+    "@babel/runtime": "^7.4.3",
+    "@types/jss": "^9.5.8"
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",

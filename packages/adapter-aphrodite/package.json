@@ -18,7 +18,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@babel/runtime": "^7.3.1"
+    "@babel/runtime": "^7.4.3"
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",
