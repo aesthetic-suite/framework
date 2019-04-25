@@ -1,30 +1,30 @@
-# 3.4.0
+## 3.4.0
 
 #### 🛠 Internals
 
 - Removed `@babel/runtime` as it wasn't saving much space and it conflicts with the new `core-js`
   pattern.
 
-# 3.3.0 - 2019-02-26
+## 3.3.0 - 2019-02-26
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added support for raw CSS declarations in a style sheet.
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Added missing `@babel/runtime` package.
 
-# 3.2.0 - 2019-02-14
+## 3.2.0 - 2019-02-14
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Support for the new React hooks API.
 - TS: Marked some `FelaAesthetic` class methods with access modifiers.
 
-# 3.1.0 - 2019-02-09
+## 3.1.0 - 2019-02-09
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added ECMAScript module support via `esm/` built files.
 - Removed copyright docblocks from source files to reduce bundle size.
@@ -42,31 +42,31 @@
   default.
 - Updated `fela` and `fela-dom` to 10.0.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Converted from Flow to TypeScript.
 
-# 2.2.0 - 2018-05-30
+## 2.2.0 - 2018-05-30
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Updated `aesthetic` peer requirement to 2.5.
 
-# 2.1.2 - 2018-03-20
+### 2.1.2 - 2018-03-20
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed incorrectly built and published files.
 
-# 2.1.1 - 2018-03-20
+### 2.1.1 - 2018-03-20
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Updated dependencies.
 
-# 2.1.0 - 2018-01-13
+## 2.1.0 - 2018-01-13
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Can now pass dynamic style objects to `transform` (will be akin to inline).
 - Unified Syntax
@@ -84,60 +84,60 @@
 - Unified Syntax
   - The `@font-face` at-rule now requires an array of `srcPaths`.
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added support for `fela-dom` 7.0.
 - Unified Syntax
   - Adds new `@global` and `@supports` at-rules.
   - Supports the new `@font-face` structure.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Rewritten Flowtype definitions.
 
-# 1.7.2 - 2017-11-10
+### 1.7.2 - 2017-11-10
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Tested against React 16.1.
 - Improved build process.
 
-# 1.7.1 - 2017-10-18
+### 1.7.1 - 2017-10-18
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Enabled Yarn workspaces.
 - Updated Flowtype definitions.
 
-# 1.7.0 - 2017-09-27
+## 1.7.0 - 2017-09-27
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added support for `react` 16.0.
 - Updated `prop-types` to 15.6.
 - Updated `fela` and `fela-dom` to 6.0.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Updated cross package imports to use CommonJS paths.
 - Improved the build process.
 
-# 1.6.0 - 2017-07-28
+## 1.6.0 - 2017-07-28
 
 - Updated Flow definitions.
 - Wrapped errors in `__DEV__` environment checks.
 
-# 1.5.1 - 2017-06-19
+### 1.5.1 - 2017-06-19
 
 - Fixed an issue with the Lerna package.
 
-# 1.5.0 - 2017-06-19
+## 1.5.0 - 2017-06-19
 
 - Updated `fela` to 5.0.
 - Updated `react` to 15.6.
 - Updated `prop-types` to 15.5.10.
 
-# 1.4.0 - 2017-05-11
+## 1.4.0 - 2017-05-11
 
 - Updated IE requirement to 11+.
 - Updated to include src/ files in the published package.

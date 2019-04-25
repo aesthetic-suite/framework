@@ -1,38 +1,38 @@
-# 3.5.0
+## 3.5.0
 
 #### 🛠 Internals
 
 - Removed `@babel/runtime` as it wasn't saving much space and it conflicts with the new `core-js`
   pattern.
 
-# 3.4.1 - 2019-02-26
+### 3.4.1 - 2019-02-26
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - More ESM improvements.
 
-# 3.4.0
+## 3.4.0
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added support for raw CSS declarations in a style sheet.
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Added missing `@babel/runtime` package.
 - Fixed a bug with explicit class names in style sheets being passed to adapters.
 
-# 3.3.0 - 2019-02-15
+## 3.3.0 - 2019-02-15
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added `Aesthetic#extendStyles` to support hook style extending.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - TS: More access modifier work.
 
-# 3.2.0 - 2019-02-14
+## 3.2.0 - 2019-02-14
 
 #### 🎉 Release
 
@@ -40,36 +40,36 @@ This release includes experimental support for the new hooks API. Peer dependenc
 be updated once the Aesthetic API is finalized. Until then, the API may change without a breaking
 major version.
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added `Aesthetic#useStyles` hook.
 - Added `Aesthetic#useTheme` hook.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Renamed some `Aesthetic` class methods.
 - TS: Marked some `Aesthetic` class methods with access modifiers.
 
-# 3.1.1 - 2019-02-10
+### 3.1.1 - 2019-02-10
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed an issue with TS types being exported from the ESM index.
 
-# 3.1.0 - 2019-02-09
+## 3.1.0 - 2019-02-09
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added ECMAScript module support via `esm/` built files.
 - Removed copyright docblocks from source files to reduce bundle size.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Tested with React v16.8 (experimenting with a hooks API).
 
-# 3.0.1 - 2019-01-31
+### 3.0.1 - 2019-01-31
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed an issue in which global styles weren't flushing for some adapters.
 
@@ -131,7 +131,7 @@ of stylers, and unified syntax as the default.
 - Child combinators (`> li`), advanced pseudos (`:not(:nth-child(n))`), and advanced attributes
   (`[href*="foo"]`) must now be defined within the `@selectors` at-rule.
 
-#### 🚀 New
+#### 🚀 Updates
 
 **Core**
 
@@ -148,98 +148,98 @@ of stylers, and unified syntax as the default.
 - Updated `fontFamily` property to support inline font face objects.
 - Properly supports nested at-rules, like `@media` and `@supports`.
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Global theme styles will no longer collide with other themes.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Converted from Flow to TypeScript.
 
-# 2.6.0 - 2018-07-11
+## 2.6.0 - 2018-07-11
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Unified Syntax
   - Updated `@import` to support an array of paths.
 
-# 2.5.0 - 2018-05-30
+## 2.5.0 - 2018-05-30
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added an `Adapter#merge` method.
 
-# 2.4.1 - 2018-05-09
+### 2.4.1 - 2018-05-09
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed a bug in which `themeName` was being passed from the HOC.
 
-# 2.4.0 - 2018-05-08
+## 2.4.0 - 2018-05-08
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added new `passThemeProp` and `passThemeNameProp` options to control which props are passed to the
   underlying component.
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed a bug in which a component's `defaultProps` were not being passed to the styler function.
 
-# 2.3.1 - 2018-04-19
+### 2.3.1 - 2018-04-19
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Moved initial style transformation to the constructor to avoid possible race conditions.
 
-# 2.3.0 - 2018-04-17
+## 2.3.0 - 2018-04-17
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added a `wrappedRef` prop to access the underlying wrapped component.
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed an issue in which styles would transform infinitely on update.
 
-# 2.2.4 - 2018-04-16
+### 2.2.4 - 2018-04-16
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Updated `componentWillMount` to `componentDidMount` and `componentWillReceiveProps` to
   `componentDidUpdate` in preparation for React 16.3.
 
-# 2.2.3 - 2018-03-20
+### 2.2.3 - 2018-03-20
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed incorrectly built and published files.
 
-# 2.2.2 - 2018-03-20
+### 2.2.2 - 2018-03-20
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Fixed a bug where generated class names would start with an invalid number.
 
-# 2.2.1 - 2018-01-30
+### 2.2.1 - 2018-01-30
 
-#### 🐞 Fixed
+#### 🐞 Fixes
 
 - Unified Syntax
   - Font face `srcPaths` will now work with query strings.
 
-# 2.2.0 - 2018-01-13
+## 2.2.0 - 2018-01-13
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Unified Syntax
   - Attribute selectors are now supported when starting with `[`.
   - Direct descendant selectors are now supported with `>`.
   - Multiple selectors are now supported by separating each selector with a comma.
 
-# 2.1.0 - 2018-01-03
+## 2.1.0 - 2018-01-03
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Style names (usually the component name) are now passed to adapters during the style sheet
   creation phase.
@@ -279,7 +279,7 @@ structure.
     - The object value can now be an array of font face style declarations.
     - The `srcPaths` property, an array of paths, is now required (instead of `src`).
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added a new adapter, `TypeStyle`.
 - Added `Aesthetic#createStyleSheet` for converting a component's styles into an adapter specific
@@ -296,58 +296,58 @@ structure.
     at-rules (varies between adapters).
   - Added a new property `local` for use within `@font-face` (the source `local()` value).
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Rewritten Flowtype definitions.
 
-# 1.7.1 - 2017-11-10
+### 1.7.1 - 2017-11-10
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Tested against React 16.1.
 - Improved build process.
 
-# 1.7.0 - 2017-10-18
+## 1.7.0 - 2017-10-18
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added a `defaultTheme` option to `Aesthetic`, which is used when `themeName` is empty.
 - Added a `pure` option to `Aesthetic`, which forces components to extend `React.PureComponent`.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Enabled Yarn workspaces.
 - Updated Flowtype definitions.
 
-# 1.6.0 - 2017-09-27
+## 1.6.0 - 2017-09-27
 
-#### 🚀 New
+#### 🚀 Updates
 
 - Added support for `react` 16.0.
 - Updated `prop-types` to 15.6.
 
-#### 🛠 Internal
+#### 🛠 Internals
 
 - Updated Flowtype definitions.
 - Updated cross package imports to use CommonJS paths.
 - Improved the build process.
 
-# 1.5.0 - 2017-07-28
+## 1.5.0 - 2017-07-28
 
 - Updated `hoist-non-react-statics` to 2.2.
 - Updated Flow definitions.
 - Wrapped errors in `__DEV__` environment checks.
 
-# 1.4.2 - 2017-06-19
+### 1.4.2 - 2017-06-19
 
 - Fixed an issue with the Lerna package.
 
-# 1.4.1 - 2017-06-19
+### 1.4.1 - 2017-06-19
 
 - Updated `react` to 15.6.
 - Updated `prop-types` to 15.5.10.
 
-# 1.4.0 - 2017-05-11
+## 1.4.0 - 2017-05-11
 
 - Updated IE requirement to 11+.
 - Updated to include src/ files in the published package.
