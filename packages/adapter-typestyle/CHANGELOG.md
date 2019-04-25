@@ -1,4 +1,11 @@
-# 2.3.0
+# 2.4.0
+
+#### 🛠 Internals
+
+- Removed `@babel/runtime` as it wasn't saving much space and it conflicts with the new `core-js`
+  pattern.
+
+# 2.3.0 - 2019-02-26
 
 #### 🚀 New
 
