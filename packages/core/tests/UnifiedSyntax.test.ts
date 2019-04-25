@@ -431,7 +431,7 @@ describe('UnifiedSyntax', () => {
       syntax.convertRuleset(
         {
           padding: 0,
-          margin: 0.0,
+          margin: 0,
           display: '',
         },
         ruleset,

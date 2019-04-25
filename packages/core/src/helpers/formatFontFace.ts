@@ -30,7 +30,7 @@ export default function formatFontFace(
     toArray(fontFace.srcPaths).forEach(srcPath => {
       let ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
-      if (ext.indexOf('?') >= 0) {
+      if (ext.includes('?')) {
         [ext] = ext.split('?');
       }
 
