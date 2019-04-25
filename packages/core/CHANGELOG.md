@@ -4,6 +4,7 @@
 
 - Removed `@babel/runtime` as it wasn't saving much space and it conflicts with the new `core-js`
   pattern.
+- **[TS]** Switch to project references.
 
 ### 3.4.1 - 2019-02-26
 

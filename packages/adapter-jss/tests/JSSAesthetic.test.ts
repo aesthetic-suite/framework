@@ -3,8 +3,8 @@
 import { create } from 'jss';
 // @ts-ignore
 import preset from 'jss-preset-default';
-import JSSAesthetic from '../src/JSSAesthetic';
 import {
+  cleanStyles,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
@@ -31,8 +31,8 @@ import {
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../../../tests/mocks';
-import { cleanStyles } from '../../../tests/helpers';
+} from 'aesthetic/lib/testUtils';
+import JSSAesthetic from '../src/JSSAesthetic';
 
 describe('JSSAesthetic', () => {
   let instance: JSSAesthetic<any>;

@@ -50,12 +50,6 @@
       "rules": {
         "import/export": "off"
       }
-    },
-    "typescript": {
-      "exclude": [
-        "tests/properties.tsx",
-        "tests/typings.tsx"
-      ]
     }
   },
   "workspaces": [

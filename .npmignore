@@ -38,4 +38,6 @@ book.json
 jest.config.js
 prettier.config.js
 tsconfig.json
+tsconfig.options.json
+*.tsbuildinfo
 webpack.config.js

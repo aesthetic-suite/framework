@@ -1,8 +1,8 @@
 /* eslint-disable jest/expect-expect, no-underscore-dangle */
 
 import { TypeStyle } from 'typestyle';
-import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 import {
+  cleanStyles,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
@@ -25,8 +25,8 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../../../tests/mocks';
-import { cleanStyles } from '../../../tests/helpers';
+} from 'aesthetic/lib/testUtils';
+import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 
 describe('TypeStyleAesthetic', () => {
   let instance: TypeStyleAesthetic<any>;

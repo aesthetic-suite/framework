@@ -1,8 +1,8 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils } from 'aphrodite';
-import AphroditeAesthetic from '../src/AphroditeAesthetic';
 import {
+  cleanStyles,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
@@ -23,8 +23,8 @@ import {
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../../../tests/mocks';
-import { cleanStyles } from '../../../tests/helpers';
+} from 'aesthetic/lib/testUtils';
+import AphroditeAesthetic from '../src/AphroditeAesthetic';
 
 describe('AphroditeAesthetic', () => {
   let instance: AphroditeAesthetic<any>;

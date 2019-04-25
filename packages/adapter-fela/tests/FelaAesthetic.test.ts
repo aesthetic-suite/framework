@@ -4,8 +4,8 @@ import { createRenderer } from 'fela';
 // @ts-ignore
 import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
-import FelaAesthetic from '../src/FelaAesthetic';
 import {
+  cleanStyles,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
@@ -29,8 +29,8 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../../../tests/mocks';
-import { cleanStyles } from '../../../tests/helpers';
+} from 'aesthetic/lib/testUtils';
+import FelaAesthetic from '../src/FelaAesthetic';
 
 describe('FelaAesthetic', () => {
   let instance: FelaAesthetic<any>;

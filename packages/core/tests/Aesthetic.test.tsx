@@ -19,8 +19,8 @@ import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 import Aesthetic from '../src/Aesthetic';
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import { Block } from '../src/types';
-import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../../../tests/mocks';
 import StyleSheetManager from '../src/StyleSheetManager';
+import { SYNTAX_GLOBAL, SYNTAX_UNIFIED_LOCAL_FULL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<any, any, any>;

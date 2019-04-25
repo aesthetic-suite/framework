@@ -1,6 +1,10 @@
-import { FontFace } from 'aesthetic';
-
 /* eslint-disable sort-keys */
+
+import { FontFace } from './types';
+
+export function cleanStyles(source: string): string {
+  return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
+}
 
 export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',
