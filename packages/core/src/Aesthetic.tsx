@@ -239,7 +239,7 @@ export default abstract class Aesthetic<
     // Flush styles on mount
     useLayoutEffect(() => {
       this.flushStyles(styleName);
-    }, []);
+    }, [styleName]);
 
     return [sheet, this.transformStyles, styleName];
   }
