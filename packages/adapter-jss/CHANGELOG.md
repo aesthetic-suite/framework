@@ -1,3 +1,9 @@
+### 3.4.1
+
+#### 🐞 Fixes
+
+- Fixed an issue with `@keyframes` animation names not interpolating correctly.
+
 ## 3.4.0 - 2019-04-28
 
 #### 🛠 Internals

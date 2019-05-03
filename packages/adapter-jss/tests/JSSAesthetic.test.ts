@@ -129,7 +129,7 @@ describe('JSSAesthetic', () => {
       renderAndTest(
         SYNTAX_KEYFRAMES,
         {
-          '@keyframes fade': KEYFRAME_FADE,
+          '@keyframes fade-0': KEYFRAME_FADE,
         },
         true,
       );
@@ -271,13 +271,13 @@ describe('JSSAesthetic', () => {
 
     it('handles inline @keyframes', () => {
       renderAndTest(SYNTAX_KEYFRAMES_INLINE, {
-        '@keyframes slide': KEYFRAME_SLIDE_PERCENT,
-        '@keyframes keyframe-1': KEYFRAME_FADE,
+        '@keyframes slide-0': KEYFRAME_SLIDE_PERCENT,
+        '@keyframes keyframe-1-1': KEYFRAME_FADE,
         single: {
-          animationName: '$slide',
+          animationName: 'slide-0',
         },
         multiple: {
-          animationName: '$slide, unknown, $keyframe-1',
+          animationName: 'slide-0, unknown, keyframe-1-1',
         },
       });
     });

@@ -140,9 +140,16 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = `$${animationName}`;
+    let name = this.keyframes[animationName];
 
-    sheet.addAtRule(`@keyframes ${animationName}`, keyframe);
+    // Used to avoid global collision
+    if (!name) {
+      name = `${animationName}-${Object.keys(this.keyframes).length}`;
+
+      this.keyframes[animationName] = name;
+    }
+
+    sheet.addAtRule(`@keyframes ${name}`, keyframe);
   };
 
   // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules

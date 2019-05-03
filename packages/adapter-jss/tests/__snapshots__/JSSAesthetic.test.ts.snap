@@ -14,7 +14,7 @@ exports[`JSSAesthetic global sheet handles @font-face 2`] = `"@font-face {font-f
 
 exports[`JSSAesthetic global sheet handles @keyframes 1`] = `""`;
 
-exports[`JSSAesthetic global sheet handles @keyframes 2`] = `"@keyframes fade {from {opacity: 0;}to {opacity: 1;}}"`;
+exports[`JSSAesthetic global sheet handles @keyframes 2`] = `"@keyframes fade-0 {from {opacity: 0;}to {opacity: 1;}}"`;
 
 exports[`JSSAesthetic global sheet handles @viewport 1`] = `""`;
 
@@ -70,7 +70,7 @@ exports[`JSSAesthetic style sheet handles inline @font-face 2`] = `"@font-face {
 
 exports[`JSSAesthetic style sheet handles inline @keyframes 1`] = `"jss-single-0-17-1 jss-multiple-0-17-2"`;
 
-exports[`JSSAesthetic style sheet handles inline @keyframes 2`] = `"@keyframes slide {0% {opacity: 0;}50% {opacity: 0.5;}100% {opacity: 1;}}@keyframes keyframe-1 {from {opacity: 0;}to {opacity: 1;}}.jss-single-0-17-1 {animation-name: $slide;}.jss-multiple-0-17-2 {animation-name: $slide, unknown, $keyframe-1;}"`;
+exports[`JSSAesthetic style sheet handles inline @keyframes 2`] = `"@keyframes slide-0 {0% {opacity: 0;}50% {opacity: 0.5;}100% {opacity: 1;}}@keyframes keyframe-1-1 {from {opacity: 0;}to {opacity: 1;}}.jss-single-0-17-1 {animation-name: slide-0;}.jss-multiple-0-17-2 {animation-name: slide-0, unknown, keyframe-1-1;}"`;
 
 exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"jss-multi-0-16-1"`;
 
