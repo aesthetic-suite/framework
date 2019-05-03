@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JSSAesthetic converts and transforms inline styles 1`] = `"foo inline-dynamic-inline-0-0-1-1 inline-dynamic-inline-1-0-1-2"`;
+exports[`JSSAesthetic converts and transforms inline styles 1`] = `".uuid-inline-0-0-1-1 {margin: 0;}.uuid-inline-1-0-1-2 {padding: 2px;}"`;
 
-exports[`JSSAesthetic converts and transforms inline styles 2`] = `"foo"`;
+exports[`JSSAesthetic converts and transforms inline styles 2`] = `".uuid-inline-0-0-1-1 {margin: 0;}.uuid-inline-1-0-1-2 {padding: 2px;}"`;
 
 exports[`JSSAesthetic global sheet handles @charset 1`] = `""`;
 

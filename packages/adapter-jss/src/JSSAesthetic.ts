@@ -7,6 +7,7 @@ import Aesthetic, {
   SheetMap,
 } from 'aesthetic';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
+import uuid from 'uuid/v4';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class JSSAesthetic<Theme extends object> extends Aesthetic<
@@ -78,11 +79,15 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     });
 
     if (counter > 0) {
-      const styleSheet = this.processStyleSheet(tempStylesheet, 'inline-dynamic');
+      const dynamicName = uuid();
+      const styleSheet = this.processStyleSheet(tempStylesheet, dynamicName);
 
       Object.keys(styleSheet).forEach(key => {
         legitStyles.push(styleSheet[key]);
       });
+
+      // Attach immediately
+      this.sheets[dynamicName].attach();
     }
 
     return legitStyles.join(' ');

@@ -34,8 +34,27 @@ import {
 } from 'aesthetic/lib/testUtils';
 import JSSAesthetic from '../src/JSSAesthetic';
 
+jest.mock('uuid/v4', () => () => 'uuid');
+
 describe('JSSAesthetic', () => {
   let instance: JSSAesthetic<any>;
+
+  function testSnapshot(raw: boolean = false) {
+    if (raw) {
+      // @ts-ignore
+      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
+
+      return;
+    }
+
+    let snapshot = '';
+
+    Object.keys(instance.sheets).forEach(name => {
+      snapshot += instance.sheets[name].toString();
+    });
+
+    expect(cleanStyles(snapshot)).toMatchSnapshot();
+  }
 
   function renderAndTest(
     styles: any,
@@ -53,12 +72,7 @@ describe('JSSAesthetic', () => {
 
     expect(instance.transformStyles(...Object.values(styleSheet))).toMatchSnapshot();
 
-    if (raw) {
-      // @ts-ignore
-      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
-    } else {
-      expect(cleanStyles(instance.sheets.jss.toString())).toMatchSnapshot();
-    }
+    testSnapshot(raw);
   }
 
   beforeEach(() => {
@@ -70,9 +84,14 @@ describe('JSSAesthetic', () => {
 
   it('converts and transforms inline styles', () => {
     // @ts-ignore Allow access
-    expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toMatchSnapshot();
+    expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toBe(
+      'foo uuid-inline-0-0-1-1 uuid-inline-1-0-1-2',
+    );
+    testSnapshot();
+
     // @ts-ignore Allow null
-    expect(instance.transformToClassName(['foo', null])).toMatchSnapshot();
+    expect(instance.transformToClassName(['foo', null])).toBe('foo');
+    testSnapshot();
   });
 
   describe('global sheet', () => {

@@ -3,6 +3,7 @@
 #### 🐞 Fixes
 
 - Fixed an issue with `@keyframes` animation names not interpolating correctly.
+- Fixed an issue with inline styles not attaching and or being overridden.
 
 ## 3.4.0 - 2019-04-28
 
