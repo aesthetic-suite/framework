@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/jss": "^9.5.8"
+    "@types/jss": "*"
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",

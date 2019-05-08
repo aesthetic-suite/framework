@@ -29,6 +29,10 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 - Updated `Sheet` (and `Ruleset`) to convert CSS properties to RTL when the direction option is
   enabled.
 
+#### 🛠 Internals
+
+- Updated all `@types` dependencies to use `*` version.
+
 ## 3.5.0 - 2019-04-28
 
 #### 🛠 Internals

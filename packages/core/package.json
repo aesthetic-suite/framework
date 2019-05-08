@@ -27,8 +27,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/extend": "^3.0.1",
-    "@types/uuid": "^3.4.4",
+    "@types/extend": "*",
+    "@types/uuid": "*",
     "csstype": "^2.6.5",
     "extend": "^3.0.2",
     "rtl-css-js": "^1.12.0",

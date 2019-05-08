@@ -16,3 +16,7 @@
 - Added `DirectionContext` and `DirectionProvider` to support RTL.
 - Updated `useStyles` and `withStyles` to support RTL.
 - Updated `withStyles` HOC to receive the CSS transformer function as a `cx` prop.
+
+#### 🛠 Internals
+
+- Updated all `@types` dependencies to use `*` version.

@@ -1,3 +1,9 @@
+### 3.4.3
+
+#### 🛠 Internals
+
+- Updated all `@types` dependencies to use `*` version.
+
 ### 3.4.2 - 2019-05-14
 
 #### 🐞 Fixes
