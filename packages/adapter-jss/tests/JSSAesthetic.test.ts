@@ -85,7 +85,7 @@ describe('JSSAesthetic', () => {
   it('converts and transforms inline styles', () => {
     // @ts-ignore Allow access
     expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toBe(
-      'foo uuid-inline-0-0-1-1 uuid-inline-1-0-1-2',
+      'foo inline-0-0-1-1 inline-1-0-1-2',
     );
     testSnapshot();
 

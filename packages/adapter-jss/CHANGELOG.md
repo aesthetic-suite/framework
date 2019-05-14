@@ -1,4 +1,10 @@
-### 3.4.1
+### 3.4.2 - 2019-05-14
+
+#### 🐞 Fixes
+
+- Removed `classNamePrefix` as it caused non-deterministic class names.
+
+### 3.4.1 - 2019-05-03
 
 #### 🐞 Fixes
 

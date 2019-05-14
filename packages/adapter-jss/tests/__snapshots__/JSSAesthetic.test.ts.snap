@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JSSAesthetic converts and transforms inline styles 1`] = `".uuid-inline-0-0-1-1 {margin: 0;}.uuid-inline-1-0-1-2 {padding: 2px;}"`;
+exports[`JSSAesthetic converts and transforms inline styles 1`] = `".inline-0-0-1-1 {margin: 0;}.inline-1-0-1-2 {padding: 2px;}"`;
 
-exports[`JSSAesthetic converts and transforms inline styles 2`] = `".uuid-inline-0-0-1-1 {margin: 0;}.uuid-inline-1-0-1-2 {padding: 2px;}"`;
+exports[`JSSAesthetic converts and transforms inline styles 2`] = `".inline-0-0-1-1 {margin: 0;}.inline-1-0-1-2 {padding: 2px;}"`;
 
 exports[`JSSAesthetic global sheet handles @charset 1`] = `""`;
 
@@ -40,53 +40,53 @@ exports[`JSSAesthetic global sheet handles single @import 1`] = `""`;
 
 exports[`JSSAesthetic global sheet handles single @import 2`] = `"@import ./some/path.css;"`;
 
-exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"jss-button-0-11-1"`;
+exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"button-0-11-1"`;
 
-exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `".jss-button-0-11-1 {color: rgba(0, 0, 0, 0);margin: 0;border: 1px solid #2e6da4;cursor: pointer;display: inline-block;padding: 6px 12px;text-align: center;font-weight: normal;line-height: normal;white-space: nowrap;font-family: Roboto;border-radius: 4px;vertical-align: middle;animation-name: fade;text-decoration: none;background-color: #337ab7;animation-duration: .3s;}.jss-button-0-11-1:hover {border-color: #204d74;background-color: #286090;}.jss-button-0-11-1::before {content: \\"★\\";display: inline-block;margin-right: 5px;vertical-align: middle;}@media (max-width: 600px) {.jss-button-0-11-1 {padding: 4px 8px;}}"`;
+exports[`JSSAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `".button-0-11-1 {color: rgba(0, 0, 0, 0);margin: 0;border: 1px solid #2e6da4;cursor: pointer;display: inline-block;padding: 6px 12px;text-align: center;font-weight: normal;line-height: normal;white-space: nowrap;font-family: Roboto;border-radius: 4px;vertical-align: middle;animation-name: fade;text-decoration: none;background-color: #337ab7;animation-duration: .3s;}.button-0-11-1:hover {border-color: #204d74;background-color: #286090;}.button-0-11-1::before {content: \\"★\\";display: inline-block;margin-right: 5px;vertical-align: middle;}@media (max-width: 600px) {.button-0-11-1 {padding: 4px 8px;}}"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"jss-fallback-0-19-1"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 1`] = `"fallback-0-19-1"`;
 
-exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".jss-fallback-0-19-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
+exports[`JSSAesthetic style sheet handles @fallbacks 2`] = `".fallback-0-19-1 {background: red;display: block;display: inline-block;color: blue;display: flex;background: linear-gradient(...);}"`;
 
-exports[`JSSAesthetic style sheet handles @media 1`] = `"jss-media-0-20-1"`;
+exports[`JSSAesthetic style sheet handles @media 1`] = `"media-0-20-1"`;
 
-exports[`JSSAesthetic style sheet handles @media 2`] = `".jss-media-0-20-1 {color: red;}@media (min-width: 300px) {.jss-media-0-20-1 {color: blue;}}@media (max-width: 1000px) {.jss-media-0-20-1 {color: green;}}"`;
+exports[`JSSAesthetic style sheet handles @media 2`] = `".media-0-20-1 {color: red;}@media (min-width: 300px) {.media-0-20-1 {color: blue;}}@media (max-width: 1000px) {.media-0-20-1 {color: green;}}"`;
 
-exports[`JSSAesthetic style sheet handles @supports 1`] = `"jss-sup-0-22-1"`;
+exports[`JSSAesthetic style sheet handles @supports 1`] = `"sup-0-22-1"`;
 
-exports[`JSSAesthetic style sheet handles @supports 2`] = `".jss-sup-0-22-1 {display: block;}@supports (display: flex) {.jss-sup-0-22-1 {display: flex;}}@supports not (display: flex) {.jss-sup-0-22-1 {float: left;}}"`;
+exports[`JSSAesthetic style sheet handles @supports 2`] = `".sup-0-22-1 {display: block;}@supports (display: flex) {.sup-0-22-1 {display: flex;}}@supports not (display: flex) {.sup-0-22-1 {float: left;}}"`;
 
-exports[`JSSAesthetic style sheet handles attribute selectors 1`] = `"jss-attr-0-13-1"`;
+exports[`JSSAesthetic style sheet handles attribute selectors 1`] = `"attr-0-13-1"`;
 
-exports[`JSSAesthetic style sheet handles attribute selectors 2`] = `".jss-attr-0-13-1 {display: block;}.jss-attr-0-13-1[disabled] {opacity: 0.5;}"`;
+exports[`JSSAesthetic style sheet handles attribute selectors 2`] = `".attr-0-13-1 {display: block;}.attr-0-13-1[disabled] {opacity: 0.5;}"`;
 
-exports[`JSSAesthetic style sheet handles descendant selectors 1`] = `"jss-list-0-14-1"`;
+exports[`JSSAesthetic style sheet handles descendant selectors 1`] = `"list-0-14-1"`;
 
-exports[`JSSAesthetic style sheet handles descendant selectors 2`] = `".jss-list-0-14-1 {margin: 0;padding: 0;}.jss-list-0-14-1> li {list-style: bullet;}"`;
+exports[`JSSAesthetic style sheet handles descendant selectors 2`] = `".list-0-14-1 {margin: 0;padding: 0;}.list-0-14-1> li {list-style: bullet;}"`;
 
-exports[`JSSAesthetic style sheet handles inline @font-face 1`] = `"jss-single-0-18-1 jss-multiple-0-18-2"`;
+exports[`JSSAesthetic style sheet handles inline @font-face 1`] = `"single-0-18-1 multiple-0-18-2"`;
 
-exports[`JSSAesthetic style sheet handles inline @font-face 2`] = `"@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}@font-face {font-family: Circular;font-style: normal;font-weight: normal;src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular;font-style: italic;font-weight: normal;src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 300;src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 700;src: url('fonts/Circular-Bold.woff2') format('woff2');}@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.jss-single-0-18-1 {font-family: Roboto;}.jss-multiple-0-18-2 {font-family: Circular, OtherFont, Roboto;}"`;
+exports[`JSSAesthetic style sheet handles inline @font-face 2`] = `"@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}@font-face {font-family: Circular;font-style: normal;font-weight: normal;src: url('fonts/Circular.woff2') format('woff2');}@font-face {font-family: Circular;font-style: italic;font-weight: normal;src: url('fonts/Circular-Italic.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 300;src: url('fonts/Circular-Light.woff2') format('woff2');}@font-face {font-family: Circular;font-style: normal;font-weight: 700;src: url('fonts/Circular-Bold.woff2') format('woff2');}@font-face {font-family: Roboto;font-style: normal;font-weight: normal;src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}.single-0-18-1 {font-family: Roboto;}.multiple-0-18-2 {font-family: Circular, OtherFont, Roboto;}"`;
 
-exports[`JSSAesthetic style sheet handles inline @keyframes 1`] = `"jss-single-0-17-1 jss-multiple-0-17-2"`;
+exports[`JSSAesthetic style sheet handles inline @keyframes 1`] = `"single-0-17-1 multiple-0-17-2"`;
 
-exports[`JSSAesthetic style sheet handles inline @keyframes 2`] = `"@keyframes slide-0 {0% {opacity: 0;}50% {opacity: 0.5;}100% {opacity: 1;}}@keyframes keyframe-1-1 {from {opacity: 0;}to {opacity: 1;}}.jss-single-0-17-1 {animation-name: slide-0;}.jss-multiple-0-17-2 {animation-name: slide-0, unknown, keyframe-1-1;}"`;
+exports[`JSSAesthetic style sheet handles inline @keyframes 2`] = `"@keyframes slide-0 {0% {opacity: 0;}50% {opacity: 0.5;}100% {opacity: 1;}}@keyframes keyframe-1-1 {from {opacity: 0;}to {opacity: 1;}}.single-0-17-1 {animation-name: slide-0;}.multiple-0-17-2 {animation-name: slide-0, unknown, keyframe-1-1;}"`;
 
-exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"jss-multi-0-16-1"`;
+exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 1`] = `"multi-0-16-1"`;
 
-exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 2`] = `".jss-multi-0-16-1 {cursor: pointer;}.jss-multi-0-16-1:disabled {cursor: default;}.jss-multi-0-16-1[disabled] {cursor: default;}.jss-multi-0-16-1> span {cursor: default;}"`;
+exports[`JSSAesthetic style sheet handles multiple selectors (comma separated) 2`] = `".multi-0-16-1 {cursor: pointer;}.multi-0-16-1:disabled {cursor: default;}.multi-0-16-1[disabled] {cursor: default;}.multi-0-16-1> span {cursor: default;}"`;
 
-exports[`JSSAesthetic style sheet handles nested @media 1`] = `"jss-media-0-21-1"`;
+exports[`JSSAesthetic style sheet handles nested @media 1`] = `"media-0-21-1"`;
 
-exports[`JSSAesthetic style sheet handles nested @media 2`] = `".jss-media-0-21-1 {color: red;}@media (min-width: 300px) {.jss-media-0-21-1 {color: blue;}@media (max-width: 1000px) {.jss-media-0-21-1 {color: green;}}}"`;
+exports[`JSSAesthetic style sheet handles nested @media 2`] = `".media-0-21-1 {color: red;}@media (min-width: 300px) {.media-0-21-1 {color: blue;}@media (max-width: 1000px) {.media-0-21-1 {color: green;}}}"`;
 
-exports[`JSSAesthetic style sheet handles properties 1`] = `"jss-props-0-12-1"`;
+exports[`JSSAesthetic style sheet handles properties 1`] = `"props-0-12-1"`;
 
-exports[`JSSAesthetic style sheet handles properties 2`] = `".jss-props-0-12-1 {color: black;margin: 10px;display: inline;}"`;
+exports[`JSSAesthetic style sheet handles properties 2`] = `".props-0-12-1 {color: black;margin: 10px;display: inline;}"`;
 
-exports[`JSSAesthetic style sheet handles pseudo selectors 1`] = `"jss-pseudo-0-15-1"`;
+exports[`JSSAesthetic style sheet handles pseudo selectors 1`] = `"pseudo-0-15-1"`;
 
-exports[`JSSAesthetic style sheet handles pseudo selectors 2`] = `".jss-pseudo-0-15-1 {position: fixed;}.jss-pseudo-0-15-1:hover {position: static;}.jss-pseudo-0-15-1::before {position: absolute;}"`;
+exports[`JSSAesthetic style sheet handles pseudo selectors 2`] = `".pseudo-0-15-1 {position: fixed;}.pseudo-0-15-1:hover {position: static;}.pseudo-0-15-1::before {position: absolute;}"`;
 
 exports[`JSSAesthetic style sheet handles raw CSS 1`] = `""`;
 
