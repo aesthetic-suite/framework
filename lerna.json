@@ -4,9 +4,7 @@
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md"
-      ]
+      "ignoreChanges": ["*.md", "*.test.ts", "*.test.tsx"]
     }
   }
 }
