@@ -26,3 +26,7 @@ yarn add aesthetic aesthetic-adapter-css-modules
 // Or
 npm install aesthetic aesthetic-adapter-css-modules
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/adapters/css-modules](https://milesj.gitbook.io/aesthetic/adapters/css-modules)

@@ -6,7 +6,7 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 
 #### 💥 Breaking
 
-- React hooks and HOCs have moved to the new
+- React hooks, HOCs, and types have moved to the new
   [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
 
 ## 3.5.0 - 2019-04-28

@@ -28,3 +28,7 @@ yarn add aesthetic aesthetic-adapter-typestyle typestyle
 // Or
 npm install aesthetic aesthetic-adapter-typestyle typestyle
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/adapters/typestyle](https://milesj.gitbook.io/aesthetic/adapters/typestyle)

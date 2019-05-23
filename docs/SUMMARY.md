@@ -3,6 +3,8 @@
 - [Setup](./setup.md)
 - [Using Themes](./theme.md)
 - [Styling Components](./style.md)
+- [Integrations](./integrations/README.md)
+  - [React](./integrations/react.md)
 - [Style Adapters](./adapters/README.md)
   - [Aphrodite](./adapters/aphrodite.md)
   - [CSS Modules](./adapters/css-modules.md)

@@ -1,90 +1,6 @@
 # Styling Components
 
-Now that [Aesthetic has been setup](./setup.md), we can style our components by wrapping the
-component declaration in a [`withStyles` HOC](./setup.md#withStyles) or utilizing the
-[`useStyles` hook](./setup.md#useStyles), both of which require a function that returns a CSS object
-known as a style sheet. This style sheet can then be used to dynamically generate CSS class names at
-runtime.
-
-### HOC
-
-When the styled and wrapped component is rendered, the style sheet is parsed and passed to the
-`styles` prop. These styles can then be transformed to class names using our
-[`cx` helper](./setup.md#transformStyles).
-
-```tsx
-import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
-import cx from './cx';
-
-export type Props = {
-  children: NonNullable<React.ReactNode>;
-  icon?: React.ReactNode;
-};
-
-function Button({ children, styles, icon }: Props & WithStylesProps) {
-  return (
-    <button type="button" className={cx(styles.button)}>
-      {icon && <span className={cx(styles.icon)}>{icon}</span>}
-
-      {children}
-    </button>
-  );
-}
-
-export default withStyles(theme => ({
-  button: {
-    display: 'inline-block',
-    padding: theme.unit,
-    // ...
-  },
-  icon: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    marginRight: theme.unit,
-  },
-}))(Button);
-```
-
-### Hook
-
-When the component is rendered, the style sheet is parsed and returned from the hook alongside the
-[`cx` helper](./setup.md#transformStyles), which is used for transforming the styles to class names.
-
-```tsx
-import React from 'react';
-import useStyles from './useStyles';
-
-export const styleSheet = theme => ({
-  button: {
-    display: 'inline-block',
-    padding: theme.unit,
-    // ...
-  },
-  icon: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    marginRight: theme.unit,
-  },
-});
-
-export type Props = {
-  children: NonNullable<React.ReactNode>;
-  icon?: React.ReactNode;
-};
-
-export default function Button({ children, icon }: Props) {
-  const [styles, cx] = useStyles(styleSheet);
-
-  return (
-    <button type="button" className={cx(styles.button)}>
-      {icon && <span className={cx(styles.icon)}>{icon}</span>}
-
-      {children}
-    </button>
-  );
-}
-```
+Now that [Aesthetic has been setup](./setup.md)... TODO
 
 ## Defining Style Sheets
 
@@ -170,9 +86,8 @@ theme => ({
 
 ## Generating Class Names
 
-When transforming styles into a CSS class name, the
-[`transformStyles` function](./setup.md#transformStyles) (referred to as `cx` in the docs) must be
-used. This function accepts an arbitrary number of arguments, all of which can be expressions,
+When transforming styles into a CSS class name, the `cx` function must be used (integration
+dependent). This function accepts an arbitrary number of arguments, all of which can be expressions,
 values, or style objects that evaluate to a truthy value.
 
 Furthermore, this function allows for inline styles and external class names to also be declared.
@@ -187,24 +102,6 @@ cx(
   { marginTop: -16 },
   'global-class-name',
 );
-```
-
-Using our hook powered `Button` example above, let's add an active state and generate class names
-dynamically. Specificity is important, so define styles and class names in order, from top to
-bottom!
-
-```tsx
-function Button({ children, icon, active = false }: Props) {
-  const [styles, cx] = useStyles(styleSheet);
-
-  return (
-    <button type="button" className={cx(styles.button, active && styles.button__active)}>
-      {icon && <span className={cx(styles.icon)}>{icon}</span>}
-
-      {children}
-    </button>
-  );
-}
 ```
 
 ## Extending Styles
@@ -241,10 +138,10 @@ const styleSheet = aesthetic.extendStyles(
 );
 ```
 
-### From A Component
+### From A React Component
 
-If a component is styled by `Aesthetic#withStyles` and marked as `extendable`, styles can be
-customized by calling the static `extendStyles` method on the wrapped component instance.
+If a component is styled with `withStyles` and marked as `extendable`, styles can be customized by
+calling the static `extendStyles` method on the wrapped component instance.
 
 ```ts
 import BaseButton from './path/to/Button';
@@ -266,19 +163,3 @@ export const PrimaryButton = BaseButton.extendStyles(theme => ({
 
 > Extending styles will return the original component wrapped with new styles, instead of wrapping
 > the styled component and stacking on an unnecessary layer.
-
-## Using Refs
-
-When using `withStyles`, the underlying wrapped component is abstracted away. Sometimes access to
-this wrapped component is required, and as such, a specialized ref can be used. When using the
-`wrappedRef` prop, the wrapped component instance is returned.
-
-```tsx
-let buttonInstance = null; // Button component
-
-<StyledButton
-  wrappedRef={ref => {
-    buttonInstance = ref;
-  }}
-/>;
-```
