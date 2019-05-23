@@ -529,449 +529,449 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('useStyles()', () => {
-    let styleName = '';
-    let container: HTMLDivElement;
+  // describe('useStyles()', () => {
+  //   let styleName = '';
+  //   let container: HTMLDivElement;
 
-    afterEach(() => {
-      styleName = '';
-      container = document.createElement('div');
-    });
+  //   afterEach(() => {
+  //     styleName = '';
+  //     container = document.createElement('div');
+  //   });
 
-    it('sets styles on the `Aesthetic` instance', () => {
-      const styles = () => ({
-        button: {
-          display: 'inline-block',
-          padding: 5,
-        },
-      });
+  //   it('sets styles on the `Aesthetic` instance', () => {
+  //     const styles = () => ({
+  //       button: {
+  //         display: 'inline-block',
+  //         padding: 5,
+  //       },
+  //     });
 
-      function Component() {
-        styleName = instance.useStyles(styles)[2];
+  //     function Component() {
+  //       styleName = instance.useStyles(styles)[2];
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      shallow(<Component />);
+  //     shallow(<Component />);
 
-      expect(instance.styles[styleName]).toBe(styles);
-    });
+  //     expect(instance.styles[styleName]).toBe(styles);
+  //   });
 
-    it('creates a style sheet', () => {
-      const spy = jest.spyOn(instance, 'createStyleSheet');
+  //   it('creates a style sheet', () => {
+  //     const spy = jest.spyOn(instance, 'createStyleSheet');
 
-      function Component() {
-        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+  //     function Component() {
+  //       styleName = instance.useStyles(() => TEST_STATEMENT)[2];
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      shallow(<Component />);
+  //     shallow(<Component />);
 
-      expect(spy).toHaveBeenCalledWith(styleName);
-    });
+  //     expect(spy).toHaveBeenCalledWith(styleName);
+  //   });
 
-    it('flushes styles only once', () => {
-      const spy = jest.spyOn(instance, 'flushStyles');
+  //   it('flushes styles only once', () => {
+  //     const spy = jest.spyOn(instance, 'flushStyles');
 
-      function Component() {
-        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+  //     function Component() {
+  //       styleName = instance.useStyles(() => TEST_STATEMENT)[2];
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      act(() => {
-        ReactDOM.render(<Component />, container);
-      });
+  //     act(() => {
+  //       ReactDOM.render(<Component />, container);
+  //     });
 
-      act(() => {
-        // Trigger layout effect
-        ReactDOM.render(<Component />, container);
-      });
+  //     act(() => {
+  //       // Trigger layout effect
+  //       ReactDOM.render(<Component />, container);
+  //     });
 
-      act(() => {
-        // Check that its called once
-        ReactDOM.render(<Component />, container);
-      });
+  //     act(() => {
+  //       // Check that its called once
+  //       ReactDOM.render(<Component />, container);
+  //     });
 
-      expect(spy).toHaveBeenCalledWith(styleName);
-      expect(spy).toHaveBeenCalledTimes(2); // Once for :root
-    });
+  //     expect(spy).toHaveBeenCalledWith(styleName);
+  //     expect(spy).toHaveBeenCalledTimes(2); // Once for :root
+  //   });
 
-    it('only sets styles once', () => {
-      // @ts-ignore Allow access
-      const spy = jest.spyOn(instance, 'setStyleSheet');
+  //   it('only sets styles once', () => {
+  //     // @ts-ignore Allow access
+  //     const spy = jest.spyOn(instance, 'setStyleSheet');
 
-      function Component() {
-        styleName = instance.useStyles(() => TEST_STATEMENT)[2];
+  //     function Component() {
+  //       styleName = instance.useStyles(() => TEST_STATEMENT)[2];
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      act(() => {
-        ReactDOM.render(<Component />, container);
-      });
+  //     act(() => {
+  //       ReactDOM.render(<Component />, container);
+  //     });
 
-      act(() => {
-        // Check that its called once
-        ReactDOM.render(<Component />, container);
-      });
+  //     act(() => {
+  //       // Check that its called once
+  //       ReactDOM.render(<Component />, container);
+  //     });
 
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
+  //     expect(spy).toHaveBeenCalledTimes(1);
+  //   });
 
-    it('can transform class names', () => {
-      function Component() {
-        const [styles, cx] = instance.useStyles(() => TEST_STATEMENT);
+  //   it('can transform class names', () => {
+  //     function Component() {
+  //       const [styles, cx] = instance.useStyles(() => TEST_STATEMENT);
 
-        return <div className={cx(styles.header, styles.footer)} />;
-      }
+  //       return <div className={cx(styles.header, styles.footer)} />;
+  //     }
 
-      const wrapper = shallow(<Component />);
+  //     const wrapper = shallow(<Component />);
 
-      expect(wrapper.prop('className')).toBe('class-0 class-1');
-    });
-  });
+  //     expect(wrapper.prop('className')).toBe('class-0 class-1');
+  //   });
+  // });
 
-  describe('useTheme()', () => {
-    it('returns the theme object', () => {
-      let theme;
+  // describe('useTheme()', () => {
+  //   it('returns the theme object', () => {
+  //     let theme;
 
-      function Component() {
-        theme = instance.useTheme();
+  //     function Component() {
+  //       theme = instance.useTheme();
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      shallow(<Component />);
+  //     shallow(<Component />);
 
-      expect(theme).toEqual({ unit: 8 });
-    });
-  });
+  //     expect(theme).toEqual({ unit: 8 });
+  //   });
+  // });
 
-  describe('withStyles()', () => {
-    function BaseComponent() {
-      return null;
-    }
+  // describe('withStyles()', () => {
+  //   function BaseComponent() {
+  //     return null;
+  //   }
 
-    function StylesComponent(props: { [key: string]: any }) {
-      return <div />;
-    }
+  //   function StylesComponent(props: { [key: string]: any }) {
+  //     return <div />;
+  //   }
 
-    it('returns an HOC factory', () => {
-      const hoc = instance.withStyles(() => ({}));
+  //   it('returns an HOC factory', () => {
+  //     const hoc = instance.withStyles(() => ({}));
 
-      expect(hoc).toBeInstanceOf(Function);
-    });
+  //     expect(hoc).toBeInstanceOf(Function);
+  //   });
 
-    it('extends `React.PureComponent` by default', () => {
-      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
+  //   it('extends `React.PureComponent` by default', () => {
+  //     const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
 
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-    });
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  //   });
 
-    it('extends `React.Component` when `pure` is false', () => {
-      const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
-    });
-
-    it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
-      instance.options.pure = true;
-
-      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-    });
-
-    it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
-      instance.options.pure = true;
-
-      const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
-    });
-
-    it('inherits name from component `constructor.name`', () => {
-      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
-
-      expect(Wrapped.displayName).toBe('withStyles(BaseComponent)');
-      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/u));
-    });
-
-    it('inherits name from component `displayName`', () => {
-      class DisplayComponent extends React.Component<any> {
-        static displayName = 'CustomDisplayName';
-
-        render() {
-          return null;
-        }
-      }
-
-      const Wrapped = instance.withStyles(() => ({}))(DisplayComponent);
-
-      expect(Wrapped.displayName).toBe('withStyles(CustomDisplayName)');
-      expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/u));
-    });
-
-    it('stores the original component as a static property', () => {
-      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
-
-      expect(Wrapped.WrappedComponent).toBe(BaseComponent);
-    });
-
-    it('defines static method for extending styles', () => {
-      const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
-
-      expect(Wrapped.extendStyles).toBeInstanceOf(Function);
-    });
-
-    it('sets styles on the `Aesthetic` instance', () => {
-      const styles = () => ({
-        button: {
-          display: 'inline-block',
-          padding: 5,
-        },
-      });
-      const Wrapped = instance.withStyles(styles)(BaseComponent);
-
-      expect(instance.styles[Wrapped.styleName]).toBe(styles);
-    });
-
-    it('can set styles using `extendStyles`', () => {
-      const Wrapped = instance.withStyles(
-        () => ({
-          button: {
-            display: 'inline-block',
-            padding: 5,
-          },
-        }),
-        {
-          extendable: true,
-        },
-      )(BaseComponent);
-
-      // @ts-ignore Allow access
-      expect(instance.getStyleSheet(Wrapped.styleName)).toEqual({
-        button: {
-          display: 'inline-block',
-          padding: 5,
-        },
-      });
-
-      const Extended = Wrapped.extendStyles(() => ({
-        notButton: {
-          color: 'red',
-        },
-      }));
-
-      // @ts-ignore Allow access
-      expect(instance.getStyleSheet(Extended.styleName)).toEqual({
-        button: {
-          display: 'inline-block',
-          padding: 5,
-        },
-        notButton: {
-          color: 'red',
-        },
-      });
-    });
-
-    it('can set extended components as non-extendable', () => {
-      const Wrapped = instance.withStyles(() => ({}), {
-        extendable: true,
-      })(BaseComponent);
-
-      const Extended = Wrapped.extendStyles(() => ({}), {
-        extendable: false,
-      });
-
-      expect(() => {
-        Extended.extendStyles(() => ({}));
-      }).toThrowErrorMatchingSnapshot();
-    });
-
-    it('inherits theme from Aesthetic options', () => {
-      function ThemeComponent() {
-        return <div />;
-      }
-
-      const Wrapped = instance.withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('theme')).toEqual({ unit: 8 });
-    });
-
-    it('creates a style sheet', () => {
-      const spy = jest.spyOn(instance, 'createStyleSheet');
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
-      const wrapper = shallow(<Wrapped foo="abc" />);
-
-      expect(spy).toHaveBeenCalledWith(Wrapped.styleName);
-      expect(wrapper.state('styles')).toEqual({
-        header: {},
-        footer: {},
-      });
-    });
-
-    it('can customize props with the withStyles options', () => {
-      instance.options.passThemeProp = true;
-
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT, {
-        stylesPropName: 'styleSheet',
-        themePropName: 'someThemeNameHere',
-      })(StylesComponent);
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('styleSheet')).toBeDefined();
-      expect(wrapper.prop('someThemeNameHere')).toBeDefined();
-    });
-
-    it('can customize props with the options through the `Aesthetic` instance', () => {
-      instance.options.stylesPropName = 'styleSheet';
-      instance.options.themePropName = 'someThemeNameHere';
-      instance.options.passThemeProp = true;
-
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('styleSheet')).toBeDefined();
-      expect(wrapper.prop('someThemeNameHere')).toBeDefined();
-    });
-
-    it('doesnt pass theme prop if `options.passThemeProp` is false', () => {
-      const Wrapped = instance.withStyles(() => TEST_STATEMENT, { passThemeProp: false })(
-        StylesComponent,
-      );
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('theme')).toBeUndefined();
-    });
-
-    it('can bubble up the ref with `wrappedRef`', () => {
-      class RefComponent extends React.Component<any> {
-        render() {
-          return <div />;
-        }
-      }
-
-      let refInstance: any = null;
-      const Wrapped = instance.withStyles(() => ({}))(RefComponent);
-
-      mount(
-        <Wrapped
-          themeName="classic"
-          wrappedRef={(ref: any) => {
-            refInstance = ref;
-          }}
-        />,
-      );
-
-      expect(refInstance).not.toBeNull();
-      expect(refInstance!.constructor.name).toBe('RefComponent');
-    });
-  });
-
-  describe('withTheme()', () => {
-    function BaseComponent() {
-      return null;
-    }
-
-    it('returns an HOC factory', () => {
-      const hoc = instance.withTheme();
-
-      expect(hoc).toBeInstanceOf(Function);
-    });
-
-    it('extends `React.PureComponent` by default', () => {
-      const Wrapped = instance.withTheme()(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-    });
-
-    it('extends `React.Component` when `pure` is false', () => {
-      const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
-    });
-
-    it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
-      instance.options.pure = true;
-
-      const Wrapped = instance.withTheme()(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-    });
-
-    it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
-      instance.options.pure = true;
-
-      const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
-
-      expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
-    });
-
-    it('inherits name from component `constructor.name`', () => {
-      const Wrapped = instance.withTheme()(BaseComponent);
-
-      expect(Wrapped.displayName).toBe('withTheme(BaseComponent)');
-    });
-
-    it('inherits name from component `displayName`', () => {
-      class DisplayComponent extends React.Component<any> {
-        static displayName = 'CustomDisplayName';
-
-        render() {
-          return null;
-        }
-      }
-
-      const Wrapped = instance.withTheme()(DisplayComponent);
-
-      expect(Wrapped.displayName).toBe('withTheme(CustomDisplayName)');
-    });
-
-    it('stores the original component as a static property', () => {
-      const Wrapped = instance.withTheme()(BaseComponent);
-
-      // @ts-ignore
-      expect(Wrapped.WrappedComponent).toBe(BaseComponent);
-    });
-
-    it('inherits theme from Aesthetic options', () => {
-      function ThemeComponent() {
-        return <div />;
-      }
-
-      const Wrapped = instance.withTheme()(ThemeComponent);
-      const wrapper = shallow(<Wrapped />);
-
-      expect(wrapper.prop('theme')).toEqual({ unit: 8 });
-    });
-
-    it('can bubble up the ref with `wrappedRef`', () => {
-      class RefComponent extends React.Component<any> {
-        render() {
-          return <div />;
-        }
-      }
-
-      let refInstance: any = null;
-      const Wrapped = instance.withTheme()(RefComponent);
-
-      mount(
-        <Wrapped
-          themeName="classic"
-          wrappedRef={(ref: any) => {
-            refInstance = ref;
-          }}
-        />,
-      );
-
-      expect(refInstance).not.toBeNull();
-      expect(refInstance!.constructor.name).toBe('RefComponent');
-    });
-  });
+  //   it('extends `React.Component` when `pure` is false', () => {
+  //     const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
+  //   });
+
+  //   it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
+  //     instance.options.pure = true;
+
+  //     const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  //   });
+
+  //   it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
+  //     instance.options.pure = true;
+
+  //     const Wrapped = instance.withStyles(() => ({}), { pure: false })(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
+  //   });
+
+  //   it('inherits name from component `constructor.name`', () => {
+  //     const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
+
+  //     expect(Wrapped.displayName).toBe('withStyles(BaseComponent)');
+  //     expect(Wrapped.styleName).toEqual(expect.stringMatching(/^BaseComponent/u));
+  //   });
+
+  //   it('inherits name from component `displayName`', () => {
+  //     class DisplayComponent extends React.Component<any> {
+  //       static displayName = 'CustomDisplayName';
+
+  //       render() {
+  //         return null;
+  //       }
+  //     }
+
+  //     const Wrapped = instance.withStyles(() => ({}))(DisplayComponent);
+
+  //     expect(Wrapped.displayName).toBe('withStyles(CustomDisplayName)');
+  //     expect(Wrapped.styleName).toEqual(expect.stringMatching(/^CustomDisplayName/u));
+  //   });
+
+  //   it('stores the original component as a static property', () => {
+  //     const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
+
+  //     expect(Wrapped.WrappedComponent).toBe(BaseComponent);
+  //   });
+
+  //   it('defines static method for extending styles', () => {
+  //     const Wrapped = instance.withStyles(() => ({}))(BaseComponent);
+
+  //     expect(Wrapped.extendStyles).toBeInstanceOf(Function);
+  //   });
+
+  //   it('sets styles on the `Aesthetic` instance', () => {
+  //     const styles = () => ({
+  //       button: {
+  //         display: 'inline-block',
+  //         padding: 5,
+  //       },
+  //     });
+  //     const Wrapped = instance.withStyles(styles)(BaseComponent);
+
+  //     expect(instance.styles[Wrapped.styleName]).toBe(styles);
+  //   });
+
+  //   it('can set styles using `extendStyles`', () => {
+  //     const Wrapped = instance.withStyles(
+  //       () => ({
+  //         button: {
+  //           display: 'inline-block',
+  //           padding: 5,
+  //         },
+  //       }),
+  //       {
+  //         extendable: true,
+  //       },
+  //     )(BaseComponent);
+
+  //     // @ts-ignore Allow access
+  //     expect(instance.getStyleSheet(Wrapped.styleName)).toEqual({
+  //       button: {
+  //         display: 'inline-block',
+  //         padding: 5,
+  //       },
+  //     });
+
+  //     const Extended = Wrapped.extendStyles(() => ({
+  //       notButton: {
+  //         color: 'red',
+  //       },
+  //     }));
+
+  //     // @ts-ignore Allow access
+  //     expect(instance.getStyleSheet(Extended.styleName)).toEqual({
+  //       button: {
+  //         display: 'inline-block',
+  //         padding: 5,
+  //       },
+  //       notButton: {
+  //         color: 'red',
+  //       },
+  //     });
+  //   });
+
+  //   it('can set extended components as non-extendable', () => {
+  //     const Wrapped = instance.withStyles(() => ({}), {
+  //       extendable: true,
+  //     })(BaseComponent);
+
+  //     const Extended = Wrapped.extendStyles(() => ({}), {
+  //       extendable: false,
+  //     });
+
+  //     expect(() => {
+  //       Extended.extendStyles(() => ({}));
+  //     }).toThrowErrorMatchingSnapshot();
+  //   });
+
+  //   it('inherits theme from Aesthetic options', () => {
+  //     function ThemeComponent() {
+  //       return <div />;
+  //     }
+
+  //     const Wrapped = instance.withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
+  //     const wrapper = shallow(<Wrapped />);
+
+  //     expect(wrapper.prop('theme')).toEqual({ unit: 8 });
+  //   });
+
+  //   it('creates a style sheet', () => {
+  //     const spy = jest.spyOn(instance, 'createStyleSheet');
+  //     const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
+  //     const wrapper = shallow(<Wrapped foo="abc" />);
+
+  //     expect(spy).toHaveBeenCalledWith(Wrapped.styleName);
+  //     expect(wrapper.state('styles')).toEqual({
+  //       header: {},
+  //       footer: {},
+  //     });
+  //   });
+
+  //   it('can customize props with the withStyles options', () => {
+  //     instance.options.passThemeProp = true;
+
+  //     const Wrapped = instance.withStyles(() => TEST_STATEMENT, {
+  //       stylesPropName: 'styleSheet',
+  //       themePropName: 'someThemeNameHere',
+  //     })(StylesComponent);
+  //     const wrapper = shallow(<Wrapped />);
+
+  //     expect(wrapper.prop('styleSheet')).toBeDefined();
+  //     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
+  //   });
+
+  //   it('can customize props with the options through the `Aesthetic` instance', () => {
+  //     instance.options.stylesPropName = 'styleSheet';
+  //     instance.options.themePropName = 'someThemeNameHere';
+  //     instance.options.passThemeProp = true;
+
+  //     const Wrapped = instance.withStyles(() => TEST_STATEMENT)(StylesComponent);
+  //     const wrapper = shallow(<Wrapped />);
+
+  //     expect(wrapper.prop('styleSheet')).toBeDefined();
+  //     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
+  //   });
+
+  //   it('doesnt pass theme prop if `options.passThemeProp` is false', () => {
+  //     const Wrapped = instance.withStyles(() => TEST_STATEMENT, { passThemeProp: false })(
+  //       StylesComponent,
+  //     );
+  //     const wrapper = shallow(<Wrapped />);
+
+  //     expect(wrapper.prop('theme')).toBeUndefined();
+  //   });
+
+  //   it('can bubble up the ref with `wrappedRef`', () => {
+  //     class RefComponent extends React.Component<any> {
+  //       render() {
+  //         return <div />;
+  //       }
+  //     }
+
+  //     let refInstance: any = null;
+  //     const Wrapped = instance.withStyles(() => ({}))(RefComponent);
+
+  //     mount(
+  //       <Wrapped
+  //         themeName="classic"
+  //         wrappedRef={(ref: any) => {
+  //           refInstance = ref;
+  //         }}
+  //       />,
+  //     );
+
+  //     expect(refInstance).not.toBeNull();
+  //     expect(refInstance!.constructor.name).toBe('RefComponent');
+  //   });
+  // });
+
+  // describe('withTheme()', () => {
+  //   function BaseComponent() {
+  //     return null;
+  //   }
+
+  //   it('returns an HOC factory', () => {
+  //     const hoc = instance.withTheme();
+
+  //     expect(hoc).toBeInstanceOf(Function);
+  //   });
+
+  //   it('extends `React.PureComponent` by default', () => {
+  //     const Wrapped = instance.withTheme()(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  //   });
+
+  //   it('extends `React.Component` when `pure` is false', () => {
+  //     const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
+  //   });
+
+  //   it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
+  //     instance.options.pure = true;
+
+  //     const Wrapped = instance.withTheme()(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
+  //   });
+
+  //   it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
+  //     instance.options.pure = true;
+
+  //     const Wrapped = instance.withTheme({ pure: false })(BaseComponent);
+
+  //     expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
+  //   });
+
+  //   it('inherits name from component `constructor.name`', () => {
+  //     const Wrapped = instance.withTheme()(BaseComponent);
+
+  //     expect(Wrapped.displayName).toBe('withTheme(BaseComponent)');
+  //   });
+
+  //   it('inherits name from component `displayName`', () => {
+  //     class DisplayComponent extends React.Component<any> {
+  //       static displayName = 'CustomDisplayName';
+
+  //       render() {
+  //         return null;
+  //       }
+  //     }
+
+  //     const Wrapped = instance.withTheme()(DisplayComponent);
+
+  //     expect(Wrapped.displayName).toBe('withTheme(CustomDisplayName)');
+  //   });
+
+  //   it('stores the original component as a static property', () => {
+  //     const Wrapped = instance.withTheme()(BaseComponent);
+
+  //     // @ts-ignore
+  //     expect(Wrapped.WrappedComponent).toBe(BaseComponent);
+  //   });
+
+  //   it('inherits theme from Aesthetic options', () => {
+  //     function ThemeComponent() {
+  //       return <div />;
+  //     }
+
+  //     const Wrapped = instance.withTheme()(ThemeComponent);
+  //     const wrapper = shallow(<Wrapped />);
+
+  //     expect(wrapper.prop('theme')).toEqual({ unit: 8 });
+  //   });
+
+  //   it('can bubble up the ref with `wrappedRef`', () => {
+  //     class RefComponent extends React.Component<any> {
+  //       render() {
+  //         return <div />;
+  //       }
+  //     }
+
+  //     let refInstance: any = null;
+  //     const Wrapped = instance.withTheme()(RefComponent);
+
+  //     mount(
+  //       <Wrapped
+  //         themeName="classic"
+  //         wrappedRef={(ref: any) => {
+  //           refInstance = ref;
+  //         }}
+  //       />,
+  //     );
+
+  //     expect(refInstance).not.toBeNull();
+  //     expect(refInstance!.constructor.name).toBe('RefComponent');
+  //   });
+  // });
 
   describe('adapters', () => {
     it('supports class names', () => {
