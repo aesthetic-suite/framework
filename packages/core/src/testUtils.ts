@@ -1,10 +1,32 @@
 /* eslint-disable sort-keys */
 
-import { FontFace } from './types';
+import Aesthetic from './Aesthetic';
+import { Block, FontFace } from './types';
+
+export class TestAesthetic extends Aesthetic<any, Block, Block> {
+  transformToClassName(styles: any[]): string {
+    return styles.map((style, i) => `class-${i}`).join(' ');
+  }
+}
+
+export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
+  aesthetic.registerTheme('default', { unit: 8 }, ({ unit }) => ({
+    '@global': {
+      body: {
+        padding: unit,
+      },
+    },
+  }));
+}
 
 export function cleanStyles(source: string): string {
   return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
 }
+
+export const TEST_STATEMENT = {
+  footer: { color: 'blue' },
+  header: { color: 'red' },
+};
 
 export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',

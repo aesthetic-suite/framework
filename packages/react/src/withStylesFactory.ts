@@ -67,6 +67,7 @@ export default function withStylesFactory<
           })(WrappedComponent);
         }
 
+        // eslint-disable-next-line @typescript-eslint/member-ordering
         constructor(props: Props & WithStylesWrapperProps) {
           super(props);
 

@@ -8,4 +8,5 @@ import useThemeFactory from './useThemeFactory';
 import withStylesFactory from './withStylesFactory';
 import withThemeFactory from './withThemeFactory';
 
+export * from './types';
 export { useStylesFactory, useThemeFactory, withStylesFactory, withThemeFactory };

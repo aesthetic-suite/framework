@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withStylesFactory() can set extended components as non-extendable 1`] = `"BaseComponent is not extendable."`;

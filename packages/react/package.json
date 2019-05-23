@@ -5,7 +5,10 @@
   "keywords": [
     "aesthetic",
     "react",
-    "styles"
+    "styles",
+    "hook",
+    "hoc",
+    "composer"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/react",
   "license": "MIT",

@@ -1,3 +1,14 @@
+# 4.0.0
+
+To support RTL mode and other frameworks besides React, the core APIs had to slightly change.
+
+[View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/4.0.md)
+
+#### 💥 Breaking
+
+- React hooks and HOCs have moved to the new
+  [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
+
 ## 3.5.0 - 2019-04-28
 
 #### 🛠 Internals

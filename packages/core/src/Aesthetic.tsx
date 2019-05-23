@@ -1,5 +1,3 @@
-/* eslint-disable max-classes-per-file, react/no-multi-comp */
-
 import deepMerge from 'extend';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
@@ -151,6 +149,23 @@ export default abstract class Aesthetic<
   flushStyles(styleName: StyleName) {}
 
   /**
+   * Retrieve the defined component styles. If the definition is a function,
+   * execute it while passing the current theme and React props.
+   */
+  getStyleSheet(styleName: StyleName): StyleSheet {
+    const parentStyleName = this.parents[styleName];
+    const styleDef = this.styles[styleName];
+    const styleSheet = styleDef(this.getTheme());
+
+    // Merge from parent
+    if (parentStyleName) {
+      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
+    }
+
+    return styleSheet;
+  }
+
+  /**
    * Return a theme object or throw an error.
    */
   getTheme(name?: ThemeName): Theme {
@@ -246,23 +261,6 @@ export default abstract class Aesthetic<
 
     return classNames.join(' ').trim();
   };
-
-  /**
-   * Retrieve the defined component styles. If the definition is a function,
-   * execute it while passing the current theme and React props.
-   */
-  protected getStyleSheet(styleName: StyleName): StyleSheet {
-    const parentStyleName = this.parents[styleName];
-    const styleDef = this.styles[styleName];
-    const styleSheet = styleDef(this.getTheme());
-
-    // Merge from parent
-    if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
-    }
-
-    return styleSheet;
-  }
 
   /**
    * Return a native style sheet manager used for injecting CSS.
