@@ -3,6 +3,7 @@ import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
+import DirectionContext from './DirectionContext';
 import {
   WithStylesOptions,
   WithStylesState,
@@ -49,6 +50,8 @@ export default function withStylesFactory<
       aesthetic.setStyleSheet(styleName, styleSheet, extendFrom);
 
       class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
+        static contextType = DirectionContext;
+
         static displayName = `withStyles(${baseName})`;
 
         static styleName = styleName;
@@ -73,11 +76,11 @@ export default function withStylesFactory<
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        constructor(props: Props & WithStylesWrapperProps) {
+        constructor(props: Props & WithStylesWrapperProps, context: Direction) {
           super(props);
 
           this.state = {
-            styles: aesthetic.createStyleSheet(styleName),
+            styles: aesthetic.createStyleSheet(styleName, { rtl: context === 'rtl' }),
           };
         }
 

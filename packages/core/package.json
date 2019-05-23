@@ -29,6 +29,7 @@
   "dependencies": {
     "@types/extend": "^3.0.1",
     "csstype": "^2.6.4",
+    "direction": "^1.0.3",
     "extend": "^3.0.2",
     "stylis": "^3.5.4",
     "utility-types": "^3.7.0"

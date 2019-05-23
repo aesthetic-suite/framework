@@ -4444,6 +4444,11 @@ dir-glob@2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
+direction@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/direction/-/direction-1.0.3.tgz#5030e1e091e923904067d015dbaafd08f4d27d26"
+  integrity sha512-8bHRqMt4w/kND19KBksE4NOJo+gIOPuiZfxQvbd6xikfKbuNBYBdLIw0hA/4lWzBaDpwpW+Olmg1BjD9+0LU2w==
+
 discontinuous-range@1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"

@@ -26,6 +26,8 @@ export type ClassNameTransformer<N extends object, P extends object | string> = 
 
 export type RawCss = string;
 
+export type Direction = 'neutral' | 'ltr' | 'rtl';
+
 export type ExtendedProperty<B, T> = B | T | (B | T)[];
 
 // SYNTAX
