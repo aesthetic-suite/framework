@@ -158,7 +158,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
       ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes));
     } else if (name === 'fontFamily') {
       // Font faces could potentially convert recursively because font faces
-      // have a `familyName`, and we parse on `familyName`. Luckily the rulset
+      // have a `familyName`, and we parse on `familyName`. Luckily the ruleset
       // selector is the family name, and we can determine that this is being
       // called from from `convertFontFaces`.
       if (value.includes(ruleset.selector)) {

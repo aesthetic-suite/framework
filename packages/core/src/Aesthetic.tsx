@@ -1,7 +1,6 @@
 import deepMerge from 'extend';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
-import DirectionContext from './DirectionContext';
 import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
@@ -106,7 +105,7 @@ export default abstract class Aesthetic<
   /**
    * Create and return a style sheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, options: { rtl?: boolean } = {}): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName, options: SheetOptions = {}): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
