@@ -94,7 +94,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframe.toObject(), {});
+    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframe.toObject() as any, {});
   };
 
   // http://fela.js.org/docs/basics/Rules.html#3-media-queries
