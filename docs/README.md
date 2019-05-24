@@ -11,7 +11,7 @@ styling libraries fail to solve.
 **Framework agnostic integration**
 
 Do you use React? Or Vue? Did you migrate between the two, or another framework? Aesthetic aims to
-support all the frameworks, so the same concepts and styling guarantees are provided throughout.
+support all frameworks, so the same concepts and styling guarantees are provided throughout.
 
 **Multiple styling patterns**
 

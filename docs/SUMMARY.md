@@ -20,4 +20,5 @@
 - Migration Guides
   - [2.0](./migrate/2.0.md)
   - [3.0](./migrate/3.0.md)
+  - [4.0](./migrate/4.0.md)
 - [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
