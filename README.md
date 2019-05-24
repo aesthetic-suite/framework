@@ -7,41 +7,65 @@
 Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
 whether it be with plain objects, importing style sheets, or simply referencing external class
 names. Simply put, Aesthetic is an abstraction layer for the compilation of styles via third-party
-libraries, all the while providing customizability, theming, and a unified syntax.
+libraries, all the while providing customizability, theming, additional features, and a unified
+syntax.
 
-TODO MOVE TO REACT PACKAGE
+```ts
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
 
-Supports both an HOC and hook styled API!
+const aesthetic = new AphroditeAesthetic<Theme>();
+
+// Register a theme
+aesthetic.registerTheme('light', {
+  unit: 8,
+});
+
+// Define a style sheet
+aesthetic.setStyleSheet('button', ({ unit }) => ({
+  button: {
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: unit,
+  },
+}));
+
+// Parse the styles and generate CSS class names
+const styles = aesthetic.createStyleSheet('button');
+const className = aesthetic.transformStyles(styles.button);
+```
+
+## React
+
+Supports both an HOC and hook styled React API!
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
-import cx from './cx';
+import useStyles from './useStyles';
 
 export type Props = {
   children: React.ReactNode;
 };
 
-function Button({ children, styles }: Props & WithStylesProps) {
+export default function Button({ children }: Props) {
+  const [styles, cx] = useStyles(({ unit }) => ({
+    button: {
+      textAlign: 'center',
+      display: 'inline-block',
+      padding: unit,
+    },
+  }));
+
   return (
     <button type="button" className={cx(styles.button)}>
       {children}
     </button>
   );
 }
-
-export default withStyles(({ unit }) => ({
-  button: {
-    textAlign: 'center',
-    display: 'inline-block',
-    padding: unit,
-  },
-}))(Button);
 ```
 
 ## Requirements
 
-- React 16.3+ (16.8 if using hooks)
 - IE 11+
 
 ## Installation

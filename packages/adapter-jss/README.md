@@ -19,7 +19,6 @@ const aesthetic = new JSSAesthetic<Theme>(jss, options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - JSS
 

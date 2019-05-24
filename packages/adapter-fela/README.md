@@ -19,7 +19,6 @@ const aesthetic = new FelaAesthetic<Theme>(fela, options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - Fela
 

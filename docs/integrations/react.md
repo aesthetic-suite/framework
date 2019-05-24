@@ -156,7 +156,7 @@ export default function Button({ children, icon }: Props) {
 }
 ```
 
-## Accessing Theme
+## Accessing The Theme
 
 There are 3 ways to access the currently enabled theme in a component. The first is with the aptly
 named `withTheme` HOC, which passes the theme object as a prop. The HOC supports the `pure` and

@@ -17,7 +17,6 @@ const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag:
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - TypeStyle
 

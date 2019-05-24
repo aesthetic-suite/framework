@@ -16,7 +16,6 @@ const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - Aphrodite
 

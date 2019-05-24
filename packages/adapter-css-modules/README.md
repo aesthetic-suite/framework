@@ -15,7 +15,6 @@ const aesthetic = new CSSModulesAesthetic(options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - CSS Modules
 
