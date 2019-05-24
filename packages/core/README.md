@@ -4,11 +4,12 @@
 [![npm version](https://badge.fury.io/js/aesthetic.svg)](https://www.npmjs.com/package/aesthetic)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core)](https://www.npmjs.com/package/aesthetic)
 
-Aesthetic is a powerful type-safe React library for styling components, whether it be CSS-in-JS
-using style objects, importing style sheets, or simply referencing external class names. Simply put,
-Aesthetic is an abstraction layer that utilizes higher-order-components for the compilation of
-styles via third-party libraries, all the while providing customizability, theming, and a unified
-syntax.
+Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
+whether it be with plain objects, importing style sheets, or simply referencing external class
+names. Simply put, Aesthetic is an abstraction layer for the compilation of styles via third-party
+libraries, all the while providing customizability, theming, and a unified syntax.
+
+TODO MOVE TO REACT PACKAGE
 
 Supports both an HOC and hook styled API!
 
@@ -40,15 +41,14 @@ export default withStyles(({ unit }) => ({
 
 ## Requirements
 
-- React 16.3+ (16.8 if using hooks)
 - IE 11+
 
 ## Installation
 
 ```
-yarn add aesthetic react
+yarn add aesthetic
 // Or
-npm install aesthetic react
+npm install aesthetic
 ```
 
 ## Documentation

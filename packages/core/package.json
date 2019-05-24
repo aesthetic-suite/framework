@@ -1,7 +1,7 @@
 {
   "name": "aesthetic",
   "version": "3.5.1",
-  "description": "Aesthetic is a powerful type-safe React library for styling components through the use of adapters.",
+  "description": "Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
     "react",
@@ -28,23 +28,9 @@
   },
   "dependencies": {
     "@types/extend": "^3.0.1",
-    "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/react": "^16.8.18",
-    "@types/uuid": "^3.4.4",
     "csstype": "^2.6.4",
     "extend": "^3.0.2",
-    "hoist-non-react-statics": "^3.3.0",
     "stylis": "^3.5.4",
-    "utility-types": "^3.7.0",
-    "uuid": "^3.3.2"
-  },
-  "peerDependencies": {
-    "react": "^16.3.0"
-  },
-  "devDependencies": {
-    "@types/prop-types": "^15.7.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "utility-types": "^3.7.0"
   }
 }

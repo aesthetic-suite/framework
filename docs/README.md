@@ -1,13 +1,17 @@
 # Aesthetic
 
-Aesthetic is a powerful type-safe React library for styling components, whether it be CSS-in-JS
-using style objects, importing style sheets, or simply referencing external class names. Simply put,
-Aesthetic is an abstraction layer that utilizes higher-order-components for the compilation of
-styles via third-party libraries, all the while providing customizability, theming, and a unified
-syntax.
+Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
+whether it be with plain objects, importing style sheets, or simply referencing external class
+names. Simply put, Aesthetic is an abstraction layer for the compilation of styles via third-party
+libraries, all the while providing customizability, theming, and a unified syntax.
 
 Aesthetic was built for the sole purpose of solving the following scenarios, most of which competing
 styling libraries fail to solve.
+
+**Framework agnostic integration**
+
+Do you use React? Or Vue? Did you migrate between the two, or another framework? Aesthetic aims to
+support all frameworks, so the same concepts and styling guarantees are provided throughout.
 
 **Multiple styling patterns**
 
@@ -26,7 +30,6 @@ component.
 ```tsx
 import React from 'react';
 import withStyles, { WithStylesProps } from './withStyles';
-import cx from './cx';
 
 export type Props = {
   children: NonNullable<React.ReactNode>;
@@ -40,7 +43,7 @@ class Carousel extends React.Component<Props & WithStylesProps, State> {
   // ...
 
   render() {
-    const { children, styles } = this.props;
+    const { children, cx, styles } = this.props;
     const { animating } = this.state;
 
     return (
@@ -51,7 +54,7 @@ class Carousel extends React.Component<Props & WithStylesProps, State> {
           ←
         </button>
 
-        <button type="button" onClick={this.handleNext} className={cxs(styles.button, styles.next)}>
+        <button type="button" onClick={this.handleNext} className={cx(styles.button, styles.next)}>
           →
         </button>
       </div>

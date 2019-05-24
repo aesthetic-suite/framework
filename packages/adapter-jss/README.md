@@ -19,7 +19,6 @@ const aesthetic = new JSSAesthetic<Theme>(jss, options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - JSS
 
@@ -32,3 +31,7 @@ npm install aesthetic aesthetic-adapter-jss jss jss-nested
 ```
 
 > The `jss-nested` plugin is required.
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/adapters/jss](https://milesj.gitbook.io/aesthetic/adapters/jss)

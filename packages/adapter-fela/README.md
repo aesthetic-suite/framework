@@ -19,7 +19,6 @@ const aesthetic = new FelaAesthetic<Theme>(fela, options);
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - Fela
 
@@ -30,3 +29,7 @@ yarn add aesthetic aesthetic-adapter-fela fela fela-dom
 // Or
 npm install aesthetic aesthetic-adapter-fela fela fela-dom
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/adapters/fela](https://milesj.gitbook.io/aesthetic/adapters/fela)

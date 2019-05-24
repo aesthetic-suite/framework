@@ -17,7 +17,6 @@ const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag:
 
 ## Requirements
 
-- React 16.3+
 - Aesthetic
 - TypeStyle
 
@@ -28,3 +27,7 @@ yarn add aesthetic aesthetic-adapter-typestyle typestyle
 // Or
 npm install aesthetic aesthetic-adapter-typestyle typestyle
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/adapters/typestyle](https://milesj.gitbook.io/aesthetic/adapters/typestyle)

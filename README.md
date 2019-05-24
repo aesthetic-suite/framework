@@ -4,51 +4,76 @@
 [![npm version](https://badge.fury.io/js/aesthetic.svg)](https://www.npmjs.com/package/aesthetic)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core)](https://www.npmjs.com/package/aesthetic)
 
-Aesthetic is a powerful type-safe React library for styling components, whether it be CSS-in-JS
-using style objects, importing style sheets, or simply referencing external class names. Simply put,
-Aesthetic is an abstraction layer that utilizes higher-order-components for the compilation of
-styles via third-party libraries, all the while providing customizability, theming, and a unified
+Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
+whether it be with plain objects, importing style sheets, or simply referencing external class
+names. Simply put, Aesthetic is an abstraction layer for the compilation of styles via third-party
+libraries, all the while providing customizability, theming, additional features, and a unified
 syntax.
 
-Supports both an HOC and hook styled API!
+```ts
+import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
+
+const aesthetic = new AphroditeAesthetic<Theme>();
+
+// Register a theme
+aesthetic.registerTheme('light', {
+  unit: 8,
+});
+
+// Define a style sheet
+aesthetic.setStyleSheet('button', ({ unit }) => ({
+  button: {
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: unit,
+  },
+}));
+
+// Parse the styles and generate CSS class names
+const styles = aesthetic.createStyleSheet('button');
+const className = aesthetic.transformStyles(styles.button);
+```
+
+## React
+
+Supports both an HOC and hook styled React API!
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
-import cx from './cx';
+import useStyles from './useStyles';
 
 export type Props = {
   children: React.ReactNode;
 };
 
-function Button({ children, styles }: Props & WithStylesProps) {
+export default function Button({ children }: Props) {
+  const [styles, cx] = useStyles(({ unit }) => ({
+    button: {
+      textAlign: 'center',
+      display: 'inline-block',
+      padding: unit,
+    },
+  }));
+
   return (
     <button type="button" className={cx(styles.button)}>
       {children}
     </button>
   );
 }
-
-export default withStyles(({ unit }) => ({
-  button: {
-    textAlign: 'center',
-    display: 'inline-block',
-    padding: unit,
-  },
-}))(Button);
 ```
 
 ## Requirements
 
-- React 16.3+ (16.8 if using hooks)
 - IE 11+
 
 ## Installation
 
 ```
-yarn add aesthetic react
+yarn add aesthetic
 // Or
-npm install aesthetic react
+npm install aesthetic
 ```
 
 ## Documentation
