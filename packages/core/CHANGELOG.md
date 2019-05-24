@@ -8,6 +8,12 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 
 - React hooks, HOCs, and types have moved to the new
   [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
+- Updated `Aesthetic#transformStyles` to require all styles as an array in the 1st argument, instead
+  of being spread across all arguments.
+
+#### 🚀 Updates
+
+- Added a `cxPropName` option to `Aesthetic`.
 
 ## 3.5.0 - 2019-04-28
 

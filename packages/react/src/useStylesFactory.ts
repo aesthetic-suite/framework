@@ -10,10 +10,12 @@ export default function useStylesFactory<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
+  type CX = ClassNameGenerator<NativeBlock, ParsedBlock>;
+
   return function useStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
     customName: string = 'Component',
-  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>, string] {
+  ): [SheetMap<ParsedBlock>, CX, string] {
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
@@ -30,6 +32,9 @@ export default function useStylesFactory<
       aesthetic.flushStyles(styleName);
     }, [styleName]);
 
-    return [sheet, aesthetic.transformStyles, styleName];
+    // Package a CSS generator
+    const cx: CX = (...styles) => aesthetic.transformStyles(styles);
+
+    return [sheet, cx, styleName];
   };
 }

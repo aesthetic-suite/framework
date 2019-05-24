@@ -1,5 +1,5 @@
 import React from 'react';
-import { SheetMap, StyleName, StyleSheetDefinition } from 'aesthetic';
+import { ClassNameGenerator, SheetMap, StyleName, StyleSheetDefinition } from 'aesthetic';
 import { Omit } from 'utility-types';
 
 export interface WithThemeWrapperProps {
@@ -7,8 +7,8 @@ export interface WithThemeWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithThemeProps<Theme> {
-  /** The ref passed through the `wrappedRef` prop. Provided by `withTheme`. */
+export interface WithThemeWrappedProps<Theme> {
+  /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
   ref?: React.Ref<any>;
   /** The theme object. Provided by `withTheme`. */
   theme: Theme;
@@ -26,8 +26,14 @@ export interface WithStylesWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithStylesProps<Theme, ParsedBlock> {
-  /** The ref passed through the `wrappedRef` prop. Provided by `withStyles`. */
+export interface WithStylesWrappedProps<
+  Theme,
+  NativeBlock extends object,
+  ParsedBlock extends object | string = NativeBlock
+> {
+  /** Utility function to convert parsed styles into CSS class names. Provided by `withStyles`. */
+  cx: ClassNameGenerator<NativeBlock, ParsedBlock>;
+  /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
   ref?: React.Ref<any>;
   /** The parsed component style sheet in which rulesets can be transformed to class names. Provided by `withStyles`. */
   styles: SheetMap<ParsedBlock>;
@@ -41,6 +47,8 @@ export interface WithStylesState<Props, ParsedBlock> {
 }
 
 export interface WithStylesOptions {
+  /** Name of the prop in which to pass the CSS class name generator function. Provided by `withStyles`. */
+  cxPropName?: string;
   /** Can this component's styles be extended to create a new component. Provided by `withStyles`. */
   extendable?: boolean;
   /** The parent component ID in which to extend styles from. This is usually defined automatically. Provided by `withStyles`. */
@@ -58,7 +66,7 @@ export interface WithStylesOptions {
 export interface StyledComponentClass<Theme, Props> extends React.ComponentClass<Props> {
   displayName: string;
   styleName: StyleName;
-  WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, any>>;
+  WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<Theme, any, any>>;
 
   extendStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,

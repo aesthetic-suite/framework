@@ -176,20 +176,23 @@ describe('withStylesFactory()', () => {
     });
   });
 
-  it('can customize props with the withStyles options', () => {
+  it('can customize props with options', () => {
     aesthetic.options.passThemeProp = true;
 
     const Wrapped = withStyles(() => TEST_STATEMENT, {
+      cxPropName: 'css',
       stylesPropName: 'styleSheet',
       themePropName: 'someThemeNameHere',
     })(StylesComponent);
     const wrapper = shallow(<Wrapped />);
 
+    expect(wrapper.prop('css')).toBeDefined();
     expect(wrapper.prop('styleSheet')).toBeDefined();
     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
   });
 
   it('can customize props with the options through the `Aesthetic` instance', () => {
+    aesthetic.options.cxPropName = 'css';
     aesthetic.options.stylesPropName = 'styleSheet';
     aesthetic.options.themePropName = 'someThemeNameHere';
     aesthetic.options.passThemeProp = true;
@@ -197,6 +200,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
     const wrapper = shallow(<Wrapped />);
 
+    expect(wrapper.prop('css')).toBeDefined();
     expect(wrapper.prop('styleSheet')).toBeDefined();
     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
   });

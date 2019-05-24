@@ -14,6 +14,7 @@ import {
 } from './types';
 
 export interface AestheticOptions {
+  cxPropName: string;
   extendable: boolean;
   passThemeProp: boolean;
   pure: boolean;
@@ -47,6 +48,7 @@ export default abstract class Aesthetic<
 
   constructor(options: Partial<AestheticOptions> = {}) {
     this.options = {
+      cxPropName: 'cx',
       extendable: false,
       passThemeProp: false,
       pure: true,
@@ -232,7 +234,7 @@ export default abstract class Aesthetic<
    * Transform the list of style declarations to a list of class name.
    */
   transformStyles = (
-    ...styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[]
+    styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
   ): ClassName => {
     const classNames: ClassName[] = [];
     const toTransform: (NativeBlock | ParsedBlock)[] = [];

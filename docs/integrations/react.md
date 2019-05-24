@@ -44,11 +44,11 @@ supports all of the [options](#options) mentioned previously as props, except fo
 
 ```ts
 // withStyles.ts
-import { withStylesFactory, WithStylesProps as BaseWithStylesProps } from 'aesthetic-react';
-import { ParsedBlock } from 'aesthetic-adapter-aphrodite'; // Or your adapter
+import { withStylesFactory, WithStylesWrappedProps } from 'aesthetic-react';
+import { NativeBlock, ParsedBlock } from 'aesthetic-adapter-aphrodite'; // Or your adapter
 import aesthetic, { Theme } from './aesthetic';
 
-export type WithStylesProps = BaseWithStylesProps<Theme, ParsedBlock>;
+export type WithStylesProps = WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>;
 
 export default withStylesFactory(aesthetic);
 ```
@@ -61,10 +61,10 @@ mentioned previously as props.
 
 ```ts
 // withTheme.ts
-import { withThemeFactory, WithThemeProps as BaseWithThemeProps } from 'aesthetic-react';
+import { withThemeFactory, WithThemeWrappedProps } from 'aesthetic-react';
 import aesthetic, { Theme } from './aesthetic';
 
-export type WithThemeProps = BaseWithThemeProps<Theme>;
+export type WithThemeProps = WithThemeWrappedProps<Theme>;
 
 export default withThemeFactory(aesthetic);
 ```

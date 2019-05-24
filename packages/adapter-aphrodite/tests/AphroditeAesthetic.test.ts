@@ -44,7 +44,7 @@ describe('AphroditeAesthetic', () => {
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(...Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
 
     if (raw) {
       // @ts-ignore

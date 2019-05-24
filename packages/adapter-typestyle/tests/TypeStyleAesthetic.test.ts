@@ -45,7 +45,7 @@ describe('TypeStyleAesthetic', () => {
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(...Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
 
     // @ts-ignore
     if (instance.typeStyle._raw) {
