@@ -153,6 +153,13 @@ describe('withStylesFactory()', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
+  it('inherits a function to generate CSS class names', () => {
+    const Wrapped = withStyles(() => ({}))(BaseComponent);
+    const wrapper = shallow(<Wrapped />);
+
+    expect(typeof wrapper.prop('cx')).toBe('function');
+  });
+
   it('inherits theme from Aesthetic options', () => {
     function ThemeComponent() {
       return <div />;
@@ -233,5 +240,16 @@ describe('withStylesFactory()', () => {
 
     expect(refInstance).not.toBeNull();
     expect(refInstance!.constructor.name).toBe('RefComponent');
+  });
+
+  it('can transform class names', () => {
+    function Component({ cx, styles }: any) {
+      return <div className={cx(styles.header, styles.footer)} />;
+    }
+
+    const Wrapped = withStyles(() => TEST_STATEMENT)(Component);
+    const wrapper = shallow(<Wrapped />).dive();
+
+    expect(wrapper.prop('className')).toBe('class-0 class-1');
   });
 });

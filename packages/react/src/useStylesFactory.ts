@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from 'react';
-import Aesthetic, { ClassNameGenerator, StyleSheetDefinition, SheetMap } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
 import uuid from 'uuid/v4';
 
 /**
@@ -10,7 +10,7 @@ export default function useStylesFactory<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
-  type CX = ClassNameGenerator<NativeBlock, ParsedBlock>;
+  type CX = ClassNameTransformer<NativeBlock, ParsedBlock>;
 
   return function useStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
@@ -32,7 +32,7 @@ export default function useStylesFactory<
       aesthetic.flushStyles(styleName);
     }, [styleName]);
 
-    // Package a CSS generator
+    // Create a CSS generator
     const cx: CX = (...styles) => aesthetic.transformStyles(styles);
 
     return [sheet, cx, styleName];

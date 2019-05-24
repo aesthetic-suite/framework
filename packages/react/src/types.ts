@@ -1,5 +1,5 @@
 import React from 'react';
-import { ClassNameGenerator, SheetMap, StyleName, StyleSheetDefinition } from 'aesthetic';
+import { ClassNameTransformer, SheetMap, StyleName, StyleSheetDefinition } from 'aesthetic';
 import { Omit } from 'utility-types';
 
 export interface WithThemeWrapperProps {
@@ -31,8 +31,8 @@ export interface WithStylesWrappedProps<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 > {
-  /** Utility function to convert parsed styles into CSS class names. Provided by `withStyles`. */
-  cx: ClassNameGenerator<NativeBlock, ParsedBlock>;
+  /** Utility function to transform parsed styles into CSS class names. Provided by `withStyles`. */
+  cx: ClassNameTransformer<NativeBlock, ParsedBlock>;
   /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
   ref?: React.Ref<any>;
   /** The parsed component style sheet in which rulesets can be transformed to class names. Provided by `withStyles`. */
@@ -47,7 +47,7 @@ export interface WithStylesState<Props, ParsedBlock> {
 }
 
 export interface WithStylesOptions {
-  /** Name of the prop in which to pass the CSS class name generator function. Provided by `withStyles`. */
+  /** Name of the prop in which to pass the styles to CSS class name transformer function. Provided by `withStyles`. */
   cxPropName?: string;
   /** Can this component's styles be extended to create a new component. Provided by `withStyles`. */
   extendable?: boolean;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Aesthetic, { ClassNameGenerator, StyleSheetDefinition } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
@@ -33,7 +33,7 @@ export default function withStylesFactory<
       themePropName = aesthetic.options.themePropName,
     } = options;
 
-    type CX = ClassNameGenerator<NativeBlock, ParsedBlock>;
+    type CX = ClassNameTransformer<NativeBlock, ParsedBlock>;
 
     return function withStylesComposer<Props extends object = {}>(
       WrappedComponent: React.ComponentType<
