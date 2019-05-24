@@ -1,8 +1,7 @@
 /* eslint-disable */
 
 import React from 'react';
-import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { ComponentBlock, StyleSheet } from '../src/types';
+import { ClassNameAesthetic, ComponentBlock, StyleSheet } from 'aesthetic';
 
 type Theme = { unit: number };
 

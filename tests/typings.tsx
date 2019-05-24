@@ -2,8 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import ClassNameAesthetic from '../src/ClassNameAesthetic';
-import { ComponentBlock, WithStylesProps } from '../src/types';
+import { ClassNameAesthetic, ComponentBlock, WithStylesProps } from 'aesthetic';
 
 type Theme = {
   unit: number;
