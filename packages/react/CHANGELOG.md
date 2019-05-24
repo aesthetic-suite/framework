@@ -13,3 +13,4 @@
 #### 🚀 Updates
 
 - Added a `cxPropName` option to `withStyles`.
+- Updated `withStyles` HOC to receive the CSS transformer function as a `cx` prop.

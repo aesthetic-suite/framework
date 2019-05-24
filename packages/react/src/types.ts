@@ -47,7 +47,7 @@ export interface WithStylesState<Props, ParsedBlock> {
 }
 
 export interface WithStylesOptions {
-  /** Name of the prop in which to pass the styles to CSS class name transformer function. Provided by `withStyles`. */
+  /** Name of the prop in which to pass the CSS class name transformer function. Provided by `withStyles`. */
   cxPropName?: string;
   /** Can this component's styles be extended to create a new component. Provided by `withStyles`. */
   extendable?: boolean;

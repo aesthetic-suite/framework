@@ -32,7 +32,7 @@ export default function useStylesFactory<
       aesthetic.flushStyles(styleName);
     }, [styleName]);
 
-    // Create a CSS generator
+    // Create a CSS transformer
     const cx: CX = (...styles) => aesthetic.transformStyles(styles);
 
     return [sheet, cx, styleName];
