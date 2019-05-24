@@ -1,12 +1,12 @@
 import React from 'react';
-import Aesthetic, { StyleSheetDefinition } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
 import {
   WithStylesOptions,
   WithStylesState,
-  WithStylesProps,
+  WithStylesWrappedProps,
   WithStylesWrapperProps,
   StyledComponentClass,
 } from './types';
@@ -24,6 +24,7 @@ export default function withStylesFactory<
     options: WithStylesOptions = {},
   ) /* infer */ {
     const {
+      cxPropName = aesthetic.options.cxPropName,
       extendable = aesthetic.options.extendable,
       extendFrom = '',
       passThemeProp = aesthetic.options.passThemeProp,
@@ -32,8 +33,12 @@ export default function withStylesFactory<
       themePropName = aesthetic.options.themePropName,
     } = options;
 
+    type CX = ClassNameTransformer<NativeBlock, ParsedBlock>;
+
     return function withStylesComposer<Props extends object = {}>(
-      WrappedComponent: React.ComponentType<Props & WithStylesProps<Theme, ParsedBlock>>,
+      WrappedComponent: React.ComponentType<
+        Props & WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>
+      >,
     ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const styleName = `${baseName}-${uuid()}`;
@@ -80,9 +85,12 @@ export default function withStylesFactory<
           aesthetic.flushStyles(styleName);
         }
 
+        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles);
+
         render() {
           const { wrappedRef, ...props } = this.props;
-          const extraProps: WithStylesProps<Theme, ParsedBlock> = {
+          const extraProps: WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock> = {
+            [cxPropName as 'cx']: this.transformStyles,
             [stylesPropName as 'styles']: this.state.styles,
             ref: wrappedRef,
           };

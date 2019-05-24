@@ -153,6 +153,13 @@ describe('withStylesFactory()', () => {
     }).toThrowErrorMatchingSnapshot();
   });
 
+  it('inherits a function to generate CSS class names', () => {
+    const Wrapped = withStyles(() => ({}))(BaseComponent);
+    const wrapper = shallow(<Wrapped />);
+
+    expect(typeof wrapper.prop('cx')).toBe('function');
+  });
+
   it('inherits theme from Aesthetic options', () => {
     function ThemeComponent() {
       return <div />;
@@ -176,20 +183,23 @@ describe('withStylesFactory()', () => {
     });
   });
 
-  it('can customize props with the withStyles options', () => {
+  it('can customize props with options', () => {
     aesthetic.options.passThemeProp = true;
 
     const Wrapped = withStyles(() => TEST_STATEMENT, {
+      cxPropName: 'css',
       stylesPropName: 'styleSheet',
       themePropName: 'someThemeNameHere',
     })(StylesComponent);
     const wrapper = shallow(<Wrapped />);
 
+    expect(wrapper.prop('css')).toBeDefined();
     expect(wrapper.prop('styleSheet')).toBeDefined();
     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
   });
 
   it('can customize props with the options through the `Aesthetic` instance', () => {
+    aesthetic.options.cxPropName = 'css';
     aesthetic.options.stylesPropName = 'styleSheet';
     aesthetic.options.themePropName = 'someThemeNameHere';
     aesthetic.options.passThemeProp = true;
@@ -197,6 +207,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
     const wrapper = shallow(<Wrapped />);
 
+    expect(wrapper.prop('css')).toBeDefined();
     expect(wrapper.prop('styleSheet')).toBeDefined();
     expect(wrapper.prop('someThemeNameHere')).toBeDefined();
   });
@@ -229,5 +240,16 @@ describe('withStylesFactory()', () => {
 
     expect(refInstance).not.toBeNull();
     expect(refInstance!.constructor.name).toBe('RefComponent');
+  });
+
+  it('can transform class names', () => {
+    function Component({ cx, styles }: any) {
+      return <div className={cx(styles.header, styles.footer)} />;
+    }
+
+    const Wrapped = withStyles(() => TEST_STATEMENT)(Component);
+    const wrapper = shallow(<Wrapped />).dive();
+
+    expect(wrapper.prop('className')).toBe('class-0 class-1');
   });
 });

@@ -8,7 +8,7 @@ import { create as createJSS } from 'jss';
 // @ts-ignore
 import jssPreset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
-import Aesthetic, { WithStylesProps } from 'aesthetic';
+import Aesthetic, { WithStylesWrappedProps } from 'aesthetic';
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 import FelaAesthetic from 'aesthetic-adapter-fela';
 import JSSAesthetic from 'aesthetic-adapter-jss';
@@ -131,7 +131,7 @@ function createHocComponent(aesthetic: Aesthetic<Theme, any, any>) {
     styles,
     theme,
     primary = false,
-  }: HocProps & WithStylesProps<Theme, any>) {
+  }: HocProps & WithStylesWrappedProps<Theme, any, any>) {
     const className = aesthetic.transformStyles(styles.button, primary && styles.button__primary);
 
     console.log(aesthetic.constructor.name, 'HocButton', { styles, theme, className });

@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from 'react';
-import Aesthetic, { ClassNameGenerator, StyleSheetDefinition, SheetMap } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
 import uuid from 'uuid/v4';
 
 /**
@@ -10,10 +10,12 @@ export default function useStylesFactory<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
+  type CX = ClassNameTransformer<NativeBlock, ParsedBlock>;
+
   return function useStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
     customName: string = 'Component',
-  ): [SheetMap<ParsedBlock>, ClassNameGenerator<NativeBlock, ParsedBlock>, string] {
+  ): [SheetMap<ParsedBlock>, CX, string] {
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
@@ -30,6 +32,9 @@ export default function useStylesFactory<
       aesthetic.flushStyles(styleName);
     }, [styleName]);
 
-    return [sheet, aesthetic.transformStyles, styleName];
+    // Create a CSS transformer
+    const cx: CX = (...styles) => aesthetic.transformStyles(styles);
+
+    return [sheet, cx, styleName];
   };
 }

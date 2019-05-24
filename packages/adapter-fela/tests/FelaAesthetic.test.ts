@@ -49,7 +49,7 @@ describe('FelaAesthetic', () => {
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(...Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
 
     expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
   }

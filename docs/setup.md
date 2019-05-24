@@ -17,6 +17,8 @@ export default new AphroditeAesthetic(extensions, {
 
 The following options are available, most of which can be overridden per component.
 
+- `cxPropName` (string) - Name of the prop in which to pass the styles to CSS class name transformer
+  function. Defaults to `cx`.
 - `extendable` (boolean) - Can component styles be extended by other components? Otherwise, the
   styles are locked and isolated. Defaults to `false`.
 - `passThemeProp` (boolean) - Should the theme prop be passed to all wrapped components? Defaults to

@@ -7,7 +7,7 @@ describe('CSSModulesAesthetic', () => {
     // eslint-disable-next-line global-require
     const classes = require('./styles.css');
 
-    expect(instance.transformStyles(classes.header, classes.footer)).toBe(
+    expect(instance.transformStyles([classes.header, classes.footer])).toBe(
       'styles__header___3JVTA styles__footer___1Vp0S',
     );
   });

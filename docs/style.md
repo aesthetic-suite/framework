@@ -25,7 +25,7 @@ aesthetic.setStyleSheet('button-component', theme => ({
 Once the style sheet is defined, the second phase will parse and process it using the underlying
 adapter (like Aphrodite). This is triggered by the `Aesthetic#createStyleSheet` method, which
 requires the unique style name from the previous example, and returns a cached and parsed style
-sheet. This parsed style sheet is then using to generate [CSS class names](#generating-class-names).
+sheet. This parsed style sheet is then used to generate [CSS class names](#generating-class-names).
 
 ```ts
 const styles = aesthetic.createStyleSheet('button-component');

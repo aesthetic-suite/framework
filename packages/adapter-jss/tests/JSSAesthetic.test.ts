@@ -70,7 +70,7 @@ describe('JSSAesthetic', () => {
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(...Object.values(styleSheet))).toMatchSnapshot();
+    expect(instance.transformStyles(Object.values(styleSheet))).toMatchSnapshot();
 
     testSnapshot(raw);
   }

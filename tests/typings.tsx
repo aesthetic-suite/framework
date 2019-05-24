@@ -2,7 +2,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ClassNameAesthetic, ComponentBlock, WithStylesProps } from 'aesthetic';
+import { ClassNameAesthetic, ComponentBlock, WithStylesWrappedProps } from 'aesthetic';
 
 type Theme = {
   unit: number;
@@ -25,7 +25,7 @@ aesthetic.extendTheme('classic', 'default', {
   color: 'white',
 });
 
-const Comp: React.SFC<Props & WithStylesProps<Theme, string>> = props => {
+const Comp: React.SFC<Props & WithStylesWrappedProps<Theme, string, string>> = props => {
   return <div className={aesthetic.transformStyles(props.styles.button)} />;
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Aesthetic from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { WithThemeOptions, WithThemeProps, WithThemeWrapperProps } from './types';
+import { WithThemeOptions, WithThemeWrappedProps, WithThemeWrapperProps } from './types';
 
 /**
  * Wrap a React component with an HOC that injects the current theme object as a prop.
@@ -18,7 +18,7 @@ export default function withThemeFactory<
     } = options;
 
     return function withThemeComposer<Props extends object = {}>(
-      WrappedComponent: React.ComponentType<Props & WithThemeProps<Theme>>,
+      WrappedComponent: React.ComponentType<Props & WithThemeWrappedProps<Theme>>,
     ): React.ComponentClass<Props & WithThemeWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const Component = pure ? React.PureComponent : React.Component;
@@ -30,7 +30,7 @@ export default function withThemeFactory<
 
         render() {
           const { wrappedRef, ...props } = this.props;
-          const extraProps: WithThemeProps<Theme> = {
+          const extraProps: WithThemeWrappedProps<Theme> = {
             [themePropName as 'theme']: aesthetic.getTheme(),
             ref: wrappedRef,
           };
