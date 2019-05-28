@@ -54,7 +54,8 @@ describe('AphroditeAesthetic', () => {
     const styles = instance.processStyleSheet(convertedSheet, 'aphrodite');
 
     expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
-    expect(instance.transformStyles(Object.values(styles), {})).toBe(expectedClassName);
+
+    expect(instance.transformStyles(Object.values(styles), options)).toBe(expectedClassName);
 
     if (raw) {
       // @ts-ignore
@@ -74,7 +75,6 @@ describe('AphroditeAesthetic', () => {
   });
 
   DIRECTIONS.forEach(dir => {
-    // eslint-disable-next-line
     describe(dir, () => {
       it('converts and transforms inline styles', () => {
         expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
