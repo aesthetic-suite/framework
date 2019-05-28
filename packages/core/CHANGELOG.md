@@ -10,10 +10,22 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
   [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
 - Updated `Aesthetic#transformStyles` to require all styles as an array in the 1st argument, instead
   of being spread across all arguments.
+- Updated `Aesthetic#transformToClassName` to only be passed the parsed blocks and not the native
+  adapter blocks.
 
 #### 🚀 Updates
 
+- Added built-in RTL support for _all_ adapters!
 - Added a `cxPropName` option to `Aesthetic`.
+- Added a `rtl` option to `Aesthetic`.
+- Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
+- Added `Aesthetic#isRTL` for determining if a direction is right-to-left.
+- Added an options object to `Aesthetic#createStyleSheet`, `Aeshetic#transformStyles`,
+  `UnifiedSyntax#convertGlobalSheet`, `UnifiedSyntax#convertStyleSheet`, and `Sheet`.
+- Updated `Aeshetic#transformStyles` to convert native blocks to parsed blocks before transforming
+  to CSS class names.
+- Updated `Sheet` (and `Ruleset`) to convert CSS properties to RTL when the direction option is
+  enabled.
 
 ## 3.5.0 - 2019-04-28
 

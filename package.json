@@ -48,7 +48,8 @@
     },
     "eslint": {
       "rules": {
-        "import/export": "off"
+        "import/export": "off",
+        "jest/valid-describe": "off"
       }
     }
   },

@@ -28,7 +28,9 @@ export type RawCss = string;
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
 
-export type ExtendedProperty<B, T> = B | T | (B | T)[];
+export type ExpandCompoundProperty<B, T> = B | T | (B | T)[];
+
+export type CompoundProperties = 'animationName' | 'fontFamily';
 
 // SYNTAX
 
@@ -45,9 +47,9 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export type Properties = Omit<CSS.Properties<string | number>, 'animationName' | 'fontFamily'> & {
-  animationName?: ExtendedProperty<CSS.AnimationNameProperty, Keyframes>;
-  fontFamily?: ExtendedProperty<CSS.FontFamilyProperty, FontFace>;
+export type Properties = Omit<CSS.Properties<string | number>, CompoundProperties> & {
+  animationName?: ExpandCompoundProperty<CSS.AnimationNameProperty, Keyframes>;
+  fontFamily?: ExpandCompoundProperty<CSS.FontFamilyProperty, FontFace>;
 };
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;

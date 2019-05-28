@@ -261,6 +261,7 @@ export default abstract class Aesthetic<
     const classNames: ClassName[] = [];
     const nativeBlocks: NativeBlock[] = [];
     const parsedBlocks: ParsedBlock[] = [];
+    let inlineName = '';
 
     styles.forEach(style => {
       if (!style) {
@@ -287,8 +288,8 @@ export default abstract class Aesthetic<
     // Convert native blocks to parsed blocks
     if (nativeBlocks.length > 0) {
       const nativeSheet: Sheet<NativeBlock> = new Sheet(options);
-      const inlineName = uuid();
       let counter = 0;
+      inlineName = uuid();
 
       nativeBlocks.forEach(block => {
         nativeSheet.addRuleset(nativeSheet.createRuleset(`inline-${counter}`).addProperties(block));
@@ -298,14 +299,16 @@ export default abstract class Aesthetic<
       parsedBlocks.push(
         ...Object.values(this.processStyleSheet(nativeSheet.toObject(), inlineName)),
       );
-
-      // Flush styles immediately since they're being rendered
-      this.flushStyles(inlineName);
     }
 
     // Transform parsed blocks to class names
     if (parsedBlocks.length > 0) {
       classNames.push(this.transformToClassName(parsedBlocks));
+    }
+
+    // Flush styles immediately since they're being rendered
+    if (inlineName) {
+      this.flushStyles(inlineName);
     }
 
     return classNames.join(' ').trim();

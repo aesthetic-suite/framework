@@ -1,7 +1,9 @@
 /* eslint-disable sort-keys */
 
+import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
-import { Block, FontFace } from './types';
+import isObject from './helpers/isObject';
+import { Block, FontFace, Direction } from './types';
 
 export class TestAesthetic extends Aesthetic<any, Block, Block> {
   transformToClassName(styles: any[]): string {
@@ -23,10 +25,49 @@ export function cleanStyles(source: string): string {
   return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
 }
 
+export function convertDirection(value: object | object[], dir: Direction): any {
+  if (dir !== 'rtl') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(object => convertDirection(object, dir));
+  }
+
+  if (!isObject(value)) {
+    return value;
+  }
+
+  const props: any = {};
+  const nested: any = {};
+
+  Object.keys(value).forEach(key => {
+    const prop = (value as any)[key];
+
+    if (isObject(prop) || Array.isArray(prop)) {
+      nested[key] = convertDirection(prop, dir);
+    } else {
+      props[key] = prop;
+    }
+  });
+
+  return {
+    ...convertRTL(props),
+    ...nested,
+  };
+}
+
+export const TEST_CLASS_NAMES = {
+  footer: '.footer',
+  header: '.header',
+};
+
 export const TEST_STATEMENT = {
   footer: { color: 'blue' },
   header: { color: 'red' },
 };
+
+export const DIRECTIONS: Direction[] = ['ltr', 'rtl'];
 
 export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',
@@ -104,14 +145,9 @@ export const KEYFRAME_FADE = {
 };
 
 export const KEYFRAME_SLIDE_PERCENT = {
-  '0%': { opacity: 0 },
-  '50%': { opacity: 0.5 },
-  '100%': { opacity: 1 },
-};
-
-export const TEST_CLASS_NAMES = {
-  header: '.header',
-  footer: '.footer',
+  '0%': { left: '0%' },
+  '50%': { left: '50%' },
+  '100%': { left: '100%' },
 };
 
 export const SYNTAX_UNIFIED_LOCAL = {
@@ -127,7 +163,7 @@ export const SYNTAX_UNIFIED_LOCAL = {
     lineHeight: 'normal',
     whiteSpace: 'nowrap',
     textDecoration: 'none',
-    textAlign: 'center',
+    textAlign: 'left',
     backgroundColor: '#337ab7',
     verticalAlign: 'middle',
     color: 'rgba(0, 0, 0, 0)',
@@ -287,12 +323,15 @@ export const SYNTAX_KEYFRAMES_INLINE = {
 export const SYNTAX_MEDIA_QUERY = {
   media: {
     color: 'red',
+    paddingLeft: 10,
     '@media': {
       '(min-width: 300px)': {
         color: 'blue',
+        paddingLeft: 15,
       },
       '(max-width: 1000px)': {
         color: 'green',
+        paddingLeft: 20,
       },
     },
   },
@@ -343,7 +382,8 @@ export const SYNTAX_PROPERTIES = {
   props: {
     color: 'black',
     display: 'inline',
-    margin: 10,
+    marginRight: 10,
+    padding: 0,
   },
 };
 
@@ -367,7 +407,7 @@ export const SYNTAX_SUPPORTS = {
         display: 'flex',
       },
       'not (display: flex)': {
-        float: 'left' as 'left',
+        float: 'left',
       },
     },
   },
