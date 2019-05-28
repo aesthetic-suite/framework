@@ -50,6 +50,10 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     }
   }
 
+  isParsedBlock(block: ParsedBlock): boolean {
+    return typeof block === 'string';
+  }
+
   protected processStyleSheet(
     styleSheet: SheetMap<NativeBlock>,
     styleName: StyleName,
