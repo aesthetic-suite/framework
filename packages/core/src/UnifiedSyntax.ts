@@ -14,6 +14,7 @@ import {
   Properties,
   StyleSheet,
   ClassName,
+  TransformOptions,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -43,8 +44,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert at-rules within a global style sheet.
    */
-  convertGlobalSheet(globalSheet: GlobalSheet): Sheet<NativeBlock> {
-    const sheet = new Sheet<NativeBlock>();
+  convertGlobalSheet(globalSheet: GlobalSheet, options: TransformOptions): Sheet<NativeBlock> {
+    const sheet = new Sheet<NativeBlock>(options);
 
     Object.keys(globalSheet).forEach(rule => {
       switch (rule) {
@@ -160,8 +161,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a mapping of unified rulesets to their native syntax.
    */
-  convertStyleSheet(styleSheet: StyleSheet, styleName: string): Sheet<NativeBlock> {
-    const sheet = new Sheet<NativeBlock>();
+  convertStyleSheet(styleSheet: StyleSheet, options: TransformOptions): Sheet<NativeBlock> {
+    const sheet = new Sheet<NativeBlock>(options);
 
     Object.keys(styleSheet).forEach(selector => {
       const ruleset = styleSheet[selector];
@@ -181,7 +182,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         if (ruleset.match(CLASS_NAME)) {
           sheet.addClassName(selector, ruleset);
         } else {
-          sheet.addClassName(selector, this.convertRawCss(styleName, selector, ruleset));
+          sheet.addClassName(selector, this.convertRawCss(sheet.options.name!, selector, ruleset));
         }
 
         // Style object

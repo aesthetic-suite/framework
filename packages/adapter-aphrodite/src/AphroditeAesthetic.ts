@@ -42,34 +42,17 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     flushToStyleTag();
   }
 
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
+    // eslint-disable-next-line no-underscore-dangle
+    return Boolean(block && block._name && block._definition);
+  }
+
   protected processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
-    const legitStyles: ParsedBlock[] = [];
-    const tempStylesheet: { [key: string]: NativeBlock } = {};
-    let counter = 0;
-
-    styles.forEach(style => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (style._name && style._definition) {
-        legitStyles.push(style as ParsedBlock);
-      } else {
-        tempStylesheet[`inline-${counter}`] = style as NativeBlock;
-        counter += 1;
-      }
-    });
-
-    if (counter > 0) {
-      const styleSheet = this.processStyleSheet(tempStylesheet);
-
-      Object.keys(styleSheet).forEach(key => {
-        legitStyles.push(styleSheet[key]);
-      });
-    }
-
-    return this.aphrodite.css(...legitStyles);
+  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+    return this.aphrodite.css(...styles);
   }
 
   private handleCss = (css: string) => {

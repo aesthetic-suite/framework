@@ -63,14 +63,14 @@ describe('JSSAesthetic', () => {
     raw: boolean = false,
   ) {
     const nativeSheet = global
-      ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles, 'jss').toObject();
+      ? instance.syntax.convertGlobalSheet(styles, {}).toObject()
+      : instance.syntax.convertStyleSheet(styles, { name: 'jss' }).toObject();
     // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'jss');
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(Object.values(styleSheet))).toMatchSnapshot();
+    expect(instance.transformStyles(Object.values(styleSheet), {})).toMatchSnapshot();
 
     testSnapshot(raw);
   }
@@ -83,14 +83,13 @@ describe('JSSAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
-    // @ts-ignore Allow access
-    expect(instance.transformToClassName(['foo', { margin: 0 }, { padding: 2 }])).toBe(
+    expect(instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], {})).toBe(
       'foo inline-0-0-1-1 inline-1-0-1-2',
     );
     testSnapshot();
 
     // @ts-ignore Allow null
-    expect(instance.transformToClassName(['foo', null])).toBe('foo');
+    expect(instance.transformStyles(['foo', null])).toBe('foo');
     testSnapshot();
   });
 

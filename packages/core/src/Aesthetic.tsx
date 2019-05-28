@@ -1,6 +1,8 @@
 import deepMerge from 'extend';
+import uuid from 'uuid/v4';
 import isObject from './helpers/isObject';
 import stripClassPrefix from './helpers/stripClassPrefix';
+import Sheet from './Sheet';
 import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
@@ -73,7 +75,7 @@ export default abstract class Aesthetic<
    * Apply and inject global styles for the current theme.
    * This should only happen once!
    */
-  applyGlobalStyles(): this {
+  applyGlobalStyles(options: TransformOptions): this {
     if (this.appliedGlobals) {
       return this;
     }
@@ -83,18 +85,12 @@ export default abstract class Aesthetic<
 
     if (globalSheet) {
       const sheet = this.processStyleSheet(
-        this.syntax.convertGlobalSheet(globalSheet).toObject(),
+        this.syntax.convertGlobalSheet(globalSheet, options).toObject(),
         ':root',
       );
 
       // Some adapters require the styles to be transformed to be flushed
-      const styles: ParsedBlock[] = [];
-
-      Object.keys(sheet).forEach(key => {
-        styles.push(sheet[key]);
-      });
-
-      this.transformToClassName(styles);
+      this.transformStyles(Object.values(sheet), options);
     }
 
     this.appliedGlobals = true;
@@ -106,14 +102,17 @@ export default abstract class Aesthetic<
   /**
    * Create and return a style sheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, options: TransformOptions = {}): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName, options: TransformOptions): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
 
-    this.applyGlobalStyles();
+    this.applyGlobalStyles(options);
 
-    const baseSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), styleName);
+    const baseSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
+      ...options,
+      name: styleName,
+    });
     const styleSheet = this.processStyleSheet(baseSheet.toObject(), styleName);
 
     this.cache[styleName] = {
@@ -192,6 +191,13 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Return true if the style object is a parsed block and not a native block.
+   */
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
+    return isObject(block);
+  }
+
+  /**
    * Return true if either the context is set to "rtl" or Aesthetic is.
    */
   isRTL(context?: Direction): boolean {
@@ -250,10 +256,11 @@ export default abstract class Aesthetic<
    */
   transformStyles = (
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
-    options: TransformOptions = {},
+    options: TransformOptions,
   ): ClassName => {
     const classNames: ClassName[] = [];
-    const toTransform: (NativeBlock | ParsedBlock)[] = [];
+    const nativeBlocks: NativeBlock[] = [];
+    const parsedBlocks: ParsedBlock[] = [];
 
     styles.forEach(style => {
       if (!style) {
@@ -267,14 +274,38 @@ export default abstract class Aesthetic<
             .map(s => stripClassPrefix(s).trim()),
         );
       } else if (isObject(style)) {
-        toTransform.push(style);
+        if (this.isParsedBlock(style)) {
+          parsedBlocks.push(style);
+        } else {
+          nativeBlocks.push(style);
+        }
       } else if (__DEV__) {
         throw new Error('Unsupported style type to transform.');
       }
     });
 
-    if (toTransform.length > 0) {
-      classNames.push(this.transformToClassName(toTransform, options));
+    // Convert native blocks to parsed blocks
+    if (nativeBlocks.length > 0) {
+      const nativeSheet: Sheet<NativeBlock> = new Sheet(options);
+      const inlineName = uuid();
+      let counter = 0;
+
+      nativeBlocks.forEach(block => {
+        nativeSheet.addRuleset(nativeSheet.createRuleset(`inline-${counter}`).addProperties(block));
+        counter += 1;
+      });
+
+      parsedBlocks.push(
+        ...Object.values(this.processStyleSheet(nativeSheet.toObject(), inlineName)),
+      );
+
+      // Flush styles immediately since they're being rendered
+      this.flushStyles(inlineName);
+    }
+
+    // Transform parsed blocks to class names
+    if (parsedBlocks.length > 0) {
+      classNames.push(this.transformToClassName(parsedBlocks));
     }
 
     return classNames.join(' ').trim();
@@ -305,12 +336,9 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Transform the styles into CSS class names.
+   * Transform the parsed styles into CSS class names.
    */
-  protected abstract transformToClassName(
-    styles: (NativeBlock | ParsedBlock)[],
-    options?: TransformOptions,
-  ): ClassName;
+  protected abstract transformToClassName(styles: ParsedBlock[]): ClassName;
 
   /**
    * Validate a style sheet or theme definition.

@@ -37,14 +37,14 @@ describe('AphroditeAesthetic', () => {
     raw: boolean = false,
   ) {
     const nativeSheet = global
-      ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles, 'aphrodite').toObject();
+      ? instance.syntax.convertGlobalSheet(styles, {}).toObject()
+      : instance.syntax.convertStyleSheet(styles, { name: 'aphrodite' }).toObject();
     // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'aphrodite');
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet), {})).toBe(expClassName);
 
     if (raw) {
       // @ts-ignore
@@ -64,8 +64,7 @@ describe('AphroditeAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
-    // @ts-ignore Allow access
-    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe(
+    expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], {})).toBe(
       'inline-0_16pg94n-o_O-inline-1_igcoje',
     );
   });
@@ -92,7 +91,7 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, {});
 
       expect(instance.fontFaces).toEqual({
         Roboto: [FONT_ROBOTO_FLAT_SRC],
@@ -100,7 +99,7 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles mixed @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, {});
 
       expect(instance.fontFaces).toEqual({
         Roboto: [FONT_ROBOTO_FLAT_SRC],
@@ -109,7 +108,7 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles multiple @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, {});
 
       expect(instance.fontFaces).toEqual({
         Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -117,7 +116,7 @@ describe('AphroditeAesthetic', () => {
     });
 
     it('handles @keyframes', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
+      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, {});
 
       expect(instance.keyframes).toEqual({
         fade: KEYFRAME_FADE,

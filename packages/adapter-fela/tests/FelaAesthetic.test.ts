@@ -42,14 +42,14 @@ describe('FelaAesthetic', () => {
     global: boolean = false,
   ) {
     const nativeSheet = global
-      ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles, 'fela').toObject();
+      ? instance.syntax.convertGlobalSheet(styles, {}).toObject()
+      : instance.syntax.convertStyleSheet(styles, { name: 'fela' }).toObject();
     // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'fela');
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet), {})).toBe(expClassName);
 
     expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
   }
@@ -63,8 +63,7 @@ describe('FelaAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
-    // @ts-ignore Allow access
-    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe('a b');
+    expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], {})).toBe('a b');
   });
 
   describe('global sheet', () => {
@@ -75,7 +74,7 @@ describe('FelaAesthetic', () => {
     it('handles @font-face', () => {
       const spy = jest.spyOn(instance.fela, 'renderFont');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, {});
 
       expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
       expect(spy).toHaveBeenCalledTimes(1);
@@ -84,7 +83,7 @@ describe('FelaAesthetic', () => {
     it('handles mixed @font-face', () => {
       const spy = jest.spyOn(instance.fela, 'renderFont');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, {});
 
       expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
       expect(spy).toHaveBeenCalledWith(
@@ -98,7 +97,7 @@ describe('FelaAesthetic', () => {
     it('handles multiple @font-face', () => {
       const spy = jest.spyOn(instance.fela, 'renderFont');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, {});
 
       expect(spy).toHaveBeenCalledWith(
         'Circular',
@@ -111,7 +110,7 @@ describe('FelaAesthetic', () => {
     it('handles @keyframes', () => {
       const spy = jest.spyOn(instance.fela, 'renderKeyframe');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
+      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, {});
 
       expect(spy).toHaveBeenCalledWith(expect.anything(), {});
     });

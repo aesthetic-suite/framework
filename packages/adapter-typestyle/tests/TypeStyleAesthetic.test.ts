@@ -38,14 +38,14 @@ describe('TypeStyleAesthetic', () => {
     global: boolean = false,
   ) {
     const nativeSheet = global
-      ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles, 'typestyle').toObject();
+      ? instance.syntax.convertGlobalSheet(styles, {}).toObject()
+      : instance.syntax.convertStyleSheet(styles, { name: 'typestyle' }).toObject();
     // @ts-ignore Allow access
     const styleSheet = instance.processStyleSheet(nativeSheet, 'typestyle');
 
     expect(nativeSheet).toEqual(expStyles);
 
-    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styleSheet), {})).toBe(expClassName);
 
     // @ts-ignore
     if (instance.typeStyle._raw) {
@@ -62,8 +62,7 @@ describe('TypeStyleAesthetic', () => {
   });
 
   it('converts and transforms inline styles', () => {
-    // @ts-ignore Allow access
-    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe('f1rvgqmz');
+    expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], {})).toBe('f1rvgqmz');
   });
 
   describe('global sheet', () => {
@@ -74,7 +73,7 @@ describe('TypeStyleAesthetic', () => {
     it('handles @font-face', () => {
       const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, {});
 
       expect(spy).toHaveBeenCalledWith(FONT_ROBOTO_FLAT_SRC);
       expect(spy).toHaveBeenCalledTimes(1);
@@ -83,7 +82,7 @@ describe('TypeStyleAesthetic', () => {
     it('handles mixed @font-face', () => {
       const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, {});
 
       expect(spy).toHaveBeenCalledWith(FONT_ROBOTO_FLAT_SRC);
       expect(spy).toHaveBeenCalledWith(FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0]);
@@ -93,7 +92,7 @@ describe('TypeStyleAesthetic', () => {
     it('handles multiple @font-face', () => {
       const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
+      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, {});
 
       expect(spy).toHaveBeenCalledWith(FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0]);
       expect(spy).toHaveBeenCalledTimes(4);
@@ -102,7 +101,7 @@ describe('TypeStyleAesthetic', () => {
     it('handles @keyframes', () => {
       const spy = jest.spyOn(instance.typeStyle, 'keyframes');
 
-      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
+      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, {});
 
       expect(spy).toHaveBeenCalledWith(KEYFRAME_FADE);
     });

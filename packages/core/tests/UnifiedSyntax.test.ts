@@ -85,15 +85,18 @@ describe('UnifiedSyntax', () => {
   describe('convertGlobalSheet()', () => {
     it('errors for unknown properties (not at-rules)', () => {
       expect(() => {
-        syntax.convertGlobalSheet({
-          // @ts-ignore Allow unknown
-          unknown: 'property',
-        });
+        syntax.convertGlobalSheet(
+          {
+            // @ts-ignore Allow unknown
+            unknown: 'property',
+          },
+          {},
+        );
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('returns a sheet object', () => {
-      expect(syntax.convertGlobalSheet({})).toBeInstanceOf(Sheet);
+      expect(syntax.convertGlobalSheet({}, {})).toBeInstanceOf(Sheet);
     });
 
     describe('@charset', () => {
@@ -101,17 +104,20 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('charset', spy);
-        syntax.convertGlobalSheet(SYNTAX_CHARSET);
+        syntax.convertGlobalSheet(SYNTAX_CHARSET, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, 'utf8');
       });
 
       it('errors if not a string', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@charset': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@charset': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -127,7 +133,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('font-face', spy);
-        syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
+        syntax.convertGlobalSheet(SYNTAX_FONT_FACE, {});
 
         expect(spy).toHaveBeenCalledWith(
           sheet,
@@ -141,7 +147,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('font-face', spy);
-        syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
+        syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, {});
 
         expect(spy).toHaveBeenCalledWith(
           sheet,
@@ -155,7 +161,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('font-face', spy);
-        syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
+        syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, {});
 
         expect(spy).toHaveBeenCalledWith(
           sheet,
@@ -174,10 +180,13 @@ describe('UnifiedSyntax', () => {
 
       it('errors if not an object', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@font-face': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@font-face': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -187,7 +196,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('global', spy);
-        syntax.convertGlobalSheet(SYNTAX_GLOBAL);
+        syntax.convertGlobalSheet(SYNTAX_GLOBAL, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, 'body', sheet.createRuleset('body'));
         expect(spy).toHaveBeenCalledWith(sheet, 'html', sheet.createRuleset('html'));
@@ -196,21 +205,27 @@ describe('UnifiedSyntax', () => {
 
       it('errors if not an object', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@global': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@global': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
 
       it('errors if select value is not an object', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@global': {
-              foo: 123,
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@global': {
+                foo: 123,
+              },
             },
-          });
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -220,7 +235,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('import', spy);
-        syntax.convertGlobalSheet(SYNTAX_IMPORT);
+        syntax.convertGlobalSheet(SYNTAX_IMPORT, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css']);
       });
@@ -229,17 +244,20 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('import', spy);
-        syntax.convertGlobalSheet(SYNTAX_IMPORT_MULTIPLE);
+        syntax.convertGlobalSheet(SYNTAX_IMPORT_MULTIPLE, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css', './another/path.css']);
       });
 
       it('errors if not a string', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@import': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@import': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -255,7 +273,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('keyframe', spy);
-        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
+        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, createTestKeyframes('fade', KEYFRAME_FADE), 'fade');
       });
@@ -264,7 +282,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('keyframe', spy);
-        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_PERCENT);
+        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_PERCENT, {});
 
         expect(spy).toHaveBeenCalledWith(
           sheet,
@@ -277,7 +295,7 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('keyframe', spy);
-        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_MIXED);
+        syntax.convertGlobalSheet(SYNTAX_KEYFRAMES_MIXED, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, createTestKeyframes('fade', KEYFRAME_FADE), 'fade');
         expect(spy).toHaveBeenCalledWith(
@@ -289,10 +307,13 @@ describe('UnifiedSyntax', () => {
 
       it('errors if not a string', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@keyframes': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@keyframes': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -302,17 +323,20 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('page', spy);
-        syntax.convertGlobalSheet(SYNTAX_PAGE);
+        syntax.convertGlobalSheet(SYNTAX_PAGE, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, sheet.createRuleset('@page'));
       });
 
       it('errors if not an object', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@page': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@page': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -322,17 +346,20 @@ describe('UnifiedSyntax', () => {
         const spy = jest.fn();
 
         syntax.on('viewport', spy);
-        syntax.convertGlobalSheet(SYNTAX_VIEWPORT);
+        syntax.convertGlobalSheet(SYNTAX_VIEWPORT, {});
 
         expect(spy).toHaveBeenCalledWith(sheet, sheet.createRuleset('@viewport'));
       });
 
       it('errors if not an object', () => {
         expect(() => {
-          syntax.convertGlobalSheet({
-            // @ts-ignore Allow invalid type
-            '@viewport': 123,
-          });
+          syntax.convertGlobalSheet(
+            {
+              // @ts-ignore Allow invalid type
+              '@viewport': 123,
+            },
+            {},
+          );
         }).toThrowErrorMatchingSnapshot();
       });
     });
@@ -345,7 +372,7 @@ describe('UnifiedSyntax', () => {
           {
             '@rule': {},
           },
-          'styleName',
+          { name: 'styleName' },
         );
       }).toThrowErrorMatchingSnapshot();
     });
@@ -357,7 +384,7 @@ describe('UnifiedSyntax', () => {
             // @ts-ignore Allow invalid type
             el: 123,
           },
-          'styleName',
+          { name: 'styleName' },
         );
       }).toThrowErrorMatchingSnapshot();
     });
@@ -369,7 +396,7 @@ describe('UnifiedSyntax', () => {
           // @ts-ignore Allow undefined
           object: undefined,
         },
-        'styleName',
+        { name: 'styleName' },
       );
 
       expect(styleSheet).toEqual(sheet);
@@ -382,7 +409,7 @@ describe('UnifiedSyntax', () => {
           bar: 'bar',
           baz: {},
         },
-        'styleName',
+        { name: 'styleName' },
       );
 
       expect(styleSheet.classNames).toEqual({
@@ -392,7 +419,7 @@ describe('UnifiedSyntax', () => {
     });
 
     it('converts raw css and sets a class name on sheet', () => {
-      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, 'styleName');
+      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, { name: 'styleName' });
 
       expect(styleSheet.classNames).toEqual({
         button: 'styleName-button',
@@ -405,7 +432,7 @@ describe('UnifiedSyntax', () => {
         {
           el: { display: 'block' },
         },
-        'styleName',
+        { name: 'styleName' },
       );
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());

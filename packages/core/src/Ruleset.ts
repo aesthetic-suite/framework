@@ -1,3 +1,4 @@
+import convertRTL from 'rtl-css-js';
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Sheet from './Sheet';
 
@@ -34,6 +35,16 @@ export default class Ruleset<Block extends object> {
     return this;
   }
 
+  addProperties(properties: Block): this {
+    Object.keys(properties).forEach(prop => {
+      const key = prop as keyof Block;
+
+      this.addProperty(key, properties[key]);
+    });
+
+    return this;
+  }
+
   createRuleset(selector: string): Ruleset<Block> {
     return new Ruleset(selector, this.root, this);
   }
@@ -49,7 +60,9 @@ export default class Ruleset<Block extends object> {
   }
 
   toObject(): Block {
+    const props = this.root.options.dir === 'rtl' ? convertRTL(this.properties) : this.properties;
+
     // eslint-disable-next-line prefer-object-spread
-    return Object.assign({}, this.properties, toObjectRecursive(this.nested)) as Block;
+    return Object.assign({}, props, toObjectRecursive(this.nested)) as Block;
   }
 }

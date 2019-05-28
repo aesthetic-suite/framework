@@ -115,4 +115,5 @@ export type GlobalSheetDefinition<Theme, T> =
 
 export interface TransformOptions {
   dir?: Direction;
+  name?: StyleName;
 }

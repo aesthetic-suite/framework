@@ -74,6 +74,20 @@ describe('Ruleset', () => {
     });
   });
 
+  describe('addProperties()', () => {
+    it('sets multiple properties', () => {
+      instance.addProperties({
+        color: 'red',
+        display: 'block',
+      });
+
+      expect(instance.properties).toEqual({
+        color: 'red',
+        display: 'block',
+      });
+    });
+  });
+
   describe('createRuleset()', () => {
     it('returns a ruleset', () => {
       expect(instance.createRuleset('test')).toBeInstanceOf(Ruleset);
@@ -154,6 +168,44 @@ describe('Ruleset', () => {
             display: 'inline-flex',
             background: 'transparent',
           },
+        },
+      });
+    });
+  });
+
+  describe('toObject()', () => {
+    it('returns a plain object', () => {
+      instance.addProperty('color', 'red').addProperty('display', 'block');
+
+      expect(instance.toObject()).toEqual({
+        color: 'red',
+        display: 'block',
+      });
+    });
+
+    it('converts to RTL', () => {
+      sheet.options.dir = 'rtl';
+      instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        marginLeft: 3,
+      });
+    });
+
+    it('converts nested to RTL', () => {
+      sheet.options.dir = 'rtl';
+      instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
+      instance.addNested(
+        ':hover',
+        sheet.createRuleset('nested').addProperty('paddingRight', '10px'),
+      );
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        marginLeft: 3,
+        ':hover': {
+          paddingLeft: '10px',
         },
       });
     });

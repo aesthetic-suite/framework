@@ -1,6 +1,6 @@
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Ruleset from './Ruleset';
-import { ClassName, SheetMap } from './types';
+import { ClassName, SheetMap, TransformOptions } from './types';
 
 type AtRuleType<Block extends object> =
   | string
@@ -14,7 +14,13 @@ export default class Sheet<Block extends object> {
 
   classNames: { [selector: string]: ClassName } = {};
 
+  options: TransformOptions;
+
   ruleSets: { [selector: string]: Ruleset<Block> } = {};
+
+  constructor(options: TransformOptions = {}) {
+    this.options = options;
+  }
 
   addAtRule(rule: string, value: AtRuleType<Block>): this {
     this.atRules[rule] = value;
@@ -36,6 +42,10 @@ export default class Sheet<Block extends object> {
 
   createRuleset(selector: string): Ruleset<Block> {
     return new Ruleset(selector, this);
+  }
+
+  createSheet(options?: TransformOptions): Sheet<Block> {
+    return new Sheet(options || this.options);
   }
 
   toObject(): SheetMap<Block> {
