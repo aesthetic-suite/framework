@@ -110,3 +110,9 @@ export type GlobalSheetNeverize<T> = {
 export type GlobalSheetDefinition<Theme, T> =
   | ((theme: Theme) => GlobalSheet & GlobalSheetNeverize<T>)
   | null;
+
+// MISC
+
+export interface TransformOptions {
+  dir?: Direction;
+}

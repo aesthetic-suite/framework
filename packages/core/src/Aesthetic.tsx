@@ -7,6 +7,7 @@ import {
   ClassName,
   Direction,
   GlobalSheetDefinition,
+  TransformOptions,
   SheetMap,
   StyleName,
   StyleSheet,
@@ -105,7 +106,7 @@ export default abstract class Aesthetic<
   /**
    * Create and return a style sheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, options: SheetOptions = {}): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName, options: TransformOptions = {}): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
@@ -249,6 +250,7 @@ export default abstract class Aesthetic<
    */
   transformStyles = (
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
+    options: TransformOptions = {},
   ): ClassName => {
     const classNames: ClassName[] = [];
     const toTransform: (NativeBlock | ParsedBlock)[] = [];
@@ -272,7 +274,7 @@ export default abstract class Aesthetic<
     });
 
     if (toTransform.length > 0) {
-      classNames.push(this.transformToClassName(toTransform));
+      classNames.push(this.transformToClassName(toTransform, options));
     }
 
     return classNames.join(' ').trim();
@@ -305,7 +307,10 @@ export default abstract class Aesthetic<
   /**
    * Transform the styles into CSS class names.
    */
-  protected abstract transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName;
+  protected abstract transformToClassName(
+    styles: (NativeBlock | ParsedBlock)[],
+    options?: TransformOptions,
+  ): ClassName;
 
   /**
    * Validate a style sheet or theme definition.

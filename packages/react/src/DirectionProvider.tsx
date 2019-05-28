@@ -1,7 +1,7 @@
 import React from 'react';
 import getDirection from 'direction';
+import { Direction } from 'aesthetic';
 import DirectionContext from './DirectionContext';
-import { Direction } from './types';
 
 export interface DirectionProviderProps {
   children: NonNullable<React.ReactNode>;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, Direction, StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
@@ -80,7 +80,8 @@ export default function withStylesFactory<
           super(props);
 
           this.state = {
-            styles: aesthetic.createStyleSheet(styleName, { rtl: context === 'rtl' }),
+            dir: context,
+            styles: aesthetic.createStyleSheet(styleName, { dir: context }),
           };
         }
 
@@ -88,7 +89,8 @@ export default function withStylesFactory<
           aesthetic.flushStyles(styleName);
         }
 
-        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles);
+        transformStyles: CX = (...styles) =>
+          aesthetic.transformStyles(styles, { dir: this.state.dir });
 
         render() {
           const { wrappedRef, ...props } = this.props;

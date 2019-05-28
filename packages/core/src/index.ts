@@ -9,8 +9,8 @@ import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 
-export { AestheticOptions, ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
-
 export * from './types';
+
+export { AestheticOptions, ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
 
 export default Aesthetic;
