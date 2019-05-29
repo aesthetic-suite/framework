@@ -44,12 +44,8 @@ export default class Ruleset<Block extends object> {
     return this;
   }
 
-  addProperties(properties: Block): this {
-    Object.keys(properties).forEach(prop => {
-      const key = prop as keyof Block;
-
-      this.addProperty(key, properties[key]);
-    });
+  addProperties(properties: Partial<Block>): this {
+    Object.assign(this.properties, properties);
 
     return this;
   }

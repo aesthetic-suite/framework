@@ -52,6 +52,22 @@ describe('Aesthetic', () => {
         themePropName: 'theme',
       });
     });
+
+    it('sets `ltr` on document', () => {
+      instance = new TestAesthetic({
+        rtl: false,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
+    });
+
+    it('sets `rtl` on document', () => {
+      instance = new TestAesthetic({
+        rtl: true,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('rtl');
+    });
   });
 
   describe('applyGlobalStyles()', () => {
@@ -369,6 +385,42 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('isRTL()', () => {
+    beforeEach(() => {
+      instance.options.rtl = false;
+    });
+
+    it('returns true if context is `rtl`', () => {
+      expect(instance.isRTL('rtl')).toBe(true);
+    });
+
+    it('returns option if context is not defined', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL()).toBe(true);
+    });
+
+    it('returns false if context is `ltr` and option is false', () => {
+      expect(instance.isRTL('ltr')).toBe(false);
+    });
+
+    it('returns false if context is `neutral` and option is false', () => {
+      expect(instance.isRTL('neutral')).toBe(false);
+    });
+
+    it('returns false if context is `ltr` and option is true', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL('ltr')).toBe(false);
+    });
+
+    it('returns false if context is `neutral` and option is true', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL('neutral')).toBe(false);
+    });
+  });
+
   describe('processStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
       const sheet = { el: {} };
@@ -514,6 +566,25 @@ describe('Aesthetic', () => {
 
     it('joins strings', () => {
       expect(instance.transformStyles(['foo', '123', 'bar'], {})).toBe('foo 123 bar');
+    });
+
+    it('parses and flushes inline style objects', () => {
+      // @ts-ignore
+      const processSpy = jest.spyOn(instance, 'processStyleSheet');
+      const flushSpy = jest.spyOn(instance, 'flushStyles');
+
+      // @ts-ignore
+      instance.isParsedBlock = () => false;
+      instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
+
+      expect(processSpy).toHaveBeenCalledWith(
+        {
+          'inline-0': { color: 'red' },
+          'inline-1': { display: 'block' },
+        },
+        expect.anything(),
+      );
+      expect(flushSpy).toHaveBeenCalledWith(expect.anything());
     });
   });
 

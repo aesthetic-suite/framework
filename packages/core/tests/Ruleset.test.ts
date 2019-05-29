@@ -11,6 +11,24 @@ describe('Ruleset', () => {
     instance = new Ruleset('test', sheet);
   });
 
+  describe('addCompoundProperty()', () => {
+    it('adds a list of objects', () => {
+      instance.addCompoundProperty('fontFamily', [
+        {
+          fontFamily: 'Roboto',
+        },
+        'Helvetica',
+      ]);
+
+      expect(instance.compoundProperties.get('fontFamily')).toEqual([
+        {
+          fontFamily: 'Roboto',
+        },
+        'Helvetica',
+      ]);
+    });
+  });
+
   describe('addNested()', () => {
     it('adds a nested object', () => {
       const obj = sheet.createRuleset('nested').addProperty('color', 'red');
@@ -207,6 +225,27 @@ describe('Ruleset', () => {
         ':hover': {
           paddingLeft: '10px',
         },
+      });
+    });
+
+    it('doesnt convert to RTL for compound properties', () => {
+      sheet.options.dir = 'rtl';
+      instance.addProperty('textAlign', 'left');
+      instance.addCompoundProperty('animationName', [
+        {
+          from: { left: 0 },
+          to: { left: 100 },
+        } as any,
+      ]);
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        animationName: [
+          {
+            from: { left: 0 },
+            to: { left: 100 },
+          },
+        ],
       });
     });
   });

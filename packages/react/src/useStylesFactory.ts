@@ -32,7 +32,7 @@ export default function useStylesFactory<
     // Flush styles on mount
     useLayoutEffect(() => {
       aesthetic.flushStyles(styleName);
-    }, [styleName]);
+    }, [dir, styleName]);
 
     // Create a CSS transformer
     const cx: CX = (...styles) => aesthetic.transformStyles(styles, { dir });

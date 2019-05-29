@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
 import { TestAesthetic, registerTestTheme, TEST_STATEMENT } from 'aesthetic/lib/testUtils';
+import DirectionProvider from '../src/DirectionProvider';
 import useStylesFactory from '../src/useStylesFactory';
 
 describe('useStylesFactory()', () => {
@@ -111,5 +112,46 @@ describe('useStylesFactory()', () => {
     const wrapper = shallow(<Component />);
 
     expect(wrapper.prop('className')).toBe('class-0 class-1');
+  });
+
+  it('can switch between LTR and RTL modes', () => {
+    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const flushSpy = jest.spyOn(aesthetic, 'flushStyles');
+
+    function Component() {
+      styleName = useStyles(() => TEST_STATEMENT)[2];
+
+      return null;
+    }
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider value="ltr">
+          <Component />
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider value="rtl">
+          <Component />
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider value="ltr">
+          <Component />
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith();
+    expect(flushSpy).toHaveBeenCalledWith();
   });
 });
