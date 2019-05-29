@@ -1,4 +1,4 @@
-/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, react/jsx-one-expression-per-line, react/jsx-no-literals, @typescript-eslint/camelcase */
+/* eslint-disable no-console, max-len, sort-keys, react/require-default-props, import/no-extraneous-dependencies, react/jsx-one-expression-per-line, react/jsx-no-literals, react-hooks/rules-of-hooks, @typescript-eslint/camelcase */
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,7 +8,13 @@ import { create as createJSS } from 'jss';
 // @ts-ignore
 import jssPreset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
-import Aesthetic, { WithStylesWrappedProps } from 'aesthetic';
+import Aesthetic from 'aesthetic';
+import {
+  useStylesFactory,
+  useThemeFactory,
+  withStylesFactory,
+  WithStylesWrappedProps,
+} from 'aesthetic-react';
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 import FelaAesthetic from 'aesthetic-adapter-fela';
 import JSSAesthetic from 'aesthetic-adapter-jss';
@@ -24,7 +30,9 @@ interface Theme {
   primary: string;
 }
 
-const activeTheme = location.search.slice(1) || 'light';
+const params = new URLSearchParams(location.search.slice(1));
+const activeTheme = params.get('theme') || 'light';
+const dirMode = params.get('mode') || 'ltr';
 
 function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
   if (aesthetic.themes.light) {
@@ -95,13 +103,15 @@ function styleSheet({ unit, bg, bgHover, fg, primary }: Theme): any {
 
 // SETUP AESTHETIC ADAPTERS
 
-const aphrodite = new AphroditeAesthetic([], { theme: activeTheme });
+const options = { theme: activeTheme, rtl: dirMode === 'rtl' };
+
+const aphrodite = new AphroditeAesthetic([], options);
 
 const fela = new FelaAesthetic(
   createFela({
     plugins: [...felaPreset],
   }),
-  { theme: activeTheme },
+  options,
 );
 
 const jss = new JSSAesthetic(
@@ -109,12 +119,10 @@ const jss = new JSSAesthetic(
     // @ts-ignore
     jssPreset(),
   ),
-  { theme: activeTheme },
+  options,
 );
 
-const typeStyle = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), {
-  theme: activeTheme,
-});
+const typeStyle = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), options);
 
 // DEFINE HOC COMPONENT
 
@@ -126,13 +134,16 @@ interface HocProps {
 function createHocComponent(aesthetic: Aesthetic<Theme, any, any>) {
   registerThemes(aesthetic);
 
+  const withStyles = withStylesFactory(aesthetic);
+
   function Button({
     children,
+    cx,
     styles,
     theme,
     primary = false,
   }: HocProps & WithStylesWrappedProps<Theme, any, any>) {
-    const className = aesthetic.transformStyles(styles.button, primary && styles.button__primary);
+    const className = cx(styles.button, primary && styles.button__primary);
 
     console.log(aesthetic.constructor.name, 'HocButton', { styles, theme, className });
 
@@ -143,7 +154,7 @@ function createHocComponent(aesthetic: Aesthetic<Theme, any, any>) {
     );
   }
 
-  return aesthetic.withStyles(styleSheet, { passThemeProp: true })(Button);
+  return withStyles(styleSheet, { passThemeProp: true })(Button);
 }
 
 // DEFINE HOOK COMPONENT
@@ -156,9 +167,12 @@ interface HookProps {
 function createHookComponent(aesthetic: Aesthetic<Theme, any, any>) {
   registerThemes(aesthetic);
 
+  const useStyles = useStylesFactory(aesthetic);
+  const useTheme = useThemeFactory(aesthetic);
+
   return function Button({ children, primary = false }: HocProps) {
-    const [styles, cx] = aesthetic.useStyles(styleSheet);
-    const theme = aesthetic.useTheme();
+    const [styles, cx] = useStyles(styleSheet);
+    const theme = useTheme();
     const className = cx(styles.button, primary && styles.button__primary);
 
     console.log(aesthetic.constructor.name, 'HookButton', { styles, theme, className });
@@ -204,7 +218,14 @@ function App() {
         <DemoColumn aesthetic={typeStyle} title="TypeStyle" />
       </div>
 
-      <h3>Theme: {activeTheme}</h3>
+      <h3>
+        Theme: {activeTheme} (
+        <a href={`?theme=${activeTheme === 'light' ? 'dark' : 'light'}`}>Switch</a>)
+      </h3>
+
+      <h3>
+        Mode: {dirMode} (<a href={`?mode=${dirMode === 'ltr' ? 'rtl' : 'ltr'}`}>Switch</a>)
+      </h3>
     </div>
   );
 }

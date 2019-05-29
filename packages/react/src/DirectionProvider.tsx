@@ -5,7 +5,7 @@ import DirectionContext from './DirectionContext';
 
 export interface DirectionProviderProps {
   children: NonNullable<React.ReactNode>;
-  direction?: Exclude<Direction, 'neutral'>;
+  dir?: Exclude<Direction, 'neutral'>;
   inline?: boolean;
   value?: string;
 }
@@ -16,16 +16,16 @@ export interface DirectionProviderProps {
  */
 export default function DirectionProvider({
   children,
-  direction,
+  dir,
   inline,
   value,
 }: DirectionProviderProps) {
-  const dir = direction || getDirection(value);
+  const direction = dir || getDirection(value) || 'neutral';
   const Tag = inline ? 'span' : 'div';
 
   return (
-    <DirectionContext.Provider value={dir}>
-      <Tag dir={dir}>{children}</Tag>
+    <DirectionContext.Provider value={direction}>
+      <Tag dir={direction}>{children}</Tag>
     </DirectionContext.Provider>
   );
 }

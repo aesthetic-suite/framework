@@ -114,44 +114,89 @@ describe('useStylesFactory()', () => {
     expect(wrapper.prop('className')).toBe('class-0 class-1');
   });
 
-  it('can switch between LTR and RTL modes', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-    const flushSpy = jest.spyOn(aesthetic, 'flushStyles');
-
+  describe('RTL', () => {
     function Component() {
-      styleName = useStyles(() => TEST_STATEMENT)[2];
+      const [styles, cx, name] = useStyles(() => TEST_STATEMENT);
 
-      return null;
+      styleName = name;
+
+      return <div className={cx(styles.header, styles.footer)} />;
     }
 
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider value="ltr">
-          <Component />
-        </DirectionProvider>,
-        container,
-      );
+    it('inherits `dir` from explicit `DirectionProvider`', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider dir="rtl">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(styleName, { dir: 'rtl' });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { dir: 'rtl' });
     });
 
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider value="rtl">
-          <Component />
-        </DirectionProvider>,
-        container,
-      );
+    it('inherits `dir` from inferred `DirectionProvider` value', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="بسيطة">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(styleName, { dir: 'rtl' });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { dir: 'rtl' });
     });
 
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider value="ltr">
-          <Component />
-        </DirectionProvider>,
-        container,
-      );
-    });
+    it('flushes once for each type of direction', () => {
+      const flushSpy = jest.spyOn(aesthetic, 'flushStyles');
 
-    expect(createSpy).toHaveBeenCalledWith();
-    expect(flushSpy).toHaveBeenCalledWith();
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="ltr">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="rtl">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="ltr">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="rtl">
+            <Component />
+          </DirectionProvider>,
+          container,
+        );
+      });
+
+      expect(flushSpy).toHaveBeenCalledTimes(2);
+    });
   });
 });

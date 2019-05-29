@@ -76,17 +76,34 @@ export default function withStylesFactory<
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        constructor(props: Props & WithStylesWrapperProps, context: Direction) {
+        constructor(props: Props & WithStylesWrapperProps, dir: Direction) {
           super(props);
 
           this.state = {
-            dir: context,
-            styles: aesthetic.createStyleSheet(styleName, { dir: context }),
+            dir,
+            styles: aesthetic.createStyleSheet(styleName, { dir }),
           };
         }
 
         componentDidMount() {
           aesthetic.flushStyles(styleName);
+        }
+
+        componentDidUpdate() {
+          const dir = this.context;
+
+          if (dir !== this.state.dir) {
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(
+              {
+                dir,
+                styles: aesthetic.createStyleSheet(styleName, { dir }),
+              },
+              () => {
+                aesthetic.flushStyles(styleName);
+              },
+            );
+          }
         }
 
         transformStyles: CX = (...styles) =>

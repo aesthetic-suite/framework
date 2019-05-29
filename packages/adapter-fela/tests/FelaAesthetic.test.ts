@@ -73,7 +73,8 @@ describe('FelaAesthetic', () => {
   });
 
   DIRECTIONS.forEach(dir => {
-    describe(dir, () => {
+    // eslint-disable-next-line jest/valid-describe
+    describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
         expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('a b');
       });

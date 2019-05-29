@@ -13,7 +13,7 @@ describe('DirectionProvider', () => {
       render() {
         return this.props.children;
       }
-    };
+    } as any;
   });
 
   afterEach(() => {
@@ -22,7 +22,7 @@ describe('DirectionProvider', () => {
 
   it('renders a `div` by default', () => {
     const wrapper = shallow(
-      <DirectionProvider direction="ltr">
+      <DirectionProvider>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -40,9 +40,9 @@ describe('DirectionProvider', () => {
     expect(wrapper.find('span')).toHaveLength(1);
   });
 
-  it('renders `ltr` explicitly with `direction`', () => {
+  it('renders `ltr` explicitly with `dir`', () => {
     const wrapper = shallow(
-      <DirectionProvider direction="ltr">
+      <DirectionProvider dir="ltr">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -50,9 +50,9 @@ describe('DirectionProvider', () => {
     expect(wrapper.find('div').prop('dir')).toBe('ltr');
   });
 
-  it('renders `rtl` explicitly with `direction`', () => {
+  it('renders `rtl` explicitly with `dir`', () => {
     const wrapper = shallow(
-      <DirectionProvider direction="rtl">
+      <DirectionProvider dir="rtl">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -60,9 +60,9 @@ describe('DirectionProvider', () => {
     expect(wrapper.find('div').prop('dir')).toBe('rtl');
   });
 
-  it('renders `direction` over `value`', () => {
+  it('renders `dir` over `value`', () => {
     const wrapper = shallow(
-      <DirectionProvider direction="rtl" value="Hello!">
+      <DirectionProvider dir="rtl" value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );
