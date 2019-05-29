@@ -420,8 +420,16 @@ describe('UnifiedSyntax', () => {
       });
     });
 
-    it('converts raw css and sets a class name on sheet', () => {
+    it('converts raw CSS and sets a class name on sheet', () => {
       const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, { name: 'styleName' });
+
+      expect(styleSheet.classNames).toEqual({
+        button: 'styleName-button',
+      });
+    });
+
+    it('converts raw CSS in RTL mode', () => {
+      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, { name: 'styleName', rtl: true });
 
       expect(styleSheet.classNames).toEqual({
         button: 'styleName-button',

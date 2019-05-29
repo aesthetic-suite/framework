@@ -90,7 +90,7 @@ exports[`JSSAesthetic LTR style sheet handles pseudo selectors 2`] = `".pseudo-0
 
 exports[`JSSAesthetic LTR style sheet handles raw CSS 1`] = `""`;
 
-exports[`JSSAesthetic LTR style sheet handles raw CSS 2`] = `".jss-button{display:'block';font-size:16px;}.jss-button:hover{color:'red';}.jss-button{vertical-align:'middle';}@media (max-width:600px){.jss-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.jss-button{display:'flex';}}"`;
+exports[`JSSAesthetic LTR style sheet handles raw CSS 2`] = `".jss-button{display:'block';font-size:16px;text-align:'left';}.jss-button:hover{color:'red';}.jss-button{vertical-align:'middle';}@media (max-width:600px){.jss-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.jss-button{display:'flex';}}"`;
 
 exports[`JSSAesthetic RTL converts and transforms inline styles 1`] = `".inline-0-0-24-1 {margin: 0;}.inline-1-0-24-2 {padding: 2px;}"`;
 
@@ -182,4 +182,4 @@ exports[`JSSAesthetic RTL style sheet handles pseudo selectors 2`] = `".pseudo-0
 
 exports[`JSSAesthetic RTL style sheet handles raw CSS 1`] = `""`;
 
-exports[`JSSAesthetic RTL style sheet handles raw CSS 2`] = `".jss-button{display:'block';font-size:16px;}.jss-button:hover{color:'red';}.jss-button{vertical-align:'middle';}@media (max-width:600px){.jss-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.jss-button{display:'flex';}}"`;
+exports[`JSSAesthetic RTL style sheet handles raw CSS 2`] = `".jss-button{display:'block';font-size:16px;text-align:'right';}.jss-button:hover{color:'red';}.jss-button{vertical-align:'middle';}@media (max-width:600px){.jss-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.jss-button{display:'flex';}}"`;

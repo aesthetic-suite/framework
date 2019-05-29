@@ -26,7 +26,7 @@ exports[`TypeStyleAesthetic LTR style sheet handles properties 1`] = `".f1tfh618
 
 exports[`TypeStyleAesthetic LTR style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;text-align:'left';}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;
 
 exports[`TypeStyleAesthetic RTL global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
 
@@ -54,4 +54,4 @@ exports[`TypeStyleAesthetic RTL style sheet handles properties 1`] = `".f1jaotx3
 
 exports[`TypeStyleAesthetic RTL style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;
+exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;text-align:'right';}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;

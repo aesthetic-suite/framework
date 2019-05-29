@@ -424,6 +424,7 @@ export const SYNTAX_RAW_CSS = {
   button: `
     display: 'block';
     font-size: 16px;
+    text-align: 'left';
 
     &:hover {
       color: 'red';
