@@ -225,6 +225,49 @@ export default function Component({ children }: Props) {
 }
 ```
 
+## RTL Direction Provider
+
+React supports global [Right-to-Left](../rtl.md) out of the box, but also supports the ability to
+provide a new direction for a target component tree using the `DirectionProvider`. The required
+direction can be defined using the `dir` prop.
+
+```tsx
+import { DirectionProvider } from 'aesthetic-react';
+
+<DirectionProvider dir="rtl">
+  <Component />
+</DirectionProvider>;
+```
+
+Furthermore, the direction can be detected automatically based on a string of text. This is
+extremely useful for inputs and textareas, where the content should flip based on what's passed to
+the `value` prop.
+
+```tsx
+class Search extends React.Component {
+  state = {
+    input: '',
+  };
+
+  handleChange = event => {
+    this.setState({
+      input: event.currentTarget.value,
+    });
+  };
+
+  render() {
+    const value = this.state.input;
+
+    return (
+      <DirectionProvider value={value}>
+        <input type="search" value={value} onChange={this.handleChange} />
+        <Component />
+      </DirectionProvider>
+    );
+  }
+}
+```
+
 ## Using Refs
 
 When using HOCs, the underlying wrapped component is abstracted away. Sometimes access to this

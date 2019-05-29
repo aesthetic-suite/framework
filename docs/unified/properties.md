@@ -26,7 +26,8 @@ Standard structure for defining ruleset properties.
 
 ## Animations
 
-Inline keyframes can be defined by passing an object, or an array of objects to `animationName`.
+Inline keyframes are a compound property that can be defined by passing an object, or an array of
+objects to `animationName`.
 
 ```js
 {
@@ -62,7 +63,8 @@ Inline keyframes can be defined by passing an object, or an array of objects to 
 
 ## Fonts
 
-Inline font faces can be defined by passing an object, or an array of objects to `fontFamily`.
+Inline font faces are a compound property that can be defined by passing an object, or an array of
+objects to `fontFamily`.
 
 ```js
 {
