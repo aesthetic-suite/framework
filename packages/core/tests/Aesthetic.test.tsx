@@ -46,6 +46,7 @@ describe('Aesthetic', () => {
         extendable: false,
         passThemeProp: false,
         pure: true,
+        rtl: false,
         stylesPropName: 'styleSheet',
         theme: 'default',
         themePropName: 'theme',
@@ -116,7 +117,7 @@ describe('Aesthetic', () => {
             color: 'black',
           },
         },
-        'foo',
+        { name: 'foo' },
       );
     });
 

@@ -50,7 +50,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     }
   }
 
-  isParsedBlock(block: ParsedBlock): boolean {
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
     return typeof block === 'string';
   }
 

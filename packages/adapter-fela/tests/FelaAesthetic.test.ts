@@ -4,6 +4,7 @@ import { createRenderer } from 'fela';
 // @ts-ignore
 import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
+import { Direction } from 'aesthetic';
 import {
   cleanStyles,
   convertDirection,

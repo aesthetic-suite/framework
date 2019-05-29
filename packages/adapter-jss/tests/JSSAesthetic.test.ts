@@ -3,6 +3,7 @@
 import { create } from 'jss';
 // @ts-ignore
 import preset from 'jss-preset-default';
+import { Direction } from 'aesthetic';
 import {
   cleanStyles,
   convertDirection,

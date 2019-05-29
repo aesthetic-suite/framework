@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect, no-underscore-dangle */
 
 import { TypeStyle } from 'typestyle';
+import { Direction } from 'aesthetic';
 import {
   cleanStyles,
   convertDirection,

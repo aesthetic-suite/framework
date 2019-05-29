@@ -50,7 +50,7 @@ describe('useStylesFactory()', () => {
 
     shallow(<Component />);
 
-    expect(spy).toHaveBeenCalledWith(styleName);
+    expect(spy).toHaveBeenCalledWith(styleName, { dir: 'neutral' });
   });
 
   it('flushes styles only once', () => {

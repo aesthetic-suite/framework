@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Aesthetic adapters supports Aphrodite 1`] = `"button_17ap0k4"`;
+exports[`Aesthetic adapters supports Aphrodite 1`] = `"button_4139s4"`;
 
 exports[`Aesthetic adapters supports CSS modules 1`] = `"button"`;
 
@@ -8,7 +8,7 @@ exports[`Aesthetic adapters supports Fela 1`] = `"a b c d e f g h i j k l m n o 
 
 exports[`Aesthetic adapters supports JSS 1`] = `"button-0-1-1"`;
 
-exports[`Aesthetic adapters supports TypeStyle 1`] = `"f1lp6j3"`;
+exports[`Aesthetic adapters supports TypeStyle 1`] = `"f1hcoxnj"`;
 
 exports[`Aesthetic adapters supports class names 1`] = `"button"`;
 

@@ -176,7 +176,8 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
     const wrapper = shallow(<Wrapped foo="abc" />);
 
-    expect(spy).toHaveBeenCalledWith(Wrapped.styleName);
+    // Context is not provided (and Enzyme does not support it)
+    expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { dir: {} });
     expect(wrapper.state('styles')).toEqual({
       header: {},
       footer: {},

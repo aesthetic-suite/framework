@@ -48,9 +48,16 @@
     },
     "eslint": {
       "rules": {
-        "import/export": "off",
-        "jest/valid-describe": "off"
-      }
+        "import/export": "off"
+      },
+      "overrides": [
+        {
+          "files": "*.test.ts",
+          "rules": {
+            "jest/valid-describe": "off"
+          }
+        }
+      ]
     }
   },
   "workspaces": [

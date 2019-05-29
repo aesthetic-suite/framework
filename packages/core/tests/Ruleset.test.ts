@@ -17,7 +17,7 @@ describe('Ruleset', () => {
 
       instance.addNested(':hover', obj);
 
-      expect(instance.nested[':hover']).toEqual(obj);
+      expect(instance.nested.get(':hover')).toEqual(obj);
     });
 
     it('merges nested objects if selectors are the same', () => {
@@ -39,7 +39,7 @@ describe('Ruleset', () => {
         .addProperty('color', 'blue')
         .addProperty('background', 'white');
 
-      expect(instance.nested[':hover']).toEqual(obj3);
+      expect(instance.nested.get(':hover')).toEqual(obj3);
     });
 
     it('doesnt merge nested objects if flag is false', () => {
@@ -55,7 +55,7 @@ describe('Ruleset', () => {
       instance.addNested(':hover', obj1);
       instance.addNested(':hover', obj2, false);
 
-      expect(instance.nested[':hover']).toEqual(obj2);
+      expect(instance.nested.get(':hover')).toEqual(obj2);
     });
   });
 

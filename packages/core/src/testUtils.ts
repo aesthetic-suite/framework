@@ -407,7 +407,7 @@ export const SYNTAX_SUPPORTS = {
         display: 'flex',
       },
       'not (display: flex)': {
-        float: 'left',
+        float: 'left' as 'left',
       },
     },
   },

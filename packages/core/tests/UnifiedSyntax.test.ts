@@ -399,6 +399,8 @@ describe('UnifiedSyntax', () => {
         { name: 'styleName' },
       );
 
+      sheet.options.name = 'styleName';
+
       expect(styleSheet).toEqual(sheet);
     });
 
@@ -434,6 +436,8 @@ describe('UnifiedSyntax', () => {
         },
         { name: 'styleName' },
       );
+
+      sheet.options.name = 'styleName';
 
       expect(spy).toHaveBeenCalledWith({ display: 'block' }, expect.anything());
       expect(styleSheet).toEqual(sheet.addRuleset(sheet.createRuleset('el')));
