@@ -116,6 +116,6 @@ export type GlobalSheetDefinition<Theme, T> =
 // MISC
 
 export interface TransformOptions {
-  dir?: Direction;
   name?: StyleName;
+  rtl?: boolean;
 }

@@ -27,7 +27,8 @@ export default function useStylesFactory<
     });
 
     // Create a unique style sheet for this component
-    const sheet = aesthetic.createStyleSheet(styleName, { dir });
+    const options = { name: styleName, rtl: aesthetic.isRTL(dir) };
+    const sheet = aesthetic.createStyleSheet(styleName, options);
 
     // Flush styles on mount
     useLayoutEffect(() => {
@@ -35,7 +36,7 @@ export default function useStylesFactory<
     }, [dir, styleName]);
 
     // Create a CSS transformer
-    const cx: CX = (...styles) => aesthetic.transformStyles(styles, { dir });
+    const cx: CX = (...styles) => aesthetic.transformStyles(styles, options);
 
     return [sheet, cx, styleName];
   };

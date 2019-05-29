@@ -51,7 +51,7 @@ describe('useStylesFactory()', () => {
 
     shallow(<Component />);
 
-    expect(spy).toHaveBeenCalledWith(styleName, { dir: 'neutral' });
+    expect(spy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: false });
   });
 
   it('flushes styles only once', () => {
@@ -123,7 +123,21 @@ describe('useStylesFactory()', () => {
       return <div className={cx(styles.header, styles.footer)} />;
     }
 
-    it('inherits `dir` from explicit `DirectionProvider`', () => {
+    it('inherits `rtl` from `Aesthetic` option', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      aesthetic.options.rtl = true;
+
+      act(() => {
+        ReactDOM.render(<Component />, container);
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
+    });
+
+    it('inherits `rtl` from explicit `DirectionProvider`', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
@@ -136,11 +150,11 @@ describe('useStylesFactory()', () => {
         );
       });
 
-      expect(createSpy).toHaveBeenCalledWith(styleName, { dir: 'rtl' });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { dir: 'rtl' });
+      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
     });
 
-    it('inherits `dir` from inferred `DirectionProvider` value', () => {
+    it('inherits `rtl` from inferred `DirectionProvider` value', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
@@ -153,50 +167,10 @@ describe('useStylesFactory()', () => {
         );
       });
 
-      expect(createSpy).toHaveBeenCalledWith(styleName, { dir: 'rtl' });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { dir: 'rtl' });
+      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
     });
 
-    it('flushes once for each type of direction', () => {
-      const flushSpy = jest.spyOn(aesthetic, 'flushStyles');
-
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider value="ltr">
-            <Component />
-          </DirectionProvider>,
-          container,
-        );
-      });
-
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider value="rtl">
-            <Component />
-          </DirectionProvider>,
-          container,
-        );
-      });
-
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider value="ltr">
-            <Component />
-          </DirectionProvider>,
-          container,
-        );
-      });
-
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider value="rtl">
-            <Component />
-          </DirectionProvider>,
-          container,
-        );
-      });
-
-      expect(flushSpy).toHaveBeenCalledTimes(2);
-    });
+    it.todo('re-creates a style sheet if provider context changes');
   });
 });

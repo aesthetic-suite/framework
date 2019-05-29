@@ -46,7 +46,7 @@ describe('TypeStyleAesthetic', () => {
       global?: boolean;
     },
   ) {
-    const options = { dir, name: 'typestyle' };
+    const options = { name: 'typestyle', rtl: dir === 'rtl' };
     const convertedSheet = global
       ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
       : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
@@ -75,7 +75,9 @@ describe('TypeStyleAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('f1rvgqmz');
+        expect(
+          instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
+        ).toBe('f1rvgqmz');
       });
 
       describe('global sheet', () => {
@@ -86,7 +88,7 @@ describe('TypeStyleAesthetic', () => {
         it('handles @font-face', () => {
           const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { dir });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { rtl: dir === 'rtl' });
 
           expect(spy).toHaveBeenCalledWith(FONT_ROBOTO_FLAT_SRC);
           expect(spy).toHaveBeenCalledTimes(1);
@@ -95,7 +97,7 @@ describe('TypeStyleAesthetic', () => {
         it('handles mixed @font-face', () => {
           const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { dir });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { rtl: dir === 'rtl' });
 
           expect(spy).toHaveBeenCalledWith(FONT_ROBOTO_FLAT_SRC);
           expect(spy).toHaveBeenCalledWith(FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0]);
@@ -105,7 +107,7 @@ describe('TypeStyleAesthetic', () => {
         it('handles multiple @font-face', () => {
           const spy = jest.spyOn(instance.typeStyle, 'fontFace');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { dir });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { rtl: dir === 'rtl' });
 
           expect(spy).toHaveBeenCalledWith(FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0]);
           expect(spy).toHaveBeenCalledTimes(4);
@@ -114,7 +116,7 @@ describe('TypeStyleAesthetic', () => {
         it('handles @keyframes', () => {
           const spy = jest.spyOn(instance.typeStyle, 'keyframes');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { dir });
+          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { rtl: dir === 'rtl' });
 
           expect(spy).toHaveBeenCalledWith(KEYFRAME_FADE);
         });

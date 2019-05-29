@@ -202,7 +202,13 @@ export default abstract class Aesthetic<
    */
   isRTL(context?: Direction): boolean {
     if (context) {
-      return context === 'rtl';
+      if (context === 'rtl') {
+        return true;
+      } else if (context === 'ltr') {
+        return false;
+      }
+
+      // Neutral falls through
     }
 
     return this.options.rtl;

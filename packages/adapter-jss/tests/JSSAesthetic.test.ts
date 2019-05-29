@@ -72,7 +72,7 @@ describe('JSSAesthetic', () => {
       raw?: boolean;
     },
   ) {
-    const options = { dir, name: 'jss' };
+    const options = { name: 'jss', rtl: dir === 'rtl' };
     const convertedSheet = global
       ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
       : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
@@ -97,7 +97,9 @@ describe('JSSAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { dir })).toBe(
+        expect(
+          instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
+        ).toBe(
           dir === 'ltr'
             ? 'foo inline-0-0-1-1 inline-1-0-1-2'
             : 'foo inline-0-0-24-1 inline-1-0-24-2',

@@ -45,7 +45,7 @@ export default function withStylesFactory<
       const styleName = `${baseName}-${uuid()}`;
       const Component = pure ? React.PureComponent : React.Component;
 
-      type OwnState = WithStylesState<Props, ParsedBlock>;
+      type OwnState = WithStylesState<ParsedBlock>;
 
       aesthetic.setStyleSheet(styleName, styleSheet, extendFrom);
 
@@ -79,9 +79,15 @@ export default function withStylesFactory<
         constructor(props: Props & WithStylesWrapperProps, dir: Direction) {
           super(props);
 
+          const opts = {
+            name: styleName,
+            rtl: aesthetic.isRTL(dir),
+          };
+
           this.state = {
             dir,
-            styles: aesthetic.createStyleSheet(styleName, { dir }),
+            options: opts,
+            styles: aesthetic.createStyleSheet(styleName, opts),
           };
         }
 
@@ -93,11 +99,17 @@ export default function withStylesFactory<
           const dir = this.context;
 
           if (dir !== this.state.dir) {
+            const opts = {
+              name: styleName,
+              rtl: aesthetic.isRTL(dir),
+            };
+
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState(
               {
                 dir,
-                styles: aesthetic.createStyleSheet(styleName, { dir }),
+                options: opts,
+                styles: aesthetic.createStyleSheet(styleName, opts),
               },
               () => {
                 aesthetic.flushStyles(styleName);
@@ -106,8 +118,7 @@ export default function withStylesFactory<
           }
         }
 
-        transformStyles: CX = (...styles) =>
-          aesthetic.transformStyles(styles, { dir: this.state.dir });
+        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles, this.state.options);
 
         render() {
           const { wrappedRef, ...props } = this.props;

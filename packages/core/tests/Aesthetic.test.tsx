@@ -414,10 +414,10 @@ describe('Aesthetic', () => {
       expect(instance.isRTL('ltr')).toBe(false);
     });
 
-    it('returns false if context is `neutral` and option is true', () => {
+    it('returns true if context is `neutral` and option is true', () => {
       instance.options.rtl = true;
 
-      expect(instance.isRTL('neutral')).toBe(false);
+      expect(instance.isRTL('neutral')).toBe(true);
     });
   });
 

@@ -5,6 +5,7 @@ import {
   SheetMap,
   StyleName,
   StyleSheetDefinition,
+  TransformOptions,
 } from 'aesthetic';
 import { Omit } from 'utility-types';
 
@@ -47,9 +48,9 @@ export interface WithStylesWrappedProps<
   theme?: Theme;
 }
 
-export interface WithStylesState<Props, ParsedBlock> {
-  dir?: Direction;
-  props?: Props;
+export interface WithStylesState<ParsedBlock> {
+  dir: Direction;
+  options: TransformOptions;
   styles: SheetMap<ParsedBlock>;
 }
 

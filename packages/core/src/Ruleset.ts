@@ -65,7 +65,7 @@ export default class Ruleset<Block extends object> {
   }
 
   toObject(): Block {
-    const props = this.root.options.dir === 'rtl' ? convertRTL(this.properties) : this.properties;
+    const props = this.root.options.rtl ? convertRTL(this.properties) : this.properties;
     const compounds: any = {};
 
     // Compound properties are a list of rulesets that have already been cast to block objects.
