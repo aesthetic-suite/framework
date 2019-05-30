@@ -54,10 +54,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return typeof block === 'string';
   }
 
-  protected processStyleSheet(
-    styleSheet: SheetMap<NativeBlock>,
-    styleName: StyleName,
-  ): SheetMap<ParsedBlock> {
+  parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
     this.sheets[styleName] = this.jss.createStyleSheet<any>(styleSheet, {
       media: 'screen',
       meta: styleName,
@@ -66,7 +63,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
-  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+  transformToClassName(styles: ParsedBlock[]): ClassName {
     return styles.join(' ');
   }
 

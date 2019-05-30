@@ -47,7 +47,7 @@ export default function withStylesFactory<
 
       type OwnState = WithStylesState<ParsedBlock>;
 
-      aesthetic.setStyleSheet(styleName, styleSheet, extendFrom);
+      aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);
 
       class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
         static contextType = DirectionContext;

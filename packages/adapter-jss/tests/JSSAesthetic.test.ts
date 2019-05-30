@@ -76,12 +76,11 @@ describe('JSSAesthetic', () => {
     const convertedSheet = global
       ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
       : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    // @ts-ignore Allow access
-    const styles = instance.processStyleSheet(convertedSheet, 'jss');
+    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'jss');
 
     expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
 
-    expect(instance.transformStyles(Object.values(styles), options)).toMatchSnapshot();
+    expect(instance.transformStyles(Object.values(parsedSheet), options)).toMatchSnapshot();
 
     testSnapshot(raw);
   }

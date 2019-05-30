@@ -84,7 +84,7 @@ export default abstract class Aesthetic<
     const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
 
     if (globalSheet) {
-      const sheet = this.processStyleSheet(
+      const sheet = this.parseStyleSheet(
         this.syntax.convertGlobalSheet(globalSheet, options).toObject(),
         ':root',
       );
@@ -109,22 +109,22 @@ export default abstract class Aesthetic<
 
     this.applyGlobalStyles(options);
 
-    const baseSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
+    const nativeSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
       ...options,
       name: styleName,
     });
-    const styleSheet = this.processStyleSheet(baseSheet.toObject(), styleName);
+    const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), styleName);
 
     this.cache[styleName] = {
-      ...styleSheet,
-      ...baseSheet.classNames,
+      ...parsedSheet,
+      ...nativeSheet.classNames,
     } as SheetMap<ParsedBlock>;
 
     return this.cache[styleName];
   }
 
   /**
-   * Compose and extend multiple stylesheets to create 1 stylesheet.
+   * Compose and extend multiple style sheets to create 1 style sheet.
    */
   extendStyles(
     ...styleSheets: StyleSheetDefinition<Theme, any>[]
@@ -158,8 +158,8 @@ export default abstract class Aesthetic<
   flushStyles(styleName: StyleName) {}
 
   /**
-   * Retrieve the defined component styles. If the definition is a function,
-   * execute it while passing the current theme and React props.
+   * Retrieve the defined component style sheet. If the definition is a function,
+   * execute it while passing the current theme.
    */
   getStyleSheet(styleName: StyleName): StyleSheet {
     const parentStyleName = this.parents[styleName];
@@ -215,7 +215,41 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Register a theme with a pre-defined set of theme settings.
+   * Parse an Aesthetic style sheet into an adapter native style sheet.
+   */
+  parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
+    // @ts-ignore Allow spread
+    return { ...styleSheet };
+  }
+
+  /**
+   * Register a style sheet definition. Optionally extend from a parent style sheet if defined.
+   */
+  registerStyleSheet<T>(
+    styleName: StyleName,
+    styleSheet: StyleSheetDefinition<Theme, T>,
+    extendFrom?: StyleName,
+  ): this {
+    if (extendFrom) {
+      if (__DEV__) {
+        if (!this.styles[extendFrom]) {
+          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
+        } else if (extendFrom === styleName) {
+          throw new Error('Cannot extend styles from itself.');
+        }
+      }
+
+      this.parents[styleName] = extendFrom;
+    }
+
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
+
+    return this;
+  }
+
+  /**
+   * Register a theme with a set of parameters. Optionally register
+   * a global style sheet to apply to the entire document.
    */
   registerTheme<T>(
     themeName: ThemeName,
@@ -237,37 +271,12 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Set a style sheet definition for a component.
+   * Transform the list of style objects to a list of CSS class names.
    */
-  setStyleSheet(
-    styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme, any>,
-    extendFrom: StyleName = '',
-  ): this {
-    if (extendFrom) {
-      if (__DEV__) {
-        if (!this.styles[extendFrom]) {
-          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
-        } else if (extendFrom === styleName) {
-          throw new Error('Cannot extend styles from itself.');
-        }
-      }
-
-      this.parents[styleName] = extendFrom;
-    }
-
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
-
-    return this;
-  }
-
-  /**
-   * Transform the list of style declarations to a list of class name.
-   */
-  transformStyles = (
+  transformStyles(
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
     options: TransformOptions,
-  ): ClassName => {
+  ): ClassName {
     const classNames: ClassName[] = [];
     const nativeBlocks: NativeBlock[] = [];
     const parsedBlocks: ParsedBlock[] = [];
@@ -306,9 +315,7 @@ export default abstract class Aesthetic<
         counter += 1;
       });
 
-      parsedBlocks.push(
-        ...Object.values(this.processStyleSheet(nativeSheet.toObject(), inlineName)),
-      );
+      parsedBlocks.push(...Object.values(this.parseStyleSheet(nativeSheet.toObject(), inlineName)));
     }
 
     // Transform parsed blocks to class names
@@ -322,7 +329,12 @@ export default abstract class Aesthetic<
     }
 
     return classNames.join(' ').trim();
-  };
+  }
+
+  /**
+   * Transform the parsed style objects into CSS class names.
+   */
+  abstract transformToClassName(styles: ParsedBlock[]): ClassName;
 
   /**
    * Return a native style sheet manager used for injecting CSS.
@@ -336,22 +348,6 @@ export default abstract class Aesthetic<
 
     return this.sheetManager;
   }
-
-  /**
-   * Process from an Aesthetic style sheet to an adapter native style sheet.
-   */
-  protected processStyleSheet(
-    styleSheet: SheetMap<NativeBlock>,
-    styleName: StyleName,
-  ): SheetMap<ParsedBlock> {
-    // @ts-ignore Allow spread
-    return { ...styleSheet };
-  }
-
-  /**
-   * Transform the parsed styles into CSS class names.
-   */
-  protected abstract transformToClassName(styles: ParsedBlock[]): ClassName;
 
   /**
    * Validate a style sheet or theme definition.

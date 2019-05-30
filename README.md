@@ -21,8 +21,8 @@ aesthetic.registerTheme('light', {
   unit: 8,
 });
 
-// Define a style sheet
-aesthetic.setStyleSheet('button', ({ unit }) => ({
+// Register a style sheet definition for a component
+aesthetic.registerStyleSheet('button', ({ unit }) => ({
   button: {
     textAlign: 'center',
     display: 'inline-block',

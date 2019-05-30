@@ -50,12 +50,11 @@ describe('TypeStyleAesthetic', () => {
     const convertedSheet = global
       ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
       : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    // @ts-ignore Allow access
-    const styles = instance.processStyleSheet(convertedSheet, 'typestyle');
+    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'typestyle');
 
     expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
 
-    expect(instance.transformStyles(Object.values(styles), options)).toBe(expectedClassName);
+    expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
 
     // @ts-ignore
     if (instance.typeStyle._raw) {

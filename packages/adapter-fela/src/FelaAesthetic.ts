@@ -35,7 +35,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     render(this.fela);
   }
 
-  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+  transformToClassName(styles: ParsedBlock[]): ClassName {
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 

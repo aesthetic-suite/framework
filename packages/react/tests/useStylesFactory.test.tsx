@@ -82,7 +82,7 @@ describe('useStylesFactory()', () => {
   });
 
   it('only sets styles once', () => {
-    const spy = jest.spyOn(aesthetic, 'setStyleSheet');
+    const spy = jest.spyOn(aesthetic, 'registerStyleSheet');
 
     function Component() {
       styleName = useStyles(() => TEST_STATEMENT)[2];
