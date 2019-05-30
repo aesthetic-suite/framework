@@ -47,7 +47,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     return Boolean(block && block._name && block._definition);
   }
 
-  protected processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
+  parseStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 

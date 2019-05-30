@@ -54,12 +54,11 @@ describe('FelaAesthetic', () => {
     const convertedSheet = global
       ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
       : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    // @ts-ignore Allow access
-    const styles = instance.processStyleSheet(convertedSheet, 'fela');
+    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'fela');
 
     expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
 
-    expect(instance.transformStyles(Object.values(styles), options)).toBe(expectedClassName);
+    expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
 
     expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
   }

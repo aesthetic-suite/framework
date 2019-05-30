@@ -82,8 +82,7 @@ describe('Aesthetic', () => {
     });
 
     it('does nothing if no global styles defined for theme', () => {
-      // @ts-ignore Allow access
-      const spy = jest.spyOn(instance, 'processStyleSheet');
+      const spy = jest.spyOn(instance, 'parseStyleSheet');
 
       instance.globals.default = null;
       instance.applyGlobalStyles({});
@@ -92,8 +91,7 @@ describe('Aesthetic', () => {
     });
 
     it('processes global styles if defined for a theme', () => {
-      // @ts-ignore Allow access
-      const spy = jest.spyOn(instance, 'processStyleSheet');
+      const spy = jest.spyOn(instance, 'parseStyleSheet');
 
       instance.applyGlobalStyles({});
 
@@ -136,9 +134,8 @@ describe('Aesthetic', () => {
       );
     });
 
-    it('calls `processStyleSheet` with converted syntax', () => {
-      // @ts-ignore Allow access
-      const spy = jest.spyOn(instance, 'processStyleSheet');
+    it('calls `parseStyleSheet` with converted syntax', () => {
+      const spy = jest.spyOn(instance, 'parseStyleSheet');
 
       instance.createStyleSheet('foo', {});
 
@@ -146,7 +143,6 @@ describe('Aesthetic', () => {
     });
 
     it('calls `applyGlobalStyles`', () => {
-      // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'applyGlobalStyles');
 
       instance.createStyleSheet('foo', {});
@@ -405,11 +401,10 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('processStyleSheet()', () => {
+  describe('parseStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
       const sheet = { el: {} };
-      // @ts-ignore Allow access
-      const styleSheet = instance.processStyleSheet(sheet, 'styleName');
+      const styleSheet = instance.parseStyleSheet(sheet, 'styleName');
 
       expect(sheet).toEqual(styleSheet);
     });
@@ -467,7 +462,7 @@ describe('Aesthetic', () => {
       expect(() =>
         instance.registerStyleSheet(
           'foo',
-          // @ts-ignore
+          // @ts-ignore Allow non-function
           123,
         ),
       ).toThrowErrorMatchingSnapshot();
@@ -475,7 +470,7 @@ describe('Aesthetic', () => {
       expect(() =>
         instance.registerStyleSheet(
           'foo',
-          // @ts-ignore
+          // @ts-ignore Allow non-function
           'abc',
         ),
       ).toThrowErrorMatchingSnapshot();
@@ -483,7 +478,7 @@ describe('Aesthetic', () => {
       expect(() =>
         instance.registerStyleSheet(
           'foo',
-          // @ts-ignore
+          // @ts-ignore Allow non-function
           [],
         ),
       ).toThrowErrorMatchingSnapshot();
@@ -491,7 +486,7 @@ describe('Aesthetic', () => {
       expect(() =>
         instance.registerStyleSheet(
           'foo',
-          // @ts-ignore
+          // @ts-ignore Allow non-function
           true,
         ),
       ).toThrowErrorMatchingSnapshot();
@@ -575,8 +570,7 @@ describe('Aesthetic', () => {
     });
 
     it('parses and flushes inline style objects', () => {
-      // @ts-ignore
-      const processSpy = jest.spyOn(instance, 'processStyleSheet');
+      const processSpy = jest.spyOn(instance, 'parseStyleSheet');
       const flushSpy = jest.spyOn(instance, 'flushStyles');
 
       // @ts-ignore

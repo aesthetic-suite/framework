@@ -13,6 +13,7 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 - Updated `Aesthetic#transformToClassName` to only be passed the parsed blocks and not the native
   adapter blocks.
 - Renamed `Aesthetic#setStyleSheet` to `registerStyleSheet`.
+- Renamed `Aesthetic#processStyleSheet` to `parseStyleSheet`.
 
 #### 🚀 Updates
 
