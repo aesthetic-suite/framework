@@ -25,6 +25,7 @@ The following options are available, most of which can be overridden per compone
   `false`.
 - `pure` (boolean) - Should all HOC wrapped components use `React.PureComponent`? Defaults to
   `true`. _(React only)_
+- `rtl` (boolean) - Enable right-to-left mode rendering globally.
 - `stylesPropName` (string) - The name of the styles prop passed to wrapped components. Defaults to
   `styles`.
 - `theme` (string) - The currently active theme. Defaults to `default`.

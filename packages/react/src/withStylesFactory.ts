@@ -1,8 +1,9 @@
 import React from 'react';
-import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, Direction, StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
+import DirectionContext from './DirectionContext';
 import {
   WithStylesOptions,
   WithStylesState,
@@ -44,11 +45,13 @@ export default function withStylesFactory<
       const styleName = `${baseName}-${uuid()}`;
       const Component = pure ? React.PureComponent : React.Component;
 
-      type OwnState = WithStylesState<Props, ParsedBlock>;
+      type OwnState = WithStylesState<ParsedBlock>;
 
       aesthetic.setStyleSheet(styleName, styleSheet, extendFrom);
 
       class WithStyles extends Component<Props & WithStylesWrapperProps, OwnState> {
+        static contextType = DirectionContext;
+
         static displayName = `withStyles(${baseName})`;
 
         static styleName = styleName;
@@ -73,11 +76,18 @@ export default function withStylesFactory<
         }
 
         // eslint-disable-next-line @typescript-eslint/member-ordering
-        constructor(props: Props & WithStylesWrapperProps) {
+        constructor(props: Props & WithStylesWrapperProps, dir: Direction) {
           super(props);
 
+          const opts = {
+            name: styleName,
+            rtl: aesthetic.isRTL(dir),
+          };
+
           this.state = {
-            styles: aesthetic.createStyleSheet(styleName),
+            dir,
+            options: opts,
+            styles: aesthetic.createStyleSheet(styleName, opts),
           };
         }
 
@@ -85,7 +95,30 @@ export default function withStylesFactory<
           aesthetic.flushStyles(styleName);
         }
 
-        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles);
+        componentDidUpdate() {
+          const dir = this.context;
+
+          if (dir !== this.state.dir) {
+            const opts = {
+              name: styleName,
+              rtl: aesthetic.isRTL(dir),
+            };
+
+            // eslint-disable-next-line react/no-did-update-set-state
+            this.setState(
+              {
+                dir,
+                options: opts,
+                styles: aesthetic.createStyleSheet(styleName, opts),
+              },
+              () => {
+                aesthetic.flushStyles(styleName);
+              },
+            );
+          }
+        }
+
+        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles, this.state.options);
 
         render() {
           const { wrappedRef, ...props } = this.props;

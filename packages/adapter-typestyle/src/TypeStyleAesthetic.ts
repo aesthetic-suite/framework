@@ -30,7 +30,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
       .on('support', this.handleSupport);
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
+  protected transformToClassName(styles: ParsedBlock[]): ClassName {
     return this.typeStyle.style(...styles);
   }
 
@@ -94,7 +94,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     selector: string,
     value: Ruleset<NativeBlock>,
   ) => {
-    const nest = ruleset.nested.$nest || ruleset.createRuleset('$nest');
+    const nest = ruleset.nested.get('$nest') || ruleset.createRuleset('$nest');
 
     nest.addNested(selector.startsWith('@') ? selector : `&${selector}`, value);
 

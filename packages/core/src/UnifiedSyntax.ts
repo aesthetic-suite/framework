@@ -1,6 +1,7 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members, complexity */
 
 import Stylis from 'stylis';
+import convertRTL from 'rtl-css-js';
 import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
@@ -14,6 +15,7 @@ import {
   Properties,
   StyleSheet,
   ClassName,
+  TransformOptions,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -21,30 +23,48 @@ export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 export type Handler = (...args: any[]) => void;
 
+// `rtl-css-js` operates on objects while `stylis` uses strings.
+// Super annoying, so we need to bridge that gap with this helper.
+function rtlPlugin(context: number, content: string) {
+  if (context !== 1) {
+    return undefined;
+  }
+
+  const [key, rawValue] = content.split(':', 2);
+  const isQuoted = rawValue.trim().startsWith("'");
+  const unquotedValue = isQuoted ? rawValue.slice(1).slice(0, -1) : rawValue;
+  const styles = convertRTL({ [key.trim()]: unquotedValue.trim() });
+
+  return Object.keys(styles)
+    .reduce<string[]>((css, prop) => {
+      let value = styles[prop];
+
+      if (isQuoted) {
+        value = `'${value}'`;
+      }
+
+      css.push(`${prop}:${value}`);
+
+      return css;
+    }, [])
+    .join(';');
+}
+
 export default class UnifiedSyntax<NativeBlock extends object> {
   handlers: { [eventName: string]: Handler } = {};
 
   keyframesCount: number = 0;
 
-  stylis: typeof Stylis;
-
   constructor() {
     this.on('property:animationName', this.handleAnimationName);
     this.on('property:fontFamily', this.handleFontFamily);
-
-    this.stylis = new Stylis({
-      compress: !__DEV__,
-      global: false,
-      keyframe: true,
-      prefix: true,
-    });
   }
 
   /**
    * Convert at-rules within a global style sheet.
    */
-  convertGlobalSheet(globalSheet: GlobalSheet): Sheet<NativeBlock> {
-    const sheet = new Sheet<NativeBlock>();
+  convertGlobalSheet(globalSheet: GlobalSheet, options: TransformOptions): Sheet<NativeBlock> {
+    const sheet = new Sheet<NativeBlock>(options);
 
     Object.keys(globalSheet).forEach(rule => {
       switch (rule) {
@@ -160,8 +180,8 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a mapping of unified rulesets to their native syntax.
    */
-  convertStyleSheet(styleSheet: StyleSheet, styleName: string): Sheet<NativeBlock> {
-    const sheet = new Sheet<NativeBlock>();
+  convertStyleSheet(styleSheet: StyleSheet, options: TransformOptions): Sheet<NativeBlock> {
+    const sheet = new Sheet<NativeBlock>(options);
 
     Object.keys(styleSheet).forEach(selector => {
       const ruleset = styleSheet[selector];
@@ -181,7 +201,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         if (ruleset.match(CLASS_NAME)) {
           sheet.addClassName(selector, ruleset);
         } else {
-          sheet.addClassName(selector, this.convertRawCss(styleName, selector, ruleset));
+          sheet.addClassName(selector, this.convertRawCss(sheet, selector, ruleset));
         }
 
         // Style object
@@ -201,10 +221,21 @@ export default class UnifiedSyntax<NativeBlock extends object> {
    * Convert a pseudo CSS declaration block to raw CSS using Stylis.
    * Emit the raw CSS so that adapters can inject it into the DOM.
    */
-  convertRawCss(styleName: string, selector: string, declaration: string): ClassName {
+  convertRawCss(sheet: Sheet<NativeBlock>, selector: string, declaration: string): ClassName {
+    const styleName = sheet.options.name!;
     const className = `${styleName}-${selector}`;
+    const stylis = new Stylis({
+      compress: !__DEV__,
+      global: false,
+      keyframe: true,
+      prefix: true,
+    });
 
-    this.emit('css', [this.stylis(`.${className}`, declaration.trim()), className]);
+    if (sheet.options.rtl) {
+      stylis.use(rtlPlugin);
+    }
+
+    this.emit('css', [stylis(`.${className}`, declaration.trim()), className]);
 
     return className;
   }

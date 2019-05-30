@@ -11,13 +11,31 @@ describe('Ruleset', () => {
     instance = new Ruleset('test', sheet);
   });
 
+  describe('addCompoundProperty()', () => {
+    it('adds a list of objects', () => {
+      instance.addCompoundProperty('fontFamily', [
+        {
+          fontFamily: 'Roboto',
+        },
+        'Helvetica',
+      ]);
+
+      expect(instance.compoundProperties.get('fontFamily')).toEqual([
+        {
+          fontFamily: 'Roboto',
+        },
+        'Helvetica',
+      ]);
+    });
+  });
+
   describe('addNested()', () => {
     it('adds a nested object', () => {
       const obj = sheet.createRuleset('nested').addProperty('color', 'red');
 
       instance.addNested(':hover', obj);
 
-      expect(instance.nested[':hover']).toEqual(obj);
+      expect(instance.nested.get(':hover')).toEqual(obj);
     });
 
     it('merges nested objects if selectors are the same', () => {
@@ -39,7 +57,7 @@ describe('Ruleset', () => {
         .addProperty('color', 'blue')
         .addProperty('background', 'white');
 
-      expect(instance.nested[':hover']).toEqual(obj3);
+      expect(instance.nested.get(':hover')).toEqual(obj3);
     });
 
     it('doesnt merge nested objects if flag is false', () => {
@@ -55,7 +73,7 @@ describe('Ruleset', () => {
       instance.addNested(':hover', obj1);
       instance.addNested(':hover', obj2, false);
 
-      expect(instance.nested[':hover']).toEqual(obj2);
+      expect(instance.nested.get(':hover')).toEqual(obj2);
     });
   });
 
@@ -71,6 +89,20 @@ describe('Ruleset', () => {
       instance.addProperty('color', 'blue');
 
       expect(instance.properties.color).toBe('blue');
+    });
+  });
+
+  describe('addProperties()', () => {
+    it('sets multiple properties', () => {
+      instance.addProperties({
+        color: 'red',
+        display: 'block',
+      });
+
+      expect(instance.properties).toEqual({
+        color: 'red',
+        display: 'block',
+      });
     });
   });
 
@@ -155,6 +187,65 @@ describe('Ruleset', () => {
             background: 'transparent',
           },
         },
+      });
+    });
+  });
+
+  describe('toObject()', () => {
+    it('returns a plain object', () => {
+      instance.addProperty('color', 'red').addProperty('display', 'block');
+
+      expect(instance.toObject()).toEqual({
+        color: 'red',
+        display: 'block',
+      });
+    });
+
+    it('converts to RTL', () => {
+      sheet.options.rtl = true;
+      instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        marginLeft: 3,
+      });
+    });
+
+    it('converts nested to RTL', () => {
+      sheet.options.rtl = true;
+      instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
+      instance.addNested(
+        ':hover',
+        sheet.createRuleset('nested').addProperty('paddingRight', '10px'),
+      );
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        marginLeft: 3,
+        ':hover': {
+          paddingLeft: '10px',
+        },
+      });
+    });
+
+    it('doesnt convert to RTL for compound properties', () => {
+      sheet.options.rtl = true;
+      instance.addProperty('textAlign', 'left');
+      instance.addCompoundProperty('animationName', [
+        {
+          from: { left: 0 },
+          to: { left: 100 },
+        } as any,
+      ]);
+
+      expect(instance.toObject()).toEqual({
+        textAlign: 'right',
+        animationName: [
+          {
+            from: { left: 0 },
+            to: { left: 100 },
+          },
+        ],
       });
     });
   });

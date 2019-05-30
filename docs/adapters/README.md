@@ -6,15 +6,20 @@ process, or simply referencing CSS class names.
 
 The following libraries and their features are officially supported by Aesthetic.
 
-| Adapter                                    | Unified Syntax | Globals¹ | Selectors | Fallbacks | Fonts | Animations | Media Queries | Supports | Specificity | Raw CSS |
-| :----------------------------------------- | :------------: | :------: | :-------: | :-------: | :---: | :--------: | :-----------: | :------: | :---------: | :-----: |
-| [Aphrodite](./aphrodite.md)                |       ✓        |    ✓²    |     ✓     |           |   ✓   |     ✓      |       ✓       |          |      ✓      |    ✓    |
-| [CSS class names](../style.md#class-names) |                |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |    ✓    |
-| [CSS modules](./css-modules.md)            |                |          |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |    ✓    |
-| [Fela](./fela.md)                          |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |    ✓    |
-| [JSS](./jss.md)                            |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |             |    ✓    |
-| [TypeStyle](./typestyle.md)                |       ✓        |    ✓     |     ✓     |     ✓     |   ✓   |     ✓      |       ✓       |    ✓     |      ✓      |    ✓    |
+|                | Aphrodite | CSS classes | CSS modules | Fela | JSS | TypeStyle |
+| :------------- | :-------: | :---------: | :---------: | :--: | :-: | :-------: |
+| Unified Syntax |     ✓     |             |             |  ✓   |  ✓  |     ✓     |
+| Globals        |    ✓²     |      ✓      |             |  ✓   |  ✓  |     ✓     |
+| Selectors      |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Fallbacks      |           |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Fonts          |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Animations     |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Media Queries  |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Supports       |           |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Specificity    |     ✓     |      ✓      |      ✓      |  ✓   |     |     ✓     |
+| Raw CSS¹       |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
+| Right-to-Left¹ |     ✓     |      ✓      |      ✓      |  ✓   |  ✓  |     ✓     |
 
-> 1.  Unified syntax only.
+> 1.  Provided by Aesthetic. Not native to the adapter.
 > 2.  Is accomplished through a custom
 >     [global selector handler](https://github.com/Khan/aphrodite#creating-extensions).

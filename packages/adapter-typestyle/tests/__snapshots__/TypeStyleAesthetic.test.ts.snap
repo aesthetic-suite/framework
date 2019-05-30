@@ -1,29 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TypeStyleAesthetic global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
+exports[`TypeStyleAesthetic LTR global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
 
-exports[`TypeStyleAesthetic style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;local:Robo;src-paths:fonts/Roboto.woff2;src-paths:fonts/Roboto.ttf}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.fkp30lv{animation-duration:.3s;animation-name:f1gwuh0p;background-color:#337ab7;border:1px solid #2e6da4;border-radius:4px;color:rgba(0, 0, 0, 0);cursor:pointer;display:inline-block;font-family:Roboto;font-weight:normal;line-height:normal;margin:0;padding:6px 12px;text-align:center;text-decoration:none;vertical-align:middle;white-space:nowrap}.fkp30lv:hover{background-color:#286090;border-color:#204d74}.fkp30lv::before{content:\\"★\\";display:inline-block;margin-right:5px;vertical-align:middle}@media (max-width: 600px){.fkp30lv{padding:4px 8px}}"`;
+exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;local:Robo;src-paths:fonts/Roboto.woff2;src-paths:fonts/Roboto.ttf}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1sm9ltv{animation-duration:.3s;animation-name:f1gwuh0p;background-color:#337ab7;border:1px solid #2e6da4;border-radius:4px;color:rgba(0, 0, 0, 0);cursor:pointer;display:inline-block;font-family:Roboto;font-weight:normal;line-height:normal;margin:0;padding:6px 12px;text-align:left;text-decoration:none;vertical-align:middle;white-space:nowrap}.f1sm9ltv:hover{background-color:#286090;border-color:#204d74}.f1sm9ltv::before{content:\\"★\\";display:inline-block;margin-right:5px;vertical-align:middle}@media (max-width: 600px){.f1sm9ltv{padding:4px 8px}}"`;
 
-exports[`TypeStyleAesthetic style sheet handles @fallbacks 1`] = `".f35p7vi{background:red;background:linear-gradient(...);color:blue;display:block;display:inline-block;display:flex}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles @fallbacks 1`] = `".f35p7vi{background:red;background:linear-gradient(...);color:blue;display:block;display:inline-block;display:flex}"`;
 
-exports[`TypeStyleAesthetic style sheet handles @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}}@media (max-width: 1000px){.fuxmg1k{color:green}}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles @media 1`] = `".f7f3kmp{color:red;padding-left:10px}@media (min-width: 300px){.f7f3kmp{color:blue;padding-left:15px}}@media (max-width: 1000px){.f7f3kmp{color:green;padding-left:20px}}"`;
 
-exports[`TypeStyleAesthetic style sheet handles @supports 1`] = `".f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles @supports 1`] = `".f6m6wzj{display:block}@supports (display: flex){.f6m6wzj{display:flex}}@supports not (display: flex){.f6m6wzj{float:left}}"`;
 
-exports[`TypeStyleAesthetic style sheet handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
 
-exports[`TypeStyleAesthetic style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
 
-exports[`TypeStyleAesthetic style sheet handles inline @font-face 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fqopoa{font-family:Circular, OtherFont, Roboto}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles inline @font-face 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fqopoa{font-family:Circular, OtherFont, Roboto}"`;
 
-exports[`TypeStyleAesthetic style sheet handles inline @keyframes 1`] = `"@keyframes f1croar1{0%{opacity:0}100%{opacity:1}50%{opacity:0.5}}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1dmlnkq{animation-name:f1croar1, unknown, f1gwuh0p}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles inline @keyframes 1`] = `"@keyframes f1pf291g{0%{left:0%}100%{left:100%}50%{left:50%}}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1tug0x9{animation-name:f1pf291g, unknown, f1gwuh0p}"`;
 
-exports[`TypeStyleAesthetic style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
 
-exports[`TypeStyleAesthetic style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;
 
-exports[`TypeStyleAesthetic style sheet handles properties 1`] = `".f1tzsa69{color:black;display:inline;margin:10px}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles properties 1`] = `".f1tfh618{color:black;display:inline;margin-right:10px;padding:0}"`;
 
-exports[`TypeStyleAesthetic style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
 
-exports[`TypeStyleAesthetic style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;
+exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;text-align:'left';}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;
+
+exports[`TypeStyleAesthetic RTL global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}a:hover{color:darkred}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `"@font-face{font-family:Roboto;font-style:normal;font-weight:normal;local:Robo;src-paths:fonts/Roboto.woff2;src-paths:fonts/Roboto.ttf}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.fjoi737{animation-duration:.3s;animation-name:f1gwuh0p;background-color:#337ab7;border:1px solid #2e6da4;border-radius:4px;color:rgba(0, 0, 0, 0);cursor:pointer;display:inline-block;font-family:Roboto;font-weight:normal;line-height:normal;margin:0;padding:6px 12px;text-align:right;text-decoration:none;vertical-align:middle;white-space:nowrap}.fjoi737:hover{background-color:#286090;border-color:#204d74}.fjoi737::before{content:\\"★\\";display:inline-block;margin-left:5px;vertical-align:middle}@media (max-width: 600px){.fjoi737{padding:4px 8px}}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles @fallbacks 1`] = `".f35p7vi{background:red;background:linear-gradient(...);color:blue;display:block;display:inline-block;display:flex}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles @media 1`] = `".f8c0g22{color:red;padding-right:10px}@media (min-width: 300px){.f8c0g22{color:blue;padding-right:15px}}@media (max-width: 1000px){.f8c0g22{color:green;padding-right:20px}}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles @supports 1`] = `".f7hcf0k{display:block}@supports (display: flex){.f7hcf0k{display:flex}}@supports not (display: flex){.f7hcf0k{float:right}}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles attribute selectors 1`] = `".f14zstro{display:block}.f14zstro[disabled]{opacity:0.5}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles descendant selectors 1`] = `".f1qve63s{margin:0;padding:0}.f1qve63s> li{list-style:bullet}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles inline @font-face 1`] = `"@font-face{font-family:Circular;font-style:normal;font-weight:normal;src:url('fonts/Circular.woff2') format('woff2')}@font-face{font-family:Circular;font-style:italic;font-weight:normal;src:url('fonts/Circular-Italic.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:300;src:url('fonts/Circular-Light.woff2') format('woff2')}@font-face{font-family:Circular;font-style:normal;font-weight:700;src:url('fonts/Circular-Bold.woff2') format('woff2')}@font-face{font-family:Roboto;font-style:normal;font-weight:normal;src:local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')}.fqopoa{font-family:Circular, OtherFont, Roboto}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles inline @keyframes 1`] = `"@keyframes fx4te0v{0%{right:0%}100%{right:100%}50%{right:50%}}@keyframes f1gwuh0p{from{opacity:0}to{opacity:1}}.f1cpoezw{animation-name:fx4te0v, unknown, f1gwuh0p}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles multiple selectors (comma separated) 1`] = `".fkkhpct{cursor:pointer}.fkkhpct:disabled,.fkkhpct[disabled],.fkkhpct> span{cursor:default}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles nested @media 1`] = `".fuxmg1k{color:red}@media (min-width: 300px){.fuxmg1k{color:blue}@media (max-width: 1000px){.fuxmg1k{color:green}}}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles properties 1`] = `".f1jaotx3{color:black;display:inline;margin-left:10px;padding:0}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles pseudo selectors 1`] = `".fmow1iy{position:fixed}.fmow1iy:hover{position:static}.fmow1iy::before{position:absolute}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 1`] = `".typestyle-button{display:'block';font-size:16px;text-align:'right';}.typestyle-button:hover{color:'red';}.typestyle-button{vertical-align:'middle';}@media (max-width:600px){.typestyle-button{display:'none';}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.typestyle-button{display:'flex';}}"`;

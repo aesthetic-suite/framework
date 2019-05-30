@@ -46,10 +46,27 @@ describe('Aesthetic', () => {
         extendable: false,
         passThemeProp: false,
         pure: true,
+        rtl: false,
         stylesPropName: 'styleSheet',
         theme: 'default',
         themePropName: 'theme',
       });
+    });
+
+    it('sets `ltr` on document', () => {
+      instance = new TestAesthetic({
+        rtl: false,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
+    });
+
+    it('sets `rtl` on document', () => {
+      instance = new TestAesthetic({
+        rtl: true,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('rtl');
     });
   });
 
@@ -59,7 +76,7 @@ describe('Aesthetic', () => {
 
       // @ts-ignore Allow override
       instance.appliedGlobals = true;
-      instance.applyGlobalStyles();
+      instance.applyGlobalStyles({});
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -69,7 +86,7 @@ describe('Aesthetic', () => {
       const spy = jest.spyOn(instance, 'processStyleSheet');
 
       instance.globals.default = null;
-      instance.applyGlobalStyles();
+      instance.applyGlobalStyles({});
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -78,7 +95,7 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'processStyleSheet');
 
-      instance.applyGlobalStyles();
+      instance.applyGlobalStyles({});
 
       expect(spy).toHaveBeenCalledWith({}, ':root');
     });
@@ -98,7 +115,7 @@ describe('Aesthetic', () => {
     });
 
     it('returns the style sheet', () => {
-      expect(instance.createStyleSheet('foo')).toEqual({
+      expect(instance.createStyleSheet('foo', {})).toEqual({
         el: {},
       });
     });
@@ -106,7 +123,7 @@ describe('Aesthetic', () => {
     it('calls `convertStyleSheet` for unified syntax while passing theme', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
-      instance.createStyleSheet('foo');
+      instance.createStyleSheet('foo', {});
 
       expect(spy).toHaveBeenCalledWith(
         {
@@ -116,7 +133,7 @@ describe('Aesthetic', () => {
             color: 'black',
           },
         },
-        'foo',
+        { name: 'foo' },
       );
     });
 
@@ -124,7 +141,7 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'processStyleSheet');
 
-      instance.createStyleSheet('foo');
+      instance.createStyleSheet('foo', {});
 
       expect(spy).toHaveBeenCalledWith({ el: {} }, 'foo');
     });
@@ -133,7 +150,7 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'applyGlobalStyles');
 
-      instance.createStyleSheet('foo');
+      instance.createStyleSheet('foo', {});
 
       expect(spy).toHaveBeenCalled();
     });
@@ -141,11 +158,11 @@ describe('Aesthetic', () => {
     it('caches the result', () => {
       expect(instance.cache.foo).toBeUndefined();
 
-      instance.createStyleSheet('foo');
+      instance.createStyleSheet('foo', {});
 
       expect(instance.cache.foo).toEqual({ el: {} });
 
-      const sheet = instance.createStyleSheet('foo');
+      const sheet = instance.createStyleSheet('foo', {});
 
       expect(instance.cache.foo).toEqual(sheet);
     });
@@ -368,6 +385,42 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('isRTL()', () => {
+    beforeEach(() => {
+      instance.options.rtl = false;
+    });
+
+    it('returns true if context is `rtl`', () => {
+      expect(instance.isRTL('rtl')).toBe(true);
+    });
+
+    it('returns option if context is not defined', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL()).toBe(true);
+    });
+
+    it('returns false if context is `ltr` and option is false', () => {
+      expect(instance.isRTL('ltr')).toBe(false);
+    });
+
+    it('returns false if context is `neutral` and option is false', () => {
+      expect(instance.isRTL('neutral')).toBe(false);
+    });
+
+    it('returns false if context is `ltr` and option is true', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL('ltr')).toBe(false);
+    });
+
+    it('returns true if context is `neutral` and option is true', () => {
+      instance.options.rtl = true;
+
+      expect(instance.isRTL('neutral')).toBe(true);
+    });
+  });
+
   describe('processStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
       const sheet = { el: {} };
@@ -481,37 +534,57 @@ describe('Aesthetic', () => {
         instance.transformStyles(
           // @ts-ignore Allow invalid type
           [123],
+          {},
         );
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('combines strings into a class name', () => {
-      expect(instance.transformStyles(['foo', 'bar'])).toBe('foo bar');
+      expect(instance.transformStyles(['foo', 'bar'], {})).toBe('foo bar');
     });
 
     it('calls `transformToClassName` method', () => {
       // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'transformToClassName');
 
-      instance.transformStyles([{ color: 'red' }, { display: 'block' }]);
+      instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
 
       expect(spy).toHaveBeenCalledWith([{ color: 'red' }, { display: 'block' }]);
     });
 
     it('ignores falsey values', () => {
-      expect(instance.transformStyles([null, false, 0, '', undefined])).toBe('');
+      expect(instance.transformStyles([null, false, 0, '', undefined], {})).toBe('');
     });
 
     it('strips period prefix', () => {
-      expect(instance.transformStyles(['.foo', 'bar .qux'])).toBe('foo bar qux');
+      expect(instance.transformStyles(['.foo', 'bar .qux'], {})).toBe('foo bar qux');
     });
 
     it('handles expression values', () => {
-      expect(instance.transformStyles(['foo', true && 'bar', 5 > 10 && 'baz'])).toBe('foo bar');
+      expect(instance.transformStyles(['foo', true && 'bar', 5 > 10 && 'baz'], {})).toBe('foo bar');
     });
 
     it('joins strings', () => {
-      expect(instance.transformStyles(['foo', '123', 'bar'])).toBe('foo 123 bar');
+      expect(instance.transformStyles(['foo', '123', 'bar'], {})).toBe('foo 123 bar');
+    });
+
+    it('parses and flushes inline style objects', () => {
+      // @ts-ignore
+      const processSpy = jest.spyOn(instance, 'processStyleSheet');
+      const flushSpy = jest.spyOn(instance, 'flushStyles');
+
+      // @ts-ignore
+      instance.isParsedBlock = () => false;
+      instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
+
+      expect(processSpy).toHaveBeenCalledWith(
+        {
+          'inline-0': { color: 'red' },
+          'inline-1': { display: 'block' },
+        },
+        expect.anything(),
+      );
+      expect(flushSpy).toHaveBeenCalledWith(expect.anything());
     });
   });
 
@@ -522,9 +595,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => ({ button: 'button' }));
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
 
     it('supports Aphrodite', () => {
@@ -533,9 +606,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
 
     it('supports CSS modules', () => {
@@ -544,9 +617,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => ({ button: 'button' }));
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
 
     it('supports Fela', () => {
@@ -559,9 +632,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
 
     it('supports JSS', () => {
@@ -573,9 +646,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
 
     it('supports TypeStyle', () => {
@@ -584,9 +657,9 @@ describe('Aesthetic', () => {
       // @ts-ignore Allow access
       adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
-      const styleSheet = adapter.createStyleSheet('foo');
+      const styleSheet = adapter.createStyleSheet('foo', {});
 
-      expect(adapter.transformStyles([styleSheet.button])).toMatchSnapshot();
+      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
   });
 });

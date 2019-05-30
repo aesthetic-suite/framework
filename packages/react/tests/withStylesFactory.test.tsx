@@ -1,6 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme';
 import { TestAesthetic, registerTestTheme, TEST_STATEMENT } from 'aesthetic/lib/testUtils';
+import DirectionProvider from '../src/DirectionProvider';
 import withStylesFactory from '../src/withStylesFactory';
 
 describe('withStylesFactory()', () => {
@@ -176,7 +179,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
     const wrapper = shallow(<Wrapped foo="abc" />);
 
-    expect(spy).toHaveBeenCalledWith(Wrapped.styleName);
+    expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { name: Wrapped.styleName, rtl: false });
     expect(wrapper.state('styles')).toEqual({
       header: {},
       footer: {},
@@ -251,5 +254,80 @@ describe('withStylesFactory()', () => {
     const wrapper = shallow(<Wrapped />).dive();
 
     expect(wrapper.prop('className')).toBe('class-0 class-1');
+  });
+
+  describe('RTL', () => {
+    class DirectionComponent extends React.Component<any> {
+      render() {
+        const { styles, cx } = this.props;
+
+        return <div className={cx(styles.header, styles.footer)} />;
+      }
+    }
+
+    it('inherits `rtl` from `Aesthetic` option', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      aesthetic.options.rtl = true;
+
+      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
+
+      act(() => {
+        ReactDOM.render(<Wrapped />, document.createElement('div'));
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+        name: Wrapped.styleName,
+        rtl: true,
+      });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
+    });
+
+    it('inherits `rtl` from explicit `DirectionProvider`', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider dir="rtl">
+            <Wrapped />
+          </DirectionProvider>,
+          document.createElement('div'),
+        );
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+        name: Wrapped.styleName,
+        rtl: true,
+      });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
+    });
+
+    it('inherits `rtl` from inferred `DirectionProvider` value', () => {
+      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+
+      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
+
+      act(() => {
+        ReactDOM.render(
+          <DirectionProvider value="بسيطة">
+            <Wrapped />
+          </DirectionProvider>,
+          document.createElement('div'),
+        );
+      });
+
+      expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+        name: Wrapped.styleName,
+        rtl: true,
+      });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
+    });
+
+    it.todo('re-creates a style sheet if provider context changes');
   });
 });

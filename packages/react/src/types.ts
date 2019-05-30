@@ -1,5 +1,12 @@
 import React from 'react';
-import { ClassNameTransformer, SheetMap, StyleName, StyleSheetDefinition } from 'aesthetic';
+import {
+  ClassNameTransformer,
+  Direction,
+  SheetMap,
+  StyleName,
+  StyleSheetDefinition,
+  TransformOptions,
+} from 'aesthetic';
 import { Omit } from 'utility-types';
 
 export interface WithThemeWrapperProps {
@@ -41,8 +48,9 @@ export interface WithStylesWrappedProps<
   theme?: Theme;
 }
 
-export interface WithStylesState<Props, ParsedBlock> {
-  props?: Props;
+export interface WithStylesState<ParsedBlock> {
+  dir: Direction;
+  options: TransformOptions;
   styles: SheetMap<ParsedBlock>;
 }
 

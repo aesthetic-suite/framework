@@ -1,8 +1,11 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils } from 'aphrodite';
+import { Direction } from 'aesthetic';
 import {
   cleanStyles,
+  convertDirection,
+  DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   KEYFRAME_FADE,
@@ -30,21 +33,29 @@ describe('AphroditeAesthetic', () => {
   let instance: AphroditeAesthetic<any>;
 
   function renderAndTest(
-    styles: any,
-    expStyles: any = {},
-    expClassName: string = '',
-    global: boolean = false,
-    raw: boolean = false,
+    styleSheet: any,
+    expectedStyles: any = {},
+    expectedClassName: string = '',
+    {
+      dir,
+      global = false,
+      raw = false,
+    }: {
+      dir: Direction;
+      global?: boolean;
+      raw?: boolean;
+    },
   ) {
-    const nativeSheet = global
-      ? instance.syntax.convertGlobalSheet(styles).toObject()
-      : instance.syntax.convertStyleSheet(styles, 'aphrodite').toObject();
+    const options = { name: 'aphrodite', rtl: dir === 'rtl' };
+    const convertedSheet = global
+      ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
+      : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
     // @ts-ignore Allow access
-    const styleSheet = instance.processStyleSheet(nativeSheet, 'aphrodite');
+    const styles = instance.processStyleSheet(convertedSheet, 'aphrodite');
 
-    expect(nativeSheet).toEqual(expStyles);
+    expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
 
-    expect(instance.transformStyles(Object.values(styleSheet))).toBe(expClassName);
+    expect(instance.transformStyles(Object.values(styles), options)).toBe(expectedClassName);
 
     if (raw) {
       // @ts-ignore
@@ -63,224 +74,250 @@ describe('AphroditeAesthetic', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  it('converts and transforms inline styles', () => {
-    // @ts-ignore Allow access
-    expect(instance.transformToClassName([{ margin: 0 }, { padding: 2 }])).toBe(
-      'inline-0_16pg94n-o_O-inline-1_igcoje',
-    );
-  });
+  DIRECTIONS.forEach(dir => {
+    // eslint-disable-next-line jest/valid-describe
+    describe(dir.toUpperCase(), () => {
+      it('converts and transforms inline styles', () => {
+        expect(
+          instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
+        ).toBe('inline-0_16pg94n-o_O-inline-1_igcoje');
+      });
 
-  describe('global sheet', () => {
-    it('handles globals', () => {
-      renderAndTest(
-        SYNTAX_GLOBAL,
-        {
-          globals: {
-            '*body': { margin: 0 },
-            '*html': { height: '100%' },
-            '*a': {
-              color: 'red',
-              ':hover': {
-                color: 'darkred',
+      describe('global sheet', () => {
+        it('handles globals', () => {
+          renderAndTest(
+            SYNTAX_GLOBAL,
+            {
+              globals: {
+                '*body': { margin: 0 },
+                '*html': { height: '100%' },
+                '*a': {
+                  color: 'red',
+                  ':hover': {
+                    color: 'darkred',
+                  },
+                },
               },
             },
-          },
-        },
-        'globals_vyedjg',
-        true,
-      );
-    });
+            'globals_vyedjg',
+            { dir, global: true },
+          );
+        });
 
-    it('handles @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE);
+        it('handles @font-face', () => {
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { rtl: dir === 'rtl' });
 
-      expect(instance.fontFaces).toEqual({
-        Roboto: [FONT_ROBOTO_FLAT_SRC],
+          expect(instance.fontFaces).toEqual({
+            Roboto: [FONT_ROBOTO_FLAT_SRC],
+          });
+        });
+
+        it('handles mixed @font-face', () => {
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { rtl: dir === 'rtl' });
+
+          expect(instance.fontFaces).toEqual({
+            Roboto: [FONT_ROBOTO_FLAT_SRC],
+            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          });
+        });
+
+        it('handles multiple @font-face', () => {
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { rtl: dir === 'rtl' });
+
+          expect(instance.fontFaces).toEqual({
+            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          });
+        });
+
+        it('handles @keyframes', () => {
+          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { rtl: dir === 'rtl' });
+
+          expect(instance.keyframes).toEqual({
+            fade: KEYFRAME_FADE,
+          });
+        });
       });
-    });
 
-    it('handles mixed @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED);
+      describe('style sheet', () => {
+        it('converts unified syntax to native syntax and transforms to a class name', () => {
+          instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
+          instance.keyframes.fade = KEYFRAME_FADE;
 
-      expect(instance.fontFaces).toEqual({
-        Roboto: [FONT_ROBOTO_FLAT_SRC],
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-      });
-    });
-
-    it('handles multiple @font-face', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE);
-
-      expect(instance.fontFaces).toEqual({
-        Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-      });
-    });
-
-    it('handles @keyframes', () => {
-      instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES);
-
-      expect(instance.keyframes).toEqual({
-        fade: KEYFRAME_FADE,
-      });
-    });
-  });
-
-  describe('style sheet', () => {
-    it('converts unified syntax to native syntax and transforms to a class name', () => {
-      instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
-      instance.keyframes.fade = KEYFRAME_FADE;
-
-      renderAndTest(
-        SYNTAX_UNIFIED_LOCAL_FULL,
-        {
-          button: {
-            margin: 0,
-            padding: '6px 12px',
-            border: '1px solid #2e6da4',
-            borderRadius: 4,
-            display: 'inline-block',
-            cursor: 'pointer',
-            fontFamily: [FONT_ROBOTO_FLAT_SRC],
-            fontWeight: 'normal',
-            lineHeight: 'normal',
-            whiteSpace: 'nowrap',
-            textDecoration: 'none',
-            textAlign: 'center',
-            backgroundColor: '#337ab7',
-            verticalAlign: 'middle',
-            color: 'rgba(0, 0, 0, 0)',
-            animationName: [KEYFRAME_FADE],
-            animationDuration: '.3s',
-            ':hover': {
-              backgroundColor: '#286090',
-              borderColor: '#204d74',
-            },
-            '::before': {
-              content: '"★"',
-              display: 'inline-block',
-              verticalAlign: 'middle',
-              marginRight: 5,
-            },
-            '@media (max-width: 600px)': {
-              padding: '4px 8px',
-            },
-          },
-        },
-        'button_jr9ve',
-      );
-    });
-
-    it('handles properties', () => {
-      renderAndTest(SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, 'props_1pbzc6n');
-    });
-
-    it('handles attribute selectors', () => {
-      renderAndTest(SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, 'attr_424cv8');
-    });
-
-    it('handles descendant selectors', () => {
-      renderAndTest(
-        SYNTAX_DESCENDANT,
-        {
-          list: {
-            margin: 0,
-            padding: 0,
-            '> li': {
-              listStyle: 'bullet',
-            },
-          },
-        },
-        'list_1lo5lhe',
-      );
-    });
-
-    it('handles pseudo selectors', () => {
-      renderAndTest(SYNTAX_PSEUDO, SYNTAX_PSEUDO, 'pseudo_q2zd6k');
-    });
-
-    it('handles multiple selectors (comma separated)', () => {
-      renderAndTest(
-        SYNTAX_MULTI_SELECTOR,
-        {
-          multi: {
-            cursor: 'pointer',
-            ':disabled': { cursor: 'default' },
-            '[disabled]': { cursor: 'default' },
-            '> span': { cursor: 'default' },
-          },
-        },
-        'multi_1xnvdcd',
-      );
-    });
-
-    it('handles inline @keyframes', () => {
-      renderAndTest(
-        SYNTAX_KEYFRAMES_INLINE,
-        {
-          single: {
-            animationName: [KEYFRAME_SLIDE_PERCENT],
-          },
-          multiple: {
-            animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
-          },
-        },
-        'single_1j39j3w-o_O-multiple_19eoumq',
-      );
-    });
-
-    it('handles inline @font-face', () => {
-      renderAndTest(
-        SYNTAX_FONT_FACES_INLINE,
-        {
-          single: {
-            fontFamily: [FONT_ROBOTO_FLAT_SRC],
-          },
-          multiple: {
-            fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
-          },
-        },
-        'single_vfwy7z-o_O-multiple_17z04zp',
-      );
-    });
-
-    it('handles @media', () => {
-      renderAndTest(
-        SYNTAX_MEDIA_QUERY,
-        {
-          media: {
-            color: 'red',
-            '@media (max-width: 1000px)': {
-              color: 'green',
-            },
-            '@media (min-width: 300px)': {
-              color: 'blue',
-            },
-          },
-        },
-        'media_1yqe7pa',
-      );
-    });
-
-    it('handles nested @media', () => {
-      renderAndTest(
-        SYNTAX_MEDIA_QUERY_NESTED,
-        {
-          media: {
-            color: 'red',
-            '@media (min-width: 300px)': {
-              color: 'blue',
-              '@media (max-width: 1000px)': {
-                color: 'green',
+          renderAndTest(
+            SYNTAX_UNIFIED_LOCAL_FULL,
+            {
+              button: {
+                margin: 0,
+                padding: '6px 12px',
+                border: '1px solid #2e6da4',
+                borderRadius: 4,
+                display: 'inline-block',
+                cursor: 'pointer',
+                fontFamily: [FONT_ROBOTO_FLAT_SRC],
+                fontWeight: 'normal',
+                lineHeight: 'normal',
+                whiteSpace: 'nowrap',
+                textDecoration: 'none',
+                textAlign: 'left',
+                backgroundColor: '#337ab7',
+                verticalAlign: 'middle',
+                color: 'rgba(0, 0, 0, 0)',
+                animationName: [KEYFRAME_FADE],
+                animationDuration: '.3s',
+                ':hover': {
+                  backgroundColor: '#286090',
+                  borderColor: '#204d74',
+                },
+                '::before': {
+                  content: '"★"',
+                  display: 'inline-block',
+                  verticalAlign: 'middle',
+                  marginRight: 5,
+                },
+                '@media (max-width: 600px)': {
+                  padding: '4px 8px',
+                },
               },
             },
-          },
-        },
-        'media_y3eou6',
-      );
-    });
+            dir === 'ltr' ? 'button_1dmte4q' : 'button_pvvr1m',
+            { dir },
+          );
+        });
 
-    it('handles raw CSS', () => {
-      renderAndTest(SYNTAX_RAW_CSS, {}, '', false, true);
+        it('handles properties', () => {
+          renderAndTest(
+            SYNTAX_PROPERTIES,
+            SYNTAX_PROPERTIES,
+            dir === 'ltr' ? 'props_n2jmqg' : 'props_1k579qb',
+            { dir },
+          );
+        });
+
+        it('handles attribute selectors', () => {
+          renderAndTest(SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, 'attr_424cv8', { dir });
+        });
+
+        it('handles descendant selectors', () => {
+          renderAndTest(
+            SYNTAX_DESCENDANT,
+            {
+              list: {
+                margin: 0,
+                padding: 0,
+                '> li': {
+                  listStyle: 'bullet',
+                },
+              },
+            },
+            'list_1lo5lhe',
+            { dir },
+          );
+        });
+
+        it('handles pseudo selectors', () => {
+          renderAndTest(
+            SYNTAX_PSEUDO,
+            SYNTAX_PSEUDO,
+            dir === 'ltr' ? 'pseudo_q2zd6k' : 'pseudo_q2zd6k',
+            { dir },
+          );
+        });
+
+        it('handles multiple selectors (comma separated)', () => {
+          renderAndTest(
+            SYNTAX_MULTI_SELECTOR,
+            {
+              multi: {
+                cursor: 'pointer',
+                ':disabled': { cursor: 'default' },
+                '[disabled]': { cursor: 'default' },
+                '> span': { cursor: 'default' },
+              },
+            },
+            'multi_1xnvdcd',
+            { dir },
+          );
+        });
+
+        it('handles inline @keyframes', () => {
+          renderAndTest(
+            SYNTAX_KEYFRAMES_INLINE,
+            {
+              single: {
+                animationName: [KEYFRAME_SLIDE_PERCENT],
+              },
+              multiple: {
+                animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
+              },
+            },
+            dir === 'ltr'
+              ? 'single_zl2yc5-o_O-multiple_1r8o3nf'
+              : 'single_7ive5q-o_O-multiple_ysjk3k',
+            { dir },
+          );
+        });
+
+        it('handles inline @font-face', () => {
+          renderAndTest(
+            SYNTAX_FONT_FACES_INLINE,
+            {
+              single: {
+                fontFamily: [FONT_ROBOTO_FLAT_SRC],
+              },
+              multiple: {
+                fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
+              },
+            },
+            'single_vfwy7z-o_O-multiple_17z04zp',
+            { dir },
+          );
+        });
+
+        it('handles @media', () => {
+          renderAndTest(
+            SYNTAX_MEDIA_QUERY,
+            {
+              media: {
+                color: 'red',
+                paddingLeft: 10,
+                '@media (max-width: 1000px)': {
+                  color: 'green',
+                  paddingLeft: 20,
+                },
+                '@media (min-width: 300px)': {
+                  color: 'blue',
+                  paddingLeft: 15,
+                },
+              },
+            },
+            dir === 'ltr' ? 'media_1jcccqt' : 'media_1xdaj1a',
+            { dir },
+          );
+        });
+
+        it('handles nested @media', () => {
+          renderAndTest(
+            SYNTAX_MEDIA_QUERY_NESTED,
+            {
+              media: {
+                color: 'red',
+                '@media (min-width: 300px)': {
+                  color: 'blue',
+                  '@media (max-width: 1000px)': {
+                    color: 'green',
+                  },
+                },
+              },
+            },
+            'media_y3eou6',
+            { dir },
+          );
+        });
+
+        it('handles raw CSS', () => {
+          renderAndTest(SYNTAX_RAW_CSS, {}, '', { dir, raw: true });
+        });
+      });
     });
   });
 });

@@ -14,4 +14,5 @@ import Ruleset from './esm/Ruleset';
 import Sheet from './esm/Sheet';
 
 export { ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
+
 export default Aesthetic;

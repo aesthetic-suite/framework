@@ -2,14 +2,15 @@
 
 Global at-rules must be defined as global styles when registering a theme.
 
-| Adapter   | @charset | @font-face | @global | @import | @keyframes | @page | @viewport |
-| :-------- | :------: | :--------: | :-----: | :-----: | :--------: | :---: | :-------: |
-| Aphrodite |          |     ✓      |    ✓    |         |     ✓      |       |           |
-| Fela      |          |     ✓      |    ✓    |         |     ✓      |       |           |
-| JSS       |    ✓     |     ✓      |   ✓¹    |    ✓    |     ✓      |       |     ✓     |
-| TypeStyle |          |     ✓      |    ✓    |         |     ✓      |       |           |
-
-> 1. Requires a plugin.
+|            | Aphrodite | Fela | JSS | TypeStyle |
+| :--------- | :-------: | :--: | :-: | :-------: |
+| @charset   |           |      |  ✓  |           |
+| @font-face |     ✓     |  ✓   |  ✓  |     ✓     |
+| @global    |     ✓     |  ✓   |  ✓  |     ✓     |
+| @import    |           |      |  ✓  |           |
+| @keyframes |     ✓     |  ✓   |  ✓  |     ✓     |
+| @page      |           |      |     |           |
+| @viewport  |           |      |  ✓  |           |
 
 ## @charset
 

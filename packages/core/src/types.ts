@@ -26,7 +26,11 @@ export type ClassNameTransformer<N extends object, P extends object | string> = 
 
 export type RawCss = string;
 
-export type ExtendedProperty<B, T> = B | T | (B | T)[];
+export type Direction = 'neutral' | 'ltr' | 'rtl';
+
+export type ExpandCompoundProperty<B, T> = B | T | (B | T)[];
+
+export type CompoundProperties = 'animationName' | 'fontFamily';
 
 // SYNTAX
 
@@ -43,9 +47,9 @@ export type AtRule =
   | '@viewport'
   | '@fallbacks';
 
-export type Properties = Omit<CSS.Properties<string | number>, 'animationName' | 'fontFamily'> & {
-  animationName?: ExtendedProperty<CSS.AnimationNameProperty, Keyframes>;
-  fontFamily?: ExtendedProperty<CSS.FontFamilyProperty, FontFace>;
+export type Properties = Omit<CSS.Properties<string | number>, CompoundProperties> & {
+  animationName?: ExpandCompoundProperty<CSS.AnimationNameProperty, Keyframes>;
+  fontFamily?: ExpandCompoundProperty<CSS.FontFamilyProperty, FontFace>;
 };
 
 export type PropertiesFallback = CSS.PropertiesFallback<string | number>;
@@ -108,3 +112,10 @@ export type GlobalSheetNeverize<T> = {
 export type GlobalSheetDefinition<Theme, T> =
   | ((theme: Theme) => GlobalSheet & GlobalSheetNeverize<T>)
   | null;
+
+// MISC
+
+export interface TransformOptions {
+  name?: StyleName;
+  rtl?: boolean;
+}

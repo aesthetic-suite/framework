@@ -1,6 +1,7 @@
-import { useState, useLayoutEffect } from 'react';
+import { useContext, useState, useLayoutEffect } from 'react';
 import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
 import uuid from 'uuid/v4';
+import DirectionContext from './DirectionContext';
 
 /**
  * Hook within a component to provide a style sheet.
@@ -16,6 +17,7 @@ export default function useStylesFactory<
     styleSheet: StyleSheetDefinition<Theme, T>,
     customName: string = 'Component',
   ): [SheetMap<ParsedBlock>, CX, string] {
+    const dir = useContext(DirectionContext);
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
@@ -25,15 +27,16 @@ export default function useStylesFactory<
     });
 
     // Create a unique style sheet for this component
-    const sheet = aesthetic.createStyleSheet(styleName);
+    const options = { name: styleName, rtl: aesthetic.isRTL(dir) };
+    const sheet = aesthetic.createStyleSheet(styleName, options);
 
     // Flush styles on mount
     useLayoutEffect(() => {
       aesthetic.flushStyles(styleName);
-    }, [styleName]);
+    }, [dir, styleName]);
 
     // Create a CSS transformer
-    const cx: CX = (...styles) => aesthetic.transformStyles(styles);
+    const cx: CX = (...styles) => aesthetic.transformStyles(styles, options);
 
     return [sheet, cx, styleName];
   };

@@ -29,6 +29,9 @@ sheet. This parsed style sheet is then used to generate [CSS class names](#gener
 
 ```ts
 const styles = aesthetic.createStyleSheet('button-component');
+
+// To support RTL
+const styles = aesthetic.createStyleSheet('button-component', { rtl: true });
 ```
 
 And lastly, we must inject the generated native CSS style sheet into the DOM using
@@ -156,6 +159,7 @@ import aesthetic from './aesthetic';
 import { styleSheet } from './path/to/Component';
 
 const styleSheet = aesthetic.extendStyles(
+  // Base style sheet function
   () => ({
     button: {
       background: 'transparent',

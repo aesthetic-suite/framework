@@ -42,34 +42,17 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     flushToStyleTag();
   }
 
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
+    // eslint-disable-next-line no-underscore-dangle
+    return Boolean(block && block._name && block._definition);
+  }
+
   protected processStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
-    const legitStyles: ParsedBlock[] = [];
-    const tempStylesheet: { [key: string]: NativeBlock } = {};
-    let counter = 0;
-
-    styles.forEach(style => {
-      // eslint-disable-next-line no-underscore-dangle
-      if (style._name && style._definition) {
-        legitStyles.push(style as ParsedBlock);
-      } else {
-        tempStylesheet[`inline-${counter}`] = style as NativeBlock;
-        counter += 1;
-      }
-    });
-
-    if (counter > 0) {
-      const styleSheet = this.processStyleSheet(tempStylesheet);
-
-      Object.keys(styleSheet).forEach(key => {
-        legitStyles.push(styleSheet[key]);
-      });
-    }
-
-    return this.aphrodite.css(...legitStyles);
+  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+    return this.aphrodite.css(...styles);
   }
 
   private handleCss = (css: string) => {
@@ -155,16 +138,22 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   // https://github.com/Khan/aphrodite#api
   private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes));
+      ruleset.addCompoundProperty(
+        name as 'animationName',
+        this.syntax.injectKeyframes(value, this.keyframes),
+      );
     } else if (name === 'fontFamily') {
       // Font faces could potentially convert recursively because font faces
-      // have a `familyName`, and we parse on `familyName`. Luckily the rulset
+      // have a `familyName`, and we parse on `familyName`. Luckily the ruleset
       // selector is the family name, and we can determine that this is being
       // called from from `convertFontFaces`.
       if (value.includes(ruleset.selector)) {
         ruleset.addProperty(name, value);
       } else {
-        ruleset.addProperty(name, this.syntax.injectFontFaces(value, this.fontFaces));
+        ruleset.addCompoundProperty(
+          name as 'fontFamily',
+          this.syntax.injectFontFaces(value, this.fontFaces),
+        );
       }
     } else {
       ruleset.addProperty(name, value);

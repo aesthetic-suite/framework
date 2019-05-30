@@ -7,10 +7,7 @@ describe('ClassNameAesthetic', () => {
     instance = new ClassNameAesthetic();
   });
 
-  describe('transformToClassName()', () => {
-    it('joins and returns class names', () => {
-      // @ts-ignore Allow access
-      expect(instance.transformToClassName(['foo', 'bar'])).toBe('foo bar');
-    });
+  it('joins and returns class names', () => {
+    expect(instance.transformStyles(['foo', 'bar'], {})).toBe('foo bar');
   });
 });

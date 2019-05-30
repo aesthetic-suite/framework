@@ -17,9 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/jss": "^9.5.8",
-    "@types/uuid": "^3.4.4",
-    "uuid": "^3.3.2"
+    "@types/jss": "^9.5.8"
   },
   "peerDependencies": {
     "aesthetic": "^3.0.0",

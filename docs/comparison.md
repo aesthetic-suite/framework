@@ -4,15 +4,16 @@ A brief comparison of Aesthetic to competing React style abstraction libraries.
 
 ## Features
 
-|                 | aesthetic | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [emotion][emotion] |
-| --------------- | :-------: | :------------------------------------: | :------------------------------------: | :----------------: |
-| Abstraction     | HOC, Hook |                  HOC                   |            Template literal            |  Template literal  |
-| Styling         |  Object   |                 Object                 |            Template, Object            |  Template, Object  |
-| Type            |  Classes  |         Classes, Inline styles         |                Classes                 |      Classes       |
-| Unified Syntax  |     ✓     |                                        |                                        |                    |
-| Caching         |     ✓     |                                        |                   ✓                    |         ✓          |
-| Themes          |     ✓     |                   ✓                    |                   ✓                    |         ✓          |
-| Style Extending |     ✓     |                                        |                   ✓                    |         ✓          |
+|                 |    aesthetic     | [react-with-styles][react-with-styles] | [styled-components][styled-components] | [emotion][emotion] |
+| --------------- | :--------------: | :------------------------------------: | :------------------------------------: | :----------------: |
+| Abstraction     |    HOC, Hook     |                  HOC                   |            Template literal            |  Template literal  |
+| Styling         | Template, Object |                 Object                 |            Template, Object            |  Template, Object  |
+| CSS             |     Classes      |         Classes, Inline styles         |                Classes                 |      Classes       |
+| Unified Syntax  |        ✓         |                                        |                                        |                    |
+| Caching         |        ✓         |                                        |                   ✓                    |         ✓          |
+| Themes          |        ✓         |                   ✓                    |                   ✓                    |         ✓          |
+| Style Extending |        ✓         |                                        |                   ✓                    |         ✓          |
+| Right-to-Left   |        ✓         |                   ✓                    |                                        |                    |
 
 ## Adapters
 

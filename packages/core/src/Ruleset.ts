@@ -1,8 +1,12 @@
+import convertRTL from 'rtl-css-js';
 import toObjectRecursive from './helpers/toObjectRecursive';
 import Sheet from './Sheet';
+import { CompoundProperties } from './types';
 
 export default class Ruleset<Block extends object> {
-  nested: { [selector: string]: Ruleset<Block> } = {};
+  compoundProperties: Map<CompoundProperties, (string | Block)[]> = new Map();
+
+  nested: Map<string, Ruleset<Block>> = new Map();
 
   parent: Ruleset<Block> | null = null;
 
@@ -18,11 +22,17 @@ export default class Ruleset<Block extends object> {
     this.parent = parent;
   }
 
+  addCompoundProperty(key: CompoundProperties, value: (string | Block)[]): this {
+    this.compoundProperties.set(key, value);
+
+    return this;
+  }
+
   addNested(selector: string, ruleset: Ruleset<Block>, merge: boolean = true): this {
-    if (merge && this.nested[selector]) {
-      this.nested[selector].merge(ruleset);
+    if (merge && this.nested.has(selector)) {
+      this.nested.get(selector)!.merge(ruleset);
     } else {
-      this.nested[selector] = ruleset;
+      this.nested.set(selector, ruleset);
     }
 
     return this;
@@ -34,6 +44,12 @@ export default class Ruleset<Block extends object> {
     return this;
   }
 
+  addProperties(properties: Partial<Block>): this {
+    Object.assign(this.properties, properties);
+
+    return this;
+  }
+
   createRuleset(selector: string): Ruleset<Block> {
     return new Ruleset(selector, this.root, this);
   }
@@ -41,15 +57,27 @@ export default class Ruleset<Block extends object> {
   merge(ruleset: Ruleset<Block>): this {
     Object.assign(this.properties, ruleset.properties);
 
-    Object.keys(ruleset.nested).forEach(selector => {
-      this.addNested(selector, ruleset.nested[selector]);
+    ruleset.nested.forEach((nested, selector) => {
+      this.addNested(selector, nested);
     });
 
     return this;
   }
 
   toObject(): Block {
-    // eslint-disable-next-line prefer-object-spread
-    return Object.assign({}, this.properties, toObjectRecursive(this.nested)) as Block;
+    const props = this.root.options.rtl ? convertRTL(this.properties) : this.properties;
+    const compounds: any = {};
+
+    // Compound properties are a list of rulesets that have already been cast to block objects.
+    // We shouldn't convert to RTL, otherwise it would flip back to the original state.
+    this.compoundProperties.forEach((compound, key) => {
+      compounds[key] = compound;
+    });
+
+    return {
+      ...props,
+      ...compounds,
+      ...toObjectRecursive(this.nested),
+    } as Block;
   }
 }

@@ -7,7 +7,6 @@ import Aesthetic, {
   SheetMap,
 } from 'aesthetic';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
-import uuid from 'uuid/v4';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class JSSAesthetic<Theme extends object> extends Aesthetic<
@@ -51,6 +50,10 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     }
   }
 
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
+    return typeof block === 'string';
+  }
+
   protected processStyleSheet(
     styleSheet: SheetMap<NativeBlock>,
     styleName: StyleName,
@@ -63,33 +66,8 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
-  protected transformToClassName(styles: (NativeBlock | ParsedBlock)[]): ClassName {
-    const legitStyles: ParsedBlock[] = [];
-    const tempStylesheet: { [key: string]: NativeBlock } = {};
-    let counter = 0;
-
-    styles.forEach(style => {
-      if (typeof style === 'string') {
-        legitStyles.push(style);
-      } else if (typeof style === 'object' && style !== null) {
-        tempStylesheet[`inline-${counter}`] = style;
-        counter += 1;
-      }
-    });
-
-    if (counter > 0) {
-      const dynamicName = uuid();
-      const styleSheet = this.processStyleSheet(tempStylesheet, dynamicName);
-
-      Object.keys(styleSheet).forEach(key => {
-        legitStyles.push(styleSheet[key]);
-      });
-
-      // Attach immediately
-      this.sheets[dynamicName].attach();
-    }
-
-    return legitStyles.join(' ');
+  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+    return styles.join(' ');
   }
 
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
@@ -126,7 +104,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     selector: string,
     ruleset: Ruleset<NativeBlock>,
   ) => {
-    const current = (sheet.atRules['@global'] as Sheet<NativeBlock>) || new Sheet<NativeBlock>();
+    const current = (sheet.atRules['@global'] as Sheet<NativeBlock>) || sheet.createSheet();
 
     current.addRuleset(ruleset);
 

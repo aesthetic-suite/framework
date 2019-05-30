@@ -9,6 +9,14 @@ describe('Sheet', () => {
     sheet = new Sheet();
   });
 
+  describe('constructor()', () => {
+    it('passes options', () => {
+      sheet = new Sheet({ rtl: true });
+
+      expect(sheet.options).toEqual({ rtl: true });
+    });
+  });
+
   describe('addAtRule()', () => {
     it('adds a rule', () => {
       expect(sheet.atRules['@import']).toBeUndefined();
@@ -47,6 +55,22 @@ describe('Sheet', () => {
       expect(ruleset).toBeInstanceOf(Ruleset);
       expect(ruleset.selector).toBe('bar');
       expect(ruleset.root).toBe(sheet);
+    });
+  });
+
+  describe('createSheet()', () => {
+    it('creates and returns a sheet', () => {
+      const newSheet = sheet.createSheet();
+
+      expect(newSheet).toBeInstanceOf(Sheet);
+    });
+
+    it('can override inherited options', () => {
+      sheet.options.rtl = true;
+
+      const newSheet = sheet.createSheet({ rtl: false });
+
+      expect(newSheet.options).toEqual({ rtl: false });
     });
   });
 
