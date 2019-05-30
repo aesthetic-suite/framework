@@ -51,7 +51,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+  transformToClassName(styles: ParsedBlock[]): ClassName {
     return this.aphrodite.css(...styles);
   }
 

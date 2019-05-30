@@ -30,7 +30,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
       .on('support', this.handleSupport);
   }
 
-  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+  transformToClassName(styles: ParsedBlock[]): ClassName {
     return this.typeStyle.style(...styles);
   }
 

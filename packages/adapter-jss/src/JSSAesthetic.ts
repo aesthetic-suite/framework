@@ -66,7 +66,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
-  protected transformToClassName(styles: ParsedBlock[]): ClassName {
+  transformToClassName(styles: ParsedBlock[]): ClassName {
     return styles.join(' ');
   }
 

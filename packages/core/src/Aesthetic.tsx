@@ -325,6 +325,11 @@ export default abstract class Aesthetic<
   };
 
   /**
+   * Transform the parsed styles into CSS class names.
+   */
+  abstract transformToClassName(styles: ParsedBlock[]): ClassName;
+
+  /**
    * Return a native style sheet manager used for injecting CSS.
    */
   protected getStyleSheetManager(): StyleSheetManager {
@@ -347,11 +352,6 @@ export default abstract class Aesthetic<
     // @ts-ignore Allow spread
     return { ...styleSheet };
   }
-
-  /**
-   * Transform the parsed styles into CSS class names.
-   */
-  protected abstract transformToClassName(styles: ParsedBlock[]): ClassName;
 
   /**
    * Validate a style sheet or theme definition.
