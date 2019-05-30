@@ -5,9 +5,15 @@ import {
   SheetMap,
   StyleName,
   StyleSheetDefinition,
+  ThemeName,
   TransformOptions,
 } from 'aesthetic';
 import { Omit } from 'utility-types';
+
+export interface ThemeContextShape {
+  changeTheme: (theme: ThemeName) => void;
+  theme: ThemeName;
+}
 
 export interface WithThemeWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withTheme`. */

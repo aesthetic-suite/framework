@@ -21,4 +21,4 @@ const styles = aesthetic.createStyleSheet('button-component', { rtl: true });
 const className = aesthetic.transformStyles(styles.button, { rtl: true });
 ```
 
-> If integrating a framework, this functionality is abstracted away.
+> If using a framework like React, this functionality is abstracted away.

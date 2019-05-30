@@ -14,6 +14,7 @@
 
 - Added a `cxPropName` option to `withStyles`.
 - Added `DirectionContext` and `DirectionProvider` to support RTL.
+- Added `ThemeContext` and `ThemeProvider` to dynamically change themes.
 - Updated `useStyles` and `withStyles` to support RTL.
 - Updated `withStyles` HOC to receive the CSS transformer function as a `cx` prop.
 

@@ -19,6 +19,10 @@ export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
       },
     },
   }));
+
+  aesthetic.extendTheme('light', 'default', {});
+
+  aesthetic.extendTheme('dark', 'default', {});
 }
 
 export function cleanStyles(source: string): string {
