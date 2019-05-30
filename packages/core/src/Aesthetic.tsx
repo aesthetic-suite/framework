@@ -100,6 +100,32 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Change the current theme to another registered theme.
+   * This requires all flushed styles to be purged, and for new styles
+   * to be regenerated.
+   */
+  changeTheme(themeName: ThemeName): this {
+    // Set theme as new option
+    this.getTheme(themeName);
+    this.options.theme = themeName;
+
+    // Remove flushed styles
+    this.purgeStyles();
+    this.getStyleSheetManager().purgeInjectedStyles();
+
+    // Clear caches
+    this.cache = {};
+    this.appliedGlobals = false;
+
+    // Generate new global styles
+    this.applyGlobalStyles({
+      rtl: this.options.rtl,
+    });
+
+    return this;
+  }
+
+  /**
    * Create and return a style sheet unique to an adapter.
    */
   createStyleSheet(styleName: StyleName, options: TransformOptions): SheetMap<ParsedBlock> {
@@ -107,6 +133,7 @@ export default abstract class Aesthetic<
       return this.cache[styleName];
     }
 
+    // Apply global styles on first render
     this.applyGlobalStyles(options);
 
     const nativeSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
@@ -153,7 +180,7 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Flush parsed styles and inject them into the DOM.
+   * Flush transformed styles and inject them into the DOM.
    */
   flushStyles(styleName: StyleName) {}
 
@@ -221,6 +248,12 @@ export default abstract class Aesthetic<
     // @ts-ignore Allow spread
     return { ...styleSheet };
   }
+
+  /**
+   * Purge and remove all injected styles from the DOM.
+   * If no name is provided, purge all transformed styles.
+   */
+  purgeStyles() {}
 
   /**
    * Register a style sheet definition. Optionally extend from a parent style sheet if defined.

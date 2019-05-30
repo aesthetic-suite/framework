@@ -1,9 +1,17 @@
 export default class StyleSheetManager {
-  private element: HTMLStyleElement;
+  private element?: HTMLStyleElement;
 
-  private sheet: CSSStyleSheet;
+  private sheet?: CSSStyleSheet;
 
   constructor() {
+    this.createStyleElement();
+  }
+
+  createStyleElement(): this {
+    if (this.element) {
+      return this;
+    }
+
     this.element = document.createElement('style');
     this.element.type = 'text/css';
     this.element.media = 'screen';
@@ -14,25 +22,34 @@ export default class StyleSheetManager {
     // This must happen after the element is inserted into the DOM,
     // otherwise the value is null.
     this.sheet = this.element.sheet as CSSStyleSheet;
+
+    return this;
   }
 
   getInjectedStyles(): string {
     return (
-      (this.element.textContent || '') +
-      Array.from(this.sheet.cssRules)
+      (this.element!.textContent || '') +
+      Array.from(this.sheet!.cssRules)
         .map(rule => rule.cssText)
         .join('')
     );
   }
 
   injectRule(rule: string): this {
-    this.sheet.insertRule(rule, this.sheet.cssRules.length);
+    this.sheet!.insertRule(rule, this.sheet!.cssRules.length);
 
     return this;
   }
 
   injectStatements(css: string): this {
-    this.element.textContent += css;
+    this.element!.textContent += css;
+
+    return this;
+  }
+
+  purgeInjectedStyles(): this {
+    this.element!.remove();
+    this.createStyleElement();
 
     return this;
   }

@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
@@ -28,6 +30,22 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
       .on('pseudo', this.handleNested)
       .on('selector', this.handleNested)
       .on('support', this.handleSupport);
+  }
+
+  flushStyles() {
+    this.typeStyle.forceRenderStyles();
+  }
+
+  purgeStyles() {
+    // @ts-ignore
+    const element: HTMLStyleElement | undefined = this.typeStyle._tag;
+
+    if (element) {
+      element.remove();
+
+      // @ts-ignore
+      this.typeStyle._tag = undefined;
+    }
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {

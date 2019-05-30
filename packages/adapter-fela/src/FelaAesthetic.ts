@@ -39,6 +39,16 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 
+  purgeStyles() {
+    const elements = document.querySelectorAll('style[data-fela-type]');
+
+    if (elements) {
+      Array.from(elements).forEach(element => {
+        element.remove();
+      });
+    }
+  }
+
   // http://fela.js.org/docs/api/fela/Renderer.html
   private handleCss = (css: string) => {
     this.fela.renderStatic(css);

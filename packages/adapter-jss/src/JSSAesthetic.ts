@@ -63,6 +63,14 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
+  purgeStyles() {
+    Object.values(this.sheets).forEach(sheet => {
+      sheet.detach();
+    });
+
+    this.sheets = {};
+  }
+
   transformToClassName(styles: ParsedBlock[]): ClassName {
     return styles.join(' ');
   }
