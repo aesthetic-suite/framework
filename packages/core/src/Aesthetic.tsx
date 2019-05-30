@@ -273,10 +273,10 @@ export default abstract class Aesthetic<
   /**
    * Transform the list of style objects to a list of CSS class names.
    */
-  transformStyles = (
+  transformStyles(
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
     options: TransformOptions,
-  ): ClassName => {
+  ): ClassName {
     const classNames: ClassName[] = [];
     const nativeBlocks: NativeBlock[] = [];
     const parsedBlocks: ParsedBlock[] = [];
@@ -329,7 +329,7 @@ export default abstract class Aesthetic<
     }
 
     return classNames.join(' ').trim();
-  };
+  }
 
   /**
    * Transform the parsed style objects into CSS class names.
