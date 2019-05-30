@@ -104,8 +104,7 @@ describe('Aesthetic', () => {
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
-      // @ts-ignore Allow access
-      instance.setStyleSheet('foo', ({ unit }) => ({
+      instance.registerStyleSheet('foo', ({ unit }) => ({
         el: {
           display: 'block',
           padding: unit,
@@ -240,8 +239,7 @@ describe('Aesthetic', () => {
 
   describe('getStyleSheet()', () => {
     beforeEach(() => {
-      // @ts-ignore Allow access
-      instance.setStyleSheet('foo', () => ({
+      instance.registerStyleSheet('foo', () => ({
         el: { display: 'block' },
       }));
     });
@@ -250,33 +248,28 @@ describe('Aesthetic', () => {
       instance.options.theme = 'unknown';
 
       expect(() => {
-        // @ts-ignore Allow access
         instance.getStyleSheet('foo');
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('returns the style sheet', () => {
-      // @ts-ignore Allow access
       expect(instance.getStyleSheet('foo')).toEqual({
         el: { display: 'block' },
       });
     });
 
     it('passes theme to the style callback', () => {
-      // @ts-ignore Allow access
-      instance.setStyleSheet('bar', theme => ({
+      instance.registerStyleSheet('bar', theme => ({
         el: { padding: theme.unit * 2 },
       }));
 
-      // @ts-ignore Allow access
       expect(instance.getStyleSheet('bar')).toEqual({
         el: { padding: 16 },
       });
     });
 
     it('inherits styles from parent', () => {
-      // @ts-ignore Allow access
-      instance.setStyleSheet('bar', () => ({
+      instance.registerStyleSheet('bar', () => ({
         el: {
           color: 'red',
           ':hover': {
@@ -285,8 +278,7 @@ describe('Aesthetic', () => {
         },
       }));
 
-      // @ts-ignore Allow access
-      instance.setStyleSheet(
+      instance.registerStyleSheet(
         'baz',
         () => ({
           el: {
@@ -299,8 +291,7 @@ describe('Aesthetic', () => {
         'bar',
       );
 
-      // @ts-ignore Allow access
-      instance.setStyleSheet(
+      instance.registerStyleSheet(
         'qux',
         () => ({
           el: { display: 'block' },
@@ -308,7 +299,6 @@ describe('Aesthetic', () => {
         'baz',
       );
 
-      // @ts-ignore Allow access
       expect(instance.getStyleSheet('bar')).toEqual({
         el: {
           color: 'red',
@@ -318,7 +308,6 @@ describe('Aesthetic', () => {
         },
       });
 
-      // @ts-ignore Allow access
       expect(instance.getStyleSheet('baz')).toEqual({
         el: {
           color: 'red',
@@ -329,7 +318,6 @@ describe('Aesthetic', () => {
         },
       });
 
-      // @ts-ignore Allow access
       expect(instance.getStyleSheet('qux')).toEqual({
         el: {
           color: 'red',
@@ -360,7 +348,6 @@ describe('Aesthetic', () => {
   describe('getTheme()', () => {
     it('errors if the theme doesnt exist', () => {
       expect(() => {
-        // @ts-ignore Allow access
         instance.getTheme('foo');
       }).toThrowErrorMatchingSnapshot();
     });
@@ -369,18 +356,15 @@ describe('Aesthetic', () => {
       instance.themes.default = 123;
 
       expect(() => {
-        // @ts-ignore Allow access
         instance.getTheme();
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('returns the default theme if no name provided', () => {
-      // @ts-ignore Allow access
       expect(instance.getTheme()).toEqual({ unit: 8 });
     });
 
     it('returns the theme by name', () => {
-      // @ts-ignore Allow access
       expect(instance.getTheme('default')).toEqual({ unit: 8 });
     });
   });
@@ -441,8 +425,14 @@ describe('Aesthetic', () => {
     });
 
     it('errors if global styles is not an object', () => {
-      // @ts-ignore Allow non-object
-      expect(() => instance.registerTheme('foo', {}, 123)).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        instance.registerTheme(
+          'foo',
+          {},
+          // @ts-ignore Allow non-object
+          123,
+        ),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('registers theme and sets global styles', () => {
@@ -456,13 +446,12 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('setStyleSheet()', () => {
+  describe('registerStyleSheet()', () => {
     it('errors if styles have been set', () => {
       instance.styles.foo = () => ({});
 
       expect(() => {
-        // @ts-ignore Allow access
-        instance.setStyleSheet('foo', () => ({}));
+        instance.registerStyleSheet('foo', () => ({}));
       }).toThrowErrorMatchingSnapshot();
     });
 
@@ -470,34 +459,54 @@ describe('Aesthetic', () => {
       instance.styles.foo = () => ({});
 
       expect(() => {
-        // @ts-ignore Allow access
-        instance.setStyleSheet('foo', () => ({}), 'foo');
+        instance.registerStyleSheet('foo', () => ({}), 'foo');
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if styles are not a function', () => {
-      // @ts-ignore Allow invalid type
-      expect(() => instance.setStyleSheet('foo', 123)).toThrowErrorMatchingSnapshot();
-      // @ts-ignore Allow invalid type
-      expect(() => instance.setStyleSheet('foo', 'abc')).toThrowErrorMatchingSnapshot();
-      // @ts-ignore Allow invalid type
-      expect(() => instance.setStyleSheet('foo', [])).toThrowErrorMatchingSnapshot();
-      // @ts-ignore Allow invalid type
-      expect(() => instance.setStyleSheet('foo', true)).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        instance.registerStyleSheet(
+          'foo',
+          // @ts-ignore
+          123,
+        ),
+      ).toThrowErrorMatchingSnapshot();
+
+      expect(() =>
+        instance.registerStyleSheet(
+          'foo',
+          // @ts-ignore
+          'abc',
+        ),
+      ).toThrowErrorMatchingSnapshot();
+
+      expect(() =>
+        instance.registerStyleSheet(
+          'foo',
+          // @ts-ignore
+          [],
+        ),
+      ).toThrowErrorMatchingSnapshot();
+
+      expect(() =>
+        instance.registerStyleSheet(
+          'foo',
+          // @ts-ignore
+          true,
+        ),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if extended styles do not exist', () => {
       expect(() =>
-        // @ts-ignore Allow access
-        instance.setStyleSheet('foo', () => ({}), 'parent'),
+        instance.registerStyleSheet('foo', () => ({}), 'parent'),
       ).toThrowErrorMatchingSnapshot();
     });
 
     it('sets styles', () => {
       expect(instance.styles.foo).toBeUndefined();
 
-      // @ts-ignore Allow access
-      instance.setStyleSheet('foo', () => ({
+      instance.registerStyleSheet('foo', () => ({
         header: { color: 'red' },
         footer: { padding: 5 },
       }));
@@ -509,14 +518,12 @@ describe('Aesthetic', () => {
       expect(instance.styles.bar).toBeUndefined();
       expect(instance.parents.bar).toBeUndefined();
 
-      // @ts-ignore Allow access
-      instance.setStyleSheet('foo', () => ({
+      instance.registerStyleSheet('foo', () => ({
         header: { color: 'red' },
         footer: { padding: 5 },
       }));
 
-      // @ts-ignore Allow access
-      instance.setStyleSheet(
+      instance.registerStyleSheet(
         'bar',
         () => ({
           child: { margin: 5 },
@@ -544,7 +551,6 @@ describe('Aesthetic', () => {
     });
 
     it('calls `transformToClassName` method', () => {
-      // @ts-ignore Allow access
       const spy = jest.spyOn(instance, 'transformToClassName');
 
       instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
@@ -592,8 +598,7 @@ describe('Aesthetic', () => {
     it('supports class names', () => {
       const adapter = new ClassNameAesthetic();
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => ({ button: 'button' }));
+      adapter.registerStyleSheet('foo', () => ({ button: 'button' }));
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 
@@ -603,8 +608,7 @@ describe('Aesthetic', () => {
     it('supports Aphrodite', () => {
       const adapter = new AphroditeAesthetic();
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 
@@ -614,8 +618,7 @@ describe('Aesthetic', () => {
     it('supports CSS modules', () => {
       const adapter = new CSSModulesAesthetic();
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => ({ button: 'button' }));
+      adapter.registerStyleSheet('foo', () => ({ button: 'button' }));
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 
@@ -629,8 +632,7 @@ describe('Aesthetic', () => {
         }),
       );
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 
@@ -643,8 +645,7 @@ describe('Aesthetic', () => {
 
       const adapter = new JSSAesthetic(jss);
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 
@@ -654,8 +655,7 @@ describe('Aesthetic', () => {
     it('supports TypeStyle', () => {
       const adapter = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
       adapter.registerTheme('default', {});
-      // @ts-ignore Allow access
-      adapter.setStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
+      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
 
       const styleSheet = adapter.createStyleSheet('foo', {});
 

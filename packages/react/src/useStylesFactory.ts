@@ -21,7 +21,7 @@ export default function useStylesFactory<
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
-      aesthetic.setStyleSheet(name, styleSheet);
+      aesthetic.registerStyleSheet(name, styleSheet);
 
       return name;
     });

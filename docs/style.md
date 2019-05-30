@@ -10,12 +10,12 @@ There are 3 phases involved when working with style sheets. As a preface, when i
 framework (like React), this process is entirely abstracted away, but the core concepts are nice to
 know.
 
-The first phase is defining and persisting the actual style sheet with `Aesthetic#setStyleSheet`.
-This method requires a unique style name as the 1st argument (this is used as a cache key) and the
-style sheet function as the 2nd argument.
+The first phase is defining and persisting the actual style sheet with
+`Aesthetic#registerStyleSheet`. This method requires a unique style name as the 1st argument (this
+is used as a cache key) and the style sheet function as the 2nd argument.
 
 ```ts
-aesthetic.setStyleSheet('button-component', theme => ({
+aesthetic.registerStyleSheet('button-component', theme => ({
   button: {
     padding: theme.unit,
   },
@@ -30,7 +30,7 @@ sheet. This parsed style sheet is then used to generate [CSS class names](#gener
 ```ts
 const styles = aesthetic.createStyleSheet('button-component');
 
-// To support RTL
+// To enable RTL
 const styles = aesthetic.createStyleSheet('button-component', { rtl: true });
 ```
 

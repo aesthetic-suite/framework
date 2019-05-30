@@ -215,6 +215,31 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Register a style sheet definition for a unique component by name.
+   */
+  registerStyleSheet<T>(
+    styleName: StyleName,
+    styleSheet: StyleSheetDefinition<Theme, T>,
+    extendFrom?: StyleName,
+  ): this {
+    if (extendFrom) {
+      if (__DEV__) {
+        if (!this.styles[extendFrom]) {
+          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
+        } else if (extendFrom === styleName) {
+          throw new Error('Cannot extend styles from itself.');
+        }
+      }
+
+      this.parents[styleName] = extendFrom;
+    }
+
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
+
+    return this;
+  }
+
+  /**
    * Register a theme with a pre-defined set of theme settings.
    */
   registerTheme<T>(
@@ -232,31 +257,6 @@ export default abstract class Aesthetic<
 
     this.themes[themeName] = theme;
     this.globals[themeName] = this.validateDefinition(themeName, globalSheet, this.globals);
-
-    return this;
-  }
-
-  /**
-   * Set a style sheet definition for a component.
-   */
-  setStyleSheet(
-    styleName: StyleName,
-    styleSheet: StyleSheetDefinition<Theme, any>,
-    extendFrom: StyleName = '',
-  ): this {
-    if (extendFrom) {
-      if (__DEV__) {
-        if (!this.styles[extendFrom]) {
-          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
-        } else if (extendFrom === styleName) {
-          throw new Error('Cannot extend styles from itself.');
-        }
-      }
-
-      this.parents[styleName] = extendFrom;
-    }
-
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
 
     return this;
   }
