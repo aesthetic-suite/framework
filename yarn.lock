@@ -10135,10 +10135,10 @@ rsvp@^4.8.4:
   resolved "https://registry.npmjs.org/rsvp/-/rsvp-4.8.4.tgz#b50e6b34583f3dd89329a2f23a8a2be072845911"
   integrity sha512-6FomvYPfs+Jy9TfXmBpBuMWNH94SgCsZmJKcanySzgNNP6LjWxBvyLTa9KaMfDDM5oxRfrKDB0r/qeRsLwnBfA==
 
-rtl-css-js@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/rtl-css-js/-/rtl-css-js-1.12.0.tgz#0547a62e286ed76cb5e0458686667093aca90137"
-  integrity sha512-LnpwkTDBXexfwHVLhHxmZf+Fkjt3LobcKMS9ugEUq5nncpXTtyKlGmFMdW2lFKe9jDzwqJwyKD+s099DYN6z1g==
+rtl-css-js@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.npmjs.org/rtl-css-js/-/rtl-css-js-1.13.0.tgz#e97ebb67dd9fc6c4be1278730901967fc432ed9f"
+  integrity sha512-zUydBqLfSKEk6XF+OiK1fmReAsnoZz0MKIYPsAfP4DZuCdLewtH7nDwXpnqd8jbL7J1pE9uCaOLTkfQGAFfJRw==
   dependencies:
     "@babel/runtime" "^7.1.2"
 

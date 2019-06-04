@@ -1,7 +1,7 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members, complexity */
 
 import Stylis from 'stylis';
-import convertRTL from 'rtl-css-js';
+import { convertProperty } from 'rtl-css-js/core';
 import formatFontFace from './helpers/formatFontFace';
 import isObject from './helpers/isObject';
 import toArray from './helpers/toArray';
@@ -30,24 +30,12 @@ function rtlPlugin(context: number, content: string) {
     return undefined;
   }
 
-  const [key, rawValue] = content.split(':', 2);
+  const [rawKey, rawValue] = content.split(':', 2);
   const isQuoted = rawValue.trim().startsWith("'");
   const unquotedValue = isQuoted ? rawValue.slice(1).slice(0, -1) : rawValue;
-  const styles = convertRTL({ [key.trim()]: unquotedValue.trim() });
+  const { key, value } = convertProperty(rawKey.trim(), unquotedValue.trim());
 
-  return Object.keys(styles)
-    .reduce<string[]>((css, prop) => {
-      let value = styles[prop];
-
-      if (isQuoted) {
-        value = `'${value}'`;
-      }
-
-      css.push(`${prop}:${value}`);
-
-      return css;
-    }, [])
-    .join(';');
+  return `${key}:${isQuoted ? `'${value}'` : value}`;
 }
 
 export default class UnifiedSyntax<NativeBlock extends object> {
