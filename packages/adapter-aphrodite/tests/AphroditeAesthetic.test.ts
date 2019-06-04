@@ -82,6 +82,8 @@ describe('AphroditeAesthetic', () => {
         ).toBe('inline-0_16pg94n-o_O-inline-1_igcoje');
       });
 
+      it('flushes and purges styles from the DOM', () => {});
+
       describe('global sheet', () => {
         it('handles globals', () => {
           renderAndTest(

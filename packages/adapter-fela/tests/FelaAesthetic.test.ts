@@ -38,6 +38,10 @@ import FelaAesthetic from '../src/FelaAesthetic';
 describe('FelaAesthetic', () => {
   let instance: FelaAesthetic<any>;
 
+  function testSnapshot() {
+    expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
+  }
+
   function renderAndTest(
     styleSheet: any,
     expectedStyles: any = {},
@@ -60,7 +64,7 @@ describe('FelaAesthetic', () => {
 
     expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
 
-    expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
+    testSnapshot();
   }
 
   beforeEach(() => {
@@ -78,6 +82,16 @@ describe('FelaAesthetic', () => {
         expect(
           instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
         ).toBe('a b');
+      });
+
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndTest(styles, styles, 'a', { dir });
+
+        instance.purgeStyles();
+
+        testSnapshot();
       });
 
       describe('global sheet', () => {

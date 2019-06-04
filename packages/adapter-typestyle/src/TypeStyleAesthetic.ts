@@ -41,10 +41,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
 
     if (element) {
-      element.remove();
-
-      // @ts-ignore
-      this.typeStyle._tag = undefined;
+      element.textContent = '';
     }
   }
 

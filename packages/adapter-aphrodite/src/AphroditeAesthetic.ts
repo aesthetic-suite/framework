@@ -56,7 +56,8 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
     if (elements) {
       Array.from(elements).forEach(element => {
-        element.remove();
+        // eslint-disable-next-line no-param-reassign
+        element.textContent = '';
       });
     }
   }
