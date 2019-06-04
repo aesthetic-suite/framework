@@ -16,7 +16,7 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.46.2",
+    "@milesj/build-tools": "^0.47.0",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "babel-loader": "^8.0.6",
