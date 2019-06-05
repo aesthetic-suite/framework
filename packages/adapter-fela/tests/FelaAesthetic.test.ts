@@ -8,6 +8,7 @@ import { Direction } from 'aesthetic';
 import {
   cleanStyles,
   convertDirection,
+  getFlushedStyles,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -64,6 +65,8 @@ describe('FelaAesthetic', () => {
 
     expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
 
+    instance.flushStyles();
+
     testSnapshot();
   }
 
@@ -88,6 +91,8 @@ describe('FelaAesthetic', () => {
         const styles = { test: { display: 'block' } };
 
         renderAndTest(styles, styles, 'a', { dir });
+
+        console.log(Array.from(document.querySelectorAll('style')));
 
         instance.purgeStyles();
 

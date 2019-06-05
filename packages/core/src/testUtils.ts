@@ -25,8 +25,26 @@ export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
   aesthetic.extendTheme('dark', 'default', {});
 }
 
+export function getStyleElements(namespace?: string): HTMLStyleElement[] {
+  return Array.from(
+    document.querySelectorAll<HTMLStyleElement>(namespace ? `style[${namespace}]` : 'style'),
+  );
+}
+
+export function cleanupStyleElements() {
+  getStyleElements().forEach(style => {
+    style.remove();
+  });
+}
+
 export function cleanStyles(source: string): string {
   return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
+}
+
+export function getFlushedStyles(namespace?: string): string {
+  return cleanStyles(
+    getStyleElements(namespace).reduce((css, style) => css + style.textContent, ''),
+  );
 }
 
 export function convertDirection(value: object | object[], dir: Direction): any {
@@ -59,6 +77,33 @@ export function convertDirection(value: object | object[], dir: Direction): any 
     ...convertRTL(props),
     ...nested,
   };
+}
+
+export function renderAndExpect(
+  aesthetic: Aesthetic<any, any, any>,
+  styleSheet: any,
+  expectedStyles: any = {},
+  {
+    dir,
+    global = false,
+  }: {
+    dir: Direction;
+    global?: boolean;
+  },
+) {
+  const name = aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
+  const options = { name, rtl: dir === 'rtl' };
+  const convertedSheet = global
+    ? aesthetic.syntax.convertGlobalSheet(styleSheet, options).toObject()
+    : aesthetic.syntax.convertStyleSheet(styleSheet, options).toObject();
+  const parsedSheet = aesthetic.parseStyleSheet(convertedSheet, name);
+  const className = aesthetic.transformStyles(Object.values(parsedSheet), options);
+
+  aesthetic.flushStyles(name);
+
+  expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
+  expect(getFlushedStyles()).toMatchSnapshot();
+  expect(className).toMatchSnapshot();
 }
 
 export const TEST_CLASS_NAMES = {
