@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys */
+/* eslint-disable no-param-reassign, sort-keys */
 
 import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
@@ -38,12 +38,27 @@ export function cleanupStyleElements() {
 }
 
 export function cleanStyles(source: string): string {
-  return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
+  return source
+    .replace(/\n/gu, '')
+    .replace(/\s{2,}/gu, '')
+    .replace(/\s+\{/gu, '{')
+    .replace(/;\}/gu, '}')
+    .replace(/:\s+/gu, ':');
 }
 
 export function getFlushedStyles(namespace?: string): string {
   return cleanStyles(
-    getStyleElements(namespace).reduce((css, style) => css + style.textContent, ''),
+    getStyleElements(namespace).reduce((css, style) => {
+      if (style.textContent) {
+        css += style.textContent;
+      } else if (style.sheet) {
+        css += Array.from((style.sheet as CSSStyleSheet).cssRules)
+          .map(rule => rule.cssText)
+          .join('');
+      }
+
+      return css;
+    }, ''),
   );
 }
 

@@ -1,14 +1,11 @@
 /* eslint-disable jest/expect-expect */
 
 import { createRenderer } from 'fela';
-// @ts-ignore
-import { renderToString } from 'fela-tools';
 import webPreset from 'fela-preset-web';
-import { Direction } from 'aesthetic';
 import {
-  cleanStyles,
-  convertDirection,
+  cleanupStyleElements,
   getFlushedStyles,
+  renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -39,43 +36,16 @@ import FelaAesthetic from '../src/FelaAesthetic';
 describe('FelaAesthetic', () => {
   let instance: FelaAesthetic<any>;
 
-  function testSnapshot() {
-    expect(cleanStyles(renderToString(instance.fela))).toMatchSnapshot();
-  }
-
-  function renderAndTest(
-    styleSheet: any,
-    expectedStyles: any = {},
-    expectedClassName: string = '',
-    {
-      dir,
-      global = false,
-    }: {
-      dir: Direction;
-      global?: boolean;
-    },
-  ) {
-    const options = { name: 'fela', rtl: dir === 'rtl' };
-    const convertedSheet = global
-      ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
-      : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'fela');
-
-    expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
-
-    expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
-
-    instance.flushStyles();
-
-    testSnapshot();
-  }
-
   beforeEach(() => {
     instance = new FelaAesthetic(
       createRenderer({
         plugins: [...webPreset],
       }),
     );
+  });
+
+  afterEach(() => {
+    cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
@@ -90,18 +60,16 @@ describe('FelaAesthetic', () => {
       it('flushes and purges styles from the DOM', () => {
         const styles = { test: { display: 'block' } };
 
-        renderAndTest(styles, styles, 'a', { dir });
-
-        console.log(Array.from(document.querySelectorAll('style')));
+        renderAndExpect(instance, styles, styles, { dir });
 
         instance.purgeStyles();
 
-        testSnapshot();
+        expect(getFlushedStyles()).toMatchSnapshot();
       });
 
       describe('global sheet', () => {
         it('handles globals', () => {
-          renderAndTest(SYNTAX_GLOBAL, {}, '', { dir, global: true });
+          renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
         });
 
         it('handles @font-face', () => {
@@ -155,7 +123,8 @@ describe('FelaAesthetic', () => {
 
           instance.keyframes.fade = instance.fela.renderKeyframe(() => KEYFRAME_FADE as any, {});
 
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_UNIFIED_LOCAL_FULL,
             {
               button: {
@@ -191,21 +160,21 @@ describe('FelaAesthetic', () => {
                 },
               },
             },
-            'a b c d e f g h i j k l m n o p q r s t u v w x',
             { dir },
           );
         });
 
         it('handles properties', () => {
-          renderAndTest(SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, 'a b c d', { dir });
+          renderAndExpect(instance, SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
         });
 
         it('handles attribute selectors', () => {
-          renderAndTest(SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, 'a b', { dir });
+          renderAndExpect(instance, SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, { dir });
         });
 
         it('handles descendant selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_DESCENDANT,
             {
               list: {
@@ -222,11 +191,12 @@ describe('FelaAesthetic', () => {
         });
 
         it('handles pseudo selectors', () => {
-          renderAndTest(SYNTAX_PSEUDO, SYNTAX_PSEUDO, 'a b c', { dir });
+          renderAndExpect(instance, SYNTAX_PSEUDO, SYNTAX_PSEUDO, { dir });
         });
 
         it('handles multiple selectors (comma separated)', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MULTI_SELECTOR,
             {
               multi: {
@@ -236,13 +206,13 @@ describe('FelaAesthetic', () => {
                 '> span': { cursor: 'default' },
               },
             },
-            'a b c d',
             { dir },
           );
         });
 
         it('handles inline @keyframes', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_KEYFRAMES_INLINE,
             {
               single: {
@@ -252,13 +222,13 @@ describe('FelaAesthetic', () => {
                 animationName: 'k1, unknown, k2',
               },
             },
-            'a',
             { dir },
           );
         });
 
         it('handles inline @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACES_INLINE,
             {
               single: {
@@ -268,13 +238,13 @@ describe('FelaAesthetic', () => {
                 fontFamily: 'Circular, OtherFont, Roboto',
               },
             },
-            'a',
             { dir },
           );
         });
 
         it('handles @fallbacks', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FALLBACKS,
             {
               fallback: {
@@ -283,13 +253,13 @@ describe('FelaAesthetic', () => {
                 color: ['blue'],
               },
             },
-            'a b c',
             { dir },
           );
         });
 
         it('handles @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY,
             {
               media: {
@@ -305,13 +275,13 @@ describe('FelaAesthetic', () => {
                 },
               },
             },
-            'a b c d e f',
             { dir },
           );
         });
 
         it('handles nested @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY_NESTED,
             {
               media: {
@@ -324,13 +294,13 @@ describe('FelaAesthetic', () => {
                 },
               },
             },
-            'a b c',
             { dir },
           );
         });
 
         it('handles @supports', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_SUPPORTS,
             {
               sup: {
@@ -343,13 +313,12 @@ describe('FelaAesthetic', () => {
                 },
               },
             },
-            'a b c',
             { dir },
           );
         });
 
         it('handles raw CSS', () => {
-          renderAndTest(SYNTAX_RAW_CSS, {}, '', { dir });
+          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir });
         });
       });
     });
