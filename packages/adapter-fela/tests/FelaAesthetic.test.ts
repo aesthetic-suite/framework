@@ -185,7 +185,6 @@ describe('FelaAesthetic', () => {
                 },
               },
             },
-            'a b c',
             { dir },
           );
         });

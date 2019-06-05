@@ -419,7 +419,7 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles raw CSS', () => {
-          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir, raw: true });
+          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir });
         });
       });
     });

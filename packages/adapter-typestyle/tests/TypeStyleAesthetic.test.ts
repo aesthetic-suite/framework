@@ -217,7 +217,6 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'fkkhpct',
             { dir },
           );
         });
