@@ -3,6 +3,7 @@
 import { StyleSheetTestUtils } from 'aphrodite';
 import {
   cleanupStyleElements,
+  getFlushedStyles,
   renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
@@ -50,7 +51,15 @@ describe('AphroditeAesthetic', () => {
         ).toBe('inline-0_16pg94n-o_O-inline-1_igcoje');
       });
 
-      it('flushes and purges styles from the DOM', () => {});
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
+        expect(getFlushedStyles()).toMatchSnapshot();
+      });
 
       describe('global sheet', () => {
         it('handles globals', () => {

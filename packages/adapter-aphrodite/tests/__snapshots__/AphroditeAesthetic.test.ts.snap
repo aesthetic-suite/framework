@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AphroditeAesthetic LTR flushes and purges styles from the DOM 1`] = `".test_uhlm2{display:block !important}"`;
+
+exports[`AphroditeAesthetic LTR flushes and purges styles from the DOM 2`] = `"test_uhlm2"`;
+
+exports[`AphroditeAesthetic LTR flushes and purges styles from the DOM 3`] = `""`;
+
 exports[`AphroditeAesthetic LTR global sheet handles globals 1`] = `"body{margin:0px !important}html{height:100% !important}a{color:red !important}a:hover{color:darkred !important}"`;
 
 exports[`AphroditeAesthetic LTR global sheet handles globals 2`] = `"globals_vyedjg"`;
@@ -47,6 +53,12 @@ exports[`AphroditeAesthetic LTR style sheet handles pseudo selectors 2`] = `"pse
 exports[`AphroditeAesthetic LTR style sheet handles raw CSS 1`] = `".aphrodite-button{display:'block';font-size:16px;text-align:'left'}.aphrodite-button:hover{color:'red'}.aphrodite-button{vertical-align:'middle'}@media (max-width:600px){.aphrodite-button{display:'none'}}@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex){.aphrodite-button{display:'flex'}}"`;
 
 exports[`AphroditeAesthetic LTR style sheet handles raw CSS 2`] = `""`;
+
+exports[`AphroditeAesthetic RTL flushes and purges styles from the DOM 1`] = `".test_uhlm2{display:block !important}"`;
+
+exports[`AphroditeAesthetic RTL flushes and purges styles from the DOM 2`] = `"test_uhlm2"`;
+
+exports[`AphroditeAesthetic RTL flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`AphroditeAesthetic RTL global sheet handles globals 1`] = `"body{margin:0px !important}html{height:100% !important}a{color:red !important}a:hover{color:darkred !important}"`;
 

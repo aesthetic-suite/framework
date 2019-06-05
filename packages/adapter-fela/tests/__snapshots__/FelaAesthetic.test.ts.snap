@@ -4,7 +4,7 @@ exports[`FelaAesthetic LTR flushes and purges styles from the DOM 1`] = `".a{dis
 
 exports[`FelaAesthetic LTR flushes and purges styles from the DOM 2`] = `"a"`;
 
-exports[`FelaAesthetic LTR flushes and purges styles from the DOM 3`] = `".a{display:block}"`;
+exports[`FelaAesthetic LTR flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`FelaAesthetic LTR global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}"`;
 
@@ -66,7 +66,7 @@ exports[`FelaAesthetic RTL flushes and purges styles from the DOM 1`] = `".a{dis
 
 exports[`FelaAesthetic RTL flushes and purges styles from the DOM 2`] = `"a"`;
 
-exports[`FelaAesthetic RTL flushes and purges styles from the DOM 3`] = `".a{display:block}"`;
+exports[`FelaAesthetic RTL flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`FelaAesthetic RTL global sheet handles globals 1`] = `"body{margin:0}html{height:100%}a{color:red}"`;
 

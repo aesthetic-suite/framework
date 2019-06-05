@@ -111,7 +111,7 @@ export default abstract class Aesthetic<
 
     // Remove flushed styles
     this.purgeStyles();
-    this.getStyleSheetManager().purgeInjectedStyles();
+    this.getStyleSheetManager().purgeFlushedStyles();
 
     // Clear caches
     this.cache = {};

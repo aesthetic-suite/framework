@@ -62,12 +62,22 @@ describe('JSSAesthetic', () => {
         ).toBe(
           dir === 'ltr'
             ? 'foo inline-0-0-1-1 inline-1-0-1-2'
-            : 'foo inline-0-0-24-1 inline-1-0-24-2',
+            : 'foo inline-0-0-25-1 inline-1-0-25-2',
         );
         expect(getFlushedStyles()).toMatchSnapshot();
 
         // @ts-ignore Allow null
         expect(instance.transformStyles(['foo', null], { dir })).toBe('foo');
+        expect(getFlushedStyles()).toMatchSnapshot();
+      });
+
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
         expect(getFlushedStyles()).toMatchSnapshot();
       });
 

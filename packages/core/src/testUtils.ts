@@ -2,8 +2,11 @@
 
 import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
+import getStyleElements from './helpers/getStyleElements';
 import isObject from './helpers/isObject';
 import { Block, FontFace, Direction } from './types';
+
+export { getStyleElements };
 
 export class TestAesthetic extends Aesthetic<any, Block, Block> {
   transformToClassName(styles: any[]): string {
@@ -23,12 +26,6 @@ export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
   aesthetic.extendTheme('light', 'default', {});
 
   aesthetic.extendTheme('dark', 'default', {});
-}
-
-export function getStyleElements(namespace?: string): HTMLStyleElement[] {
-  return Array.from(
-    document.querySelectorAll<HTMLStyleElement>(namespace ? `style[${namespace}]` : 'style'),
-  );
 }
 
 export function cleanupStyleElements() {

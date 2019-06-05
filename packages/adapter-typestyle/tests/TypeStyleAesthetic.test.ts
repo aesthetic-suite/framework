@@ -1,8 +1,9 @@
-/* eslint-disable jest/expect-expect, no-underscore-dangle */
+/* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
 import {
   cleanupStyleElements,
+  getFlushedStyles,
   renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
@@ -48,6 +49,16 @@ describe('TypeStyleAesthetic', () => {
         expect(
           instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
         ).toBe('f1rvgqmz');
+      });
+
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
+        expect(getFlushedStyles()).toMatchSnapshot();
       });
 
       describe('global sheet', () => {
