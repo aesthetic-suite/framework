@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-export default function purgeFlushedStyles(styles: HTMLStyleElement[]) {
+export default function purgeStyles(styles: HTMLStyleElement[]) {
   styles.forEach(style => {
     style.textContent = '';
 

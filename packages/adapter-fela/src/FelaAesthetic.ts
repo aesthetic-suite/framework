@@ -1,6 +1,6 @@
 import Aesthetic, {
   getStyleElements,
-  purgeFlushedStyles,
+  purgeStyles,
   AestheticOptions,
   ClassName,
   Ruleset,
@@ -47,7 +47,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
   }
 
   purgeStyles() {
-    purgeFlushedStyles(getStyleElements('data-fela-type'));
+    purgeStyles(getStyleElements('data-fela-type'));
   }
 
   // http://fela.js.org/docs/api/fela/Renderer.html

@@ -44,7 +44,7 @@ export default class StyleSheetManager {
     return this;
   }
 
-  purgeFlushedStyles(): this {
+  purgeStyles(): this {
     this.element!.remove();
     this.createStyleElement();
 

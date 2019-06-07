@@ -1,6 +1,6 @@
 import Aesthetic, {
   getStyleElements,
-  purgeFlushedStyles,
+  purgeStyles,
   AestheticOptions,
   ClassName,
   Ruleset,
@@ -60,7 +60,7 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   }
 
   purgeStyles() {
-    purgeFlushedStyles(getStyleElements('data-aphrodite'));
+    purgeStyles(getStyleElements('data-aphrodite'));
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {

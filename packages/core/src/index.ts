@@ -10,7 +10,7 @@ import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 import getFlushedStyles from './helpers/getFlushedStyles';
 import getStyleElements from './helpers/getStyleElements';
-import purgeFlushedStyles from './helpers/purgeFlushedStyles';
+import purgeStyles from './helpers/purgeStyles';
 
 export * from './types';
 
@@ -22,7 +22,7 @@ export {
   Sheet,
   getFlushedStyles,
   getStyleElements,
-  purgeFlushedStyles,
+  purgeStyles,
 };
 
 export default Aesthetic;

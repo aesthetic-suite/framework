@@ -1,12 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import Aesthetic, {
-  purgeFlushedStyles,
-  AestheticOptions,
-  ClassName,
-  Ruleset,
-  Sheet,
-} from 'aesthetic';
+import Aesthetic, { purgeStyles, AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -47,7 +41,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
 
     if (element) {
-      purgeFlushedStyles([element]);
+      purgeStyles([element]);
     }
   }
 

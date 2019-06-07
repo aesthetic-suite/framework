@@ -111,7 +111,7 @@ export default abstract class Aesthetic<
 
     // Remove flushed styles
     this.purgeStyles();
-    this.getStyleSheetManager().purgeFlushedStyles();
+    this.getStyleSheetManager().purgeStyles();
 
     // Clear caches
     this.cache = {};
@@ -250,7 +250,7 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Purge and remove all injected styles from the DOM.
+   * Purge and remove all flushed styles from the DOM.
    * If no name is provided, purge all transformed styles.
    */
   purgeStyles() {}

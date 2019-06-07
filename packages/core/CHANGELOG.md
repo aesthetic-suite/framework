@@ -26,7 +26,7 @@ slightly change.
 - Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
 - Added `Aesthetic#isRTL` for determining if a direction is right-to-left.
 - Added `Aesthetic#purgeStyles`, so that adapters can clear their style sheets.
-- Added `getFlushedStyles`, `getStyleElements`, and `purgeFlushedStyles` helper functions.
+- Added `getFlushedStyles`, `getStyleElements`, and `purgeStyles` helper functions.
 - Added an options object to `Aesthetic#createStyleSheet`, `Aeshetic#transformStyles`,
   `UnifiedSyntax#convertGlobalSheet`, `UnifiedSyntax#convertStyleSheet`, and `Sheet`.
 - Updated `Aeshetic#transformStyles` to convert native blocks to parsed blocks before transforming
