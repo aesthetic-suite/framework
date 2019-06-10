@@ -11,6 +11,7 @@ import Sheet from './Sheet';
 import getFlushedStyles from './helpers/getFlushedStyles';
 import getStyleElements from './helpers/getStyleElements';
 import purgeStyles from './helpers/purgeStyles';
+import isRTL from './helpers/isRTL';
 
 export * from './types';
 
@@ -22,6 +23,7 @@ export {
   Sheet,
   getFlushedStyles,
   getStyleElements,
+  isRTL,
   purgeStyles,
 };
 

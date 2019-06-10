@@ -12,6 +12,8 @@ exports[`Aesthetic adapters supports TypeStyle 1`] = `"f1hcoxnj"`;
 
 exports[`Aesthetic adapters supports class names 1`] = `"button"`;
 
+exports[`Aesthetic changeTheme() errors for invalid theme name 1`] = `"Theme \\"unknown\\" does not exist."`;
+
 exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;
 
 exports[`Aesthetic getStyleSheet() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;

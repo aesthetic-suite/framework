@@ -1,3 +1,4 @@
+import hasQueryCondition from './hasQueryCondition';
 import toArray from './toArray';
 
 export default function getFlushedStyles(styles: HTMLStyleElement | HTMLStyleElement[]): string {
@@ -17,7 +18,7 @@ export default function getFlushedStyles(styles: HTMLStyleElement | HTMLStyleEle
       return css;
     }
 
-    if (style.media && style.media !== 'screen') {
+    if (style.media && hasQueryCondition(style.media)) {
       content = `@media ${style.media} { ${content} }`;
     }
 

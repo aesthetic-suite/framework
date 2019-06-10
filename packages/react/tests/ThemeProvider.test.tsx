@@ -7,7 +7,7 @@ import ThemeProvider from '../src/ThemeProvider';
 
 describe('ThemeProvider', () => {
   let aesthetic: TestAesthetic;
-  // let changeSpy: jest.SpyInstance;
+  let changeSpy: jest.SpyInstance;
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();
@@ -15,7 +15,7 @@ describe('ThemeProvider', () => {
 
     registerTestTheme(aesthetic);
 
-    // changeSpy = jest.spyOn(aesthetic, 'changeTheme');
+    changeSpy = jest.spyOn(aesthetic, 'changeTheme');
   });
 
   it('renders children', () => {
@@ -68,6 +68,7 @@ describe('ThemeProvider', () => {
 
     wrapper.instance().changeTheme('dark');
 
+    expect(changeSpy).toHaveBeenCalledWith('dark');
     expect(wrapper.state('theme')).toBe('dark');
     expect(wrapper.instance().ctx).toEqual(expect.objectContaining({ theme: 'dark' }));
   });

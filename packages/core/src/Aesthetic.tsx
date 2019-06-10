@@ -7,7 +7,6 @@ import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
-  Direction,
   GlobalSheetDefinition,
   TransformOptions,
   SheetMap,
@@ -224,13 +223,6 @@ export default abstract class Aesthetic<
    */
   isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
     return isObject(block);
-  }
-
-  /**
-   * Return true if the provided direction is RTL.
-   */
-  isRTL(dir: Direction): boolean {
-    return dir === 'rtl';
   }
 
   /**

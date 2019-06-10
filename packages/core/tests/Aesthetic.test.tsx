@@ -99,6 +99,46 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('changeTheme()', () => {
+    it('errors for invalid theme name', () => {
+      expect(() => {
+        instance.changeTheme('unknown');
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('changes the theme option', () => {
+      expect(instance.options.theme).toBe('default');
+
+      instance.changeTheme('light');
+
+      expect(instance.options.theme).toBe('light');
+    });
+
+    it('purges all styles', () => {
+      const spy = jest.spyOn(instance, 'purgeStyles');
+
+      instance.changeTheme('light');
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('resets and applies global styles', () => {
+      const spy = jest.spyOn(instance, 'applyGlobalStyles');
+
+      instance.changeTheme('light');
+
+      expect(spy).toHaveBeenCalledWith({ rtl: false });
+    });
+
+    it('clears cache', () => {
+      instance.cache.foo = {};
+
+      instance.changeTheme('light');
+
+      expect(instance.cache).toEqual({});
+    });
+  });
+
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
@@ -380,20 +420,6 @@ describe('Aesthetic', () => {
 
     it('returns the theme by name', () => {
       expect(instance.getTheme('default')).toEqual({ unit: 8 });
-    });
-  });
-
-  describe('isRTL()', () => {
-    it('returns true if direction is `rtl`', () => {
-      expect(instance.isRTL('rtl')).toBe(true);
-    });
-
-    it('returns false if direction is `ltr`', () => {
-      expect(instance.isRTL('ltr')).toBe(false);
-    });
-
-    it('returns false if direction is `neutral`', () => {
-      expect(instance.isRTL('neutral')).toBe(false);
     });
   });
 

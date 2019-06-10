@@ -8,7 +8,7 @@ export default function purgeStyles(styles: HTMLStyleElement | HTMLStyleElement[
 
     const sheet = style.sheet as CSSStyleSheet;
 
-    if (sheet) {
+    if (sheet && sheet.cssRules) {
       Array.from(sheet.cssRules).forEach((rule, index) => {
         sheet.deleteRule(index);
       });
