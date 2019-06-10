@@ -106,7 +106,7 @@ export type GlobalSheet = {
 };
 
 export type GlobalSheetNeverize<T> = {
-  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never
+  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never;
 };
 
 export type GlobalSheetDefinition<Theme, T> =

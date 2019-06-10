@@ -22,9 +22,9 @@
     "fela-dom": "^10.0.0"
   },
   "devDependencies": {
-    "fela": "^10.4.1",
-    "fela-dom": "^10.4.1",
-    "fela-preset-web": "^10.4.1",
-    "fela-tools": "^10.4.1"
+    "fela": "^10.5.0",
+    "fela-dom": "^10.5.0",
+    "fela-preset-web": "^10.5.0",
+    "fela-tools": "^10.5.0"
   }
 }
