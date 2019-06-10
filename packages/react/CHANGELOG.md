@@ -20,4 +20,5 @@
 
 #### 🛠 Internals
 
-- Updated all `@types` dependencies to use `*` version.
+- Moved some `@types` dependencies to development only.
+- Updated some `@types` dependencies to use `*` version.

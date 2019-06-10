@@ -36,7 +36,7 @@ slightly change.
 
 #### 🛠 Internals
 
-- Updated all `@types` dependencies to use `*` version.
+- Moved `@types` dependencies to development only.
 
 ## 3.5.0 - 2019-04-28
 
