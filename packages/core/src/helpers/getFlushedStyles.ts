@@ -1,15 +1,26 @@
-/* eslint-disable no-param-reassign */
+import toArray from './toArray';
 
-export default function getFlushedStyles(styles: HTMLStyleElement[]): string {
-  return styles.reduce((css, style) => {
-    if (style.textContent) {
-      css += style.textContent;
-    } else if (style.sheet) {
-      css += Array.from((style.sheet as CSSStyleSheet).cssRules)
+export default function getFlushedStyles(styles: HTMLStyleElement | HTMLStyleElement[]): string {
+  return toArray(styles).reduce((css, style) => {
+    const sheet = style.sheet as CSSStyleSheet;
+    let content = '';
+
+    if (sheet && sheet.cssRules) {
+      content = Array.from(sheet.cssRules)
         .map(rule => rule.cssText)
-        .join('');
+        .join('\n');
+    } else if (style.textContent) {
+      content = style.textContent;
     }
 
-    return css;
+    if (!content) {
+      return css;
+    }
+
+    if (style.media && style.media !== 'screen') {
+      content = `@media ${style.media} { ${content} }`;
+    }
+
+    return `${css}\n${content}`.trim();
   }, '');
 }

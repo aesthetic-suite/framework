@@ -77,7 +77,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
 
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
   private handleCharset = (sheet: Sheet<NativeBlock>, charset: string) => {
-    sheet.addAtRule('@charset', charset);
+    sheet.addAtRule('@charset', `"${charset}"`);
   };
 
   private handleCss = (css: string) => {

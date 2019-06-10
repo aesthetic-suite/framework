@@ -1,19 +1,12 @@
 import getFlushedStyles from './helpers/getFlushedStyles';
+import purgeStyles from './helpers/purgeStyles';
 
 export default class StyleSheetManager {
-  private element?: HTMLStyleElement;
+  private element: HTMLStyleElement;
 
-  private sheet?: CSSStyleSheet;
+  private sheet: CSSStyleSheet;
 
   constructor() {
-    this.createStyleElement();
-  }
-
-  createStyleElement(): this {
-    if (this.element) {
-      return this;
-    }
-
     this.element = document.createElement('style');
     this.element.type = 'text/css';
     this.element.media = 'screen';
@@ -24,29 +17,26 @@ export default class StyleSheetManager {
     // This must happen after the element is inserted into the DOM,
     // otherwise the value is null.
     this.sheet = this.element.sheet as CSSStyleSheet;
-
-    return this;
   }
 
   getFlushedStyles(): string {
-    return this.element ? getFlushedStyles([this.element]) : '';
+    return getFlushedStyles(this.element);
   }
 
   injectRule(rule: string): this {
-    this.sheet!.insertRule(rule, this.sheet!.cssRules.length);
+    this.sheet.insertRule(rule, this.sheet.cssRules.length);
 
     return this;
   }
 
   injectStatements(css: string): this {
-    this.element!.textContent += css;
+    this.element.textContent += css;
 
     return this;
   }
 
   purgeStyles(): this {
-    this.element!.remove();
-    this.createStyleElement();
+    purgeStyles(this.element);
 
     return this;
   }

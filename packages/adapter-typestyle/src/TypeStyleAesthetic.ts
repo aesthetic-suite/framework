@@ -41,7 +41,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
 
     if (element) {
-      purgeStyles([element]);
+      purgeStyles(element);
     }
   }
 

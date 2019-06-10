@@ -1,7 +1,8 @@
-/* eslint-disable no-param-reassign, sort-keys */
+/* eslint-disable sort-keys */
 
 import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
+import getBaseFlushedStyles from './helpers/getFlushedStyles';
 import getStyleElements from './helpers/getStyleElements';
 import isObject from './helpers/isObject';
 import { Block, FontFace, Direction } from './types';
@@ -34,29 +35,8 @@ export function cleanupStyleElements() {
   });
 }
 
-export function cleanStyles(source: string): string {
-  return source
-    .replace(/\n/gu, '')
-    .replace(/\s{2,}/gu, '')
-    .replace(/\s+\{/gu, '{')
-    .replace(/;\}/gu, '}')
-    .replace(/:\s+/gu, ':');
-}
-
 export function getFlushedStyles(namespace?: string): string {
-  return cleanStyles(
-    getStyleElements(namespace).reduce((css, style) => {
-      if (style.textContent) {
-        css += style.textContent;
-      } else if (style.sheet) {
-        css += Array.from((style.sheet as CSSStyleSheet).cssRules)
-          .map(rule => rule.cssText)
-          .join('');
-      }
-
-      return css;
-    }, ''),
-  );
+  return getBaseFlushedStyles(getStyleElements(namespace));
 }
 
 export function convertDirection(value: object | object[], dir: Direction): any {
@@ -289,11 +269,11 @@ export const SYNTAX_DESCENDANT = {
 };
 
 export const SYNTAX_IMPORT = {
-  '@import': './some/path.css',
+  '@import': 'url("./some/path.css")',
 };
 
 export const SYNTAX_IMPORT_MULTIPLE = {
-  '@import': ['./some/path.css', './another/path.css'],
+  '@import': ['url("./some/path.css")', 'url("./another/path.css")'],
 };
 
 export const SYNTAX_FALLBACKS = {

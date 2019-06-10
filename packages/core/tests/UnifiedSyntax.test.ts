@@ -237,7 +237,7 @@ describe('UnifiedSyntax', () => {
         syntax.on('import', spy);
         syntax.convertGlobalSheet(SYNTAX_IMPORT, {});
 
-        expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css']);
+        expect(spy).toHaveBeenCalledWith(sheet, ['url("./some/path.css")']);
       });
 
       it('emits event for an array of strings', () => {
@@ -246,7 +246,10 @@ describe('UnifiedSyntax', () => {
         syntax.on('import', spy);
         syntax.convertGlobalSheet(SYNTAX_IMPORT_MULTIPLE, {});
 
-        expect(spy).toHaveBeenCalledWith(sheet, ['./some/path.css', './another/path.css']);
+        expect(spy).toHaveBeenCalledWith(sheet, [
+          'url("./some/path.css")',
+          'url("./another/path.css")',
+        ]);
       });
 
       it('errors if not a string', () => {

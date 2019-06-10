@@ -165,7 +165,7 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_CHARSET,
             {
-              '@charset': 'utf8',
+              '@charset': '"utf8"',
             },
             { dir, global: true },
           );
@@ -176,7 +176,7 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_IMPORT,
             {
-              '@import': ['./some/path.css'],
+              '@import': ['url("./some/path.css")'],
             },
             { dir, global: true },
           );
@@ -187,7 +187,7 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_IMPORT_MULTIPLE,
             {
-              '@import': ['./some/path.css', './another/path.css'],
+              '@import': ['url("./some/path.css")', 'url("./another/path.css")'],
             },
             { dir, global: true },
           );
