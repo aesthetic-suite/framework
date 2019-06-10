@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-react",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "React hooks, composers, and more for styling components with Aesthetic.",
   "keywords": [
     "aesthetic",

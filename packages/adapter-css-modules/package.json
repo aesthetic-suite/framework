@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-css-modules",
-  "version": "3.3.0",
+  "version": "4.0.0-alpha.0",
   "description": "CSS modules support for Aesthetic.",
   "keywords": [
     "aesthetic",
