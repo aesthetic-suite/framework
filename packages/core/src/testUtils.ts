@@ -1,22 +1,28 @@
-/* eslint-disable sort-keys */
+/* eslint-disable sort-keys, import/no-unresolved */
 
+import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
 import getBaseFlushedStyles from './helpers/getFlushedStyles';
 import getStyleElements from './helpers/getStyleElements';
 import isObject from './helpers/isObject';
-import { Block, FontFace, Direction } from './types';
+import { FontFace, Direction } from './types';
 
 export { getStyleElements };
 
-export class TestAesthetic extends Aesthetic<any, Block, Block> {
+export interface TestTheme {
+  color: string;
+  unit: number;
+}
+
+export class TestAesthetic extends Aesthetic<TestTheme, any, any> {
   transformToClassName(styles: any[]): string {
     return styles.map((style, i) => `class-${i}`).join(' ');
   }
 }
 
-export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
-  aesthetic.registerTheme('default', { unit: 8 }, ({ unit }) => ({
+export function registerTestTheme(aesthetic: Aesthetic<TestTheme, any, any>) {
+  aesthetic.registerTheme('default', { color: 'black', unit: 8 }, ({ unit }) => ({
     '@global': {
       body: {
         padding: unit,
@@ -118,7 +124,7 @@ export const FONT_ROBOTO: FontFace = {
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
-export const FONT_ROBOTO_FLAT_SRC = {
+export const FONT_ROBOTO_FLAT_SRC: CSS.FontFace = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -126,7 +132,7 @@ export const FONT_ROBOTO_FLAT_SRC = {
     "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
-export const FONT_CIRCULAR_MULTIPLE = [
+export const FONT_CIRCULAR_MULTIPLE: FontFace[] = [
   {
     fontFamily: 'Circular',
     fontStyle: 'normal',
@@ -153,7 +159,7 @@ export const FONT_CIRCULAR_MULTIPLE = [
   },
 ];
 
-export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC = [
+export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC: CSS.FontFace[] = [
   {
     fontFamily: 'Circular',
     fontStyle: 'normal',

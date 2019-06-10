@@ -171,7 +171,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
     const wrapper = shallow(<Wrapped />);
 
-    expect(wrapper.prop('theme')).toEqual({ unit: 8 });
+    expect(wrapper.prop('theme')).toEqual({ color: 'black', unit: 8 });
   });
 
   it('creates a style sheet', () => {

@@ -1,17 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Aesthetic adapters supports Aphrodite 1`] = `"button_4139s4"`;
-
-exports[`Aesthetic adapters supports CSS modules 1`] = `"button"`;
-
-exports[`Aesthetic adapters supports Fela 1`] = `"a b c d e f g h i j k l m n o p q r s t u v w x"`;
-
-exports[`Aesthetic adapters supports JSS 1`] = `"button-0-1-1"`;
-
-exports[`Aesthetic adapters supports TypeStyle 1`] = `"f1hcoxnj"`;
-
-exports[`Aesthetic adapters supports class names 1`] = `"button"`;
-
 exports[`Aesthetic changeTheme() errors for invalid theme name 1`] = `"Theme \\"unknown\\" does not exist."`;
 
 exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"foo\\" does not exist."`;

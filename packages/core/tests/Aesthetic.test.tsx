@@ -1,38 +1,20 @@
-import { StyleSheetTestUtils } from 'aphrodite';
-import { createRenderer } from 'fela';
-import webPreset from 'fela-preset-web';
-import { create } from 'jss';
-// @ts-ignore
-import preset from 'jss-preset-default';
-import { TypeStyle } from 'typestyle';
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
-import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
-import FelaAesthetic from 'aesthetic-adapter-fela';
-import JSSAesthetic from 'aesthetic-adapter-jss';
-import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
 import Aesthetic from '../src/Aesthetic';
-import ClassNameAesthetic from '../src/ClassNameAesthetic';
 import StyleSheetManager from '../src/StyleSheetManager';
-import {
-  TestAesthetic,
-  registerTestTheme,
-  SYNTAX_GLOBAL,
-  SYNTAX_UNIFIED_LOCAL_FULL,
-} from '../src/testUtils';
+import { TestTheme, registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
-  let instance: Aesthetic<any, any, any>;
+  let instance: Aesthetic<TestTheme, any, any>;
+
+  class TestAesthetic extends Aesthetic<TestTheme, any, any> {
+    transformToClassName(styles: any[]): string {
+      return styles.map((style, i) => `class-${i}`).join(' ');
+    }
+  }
 
   beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-
     instance = new TestAesthetic();
 
     registerTestTheme(instance);
-  });
-
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
   describe('constructor()', () => {
@@ -142,7 +124,7 @@ describe('Aesthetic', () => {
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
-      instance.registerStyleSheet('foo', ({ unit }) => ({
+      instance.registerStyleSheet('foo', ({ unit }: TestTheme) => ({
         el: {
           display: 'block',
           padding: unit,
@@ -226,13 +208,15 @@ describe('Aesthetic', () => {
       const styleSheet = instance.extendStyles(() => ({ element: { display: 'block' } }));
 
       expect(typeof styleSheet).toBe('function');
-      expect(styleSheet({})).toEqual({ element: { display: 'block' } });
+      expect(styleSheet({ color: 'black', unit: 8 })).toEqual({ element: { display: 'block' } });
     });
 
     it('passes theme variables', () => {
-      const styleSheet = instance.extendStyles(theme => ({ element: { padding: theme.unit } }));
+      const styleSheet = instance.extendStyles(theme => ({
+        element: { padding: theme.unit },
+      }));
 
-      expect(styleSheet({ unit: 8 })).toEqual({ element: { padding: 8 } });
+      expect(styleSheet({ color: 'black', unit: 8 })).toEqual({ element: { padding: 8 } });
     });
 
     it('deep merges multiple stylesheets', () => {
@@ -256,35 +240,24 @@ describe('Aesthetic', () => {
 
     it('deep merges the parent and child theme', () => {
       instance.registerTheme('foo', {
-        unit: 'px',
-        unitSize: 8,
-        colors: {
-          primary: 'red',
-        },
+        color: 'red',
+        unit: 8,
       });
 
       instance.extendTheme('bar', 'foo', {
-        unit: 'em',
-        colors: {
-          primary: 'blue',
-          secondary: 'orange',
-        },
+        color: 'blue',
       });
 
       expect(instance.themes.bar).toEqual({
-        unit: 'em',
-        unitSize: 8,
-        colors: {
-          primary: 'blue',
-          secondary: 'orange',
-        },
+        color: 'blue',
+        unit: 8,
       });
     });
 
     it('inherits parent theme global styles', () => {
       const spy = jest.fn();
 
-      instance.registerTheme('foo', {}, spy);
+      instance.registerTheme('foo', { color: 'red', unit: 8 }, spy);
       instance.extendTheme('bar', 'foo', {});
 
       expect(instance.globals.bar).toBe(spy);
@@ -407,6 +380,7 @@ describe('Aesthetic', () => {
     });
 
     it('errors if the theme is not an object', () => {
+      // @ts-ignore Allow invalid type
       instance.themes.default = 123;
 
       expect(() => {
@@ -415,11 +389,11 @@ describe('Aesthetic', () => {
     });
 
     it('returns the default theme if no name provided', () => {
-      expect(instance.getTheme()).toEqual({ unit: 8 });
+      expect(instance.getTheme()).toEqual({ color: 'black', unit: 8 });
     });
 
     it('returns the theme by name', () => {
-      expect(instance.getTheme('default')).toEqual({ unit: 8 });
+      expect(instance.getTheme('default')).toEqual({ color: 'black', unit: 8 });
     });
   });
 
@@ -434,17 +408,30 @@ describe('Aesthetic', () => {
 
   describe('registerTheme()', () => {
     it('errors if a theme name has been used', () => {
-      expect(() => instance.registerTheme('default', {})).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        instance.registerTheme(
+          'default',
+          // @ts-ignore Allow empty
+          {},
+        ),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if a theme style is not an object', () => {
-      expect(() => instance.registerTheme('foo', 123)).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        instance.registerTheme(
+          'foo',
+          // @ts-ignore Allow invalid type
+          123,
+        ),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors if global styles is not an object', () => {
       expect(() =>
         instance.registerTheme(
           'foo',
+          // @ts-ignore Allow empty
           {},
           // @ts-ignore Allow non-object
           123,
@@ -455,9 +442,9 @@ describe('Aesthetic', () => {
     it('registers theme and sets global styles', () => {
       expect(instance.globals.foo).toBeUndefined();
 
-      instance.registerTheme('foo', { unitSize: 6 }, () => SYNTAX_GLOBAL);
+      instance.registerTheme('foo', { color: 'red', unit: 6 }, () => SYNTAX_GLOBAL);
 
-      expect(instance.themes.foo).toEqual({ unitSize: 6 });
+      expect(instance.themes.foo).toEqual({ color: 'red', unit: 6 });
 
       expect(instance.globals.foo).toBeDefined();
     });
@@ -607,75 +594,6 @@ describe('Aesthetic', () => {
         expect.anything(),
       );
       expect(flushSpy).toHaveBeenCalledWith(expect.anything());
-    });
-  });
-
-  describe('adapters', () => {
-    it('supports class names', () => {
-      const adapter = new ClassNameAesthetic();
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => ({ button: 'button' }));
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
-    });
-
-    it('supports Aphrodite', () => {
-      const adapter = new AphroditeAesthetic();
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
-    });
-
-    it('supports CSS modules', () => {
-      const adapter = new CSSModulesAesthetic();
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => ({ button: 'button' }));
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
-    });
-
-    it('supports Fela', () => {
-      const adapter = new FelaAesthetic(
-        createRenderer({
-          plugins: [...webPreset],
-        }),
-      );
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
-    });
-
-    it('supports JSS', () => {
-      const jss = create();
-      jss.setup(preset());
-
-      const adapter = new JSSAesthetic(jss);
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
-    });
-
-    it('supports TypeStyle', () => {
-      const adapter = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
-      adapter.registerTheme('default', {});
-      adapter.registerStyleSheet('foo', () => SYNTAX_UNIFIED_LOCAL_FULL as any);
-
-      const styleSheet = adapter.createStyleSheet('foo', {});
-
-      expect(adapter.transformStyles([styleSheet.button], {})).toMatchSnapshot();
     });
   });
 });
