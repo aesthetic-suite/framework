@@ -1,3 +1,6 @@
+import getFlushedStyles from './helpers/getFlushedStyles';
+import purgeStyles from './helpers/purgeStyles';
+
 export default class StyleSheetManager {
   private element: HTMLStyleElement;
 
@@ -16,13 +19,8 @@ export default class StyleSheetManager {
     this.sheet = this.element.sheet as CSSStyleSheet;
   }
 
-  getInjectedStyles(): string {
-    return (
-      (this.element.textContent || '') +
-      Array.from(this.sheet.cssRules)
-        .map(rule => rule.cssText)
-        .join('')
-    );
+  getFlushedStyles(): string {
+    return getFlushedStyles(this.element);
   }
 
   injectRule(rule: string): this {
@@ -33,6 +31,12 @@ export default class StyleSheetManager {
 
   injectStatements(css: string): this {
     this.element.textContent += css;
+
+    return this;
+  }
+
+  purgeStyles(): this {
+    purgeStyles(this.element);
 
     return this;
   }

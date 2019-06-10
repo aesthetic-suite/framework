@@ -25,6 +25,6 @@ describe('useThemeFactory()', () => {
 
     shallow(<Component />);
 
-    expect(theme).toEqual({ unit: 8 });
+    expect(theme).toEqual({ color: 'black', unit: 8 });
   });
 });

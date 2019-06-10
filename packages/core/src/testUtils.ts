@@ -1,28 +1,48 @@
-/* eslint-disable sort-keys */
+/* eslint-disable sort-keys, import/no-unresolved */
 
+import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
 import Aesthetic from './Aesthetic';
+import getBaseFlushedStyles from './helpers/getFlushedStyles';
+import getStyleElements from './helpers/getStyleElements';
 import isObject from './helpers/isObject';
-import { Block, FontFace, Direction } from './types';
+import { FontFace, Direction } from './types';
 
-export class TestAesthetic extends Aesthetic<any, Block, Block> {
+export { getStyleElements };
+
+export interface TestTheme {
+  color: string;
+  unit: number;
+}
+
+export class TestAesthetic extends Aesthetic<TestTheme, any, any> {
   transformToClassName(styles: any[]): string {
     return styles.map((style, i) => `class-${i}`).join(' ');
   }
 }
 
-export function registerTestTheme(aesthetic: Aesthetic<any, any, any>) {
-  aesthetic.registerTheme('default', { unit: 8 }, ({ unit }) => ({
+export function registerTestTheme(aesthetic: Aesthetic<TestTheme, any, any>) {
+  aesthetic.registerTheme('default', { color: 'black', unit: 8 }, ({ unit }) => ({
     '@global': {
       body: {
         padding: unit,
       },
     },
   }));
+
+  aesthetic.extendTheme('light', 'default', {});
+
+  aesthetic.extendTheme('dark', 'default', {});
 }
 
-export function cleanStyles(source: string): string {
-  return source.replace(/\n/gu, '').replace(/\s{2,}/gu, '');
+export function cleanupStyleElements() {
+  getStyleElements().forEach(style => {
+    style.remove();
+  });
+}
+
+export function getFlushedStyles(namespace?: string): string {
+  return getBaseFlushedStyles(getStyleElements(namespace));
 }
 
 export function convertDirection(value: object | object[], dir: Direction): any {
@@ -57,6 +77,33 @@ export function convertDirection(value: object | object[], dir: Direction): any 
   };
 }
 
+export function renderAndExpect(
+  aesthetic: Aesthetic<any, any, any>,
+  styleSheet: any,
+  expectedStyles: any = {},
+  {
+    dir,
+    global = false,
+  }: {
+    dir: Direction;
+    global?: boolean;
+  },
+) {
+  const name = aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
+  const options = { name, rtl: dir === 'rtl' };
+  const convertedSheet = global
+    ? aesthetic.syntax.convertGlobalSheet(styleSheet, options).toObject()
+    : aesthetic.syntax.convertStyleSheet(styleSheet, options).toObject();
+  const parsedSheet = aesthetic.parseStyleSheet(convertedSheet, name);
+  const className = aesthetic.transformStyles(Object.values(parsedSheet), options);
+
+  aesthetic.flushStyles(name);
+
+  expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
+  expect(getFlushedStyles()).toMatchSnapshot();
+  expect(className).toMatchSnapshot();
+}
+
 export const TEST_CLASS_NAMES = {
   footer: '.footer',
   header: '.header',
@@ -77,7 +124,7 @@ export const FONT_ROBOTO: FontFace = {
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
-export const FONT_ROBOTO_FLAT_SRC = {
+export const FONT_ROBOTO_FLAT_SRC: CSS.FontFace = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -85,7 +132,7 @@ export const FONT_ROBOTO_FLAT_SRC = {
     "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
 };
 
-export const FONT_CIRCULAR_MULTIPLE = [
+export const FONT_CIRCULAR_MULTIPLE: FontFace[] = [
   {
     fontFamily: 'Circular',
     fontStyle: 'normal',
@@ -112,7 +159,7 @@ export const FONT_CIRCULAR_MULTIPLE = [
   },
 ];
 
-export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC = [
+export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC: CSS.FontFace[] = [
   {
     fontFamily: 'Circular',
     fontStyle: 'normal',
@@ -228,11 +275,11 @@ export const SYNTAX_DESCENDANT = {
 };
 
 export const SYNTAX_IMPORT = {
-  '@import': './some/path.css',
+  '@import': 'url("./some/path.css")',
 };
 
 export const SYNTAX_IMPORT_MULTIPLE = {
-  '@import': ['./some/path.css', './another/path.css'],
+  '@import': ['url("./some/path.css")', 'url("./another/path.css")'],
 };
 
 export const SYNTAX_FALLBACKS = {

@@ -63,13 +63,21 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     return this.sheets[styleName].classes;
   }
 
+  purgeStyles() {
+    Object.values(this.sheets).forEach(sheet => {
+      sheet.detach();
+    });
+
+    this.sheets = {};
+  }
+
   transformToClassName(styles: ParsedBlock[]): ClassName {
     return styles.join(' ');
   }
 
   // https://github.com/cssinjs/jss/blob/master/packages/jss/tests/integration/sheet.js#L144
   private handleCharset = (sheet: Sheet<NativeBlock>, charset: string) => {
-    sheet.addAtRule('@charset', charset);
+    sheet.addAtRule('@charset', `"${charset}"`);
   };
 
   private handleCss = (css: string) => {

@@ -3,10 +3,10 @@
 import { create } from 'jss';
 // @ts-ignore
 import preset from 'jss-preset-default';
-import { Direction } from 'aesthetic';
 import {
-  cleanStyles,
-  convertDirection,
+  cleanupStyleElements,
+  getFlushedStyles,
+  renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -42,54 +42,15 @@ jest.mock('uuid/v4', () => () => 'uuid');
 describe('JSSAesthetic', () => {
   let instance: JSSAesthetic<any>;
 
-  function testSnapshot(raw: boolean = false) {
-    if (raw) {
-      // @ts-ignore
-      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
-
-      return;
-    }
-
-    let snapshot = '';
-
-    Object.keys(instance.sheets).forEach(name => {
-      snapshot += instance.sheets[name].toString();
-    });
-
-    expect(cleanStyles(snapshot)).toMatchSnapshot();
-  }
-
-  function renderAndTest(
-    styleSheet: any,
-    expectedStyles: any = {},
-    {
-      dir,
-      global = false,
-      raw = false,
-    }: {
-      dir: Direction;
-      global?: boolean;
-      raw?: boolean;
-    },
-  ) {
-    const options = { name: 'jss', rtl: dir === 'rtl' };
-    const convertedSheet = global
-      ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
-      : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'jss');
-
-    expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
-
-    expect(instance.transformStyles(Object.values(parsedSheet), options)).toMatchSnapshot();
-
-    testSnapshot(raw);
-  }
-
   beforeEach(() => {
     const jss = create();
     jss.setup(preset());
 
     instance = new JSSAesthetic(jss);
+  });
+
+  afterEach(() => {
+    cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
@@ -101,18 +62,29 @@ describe('JSSAesthetic', () => {
         ).toBe(
           dir === 'ltr'
             ? 'foo inline-0-0-1-1 inline-1-0-1-2'
-            : 'foo inline-0-0-24-1 inline-1-0-24-2',
+            : 'foo inline-0-0-25-1 inline-1-0-25-2',
         );
-        testSnapshot();
+        expect(getFlushedStyles()).toMatchSnapshot();
 
         // @ts-ignore Allow null
         expect(instance.transformStyles(['foo', null], { dir })).toBe('foo');
-        testSnapshot();
+        expect(getFlushedStyles()).toMatchSnapshot();
+      });
+
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
+        expect(getFlushedStyles()).toMatchSnapshot();
       });
 
       describe('global sheet', () => {
         it('handles globals', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_GLOBAL,
             {
               '@global': {
@@ -131,7 +103,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACE,
             {
               '@font-face': [FONT_ROBOTO_FLAT_SRC],
@@ -141,7 +114,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles mixed @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACE_MIXED,
             {
               '@font-face': [FONT_ROBOTO_FLAT_SRC, ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC],
@@ -151,7 +125,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles multiple @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACE_MULTIPLE,
             {
               '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -161,7 +136,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @keyframes', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_KEYFRAMES,
             {
               '@keyframes fade-0': KEYFRAME_FADE,
@@ -171,7 +147,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @viewport', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_VIEWPORT,
             {
               '@viewport': {
@@ -184,30 +161,33 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @charset', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_CHARSET,
             {
-              '@charset': 'utf8',
+              '@charset': '"utf8"',
             },
             { dir, global: true },
           );
         });
 
         it('handles single @import', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_IMPORT,
             {
-              '@import': ['./some/path.css'],
+              '@import': ['url("./some/path.css")'],
             },
             { dir, global: true },
           );
         });
 
         it('handles multiple @import', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_IMPORT_MULTIPLE,
             {
-              '@import': ['./some/path.css', './another/path.css'],
+              '@import': ['url("./some/path.css")', 'url("./another/path.css")'],
             },
             { dir, global: true },
           );
@@ -216,7 +196,8 @@ describe('JSSAesthetic', () => {
 
       describe('style sheet', () => {
         it('converts unified syntax to native syntax and transforms to a class name', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_UNIFIED_LOCAL_FULL,
             {
               button: {
@@ -257,11 +238,12 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles properties', () => {
-          renderAndTest(SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
+          renderAndExpect(instance, SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
         });
 
         it('handles attribute selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_ATTRIBUTE,
             {
               attr: {
@@ -276,7 +258,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles descendant selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_DESCENDANT,
             {
               list: {
@@ -292,7 +275,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles pseudo selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_PSEUDO,
             {
               pseudo: {
@@ -310,7 +294,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles multiple selectors (comma separated)', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MULTI_SELECTOR,
             {
               multi: {
@@ -325,7 +310,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles inline @keyframes', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_KEYFRAMES_INLINE,
             {
               '@keyframes slide-0': KEYFRAME_SLIDE_PERCENT,
@@ -342,7 +328,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles inline @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACES_INLINE,
             {
               '@font-face': [
@@ -362,7 +349,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @fallbacks', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FALLBACKS,
             {
               fallback: {
@@ -381,7 +369,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY,
             {
               media: {
@@ -402,7 +391,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles nested @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY_NESTED,
             {
               media: {
@@ -420,7 +410,8 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @supports', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_SUPPORTS,
             {
               sup: {
@@ -438,7 +429,7 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles raw CSS', () => {
-          renderAndTest(SYNTAX_RAW_CSS, {}, { dir, raw: true });
+          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir });
         });
       });
     });

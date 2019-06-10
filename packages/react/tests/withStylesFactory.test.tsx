@@ -171,7 +171,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
     const wrapper = shallow(<Wrapped />);
 
-    expect(wrapper.prop('theme')).toEqual({ unit: 8 });
+    expect(wrapper.prop('theme')).toEqual({ color: 'black', unit: 8 });
   });
 
   it('creates a style sheet', () => {
@@ -264,25 +264,6 @@ describe('withStylesFactory()', () => {
         return <div className={cx(styles.header, styles.footer)} />;
       }
     }
-
-    it('inherits `rtl` from `Aesthetic` option', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
-
-      aesthetic.options.rtl = true;
-
-      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
-
-      act(() => {
-        ReactDOM.render(<Wrapped />, document.createElement('div'));
-      });
-
-      expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
-        name: Wrapped.styleName,
-        rtl: true,
-      });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
-    });
 
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');

@@ -57,10 +57,10 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     Object.keys(globalSheet).forEach(rule => {
       switch (rule) {
         case '@charset': {
-          const path = globalSheet[rule];
+          const charset = globalSheet[rule];
 
-          if (typeof path === 'string') {
-            this.emit('charset', [sheet, path]);
+          if (typeof charset === 'string') {
+            this.emit('charset', [sheet, charset]);
           } else if (__DEV__) {
             throw new Error('@charset must be a string.');
           }

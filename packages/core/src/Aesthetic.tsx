@@ -7,7 +7,6 @@ import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
   ClassName,
-  Direction,
   GlobalSheetDefinition,
   TransformOptions,
   SheetMap,
@@ -75,11 +74,12 @@ export default abstract class Aesthetic<
    * Apply and inject global styles for the current theme.
    * This should only happen once!
    */
-  applyGlobalStyles(options: TransformOptions): this {
+  applyGlobalStyles(baseOptions?: TransformOptions): this {
     if (this.appliedGlobals) {
       return this;
     }
 
+    const options = this.getDefaultTransformOptions(baseOptions);
     const globalDef = this.globals[this.options.theme];
     const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
 
@@ -100,15 +100,43 @@ export default abstract class Aesthetic<
   }
 
   /**
+   * Change the current theme to another registered theme.
+   * This requires all flushed styles to be purged, and for new styles
+   * to be regenerated.
+   */
+  changeTheme(themeName: ThemeName): this {
+    // Set theme as new option
+    this.getTheme(themeName);
+    this.options.theme = themeName;
+
+    // Remove flushed styles
+    this.purgeStyles();
+    this.getStyleSheetManager().purgeStyles();
+
+    // Clear caches
+    this.cache = {};
+    this.appliedGlobals = false;
+
+    // Generate new global styles
+    this.applyGlobalStyles({
+      rtl: this.options.rtl,
+    });
+
+    return this;
+  }
+
+  /**
    * Create and return a style sheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, options: TransformOptions): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName, baseOptions?: TransformOptions): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
 
-    this.applyGlobalStyles(options);
+    // Apply global styles on first render
+    this.applyGlobalStyles(baseOptions);
 
+    const options = this.getDefaultTransformOptions(baseOptions);
     const nativeSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
       ...options,
       name: styleName,
@@ -153,7 +181,7 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Flush parsed styles and inject them into the DOM.
+   * Flush transformed styles and inject them into the DOM.
    */
   flushStyles(styleName: StyleName) {}
 
@@ -198,29 +226,18 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Return true if either the context is set to "rtl" or Aesthetic is.
-   */
-  isRTL(context?: Direction): boolean {
-    if (context) {
-      if (context === 'rtl') {
-        return true;
-      } else if (context === 'ltr') {
-        return false;
-      }
-
-      // Neutral falls through
-    }
-
-    return this.options.rtl;
-  }
-
-  /**
    * Parse an Aesthetic style sheet into an adapter native style sheet.
    */
   parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
     // @ts-ignore Allow spread
     return { ...styleSheet };
   }
+
+  /**
+   * Purge and remove all flushed styles from the DOM.
+   * If no name is provided, purge all transformed styles.
+   */
+  purgeStyles() {}
 
   /**
    * Register a style sheet definition. Optionally extend from a parent style sheet if defined.
@@ -275,8 +292,9 @@ export default abstract class Aesthetic<
    */
   transformStyles(
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
-    options: TransformOptions,
+    baseOptions?: TransformOptions,
   ): ClassName {
+    const options = this.getDefaultTransformOptions(baseOptions);
     const classNames: ClassName[] = [];
     const nativeBlocks: NativeBlock[] = [];
     const parsedBlocks: ParsedBlock[] = [];
@@ -335,6 +353,15 @@ export default abstract class Aesthetic<
    * Transform the parsed style objects into CSS class names.
    */
   abstract transformToClassName(styles: ParsedBlock[]): ClassName;
+
+  /**
+   * Return transform options with defaults applied.
+   */
+  protected getDefaultTransformOptions(baseOptions: TransformOptions = {}): TransformOptions {
+    return {
+      rtl: typeof baseOptions.rtl === 'undefined' ? this.options.rtl : baseOptions.rtl,
+    };
+  }
 
   /**
    * Return a native style sheet manager used for injecting CSS.

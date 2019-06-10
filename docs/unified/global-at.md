@@ -117,9 +117,12 @@ Define one or many CSS files to import.
 ```js
 {
   // Single
-  '@import': 'css/reset.css',
+  '@import': 'url("css/reset.css")',
   // Multiple
-  '@import': ['css/reset.css', 'css/global.css'],
+  '@import': [
+    'url("css/reset.css")',
+    'url("css/global.css") screen',
+  ],
 }
 ```
 

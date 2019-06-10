@@ -1,10 +1,10 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils } from 'aphrodite';
-import { Direction } from 'aesthetic';
 import {
-  cleanStyles,
-  convertDirection,
+  cleanupStyleElements,
+  getFlushedStyles,
+  renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -32,38 +32,6 @@ import AphroditeAesthetic from '../src/AphroditeAesthetic';
 describe('AphroditeAesthetic', () => {
   let instance: AphroditeAesthetic<any>;
 
-  function renderAndTest(
-    styleSheet: any,
-    expectedStyles: any = {},
-    expectedClassName: string = '',
-    {
-      dir,
-      global = false,
-      raw = false,
-    }: {
-      dir: Direction;
-      global?: boolean;
-      raw?: boolean;
-    },
-  ) {
-    const options = { name: 'aphrodite', rtl: dir === 'rtl' };
-    const convertedSheet = global
-      ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
-      : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    const parsedSheet = instance.parseStyleSheet(convertedSheet);
-
-    expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
-
-    expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
-
-    if (raw) {
-      // @ts-ignore
-      expect(cleanStyles(instance.getStyleSheetManager().getInjectedStyles())).toMatchSnapshot();
-    } else {
-      expect(cleanStyles(StyleSheetTestUtils.getBufferedStyles().join(''))).toMatchSnapshot();
-    }
-  }
-
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
     instance = new AphroditeAesthetic();
@@ -71,6 +39,7 @@ describe('AphroditeAesthetic', () => {
 
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+    cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
@@ -82,9 +51,20 @@ describe('AphroditeAesthetic', () => {
         ).toBe('inline-0_16pg94n-o_O-inline-1_igcoje');
       });
 
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
+        expect(getFlushedStyles()).toMatchSnapshot();
+      });
+
       describe('global sheet', () => {
         it('handles globals', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_GLOBAL,
             {
               globals: {
@@ -98,7 +78,6 @@ describe('AphroditeAesthetic', () => {
                 },
               },
             },
-            'globals_vyedjg',
             { dir, global: true },
           );
         });
@@ -142,7 +121,8 @@ describe('AphroditeAesthetic', () => {
           instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
           instance.keyframes.fade = KEYFRAME_FADE;
 
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_UNIFIED_LOCAL_FULL,
             {
               button: {
@@ -178,26 +158,21 @@ describe('AphroditeAesthetic', () => {
                 },
               },
             },
-            dir === 'ltr' ? 'button_1dmte4q' : 'button_pvvr1m',
             { dir },
           );
         });
 
         it('handles properties', () => {
-          renderAndTest(
-            SYNTAX_PROPERTIES,
-            SYNTAX_PROPERTIES,
-            dir === 'ltr' ? 'props_n2jmqg' : 'props_1k579qb',
-            { dir },
-          );
+          renderAndExpect(instance, SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
         });
 
         it('handles attribute selectors', () => {
-          renderAndTest(SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, 'attr_424cv8', { dir });
+          renderAndExpect(instance, SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, { dir });
         });
 
         it('handles descendant selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_DESCENDANT,
             {
               list: {
@@ -208,22 +183,17 @@ describe('AphroditeAesthetic', () => {
                 },
               },
             },
-            'list_1lo5lhe',
             { dir },
           );
         });
 
         it('handles pseudo selectors', () => {
-          renderAndTest(
-            SYNTAX_PSEUDO,
-            SYNTAX_PSEUDO,
-            dir === 'ltr' ? 'pseudo_q2zd6k' : 'pseudo_q2zd6k',
-            { dir },
-          );
+          renderAndExpect(instance, SYNTAX_PSEUDO, SYNTAX_PSEUDO, { dir });
         });
 
         it('handles multiple selectors (comma separated)', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MULTI_SELECTOR,
             {
               multi: {
@@ -233,13 +203,13 @@ describe('AphroditeAesthetic', () => {
                 '> span': { cursor: 'default' },
               },
             },
-            'multi_1xnvdcd',
             { dir },
           );
         });
 
         it('handles inline @keyframes', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_KEYFRAMES_INLINE,
             {
               single: {
@@ -249,15 +219,13 @@ describe('AphroditeAesthetic', () => {
                 animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
               },
             },
-            dir === 'ltr'
-              ? 'single_zl2yc5-o_O-multiple_1r8o3nf'
-              : 'single_7ive5q-o_O-multiple_ysjk3k',
             { dir },
           );
         });
 
         it('handles inline @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACES_INLINE,
             {
               single: {
@@ -267,13 +235,13 @@ describe('AphroditeAesthetic', () => {
                 fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
               },
             },
-            'single_vfwy7z-o_O-multiple_17z04zp',
             { dir },
           );
         });
 
         it('handles @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY,
             {
               media: {
@@ -289,13 +257,13 @@ describe('AphroditeAesthetic', () => {
                 },
               },
             },
-            dir === 'ltr' ? 'media_1jcccqt' : 'media_1xdaj1a',
             { dir },
           );
         });
 
         it('handles nested @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY_NESTED,
             {
               media: {
@@ -308,13 +276,12 @@ describe('AphroditeAesthetic', () => {
                 },
               },
             },
-            'media_y3eou6',
             { dir },
           );
         });
 
         it('handles raw CSS', () => {
-          renderAndTest(SYNTAX_RAW_CSS, {}, '', { dir, raw: true });
+          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir });
         });
       });
     });

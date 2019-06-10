@@ -1,6 +1,7 @@
 # 4.0.0
 
-To support RTL mode and other frameworks besides React, the core APIs had to slightly change.
+To support right-to-left, dynamic themes, and other frameworks besides React, the core APIs had to
+slightly change.
 
 [View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/4.0.md)
 
@@ -20,8 +21,12 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 - Added built-in RTL support for _all_ adapters!
 - Added a `cxPropName` option to `Aesthetic`.
 - Added a `rtl` option to `Aesthetic`.
+- Added `Aesthetic#changeTheme`, so that the theme can be dynamically changed without having to
+  refresh the page (integration dependent).
 - Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
 - Added `Aesthetic#isRTL` for determining if a direction is right-to-left.
+- Added `Aesthetic#purgeStyles`, so that adapters can clear their style sheets.
+- Added `getFlushedStyles`, `getStyleElements`, and `purgeStyles` helper functions.
 - Added an options object to `Aesthetic#createStyleSheet`, `Aeshetic#transformStyles`,
   `UnifiedSyntax#convertGlobalSheet`, `UnifiedSyntax#convertStyleSheet`, and `Sheet`.
 - Updated `Aeshetic#transformStyles` to convert native blocks to parsed blocks before transforming
@@ -31,7 +36,7 @@ To support RTL mode and other frameworks besides React, the core APIs had to sli
 
 #### 🛠 Internals
 
-- Updated all `@types` dependencies to use `*` version.
+- Moved `@types` dependencies to development only.
 
 ## 3.5.0 - 2019-04-28
 

@@ -20,12 +20,12 @@ describe('StyleSheetManager', () => {
     manager.injectRule('.class { display: none; }');
     manager.injectRule('#id { background: none; }');
 
-    expect(manager.getInjectedStyles()).toBe('.class {display: none;}#id {background: none;}');
+    expect(manager.getFlushedStyles()).toBe('.class {display: none;}\n#id {background: none;}');
   });
 
   it('can inject multiple rules', () => {
     manager.injectStatements('.class { display: none; } #id { background: none; }');
 
-    expect(manager.getInjectedStyles()).toBe('.class { display: none; } #id { background: none; }');
+    expect(manager.getFlushedStyles()).toBe('.class {display: none;}\n#id {background: none;}');
   });
 });

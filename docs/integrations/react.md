@@ -40,7 +40,8 @@ export default useThemeFactory(aesthetic);
 ### withStyles
 
 The `withStylesFactory` function creates and returns a `withStyles` higher-order component. The HOC
-supports all of the [options](#options) mentioned previously as props, except for `theme`.
+supports all of the [options](../setup.md#options) mentioned previously as props, except for
+`theme`.
 
 ```ts
 // withStyles.ts
@@ -56,8 +57,8 @@ export default withStylesFactory(aesthetic);
 ### withTheme
 
 The `withThemeFactory` function creates and returns a `withTheme` higher-order component. The HOC
-passes the current theme as a prop. It supports the `themePropName` and `pure` [options](#options)
-mentioned previously as props.
+passes the current theme as a prop. It supports the `themePropName` and `pure`
+[options](../setup.md#options) mentioned previously as props.
 
 ```ts
 // withTheme.ts
@@ -160,7 +161,7 @@ export default function Button({ children, icon }: Props) {
 
 React supports global [Right-to-Left](../rtl.md) out of the box, but also supports the ability to
 provide a new direction for a target component tree using the `DirectionProvider`. The required
-direction can be defined using the `dir` prop.
+direction can be explicitly defined using the `dir` prop.
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
@@ -173,13 +174,13 @@ import Component from './Component';
 
 Furthermore, the direction can be detected automatically based on a string of text. This is
 extremely useful for inputs and textareas, where the content should flip based on what's passed to
-the `value` prop.
+the `value` prop (not `dir`).
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
 import Component from './Component';
 
-class Search extends React.Component {
+class Search extends React.Component<{}, { input: string }> {
   state = {
     input: '',
   };
@@ -198,6 +199,58 @@ class Search extends React.Component {
         <input type="search" value={value} onChange={this.handleChange} />
         <Component />
       </DirectionProvider>
+    );
+  }
+}
+```
+
+### ThemeProvider
+
+The `ThemeProvider` provides a layer to
+[dynamically change the current theme](../theme.md#changing-a-theme) and cause a re-render of the
+entire DOM tree. To properly function, the provider must be rendered at the application root, _must_
+contain all components that rely on Aesthetic styling, and must be passed an `Aesthetic` instance.
+
+```tsx
+import { ThemeProvider } from 'aesthetic-react';
+import aesthetic from './aesthetic';
+import App from './App';
+
+<ThemeProvider aesthetic={aesthetic}>
+  <App />
+</ThemeProvider>;
+```
+
+The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change. This
+component _must be_ rendered as a child within `ThemeProvider`.
+
+```tsx
+import { ThemeContext } from 'aesthetic-react';
+import Component from './Component';
+
+class ThemeSelector extends React.Component<{}, { value: string }> {
+  static contextType = ThemeContext;
+
+  state = {
+    value: 'light',
+  };
+
+  handleChange = event => {
+    const { value } = event.currentTarget;
+
+    this.setState({
+      value,
+    });
+
+    this.context.changeTheme(value);
+  };
+
+  render() {
+    return (
+      <select name="theme" onChange={handleChange} value={this.state.value}>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
     );
   }
 }

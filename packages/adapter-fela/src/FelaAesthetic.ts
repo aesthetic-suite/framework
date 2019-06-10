@@ -1,4 +1,11 @@
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, {
+  getStyleElements,
+  purgeStyles,
+  AestheticOptions,
+  ClassName,
+  Ruleset,
+  Sheet,
+} from 'aesthetic';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
@@ -37,6 +44,10 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
 
   transformToClassName(styles: ParsedBlock[]): ClassName {
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
+  }
+
+  purgeStyles() {
+    purgeStyles(getStyleElements('data-fela-type'));
   }
 
   // http://fela.js.org/docs/api/fela/Renderer.html

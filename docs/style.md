@@ -10,7 +10,7 @@ There are 3 phases involved when working with style sheets. As a preface, when i
 framework (like React), this process is entirely abstracted away, but the core concepts are nice to
 know.
 
-The first phase is defining and persisting the actual style sheet with
+The first phase is registering and persisting the actual style sheet with
 `Aesthetic#registerStyleSheet`. This method requires a unique style name as the 1st argument (this
 is used as a cache key) and the style sheet function as the 2nd argument.
 
@@ -22,10 +22,11 @@ aesthetic.registerStyleSheet('button-component', theme => ({
 }));
 ```
 
-Once the style sheet is defined, the second phase will parse and process it using the underlying
-adapter (like Aphrodite). This is triggered by the `Aesthetic#createStyleSheet` method, which
-requires the unique style name from the previous example, and returns a cached and parsed style
-sheet. This parsed style sheet is then used to generate [CSS class names](#generating-class-names).
+Once the style sheet is registered, the second phase will execute the function and parse the result
+using the underlying adapter (like Aphrodite). This is triggered by the `Aesthetic#createStyleSheet`
+method, which requires the unique style name from the previous example, and returns a cached and
+parsed style sheet. This parsed style sheet is then used to generate
+[CSS class names](#generating-class-names).
 
 ```ts
 const styles = aesthetic.createStyleSheet('button-component');
@@ -141,6 +142,16 @@ cx(
   { marginTop: -16 },
   'global-class-name',
 );
+```
+
+## Purging Flushed Styles
+
+In some rare cases, it may be required to purge and remove all styles that Aesthetic has flushed
+into the document. This functionality is achieved with `Aesthetic#purgeStyles` and is what powers
+dynamic and immediate theme switching.
+
+```ts
+aesthetic.purgeStyles();
 ```
 
 ## Extending Styles

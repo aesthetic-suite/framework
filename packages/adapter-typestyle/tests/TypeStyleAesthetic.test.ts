@@ -1,10 +1,10 @@
-/* eslint-disable jest/expect-expect, no-underscore-dangle */
+/* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
-import { Direction } from 'aesthetic';
 import {
-  cleanStyles,
-  convertDirection,
+  cleanupStyleElements,
+  getFlushedStyles,
+  renderAndExpect,
   DIRECTIONS,
   FONT_ROBOTO_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -34,40 +34,12 @@ import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 describe('TypeStyleAesthetic', () => {
   let instance: TypeStyleAesthetic<any>;
 
-  function renderAndTest(
-    styleSheet: any,
-    expectedStyles: any = {},
-    expectedClassName: string = '',
-    {
-      dir,
-      global = false,
-    }: {
-      dir: Direction;
-      global?: boolean;
-    },
-  ) {
-    const options = { name: 'typestyle', rtl: dir === 'rtl' };
-    const convertedSheet = global
-      ? instance.syntax.convertGlobalSheet(styleSheet, options).toObject()
-      : instance.syntax.convertStyleSheet(styleSheet, options).toObject();
-    const parsedSheet = instance.parseStyleSheet(convertedSheet, 'typestyle');
-
-    expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
-
-    expect(instance.transformStyles(Object.values(parsedSheet), options)).toBe(expectedClassName);
-
-    // @ts-ignore
-    if (instance.typeStyle._raw) {
-      // @ts-ignore
-      expect(cleanStyles(instance.typeStyle._raw)).toMatchSnapshot();
-    } else {
-      // @ts-ignore
-      expect(cleanStyles(instance.typeStyle._freeStyle.sheet.join(''))).toMatchSnapshot();
-    }
-  }
-
   beforeEach(() => {
-    instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: false }));
+    instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }));
+  });
+
+  afterEach(() => {
+    cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
@@ -79,9 +51,19 @@ describe('TypeStyleAesthetic', () => {
         ).toBe('f1rvgqmz');
       });
 
+      it('flushes and purges styles from the DOM', () => {
+        const styles = { test: { display: 'block' } };
+
+        renderAndExpect(instance, styles, styles, { dir });
+
+        instance.purgeStyles();
+
+        expect(getFlushedStyles()).toMatchSnapshot();
+      });
+
       describe('global sheet', () => {
         it('handles globals', () => {
-          renderAndTest(SYNTAX_GLOBAL, {}, '', { dir, global: true });
+          renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
         });
 
         it('handles @font-face', () => {
@@ -127,7 +109,8 @@ describe('TypeStyleAesthetic', () => {
 
           instance.keyframes.fade = instance.typeStyle.keyframes(KEYFRAME_FADE as any);
 
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_UNIFIED_LOCAL_FULL,
             {
               button: {
@@ -165,22 +148,17 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            dir === 'ltr' ? 'f1sm9ltv' : 'fjoi737',
             { dir },
           );
         });
 
         it('handles properties', () => {
-          renderAndTest(
-            SYNTAX_PROPERTIES,
-            SYNTAX_PROPERTIES,
-            dir === 'ltr' ? 'f1tfh618' : 'f1jaotx3',
-            { dir },
-          );
+          renderAndExpect(instance, SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
         });
 
         it('handles attribute selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_ATTRIBUTE,
             {
               attr: {
@@ -192,13 +170,13 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'f14zstro',
             { dir },
           );
         });
 
         it('handles descendant selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_DESCENDANT,
             {
               list: {
@@ -211,13 +189,13 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'f1qve63s',
             { dir },
           );
         });
 
         it('handles pseudo selectors', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_PSEUDO,
             {
               pseudo: {
@@ -232,13 +210,13 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'fmow1iy',
             { dir },
           );
         });
 
         it('handles multiple selectors (comma separated)', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MULTI_SELECTOR,
             {
               multi: {
@@ -250,45 +228,38 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'fkkhpct',
             { dir },
           );
         });
 
         it('handles inline @keyframes', () => {
-          if (dir === 'ltr') {
-            renderAndTest(
-              SYNTAX_KEYFRAMES_INLINE,
-              {
-                single: {
-                  animationName: 'f1pf291g',
+          renderAndExpect(
+            instance,
+            SYNTAX_KEYFRAMES_INLINE,
+            dir === 'ltr'
+              ? {
+                  single: {
+                    animationName: 'f1pf291g',
+                  },
+                  multiple: {
+                    animationName: 'f1pf291g, unknown, f1gwuh0p',
+                  },
+                }
+              : {
+                  single: {
+                    animationName: 'fx4te0v',
+                  },
+                  multiple: {
+                    animationName: 'fx4te0v, unknown, f1gwuh0p',
+                  },
                 },
-                multiple: {
-                  animationName: 'f1pf291g, unknown, f1gwuh0p',
-                },
-              },
-              'f1tug0x9',
-              { dir },
-            );
-          } else {
-            renderAndTest(
-              SYNTAX_KEYFRAMES_INLINE,
-              {
-                single: {
-                  animationName: 'fx4te0v',
-                },
-                multiple: {
-                  animationName: 'fx4te0v, unknown, f1gwuh0p',
-                },
-              },
-              'f1cpoezw',
-              { dir },
-            );
-          }
+            { dir },
+          );
         });
 
         it('handles inline @font-face', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FONT_FACES_INLINE,
             {
               single: {
@@ -298,13 +269,13 @@ describe('TypeStyleAesthetic', () => {
                 fontFamily: 'Circular, OtherFont, Roboto',
               },
             },
-            'fqopoa',
             { dir },
           );
         });
 
         it('handles @fallbacks', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_FALLBACKS,
             {
               fallback: {
@@ -313,13 +284,13 @@ describe('TypeStyleAesthetic', () => {
                 color: ['blue'],
               },
             },
-            'f35p7vi',
             { dir },
           );
         });
 
         it('handles @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY,
             {
               media: {
@@ -337,13 +308,13 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            dir === 'ltr' ? 'f7f3kmp' : 'f8c0g22',
             { dir },
           );
         });
 
         it('handles nested @media', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_MEDIA_QUERY_NESTED,
             {
               media: {
@@ -360,13 +331,13 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            'fuxmg1k',
             { dir },
           );
         });
 
         it('handles @supports', () => {
-          renderAndTest(
+          renderAndExpect(
+            instance,
             SYNTAX_SUPPORTS,
             {
               sup: {
@@ -381,13 +352,12 @@ describe('TypeStyleAesthetic', () => {
                 },
               },
             },
-            dir === 'ltr' ? 'f6m6wzj' : 'f7hcf0k',
             { dir },
           );
         });
 
         it('handles raw CSS', () => {
-          renderAndTest(SYNTAX_RAW_CSS, {}, '', { dir });
+          renderAndExpect(instance, SYNTAX_RAW_CSS, {}, { dir });
         });
       });
     });

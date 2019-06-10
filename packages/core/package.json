@@ -27,13 +27,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/extend": "*",
-    "@types/uuid": "*",
     "csstype": "^2.6.5",
     "extend": "^3.0.2",
     "rtl-css-js": "^1.13.0",
     "stylis": "^3.5.4",
     "utility-types": "^3.7.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/extend": "*",
+    "@types/uuid": "*"
   }
 }
