@@ -130,7 +130,7 @@ describe('Aesthetic', () => {
             color: 'black',
           },
         },
-        { name: 'foo' },
+        { name: 'foo', rtl: false },
       );
     });
 
@@ -160,6 +160,24 @@ describe('Aesthetic', () => {
       const sheet = instance.createStyleSheet('foo', {});
 
       expect(instance.cache.foo).toEqual(sheet);
+    });
+
+    it('inherits `rtl` from passed options', () => {
+      const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
+
+      instance.options.rtl = true;
+      instance.createStyleSheet('foo', { rtl: false });
+
+      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', rtl: false });
+    });
+
+    it('inherits `rtl` from `Aesthetic` option', () => {
+      const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
+
+      instance.options.rtl = true;
+      instance.createStyleSheet('foo', {});
+
+      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', rtl: true });
     });
   });
 
@@ -366,38 +384,16 @@ describe('Aesthetic', () => {
   });
 
   describe('isRTL()', () => {
-    beforeEach(() => {
-      instance.options.rtl = false;
-    });
-
-    it('returns true if context is `rtl`', () => {
+    it('returns true if direction is `rtl`', () => {
       expect(instance.isRTL('rtl')).toBe(true);
     });
 
-    it('returns option if context is not defined', () => {
-      instance.options.rtl = true;
-
-      expect(instance.isRTL()).toBe(true);
-    });
-
-    it('returns false if context is `ltr` and option is false', () => {
+    it('returns false if direction is `ltr`', () => {
       expect(instance.isRTL('ltr')).toBe(false);
     });
 
-    it('returns false if context is `neutral` and option is false', () => {
+    it('returns false if direction is `neutral`', () => {
       expect(instance.isRTL('neutral')).toBe(false);
-    });
-
-    it('returns false if context is `ltr` and option is true', () => {
-      instance.options.rtl = true;
-
-      expect(instance.isRTL('ltr')).toBe(false);
-    });
-
-    it('returns true if context is `neutral` and option is true', () => {
-      instance.options.rtl = true;
-
-      expect(instance.isRTL('neutral')).toBe(true);
     });
   });
 

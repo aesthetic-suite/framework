@@ -54,5 +54,21 @@ describe('ThemeProvider', () => {
     expect(count).toBe(1);
   });
 
-  it.todo('changes the theme when the context function is triggered');
+  it('changes the theme when the context function is triggered', () => {
+    const wrapper = shallow<ThemeProvider>(
+      <ThemeProvider aesthetic={aesthetic}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+      </ThemeProvider>,
+    );
+
+    expect(wrapper.state('theme')).toBe('light');
+    expect(wrapper.instance().ctx).toEqual(expect.objectContaining({ theme: 'light' }));
+
+    wrapper.instance().changeTheme('dark');
+
+    expect(wrapper.state('theme')).toBe('dark');
+    expect(wrapper.instance().ctx).toEqual(expect.objectContaining({ theme: 'dark' }));
+  });
 });

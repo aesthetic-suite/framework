@@ -75,11 +75,12 @@ export default abstract class Aesthetic<
    * Apply and inject global styles for the current theme.
    * This should only happen once!
    */
-  applyGlobalStyles(options: TransformOptions): this {
+  applyGlobalStyles(baseOptions?: TransformOptions): this {
     if (this.appliedGlobals) {
       return this;
     }
 
+    const options = this.getDefaultTransformOptions(baseOptions);
     const globalDef = this.globals[this.options.theme];
     const globalSheet = globalDef ? globalDef(this.getTheme()) : null;
 
@@ -128,14 +129,15 @@ export default abstract class Aesthetic<
   /**
    * Create and return a style sheet unique to an adapter.
    */
-  createStyleSheet(styleName: StyleName, options: TransformOptions): SheetMap<ParsedBlock> {
+  createStyleSheet(styleName: StyleName, baseOptions?: TransformOptions): SheetMap<ParsedBlock> {
     if (this.cache[styleName]) {
       return this.cache[styleName];
     }
 
     // Apply global styles on first render
-    this.applyGlobalStyles(options);
+    this.applyGlobalStyles(baseOptions);
 
+    const options = this.getDefaultTransformOptions(baseOptions);
     const nativeSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
       ...options,
       name: styleName,
@@ -225,20 +227,10 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Return true if either the context is set to "rtl" or Aesthetic is.
+   * Return true if the provided direction is RTL.
    */
-  isRTL(context?: Direction): boolean {
-    if (context) {
-      if (context === 'rtl') {
-        return true;
-      } else if (context === 'ltr') {
-        return false;
-      }
-
-      // Neutral falls through
-    }
-
-    return this.options.rtl;
+  isRTL(dir: Direction): boolean {
+    return dir === 'rtl';
   }
 
   /**
@@ -308,8 +300,9 @@ export default abstract class Aesthetic<
    */
   transformStyles(
     styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
-    options: TransformOptions,
+    baseOptions?: TransformOptions,
   ): ClassName {
+    const options = this.getDefaultTransformOptions(baseOptions);
     const classNames: ClassName[] = [];
     const nativeBlocks: NativeBlock[] = [];
     const parsedBlocks: ParsedBlock[] = [];
@@ -368,6 +361,15 @@ export default abstract class Aesthetic<
    * Transform the parsed style objects into CSS class names.
    */
   abstract transformToClassName(styles: ParsedBlock[]): ClassName;
+
+  /**
+   * Return transform options with defaults applied.
+   */
+  protected getDefaultTransformOptions(baseOptions: TransformOptions = {}): TransformOptions {
+    return {
+      rtl: typeof baseOptions.rtl === 'undefined' ? this.options.rtl : baseOptions.rtl,
+    };
+  }
 
   /**
    * Return a native style sheet manager used for injecting CSS.

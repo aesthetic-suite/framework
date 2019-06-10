@@ -12,9 +12,8 @@ const aesthetic = new Aesthetic({ rtl: true });
 
 ## Supporting Style Sheets
 
-While the above option enables RTL globally, style sheets will need the `rtl` option also passed
-when being created and transformed. This allows the mode to be configured on a per style sheet
-basis.
+While the above option enables RTL globally, style sheets can configure the mode on a per sheet
+basis using the `rtl` option (which needs to be passed when being created and transformed).
 
 ```ts
 const styles = aesthetic.createStyleSheet('button-component', { rtl: true });

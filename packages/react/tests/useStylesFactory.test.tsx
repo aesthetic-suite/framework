@@ -123,20 +123,6 @@ describe('useStylesFactory()', () => {
       return <div className={cx(styles.header, styles.footer)} />;
     }
 
-    it('inherits `rtl` from `Aesthetic` option', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
-
-      aesthetic.options.rtl = true;
-
-      act(() => {
-        ReactDOM.render(<Component />, container);
-      });
-
-      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
-    });
-
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');

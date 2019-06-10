@@ -40,7 +40,8 @@ export default useThemeFactory(aesthetic);
 ### withStyles
 
 The `withStylesFactory` function creates and returns a `withStyles` higher-order component. The HOC
-supports all of the [options](#options) mentioned previously as props, except for `theme`.
+supports all of the [options](../setup.md#options) mentioned previously as props, except for
+`theme`.
 
 ```ts
 // withStyles.ts
@@ -56,8 +57,8 @@ export default withStylesFactory(aesthetic);
 ### withTheme
 
 The `withThemeFactory` function creates and returns a `withTheme` higher-order component. The HOC
-passes the current theme as a prop. It supports the `themePropName` and `pure` [options](#options)
-mentioned previously as props.
+passes the current theme as a prop. It supports the `themePropName` and `pure`
+[options](../setup.md#options) mentioned previously as props.
 
 ```ts
 // withTheme.ts
@@ -220,7 +221,8 @@ import App from './App';
 </ThemeProvider>;
 ```
 
-The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change.
+The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change. This
+component _must be_ rendered as a child within `ThemeProvider`.
 
 ```tsx
 import { ThemeContext } from 'aesthetic-react';

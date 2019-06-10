@@ -22,7 +22,7 @@ slightly change.
 - Added a `cxPropName` option to `Aesthetic`.
 - Added a `rtl` option to `Aesthetic`.
 - Added `Aesthetic#changeTheme`, so that the theme can be dynamically changed without having to
-  refresh the page.
+  refresh the page (integration dependent).
 - Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
 - Added `Aesthetic#isRTL` for determining if a direction is right-to-left.
 - Added `Aesthetic#purgeStyles`, so that adapters can clear their style sheets.

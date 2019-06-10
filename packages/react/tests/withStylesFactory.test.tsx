@@ -265,25 +265,6 @@ describe('withStylesFactory()', () => {
       }
     }
 
-    it('inherits `rtl` from `Aesthetic` option', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
-
-      aesthetic.options.rtl = true;
-
-      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
-
-      act(() => {
-        ReactDOM.render(<Wrapped />, document.createElement('div'));
-      });
-
-      expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
-        name: Wrapped.styleName,
-        rtl: true,
-      });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
-    });
-
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
