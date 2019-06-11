@@ -1,0 +1,27 @@
+{
+  "name": "aesthetic-utils",
+  "version": "2.0.0-alpha.0",
+  "description": "Utility functions for Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "utils",
+    "helpers"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/utils",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@types/react": "*",
+    "direction": "^1.0.3",
+    "hoist-non-react-statics": "^3.3.0",
+    "prop-types": "^15.7.2",
+    "utility-types": "^3.7.0",
+    "uuid": "^3.3.2"
+  }
+}
