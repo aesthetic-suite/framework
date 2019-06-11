@@ -11,6 +11,6 @@ import Sheet from './Sheet';
 
 export * from './types';
 
-export { AestheticOptions, ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
+export { ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };
 
 export default Aesthetic;

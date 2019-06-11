@@ -2,9 +2,10 @@ import { Omit } from 'utility-types';
 import toArray from './toArray';
 
 interface FontFaceLike {
-  local?: string;
+  local?: string[];
   src?: string;
-  srcPaths: string[];
+  srcPaths?: string | string[];
+  [key: string]: unknown;
 }
 
 const FORMATS: { [ext: string]: string } = {
@@ -20,7 +21,7 @@ const FORMATS: { [ext: string]: string } = {
 export default function formatFontFace<T extends FontFaceLike>(
   properties: Partial<T>,
 ): Omit<T, 'local' | 'srcPaths'> {
-  const fontFace = { ...properties };
+  const fontFace: any = { ...properties };
   const src: string[] = [];
 
   if (fontFace.local) {
