@@ -1,5 +1,5 @@
-# 1.0.0
+# 2.0.0
 
 #### 🎉 Release
 
-- Initial release!
+- Re-release of this old package.

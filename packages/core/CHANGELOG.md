@@ -9,6 +9,8 @@ slightly change.
 
 - React hooks, HOCs, and types have moved to the new
   [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
+- Helper functions have moved to the new
+  [aesthetic-utils](https://github.com/milesj/aesthetic/tree/master/packages/utils) package.
 - Updated `Aesthetic#transformStyles` to require all styles as an array in the 1st argument, instead
   of being spread across all arguments.
 - Updated `Aesthetic#transformToClassName` to only be passed the parsed blocks and not the native
@@ -24,7 +26,6 @@ slightly change.
 - Added `Aesthetic#changeTheme`, so that the theme can be dynamically changed without having to
   refresh the page (integration dependent).
 - Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
-- Added `Aesthetic#isRTL` for determining if a direction is right-to-left.
 - Added `Aesthetic#purgeStyles`, so that adapters can clear their style sheets.
 - Added `getFlushedStyles`, `getStyleElements`, and `purgeStyles` helper functions.
 - Added an options object to `Aesthetic#createStyleSheet`, `Aeshetic#transformStyles`,
