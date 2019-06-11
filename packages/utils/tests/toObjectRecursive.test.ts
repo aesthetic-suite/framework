@@ -1,4 +1,4 @@
-import toObjectRecursive from '../../src/helpers/toObjectRecursive';
+import toObjectRecursive from '../src/toObjectRecursive';
 
 describe('toObjectRecursive()', () => {
   it('calls `toObject` on object', () => {

@@ -106,7 +106,7 @@ export type GlobalSheet = {
 };
 
 export type GlobalSheetNeverize<T> = {
-  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never;
+  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never
 };
 
 export type GlobalSheetDefinition<Theme, T> =
@@ -114,6 +114,17 @@ export type GlobalSheetDefinition<Theme, T> =
   | null;
 
 // MISC
+
+export interface AestheticOptions {
+  cxPropName: string;
+  extendable: boolean;
+  passThemeProp: boolean;
+  pure: boolean;
+  rtl: boolean;
+  stylesPropName: string;
+  theme: ThemeName;
+  themePropName: string;
+}
 
 export interface TransformOptions {
   name?: StyleName;

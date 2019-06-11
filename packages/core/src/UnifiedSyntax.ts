@@ -2,9 +2,7 @@
 
 import Stylis from 'stylis';
 import { convertProperty } from 'rtl-css-js/core';
-import formatFontFace from './helpers/formatFontFace';
-import isObject from './helpers/isObject';
-import toArray from './helpers/toArray';
+import { formatFontFace, isObject, toArray } from 'aesthetic-utils';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 import {

@@ -1,11 +1,11 @@
 import deepMerge from 'extend';
 import uuid from 'uuid/v4';
-import isObject from './helpers/isObject';
-import stripClassPrefix from './helpers/stripClassPrefix';
+import { isObject, stripClassPrefix } from 'aesthetic-utils';
 import Sheet from './Sheet';
 import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
 import {
+  AestheticOptions,
   ClassName,
   GlobalSheetDefinition,
   TransformOptions,
@@ -15,17 +15,6 @@ import {
   StyleSheetDefinition,
   ThemeName,
 } from './types';
-
-export interface AestheticOptions {
-  cxPropName: string;
-  extendable: boolean;
-  passThemeProp: boolean;
-  pure: boolean;
-  rtl: boolean;
-  stylesPropName: string;
-  theme: ThemeName;
-  themePropName: string;
-}
 
 export default abstract class Aesthetic<
   Theme extends object,

@@ -20,13 +20,14 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core",
   "license": "MIT",
   "main": "./lib/index.js",
-  "module": "./module.js",
+  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
+    "aesthetic-utils": "^2.0.0-alpha.0",
     "csstype": "^2.6.5",
     "extend": "^3.0.2",
     "rtl-css-js": "^1.13.0",

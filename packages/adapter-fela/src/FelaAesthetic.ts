@@ -1,11 +1,5 @@
-import Aesthetic, {
-  getStyleElements,
-  purgeStyles,
-  AestheticOptions,
-  ClassName,
-  Ruleset,
-  Sheet,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';

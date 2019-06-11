@@ -1,12 +1,5 @@
-import Aesthetic, {
-  getStyleElements,
-  purgeStyles,
-  AestheticOptions,
-  ClassName,
-  Ruleset,
-  Sheet,
-  SheetMap,
-} from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
+import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 // @ts-ignore flushToStyleTag is not typed
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';

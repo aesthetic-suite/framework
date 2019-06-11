@@ -1,5 +1,6 @@
 import { useContext, useState, useLayoutEffect } from 'react';
-import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap, isRTL } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
+import { isRTL } from 'aesthetic-utils';
 import uuid from 'uuid/v4';
 import DirectionContext from './DirectionContext';
 

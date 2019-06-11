@@ -1,5 +1,4 @@
-import getFlushedStyles from './helpers/getFlushedStyles';
-import purgeStyles from './helpers/purgeStyles';
+import { getFlushedStyles, purgeStyles } from 'aesthetic-utils';
 
 export default class StyleSheetManager {
   private element: HTMLStyleElement;

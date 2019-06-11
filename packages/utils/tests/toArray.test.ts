@@ -1,4 +1,4 @@
-import toArray from '../../src/helpers/toArray';
+import toArray from '../src/toArray';
 
 describe('toArray()', () => {
   it('returns an array from a non-array value', () => {

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import Aesthetic, { purgeStyles, AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import { purgeStyles } from 'aesthetic-utils';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
 

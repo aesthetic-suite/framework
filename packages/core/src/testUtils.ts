@@ -2,10 +2,12 @@
 
 import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
+import {
+  getFlushedStyles as getBaseFlushedStyles,
+  getStyleElements,
+  isObject,
+} from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
-import getBaseFlushedStyles from './helpers/getFlushedStyles';
-import getStyleElements from './helpers/getStyleElements';
-import isObject from './helpers/isObject';
 import { FontFace, Direction } from './types';
 
 export { getStyleElements };
