@@ -1,5 +1,6 @@
 import React from 'react';
-import Aesthetic, { ClassNameTransformer, Direction, StyleSheetDefinition, isRTL } from 'aesthetic';
+import Aesthetic, { ClassNameTransformer, Direction, StyleSheetDefinition } from 'aesthetic';
+import { isRTL } from 'aesthetic-utils';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';

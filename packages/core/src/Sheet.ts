@@ -1,4 +1,4 @@
-import toObjectRecursive from './helpers/toObjectRecursive';
+import { toObjectRecursive } from 'aesthetic-utils';
 import Ruleset from './Ruleset';
 import { ClassName, SheetMap, TransformOptions } from './types';
 

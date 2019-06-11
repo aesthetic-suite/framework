@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@types/react": "*",
+    "aesthetic-utils": "^2.0.0-alpha.0",
     "direction": "^1.0.3",
     "hoist-non-react-statics": "^3.3.0",
     "prop-types": "^15.7.2",

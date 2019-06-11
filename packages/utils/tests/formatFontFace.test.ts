@@ -1,4 +1,4 @@
-import formatFontFace from '../../src/helpers/formatFontFace';
+import formatFontFace from '../src/formatFontFace';
 import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from '../../src/testUtils';
 
 describe('formatFontFace()', () => {

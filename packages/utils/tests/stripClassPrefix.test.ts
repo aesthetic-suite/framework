@@ -1,4 +1,4 @@
-import stripClassPrefix from '../../src/helpers/stripClassPrefix';
+import stripClassPrefix from '../src/stripClassPrefix';
 
 describe('stripClassPrefix()', () => {
   it('removes leading period', () => {

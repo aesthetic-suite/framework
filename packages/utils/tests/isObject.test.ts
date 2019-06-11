@@ -1,4 +1,4 @@
-import isObject from '../../src/helpers/isObject';
+import isObject from '../src/isObject';
 
 describe('isObject()', () => {
   it('returns false for non-objects', () => {

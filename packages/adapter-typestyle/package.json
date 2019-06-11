@@ -16,6 +16,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "aesthetic-utils": "^2.0.0-alpha.0"
+  },
   "peerDependencies": {
     "aesthetic": "^3.0.0",
     "typestyle": "^2.0.0"

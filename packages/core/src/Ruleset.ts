@@ -1,5 +1,5 @@
 import convertRTL from 'rtl-css-js';
-import toObjectRecursive from './helpers/toObjectRecursive';
+import { toObjectRecursive } from 'aesthetic-utils';
 import Sheet from './Sheet';
 import { CompoundProperties } from './types';
 

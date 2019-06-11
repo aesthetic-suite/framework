@@ -1,4 +1,4 @@
-import isRTL from '../../src/helpers/isRTL';
+import isRTL from '../src/isRTL';
 
 describe('isRTL()', () => {
   it('returns true if direction is `rtl`', () => {

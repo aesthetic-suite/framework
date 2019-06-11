@@ -1,7 +1,6 @@
 import deepMerge from 'extend';
 import uuid from 'uuid/v4';
-import isObject from './helpers/isObject';
-import stripClassPrefix from './helpers/stripClassPrefix';
+import { isObject, stripClassPrefix } from 'aesthetic-utils';
 import Sheet from './Sheet';
 import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
