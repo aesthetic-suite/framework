@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic, { AestheticOptions } from './Aesthetic';
+import Aesthetic from './Aesthetic';
 import ClassNameAesthetic from './ClassNameAesthetic';
 import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './Ruleset';
