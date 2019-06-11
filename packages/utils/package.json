@@ -17,11 +17,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/react": "*",
-    "direction": "^1.0.3",
-    "hoist-non-react-statics": "^3.3.0",
-    "prop-types": "^15.7.2",
-    "utility-types": "^3.7.0",
-    "uuid": "^3.3.2"
+    "utility-types": "^3.7.0"
   }
 }
