@@ -6,6 +6,7 @@ import { ThemeContextShape } from './types';
 export interface ThemeProviderProps {
   aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
+  name?: ThemeName;
 }
 
 export interface ThemeProviderState {
@@ -22,9 +23,25 @@ export default class ThemeProvider extends React.PureComponent<
     theme: this.props.aesthetic.options.theme,
   };
 
+  componentDidMount() {
+    const { name } = this.props;
+
+    if (name && name !== this.state.theme) {
+      this.changeTheme(name);
+    }
+  }
+
+  componentDidUpdate(prevProps: ThemeProviderProps) {
+    const { name } = this.props;
+
+    if (name && name !== prevProps.name) {
+      this.changeTheme(name);
+    }
+  }
+
   changeTheme = (theme: ThemeName) => {
     this.props.aesthetic.changeTheme(theme);
-    this.ctx!.theme = theme;
+    this.ctx!.themeName = theme;
     this.setState({ theme });
   };
 
@@ -32,7 +49,7 @@ export default class ThemeProvider extends React.PureComponent<
     if (!this.ctx) {
       this.ctx = {
         changeTheme: this.changeTheme,
-        theme: this.state.theme,
+        themeName: this.state.theme,
       };
     }
 

@@ -221,8 +221,17 @@ import App from './App';
 </ThemeProvider>;
 ```
 
-The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change. This
-component _must be_ rendered as a child within `ThemeProvider`.
+By default the `theme` option on the Aesthetic instance will be used as the target theme, but the
+`name` prop can be used to override this.
+
+```tsx
+<ThemeProvider aesthetic={aesthetic} name="dark">
+  <App />
+</ThemeProvider>
+```
+
+The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change
+manually. Your component _must be_ rendered as a child within `ThemeProvider`.
 
 ```tsx
 import { ThemeContext } from 'aesthetic-react';

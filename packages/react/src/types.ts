@@ -12,7 +12,7 @@ import { Omit } from 'utility-types';
 
 export interface ThemeContextShape {
   changeTheme: (theme: ThemeName) => void;
-  theme: ThemeName;
+  themeName: ThemeName;
 }
 
 export interface WithThemeWrapperProps {
