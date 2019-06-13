@@ -34,22 +34,6 @@ describe('Aesthetic', () => {
         themePropName: 'theme',
       });
     });
-
-    it('sets `ltr` on document', () => {
-      instance = new TestAesthetic({
-        rtl: false,
-      });
-
-      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
-    });
-
-    it('sets `rtl` on document', () => {
-      instance = new TestAesthetic({
-        rtl: true,
-      });
-
-      expect(document.documentElement.getAttribute('dir')).toBe('rtl');
-    });
   });
 
   describe('applyGlobalStyles()', () => {
@@ -78,6 +62,22 @@ describe('Aesthetic', () => {
       instance.applyGlobalStyles({});
 
       expect(spy).toHaveBeenCalledWith({}, ':root');
+    });
+
+    it('sets `ltr` on document', () => {
+      instance.applyGlobalStyles({
+        rtl: false,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
+    });
+
+    it('sets `rtl` on document', () => {
+      instance.applyGlobalStyles({
+        rtl: true,
+      });
+
+      expect(document.documentElement.getAttribute('dir')).toBe('rtl');
     });
   });
 
