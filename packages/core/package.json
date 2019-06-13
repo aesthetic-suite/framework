@@ -1,6 +1,6 @@
 {
   "name": "aesthetic",
-  "version": "4.0.0-alpha.1",
+  "version": "4.0.0-alpha.2",
   "description": "Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components through the use of adapters.",
   "keywords": [
     "aesthetic",
