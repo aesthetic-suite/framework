@@ -52,6 +52,11 @@ export interface WithThemeOptions {
   themePropName?: string;
 }
 
+export interface WithStylesContextProps {
+  dir: Direction;
+  themeName: ThemeName;
+}
+
 export interface WithStylesWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withStyles`. */
   wrappedRef?: React.Ref<any>;
