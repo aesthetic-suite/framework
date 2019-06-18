@@ -8,7 +8,7 @@ export default function getFlushedStyles(styles: HTMLStyleElement | HTMLStyleEle
 
     if (sheet && sheet.cssRules) {
       content = Array.from(sheet.cssRules)
-        .map(rule => rule.cssText)
+        .map(rule => (rule ? rule.cssText : ''))
         .join('\n');
     } else if (style.textContent) {
       content = style.textContent;

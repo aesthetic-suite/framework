@@ -10,7 +10,9 @@ export default function purgeStyles(styles: HTMLStyleElement | HTMLStyleElement[
 
     if (sheet && sheet.cssRules) {
       Array.from(sheet.cssRules).forEach((rule, index) => {
-        sheet.deleteRule(index);
+        if (sheet.cssRules.item(index)) {
+          sheet.deleteRule(index);
+        }
       });
     }
   });
