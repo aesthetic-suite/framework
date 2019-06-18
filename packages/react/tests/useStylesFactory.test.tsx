@@ -129,7 +129,7 @@ describe('useStylesFactory()', () => {
 
       act(() => {
         ReactDOM.render(
-          <DirectionProvider dir="rtl">
+          <DirectionProvider aesthetic={aesthetic} dir="rtl">
             <Component />
           </DirectionProvider>,
           container,
@@ -146,7 +146,7 @@ describe('useStylesFactory()', () => {
 
       act(() => {
         ReactDOM.render(
-          <DirectionProvider value="بسيطة">
+          <DirectionProvider aesthetic={aesthetic} value="بسيطة">
             <Component />
           </DirectionProvider>,
           container,

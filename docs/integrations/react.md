@@ -160,14 +160,15 @@ export default function Button({ children, icon }: Props) {
 ### DirectionProvider
 
 React supports global [Right-to-Left](../rtl.md) out of the box, but also supports the ability to
-provide a new direction for a target component tree using the `DirectionProvider`. The required
-direction can be explicitly defined using the `dir` prop.
+provide a new direction for a target component tree using the `DirectionProvider`, and a passed
+`Aesthetic` instance. The required direction can be explicitly defined using the `dir` prop.
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
+import aesthetic from './aesthetic';
 import Component from './Component';
 
-<DirectionProvider dir="rtl">
+<DirectionProvider aesthetic={aesthetic} dir="rtl">
   <Component />
 </DirectionProvider>;
 ```
@@ -178,6 +179,7 @@ the `value` prop (not `dir`).
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
+import aesthetic from './aesthetic';
 import Component from './Component';
 
 class Search extends React.Component<{}, { input: string }> {
@@ -195,7 +197,7 @@ class Search extends React.Component<{}, { input: string }> {
     const value = this.state.input;
 
     return (
-      <DirectionProvider value={value}>
+      <DirectionProvider aesthetic={aesthetic} value={value}>
         <input type="search" value={value} onChange={this.handleChange} />
         <Component />
       </DirectionProvider>

@@ -273,7 +273,7 @@ describe('withStylesFactory()', () => {
 
       act(() => {
         ReactDOM.render(
-          <DirectionProvider dir="rtl">
+          <DirectionProvider aesthetic={aesthetic} dir="rtl">
             <Wrapped />
           </DirectionProvider>,
           document.createElement('div'),
@@ -295,7 +295,7 @@ describe('withStylesFactory()', () => {
 
       act(() => {
         ReactDOM.render(
-          <DirectionProvider value="بسيطة">
+          <DirectionProvider aesthetic={aesthetic} value="بسيطة">
             <Wrapped />
           </DirectionProvider>,
           document.createElement('div'),

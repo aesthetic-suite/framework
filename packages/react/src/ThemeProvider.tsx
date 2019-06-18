@@ -1,17 +1,7 @@
 import React from 'react';
-import Aesthetic, { ThemeName } from 'aesthetic';
+import { ThemeName } from 'aesthetic';
 import ThemeContext from './ThemeContext';
-import { ThemeContextShape } from './types';
-
-export interface ThemeProviderProps {
-  aesthetic: Aesthetic<any, any, any>;
-  children: NonNullable<React.ReactNode>;
-  name?: ThemeName;
-}
-
-export interface ThemeProviderState {
-  theme: ThemeName;
-}
+import { ThemeContextShape, ThemeProviderProps, ThemeProviderState } from './types';
 
 export default class ThemeProvider extends React.PureComponent<
   ThemeProviderProps,

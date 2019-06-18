@@ -1,5 +1,5 @@
 import React from 'react';
-import {
+import Aesthetic, {
   ClassNameTransformer,
   Direction,
   SheetMap,
@@ -10,9 +10,27 @@ import {
 } from 'aesthetic';
 import { Omit } from 'utility-types';
 
+export interface DirectionProviderProps {
+  aesthetic: Aesthetic<any, any, any>;
+  children: NonNullable<React.ReactNode>;
+  dir?: Exclude<Direction, 'neutral'>;
+  inline?: boolean;
+  value?: string;
+}
+
 export interface ThemeContextShape {
   changeTheme: (theme: ThemeName) => void;
   themeName: ThemeName;
+}
+
+export interface ThemeProviderProps {
+  aesthetic: Aesthetic<any, any, any>;
+  children: NonNullable<React.ReactNode>;
+  name?: ThemeName;
+}
+
+export interface ThemeProviderState {
+  theme: ThemeName;
 }
 
 export interface WithThemeWrapperProps {

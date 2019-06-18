@@ -2,13 +2,20 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
+import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
 import DirectionContext from '../src/DirectionContext';
 import DirectionProvider from '../src/DirectionProvider';
 
 describe('DirectionProvider', () => {
+  let aesthetic: TestAesthetic;
   const oldProvider = DirectionContext.Provider;
 
   beforeEach(() => {
+    aesthetic = new TestAesthetic();
+    aesthetic.options.theme = 'light';
+
+    registerTestTheme(aesthetic);
+
     DirectionContext.Provider = class MockProvider extends React.Component<any> {
       render() {
         return this.props.children;
@@ -22,7 +29,7 @@ describe('DirectionProvider', () => {
 
   it('renders a `div` by default', () => {
     const wrapper = shallow(
-      <DirectionProvider>
+      <DirectionProvider aesthetic={aesthetic}>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -32,7 +39,7 @@ describe('DirectionProvider', () => {
 
   it('renders a `span` when `inline`', () => {
     const wrapper = shallow(
-      <DirectionProvider inline>
+      <DirectionProvider aesthetic={aesthetic} inline>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -42,7 +49,7 @@ describe('DirectionProvider', () => {
 
   it('renders `ltr` explicitly with `dir`', () => {
     const wrapper = shallow(
-      <DirectionProvider dir="ltr">
+      <DirectionProvider aesthetic={aesthetic} dir="ltr">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -52,7 +59,7 @@ describe('DirectionProvider', () => {
 
   it('renders `rtl` explicitly with `dir`', () => {
     const wrapper = shallow(
-      <DirectionProvider dir="rtl">
+      <DirectionProvider aesthetic={aesthetic} dir="rtl">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -62,7 +69,7 @@ describe('DirectionProvider', () => {
 
   it('renders `dir` over `value`', () => {
     const wrapper = shallow(
-      <DirectionProvider dir="rtl" value="Hello!">
+      <DirectionProvider aesthetic={aesthetic} dir="rtl" value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -72,7 +79,7 @@ describe('DirectionProvider', () => {
 
   it('infers `ltr` from `value`', () => {
     const wrapper = shallow(
-      <DirectionProvider value="Hello!">
+      <DirectionProvider aesthetic={aesthetic} value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -82,7 +89,29 @@ describe('DirectionProvider', () => {
 
   it('infers `rtl` from `value`', () => {
     const wrapper = shallow(
-      <DirectionProvider value="بسيطة">
+      <DirectionProvider aesthetic={aesthetic} value="بسيطة">
+        <section>Content</section>
+      </DirectionProvider>,
+    );
+
+    expect(wrapper.find('div').prop('dir')).toBe('rtl');
+  });
+
+  it('infers `ltr` from `Aesthetic` instance', () => {
+    const wrapper = shallow(
+      <DirectionProvider aesthetic={aesthetic}>
+        <section>Content</section>
+      </DirectionProvider>,
+    );
+
+    expect(wrapper.find('div').prop('dir')).toBe('ltr');
+  });
+
+  it('infers `rtl` from `Aesthetic` instance', () => {
+    aesthetic.options.rtl = true;
+
+    const wrapper = shallow(
+      <DirectionProvider aesthetic={aesthetic}>
         <section>Content</section>
       </DirectionProvider>,
     );
