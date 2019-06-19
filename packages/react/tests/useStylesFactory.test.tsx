@@ -51,7 +51,7 @@ describe('useStylesFactory()', () => {
 
     shallow(<Component />);
 
-    expect(spy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: false });
+    expect(spy).toHaveBeenCalledWith(styleName, { dir: 'ltr', name: styleName, theme: 'default' });
   });
 
   it('flushes styles only once', () => {
@@ -136,8 +136,16 @@ describe('useStylesFactory()', () => {
         );
       });
 
-      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
+      expect(createSpy).toHaveBeenCalledWith(styleName, {
+        dir: 'rtl',
+        name: styleName,
+        theme: 'default',
+      });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+        dir: 'rtl',
+        name: styleName,
+        theme: 'default',
+      });
     });
 
     it('inherits `rtl` from inferred `DirectionProvider` value', () => {
@@ -153,8 +161,16 @@ describe('useStylesFactory()', () => {
         );
       });
 
-      expect(createSpy).toHaveBeenCalledWith(styleName, { name: styleName, rtl: true });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: styleName, rtl: true });
+      expect(createSpy).toHaveBeenCalledWith(styleName, {
+        dir: 'rtl',
+        name: styleName,
+        theme: 'default',
+      });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+        dir: 'rtl',
+        name: styleName,
+        theme: 'default',
+      });
     });
 
     it.todo('re-creates a style sheet if provider context changes');

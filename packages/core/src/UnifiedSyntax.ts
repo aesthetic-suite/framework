@@ -2,7 +2,7 @@
 
 import Stylis from 'stylis';
 import { convertProperty } from 'rtl-css-js/core';
-import { formatFontFace, isObject, toArray } from 'aesthetic-utils';
+import { formatFontFace, isObject, isRTL, toArray } from 'aesthetic-utils';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 import {
@@ -217,7 +217,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
       prefix: true,
     });
 
-    if (sheet.options.rtl) {
+    if (isRTL(sheet.options.dir)) {
       stylis.use(rtlPlugin);
     }
 

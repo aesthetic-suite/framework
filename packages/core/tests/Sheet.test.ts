@@ -11,9 +11,9 @@ describe('Sheet', () => {
 
   describe('constructor()', () => {
     it('passes options', () => {
-      sheet = new Sheet({ rtl: true });
+      sheet = new Sheet({ dir: 'rtl' });
 
-      expect(sheet.options).toEqual({ rtl: true });
+      expect(sheet.options).toEqual({ dir: 'rtl' });
     });
   });
 
@@ -66,11 +66,11 @@ describe('Sheet', () => {
     });
 
     it('can override inherited options', () => {
-      sheet.options.rtl = true;
+      sheet.options.dir = 'rtl';
 
-      const newSheet = sheet.createSheet({ rtl: false });
+      const newSheet = sheet.createSheet({ dir: 'ltr' });
 
-      expect(newSheet.options).toEqual({ rtl: false });
+      expect(newSheet.options).toEqual({ dir: 'ltr' });
     });
   });
 

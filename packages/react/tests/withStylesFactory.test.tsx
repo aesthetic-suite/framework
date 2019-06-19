@@ -200,7 +200,11 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
     const wrapper = shallowDeep(<Wrapped foo="abc" />);
 
-    expect(spy).toHaveBeenCalledWith(Wrapped.styleName, { name: Wrapped.styleName, rtl: false });
+    expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'ltr',
+      name: Wrapped.styleName,
+      theme: 'light',
+    });
     expect(wrapper.state('styles')).toEqual({
       header: {},
       footer: {},
@@ -302,10 +306,15 @@ describe('withStylesFactory()', () => {
       });
 
       expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+        dir: 'rtl',
         name: Wrapped.styleName,
-        rtl: true,
+        theme: 'default',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+        dir: 'rtl',
+        name: Wrapped.styleName,
+        theme: 'default',
+      });
     });
 
     it('inherits `rtl` from inferred `DirectionProvider` value', () => {
@@ -324,10 +333,15 @@ describe('withStylesFactory()', () => {
       });
 
       expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+        dir: 'rtl',
         name: Wrapped.styleName,
-        rtl: true,
+        theme: 'default',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], { name: Wrapped.styleName, rtl: true });
+      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+        dir: 'rtl',
+        name: Wrapped.styleName,
+        theme: 'default',
+      });
     });
 
     it.todo('re-creates a style sheet if provider context changes');

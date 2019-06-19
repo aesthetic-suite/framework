@@ -10,13 +10,13 @@ export default class ThemeProvider extends React.PureComponent<
   ctx?: ThemeContextShape;
 
   state = {
-    theme: this.props.aesthetic.options.theme,
+    themeName: this.props.aesthetic.options.theme,
   };
 
   componentDidMount() {
     const { name } = this.props;
 
-    if (name && name !== this.state.theme) {
+    if (name && name !== this.state.themeName) {
       this.changeTheme(name);
     }
   }
@@ -29,17 +29,26 @@ export default class ThemeProvider extends React.PureComponent<
     }
   }
 
-  changeTheme = (theme: ThemeName) => {
-    this.props.aesthetic.changeTheme(theme);
-    this.ctx!.themeName = theme;
-    this.setState({ theme });
+  changeTheme = (themeName: ThemeName) => {
+    const { aesthetic } = this.props;
+
+    aesthetic.changeTheme(themeName);
+
+    this.ctx = {
+      changeTheme: this.changeTheme,
+      theme: aesthetic.getTheme(themeName),
+      themeName,
+    };
+
+    this.setState({ themeName });
   };
 
   render() {
     if (!this.ctx) {
       this.ctx = {
         changeTheme: this.changeTheme,
-        themeName: this.state.theme,
+        theme: this.props.aesthetic.getTheme(this.state.themeName),
+        themeName: this.state.themeName,
       };
     }
 

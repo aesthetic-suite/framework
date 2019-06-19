@@ -64,7 +64,7 @@ describe('ThemeProvider', () => {
     );
 
     expect(changeSpy).toHaveBeenCalledWith('dark');
-    expect(wrapper.state('theme')).toBe('dark');
+    expect(wrapper.state('themeName')).toBe('dark');
   });
 
   it('changes the theme when the `name` prop changes', () => {
@@ -81,7 +81,7 @@ describe('ThemeProvider', () => {
     });
 
     expect(changeSpy).toHaveBeenCalledWith('dark');
-    expect(wrapper.state('theme')).toBe('dark');
+    expect(wrapper.state('themeName')).toBe('dark');
   });
 
   it('changes the theme when the context function is triggered', () => {
@@ -93,13 +93,13 @@ describe('ThemeProvider', () => {
       </ThemeProvider>,
     );
 
-    expect(wrapper.state('theme')).toBe('light');
+    expect(wrapper.state('themeName')).toBe('light');
     expect(wrapper.instance().ctx).toEqual(expect.objectContaining({ themeName: 'light' }));
 
     wrapper.instance().changeTheme('dark');
 
     expect(changeSpy).toHaveBeenCalledWith('dark');
-    expect(wrapper.state('theme')).toBe('dark');
+    expect(wrapper.state('themeName')).toBe('dark');
     expect(wrapper.instance().ctx).toEqual(expect.objectContaining({ themeName: 'dark' }));
   });
 });

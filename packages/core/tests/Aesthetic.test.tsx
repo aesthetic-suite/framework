@@ -37,20 +37,31 @@ describe('Aesthetic', () => {
   });
 
   describe('applyGlobalStyles()', () => {
-    it('does nothing if already applied', () => {
+    it('only triggers once for the same params', () => {
       const spy = jest.spyOn(instance, 'flushStyles');
 
-      // @ts-ignore Allow override
-      instance.appliedGlobals = true;
+      instance.applyGlobalStyles({});
+      instance.applyGlobalStyles({});
       instance.applyGlobalStyles({});
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('only triggers once even when `dir` option changes', () => {
+      const spy = jest.spyOn(instance, 'flushStyles');
+
+      instance.applyGlobalStyles({ dir: 'ltr' });
+      instance.applyGlobalStyles({ dir: 'rtl' });
+      instance.applyGlobalStyles({ dir: 'neutral' });
+
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('does nothing if no global styles defined for theme', () => {
       const spy = jest.spyOn(instance, 'parseStyleSheet');
 
-      instance.globals.default = null;
+      delete instance.globals.default;
+
       instance.applyGlobalStyles({});
 
       expect(spy).not.toHaveBeenCalled();
@@ -65,19 +76,25 @@ describe('Aesthetic', () => {
     });
 
     it('sets `ltr` on document', () => {
-      instance.applyGlobalStyles({
-        rtl: false,
-      });
+      instance.options.rtl = false;
+      instance.applyGlobalStyles();
 
       expect(document.documentElement.getAttribute('dir')).toBe('ltr');
     });
 
     it('sets `rtl` on document', () => {
-      instance.applyGlobalStyles({
-        rtl: true,
-      });
+      instance.options.rtl = true;
+      instance.applyGlobalStyles();
 
       expect(document.documentElement.getAttribute('dir')).toBe('rtl');
+    });
+
+    it('sets `dir` on document even if no global sheet defined', () => {
+      delete instance.globals.default;
+
+      instance.applyGlobalStyles();
+
+      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
     });
   });
 
@@ -96,28 +113,12 @@ describe('Aesthetic', () => {
       expect(instance.options.theme).toBe('light');
     });
 
-    it('purges all styles', () => {
-      const spy = jest.spyOn(instance, 'purgeStyles');
-
-      instance.changeTheme('light');
-
-      expect(spy).toHaveBeenCalled();
-    });
-
     it('resets and applies global styles', () => {
       const spy = jest.spyOn(instance, 'applyGlobalStyles');
 
       instance.changeTheme('light');
 
-      expect(spy).toHaveBeenCalledWith({ rtl: false });
-    });
-
-    it('clears cache', () => {
-      instance.cache.foo = {};
-
-      instance.changeTheme('light');
-
-      expect(instance.cache).toEqual({});
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -152,7 +153,7 @@ describe('Aesthetic', () => {
             color: 'black',
           },
         },
-        { name: 'foo', rtl: false },
+        { dir: 'ltr', global: false, name: 'foo', theme: 'default' },
       );
     });
 
@@ -173,24 +174,34 @@ describe('Aesthetic', () => {
     });
 
     it('caches the result', () => {
-      expect(instance.cache.foo).toBeUndefined();
+      const params: any = { dir: 'ltr', global: false, theme: 'light' };
 
-      instance.createStyleSheet('foo', {});
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).toBeNull();
 
-      expect(instance.cache.foo).toEqual({ el: {} });
+      instance.createStyleSheet('foo', params);
 
-      const sheet = instance.createStyleSheet('foo', {});
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).not.toBeNull();
 
-      expect(instance.cache.foo).toEqual(sheet);
+      const sheet = instance.createStyleSheet('foo', params);
+
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).toEqual(sheet);
     });
 
     it('inherits `rtl` from passed options', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
       instance.options.rtl = true;
-      instance.createStyleSheet('foo', { rtl: false });
+      instance.createStyleSheet('foo', { dir: 'ltr' });
 
-      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', rtl: false });
+      expect(spy).toHaveBeenCalledWith(expect.anything(), {
+        name: 'foo',
+        global: false,
+        dir: 'ltr',
+        theme: 'default',
+      });
     });
 
     it('inherits `rtl` from `Aesthetic` option', () => {
@@ -199,7 +210,12 @@ describe('Aesthetic', () => {
       instance.options.rtl = true;
       instance.createStyleSheet('foo', {});
 
-      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', rtl: true });
+      expect(spy).toHaveBeenCalledWith(expect.anything(), {
+        name: 'foo',
+        global: false,
+        dir: 'rtl',
+        theme: 'default',
+      });
     });
   });
 

@@ -202,7 +202,7 @@ describe('Ruleset', () => {
     });
 
     it('converts to RTL', () => {
-      sheet.options.rtl = true;
+      sheet.options.dir = 'rtl';
       instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
 
       expect(instance.toObject()).toEqual({
@@ -212,7 +212,7 @@ describe('Ruleset', () => {
     });
 
     it('converts nested to RTL', () => {
-      sheet.options.rtl = true;
+      sheet.options.dir = 'rtl';
       instance.addProperty('textAlign', 'left').addProperty('marginRight', 3);
       instance.addNested(
         ':hover',
@@ -229,7 +229,7 @@ describe('Ruleset', () => {
     });
 
     it('doesnt convert to RTL for compound properties', () => {
-      sheet.options.rtl = true;
+      sheet.options.dir = 'rtl';
       instance.addProperty('textAlign', 'left');
       instance.addCompoundProperty('animationName', [
         {

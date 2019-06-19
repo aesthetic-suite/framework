@@ -20,6 +20,7 @@ export interface DirectionProviderProps {
 
 export interface ThemeContextShape {
   changeTheme: (theme: ThemeName) => void;
+  theme: unknown;
   themeName: ThemeName;
 }
 
@@ -30,7 +31,7 @@ export interface ThemeProviderProps {
 }
 
 export interface ThemeProviderState {
-  theme: ThemeName;
+  themeName: ThemeName;
 }
 
 export interface WithThemeWrapperProps {
@@ -78,7 +79,6 @@ export interface WithStylesWrappedProps<
 }
 
 export interface WithStylesState<ParsedBlock> {
-  dir: Direction;
   options: TransformOptions;
   styles: SheetMap<ParsedBlock>;
 }

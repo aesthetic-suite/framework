@@ -3,5 +3,6 @@ import { ThemeContextShape } from './types';
 
 export default React.createContext<ThemeContextShape>({
   changeTheme() {},
-  themeName: '',
+  theme: {},
+  themeName: 'default',
 });

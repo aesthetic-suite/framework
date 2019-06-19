@@ -57,9 +57,7 @@ describe('JSSAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(
-          instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
-        ).toBe(
+        expect(instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { dir })).toBe(
           dir === 'ltr'
             ? 'foo inline-0-0-1-1 inline-1-0-1-2'
             : 'foo inline-0-0-25-1 inline-1-0-25-2',

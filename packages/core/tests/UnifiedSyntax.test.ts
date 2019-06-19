@@ -432,7 +432,10 @@ describe('UnifiedSyntax', () => {
     });
 
     it('converts raw CSS in RTL mode', () => {
-      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, { name: 'styleName', rtl: true });
+      const styleSheet = syntax.convertStyleSheet(SYNTAX_RAW_CSS, {
+        dir: 'rtl',
+        name: 'styleName',
+      });
 
       expect(styleSheet.classNames).toEqual({
         button: 'styleName-button',

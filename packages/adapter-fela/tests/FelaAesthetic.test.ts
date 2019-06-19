@@ -52,9 +52,7 @@ describe('FelaAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(
-          instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
-        ).toBe('a b');
+        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('a b');
       });
 
       it('flushes and purges styles from the DOM', () => {
@@ -75,7 +73,7 @@ describe('FelaAesthetic', () => {
         it('handles @font-face', () => {
           const spy = jest.spyOn(instance.fela, 'renderFont');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { dir });
 
           expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
           expect(spy).toHaveBeenCalledTimes(1);
@@ -84,7 +82,7 @@ describe('FelaAesthetic', () => {
         it('handles mixed @font-face', () => {
           const spy = jest.spyOn(instance.fela, 'renderFont');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { dir });
 
           expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
           expect(spy).toHaveBeenCalledWith(
@@ -98,7 +96,7 @@ describe('FelaAesthetic', () => {
         it('handles multiple @font-face', () => {
           const spy = jest.spyOn(instance.fela, 'renderFont');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { dir });
 
           expect(spy).toHaveBeenCalledWith(
             'Circular',
@@ -111,7 +109,7 @@ describe('FelaAesthetic', () => {
         it('handles @keyframes', () => {
           const spy = jest.spyOn(instance.fela, 'renderKeyframe');
 
-          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { dir });
 
           expect(spy).toHaveBeenCalledWith(expect.anything(), {});
         });

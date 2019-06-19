@@ -46,9 +46,9 @@ describe('AphroditeAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(
-          instance.transformStyles([{ margin: 0 }, { padding: 2 }], { rtl: dir === 'rtl' }),
-        ).toBe('inline-0_16pg94n-o_O-inline-1_igcoje');
+        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
+          'inline-0_16pg94n-o_O-inline-1_igcoje',
+        );
       });
 
       it('flushes and purges styles from the DOM', () => {
@@ -83,7 +83,7 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('handles @font-face', () => {
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { dir });
 
           expect(instance.fontFaces).toEqual({
             Roboto: [FONT_ROBOTO_FLAT_SRC],
@@ -91,7 +91,7 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('handles mixed @font-face', () => {
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { dir });
 
           expect(instance.fontFaces).toEqual({
             Roboto: [FONT_ROBOTO_FLAT_SRC],
@@ -100,7 +100,7 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('handles multiple @font-face', () => {
-          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { dir });
 
           expect(instance.fontFaces).toEqual({
             Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
@@ -108,7 +108,7 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('handles @keyframes', () => {
-          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { rtl: dir === 'rtl' });
+          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { dir });
 
           expect(instance.keyframes).toEqual({
             fade: KEYFRAME_FADE,
