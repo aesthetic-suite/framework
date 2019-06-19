@@ -7,7 +7,7 @@
     "eslint": "beemo eslint",
     "jest": "beemo jest",
     "prettier": "beemo prettier",
-    "release": "lerna publish",
+    "release": "rm -rf ./packages/*/{lib,esm} && lerna publish",
     "type": "beemo typescript --build --reference-workspaces",
     "prerelease": "yarn test && yarn run build",
     "pretest": "yarn run type",
