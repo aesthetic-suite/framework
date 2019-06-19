@@ -127,6 +127,7 @@ export interface AestheticOptions {
 }
 
 export interface TransformOptions {
+  dir?: Direction;
   name?: StyleName;
-  rtl?: boolean;
+  theme?: ThemeName;
 }

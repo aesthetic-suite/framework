@@ -92,7 +92,7 @@ export function renderAndExpect(
   },
 ) {
   const name = aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
-  const options = { name, rtl: dir === 'rtl' };
+  const options = { name, dir };
   const convertedSheet = global
     ? aesthetic.syntax.convertGlobalSheet(styleSheet, options).toObject()
     : aesthetic.syntax.convertStyleSheet(styleSheet, options).toObject();

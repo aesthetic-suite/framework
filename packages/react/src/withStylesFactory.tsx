@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
-import { isRTL } from 'aesthetic-utils';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
@@ -75,13 +74,13 @@ export default function withStylesFactory<
         }
 
         createStyleSheet = (mount: boolean = false) => {
-          const { dir } = this.props;
+          const { dir, themeName } = this.props;
           const opts = {
+            dir,
             name: styleName,
-            rtl: isRTL(dir),
+            theme: themeName,
           };
           const state = {
-            dir,
             options: opts,
             styles: aesthetic.createStyleSheet(styleName, opts),
           };

@@ -78,7 +78,6 @@ export interface WithStylesWrappedProps<
 }
 
 export interface WithStylesState<ParsedBlock> {
-  dir: Direction;
   options: TransformOptions;
   styles: SheetMap<ParsedBlock>;
 }

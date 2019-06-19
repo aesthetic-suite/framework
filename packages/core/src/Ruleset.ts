@@ -1,5 +1,5 @@
 import convertRTL from 'rtl-css-js';
-import { toObjectRecursive } from 'aesthetic-utils';
+import { isRTL, toObjectRecursive } from 'aesthetic-utils';
 import Sheet from './Sheet';
 import { CompoundProperties } from './types';
 
@@ -65,7 +65,7 @@ export default class Ruleset<Block extends object> {
   }
 
   toObject(): Block {
-    const props = this.root.options.rtl ? convertRTL(this.properties) : this.properties;
+    const props = isRTL(this.root.options.dir) ? convertRTL(this.properties) : this.properties;
     const compounds: any = {};
 
     // Compound properties are a list of rulesets that have already been cast to block objects.
