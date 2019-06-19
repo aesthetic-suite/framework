@@ -88,6 +88,14 @@ describe('Aesthetic', () => {
 
       expect(document.documentElement.getAttribute('dir')).toBe('rtl');
     });
+
+    it('sets `dir` on document even if no global sheet defined', () => {
+      delete instance.globals.default;
+
+      instance.applyGlobalStyles();
+
+      expect(document.documentElement.getAttribute('dir')).toBe('ltr');
+    });
   });
 
   describe('changeTheme()', () => {
