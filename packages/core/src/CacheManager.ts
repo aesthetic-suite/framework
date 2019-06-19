@@ -1,38 +1,39 @@
 import { Direction, ThemeName } from './types';
 
-export interface CacheParams {
+export interface CacheTags {
   dir?: Direction;
+  global?: boolean;
   theme?: ThemeName;
 }
 
-export interface CacheUnit<T> extends CacheParams {
+export interface CacheUnit<T> extends CacheTags {
   value: T;
 }
 
 export default class CacheManager<T> {
   protected cache: Map<string, CacheUnit<T>[]> = new Map();
 
-  compare(unit: CacheUnit<T>, params: CacheParams): boolean {
-    return unit.dir === params.dir && unit.theme === params.theme;
+  compare(unit: CacheUnit<T>, tags: CacheTags): boolean {
+    return unit.dir === tags.dir && unit.global === tags.global && unit.theme === tags.theme;
   }
 
-  get(key: string, params: CacheParams): T | null {
+  get(key: string, tags: CacheTags): T | null {
     const units = this.cache.get(key);
 
     if (!units || units.length === 0) {
       return null;
     }
 
-    const cache = units.find(unit => this.compare(unit, params));
+    const cache = units.find(unit => this.compare(unit, tags));
 
     return cache ? cache.value : null;
   }
 
-  set(key: string, value: T, params: CacheParams): T {
+  set(key: string, value: T, tags: CacheTags): T {
     const units = this.cache.get(key) || [];
 
     units.push({
-      ...params,
+      ...tags,
       value,
     });
 

@@ -19,7 +19,7 @@ export default function useStylesFactory<
     customName: string = 'Component',
   ): [SheetMap<ParsedBlock>, CX, string] {
     const dir = useContext(DirectionContext);
-    const theme = useContext(ThemeContext);
+    const { themeName } = useContext(ThemeContext);
     const [styleName] = useState(() => {
       const name = `${customName}-${uuid()}`;
 
@@ -29,13 +29,13 @@ export default function useStylesFactory<
     });
 
     // Create a unique style sheet for this component
-    const options = { dir, name: styleName, theme: theme.themeName };
+    const options = { dir, name: styleName, theme: themeName };
     const sheet = aesthetic.createStyleSheet(styleName, options);
 
     // Flush styles on mount
     useLayoutEffect(() => {
       aesthetic.flushStyles(styleName);
-    }, [dir, styleName]);
+    }, [dir, styleName, themeName]);
 
     // Create a CSS transformer
     const cx: CX = (...styles) => aesthetic.transformStyles(styles, options);

@@ -21,6 +21,7 @@ slightly change.
 #### 🚀 Updates
 
 - Added built-in RTL support for _all_ adapters!
+- Added a new tagged caching layer that supports multiple themes and directions in parallel!
 - Added a `cxPropName` option to `Aesthetic`.
 - Added a `rtl` option to `Aesthetic`.
 - Added `Aesthetic#changeTheme`, so that the theme can be dynamically changed without having to

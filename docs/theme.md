@@ -91,8 +91,7 @@ aesthetic.extendTheme('darker', 'dark', {
 
 ### Enabling A Theme
 
-The default theme can be enabled by defining the `theme` option on the `Aesthetic` instance. Only 1
-theme may be active at a time.
+The default theme can be enabled by defining the `theme` option on the `Aesthetic` instance.
 
 ```ts
 const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
@@ -103,8 +102,8 @@ const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
 ### Changing A Theme
 
 The current theme can be changed to another registered theme by calling `Aesthetic#changeTheme`.
-When changing a theme, all flushed styles will be purged from the document, all `style` elements
-will be removed, and new global styles will be re-built.
+When changing a theme, new global styles will be generated, _which may cause collisions_ if multiple
+themes are active in the page.
 
 ```ts
 aesthetic.changeTheme('darker');
