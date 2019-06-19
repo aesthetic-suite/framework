@@ -1,8 +1,8 @@
 import { Direction, ThemeName } from './types';
 
 export interface CacheParams {
-  dir: Direction;
-  theme: ThemeName;
+  dir?: Direction;
+  theme?: ThemeName;
 }
 
 export interface CacheUnit<T> extends CacheParams {
@@ -17,14 +17,15 @@ export default class CacheManager<T> {
   }
 
   get(key: string, params: CacheParams): T | null {
-    if (this.cache.has(key)) {
+    const units = this.cache.get(key);
+
+    if (!units || units.length === 0) {
       return null;
     }
 
-    const units = this.cache.get(key) || [];
-    const value = units.find(unit => this.compare(unit, params));
+    const cache = units.find(unit => this.compare(unit, params));
 
-    return value ? value.value : null;
+    return cache ? cache.value : null;
   }
 
   set(key: string, value: T, params: CacheParams): T {

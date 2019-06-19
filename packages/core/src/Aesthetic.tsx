@@ -22,8 +22,6 @@ export default abstract class Aesthetic<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 > {
-  cache = new CacheManager<SheetMap<ParsedBlock>>();
-
   globals: { [themeName: string]: GlobalSheetDefinition<Theme, any> } = {};
 
   options: AestheticOptions;
@@ -37,6 +35,8 @@ export default abstract class Aesthetic<
   themes: { [themeName: string]: Theme } = {};
 
   protected appliedGlobals: boolean = false;
+
+  protected cacheManager = new CacheManager<SheetMap<ParsedBlock>>();
 
   protected sheetManager: StyleSheetManager | null = null;
 
@@ -118,7 +118,7 @@ export default abstract class Aesthetic<
    */
   createStyleSheet(styleName: StyleName, baseOptions?: TransformOptions): SheetMap<ParsedBlock> {
     const options = this.getDefaultTransformOptions(baseOptions);
-    const cache = this.cache.get(styleName, options);
+    const cache = this.cacheManager.get(styleName, options);
 
     if (cache) {
       return cache;
@@ -133,7 +133,7 @@ export default abstract class Aesthetic<
     });
     const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), styleName);
 
-    return this.cache.set(
+    return this.cacheManager.set(
       styleName,
       {
         ...parsedSheet,

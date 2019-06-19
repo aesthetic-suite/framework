@@ -1,7 +1,7 @@
 import Aesthetic from '../src/Aesthetic';
-import { CacheParams } from '../src/CacheManager';
 import StyleSheetManager from '../src/StyleSheetManager';
 import { TestTheme, registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
+import { TransformOptions } from '../src/types';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<TestTheme, any, any>;
@@ -110,7 +110,7 @@ describe('Aesthetic', () => {
 
       instance.changeTheme('light');
 
-      expect(spy).toHaveBeenCalledWith({ rtl: false });
+      expect(spy).toHaveBeenCalledWith({ dir: 'ltr' });
     });
 
     it.skip('clears cache', () => {
@@ -151,7 +151,7 @@ describe('Aesthetic', () => {
             color: 'black',
           },
         },
-        { name: 'foo', rtl: false },
+        { dir: 'ltr', name: 'foo', theme: 'default' },
       );
     });
 
@@ -172,17 +172,20 @@ describe('Aesthetic', () => {
     });
 
     it('caches the result', () => {
-      const params: CacheParams = { dir: 'ltr', theme: 'light' };
+      const params: TransformOptions = { dir: 'ltr', theme: 'light' };
 
-      expect(instance.cache.get('foo', params)).toBeNull();
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).toBeNull();
 
-      instance.createStyleSheet('foo', {});
+      instance.createStyleSheet('foo', params);
 
-      expect(instance.cache.get('foo', params)).toEqual({ el: {} });
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).not.toBeNull();
 
-      const sheet = instance.createStyleSheet('foo', {});
+      const sheet = instance.createStyleSheet('foo', params);
 
-      expect(instance.cache.get('foo', params)).toEqual(sheet);
+      // @ts-ignore Allow access
+      expect(instance.cacheManager.get('foo', params)).toEqual(sheet);
     });
 
     it('inherits `rtl` from passed options', () => {
@@ -191,7 +194,11 @@ describe('Aesthetic', () => {
       instance.options.rtl = true;
       instance.createStyleSheet('foo', { dir: 'ltr' });
 
-      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', dir: 'ltr' });
+      expect(spy).toHaveBeenCalledWith(expect.anything(), {
+        name: 'foo',
+        dir: 'ltr',
+        theme: 'default',
+      });
     });
 
     it('inherits `rtl` from `Aesthetic` option', () => {
@@ -200,7 +207,11 @@ describe('Aesthetic', () => {
       instance.options.rtl = true;
       instance.createStyleSheet('foo', {});
 
-      expect(spy).toHaveBeenCalledWith(expect.anything(), { name: 'foo', dir: 'rtl' });
+      expect(spy).toHaveBeenCalledWith(expect.anything(), {
+        name: 'foo',
+        dir: 'rtl',
+        theme: 'default',
+      });
     });
   });
 
