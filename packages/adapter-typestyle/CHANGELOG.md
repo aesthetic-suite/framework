@@ -1,3 +1,12 @@
+# 3.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 4.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Updated to use `TypeStyle#stylesheet` instead of `TypeStyle#style`. Will now automatically include
+  `$debugName` and prepend class names with the object property name.
+
 ## 2.4.0 - 2019-04-28
 
 #### 🛠 Internals

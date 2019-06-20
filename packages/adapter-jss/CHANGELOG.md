@@ -1,4 +1,9 @@
-### 3.4.3
+# 4.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 4.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 
 #### 🛠 Internals
 
