@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
 import { purgeStyles } from 'aesthetic-utils';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
@@ -37,6 +37,14 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     this.typeStyle.forceRenderStyles();
   }
 
+  isParsedBlock(block: NativeBlock | ParsedBlock): block is ParsedBlock {
+    return typeof block === 'string';
+  }
+
+  parseStyleSheet(styleSheet: SheetMap<NativeBlock>): SheetMap<ParsedBlock> {
+    return this.typeStyle.stylesheet(styleSheet);
+  }
+
   purgeStyles() {
     // @ts-ignore
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
@@ -47,7 +55,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {
-    return this.typeStyle.style(...styles);
+    return styles.join(' ');
   }
 
   // https://typestyle.github.io/#/raw/-cssraw-

@@ -46,13 +46,18 @@ describe('TypeStyleAesthetic', () => {
     // eslint-disable-next-line jest/valid-describe
     describe(dir.toUpperCase(), () => {
       it('converts and transforms inline styles', () => {
-        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('f1rvgqmz');
+        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
+          'inline-0_fl8qkup inline-1_fwyt62c',
+        );
       });
 
       it('flushes and purges styles from the DOM', () => {
-        const styles = { test: { display: 'block' } };
-
-        renderAndExpect(instance, styles, styles, { dir });
+        renderAndExpect(
+          instance,
+          { test: { display: 'block' } },
+          { test: { $debugName: 'test', display: 'block' } },
+          { dir },
+        );
 
         instance.purgeStyles();
 
@@ -129,6 +134,7 @@ describe('TypeStyleAesthetic', () => {
                 color: 'rgba(0, 0, 0, 0)',
                 animationName: 'f1gwuh0p',
                 animationDuration: '.3s',
+                $debugName: 'button',
                 $nest: {
                   '&:hover': {
                     backgroundColor: '#286090',
@@ -151,7 +157,17 @@ describe('TypeStyleAesthetic', () => {
         });
 
         it('handles properties', () => {
-          renderAndExpect(instance, SYNTAX_PROPERTIES, SYNTAX_PROPERTIES, { dir });
+          renderAndExpect(
+            instance,
+            SYNTAX_PROPERTIES,
+            {
+              props: {
+                $debugName: 'props',
+                ...SYNTAX_PROPERTIES.props,
+              },
+            },
+            { dir },
+          );
         });
 
         it('handles attribute selectors', () => {
@@ -161,6 +177,7 @@ describe('TypeStyleAesthetic', () => {
             {
               attr: {
                 display: 'block',
+                $debugName: 'attr',
                 $nest: {
                   '&[disabled]': {
                     opacity: 0.5,
@@ -180,6 +197,7 @@ describe('TypeStyleAesthetic', () => {
               list: {
                 margin: 0,
                 padding: 0,
+                $debugName: 'list',
                 $nest: {
                   '&> li': {
                     listStyle: 'bullet',
@@ -198,6 +216,7 @@ describe('TypeStyleAesthetic', () => {
             {
               pseudo: {
                 position: 'fixed',
+                $debugName: 'pseudo',
                 $nest: {
                   '&:hover': {
                     position: 'static',
@@ -219,6 +238,7 @@ describe('TypeStyleAesthetic', () => {
             {
               multi: {
                 cursor: 'pointer',
+                $debugName: 'multi',
                 $nest: {
                   '&:disabled': { cursor: 'default' },
                   '&[disabled]': { cursor: 'default' },
@@ -237,17 +257,21 @@ describe('TypeStyleAesthetic', () => {
             dir === 'ltr'
               ? {
                   single: {
+                    $debugName: 'single',
                     animationName: 'f1pf291g',
                   },
                   multiple: {
+                    $debugName: 'multiple',
                     animationName: 'f1pf291g, unknown, f1gwuh0p',
                   },
                 }
               : {
                   single: {
+                    $debugName: 'single',
                     animationName: 'fx4te0v',
                   },
                   multiple: {
+                    $debugName: 'multiple',
                     animationName: 'fx4te0v, unknown, f1gwuh0p',
                   },
                 },
@@ -261,9 +285,11 @@ describe('TypeStyleAesthetic', () => {
             SYNTAX_FONT_FACES_INLINE,
             {
               single: {
+                $debugName: 'single',
                 fontFamily: 'Roboto',
               },
               multiple: {
+                $debugName: 'multiple',
                 fontFamily: 'Circular, OtherFont, Roboto',
               },
             },
@@ -277,6 +303,7 @@ describe('TypeStyleAesthetic', () => {
             SYNTAX_FALLBACKS,
             {
               fallback: {
+                $debugName: 'fallback',
                 background: ['red', 'linear-gradient(...)'],
                 display: ['block', 'inline-block', 'flex'],
                 color: ['blue'],
@@ -294,6 +321,7 @@ describe('TypeStyleAesthetic', () => {
               media: {
                 color: 'red',
                 paddingLeft: 10,
+                $debugName: 'media',
                 $nest: {
                   '@media (max-width: 1000px)': {
                     color: 'green',
@@ -317,6 +345,7 @@ describe('TypeStyleAesthetic', () => {
             {
               media: {
                 color: 'red',
+                $debugName: 'media',
                 $nest: {
                   '@media (min-width: 300px)': {
                     color: 'blue',
@@ -340,6 +369,7 @@ describe('TypeStyleAesthetic', () => {
             {
               sup: {
                 display: 'block',
+                $debugName: 'sup',
                 $nest: {
                   '@supports (display: flex)': {
                     display: 'flex',
