@@ -107,7 +107,7 @@ export default function withStylesFactory<
           };
 
           if (passThemeProp) {
-            extraProps[themePropName as 'theme'] = aesthetic.getTheme();
+            extraProps[themePropName as 'theme'] = aesthetic.getTheme(themeName);
           }
 
           return <WrappedComponent {...props as any} {...extraProps} />;

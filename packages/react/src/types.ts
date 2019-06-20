@@ -34,6 +34,10 @@ export interface ThemeProviderState {
   themeName: ThemeName;
 }
 
+export interface WithThemeContextProps {
+  themeName: ThemeName;
+}
+
 export interface WithThemeWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withTheme`. */
   wrappedRef?: React.Ref<any>;

@@ -1,7 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import { act } from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme';
 import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
 import withThemeFactory from '../src/withThemeFactory';
+import ThemeProvider from '../src/ThemeProvider';
 
 describe('withThemeFactory()', () => {
   let aesthetic: TestAesthetic;
@@ -18,38 +21,27 @@ describe('withThemeFactory()', () => {
     return null;
   }
 
+  function WrappingComponent({ children }: any) {
+    return (
+      <ThemeProvider aesthetic={aesthetic} name="light">
+        {children}
+      </ThemeProvider>
+    );
+  }
+
+  function shallowDeep(element: React.ReactElement<any>) {
+    return shallow(element, {
+      // @ts-ignore Not yet typed
+      wrappingComponent: WrappingComponent,
+    })
+      .dive()
+      .dive();
+  }
+
   it('returns an HOC component', () => {
     const hoc = withTheme();
 
     expect(hoc).toBeInstanceOf(Function);
-  });
-
-  it('extends `React.PureComponent` by default', () => {
-    const Wrapped = withTheme()(BaseComponent);
-
-    expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-  });
-
-  it('extends `React.Component` when `pure` is false', () => {
-    const Wrapped = withTheme({ pure: false })(BaseComponent);
-
-    expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
-  });
-
-  it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
-    aesthetic.options.pure = true;
-
-    const Wrapped = withTheme()(BaseComponent);
-
-    expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-  });
-
-  it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
-    aesthetic.options.pure = true;
-
-    const Wrapped = withTheme({ pure: false })(BaseComponent);
-
-    expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
   });
 
   it('inherits name from component `constructor.name`', () => {
@@ -85,7 +77,7 @@ describe('withThemeFactory()', () => {
     }
 
     const Wrapped = withTheme()(ThemeComponent);
-    const wrapper = shallow(<Wrapped />);
+    const wrapper = shallowDeep(<Wrapped />);
 
     expect(wrapper.prop('theme')).toEqual({ color: 'black', unit: 8 });
   });
@@ -111,5 +103,33 @@ describe('withThemeFactory()', () => {
 
     expect(refaesthetic).not.toBeNull();
     expect(refaesthetic!.constructor.name).toBe('RefComponent');
+  });
+
+  it('returns new theme if theme context changes', () => {
+    const themeSpy = jest.spyOn(aesthetic, 'getTheme');
+    const container = document.createElement('div');
+    const Wrapped = withTheme()(BaseComponent);
+
+    act(() => {
+      ReactDOM.render(
+        <ThemeProvider aesthetic={aesthetic}>
+          <Wrapped />
+        </ThemeProvider>,
+        container,
+      );
+    });
+
+    expect(themeSpy).toHaveBeenCalledWith('default');
+
+    act(() => {
+      ReactDOM.render(
+        <ThemeProvider aesthetic={aesthetic} name="dark">
+          <Wrapped />
+        </ThemeProvider>,
+        container,
+      );
+    });
+
+    expect(themeSpy).toHaveBeenCalledWith('dark');
   });
 });

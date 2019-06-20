@@ -400,12 +400,8 @@ describe('Aesthetic', () => {
       instance.themes.default = 123;
 
       expect(() => {
-        instance.getTheme();
+        instance.getTheme('default');
       }).toThrowErrorMatchingSnapshot();
-    });
-
-    it('returns the default theme if no name provided', () => {
-      expect(instance.getTheme()).toEqual({ color: 'black', unit: 8 });
     });
 
     it('returns the theme by name', () => {

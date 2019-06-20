@@ -52,34 +52,6 @@ describe('withStylesFactory()', () => {
     expect(hoc).toBeInstanceOf(Function);
   });
 
-  // it('extends `React.PureComponent` by default', () => {
-  //   const Wrapped = withStyles(() => ({}))(BaseComponent);
-
-  //   expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-  // });
-
-  // it('extends `React.Component` when `pure` is false', () => {
-  //   const Wrapped = withStyles(() => ({}), { pure: false })(BaseComponent);
-
-  //   expect(Object.getPrototypeOf(Wrapped)).toBe(React.Component);
-  // });
-
-  // it('extends `React.PureComponent` when Aesthetic option `pure` is true', () => {
-  //   aesthetic.options.pure = true;
-
-  //   const Wrapped = withStyles(() => ({}))(BaseComponent);
-
-  //   expect(Object.getPrototypeOf(Wrapped)).toBe(React.PureComponent);
-  // });
-
-  // it('doesnt extend `React.PureComponent` when Aesthetic option `pure` is true but local is false', () => {
-  //   aesthetic.options.pure = true;
-
-  //   const Wrapped = withStyles(() => ({}), { pure: false })(BaseComponent);
-
-  //   expect(Object.getPrototypeOf(Wrapped)).not.toBe(React.PureComponent);
-  // });
-
   it('inherits name from component `constructor.name`', () => {
     const Wrapped = withStyles(() => ({}))(BaseComponent);
 

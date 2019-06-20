@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import Aesthetic from 'aesthetic';
+import ThemeContext from './ThemeContext';
 
 /**
  * Hook within a component to provide the current theme object.
@@ -9,6 +11,8 @@ export default function useThemeFactory<
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
   return function useTheme(): Theme {
-    return aesthetic.getTheme();
+    const { themeName } = useContext(ThemeContext);
+
+    return aesthetic.getTheme(themeName);
   };
 }

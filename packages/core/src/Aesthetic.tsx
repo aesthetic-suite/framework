@@ -173,17 +173,17 @@ export default abstract class Aesthetic<
   flushStyles(styleName: StyleName) {}
 
   /**
-   * Retrieve the defined component style sheet. If the definition is a function,
-   * execute it while passing the current theme.
+   * Retrieve the defined component style sheet for the current theme.
+   * If the definition is a function, execute it while passing the current theme.
    */
-  getStyleSheet(styleName: StyleName): StyleSheet {
+  getStyleSheet(styleName: StyleName, themeName?: ThemeName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
-    const styleSheet = styleDef(this.getTheme());
+    const styleSheet = styleDef(this.getTheme(themeName || this.options.theme));
 
     // Merge from parent
     if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyleSheet(parentStyleName), styleSheet);
+      return deepMerge(true, {}, this.getStyleSheet(parentStyleName, themeName), styleSheet);
     }
 
     return styleSheet;
@@ -192,7 +192,7 @@ export default abstract class Aesthetic<
   /**
    * Return a theme object or throw an error.
    */
-  getTheme(name?: ThemeName): Theme {
+  getTheme(name: ThemeName): Theme {
     const themeName = name || this.options.theme;
     const theme = this.themes[themeName];
 
