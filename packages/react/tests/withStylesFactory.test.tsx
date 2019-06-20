@@ -22,8 +22,8 @@ describe('withStylesFactory()', () => {
     return null;
   }
 
-  function StylesComponent(props: { [key: string]: any }) {
-    return <div />;
+  function StyledComponent({ styles, cx }: any) {
+    return <div className={cx(styles.header, styles.footer)} />;
   }
 
   function WrappingComponent({ children }: any) {
@@ -197,7 +197,7 @@ describe('withStylesFactory()', () => {
 
   it('creates a style sheet', () => {
     const spy = jest.spyOn(aesthetic, 'createStyleSheet');
-    const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
+    const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
     const wrapper = shallowDeep(<Wrapped foo="abc" />);
 
     expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
@@ -218,7 +218,7 @@ describe('withStylesFactory()', () => {
       cxPropName: 'css',
       stylesPropName: 'styleSheet',
       themePropName: 'someThemeNameHere',
-    })(StylesComponent);
+    })(StyledComponent);
     const wrapper = shallowDeep(<Wrapped />);
 
     expect(wrapper.prop('css')).toBeDefined();
@@ -232,7 +232,7 @@ describe('withStylesFactory()', () => {
     aesthetic.options.themePropName = 'someThemeNameHere';
     aesthetic.options.passThemeProp = true;
 
-    const Wrapped = withStyles(() => TEST_STATEMENT)(StylesComponent);
+    const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
     const wrapper = shallowDeep(<Wrapped />);
 
     expect(wrapper.prop('css')).toBeDefined();
@@ -241,7 +241,7 @@ describe('withStylesFactory()', () => {
   });
 
   it('doesnt pass theme prop if `options.passThemeProp` is false', () => {
-    const Wrapped = withStyles(() => TEST_STATEMENT, { passThemeProp: false })(StylesComponent);
+    const Wrapped = withStyles(() => TEST_STATEMENT, { passThemeProp: false })(StyledComponent);
     const wrapper = shallowDeep(<Wrapped />);
 
     expect(wrapper.prop('theme')).toBeUndefined();
@@ -281,20 +281,124 @@ describe('withStylesFactory()', () => {
     expect(wrapper.prop('className')).toBe('class-0 class-1');
   });
 
+  it('re-creates style sheet if theme context changes', () => {
+    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const container = document.createElement('div');
+    const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
+
+    act(() => {
+      ReactDOM.render(
+        <ThemeProvider aesthetic={aesthetic}>
+          <Wrapped />
+        </ThemeProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'ltr',
+      name: Wrapped.styleName,
+      theme: 'default',
+    });
+
+    act(() => {
+      ReactDOM.render(
+        <ThemeProvider aesthetic={aesthetic} name="dark">
+          <Wrapped />
+        </ThemeProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'ltr',
+      name: Wrapped.styleName,
+      theme: 'dark',
+    });
+  });
+
+  it('re-creates style sheet if direction context changes', () => {
+    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const container = document.createElement('div');
+    const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider aesthetic={aesthetic} dir="rtl">
+          <Wrapped />
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'rtl',
+      name: Wrapped.styleName,
+      theme: 'default',
+    });
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider aesthetic={aesthetic} dir="ltr">
+          <Wrapped />
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'ltr',
+      name: Wrapped.styleName,
+      theme: 'default',
+    });
+  });
+
+  it('re-creates style sheet when both contexts change', () => {
+    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const container = document.createElement('div');
+    const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider aesthetic={aesthetic} dir="ltr">
+          <ThemeProvider aesthetic={aesthetic}>
+            <Wrapped />
+          </ThemeProvider>
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'ltr',
+      name: Wrapped.styleName,
+      theme: 'default',
+    });
+
+    act(() => {
+      ReactDOM.render(
+        <DirectionProvider aesthetic={aesthetic} dir="rtl">
+          <ThemeProvider aesthetic={aesthetic} name="light">
+            <Wrapped />
+          </ThemeProvider>
+        </DirectionProvider>,
+        container,
+      );
+    });
+
+    expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
+      dir: 'rtl',
+      name: Wrapped.styleName,
+      theme: 'light',
+    });
+  });
+
   describe('RTL', () => {
-    class DirectionComponent extends React.Component<any> {
-      render() {
-        const { styles, cx } = this.props;
-
-        return <div className={cx(styles.header, styles.footer)} />;
-      }
-    }
-
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
-      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
+      const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
       act(() => {
         ReactDOM.render(
@@ -321,7 +425,7 @@ describe('withStylesFactory()', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
-      const Wrapped = withStyles(() => TEST_STATEMENT)(DirectionComponent);
+      const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
       act(() => {
         ReactDOM.render(
@@ -343,7 +447,5 @@ describe('withStylesFactory()', () => {
         theme: 'default',
       });
     });
-
-    it.todo('re-creates a style sheet if provider context changes');
   });
 });
