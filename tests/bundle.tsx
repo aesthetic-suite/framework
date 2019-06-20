@@ -14,6 +14,8 @@ import {
   useThemeFactory,
   withStylesFactory,
   WithStylesWrappedProps,
+  ThemeProvider,
+  DirectionProvider,
 } from 'aesthetic-react';
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 import FelaAesthetic from 'aesthetic-adapter-fela';
@@ -187,12 +189,21 @@ function createHookComponent(aesthetic: Aesthetic<Theme, any, any>) {
 
 // RENDER DEMO APP
 
-function DemoColumn({ aesthetic, title }: { aesthetic: Aesthetic<any, any>; title: string }) {
+function DemoColumn({
+  aesthetic,
+  title,
+  theme,
+  dir,
+}: {
+  aesthetic: Aesthetic<any, any>;
+  title: string;
+  theme?: string;
+  dir?: 'ltr' | 'rtl';
+}) {
   const HocButton = createHocComponent(aesthetic);
   const HookButton = createHookComponent(aesthetic);
-
-  return (
-    <div style={{ marginRight: 25 }}>
+  let content = (
+    <div>
       <h3>{title}</h3>
 
       <p>
@@ -206,9 +217,30 @@ function DemoColumn({ aesthetic, title }: { aesthetic: Aesthetic<any, any>; titl
       </p>
     </div>
   );
+
+  if (theme) {
+    content = (
+      <ThemeProvider aesthetic={aesthetic} name={theme}>
+        {content}
+      </ThemeProvider>
+    );
+  }
+
+  if (dir) {
+    content = (
+      <DirectionProvider aesthetic={aesthetic} dir={dir}>
+        {content}
+      </DirectionProvider>
+    );
+  }
+
+  return <div style={{ marginRight: 25 }}>{content}</div>;
 }
 
 function App() {
+  const otherTheme = activeTheme === 'light' ? 'dark' : 'light';
+  const otherDir = dirMode === 'ltr' ? 'rtl' : 'ltr';
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -218,13 +250,21 @@ function App() {
         <DemoColumn aesthetic={typeStyle} title="TypeStyle" />
       </div>
 
+      <br />
+
+      <div style={{ display: 'flex' }}>
+        <DemoColumn aesthetic={aphrodite} title="Aphrodite" theme={otherTheme} dir={otherDir} />
+        <DemoColumn aesthetic={fela} title="Fela" theme={otherTheme} dir={otherDir} />
+        <DemoColumn aesthetic={jss} title="JSS" theme={otherTheme} dir={otherDir} />
+        <DemoColumn aesthetic={typeStyle} title="TypeStyle" theme={otherTheme} dir={otherDir} />
+      </div>
+
       <h3>
-        Theme: {activeTheme} (
-        <a href={`?theme=${activeTheme === 'light' ? 'dark' : 'light'}`}>Switch</a>)
+        Theme: {activeTheme} (<a href={`?theme=${otherTheme}`}>Switch</a>)
       </h3>
 
       <h3>
-        Mode: {dirMode} (<a href={`?mode=${dirMode === 'ltr' ? 'rtl' : 'ltr'}`}>Switch</a>)
+        Mode: {dirMode} (<a href={`?mode=${otherDir}`}>Switch</a>)
       </h3>
     </div>
   );
