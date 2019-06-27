@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils } from 'aphrodite';
+import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
   getFlushedStyles,
@@ -51,18 +52,8 @@ describe('AphroditeAesthetic', () => {
         );
       });
 
-      it('flushes and purges styles from the DOM', () => {
-        const styles = { test: { display: 'block' } };
-
-        renderAndExpect(instance, styles, styles, { dir });
-
-        instance.purgeStyles();
-
-        expect(getFlushedStyles()).toMatchSnapshot();
-      });
-
       describe('global sheet', () => {
-        it('handles globals', () => {
+        it('flushes and purges styles from the DOM', () => {
           renderAndExpect(
             instance,
             SYNTAX_GLOBAL,
@@ -75,11 +66,27 @@ describe('AphroditeAesthetic', () => {
                   ':hover': {
                     color: 'darkred',
                   },
+                  ':focus': {
+                    color: 'lightred',
+                  },
+                },
+                '*ul': {
+                  margin: 0,
+                  '> li': {
+                    margin: 0,
+                  },
+                  '@media (max-width: 500px)': {
+                    margin: 20,
+                  },
                 },
               },
             },
             { dir, global: true },
           );
+
+          instance.purgeStyles(GLOBAL_STYLE_NAME);
+
+          expect(getFlushedStyles()).toMatchSnapshot();
         });
 
         it('handles @font-face', () => {
@@ -117,6 +124,16 @@ describe('AphroditeAesthetic', () => {
       });
 
       describe('style sheet', () => {
+        it('flushes and purges styles from the DOM', () => {
+          const styles = { test: { display: 'block' } };
+
+          renderAndExpect(instance, styles, styles, { dir });
+
+          instance.purgeStyles();
+
+          expect(getFlushedStyles()).toMatchSnapshot();
+        });
+
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
           instance.keyframes.fade = KEYFRAME_FADE;

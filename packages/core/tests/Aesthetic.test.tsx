@@ -1,5 +1,6 @@
 import Aesthetic from '../src/Aesthetic';
 import StyleSheetManager from '../src/StyleSheetManager';
+import { GLOBAL_STYLE_NAME } from '../src/constants';
 import { TestTheme, registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
@@ -71,7 +72,7 @@ describe('Aesthetic', () => {
 
       instance.applyGlobalStyles({});
 
-      expect(spy).toHaveBeenCalledWith({}, ':root');
+      expect(spy).toHaveBeenCalledWith({}, GLOBAL_STYLE_NAME);
     });
 
     it('sets `ltr` on document', () => {

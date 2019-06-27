@@ -13,6 +13,18 @@ export interface CacheUnit<T> extends CacheTags {
 export default class CacheManager<T> {
   protected cache: Map<string, CacheUnit<T>[]> = new Map();
 
+  clear(filter?: (unit: CacheUnit<T>) => boolean): this {
+    if (filter) {
+      this.cache.forEach((units, key) => {
+        this.cache.set(key, units.filter(unit => !filter(unit)));
+      });
+    } else {
+      this.cache.clear();
+    }
+
+    return this;
+  }
+
   compare(unit: CacheUnit<T>, tags: CacheTags): boolean {
     return unit.dir === tags.dir && unit.global === tags.global && unit.theme === tags.theme;
   }

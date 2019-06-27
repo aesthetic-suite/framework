@@ -1,4 +1,11 @@
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet } from 'aesthetic';
+import Aesthetic, {
+  AestheticOptions,
+  ClassName,
+  Ruleset,
+  Sheet,
+  StyleName,
+  GLOBAL_STYLE_NAME,
+} from 'aesthetic';
 import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
@@ -40,8 +47,8 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 
-  purgeStyles() {
-    purgeStyles(getStyleElements('data-fela-type'));
+  purgeStyles(styleName?: StyleName) {
+    purgeStyles(getStyleElements('data-fela-type'), styleName === GLOBAL_STYLE_NAME);
   }
 
   // http://fela.js.org/docs/api/fela/Renderer.html

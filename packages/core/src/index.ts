@@ -9,6 +9,7 @@ import UnifiedSyntax from './UnifiedSyntax';
 import Ruleset from './Ruleset';
 import Sheet from './Sheet';
 
+export * from './constants';
 export * from './types';
 
 export { ClassNameAesthetic, UnifiedSyntax, Ruleset, Sheet };

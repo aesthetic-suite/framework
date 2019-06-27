@@ -334,6 +334,24 @@ export const SYNTAX_GLOBAL = {
       ':hover': {
         color: 'darkred',
       },
+      '@selectors': {
+        ':focus': {
+          color: 'lightred',
+        },
+      },
+    },
+    ul: {
+      margin: 0,
+      '@selectors': {
+        '> li': {
+          margin: 0,
+        },
+      },
+      '@media': {
+        '(max-width: 500px)': {
+          margin: 20,
+        },
+      },
     },
   },
 };
