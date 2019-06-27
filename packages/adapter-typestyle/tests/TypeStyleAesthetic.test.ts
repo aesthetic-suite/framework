@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
+import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
   getFlushedStyles,
@@ -51,22 +52,13 @@ describe('TypeStyleAesthetic', () => {
         );
       });
 
-      it('flushes and purges styles from the DOM', () => {
-        renderAndExpect(
-          instance,
-          { test: { display: 'block' } },
-          { test: { $debugName: 'test', display: 'block' } },
-          { dir },
-        );
-
-        instance.purgeStyles();
-
-        expect(getFlushedStyles()).toMatchSnapshot();
-      });
-
       describe('global sheet', () => {
-        it('handles globals', () => {
+        it('flushes and purges styles from the DOM', () => {
           renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
+
+          instance.purgeStyles(GLOBAL_STYLE_NAME);
+
+          expect(getFlushedStyles()).toMatchSnapshot();
         });
 
         it('handles @font-face', () => {
@@ -107,6 +99,19 @@ describe('TypeStyleAesthetic', () => {
       });
 
       describe('style sheet', () => {
+        it('flushes and purges styles from the DOM', () => {
+          renderAndExpect(
+            instance,
+            { test: { display: 'block' } },
+            { test: { $debugName: 'test', display: 'block' } },
+            { dir },
+          );
+
+          instance.purgeStyles();
+
+          expect(getFlushedStyles()).toMatchSnapshot();
+        });
+
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           instance.typeStyle.fontFace(FONT_ROBOTO as any);
 
