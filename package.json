@@ -17,8 +17,8 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.48.0",
-    "@types/react": "^16.8.19",
+    "@milesj/build-tools": "^0.48.2",
+    "@types/react": "^16.8.22",
     "@types/react-dom": "^16.8.4",
     "babel-loader": "^8.0.6",
     "babel-plugin-css-modules-transform": "1.6.2",
@@ -27,8 +27,8 @@
     "glob": "^7.1.4",
     "lerna": "^3.15.0",
     "react-dom": "^16.8.6",
-    "webpack": "^4.33.0",
-    "webpack-cli": "^3.3.3"
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.5"
   },
   "beemo": {
     "module": "@milesj/build-tools",
