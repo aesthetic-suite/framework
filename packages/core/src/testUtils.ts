@@ -9,6 +9,7 @@ import {
 } from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
 import { FontFace, Direction } from './types';
+import { GLOBAL_STYLE_NAME } from './constants';
 
 export { getStyleElements };
 
@@ -91,7 +92,9 @@ export function renderAndExpect(
     global?: boolean;
   },
 ) {
-  const name = aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
+  const name = global
+    ? GLOBAL_STYLE_NAME
+    : aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
   const options = { name, dir };
   const convertedSheet = global
     ? aesthetic.syntax.convertGlobalSheet(styleSheet, options).toObject()

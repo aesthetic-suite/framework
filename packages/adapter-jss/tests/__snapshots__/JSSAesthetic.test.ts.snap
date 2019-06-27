@@ -10,11 +10,20 @@ exports[`JSSAesthetic LTR converts and transforms inline styles 2`] = `
 .inline-1-0-1-2 {padding: 2px;}"
 `;
 
-exports[`JSSAesthetic LTR flushes and purges styles from the DOM 1`] = `".test-0-2-1 {display: block;}"`;
+exports[`JSSAesthetic LTR global sheet flushes and purges styles from the DOM 1`] = `
+"body {margin: 0;}
+html {height: 100%;}
+a {color: red;}
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+ul {margin: 0;}
+ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
+`;
 
-exports[`JSSAesthetic LTR flushes and purges styles from the DOM 2`] = `"test-0-2-1"`;
+exports[`JSSAesthetic LTR global sheet flushes and purges styles from the DOM 2`] = `""`;
 
-exports[`JSSAesthetic LTR flushes and purges styles from the DOM 3`] = `""`;
+exports[`JSSAesthetic LTR global sheet flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`JSSAesthetic LTR global sheet handles @charset 1`] = `""`;
 
@@ -36,15 +45,6 @@ exports[`JSSAesthetic LTR global sheet handles @keyframes 2`] = `""`;
 exports[`JSSAesthetic LTR global sheet handles @viewport 1`] = `"@viewport {width: device-width; orientation: landscape;}"`;
 
 exports[`JSSAesthetic LTR global sheet handles @viewport 2`] = `""`;
-
-exports[`JSSAesthetic LTR global sheet handles globals 1`] = `
-"body {margin: 0;}
-html {height: 100%;}
-a {color: red;}
-a:hover {color: darkred;}"
-`;
-
-exports[`JSSAesthetic LTR global sheet handles globals 2`] = `""`;
 
 exports[`JSSAesthetic LTR global sheet handles mixed @font-face 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
@@ -84,6 +84,12 @@ exports[`JSSAesthetic LTR style sheet converts unified syntax to native syntax a
 `;
 
 exports[`JSSAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button-0-12-1"`;
+
+exports[`JSSAesthetic LTR style sheet flushes and purges styles from the DOM 1`] = `".test-0-11-1 {display: block;}"`;
+
+exports[`JSSAesthetic LTR style sheet flushes and purges styles from the DOM 2`] = `"test-0-11-1"`;
+
+exports[`JSSAesthetic LTR style sheet flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`JSSAesthetic LTR style sheet handles @fallbacks 1`] = `".fallback-0-20-1 {background: linear-gradient(...); display: flex; color: blue;}"`;
 
@@ -196,11 +202,20 @@ exports[`JSSAesthetic RTL converts and transforms inline styles 2`] = `
 .inline-1-0-25-2 {padding: 2px;}"
 `;
 
-exports[`JSSAesthetic RTL flushes and purges styles from the DOM 1`] = `".test-0-26-1 {display: block;}"`;
+exports[`JSSAesthetic RTL global sheet flushes and purges styles from the DOM 1`] = `
+"body {margin: 0;}
+html {height: 100%;}
+a {color: red;}
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+ul {margin: 0;}
+ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
+`;
 
-exports[`JSSAesthetic RTL flushes and purges styles from the DOM 2`] = `"test-0-26-1"`;
+exports[`JSSAesthetic RTL global sheet flushes and purges styles from the DOM 2`] = `""`;
 
-exports[`JSSAesthetic RTL flushes and purges styles from the DOM 3`] = `""`;
+exports[`JSSAesthetic RTL global sheet flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`JSSAesthetic RTL global sheet handles @charset 1`] = `""`;
 
@@ -222,15 +237,6 @@ exports[`JSSAesthetic RTL global sheet handles @keyframes 2`] = `""`;
 exports[`JSSAesthetic RTL global sheet handles @viewport 1`] = `"@viewport {width: device-width; orientation: landscape;}"`;
 
 exports[`JSSAesthetic RTL global sheet handles @viewport 2`] = `""`;
-
-exports[`JSSAesthetic RTL global sheet handles globals 1`] = `
-"body {margin: 0;}
-html {height: 100%;}
-a {color: red;}
-a:hover {color: darkred;}"
-`;
-
-exports[`JSSAesthetic RTL global sheet handles globals 2`] = `""`;
 
 exports[`JSSAesthetic RTL global sheet handles mixed @font-face 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
@@ -270,6 +276,12 @@ exports[`JSSAesthetic RTL style sheet converts unified syntax to native syntax a
 `;
 
 exports[`JSSAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button-0-36-1"`;
+
+exports[`JSSAesthetic RTL style sheet flushes and purges styles from the DOM 1`] = `".test-0-35-1 {display: block;}"`;
+
+exports[`JSSAesthetic RTL style sheet flushes and purges styles from the DOM 2`] = `"test-0-35-1"`;
+
+exports[`JSSAesthetic RTL style sheet flushes and purges styles from the DOM 3`] = `""`;
 
 exports[`JSSAesthetic RTL style sheet handles @fallbacks 1`] = `".fallback-0-44-1 {background: linear-gradient(...); display: flex; color: blue;}"`;
 

@@ -3,6 +3,7 @@
 import { create } from 'jss';
 // @ts-ignore
 import preset from 'jss-preset-default';
+import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
   getFlushedStyles,
@@ -69,18 +70,8 @@ describe('JSSAesthetic', () => {
         expect(getFlushedStyles()).toMatchSnapshot();
       });
 
-      it('flushes and purges styles from the DOM', () => {
-        const styles = { test: { display: 'block' } };
-
-        renderAndExpect(instance, styles, styles, { dir });
-
-        instance.purgeStyles();
-
-        expect(getFlushedStyles()).toMatchSnapshot();
-      });
-
       describe('global sheet', () => {
-        it('handles globals', () => {
+        it('flushes and purges styles from the DOM', () => {
           renderAndExpect(
             instance,
             SYNTAX_GLOBAL,
@@ -93,11 +84,27 @@ describe('JSSAesthetic', () => {
                   '&:hover': {
                     color: 'darkred',
                   },
+                  '&:focus': {
+                    color: 'lightred',
+                  },
+                },
+                ul: {
+                  margin: 0,
+                  '&> li': {
+                    margin: 0,
+                  },
+                  '@media (max-width: 500px)': {
+                    margin: 20,
+                  },
                 },
               },
             },
             { dir, global: true },
           );
+
+          instance.purgeStyles(GLOBAL_STYLE_NAME);
+
+          expect(getFlushedStyles()).toMatchSnapshot();
         });
 
         it('handles @font-face', () => {
@@ -193,6 +200,16 @@ describe('JSSAesthetic', () => {
       });
 
       describe('style sheet', () => {
+        it('flushes and purges styles from the DOM', () => {
+          const styles = { test: { display: 'block' } };
+
+          renderAndExpect(instance, styles, styles, { dir });
+
+          instance.purgeStyles();
+
+          expect(getFlushedStyles()).toMatchSnapshot();
+        });
+
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           renderAndExpect(
             instance,
