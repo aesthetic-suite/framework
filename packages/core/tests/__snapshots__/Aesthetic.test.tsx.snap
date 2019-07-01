@@ -20,8 +20,6 @@ exports[`Aesthetic registerStyleSheet() errors if styles are not a function 3`] 
 
 exports[`Aesthetic registerStyleSheet() errors if styles are not a function 4`] = `"Definition for \\"foo\\" must be null or a function."`;
 
-exports[`Aesthetic registerStyleSheet() errors if styles have been set 1`] = `"Styles have already been defined for \\"foo\\"."`;
-
 exports[`Aesthetic registerStyleSheet() errors if styles try to extend from itself 1`] = `"Cannot extend styles from itself."`;
 
 exports[`Aesthetic registerTheme() errors if a theme name has been used 1`] = `"Theme \\"default\\" already exists."`;

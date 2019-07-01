@@ -42,7 +42,7 @@ function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
   }
 
   aesthetic.registerTheme(
-    'light',
+    'default',
     {
       unit: 8,
       fg: '#fff',
@@ -64,7 +64,8 @@ function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
     }),
   );
 
-  aesthetic.extendTheme('dark', 'light', {
+  aesthetic.extendTheme('light', 'default', {});
+  aesthetic.extendTheme('dark', 'default', {
     fg: '#eee',
     bg: '#212121',
     bgHover: '#424242',
@@ -172,7 +173,7 @@ function createHookComponent(aesthetic: Aesthetic<Theme, any, any>) {
   const useStyles = useStylesFactory(aesthetic);
   const useTheme = useThemeFactory(aesthetic);
 
-  return function Button({ children, primary = false }: HocProps) {
+  return function Button({ children, primary = false }: HookProps) {
     const [styles, cx] = useStyles(styleSheet);
     const theme = useTheme();
     const className = cx(styles.button, primary && styles.button__primary);

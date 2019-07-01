@@ -60,7 +60,7 @@ describe('useStylesFactory()', () => {
 
     shallow(<Component />);
 
-    expect(spy).toHaveBeenCalledWith(styleName, { dir: 'ltr', name: styleName, theme: 'default' });
+    expect(spy).toHaveBeenCalledWith(styleName, { dir: 'ltr', name: styleName, theme: '' });
   });
 
   it('flushes styles only once', () => {
@@ -154,7 +154,7 @@ describe('useStylesFactory()', () => {
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'rtl',
       name: styleName,
-      theme: 'default',
+      theme: '',
     });
 
     act(() => {
@@ -169,7 +169,7 @@ describe('useStylesFactory()', () => {
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'ltr',
       name: styleName,
-      theme: 'default',
+      theme: '',
     });
   });
 
@@ -228,12 +228,12 @@ describe('useStylesFactory()', () => {
       expect(createSpy).toHaveBeenCalledWith(styleName, {
         dir: 'rtl',
         name: styleName,
-        theme: 'default',
+        theme: '',
       });
       expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
         dir: 'rtl',
         name: styleName,
-        theme: 'default',
+        theme: '',
       });
     });
 
@@ -253,12 +253,12 @@ describe('useStylesFactory()', () => {
       expect(createSpy).toHaveBeenCalledWith(styleName, {
         dir: 'rtl',
         name: styleName,
-        theme: 'default',
+        theme: '',
       });
       expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
         dir: 'rtl',
         name: styleName,
-        theme: 'default',
+        theme: '',
       });
     });
   });

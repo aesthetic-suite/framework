@@ -43,7 +43,6 @@ export default abstract class Aesthetic<
       cxPropName: 'cx',
       extendable: false,
       passThemeProp: false,
-      pure: true,
       rtl: false,
       stylesPropName: 'styles',
       theme: 'default',
@@ -192,7 +191,7 @@ export default abstract class Aesthetic<
   /**
    * Return a theme object or throw an error.
    */
-  getTheme(name: ThemeName): Theme {
+  getTheme(name?: ThemeName): Theme {
     const themeName = name || this.options.theme;
     const theme = this.themes[themeName];
 
@@ -246,7 +245,7 @@ export default abstract class Aesthetic<
       this.parents[styleName] = extendFrom;
     }
 
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet, this.styles);
+    this.styles[styleName] = this.validateDefinition(styleName, styleSheet);
 
     return this;
   }
@@ -269,7 +268,7 @@ export default abstract class Aesthetic<
     }
 
     this.themes[themeName] = theme;
-    this.globals[themeName] = this.validateDefinition(themeName, globalSheet, this.globals);
+    this.globals[themeName] = this.validateDefinition(themeName, globalSheet);
 
     return this;
   }
@@ -373,11 +372,9 @@ export default abstract class Aesthetic<
   /**
    * Validate a style sheet or theme definition.
    */
-  private validateDefinition<T>(key: string, value: T, cache: { [key: string]: T }): T {
+  private validateDefinition<T>(key: string, value: T): T {
     if (__DEV__) {
-      if (cache[key]) {
-        throw new Error(`Styles have already been defined for "${key}".`);
-      } else if (value !== null && typeof value !== 'function') {
+      if (value !== null && typeof value !== 'function') {
         throw new TypeError(`Definition for "${key}" must be null or a function.`);
       }
     }

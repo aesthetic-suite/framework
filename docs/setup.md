@@ -8,7 +8,6 @@ object as the 2nd argument. Please refer to each adapter for explicit usage.
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
 
 export default new AphroditeAesthetic(extensions, {
-  pure: true,
   theme: 'dark',
 });
 ```
@@ -23,8 +22,6 @@ The following options are available, most of which can be overridden per compone
   styles are locked and isolated. Defaults to `false`.
 - `passThemeProp` (boolean) - Should the theme prop be passed to all wrapped components? Defaults to
   `false`.
-- `pure` (boolean) - Should all HOC wrapped components use `React.PureComponent`? Defaults to
-  `true`. _(React only)_
 - `rtl` (boolean) - Enable right-to-left mode rendering for all components.
 - `stylesPropName` (string) - The name of the styles prop passed to wrapped components. Defaults to
   `styles`.

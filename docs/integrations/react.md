@@ -57,8 +57,8 @@ export default withStylesFactory(aesthetic);
 ### withTheme
 
 The `withThemeFactory` function creates and returns a `withTheme` higher-order component. The HOC
-passes the current theme as a prop. It supports the `themePropName` and `pure`
-[options](../setup.md#options) mentioned previously as props.
+passes the current theme as a prop. It supports the `themePropName` [option](../setup.md#options)
+mentioned previously as props.
 
 ```ts
 // withTheme.ts
@@ -270,8 +270,7 @@ class ThemeSelector extends React.Component<{}, { value: string }> {
 ## Accessing The Theme
 
 There are 3 ways to access the currently enabled theme in a component. The first is with the aptly
-named `withTheme` HOC, which passes the theme object as a prop. The HOC supports the `pure` and
-`themePropName` options.
+named `withTheme` HOC, which passes the theme object as a prop.
 
 ```tsx
 import React from 'react';

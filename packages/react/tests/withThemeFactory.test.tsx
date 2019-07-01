@@ -12,9 +12,9 @@ describe('withThemeFactory()', () => {
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();
-    withTheme = withThemeFactory(aesthetic);
-
     registerTestTheme(aesthetic);
+
+    withTheme = withThemeFactory(aesthetic);
   });
 
   function BaseComponent() {
@@ -33,9 +33,7 @@ describe('withThemeFactory()', () => {
     return shallow(element, {
       // @ts-ignore Not yet typed
       wrappingComponent: WrappingComponent,
-    })
-      .dive()
-      .dive();
+    });
   }
 
   it('returns an HOC component', () => {
