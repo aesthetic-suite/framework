@@ -32,7 +32,6 @@ export default function withStylesFactory<
       extendable = aesthetic.options.extendable,
       extendFrom = '',
       passThemeProp = aesthetic.options.passThemeProp,
-      pure = aesthetic.options.pure,
       stylesPropName = aesthetic.options.stylesPropName,
       themePropName = aesthetic.options.themePropName,
     } = options;

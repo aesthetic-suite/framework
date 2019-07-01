@@ -13,10 +13,7 @@ export default function withThemeFactory<
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
   return function withTheme(options: WithThemeOptions = {}) /* infer */ {
-    const {
-      pure = aesthetic.options.pure,
-      themePropName = aesthetic.options.themePropName,
-    } = options;
+    const { themePropName = aesthetic.options.themePropName } = options;
 
     return function withThemeComposer<Props extends object = {}>(
       WrappedComponent: React.ComponentType<Props & WithThemeWrappedProps<Theme>>,

@@ -51,8 +51,6 @@ export interface WithThemeWrappedProps<Theme> {
 }
 
 export interface WithThemeOptions {
-  /** Render a pure component instead of a regular component. Provided by `withTheme`. */
-  pure?: boolean;
   /** Name of the prop in which to pass the theme object to the wrapped component. Provided by `withTheme`. */
   themePropName?: string;
 }
@@ -86,8 +84,6 @@ export interface WithStylesOptions {
   extendFrom?: string;
   /** Pass the theme object prop to the wrapped component. Provided by `withStyles`. */
   passThemeProp?: boolean;
-  /** Render a pure component instead of a regular component. Provided by `withStyles`. */
-  pure?: boolean;
   /** Name of the prop in which to pass styles to the wrapped component. Provided by `withStyles`. */
   stylesPropName?: string;
   /** Name of the prop in which to pass the theme object to the wrapped component. Provided by `withStyles`. */

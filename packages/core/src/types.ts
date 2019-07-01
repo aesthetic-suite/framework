@@ -119,7 +119,6 @@ export interface AestheticOptions {
   cxPropName: string;
   extendable: boolean;
   passThemeProp: boolean;
-  pure: boolean;
   rtl: boolean;
   stylesPropName: string;
   theme: ThemeName;

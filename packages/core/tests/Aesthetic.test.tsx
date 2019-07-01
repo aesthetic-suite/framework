@@ -27,7 +27,6 @@ describe('Aesthetic', () => {
         cxPropName: 'cx',
         extendable: false,
         passThemeProp: false,
-        pure: true,
         rtl: false,
         stylesPropName: 'styleSheet',
         theme: 'default',

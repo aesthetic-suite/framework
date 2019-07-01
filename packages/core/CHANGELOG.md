@@ -18,6 +18,7 @@ slightly change.
   adapter blocks.
 - Renamed `Aesthetic#setStyleSheet` to `registerStyleSheet`.
 - Renamed `Aesthetic#processStyleSheet` to `parseStyleSheet`.
+- Removed the `pure` option (since class components are no longer used).
 
 #### 🚀 Updates
 

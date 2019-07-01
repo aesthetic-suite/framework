@@ -43,7 +43,6 @@ export default abstract class Aesthetic<
       cxPropName: 'cx',
       extendable: false,
       passThemeProp: false,
-      pure: true,
       rtl: false,
       stylesPropName: 'styles',
       theme: 'default',
