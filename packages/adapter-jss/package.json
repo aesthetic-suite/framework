@@ -20,7 +20,7 @@
     "@types/jss": "*"
   },
   "peerDependencies": {
-    "aesthetic": "^3.0.0",
+    "aesthetic": "^4.0.0-alpha.0",
     "jss": "^9.8.0"
   },
   "devDependencies": {

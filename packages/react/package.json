@@ -29,7 +29,7 @@
     "uuid": "^3.3.2"
   },
   "peerDependencies": {
-    "aesthetic": "^3.0.0",
+    "aesthetic": "^4.0.0-alpha.0",
     "react": "^16.6.0"
   },
   "devDependencies": {
