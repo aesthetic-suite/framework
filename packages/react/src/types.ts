@@ -6,7 +6,6 @@ import Aesthetic, {
   StyleName,
   StyleSheetDefinition,
   ThemeName,
-  TransformOptions,
 } from 'aesthetic';
 import { Omit } from 'utility-types';
 
@@ -34,8 +33,9 @@ export interface ThemeProviderState {
   themeName: ThemeName;
 }
 
-export interface WithThemeContextProps {
-  themeName: ThemeName;
+export interface UseStylesOptions {
+  /** Custom name for the component being styled. */
+  styleName?: string;
 }
 
 export interface WithThemeWrapperProps {
@@ -55,11 +55,6 @@ export interface WithThemeOptions {
   pure?: boolean;
   /** Name of the prop in which to pass the theme object to the wrapped component. Provided by `withTheme`. */
   themePropName?: string;
-}
-
-export interface WithStylesContextProps {
-  dir: Direction;
-  themeName: ThemeName;
 }
 
 export interface WithStylesWrapperProps {
@@ -82,11 +77,6 @@ export interface WithStylesWrappedProps<
   theme?: Theme;
 }
 
-export interface WithStylesState<ParsedBlock> {
-  options: TransformOptions;
-  styles: SheetMap<ParsedBlock>;
-}
-
 export interface WithStylesOptions {
   /** Name of the prop in which to pass the CSS class name transformer function. Provided by `withStyles`. */
   cxPropName?: string;
@@ -104,7 +94,7 @@ export interface WithStylesOptions {
   themePropName?: string;
 }
 
-export interface StyledComponentClass<Theme, Props> extends React.ComponentClass<Props> {
+export interface StyledComponentClass<Theme, Props> extends React.FunctionComponent<Props> {
   displayName: string;
   styleName: StyleName;
   WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<Theme, any, any>>;

@@ -1,15 +1,8 @@
-/* eslint-disable max-classes-per-file, react/no-multi-comp */
-
-import React from 'react';
+import React, { useContext } from 'react';
 import Aesthetic from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import ThemeContext from './ThemeContext';
-import {
-  WithThemeOptions,
-  WithThemeContextProps,
-  WithThemeWrappedProps,
-  WithThemeWrapperProps,
-} from './types';
+import { WithThemeOptions, WithThemeWrappedProps, WithThemeWrapperProps } from './types';
 
 /**
  * Wrap a React component with an HOC that injects the current theme object as a prop.
@@ -27,40 +20,26 @@ export default function withThemeFactory<
 
     return function withThemeComposer<Props extends object = {}>(
       WrappedComponent: React.ComponentType<Props & WithThemeWrappedProps<Theme>>,
-    ): React.ComponentClass<Props & WithThemeWrapperProps> {
+    ): React.FunctionComponent<Props & WithThemeWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
-      const Component = pure ? React.PureComponent : React.Component;
 
-      // eslint-disable-next-line react/prefer-stateless-function
-      class WithTheme extends Component<Props & WithThemeContextProps & WithThemeWrapperProps> {
-        render() {
-          const { themeName, wrappedRef, ...props } = this.props;
-          const extraProps: WithThemeWrappedProps<Theme> = {
-            [themePropName as 'theme']: aesthetic.getTheme(themeName),
-            ref: wrappedRef,
-          };
+      function WithTheme({ wrappedRef, ...props }: Props & WithThemeWrapperProps) {
+        const theme = useContext(ThemeContext);
+        const extraProps: WithThemeWrappedProps<Theme> = {
+          [themePropName as 'theme']: theme.theme as Theme,
+          ref: wrappedRef,
+        };
 
-          return <WrappedComponent {...props as any} {...extraProps} />;
-        }
+        return <WrappedComponent {...props as any} {...extraProps} />;
       }
 
-      class WithThemeConsumer extends React.Component<Props & WithThemeWrapperProps> {
-        static displayName = `withTheme(${baseName})`;
+      hoistNonReactStatics(WithTheme, WrappedComponent);
 
-        static WrappedComponent = WrappedComponent;
+      WithTheme.displayName = `withTheme(${baseName})`;
 
-        render() {
-          return (
-            <ThemeContext.Consumer>
-              {theme => <WithTheme {...this.props} themeName={theme.themeName} />}
-            </ThemeContext.Consumer>
-          );
-        }
-      }
+      WithTheme.WrappedComponent = WrappedComponent;
 
-      hoistNonReactStatics(WithThemeConsumer, WrappedComponent);
-
-      return WithThemeConsumer;
+      return WithTheme;
     };
   };
 }

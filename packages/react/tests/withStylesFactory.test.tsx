@@ -13,9 +13,9 @@ describe('withStylesFactory()', () => {
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();
-    withStyles = withStylesFactory(aesthetic);
-
     registerTestTheme(aesthetic);
+
+    withStyles = withStylesFactory(aesthetic);
   });
 
   function BaseComponent() {
@@ -40,10 +40,7 @@ describe('withStylesFactory()', () => {
     return shallow(element, {
       // @ts-ignore Not yet typed
       wrappingComponent: WrappingComponent,
-    })
-      .dive()
-      .dive()
-      .dive();
+    });
   }
 
   it('returns an HOC component', () => {
@@ -94,6 +91,8 @@ describe('withStylesFactory()', () => {
       },
     });
     const Wrapped = withStyles(styles)(BaseComponent);
+
+    shallowDeep(<Wrapped />);
 
     expect(aesthetic.styles[Wrapped.styleName]).toBe(styles);
   });
@@ -164,22 +163,19 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
     const wrapper = shallowDeep(<Wrapped />);
 
-    expect(wrapper.prop('theme')).toEqual({ color: 'black', unit: 8 });
+    expect(wrapper.prop('theme')).toBeDefined();
   });
 
   it('creates a style sheet', () => {
     const spy = jest.spyOn(aesthetic, 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
-    const wrapper = shallowDeep(<Wrapped foo="abc" />);
+
+    shallowDeep(<Wrapped foo="abc" />);
 
     expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
       dir: 'ltr',
       name: Wrapped.styleName,
-      theme: 'light',
-    });
-    expect(wrapper.state('styles')).toEqual({
-      header: {},
-      footer: {},
+      theme: 'default',
     });
   });
 

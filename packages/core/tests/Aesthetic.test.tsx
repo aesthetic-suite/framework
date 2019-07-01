@@ -463,14 +463,6 @@ describe('Aesthetic', () => {
   });
 
   describe('registerStyleSheet()', () => {
-    it('errors if styles have been set', () => {
-      instance.styles.foo = () => ({});
-
-      expect(() => {
-        instance.registerStyleSheet('foo', () => ({}));
-      }).toThrowErrorMatchingSnapshot();
-    });
-
     it('errors if styles try to extend from itself', () => {
       instance.styles.foo = () => ({});
 

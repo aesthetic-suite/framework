@@ -1,16 +1,12 @@
-/* eslint-disable max-classes-per-file, react/no-multi-comp */
-
-import React from 'react';
-import Aesthetic, { ClassNameTransformer, StyleSheetDefinition } from 'aesthetic';
+import React, { useContext } from 'react';
+import Aesthetic, { StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import { Omit } from 'utility-types';
-import DirectionContext from './DirectionContext';
+import useStylesFactory from './useStylesFactory';
 import ThemeContext from './ThemeContext';
 import {
   WithStylesOptions,
-  WithStylesState,
-  WithStylesContextProps,
   WithStylesWrappedProps,
   WithStylesWrapperProps,
   StyledComponentClass,
@@ -24,6 +20,9 @@ export default function withStylesFactory<
   NativeBlock extends object,
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const useStyles = useStylesFactory(aesthetic);
+
   return function withStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
     options: WithStylesOptions = {},
@@ -38,8 +37,6 @@ export default function withStylesFactory<
       themePropName = aesthetic.options.themePropName,
     } = options;
 
-    type CX = ClassNameTransformer<NativeBlock, ParsedBlock>;
-
     return function withStylesComposer<Props extends object = {}>(
       WrappedComponent: React.ComponentType<
         Props & WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>
@@ -47,113 +44,52 @@ export default function withStylesFactory<
     ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const styleName = `${baseName}-${uuid()}`;
-      const Component = pure ? React.PureComponent : React.Component;
 
-      type OwnProps = Props & WithStylesWrapperProps & WithStylesContextProps;
-      type OwnState = WithStylesState<ParsedBlock>;
-
+      // We must register earlier so that extending styles works correctly
       aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);
 
-      class WithStyles extends Component<OwnProps, OwnState> {
-        constructor(props: OwnProps) {
-          super(props);
-
-          this.state = this.createStyleSheet(true);
-        }
-
-        componentDidMount() {
-          aesthetic.flushStyles(styleName);
-        }
-
-        componentDidUpdate(prevProps: OwnProps) {
-          const { dir, themeName } = this.props;
-
-          if (dir !== prevProps.dir || themeName !== prevProps.themeName) {
-            this.createStyleSheet();
-          }
-        }
-
-        createStyleSheet = (mount: boolean = false) => {
-          const { dir, themeName } = this.props;
-          const opts = {
-            dir,
-            name: styleName,
-            theme: themeName,
-          };
-          const state = {
-            options: opts,
-            styles: aesthetic.createStyleSheet(styleName, opts),
-          };
-
-          if (mount) {
-            return state;
-          }
-
-          this.setState(state, () => {
-            aesthetic.flushStyles(styleName);
-          });
-
-          return state;
+      function WithStyles({ wrappedRef, ...props }: Props & WithStylesWrapperProps) {
+        const theme = useContext(ThemeContext);
+        const [styles, cx] = useStyles(styleSheet, { styleName });
+        const extraProps: WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock> = {
+          [cxPropName as 'cx']: cx,
+          [stylesPropName as 'styles']: styles,
+          ref: wrappedRef,
         };
 
-        transformStyles: CX = (...styles) => aesthetic.transformStyles(styles, this.state.options);
-
-        render() {
-          const { dir, themeName, wrappedRef, ...props } = this.props;
-          const extraProps: WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock> = {
-            [cxPropName as 'cx']: this.transformStyles,
-            [stylesPropName as 'styles']: this.state.styles,
-            ref: wrappedRef,
-          };
-
-          if (passThemeProp) {
-            extraProps[themePropName as 'theme'] = aesthetic.getTheme(themeName);
-          }
-
-          return <WrappedComponent {...props as any} {...extraProps} />;
+        if (passThemeProp) {
+          extraProps[themePropName as 'theme'] = theme.theme as Theme;
         }
+
+        return <WrappedComponent {...props as any} {...extraProps} />;
       }
 
-      class WithStylesConsumer extends React.Component<Props & WithStylesWrapperProps> {
-        static displayName = `withStyles(${baseName})`;
+      hoistNonReactStatics(WithStyles, WrappedComponent);
 
-        static styleName = styleName;
+      WithStyles.displayName = `withStyles(${baseName})`;
 
-        static WrappedComponent = WrappedComponent;
+      WithStyles.styleName = styleName;
 
-        static extendStyles<ET>(
-          customStyleSheet: StyleSheetDefinition<Theme, ET>,
-          extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
-        ) {
-          if (__DEV__) {
-            if (!extendable) {
-              throw new Error(`${baseName} is not extendable.`);
-            }
+      WithStyles.WrappedComponent = WrappedComponent;
+
+      WithStyles.extendStyles = function extendStyles<ET>(
+        customStyleSheet: StyleSheetDefinition<Theme, ET>,
+        extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
+      ) {
+        if (__DEV__) {
+          if (!extendable) {
+            throw new Error(`${baseName} is not extendable.`);
           }
-
-          return withStyles(customStyleSheet, {
-            ...options,
-            ...extendOptions,
-            extendFrom: styleName,
-          })(WrappedComponent);
         }
 
-        render() {
-          return (
-            <ThemeContext.Consumer>
-              {theme => (
-                <DirectionContext.Consumer>
-                  {dir => <WithStyles {...this.props} dir={dir} themeName={theme.themeName} />}
-                </DirectionContext.Consumer>
-              )}
-            </ThemeContext.Consumer>
-          );
-        }
-      }
+        return withStyles(customStyleSheet, {
+          ...options,
+          ...extendOptions,
+          extendFrom: styleName,
+        })(WrappedComponent);
+      };
 
-      hoistNonReactStatics(WithStylesConsumer, WrappedComponent);
-
-      return WithStylesConsumer;
+      return WithStyles;
     };
   };
 }
