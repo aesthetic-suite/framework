@@ -21,9 +21,9 @@ export default function withThemeFactory<
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
 
       function WithTheme({ wrappedRef, ...props }: Props & WithThemeWrapperProps) {
-        const theme = useContext(ThemeContext);
+        const { themeName } = useContext(ThemeContext);
         const extraProps: WithThemeWrappedProps<Theme> = {
-          [themePropName as 'theme']: theme.theme as Theme,
+          [themePropName as 'theme']: aesthetic.getTheme(themeName),
           ref: wrappedRef,
         };
 
