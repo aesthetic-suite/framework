@@ -2,7 +2,7 @@
 
 import toArray from './toArray';
 
-type RulesContainer = CSSStyleSheet | CSSGroupingRule | CSSKeyframesRule;
+type RulesContainer = CSSStyleSheet | CSSGroupingRule;
 
 // Only matches global elements
 const NON_GLOBAL_PREFIX = /^(#|\.|@)/u;
@@ -11,8 +11,7 @@ function containsNestedRules(rule: unknown): rule is RulesContainer {
   return (
     (typeof CSSStyleSheet !== 'undefined' && rule instanceof CSSStyleSheet) ||
     (typeof CSSMediaRule !== 'undefined' && rule instanceof CSSMediaRule) ||
-    (typeof CSSSupportsRule !== 'undefined' && rule instanceof CSSSupportsRule) ||
-    (typeof CSSKeyframesRule !== 'undefined' && rule instanceof CSSKeyframesRule)
+    (typeof CSSSupportsRule !== 'undefined' && rule instanceof CSSSupportsRule)
   );
 }
 
@@ -20,7 +19,7 @@ function deleteRule(parent: RulesContainer, ruleToDelete: CSSRule) {
   Array.from(parent.cssRules).some((rule, index) => {
     if (rule === ruleToDelete && parent.cssRules[index]) {
       if (typeof parent.deleteRule === 'function') {
-        parent.deleteRule(index as any);
+        parent.deleteRule(index);
       } else {
         delete parent.cssRules[index];
       }
@@ -42,7 +41,9 @@ function deleteRule(parent: RulesContainer, ruleToDelete: CSSRule) {
   if (parent.cssRules.length === 0 && parent instanceof CSSRule) {
     if (containsNestedRules(parent.parentRule)) {
       deleteRule(parent.parentRule, parent);
-    } else if (containsNestedRules(parent.parentStyleSheet)) {
+    }
+
+    if (containsNestedRules(parent.parentStyleSheet)) {
       deleteRule(parent.parentStyleSheet, parent);
     }
   }

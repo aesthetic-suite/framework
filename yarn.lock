@@ -4241,13 +4241,6 @@ css-in-js-utils@^3.0.0:
   dependencies:
     hyphenate-style-name "^1.0.2"
 
-css-in-js-utils@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/css-in-js-utils/-/css-in-js-utils-3.0.2.tgz#829a7922630458653a3f83c9b8dbd870c9eb2e24"
-  integrity sha512-D9VdAtwMADHMqQZPXYfsH2ARz+5JRf/Lv2R4euG+3bb9OxrM97QMJY68JwloLimbD8b/vsqOVZYHLPhyhaTcvw==
-  dependencies:
-    hyphenate-style-name "^1.0.2"
-
 css-modules-require-hook@^4.0.6:
   version "4.2.3"
   resolved "https://registry.npmjs.org/css-modules-require-hook/-/css-modules-require-hook-4.2.3.tgz#6792ca412b15e23e6f9be6a07dcef7f577ff904d"

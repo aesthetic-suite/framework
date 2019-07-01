@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "aesthetic-utils": "^2.0.0-alpha.6",
-    "css-in-js-utils": "^3.0.2",
     "csstype": "^2.6.5",
     "extend": "^3.0.2",
     "rtl-css-js": "^1.13.0",
