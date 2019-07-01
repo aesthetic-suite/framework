@@ -191,7 +191,7 @@ export default abstract class Aesthetic<
   /**
    * Return a theme object or throw an error.
    */
-  getTheme(name: ThemeName): Theme {
+  getTheme(name?: ThemeName): Theme {
     const themeName = name || this.options.theme;
     const theme = this.themes[themeName];
 

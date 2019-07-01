@@ -175,7 +175,7 @@ describe('withStylesFactory()', () => {
     expect(spy).toHaveBeenCalledWith(Wrapped.styleName, {
       dir: 'ltr',
       name: Wrapped.styleName,
-      theme: 'default',
+      theme: '',
     });
   });
 
@@ -302,7 +302,7 @@ describe('withStylesFactory()', () => {
     expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
       dir: 'rtl',
       name: Wrapped.styleName,
-      theme: 'default',
+      theme: '',
     });
 
     act(() => {
@@ -317,7 +317,7 @@ describe('withStylesFactory()', () => {
     expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
       dir: 'ltr',
       name: Wrapped.styleName,
-      theme: 'default',
+      theme: '',
     });
   });
 
@@ -380,12 +380,12 @@ describe('withStylesFactory()', () => {
       expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
         dir: 'rtl',
         name: Wrapped.styleName,
-        theme: 'default',
+        theme: '',
       });
       expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
         dir: 'rtl',
         name: Wrapped.styleName,
-        theme: 'default',
+        theme: '',
       });
     });
 
@@ -407,12 +407,12 @@ describe('withStylesFactory()', () => {
       expect(createSpy).toHaveBeenCalledWith(Wrapped.styleName, {
         dir: 'rtl',
         name: Wrapped.styleName,
-        theme: 'default',
+        theme: '',
       });
       expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
         dir: 'rtl',
         name: Wrapped.styleName,
-        theme: 'default',
+        theme: '',
       });
     });
   });
