@@ -11,7 +11,6 @@ slightly change.
   [aesthetic-react](https://github.com/milesj/aesthetic/tree/master/packages/react) package.
 - Helper functions have moved to the new
   [aesthetic-utils](https://github.com/milesj/aesthetic/tree/master/packages/utils) package.
-- Updated `Aesthetic#getTheme` to require a name argument. Will no longer default to active theme.
 - Updated `Aesthetic#transformStyles` to require all styles as an array in the 1st argument, instead
   of being spread across all arguments.
 - Updated `Aesthetic#transformToClassName` to only be passed the parsed blocks and not the native
