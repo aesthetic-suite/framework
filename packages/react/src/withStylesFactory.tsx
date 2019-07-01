@@ -48,7 +48,7 @@ export default function withStylesFactory<
       aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);
 
       function WithStyles({ wrappedRef, ...props }: Props & WithStylesWrapperProps) {
-        const { themeName } = useContext(ThemeContext);
+        const themeName = useContext(ThemeContext);
         const [styles, cx] = useStyles(styleSheet, { styleName });
         const extraProps: WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock> = {
           [cxPropName as 'cx']: cx,

@@ -208,10 +208,9 @@ class Search extends React.Component<{}, { input: string }> {
 
 ### ThemeProvider
 
-The `ThemeProvider` provides a layer to
-[dynamically change the current theme](../theme.md#changing-a-theme) and cause a re-render of the
-entire DOM tree. To properly function, the provider must be rendered at the application root, _must_
-contain all components that rely on Aesthetic styling, and must be passed an `Aesthetic` instance.
+The `ThemeProvider` provides a layer to change the theme for a specific region of the page. To
+properly function, the provider _must_ contain all components that rely on Aesthetic styling, and
+must be passed an `Aesthetic` instance.
 
 ```tsx
 import { ThemeProvider } from 'aesthetic-react';
@@ -232,40 +231,7 @@ By default the `theme` option on the Aesthetic instance will be used as the targ
 </ThemeProvider>
 ```
 
-The `changeTheme` function provided by `ThemeContext` can be used to trigger the theme change
-manually. Your component _must be_ rendered as a child within `ThemeProvider`.
-
-```tsx
-import { ThemeContext } from 'aesthetic-react';
-import Component from './Component';
-
-class ThemeSelector extends React.Component<{}, { value: string }> {
-  static contextType = ThemeContext;
-
-  state = {
-    value: 'light',
-  };
-
-  handleChange = event => {
-    const { value } = event.currentTarget;
-
-    this.setState({
-      value,
-    });
-
-    this.context.changeTheme(value);
-  };
-
-  render() {
-    return (
-      <select name="theme" onChange={handleChange} value={this.state.value}>
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
-    );
-  }
-}
-```
+> Do note that global styles for all active themes in the current page may collide.
 
 ## Accessing The Theme
 

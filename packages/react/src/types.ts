@@ -17,12 +17,6 @@ export interface DirectionProviderProps {
   value?: string;
 }
 
-export interface ThemeContextShape {
-  changeTheme: (theme: ThemeName) => void;
-  theme: unknown;
-  themeName: ThemeName;
-}
-
 export interface ThemeProviderProps {
   aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;

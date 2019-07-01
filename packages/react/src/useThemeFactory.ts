@@ -11,7 +11,7 @@ export default function useThemeFactory<
   ParsedBlock extends object | string = NativeBlock
 >(aesthetic: Aesthetic<Theme, NativeBlock, ParsedBlock>) /* infer */ {
   return function useTheme(): Theme {
-    const { themeName } = useContext(ThemeContext);
+    const themeName = useContext(ThemeContext);
 
     return aesthetic.getTheme(themeName);
   };

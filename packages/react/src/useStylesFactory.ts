@@ -21,7 +21,7 @@ export default function useStylesFactory<
   ): [SheetMap<ParsedBlock>, CX, string] {
     const { styleName: customName } = options;
     const dir = useContext(DirectionContext);
-    const { themeName } = useContext(ThemeContext);
+    const themeName = useContext(ThemeContext);
     const [styleName] = useState(() => {
       const name = customName || `Component-${uuid()}`;
 

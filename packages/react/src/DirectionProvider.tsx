@@ -16,7 +16,7 @@ export default function DirectionProvider({
   value,
 }: DirectionProviderProps) {
   const Tag = inline ? 'span' : 'div';
-  let direction: Direction | undefined = dir || getDirection(value);
+  let direction: Direction = dir || getDirection(value);
 
   if (!direction || direction === 'neutral') {
     direction = aesthetic.options.rtl ? 'rtl' : 'ltr';

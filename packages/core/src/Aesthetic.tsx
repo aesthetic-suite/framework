@@ -121,10 +121,14 @@ export default abstract class Aesthetic<
     // Apply global styles on first render
     this.applyGlobalStyles(baseOptions);
 
-    const nativeSheet = this.syntax.convertStyleSheet(this.getStyleSheet(styleName), {
-      ...options,
-      name: styleName,
-    });
+    const nativeSheet = this.syntax.convertStyleSheet(
+      this.getStyleSheet(styleName, options.theme),
+      {
+        ...options,
+        name: styleName,
+      },
+    );
+
     const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), styleName);
 
     return this.cacheManager.set(

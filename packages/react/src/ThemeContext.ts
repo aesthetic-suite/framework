@@ -1,8 +1,4 @@
 import React from 'react';
-import { ThemeContextShape } from './types';
+import { ThemeName } from 'aesthetic';
 
-export default React.createContext<ThemeContextShape>({
-  changeTheme() {},
-  theme: {},
-  themeName: '',
-});
+export default React.createContext<ThemeName>('');
