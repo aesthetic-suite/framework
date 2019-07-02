@@ -6,3 +6,5 @@
 - [aesthetic-adapter-fela](./packages/adapter-fela/CHANGELOG.md)
 - [aesthetic-adapter-jss](./packages/adapter-jss/CHANGELOG.md)
 - [aesthetic-adapter-typestyle](./packages/adapter-typestyle/CHANGELOG.md)
+- [aesthetic-react](./packages/react/CHANGELOG.md)
+- [aesthetic-utils](./packages/utils/CHANGELOG.md)

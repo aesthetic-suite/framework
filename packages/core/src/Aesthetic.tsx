@@ -5,6 +5,7 @@ import CacheManager from './CacheManager';
 import Sheet from './Sheet';
 import StyleSheetManager from './StyleSheetManager';
 import UnifiedSyntax from './UnifiedSyntax';
+import { GLOBAL_STYLE_NAME } from './constants';
 import {
   AestheticOptions,
   ClassName,
@@ -60,17 +61,16 @@ export default abstract class Aesthetic<
     // so set this programmatically based on the defined option.
     document.documentElement.setAttribute('dir', this.options.rtl ? 'rtl' : 'ltr');
 
-    const name = ':root';
     const options = this.getPreparedTransformOptions({
       ...baseOptions,
       global: true,
-      name,
+      name: GLOBAL_STYLE_NAME,
     });
 
     // Direction changes shouldn't regenerate global styles
     delete options.dir;
 
-    const cache = this.cacheManager.get(name, options);
+    const cache = this.cacheManager.get(GLOBAL_STYLE_NAME, options);
     const globalDef = this.globals[options.theme];
 
     if (cache || !globalDef) {
@@ -79,27 +79,35 @@ export default abstract class Aesthetic<
 
     const globalSheet = globalDef(this.getTheme(options.theme));
     const parsedSheet = this.cacheManager.set(
-      name,
-      this.parseStyleSheet(this.syntax.convertGlobalSheet(globalSheet, options).toObject(), name),
+      GLOBAL_STYLE_NAME,
+      this.parseStyleSheet(
+        this.syntax.convertGlobalSheet(globalSheet, options).toObject(),
+        GLOBAL_STYLE_NAME,
+      ),
       options,
     );
 
     // Some adapters require the styles to be transformed to be flushed
     this.transformStyles(Object.values(parsedSheet), options);
-    this.flushStyles(name);
+    this.flushStyles(GLOBAL_STYLE_NAME);
 
     return this;
   }
 
   /**
    * Change the current theme to another registered theme.
-   * This requires all flushed styles to be purged, and for new styles
-   * to be regenerated.
+   * This will purge all flushed global styles and regenerate new ones.
    */
   changeTheme(themeName: ThemeName): this {
+    const oldTheme = this.options.theme;
+
     // Set theme as new option
     this.getTheme(themeName);
     this.options.theme = themeName;
+
+    // Purge previous global styles
+    this.purgeStyles(GLOBAL_STYLE_NAME);
+    this.cacheManager.clear(unit => !!unit.global && unit.theme === oldTheme);
 
     // Generate new global styles
     this.applyGlobalStyles({ theme: themeName });
@@ -171,15 +179,16 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Flush transformed styles and inject them into the DOM.
+   * Flush a target component's transformed styles and inject them into the DOM.
+   * If no target defined, will flush all buffered styles.
    */
-  flushStyles(styleName: StyleName) {}
+  flushStyles(styleName?: StyleName) {}
 
   /**
-   * Retrieve the defined component style sheet for the current theme.
+   * Retrieve the component style sheet for the defined theme.
    * If the definition is a function, execute it while passing the current theme.
    */
-  getStyleSheet(styleName: StyleName, themeName?: ThemeName): StyleSheet {
+  getStyleSheet(styleName: StyleName, themeName: ThemeName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
     const styleSheet = styleDef(this.getTheme(themeName || this.options.theme));
@@ -224,10 +233,10 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Purge and remove all flushed styles from the DOM.
-   * If no name is provided, purge all transformed styles.
+   * Purge and remove all styles from the DOM for the target component.
+   * If no target defined, will purge all possible styles.
    */
-  purgeStyles() {}
+  purgeStyles(styleName?: StyleName) {}
 
   /**
    * Register a style sheet definition. Optionally extend from a parent style sheet if defined.

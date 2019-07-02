@@ -208,9 +208,9 @@ class Search extends React.Component<{}, { input: string }> {
 
 ### ThemeProvider
 
-The `ThemeProvider` provides a layer to change the theme for a specific region of the page. To
-properly function, the provider _must_ contain all components that rely on Aesthetic styling, and
-must be passed an `Aesthetic` instance.
+The `ThemeProvider` provides a layer to change the theme for a specific region of the page. The
+provider _must_ contain all components that rely on Aesthetic styling, and must be passed an
+`Aesthetic` instance.
 
 ```tsx
 import { ThemeProvider } from 'aesthetic-react';
@@ -232,6 +232,16 @@ By default the `theme` option on the Aesthetic instance will be used as the targ
 ```
 
 > Do note that global styles for all active themes in the current page may collide.
+
+By default, multiple providers can be rendered at the same time, which results in global styles from
+all themes also being rendered. If you'd prefer to purge the previous global styles when changing to
+a new theme (preferrably at the root), set the `propagate` prop.
+
+```tsx
+<ThemeProvider aesthetic={aesthetic} name="dark" propagate>
+  <App />
+</ThemeProvider>
+```
 
 ## Accessing The Theme
 

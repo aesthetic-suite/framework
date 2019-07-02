@@ -110,7 +110,7 @@ describe('withStylesFactory()', () => {
       },
     )(BaseComponent);
 
-    expect(aesthetic.getStyleSheet(Wrapped.styleName)).toEqual({
+    expect(aesthetic.getStyleSheet(Wrapped.styleName, 'default')).toEqual({
       button: {
         display: 'inline-block',
         padding: 5,
@@ -123,7 +123,7 @@ describe('withStylesFactory()', () => {
       },
     }));
 
-    expect(aesthetic.getStyleSheet(Extended.styleName)).toEqual({
+    expect(aesthetic.getStyleSheet(Extended.styleName, 'default')).toEqual({
       button: {
         display: 'inline-block',
         padding: 5,

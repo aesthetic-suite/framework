@@ -1,19 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TypeStyleAesthetic LTR flushes and purges styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
-
-exports[`TypeStyleAesthetic LTR flushes and purges styles from the DOM 2`] = `"test_fcmecz0"`;
-
-exports[`TypeStyleAesthetic LTR flushes and purges styles from the DOM 3`] = `""`;
-
-exports[`TypeStyleAesthetic LTR global sheet handles globals 1`] = `
-"body {margin: 0;}
-html {height: 100%;}
+exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 1`] = `
+"html {height: 100%;}
 a {color: red;}
-a:hover {color: darkred;}"
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+body,ul,ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic LTR global sheet handles globals 2`] = `""`;
+exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 2`] = `""`;
+
+exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; local: Robo; src-paths: fonts/Roboto.ttf;}
@@ -28,6 +26,12 @@ exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native sy
 `;
 
 exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_f1sm9ltv"`;
+
+exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
+
+exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
+
+exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
 exports[`TypeStyleAesthetic LTR style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
 
@@ -127,20 +131,18 @@ exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `
 
 exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 2`] = `""`;
 
-exports[`TypeStyleAesthetic RTL flushes and purges styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
-
-exports[`TypeStyleAesthetic RTL flushes and purges styles from the DOM 2`] = `"test_fcmecz0"`;
-
-exports[`TypeStyleAesthetic RTL flushes and purges styles from the DOM 3`] = `""`;
-
-exports[`TypeStyleAesthetic RTL global sheet handles globals 1`] = `
-"body {margin: 0;}
-html {height: 100%;}
+exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 1`] = `
+"html {height: 100%;}
 a {color: red;}
-a:hover {color: darkred;}"
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+body,ul,ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic RTL global sheet handles globals 2`] = `""`;
+exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 2`] = `""`;
+
+exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; local: Robo; src-paths: fonts/Roboto.ttf;}
@@ -155,6 +157,12 @@ exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native sy
 `;
 
 exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_fjoi737"`;
+
+exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
+
+exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
+
+exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
 exports[`TypeStyleAesthetic RTL style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
 

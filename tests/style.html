@@ -41,12 +41,19 @@
       );
 
       styles[0].sheet.insertRule(
+        `#test:hover {
+          background: lightgray;
+        }`,
+        2,
+      );
+
+      styles[0].sheet.insertRule(
         `@media (max-width: 900px) {
           #test {
             background: red;
           }
         }`,
-        2,
+        3,
       );
 
       styles.forEach(style => {

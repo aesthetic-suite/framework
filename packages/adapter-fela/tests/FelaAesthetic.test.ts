@@ -2,6 +2,7 @@
 
 import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
+import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
   getFlushedStyles,
@@ -55,19 +56,13 @@ describe('FelaAesthetic', () => {
         expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('a b');
       });
 
-      it('flushes and purges styles from the DOM', () => {
-        const styles = { test: { display: 'block' } };
-
-        renderAndExpect(instance, styles, styles, { dir });
-
-        instance.purgeStyles();
-
-        expect(getFlushedStyles()).toMatchSnapshot();
-      });
-
       describe('global sheet', () => {
-        it('handles globals', () => {
+        it('flushes and purges global styles from the DOM', () => {
           renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
+
+          instance.purgeStyles(GLOBAL_STYLE_NAME);
+
+          expect(getFlushedStyles()).toMatchSnapshot();
         });
 
         it('handles @font-face', () => {
@@ -116,6 +111,16 @@ describe('FelaAesthetic', () => {
       });
 
       describe('style sheet', () => {
+        it('flushes and purges all styles from the DOM', () => {
+          const styles = { test: { display: 'block' } };
+
+          renderAndExpect(instance, styles, styles, { dir });
+
+          instance.purgeStyles();
+
+          expect(getFlushedStyles()).toMatchSnapshot();
+        });
+
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           instance.fela.renderFont('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO);
 

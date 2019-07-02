@@ -1,4 +1,12 @@
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
+import Aesthetic, {
+  AestheticOptions,
+  ClassName,
+  Ruleset,
+  Sheet,
+  SheetMap,
+  StyleName,
+  GLOBAL_STYLE_NAME,
+} from 'aesthetic';
 import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 // @ts-ignore flushToStyleTag is not typed
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
@@ -52,8 +60,8 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  purgeStyles() {
-    purgeStyles(getStyleElements('data-aphrodite'));
+  purgeStyles(styleName?: StyleName) {
+    purgeStyles(getStyleElements('data-aphrodite'), styleName === GLOBAL_STYLE_NAME);
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {

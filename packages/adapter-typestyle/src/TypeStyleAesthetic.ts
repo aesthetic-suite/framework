@@ -1,6 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 
-import Aesthetic, { AestheticOptions, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
+import Aesthetic, {
+  AestheticOptions,
+  ClassName,
+  Ruleset,
+  Sheet,
+  SheetMap,
+  StyleName,
+  GLOBAL_STYLE_NAME,
+} from 'aesthetic';
 import { purgeStyles } from 'aesthetic-utils';
 import { TypeStyle } from 'typestyle';
 import { NativeBlock, ParsedBlock } from './types';
@@ -45,12 +53,12 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     return this.typeStyle.stylesheet(styleSheet);
   }
 
-  purgeStyles() {
+  purgeStyles(styleName?: StyleName) {
     // @ts-ignore
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
 
     if (element) {
-      purgeStyles(element);
+      purgeStyles(element, styleName === GLOBAL_STYLE_NAME);
     }
   }
 

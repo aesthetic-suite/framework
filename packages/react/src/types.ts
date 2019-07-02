@@ -21,6 +21,7 @@ export interface ThemeProviderProps {
   aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
   name?: ThemeName;
+  propagate?: boolean;
 }
 
 export interface ThemeProviderState {

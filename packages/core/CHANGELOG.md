@@ -29,7 +29,6 @@ slightly change.
   refresh the page (integration dependent).
 - Added `Aesthetic#isParsedBlock` for determining whether a style block is native or parsed.
 - Added `Aesthetic#purgeStyles`, so that adapters can clear their style sheets.
-- Added `getFlushedStyles`, `getStyleElements`, and `purgeStyles` helper functions.
 - Added an options object to `Aesthetic#createStyleSheet`, `Aeshetic#transformStyles`,
   `UnifiedSyntax#convertGlobalSheet`, `UnifiedSyntax#convertStyleSheet`, and `Sheet`.
 - Updated `Aeshetic#transformStyles` to convert native blocks to parsed blocks before transforming
