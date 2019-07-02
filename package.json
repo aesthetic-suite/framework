@@ -27,7 +27,7 @@
     "glob": "^7.1.4",
     "lerna": "^3.15.0",
     "react-dom": "^16.8.6",
-    "webpack": "^4.35.0",
+    "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5"
   },
   "beemo": {
