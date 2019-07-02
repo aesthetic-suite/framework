@@ -66,4 +66,38 @@ describe('ThemeProvider', () => {
 
     expect(wrapper.state('themeName')).toBe('dark');
   });
+
+  it('calls `changeTheme` when `propagate` is true', () => {
+    const spy = jest.spyOn(aesthetic, 'changeTheme');
+    const wrapper = shallow<ThemeProvider>(
+      <ThemeProvider aesthetic={aesthetic} propagate>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+      </ThemeProvider>,
+    );
+
+    wrapper.setProps({
+      name: 'dark',
+    });
+
+    expect(spy).toHaveBeenCalledWith('dark');
+  });
+
+  it('doesnt call `changeTheme` when `propagate` is false', () => {
+    const spy = jest.spyOn(aesthetic, 'changeTheme');
+    const wrapper = shallow<ThemeProvider>(
+      <ThemeProvider aesthetic={aesthetic} propagate>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+      </ThemeProvider>,
+    );
+
+    wrapper.setProps({
+      name: 'dark',
+    });
+
+    expect(spy).toHaveBeenCalledWith('dark');
+  });
 });

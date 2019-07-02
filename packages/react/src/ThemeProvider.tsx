@@ -11,9 +11,13 @@ export default class ThemeProvider extends React.PureComponent<
   };
 
   componentDidUpdate(prevProps: ThemeProviderProps) {
-    const { name } = this.props;
+    const { aesthetic, name, propagate } = this.props;
 
     if (name && name !== prevProps.name) {
+      if (propagate) {
+        aesthetic.changeTheme(name);
+      }
+
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
         themeName: name,

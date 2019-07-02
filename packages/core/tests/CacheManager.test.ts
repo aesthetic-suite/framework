@@ -48,7 +48,7 @@ describe('CacheManager', () => {
     // @ts-ignore Allow access
     const cache = manager.cache.get('foo')!;
 
-    expect(cache.length).toBe(1);
+    expect(cache).toHaveLength(1);
     expect(cache[0]).toEqual({ dir: 'ltr', theme: 'dark', value: { value: 2 } });
   });
 });
