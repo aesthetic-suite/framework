@@ -107,7 +107,7 @@ export default abstract class Aesthetic<
 
     // Purge previous global styles
     this.purgeStyles(GLOBAL_STYLE_NAME);
-    this.cacheManager.clear(unit => !!unit.global && unit.theme === oldTheme);
+    this.cacheManager.clear(unit => unit.global === true && unit.theme === oldTheme);
 
     // Generate new global styles
     this.applyGlobalStyles({ theme: themeName });
@@ -357,15 +357,15 @@ export default abstract class Aesthetic<
    * Return transform options with defaults applied.
    */
   protected getPreparedTransformOptions(
-    baseOptions: TransformOptions = {},
+    options: TransformOptions = {},
   ): Required<TransformOptions> {
     const dir = this.options.rtl ? 'rtl' : 'ltr';
 
     return {
-      dir: baseOptions.dir || dir,
-      global: false,
-      name: '',
-      theme: baseOptions.theme || this.options.theme,
+      dir: options.dir || dir,
+      global: options.global || false,
+      name: options.name || '',
+      theme: options.theme || this.options.theme,
     };
   }
 

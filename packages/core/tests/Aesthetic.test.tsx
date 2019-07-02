@@ -96,6 +96,22 @@ describe('Aesthetic', () => {
 
       expect(document.documentElement.getAttribute('dir')).toBe('ltr');
     });
+
+    it('caches with correct params', () => {
+      const spy = jest.spyOn(
+        // @ts-ignore Allow access
+        instance.cacheManager,
+        'set',
+      );
+
+      instance.applyGlobalStyles({ theme: 'dark' });
+
+      expect(spy).toHaveBeenCalledWith(GLOBAL_STYLE_NAME, expect.anything(), {
+        global: true,
+        name: ':root',
+        theme: 'dark',
+      });
+    });
   });
 
   describe('changeTheme()', () => {
