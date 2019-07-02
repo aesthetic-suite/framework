@@ -113,8 +113,25 @@ describe('Aesthetic', () => {
       expect(instance.options.theme).toBe('light');
     });
 
-    it('resets and applies global styles', () => {
+    it('purges old global styles', () => {
+      const spy = jest.spyOn(instance, 'purgeStyles');
+
+      instance.changeTheme('light');
+
+      expect(spy).toHaveBeenCalledWith(GLOBAL_STYLE_NAME);
+    });
+
+    it('applies new global styles', () => {
       const spy = jest.spyOn(instance, 'applyGlobalStyles');
+
+      instance.changeTheme('light');
+
+      expect(spy).toHaveBeenCalledWith({ theme: 'light' });
+    });
+
+    it('clears cache', () => {
+      // @ts-ignore Allow access
+      const spy = jest.spyOn(instance.cacheManager, 'clear');
 
       instance.changeTheme('light');
 
@@ -288,15 +305,13 @@ describe('Aesthetic', () => {
     });
 
     it('errors if no theme', () => {
-      instance.options.theme = 'unknown';
-
       expect(() => {
-        instance.getStyleSheet('foo');
+        instance.getStyleSheet('foo', 'unknown');
       }).toThrowErrorMatchingSnapshot();
     });
 
     it('returns the style sheet', () => {
-      expect(instance.getStyleSheet('foo')).toEqual({
+      expect(instance.getStyleSheet('foo', 'default')).toEqual({
         el: { display: 'block' },
       });
     });
@@ -306,7 +321,7 @@ describe('Aesthetic', () => {
         el: { padding: theme.unit * 2 },
       }));
 
-      expect(instance.getStyleSheet('bar')).toEqual({
+      expect(instance.getStyleSheet('bar', 'default')).toEqual({
         el: { padding: 16 },
       });
     });
@@ -342,7 +357,7 @@ describe('Aesthetic', () => {
         'baz',
       );
 
-      expect(instance.getStyleSheet('bar')).toEqual({
+      expect(instance.getStyleSheet('bar', 'default')).toEqual({
         el: {
           color: 'red',
           ':hover': {
@@ -351,7 +366,7 @@ describe('Aesthetic', () => {
         },
       });
 
-      expect(instance.getStyleSheet('baz')).toEqual({
+      expect(instance.getStyleSheet('baz', 'default')).toEqual({
         el: {
           color: 'red',
           background: 'blue',
@@ -361,7 +376,7 @@ describe('Aesthetic', () => {
         },
       });
 
-      expect(instance.getStyleSheet('qux')).toEqual({
+      expect(instance.getStyleSheet('qux', 'default')).toEqual({
         el: {
           color: 'red',
           background: 'blue',

@@ -96,8 +96,7 @@ export default abstract class Aesthetic<
 
   /**
    * Change the current theme to another registered theme.
-   * This requires all flushed styles to be purged, and for new styles
-   * to be regenerated.
+   * This will purge all flushed global styles and regenerate new ones.
    */
   changeTheme(themeName: ThemeName): this {
     const oldTheme = this.options.theme;
@@ -108,7 +107,7 @@ export default abstract class Aesthetic<
 
     // Purge previous global styles
     this.purgeStyles(GLOBAL_STYLE_NAME);
-    this.cacheManager.clear(unit => Boolean(unit.global && unit.theme === oldTheme));
+    this.cacheManager.clear(unit => !!unit.global && unit.theme === oldTheme);
 
     // Generate new global styles
     this.applyGlobalStyles({ theme: themeName });
@@ -180,15 +179,16 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Flush transformed styles and inject them into the DOM.
+   * Flush a target component's transformed styles and inject them into the DOM.
+   * If no target defined, will flush all buffered styles.
    */
-  flushStyles(styleName: StyleName) {}
+  flushStyles(styleName?: StyleName) {}
 
   /**
-   * Retrieve the defined component style sheet for the current theme.
+   * Retrieve the component style sheet for the defined theme.
    * If the definition is a function, execute it while passing the current theme.
    */
-  getStyleSheet(styleName: StyleName, themeName?: ThemeName): StyleSheet {
+  getStyleSheet(styleName: StyleName, themeName: ThemeName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleDef = this.styles[styleName];
     const styleSheet = styleDef(this.getTheme(themeName || this.options.theme));
@@ -233,8 +233,8 @@ export default abstract class Aesthetic<
   }
 
   /**
-   * Purge and remove all flushed styles from the DOM.
-   * If no name is provided, purge all transformed styles.
+   * Purge and remove all styles from the DOM for the target component.
+   * If no target defined, will purge all possible styles.
    */
   purgeStyles(styleName?: StyleName) {}
 

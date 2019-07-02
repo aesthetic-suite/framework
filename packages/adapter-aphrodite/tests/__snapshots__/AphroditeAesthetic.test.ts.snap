@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges styles from the DOM 1`] = `
+exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0px !important;}
 html {height: 100% !important;}
 a {color: red !important;}
@@ -11,9 +11,9 @@ ul > li {margin: 0px !important;}
 @media (max-width: 500px) {ul {margin: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges styles from the DOM 2`] = `"globals_5ijnvn"`;
+exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges styles from the DOM 3`] = `""`;
+exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
@@ -29,11 +29,11 @@ exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native sy
 
 exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_1dmte4q"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
+exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges styles from the DOM 2`] = `"test_uhlm2"`;
+exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges styles from the DOM 3`] = `""`;
+exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
 exports[`AphroditeAesthetic LTR style sheet handles @media 1`] = `
 ".media_1jcccqt {color: red !important; padding-left: 10px !important;}
@@ -121,7 +121,7 @@ exports[`AphroditeAesthetic LTR style sheet handles raw CSS 1`] = `
 
 exports[`AphroditeAesthetic LTR style sheet handles raw CSS 2`] = `""`;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges styles from the DOM 1`] = `
+exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0px !important;}
 html {height: 100% !important;}
 a {color: red !important;}
@@ -132,9 +132,9 @@ ul > li {margin: 0px !important;}
 @media (max-width: 500px) {ul {margin: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges styles from the DOM 2`] = `"globals_5ijnvn"`;
+exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges styles from the DOM 3`] = `""`;
+exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
@@ -150,11 +150,11 @@ exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native sy
 
 exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_pvvr1m"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
+exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges styles from the DOM 2`] = `"test_uhlm2"`;
+exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges styles from the DOM 3`] = `""`;
+exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
 exports[`AphroditeAesthetic RTL style sheet handles @media 1`] = `
 ".media_1xdaj1a {color: red !important; padding-right: 10px !important;}

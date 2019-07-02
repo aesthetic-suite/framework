@@ -53,7 +53,7 @@ describe('AphroditeAesthetic', () => {
       });
 
       describe('global sheet', () => {
-        it('flushes and purges styles from the DOM', () => {
+        it('flushes and purges global styles from the DOM', () => {
           renderAndExpect(
             instance,
             SYNTAX_GLOBAL,
@@ -124,7 +124,7 @@ describe('AphroditeAesthetic', () => {
       });
 
       describe('style sheet', () => {
-        it('flushes and purges styles from the DOM', () => {
+        it('flushes and purges all styles from the DOM', () => {
           const styles = { test: { display: 'block' } };
 
           renderAndExpect(instance, styles, styles, { dir });

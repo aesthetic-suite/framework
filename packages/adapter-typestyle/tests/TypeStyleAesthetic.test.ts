@@ -53,7 +53,7 @@ describe('TypeStyleAesthetic', () => {
       });
 
       describe('global sheet', () => {
-        it('flushes and purges styles from the DOM', () => {
+        it('flushes and purges global styles from the DOM', () => {
           renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
 
           instance.purgeStyles(GLOBAL_STYLE_NAME);
@@ -99,7 +99,7 @@ describe('TypeStyleAesthetic', () => {
       });
 
       describe('style sheet', () => {
-        it('flushes and purges styles from the DOM', () => {
+        it('flushes and purges all styles from the DOM', () => {
           renderAndExpect(
             instance,
             { test: { display: 'block' } },
