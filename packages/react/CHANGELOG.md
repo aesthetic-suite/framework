@@ -1,4 +1,4 @@
-# 1.0.0
+# 1.0.0 - 2019-07-07
 
 #### 🎉 Release
 
@@ -8,8 +8,8 @@
 
 - Updated `react` requirement to v16.6.
 - Updated `withStyles` HOC to receive the CSS transformer function as a `cx` prop.
-- Updated `withStyles` and `withTheme` HOCs to internally use function components instead of class
-  components.
+- Updated `withStyles` and `withTheme` HOCs to internally use function components with hooks instead
+  of class components.
 - **[TS]** Renamed the `WithStylesProps` interface to `WithStylesWrappedProps`.
 - **[TS]** Renamed the `WithThemeProps` interface to `WithThemeWrappedProps`.
 

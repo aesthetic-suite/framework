@@ -17,6 +17,6 @@
     "access": "public"
   },
   "peerDependencies": {
-    "aesthetic": "^4.0.0-alpha.0"
+    "aesthetic": "^4.0.0"
   }
 }

@@ -1,4 +1,4 @@
-# 4.0.0
+# 4.0.0 - 2019-07-07
 
 To support right-to-left, dynamic themes, and other frameworks besides React, the core APIs had to
 slightly change.
