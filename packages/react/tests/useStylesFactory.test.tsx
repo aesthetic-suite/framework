@@ -63,7 +63,7 @@ describe('useStylesFactory()', () => {
     expect(spy).toHaveBeenCalledWith(styleName, { dir: 'ltr', name: styleName, theme: '' });
   });
 
-  it.only('flushes styles only once', () => {
+  it('flushes styles only once', () => {
     const spy = jest.spyOn(aesthetic, 'flushStyles');
 
     act(() => {
@@ -79,8 +79,6 @@ describe('useStylesFactory()', () => {
       // Check that its called once
       ReactDOM.render(<Component />, container);
     });
-
-    console.log(spy.mock);
 
     expect(spy).toHaveBeenCalledWith(styleName);
     expect(spy).toHaveBeenCalledTimes(2); // Once for :root

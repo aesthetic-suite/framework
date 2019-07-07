@@ -34,15 +34,12 @@ export default function useStylesFactory<
       aesthetic.registerStyleSheet(styleName, styleSheet);
     }
 
-    console.log({ ref, dir, themeName, styleName });
-
     // Create a unique style sheet for this component
     const params = { dir, name: styleName, theme: themeName };
     const sheet = aesthetic.createStyleSheet(styleName, params);
 
     // Flush styles on mount
     useLayoutEffect(() => {
-      console.log('FLUSH');
       aesthetic.flushStyles(styleName);
     }, [dir, styleName, themeName]);
 
