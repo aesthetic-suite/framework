@@ -1,4 +1,4 @@
-import { useContext, useState, useLayoutEffect } from 'react';
+import { useContext, useRef, useLayoutEffect } from 'react';
 import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
 import uuid from 'uuid/v4';
 import DirectionContext from './DirectionContext';
@@ -20,15 +20,19 @@ export default function useStylesFactory<
     options: UseStylesOptions = {},
   ): [SheetMap<ParsedBlock>, CX, string] {
     const { styleName: customName } = options;
+    const ref = useRef<string>();
     const dir = useContext(DirectionContext);
     const themeName = useContext(ThemeContext);
-    const [styleName] = useState(() => {
-      const name = customName || `Component-${uuid()}`;
+    let styleName = '';
 
-      aesthetic.registerStyleSheet(name, styleSheet);
-
-      return name;
-    });
+    // Only register the style sheet once
+    if (ref.current) {
+      styleName = ref.current;
+    } else {
+      styleName = customName || uuid();
+      ref.current = styleName;
+      aesthetic.registerStyleSheet(styleName, styleSheet);
+    }
 
     // Create a unique style sheet for this component
     const params = { dir, name: styleName, theme: themeName };
