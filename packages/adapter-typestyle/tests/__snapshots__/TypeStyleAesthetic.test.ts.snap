@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 1`] = `
-"html {height: 100%;}
+"body {margin: 0;}
+html {height: 100%;}
 a {color: red;}
 a:hover {color: darkred;}
 a:focus {color: lightred;}
-body,ul,ul> li {margin: 0;}
+ul,ul> li {margin: 0;}
 @media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
@@ -68,11 +69,11 @@ exports[`TypeStyleAesthetic LTR style sheet handles descendant selectors 1`] = `
 exports[`TypeStyleAesthetic LTR style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
 
 exports[`TypeStyleAesthetic LTR style sheet handles inline @font-face 1`] = `
-"@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}
-@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 .single_f2gbr4s {font-family: Roboto;}
 .multiple_fqopoa {font-family: Circular, OtherFont, Roboto;}"
 `;
@@ -132,11 +133,12 @@ exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `
 exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 2`] = `""`;
 
 exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 1`] = `
-"html {height: 100%;}
+"body {margin: 0;}
+html {height: 100%;}
 a {color: red;}
 a:hover {color: darkred;}
 a:focus {color: lightred;}
-body,ul,ul> li {margin: 0;}
+ul,ul> li {margin: 0;}
 @media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
@@ -199,11 +201,11 @@ exports[`TypeStyleAesthetic RTL style sheet handles descendant selectors 1`] = `
 exports[`TypeStyleAesthetic RTL style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
 
 exports[`TypeStyleAesthetic RTL style sheet handles inline @font-face 1`] = `
-"@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}
-@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 .single_f2gbr4s {font-family: Roboto;}
 .multiple_fqopoa {font-family: Circular, OtherFont, Roboto;}"
 `;
