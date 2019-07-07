@@ -1,6 +1,6 @@
 {
   "name": "aesthetic-adapter-fela",
-  "version": "4.0.0-rc.0",
+  "version": "4.0.0",
   "description": "Fela support for Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "aesthetic-utils": "^2.0.0-rc.0"
+    "aesthetic-utils": "^2.0.0"
   },
   "peerDependencies": {
     "aesthetic": "^4.0.0",
