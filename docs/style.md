@@ -32,7 +32,10 @@ parsed style sheet. This parsed style sheet is then used to generate
 const styles = aesthetic.createStyleSheet('button-component');
 
 // To enable RTL
-const styles = aesthetic.createStyleSheet('button-component', { rtl: true });
+const styles = aesthetic.createStyleSheet('button-component', { dir: 'rtl' });
+
+// To change themes
+const styles = aesthetic.createStyleSheet('button-component', { theme: 'dark' });
 ```
 
 And lastly, we must inject the generated native CSS style sheet into the DOM using

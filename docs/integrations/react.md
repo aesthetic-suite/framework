@@ -18,8 +18,12 @@ names.
 
 ```ts
 // useStyles.ts
+import { StyleSheetDefinition } from 'aesthetic';
 import { useStylesFactory } from 'aesthetic-react';
 import aesthetic from './aesthetic';
+import { Theme } from './types';
+
+export type StyleSheet = StyleSheetDefinition<Theme, any>;
 
 export default useStylesFactory(aesthetic);
 ```
@@ -124,9 +128,9 @@ class names.
 
 ```tsx
 import React from 'react';
-import useStyles from './useStyles';
+import useStyles, { StyleSheet } from './useStyles';
 
-const styleSheet = theme => ({
+const styleSheet: StyleSheet = theme => ({
   button: {
     display: 'inline-block',
     padding: theme.unit,

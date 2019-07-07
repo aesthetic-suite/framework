@@ -6,8 +6,9 @@ object as the 2nd argument. Please refer to each adapter for explicit usage.
 
 ```ts
 import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import { Theme } from './types';
 
-export default new AphroditeAesthetic(extensions, {
+export default new AphroditeAesthetic<Theme>(extensions, {
   theme: 'dark',
 });
 ```
