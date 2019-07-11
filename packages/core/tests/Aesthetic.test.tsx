@@ -164,7 +164,7 @@ describe('Aesthetic', () => {
 
     it('returns the style sheet', () => {
       expect(instance.createStyleSheet('foo', {})).toEqual({
-        el: {},
+        el: 'el',
       });
     });
 
@@ -437,10 +437,9 @@ describe('Aesthetic', () => {
 
   describe('parseStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
-      const sheet = { el: {} };
-      const styleSheet = instance.parseStyleSheet(sheet, 'styleName');
+      const styleSheet = instance.parseStyleSheet({ el: {} }, 'styleName');
 
-      expect(sheet).toEqual(styleSheet);
+      expect(styleSheet).toEqual({ el: 'el' });
     });
   });
 
@@ -589,7 +588,7 @@ describe('Aesthetic', () => {
 
       instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
 
-      expect(spy).toHaveBeenCalledWith([{ color: 'red' }, { display: 'block' }]);
+      expect(spy).toHaveBeenCalledWith(['inline-0', 'inline-1']);
     });
 
     it('ignores falsey values', () => {
