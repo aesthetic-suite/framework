@@ -1,3 +1,9 @@
+## 4.1.0 - 2019-07-10
+
+#### 🚀 Updates
+
+- Added a `TestAesthetic` adapter to make testing class names much easier.
+
 # 4.0.0 - 2019-07-07
 
 To support right-to-left, dynamic themes, and other frameworks besides React, the core APIs had to

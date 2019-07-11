@@ -15,7 +15,7 @@ describe('useStylesFactory()', () => {
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();
-    useStyles = useStylesFactory(aesthetic);
+    useStyles = useStylesFactory(aesthetic) as any;
     styleName = '';
     container = document.createElement('div');
 
@@ -102,7 +102,7 @@ describe('useStylesFactory()', () => {
   it('can transform class names', () => {
     const wrapper = shallow(<StyledComponent />);
 
-    expect(wrapper.prop('className')).toBe('class-0 class-1');
+    expect(wrapper.prop('className')).toBe('header footer');
   });
 
   it('re-creates style sheet if theme context changes', () => {
@@ -230,7 +230,7 @@ describe('useStylesFactory()', () => {
         name: styleName,
         theme: '',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+      expect(transformSpy).toHaveBeenCalledWith(['header', 'footer'], {
         dir: 'rtl',
         name: styleName,
         theme: '',
@@ -255,7 +255,7 @@ describe('useStylesFactory()', () => {
         name: styleName,
         theme: '',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+      expect(transformSpy).toHaveBeenCalledWith(['header', 'footer'], {
         dir: 'rtl',
         name: styleName,
         theme: '',

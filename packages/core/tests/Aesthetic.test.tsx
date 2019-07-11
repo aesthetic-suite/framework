@@ -1,16 +1,11 @@
 import Aesthetic from '../src/Aesthetic';
+import TestAesthetic from '../src/TestAesthetic';
 import StyleSheetManager from '../src/StyleSheetManager';
 import { GLOBAL_STYLE_NAME } from '../src/constants';
 import { TestTheme, registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<TestTheme, any, any>;
-
-  class TestAesthetic extends Aesthetic<TestTheme, any, any> {
-    transformToClassName(styles: any[]): string {
-      return styles.map((style, i) => `class-${i}`).join(' ');
-    }
-  }
 
   beforeEach(() => {
     instance = new TestAesthetic();
@@ -169,7 +164,7 @@ describe('Aesthetic', () => {
 
     it('returns the style sheet', () => {
       expect(instance.createStyleSheet('foo', {})).toEqual({
-        el: {},
+        el: 'el',
       });
     });
 
@@ -442,10 +437,9 @@ describe('Aesthetic', () => {
 
   describe('parseStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
-      const sheet = { el: {} };
-      const styleSheet = instance.parseStyleSheet(sheet, 'styleName');
+      const styleSheet = instance.parseStyleSheet({ el: {} }, 'styleName');
 
-      expect(sheet).toEqual(styleSheet);
+      expect(styleSheet).toEqual({ el: 'el' });
     });
   });
 
@@ -594,7 +588,7 @@ describe('Aesthetic', () => {
 
       instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
 
-      expect(spy).toHaveBeenCalledWith([{ color: 'red' }, { display: 'block' }]);
+      expect(spy).toHaveBeenCalledWith(['inline-0', 'inline-1']);
     });
 
     it('ignores falsey values', () => {

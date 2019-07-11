@@ -246,7 +246,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(Component);
     const wrapper = shallowDeep(<Wrapped />).dive();
 
-    expect(wrapper.prop('className')).toBe('class-0 class-1');
+    expect(wrapper.prop('className')).toBe('header footer');
   });
 
   it('re-creates style sheet if theme context changes', () => {
@@ -382,7 +382,7 @@ describe('withStylesFactory()', () => {
         name: Wrapped.styleName,
         theme: '',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+      expect(transformSpy).toHaveBeenCalledWith(['header', 'footer'], {
         dir: 'rtl',
         name: Wrapped.styleName,
         theme: '',
@@ -409,7 +409,7 @@ describe('withStylesFactory()', () => {
         name: Wrapped.styleName,
         theme: '',
       });
-      expect(transformSpy).toHaveBeenCalledWith([{}, {}], {
+      expect(transformSpy).toHaveBeenCalledWith(['header', 'footer'], {
         dir: 'rtl',
         name: Wrapped.styleName,
         theme: '',
