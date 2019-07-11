@@ -1,16 +1,11 @@
 import Aesthetic from '../src/Aesthetic';
+import TestAesthetic from '../src/TestAesthetic';
 import StyleSheetManager from '../src/StyleSheetManager';
 import { GLOBAL_STYLE_NAME } from '../src/constants';
 import { TestTheme, registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic<TestTheme, any, any>;
-
-  class TestAesthetic extends Aesthetic<TestTheme, any, any> {
-    transformToClassName(styles: any[]): string {
-      return styles.map((style, i) => `class-${i}`).join(' ');
-    }
-  }
 
   beforeEach(() => {
     instance = new TestAesthetic();

@@ -8,20 +8,15 @@ import {
   isObject,
 } from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
+import TestAesthetic from './TestAesthetic';
 import { FontFace, Direction } from './types';
 import { GLOBAL_STYLE_NAME } from './constants';
 
-export { getStyleElements };
+export { TestAesthetic };
 
 export interface TestTheme {
   color: string;
   unit: number;
-}
-
-export class TestAesthetic extends Aesthetic<TestTheme, any, any> {
-  transformToClassName(styles: any[]): string {
-    return styles.map((style, i) => `class-${i}`).join(' ');
-  }
 }
 
 export function registerTestTheme(aesthetic: Aesthetic<TestTheme, any, any>) {
