@@ -1,3 +1,10 @@
+## 1.1.0 - 2019-07-12
+
+#### 🚀 Updates
+
+- Wrapped `withStyles` function component with `React.memo` for performance gains (this mimics the
+  previous `pure` functionality).
+
 # 1.0.0 - 2019-07-07
 
 #### 🎉 Release

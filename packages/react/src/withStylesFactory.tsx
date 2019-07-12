@@ -36,10 +36,10 @@ export default function withStylesFactory<
       themePropName = aesthetic.options.themePropName,
     } = options;
 
+    type WrappedProps = WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>;
+
     return function withStylesComposer<Props extends object = {}>(
-      WrappedComponent: React.ComponentType<
-        Props & WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>
-      >,
+      WrappedComponent: React.ComponentType<Props & WrappedProps>,
     ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const styleName = `${baseName}-${uuid()}`;
@@ -47,10 +47,13 @@ export default function withStylesFactory<
       // We must register earlier so that extending styles works correctly
       aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);
 
-      function WithStyles({ wrappedRef, ...props }: Props & WithStylesWrapperProps) {
+      const WithStyles = React.memo(function WithStyles({
+        wrappedRef,
+        ...props
+      }: Props & WithStylesWrapperProps) {
         const themeName = useContext(ThemeContext);
         const [styles, cx] = useStyles(styleSheet, { styleName });
-        const extraProps: WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock> = {
+        const extraProps: WrappedProps = {
           [cxPropName as 'cx']: cx,
           [stylesPropName as 'styles']: styles,
           ref: wrappedRef,
@@ -61,7 +64,7 @@ export default function withStylesFactory<
         }
 
         return <WrappedComponent {...props as any} {...extraProps} />;
-      }
+      }) as any;
 
       hoistNonReactStatics(WithStyles, WrappedComponent);
 
