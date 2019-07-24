@@ -1,3 +1,10 @@
+### 1.1.1 - 2019-07-24
+
+#### 🐞 Fixes
+
+- **[TS]** Updated `StyledComponent` to extend from `React.memo`s `NamedExoticComponent` instead of
+  `FunctionComponent`.
+
 ## 1.1.0 - 2019-07-12
 
 #### 🚀 Updates

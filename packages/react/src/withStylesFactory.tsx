@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import Aesthetic, { StyleSheetDefinition } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
-import { Omit } from 'utility-types';
 import useStylesFactory from './useStylesFactory';
 import ThemeContext from './ThemeContext';
 import {
   WithStylesOptions,
   WithStylesWrappedProps,
   WithStylesWrapperProps,
-  StyledComponentClass,
+  StyledComponent,
 } from './types';
 
 /**
@@ -40,7 +39,7 @@ export default function withStylesFactory<
 
     return function withStylesComposer<Props extends object = {}>(
       WrappedComponent: React.ComponentType<Props & WrappedProps>,
-    ): StyledComponentClass<Theme, Props & WithStylesWrapperProps> {
+    ): StyledComponent<Theme, Props & WithStylesWrapperProps> {
       const baseName = WrappedComponent.displayName || WrappedComponent.name;
       const styleName = `${baseName}-${uuid()}`;
 
@@ -64,7 +63,7 @@ export default function withStylesFactory<
         }
 
         return <WrappedComponent {...props as any} {...extraProps} />;
-      }) as any;
+      }) as StyledComponent<Theme, Props & WithStylesWrapperProps>;
 
       hoistNonReactStatics(WithStyles, WrappedComponent);
 
@@ -74,10 +73,7 @@ export default function withStylesFactory<
 
       WithStyles.WrappedComponent = WrappedComponent;
 
-      WithStyles.extendStyles = function extendStyles<ET>(
-        customStyleSheet: StyleSheetDefinition<Theme, ET>,
-        extendOptions: Omit<WithStylesOptions, 'extendFrom'> = {},
-      ) {
+      WithStyles.extendStyles = (customStyleSheet, extendOptions) => {
         if (__DEV__) {
           if (!extendable) {
             throw new Error(`${baseName} is not extendable.`);

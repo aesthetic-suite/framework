@@ -85,13 +85,15 @@ export interface WithStylesOptions {
   themePropName?: string;
 }
 
-export interface StyledComponentClass<Theme, Props> extends React.FunctionComponent<Props> {
+// Name is based on react-docgen-typescript:
+// https://github.com/styleguidist/react-docgen-typescript/blob/master/src/parser.ts#L850
+export interface StyledComponent<Theme, Props> extends React.NamedExoticComponent<Props> {
   displayName: string;
   styleName: StyleName;
-  WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<Theme, any, any>>;
+  WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
-  ): StyledComponentClass<Theme, Props>;
+  ): StyledComponent<Theme, Props>;
 }
