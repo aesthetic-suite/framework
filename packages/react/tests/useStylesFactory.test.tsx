@@ -2,13 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { shallow } from 'enzyme';
-import { TestAesthetic, registerTestTheme, TEST_STATEMENT } from 'aesthetic/lib/testUtils';
+import {
+  TestAesthetic,
+  registerTestTheme,
+  TEST_STATEMENT,
+  TestTheme,
+} from 'aesthetic/lib/testUtils';
 import DirectionProvider from '../src/DirectionProvider';
 import ThemeProvider from '../src/ThemeProvider';
 import useStylesFactory from '../src/useStylesFactory';
 
 describe('useStylesFactory()', () => {
-  let aesthetic: TestAesthetic;
+  let aesthetic: TestAesthetic<TestTheme>;
   let useStyles: ReturnType<typeof useStylesFactory>;
   let styleName: string;
   let container: HTMLDivElement;

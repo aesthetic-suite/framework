@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
+import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import useThemeFactory from '../src/useThemeFactory';
 
 describe('useThemeFactory()', () => {
-  let aesthetic: TestAesthetic;
+  let aesthetic: TestAesthetic<TestTheme>;
   let useTheme: ReturnType<typeof useThemeFactory>;
 
   beforeEach(() => {

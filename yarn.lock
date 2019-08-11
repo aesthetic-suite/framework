@@ -2050,10 +2050,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@milesj/build-tool-config@^0.174.0":
-  version "0.174.0"
-  resolved "https://registry.npmjs.org/@milesj/build-tool-config/-/build-tool-config-0.174.0.tgz#10fb2622a452b4435ebe42ae536fbcee01bcbd24"
-  integrity sha512-PGD89cpiWaN1mpnPbzToyquHQcmaIyMp6q+scBE3kQfBkKcsmvu1K3BgJxcAA4pHm/9Wj3x684m6RagHphclxg==
+"@milesj/build-tool-config@^0.174.1":
+  version "0.174.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tool-config/-/build-tool-config-0.174.1.tgz#394ddbe9837c7dc85144583ebdab281d51274dfb"
+  integrity sha512-vHMV6lF5V/CU3sOtKD/WKCNI0rRPfob4Iu1XIYOIwVy1Up2iN/ajNr3C7wStuwD8518cNUDPTTl0Kdlxg1iLdg==
   dependencies:
     "@babel/cli" "^7.5.5"
     "@babel/core" "^7.5.5"
@@ -2115,12 +2115,12 @@
     prettier "^1.18.2"
     typescript "^3.5.3"
 
-"@milesj/build-tools@^0.52.0":
-  version "0.52.0"
-  resolved "https://registry.npmjs.org/@milesj/build-tools/-/build-tools-0.52.0.tgz#01f4b89a012e7da588924b97ff89160607bd6e16"
-  integrity sha512-TC+V07WGx4gPFvaaNL9CcuSQAIJa8nmSj9BkgJwF3QeJbRbJiCwhMdKM67qQcAwIoiGG0UZbLX9Kfi3eNRubGQ==
+"@milesj/build-tools@^0.52.1":
+  version "0.52.1"
+  resolved "https://registry.npmjs.org/@milesj/build-tools/-/build-tools-0.52.1.tgz#3edc7d114ec4c2bd9e6425827ff86f42c8529800"
+  integrity sha512-T0B/t0rXnk/OGq4B7LFDt7gxEcqljyzi4vzMbC3kyHxM8lT3zUOR9DickK7Y4ygIPVB8B1cTk8YaPagDfv4jHA==
   dependencies:
-    "@milesj/build-tool-config" "^0.174.0"
+    "@milesj/build-tool-config" "^0.174.1"
     "@milesj/build-tool-runtime" "^0.45.0"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
@@ -8192,14 +8192,6 @@ lodash.template@^4.0.2, lodash.template@^4.5.0:
     lodash._reinterpolate "^3.0.0"
     lodash.templatesettings "^4.0.0"
 
-lodash.template@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.npmjs.org/lodash.template/-/lodash.template-4.5.0.tgz#f976195cf3f347d0d5f52483569fe8031ccce8ab"
-  integrity sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==
-  dependencies:
-    lodash._reinterpolate "^3.0.0"
-    lodash.templatesettings "^4.0.0"
-
 lodash.templatesettings@^4.0.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.templatesettings/-/lodash.templatesettings-4.2.0.tgz#e481310f049d3cf6d47e912ad09313b154f0fb33"
@@ -8235,11 +8227,6 @@ lodash.zip@^4.0.0, lodash.zip@^4.2.0:
 lodash@^4.13.1, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4, lodash@^4.2.1, lodash@^4.3.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
-
-lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 log-symbols@^1.0.2:

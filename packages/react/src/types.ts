@@ -91,8 +91,11 @@ export interface WithStylesOptions {
 // https://github.com/styleguidist/react-docgen-typescript/blob/master/src/parser.ts#L850
 export interface StyledComponent<Theme, Props> extends React.NamedExoticComponent<Props> {
   displayName: string;
+
   styleName: StyleName;
-  WrappedComponent: React.ComponentType<{}>;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(
     styleSheet: StyleSheetDefinition<Theme, T>,
