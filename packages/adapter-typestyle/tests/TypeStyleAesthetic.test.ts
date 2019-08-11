@@ -30,10 +30,11 @@ import {
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
 } from 'aesthetic/lib/testUtils';
+import { FontFace, KeyFrames } from 'typestyle/lib/types';
 import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
 
 describe('TypeStyleAesthetic', () => {
-  let instance: TypeStyleAesthetic<any>;
+  let instance: TypeStyleAesthetic<{}>;
 
   beforeEach(() => {
     instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }));
@@ -113,9 +114,9 @@ describe('TypeStyleAesthetic', () => {
         });
 
         it('converts unified syntax to native syntax and transforms to a class name', () => {
-          instance.typeStyle.fontFace(FONT_ROBOTO as any);
+          instance.typeStyle.fontFace(FONT_ROBOTO as FontFace);
 
-          instance.keyframes.fade = instance.typeStyle.keyframes(KEYFRAME_FADE as any);
+          instance.keyframes.fade = instance.typeStyle.keyframes(KEYFRAME_FADE as KeyFrames);
 
           renderAndExpect(
             instance,

@@ -1,11 +1,11 @@
 export interface ToObjectable {
-  toObject(): any;
+  toObject(): object;
 }
 
 export default function toObjectRecursive<T extends object>(
   map: { [key: string]: ToObjectable } | Map<string, ToObjectable>,
 ): T {
-  const object: any = {};
+  const object: { [key: string]: unknown } = {};
 
   if (map instanceof Map) {
     map.forEach((obj, key) => {
@@ -17,5 +17,5 @@ export default function toObjectRecursive<T extends object>(
     });
   }
 
-  return object;
+  return object as T;
 }

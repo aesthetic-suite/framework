@@ -9,7 +9,7 @@ import {
 } from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
 import TestAesthetic from './TestAesthetic';
-import { FontFace, Direction } from './types';
+import { FontFace, Direction, SheetMap, Keyframes } from './types';
 import { GLOBAL_STYLE_NAME } from './constants';
 
 export { TestAesthetic };
@@ -19,7 +19,7 @@ export interface TestTheme {
   unit: number;
 }
 
-export function registerTestTheme(aesthetic: Aesthetic<TestTheme, any, any>) {
+export function registerTestTheme(aesthetic: Aesthetic<TestTheme, {}, {}>) {
   aesthetic.registerTheme('default', { color: 'black', unit: 8 }, ({ unit }) => ({
     '@global': {
       body: {
@@ -43,7 +43,11 @@ export function getFlushedStyles(namespace?: string): string {
   return getBaseFlushedStyles(getStyleElements(namespace));
 }
 
-export function convertDirection(value: object | object[], dir: Direction): any {
+export interface UnknownObject {
+  [key: string]: unknown;
+}
+
+export function convertDirection(value: UnknownObject | UnknownObject[], dir: Direction): {} {
   if (dir !== 'rtl') {
     return value;
   }
@@ -56,14 +60,14 @@ export function convertDirection(value: object | object[], dir: Direction): any 
     return value;
   }
 
-  const props: any = {};
-  const nested: any = {};
+  const props: UnknownObject = {};
+  const nested: UnknownObject = {};
 
   Object.keys(value).forEach(key => {
-    const prop = (value as any)[key];
+    const prop = value[key];
 
     if (isObject(prop) || Array.isArray(prop)) {
-      nested[key] = convertDirection(prop, dir);
+      nested[key] = convertDirection(prop as UnknownObject, dir);
     } else {
       props[key] = prop;
     }
@@ -76,9 +80,9 @@ export function convertDirection(value: object | object[], dir: Direction): any 
 }
 
 export function renderAndExpect(
-  aesthetic: Aesthetic<any, any, any>,
-  styleSheet: any,
-  expectedStyles: any = {},
+  aesthetic: Aesthetic<{}, {}, {}>,
+  styleSheet: SheetMap<string | UnknownObject>,
+  expectedStyles: UnknownObject = {},
   {
     dir,
     global = false,
@@ -186,12 +190,12 @@ export const FONT_CIRCULAR_MULTIPLE_FLAT_SRC: CSS.FontFace[] = [
   },
 ];
 
-export const KEYFRAME_FADE = {
+export const KEYFRAME_FADE: Keyframes = {
   from: { opacity: 0 },
   to: { opacity: 1 },
 };
 
-export const KEYFRAME_SLIDE_PERCENT = {
+export const KEYFRAME_SLIDE_PERCENT: Keyframes = {
   '0%': { left: '0%' },
   '50%': { left: '50%' },
   '100%': { left: '100%' },

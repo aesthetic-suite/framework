@@ -35,7 +35,7 @@ import {
 import FelaAesthetic from '../src/FelaAesthetic';
 
 describe('FelaAesthetic', () => {
-  let instance: FelaAesthetic<any>;
+  let instance: FelaAesthetic<{}>;
 
   beforeEach(() => {
     instance = new FelaAesthetic(
@@ -124,7 +124,7 @@ describe('FelaAesthetic', () => {
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           instance.fela.renderFont('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO);
 
-          instance.keyframes.fade = instance.fela.renderKeyframe(() => KEYFRAME_FADE as any, {});
+          instance.keyframes.fade = instance.fela.renderKeyframe(() => KEYFRAME_FADE, {});
 
           renderAndExpect(
             instance,

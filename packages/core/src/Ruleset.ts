@@ -38,8 +38,8 @@ export default class Ruleset<Block extends object> {
     return this;
   }
 
-  addProperty(key: keyof Block, value: any): this {
-    this.properties[key] = value;
+  addProperty<K extends keyof Block>(key: K, value: unknown): this {
+    this.properties[key] = value as Block[K];
 
     return this;
   }
@@ -66,7 +66,7 @@ export default class Ruleset<Block extends object> {
 
   toObject(): Block {
     const props = isRTL(this.root.options.dir) ? convertRTL(this.properties) : this.properties;
-    const compounds: any = {};
+    const compounds: { [key: string]: unknown } = {};
 
     // Compound properties are a list of rulesets that have already been cast to block objects.
     // We shouldn't convert to RTL, otherwise it would flip back to the original state.

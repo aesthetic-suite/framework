@@ -1,6 +1,6 @@
 /* eslint-disable jest/expect-expect */
 
-import { StyleSheetTestUtils } from 'aphrodite';
+import { StyleSheetTestUtils, CSSProperties } from 'aphrodite';
 import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
@@ -31,7 +31,7 @@ import {
 import AphroditeAesthetic from '../src/AphroditeAesthetic';
 
 describe('AphroditeAesthetic', () => {
-  let instance: AphroditeAesthetic<any>;
+  let instance: AphroditeAesthetic<{}>;
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
@@ -135,7 +135,7 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('converts unified syntax to native syntax and transforms to a class name', () => {
-          instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as any];
+          instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as CSSProperties];
           instance.keyframes.fade = KEYFRAME_FADE;
 
           renderAndExpect(

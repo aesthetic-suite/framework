@@ -41,7 +41,7 @@ import JSSAesthetic from '../src/JSSAesthetic';
 jest.mock('uuid/v4', () => () => 'uuid');
 
 describe('JSSAesthetic', () => {
-  let instance: JSSAesthetic<any>;
+  let instance: JSSAesthetic<{}>;
 
   beforeEach(() => {
     const jss = create();
@@ -190,6 +190,7 @@ describe('JSSAesthetic', () => {
         it('handles multiple @import', () => {
           renderAndExpect(
             instance,
+            // @ts-ignore
             SYNTAX_IMPORT_MULTIPLE,
             {
               '@import': ['url("./some/path.css")', 'url("./another/path.css")'],

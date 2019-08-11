@@ -19,6 +19,8 @@ import {
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
+// Any is required for method overloading to work.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Handler = (...args: any[]) => void;
 
 // `rtl-css-js` operates on objects while `stylis` uses strings.
@@ -139,7 +141,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           const style = globalSheet[rule];
 
           if (isObject(style)) {
-            this.emit(rule.slice(1) as any, [
+            this.emit(rule.slice(1) as 'viewport', [
               sheet,
               this.convertRuleset(style, sheet.createRuleset(rule)),
             ]);
@@ -299,7 +301,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
             if (isObject(styles[query])) {
               const event = key === '@media' ? 'media' : 'support';
 
-              this.emit(event as any, [
+              this.emit(event as 'media', [
                 ruleset,
                 query,
                 this.convertRuleset(styles[query], ruleset.createRuleset(`${key} ${query}`)),
@@ -366,7 +368,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         type = 'attribute';
       }
 
-      this.emit(type as any, [
+      this.emit(type as 'selector', [
         ruleset,
         selector,
         this.convertRuleset(value, ruleset.createRuleset(selector)),
@@ -518,33 +520,33 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): any;
-  emit(eventName: 'css', args: [string, string]): any;
-  emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, any[]]): any;
+  emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): unknown;
+  emit(eventName: 'css', args: [string, string]): unknown;
+  emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, unknown[]]): unknown;
   emit(
     eventName: 'font-face',
     args: [Sheet<NativeBlock>, Ruleset<NativeBlock>[], string, string[][]],
-  ): any;
-  emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): any;
-  emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>, string]): any;
-  emit(eventName: 'media', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'page', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, any]): any;
+  ): unknown;
+  emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): unknown;
+  emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>, string]): unknown;
+  emit(eventName: 'media', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'page', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, unknown]): unknown;
   emit(
     eventName: 'property:animationName',
     args: [Ruleset<NativeBlock>, Properties['animationName']],
-  ): any;
+  ): unknown;
   emit(
     eventName: 'property:fontFamily',
     args: [Ruleset<NativeBlock>, Properties['fontFamily']],
-  ): any;
-  emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): any;
-  emit(eventName: 'viewport', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): any;
-  emit(eventName: string, args: any[]): any {
+  ): unknown;
+  emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'viewport', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: string, args: unknown[]): unknown {
     if (this.handlers[eventName]) {
       return this.handlers[eventName](...args);
     }
@@ -572,7 +574,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   on(eventName: 'css', callback: (css: string, className: string) => void): this;
   on(
     eventName: 'fallback',
-    callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, values: any[]) => void,
+    callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, values: unknown[]) => void,
   ): this;
   on(
     eventName: 'font-face',
@@ -606,15 +608,15 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   ): this;
   on(
     eventName: 'property',
-    callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => void,
+    callback: (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: unknown) => void,
   ): this;
   on(
     eventName: 'property:animationName',
-    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['animationName']) => any,
+    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['animationName']) => unknown,
   ): this;
   on(
     eventName: 'property:fontFamily',
-    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['fontFamily']) => any,
+    callback: (ruleset: Ruleset<NativeBlock>, value: Properties['fontFamily']) => unknown,
   ): this;
   on(
     eventName: 'pseudo',

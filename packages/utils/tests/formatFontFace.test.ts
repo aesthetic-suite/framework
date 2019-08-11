@@ -1,6 +1,6 @@
 import formatFontFace from '../src/formatFontFace';
 
-export const FONT_ROBOTO = {
+const FONT_ROBOTO = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -8,7 +8,7 @@ export const FONT_ROBOTO = {
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
-export const FONT_ROBOTO_FLAT_SRC = {
+const FONT_ROBOTO_FLAT_SRC = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
