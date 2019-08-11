@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
+import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import ThemeProvider from '../src/ThemeProvider';
 
 describe('ThemeProvider', () => {
-  let aesthetic: TestAesthetic;
+  let aesthetic: TestAesthetic<TestTheme>;
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();

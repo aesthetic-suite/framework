@@ -6,6 +6,7 @@ import Aesthetic, {
   StyleName,
   SheetMap,
 } from 'aesthetic';
+import { toArray } from 'aesthetic-utils';
 import { JSS, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
@@ -18,7 +19,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
 
   keyframes: { [animationName: string]: string } = {};
 
-  sheets: { [styleName: string]: JSSSheet<any> } = {};
+  sheets: { [styleName: string]: JSSSheet<string> } = {};
 
   constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
     super(options);
@@ -55,7 +56,7 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   }
 
   parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
-    this.sheets[styleName] = this.jss.createStyleSheet<any>(styleSheet, {
+    this.sheets[styleName] = this.jss.createStyleSheet(styleSheet, {
       media: 'screen',
       meta: styleName,
     });
@@ -96,12 +97,12 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   private handleFallback = (
     ruleset: Ruleset<NativeBlock>,
     name: keyof NativeBlock,
-    value: any[],
+    value: unknown[],
   ) => {
-    const fallbacks = value.map(fallback => ({ [name]: fallback }));
-    const current = ruleset.properties.fallbacks || [];
-
-    ruleset.addProperty('fallbacks', [...current, ...fallbacks]);
+    ruleset.addProperty('fallbacks', [
+      ...toArray(ruleset.properties.fallbacks),
+      ...value.map(fallback => ({ [name]: fallback })),
+    ]);
   };
 
   // https://github.com/cssinjs/jss/blob/master/docs/json-api.md#font-face
@@ -166,9 +167,16 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   };
 
   // https://github.com/cssinjs/jss-nested#use--to-reference-selector-of-the-parent-rule
-  private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+  private handleProperty = (
+    ruleset: Ruleset<NativeBlock>,
+    name: keyof NativeBlock,
+    value: unknown,
+  ) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
+      ruleset.addProperty(
+        name,
+        this.syntax.injectKeyframes(String(value), this.keyframes).join(', '),
+      );
     } else {
       ruleset.addProperty(name, value);
     }

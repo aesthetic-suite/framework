@@ -149,23 +149,27 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   };
 
   // https://github.com/Khan/aphrodite#api
-  private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+  private handleProperty = (
+    ruleset: Ruleset<NativeBlock>,
+    name: keyof NativeBlock,
+    value: unknown,
+  ) => {
     if (name === 'animationName') {
       ruleset.addCompoundProperty(
         name as 'animationName',
-        this.syntax.injectKeyframes(value, this.keyframes),
+        this.syntax.injectKeyframes(String(value), this.keyframes),
       );
     } else if (name === 'fontFamily') {
       // Font faces could potentially convert recursively because font faces
       // have a `familyName`, and we parse on `familyName`. Luckily the ruleset
       // selector is the family name, and we can determine that this is being
       // called from from `convertFontFaces`.
-      if (value.includes(ruleset.selector)) {
+      if (String(value).includes(ruleset.selector)) {
         ruleset.addProperty(name, value);
       } else {
         ruleset.addCompoundProperty(
           name as 'fontFamily',
-          this.syntax.injectFontFaces(value, this.fontFaces),
+          this.syntax.injectFontFaces(String(value), this.fontFaces),
         );
       }
     } else {

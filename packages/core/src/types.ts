@@ -93,7 +93,7 @@ export type StyleSheetNeverize<T> = { [K in keyof T]: ComponentBlockNeverize<T[K
 
 export type StyleSheetDefinition<Theme, T> = (
   theme: Theme,
-) => T extends any ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
+) => T extends unknown ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
 
 export type GlobalSheet = {
   '@charset'?: string;

@@ -49,7 +49,7 @@ export default class Sheet<Block extends object> {
   }
 
   toObject(): SheetMap<Block> {
-    const atRules: { [key: string]: any } = {};
+    const atRules: { [key: string]: unknown } = {};
     const sets: { [key: string]: Sheet<Block> | Ruleset<Block> } = {};
 
     Object.keys(this.atRules).forEach(key => {

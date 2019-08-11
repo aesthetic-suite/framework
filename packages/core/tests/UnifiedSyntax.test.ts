@@ -32,21 +32,22 @@ import {
   SYNTAX_RAW_CSS,
 } from '../src/testUtils';
 
-export function createTestRulesets(selector: string, data: any[]): Ruleset<any>[] {
+function createTestRulesets(selector: string, data: unknown[]): Ruleset<{}>[] {
   return data.map(item => {
     const ruleset = new Ruleset(selector, new Sheet());
-    ruleset.properties = item as any;
+    ruleset.properties = item as object;
 
     return ruleset;
   });
 }
 
-export function createTestKeyframes(selector: string, data: any): Ruleset<any> {
+function createTestKeyframes(selector: string, data: object): Ruleset<{}> {
   const ruleset = new Ruleset(selector, new Sheet());
 
   Object.keys(data).forEach(key => {
     const nested = new Ruleset(key, ruleset.root, ruleset);
-    nested.properties = data[key] as any;
+    // @ts-ignore
+    nested.properties = data[key];
     nested.parent = ruleset;
 
     ruleset.addNested(key, nested);
@@ -124,9 +125,12 @@ describe('UnifiedSyntax', () => {
 
     describe('@font-face', () => {
       beforeEach(() => {
-        syntax.on('property', (parent: Ruleset<Properties>, key: keyof Properties, value: any) => {
-          parent.addProperty(key, value);
-        });
+        syntax.on(
+          'property',
+          (parent: Ruleset<Properties>, key: keyof Properties, value: unknown) => {
+            parent.addProperty(key, value);
+          },
+        );
       });
 
       it('emits event for a single font', () => {
@@ -267,9 +271,12 @@ describe('UnifiedSyntax', () => {
 
     describe('@keyframes', () => {
       beforeEach(() => {
-        syntax.on('property', (parent: Ruleset<Properties>, key: keyof Properties, value: any) => {
-          parent.addProperty(key, value);
-        });
+        syntax.on(
+          'property',
+          (parent: Ruleset<Properties>, key: keyof Properties, value: unknown) => {
+            parent.addProperty(key, value);
+          },
+        );
       });
 
       it('emits event', () => {
@@ -523,7 +530,7 @@ describe('UnifiedSyntax', () => {
     });
 
     it('calls at-rules after properties', () => {
-      function handleProperty(parent: Ruleset<Properties>, name: keyof Properties, value: any) {
+      function handleProperty(parent: Ruleset<Properties>, name: keyof Properties, value: unknown) {
         parent.addProperty(name, value);
       }
 

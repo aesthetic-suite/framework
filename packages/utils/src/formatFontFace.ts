@@ -21,7 +21,7 @@ const FORMATS: { [ext: string]: string } = {
 export default function formatFontFace<T extends FontFaceLike>(
   properties: Partial<T>,
 ): Omit<T, 'local' | 'srcPaths'> {
-  const fontFace: any = { ...properties };
+  const fontFace: FontFaceLike = { ...properties };
   const src: string[] = [];
 
   if (fontFace.local) {
@@ -49,10 +49,10 @@ export default function formatFontFace<T extends FontFaceLike>(
 
     delete fontFace.srcPaths;
   } else {
-    return fontFace;
+    return fontFace as T;
   }
 
   fontFace.src = src.join(', ');
 
-  return fontFace;
+  return fontFace as T;
 }

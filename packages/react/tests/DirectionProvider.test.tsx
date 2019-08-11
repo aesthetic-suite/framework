@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
+import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import DirectionContext from '../src/DirectionContext';
 import DirectionProvider from '../src/DirectionProvider';
 
 describe('DirectionProvider', () => {
-  let aesthetic: TestAesthetic;
+  let aesthetic: TestAesthetic<TestTheme>;
   const oldProvider = DirectionContext.Provider;
 
   beforeEach(() => {

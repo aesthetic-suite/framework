@@ -9,8 +9,9 @@ import Aesthetic, {
   StyleName,
   GLOBAL_STYLE_NAME,
 } from 'aesthetic';
-import { purgeStyles } from 'aesthetic-utils';
+import { purgeStyles, toArray } from 'aesthetic-utils';
 import { TypeStyle } from 'typestyle';
+import { FontFace, KeyFrames } from 'typestyle/lib/types';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
@@ -75,21 +76,15 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   private handleFallback = (
     ruleset: Ruleset<NativeBlock>,
     name: keyof NativeBlock,
-    value: any[],
+    value: unknown[],
   ) => {
-    let fallbacks: any = ruleset.properties[name] || [];
-
-    if (!Array.isArray(fallbacks)) {
-      fallbacks = [fallbacks];
-    }
-
-    ruleset.addProperty(name, [...value, ...fallbacks]);
+    ruleset.addProperty(name, [...value, ...toArray(ruleset.properties[name] as unknown)]);
   };
 
   // https://typestyle.github.io/#/raw/fontface
   private handleFontFace = (sheet: Sheet<NativeBlock>, fontFaces: Ruleset<NativeBlock>[]) => {
     fontFaces.forEach(face => {
-      this.typeStyle.fontFace(face.toObject() as any);
+      this.typeStyle.fontFace(face.toObject() as FontFace);
     });
   };
 
@@ -108,7 +103,7 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.typeStyle.keyframes(keyframe.toObject() as any);
+    this.keyframes[animationName] = this.typeStyle.keyframes(keyframe.toObject() as KeyFrames);
   };
 
   // https://typestyle.github.io/#/core/concept-media-queries
@@ -134,9 +129,16 @@ export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
   };
 
   // https://typestyle.github.io/#/core
-  private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+  private handleProperty = (
+    ruleset: Ruleset<NativeBlock>,
+    name: keyof NativeBlock,
+    value: unknown,
+  ) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
+      ruleset.addProperty(
+        name,
+        this.syntax.injectKeyframes(String(value), this.keyframes).join(', '),
+      );
     } else {
       ruleset.addProperty(name, value);
     }

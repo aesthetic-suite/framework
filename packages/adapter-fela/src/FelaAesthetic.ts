@@ -5,8 +5,9 @@ import Aesthetic, {
   Sheet,
   StyleName,
   GLOBAL_STYLE_NAME,
+  FontFace,
 } from 'aesthetic';
-import { getStyleElements, purgeStyles } from 'aesthetic-utils';
+import { getStyleElements, purgeStyles, toArray } from 'aesthetic-utils';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
@@ -60,15 +61,9 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
   private handleFallback = (
     ruleset: Ruleset<NativeBlock>,
     name: keyof NativeBlock,
-    value: any[],
+    value: unknown[],
   ) => {
-    let fallbacks: any = ruleset.properties[name] || [];
-
-    if (!Array.isArray(fallbacks)) {
-      fallbacks = [fallbacks];
-    }
-
-    ruleset.addProperty(name, [...value, ...fallbacks]);
+    ruleset.addProperty(name, [...value, ...toArray(ruleset.properties[name])]);
   };
 
   // http://fela.js.org/docs/basics/Fonts.html
@@ -80,7 +75,7 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     srcPaths: string[][],
   ) => {
     fontFaces.forEach((face, i) => {
-      const { local, ...style } = face.toObject() as any;
+      const { local, ...style } = face.toObject() as FontFace;
 
       this.fela.renderFont(fontFamily, srcPaths[i], {
         ...style,
@@ -106,7 +101,11 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    this.keyframes[animationName] = this.fela.renderKeyframe(() => keyframe.toObject() as any, {});
+    this.keyframes[animationName] = this.fela.renderKeyframe(
+      // @ts-ignore Annoying to type
+      () => keyframe.toObject(),
+      {},
+    );
   };
 
   // http://fela.js.org/docs/basics/Rules.html#3-media-queries
@@ -128,9 +127,16 @@ export default class FelaAesthetic<Theme extends object> extends Aesthetic<
   };
 
   // http://fela.js.org/docs/basics/Rules.html
-  private handleProperty = (ruleset: Ruleset<NativeBlock>, name: keyof NativeBlock, value: any) => {
+  private handleProperty = (
+    ruleset: Ruleset<NativeBlock>,
+    name: keyof NativeBlock,
+    value: unknown,
+  ) => {
     if (name === 'animationName') {
-      ruleset.addProperty(name, this.syntax.injectKeyframes(value, this.keyframes).join(', '));
+      ruleset.addProperty(
+        name,
+        this.syntax.injectKeyframes(String(value), this.keyframes).join(', '),
+      );
     } else {
       ruleset.addProperty(name, value);
     }

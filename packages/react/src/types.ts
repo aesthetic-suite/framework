@@ -10,6 +10,7 @@ import Aesthetic, {
 import { Omit } from 'utility-types';
 
 export interface DirectionProviderProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
   dir?: Exclude<Direction, 'neutral'>;
@@ -18,6 +19,7 @@ export interface DirectionProviderProps {
 }
 
 export interface ThemeProviderProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
   name?: ThemeName;
@@ -35,12 +37,12 @@ export interface UseStylesOptions {
 
 export interface WithThemeWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withTheme`. */
-  wrappedRef?: React.Ref<any>;
+  wrappedRef?: React.Ref<unknown>;
 }
 
 export interface WithThemeWrappedProps<Theme> {
   /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
-  ref?: React.Ref<any>;
+  ref?: React.Ref<unknown>;
   /** The theme object. Provided by `withTheme`. */
   theme: Theme;
 }
@@ -52,7 +54,7 @@ export interface WithThemeOptions {
 
 export interface WithStylesWrapperProps {
   /** Gain a reference to the wrapped component. Provided by `withStyles`. */
-  wrappedRef?: React.Ref<any>;
+  wrappedRef?: React.Ref<unknown>;
 }
 
 export interface WithStylesWrappedProps<
@@ -63,7 +65,7 @@ export interface WithStylesWrappedProps<
   /** Utility function to transform parsed styles into CSS class names. Provided by `withStyles`. */
   cx: ClassNameTransformer<NativeBlock, ParsedBlock>;
   /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
-  ref?: React.Ref<any>;
+  ref?: React.Ref<unknown>;
   /** The parsed component style sheet in which rulesets can be transformed to class names. Provided by `withStyles`. */
   styles: SheetMap<ParsedBlock>;
   /** The theme object when `passThemeProp` is true. Provided by `withStyles`. */
@@ -89,7 +91,10 @@ export interface WithStylesOptions {
 // https://github.com/styleguidist/react-docgen-typescript/blob/master/src/parser.ts#L850
 export interface StyledComponent<Theme, Props> extends React.NamedExoticComponent<Props> {
   displayName: string;
+
   styleName: StyleName;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(

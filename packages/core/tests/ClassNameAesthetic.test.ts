@@ -1,7 +1,7 @@
 import ClassNameAesthetic from '../src/ClassNameAesthetic';
 
 describe('ClassNameAesthetic', () => {
-  let instance: ClassNameAesthetic<any>;
+  let instance: ClassNameAesthetic<{}>;
 
   beforeEach(() => {
     instance = new ClassNameAesthetic();

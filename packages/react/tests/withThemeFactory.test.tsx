@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme';
-import { TestAesthetic, registerTestTheme } from 'aesthetic/lib/testUtils';
+import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import withThemeFactory from '../src/withThemeFactory';
 import ThemeProvider from '../src/ThemeProvider';
 
 describe('withThemeFactory()', () => {
-  let aesthetic: TestAesthetic;
+  let aesthetic: TestAesthetic<TestTheme>;
   let withTheme: ReturnType<typeof withThemeFactory>;
 
   beforeEach(() => {

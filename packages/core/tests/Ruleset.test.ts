@@ -235,6 +235,7 @@ describe('Ruleset', () => {
         {
           from: { left: 0 },
           to: { left: 100 },
+          // eslint-disable-next-line
         } as any,
       ]);
 

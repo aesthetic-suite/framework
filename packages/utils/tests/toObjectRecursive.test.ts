@@ -6,11 +6,11 @@ describe('toObjectRecursive()', () => {
       toObjectRecursive({
         foo: {
           toObject() {
-            return 123;
+            return { foo: 123 };
           },
         },
       }),
-    ).toEqual({ foo: 123 });
+    ).toEqual({ foo: { foo: 123 } });
   });
 
   it('calls `toObject` on a map', () => {
