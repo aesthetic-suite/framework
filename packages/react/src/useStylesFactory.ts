@@ -1,9 +1,11 @@
-import { useContext, useRef, useLayoutEffect } from 'react';
+import { useContext, useRef, useEffect, useLayoutEffect } from 'react';
 import Aesthetic, { ClassNameTransformer, StyleSheetDefinition, SheetMap } from 'aesthetic';
 import uuid from 'uuid/v4';
 import DirectionContext from './DirectionContext';
 import ThemeContext from './ThemeContext';
 import { UseStylesOptions } from './types';
+
+const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 /**
  * Hook within a component to provide a style sheet.
@@ -39,7 +41,7 @@ export default function useStylesFactory<
     const sheet = aesthetic.createStyleSheet(styleName, params);
 
     // Flush styles on mount
-    useLayoutEffect(() => {
+    useSideEffect(() => {
       aesthetic.flushStyles(styleName);
     }, [dir, styleName, themeName]);
 
