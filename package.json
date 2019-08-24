@@ -17,18 +17,20 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.52.1",
-    "@types/react": "^16.9.1",
-    "@types/react-dom": "^16.8.5",
+    "@milesj/build-tools": "^0.54.0",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-css-modules-transform": "1.6.2",
     "babel-register": "^6.26.0",
     "chalk": "^2.4.2",
     "glob": "^7.1.4",
+    "jest-rut": "^0.3.0",
     "lerna": "^3.16.4",
     "react-dom": "^16.9.0",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "rut": "^0.3.1",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.7"
   },
   "beemo": {
     "module": "@milesj/build-tools",
@@ -51,6 +53,11 @@
       "rules": {
         "import/export": "off"
       }
+    },
+    "jest": {
+      "setupFilesAfterEnv": [
+        "jest-rut"
+      ]
     }
   },
   "workspaces": [

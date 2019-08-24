@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
 
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { render } from 'rut';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import ThemeProvider from '../src/ThemeProvider';
+import { ThemeProviderProps } from '../lib/types';
 
 describe('ThemeProvider', () => {
   let aesthetic: TestAesthetic<TestTheme>;
@@ -16,7 +17,7 @@ describe('ThemeProvider', () => {
   });
 
   it('renders children', () => {
-    const wrapper = shallow(
+    const { root } = render(
       <ThemeProvider aesthetic={aesthetic}>
         <div>1</div>
         <div>2</div>
@@ -24,7 +25,7 @@ describe('ThemeProvider', () => {
       </ThemeProvider>,
     );
 
-    expect(wrapper.find('div')).toHaveLength(3);
+    expect(root.find('div')).toHaveLength(3);
   });
 
   it('doesnt re-render children if props never change', () => {
@@ -36,40 +37,22 @@ describe('ThemeProvider', () => {
       return null;
     }
 
-    const wrapper = mount(
+    const { update } = render(
       <ThemeProvider aesthetic={aesthetic}>
         <Child />
       </ThemeProvider>,
     );
 
-    wrapper.update();
-    wrapper.update();
-    wrapper.update();
-    wrapper.update();
-    wrapper.update();
+    update();
+    update();
+    update();
 
     expect(count).toBe(1);
   });
 
-  it('changes the theme when the `name` prop changes', () => {
-    const wrapper = shallow<ThemeProvider>(
-      <ThemeProvider aesthetic={aesthetic}>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-      </ThemeProvider>,
-    );
-
-    wrapper.setProps({
-      name: 'dark',
-    });
-
-    expect(wrapper.state('themeName')).toBe('dark');
-  });
-
   it('calls `changeTheme` when `propagate` is true', () => {
     const spy = jest.spyOn(aesthetic, 'changeTheme');
-    const wrapper = shallow<ThemeProvider>(
+    const { update } = render<ThemeProviderProps>(
       <ThemeProvider aesthetic={aesthetic} propagate>
         <div>1</div>
         <div>2</div>
@@ -77,7 +60,7 @@ describe('ThemeProvider', () => {
       </ThemeProvider>,
     );
 
-    wrapper.setProps({
+    update({
       name: 'dark',
     });
 
@@ -86,15 +69,15 @@ describe('ThemeProvider', () => {
 
   it('doesnt call `changeTheme` when `propagate` is false', () => {
     const spy = jest.spyOn(aesthetic, 'changeTheme');
-    const wrapper = shallow<ThemeProvider>(
-      <ThemeProvider aesthetic={aesthetic} propagate>
+    const { update } = render<ThemeProviderProps>(
+      <ThemeProvider aesthetic={aesthetic} propaFgate>
         <div>1</div>
         <div>2</div>
         <div>3</div>
       </ThemeProvider>,
     );
 
-    wrapper.setProps({
+    update({
       name: 'dark',
     });
 

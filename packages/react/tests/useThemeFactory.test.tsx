@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'rut';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import useThemeFactory from '../src/useThemeFactory';
 
@@ -23,7 +23,7 @@ describe('useThemeFactory()', () => {
       return null;
     }
 
-    shallow(<Component />);
+    render(<Component />);
 
     expect(theme).toEqual({ color: 'black', unit: 8 });
   });

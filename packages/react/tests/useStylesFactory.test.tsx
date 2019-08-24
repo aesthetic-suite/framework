@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import { shallow } from 'enzyme';
+import { render } from 'rut';
 import {
   TestAesthetic,
   registerTestTheme,
@@ -16,13 +14,11 @@ describe('useStylesFactory()', () => {
   let aesthetic: TestAesthetic<TestTheme>;
   let useStyles: ReturnType<typeof useStylesFactory>;
   let styleName: string;
-  let container: HTMLDivElement;
 
   beforeEach(() => {
     aesthetic = new TestAesthetic();
     useStyles = useStylesFactory(aesthetic) as any;
     styleName = '';
-    container = document.createElement('div');
 
     registerTestTheme(aesthetic);
   });
@@ -55,7 +51,7 @@ describe('useStylesFactory()', () => {
       return null;
     }
 
-    shallow(<ComponentCache />);
+    render(<ComponentCache />);
 
     expect(aesthetic.styles[styleName]).toBe(styles);
   });
@@ -63,27 +59,18 @@ describe('useStylesFactory()', () => {
   it('creates a style sheet', () => {
     const spy = jest.spyOn(aesthetic, 'createStyleSheet');
 
-    shallow(<Component />);
+    render(<Component />);
 
     expect(spy).toHaveBeenCalledWith(styleName, { dir: 'ltr', name: styleName, theme: '' });
   });
 
   it('flushes styles only once', () => {
     const spy = jest.spyOn(aesthetic, 'flushStyles');
+    const { update } = render(<Component />);
 
-    act(() => {
-      ReactDOM.render(<Component />, container);
-    });
-
-    act(() => {
-      // Trigger layout effect
-      ReactDOM.render(<Component />, container);
-    });
-
-    act(() => {
-      // Check that its called once
-      ReactDOM.render(<Component />, container);
-    });
+    update();
+    update();
+    update();
 
     expect(spy).toHaveBeenCalledWith(styleName);
     expect(spy).toHaveBeenCalledTimes(2); // Once for :root
@@ -91,36 +78,28 @@ describe('useStylesFactory()', () => {
 
   it('only sets styles once', () => {
     const spy = jest.spyOn(aesthetic, 'registerStyleSheet');
+    const { update } = render(<StyledComponent />);
 
-    act(() => {
-      ReactDOM.render(<StyledComponent />, container);
-    });
-
-    act(() => {
-      // Check that its called once
-      ReactDOM.render(<StyledComponent />, container);
-    });
+    update();
+    update();
+    update();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('can transform class names', () => {
-    const wrapper = shallow(<StyledComponent />);
+    const { root } = render(<StyledComponent />);
 
-    expect(wrapper.prop('className')).toBe('header footer');
+    expect(root.findOne('div').prop('className')).toBe('header footer');
   });
 
   it('re-creates style sheet if theme context changes', () => {
     const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-
-    act(() => {
-      ReactDOM.render(
-        <ThemeProvider aesthetic={aesthetic}>
-          <StyledComponent />
-        </ThemeProvider>,
-        container,
-      );
-    });
+    const { update } = render(
+      <ThemeProvider aesthetic={aesthetic}>
+        <StyledComponent />
+      </ThemeProvider>,
+    );
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'ltr',
@@ -128,14 +107,7 @@ describe('useStylesFactory()', () => {
       theme: 'default',
     });
 
-    act(() => {
-      ReactDOM.render(
-        <ThemeProvider aesthetic={aesthetic} name="dark">
-          <StyledComponent />
-        </ThemeProvider>,
-        container,
-      );
-    });
+    update({ name: 'dark' });
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'ltr',
@@ -146,15 +118,11 @@ describe('useStylesFactory()', () => {
 
   it('re-creates style sheet if direction context changes', () => {
     const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider aesthetic={aesthetic} dir="rtl">
-          <StyledComponent />
-        </DirectionProvider>,
-        container,
-      );
-    });
+    const { update } = render(
+      <DirectionProvider aesthetic={aesthetic} dir="rtl">
+        <StyledComponent />
+      </DirectionProvider>,
+    );
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'rtl',
@@ -162,14 +130,7 @@ describe('useStylesFactory()', () => {
       theme: '',
     });
 
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider aesthetic={aesthetic} dir="ltr">
-          <StyledComponent />
-        </DirectionProvider>,
-        container,
-      );
-    });
+    update({ dir: 'ltr' });
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'ltr',
@@ -180,17 +141,13 @@ describe('useStylesFactory()', () => {
 
   it('re-creates style sheet when both contexts change', () => {
     const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider aesthetic={aesthetic} dir="ltr">
-          <ThemeProvider aesthetic={aesthetic}>
-            <StyledComponent />
-          </ThemeProvider>
-        </DirectionProvider>,
-        container,
-      );
-    });
+    const { update } = render(
+      <DirectionProvider aesthetic={aesthetic} dir="ltr">
+        <ThemeProvider aesthetic={aesthetic}>
+          <StyledComponent />
+        </ThemeProvider>
+      </DirectionProvider>,
+    );
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'ltr',
@@ -198,16 +155,13 @@ describe('useStylesFactory()', () => {
       theme: 'default',
     });
 
-    act(() => {
-      ReactDOM.render(
-        <DirectionProvider aesthetic={aesthetic} dir="rtl">
-          <ThemeProvider aesthetic={aesthetic} name="light">
-            <StyledComponent />
-          </ThemeProvider>
-        </DirectionProvider>,
-        container,
-      );
-    });
+    update(
+      <DirectionProvider aesthetic={aesthetic} dir="rtl">
+        <ThemeProvider aesthetic={aesthetic} name="light">
+          <StyledComponent />
+        </ThemeProvider>
+      </DirectionProvider>,
+    );
 
     expect(createSpy).toHaveBeenCalledWith(styleName, {
       dir: 'rtl',
@@ -221,14 +175,11 @@ describe('useStylesFactory()', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider aesthetic={aesthetic} dir="rtl">
-            <StyledComponent />
-          </DirectionProvider>,
-          container,
-        );
-      });
+      render(
+        <DirectionProvider aesthetic={aesthetic} dir="rtl">
+          <StyledComponent />
+        </DirectionProvider>,
+      );
 
       expect(createSpy).toHaveBeenCalledWith(styleName, {
         dir: 'rtl',
@@ -246,14 +197,11 @@ describe('useStylesFactory()', () => {
       const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
 
-      act(() => {
-        ReactDOM.render(
-          <DirectionProvider aesthetic={aesthetic} value="بسيطة">
-            <StyledComponent />
-          </DirectionProvider>,
-          container,
-        );
-      });
+      render(
+        <DirectionProvider aesthetic={aesthetic} value="بسيطة">
+          <StyledComponent />
+        </DirectionProvider>,
+      );
 
       expect(createSpy).toHaveBeenCalledWith(styleName, {
         dir: 'rtl',

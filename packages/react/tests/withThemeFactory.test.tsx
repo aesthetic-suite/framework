@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils';
-import { shallow, mount } from 'enzyme';
+import { render } from 'rut';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import withThemeFactory from '../src/withThemeFactory';
 import ThemeProvider from '../src/ThemeProvider';
+import { ThemeProviderProps } from '../lib/types';
 
 describe('withThemeFactory()', () => {
   let aesthetic: TestAesthetic<TestTheme>;
@@ -21,19 +20,12 @@ describe('withThemeFactory()', () => {
     return null;
   }
 
-  function WrappingComponent({ children }: any) {
+  function WrappingComponent({ children }: { children?: React.ReactNode }) {
     return (
       <ThemeProvider aesthetic={aesthetic} name="light">
-        {children}
+        {children || <div />}
       </ThemeProvider>
     );
-  }
-
-  function shallowDeep(element: React.ReactElement<any>) {
-    return shallow(element, {
-      // @ts-ignore Not yet typed
-      wrappingComponent: WrappingComponent,
-    });
   }
 
   it('returns an HOC component', () => {
@@ -70,14 +62,14 @@ describe('withThemeFactory()', () => {
   });
 
   it('inherits theme from Aesthetic options', () => {
-    function ThemeComponent() {
+    function ThemeComponent(props: { theme?: {} }) {
       return <div />;
     }
 
     const Wrapped = withTheme()(ThemeComponent);
-    const wrapper = shallowDeep(<Wrapped />);
+    const { root } = render(<Wrapped />, { wrapper: <WrappingComponent /> });
 
-    expect(wrapper.prop('theme')).toEqual({ color: 'black', unit: 8 });
+    expect(root.findOne(ThemeComponent).prop('theme')).toEqual({ color: 'black', unit: 8 });
   });
 
   it('can bubble up the ref with `wrappedRef`', () => {
@@ -90,7 +82,7 @@ describe('withThemeFactory()', () => {
     let refaesthetic: any = null;
     const Wrapped = withTheme()(RefComponent);
 
-    mount(
+    render(
       <Wrapped
         themeName="classic"
         wrappedRef={(ref: any) => {
@@ -105,28 +97,16 @@ describe('withThemeFactory()', () => {
 
   it('returns new theme if theme context changes', () => {
     const themeSpy = jest.spyOn(aesthetic, 'getTheme');
-    const container = document.createElement('div');
     const Wrapped = withTheme()(BaseComponent);
-
-    act(() => {
-      ReactDOM.render(
-        <ThemeProvider aesthetic={aesthetic}>
-          <Wrapped />
-        </ThemeProvider>,
-        container,
-      );
-    });
+    const { update } = render<ThemeProviderProps>(
+      <ThemeProvider aesthetic={aesthetic}>
+        <Wrapped />
+      </ThemeProvider>,
+    );
 
     expect(themeSpy).toHaveBeenCalledWith('default');
 
-    act(() => {
-      ReactDOM.render(
-        <ThemeProvider aesthetic={aesthetic} name="dark">
-          <Wrapped />
-        </ThemeProvider>,
-        container,
-      );
-    });
+    update({ name: 'dark' });
 
     expect(themeSpy).toHaveBeenCalledWith('dark');
   });

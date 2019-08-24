@@ -33,7 +33,7 @@
     "rtl-css-js": "^1.13.0",
     "stylis": "^3.5.4",
     "utility-types": "^3.7.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@types/extend": "*",
