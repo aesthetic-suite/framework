@@ -153,7 +153,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}))(BaseComponent);
     const { root } = renderWithWrapper(<Wrapped />);
 
-    expect(typeof root.findOne(BaseComponent).prop('cx')).toBe('function');
+    expect(root.findOne(BaseComponent)).toHaveProp('cx');
   });
 
   it('inherits theme from Aesthetic options', () => {
@@ -164,7 +164,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
     const { root } = renderWithWrapper(<Wrapped />);
 
-    expect(root.findOne(ThemeComponent).prop('theme')).toEqual({ color: 'black', unit: 8 });
+    expect(root.findOne(ThemeComponent)).toHaveProp('theme', { color: 'black', unit: 8 });
   });
 
   it('creates a style sheet', () => {
@@ -180,7 +180,7 @@ describe('withStylesFactory()', () => {
     });
   });
 
-  it.skip('can customize props with options', () => {
+  it('can customize props with options', () => {
     aesthetic.options.passThemeProp = true;
 
     function CustomStyledComponent({ styleSheet, css }: any) {
@@ -195,9 +195,9 @@ describe('withStylesFactory()', () => {
     const { root } = renderWithWrapper(<Wrapped />);
     const found = root.findOne(CustomStyledComponent);
 
-    expect(found.prop('css')).toBeDefined();
-    expect(found.prop('styleSheet')).toBeDefined();
-    expect(found.prop('someThemeNameHere')).toBeDefined();
+    expect(found).toHaveProp('css');
+    expect(found).toHaveProp('styleSheet');
+    expect(found).toHaveProp('someThemeNameHere');
   });
 
   it('can customize props with the options through the `Aesthetic` instance', () => {
@@ -214,16 +214,16 @@ describe('withStylesFactory()', () => {
     const { root } = renderWithWrapper(<Wrapped />);
     const found = root.findOne(CustomStyledComponent);
 
-    expect(found.prop('css')).toBeDefined();
-    expect(found.prop('styleSheet')).toBeDefined();
-    expect(found.prop('someThemeNameHere')).toBeDefined();
+    expect(found).toHaveProp('css');
+    expect(found).toHaveProp('styleSheet');
+    expect(found).toHaveProp('someThemeNameHere');
   });
 
   it('doesnt pass theme prop if `options.passThemeProp` is false', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT, { passThemeProp: false })(StyledComponent);
     const { root } = renderWithWrapper(<Wrapped />);
 
-    expect(root.findOne(StyledComponent).prop('theme')).toBeUndefined();
+    expect(root.findOne(StyledComponent)).not.toHaveProp('theme');
   });
 
   it('can bubble up the ref with `wrappedRef`', () => {
@@ -257,7 +257,7 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => TEST_STATEMENT)(Component);
     const { root } = renderWithWrapper(<Wrapped />);
 
-    expect(root.findOne('section').prop('className')).toBe('header footer');
+    expect(root.findOne('section')).toHaveProp('className', 'header footer');
   });
 
   it('re-creates style sheet if theme context changes', () => {
@@ -311,7 +311,7 @@ describe('withStylesFactory()', () => {
   it('re-creates style sheet when both contexts change', () => {
     const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
-    const { update } = render<DirectionProviderProps>(
+    const { rerender } = render<DirectionProviderProps>(
       <DirectionProvider aesthetic={aesthetic} dir="ltr">
         <ThemeProvider aesthetic={aesthetic}>
           <Wrapped />
@@ -325,7 +325,7 @@ describe('withStylesFactory()', () => {
       theme: 'default',
     });
 
-    update(
+    rerender(
       <DirectionProvider aesthetic={aesthetic} dir="rtl">
         <ThemeProvider aesthetic={aesthetic} name="light">
           <Wrapped />

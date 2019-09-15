@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved, @typescript-eslint/prefer-interface */
+/* eslint-disable import/no-unresolved */
 
 import CSS from 'csstype';
 import { Omit } from 'utility-types';
@@ -67,14 +67,16 @@ export type FontFace = CSS.FontFace & {
   srcPaths: string[];
 };
 
-export type Keyframes = {
+export interface Keyframes {
   from?: Block;
   to?: Block;
   name?: string;
   [percent: string]: Block | string | undefined;
-};
+}
 
-export type SheetMap<T> = { [selector: string]: T };
+export interface SheetMap<T> {
+  [selector: string]: T;
+}
 
 export type ComponentBlock = Block & {
   '@fallbacks'?: PropertiesFallback;
@@ -95,7 +97,7 @@ export type StyleSheetDefinition<Theme, T> = (
   theme: Theme,
 ) => T extends unknown ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
 
-export type GlobalSheet = {
+export interface GlobalSheet {
   '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: { [selector: string]: Block };
@@ -103,10 +105,10 @@ export type GlobalSheet = {
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Block;
   '@viewport'?: Block;
-};
+}
 
 export type GlobalSheetNeverize<T> = {
-  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never
+  [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never;
 };
 
 export type GlobalSheetDefinition<Theme, T> =

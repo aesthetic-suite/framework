@@ -30,13 +30,13 @@
     "aesthetic-utils": "^2.0.0",
     "csstype": "^2.6.6",
     "extend": "^3.0.2",
-    "rtl-css-js": "^1.13.0",
+    "rtl-css-js": "^1.13.1",
     "stylis": "^3.5.4",
     "utility-types": "^3.7.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "@types/extend": "*",
-    "@types/uuid": "*"
+    "@types/extend": "^3.0.1",
+    "@types/uuid": "^3.4.5"
   }
 }

@@ -65,6 +65,7 @@ export default class Sheet<Block extends object> {
       }
     });
 
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return {
       ...atRules,
       ...toObjectRecursive(sets),

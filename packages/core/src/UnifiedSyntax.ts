@@ -20,7 +20,6 @@ export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 // Any is required for method overloading to work.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Handler = (...args: any[]) => void;
 
 // `rtl-css-js` operates on objects while `stylis` uses strings.
@@ -520,7 +519,10 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Execute the defined event listener with the arguments.
    */
-  emit(eventName: 'attribute', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
+  emit(
+    eventName: 'attribute' | 'media' | 'pseudo' | 'selector' | 'support',
+    args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>],
+  ): unknown;
   emit(eventName: 'charset', args: [Sheet<NativeBlock>, string]): unknown;
   emit(eventName: 'css', args: [string, string]): unknown;
   emit(eventName: 'fallback', args: [Ruleset<NativeBlock>, keyof NativeBlock, unknown[]]): unknown;
@@ -531,8 +533,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   emit(eventName: 'global', args: [Sheet<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
   emit(eventName: 'import', args: [Sheet<NativeBlock>, string[]]): unknown;
   emit(eventName: 'keyframe', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>, string]): unknown;
-  emit(eventName: 'media', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
-  emit(eventName: 'page', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): unknown;
+  emit(eventName: 'page' | 'viewport', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): unknown;
   emit(eventName: 'property', args: [Ruleset<NativeBlock>, keyof NativeBlock, unknown]): unknown;
   emit(
     eventName: 'property:animationName',
@@ -542,10 +543,6 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     eventName: 'property:fontFamily',
     args: [Ruleset<NativeBlock>, Properties['fontFamily']],
   ): unknown;
-  emit(eventName: 'pseudo', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
-  emit(eventName: 'selector', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
-  emit(eventName: 'support', args: [Ruleset<NativeBlock>, string, Ruleset<NativeBlock>]): unknown;
-  emit(eventName: 'viewport', args: [Sheet<NativeBlock>, Ruleset<NativeBlock>]): unknown;
   emit(eventName: string, args: unknown[]): unknown {
     if (this.handlers[eventName]) {
       return this.handlers[eventName](...args);
@@ -567,7 +564,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
    * Register an event listener.
    */
   on(
-    eventName: 'attribute',
+    eventName: 'attribute' | 'pseudo' | 'selector' | 'support',
     callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(eventName: 'charset', callback: (sheet: Sheet<NativeBlock>, charset: string) => void): this;
@@ -603,7 +600,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     callback: (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => void,
   ): this;
   on(
-    eventName: 'page',
+    eventName: 'page' | 'viewport',
     callback: (sheet: Sheet<NativeBlock>, ruleset: Ruleset<NativeBlock>) => void,
   ): this;
   on(
@@ -617,22 +614,6 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   on(
     eventName: 'property:fontFamily',
     callback: (ruleset: Ruleset<NativeBlock>, value: Properties['fontFamily']) => unknown,
-  ): this;
-  on(
-    eventName: 'pseudo',
-    callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
-  ): this;
-  on(
-    eventName: 'selector',
-    callback: (ruleset: Ruleset<NativeBlock>, name: string, value: Ruleset<NativeBlock>) => void,
-  ): this;
-  on(
-    eventName: 'support',
-    callback: (ruleset: Ruleset<NativeBlock>, query: string, value: Ruleset<NativeBlock>) => void,
-  ): this;
-  on(
-    eventName: 'viewport',
-    callback: (sheet: Sheet<NativeBlock>, ruleset: Ruleset<NativeBlock>) => void,
   ): this;
   on(eventName: string, callback: Handler): this {
     this.handlers[eventName] = callback;

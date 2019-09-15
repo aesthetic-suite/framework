@@ -70,7 +70,7 @@ describe('ThemeProvider', () => {
   it('doesnt call `changeTheme` when `propagate` is false', () => {
     const spy = jest.spyOn(aesthetic, 'changeTheme');
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic} propaFgate>
+      <ThemeProvider aesthetic={aesthetic} propagate>
         <div>1</div>
         <div>2</div>
         <div>3</div>

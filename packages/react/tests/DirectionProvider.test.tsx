@@ -42,7 +42,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('ltr');
+    expect(root.findOne('div')).toHaveProp('dir', 'ltr');
   });
 
   it('renders `rtl` explicitly with `dir`', () => {
@@ -52,7 +52,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('rtl');
+    expect(root.findOne('div')).toHaveProp('dir', 'rtl');
   });
 
   it('renders `dir` over `value`', () => {
@@ -62,7 +62,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('rtl');
+    expect(root.findOne('div')).toHaveProp('dir', 'rtl');
   });
 
   it('infers `ltr` from `value`', () => {
@@ -72,7 +72,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('ltr');
+    expect(root.findOne('div')).toHaveProp('dir', 'ltr');
   });
 
   it('infers `rtl` from `value`', () => {
@@ -82,7 +82,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('rtl');
+    expect(root.findOne('div')).toHaveProp('dir', 'rtl');
   });
 
   it('infers `ltr` from `Aesthetic` instance', () => {
@@ -92,7 +92,7 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('ltr');
+    expect(root.findOne('div')).toHaveProp('dir', 'ltr');
   });
 
   it('infers `rtl` from `Aesthetic` instance', () => {
@@ -104,6 +104,6 @@ describe('DirectionProvider', () => {
       </DirectionProvider>,
     );
 
-    expect(root.findOne('div').prop('dir')).toBe('rtl');
+    expect(root.findOne('div')).toHaveProp('dir', 'rtl');
   });
 });

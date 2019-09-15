@@ -74,6 +74,7 @@ export default class Ruleset<Block extends object> {
       compounds[key] = compound;
     });
 
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return {
       ...props,
       ...compounds,

@@ -90,7 +90,7 @@ describe('useStylesFactory()', () => {
   it('can transform class names', () => {
     const { root } = render(<StyledComponent />);
 
-    expect(root.findOne('div').prop('className')).toBe('header footer');
+    expect(root.findOne('div')).toHaveProp('className', 'header footer');
   });
 
   it('re-creates style sheet if theme context changes', () => {

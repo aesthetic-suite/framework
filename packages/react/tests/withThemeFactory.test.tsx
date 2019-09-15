@@ -69,7 +69,7 @@ describe('withThemeFactory()', () => {
     const Wrapped = withTheme()(ThemeComponent);
     const { root } = render(<Wrapped />, { wrapper: <WrappingComponent /> });
 
-    expect(root.findOne(ThemeComponent).prop('theme')).toEqual({ color: 'black', unit: 8 });
+    expect(root.findOne(ThemeComponent)).toHaveProp('theme', { color: 'black', unit: 8 });
   });
 
   it('can bubble up the ref with `wrappedRef`', () => {
