@@ -8,8 +8,7 @@ import Aesthetic, {
   GLOBAL_STYLE_NAME,
 } from 'aesthetic';
 import { getStyleElements, purgeStyles } from 'aesthetic-utils';
-// @ts-ignore flushToStyleTag is not typed
-import { StyleSheet as Aphrodite, Extension, flushToStyleTag } from 'aphrodite';
+import { StyleSheet as Aphrodite, Extension, flushToStyleTag, reset } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
@@ -61,7 +60,13 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
   }
 
   purgeStyles(styleName?: StyleName) {
-    purgeStyles(getStyleElements('data-aphrodite'), styleName === GLOBAL_STYLE_NAME);
+    const isGlobal = styleName === GLOBAL_STYLE_NAME;
+
+    purgeStyles(getStyleElements('data-aphrodite'), isGlobal);
+
+    if (isGlobal) {
+      reset();
+    }
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {
