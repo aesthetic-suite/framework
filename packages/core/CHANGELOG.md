@@ -1,3 +1,19 @@
+### 4.1.1 - 2019-09-15
+
+#### 🐞 Fixes
+
+- Now supports server-side rendering.
+  - Doesn't set `dir` on `html` unless a document exists.
+  - Only uses `useLayoutEffect` in the browser.
+
+#### 📦 Dependencies
+
+- Updated all to latest.
+
+#### ⚙️ Types
+
+- Refine types and replace `any` with `unknown`.
+
 ## 4.1.0 - 2019-07-10
 
 #### 🚀 Updates

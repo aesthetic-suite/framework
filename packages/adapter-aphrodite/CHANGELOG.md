@@ -1,3 +1,21 @@
+## 4.1.0 - 2019-09-15
+
+#### 🚀 Updates
+
+- Updated `aphrodite` peer requirement to v2.4.
+
+#### 🐞 Fixes
+
+- Will now properly remove global injected styles when purging.
+
+#### 📦 Dependencies
+
+- Updated all to latest.
+
+#### ⚙️ Types
+
+- Refine types and replace `any` with `unknown`.
+
 # 4.0.0 - 2019-07-07
 
 #### 💥 Breaking

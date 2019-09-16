@@ -1,3 +1,13 @@
+### 1.1.2 - 2019-09-15
+
+#### 📦 Dependencies
+
+- Updated all to latest.
+
+#### ⚙️ Types
+
+- Refine types and replace `any` with `unknown`.
+
 ### 1.1.1 - 2019-07-24
 
 #### 🐞 Fixes
