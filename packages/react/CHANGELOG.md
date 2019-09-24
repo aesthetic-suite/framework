@@ -1,3 +1,9 @@
+### 1.1.3 - 2019-09-23
+
+#### ⚙️ Types
+
+- Updated `React.Ref` to use `any` instead of `unknown`.
+
 ### 1.1.2 - 2019-09-15
 
 #### 📦 Dependencies
