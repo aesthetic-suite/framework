@@ -3,7 +3,7 @@ import { render } from 'rut-dom';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import withThemeFactory from '../src/withThemeFactory';
 import ThemeProvider from '../src/ThemeProvider';
-import { ThemeProviderProps } from '../lib/types';
+import { ThemeProviderProps } from '../src/types';
 
 describe('withThemeFactory()', () => {
   let aesthetic: TestAesthetic<TestTheme>;
