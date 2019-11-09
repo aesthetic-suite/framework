@@ -53,7 +53,7 @@ describe('formatFontFace()', () => {
         ...FONT_ROBOTO,
         srcPaths: ['Roboto.foo'],
       });
-    }).toThrowError('Unsupported font format ".foo".');
+    }).toThrow('Unsupported font format ".foo".');
   });
 
   it('supports paths with query strings', () => {

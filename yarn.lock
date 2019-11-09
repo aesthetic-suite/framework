@@ -2348,20 +2348,15 @@
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.16.4.tgz#5e5e97702cb68498aaba7349b941648daaf2385c"
   integrity sha512-MG7ExKBo7AQ5UrL1awyYLNinNM/kyXgE4iP4Ul9fB+T7n768Z5Xem8IZeP6Bna0xze8gkDly49Rgge2HOEw4xA==
 
-"@types/prop-types@*":
-  version "15.7.1"
-  resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
-  integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
-
-"@types/prop-types@^15.7.2":
+"@types/prop-types@*", "@types/prop-types@^15.7.2":
   version "15.7.2"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
   integrity sha512-f8JzJNWVhKtc9dg/dyDNfliTKNOJSLa7Oht/ElZdF/UbMUmAH3rLmAk3ODNjw0mZajDEgatA03tRjB4+Dp/tzA==
 
-"@types/react-dom@^16.9.0":
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.0.tgz#ba6ddb00bf5de700b0eb91daa452081ffccbfdea"
-  integrity sha512-OL2lk7LYGjxn4b0efW3Pvf2KBVP0y1v3wip1Bp7nA79NkOpElH98q3WdCEdDj93b2b0zaeBG9DvriuKjIK5xDA==
+"@types/react-dom@*", "@types/react-dom@^16.9.4":
+  version "16.9.4"
+  resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-16.9.4.tgz#0b58df09a60961dcb77f62d4f1832427513420df"
+  integrity sha512-fya9xteU/n90tda0s+FtN5Ym4tbgxpq/hb/Af24dvs6uYnYn+fspaxw5USlw0R8apDNwxsqumdRoCoKitckQqw==
   dependencies:
     "@types/react" "*"
 
@@ -2373,16 +2368,16 @@
     "@types/react" "*"
 
 "@types/react-test-renderer@*":
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-16.9.0.tgz#d60f530ecf4c906721511603cca711b4fa830d41"
-  integrity sha512-bN5EyjtuTY35xX7N5j0KP1vg5MpUXHpFTX6tGsqkNOthjNvet4VQOYRxFh+NT5cDSJrATmAFK9NLeYZ4mp/o0Q==
+  version "16.9.1"
+  resolved "https://registry.npmjs.org/@types/react-test-renderer/-/react-test-renderer-16.9.1.tgz#9d432c46c515ebe50c45fa92c6fb5acdc22e39c4"
+  integrity sha512-nCXQokZN1jp+QkoDNmDZwoWpKY8HDczqevIDO4Uv9/s9rbGPbSpy8Uaxa5ixHKkcm/Wt0Y9C3wCxZivh4Al+rQ==
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.9.2":
-  version "16.9.2"
-  resolved "https://registry.npmjs.org/@types/react/-/react-16.9.2.tgz#6d1765431a1ad1877979013906731aae373de268"
-  integrity sha512-jYP2LWwlh+FTqGd9v7ynUKZzjj98T8x7Yclz479QdRhHfuW9yQ+0jjnD31eXSXutmBpppj5PYNLYLRfnZJvcfg==
+"@types/react@*", "@types/react@16.9.11", "@types/react@^16.9.11":
+  version "16.9.11"
+  resolved "https://registry.npmjs.org/@types/react/-/react-16.9.11.tgz#70e0b7ad79058a7842f25ccf2999807076ada120"
+  integrity sha512-UBT4GZ3PokTXSWmdgC/GeCGEJXE5ofWyibCcecRLUVN2ZBpXQGVgQGtG2foS7CrTKFKlQVVswLvf7Js6XA/CVQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -4151,9 +4146,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   integrity sha512-05qQ5hXShcqGkPZpXEFLIpxayZscVD2kuMBZewxiIPPEagukO4mqgPA9CWhUvFBJfy3ODdK2p9xyHh7FTU9/7A==
 
 core-js@^2.6.9:
-  version "2.6.9"
-  resolved "https://registry.npmjs.org/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
-  integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
+  version "2.6.10"
+  resolved "https://registry.npmjs.org/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
+  integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -4921,6 +4916,11 @@ eslint-plugin-react@^7.16.0:
     prop-types "^15.7.2"
     resolve "^1.12.0"
 
+eslint-plugin-rut@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.npmjs.org/eslint-plugin-rut/-/eslint-plugin-rut-0.1.9.tgz#b383cfd24cd855adcede49b56528f1f2a722e2cd"
+  integrity sha512-mouBwyLwFZj+vJ5lkUi6WQ60vpvi/YBkMex5F2K4lWhy+I1KX6IitOEZoz8edfW0vfk6ZzWtgz+zm/GbkAt2FQ==
+
 eslint-plugin-unicorn@^12.1.0:
   version "12.1.0"
   resolved "https://registry.npmjs.org/eslint-plugin-unicorn/-/eslint-plugin-unicorn-12.1.0.tgz#6ebff6c90ecf4df7ce1615e18928d10bb50c2ff5"
@@ -5403,14 +5403,15 @@ fela@^10.6.1:
     fela-utils "^10.6.1"
     isobject "^3.0.1"
 
-fetch-mock@^7.3.9:
-  version "7.3.9"
-  resolved "https://registry.npmjs.org/fetch-mock/-/fetch-mock-7.3.9.tgz#a80fd2a1728f72e0634ef7a9734bc61200096487"
-  integrity sha512-PgsTbiQBNapFz2P2UwDl3gowK3nZqfV4HdyDZ1dI4eTGGH9MLAeBglIPbyDbbNQoGYBOfla6/9uaiq7az2z4Aw==
+fetch-mock@^7.7.3:
+  version "7.7.3"
+  resolved "https://registry.npmjs.org/fetch-mock/-/fetch-mock-7.7.3.tgz#6a3f94cfed6e423ab7f5464912982030da605335"
+  integrity sha512-I4OkK90JFQnjH8/n3HDtWxH/I6D1wrxoAM2ri+nb444jpuH3RTcgvXx2el+G20KO873W727/66T7QhOvFxNHPg==
   dependencies:
     babel-polyfill "^6.26.0"
     core-js "^2.6.9"
     glob-to-regexp "^0.4.0"
+    lodash.isequal "^4.5.0"
     path-to-regexp "^2.2.1"
     whatwg-url "^6.5.0"
 
@@ -7030,10 +7031,10 @@ jest-runtime@^24.9.0:
     strip-bom "^3.0.0"
     yargs "^13.3.0"
 
-jest-rut@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/jest-rut/-/jest-rut-0.6.0.tgz#fb50f3cb1f8878eb1be10d5366cd991af2ba7153"
-  integrity sha512-4Q+f5LoIw8lcuk7N+48qREfrugNeMmBim/uJ8mq4DRjiDf6+czXLX1Xj1SLNg80QTbTKZWeYnXuSGz7apRdYuw==
+jest-rut@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.npmjs.org/jest-rut/-/jest-rut-0.8.1.tgz#ad4e5dfca480f4ef9a52f5ec64d2ca2ab0180848"
+  integrity sha512-7SvJxqlGdbfTKja+T0d4eIk2iXI0Z0gECW0Z/t7X3TAarYgeik//dy7O5dyxg2keTygC/8kkGhjmeXcEGTRlNA==
 
 jest-serializer@^24.9.0:
   version "24.9.0"
@@ -7580,6 +7581,11 @@ lodash.get@^4.4.2:
   resolved "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
 lodash.ismatch@^4.4.0:
   version "4.4.0"
   resolved "https://registry.npmjs.org/lodash.ismatch/-/lodash.ismatch-4.4.0.tgz#756cb5150ca3ba6f11085a78849645f188f85f37"
@@ -7655,7 +7661,7 @@ lodash@^4.13.1, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
-loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
@@ -9094,15 +9100,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.6.2:
-  version "15.6.2"
-  resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
-  integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
-  dependencies:
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
-prop-types@^15.7.2:
+prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -9250,15 +9248,10 @@ react-dom@^16.11.0:
     prop-types "^15.6.2"
     scheduler "^0.17.0"
 
-react-dom@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.9.0.tgz#5e65527a5e26f22ae3701131bcccaee9fb0d3962"
-  integrity sha512-YFT2rxO9hM70ewk9jq0y6sQk8cL02xm4+IzYBz75CQGlClQQ1Bxq0nhHF6OtSbit+AIahujJgb/CPRibFkMNJQ==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.15.0"
+react-is@^16.11.0, react-is@^16.8.6:
+  version "16.11.0"
+  resolved "https://registry.npmjs.org/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
+  integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
 
 react-is@^16.7.0, react-is@^16.8.1:
   version "16.8.1"
@@ -9270,16 +9263,6 @@ react-is@^16.8.4:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
-react-is@^16.8.6:
-  version "16.11.0"
-  resolved "https://registry.npmjs.org/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
-  integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
-
-react-is@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react-is/-/react-is-16.9.0.tgz#21ca9561399aad0ff1a7701c01683e8ca981edcb"
-  integrity sha512-tJBzzzIgnnRfEm046qRcURvwQnZVXmuCbscxUO5RWrGTXpon2d4c8mI0D8WE6ydVIm29JiLB6+RslkIvym9Rjw==
-
 react-test-renderer@^16.11.0:
   version "16.11.0"
   resolved "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-16.11.0.tgz#72574566496462c808ac449b0287a4c0a1a7d8f8"
@@ -9290,29 +9273,10 @@ react-test-renderer@^16.11.0:
     react-is "^16.8.6"
     scheduler "^0.17.0"
 
-react-test-renderer@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-16.9.0.tgz#7ed657a374af47af88f66f33a3ef99c9610c8ae9"
-  integrity sha512-R62stB73qZyhrJo7wmCW9jgl/07ai+YzvouvCXIJLBkRlRqLx4j9RqcLEAfNfU3OxTGucqR2Whmn3/Aad6L3hQ==
-  dependencies:
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    react-is "^16.9.0"
-    scheduler "^0.15.0"
-
 react@^16.11.0:
   version "16.11.0"
   resolved "https://registry.npmjs.org/react/-/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
   integrity sha512-M5Y8yITaLmU0ynd0r1Yvfq98Rmll6q8AxaEe88c8e7LxO8fZ2cNgmFt0aGAS9wzf1Ao32NKXtCl+/tVVtkxq6g==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-
-react@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.npmjs.org/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
-  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -9823,18 +9787,26 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rut@^0.6.4:
-  version "0.6.4"
-  resolved "https://registry.npmjs.org/rut/-/rut-0.6.4.tgz#3e94baaffd6987844078fc6b6f968014a37f7f5b"
-  integrity sha512-InPqvbJKDpILNmN3yjt0nxNFg0eHoS2ppp/2EB81UYxgI9w9+4eUSkKio0xcbD0kRL4hg224k6PxF2o6UjQR7w==
+rut-dom@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/rut-dom/-/rut-dom-0.1.1.tgz#51697937696e4aafa162ccf1909705f27abf6c40"
+  integrity sha512-xBS5WTFFTtAgQx/GLcEDwu/8jMSK5r+Z/PpMDsR+osxXKxPRLDWkQ1N6EzlzDIKuCcbipvpTZaFbBBe+tFZf9Q==
+  dependencies:
+    "@types/react-dom" "*"
+    rut "^0.9.1"
+
+rut@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.npmjs.org/rut/-/rut-0.9.1.tgz#0ac6b327bd01f7c8e3ff9b1923e4d2969768f19a"
+  integrity sha512-QtpN17CILcjoJ5uA6YL3EsSMWIhzDlFSuyQjpMuJrOTmu5yeJbGwpQQseJQDRWu4Q2AbsMnsaD6722eDE9sLbQ==
   dependencies:
     "@types/fetch-mock" "*"
     "@types/react" "*"
     "@types/react-is" "*"
     "@types/react-test-renderer" "*"
-    fetch-mock "^7.3.9"
-    react-is "^16.9.0"
-    react-test-renderer "^16.9.0"
+    fetch-mock "^7.7.3"
+    react-is "^16.11.0"
+    react-test-renderer "^16.11.0"
 
 rxjs@^6.4.0:
   version "6.4.0"
@@ -9891,14 +9863,6 @@ sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.npmjs.org/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
-
-scheduler@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.15.0.tgz#6bfcf80ff850b280fed4aeecc6513bc0b4f17f8e"
-  integrity sha512-xAefmSfN6jqAa7Kuq7LIJY0bwAPG3xlCj0HMEBQk1lxYiDKZscY2xJ5U/61ZTrYbmNQbXa+gc7czPkVo11tnCg==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.17.0:
   version "0.17.0"

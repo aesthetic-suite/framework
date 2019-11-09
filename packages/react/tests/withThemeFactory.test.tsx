@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'rut';
+import { render } from 'rut-dom';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import withThemeFactory from '../src/withThemeFactory';
 import ThemeProvider from '../src/ThemeProvider';
@@ -67,7 +67,7 @@ describe('withThemeFactory()', () => {
     }
 
     const Wrapped = withTheme()(ThemeComponent);
-    const { root } = render(<Wrapped />, { wrapper: <WrappingComponent /> });
+    const { root } = render<{}>(<Wrapped />, { wrapper: <WrappingComponent /> });
 
     expect(root.findOne(ThemeComponent)).toHaveProp('theme', { color: 'black', unit: 8 });
   });
@@ -82,7 +82,7 @@ describe('withThemeFactory()', () => {
     let refaesthetic: any = null;
     const Wrapped = withTheme()(RefComponent);
 
-    render(
+    render<{}>(
       <Wrapped
         themeName="classic"
         wrappedRef={(ref: any) => {

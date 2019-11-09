@@ -55,8 +55,7 @@ describe('JSSAesthetic', () => {
   });
 
   DIRECTIONS.forEach(dir => {
-    // eslint-disable-next-line jest/valid-describe
-    describe(dir.toUpperCase(), () => {
+    describe(`${dir.toUpperCase()}`, () => {
       it('converts and transforms inline styles', () => {
         expect(instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { dir })).toBe(
           dir === 'ltr'

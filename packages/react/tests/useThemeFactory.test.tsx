@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'rut';
+import { render } from 'rut-dom';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import useThemeFactory from '../src/useThemeFactory';
 
@@ -23,7 +23,7 @@ describe('useThemeFactory()', () => {
       return null;
     }
 
-    render(<Component />);
+    render<{}>(<Component />);
 
     expect(theme).toEqual({ color: 'black', unit: 8 });
   });

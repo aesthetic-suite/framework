@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-no-literals */
 
 import React from 'react';
-import { render } from 'rut';
+import { render } from 'rut-dom';
 import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
 import ThemeProvider from '../src/ThemeProvider';
-import { ThemeProviderProps } from '../lib/types';
+import { ThemeProviderProps } from '../src/types';
 
 describe('ThemeProvider', () => {
   let aesthetic: TestAesthetic<TestTheme>;
@@ -17,7 +17,7 @@ describe('ThemeProvider', () => {
   });
 
   it('renders children', () => {
-    const { root } = render(
+    const { root } = render<ThemeProviderProps>(
       <ThemeProvider aesthetic={aesthetic}>
         <div>1</div>
         <div>2</div>
@@ -37,7 +37,7 @@ describe('ThemeProvider', () => {
       return null;
     }
 
-    const { update } = render(
+    const { update } = render<ThemeProviderProps>(
       <ThemeProvider aesthetic={aesthetic}>
         <Child />
       </ThemeProvider>,

@@ -82,7 +82,7 @@ export function convertDirection(value: UnknownObject | UnknownObject[], dir: Di
 export function renderAndExpect(
   aesthetic: Aesthetic<{}, {}, {}>,
   styleSheet: SheetMap<string | UnknownObject>,
-  expectedStyles: UnknownObject = {},
+  expectedStyles: UnknownObject,
   {
     dir,
     global = false,

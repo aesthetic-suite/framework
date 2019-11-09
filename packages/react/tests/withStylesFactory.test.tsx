@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'rut';
+import { render } from 'rut-dom';
 import {
   TestAesthetic,
   registerTestTheme,
@@ -9,7 +9,7 @@ import {
 import DirectionProvider from '../src/DirectionProvider';
 import ThemeProvider from '../src/ThemeProvider';
 import withStylesFactory from '../src/withStylesFactory';
-import { ThemeProviderProps, DirectionProviderProps } from '../lib/types';
+import { ThemeProviderProps, DirectionProviderProps } from '../src/types';
 
 describe('withStylesFactory()', () => {
   let aesthetic: TestAesthetic<TestTheme>;
@@ -236,7 +236,7 @@ describe('withStylesFactory()', () => {
     let refInstance: any = null;
     const Wrapped = withStyles(() => ({}))(RefComponent);
 
-    render(
+    render<{}>(
       <Wrapped
         themeName="classic"
         wrappedRef={(ref: any) => {
@@ -346,7 +346,7 @@ describe('withStylesFactory()', () => {
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
       const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
-      render(
+      render<DirectionProviderProps>(
         <DirectionProvider aesthetic={aesthetic} dir="rtl">
           <Wrapped />
         </DirectionProvider>,
@@ -369,7 +369,7 @@ describe('withStylesFactory()', () => {
       const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
       const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
-      render(
+      render<DirectionProviderProps>(
         <DirectionProvider aesthetic={aesthetic} value="بسيطة">
           <Wrapped />
         </DirectionProvider>,
