@@ -1,6 +1,6 @@
 # Aesthetic with JSS
 
-[![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
+[![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/aesthetic-adapter-jss.svg)](https://www.npmjs.com/package/aesthetic-adapter-jss)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/adapter-jss)](https://www.npmjs.com/package/aesthetic-adapter-jss)
 

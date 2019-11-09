@@ -1,6 +1,6 @@
 # Aesthetic via React
 
-[![Build Status](https://travis-ci.org/milesj/aesthetic.svg?branch=master)](https://travis-ci.org/milesj/aesthetic)
+[![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/aesthetic-react.svg)](https://www.npmjs.com/package/aesthetic-react)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/react)](https://www.npmjs.com/package/aesthetic-react)
 
