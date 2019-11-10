@@ -44,8 +44,7 @@ describe('AphroditeAesthetic', () => {
   });
 
   DIRECTIONS.forEach(dir => {
-    // eslint-disable-next-line jest/valid-describe
-    describe(dir.toUpperCase(), () => {
+    describe(`${dir.toUpperCase()}`, () => {
       it('converts and transforms inline styles', () => {
         expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
           'inline-0_16pg94n-o_O-inline-1_igcoje',
