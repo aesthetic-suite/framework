@@ -38,5 +38,9 @@
   "devDependencies": {
     "@types/extend": "^3.0.1",
     "@types/uuid": "^3.4.5"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
   }
 }

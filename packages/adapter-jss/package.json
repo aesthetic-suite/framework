@@ -27,5 +27,9 @@
   "devDependencies": {
     "jss": "^9.8.7",
     "jss-preset-default": "^4.5.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
   }
 }

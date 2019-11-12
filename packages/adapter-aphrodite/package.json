@@ -25,5 +25,9 @@
   },
   "devDependencies": {
     "aphrodite": "^2.4.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
   }
 }
