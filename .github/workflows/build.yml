@@ -21,3 +21,5 @@ jobs:
       - run: yarn install --ignore-engines --frozen-lockfile
       - run: yarn run build
       - run: yarn test
+      - run: cat beemo-error.log
+        if: failure()
