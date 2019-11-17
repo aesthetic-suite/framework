@@ -1,5 +1,9 @@
 name: Build
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   test:
     name: Test
@@ -7,7 +11,7 @@ jobs:
     strategy:
       matrix:
         # 12 fails because of different snapshot output
-        node-version: [8, 10]
+        node-version: [8, 10, 12, 13]
       fail-fast: true
     steps:
       - uses: actions/checkout@v1
@@ -16,6 +20,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --ignore-engines --frozen-lockfile
       - run: yarn run build
-      - run: yarn run type
-      - run: yarn run jest -w 2
-      - run: yarn run eslint
+      - run: yarn test
