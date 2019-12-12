@@ -1,11 +1,19 @@
 import { getFlushedStyles, purgeStyles } from 'aesthetic-utils';
 
 export default class StyleSheetManager {
-  private element: HTMLStyleElement;
+  private element: HTMLStyleElement | null = null;
 
-  private sheet: CSSStyleSheet;
+  private sheet: CSSStyleSheet | null = null;
 
-  constructor() {
+  getFlushedStyles(): string {
+    return getFlushedStyles(this.getStyleElement());
+  }
+
+  getStyleElement(): HTMLStyleElement {
+    if (this.element) {
+      return this.element;
+    }
+
     this.element = document.createElement('style');
     this.element.type = 'text/css';
     this.element.media = 'screen';
@@ -16,26 +24,25 @@ export default class StyleSheetManager {
     // This must happen after the element is inserted into the DOM,
     // otherwise the value is null.
     this.sheet = this.element.sheet as CSSStyleSheet;
-  }
 
-  getFlushedStyles(): string {
-    return getFlushedStyles(this.element);
+    return this.element;
   }
 
   injectRule(rule: string): this {
-    this.sheet.insertRule(rule, this.sheet.cssRules.length);
+    this.getStyleElement();
+    this.sheet!.insertRule(rule, this.sheet!.cssRules.length);
 
     return this;
   }
 
   injectStatements(css: string): this {
-    this.element.textContent += css;
+    this.getStyleElement().textContent += css;
 
     return this;
   }
 
   purgeStyles(): this {
-    purgeStyles(this.element);
+    purgeStyles(this.getStyleElement());
 
     return this;
   }

@@ -62,7 +62,7 @@ export default function withStylesFactory<
           extraProps[themePropName as 'theme'] = aesthetic.getTheme(themeName);
         }
 
-        return <WrappedComponent {...props as any} {...extraProps} />;
+        return <WrappedComponent {...(props as any)} {...extraProps} />;
       }) as StyledComponent<Theme, Props & WithStylesWrapperProps>;
 
       hoistNonReactStatics(WithStyles, WrappedComponent);

@@ -2,10 +2,10 @@ import { Omit } from 'utility-types';
 import toArray from './toArray';
 
 interface FontFaceLike {
+  [key: string]: unknown;
   local?: string[];
   src?: string;
   srcPaths?: string | string[];
-  [key: string]: unknown;
 }
 
 const FORMATS: { [ext: string]: string } = {

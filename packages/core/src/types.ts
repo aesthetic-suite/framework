@@ -68,10 +68,10 @@ export type FontFace = CSS.FontFace & {
 };
 
 export interface Keyframes {
+  [percent: string]: Block | string | undefined;
   from?: Block;
   to?: Block;
   name?: string;
-  [percent: string]: Block | string | undefined;
 }
 
 export interface SheetMap<T> {
@@ -87,11 +87,15 @@ export type ComponentBlock = Block & {
 
 export type ComponentBlockNeverize<T> = T extends string
   ? string
-  : { [K in keyof T]: K extends keyof ComponentBlock ? ComponentBlock[K] : never };
+  : {
+      [K in keyof T]: K extends keyof ComponentBlock ? ComponentBlock[K] : never;
+    };
 
 export type StyleSheet = SheetMap<ClassName | RawCss | ComponentBlock>;
 
-export type StyleSheetNeverize<T> = { [K in keyof T]: ComponentBlockNeverize<T[K]> };
+export type StyleSheetNeverize<T> = {
+  [K in keyof T]: ComponentBlockNeverize<T[K]>;
+};
 
 export type StyleSheetDefinition<Theme, T> = (
   theme: Theme,
