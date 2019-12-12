@@ -23,9 +23,9 @@
     "@types/react": "*",
     "aesthetic-utils": "^2.0.1",
     "direction": "^1.0.3",
-    "hoist-non-react-statics": "^3.3.0",
+    "hoist-non-react-statics": "^3.3.1",
     "prop-types": "^15.7.2",
-    "utility-types": "^3.7.0",
+    "utility-types": "^3.10.0",
     "uuid": "^3.3.3"
   },
   "peerDependencies": {
@@ -33,11 +33,8 @@
     "react": "^16.6.0"
   },
   "devDependencies": {
-    "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/prop-types": "^15.7.3",
-    "@types/uuid": "^3.4.5",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "funding": {
     "type": "ko-fi",

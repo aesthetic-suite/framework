@@ -28,16 +28,12 @@
   },
   "dependencies": {
     "aesthetic-utils": "^2.0.1",
-    "csstype": "^2.6.6",
+    "csstype": "^2.6.7",
     "extend": "^3.0.2",
-    "rtl-css-js": "^1.13.1",
+    "rtl-css-js": "^1.14.0",
     "stylis": "^3.5.4",
-    "utility-types": "^3.7.0",
+    "utility-types": "^3.10.0",
     "uuid": "^3.3.3"
-  },
-  "devDependencies": {
-    "@types/extend": "^3.0.1",
-    "@types/uuid": "^3.4.5"
   },
   "funding": {
     "type": "ko-fi",
