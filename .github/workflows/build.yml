@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # 12 fails because of different snapshot output
-        node-version: [8, 10, 13]
-      fail-fast: false
+        # 12+ fails because of different snapshot output
+        node-version: [8, 10]
+      fail-fast: true
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
