@@ -1,12 +1,16 @@
 name: Build
-on: push
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # 12 fails because of different snapshot output
+        # 12+ fails because of different snapshot output
         node-version: [8, 10]
       fail-fast: true
     steps:
@@ -17,5 +21,7 @@ jobs:
       - run: yarn install --ignore-engines --frozen-lockfile
       - run: yarn run build
       - run: yarn run type
-      - run: yarn run jest -w 2
+      - run: yarn run coverage
       - run: yarn run eslint
+      - run: cat beemo-error.log
+        if: failure()

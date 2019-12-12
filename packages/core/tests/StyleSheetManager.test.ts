@@ -8,6 +8,8 @@ describe('StyleSheetManager', () => {
   });
 
   it('creates a style element in the head', () => {
+    manager.getStyleElement();
+
     const el = document.head.children[0] as HTMLStyleElement;
 
     expect(el).toBeInstanceOf(HTMLStyleElement);

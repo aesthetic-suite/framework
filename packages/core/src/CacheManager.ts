@@ -16,7 +16,10 @@ export default class CacheManager<T> {
   clear(filter?: (unit: CacheUnit<T>) => boolean): this {
     if (filter) {
       this.cache.forEach((units, key) => {
-        this.cache.set(key, units.filter(unit => !filter(unit)));
+        this.cache.set(
+          key,
+          units.filter(unit => !filter(unit)),
+        );
       });
     } else {
       this.cache.clear();

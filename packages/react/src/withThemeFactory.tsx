@@ -27,7 +27,7 @@ export default function withThemeFactory<
           ref: wrappedRef,
         };
 
-        return <WrappedComponent {...props as any} {...extraProps} />;
+        return <WrappedComponent {...(props as any)} {...extraProps} />;
       }
 
       hoistNonReactStatics(WithTheme, WrappedComponent);
