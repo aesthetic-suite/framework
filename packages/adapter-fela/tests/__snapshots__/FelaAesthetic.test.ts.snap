@@ -12,8 +12,7 @@ exports[`FelaAesthetic LTR global sheet flushes and purges global styles from th
 exports[`FelaAesthetic LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`FelaAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
-"@font-face {font-family: \\"Roboto\\"; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype');}
-@-webkit-keyframes k1 { 
+"@-webkit-keyframes k1 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
@@ -25,6 +24,7 @@ exports[`FelaAesthetic LTR style sheet converts unified syntax to native syntax 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
+@font-face {font-family: \\"Roboto\\"; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype');}
 .a {margin: 0;}
 .b {padding: 6px 12px;}
 .c {border: 1px solid #2e6da4;}
@@ -201,8 +201,7 @@ exports[`FelaAesthetic RTL global sheet flushes and purges global styles from th
 exports[`FelaAesthetic RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
 exports[`FelaAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
-"@font-face {font-family: \\"Roboto\\"; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype');}
-@-webkit-keyframes k1 { 
+"@-webkit-keyframes k1 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
@@ -214,6 +213,7 @@ exports[`FelaAesthetic RTL style sheet converts unified syntax to native syntax 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
+@font-face {font-family: \\"Roboto\\"; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'),url('fonts/Roboto.ttf') format('truetype');}
 .a {margin: 0;}
 .b {padding: 6px 12px;}
 .c {border: 1px solid #2e6da4;}

@@ -1,3 +1,9 @@
+### 5.0.0
+
+#### 💥 Breaking
+
+- Updated `fela` and `fela-dom` peer requirement to v11.
+
 ### 4.0.1 - 2019-09-15
 
 #### 📦 Dependencies

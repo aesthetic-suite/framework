@@ -5224,98 +5224,99 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fela-dom@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-10.6.1.tgz#d249a4380ab1565e73e250fe624a36329fd256a7"
-  integrity sha512-J/EbPv7w7GGEBwhwwohTNdBThS1CrVaO5t8eapuKg0GDUCulbpBHuL5fw1+TbpJKEL54h7GwaCV9RZKZPUOXGA==
+fela-dom@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-11.0.2.tgz#1cdf2b111d6c19d438d83572273c97075adbada3"
+  integrity sha512-Z2gUOh2j4zsfk5KzZS+5W9dE2cmLUVpyj4xpZYMqjcfb4qoBWfmeod7j2zNiiKCxxzrvvycErtq/gtPoYxeS1g==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.1"
-    fela-utils "^10.6.1"
+    fela-utils "^11.0.2"
+    sort-css-media-queries "^1.4.3"
 
-fela-plugin-embedded@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-10.6.1.tgz#a16bc2d306df9f5030644c296977502b13b25f9e"
-  integrity sha512-K2s+EW1wj1ulPu5XPUysBW+dyRlmWL1m+rREhy04tjaO3dasYDnzgL5121HzEB465iCnGaALVlFyoBOq+FAVlA==
+fela-plugin-embedded@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-11.0.2.tgz#340b89b943c37dc5d960d25f88d053cd1218f6f1"
+  integrity sha512-zSYMDsOr0+W42TDIIowhybthZzl6iW6FsCgyRMLCcCK94TIyswWYMSkwZc+x5RxqIcV7Qwp9Zle7A5ilV/4YzA==
   dependencies:
     fast-loops "^1.0.0"
     isobject "^3.0.1"
 
-fela-plugin-extend@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-plugin-extend/-/fela-plugin-extend-10.6.1.tgz#7b182d56b4b8bbfa06528d454cf224591d88fedf"
-  integrity sha512-u+mY/ElvhpSKiIpefG0ml0JeP4GWNn7cT63BOpDYOcJ2jDJiwO70ekd2/AAiiH5ZqueWXU3/Tr9mA14/SdbEpw==
+fela-plugin-extend@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-plugin-extend/-/fela-plugin-extend-11.0.2.tgz#d67d61bf3a582661dd4ba81fbb7a9bcc2fe2ea0c"
+  integrity sha512-JhmJfwpvS6/jDfKg0CMHVNA4s3BsF+rBb5zVHTX0bGDjDgNAf7qbBAaq7mBnqNCRKX6PpJC5Z/DSoVdNVu8iXQ==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^10.6.1"
+    fela-utils "^11.0.2"
     isobject "^3.0.1"
 
-fela-plugin-fallback-value@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-10.6.1.tgz#124da673e7ba4b8d59bdd83ae6d904160c131497"
-  integrity sha512-ViOTKlDMt+6OlOseRoUYRSeTKY4haPWpgiOq25NlgV6b640XoSZPQSvbhe+BHjZMEykYgEh3OuWzQqHvfpDKzg==
+fela-plugin-fallback-value@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-11.0.2.tgz#859fcd9ee22a4f30e4434109864f4e901c4c59e3"
+  integrity sha512-MX0gBAYwfKQdYlj2vKbq2Spml5GZRLyR7zc7xZDz/8d43U4K9aZPJAbYESdTEIDJzhVLWJPhiHlQT7K0O+/U0A==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-plugin-prefixer@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-10.6.1.tgz#a13c358446ac563520672f277fa0273380bf6713"
-  integrity sha512-1QXNzwlkos5Ezi8mpYY6jJVrN1KzZdCWTjqm2yWj32zF5SFUVAFPF1/4+Shld7iFPZMshl7ijDdK1zLM/H/fuw==
+fela-plugin-prefixer@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-11.0.2.tgz#80c1ecbc8f5d0bbd42964e36b530098c0a596f97"
+  integrity sha512-BTScfd9w80MEzxjRQO7OQlCNz15fYyFK+sPKq4SFOfXaWqwqJxODPHTJAAcUR9hjgiqdd8dJSIzUZdwFllKh1w==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela-plugin-fallback-value "^10.6.1"
+    fela-plugin-fallback-value "^11.0.2"
     inline-style-prefixer "^5.1.0"
     isobject "^3.0.1"
 
-fela-plugin-unit@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-10.6.1.tgz#e7728b325790ed9340a7acd87b0bb59b21d15ac2"
-  integrity sha512-+SOPD25Lg3qr2WS9n7c9WQyk0nOs50Z3PYdc+yKf7FbEvIvprWou0StaoL0EEQJWkh7b8ijJSkQEFag3GoaKOQ==
+fela-plugin-unit@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-11.0.2.tgz#3a690ad2787c69c947791babb391e85f6f3570ff"
+  integrity sha512-Og2dJObBXfVANihntp/Gp/JjfZiZOZxIeLOIwu5UFC4cYnHAui5Igv9niKV/QKX5ki+IDTrshYrBLeDkBb7tNw==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-preset-web@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-10.6.1.tgz#397f4b734f5649d4cb2b4b9a4f91bce2d1ebce84"
-  integrity sha512-Nzx89k+7xpPjvA/TlrEODECKjepDju7Ft9blHOd0KShrTUr2s7VCWqjXiVmfvERHmyrwCYnzVZKrkCQ8nnkRBg==
+fela-preset-web@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-11.0.2.tgz#6127d14301ad9b0a183e6cdb05ba54a8edeb3277"
+  integrity sha512-N0c7EvoTu4GMQngwwtBd0fuT1TMpmD4FYq449kbOgAjAU4VVzk8glOfZmH467361Q0OfDmLtHW7yjogf3f7ZsA==
   dependencies:
-    fela-plugin-embedded "^10.6.1"
-    fela-plugin-extend "^10.6.1"
-    fela-plugin-fallback-value "^10.6.1"
-    fela-plugin-prefixer "^10.6.1"
-    fela-plugin-unit "^10.6.1"
+    fela-plugin-embedded "^11.0.2"
+    fela-plugin-extend "^11.0.2"
+    fela-plugin-fallback-value "^11.0.2"
+    fela-plugin-prefixer "^11.0.2"
+    fela-plugin-unit "^11.0.2"
 
-fela-tools@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-10.6.1.tgz#77306a79ede0defc518c4617bba5c932d81808e0"
-  integrity sha512-fywHZDZPY2jQoNA+COPn5ge4rq4uFYVEeNVsT/AKW/RtQNnr18JsHoO1kbn/n4N76NJcNKP6R8OM6jOcOdLiYQ==
-  dependencies:
-    css-in-js-utils "^3.0.0"
-    fast-loops "^1.0.0"
-    fela "^10.6.1"
-    fela-utils "^10.6.1"
-
-fela-utils@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-10.6.1.tgz#cbb58d94c32dddc0a561f28e67174f3b9ae27700"
-  integrity sha512-7xYmvfWpFwktchtXMnwbRNcAcCE3GRxYY44U7VUfAcnVUf+6JiuD72yVWLlsQcMMWRFlr+NRi/d5QvqgWNZAbA==
+fela-tools@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-11.0.2.tgz#01b0a7c1eebe65adf15570a7833d8409f34d1bcc"
+  integrity sha512-aScz8kHUDXlggqwf58FGp2Fzjhzsbiti2lJDVHGKio1YDJ3hTfKdlrlxhgYbQsS9dC7n35IkIjPi0sX+qS8UDg==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
+    fela "^11.0.2"
+    fela-utils "^11.0.2"
 
-fela@^10.6.1:
-  version "10.6.1"
-  resolved "https://registry.npmjs.org/fela/-/fela-10.6.1.tgz#66a8349018a5c06908deca7fc18a83b0df9d63a6"
-  integrity sha512-Fp07Wst/BchfJAufCF+sfeMeIsB8hq+EHObpjUMrLfXcweqRtcJ5gg+47ncYO6W/HnRi1NBUzV+fY4tnMVm+MA==
+fela-utils@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-11.0.2.tgz#d736e98830074936ff38ef7149d9db0bc3915c49"
+  integrity sha512-3frW2i64XKWfvkL+YjzAMIYaPcjYlqJpKuZFPqwtG5Ro5JMBfgKNBkMcHJsMgzCYb/Gx/G+32U2Q7wFwABLYlA==
+  dependencies:
+    css-in-js-utils "^3.0.0"
+    fast-loops "^1.0.0"
+
+fela@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.npmjs.org/fela/-/fela-11.0.2.tgz#fb41aef05f32f7432ce6e9291e63a2c2c9d8ebf0"
+  integrity sha512-vGvEs8niBGQpJoJyqpfuQt2wNxRpf/N1GM3HhuZ9TfRvVku2C0RU8dlgBo+GdrwNlw0mKho0oklWyu27bcPoMw==
   dependencies:
     css-in-js-utils "^3.0.0"
     csstype "^2.5.5"
     fast-loops "^1.0.0"
-    fela-utils "^10.6.1"
+    fela-utils "^11.0.2"
     isobject "^3.0.1"
 
 fetch-mock@^7.7.3:
@@ -10064,6 +10065,11 @@ socks@~2.2.0:
   dependencies:
     ip "^1.1.5"
     smart-buffer "4.0.2"
+
+sort-css-media-queries@^1.4.3:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/sort-css-media-queries/-/sort-css-media-queries-1.5.0.tgz#8f605ad372caad0b81be010311882c046e738093"
+  integrity sha512-QofNE7CEVH1AKdhS7L9IPbV9UtyQYNXyw++8lC+xG6iOLlpzsmncZRiKbihTAESvZ8wOhwnPoesHbMrehrQyyw==
 
 sort-keys@^2.0.0:
   version "2.0.0"
