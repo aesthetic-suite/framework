@@ -144,7 +144,7 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_KEYFRAMES,
             {
-              '@keyframes fade-0': KEYFRAME_FADE,
+              '@keyframes fade': KEYFRAME_FADE,
             },
             { dir, global: true },
           );
@@ -329,13 +329,13 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_KEYFRAMES_INLINE,
             {
-              '@keyframes slide-0': KEYFRAME_SLIDE_PERCENT,
-              '@keyframes keyframe-1-1': KEYFRAME_FADE,
+              '@keyframes slide': KEYFRAME_SLIDE_PERCENT,
+              '@keyframes keyframe-1': KEYFRAME_FADE,
               single: {
-                animationName: 'slide-0',
+                animationName: 'slide',
               },
               multiple: {
-                animationName: 'slide-0, unknown, keyframe-1-1',
+                animationName: 'slide, unknown, keyframe-1',
               },
             },
             { dir },

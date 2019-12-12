@@ -1,7 +1,7 @@
 import { ClassName } from 'aesthetic';
-import { SimpleStyle } from 'jss/css'; // eslint-disable-line import/no-unresolved
+import { Style } from 'jss';
 
-export type NativeBlock = SimpleStyle & {
+export type NativeBlock = Style & {
   fallbacks?: unknown;
 };
 

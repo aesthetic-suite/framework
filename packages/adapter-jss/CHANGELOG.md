@@ -1,3 +1,9 @@
+### 5.0.0
+
+#### 💥 Breaking
+
+- Updated `jss` peer requirement to v10.
+
 ### 4.0.1 - 2019-09-15
 
 #### 📦 Dependencies

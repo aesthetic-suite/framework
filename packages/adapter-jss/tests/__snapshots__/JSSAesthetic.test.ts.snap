@@ -34,7 +34,7 @@ exports[`JSSAesthetic LTR global sheet handles @font-face 1`] = `"@font-face {fo
 exports[`JSSAesthetic LTR global sheet handles @font-face 2`] = `""`;
 
 exports[`JSSAesthetic LTR global sheet handles @keyframes 1`] = `
-"@keyframes fade-0 { 
+"@keyframes keyframes-fade-0-6-1 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }"
@@ -77,7 +77,7 @@ exports[`JSSAesthetic LTR global sheet handles single @import 1`] = `"@import ur
 exports[`JSSAesthetic LTR global sheet handles single @import 2`] = `""`;
 
 exports[`JSSAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
-".button-0-12-1 {color: rgba(0, 0, 0, 0); margin: 0; border: 1px solid #2e6da4; cursor: pointer; display: inline-block; padding: 6px 12px; text-align: left; font-weight: normal; line-height: normal; white-space: nowrap; font-family: Roboto; border-radius: 4px; vertical-align: middle; animation-name: fade; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
+".button-0-12-1 {color: rgba(0, 0, 0, 0); border: 1px solid #2e6da4; cursor: pointer; margin: 0; display: inline-block; padding: 6px 12px; text-align: left; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; border-radius: 4px; animation-name: fade; vertical-align: middle; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
 .button-0-12-1:hover {border-color: #204d74; background-color: #286090;}
 .button-0-12-1::before {content: \\"★\\"; display: inline-block; margin-right: 5px; vertical-align: middle;}
 @media (max-width: 600px) {.button-0-12-1 {padding: 4px 8px;}}"
@@ -139,20 +139,20 @@ exports[`JSSAesthetic LTR style sheet handles inline @font-face 1`] = `
 exports[`JSSAesthetic LTR style sheet handles inline @font-face 2`] = `"single-0-19-1 multiple-0-19-2"`;
 
 exports[`JSSAesthetic LTR style sheet handles inline @keyframes 1`] = `
-"@keyframes slide-0 { 
+"@keyframes keyframes-slide-0-18-1 { 
   0% {left: 0%;} 
   50% {left: 50%;} 
   100% {left: 100%;} 
 }
-@keyframes keyframe-1-1 { 
+@keyframes keyframes-keyframe-1-0-18-2 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
-.single-0-18-1 {animation-name: slide-0;}
-.multiple-0-18-2 {animation-name: slide-0, unknown, keyframe-1-1;}"
+.single-0-18-3 {animation-name: slide;}
+.multiple-0-18-4 {animation-name: slide, unknown, keyframe-1;}"
 `;
 
-exports[`JSSAesthetic LTR style sheet handles inline @keyframes 2`] = `"single-0-18-1 multiple-0-18-2"`;
+exports[`JSSAesthetic LTR style sheet handles inline @keyframes 2`] = `"single-0-18-3 multiple-0-18-4"`;
 
 exports[`JSSAesthetic LTR style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi-0-17-1 {cursor: pointer;}
@@ -226,7 +226,7 @@ exports[`JSSAesthetic RTL global sheet handles @font-face 1`] = `"@font-face {fo
 exports[`JSSAesthetic RTL global sheet handles @font-face 2`] = `""`;
 
 exports[`JSSAesthetic RTL global sheet handles @keyframes 1`] = `
-"@keyframes fade-0 { 
+"@keyframes keyframes-fade-0-30-1 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }"
@@ -269,7 +269,7 @@ exports[`JSSAesthetic RTL global sheet handles single @import 1`] = `"@import ur
 exports[`JSSAesthetic RTL global sheet handles single @import 2`] = `""`;
 
 exports[`JSSAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
-".button-0-36-1 {color: rgba(0, 0, 0, 0); margin: 0; border: 1px solid #2e6da4; cursor: pointer; display: inline-block; padding: 6px 12px; text-align: right; font-weight: normal; line-height: normal; white-space: nowrap; font-family: Roboto; border-radius: 4px; vertical-align: middle; animation-name: fade; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
+".button-0-36-1 {color: rgba(0, 0, 0, 0); border: 1px solid #2e6da4; cursor: pointer; margin: 0; display: inline-block; padding: 6px 12px; text-align: right; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; border-radius: 4px; animation-name: fade; vertical-align: middle; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
 .button-0-36-1:hover {border-color: #204d74; background-color: #286090;}
 .button-0-36-1::before {content: \\"★\\"; display: inline-block; margin-left: 5px; vertical-align: middle;}
 @media (max-width: 600px) {.button-0-36-1 {padding: 4px 8px;}}"
@@ -331,20 +331,20 @@ exports[`JSSAesthetic RTL style sheet handles inline @font-face 1`] = `
 exports[`JSSAesthetic RTL style sheet handles inline @font-face 2`] = `"single-0-43-1 multiple-0-43-2"`;
 
 exports[`JSSAesthetic RTL style sheet handles inline @keyframes 1`] = `
-"@keyframes slide-0 { 
+"@keyframes keyframes-slide-0-42-1 { 
   0% {right: 0%;} 
   50% {right: 50%;} 
   100% {right: 100%;} 
 }
-@keyframes keyframe-1-1 { 
+@keyframes keyframes-keyframe-1-0-42-2 { 
   from {opacity: 0;} 
   to {opacity: 1;} 
 }
-.single-0-42-1 {animation-name: slide-0;}
-.multiple-0-42-2 {animation-name: slide-0, unknown, keyframe-1-1;}"
+.single-0-42-3 {animation-name: slide;}
+.multiple-0-42-4 {animation-name: slide, unknown, keyframe-1;}"
 `;
 
-exports[`JSSAesthetic RTL style sheet handles inline @keyframes 2`] = `"single-0-42-1 multiple-0-42-2"`;
+exports[`JSSAesthetic RTL style sheet handles inline @keyframes 2`] = `"single-0-42-3 multiple-0-42-4"`;
 
 exports[`JSSAesthetic RTL style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi-0-41-1 {cursor: pointer;}

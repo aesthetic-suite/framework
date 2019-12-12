@@ -7,7 +7,7 @@ import Aesthetic, {
   SheetMap,
 } from 'aesthetic';
 import { toArray } from 'aesthetic-utils';
-import { JSS, StyleSheet as JSSSheet } from 'jss';
+import { Jss, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class JSSAesthetic<Theme extends object> extends Aesthetic<
@@ -15,13 +15,13 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
   NativeBlock,
   ParsedBlock
 > {
-  jss: JSS;
+  jss: Jss;
 
   keyframes: { [animationName: string]: string } = {};
 
   sheets: { [styleName: string]: JSSSheet<string> } = {};
 
-  constructor(jss: JSS, options: Partial<AestheticOptions> = {}) {
+  constructor(jss: Jss, options: Partial<AestheticOptions> = {}) {
     super(options);
 
     this.jss = jss;
@@ -136,16 +136,9 @@ export default class JSSAesthetic<Theme extends object> extends Aesthetic<
     keyframe: Ruleset<NativeBlock>,
     animationName: string,
   ) => {
-    let name = this.keyframes[animationName];
+    this.keyframes[animationName] = animationName;
 
-    // Used to avoid global collision
-    if (!name) {
-      name = `${animationName}-${Object.keys(this.keyframes).length}`;
-
-      this.keyframes[animationName] = name;
-    }
-
-    sheet.addAtRule(`@keyframes ${name}`, keyframe);
+    sheet.addAtRule(`@keyframes ${animationName}`, keyframe);
   };
 
   // https://github.com/cssinjs/jss-nested#use-at-rules-inside-of-regular-rules

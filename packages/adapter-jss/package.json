@@ -17,16 +17,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@types/jss": "*",
     "aesthetic-utils": "^2.0.1"
   },
   "peerDependencies": {
     "aesthetic": "^4.0.0",
-    "jss": "^9.8.0"
+    "jss": "^10.0.0"
   },
   "devDependencies": {
-    "jss": "^9.8.7",
-    "jss-preset-default": "^4.5.0"
+    "jss": "^10.0.0",
+    "jss-preset-default": "^10.0.0"
   },
   "funding": {
     "type": "ko-fi",
