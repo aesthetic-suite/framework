@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         # 12 fails because of different snapshot output
-        node-version: [8, 10, 12, 13]
-      fail-fast: true
+        node-version: [8, 10, 13]
+      fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -20,6 +20,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --ignore-engines --frozen-lockfile
       - run: yarn run build
-      - run: yarn test
+      - run: yarn run type
+      - run: yarn run coverage
+      - run: yarn run eslint
       - run: cat beemo-error.log
         if: failure()
