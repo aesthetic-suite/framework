@@ -96,7 +96,9 @@ export type StyleSheetNeverize<T> = {
   [K in keyof T]: ComponentBlockNeverize<T[K]>;
 };
 
-export type StyleSheetFactory<Theme, T = {}> = (theme: Theme) => StyleSheet & StyleSheetNeverize<T>;
+export type StyleSheetFactory<Theme = ThemeSheet, T = {}> = (
+  theme: Theme,
+) => StyleSheet & StyleSheetNeverize<T>;
 
 // GLOBAL STYLE SHEET
 
@@ -114,7 +116,7 @@ export type GlobalSheetNeverize<T> = {
   [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never;
 };
 
-export type GlobalSheetFactory<Theme, T = {}> = (
+export type GlobalSheetFactory<Theme = ThemeSheet, T = {}> = (
   theme: Theme,
 ) => GlobalSheet & GlobalSheetNeverize<T>;
 

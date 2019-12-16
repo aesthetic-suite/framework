@@ -24,16 +24,32 @@ export default class Aesthetic {
     themePropName: 'theme',
   };
 
-  protected globals: { [themeName: string]: GlobalSheetFactory<ThemeSheet> } = {};
+  protected globalSheets: { [themeName: string]: GlobalSheetFactory } = {};
 
   protected parents: { [childStyleName: string]: StyleName } = {};
 
-  protected styles: { [styleName: string]: StyleSheetFactory<ThemeSheet> } = {};
+  protected styleSheets: { [styleName: string]: StyleSheetFactory } = {};
 
   protected themes: { [themeName: string]: ThemeSheet } = {};
 
-  get adapter(): Adapter<{}> {
-    return this.options.adapter;
+  /**
+   * Change the current theme to another registered theme.
+   * This will purge all flushed global styles and regenerate new ones.
+   */
+  changeTheme(themeName: ThemeName): this {
+    const adapter = this.getAdapter();
+
+    // Set theme as new option
+    this.getTheme(themeName);
+    this.configure({ theme: themeName });
+
+    // Purge previous global styles
+    adapter.resetGlobalStyles(this.options.theme);
+
+    // Generate new global styles
+    adapter.applyGlobalStyles({ theme: themeName });
+
+    return this;
   }
 
   /**
@@ -48,13 +64,43 @@ export default class Aesthetic {
   }
 
   /**
+   * Compose and extend multiple style sheets to create 1 style sheet.
+   */
+  extendStyles(...styleSheets: StyleSheetFactory[]): StyleSheetFactory {
+    return (theme: ThemeSheet) => {
+      const sheets = styleSheets.map(sheet => sheet(theme));
+
+      return deepMerge(true, {}, ...sheets);
+    };
+  }
+
+  /**
+   * Return the configured adapter.
+   */
+  getAdapter<N extends object, P extends object | string = N>(): Adapter<N, P> {
+    return this.options.adapter;
+  }
+
+  /**
+   * Retrieve the global style sheet for the defined theme.
+   */
+  getGlobalSheet(themeName: ThemeName): StyleSheet | null {
+    const globalFactory = this.globalSheets[themeName];
+
+    if (!globalFactory) {
+      return null;
+    }
+
+    return globalFactory(this.getTheme(themeName || this.options.theme));
+  }
+
+  /**
    * Retrieve the component style sheet for the defined theme.
-   * If the definition is a function, execute it while passing the current theme.
    */
   getStyleSheet(styleName: StyleName, themeName: ThemeName): StyleSheet {
     const parentStyleName = this.parents[styleName];
-    const styleDef = this.styles[styleName];
-    const styleSheet = styleDef(this.getTheme(themeName || this.options.theme));
+    const styleFactory = this.styleSheets[styleName];
+    const styleSheet = styleFactory(this.getTheme(themeName || this.options.theme));
 
     // Merge from parent
     if (parentStyleName) {
@@ -85,12 +131,12 @@ export default class Aesthetic {
    */
   registerStyleSheet(
     styleName: StyleName,
-    styleSheet: StyleSheetFactory<ThemeSheet>,
+    styleSheet: StyleSheetFactory,
     extendFrom?: StyleName,
   ): this {
     if (extendFrom) {
       if (__DEV__) {
-        if (!this.styles[extendFrom]) {
+        if (!this.styleSheets[extendFrom]) {
           throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
         } else if (extendFrom === styleName) {
           throw new Error('Cannot extend styles from itself.');
@@ -100,7 +146,7 @@ export default class Aesthetic {
       this.parents[styleName] = extendFrom;
     }
 
-    this.styles[styleName] = this.validateDefinition(styleName, styleSheet);
+    this.styleSheets[styleName] = this.validateDefinition(styleName, styleSheet);
 
     return this;
   }
@@ -113,14 +159,14 @@ export default class Aesthetic {
   registerTheme(
     themeName: ThemeName,
     theme: ThemeSheet,
-    globalSheet: GlobalSheetFactory<ThemeSheet> = null,
+    globalSheet: GlobalSheetFactory<ThemeSheet> | null = null,
     extendFrom: ThemeName = '',
   ): this {
     if (extendFrom) {
       return this.registerTheme(
         themeName,
         deepMerge(true, {}, this.getTheme(extendFrom), theme),
-        globalSheet || this.globals[extendFrom],
+        globalSheet || this.globalSheets[extendFrom],
       );
     }
 
@@ -133,7 +179,10 @@ export default class Aesthetic {
     }
 
     this.themes[themeName] = theme;
-    this.globals[themeName] = this.validateDefinition(themeName, globalSheet);
+
+    if (globalSheet) {
+      this.globalSheets[themeName] = this.validateDefinition(themeName, globalSheet);
+    }
 
     return this;
   }

@@ -19,7 +19,7 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
 export default function useStyles<T>(
   styleSheet: StyleSheetFactory<ThemeSheet, T>,
   options: UseStylesOptions = {},
-): [CompiledStyleSheet, ClassNameTransformer<NativeBlock, ParsedBlock>, StyleName] {
+): [CompiledStyleSheet, ClassNameTransformer, StyleName] {
   const { styleName: customName } = options;
   const ref = useRef<string>();
   const dir = useContext(DirectionContext);
@@ -37,7 +37,7 @@ export default function useStyles<T>(
 
   // Create a unique style sheet for this component
   const params = { dir, name: styleName, theme: themeName };
-  const sheet = aesthetic.adapter.compileStyleSheet(styleName, params);
+  const sheet = aesthetic.getAdapter().createStyleSheet(styleName, params);
 
   // Flush styles on mount
   useSideEffect(() => {
@@ -45,8 +45,7 @@ export default function useStyles<T>(
   }, [dir, styleName, themeName]);
 
   // Create a CSS transformer
-  const cx: ClassNameTransformer<NativeBlock, ParsedBlock> = (...styles) =>
-    aesthetic.adapter.transformStyles(styles);
+  const cx: ClassNameTransformer = (...styles) => aesthetic.getAdapter().transformStyles(styles);
 
   return [sheet, cx, styleName];
 }
