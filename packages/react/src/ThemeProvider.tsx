@@ -1,4 +1,5 @@
 import React from 'react';
+import aesthetic from 'aesthetic';
 import ThemeContext from './ThemeContext';
 import { ThemeProviderProps, ThemeProviderState } from './types';
 
@@ -7,11 +8,11 @@ export default class ThemeProvider extends React.PureComponent<
   ThemeProviderState
 > {
   state = {
-    themeName: this.props.name || this.props.aesthetic.options.theme,
+    themeName: this.props.name || aesthetic.options.theme,
   };
 
   componentDidUpdate(prevProps: ThemeProviderProps) {
-    const { aesthetic, name, propagate } = this.props;
+    const { name, propagate } = this.props;
 
     if (name && name !== prevProps.name) {
       if (propagate) {

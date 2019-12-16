@@ -1,7 +1,8 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-unresolved, @typescript-eslint/no-explicit-any */
 
 import CSS from 'csstype';
 import { Omit } from 'utility-types';
+import Adapter from './Adapter';
 
 // NEVERIZE
 // https://github.com/Microsoft/TypeScript/issues/29390
@@ -20,10 +21,6 @@ export type ThemeName = string;
 
 export type ClassName = string;
 
-export type ClassNameTransformer<N extends object, P extends object | string> = (
-  ...styles: (undefined | false | ClassName | N | P)[]
-) => ClassName;
-
 export type RawCss = string;
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
@@ -31,6 +28,10 @@ export type Direction = 'neutral' | 'ltr' | 'rtl';
 export type ExpandCompoundProperty<B, T> = B | T | (B | T)[];
 
 export type CompoundProperties = 'animationName' | 'fontFamily';
+
+export interface SheetMap<T> {
+  [selector: string]: T;
+}
 
 // SYNTAX
 
@@ -74,9 +75,7 @@ export interface Keyframes {
   name?: string;
 }
 
-export interface SheetMap<T> {
-  [selector: string]: T;
-}
+// COMPONENT STYLE SHEET
 
 export type ComponentBlock = Block & {
   '@fallbacks'?: PropertiesFallback;
@@ -97,9 +96,9 @@ export type StyleSheetNeverize<T> = {
   [K in keyof T]: ComponentBlockNeverize<T[K]>;
 };
 
-export type StyleSheetDefinition<Theme, T> = (
-  theme: Theme,
-) => T extends unknown ? StyleSheet : StyleSheet & StyleSheetNeverize<T>;
+export type StyleSheetFactory<Theme, T = {}> = (theme: Theme) => StyleSheet & StyleSheetNeverize<T>;
+
+// GLOBAL STYLE SHEET
 
 export interface GlobalSheet {
   '@charset'?: string;
@@ -115,13 +114,30 @@ export type GlobalSheetNeverize<T> = {
   [K in keyof T]: K extends keyof GlobalSheet ? GlobalSheet[K] : never;
 };
 
-export type GlobalSheetDefinition<Theme, T> =
-  | ((theme: Theme) => GlobalSheet & GlobalSheetNeverize<T>)
-  | null;
+export type GlobalSheetFactory<Theme, T = {}> = (
+  theme: Theme,
+) => GlobalSheet & GlobalSheetNeverize<T>;
+
+// THEMES
+
+export interface ThemeSheet {
+  [key: string]: unknown;
+}
+
+// CLASSES
+
+export type ClassNameTransformer = (
+  ...styles: (undefined | false | ClassName | object | Block)[]
+) => ClassName;
+
+// ADAPTERS
+
+export type CompiledStyleSheet = SheetMap<ClassName | object>;
 
 // MISC
 
 export interface AestheticOptions {
+  adapter: Adapter;
   cxPropName: string;
   extendable: boolean;
   passThemeProp: boolean;

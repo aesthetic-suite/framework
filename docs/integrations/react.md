@@ -18,12 +18,12 @@ names.
 
 ```ts
 // useStyles.ts
-import { StyleSheetDefinition } from 'aesthetic';
+import { StyleSheetFactory } from 'aesthetic';
 import { useStylesFactory } from 'aesthetic-react';
 import aesthetic from './aesthetic';
 import { Theme } from './types';
 
-export type StyleSheet = StyleSheetDefinition<Theme, any>;
+export type StyleSheet = StyleSheetFactory<Theme, any>;
 
 export default useStylesFactory(aesthetic);
 ```

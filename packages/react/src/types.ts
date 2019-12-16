@@ -2,18 +2,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from 'react';
-import Aesthetic, {
+import {
   ClassNameTransformer,
   Direction,
   SheetMap,
   StyleName,
-  StyleSheetDefinition,
+  StyleSheetFactory,
   ThemeName,
 } from 'aesthetic';
 import { Omit } from 'utility-types';
 
 export interface DirectionProviderProps {
-  aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
   dir?: Exclude<Direction, 'neutral'>;
   inline?: boolean;
@@ -21,7 +20,6 @@ export interface DirectionProviderProps {
 }
 
 export interface ThemeProviderProps {
-  aesthetic: Aesthetic<any, any, any>;
   children: NonNullable<React.ReactNode>;
   name?: ThemeName;
   propagate?: boolean;
@@ -98,7 +96,7 @@ export interface StyledComponent<Theme, Props> extends React.NamedExoticComponen
   WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(
-    styleSheet: StyleSheetDefinition<Theme, T>,
+    styleSheet: StyleSheetFactory<Theme, T>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
   ): StyledComponent<Theme, Props>;
 }

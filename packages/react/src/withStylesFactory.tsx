@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Aesthetic, { StyleSheetDefinition } from 'aesthetic';
+import Aesthetic, { StyleSheetFactory } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import uuid from 'uuid/v4';
 import useStylesFactory from './useStylesFactory';
@@ -23,7 +23,7 @@ export default function withStylesFactory<
   const useStyles = useStylesFactory(aesthetic);
 
   return function withStyles<T>(
-    styleSheet: StyleSheetDefinition<Theme, T>,
+    styleSheet: StyleSheetFactory<Theme, T>,
     options: WithStylesOptions = {},
   ) /* infer */ {
     const {

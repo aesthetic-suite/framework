@@ -1,6 +1,6 @@
 import React from 'react';
 import getDirection from 'direction';
-import { Direction } from 'aesthetic';
+import aesthetic, { Direction } from 'aesthetic';
 import DirectionContext from './DirectionContext';
 import { DirectionProviderProps } from './types';
 
@@ -9,7 +9,6 @@ import { DirectionProviderProps } from './types';
  * Will render an element with a `dir` attribute set.
  */
 export default function DirectionProvider({
-  aesthetic,
   children,
   dir,
   inline,

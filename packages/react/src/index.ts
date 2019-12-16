@@ -7,8 +7,8 @@ import DirectionContext from './DirectionContext';
 import DirectionProvider from './DirectionProvider';
 import ThemeContext from './ThemeContext';
 import ThemeProvider from './ThemeProvider';
-import useStylesFactory from './useStylesFactory';
-import useThemeFactory from './useThemeFactory';
+import useStyles from './useStyles';
+import useTheme from './useTheme';
 import withStylesFactory from './withStylesFactory';
 import withThemeFactory from './withThemeFactory';
 
@@ -19,8 +19,8 @@ export {
   DirectionProvider,
   ThemeContext,
   ThemeProvider,
-  useStylesFactory,
-  useThemeFactory,
+  useStyles,
+  useTheme,
   withStylesFactory,
   withThemeFactory,
 };
