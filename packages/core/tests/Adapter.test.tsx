@@ -1,15 +1,14 @@
 import { Adapter, Aesthetic, TransformOptions, GLOBAL_STYLE_NAME } from '../src';
 import StyleSheetManager from '../src/StyleSheetManager';
-import { TestAdapter, TestTheme, registerTestTheme } from '../src/testUtils';
+import { TestAdapter, TestTheme, setupAesthetic } from '../src/testUtils';
 
 describe('Adapter', () => {
   let instance: Adapter<{}, {}>;
 
   beforeEach(() => {
     instance = new TestAdapter();
-    instance.aesthetic = new Aesthetic();
 
-    registerTestTheme(instance.aesthetic);
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   describe('applyGlobalStyles()', () => {
@@ -85,10 +84,10 @@ describe('Adapter', () => {
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
     beforeEach(() => {
-      instance.aesthetic.registerStyleSheet('foo', ({ unit }: TestTheme) => ({
+      instance.aesthetic.registerStyleSheet('foo', (theme: TestTheme) => ({
         el: {
           display: 'block',
-          padding: unit,
+          padding: theme.unit,
           color: 'black',
         },
       }));

@@ -2,8 +2,9 @@
 
 import { createRenderer } from 'fela';
 import webPreset from 'fela-preset-web';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -43,6 +44,8 @@ describe('FelaAdapter', () => {
         plugins: [...webPreset],
       }),
     );
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {

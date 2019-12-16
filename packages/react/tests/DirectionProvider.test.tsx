@@ -2,23 +2,23 @@
 
 import React from 'react';
 import { render } from 'rut-dom';
-import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
+import aesthetic from 'aesthetic';
+import { setupAesthetic, teardownAesthetic } from 'aesthetic/lib/testUtils';
 import DirectionProvider from '../src/DirectionProvider';
 import { DirectionProviderProps } from '../src/types';
 
 describe('DirectionProvider', () => {
-  let aesthetic: TestAesthetic<TestTheme>;
-
   beforeEach(() => {
-    aesthetic = new TestAesthetic();
-    aesthetic.options.theme = 'light';
+    setupAesthetic(aesthetic);
+  });
 
-    registerTestTheme(aesthetic);
+  afterEach(() => {
+    teardownAesthetic(aesthetic);
   });
 
   it('renders a `div` by default', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic}>
+      <DirectionProvider>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -28,7 +28,7 @@ describe('DirectionProvider', () => {
 
   it('renders a `span` when `inline`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} inline>
+      <DirectionProvider inline>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -38,7 +38,7 @@ describe('DirectionProvider', () => {
 
   it('renders `ltr` explicitly with `dir`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="ltr">
+      <DirectionProvider dir="ltr">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -48,7 +48,7 @@ describe('DirectionProvider', () => {
 
   it('renders `rtl` explicitly with `dir`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl">
+      <DirectionProvider dir="rtl">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -58,7 +58,7 @@ describe('DirectionProvider', () => {
 
   it('renders `dir` over `value`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl" value="Hello!">
+      <DirectionProvider dir="rtl" value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -68,7 +68,7 @@ describe('DirectionProvider', () => {
 
   it('infers `ltr` from `value`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} value="Hello!">
+      <DirectionProvider value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -78,7 +78,7 @@ describe('DirectionProvider', () => {
 
   it('infers `rtl` from `value`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} value="بسيطة">
+      <DirectionProvider value="بسيطة">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -88,7 +88,7 @@ describe('DirectionProvider', () => {
 
   it('infers `ltr` from `Aesthetic` instance', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic}>
+      <DirectionProvider>
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -97,10 +97,10 @@ describe('DirectionProvider', () => {
   });
 
   it('infers `rtl` from `Aesthetic` instance', () => {
-    aesthetic.options.rtl = true;
+    aesthetic.configure({ rtl: true });
 
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic}>
+      <DirectionProvider>
         <section>Content</section>
       </DirectionProvider>,
     );

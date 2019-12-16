@@ -1,13 +1,13 @@
 import Aesthetic from '../src/Aesthetic';
-import { registerTestTheme, SYNTAX_GLOBAL } from '../src/testUtils';
+import { setupAesthetic, SYNTAX_GLOBAL } from '../src/testUtils';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic;
 
   beforeEach(() => {
-    instance = new Aesthetic({});
+    instance = new Aesthetic();
 
-    registerTestTheme(instance);
+    setupAesthetic(instance);
   });
 
   describe('configure()', () => {
@@ -220,7 +220,7 @@ describe('Aesthetic', () => {
     });
 
     it('returns the theme by name', () => {
-      expect(instance.getTheme('default')).toEqual({ bg: '', color: 'black', unit: 8 });
+      expect(instance.getTheme('default')).toEqual({ bg: 'gray', color: 'black', unit: 8 });
     });
   });
 

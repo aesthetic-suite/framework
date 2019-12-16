@@ -140,9 +140,9 @@ export default class Aesthetic {
   /**
    * Register a style sheet definition. Optionally extend from a parent style sheet if defined.
    */
-  registerStyleSheet(
+  registerStyleSheet<T = ThemeSheet>(
     styleName: StyleName,
-    styleSheet: StyleSheetFactory,
+    styleSheet: StyleSheetFactory<T>,
     extendFrom?: StyleName,
   ): this {
     if (extendFrom) {
@@ -157,7 +157,10 @@ export default class Aesthetic {
       this.parents[styleName] = extendFrom;
     }
 
-    this.styleSheets[styleName] = this.validateDefinition(styleName, styleSheet);
+    this.styleSheets[styleName] = this.validateDefinition(
+      styleName,
+      styleSheet,
+    ) as StyleSheetFactory;
 
     return this;
   }
@@ -195,7 +198,7 @@ export default class Aesthetic {
       this.globalSheets[themeName] = this.validateDefinition(
         themeName,
         globalSheet,
-      ) as GlobalSheetFactory<ThemeSheet>;
+      ) as GlobalSheetFactory;
     }
 
     return this;
@@ -205,11 +208,13 @@ export default class Aesthetic {
    * Reset state back to defaults for use within testing.
    */
   resetForTesting() {
-    this.globalSheets = {};
-    this.parents = {};
-    this.styleSheets = {};
-    this.themes = {};
-    this.configure(DEFAULT_OPTIONS);
+    if (process.env.NODE_ENV === 'test') {
+      this.globalSheets = {};
+      this.parents = {};
+      this.styleSheets = {};
+      this.themes = {};
+      this.configure(DEFAULT_OPTIONS);
+    }
   }
 
   /**

@@ -45,7 +45,8 @@ export default function useStyles<T>(
   }, [dir, styleName, themeName]);
 
   // Create a CSS transformer
-  const cx: ClassNameTransformer = (...styles) => aesthetic.getAdapter().transformStyles(styles);
+  const cx: ClassNameTransformer = (...styles) =>
+    aesthetic.getAdapter().transformStyles(styles, params);
 
   return [sheet, cx, styleName];
 }

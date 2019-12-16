@@ -158,7 +158,7 @@ export default abstract class Adapter<
    * Transform the list of class names or style objects to a single class name.
    */
   transformStyles(
-    styles: (undefined | false | ClassName | NativeBlock | ParsedBlock)[],
+    styles: (undefined | false | null | ClassName | NativeBlock | ParsedBlock)[],
     baseOptions?: TransformOptions,
   ): ClassName {
     const options = this.prepareTransformOptions(baseOptions);

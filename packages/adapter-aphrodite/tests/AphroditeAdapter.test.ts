@@ -1,8 +1,9 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils, CSSProperties } from 'aphrodite';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -35,11 +36,15 @@ describe('AphroditeAdapter', () => {
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
+
     instance = new AphroditeAdapter();
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+
     cleanupStyleElements();
   });
 

@@ -1,0 +1,385 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JSSAdapter LTR converts and transforms inline styles 1`] = `
+".inline-0-0-1-1 {margin: 0;}
+.inline-1-0-1-2 {padding: 2px;}"
+`;
+
+exports[`JSSAdapter LTR converts and transforms inline styles 2`] = `
+".inline-0-0-1-1 {margin: 0;}
+.inline-1-0-1-2 {padding: 2px;}"
+`;
+
+exports[`JSSAdapter LTR global sheet flushes and purges global styles from the DOM 1`] = `
+"body {margin: 0;}
+html {height: 100%;}
+a {color: red;}
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+ul {margin: 0;}
+ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
+`;
+
+exports[`JSSAdapter LTR global sheet flushes and purges global styles from the DOM 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles @charset 1`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles @charset 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles @font-face 1`] = `"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}"`;
+
+exports[`JSSAdapter LTR global sheet handles @font-face 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles @keyframes 1`] = `
+"@keyframes keyframes-fade-0-6-1 { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}"
+`;
+
+exports[`JSSAdapter LTR global sheet handles @keyframes 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles @viewport 1`] = `"@viewport {width: device-width; orientation: landscape;}"`;
+
+exports[`JSSAdapter LTR global sheet handles @viewport 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles mixed @font-face 1`] = `
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}"
+`;
+
+exports[`JSSAdapter LTR global sheet handles mixed @font-face 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles multiple @font-face 1`] = `
+"@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}"
+`;
+
+exports[`JSSAdapter LTR global sheet handles multiple @font-face 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles multiple @import 1`] = `
+"@import url(./some/path.css);
+@import url(./another/path.css);"
+`;
+
+exports[`JSSAdapter LTR global sheet handles multiple @import 2`] = `""`;
+
+exports[`JSSAdapter LTR global sheet handles single @import 1`] = `"@import url(./some/path.css);"`;
+
+exports[`JSSAdapter LTR global sheet handles single @import 2`] = `""`;
+
+exports[`JSSAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+".button-0-12-1 {color: rgba(0, 0, 0, 0); border: 1px solid #2e6da4; cursor: pointer; margin: 0; display: inline-block; padding: 6px 12px; text-align: left; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; border-radius: 4px; animation-name: fade; vertical-align: middle; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
+.button-0-12-1:hover {border-color: #204d74; background-color: #286090;}
+.button-0-12-1::before {content: \\"★\\"; display: inline-block; margin-right: 5px; vertical-align: middle;}
+@media (max-width: 600px) {.button-0-12-1 {padding: 4px 8px;}}"
+`;
+
+exports[`JSSAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button-0-12-1"`;
+
+exports[`JSSAdapter LTR style sheet flushes and purges all styles from the DOM 1`] = `".test-0-11-1 {display: block;}"`;
+
+exports[`JSSAdapter LTR style sheet flushes and purges all styles from the DOM 2`] = `"test-0-11-1"`;
+
+exports[`JSSAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
+
+exports[`JSSAdapter LTR style sheet handles @fallbacks 1`] = `".fallback-0-20-1 {background: linear-gradient(...); display: flex; color: blue;}"`;
+
+exports[`JSSAdapter LTR style sheet handles @fallbacks 2`] = `"fallback-0-20-1"`;
+
+exports[`JSSAdapter LTR style sheet handles @media 1`] = `
+".media-0-21-1 {color: red; padding-left: 10px;}
+@media (min-width: 300px) {.media-0-21-1 {color: blue; padding-left: 15px;}}
+@media (max-width: 1000px) {.media-0-21-1 {color: green; padding-left: 20px;}}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles @media 2`] = `"media-0-21-1"`;
+
+exports[`JSSAdapter LTR style sheet handles @supports 1`] = `
+".sup-0-23-1 {display: block;}
+@supports (display: flex) {.sup-0-23-1 {display: flex;}}
+@supports not (display: flex) {.sup-0-23-1 {float: left;}}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles @supports 2`] = `"sup-0-23-1"`;
+
+exports[`JSSAdapter LTR style sheet handles attribute selectors 1`] = `
+".attr-0-14-1 {display: block;}
+.attr-0-14-1[disabled] {opacity: 0.5;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles attribute selectors 2`] = `"attr-0-14-1"`;
+
+exports[`JSSAdapter LTR style sheet handles descendant selectors 1`] = `
+".list-0-15-1 {margin: 0; padding: 0;}
+.list-0-15-1> li {list-style: bullet;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles descendant selectors 2`] = `"list-0-15-1"`;
+
+exports[`JSSAdapter LTR style sheet handles inline @font-face 1`] = `
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}
+@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+.single-0-19-1 {font-family: Roboto;}
+.multiple-0-19-2 {font-family: Circular, OtherFont, Roboto;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles inline @font-face 2`] = `"single-0-19-1 multiple-0-19-2"`;
+
+exports[`JSSAdapter LTR style sheet handles inline @keyframes 1`] = `
+"@keyframes keyframes-slide-0-18-1 { 
+  0% {left: 0%;} 
+  50% {left: 50%;} 
+  100% {left: 100%;} 
+}
+@keyframes keyframes-keyframe-1-0-18-2 { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}
+.single-0-18-3 {animation-name: slide;}
+.multiple-0-18-4 {animation-name: slide, unknown, keyframe-1;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles inline @keyframes 2`] = `"single-0-18-3 multiple-0-18-4"`;
+
+exports[`JSSAdapter LTR style sheet handles multiple selectors (comma separated) 1`] = `
+".multi-0-17-1 {cursor: pointer;}
+.multi-0-17-1:disabled {cursor: default;}
+.multi-0-17-1[disabled] {cursor: default;}
+.multi-0-17-1> span {cursor: default;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles multiple selectors (comma separated) 2`] = `"multi-0-17-1"`;
+
+exports[`JSSAdapter LTR style sheet handles nested @media 1`] = `
+".media-0-22-1 {color: red;}
+@media (min-width: 300px) {.media-0-22-1 {color: blue;}@media (max-width: 1000px) {.media-0-22-1 {color: green;}}}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles nested @media 2`] = `"media-0-22-1"`;
+
+exports[`JSSAdapter LTR style sheet handles properties 1`] = `".props-0-13-1 {color: black; display: inline; padding: 0; margin-right: 10px;}"`;
+
+exports[`JSSAdapter LTR style sheet handles properties 2`] = `"props-0-13-1"`;
+
+exports[`JSSAdapter LTR style sheet handles pseudo selectors 1`] = `
+".pseudo-0-16-1 {position: fixed;}
+.pseudo-0-16-1:hover {position: static;}
+.pseudo-0-16-1::before {position: absolute;}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles pseudo selectors 2`] = `"pseudo-0-16-1"`;
+
+exports[`JSSAdapter LTR style sheet handles raw CSS 1`] = `
+".jssadapter-button {display: 'block'; font-size: 16px; text-align: 'left';}
+.jssadapter-button:hover {color: 'red';}
+.jssadapter-button {vertical-align: 'middle';}
+@media (max-width:600px) {.jssadapter-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jssadapter-button {display: 'flex';}}"
+`;
+
+exports[`JSSAdapter LTR style sheet handles raw CSS 2`] = `""`;
+
+exports[`JSSAdapter RTL converts and transforms inline styles 1`] = `
+".inline-0-0-25-1 {margin: 0;}
+.inline-1-0-25-2 {padding: 2px;}"
+`;
+
+exports[`JSSAdapter RTL converts and transforms inline styles 2`] = `
+".inline-0-0-25-1 {margin: 0;}
+.inline-1-0-25-2 {padding: 2px;}"
+`;
+
+exports[`JSSAdapter RTL global sheet flushes and purges global styles from the DOM 1`] = `
+"body {margin: 0;}
+html {height: 100%;}
+a {color: red;}
+a:hover {color: darkred;}
+a:focus {color: lightred;}
+ul {margin: 0;}
+ul> li {margin: 0;}
+@media (max-width: 500px) {ul {margin: 20px;}}"
+`;
+
+exports[`JSSAdapter RTL global sheet flushes and purges global styles from the DOM 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles @charset 1`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles @charset 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles @font-face 1`] = `"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}"`;
+
+exports[`JSSAdapter RTL global sheet handles @font-face 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles @keyframes 1`] = `
+"@keyframes keyframes-fade-0-30-1 { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}"
+`;
+
+exports[`JSSAdapter RTL global sheet handles @keyframes 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles @viewport 1`] = `"@viewport {width: device-width; orientation: landscape;}"`;
+
+exports[`JSSAdapter RTL global sheet handles @viewport 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles mixed @font-face 1`] = `
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}"
+`;
+
+exports[`JSSAdapter RTL global sheet handles mixed @font-face 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles multiple @font-face 1`] = `
+"@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}"
+`;
+
+exports[`JSSAdapter RTL global sheet handles multiple @font-face 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles multiple @import 1`] = `
+"@import url(./some/path.css);
+@import url(./another/path.css);"
+`;
+
+exports[`JSSAdapter RTL global sheet handles multiple @import 2`] = `""`;
+
+exports[`JSSAdapter RTL global sheet handles single @import 1`] = `"@import url(./some/path.css);"`;
+
+exports[`JSSAdapter RTL global sheet handles single @import 2`] = `""`;
+
+exports[`JSSAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+".button-0-36-1 {color: rgba(0, 0, 0, 0); border: 1px solid #2e6da4; cursor: pointer; margin: 0; display: inline-block; padding: 6px 12px; text-align: right; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; border-radius: 4px; animation-name: fade; vertical-align: middle; text-decoration: none; background-color: #337ab7; animation-duration: .3s;}
+.button-0-36-1:hover {border-color: #204d74; background-color: #286090;}
+.button-0-36-1::before {content: \\"★\\"; display: inline-block; margin-left: 5px; vertical-align: middle;}
+@media (max-width: 600px) {.button-0-36-1 {padding: 4px 8px;}}"
+`;
+
+exports[`JSSAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button-0-36-1"`;
+
+exports[`JSSAdapter RTL style sheet flushes and purges all styles from the DOM 1`] = `".test-0-35-1 {display: block;}"`;
+
+exports[`JSSAdapter RTL style sheet flushes and purges all styles from the DOM 2`] = `"test-0-35-1"`;
+
+exports[`JSSAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
+
+exports[`JSSAdapter RTL style sheet handles @fallbacks 1`] = `".fallback-0-44-1 {background: linear-gradient(...); display: flex; color: blue;}"`;
+
+exports[`JSSAdapter RTL style sheet handles @fallbacks 2`] = `"fallback-0-44-1"`;
+
+exports[`JSSAdapter RTL style sheet handles @media 1`] = `
+".media-0-45-1 {color: red; padding-right: 10px;}
+@media (min-width: 300px) {.media-0-45-1 {color: blue; padding-right: 15px;}}
+@media (max-width: 1000px) {.media-0-45-1 {color: green; padding-right: 20px;}}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles @media 2`] = `"media-0-45-1"`;
+
+exports[`JSSAdapter RTL style sheet handles @supports 1`] = `
+".sup-0-47-1 {display: block;}
+@supports (display: flex) {.sup-0-47-1 {display: flex;}}
+@supports not (display: flex) {.sup-0-47-1 {float: right;}}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles @supports 2`] = `"sup-0-47-1"`;
+
+exports[`JSSAdapter RTL style sheet handles attribute selectors 1`] = `
+".attr-0-38-1 {display: block;}
+.attr-0-38-1[disabled] {opacity: 0.5;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles attribute selectors 2`] = `"attr-0-38-1"`;
+
+exports[`JSSAdapter RTL style sheet handles descendant selectors 1`] = `
+".list-0-39-1 {margin: 0; padding: 0;}
+.list-0-39-1> li {list-style: bullet;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles descendant selectors 2`] = `"list-0-39-1"`;
+
+exports[`JSSAdapter RTL style sheet handles inline @font-face 1`] = `
+"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
+@font-face {font-family: Circular; font-style: normal; font-weight: 700; src: url('fonts/Circular-Bold.woff2') format('woff2');}
+@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
+.single-0-43-1 {font-family: Roboto;}
+.multiple-0-43-2 {font-family: Circular, OtherFont, Roboto;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles inline @font-face 2`] = `"single-0-43-1 multiple-0-43-2"`;
+
+exports[`JSSAdapter RTL style sheet handles inline @keyframes 1`] = `
+"@keyframes keyframes-slide-0-42-1 { 
+  0% {right: 0%;} 
+  50% {right: 50%;} 
+  100% {right: 100%;} 
+}
+@keyframes keyframes-keyframe-1-0-42-2 { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}
+.single-0-42-3 {animation-name: slide;}
+.multiple-0-42-4 {animation-name: slide, unknown, keyframe-1;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles inline @keyframes 2`] = `"single-0-42-3 multiple-0-42-4"`;
+
+exports[`JSSAdapter RTL style sheet handles multiple selectors (comma separated) 1`] = `
+".multi-0-41-1 {cursor: pointer;}
+.multi-0-41-1:disabled {cursor: default;}
+.multi-0-41-1[disabled] {cursor: default;}
+.multi-0-41-1> span {cursor: default;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles multiple selectors (comma separated) 2`] = `"multi-0-41-1"`;
+
+exports[`JSSAdapter RTL style sheet handles nested @media 1`] = `
+".media-0-46-1 {color: red;}
+@media (min-width: 300px) {.media-0-46-1 {color: blue;}@media (max-width: 1000px) {.media-0-46-1 {color: green;}}}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles nested @media 2`] = `"media-0-46-1"`;
+
+exports[`JSSAdapter RTL style sheet handles properties 1`] = `".props-0-37-1 {color: black; display: inline; padding: 0; margin-left: 10px;}"`;
+
+exports[`JSSAdapter RTL style sheet handles properties 2`] = `"props-0-37-1"`;
+
+exports[`JSSAdapter RTL style sheet handles pseudo selectors 1`] = `
+".pseudo-0-40-1 {position: fixed;}
+.pseudo-0-40-1:hover {position: static;}
+.pseudo-0-40-1::before {position: absolute;}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles pseudo selectors 2`] = `"pseudo-0-40-1"`;
+
+exports[`JSSAdapter RTL style sheet handles raw CSS 1`] = `
+".jssadapter-button {display: 'block'; font-size: 16px; text-align: 'right';}
+.jssadapter-button:hover {color: 'red';}
+.jssadapter-button {vertical-align: 'middle';}
+@media (max-width:600px) {.jssadapter-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jssadapter-button {display: 'flex';}}"
+`;
+
+exports[`JSSAdapter RTL style sheet handles raw CSS 2`] = `""`;

@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, import/no-unresolved */
+/* eslint-disable sort-keys, import/no-unresolved, @typescript-eslint/no-explicit-any */
 
 import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
@@ -16,16 +16,17 @@ import { GLOBAL_STYLE_NAME } from './constants';
 export { TestAdapter };
 
 export interface TestTheme {
+  bg: string;
   color: string;
   unit: number;
 }
 
-export function resetAesthetic(aesthetic: Aesthetic) {
-  aesthetic.resetForTesting();
-}
+export function setupAesthetic(aesthetic: Aesthetic, adapter?: Adapter<any, any>) {
+  aesthetic.configure({
+    adapter: adapter || new TestAdapter(),
+  });
 
-export function registerTestTheme(aesthetic: Aesthetic) {
-  aesthetic.registerTheme('default', { bg: '', color: 'black', unit: 8 }, ({ unit }) => ({
+  aesthetic.registerTheme('default', { bg: 'gray', color: 'black', unit: 8 }, ({ unit }) => ({
     '@global': {
       body: {
         padding: unit,
@@ -35,9 +36,13 @@ export function registerTestTheme(aesthetic: Aesthetic) {
 
   aesthetic.registerTheme('light', { bg: 'white' }, null, 'default');
 
-  aesthetic.registerTheme('dark', { bg: 'black' }, null, 'default');
+  aesthetic.registerTheme('dark', { bg: 'black', color: 'white' }, null, 'default');
 
   aesthetic.registerTheme('no-globals', {});
+}
+
+export function teardownAesthetic(aesthetic: Aesthetic) {
+  aesthetic.resetForTesting();
 }
 
 export function cleanupStyleElements() {

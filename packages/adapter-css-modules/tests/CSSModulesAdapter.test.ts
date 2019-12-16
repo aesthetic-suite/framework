@@ -1,8 +1,10 @@
+import { Aesthetic } from 'aesthetic';
 import CSSModulesAdapter from '../src';
 
 describe('CSSModulesAdapter', () => {
   it('prefixes class names with the style name', () => {
     const instance = new CSSModulesAdapter();
+    instance.aesthetic = new Aesthetic();
 
     // eslint-disable-next-line global-require
     const classes = require('./styles.css');

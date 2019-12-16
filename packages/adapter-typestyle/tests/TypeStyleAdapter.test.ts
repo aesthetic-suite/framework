@@ -1,8 +1,9 @@
 /* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -38,6 +39,8 @@ describe('TypeStyleAdapter', () => {
 
   beforeEach(() => {
     instance = new TypeStyleAdapter(new TypeStyle({ autoGenerateTag: true }));
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {

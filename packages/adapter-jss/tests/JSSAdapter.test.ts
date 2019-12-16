@@ -1,10 +1,10 @@
 /* eslint-disable jest/expect-expect */
 
 import { create } from 'jss';
-// @ts-ignore
 import preset from 'jss-preset-default';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -48,6 +48,8 @@ describe('JSSAdapter', () => {
     jss.setup(preset());
 
     instance = new JSSAdapter(jss);
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {
