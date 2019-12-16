@@ -123,7 +123,7 @@ export type GlobalSheetFactory<Theme = ThemeSheet, T = {}> = (
 // THEMES
 
 export interface ThemeSheet {
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 // CLASSES
@@ -139,7 +139,7 @@ export type CompiledStyleSheet = SheetMap<ClassName | object>;
 // MISC
 
 export interface AestheticOptions {
-  adapter: Adapter;
+  adapter: Adapter<any, any>;
   cxPropName: string;
   extendable: boolean;
   passThemeProp: boolean;

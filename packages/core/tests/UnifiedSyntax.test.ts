@@ -1,9 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import UnifiedSyntax from '../src/UnifiedSyntax';
-import Ruleset from '../src/Ruleset';
-import Sheet from '../src/Sheet';
-import { Properties } from '../src/types';
+import { Ruleset, Sheet, UnifiedSyntax, Properties } from '../src';
 import {
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE,

@@ -4,11 +4,12 @@
 import React from 'react';
 import {
   ClassNameTransformer,
+  CompiledStyleSheet,
   Direction,
-  SheetMap,
   StyleName,
   StyleSheetFactory,
   ThemeName,
+  ThemeSheet,
 } from 'aesthetic';
 import { Omit } from 'utility-types';
 
@@ -39,7 +40,7 @@ export interface WithThemeWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithThemeWrappedProps<Theme> {
+export interface WithThemeWrappedProps<Theme = ThemeSheet> {
   /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
   ref?: React.Ref<any>;
   /** The theme object. Provided by `withTheme`. */
@@ -56,17 +57,13 @@ export interface WithStylesWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithStylesWrappedProps<
-  Theme,
-  NativeBlock extends object,
-  ParsedBlock extends object | string = NativeBlock
-> {
+export interface WithStylesWrappedProps<Theme = ThemeSheet> {
   /** Utility function to transform parsed styles into CSS class names. Provided by `withStyles`. */
-  cx: ClassNameTransformer<NativeBlock, ParsedBlock>;
+  cx: ClassNameTransformer;
   /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
   ref?: React.Ref<any>;
   /** The parsed component style sheet in which rulesets can be transformed to class names. Provided by `withStyles`. */
-  styles: SheetMap<ParsedBlock>;
+  styles: CompiledStyleSheet;
   /** The theme object when `passThemeProp` is true. Provided by `withStyles`. */
   theme?: Theme;
 }
@@ -88,7 +85,7 @@ export interface WithStylesOptions {
 
 // Name is based on react-docgen-typescript:
 // https://github.com/styleguidist/react-docgen-typescript/blob/master/src/parser.ts#L850
-export interface StyledComponent<Theme, Props> extends React.NamedExoticComponent<Props> {
+export interface StyledComponent<Props> extends React.NamedExoticComponent<Props> {
   displayName: string;
 
   styleName: StyleName;
@@ -96,7 +93,7 @@ export interface StyledComponent<Theme, Props> extends React.NamedExoticComponen
   WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(
-    styleSheet: StyleSheetFactory<Theme, T>,
+    styleSheet: StyleSheetFactory<ThemeSheet, T>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
-  ): StyledComponent<Theme, Props>;
+  ): StyledComponent<Props>;
 }

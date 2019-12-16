@@ -12,25 +12,33 @@ import {
   ThemeSheet,
 } from './types';
 
+const DEFAULT_OPTIONS: AestheticOptions = {
+  adapter: new ClassNameAdapter(),
+  cxPropName: 'cx',
+  extendable: false,
+  passThemeProp: false,
+  rtl: false,
+  stylesPropName: 'styles',
+  theme: 'default',
+  themePropName: 'theme',
+};
+
 export default class Aesthetic {
+  globalSheets: { [themeName: string]: GlobalSheetFactory } = {};
+
   options: Readonly<AestheticOptions> = {
-    adapter: new ClassNameAdapter(),
-    cxPropName: 'cx',
-    extendable: false,
-    passThemeProp: false,
-    rtl: false,
-    stylesPropName: 'styles',
-    theme: 'default',
-    themePropName: 'theme',
+    ...DEFAULT_OPTIONS,
   };
 
-  protected globalSheets: { [themeName: string]: GlobalSheetFactory } = {};
+  parents: { [childStyleName: string]: StyleName } = {};
 
-  protected parents: { [childStyleName: string]: StyleName } = {};
+  styleSheets: { [styleName: string]: StyleSheetFactory } = {};
 
-  protected styleSheets: { [styleName: string]: StyleSheetFactory } = {};
+  themes: { [themeName: string]: ThemeSheet } = {};
 
-  protected themes: { [themeName: string]: ThemeSheet } = {};
+  constructor(options: Partial<AestheticOptions> = {}) {
+    this.configure(options);
+  }
 
   /**
    * Change the current theme to another registered theme.
@@ -61,6 +69,8 @@ export default class Aesthetic {
       ...this.options,
       ...options,
     };
+
+    this.options.adapter.aesthetic = this;
   }
 
   /**
@@ -85,13 +95,14 @@ export default class Aesthetic {
    * Retrieve the global style sheet for the defined theme.
    */
   getGlobalSheet(themeName: ThemeName): StyleSheet | null {
+    const theme = this.getTheme(themeName);
     const globalFactory = this.globalSheets[themeName];
 
     if (!globalFactory) {
       return null;
     }
 
-    return globalFactory(this.getTheme(themeName || this.options.theme));
+    return globalFactory(theme);
   }
 
   /**
@@ -100,7 +111,7 @@ export default class Aesthetic {
   getStyleSheet(styleName: StyleName, themeName: ThemeName): StyleSheet {
     const parentStyleName = this.parents[styleName];
     const styleFactory = this.styleSheets[styleName];
-    const styleSheet = styleFactory(this.getTheme(themeName || this.options.theme));
+    const styleSheet = styleFactory(this.getTheme(themeName));
 
     // Merge from parent
     if (parentStyleName) {
@@ -156,11 +167,11 @@ export default class Aesthetic {
    * a global style sheet to apply to the entire document, and optionally
    * extend from a parent theme if defined.
    */
-  registerTheme(
+  registerTheme<T = ThemeSheet>(
     themeName: ThemeName,
-    theme: ThemeSheet,
-    globalSheet: GlobalSheetFactory<ThemeSheet> | null = null,
-    extendFrom: ThemeName = '',
+    theme: T,
+    globalSheet?: GlobalSheetFactory<T> | null,
+    extendFrom?: ThemeName,
   ): this {
     if (extendFrom) {
       return this.registerTheme(
@@ -181,10 +192,24 @@ export default class Aesthetic {
     this.themes[themeName] = theme;
 
     if (globalSheet) {
-      this.globalSheets[themeName] = this.validateDefinition(themeName, globalSheet);
+      this.globalSheets[themeName] = this.validateDefinition(
+        themeName,
+        globalSheet,
+      ) as GlobalSheetFactory<ThemeSheet>;
     }
 
     return this;
+  }
+
+  /**
+   * Reset state back to defaults for use within testing.
+   */
+  resetForTesting() {
+    this.globalSheets = {};
+    this.parents = {};
+    this.styleSheets = {};
+    this.themes = {};
+    this.configure(DEFAULT_OPTIONS);
   }
 
   /**

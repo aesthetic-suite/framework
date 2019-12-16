@@ -9,8 +9,8 @@ import ThemeContext from './ThemeContext';
 import ThemeProvider from './ThemeProvider';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
-import withStylesFactory from './withStylesFactory';
-import withThemeFactory from './withThemeFactory';
+import withStyles from './withStyles';
+import withTheme from './withTheme';
 
 export * from './types';
 
@@ -21,6 +21,6 @@ export {
   ThemeProvider,
   useStyles,
   useTheme,
-  withStylesFactory,
-  withThemeFactory,
+  withStyles,
+  withTheme,
 };

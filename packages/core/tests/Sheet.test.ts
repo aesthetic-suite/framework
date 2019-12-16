@@ -1,6 +1,4 @@
-import Ruleset from '../src/Ruleset';
-import Sheet from '../src/Sheet';
-import { Block } from '../src/types';
+import { Ruleset, Sheet, Block } from '../src';
 
 describe('Sheet', () => {
   let sheet: Sheet<Block>;

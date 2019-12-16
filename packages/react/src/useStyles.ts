@@ -41,7 +41,7 @@ export default function useStyles<T>(
 
   // Flush styles on mount
   useSideEffect(() => {
-    aesthetic.flushStyles(styleName);
+    aesthetic.getAdapter().flushStyles(styleName);
   }, [dir, styleName, themeName]);
 
   // Create a CSS transformer
