@@ -180,11 +180,11 @@ exports[`FelaAdapter LTR style sheet handles pseudo selectors 1`] = `
 exports[`FelaAdapter LTR style sheet handles pseudo selectors 2`] = `"a b c"`;
 
 exports[`FelaAdapter LTR style sheet handles raw CSS 1`] = `
-".felaadapter-button {display: 'block'; font-size: 16px; text-align: 'left';}
-.felaadapter-button:hover {color: 'red';}
-.felaadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.felaadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.felaadapter-button {display: 'flex';}}"
+".fela-button {display: 'block'; font-size: 16px; text-align: 'left';}
+.fela-button:hover {color: 'red';}
+.fela-button {vertical-align: 'middle';}
+@media (max-width:600px) {.fela-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.fela-button {display: 'flex';}}"
 `;
 
 exports[`FelaAdapter LTR style sheet handles raw CSS 2`] = `""`;
@@ -369,11 +369,11 @@ exports[`FelaAdapter RTL style sheet handles pseudo selectors 1`] = `
 exports[`FelaAdapter RTL style sheet handles pseudo selectors 2`] = `"a b c"`;
 
 exports[`FelaAdapter RTL style sheet handles raw CSS 1`] = `
-".felaadapter-button {display: 'block'; font-size: 16px; text-align: 'right';}
-.felaadapter-button:hover {color: 'red';}
-.felaadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.felaadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.felaadapter-button {display: 'flex';}}"
+".fela-button {display: 'block'; font-size: 16px; text-align: 'right';}
+.fela-button:hover {color: 'red';}
+.fela-button {vertical-align: 'middle';}
+@media (max-width:600px) {.fela-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.fela-button {display: 'flex';}}"
 `;
 
 exports[`FelaAdapter RTL style sheet handles raw CSS 2`] = `""`;

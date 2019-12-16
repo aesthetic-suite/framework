@@ -1,3 +1,10 @@
+# 5.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 5.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+
 # 4.0.0 - 2019-07-07
 
 #### 💥 Breaking

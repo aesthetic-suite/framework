@@ -183,11 +183,11 @@ exports[`JSSAdapter LTR style sheet handles pseudo selectors 1`] = `
 exports[`JSSAdapter LTR style sheet handles pseudo selectors 2`] = `"pseudo-0-16-1"`;
 
 exports[`JSSAdapter LTR style sheet handles raw CSS 1`] = `
-".jssadapter-button {display: 'block'; font-size: 16px; text-align: 'left';}
-.jssadapter-button:hover {color: 'red';}
-.jssadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.jssadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jssadapter-button {display: 'flex';}}"
+".jss-button {display: 'block'; font-size: 16px; text-align: 'left';}
+.jss-button:hover {color: 'red';}
+.jss-button {vertical-align: 'middle';}
+@media (max-width:600px) {.jss-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jss-button {display: 'flex';}}"
 `;
 
 exports[`JSSAdapter LTR style sheet handles raw CSS 2`] = `""`;
@@ -375,11 +375,11 @@ exports[`JSSAdapter RTL style sheet handles pseudo selectors 1`] = `
 exports[`JSSAdapter RTL style sheet handles pseudo selectors 2`] = `"pseudo-0-40-1"`;
 
 exports[`JSSAdapter RTL style sheet handles raw CSS 1`] = `
-".jssadapter-button {display: 'block'; font-size: 16px; text-align: 'right';}
-.jssadapter-button:hover {color: 'red';}
-.jssadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.jssadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jssadapter-button {display: 'flex';}}"
+".jss-button {display: 'block'; font-size: 16px; text-align: 'right';}
+.jss-button:hover {color: 'red';}
+.jss-button {vertical-align: 'middle';}
+@media (max-width:600px) {.jss-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.jss-button {display: 'flex';}}"
 `;
 
 exports[`JSSAdapter RTL style sheet handles raw CSS 2`] = `""`;

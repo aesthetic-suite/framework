@@ -112,11 +112,11 @@ exports[`AphroditeAdapter LTR style sheet handles pseudo selectors 1`] = `
 exports[`AphroditeAdapter LTR style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
 
 exports[`AphroditeAdapter LTR style sheet handles raw CSS 1`] = `
-".aphroditeadapter-button {display: 'block'; font-size: 16px; text-align: 'left';}
-.aphroditeadapter-button:hover {color: 'red';}
-.aphroditeadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.aphroditeadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphroditeadapter-button {display: 'flex';}}"
+".aphrodite-button {display: 'block'; font-size: 16px; text-align: 'left';}
+.aphrodite-button:hover {color: 'red';}
+.aphrodite-button {vertical-align: 'middle';}
+@media (max-width:600px) {.aphrodite-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphrodite-button {display: 'flex';}}"
 `;
 
 exports[`AphroditeAdapter LTR style sheet handles raw CSS 2`] = `""`;
@@ -233,11 +233,11 @@ exports[`AphroditeAdapter RTL style sheet handles pseudo selectors 1`] = `
 exports[`AphroditeAdapter RTL style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
 
 exports[`AphroditeAdapter RTL style sheet handles raw CSS 1`] = `
-".aphroditeadapter-button {display: 'block'; font-size: 16px; text-align: 'right';}
-.aphroditeadapter-button:hover {color: 'red';}
-.aphroditeadapter-button {vertical-align: 'middle';}
-@media (max-width:600px) {.aphroditeadapter-button {display: 'none';}}
-@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphroditeadapter-button {display: 'flex';}}"
+".aphrodite-button {display: 'block'; font-size: 16px; text-align: 'right';}
+.aphrodite-button:hover {color: 'red';}
+.aphrodite-button {vertical-align: 'middle';}
+@media (max-width:600px) {.aphrodite-button {display: 'none';}}
+@supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphrodite-button {display: 'flex';}}"
 `;
 
 exports[`AphroditeAdapter RTL style sheet handles raw CSS 2`] = `""`;

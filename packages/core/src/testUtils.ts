@@ -105,7 +105,7 @@ export function renderAndExpect(
 ) {
   const name = global
     ? GLOBAL_STYLE_NAME
-    : adapter.constructor.name.replace('Aesthetic', '').toLowerCase();
+    : adapter.constructor.name.replace('Adapter', '').toLowerCase();
   const options = { name, dir };
   const convertedSheet = global
     ? adapter.syntax.convertGlobalSheet(styleSheet, options).toObject()

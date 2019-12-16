@@ -1,7 +1,10 @@
-### 5.0.0
+# 5.0.0
 
 #### 💥 Breaking
 
+- Rewritten to support the
+  [core 5.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Adapter no longer extends `Aesthetic` and does not accept options in the constructor.
 - Updated `jss` peer requirement to v10.
 
 ### 4.0.1 - 2019-09-15

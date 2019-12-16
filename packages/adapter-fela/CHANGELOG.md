@@ -2,6 +2,9 @@
 
 #### 💥 Breaking
 
+- Rewritten to support the
+  [core 5.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Adapter no longer extends `Aesthetic` and does not accept options in the constructor.
 - Updated `fela` and `fela-dom` peer requirement to v11.
 
 ### 4.0.1 - 2019-09-15
