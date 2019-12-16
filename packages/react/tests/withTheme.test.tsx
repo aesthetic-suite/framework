@@ -6,7 +6,7 @@ import withTheme from '../src/withTheme';
 import ThemeProvider from '../src/ThemeProvider';
 import { ThemeProviderProps } from '../src/types';
 
-describe('withThemeFactory()', () => {
+describe('withTheme()', () => {
   beforeEach(() => {
     setupAesthetic(aesthetic);
   });

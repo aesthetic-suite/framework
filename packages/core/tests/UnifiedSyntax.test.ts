@@ -474,7 +474,7 @@ describe('UnifiedSyntax', () => {
       expect(() => {
         syntax.convertRuleset(
           {
-            // @ts-ignore Allow
+            // @ts-ignore Allow invalid type
             '@unknown': {},
           },
           ruleset,

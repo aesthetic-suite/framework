@@ -5,22 +5,21 @@ import ReactDOM from 'react-dom';
 import { createRenderer as createFela } from 'fela';
 import felaPreset from 'fela-preset-web';
 import { create as createJSS } from 'jss';
-// @ts-ignore
 import jssPreset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
-import Aesthetic from 'aesthetic';
+import aesthetic, { Adapter, StyleSheet } from 'aesthetic';
 import {
-  useStylesFactory,
-  useThemeFactory,
-  withStylesFactory,
+  useStyles,
+  useTheme,
+  withStyles,
   WithStylesWrappedProps,
   ThemeProvider,
   DirectionProvider,
 } from 'aesthetic-react';
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
-import FelaAesthetic from 'aesthetic-adapter-fela';
-import JSSAesthetic from 'aesthetic-adapter-jss';
-import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
+import FelaAdapter from 'aesthetic-adapter-fela';
+import JSSAdapter from 'aesthetic-adapter-jss';
+import TypeStyleAdapter from 'aesthetic-adapter-typestyle';
 
 // SETUP THEMES
 
@@ -33,47 +32,81 @@ interface Theme {
 }
 
 const params = new URLSearchParams(location.search.slice(1));
+const chosenAdapter = params.get('adapter') || 'aphrodite';
 const activeTheme = params.get('theme') || 'light';
 const dirMode = params.get('mode') || 'ltr';
 
-function registerThemes(aesthetic: Aesthetic<Theme, any, any>) {
-  if (aesthetic.themes.light) {
-    return;
-  }
+// SETUP AESTHETIC ADAPTERS
 
-  aesthetic.registerTheme(
-    'default',
-    {
-      unit: 8,
-      fg: '#fff',
-      bg: '#B0BEC5',
-      bgHover: '#CFD8DC',
-      primary: '#29B6F6',
-    },
-    ({ unit }) => ({
-      '@global': {
-        'html, body': {
-          padding: 0,
-          margin: 0,
-        },
-        body: {
-          padding: unit,
-          fontFamily: 'Tahoma',
-        },
+const adapters = {
+  aphrodite: () => new AphroditeAdapter([]),
+  fela: () =>
+    new FelaAdapter(
+      createFela({
+        plugins: [...felaPreset],
+      }),
+    ),
+  jss: () => new JSSAdapter(createJSS(jssPreset())),
+  typeStyle: () => new TypeStyleAdapter(new TypeStyle({ autoGenerateTag: true })),
+};
+
+if (adapters[chosenAdapter]) {
+  const adapter = adapters[chosenAdapter]();
+
+  aesthetic.configure({
+    adapter,
+    rtl: dirMode === 'rtl',
+    theme: activeTheme,
+  });
+
+  console.log('Aesthetic', aesthetic);
+  console.log('Adapter', adapter);
+} else {
+  throw new Error('Invalid adapter!');
+}
+
+// SETUP AESTHETIC
+
+aesthetic.registerTheme(
+  'default',
+  {
+    unit: 8,
+    fg: '#fff',
+    bg: '#B0BEC5',
+    bgHover: '#CFD8DC',
+    primary: '#29B6F6',
+  },
+  ({ unit }) => ({
+    '@global': {
+      'html, body': {
+        padding: 0,
+        margin: 0,
       },
-    }),
-  );
+      body: {
+        padding: unit,
+        fontFamily: 'Tahoma',
+      },
+    },
+  }),
+);
 
-  aesthetic.extendTheme('light', 'default', {});
-  aesthetic.extendTheme('dark', 'default', {
+aesthetic.registerTheme('light', {}, null, 'default');
+
+aesthetic.registerTheme(
+  'dark',
+  {
     fg: '#eee',
     bg: '#212121',
     bgHover: '#424242',
     primary: '#01579B',
-  });
-}
+  },
+  null,
+  'default',
+);
 
-function styleSheet({ unit, bg, bgHover, fg, primary }: Theme): any {
+// SETUP STYLES
+
+function styleSheet({ unit, bg, bgHover, fg, primary }: Theme): StyleSheet {
   return {
     button: {
       display: 'inline-block',
@@ -104,29 +137,6 @@ function styleSheet({ unit, bg, bgHover, fg, primary }: Theme): any {
   };
 }
 
-// SETUP AESTHETIC ADAPTERS
-
-const options = { theme: activeTheme, rtl: dirMode === 'rtl' };
-
-const aphrodite = new AphroditeAesthetic([], options);
-
-const fela = new FelaAesthetic(
-  createFela({
-    plugins: [...felaPreset],
-  }),
-  options,
-);
-
-const jss = new JSSAesthetic(
-  createJSS(
-    // @ts-ignore
-    jssPreset(),
-  ),
-  options,
-);
-
-const typeStyle = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }), options);
-
 // DEFINE HOC COMPONENT
 
 interface HocProps {
@@ -134,31 +144,25 @@ interface HocProps {
   primary?: boolean;
 }
 
-function createHocComponent(aesthetic: Aesthetic<Theme, any, any>) {
-  registerThemes(aesthetic);
+function BaseButton({
+  children,
+  cx,
+  styles,
+  theme,
+  primary = false,
+}: HocProps & WithStylesWrappedProps) {
+  const className = cx(styles.button, primary && styles.button__primary);
 
-  const withStyles = withStylesFactory(aesthetic);
+  console.log('HocButton', { styles, theme, className });
 
-  function Button({
-    children,
-    cx,
-    styles,
-    theme,
-    primary = false,
-  }: HocProps & WithStylesWrappedProps<Theme, any, any>) {
-    const className = cx(styles.button, primary && styles.button__primary);
-
-    console.log(aesthetic.constructor.name, 'HocButton', { styles, theme, className });
-
-    return (
-      <button type="button" className={className}>
-        {children}
-      </button>
-    );
-  }
-
-  return withStyles(styleSheet, { passThemeProp: true })(Button);
+  return (
+    <button type="button" className={className}>
+      {children}
+    </button>
+  );
 }
+
+const HocButton = withStyles(styleSheet, { passThemeProp: true })(BaseButton);
 
 // DEFINE HOOK COMPONENT
 
@@ -167,45 +171,28 @@ interface HookProps {
   primary?: boolean;
 }
 
-function createHookComponent(aesthetic: Aesthetic<Theme, any, any>) {
-  registerThemes(aesthetic);
+function HookButton({ children, primary = false }: HookProps) {
+  const [styles, cx] = useStyles(styleSheet);
+  const theme = useTheme();
+  const className = cx(styles.button, primary && styles.button__primary);
 
-  const useStyles = useStylesFactory(aesthetic);
-  const useTheme = useThemeFactory(aesthetic);
+  console.log('HookButton', { styles, theme, className });
 
-  return function Button({ children, primary = false }: HookProps) {
-    const [styles, cx] = useStyles(styleSheet);
-    const theme = useTheme();
-    const className = cx(styles.button, primary && styles.button__primary);
-
-    console.log(aesthetic.constructor.name, 'HookButton', { styles, theme, className });
-
-    return (
-      <button type="button" className={className}>
-        {children}
-      </button>
-    );
-  };
+  return (
+    <button type="button" className={className}>
+      {children}
+    </button>
+  );
 }
 
 // RENDER DEMO APP
 
-function DemoColumn({
-  aesthetic,
-  title,
-  theme,
-  dir,
-}: {
-  aesthetic: Aesthetic<any, any>;
-  title: string;
-  theme?: string;
-  dir?: 'ltr' | 'rtl';
-}) {
-  const HocButton = createHocComponent(aesthetic);
-  const HookButton = createHookComponent(aesthetic);
+function DemoColumn({ theme, dir }: { theme?: string; dir?: 'ltr' | 'rtl' }) {
   let content = (
     <div>
-      <h3>{title}</h3>
+      <h3>
+        {theme} + {dir}
+      </h3>
 
       <p>
         <HocButton>HOC</HocButton>
@@ -220,19 +207,11 @@ function DemoColumn({
   );
 
   if (theme) {
-    content = (
-      <ThemeProvider aesthetic={aesthetic} name={theme}>
-        {content}
-      </ThemeProvider>
-    );
+    content = <ThemeProvider name={theme}>{content}</ThemeProvider>;
   }
 
   if (dir) {
-    content = (
-      <DirectionProvider aesthetic={aesthetic} dir={dir}>
-        {content}
-      </DirectionProvider>
-    );
+    content = <DirectionProvider dir={dir}>{content}</DirectionProvider>;
   }
 
   return <div style={{ marginRight: 25 }}>{content}</div>;
@@ -242,31 +221,42 @@ function App() {
   const otherTheme = activeTheme === 'light' ? 'dark' : 'light';
   const otherDir = dirMode === 'ltr' ? 'rtl' : 'ltr';
 
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    params.set('adapter', event.currentTarget.value);
+
+    location.href = `${location.pathname}?${params.toString()}`;
+  };
+
   return (
     <div>
       <div style={{ display: 'flex' }}>
-        <DemoColumn aesthetic={aphrodite} title="Aphrodite" />
-        <DemoColumn aesthetic={fela} title="Fela" />
-        <DemoColumn aesthetic={jss} title="JSS" />
-        <DemoColumn aesthetic={typeStyle} title="TypeStyle" />
+        <div>
+          <DemoColumn theme={activeTheme} dir={dirMode as 'ltr'} />
+        </div>
+
+        <div>
+          <DemoColumn theme={otherTheme} dir={otherDir} />
+        </div>
       </div>
 
       <br />
 
-      <div style={{ display: 'flex' }}>
-        <DemoColumn aesthetic={aphrodite} title="Aphrodite" theme={otherTheme} dir={otherDir} />
-        <DemoColumn aesthetic={fela} title="Fela" theme={otherTheme} dir={otherDir} />
-        <DemoColumn aesthetic={jss} title="JSS" theme={otherTheme} dir={otherDir} />
-        <DemoColumn aesthetic={typeStyle} title="TypeStyle" theme={otherTheme} dir={otherDir} />
-      </div>
-
-      <h3>
+      <h4>
         Theme: {activeTheme} (<a href={`?theme=${otherTheme}`}>Switch</a>)
-      </h3>
+      </h4>
 
-      <h3>
+      <h4>
         Mode: {dirMode} (<a href={`?mode=${otherDir}`}>Switch</a>)
-      </h3>
+      </h4>
+
+      <h4>
+        Adapter:{' '}
+        <select defaultValue={chosenAdapter} onChange={handleChange}>
+          {Object.keys(adapters).map(key => (
+            <option value={key}>{key}</option>
+          ))}
+        </select>
+      </h4>
     </div>
   );
 }

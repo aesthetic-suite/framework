@@ -239,7 +239,7 @@ describe('Adapter', () => {
       const processSpy = jest.spyOn(instance, 'parseStyleSheet');
       const flushSpy = jest.spyOn(instance, 'flushStyles');
 
-      // @ts-ignore
+      // @ts-ignore Allow overload
       instance.isParsedBlock = () => false;
       instance.transformStyles([{ color: 'red' }, { display: 'block' }], {});
 

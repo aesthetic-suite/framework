@@ -66,7 +66,6 @@ describe('JSSAdapter', () => {
         );
         expect(getFlushedStyles()).toMatchSnapshot();
 
-        // @ts-ignore Allow null
         expect(instance.transformStyles(['foo', null], { dir })).toBe('foo');
         expect(getFlushedStyles()).toMatchSnapshot();
       });

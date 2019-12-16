@@ -7,7 +7,7 @@ import ThemeProvider from '../src/ThemeProvider';
 import withStyles from '../src/withStyles';
 import { ThemeProviderProps, DirectionProviderProps } from '../src/types';
 
-describe('withStylesFactory()', () => {
+describe('withStyles()', () => {
   beforeEach(() => {
     setupAesthetic(aesthetic);
   });

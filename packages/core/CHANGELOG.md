@@ -12,7 +12,7 @@ instantiated.
 - **[TS]** Theme objects are no longer typed through adapters and instead use generic inferrence.
   This is a stop-gap until the new design system layer is implemented in the next version.
 - **[TS]** Updated `Aesthetic#options` to be read-only.
-- **[TS]** Renamed `StyleSheetDefinition` to `StyleSheetFactory`.
+- **[TS]** Renamed `GlobalSheetDefinition` to `GlobalSheetFactory`.
 - **[TS]** Renamed `StyleSheetDefinition` to `StyleSheetFactory`.
 
 #### 🚀 Updates
