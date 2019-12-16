@@ -1,10 +1,10 @@
 /* eslint-disable jest/expect-expect */
 
 import { create } from 'jss';
-// @ts-ignore
 import preset from 'jss-preset-default';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -35,19 +35,21 @@ import {
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
-import JSSAesthetic from '../src/JSSAesthetic';
+} from 'aesthetic/lib/testing';
+import JSSAdapter from '../src/JSSAdapter';
 
 jest.mock('uuid/v4', () => () => 'uuid');
 
-describe('JSSAesthetic', () => {
-  let instance: JSSAesthetic<{}>;
+describe('JSSAdapter', () => {
+  let instance: JSSAdapter;
 
   beforeEach(() => {
     const jss = create();
     jss.setup(preset());
 
-    instance = new JSSAesthetic(jss);
+    instance = new JSSAdapter(jss);
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {
@@ -64,7 +66,6 @@ describe('JSSAesthetic', () => {
         );
         expect(getFlushedStyles()).toMatchSnapshot();
 
-        // @ts-ignore Allow null
         expect(instance.transformStyles(['foo', null], { dir })).toBe('foo');
         expect(getFlushedStyles()).toMatchSnapshot();
       });

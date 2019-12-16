@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import TypeStyleAesthetic from './TypeStyleAesthetic';
+import TypeStyleAdapter from './TypeStyleAdapter';
 
 export * from './types';
 
-export default TypeStyleAesthetic;
+export default TypeStyleAdapter;

@@ -1,3 +1,17 @@
+# 2.0.0
+
+#### 💥 Breaking
+
+- Rewritten to support the
+  [core 5.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
+- Hooks and HOCs are no longer factories and can be used as-is when imported.
+  - `useStylesFactory` -> `useStyles`
+  - `useThemeFactory` -> `useTheme`
+  - `withStylesFactory` -> `withStyles`
+  - `withThemeFactory` -> `withTheme`
+- Removed the `aesthetic` prop from `DirectionProvider` and `ThemeProvider`.
+- **[TS]** The `StyledComponent` type no longer accepts a theme generic.
+
 ### 1.1.3 - 2019-09-23
 
 #### ⚙️ Types

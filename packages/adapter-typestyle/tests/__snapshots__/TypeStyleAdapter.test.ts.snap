@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 1`] = `
+exports[`TypeStyleAdapter LTR global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0;}
 html {height: 100%;}
 a {color: red;}
@@ -10,11 +10,11 @@ ul,ul> li {margin: 0;}
 @media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 2`] = `""`;
+exports[`TypeStyleAdapter LTR global sheet flushes and purges global styles from the DOM 2`] = `""`;
 
-exports[`TypeStyleAesthetic LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
+exports[`TypeStyleAdapter LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
-exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+exports[`TypeStyleAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; local: Robo; src-paths: fonts/Roboto.ttf;}
 @keyframes f1gwuh0p { 
   from {opacity: 0;} 
@@ -26,49 +26,49 @@ exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native sy
 @media (max-width: 600px) {.button_f1sm9ltv {padding: 4px 8px;}}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_f1sm9ltv"`;
+exports[`TypeStyleAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_f1sm9ltv"`;
 
-exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
+exports[`TypeStyleAdapter LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
 
-exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
+exports[`TypeStyleAdapter LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
 
-exports[`TypeStyleAesthetic LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`TypeStyleAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
+exports[`TypeStyleAdapter LTR style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @fallbacks 2`] = `"fallback_f35p7vi"`;
+exports[`TypeStyleAdapter LTR style sheet handles @fallbacks 2`] = `"fallback_f35p7vi"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @media 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles @media 1`] = `
 ".media_f7f3kmp {color: red; padding-left: 10px;}
 @media (min-width: 300px) {.media_f7f3kmp {color: blue; padding-left: 15px;}}
 @media (max-width: 1000px) {.media_f7f3kmp {color: green; padding-left: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @media 2`] = `"media_f7f3kmp"`;
+exports[`TypeStyleAdapter LTR style sheet handles @media 2`] = `"media_f7f3kmp"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @supports 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles @supports 1`] = `
 ".sup_f6m6wzj {display: block;}
 @supports (display: flex) {.sup_f6m6wzj {display: flex;}}
 @supports not (display: flex) {.sup_f6m6wzj {float: left;}}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles @supports 2`] = `"sup_f6m6wzj"`;
+exports[`TypeStyleAdapter LTR style sheet handles @supports 2`] = `"sup_f6m6wzj"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles attribute selectors 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles attribute selectors 1`] = `
 ".attr_f14zstro {display: block;}
 .attr_f14zstro[disabled] {opacity: 0.5;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles attribute selectors 2`] = `"attr_f14zstro"`;
+exports[`TypeStyleAdapter LTR style sheet handles attribute selectors 2`] = `"attr_f14zstro"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles descendant selectors 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles descendant selectors 1`] = `
 ".list_f1qve63s {margin: 0; padding: 0;}
 .list_f1qve63s> li {list-style: bullet;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
+exports[`TypeStyleAdapter LTR style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles inline @font-face 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles inline @font-face 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 @font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
@@ -78,9 +78,9 @@ exports[`TypeStyleAesthetic LTR style sheet handles inline @font-face 1`] = `
 .multiple_fqopoa {font-family: Circular, OtherFont, Roboto;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles inline @font-face 2`] = `"single_f2gbr4s multiple_fqopoa"`;
+exports[`TypeStyleAdapter LTR style sheet handles inline @font-face 2`] = `"single_f2gbr4s multiple_fqopoa"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles inline @keyframes 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles inline @keyframes 1`] = `
 "@keyframes f1pf291g { 
   0% {left: 0%;} 
   100% {left: 100%;} 
@@ -94,35 +94,35 @@ exports[`TypeStyleAesthetic LTR style sheet handles inline @keyframes 1`] = `
 .multiple_f1tug0x9 {animation-name: f1pf291g, unknown, f1gwuh0p;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles inline @keyframes 2`] = `"single_f1pc593z multiple_f1tug0x9"`;
+exports[`TypeStyleAdapter LTR style sheet handles inline @keyframes 2`] = `"single_f1pc593z multiple_f1tug0x9"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles multiple selectors (comma separated) 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi_fkkhpct {cursor: pointer;}
 .multi_fkkhpct:disabled,.multi_fkkhpct[disabled],.multi_fkkhpct> span {cursor: default;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles multiple selectors (comma separated) 2`] = `"multi_fkkhpct"`;
+exports[`TypeStyleAdapter LTR style sheet handles multiple selectors (comma separated) 2`] = `"multi_fkkhpct"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles nested @media 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles nested @media 1`] = `
 ".media_fuxmg1k {color: red;}
 @media (min-width: 300px) {.media_fuxmg1k {color: blue;}@media (max-width: 1000px) {.media_fuxmg1k {color: green;}}}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles nested @media 2`] = `"media_fuxmg1k"`;
+exports[`TypeStyleAdapter LTR style sheet handles nested @media 2`] = `"media_fuxmg1k"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles properties 1`] = `".props_f1tfh618 {color: black; display: inline; margin-right: 10px; padding: 0;}"`;
+exports[`TypeStyleAdapter LTR style sheet handles properties 1`] = `".props_f1tfh618 {color: black; display: inline; margin-right: 10px; padding: 0;}"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles properties 2`] = `"props_f1tfh618"`;
+exports[`TypeStyleAdapter LTR style sheet handles properties 2`] = `"props_f1tfh618"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles pseudo selectors 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles pseudo selectors 1`] = `
 ".pseudo_fmow1iy {position: fixed;}
 .pseudo_fmow1iy:hover {position: static;}
 .pseudo_fmow1iy::before {position: absolute;}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles pseudo selectors 2`] = `"pseudo_fmow1iy"`;
+exports[`TypeStyleAdapter LTR style sheet handles pseudo selectors 2`] = `"pseudo_fmow1iy"`;
 
-exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `
+exports[`TypeStyleAdapter LTR style sheet handles raw CSS 1`] = `
 ".typestyle-button {display: 'block'; font-size: 16px; text-align: 'left';}
 .typestyle-button:hover {color: 'red';}
 .typestyle-button {vertical-align: 'middle';}
@@ -130,9 +130,9 @@ exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 1`] = `
 @supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.typestyle-button {display: 'flex';}}"
 `;
 
-exports[`TypeStyleAesthetic LTR style sheet handles raw CSS 2`] = `""`;
+exports[`TypeStyleAdapter LTR style sheet handles raw CSS 2`] = `""`;
 
-exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 1`] = `
+exports[`TypeStyleAdapter RTL global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0;}
 html {height: 100%;}
 a {color: red;}
@@ -142,11 +142,11 @@ ul,ul> li {margin: 0;}
 @media (max-width: 500px) {ul {margin: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 2`] = `""`;
+exports[`TypeStyleAdapter RTL global sheet flushes and purges global styles from the DOM 2`] = `""`;
 
-exports[`TypeStyleAesthetic RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
+exports[`TypeStyleAdapter RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
-exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+exports[`TypeStyleAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; local: Robo; src-paths: fonts/Roboto.ttf;}
 @keyframes f1gwuh0p { 
   from {opacity: 0;} 
@@ -158,49 +158,49 @@ exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native sy
 @media (max-width: 600px) {.button_fjoi737 {padding: 4px 8px;}}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_fjoi737"`;
+exports[`TypeStyleAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_fjoi737"`;
 
-exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
+exports[`TypeStyleAdapter RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_fcmecz0 {display: block;}"`;
 
-exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
+exports[`TypeStyleAdapter RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_fcmecz0"`;
 
-exports[`TypeStyleAesthetic RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`TypeStyleAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
+exports[`TypeStyleAdapter RTL style sheet handles @fallbacks 1`] = `".fallback_f35p7vi {background: linear-gradient(...); color: blue; display: flex;}"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @fallbacks 2`] = `"fallback_f35p7vi"`;
+exports[`TypeStyleAdapter RTL style sheet handles @fallbacks 2`] = `"fallback_f35p7vi"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @media 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles @media 1`] = `
 ".media_f8c0g22 {color: red; padding-right: 10px;}
 @media (min-width: 300px) {.media_f8c0g22 {color: blue; padding-right: 15px;}}
 @media (max-width: 1000px) {.media_f8c0g22 {color: green; padding-right: 20px;}}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @media 2`] = `"media_f8c0g22"`;
+exports[`TypeStyleAdapter RTL style sheet handles @media 2`] = `"media_f8c0g22"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @supports 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles @supports 1`] = `
 ".sup_f7hcf0k {display: block;}
 @supports (display: flex) {.sup_f7hcf0k {display: flex;}}
 @supports not (display: flex) {.sup_f7hcf0k {float: right;}}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles @supports 2`] = `"sup_f7hcf0k"`;
+exports[`TypeStyleAdapter RTL style sheet handles @supports 2`] = `"sup_f7hcf0k"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles attribute selectors 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles attribute selectors 1`] = `
 ".attr_f14zstro {display: block;}
 .attr_f14zstro[disabled] {opacity: 0.5;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles attribute selectors 2`] = `"attr_f14zstro"`;
+exports[`TypeStyleAdapter RTL style sheet handles attribute selectors 2`] = `"attr_f14zstro"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles descendant selectors 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles descendant selectors 1`] = `
 ".list_f1qve63s {margin: 0; padding: 0;}
 .list_f1qve63s> li {list-style: bullet;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
+exports[`TypeStyleAdapter RTL style sheet handles descendant selectors 2`] = `"list_f1qve63s"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles inline @font-face 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles inline @font-face 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 @font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
@@ -210,9 +210,9 @@ exports[`TypeStyleAesthetic RTL style sheet handles inline @font-face 1`] = `
 .multiple_fqopoa {font-family: Circular, OtherFont, Roboto;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles inline @font-face 2`] = `"single_f2gbr4s multiple_fqopoa"`;
+exports[`TypeStyleAdapter RTL style sheet handles inline @font-face 2`] = `"single_f2gbr4s multiple_fqopoa"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles inline @keyframes 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles inline @keyframes 1`] = `
 "@keyframes fx4te0v { 
   0% {right: 0%;} 
   100% {right: 100%;} 
@@ -226,35 +226,35 @@ exports[`TypeStyleAesthetic RTL style sheet handles inline @keyframes 1`] = `
 .multiple_f1cpoezw {animation-name: fx4te0v, unknown, f1gwuh0p;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles inline @keyframes 2`] = `"single_f1imdx9a multiple_f1cpoezw"`;
+exports[`TypeStyleAdapter RTL style sheet handles inline @keyframes 2`] = `"single_f1imdx9a multiple_f1cpoezw"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles multiple selectors (comma separated) 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi_fkkhpct {cursor: pointer;}
 .multi_fkkhpct:disabled,.multi_fkkhpct[disabled],.multi_fkkhpct> span {cursor: default;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles multiple selectors (comma separated) 2`] = `"multi_fkkhpct"`;
+exports[`TypeStyleAdapter RTL style sheet handles multiple selectors (comma separated) 2`] = `"multi_fkkhpct"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles nested @media 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles nested @media 1`] = `
 ".media_fuxmg1k {color: red;}
 @media (min-width: 300px) {.media_fuxmg1k {color: blue;}@media (max-width: 1000px) {.media_fuxmg1k {color: green;}}}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles nested @media 2`] = `"media_fuxmg1k"`;
+exports[`TypeStyleAdapter RTL style sheet handles nested @media 2`] = `"media_fuxmg1k"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles properties 1`] = `".props_f1jaotx3 {color: black; display: inline; margin-left: 10px; padding: 0;}"`;
+exports[`TypeStyleAdapter RTL style sheet handles properties 1`] = `".props_f1jaotx3 {color: black; display: inline; margin-left: 10px; padding: 0;}"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles properties 2`] = `"props_f1jaotx3"`;
+exports[`TypeStyleAdapter RTL style sheet handles properties 2`] = `"props_f1jaotx3"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles pseudo selectors 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles pseudo selectors 1`] = `
 ".pseudo_fmow1iy {position: fixed;}
 .pseudo_fmow1iy:hover {position: static;}
 .pseudo_fmow1iy::before {position: absolute;}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles pseudo selectors 2`] = `"pseudo_fmow1iy"`;
+exports[`TypeStyleAdapter RTL style sheet handles pseudo selectors 2`] = `"pseudo_fmow1iy"`;
 
-exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 1`] = `
+exports[`TypeStyleAdapter RTL style sheet handles raw CSS 1`] = `
 ".typestyle-button {display: 'block'; font-size: 16px; text-align: 'right';}
 .typestyle-button:hover {color: 'red';}
 .typestyle-button {vertical-align: 'middle';}
@@ -262,4 +262,4 @@ exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 1`] = `
 @supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.typestyle-button {display: 'flex';}}"
 `;
 
-exports[`TypeStyleAesthetic RTL style sheet handles raw CSS 2`] = `""`;
+exports[`TypeStyleAdapter RTL style sheet handles raw CSS 2`] = `""`;

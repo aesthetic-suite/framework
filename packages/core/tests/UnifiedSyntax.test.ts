@@ -1,9 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import UnifiedSyntax from '../src/UnifiedSyntax';
-import Ruleset from '../src/Ruleset';
-import Sheet from '../src/Sheet';
-import { Properties } from '../src/types';
+import { Ruleset, Sheet, UnifiedSyntax, Properties } from '../src';
 import {
   FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
   FONT_CIRCULAR_MULTIPLE,
@@ -30,7 +27,7 @@ import {
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../src/testUtils';
+} from '../src/testing';
 
 function createTestRulesets(selector: string, data: unknown[]): Ruleset<{}>[] {
   return data.map(item => {
@@ -477,7 +474,7 @@ describe('UnifiedSyntax', () => {
       expect(() => {
         syntax.convertRuleset(
           {
-            // @ts-ignore Allow
+            // @ts-ignore Allow invalid type
             '@unknown': {},
           },
           ruleset,

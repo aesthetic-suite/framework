@@ -1,7 +1,7 @@
-import Aesthetic from './Aesthetic';
+import Adapter from './Adapter';
 import { ClassName, SheetMap } from './types';
 
-export default class TestAesthetic<Theme extends object = {}> extends Aesthetic<Theme, {}, string> {
+export default class TestAdapter extends Adapter<{}, string> {
   isParsedBlock(block: unknown): block is string {
     return typeof block === 'string';
   }

@@ -1,27 +1,23 @@
 import React from 'react';
 import { render } from 'rut-dom';
-import {
-  TestAesthetic,
-  registerTestTheme,
-  TEST_STATEMENT,
-  TestTheme,
-} from 'aesthetic/lib/testUtils';
+import aesthetic from 'aesthetic';
+import { setupAesthetic, teardownAesthetic, TEST_STATEMENT } from 'aesthetic/lib/testing';
 import DirectionProvider from '../src/DirectionProvider';
 import ThemeProvider from '../src/ThemeProvider';
-import useStylesFactory from '../src/useStylesFactory';
+import useStyles from '../src/useStyles';
 import { DirectionProviderProps, ThemeProviderProps } from '../src/types';
 
-describe('useStylesFactory()', () => {
-  let aesthetic: TestAesthetic<TestTheme>;
-  let useStyles: ReturnType<typeof useStylesFactory>;
+describe('useStyles()', () => {
   let styleName: string;
 
   beforeEach(() => {
-    aesthetic = new TestAesthetic();
-    useStyles = useStylesFactory(aesthetic) as any;
     styleName = '';
 
-    registerTestTheme(aesthetic);
+    setupAesthetic(aesthetic);
+  });
+
+  afterEach(() => {
+    teardownAesthetic(aesthetic);
   });
 
   function Component() {
@@ -54,11 +50,11 @@ describe('useStylesFactory()', () => {
 
     render<{}>(<ComponentCache />);
 
-    expect(aesthetic.styles[styleName]).toBe(styles);
+    expect(aesthetic.styleSheets[styleName]).toBe(styles);
   });
 
   it('creates a style sheet', () => {
-    const spy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const spy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
 
     render<{}>(<Component />);
 
@@ -66,7 +62,7 @@ describe('useStylesFactory()', () => {
   });
 
   it('flushes styles only once', () => {
-    const spy = jest.spyOn(aesthetic, 'flushStyles');
+    const spy = jest.spyOn(aesthetic.getAdapter(), 'flushStyles');
     const { update } = render<{}>(<Component />);
 
     update();
@@ -95,9 +91,9 @@ describe('useStylesFactory()', () => {
   });
 
   it('re-creates style sheet if theme context changes', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic}>
+      <ThemeProvider>
         <StyledComponent />
       </ThemeProvider>,
     );
@@ -118,9 +114,9 @@ describe('useStylesFactory()', () => {
   });
 
   it('re-creates style sheet if direction context changes', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const { update } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl">
+      <DirectionProvider dir="rtl">
         <StyledComponent />
       </DirectionProvider>,
     );
@@ -141,10 +137,10 @@ describe('useStylesFactory()', () => {
   });
 
   it('re-creates style sheet when both contexts change', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const { rerender } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="ltr">
-        <ThemeProvider aesthetic={aesthetic}>
+      <DirectionProvider dir="ltr">
+        <ThemeProvider>
           <StyledComponent />
         </ThemeProvider>
       </DirectionProvider>,
@@ -157,8 +153,8 @@ describe('useStylesFactory()', () => {
     });
 
     rerender(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl">
-        <ThemeProvider aesthetic={aesthetic} name="light">
+      <DirectionProvider dir="rtl">
+        <ThemeProvider name="light">
           <StyledComponent />
         </ThemeProvider>
       </DirectionProvider>,
@@ -173,11 +169,11 @@ describe('useStylesFactory()', () => {
 
   describe('RTL', () => {
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+      const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic.getAdapter(), 'transformStyles');
 
       render<DirectionProviderProps>(
-        <DirectionProvider aesthetic={aesthetic} dir="rtl">
+        <DirectionProvider dir="rtl">
           <StyledComponent />
         </DirectionProvider>,
       );
@@ -195,11 +191,11 @@ describe('useStylesFactory()', () => {
     });
 
     it('inherits `rtl` from inferred `DirectionProvider` value', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+      const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic.getAdapter(), 'transformStyles');
 
       render<DirectionProviderProps>(
-        <DirectionProvider aesthetic={aesthetic} value="بسيطة">
+        <DirectionProvider value="بسيطة">
           <StyledComponent />
         </DirectionProvider>,
       );

@@ -7,10 +7,10 @@ import DirectionContext from './DirectionContext';
 import DirectionProvider from './DirectionProvider';
 import ThemeContext from './ThemeContext';
 import ThemeProvider from './ThemeProvider';
-import useStylesFactory from './useStylesFactory';
-import useThemeFactory from './useThemeFactory';
-import withStylesFactory from './withStylesFactory';
-import withThemeFactory from './withThemeFactory';
+import useStyles from './useStyles';
+import useTheme from './useTheme';
+import withStyles from './withStyles';
+import withTheme from './withTheme';
 
 export * from './types';
 
@@ -19,8 +19,8 @@ export {
   DirectionProvider,
   ThemeContext,
   ThemeProvider,
-  useStylesFactory,
-  useThemeFactory,
-  withStylesFactory,
-  withThemeFactory,
+  useStyles,
+  useTheme,
+  withStyles,
+  withTheme,
 };

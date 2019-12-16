@@ -1,25 +1,19 @@
 import React from 'react';
 import { render } from 'rut-dom';
-import {
-  TestAesthetic,
-  registerTestTheme,
-  TEST_STATEMENT,
-  TestTheme,
-} from 'aesthetic/lib/testUtils';
+import aesthetic from 'aesthetic';
+import { setupAesthetic, teardownAesthetic, TEST_STATEMENT } from 'aesthetic/lib/testing';
 import DirectionProvider from '../src/DirectionProvider';
 import ThemeProvider from '../src/ThemeProvider';
-import withStylesFactory from '../src/withStylesFactory';
+import withStyles from '../src/withStyles';
 import { ThemeProviderProps, DirectionProviderProps } from '../src/types';
 
-describe('withStylesFactory()', () => {
-  let aesthetic: TestAesthetic<TestTheme>;
-  let withStyles: ReturnType<typeof withStylesFactory>;
-
+describe('withStyles()', () => {
   beforeEach(() => {
-    aesthetic = new TestAesthetic();
-    registerTestTheme(aesthetic);
+    setupAesthetic(aesthetic);
+  });
 
-    withStyles = withStylesFactory(aesthetic);
+  afterEach(() => {
+    teardownAesthetic(aesthetic);
   });
 
   function BaseComponent(props: any) {
@@ -32,10 +26,8 @@ describe('withStylesFactory()', () => {
 
   function WrappingComponent({ children }: { children?: React.ReactNode }) {
     return (
-      <DirectionProvider aesthetic={aesthetic} dir="ltr">
-        <ThemeProvider aesthetic={aesthetic} name="light">
-          {children || <div />}
-        </ThemeProvider>
+      <DirectionProvider dir="ltr">
+        <ThemeProvider name="light">{children || <div />}</ThemeProvider>
       </DirectionProvider>
     );
   }
@@ -95,7 +87,7 @@ describe('withStylesFactory()', () => {
 
     renderWithWrapper(<Wrapped />);
 
-    expect(aesthetic.styles[Wrapped.styleName]).toBe(styles);
+    expect(aesthetic.styleSheets[Wrapped.styleName]).toBe(styles);
   });
 
   it('can set styles using `extendStyles`', () => {
@@ -164,11 +156,15 @@ describe('withStylesFactory()', () => {
     const Wrapped = withStyles(() => ({}), { passThemeProp: true })(ThemeComponent);
     const { root } = renderWithWrapper(<Wrapped />);
 
-    expect(root.findOne(ThemeComponent)).toHaveProp('theme', { color: 'black', unit: 8 });
+    expect(root.findOne(ThemeComponent)).toHaveProp('theme', {
+      bg: 'white',
+      color: 'black',
+      unit: 8,
+    });
   });
 
   it('creates a style sheet', () => {
-    const spy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const spy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
     renderWithWrapper(<Wrapped foo="abc" />);
@@ -181,7 +177,9 @@ describe('withStylesFactory()', () => {
   });
 
   it('can customize props with options', () => {
-    aesthetic.options.passThemeProp = true;
+    aesthetic.configure({
+      passThemeProp: true,
+    });
 
     function CustomStyledComponent({ styleSheet, css }: any) {
       return <div className={css(styleSheet.header, styleSheet.footer)} />;
@@ -201,10 +199,12 @@ describe('withStylesFactory()', () => {
   });
 
   it('can customize props with the options through the `Aesthetic` instance', () => {
-    aesthetic.options.cxPropName = 'css';
-    aesthetic.options.stylesPropName = 'styleSheet';
-    aesthetic.options.themePropName = 'someThemeNameHere';
-    aesthetic.options.passThemeProp = true;
+    aesthetic.configure({
+      cxPropName: 'css',
+      stylesPropName: 'styleSheet',
+      themePropName: 'someThemeNameHere',
+      passThemeProp: true,
+    });
 
     function CustomStyledComponent({ styleSheet, css }: any) {
       return <div className={css(styleSheet.header, styleSheet.footer)} />;
@@ -261,10 +261,10 @@ describe('withStylesFactory()', () => {
   });
 
   it('re-creates style sheet if theme context changes', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic}>
+      <ThemeProvider>
         <Wrapped />
       </ThemeProvider>,
     );
@@ -285,10 +285,10 @@ describe('withStylesFactory()', () => {
   });
 
   it('re-creates style sheet if direction context changes', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
     const { update } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl">
+      <DirectionProvider dir="rtl">
         <Wrapped />
       </DirectionProvider>,
     );
@@ -309,11 +309,11 @@ describe('withStylesFactory()', () => {
   });
 
   it('re-creates style sheet when both contexts change', () => {
-    const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
+    const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
     const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
     const { rerender } = render<DirectionProviderProps>(
-      <DirectionProvider aesthetic={aesthetic} dir="ltr">
-        <ThemeProvider aesthetic={aesthetic}>
+      <DirectionProvider dir="ltr">
+        <ThemeProvider>
           <Wrapped />
         </ThemeProvider>
       </DirectionProvider>,
@@ -326,8 +326,8 @@ describe('withStylesFactory()', () => {
     });
 
     rerender(
-      <DirectionProvider aesthetic={aesthetic} dir="rtl">
-        <ThemeProvider aesthetic={aesthetic} name="light">
+      <DirectionProvider dir="rtl">
+        <ThemeProvider name="light">
           <Wrapped />
         </ThemeProvider>
       </DirectionProvider>,
@@ -342,12 +342,12 @@ describe('withStylesFactory()', () => {
 
   describe('RTL', () => {
     it('inherits `rtl` from explicit `DirectionProvider`', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+      const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic.getAdapter(), 'transformStyles');
       const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
       render<DirectionProviderProps>(
-        <DirectionProvider aesthetic={aesthetic} dir="rtl">
+        <DirectionProvider dir="rtl">
           <Wrapped />
         </DirectionProvider>,
       );
@@ -365,12 +365,12 @@ describe('withStylesFactory()', () => {
     });
 
     it('inherits `rtl` from inferred `DirectionProvider` value', () => {
-      const createSpy = jest.spyOn(aesthetic, 'createStyleSheet');
-      const transformSpy = jest.spyOn(aesthetic, 'transformStyles');
+      const createSpy = jest.spyOn(aesthetic.getAdapter(), 'createStyleSheet');
+      const transformSpy = jest.spyOn(aesthetic.getAdapter(), 'transformStyles');
       const Wrapped = withStyles(() => TEST_STATEMENT)(StyledComponent);
 
       render<DirectionProviderProps>(
-        <DirectionProvider aesthetic={aesthetic} value="بسيطة">
+        <DirectionProvider value="بسيطة">
           <Wrapped />
         </DirectionProvider>,
       );

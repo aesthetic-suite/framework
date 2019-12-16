@@ -1,8 +1,9 @@
 /* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
-import { GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
+  setupAesthetic,
   cleanupStyleElements,
   getFlushedStyles,
   renderAndExpect,
@@ -29,15 +30,17 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
+} from 'aesthetic/lib/testing';
 import { FontFace, KeyFrames } from 'typestyle/lib/types';
-import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
+import TypeStyleAdapter from '../src/TypeStyleAdapter';
 
-describe('TypeStyleAesthetic', () => {
-  let instance: TypeStyleAesthetic<{}>;
+describe('TypeStyleAdapter', () => {
+  let instance: TypeStyleAdapter;
 
   beforeEach(() => {
-    instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }));
+    instance = new TypeStyleAdapter(new TypeStyle({ autoGenerateTag: true }));
+
+    setupAesthetic(new Aesthetic(), instance);
   });
 
   afterEach(() => {

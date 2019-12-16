@@ -1,8 +1,8 @@
 # Styling Components
 
-Now that [Aesthetic has been setup](./setup.md), we can start styling our components using a concept
-known as a style sheet. A style sheet is a function that returns an object which maps selectors to a
-defined [style pattern](#style-patterns).
+We can start style our components using a concept known as a style sheet factory. A style sheet
+factory is a function that returns an object which maps selectors to a defined
+[style pattern](#style-patterns) (the style sheet object).
 
 ## Working With Style Sheets
 
@@ -23,26 +23,29 @@ aesthetic.registerStyleSheet('button-component', theme => ({
 ```
 
 Once the style sheet is registered, the second phase will execute the function and parse the result
-using the underlying adapter (like Aphrodite). This is triggered by the `Aesthetic#createStyleSheet`
+using the underlying adapter (like Aphrodite). This is triggered by the `Adapter#createStyleSheet`
 method, which requires the unique style name from the previous example, and returns a cached and
 parsed style sheet. This parsed style sheet is then used to generate
 [CSS class names](#generating-class-names).
 
 ```ts
-const styles = aesthetic.createStyleSheet('button-component');
+const adapter = aesthetic.getAdapter();
+
+// Current settings
+const styles = adapter.createStyleSheet('button-component');
 
 // To enable RTL
-const styles = aesthetic.createStyleSheet('button-component', { dir: 'rtl' });
+const styles = adapter.createStyleSheet('button-component', { dir: 'rtl' });
 
 // To change themes
-const styles = aesthetic.createStyleSheet('button-component', { theme: 'dark' });
+const styles = adapter.createStyleSheet('button-component', { theme: 'dark' });
 ```
 
 And lastly, we must inject the generated native CSS style sheet into the DOM using
-`Aesthetic#flushStyles`. This also requires a unique style name.
+`Adapter#flushStyles`. This also requires a unique style name.
 
 ```ts
-aesthetic.flushStyles('button-component');
+adapter.flushStyles('button-component');
 ```
 
 ### Style Patterns
@@ -55,7 +58,7 @@ A CSS object is a plain JavaScript object that defines CSS properties and styles
 [unified syntax specification](./unified). This is the standard approach for styling components.
 
 ```ts
-theme => ({
+const factory = theme => ({
   button: {
     padding: theme.unit,
     display: 'inline-block',
@@ -80,7 +83,7 @@ This pattern requires explicit values, for example, defining "px" instead of rel
 unit insertion. To reference the current class name, use `&` as an insertion point.
 
 ```ts
-theme => ({
+const factory = theme => ({
   button: `
     padding: ${theme.unit}px;
     display: inline-block;
@@ -105,7 +108,7 @@ A class name is just that, a class name. This pattern can be used to reference C
 already exist in the document. This is a great pattern for third-party or reusable libraries.
 
 ```ts
-() => ({
+const factory = () => ({
   button: 'btn',
   button__active: 'btn--active',
 });
@@ -117,7 +120,7 @@ Once a [theme has been registered](./theme.md), we can access the theme object w
 in the style sheet function.
 
 ```ts
-theme => ({
+const factory = theme => ({
   button: {
     fontSize: `${theme.fontSizes.normal}px`,
     fontFamily: theme.fontFamily,
@@ -129,7 +132,7 @@ theme => ({
 ## Generating Class Names
 
 When transforming styles into a CSS class name, the `cx` function must be used (framework
-integration dependent), which is a wrapper around `Aesthetic#transformStyles`. This function accepts
+integration dependent), which is a wrapper around `Adapter#transformStyles`. This function accepts
 an arbitrary number of arguments, all of which can be expressions, values, or style objects that
 evaluate to a truthy value.
 
@@ -154,7 +157,7 @@ into the document. This functionality is achieved with `Aesthetic#purgeStyles` a
 dynamic and immediate theme switching.
 
 ```ts
-aesthetic.purgeStyles();
+adapter.purgeStyles();
 ```
 
 ## Extending Styles
@@ -169,7 +172,7 @@ The `Aesthetic#extendStyles` method can be used to compose multiple style sheet 
 into a single style sheet function.
 
 ```ts
-import aesthetic from './aesthetic';
+import aesthetic from 'aesthetic';
 import { styleSheet } from './path/to/Component';
 
 const styleSheet = aesthetic.extendStyles(

@@ -1,85 +1,26 @@
 # React Integration
 
-The core functionality of Aesthetic is isolated and provided by a [class instance](../setup.md).
-This instance isn't easily accessible in hooks or HOCs, nor is the public API easy to work with. To
-interop between React and Aesthetic cleanly, a handful of factory functions are required for using
-hooks and HOCs.
-
-## Factories
-
-All of these factory functions require an `Aesthetic` class instance. I suggest executing each of
-these factories in their own files, so that the underlying API can easily be imported and used.
-
-### useStyles
-
-The `useStylesFactory` function creates and returns a `useStyles` hook. This hook requires a style
-sheet object and an _optional_ custom component name for use in debugging and generating class
-names.
-
-```ts
-// useStyles.ts
-import { StyleSheetDefinition } from 'aesthetic';
-import { useStylesFactory } from 'aesthetic-react';
-import aesthetic from './aesthetic';
-import { Theme } from './types';
-
-export type StyleSheet = StyleSheetDefinition<Theme, any>;
-
-export default useStylesFactory(aesthetic);
-```
-
-### useTheme
-
-The `useThemeFactory` function creates and returns a `useTheme` hook. This hook returns the current
-theme object.
-
-```ts
-// useTheme.ts
-import { useThemeFactory } from 'aesthetic-react';
-import aesthetic from './aesthetic';
-
-export default useThemeFactory(aesthetic);
-```
-
-### withStyles
-
-The `withStylesFactory` function creates and returns a `withStyles` higher-order component. The HOC
-supports all of the [options](../setup.md#options) mentioned previously as props, except for
-`theme`.
-
-```ts
-// withStyles.ts
-import { withStylesFactory, WithStylesWrappedProps } from 'aesthetic-react';
-import { NativeBlock, ParsedBlock } from 'aesthetic-adapter-aphrodite'; // Or your adapter
-import aesthetic, { Theme } from './aesthetic';
-
-export type WithStylesProps = WithStylesWrappedProps<Theme, NativeBlock, ParsedBlock>;
-
-export default withStylesFactory(aesthetic);
-```
-
-### withTheme
-
-The `withThemeFactory` function creates and returns a `withTheme` higher-order component. The HOC
-passes the current theme as a prop. It supports the `themePropName` [option](../setup.md#options)
-mentioned previously as props.
-
-```ts
-// withTheme.ts
-import { withThemeFactory, WithThemeWrappedProps } from 'aesthetic-react';
-import aesthetic, { Theme } from './aesthetic';
-
-export type WithThemeProps = WithThemeWrappedProps<Theme>;
-
-export default withThemeFactory(aesthetic);
-```
-
-## Usage
-
 We can style our components by wrapping the component declaration in a
-[`withStyles` HOC](#withStyles) or utilizing the [`useStyles` hook](#useStyles) (provided by the
-factories above). Both of these approaches require a function that returns a CSS object, known as a
-style sheet, which is then used to dynamically generate CSS class names at runtime.
+[`withStyles` HOC](#withStyles) or utilizing the [`useStyles` hook](#useStyles). Both of these
+approaches require a factory function that returns a CSS object, known as a style sheet, which is
+then used to dynamically generate CSS class names at runtime.
+
+### Types
+
+If using TypeScript, it's encouraged to create your own types that wrap Aesthetic's types with a
+custom [theme object](../theme.md), like so.
+
+```ts
+// types.ts
+import { WithStylesWrappedProps, WithThemeWrappedProps } from 'aesthetic-react';
+
+export interface Theme {
+  // ...
+}
+
+export type WithStylesProps = WithStylesWrappedProps<Theme>;
+export type WithThemeProps = WithThemeWrappedProps<Theme>;
+```
 
 ### HOC
 
@@ -89,7 +30,8 @@ When the styled and wrapped component is rendered, the style sheet is parsed and
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
+import { withStyles } from 'aesthetic-react';
+import { Theme, WithStylesProps } from './types';
 
 export type Props = {
   children: NonNullable<React.ReactNode>;
@@ -106,7 +48,7 @@ function Button({ children, cx, styles, icon }: Props & WithStylesProps) {
   );
 }
 
-export default withStyles(theme => ({
+export default withStyles((theme: Theme) => ({
   button: {
     display: 'inline-block',
     padding: theme.unit,
@@ -128,9 +70,11 @@ class names.
 
 ```tsx
 import React from 'react';
-import useStyles, { StyleSheet } from './useStyles';
+import { StyleSheetFactory } from 'aesthetic';
+import { useStyles } from 'aesthetic-react';
+import { Theme } from './types';
 
-const styleSheet: StyleSheet = theme => ({
+const styleSheet: StyleSheetFactory<Theme> = theme => ({
   button: {
     display: 'inline-block',
     padding: theme.unit,
@@ -164,15 +108,14 @@ export default function Button({ children, icon }: Props) {
 ### DirectionProvider
 
 React supports global [Right-to-Left](../rtl.md) out of the box, but also supports the ability to
-provide a new direction for a target component tree using the `DirectionProvider`, and a passed
-`Aesthetic` instance. The required direction can be explicitly defined using the `dir` prop.
+provide a new direction for a target component tree using the `DirectionProvider`. The required
+direction can be explicitly defined using the `dir` prop.
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
-import aesthetic from './aesthetic';
 import Component from './Component';
 
-<DirectionProvider aesthetic={aesthetic} dir="rtl">
+<DirectionProvider dir="rtl">
   <Component />
 </DirectionProvider>;
 ```
@@ -183,7 +126,6 @@ the `value` prop (not `dir`).
 
 ```tsx
 import { DirectionProvider } from 'aesthetic-react';
-import aesthetic from './aesthetic';
 import Component from './Component';
 
 class Search extends React.Component<{}, { input: string }> {
@@ -201,7 +143,7 @@ class Search extends React.Component<{}, { input: string }> {
     const value = this.state.input;
 
     return (
-      <DirectionProvider aesthetic={aesthetic} value={value}>
+      <DirectionProvider value={value}>
         <input type="search" value={value} onChange={this.handleChange} />
         <Component />
       </DirectionProvider>
@@ -213,15 +155,13 @@ class Search extends React.Component<{}, { input: string }> {
 ### ThemeProvider
 
 The `ThemeProvider` provides a layer to change the theme for a specific region of the page. The
-provider _must_ contain all components that rely on Aesthetic styling, and must be passed an
-`Aesthetic` instance.
+provider _must_ contain all components that rely on Aesthetic styling.
 
 ```tsx
 import { ThemeProvider } from 'aesthetic-react';
-import aesthetic from './aesthetic';
 import App from './App';
 
-<ThemeProvider aesthetic={aesthetic}>
+<ThemeProvider>
   <App />
 </ThemeProvider>;
 ```
@@ -230,7 +170,7 @@ By default the `theme` option on the Aesthetic instance will be used as the targ
 `name` prop can be used to override this.
 
 ```tsx
-<ThemeProvider aesthetic={aesthetic} name="dark">
+<ThemeProvider name="dark">
   <App />
 </ThemeProvider>
 ```
@@ -242,7 +182,7 @@ all themes also being rendered. If you'd prefer to purge the previous global sty
 a new theme (preferrably at the root), set the `propagate` prop.
 
 ```tsx
-<ThemeProvider aesthetic={aesthetic} name="dark" propagate>
+<ThemeProvider name="dark" propagate>
   <App />
 </ThemeProvider>
 ```
@@ -254,7 +194,8 @@ named `withTheme` HOC, which passes the theme object as a prop.
 
 ```tsx
 import React from 'react';
-import withTheme, { WithThemeProps } from './withTheme';
+import { withTheme } from 'aesthetic-react';
+import { WithThemeProps } from './types';
 
 export interface Props {
   children: NonNullable<React.ReactNode>;
@@ -272,7 +213,8 @@ current theme object is passed as a prop. The HOC supports the same options as `
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
+import { withStyles } from 'aesthetic-react';
+import { WithStylesProps } from './types';
 
 export interface Props {
   children: NonNullable<React.ReactNode>;
@@ -302,14 +244,15 @@ returns the theme object.
 
 ```tsx
 import React from 'react';
-import useTheme from './useTheme';
+import { useTheme } from 'aesthetic-react';
+import { Theme } from './types';
 
 export interface Props {
   children: NonNullable<React.ReactNode>;
 }
 
 export default function Component({ children }: Props) {
-  const theme = useTheme();
+  const theme = useTheme<Theme>();
 
   return <div style={{ padding: theme.unit }}>{children}</div>;
 }

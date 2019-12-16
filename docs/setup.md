@@ -1,22 +1,26 @@
 # Setup
 
-To make use of Aesthetic, we must instantiate an [adapter](./adapters/README.md). The adapter
-requires a native adapter library instance as the 1st argument, and an optional Aesthetic options
-object as the 2nd argument. Please refer to each adapter for explicit usage.
+Aesthetic is packaged and configured out of the box, and is represented by a global instance through
+the default import. By default, Aesthetic will assume that CSS class names will be used for styling.
+If need be, we can configure a new [adapter](./adapters/README.md) to replace this functionality.
 
 ```ts
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
-import { Theme } from './types';
+import aesthetic from 'aesthetic';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
-export default new AphroditeAesthetic<Theme>(extensions, {
+aesthetic.configure({
+  adapter: new AphroditeAdapter(),
   theme: 'dark',
+  rtl: false,
 });
 ```
 
 ### Options
 
-The following options are available, most of which can be overridden per component.
+The following options can be customized through the `Aesthetic#configure` method, most of which can
+be overridden per component.
 
+- `adapter` (Adapter) - The CSS-in-JS adapter to use for CSS styling and transformation.
 - `cxPropName` (string) - Name of the prop in which to pass the styles to CSS class name transformer
   function. Defaults to `cx`.
 - `extendable` (boolean) - Can component styles be extended by other components? Otherwise, the

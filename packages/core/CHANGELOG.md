@@ -1,3 +1,29 @@
+## 5.0.0
+
+For improved interoperability, the `Aesthetic` instance is now global and no longer needs to be
+instantiated.
+
+[View the migration guide!](https://github.com/milesj/aesthetic/blob/master/docs/migrate/4.0.md)
+
+#### 💥 Breaking
+
+- Aesthetic default export is now a global instance instead of the class declaration.
+- Moved adapter functionality from `Aesthetic` into a new `Adapter` class.
+- **[TS]** Theme objects are no longer typed through adapters and instead use generic inferrence.
+  This is a stop-gap until the new design system layer is implemented in the next version.
+- **[TS]** Updated `Aesthetic#options` to be read-only.
+- **[TS]** Renamed `GlobalSheetDefinition` to `GlobalSheetFactory`.
+- **[TS]** Renamed `StyleSheetDefinition` to `StyleSheetFactory`.
+
+#### 🚀 Updates
+
+- Added `Aesthetic#configure()` to modify global options.
+  - Supports a new `adapter` option in which the chosen adapter can be set.
+- Added `Aesthetic#getAdapter()` to return the configured adapter.
+- Added `Aesthetic#getGlobalSheet()` to return a theme global style sheet from the defined factory.
+- Added `Adapter#resetGlobalStyles()` to reset and clear global styles for the defined theme.
+- Removed `Aesthetic#extendTheme()`. Use the 4th argument of `registerTheme()` to define the parent.
+
 ### 4.1.1 - 2019-09-15
 
 #### 🐞 Fixes

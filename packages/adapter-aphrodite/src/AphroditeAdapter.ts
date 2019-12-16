@@ -1,5 +1,5 @@
-import Aesthetic, {
-  AestheticOptions,
+import {
+  Adapter,
   ClassName,
   Ruleset,
   Sheet,
@@ -11,11 +11,7 @@ import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag, resetInjectedStyle } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
-  Theme,
-  NativeBlock,
-  ParsedBlock
-> {
+export default class AphroditeAdapter extends Adapter<NativeBlock, ParsedBlock> {
   aphrodite: {
     StyleSheet: typeof Aphrodite;
     css(...styles: ParsedBlock[]): ClassName;
@@ -25,8 +21,8 @@ export default class AphroditeAesthetic<Theme extends object> extends Aesthetic<
 
   keyframes: { [animationName: string]: NativeBlock } = {};
 
-  constructor(extensions: Extension[] = [], options: Partial<AestheticOptions> = {}) {
-    super(options);
+  constructor(extensions: Extension[] = []) {
+    super();
 
     this.aphrodite = Aphrodite.extend([
       ...extensions,

@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import JSSAesthetic from './JSSAesthetic';
+import JSSAdapter from './JSSAdapter';
 
 export * from './types';
 
-export default JSSAesthetic;
+export default JSSAdapter;

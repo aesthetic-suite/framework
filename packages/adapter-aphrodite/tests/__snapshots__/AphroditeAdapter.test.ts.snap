@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 1`] = `
+exports[`AphroditeAdapter LTR global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0px !important;}
 html {height: 100% !important;}
 a {color: red !important;}
@@ -11,11 +11,11 @@ ul > li {margin: 0px !important;}
 @media (max-width: 500px) {ul {margin: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
+exports[`AphroditeAdapter LTR global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
 
-exports[`AphroditeAesthetic LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter LTR global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
-exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+exports[`AphroditeAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 @keyframes keyframe_w18mkj { 
   from {opacity: 0;} 
@@ -27,37 +27,37 @@ exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native sy
 @media (max-width: 600px) {.button_1dmte4q {padding: 4px 8px !important;}}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_1dmte4q"`;
+exports[`AphroditeAdapter LTR style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_1dmte4q"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
+exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
+exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAesthetic LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
-exports[`AphroditeAesthetic LTR style sheet handles @media 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles @media 1`] = `
 ".media_1jcccqt {color: red !important; padding-left: 10px !important;}
 @media (min-width: 300px) {.media_1jcccqt {color: blue !important; padding-left: 15px !important;}}
 @media (max-width: 1000px) {.media_1jcccqt {color: green !important; padding-left: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles @media 2`] = `"media_1jcccqt"`;
+exports[`AphroditeAdapter LTR style sheet handles @media 2`] = `"media_1jcccqt"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles attribute selectors 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles attribute selectors 1`] = `
 ".attr_424cv8 {display: block !important;}
 .attr_424cv8[disabled] {opacity: 0.5 !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles attribute selectors 2`] = `"attr_424cv8"`;
+exports[`AphroditeAdapter LTR style sheet handles attribute selectors 2`] = `"attr_424cv8"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles descendant selectors 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles descendant selectors 1`] = `
 ".list_1lo5lhe {margin: 0px !important; padding: 0px !important;}
 .list_1lo5lhe > li {list-style: bullet !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles descendant selectors 2`] = `"list_1lo5lhe"`;
+exports[`AphroditeAdapter LTR style sheet handles descendant selectors 2`] = `"list_1lo5lhe"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles inline @font-face 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles inline @font-face 1`] = `
 "@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
@@ -66,9 +66,9 @@ exports[`AphroditeAesthetic LTR style sheet handles inline @font-face 1`] = `
 .single_vfwy7z-o_O-multiple_17z04zp {font-family: \\"Circular\\",OtherFont,\\"Roboto\\" !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles inline @font-face 2`] = `"single_vfwy7z-o_O-multiple_17z04zp"`;
+exports[`AphroditeAdapter LTR style sheet handles inline @font-face 2`] = `"single_vfwy7z-o_O-multiple_17z04zp"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles inline @keyframes 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles inline @keyframes 1`] = `
 "@keyframes keyframe_1yeejfi { 
   0% {left: 0%;} 
   50% {left: 50%;} 
@@ -81,37 +81,37 @@ exports[`AphroditeAesthetic LTR style sheet handles inline @keyframes 1`] = `
 .single_zl2yc5-o_O-multiple_1r8o3nf {-webkit-animation-name: keyframe_1yeejfi,unknown,keyframe_w18mkj !important; animation-name: keyframe_1yeejfi,unknown,keyframe_w18mkj !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles inline @keyframes 2`] = `"single_zl2yc5-o_O-multiple_1r8o3nf"`;
+exports[`AphroditeAdapter LTR style sheet handles inline @keyframes 2`] = `"single_zl2yc5-o_O-multiple_1r8o3nf"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles multiple selectors (comma separated) 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi_1xnvdcd {cursor: pointer !important;}
 .multi_1xnvdcd:disabled {cursor: default !important;}
 .multi_1xnvdcd[disabled] {cursor: default !important;}
 .multi_1xnvdcd > span {cursor: default !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles multiple selectors (comma separated) 2`] = `"multi_1xnvdcd"`;
+exports[`AphroditeAdapter LTR style sheet handles multiple selectors (comma separated) 2`] = `"multi_1xnvdcd"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles nested @media 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles nested @media 1`] = `
 ".media_y3eou6 {color: red !important;}
 @media (min-width: 300px) {.media_y3eou6 {color: blue !important;}@media (max-width: 1000px) {.media_y3eou6 {color: green !important;}}}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles nested @media 2`] = `"media_y3eou6"`;
+exports[`AphroditeAdapter LTR style sheet handles nested @media 2`] = `"media_y3eou6"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles properties 1`] = `".props_n2jmqg {color: black !important; display: inline !important; margin-right: 10px !important; padding: 0px !important;}"`;
+exports[`AphroditeAdapter LTR style sheet handles properties 1`] = `".props_n2jmqg {color: black !important; display: inline !important; margin-right: 10px !important; padding: 0px !important;}"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles properties 2`] = `"props_n2jmqg"`;
+exports[`AphroditeAdapter LTR style sheet handles properties 2`] = `"props_n2jmqg"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles pseudo selectors 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles pseudo selectors 1`] = `
 ".pseudo_q2zd6k {position: fixed !important;}
 .pseudo_q2zd6k:hover {position: static !important;}
 .pseudo_q2zd6k::before {position: absolute !important;}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
+exports[`AphroditeAdapter LTR style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
 
-exports[`AphroditeAesthetic LTR style sheet handles raw CSS 1`] = `
+exports[`AphroditeAdapter LTR style sheet handles raw CSS 1`] = `
 ".aphrodite-button {display: 'block'; font-size: 16px; text-align: 'left';}
 .aphrodite-button:hover {color: 'red';}
 .aphrodite-button {vertical-align: 'middle';}
@@ -119,9 +119,9 @@ exports[`AphroditeAesthetic LTR style sheet handles raw CSS 1`] = `
 @supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphrodite-button {display: 'flex';}}"
 `;
 
-exports[`AphroditeAesthetic LTR style sheet handles raw CSS 2`] = `""`;
+exports[`AphroditeAdapter LTR style sheet handles raw CSS 2`] = `""`;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 1`] = `
+exports[`AphroditeAdapter RTL global sheet flushes and purges global styles from the DOM 1`] = `
 "body {margin: 0px !important;}
 html {height: 100% !important;}
 a {color: red !important;}
@@ -132,11 +132,11 @@ ul > li {margin: 0px !important;}
 @media (max-width: 500px) {ul {margin: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
+exports[`AphroditeAdapter RTL global sheet flushes and purges global styles from the DOM 2`] = `"globals_5ijnvn"`;
 
-exports[`AphroditeAesthetic RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter RTL global sheet flushes and purges global styles from the DOM 3`] = `""`;
 
-exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
+exports[`AphroditeAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}
 @keyframes keyframe_w18mkj { 
   from {opacity: 0;} 
@@ -148,37 +148,37 @@ exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native sy
 @media (max-width: 600px) {.button_pvvr1m {padding: 4px 8px !important;}}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_pvvr1m"`;
+exports[`AphroditeAdapter RTL style sheet converts unified syntax to native syntax and transforms to a class name 2`] = `"button_pvvr1m"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
+exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 1`] = `".test_uhlm2 {display: block !important;}"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
+exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAesthetic RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
 
-exports[`AphroditeAesthetic RTL style sheet handles @media 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles @media 1`] = `
 ".media_1xdaj1a {color: red !important; padding-right: 10px !important;}
 @media (min-width: 300px) {.media_1xdaj1a {color: blue !important; padding-right: 15px !important;}}
 @media (max-width: 1000px) {.media_1xdaj1a {color: green !important; padding-right: 20px !important;}}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles @media 2`] = `"media_1xdaj1a"`;
+exports[`AphroditeAdapter RTL style sheet handles @media 2`] = `"media_1xdaj1a"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles attribute selectors 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles attribute selectors 1`] = `
 ".attr_424cv8 {display: block !important;}
 .attr_424cv8[disabled] {opacity: 0.5 !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles attribute selectors 2`] = `"attr_424cv8"`;
+exports[`AphroditeAdapter RTL style sheet handles attribute selectors 2`] = `"attr_424cv8"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles descendant selectors 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles descendant selectors 1`] = `
 ".list_1lo5lhe {margin: 0px !important; padding: 0px !important;}
 .list_1lo5lhe > li {list-style: bullet !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles descendant selectors 2`] = `"list_1lo5lhe"`;
+exports[`AphroditeAdapter RTL style sheet handles descendant selectors 2`] = `"list_1lo5lhe"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles inline @font-face 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles inline @font-face 1`] = `
 "@font-face {font-family: Circular; font-style: normal; font-weight: normal; src: url('fonts/Circular.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: italic; font-weight: normal; src: url('fonts/Circular-Italic.woff2') format('woff2');}
 @font-face {font-family: Circular; font-style: normal; font-weight: 300; src: url('fonts/Circular-Light.woff2') format('woff2');}
@@ -187,9 +187,9 @@ exports[`AphroditeAesthetic RTL style sheet handles inline @font-face 1`] = `
 .single_vfwy7z-o_O-multiple_17z04zp {font-family: \\"Circular\\",OtherFont,\\"Roboto\\" !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles inline @font-face 2`] = `"single_vfwy7z-o_O-multiple_17z04zp"`;
+exports[`AphroditeAdapter RTL style sheet handles inline @font-face 2`] = `"single_vfwy7z-o_O-multiple_17z04zp"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles inline @keyframes 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles inline @keyframes 1`] = `
 "@keyframes keyframe_14nendx { 
   0% {right: 0%;} 
   50% {right: 50%;} 
@@ -202,37 +202,37 @@ exports[`AphroditeAesthetic RTL style sheet handles inline @keyframes 1`] = `
 .single_7ive5q-o_O-multiple_ysjk3k {-webkit-animation-name: keyframe_14nendx,unknown,keyframe_w18mkj !important; animation-name: keyframe_14nendx,unknown,keyframe_w18mkj !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles inline @keyframes 2`] = `"single_7ive5q-o_O-multiple_ysjk3k"`;
+exports[`AphroditeAdapter RTL style sheet handles inline @keyframes 2`] = `"single_7ive5q-o_O-multiple_ysjk3k"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles multiple selectors (comma separated) 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles multiple selectors (comma separated) 1`] = `
 ".multi_1xnvdcd {cursor: pointer !important;}
 .multi_1xnvdcd:disabled {cursor: default !important;}
 .multi_1xnvdcd[disabled] {cursor: default !important;}
 .multi_1xnvdcd > span {cursor: default !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles multiple selectors (comma separated) 2`] = `"multi_1xnvdcd"`;
+exports[`AphroditeAdapter RTL style sheet handles multiple selectors (comma separated) 2`] = `"multi_1xnvdcd"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles nested @media 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles nested @media 1`] = `
 ".media_y3eou6 {color: red !important;}
 @media (min-width: 300px) {.media_y3eou6 {color: blue !important;}@media (max-width: 1000px) {.media_y3eou6 {color: green !important;}}}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles nested @media 2`] = `"media_y3eou6"`;
+exports[`AphroditeAdapter RTL style sheet handles nested @media 2`] = `"media_y3eou6"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles properties 1`] = `".props_1k579qb {color: black !important; display: inline !important; margin-left: 10px !important; padding: 0px !important;}"`;
+exports[`AphroditeAdapter RTL style sheet handles properties 1`] = `".props_1k579qb {color: black !important; display: inline !important; margin-left: 10px !important; padding: 0px !important;}"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles properties 2`] = `"props_1k579qb"`;
+exports[`AphroditeAdapter RTL style sheet handles properties 2`] = `"props_1k579qb"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles pseudo selectors 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles pseudo selectors 1`] = `
 ".pseudo_q2zd6k {position: fixed !important;}
 .pseudo_q2zd6k:hover {position: static !important;}
 .pseudo_q2zd6k::before {position: absolute !important;}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
+exports[`AphroditeAdapter RTL style sheet handles pseudo selectors 2`] = `"pseudo_q2zd6k"`;
 
-exports[`AphroditeAesthetic RTL style sheet handles raw CSS 1`] = `
+exports[`AphroditeAdapter RTL style sheet handles raw CSS 1`] = `
 ".aphrodite-button {display: 'block'; font-size: 16px; text-align: 'right';}
 .aphrodite-button:hover {color: 'red';}
 .aphrodite-button {vertical-align: 'middle';}
@@ -240,4 +240,4 @@ exports[`AphroditeAesthetic RTL style sheet handles raw CSS 1`] = `
 @supports (display:-webkit-box) or (display:-webkit-flex) or (display:-ms-flexbox) or (display:flex) {.aphrodite-button {display: 'flex';}}"
 `;
 
-exports[`AphroditeAesthetic RTL style sheet handles raw CSS 2`] = `""`;
+exports[`AphroditeAdapter RTL style sheet handles raw CSS 2`] = `""`;

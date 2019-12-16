@@ -70,21 +70,23 @@ aesthetic.registerTheme(
 );
 ```
 
-> When using TypeScript, the theme type must have an exact structure (no mapped or indexed objects),
-> and must be passed as a generic: `new Aesthetic<Theme>()`.
-
 ### Extending Themes
 
-If you'd like to extend a base theme to create a new theme, use `Aesthetic#extendTheme`. This method
-accepts the new theme name as the 1st argument, the theme name to inherit from as the 2nd argument,
-and the remaining arguments matching `Aesthetic#registerTheme`.
+If you'd like to extend a base theme to create a new theme, provide a 4th argument to
+`Aesthetic#registerTheme` with the name of a parent theme. If there are no global styles for the new
+theme, pass `null` and it'll inherit the parents.
 
 ```ts
-aesthetic.extendTheme('darker', 'dark', {
-  color: {
-    bg: 'black',
+aesthetic.registerTheme(
+  'darker',
+  {
+    color: {
+      bg: 'black',
+    },
   },
-});
+  null,
+  'dark',
+);
 ```
 
 > Extending themes will deep merge the two objects.
@@ -94,7 +96,7 @@ aesthetic.extendTheme('darker', 'dark', {
 The default theme can be enabled by defining the `theme` option on the `Aesthetic` instance.
 
 ```ts
-const aesthetic = new AphroditeAesthetic<Theme>(extensions, {
+aesthetic.configure({
   theme: 'dark',
 });
 ```

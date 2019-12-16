@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, import/no-unresolved */
+/* eslint-disable sort-keys, import/no-unresolved, @typescript-eslint/no-explicit-any */
 
 import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
@@ -8,19 +8,25 @@ import {
   isObject,
 } from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
-import TestAesthetic from './TestAesthetic';
+import Adapter from './Adapter';
+import TestAdapter from './TestAdapter';
 import { FontFace, Direction, SheetMap, Keyframes } from './types';
 import { GLOBAL_STYLE_NAME } from './constants';
 
-export { TestAesthetic };
+export { TestAdapter };
 
 export interface TestTheme {
+  bg: string;
   color: string;
   unit: number;
 }
 
-export function registerTestTheme(aesthetic: Aesthetic<TestTheme, {}, {}>) {
-  aesthetic.registerTheme('default', { color: 'black', unit: 8 }, ({ unit }) => ({
+export function setupAesthetic(aesthetic: Aesthetic, adapter?: Adapter<any, any>) {
+  aesthetic.configure({
+    adapter: adapter || new TestAdapter(),
+  });
+
+  aesthetic.registerTheme('default', { bg: 'gray', color: 'black', unit: 8 }, ({ unit }) => ({
     '@global': {
       body: {
         padding: unit,
@@ -28,9 +34,15 @@ export function registerTestTheme(aesthetic: Aesthetic<TestTheme, {}, {}>) {
     },
   }));
 
-  aesthetic.extendTheme('light', 'default', {});
+  aesthetic.registerTheme('light', { bg: 'white' }, null, 'default');
 
-  aesthetic.extendTheme('dark', 'default', {});
+  aesthetic.registerTheme('dark', { bg: 'black', color: 'white' }, null, 'default');
+
+  aesthetic.registerTheme('no-globals', {});
+}
+
+export function teardownAesthetic(aesthetic: Aesthetic) {
+  aesthetic.resetForTesting();
 }
 
 export function cleanupStyleElements() {
@@ -80,7 +92,7 @@ export function convertDirection(value: UnknownObject | UnknownObject[], dir: Di
 }
 
 export function renderAndExpect(
-  aesthetic: Aesthetic<{}, {}, {}>,
+  adapter: Adapter<{}, {}>,
   styleSheet: SheetMap<string | UnknownObject>,
   expectedStyles: UnknownObject,
   {
@@ -93,15 +105,15 @@ export function renderAndExpect(
 ) {
   const name = global
     ? GLOBAL_STYLE_NAME
-    : aesthetic.constructor.name.replace('Aesthetic', '').toLowerCase();
+    : adapter.constructor.name.replace('Adapter', '').toLowerCase();
   const options = { name, dir };
   const convertedSheet = global
-    ? aesthetic.syntax.convertGlobalSheet(styleSheet, options).toObject()
-    : aesthetic.syntax.convertStyleSheet(styleSheet, options).toObject();
-  const parsedSheet = aesthetic.parseStyleSheet(convertedSheet, name);
-  const className = aesthetic.transformStyles(Object.values(parsedSheet), options);
+    ? adapter.syntax.convertGlobalSheet(styleSheet, options).toObject()
+    : adapter.syntax.convertStyleSheet(styleSheet, options).toObject();
+  const parsedSheet = adapter.parseStyleSheet(convertedSheet, name);
+  const className = adapter.transformStyles(Object.values(parsedSheet), options);
 
-  aesthetic.flushStyles(name);
+  adapter.flushStyles(name);
 
   expect(convertedSheet).toEqual(convertDirection(expectedStyles, dir));
   expect(getFlushedStyles()).toMatchSnapshot();

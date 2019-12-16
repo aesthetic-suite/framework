@@ -2,23 +2,23 @@
 
 import React from 'react';
 import { render } from 'rut-dom';
-import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
+import aesthetic from 'aesthetic';
+import { setupAesthetic, teardownAesthetic } from 'aesthetic/lib/testing';
 import ThemeProvider from '../src/ThemeProvider';
 import { ThemeProviderProps } from '../src/types';
 
 describe('ThemeProvider', () => {
-  let aesthetic: TestAesthetic<TestTheme>;
-
   beforeEach(() => {
-    aesthetic = new TestAesthetic();
-    aesthetic.options.theme = 'light';
+    setupAesthetic(aesthetic);
+  });
 
-    registerTestTheme(aesthetic);
+  afterEach(() => {
+    teardownAesthetic(aesthetic);
   });
 
   it('renders children', () => {
     const { root } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic}>
+      <ThemeProvider>
         <div>1</div>
         <div>2</div>
         <div>3</div>
@@ -38,7 +38,7 @@ describe('ThemeProvider', () => {
     }
 
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic}>
+      <ThemeProvider>
         <Child />
       </ThemeProvider>,
     );
@@ -53,7 +53,7 @@ describe('ThemeProvider', () => {
   it('calls `changeTheme` when `propagate` is true', () => {
     const spy = jest.spyOn(aesthetic, 'changeTheme');
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic} propagate>
+      <ThemeProvider propagate>
         <div>1</div>
         <div>2</div>
         <div>3</div>
@@ -65,12 +65,14 @@ describe('ThemeProvider', () => {
     });
 
     expect(spy).toHaveBeenCalledWith('dark');
+
+    spy.mockRestore();
   });
 
   it('doesnt call `changeTheme` when `propagate` is false', () => {
     const spy = jest.spyOn(aesthetic, 'changeTheme');
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic} propagate>
+      <ThemeProvider propagate>
         <div>1</div>
         <div>2</div>
         <div>3</div>
@@ -82,5 +84,7 @@ describe('ThemeProvider', () => {
     });
 
     expect(spy).toHaveBeenCalledWith('dark');
+
+    spy.mockRestore();
   });
 });

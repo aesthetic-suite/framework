@@ -3,10 +3,12 @@
 Provides [Aphrodite](https://github.com/Khan/aphrodite) support.
 
 ```ts
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
-import { Theme } from './types';
+import aesthetic from 'aesthetic';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
-const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
+aesthetic.configure({
+  adapter: new AphroditeAdapter(extensions),
+});
 ```
 
 ## Installation
@@ -66,12 +68,15 @@ Global styles (to easily style `body`, `a`, and others).
 passing an array of extensions to the constructor.
 
 ```ts
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import aesthetic from 'aesthetic';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 import { Theme } from './types';
 
-const aesthetic = new AphroditeAesthetic<Theme>([
-  extension1,
-  extension2,
-  // ...
-]);
+aesthetic.configure({
+  adapter: new AphroditeAdapter([
+    extension1,
+    extension2,
+    // ...
+  ]),
+});
 ```

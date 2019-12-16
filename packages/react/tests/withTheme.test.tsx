@@ -1,19 +1,18 @@
 import React from 'react';
 import { render } from 'rut-dom';
-import { TestAesthetic, registerTestTheme, TestTheme } from 'aesthetic/lib/testUtils';
-import withThemeFactory from '../src/withThemeFactory';
+import aesthetic from 'aesthetic';
+import { setupAesthetic, teardownAesthetic } from 'aesthetic/lib/testing';
+import withTheme from '../src/withTheme';
 import ThemeProvider from '../src/ThemeProvider';
 import { ThemeProviderProps } from '../src/types';
 
-describe('withThemeFactory()', () => {
-  let aesthetic: TestAesthetic<TestTheme>;
-  let withTheme: ReturnType<typeof withThemeFactory>;
-
+describe('withTheme()', () => {
   beforeEach(() => {
-    aesthetic = new TestAesthetic();
-    registerTestTheme(aesthetic);
+    setupAesthetic(aesthetic);
+  });
 
-    withTheme = withThemeFactory(aesthetic);
+  afterEach(() => {
+    teardownAesthetic(aesthetic);
   });
 
   function BaseComponent() {
@@ -21,11 +20,7 @@ describe('withThemeFactory()', () => {
   }
 
   function WrappingComponent({ children }: { children?: React.ReactNode }) {
-    return (
-      <ThemeProvider aesthetic={aesthetic} name="light">
-        {children || <div />}
-      </ThemeProvider>
-    );
+    return <ThemeProvider name="light">{children || <div />}</ThemeProvider>;
   }
 
   it('returns an HOC component', () => {
@@ -69,7 +64,11 @@ describe('withThemeFactory()', () => {
     const Wrapped = withTheme()(ThemeComponent);
     const { root } = render<{}>(<Wrapped />, { wrapper: <WrappingComponent /> });
 
-    expect(root.findOne(ThemeComponent)).toHaveProp('theme', { color: 'black', unit: 8 });
+    expect(root.findOne(ThemeComponent)).toHaveProp('theme', {
+      bg: 'white',
+      color: 'black',
+      unit: 8,
+    });
   });
 
   it('can bubble up the ref with `wrappedRef`', () => {
@@ -99,7 +98,7 @@ describe('withThemeFactory()', () => {
     const themeSpy = jest.spyOn(aesthetic, 'getTheme');
     const Wrapped = withTheme()(BaseComponent);
     const { update } = render<ThemeProviderProps>(
-      <ThemeProvider aesthetic={aesthetic}>
+      <ThemeProvider>
         <Wrapped />
       </ThemeProvider>,
     );
