@@ -28,7 +28,7 @@ import {
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
+} from 'aesthetic/lib/testing';
 import AphroditeAdapter from '../src/AphroditeAdapter';
 
 describe('AphroditeAdapter', () => {

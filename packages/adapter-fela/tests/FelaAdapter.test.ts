@@ -32,7 +32,7 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
+} from 'aesthetic/lib/testing';
 import FelaAdapter from '../src/FelaAdapter';
 
 describe('FelaAdapter', () => {

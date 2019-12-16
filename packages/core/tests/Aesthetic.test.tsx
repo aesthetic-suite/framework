@@ -1,5 +1,5 @@
 import Aesthetic from '../src/Aesthetic';
-import { setupAesthetic, SYNTAX_GLOBAL } from '../src/testUtils';
+import { setupAesthetic, SYNTAX_GLOBAL } from '../src/testing';
 
 describe('Aesthetic', () => {
   let instance: Aesthetic;

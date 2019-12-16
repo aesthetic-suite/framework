@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'rut-dom';
 import aesthetic from 'aesthetic';
-import { setupAesthetic, teardownAesthetic, TEST_STATEMENT } from 'aesthetic/lib/testUtils';
+import { setupAesthetic, teardownAesthetic, TEST_STATEMENT } from 'aesthetic/lib/testing';
 import DirectionProvider from '../src/DirectionProvider';
 import ThemeProvider from '../src/ThemeProvider';
 import useStyles from '../src/useStyles';

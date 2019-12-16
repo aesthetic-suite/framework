@@ -35,7 +35,7 @@ import {
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
+} from 'aesthetic/lib/testing';
 import JSSAdapter from '../src/JSSAdapter';
 
 jest.mock('uuid/v4', () => () => 'uuid');

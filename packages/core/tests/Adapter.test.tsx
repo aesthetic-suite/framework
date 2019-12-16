@@ -1,6 +1,6 @@
 import { Adapter, Aesthetic, TransformOptions, GLOBAL_STYLE_NAME } from '../src';
 import StyleSheetManager from '../src/StyleSheetManager';
-import { TestAdapter, TestTheme, setupAesthetic } from '../src/testUtils';
+import { TestAdapter, TestTheme, setupAesthetic } from '../src/testing';
 
 describe('Adapter', () => {
   let instance: Adapter<{}, {}>;

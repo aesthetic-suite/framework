@@ -23,5 +23,3 @@ jobs:
       - run: yarn run type
       - run: yarn run coverage
       - run: yarn run eslint
-      - run: cat beemo-error.log
-        if: failure()

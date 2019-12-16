@@ -5,7 +5,7 @@ be hashed, and basically be non-deterministic. To mitigate this issue, we provid
 which uses the style sheet keys as the class names, which allows for deterministic assertions.
 
 ```ts
-import { TestAdapter } from 'aesthetic/lib/testUtils';
+import { TestAdapter } from 'aesthetic/lib/testing';
 
 aesthetic.configure({
   adapter: new TestAdapter(),
@@ -13,7 +13,7 @@ aesthetic.configure({
 ```
 
 Besides `TestAdapter`, there are a handful of constants and functions that can be found in the
-[testing utilities](https://github.com/milesj/aesthetic/blob/master/packages/core/src/testUtils.ts).
+[testing utilities](https://github.com/milesj/aesthetic/blob/master/packages/core/src/testing.ts).
 
 ## Enzyme
 

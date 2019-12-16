@@ -30,7 +30,7 @@ import {
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
-} from 'aesthetic/lib/testUtils';
+} from 'aesthetic/lib/testing';
 import { FontFace, KeyFrames } from 'typestyle/lib/types';
 import TypeStyleAdapter from '../src/TypeStyleAdapter';
 

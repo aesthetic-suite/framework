@@ -27,7 +27,7 @@ import {
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_KEYFRAMES_INLINE,
   SYNTAX_RAW_CSS,
-} from '../src/testUtils';
+} from '../src/testing';
 
 function createTestRulesets(selector: string, data: unknown[]): Ruleset<{}>[] {
   return data.map(item => {
