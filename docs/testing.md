@@ -1,18 +1,18 @@
 # Testing
 
 Testing Aesthetic styled components can be tricky, as adapter generated class names may change, or
-be hashed, and basically be non-deterministic. To mitigate this issue, we provide a `TestAesthetic`
-adapter, which uses the style sheet keys as the class names, which allows for deterministic
-assertions.
+be hashed, and basically be non-deterministic. To mitigate this issue, we provide a `TestAdapter`,
+which uses the style sheet keys as the class names, which allows for deterministic assertions.
 
 ```ts
-import { TestAesthetic } from 'aesthetic/lib/testUtils';
-import { Theme } from './types';
+import { TestAdapter } from 'aesthetic/lib/testUtils';
 
-const aesthetic = new TestAesthetic<Theme>();
+aesthetic.configure({
+  adapter: new TestAdapter(),
+});
 ```
 
-Besides `TestAesthetic`, there are a handful of constants and functions that can be found in the
+Besides `TestAdapter`, there are a handful of constants and functions that can be found in the
 [testing utilities](https://github.com/milesj/aesthetic/blob/master/packages/core/src/testUtils.ts).
 
 ## Enzyme
@@ -29,7 +29,7 @@ const wrapper = shallow(<StyledComponent />).dive();
 ### `className` Changes
 
 To test class name changes, like an active state being applied, simply match against the `className`
-prop. This requires the `TestAesthetic` adapter mentioned above.
+prop. This requires the `TestAdapter` mentioned above.
 
 ```tsx
 function Component({ active, children }: Props) {
