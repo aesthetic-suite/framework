@@ -1,8 +1,6 @@
 /* eslint-disable jest/expect-expect */
 
-import { create } from 'jss';
-// @ts-ignore
-import preset from 'jss-preset-default';
+import { StyleSheetTestUtils, CSSProperties } from 'aphrodite';
 import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
@@ -15,7 +13,6 @@ import {
   SYNTAX_UNIFIED_LOCAL_FULL,
   SYNTAX_ATTRIBUTE,
   SYNTAX_DESCENDANT,
-  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
@@ -25,48 +22,33 @@ import {
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_PROPERTIES,
   SYNTAX_PSEUDO,
-  SYNTAX_SUPPORTS,
-  SYNTAX_VIEWPORT,
-  SYNTAX_CHARSET,
-  SYNTAX_IMPORT,
-  SYNTAX_IMPORT_MULTIPLE,
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
   KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
 } from 'aesthetic/lib/testUtils';
-import JSSAesthetic from '../src/JSSAesthetic';
+import AphroditeAdapter from '../src/AphroditeAdapter';
 
-jest.mock('uuid/v4', () => () => 'uuid');
-
-describe('JSSAesthetic', () => {
-  let instance: JSSAesthetic<{}>;
+describe('AphroditeAdapter', () => {
+  let instance: AphroditeAdapter;
 
   beforeEach(() => {
-    const jss = create();
-    jss.setup(preset());
-
-    instance = new JSSAesthetic(jss);
+    StyleSheetTestUtils.suppressStyleInjection();
+    instance = new AphroditeAdapter();
   });
 
   afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
     cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
     describe(`${dir.toUpperCase()}`, () => {
       it('converts and transforms inline styles', () => {
-        expect(instance.transformStyles(['foo', { margin: 0 }, { padding: 2 }], { dir })).toBe(
-          dir === 'ltr'
-            ? 'foo inline-0-0-1-1 inline-1-0-1-2'
-            : 'foo inline-0-0-25-1 inline-1-0-25-2',
+        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
+          'inline-0_16pg94n-o_O-inline-1_igcoje',
         );
-        expect(getFlushedStyles()).toMatchSnapshot();
-
-        // @ts-ignore Allow null
-        expect(instance.transformStyles(['foo', null], { dir })).toBe('foo');
-        expect(getFlushedStyles()).toMatchSnapshot();
       });
 
       describe('global sheet', () => {
@@ -75,21 +57,21 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_GLOBAL,
             {
-              '@global': {
-                body: { margin: 0 },
-                html: { height: '100%' },
-                a: {
+              globals: {
+                '*body': { margin: 0 },
+                '*html': { height: '100%' },
+                '*a': {
                   color: 'red',
-                  '&:hover': {
+                  ':hover': {
                     color: 'darkred',
                   },
-                  '&:focus': {
+                  ':focus': {
                     color: 'lightred',
                   },
                 },
-                ul: {
+                '*ul': {
                   margin: 0,
-                  '&> li': {
+                  '> li': {
                     margin: 0,
                   },
                   '@media (max-width: 500px)': {
@@ -107,95 +89,36 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles @font-face', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_FONT_FACE,
-            {
-              '@font-face': [FONT_ROBOTO_FLAT_SRC],
-            },
-            { dir, global: true },
-          );
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { dir });
+
+          expect(instance.fontFaces).toEqual({
+            Roboto: [FONT_ROBOTO_FLAT_SRC],
+          });
         });
 
         it('handles mixed @font-face', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_FONT_FACE_MIXED,
-            {
-              '@font-face': [FONT_ROBOTO_FLAT_SRC, ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC],
-            },
-            { dir, global: true },
-          );
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { dir });
+
+          expect(instance.fontFaces).toEqual({
+            Roboto: [FONT_ROBOTO_FLAT_SRC],
+            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          });
         });
 
         it('handles multiple @font-face', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_FONT_FACE_MULTIPLE,
-            {
-              '@font-face': FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-            },
-            { dir, global: true },
-          );
+          instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { dir });
+
+          expect(instance.fontFaces).toEqual({
+            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
+          });
         });
 
         it('handles @keyframes', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_KEYFRAMES,
-            {
-              '@keyframes fade': KEYFRAME_FADE,
-            },
-            { dir, global: true },
-          );
-        });
+          instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { dir });
 
-        it('handles @viewport', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_VIEWPORT,
-            {
-              '@viewport': {
-                width: 'device-width',
-                orientation: 'landscape',
-              },
-            },
-            { dir, global: true },
-          );
-        });
-
-        it('handles @charset', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_CHARSET,
-            {
-              '@charset': '"utf8"',
-            },
-            { dir, global: true },
-          );
-        });
-
-        it('handles single @import', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_IMPORT,
-            {
-              '@import': ['url("./some/path.css")'],
-            },
-            { dir, global: true },
-          );
-        });
-
-        it('handles multiple @import', () => {
-          renderAndExpect(
-            instance,
-            // @ts-ignore
-            SYNTAX_IMPORT_MULTIPLE,
-            {
-              '@import': ['url("./some/path.css")', 'url("./another/path.css")'],
-            },
-            { dir, global: true },
-          );
+          expect(instance.keyframes).toEqual({
+            fade: KEYFRAME_FADE,
+          });
         });
       });
 
@@ -211,6 +134,9 @@ describe('JSSAesthetic', () => {
         });
 
         it('converts unified syntax to native syntax and transforms to a class name', () => {
+          instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as CSSProperties];
+          instance.keyframes.fade = KEYFRAME_FADE;
+
           renderAndExpect(
             instance,
             SYNTAX_UNIFIED_LOCAL_FULL,
@@ -222,7 +148,7 @@ describe('JSSAesthetic', () => {
                 borderRadius: 4,
                 display: 'inline-block',
                 cursor: 'pointer',
-                fontFamily: 'Roboto',
+                fontFamily: [FONT_ROBOTO_FLAT_SRC],
                 fontWeight: 'normal',
                 lineHeight: 'normal',
                 whiteSpace: 'nowrap',
@@ -231,13 +157,13 @@ describe('JSSAesthetic', () => {
                 backgroundColor: '#337ab7',
                 verticalAlign: 'middle',
                 color: 'rgba(0, 0, 0, 0)',
-                animationName: 'fade',
+                animationName: [KEYFRAME_FADE],
                 animationDuration: '.3s',
-                '&:hover': {
+                ':hover': {
                   backgroundColor: '#286090',
                   borderColor: '#204d74',
                 },
-                '&::before': {
+                '::before': {
                   content: '"★"',
                   display: 'inline-block',
                   verticalAlign: 'middle',
@@ -257,19 +183,7 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles attribute selectors', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_ATTRIBUTE,
-            {
-              attr: {
-                display: 'block',
-                '&[disabled]': {
-                  opacity: 0.5,
-                },
-              },
-            },
-            { dir },
-          );
+          renderAndExpect(instance, SYNTAX_ATTRIBUTE, SYNTAX_ATTRIBUTE, { dir });
         });
 
         it('handles descendant selectors', () => {
@@ -280,7 +194,7 @@ describe('JSSAesthetic', () => {
               list: {
                 margin: 0,
                 padding: 0,
-                '&> li': {
+                '> li': {
                   listStyle: 'bullet',
                 },
               },
@@ -290,22 +204,7 @@ describe('JSSAesthetic', () => {
         });
 
         it('handles pseudo selectors', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_PSEUDO,
-            {
-              pseudo: {
-                position: 'fixed',
-                '&:hover': {
-                  position: 'static',
-                },
-                '&::before': {
-                  position: 'absolute',
-                },
-              },
-            },
-            { dir },
-          );
+          renderAndExpect(instance, SYNTAX_PSEUDO, SYNTAX_PSEUDO, { dir });
         });
 
         it('handles multiple selectors (comma separated)', () => {
@@ -315,9 +214,9 @@ describe('JSSAesthetic', () => {
             {
               multi: {
                 cursor: 'pointer',
-                '&:disabled': { cursor: 'default' },
-                '&[disabled]': { cursor: 'default' },
-                '&> span': { cursor: 'default' },
+                ':disabled': { cursor: 'default' },
+                '[disabled]': { cursor: 'default' },
+                '> span': { cursor: 'default' },
               },
             },
             { dir },
@@ -329,13 +228,11 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_KEYFRAMES_INLINE,
             {
-              '@keyframes slide': KEYFRAME_SLIDE_PERCENT,
-              '@keyframes keyframe-1': KEYFRAME_FADE,
               single: {
-                animationName: 'slide',
+                animationName: [KEYFRAME_SLIDE_PERCENT],
               },
               multiple: {
-                animationName: 'slide, unknown, keyframe-1',
+                animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
               },
             },
             { dir },
@@ -347,36 +244,11 @@ describe('JSSAesthetic', () => {
             instance,
             SYNTAX_FONT_FACES_INLINE,
             {
-              '@font-face': [
-                FONT_ROBOTO_FLAT_SRC,
-                ...FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-                FONT_ROBOTO_FLAT_SRC,
-              ],
               single: {
-                fontFamily: 'Roboto',
+                fontFamily: [FONT_ROBOTO_FLAT_SRC],
               },
               multiple: {
-                fontFamily: 'Circular, OtherFont, Roboto',
-              },
-            },
-            { dir },
-          );
-        });
-
-        it('handles @fallbacks', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_FALLBACKS,
-            {
-              fallback: {
-                background: 'linear-gradient(...)',
-                display: 'flex',
-                fallbacks: [
-                  { background: 'red' },
-                  { display: 'block' },
-                  { display: 'inline-block' },
-                  { color: 'blue' },
-                ],
+                fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
               },
             },
             { dir },
@@ -417,25 +289,6 @@ describe('JSSAesthetic', () => {
                   '@media (max-width: 1000px)': {
                     color: 'green',
                   },
-                },
-              },
-            },
-            { dir },
-          );
-        });
-
-        it('handles @supports', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_SUPPORTS,
-            {
-              sup: {
-                display: 'block',
-                '@supports (display: flex)': {
-                  display: 'flex',
-                },
-                '@supports not (display: flex)': {
-                  float: 'left',
                 },
               },
             },

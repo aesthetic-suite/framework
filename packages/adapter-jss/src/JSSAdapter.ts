@@ -1,28 +1,17 @@
-import Aesthetic, {
-  AestheticOptions,
-  ClassName,
-  Ruleset,
-  Sheet,
-  StyleName,
-  SheetMap,
-} from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, StyleName, SheetMap } from 'aesthetic';
 import { toArray } from 'aesthetic-utils';
 import { Jss, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class JSSAesthetic<Theme extends object> extends Aesthetic<
-  Theme,
-  NativeBlock,
-  ParsedBlock
-> {
+export default class JSSAdapter extends Adapter<NativeBlock, ParsedBlock> {
   jss: Jss;
 
   keyframes: { [animationName: string]: string } = {};
 
   sheets: { [styleName: string]: JSSSheet<string> } = {};
 
-  constructor(jss: Jss, options: Partial<AestheticOptions> = {}) {
-    super(options);
+  constructor(jss: Jss) {
+    super();
 
     this.jss = jss;
 

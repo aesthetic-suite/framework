@@ -1,5 +1,5 @@
-import Aesthetic, {
-  AestheticOptions,
+import {
+  Adapter,
   ClassName,
   Ruleset,
   Sheet,
@@ -12,17 +12,13 @@ import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class FelaAesthetic<Theme extends object> extends Aesthetic<
-  Theme,
-  NativeBlock,
-  ParsedBlock
-> {
+export default class FelaAdapter extends Adapter<NativeBlock, ParsedBlock> {
   fela: IRenderer;
 
   keyframes: { [animationName: string]: ClassName } = {};
 
-  constructor(fela: IRenderer, options: Partial<AestheticOptions> = {}) {
-    super(options);
+  constructor(fela: IRenderer) {
+    super();
 
     this.fela = fela;
 

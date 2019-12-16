@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 
-import Aesthetic, {
-  AestheticOptions,
+import {
+  Adapter,
   ClassName,
   Ruleset,
   Sheet,
@@ -14,17 +14,13 @@ import { TypeStyle } from 'typestyle';
 import { FontFace, KeyFrames } from 'typestyle/lib/types';
 import { NativeBlock, ParsedBlock } from './types';
 
-export default class TypeStyleAesthetic<Theme extends object> extends Aesthetic<
-  Theme,
-  NativeBlock,
-  ParsedBlock
-> {
+export default class TypeStyleAdapter extends Adapter<NativeBlock, ParsedBlock> {
   typeStyle: TypeStyle;
 
   keyframes: { [animationName: string]: ClassName } = {};
 
-  constructor(typeStyle: TypeStyle, options: Partial<AestheticOptions> = {}) {
-    super(options);
+  constructor(typeStyle: TypeStyle) {
+    super();
 
     this.typeStyle = typeStyle;
 

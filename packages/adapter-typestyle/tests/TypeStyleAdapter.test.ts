@@ -31,13 +31,13 @@ import {
   SYNTAX_RAW_CSS,
 } from 'aesthetic/lib/testUtils';
 import { FontFace, KeyFrames } from 'typestyle/lib/types';
-import TypeStyleAesthetic from '../src/TypeStyleAesthetic';
+import TypeStyleAdapter from '../src/TypeStyleAdapter';
 
-describe('TypeStyleAesthetic', () => {
-  let instance: TypeStyleAesthetic<{}>;
+describe('TypeStyleAdapter', () => {
+  let instance: TypeStyleAdapter;
 
   beforeEach(() => {
-    instance = new TypeStyleAesthetic(new TypeStyle({ autoGenerateTag: true }));
+    instance = new TypeStyleAdapter(new TypeStyle({ autoGenerateTag: true }));
   });
 
   afterEach(() => {

@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import FelaAesthetic from './FelaAesthetic';
+import FelaAdapter from './FelaAdapter';
 
 export * from './types';
 
-export default FelaAesthetic;
+export default FelaAdapter;

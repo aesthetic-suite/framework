@@ -1,6 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
-import { StyleSheetTestUtils, CSSProperties } from 'aphrodite';
+import { createRenderer } from 'fela';
+import webPreset from 'fela-preset-web';
 import { GLOBAL_STYLE_NAME } from 'aesthetic';
 import {
   cleanupStyleElements,
@@ -13,6 +14,7 @@ import {
   SYNTAX_UNIFIED_LOCAL_FULL,
   SYNTAX_ATTRIBUTE,
   SYNTAX_DESCENDANT,
+  SYNTAX_FALLBACKS,
   SYNTAX_FONT_FACE,
   SYNTAX_FONT_FACE_MIXED,
   SYNTAX_FONT_FACE_MULTIPLE,
@@ -22,66 +24,40 @@ import {
   SYNTAX_MULTI_SELECTOR,
   SYNTAX_PROPERTIES,
   SYNTAX_PSEUDO,
+  SYNTAX_SUPPORTS,
+  FONT_ROBOTO,
+  FONT_CIRCULAR_MULTIPLE,
   SYNTAX_MEDIA_QUERY_NESTED,
   SYNTAX_KEYFRAMES_INLINE,
-  KEYFRAME_SLIDE_PERCENT,
   SYNTAX_FONT_FACES_INLINE,
   SYNTAX_RAW_CSS,
 } from 'aesthetic/lib/testUtils';
-import AphroditeAesthetic from '../src/AphroditeAesthetic';
+import FelaAdapter from '../src/FelaAdapter';
 
-describe('AphroditeAesthetic', () => {
-  let instance: AphroditeAesthetic<{}>;
+describe('FelaAdapter', () => {
+  let instance: FelaAdapter;
 
   beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-    instance = new AphroditeAesthetic();
+    instance = new FelaAdapter(
+      createRenderer({
+        plugins: [...webPreset],
+      }),
+    );
   });
 
   afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
     cleanupStyleElements();
   });
 
   DIRECTIONS.forEach(dir => {
     describe(`${dir.toUpperCase()}`, () => {
       it('converts and transforms inline styles', () => {
-        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe(
-          'inline-0_16pg94n-o_O-inline-1_igcoje',
-        );
+        expect(instance.transformStyles([{ margin: 0 }, { padding: 2 }], { dir })).toBe('a b');
       });
 
       describe('global sheet', () => {
         it('flushes and purges global styles from the DOM', () => {
-          renderAndExpect(
-            instance,
-            SYNTAX_GLOBAL,
-            {
-              globals: {
-                '*body': { margin: 0 },
-                '*html': { height: '100%' },
-                '*a': {
-                  color: 'red',
-                  ':hover': {
-                    color: 'darkred',
-                  },
-                  ':focus': {
-                    color: 'lightred',
-                  },
-                },
-                '*ul': {
-                  margin: 0,
-                  '> li': {
-                    margin: 0,
-                  },
-                  '@media (max-width: 500px)': {
-                    margin: 20,
-                  },
-                },
-              },
-            },
-            { dir, global: true },
-          );
+          renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
 
           instance.purgeStyles(GLOBAL_STYLE_NAME);
 
@@ -89,36 +65,47 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('handles @font-face', () => {
+          const spy = jest.spyOn(instance.fela, 'renderFont');
+
           instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE, { dir });
 
-          expect(instance.fontFaces).toEqual({
-            Roboto: [FONT_ROBOTO_FLAT_SRC],
-          });
+          expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
+          expect(spy).toHaveBeenCalledTimes(1);
         });
 
         it('handles mixed @font-face', () => {
+          const spy = jest.spyOn(instance.fela, 'renderFont');
+
           instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MIXED, { dir });
 
-          expect(instance.fontFaces).toEqual({
-            Roboto: [FONT_ROBOTO_FLAT_SRC],
-            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-          });
+          expect(spy).toHaveBeenCalledWith('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO_FLAT_SRC);
+          expect(spy).toHaveBeenCalledWith(
+            'Circular',
+            FONT_CIRCULAR_MULTIPLE[0].srcPaths,
+            FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0],
+          );
+          expect(spy).toHaveBeenCalledTimes(5);
         });
 
         it('handles multiple @font-face', () => {
+          const spy = jest.spyOn(instance.fela, 'renderFont');
+
           instance.syntax.convertGlobalSheet(SYNTAX_FONT_FACE_MULTIPLE, { dir });
 
-          expect(instance.fontFaces).toEqual({
-            Circular: FONT_CIRCULAR_MULTIPLE_FLAT_SRC,
-          });
+          expect(spy).toHaveBeenCalledWith(
+            'Circular',
+            FONT_CIRCULAR_MULTIPLE[0].srcPaths,
+            FONT_CIRCULAR_MULTIPLE_FLAT_SRC[0],
+          );
+          expect(spy).toHaveBeenCalledTimes(4);
         });
 
         it('handles @keyframes', () => {
+          const spy = jest.spyOn(instance.fela, 'renderKeyframe');
+
           instance.syntax.convertGlobalSheet(SYNTAX_KEYFRAMES, { dir });
 
-          expect(instance.keyframes).toEqual({
-            fade: KEYFRAME_FADE,
-          });
+          expect(spy).toHaveBeenCalledWith(expect.anything(), {});
         });
       });
 
@@ -134,8 +121,10 @@ describe('AphroditeAesthetic', () => {
         });
 
         it('converts unified syntax to native syntax and transforms to a class name', () => {
-          instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as CSSProperties];
-          instance.keyframes.fade = KEYFRAME_FADE;
+          instance.fela.renderFont('Roboto', FONT_ROBOTO.srcPaths, FONT_ROBOTO);
+
+          // @ts-ignore
+          instance.keyframes.fade = instance.fela.renderKeyframe(() => KEYFRAME_FADE, {});
 
           renderAndExpect(
             instance,
@@ -148,7 +137,7 @@ describe('AphroditeAesthetic', () => {
                 borderRadius: 4,
                 display: 'inline-block',
                 cursor: 'pointer',
-                fontFamily: [FONT_ROBOTO_FLAT_SRC],
+                fontFamily: 'Roboto',
                 fontWeight: 'normal',
                 lineHeight: 'normal',
                 whiteSpace: 'nowrap',
@@ -157,7 +146,7 @@ describe('AphroditeAesthetic', () => {
                 backgroundColor: '#337ab7',
                 verticalAlign: 'middle',
                 color: 'rgba(0, 0, 0, 0)',
-                animationName: [KEYFRAME_FADE],
+                animationName: 'k1',
                 animationDuration: '.3s',
                 ':hover': {
                   backgroundColor: '#286090',
@@ -229,10 +218,10 @@ describe('AphroditeAesthetic', () => {
             SYNTAX_KEYFRAMES_INLINE,
             {
               single: {
-                animationName: [KEYFRAME_SLIDE_PERCENT],
+                animationName: 'k1',
               },
               multiple: {
-                animationName: [KEYFRAME_SLIDE_PERCENT, 'unknown', KEYFRAME_FADE],
+                animationName: 'k1, unknown, k2',
               },
             },
             { dir },
@@ -245,10 +234,25 @@ describe('AphroditeAesthetic', () => {
             SYNTAX_FONT_FACES_INLINE,
             {
               single: {
-                fontFamily: [FONT_ROBOTO_FLAT_SRC],
+                fontFamily: 'Roboto',
               },
               multiple: {
-                fontFamily: [...FONT_CIRCULAR_MULTIPLE_FLAT_SRC, 'OtherFont', FONT_ROBOTO_FLAT_SRC],
+                fontFamily: 'Circular, OtherFont, Roboto',
+              },
+            },
+            { dir },
+          );
+        });
+
+        it('handles @fallbacks', () => {
+          renderAndExpect(
+            instance,
+            SYNTAX_FALLBACKS,
+            {
+              fallback: {
+                background: ['red', 'linear-gradient(...)'],
+                display: ['block', 'inline-block', 'flex'],
+                color: ['blue'],
               },
             },
             { dir },
@@ -289,6 +293,25 @@ describe('AphroditeAesthetic', () => {
                   '@media (max-width: 1000px)': {
                     color: 'green',
                   },
+                },
+              },
+            },
+            { dir },
+          );
+        });
+
+        it('handles @supports', () => {
+          renderAndExpect(
+            instance,
+            SYNTAX_SUPPORTS,
+            {
+              sup: {
+                display: 'block',
+                '@supports (display: flex)': {
+                  display: 'flex',
+                },
+                '@supports not (display: flex)': {
+                  float: 'left',
                 },
               },
             },

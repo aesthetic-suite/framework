@@ -3,6 +3,6 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { ClassNameAesthetic } from 'aesthetic';
+import { ClassNameAdapter } from 'aesthetic';
 
-export default ClassNameAesthetic;
+export default ClassNameAdapter;
