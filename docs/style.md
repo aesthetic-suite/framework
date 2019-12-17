@@ -11,11 +11,11 @@ framework (like React), this process is entirely abstracted away, but the core c
 know.
 
 The first phase is registering and persisting the actual style sheet with
-`Aesthetic#registerStyleSheet`. This method requires a unique style name as the 1st argument (this
-is used as a cache key) and the style sheet function as the 2nd argument.
+`Aesthetic#registerStyleSheet`. This method requires a style sheet factory function and returns a
+unique ID (known as a style name) that must be used in subsequent calls.
 
 ```ts
-aesthetic.registerStyleSheet('button-component', theme => ({
+const styleName = aesthetic.registerStyleSheet(theme => ({
   button: {
     padding: theme.unit,
   },
@@ -32,20 +32,20 @@ parsed style sheet. This parsed style sheet is then used to generate
 const adapter = aesthetic.getAdapter();
 
 // Current settings
-const styles = adapter.createStyleSheet('button-component');
+const styles = adapter.createStyleSheet(styleName);
 
 // To enable RTL
-const styles = adapter.createStyleSheet('button-component', { dir: 'rtl' });
+const styles = adapter.createStyleSheet(styleName, { dir: 'rtl' });
 
 // To change themes
-const styles = adapter.createStyleSheet('button-component', { theme: 'dark' });
+const styles = adapter.createStyleSheet(styleName, { theme: 'dark' });
 ```
 
 And lastly, we must inject the generated native CSS style sheet into the DOM using
 `Adapter#flushStyles`. This also requires a unique style name.
 
 ```ts
-adapter.flushStyles('button-component');
+adapter.flushStyles(styleName);
 ```
 
 ### Style Patterns
@@ -158,6 +158,9 @@ dynamic and immediate theme switching.
 
 ```ts
 adapter.purgeStyles();
+
+// Or for a single style
+adapter.purgeStyles(styleName);
 ```
 
 ## Extending Styles
