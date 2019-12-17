@@ -25,8 +25,7 @@
     "direction": "^1.0.3",
     "hoist-non-react-statics": "^3.3.1",
     "prop-types": "^15.7.2",
-    "utility-types": "^3.10.0",
-    "uuid": "^3.3.3"
+    "utility-types": "^3.10.0"
   },
   "peerDependencies": {
     "aesthetic": "^4.0.0",

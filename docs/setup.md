@@ -23,8 +23,6 @@ be overridden per component.
 - `adapter` (Adapter) - The CSS-in-JS adapter to use for CSS styling and transformation.
 - `cxPropName` (string) - Name of the prop in which to pass the styles to CSS class name transformer
   function. Defaults to `cx`.
-- `extendable` (boolean) - Can component styles be extended by other components? Otherwise, the
-  styles are locked and isolated. Defaults to `false`.
 - `passThemeProp` (boolean) - Should the theme prop be passed to all wrapped components? Defaults to
   `false`.
 - `rtl` (boolean) - Enable right-to-left mode rendering for all components.

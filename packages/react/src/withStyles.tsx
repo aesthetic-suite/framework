@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import aesthetic, { StyleSheetFactory, ThemeSheet } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import uuid from 'uuid/v4';
 import useStyles from './useStyles';
 import ThemeContext from './ThemeContext';
 import {
@@ -15,13 +14,11 @@ import {
  * Wrap a React component with an HOC that injects the defined style sheet as a prop.
  */
 export default function withStyles<T>(
-  styleSheet: StyleSheetFactory<ThemeSheet, T>,
+  factory: StyleSheetFactory<ThemeSheet, T>,
   options: WithStylesOptions = {},
 ) /* infer */ {
   const {
     cxPropName = aesthetic.options.cxPropName,
-    extendable = aesthetic.options.extendable,
-    extendFrom = '',
     passThemeProp = aesthetic.options.passThemeProp,
     stylesPropName = aesthetic.options.stylesPropName,
     themePropName = aesthetic.options.themePropName,
@@ -31,17 +28,16 @@ export default function withStyles<T>(
     WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps>,
   ): StyledComponent<Props & WithStylesWrapperProps> {
     const baseName = WrappedComponent.displayName || WrappedComponent.name;
-    const styleName = `${baseName}-${uuid()}`;
 
     // We must register earlier so that extending styles works correctly
-    aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);
+    const styleName = aesthetic.registerStyleSheet(factory);
 
     const WithStyles = React.memo(function WithStyles({
       wrappedRef,
       ...props
     }: Props & WithStylesWrapperProps) {
       const themeName = useContext(ThemeContext);
-      const [styles, cx] = useStyles(styleSheet, { styleName });
+      const [styles, cx] = useStyles(factory);
       const extraProps: WithStylesWrappedProps = {
         [cxPropName as 'cx']: cx,
         [stylesPropName as 'styles']: styles,
@@ -62,20 +58,6 @@ export default function withStyles<T>(
     WithStyles.styleName = styleName;
 
     WithStyles.WrappedComponent = WrappedComponent;
-
-    WithStyles.extendStyles = (customStyleSheet, extendOptions) => {
-      if (__DEV__) {
-        if (!extendable) {
-          throw new Error(`${baseName} is not extendable.`);
-        }
-      }
-
-      return withStyles(customStyleSheet, {
-        ...options,
-        ...extendOptions,
-        extendFrom: styleName,
-      })(WrappedComponent);
-    };
 
     return WithStyles;
   };

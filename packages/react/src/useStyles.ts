@@ -1,4 +1,4 @@
-import { useContext, useRef, useEffect, useLayoutEffect } from 'react';
+import { useContext, useEffect, useLayoutEffect } from 'react';
 import aesthetic, {
   ClassNameTransformer,
   CompiledStyleSheet,
@@ -6,10 +6,8 @@ import aesthetic, {
   StyleSheetFactory,
   ThemeSheet,
 } from 'aesthetic';
-import uuid from 'uuid/v4';
 import DirectionContext from './DirectionContext';
 import ThemeContext from './ThemeContext';
-import { UseStylesOptions } from './types';
 
 const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
@@ -17,27 +15,15 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
  * Hook within a component to provide a style sheet.
  */
 export default function useStyles<T>(
-  styleSheet: StyleSheetFactory<ThemeSheet, T>,
-  options: UseStylesOptions = {},
+  factory: StyleSheetFactory<ThemeSheet, T>,
 ): [CompiledStyleSheet, ClassNameTransformer, StyleName] {
-  const { styleName: customName } = options;
-  const ref = useRef<string>();
   const dir = useContext(DirectionContext);
   const themeName = useContext(ThemeContext);
-  let styleName = '';
-
-  // Only register the style sheet once
-  if (ref.current) {
-    styleName = ref.current;
-  } else {
-    styleName = customName || uuid();
-    ref.current = styleName;
-    aesthetic.registerStyleSheet(styleName, styleSheet);
-  }
+  const styleName = aesthetic.registerStyleSheet(factory);
+  const options = { dir, name: styleName, theme: themeName };
 
   // Create a unique style sheet for this component
-  const params = { dir, name: styleName, theme: themeName };
-  const sheet = aesthetic.getAdapter().createStyleSheet(styleName, params);
+  const styleSheet = aesthetic.getAdapter().createStyleSheet(styleName, options);
 
   // Flush styles on mount
   useSideEffect(() => {
@@ -46,7 +32,7 @@ export default function useStyles<T>(
 
   // Create a CSS transformer
   const cx: ClassNameTransformer = (...styles) =>
-    aesthetic.getAdapter().transformStyles(styles, params);
+    aesthetic.getAdapter().transformStyles(styles, options);
 
-  return [sheet, cx, styleName];
+  return [styleSheet, cx, styleName];
 }

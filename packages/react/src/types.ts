@@ -71,10 +71,6 @@ export interface WithStylesWrappedProps<Theme = ThemeSheet> {
 export interface WithStylesOptions {
   /** Name of the prop in which to pass the CSS class name transformer function. Provided by `withStyles`. */
   cxPropName?: string;
-  /** Can this component's styles be extended to create a new component. Provided by `withStyles`. */
-  extendable?: boolean;
-  /** The parent component ID in which to extend styles from. This is usually defined automatically. Provided by `withStyles`. */
-  extendFrom?: string;
   /** Pass the theme object prop to the wrapped component. Provided by `withStyles`. */
   passThemeProp?: boolean;
   /** Name of the prop in which to pass styles to the wrapped component. Provided by `withStyles`. */
@@ -91,9 +87,4 @@ export interface StyledComponent<Props> extends React.NamedExoticComponent<Props
   styleName: StyleName;
 
   WrappedComponent: React.ComponentType<any>;
-
-  extendStyles<T>(
-    styleSheet: StyleSheetFactory<ThemeSheet, T>,
-    extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
-  ): StyledComponent<Props>;
 }

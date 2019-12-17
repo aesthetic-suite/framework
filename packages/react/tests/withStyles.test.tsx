@@ -70,12 +70,6 @@ describe('withStyles()', () => {
     expect(Wrapped.WrappedComponent).toBe(BaseComponent);
   });
 
-  it('defines static method for extending styles', () => {
-    const Wrapped = withStyles(() => ({}))(BaseComponent);
-
-    expect(Wrapped.extendStyles).toBeInstanceOf(Function);
-  });
-
   it('sets styles on the `Aesthetic` instance', () => {
     const styles = () => ({
       button: {
@@ -88,57 +82,6 @@ describe('withStyles()', () => {
     renderWithWrapper(<Wrapped />);
 
     expect(aesthetic.styleSheets[Wrapped.styleName]).toBe(styles);
-  });
-
-  it('can set styles using `extendStyles`', () => {
-    const Wrapped = withStyles(
-      () => ({
-        button: {
-          display: 'inline-block',
-          padding: 5,
-        },
-      }),
-      {
-        extendable: true,
-      },
-    )(BaseComponent);
-
-    expect(aesthetic.getStyleSheet(Wrapped.styleName, 'default')).toEqual({
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-    });
-
-    const Extended = Wrapped.extendStyles(() => ({
-      notButton: {
-        color: 'red',
-      },
-    }));
-
-    expect(aesthetic.getStyleSheet(Extended.styleName, 'default')).toEqual({
-      button: {
-        display: 'inline-block',
-        padding: 5,
-      },
-      notButton: {
-        color: 'red',
-      },
-    });
-  });
-
-  it('can set extended components as non-extendable', () => {
-    const Wrapped = withStyles(() => ({}), {
-      extendable: true,
-    })(BaseComponent);
-
-    const Extended = Wrapped.extendStyles(() => ({}), {
-      extendable: false,
-    });
-
-    expect(() => {
-      Extended.extendStyles(() => ({}));
-    }).toThrowErrorMatchingSnapshot();
   });
 
   it('inherits a function to generate CSS class names', () => {

@@ -162,14 +162,9 @@ adapter.purgeStyles();
 
 ## Extending Styles
 
-Since styles are isolated and co-located within a component, they can be impossible to customize,
-especially if the component comes from a third-party library. Aesthetic supports 2 forms of style
-extending based on the API you choose to use.
-
-### Composing Style Sheets
-
-The `Aesthetic#extendStyles` method can be used to compose multiple style sheet providing functions
-into a single style sheet function.
+To extend styles, the style sheet factory must be defined outside of a component, and easily
+importable. Once done, the `Aesthetic#extendStyles` method can be used to compose multiple style
+sheet providing functions into a single style sheet function.
 
 ```ts
 import aesthetic from 'aesthetic';
@@ -195,28 +190,4 @@ const styleSheet = aesthetic.extendStyles(
 );
 ```
 
-### From A React Component
-
-If a component is styled with `withStyles` and marked as `extendable`, styles can be customized by
-calling the static `extendStyles` method on the wrapped component instance.
-
-```ts
-import BaseButton from './path/to/Button';
-
-export const TransparentButton = BaseButton.extendStyles(() => ({
-  button: {
-    background: 'transparent',
-    // ...
-  },
-}));
-
-export const PrimaryButton = BaseButton.extendStyles(theme => ({
-  button: {
-    background: theme.color.primary,
-    // ...
-  },
-}));
-```
-
-> Extending styles will return the original component wrapped with new styles, instead of wrapping
-> the styled component and stacking on an unnecessary layer.
+> Factories are processed left to right, with the next overriding the previous.

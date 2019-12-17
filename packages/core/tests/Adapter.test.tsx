@@ -83,8 +83,10 @@ describe('Adapter', () => {
 
   // Will have no properties as no unified syntax handlers are defined
   describe('createStyleSheet()', () => {
+    let styleName: string;
+
     beforeEach(() => {
-      instance.aesthetic.registerStyleSheet('foo', (theme: TestTheme) => ({
+      styleName = instance.aesthetic.registerStyleSheet((theme: TestTheme) => ({
         el: {
           display: 'block',
           padding: theme.unit,
@@ -94,7 +96,7 @@ describe('Adapter', () => {
     });
 
     it('returns the style sheet', () => {
-      expect(instance.createStyleSheet('foo', {})).toEqual({
+      expect(instance.createStyleSheet(styleName, {})).toEqual({
         el: 'el',
       });
     });
@@ -102,7 +104,7 @@ describe('Adapter', () => {
     it('calls `convertStyleSheet` for unified syntax while passing theme', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
-      instance.createStyleSheet('foo', {});
+      instance.createStyleSheet(styleName, {});
 
       expect(spy).toHaveBeenCalledWith(
         {
@@ -112,22 +114,22 @@ describe('Adapter', () => {
             color: 'black',
           },
         },
-        { dir: 'ltr', global: false, name: 'foo', theme: 'default' },
+        { dir: 'ltr', global: false, name: styleName, theme: 'default' },
       );
     });
 
     it('calls `parseStyleSheet` with converted syntax', () => {
       const spy = jest.spyOn(instance, 'parseStyleSheet');
 
-      instance.createStyleSheet('foo', {});
+      instance.createStyleSheet(styleName, {});
 
-      expect(spy).toHaveBeenCalledWith({ el: {} }, 'foo');
+      expect(spy).toHaveBeenCalledWith({ el: {} }, styleName);
     });
 
     it('calls `applyGlobalStyles`', () => {
       const spy = jest.spyOn(instance, 'applyGlobalStyles');
 
-      instance.createStyleSheet('foo', {});
+      instance.createStyleSheet(styleName, {});
 
       expect(spy).toHaveBeenCalled();
     });
@@ -135,25 +137,25 @@ describe('Adapter', () => {
     it('caches the result', () => {
       const params: TransformOptions = { dir: 'ltr', global: false, theme: 'light' };
 
-      expect(instance.getCacheManager().get('foo', params)).toBeNull();
+      expect(instance.getCacheManager().get(styleName, params)).toBeNull();
 
-      instance.createStyleSheet('foo', params);
+      instance.createStyleSheet(styleName, params);
 
-      expect(instance.getCacheManager().get('foo', params)).not.toBeNull();
+      expect(instance.getCacheManager().get(styleName, params)).not.toBeNull();
 
-      const sheet = instance.createStyleSheet('foo', params);
+      const sheet = instance.createStyleSheet(styleName, params);
 
-      expect(instance.getCacheManager().get('foo', params)).toEqual(sheet);
+      expect(instance.getCacheManager().get(styleName, params)).toEqual(sheet);
     });
 
     it('inherits `rtl` from passed options', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
       instance.aesthetic.configure({ rtl: true });
-      instance.createStyleSheet('foo', { dir: 'ltr' });
+      instance.createStyleSheet(styleName, { dir: 'ltr' });
 
       expect(spy).toHaveBeenCalledWith(expect.anything(), {
-        name: 'foo',
+        name: styleName,
         global: false,
         dir: 'ltr',
         theme: 'default',
@@ -164,10 +166,10 @@ describe('Adapter', () => {
       const spy = jest.spyOn(instance.syntax, 'convertStyleSheet');
 
       instance.aesthetic.configure({ rtl: true });
-      instance.createStyleSheet('foo', {});
+      instance.createStyleSheet(styleName, {});
 
       expect(spy).toHaveBeenCalledWith(expect.anything(), {
-        name: 'foo',
+        name: styleName,
         global: false,
         dir: 'rtl',
         theme: 'default',

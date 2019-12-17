@@ -20,7 +20,6 @@ describe('Aesthetic', () => {
       expect(instance.options).toEqual(
         expect.objectContaining({
           cxPropName: 'css',
-          extendable: false,
           passThemeProp: false,
           rtl: false,
           stylesPropName: 'styleSheet',

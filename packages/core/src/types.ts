@@ -141,7 +141,6 @@ export type CompiledStyleSheet = SheetMap<ClassName | object>;
 export interface AestheticOptions {
   adapter: Adapter<any, any>;
   cxPropName: string;
-  extendable: boolean;
   passThemeProp: boolean;
   rtl: boolean;
   stylesPropName: string;

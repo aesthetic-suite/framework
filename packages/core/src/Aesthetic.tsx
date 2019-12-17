@@ -1,5 +1,6 @@
 import deepMerge from 'extend';
 import { isObject } from 'aesthetic-utils';
+import uuid from 'uuid/v4';
 import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import {
@@ -15,7 +16,6 @@ import {
 const DEFAULT_OPTIONS: AestheticOptions = {
   adapter: new ClassNameAdapter(),
   cxPropName: 'cx',
-  extendable: false,
   passThemeProp: false,
   rtl: false,
   stylesPropName: 'styles',
@@ -23,14 +23,12 @@ const DEFAULT_OPTIONS: AestheticOptions = {
   themePropName: 'theme',
 };
 
+const ID_MAP = new Map<StyleSheetFactory<any>, string>();
+
 export default class Aesthetic {
   globalSheets: { [themeName: string]: GlobalSheetFactory } = {};
 
-  options: Readonly<AestheticOptions> = {
-    ...DEFAULT_OPTIONS,
-  };
-
-  parents: { [childStyleName: string]: StyleName } = {};
+  options: Readonly<AestheticOptions> = { ...DEFAULT_OPTIONS };
 
   styleSheets: { [styleName: string]: StyleSheetFactory } = {};
 
@@ -76,8 +74,8 @@ export default class Aesthetic {
   /**
    * Compose and extend multiple style sheets to create 1 style sheet.
    */
-  extendStyles(...styleSheets: StyleSheetFactory[]): StyleSheetFactory {
-    return (theme: ThemeSheet) => {
+  extendStyles<T = ThemeSheet>(...styleSheets: StyleSheetFactory<T>[]): StyleSheetFactory<T> {
+    return (theme: T) => {
       const sheets = styleSheets.map(sheet => sheet(theme));
 
       return deepMerge(true, {}, ...sheets);
@@ -109,14 +107,8 @@ export default class Aesthetic {
    * Retrieve the component style sheet for the defined theme.
    */
   getStyleSheet(styleName: StyleName, themeName: ThemeName): StyleSheet {
-    const parentStyleName = this.parents[styleName];
     const styleFactory = this.styleSheets[styleName];
     const styleSheet = styleFactory(this.getTheme(themeName));
-
-    // Merge from parent
-    if (parentStyleName) {
-      return deepMerge(true, {}, this.getStyleSheet(parentStyleName, themeName), styleSheet);
-    }
 
     return styleSheet;
   }
@@ -138,31 +130,20 @@ export default class Aesthetic {
   }
 
   /**
-   * Register a style sheet definition. Optionally extend from a parent style sheet if defined.
+   * Register a style sheet and return a unique ID.
    */
-  registerStyleSheet<T = ThemeSheet>(
-    styleName: StyleName,
-    styleSheet: StyleSheetFactory<T>,
-    extendFrom?: StyleName,
-  ): this {
-    if (extendFrom) {
-      if (__DEV__) {
-        if (!this.styleSheets[extendFrom]) {
-          throw new Error(`Cannot extend from "${extendFrom}" as those styles do not exist.`);
-        } else if (extendFrom === styleName) {
-          throw new Error('Cannot extend styles from itself.');
-        }
-      }
-
-      this.parents[styleName] = extendFrom;
+  registerStyleSheet<T = ThemeSheet>(styleSheet: StyleSheetFactory<T>): StyleName {
+    if (ID_MAP.get(styleSheet)) {
+      return ID_MAP.get(styleSheet)!;
     }
 
-    this.styleSheets[styleName] = this.validateDefinition(
-      styleName,
-      styleSheet,
-    ) as StyleSheetFactory;
+    const id = uuid();
 
-    return this;
+    this.styleSheets[id] = this.validateDefinition(id, styleSheet) as StyleSheetFactory;
+
+    ID_MAP.set(styleSheet, id);
+
+    return id;
   }
 
   /**
@@ -209,8 +190,8 @@ export default class Aesthetic {
    */
   resetForTesting() {
     if (process.env.NODE_ENV === 'test') {
+      ID_MAP.clear();
       this.globalSheets = {};
-      this.parents = {};
       this.styleSheets = {};
       this.themes = {};
       this.configure(DEFAULT_OPTIONS);
