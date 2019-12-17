@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved, @typescript-eslint/no-explicit-any */
 
 import CSS from 'csstype';
-import { Omit } from 'utility-types';
 import Adapter from './Adapter';
 
 // NEVERIZE

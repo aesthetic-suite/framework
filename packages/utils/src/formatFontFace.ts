@@ -1,4 +1,3 @@
-import { Omit } from 'utility-types';
 import toArray from './toArray';
 
 interface FontFaceLike {

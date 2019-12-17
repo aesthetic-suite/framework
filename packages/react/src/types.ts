@@ -11,7 +11,6 @@ import {
   ThemeName,
   ThemeSheet,
 } from 'aesthetic';
-import { Omit } from 'utility-types';
 
 export interface DirectionProviderProps {
   children: NonNullable<React.ReactNode>;
