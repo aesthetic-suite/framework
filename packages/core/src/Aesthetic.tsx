@@ -76,8 +76,8 @@ export default class Aesthetic {
   /**
    * Compose and extend multiple style sheets to create 1 style sheet.
    */
-  extendStyles(...styleSheets: StyleSheetFactory[]): StyleSheetFactory {
-    return (theme: ThemeSheet) => {
+  extendStyles<T = ThemeSheet>(...styleSheets: StyleSheetFactory<T>[]): StyleSheetFactory<T> {
+    return (theme: T) => {
       const sheets = styleSheets.map(sheet => sheet(theme));
 
       return deepMerge(true, {}, ...sheets);

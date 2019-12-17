@@ -9,6 +9,8 @@ instantiated.
 
 - Aesthetic default export is now a global instance instead of the class declaration.
 - Moved adapter functionality from `Aesthetic` into a new `Adapter` class.
+  - Methods `applyGlobalStyles`, `createStyleSheet`, `flushStyles`, `isParsedBlock`,
+    `parseStyleSheet`, `purgeStyles`, and `transformStyles`.
 - **[TS]** Theme objects are no longer typed through adapters and instead use generic inferrence.
   This is a stop-gap until the new design system layer is implemented in the next version.
 - **[TS]** Updated `Aesthetic#options` to be read-only.
