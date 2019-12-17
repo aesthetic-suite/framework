@@ -2,6 +2,8 @@
 
 exports[`Aesthetic changeTheme() errors for invalid theme name 1`] = `"Theme \\"unknown\\" does not exist."`;
 
+exports[`Aesthetic extendTheme() errors if the parent theme doesnt exist 1`] = `"Theme \\"unknown-parent\\" does not exist."`;
+
 exports[`Aesthetic getGlobalSheet errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
 
 exports[`Aesthetic getStyleSheet() errors if no theme 1`] = `"Theme \\"unknown\\" does not exist."`;
@@ -27,5 +29,3 @@ exports[`Aesthetic registerTheme() errors if a theme name has been used 1`] = `"
 exports[`Aesthetic registerTheme() errors if a theme style is not an object 1`] = `"Theme \\"foo\\" must be a style object."`;
 
 exports[`Aesthetic registerTheme() errors if global styles is not an object 1`] = `"Definition for \\"foo\\" must be null or a function."`;
-
-exports[`Aesthetic registerTheme() extending parent errors if the parent theme doesnt exist 1`] = `"Theme \\"unknown-parent\\" does not exist."`;

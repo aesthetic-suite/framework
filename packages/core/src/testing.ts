@@ -34,9 +34,9 @@ export function setupAesthetic(aesthetic: Aesthetic, adapter?: Adapter<any, any>
     },
   }));
 
-  aesthetic.registerTheme('light', { bg: 'white' }, null, 'default');
+  aesthetic.extendTheme('light', 'default', { bg: 'white' });
 
-  aesthetic.registerTheme('dark', { bg: 'black', color: 'white' }, null, 'default');
+  aesthetic.extendTheme('dark', 'default', { bg: 'black', color: 'white' });
 
   aesthetic.registerTheme('no-globals', {});
 }

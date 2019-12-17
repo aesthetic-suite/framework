@@ -93,6 +93,39 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('extendTheme()', () => {
+    it('errors if the parent theme doesnt exist', () => {
+      expect(() =>
+        instance.extendTheme('bar', 'unknown-parent', {}),
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    it('deep merges the parent and child theme', () => {
+      instance.registerTheme('foo', {
+        color: 'red',
+        unit: 8,
+      });
+
+      instance.extendTheme('bar', 'foo', {
+        color: 'blue',
+      });
+
+      expect(instance.themes.bar).toEqual({
+        color: 'blue',
+        unit: 8,
+      });
+    });
+
+    it('inherits parent theme global styles', () => {
+      const spy = jest.fn();
+
+      instance.registerTheme('foo', { color: 'red', unit: 8 }, spy);
+      instance.extendTheme('bar', 'foo', {});
+
+      expect(instance.globalSheets.bar).toBe(spy);
+    });
+  });
+
   describe('getGlobalSheet', () => {
     it('errors if no theme', () => {
       expect(() => {
@@ -348,44 +381,6 @@ describe('Aesthetic', () => {
       expect(instance.themes.foo).toEqual({ color: 'red', unit: 6 });
 
       expect(instance.globalSheets.foo).toBeDefined();
-    });
-
-    describe('extending parent', () => {
-      it('errors if the parent theme doesnt exist', () => {
-        expect(() =>
-          instance.registerTheme('bar', {}, null, 'unknown-parent'),
-        ).toThrowErrorMatchingSnapshot();
-      });
-
-      it('deep merges the parent and child theme', () => {
-        instance.registerTheme('foo', {
-          color: 'red',
-          unit: 8,
-        });
-
-        instance.registerTheme(
-          'bar',
-          {
-            color: 'blue',
-          },
-          null,
-          'foo',
-        );
-
-        expect(instance.themes.bar).toEqual({
-          color: 'blue',
-          unit: 8,
-        });
-      });
-
-      it('inherits parent theme global styles', () => {
-        const spy = jest.fn();
-
-        instance.registerTheme('foo', { color: 'red', unit: 8 }, spy);
-        instance.registerTheme('bar', {}, null, 'foo');
-
-        expect(instance.globalSheets.bar).toBe(spy);
-      });
     });
   });
 });

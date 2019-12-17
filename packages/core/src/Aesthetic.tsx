@@ -85,6 +85,22 @@ export default class Aesthetic {
   }
 
   /**
+   * Register a theme by extending and merging with a previously defined theme.
+   */
+  extendTheme<T = ThemeSheet>(
+    themeName: ThemeName,
+    parentThemeName: ThemeName,
+    theme: Partial<T>,
+    globalSheet?: GlobalSheetFactory<T>,
+  ): this {
+    return this.registerTheme(
+      themeName,
+      deepMerge(true, {}, this.getTheme(parentThemeName), theme) as T,
+      globalSheet || this.globalSheets[parentThemeName],
+    );
+  }
+
+  /**
    * Return the configured adapter.
    */
   getAdapter<N extends object, P extends object | string = N>(): Adapter<N, P> {
@@ -174,16 +190,7 @@ export default class Aesthetic {
     themeName: ThemeName,
     theme: T,
     globalSheet?: GlobalSheetFactory<T> | null,
-    extendFrom?: ThemeName,
   ): this {
-    if (extendFrom) {
-      return this.registerTheme(
-        themeName,
-        deepMerge(true, {}, this.getTheme(extendFrom), theme),
-        globalSheet || this.globalSheets[extendFrom],
-      );
-    }
-
     if (__DEV__) {
       if (this.themes[themeName]) {
         throw new Error(`Theme "${themeName}" already exists.`);
