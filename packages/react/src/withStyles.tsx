@@ -31,7 +31,7 @@ export default function withStyles<T>(
     WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps>,
   ): StyledComponent<Props & WithStylesWrapperProps> {
     const baseName = WrappedComponent.displayName || WrappedComponent.name;
-    const styleName = uuid();
+    const styleName = `${baseName}-${uuid()}`;
 
     // We must register earlier so that extending styles works correctly
     aesthetic.registerStyleSheet(styleName, styleSheet, extendFrom);

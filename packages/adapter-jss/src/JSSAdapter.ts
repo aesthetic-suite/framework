@@ -45,10 +45,6 @@ export default class JSSAdapter extends Adapter<NativeBlock, ParsedBlock> {
 
     if (sheet) {
       sheet.attach();
-
-      // Different themes use the same style name,
-      // so we will collide unless we remove the previous sheet.
-      delete this.sheets[styleName];
     }
   }
 
@@ -64,6 +60,13 @@ export default class JSSAdapter extends Adapter<NativeBlock, ParsedBlock> {
       media: 'screen',
       meta: `${name}-${theme}`,
     });
+
+    // Different themes use the same style name,
+    // so we must attach these styles immediately,
+    // otherwise other compilations would not attach
+    // previous theme styles.
+    // TODO: Fix in v6+
+    this.sheets[name].attach();
 
     return this.sheets[name].classes;
   }

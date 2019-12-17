@@ -38,9 +38,11 @@ export default abstract class Adapter<
     });
 
     // Direction changes shouldn't regenerate global styles
-    delete options.dir;
+    const cacheOptions = { ...options };
 
-    const cache = this.cacheManager.get(GLOBAL_STYLE_NAME, options);
+    delete cacheOptions.dir;
+
+    const cache = this.cacheManager.get(GLOBAL_STYLE_NAME, cacheOptions);
     const globalSheet = this.aesthetic.getGlobalSheet(options.theme);
 
     if (cache || !globalSheet) {
@@ -53,7 +55,7 @@ export default abstract class Adapter<
         this.syntax.convertGlobalSheet(globalSheet, options).toObject(),
         options,
       ),
-      options,
+      cacheOptions,
     );
 
     // Some adapters require the styles to be transformed to be flushed

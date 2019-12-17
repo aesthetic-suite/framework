@@ -45,7 +45,15 @@ describe('Adapter', () => {
 
       instance.applyGlobalStyles({});
 
-      expect(spy).toHaveBeenCalledWith({}, GLOBAL_STYLE_NAME);
+      expect(spy).toHaveBeenCalledWith(
+        {},
+        {
+          dir: 'ltr',
+          global: true,
+          name: GLOBAL_STYLE_NAME,
+          theme: 'default',
+        },
+      );
     });
 
     it('sets `ltr` on document', () => {
@@ -121,7 +129,10 @@ describe('Adapter', () => {
 
       instance.createStyleSheet('foo', {});
 
-      expect(spy).toHaveBeenCalledWith({ el: {} }, 'foo');
+      expect(spy).toHaveBeenCalledWith(
+        { el: {} },
+        { dir: 'ltr', global: false, name: '', theme: 'default' },
+      );
     });
 
     it('calls `applyGlobalStyles`', () => {
@@ -190,7 +201,10 @@ describe('Adapter', () => {
 
   describe('parseStyleSheet()', () => {
     it('returns the style sheet as an object', () => {
-      const styleSheet = instance.parseStyleSheet({ el: {} }, 'styleName');
+      const styleSheet = instance.parseStyleSheet(
+        { el: {} },
+        { dir: 'ltr', global: false, name: 'styleName', theme: '' },
+      );
 
       expect(styleSheet).toEqual({ el: 'el' });
     });

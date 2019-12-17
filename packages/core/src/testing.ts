@@ -110,7 +110,7 @@ export function renderAndExpect(
   const convertedSheet = global
     ? adapter.syntax.convertGlobalSheet(styleSheet, options).toObject()
     : adapter.syntax.convertStyleSheet(styleSheet, options).toObject();
-  const parsedSheet = adapter.parseStyleSheet(convertedSheet, name);
+  const parsedSheet = adapter.parseStyleSheet(convertedSheet, { dir, global, name, theme: '' });
   const className = adapter.transformStyles(Object.values(parsedSheet), options);
 
   adapter.flushStyles(name);
