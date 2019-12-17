@@ -51,7 +51,7 @@ export default abstract class Adapter<
       GLOBAL_STYLE_NAME,
       this.parseStyleSheet(
         this.syntax.convertGlobalSheet(globalSheet, options).toObject(),
-        GLOBAL_STYLE_NAME,
+        options,
       ),
       options,
     );
@@ -85,7 +85,7 @@ export default abstract class Adapter<
       },
     );
 
-    const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), styleName);
+    const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), options);
 
     return this.cacheManager.set(
       styleName,
@@ -133,7 +133,10 @@ export default abstract class Adapter<
   /**
    * Parse an Aesthetic style sheet into an adapter native style sheet.
    */
-  parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
+  parseStyleSheet(
+    styleSheet: SheetMap<NativeBlock>,
+    options: Required<TransformOptions>,
+  ): SheetMap<ParsedBlock> {
     // @ts-ignore Allow spread
     return { ...styleSheet };
   }
@@ -200,7 +203,7 @@ export default abstract class Adapter<
         counter += 1;
       });
 
-      parsedBlocks.push(...Object.values(this.parseStyleSheet(nativeSheet.toObject(), inlineName)));
+      parsedBlocks.push(...Object.values(this.parseStyleSheet(nativeSheet.toObject(), options)));
     }
 
     // Transform parsed blocks to class names
