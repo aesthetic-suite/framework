@@ -8,11 +8,13 @@ Provides [TypeStyle](https://github.com/threepointone/typestyle) support for
 [Aesthetic](https://github.com/milesj/aesthetic), a React styling library.
 
 ```ts
-import TypeStyleAesthetic from 'aesthetic-adapter-typestyle';
+import aesthetic from 'aesthetic';
+import TypeStyleAdapter from 'aesthetic-adapter-typestyle';
 import { TypeStyle } from 'typestyle';
-import { Theme } from './types';
 
-const aesthetic = new TypeStyleAesthetic<Theme>(new TypeStyle({ autoGenerateTag: true }), options);
+aesthetic.configure({
+  adapter: new TypeStyleAdapter(new TypeStyle({ autoGenerateTag: true })),
+});
 ```
 
 ## Requirements

@@ -8,9 +8,12 @@ Provides [CSS Modules](https://github.com/css-modules/css-modules) support for
 [Aesthetic](https://github.com/milesj/aesthetic), a React styling library.
 
 ```ts
-import CSSModulesAesthetic from 'aesthetic-adapter-css-modules';
+import aesthetic from 'aesthetic';
+import CSSModulesAdapter from 'aesthetic-adapter-css-modules';
 
-const aesthetic = new CSSModulesAesthetic(options);
+aesthetic.configure({
+  adapter: new CSSModulesAdapter(),
+});
 ```
 
 ## Requirements

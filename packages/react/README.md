@@ -9,7 +9,7 @@ Style React components with hooks or HOCs, using the powerful
 
 ```tsx
 import React from 'react';
-import useStyles from './useStyles';
+import { useStyles } from 'aesthetic-react';
 
 export type Props = {
   children: React.ReactNode;

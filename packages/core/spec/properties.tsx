@@ -1,11 +1,10 @@
 /* eslint-disable */
 
 import React from 'react';
-import { ClassNameAesthetic, ComponentBlock, StyleSheet } from 'aesthetic';
+import aesthetic, { ComponentBlock, StyleSheet } from 'aesthetic';
+import { withStyles } from 'aesthetic-react';
 
 type Theme = { unit: number };
-
-const aesthetic = new ClassNameAesthetic<Theme>();
 
 type Props = { foo?: string };
 
@@ -13,8 +12,9 @@ function Comp(props: Props) {
   return <div />;
 }
 
-// Theme
-aesthetic.registerTheme('invalid', { unit: 8 }, () => ({
+// INVALID
+
+aesthetic.registerTheme<Theme>('invalid', { unit: 8 }, () => ({
   '@charset': 123,
   '@font-face': [],
   '@global': 'foo',
@@ -25,7 +25,7 @@ aesthetic.registerTheme('invalid', { unit: 8 }, () => ({
   invalid: 'property',
 }));
 
-aesthetic.registerTheme('invalid-nested', { unit: 8 }, () => ({
+aesthetic.registerTheme<Theme>('invalid-nested', { unit: 8 }, () => ({
   '@charset': 'utf8',
   '@font-face': {
     One: [{ invalid: 'property' }],
@@ -60,7 +60,9 @@ aesthetic.registerTheme('invalid-nested', { unit: 8 }, () => ({
   },
 }));
 
-aesthetic.registerTheme('valid', { unit: 8 }, () => ({
+// VALID
+
+aesthetic.registerTheme<Theme>('valid', { unit: 8 }, () => ({
   '@charset': 'utf8',
   '@font-face': {
     One: [],
@@ -92,6 +94,7 @@ aesthetic.registerTheme('valid', { unit: 8 }, () => ({
 }));
 
 // Direct object
+
 const ruleset: ComponentBlock = {
   display: 'block',
   invalid: 'property',
@@ -117,7 +120,7 @@ const styleSheet: StyleSheet = {
 };
 
 // Styled component using arrow function
-const CompA = aesthetic.withStyles(() => ({
+const CompA = withStyles(() => ({
   element: {
     display: 'block',
     invalid: 'property',
@@ -132,7 +135,7 @@ const CompA = aesthetic.withStyles(() => ({
 }))(Comp);
 
 // Styled component using arrow function with body
-const CompB = aesthetic.withStyles(() => {
+const CompB = withStyles(() => {
   return {
     element: {
       display: 'block',
@@ -148,7 +151,7 @@ const CompB = aesthetic.withStyles(() => {
 })(Comp);
 
 // Styled component using regular function
-const CompC = aesthetic.withStyles(function() {
+const CompC = withStyles(function() {
   return {
     element: {
       display: 'block',
@@ -164,4 +167,4 @@ const CompC = aesthetic.withStyles(function() {
 })(Comp);
 
 // Styled component with no styles
-const CompD = aesthetic.withStyles(null)(Comp);
+const CompD = withStyles(null)(Comp);

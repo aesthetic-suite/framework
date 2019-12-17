@@ -11,18 +11,22 @@ libraries, all the while providing customizability, theming, additional features
 syntax.
 
 ```ts
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
+import aesthetic from 'aesthetic';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 import { Theme } from './types';
 
-const aesthetic = new AphroditeAesthetic<Theme>();
+aesthetic.configure({
+  adapter: new AphroditeAdapter(),
+  theme: 'light',
+});
 
 // Register a theme
-aesthetic.registerTheme('light', {
+aesthetic.registerTheme<Theme>('light', {
   unit: 8,
 });
 
 // Register a style sheet definition for a component
-aesthetic.registerStyleSheet('button', ({ unit }) => ({
+aesthetic.registerStyleSheet<Theme>('button', ({ unit }) => ({
   button: {
     textAlign: 'center',
     display: 'inline-block',
@@ -41,7 +45,7 @@ Supports both an HOC and hook styled React API!
 
 ```tsx
 import React from 'react';
-import useStyles from './useStyles';
+import { useStyles } from 'aesthetic-react';
 
 export type Props = {
   children: React.ReactNode;

@@ -8,10 +8,12 @@ Provides [Aphrodite](https://github.com/Khan/aphrodite) support for
 [Aesthetic](https://github.com/milesj/aesthetic), a React styling library.
 
 ```ts
-import AphroditeAesthetic from 'aesthetic-adapter-aphrodite';
-import { Theme } from './types';
+import aesthetic from 'aesthetic';
+import AphroditeAdapter from 'aesthetic-adapter-aphrodite';
 
-const aesthetic = new AphroditeAesthetic<Theme>(extensions, options);
+aesthetic.configure({
+  adapter: new AphroditeAdapter(extensions),
+});
 ```
 
 ## Requirements
