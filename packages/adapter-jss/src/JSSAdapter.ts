@@ -1,4 +1,12 @@
-import { Adapter, ClassName, Ruleset, Sheet, StyleName, SheetMap } from 'aesthetic';
+import {
+  Adapter,
+  ClassName,
+  Ruleset,
+  Sheet,
+  StyleName,
+  SheetMap,
+  TransformOptions,
+} from 'aesthetic';
 import { toArray } from 'aesthetic-utils';
 import { Jss, StyleSheet as JSSSheet } from 'jss';
 import { NativeBlock, ParsedBlock } from './types';
@@ -44,13 +52,23 @@ export default class JSSAdapter extends Adapter<NativeBlock, ParsedBlock> {
     return typeof block === 'string';
   }
 
-  parseStyleSheet(styleSheet: SheetMap<NativeBlock>, styleName: StyleName): SheetMap<ParsedBlock> {
-    this.sheets[styleName] = this.jss.createStyleSheet(styleSheet, {
+  parseStyleSheet(
+    styleSheet: SheetMap<NativeBlock>,
+    { name, theme }: Required<TransformOptions>,
+  ): SheetMap<ParsedBlock> {
+    this.sheets[name] = this.jss.createStyleSheet(styleSheet, {
       media: 'screen',
-      meta: styleName,
+      meta: `${name}-${theme}`,
     });
 
-    return this.sheets[styleName].classes;
+    // Different themes use the same style name,
+    // so we must attach these styles immediately,
+    // otherwise other compilations would not attach
+    // previous theme styles.
+    // TODO: Fix in v6+
+    this.sheets[name].attach();
+
+    return this.sheets[name].classes;
   }
 
   purgeStyles(styleName?: StyleName) {

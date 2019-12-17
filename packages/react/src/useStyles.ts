@@ -32,7 +32,10 @@ export default function useStyles<T>(
   } else {
     styleName = customName || uuid();
     ref.current = styleName;
-    aesthetic.registerStyleSheet(styleName, styleSheet);
+
+    if (!aesthetic.styleSheets[styleName]) {
+      aesthetic.registerStyleSheet(styleName, styleSheet);
+    }
   }
 
   // Create a unique style sheet for this component
