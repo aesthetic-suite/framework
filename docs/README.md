@@ -29,7 +29,8 @@ component.
 
 ```tsx
 import React from 'react';
-import withStyles, { WithStylesProps } from './withStyles';
+import { withStyles, WithStylesWrappedProps } from 'aesthetic-react';
+import { Theme } from './types';
 
 export type Props = {
   children: NonNullable<React.ReactNode>;
@@ -39,7 +40,7 @@ export type State = {
   animating: boolean;
 };
 
-class Carousel extends React.Component<Props & WithStylesProps, State> {
+class Carousel extends React.Component<Props & WithStylesWrappedProps<Theme>, State> {
   // ...
 
   render() {
@@ -62,7 +63,7 @@ class Carousel extends React.Component<Props & WithStylesProps, State> {
   }
 }
 
-export default withStyles(theme => ({
+export default withStyles<Theme>(theme => ({
   carousel: {
     position: 'relative',
     maxWidth: '100%',
