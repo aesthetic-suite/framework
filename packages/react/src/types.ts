@@ -9,7 +9,6 @@ import {
   StyleName,
   StyleSheetFactory,
   ThemeName,
-  ThemeSheet,
 } from 'aesthetic';
 
 export interface DirectionProviderProps {
@@ -39,7 +38,7 @@ export interface WithThemeWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithThemeWrappedProps<Theme = ThemeSheet> {
+export interface WithThemeWrappedProps<Theme> {
   /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
   ref?: React.Ref<any>;
   /** The theme object. Provided by `withTheme`. */
@@ -56,7 +55,7 @@ export interface WithStylesWrapperProps {
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithStylesWrappedProps<Theme = ThemeSheet> {
+export interface WithStylesWrappedProps<Theme> {
   /** Utility function to transform parsed styles into CSS class names. Provided by `withStyles`. */
   cx: ClassNameTransformer;
   /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
@@ -92,7 +91,7 @@ export interface StyledComponent<Props> extends React.NamedExoticComponent<Props
   WrappedComponent: React.ComponentType<any>;
 
   extendStyles<T>(
-    styleSheet: StyleSheetFactory<ThemeSheet, T>,
+    styleSheet: StyleSheetFactory<any, T>,
     extendOptions?: Omit<WithStylesOptions, 'extendFrom'>,
   ): StyledComponent<Props>;
 }

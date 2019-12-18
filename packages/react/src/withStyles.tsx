@@ -14,8 +14,8 @@ import {
 /**
  * Wrap a React component with an HOC that injects the defined style sheet as a prop.
  */
-export default function withStyles<T>(
-  styleSheet: StyleSheetFactory<ThemeSheet, T>,
+export default function withStyles<Theme = ThemeSheet, T = {}>(
+  styleSheet: StyleSheetFactory<Theme, T>,
   options: WithStylesOptions = {},
 ) /* infer */ {
   const {
@@ -28,7 +28,7 @@ export default function withStyles<T>(
   } = options;
 
   return function withStylesComposer<Props extends object = {}>(
-    WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps>,
+    WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<Theme>>,
   ): StyledComponent<Props & WithStylesWrapperProps> {
     const baseName = WrappedComponent.displayName || WrappedComponent.name;
     const styleName = `${baseName}-${uuid()}`;
@@ -42,7 +42,7 @@ export default function withStyles<T>(
     }: Props & WithStylesWrapperProps) {
       const themeName = useContext(ThemeContext);
       const [styles, cx] = useStyles(styleSheet, { styleName });
-      const extraProps: WithStylesWrappedProps = {
+      const extraProps: WithStylesWrappedProps<Theme> = {
         [cxPropName as 'cx']: cx,
         [stylesPropName as 'styles']: styles,
         ref: wrappedRef,
@@ -70,7 +70,7 @@ export default function withStyles<T>(
         }
       }
 
-      return withStyles(customStyleSheet, {
+      return withStyles<Theme>(customStyleSheet, {
         ...options,
         ...extendOptions,
         extendFrom: styleName,
