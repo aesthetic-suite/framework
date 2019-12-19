@@ -18,7 +18,7 @@
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^0.61.2",
+    "@milesj/build-tools": "^0.61.4",
     "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/prop-types": "^15.7.3",
@@ -36,7 +36,7 @@
     "lerna": "^3.19.0",
     "react-dom": "^16.12.0",
     "rut-dom": "^0.1.1",
-    "webpack": "^4.41.2",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
   "beemo": {
