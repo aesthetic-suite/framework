@@ -1,12 +1,4 @@
-import {
-  Adapter,
-  ClassName,
-  Ruleset,
-  Sheet,
-  StyleName,
-  GLOBAL_STYLE_NAME,
-  FontFace,
-} from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, FontFace } from 'aesthetic';
 import { getStyleElements, purgeStyles, toArray } from 'aesthetic-utils';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';

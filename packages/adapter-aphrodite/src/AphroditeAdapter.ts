@@ -1,4 +1,4 @@
-import { Adapter, ClassName, Ruleset, Sheet, SheetMap, StyleName } from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
 import { getStyleElements, purgeStyles } from 'aesthetic-utils';
 import { StyleSheet as Aphrodite, Extension, flushToStyleTag, reset } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
