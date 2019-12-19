@@ -16,7 +16,7 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
 /**
  * Hook within a component to provide a style sheet.
  */
-export default function useStyles<Theme = ThemeSheet, T = {}>(
+export default function useStyles<Theme = ThemeSheet, T = unknown>(
   styleSheet: StyleSheetFactory<Theme, T>,
   options: UseStylesOptions = {},
 ): [CompiledStyleSheet, ClassNameTransformer, StyleName] {

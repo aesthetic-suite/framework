@@ -14,7 +14,7 @@ import {
 /**
  * Wrap a React component with an HOC that injects the defined style sheet as a prop.
  */
-export default function withStyles<Theme = ThemeSheet, T = {}>(
+export default function withStyles<Theme = ThemeSheet, T = unknown>(
   styleSheet: StyleSheetFactory<Theme, T>,
   options: WithStylesOptions = {},
 ) /* infer */ {

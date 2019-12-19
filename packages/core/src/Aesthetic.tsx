@@ -4,6 +4,7 @@ import Adapter from './Adapter';
 import ClassNameAdapter from './ClassNameAdapter';
 import {
   AestheticOptions,
+  GlobalSheet,
   GlobalSheetFactory,
   StyleName,
   StyleSheet,
@@ -110,7 +111,7 @@ export default class Aesthetic {
   /**
    * Retrieve the global style sheet for the defined theme.
    */
-  getGlobalSheet(themeName: ThemeName): StyleSheet | null {
+  getGlobalSheet(themeName: ThemeName): GlobalSheet | null {
     const theme = this.getTheme(themeName);
     const globalFactory = this.globalSheets[themeName];
 

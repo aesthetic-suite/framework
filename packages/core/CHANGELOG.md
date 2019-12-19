@@ -1,4 +1,11 @@
-## 5.0.0 - 2019-12-19
+### 5.0.1 - 2019-12-19
+
+#### ⚙️ Types
+
+- Fixed an issue with neverization where deeply nested objects cannot be typed correctly, and would
+  error with "Type instantiation is excessively deep and possibly infinite.".
+
+# 5.0.0 - 2019-12-19
 
 For improved interoperability, the `Aesthetic` instance is now global and no longer needs to be
 instantiated.

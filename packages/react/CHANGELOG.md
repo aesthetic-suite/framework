@@ -1,3 +1,10 @@
+### 2.0.1 - 2019-12-19
+
+#### ⚙️ Types
+
+- Fixed an issue with neverization where deeply nested objects cannot be typed correctly, and would
+  error with "Type instantiation is excessively deep and possibly infinite.".
+
 # 2.0.0 - 2019-12-19
 
 #### 💥 Breaking

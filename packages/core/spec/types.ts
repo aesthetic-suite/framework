@@ -14,7 +14,9 @@ export type StyleSheetNeverize<T> = {
   [K in keyof T]: StyleNeverize<T[K]>;
 };
 
-type StyleSheetFactory<T = {}> = () => StyleSheet & StyleSheetNeverize<T>;
+type StyleSheetFactory<T = unknown> = () => T extends unknown
+  ? StyleSheet
+  : StyleSheet & StyleSheetNeverize<T>;
 
 type CompiledStyleSheet = { [key: string]: object };
 
