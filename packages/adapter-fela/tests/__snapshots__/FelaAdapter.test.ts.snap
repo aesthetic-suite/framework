@@ -57,7 +57,7 @@ exports[`FelaAdapter LTR style sheet flushes and purges all styles from the DOM 
 
 exports[`FelaAdapter LTR style sheet flushes and purges all styles from the DOM 2`] = `"a"`;
 
-exports[`FelaAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`FelaAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `".a {display: block;}"`;
 
 exports[`FelaAdapter LTR style sheet handles @fallbacks 1`] = `
 ".a {background: linear-gradient(...);}
@@ -246,7 +246,7 @@ exports[`FelaAdapter RTL style sheet flushes and purges all styles from the DOM 
 
 exports[`FelaAdapter RTL style sheet flushes and purges all styles from the DOM 2`] = `"a"`;
 
-exports[`FelaAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`FelaAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `".a {display: block;}"`;
 
 exports[`FelaAdapter RTL style sheet handles @fallbacks 1`] = `
 ".a {background: linear-gradient(...);}

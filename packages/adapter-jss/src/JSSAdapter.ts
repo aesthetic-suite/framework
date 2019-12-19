@@ -71,20 +71,12 @@ export default class JSSAdapter extends Adapter<NativeBlock, ParsedBlock> {
     return this.sheets[name].classes;
   }
 
-  purgeStyles(styleName?: StyleName) {
-    if (styleName) {
-      if (this.sheets[styleName]) {
-        this.sheets[styleName].detach();
+  purgeStyles() {
+    Object.values(this.sheets).forEach(sheet => {
+      sheet.detach();
+    });
 
-        delete this.sheets[styleName];
-      }
-    } else {
-      Object.values(this.sheets).forEach(sheet => {
-        sheet.detach();
-      });
-
-      this.sheets = {};
-    }
+    this.sheets = {};
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {

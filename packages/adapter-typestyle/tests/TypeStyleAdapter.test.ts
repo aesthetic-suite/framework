@@ -1,7 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 import { TypeStyle } from 'typestyle';
-import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic } from 'aesthetic';
 import {
   setupAesthetic,
   cleanupStyleElements,
@@ -59,7 +59,7 @@ describe('TypeStyleAdapter', () => {
         it('flushes and purges global styles from the DOM', () => {
           renderAndExpect(instance, SYNTAX_GLOBAL, {}, { dir, global: true });
 
-          instance.purgeStyles(GLOBAL_STYLE_NAME);
+          instance.purgeStyles();
 
           expect(getFlushedStyles()).toMatchSnapshot();
         });
