@@ -1,10 +1,14 @@
-# 5.0.0
+# 5.0.0 - 2019-12-19
 
 #### 💥 Breaking
 
 - Rewritten to support the
   [core 5.0 changes](https://github.com/milesj/aesthetic/blob/master/packages/aesthetic/CHANGELOG.md).
 - Adapter no longer extends `Aesthetic` and does not accept options in the constructor.
+
+#### 🚀 Updates
+
+- Improved dynamic theme switching and global style purging.
 
 ## 4.1.0 - 2019-09-15
 

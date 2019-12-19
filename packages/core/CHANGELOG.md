@@ -1,4 +1,4 @@
-## 5.0.0
+## 5.0.0 - 2019-12-19
 
 For improved interoperability, the `Aesthetic` instance is now global and no longer needs to be
 instantiated.
