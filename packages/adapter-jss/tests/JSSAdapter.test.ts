@@ -2,7 +2,7 @@
 
 import { create } from 'jss';
 import preset from 'jss-preset-default';
-import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic } from 'aesthetic';
 import {
   setupAesthetic,
   cleanupStyleElements,
@@ -102,7 +102,7 @@ describe('JSSAdapter', () => {
             { dir, global: true },
           );
 
-          instance.purgeStyles(GLOBAL_STYLE_NAME);
+          instance.purgeStyles();
 
           expect(getFlushedStyles()).toMatchSnapshot();
         });

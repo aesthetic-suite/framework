@@ -1,12 +1,4 @@
-import {
-  Adapter,
-  ClassName,
-  Ruleset,
-  Sheet,
-  StyleName,
-  GLOBAL_STYLE_NAME,
-  FontFace,
-} from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, FontFace } from 'aesthetic';
 import { getStyleElements, purgeStyles, toArray } from 'aesthetic-utils';
 import { combineRules, IRenderer } from 'fela';
 import { render } from 'fela-dom';
@@ -44,8 +36,8 @@ export default class FelaAdapter extends Adapter<NativeBlock, ParsedBlock> {
     return this.fela.renderRule(combineRules(...styles.map(style => () => style)), {});
   }
 
-  purgeStyles(styleName?: StyleName) {
-    purgeStyles(getStyleElements('data-fela-type'), styleName === GLOBAL_STYLE_NAME);
+  purgeStyles() {
+    purgeStyles(getStyleElements('data-fela-type'), true);
   }
 
   // http://fela.js.org/docs/api/fela/Renderer.html

@@ -14,6 +14,8 @@ import stripClassPrefix from './stripClassPrefix';
 import toArray from './toArray';
 import toObjectRecursive from './toObjectRecursive';
 
+export * from './constants';
+
 export {
   formatFontFace,
   getFlushedStyles,

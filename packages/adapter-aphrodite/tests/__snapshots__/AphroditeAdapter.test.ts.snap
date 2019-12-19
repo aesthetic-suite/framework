@@ -33,7 +33,7 @@ exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the
 
 exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter LTR style sheet flushes and purges all styles from the DOM 3`] = `".test_uhlm2 {display: block !important;}"`;
 
 exports[`AphroditeAdapter LTR style sheet handles @media 1`] = `
 ".media_1jcccqt {color: red !important; padding-left: 10px !important;}
@@ -154,7 +154,7 @@ exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the
 
 exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 2`] = `"test_uhlm2"`;
 
-exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `""`;
+exports[`AphroditeAdapter RTL style sheet flushes and purges all styles from the DOM 3`] = `".test_uhlm2 {display: block !important;}"`;
 
 exports[`AphroditeAdapter RTL style sheet handles @media 1`] = `
 ".media_1xdaj1a {color: red !important; padding-right: 10px !important;}

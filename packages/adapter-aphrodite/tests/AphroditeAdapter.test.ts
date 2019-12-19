@@ -1,7 +1,7 @@
 /* eslint-disable jest/expect-expect */
 
 import { StyleSheetTestUtils, CSSProperties } from 'aphrodite';
-import { Aesthetic, GLOBAL_STYLE_NAME } from 'aesthetic';
+import { Aesthetic } from 'aesthetic';
 import {
   setupAesthetic,
   cleanupStyleElements,
@@ -88,7 +88,7 @@ describe('AphroditeAdapter', () => {
             { dir, global: true },
           );
 
-          instance.purgeStyles(GLOBAL_STYLE_NAME);
+          instance.purgeStyles();
 
           expect(getFlushedStyles()).toMatchSnapshot();
         });

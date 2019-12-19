@@ -1,14 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 
-import {
-  Adapter,
-  ClassName,
-  Ruleset,
-  Sheet,
-  SheetMap,
-  StyleName,
-  GLOBAL_STYLE_NAME,
-} from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, SheetMap } from 'aesthetic';
 import { purgeStyles, toArray } from 'aesthetic-utils';
 import { TypeStyle } from 'typestyle';
 import { FontFace, KeyFrames } from 'typestyle/lib/types';
@@ -50,12 +42,12 @@ export default class TypeStyleAdapter extends Adapter<NativeBlock, ParsedBlock> 
     return this.typeStyle.stylesheet(styleSheet);
   }
 
-  purgeStyles(styleName?: StyleName) {
+  purgeStyles() {
     // @ts-ignore
     const element: HTMLStyleElement | undefined = this.typeStyle._tag;
 
     if (element) {
-      purgeStyles(element, styleName === GLOBAL_STYLE_NAME);
+      purgeStyles(element, true);
     }
   }
 
