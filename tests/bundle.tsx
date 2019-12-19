@@ -1,13 +1,13 @@
 /* eslint-disable no-console, max-len, sort-keys, react/require-default-props, import/no-extraneous-dependencies, react/jsx-one-expression-per-line, react/jsx-no-literals, react-hooks/rules-of-hooks, @typescript-eslint/camelcase */
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { createRenderer as createFela } from 'fela';
 import felaPreset from 'fela-preset-web';
 import { create as createJSS } from 'jss';
 import jssPreset from 'jss-preset-default';
 import { TypeStyle } from 'typestyle';
-import aesthetic, { Adapter, StyleSheet } from 'aesthetic';
+import aesthetic, { StyleSheet } from 'aesthetic';
 import {
   useStyles,
   useTheme,
@@ -70,19 +70,23 @@ if (adapters[chosenAdapter]) {
 aesthetic.registerTheme(
   'default',
   {
+    base: '#fff',
+    text: '#000',
     unit: 8,
     fg: '#fff',
     bg: '#B0BEC5',
     bgHover: '#CFD8DC',
     primary: '#29B6F6',
   },
-  ({ unit }) => ({
+  ({ base, text, unit }) => ({
     '@global': {
       'html, body': {
         padding: 0,
         margin: 0,
       },
       body: {
+        backgroundColor: base,
+        color: text,
         padding: unit,
         fontFamily: 'Tahoma',
       },
@@ -90,19 +94,16 @@ aesthetic.registerTheme(
   }),
 );
 
-aesthetic.registerTheme('light', {}, null, 'default');
+aesthetic.extendTheme('light', 'default', {});
 
-aesthetic.registerTheme(
-  'dark',
-  {
-    fg: '#eee',
-    bg: '#212121',
-    bgHover: '#424242',
-    primary: '#01579B',
-  },
-  null,
-  'default',
-);
+aesthetic.extendTheme('dark', 'default', {
+  base: '#000',
+  text: '#fff',
+  fg: '#eee',
+  bg: '#212121',
+  bgHover: '#424242',
+  primary: '#01579B',
+});
 
 // SETUP STYLES
 
@@ -150,7 +151,7 @@ function BaseButton({
   styles,
   theme,
   primary = false,
-}: HocProps & WithStylesWrappedProps) {
+}: HocProps & WithStylesWrappedProps<Theme>) {
   const className = cx(styles.button, primary && styles.button__primary);
 
   console.log('HocButton', { styles, theme, className });
@@ -187,77 +188,84 @@ function HookButton({ children, primary = false }: HookProps) {
 
 // RENDER DEMO APP
 
-function DemoColumn({ theme, dir }: { theme?: string; dir?: 'ltr' | 'rtl' }) {
-  let content = (
-    <div>
-      <h3>
-        {theme} + {dir}
-      </h3>
+function updateQuery(name: string, value: string) {
+  params.set(name, value);
 
-      <p>
-        <HocButton>HOC</HocButton>
-        <HocButton primary>HOC</HocButton>
-      </p>
+  const url =
+    location.protocol + '//' + location.host + location.pathname + '?' + params.toString();
 
-      <p>
-        <HookButton>Hook</HookButton>
-        <HookButton primary>Hook</HookButton>
-      </p>
-    </div>
-  );
-
-  if (theme) {
-    content = <ThemeProvider name={theme}>{content}</ThemeProvider>;
-  }
-
-  if (dir) {
-    content = <DirectionProvider dir={dir}>{content}</DirectionProvider>;
-  }
-
-  return <div style={{ marginRight: 25 }}>{content}</div>;
+  window.history.pushState({ path: url }, '', url);
 }
 
 function App() {
-  const otherTheme = activeTheme === 'light' ? 'dark' : 'light';
-  const otherDir = dirMode === 'ltr' ? 'rtl' : 'ltr';
+  const [theme, setTheme] = useState<'light' | 'dark'>(activeTheme as 'light');
+  const [dir, setDir] = useState<'ltr' | 'rtl'>(dirMode as 'ltr');
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    params.set('adapter', event.currentTarget.value);
+  const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.currentTarget;
+
+    updateQuery('theme', value);
+    setTheme(value as 'light');
+  };
+
+  const handleDirChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.currentTarget;
+
+    updateQuery('dir', value);
+    setDir(value as 'ltr');
+  };
+
+  const handleAdapterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    updateQuery('adapter', event.currentTarget.value);
 
     location.href = `${location.pathname}?${params.toString()}`;
   };
 
   return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <div>
-          <DemoColumn theme={activeTheme} dir={dirMode as 'ltr'} />
-        </div>
+    <ThemeProvider name={theme} propagate>
+      <DirectionProvider dir={dir}>
+        <h3>
+          {theme} + {dir}
+        </h3>
 
-        <div>
-          <DemoColumn theme={otherTheme} dir={otherDir} />
-        </div>
-      </div>
+        <p>
+          <HocButton>HOC</HocButton>
+          <HocButton primary>HOC</HocButton>
+        </p>
 
-      <br />
+        <p>
+          <HookButton>Hook</HookButton>
+          <HookButton primary>Hook</HookButton>
+        </p>
 
-      <h4>
-        Theme: {activeTheme} (<a href={`?theme=${otherTheme}`}>Switch</a>)
-      </h4>
+        <br />
 
-      <h4>
-        Mode: {dirMode} (<a href={`?mode=${otherDir}`}>Switch</a>)
-      </h4>
+        <h4>
+          Theme:{' '}
+          <select defaultValue={theme} onChange={handleThemeChange}>
+            <option value="light">light</option>
+            <option value="dark">dark</option>
+          </select>
+        </h4>
 
-      <h4>
-        Adapter:{' '}
-        <select defaultValue={chosenAdapter} onChange={handleChange}>
-          {Object.keys(adapters).map(key => (
-            <option value={key}>{key}</option>
-          ))}
-        </select>
-      </h4>
-    </div>
+        <h4>
+          Direction:{' '}
+          <select defaultValue={dir} onChange={handleDirChange}>
+            <option value="ltr">LTR</option>
+            <option value="rtl">RTL</option>
+          </select>
+        </h4>
+
+        <h4>
+          Adapter:{' '}
+          <select defaultValue={chosenAdapter} onChange={handleAdapterChange}>
+            {Object.keys(adapters).map(key => (
+              <option value={key}>{key}</option>
+            ))}
+          </select>
+        </h4>
+      </DirectionProvider>
+    </ThemeProvider>
   );
 }
 

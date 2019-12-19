@@ -1,14 +1,6 @@
-import {
-  Adapter,
-  ClassName,
-  Ruleset,
-  Sheet,
-  SheetMap,
-  StyleName,
-  GLOBAL_STYLE_NAME,
-} from 'aesthetic';
+import { Adapter, ClassName, Ruleset, Sheet, SheetMap, StyleName } from 'aesthetic';
 import { getStyleElements, purgeStyles } from 'aesthetic-utils';
-import { StyleSheet as Aphrodite, Extension, flushToStyleTag, resetInjectedStyle } from 'aphrodite';
+import { StyleSheet as Aphrodite, Extension, flushToStyleTag, reset } from 'aphrodite';
 import { NativeBlock, ParsedBlock } from './types';
 
 export default class AphroditeAdapter extends Adapter<NativeBlock, ParsedBlock> {
@@ -55,12 +47,9 @@ export default class AphroditeAdapter extends Adapter<NativeBlock, ParsedBlock> 
     return this.aphrodite.StyleSheet.create(styleSheet) as SheetMap<ParsedBlock>;
   }
 
-  purgeStyles(styleName?: StyleName) {
-    purgeStyles(getStyleElements('data-aphrodite'), styleName === GLOBAL_STYLE_NAME);
-
-    if (styleName) {
-      resetInjectedStyle(styleName);
-    }
+  purgeStyles() {
+    purgeStyles(getStyleElements('data-aphrodite'), true);
+    reset();
   }
 
   transformToClassName(styles: ParsedBlock[]): ClassName {

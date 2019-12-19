@@ -1,11 +1,9 @@
 /* eslint-disable no-param-reassign */
 
 import toArray from './toArray';
+import { NON_GLOBAL_PREFIX } from './constants';
 
 type RulesContainer = CSSStyleSheet | CSSGroupingRule;
-
-// Only matches global elements
-const NON_GLOBAL_PREFIX = /^(#|\.|@)/u;
 
 function containsNestedRules(rule: unknown): rule is RulesContainer {
   return (
@@ -16,11 +14,15 @@ function containsNestedRules(rule: unknown): rule is RulesContainer {
 }
 
 function deleteRule(parent: RulesContainer, ruleToDelete: CSSRule) {
+  let filterList = false;
+
   Array.from(parent.cssRules).some((rule, index) => {
     if (rule === ruleToDelete && parent.cssRules[index]) {
       if (typeof parent.deleteRule === 'function') {
         parent.deleteRule(index);
       } else {
+        filterList = true;
+
         delete parent.cssRules[index];
       }
 
@@ -32,7 +34,7 @@ function deleteRule(parent: RulesContainer, ruleToDelete: CSSRule) {
 
   // CSSOM doesn't implement deleteRule(), so we delete the rule by index above.
   // Now we need to filter out the empty values or other features crash.
-  if (process.env.NODE_ENV === 'test') {
+  if (filterList || process.env.NODE_ENV === 'test') {
     // @ts-ignore
     parent.cssRules = parent.cssRules.filter(Boolean);
   }

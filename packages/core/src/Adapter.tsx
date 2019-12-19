@@ -144,17 +144,16 @@ export default abstract class Adapter<
   }
 
   /**
-   * Purge and remove all styles from the DOM for the target component.
-   * If no target defined, will purge all possible styles.
+   * Purge and remove all global styles from the DOM.
    */
-  purgeStyles(styleName?: StyleName) {}
+  purgeStyles() {}
 
   /**
    * Reset and clear global styles for the defined theme.
    */
   resetGlobalStyles(prevTheme: ThemeName): this {
-    this.purgeStyles(GLOBAL_STYLE_NAME);
     this.cacheManager.clear(unit => unit.global === true && unit.theme === prevTheme);
+    this.purgeStyles();
 
     return this;
   }
