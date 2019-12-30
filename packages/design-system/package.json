@@ -1,0 +1,27 @@
+{
+  "name": "aesthetic-design-system",
+  "version": "0.0.0",
+  "description": "A design system framework.",
+  "keywords": [
+    "aesthetic",
+    "design",
+    "system",
+    "language"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/design-system",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  },
+  "dependencies": {
+    "csstype": "^2.6.8"
+  }
+}
