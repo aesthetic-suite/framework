@@ -22,6 +22,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/sss": "^0.0.0"
+    "@aesthetic/sss": "^0.0.0",
+    "optimal": "^3.4.0"
   }
 }

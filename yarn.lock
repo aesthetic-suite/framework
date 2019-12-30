@@ -8318,6 +8318,11 @@ optimal@^4.1.1:
   resolved "https://registry.npmjs.org/optimal/-/optimal-4.2.0.tgz#a97d9a12cb543988f2e54b88416b77d9a811ed69"
   integrity sha512-jKFdiBkhJCVMh6oXsGNVFv/huPeFTEdlBtSuwDBYYClFn6lwV0fdRwRhWtpazM1ZMuV+bNNRFMth9SMWvUk3uQ==
 
+optimal@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npmjs.org/optimal/-/optimal-3.4.0.tgz#1dd55b7ae0ad2d7222858f0bc9e96b07ccee7c58"
+  integrity sha512-unexr3ZDSQeNP/5rMcoaVtjDgEnC+T8LGpLmfC6prt6OQx83j7ijE+E9v5x2WFlwjeph91/Vsaryn9AMQOIjnA==
+
 optimist@^0.6.1:
   version "0.6.1"
   resolved "https://registry.npmjs.org/optimist/-/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"

@@ -14,6 +14,8 @@ export type Hexcode = string;
 
 // CONFIG
 
+export type ColorScheme = 'dark' | 'light';
+
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
 export type ColorConfig = {
@@ -50,39 +52,55 @@ export interface ThemeConfig {
   colors: { [name: string]: ColorConfig };
   extends: string;
   palettes: PaletteConfig;
-  scheme: 'light' | 'dark';
+  scheme: ColorScheme;
 }
+
+export type ScaleType =
+  | 'minor-second'
+  | 'major-second'
+  | 'minor-third'
+  | 'major-third'
+  | 'perfect-fourth'
+  | 'augmented-fourth'
+  | 'perfect-fifth'
+  | 'golden-ratio';
+
+export type Scale = number | ScaleType;
+
+export type SpacingType = 'unit' | 'vertical-rhythm';
+
+export type StrategyType = 'mobile-first' | 'desktop-first';
 
 export interface Config {
   border: {
     radius: number;
-    radiusScale: number;
+    radiusScale: Scale;
     width: number;
-    widthScale: number;
+    widthScale: Scale;
   };
   breakpoints: [number, number, number, number, number];
   colors: string[];
   shadow: {
     blur: number;
-    blurScale: number;
+    blurScale: Scale;
     depth: number;
-    depthScale: number;
+    depthScale: Scale;
     spread: number;
-    spreadScale: number;
+    spreadScale: Scale;
   };
   spacing: {
-    type: 'unit' | 'vertical-rhythm';
+    type: SpacingType;
     unit: number;
   };
-  strategy: 'mobile-first' | 'desktop-first';
+  strategy: StrategyType;
   themes: { [name: string]: ThemeConfig };
   typography: {
     fontFamily: string;
     fontSize: number;
-    headingScale: number;
+    headingScale: Scale;
     lineHeight: number;
-    responsiveScale: number;
-    textScale: number;
+    responsiveScale: Scale;
+    textScale: Scale;
   };
 }
 

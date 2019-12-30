@@ -3,4 +3,5 @@ tests/
 types/
 *.log
 *.tsbuildinfo
+.eslintrc
 tsconfig.json
