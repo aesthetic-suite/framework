@@ -284,6 +284,8 @@ themes:
 
   # A dark theme with a custom name.
   bar:
+    # Extends another defined theme.
+    extends: foo
     scheme: dark
     colors:
       red:
@@ -323,8 +325,8 @@ foundation, with an explicit API changing based on platform target.
     `typography.responsiveScale`.
 - 3 border levels, `small`, `normal`, and `large`.
   - The border width and radius increases each level according to `border.*` settings.
-- 5 shadow levels.
-  - The shadow depth, blue, and spread increases each level according to `shadow.*` settings.
+- 10 shadow levels.
+  - The shadow depth, blur, and spread increases each level according to `shadow.*` settings.
 - An object of all the palettes and their colors.
 - All the hard-coded mixins below. A mixin is a collection of CSS properties that can be spread into
   style sheets, configured to the current theme. etc.

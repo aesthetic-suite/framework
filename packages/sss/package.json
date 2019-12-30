@@ -1,14 +1,15 @@
 {
-  "name": "aesthetic-design-system",
+  "name": "@aesthetic/sss",
   "version": "0.0.0",
-  "description": "A design system framework.",
+  "description": "A type-safe style sheet structure for CSS-in-JS solutions.",
   "keywords": [
     "aesthetic",
-    "design",
-    "system",
-    "language"
+    "style",
+    "sheet",
+    "structure",
+    "type-safe"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/design-system",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/sss",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

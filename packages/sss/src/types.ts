@@ -1,33 +1,16 @@
 import CSS from 'csstype';
 
-export type Direction = 'neutral' | 'ltr' | 'rtl';
-
-export type RawCSS = string;
-
-export type Theme = unknown; // TODO
+type Length = string | number;
 
 // SYNTAX
-
-export type AtRule =
-  | '@charset'
-  | '@font-face'
-  | '@global'
-  | '@import'
-  | '@keyframes'
-  | '@media'
-  | '@page'
-  | '@selectors'
-  | '@supports'
-  | '@viewport'
-  | '@fallbacks';
 
 export interface Rulesets<T> {
   [selector: string]: T;
 }
 
-export type Properties = CSS.Properties<string | number>;
+export type Properties = CSS.StandardProperties<Length>;
 
-export type FallbackProperties = CSS.PropertiesFallback<string | number>;
+export type FallbackProperties = CSS.StandardPropertiesFallback<Length>;
 
 export type Pseudos = { [P in CSS.SimplePseudos]?: DeclarationBlock };
 
@@ -40,12 +23,20 @@ export type FontFace = CSS.FontFace & {
   srcPaths: string[];
 };
 
+export interface Import {
+  path: string;
+  query?: string;
+  url?: boolean;
+}
+
 export interface Keyframes {
   [percent: string]: DeclarationBlock | string | undefined;
   from?: DeclarationBlock;
   to?: DeclarationBlock;
   name?: string;
 }
+
+export type Viewport = CSS.Viewport<Length>;
 
 // TODO add upstream to csstype
 export type PageMargins =
@@ -83,6 +74,8 @@ export type Page = PageBlock & {
 
 // LOCAL STYLE SHEET
 
+export type LocalAtRule = '@fallbacks' | '@media' | '@selectors' | '@supports';
+
 export type LocalBlock = DeclarationBlock & {
   '@fallbacks'?: FallbackProperties;
   '@media'?: { [mediaQuery: string]: LocalBlock };
@@ -100,26 +93,31 @@ export type LocalStyleSheetNeverize<T> = {
   [K in keyof T]: T[K] extends string ? string : LocalBlockNeverize<T[K]>;
 };
 
-export type LocalStyleSheetFactory<T = unknown> = (
-  theme: Theme,
-) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
-
 // GLOBAL STYLE SHEET
+
+export type GlobalAtRule =
+  | '@charset'
+  | '@font-face'
+  | '@global'
+  | '@import'
+  | '@keyframes'
+  | '@page'
+  | '@viewport';
 
 export interface GlobalStyleSheet {
   '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: LocalStyleSheet;
-  '@import'?: string | string[];
+  '@import'?: (string | Import)[];
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Page;
-  '@viewport'?: CSS.Viewport;
+  '@viewport'?: Viewport;
 }
 
 export type GlobalStyleSheetNeverize<T> = {
   [K in keyof T]: K extends keyof GlobalStyleSheet ? GlobalStyleSheet[K] : never;
 };
 
-export type GlobalStyleSheetFactory<T = unknown> = (
-  theme: Theme,
-) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
+// MISC
+
+export type AtRule = LocalAtRule | GlobalAtRule;
