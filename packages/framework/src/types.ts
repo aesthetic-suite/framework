@@ -12,15 +12,17 @@ export type Unit = PxUnit | EmUnit | RemUnit;
 
 export type Hexcode = string;
 
-// CONFIG
+export type BorderSize = 'small' | 'normal' | 'large';
+
+export type BreakpointSize = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
 
 export type ColorScheme = 'dark' | 'light';
 
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
-export type ColorConfig = {
-  [K in ColorShade]: Hexcode;
-};
+export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
+
+export type LayerType = 'content' | 'navigation' | 'menu' | 'sheet' | 'modal' | 'toast' | 'tooltip';
 
 export type PaletteType =
   | 'primary'
@@ -32,6 +34,34 @@ export type PaletteType =
   | 'warning'
   | 'success'
   | 'info';
+
+export type ScaleType =
+  | 'minor-second'
+  | 'major-second'
+  | 'minor-third'
+  | 'major-third'
+  | 'perfect-fourth'
+  | 'augmented-fourth'
+  | 'perfect-fifth'
+  | 'golden-ratio';
+
+export type Scale = number | ScaleType;
+
+export type StrategyType = 'mobile-first' | 'desktop-first';
+
+export type ShadowSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+
+export type SpacingSize = 'compact' | 'tight' | 'normal' | 'loose' | 'spacious';
+
+export type SpacingType = 'unit' | 'vertical-rhythm';
+
+export type TextSize = 'small' | 'normal' | 'large';
+
+// CONFIG
+
+export type ColorConfig = {
+  [K in ColorShade]: Hexcode;
+};
 
 export interface PaletteStates<T = string> {
   base: T;
@@ -55,23 +85,9 @@ export interface ThemeConfig {
   scheme: ColorScheme;
 }
 
-export type ScaleType =
-  | 'minor-second'
-  | 'major-second'
-  | 'minor-third'
-  | 'major-third'
-  | 'perfect-fourth'
-  | 'augmented-fourth'
-  | 'perfect-fifth'
-  | 'golden-ratio';
+export type ExtendableThemeConfig = Pick<ThemeConfig, 'colors' | 'palettes'>;
 
-export type Scale = number | ScaleType;
-
-export type SpacingType = 'unit' | 'vertical-rhythm';
-
-export type StrategyType = 'mobile-first' | 'desktop-first';
-
-export interface Config {
+export interface DesignConfig {
   border: {
     radius: number;
     radiusScale: Scale;
@@ -93,7 +109,6 @@ export interface Config {
     unit: number;
   };
   strategy: StrategyType;
-  themes: { [name: string]: ThemeConfig };
   typography: {
     fontFamily: string;
     fontSize: number;
@@ -104,25 +119,9 @@ export interface Config {
   };
 }
 
-// THEMES
+export type UnitFactory = (...sizes: number[]) => string;
 
-export type BorderSize = 'small' | 'normal' | 'large';
-
-export type BreakpointSize = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-
-export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
-
-export type LayerType = 'content' | 'navigation' | 'menu' | 'sheet' | 'modal' | 'toast' | 'tooltip';
-
-export type ShadowSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-
-export type SpacingSize = 'compact' | 'tight' | 'normal' | 'loose' | 'spacious';
-
-export type SpacingHandler = (...sizes: number[]) => Unit;
-
-export type TextSize = 'small' | 'normal' | 'large';
-
-export interface ThemeTokens {
+export interface DesignTokens {
   border: {
     [K in BorderSize]: {
       radius: PxUnit;
@@ -131,7 +130,7 @@ export interface ThemeTokens {
   };
   breakpoint: {
     [K in BreakpointSize]: {
-      size: PxUnit;
+      size: number;
       query: string;
     };
   };
@@ -141,7 +140,6 @@ export interface ThemeTokens {
   layer: {
     [K in LayerType]: number;
   };
-  palette: PaletteConfig<Hexcode>;
   shadow: {
     [K in HeadingSize]: {
       blur: PxUnit;
@@ -151,16 +149,24 @@ export interface ThemeTokens {
   };
   spacing: {
     [K in SpacingSize]: RemUnit;
-  } &
-    SpacingHandler;
+  };
   text: {
     [K in TextSize]: RemUnit;
   };
   typography: {
     fontFamily: string;
     lineHeight: number;
+    responsiveFontSizes: PxUnit[];
+    rootFontSize: PxUnit;
     systemFontFamily: string;
   };
+  unit: UnitFactory;
+}
+
+// THEMES
+
+export interface ThemeTokens extends DesignTokens {
+  palette: PaletteConfig<Hexcode>;
 }
 
 export type MixinType =

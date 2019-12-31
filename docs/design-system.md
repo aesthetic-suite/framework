@@ -157,10 +157,10 @@ strategy: mobile-first
 # List of 5 breakpoints for responsive and adaptive support. If not provided,
 # will default to the following 5 values.
 breakpoints:
-  - 0
-  - 600
+  - 640
   - 960
   - 1280
+  - 1600
   - 1920
 
 # Spacing related settings.
@@ -640,6 +640,14 @@ solutions are:
   `body`, or specific blocks (like a `div` or `ThemeProvider`).
 - Theme styles would be in a separate file like `themes/<name>.css`, which would be imported last in
   the document, and therefore overriding previous styles.
+
+## Future roadmap
+
+- Add support for low/high contrast themes for `prefer-contrast`.
+- Add transparency support for `prefers-reduced-transparency`?
+- Add rudimentary motion support.
+  - Transition scaling?
+  - `prefers-reduced-motion`?
 
 # References
 

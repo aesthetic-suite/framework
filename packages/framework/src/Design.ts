@@ -1,164 +1,218 @@
-import optimal, { array, number, object, shape, string, union } from 'optimal';
-import { DEFAULT_BREAKPOINTS, SYSTEM_FONT_FAMILY, SCALES } from './constants';
-import { Config, Scale, ColorScheme, StrategyType, SpacingType, ThemeConfig } from './types';
+import { DesignConfig, DesignTokens, Scale, PxUnit, RemUnit } from './types';
+import { validateDesignConfig } from './validate';
+import {
+  SYSTEM_FONT_FAMILY,
+  LAYERS,
+  SCALES,
+  BREAKPOINT_SIZES,
+  HEADING_LEVELS,
+  SHADOW_LEVELS,
+} from './constants';
 
-function hexcode() {
-  return string()
-    .required()
-    .match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/iu);
+function toPx(value: number): PxUnit {
+  return `${value}px`;
 }
 
-function scale(defaultValue: Scale = 'major-third') {
-  return union<Scale>([number().gte(0), string().oneOf(Object.keys(SCALES))], defaultValue);
+function toRem(value: number, rootSize: number): RemUnit {
+  return `${(Math.max(value, 0) / rootSize).toFixed(2)}rem`;
 }
 
-function state() {
-  return shape({
-    base: string(),
-    disabled: string(),
-    focused: string(),
-    hovered: string(),
-    selected: string(),
-  })
-    .exact()
-    .required();
+function scaleDown(accumulator: number, scale: Scale): number {
+  const factor = typeof scale === 'number' ? scale : SCALES[scale];
+
+  return accumulator / factor;
 }
 
-function unit(defaultValue: number = 0) {
-  return number(defaultValue).gte(0);
-}
+function scaleUp(accumulator: number, scale: Scale): number {
+  const factor = typeof scale === 'number' ? scale : SCALES[scale];
 
-function palette() {
-  return shape({
-    bg: state(),
-    fg: state(),
-  })
-    .exact()
-    .required();
+  return accumulator * factor;
 }
 
 export default class Design {
-  config: Config;
+  protected config: DesignConfig;
 
-  constructor(config: Partial<Config>) {
+  protected tokens: DesignTokens;
+
+  constructor(config: Partial<DesignConfig>) {
     // @ts-ignore TODO: Add tuple upstream for breakpoints
-    this.config = optimal(
-      config,
-      {
-        border: shape({
-          radius: unit(),
-          radiusScale: scale('major-second'),
-          width: unit(1),
-          widthScale: scale('minor-second'),
-        }).exact(),
-        breakpoints: array(unit(), DEFAULT_BREAKPOINTS)
-          .notEmpty()
-          .custom(list => {
-            if (list.length !== 5) {
-              throw new Error('Breakpoints required 5 values.');
-            }
-          }),
-        colors: array(
-          string()
-            .notEmpty()
-            .camelCase(),
-        )
-          .notEmpty()
-          .required(),
-        shadow: shape({
-          blur: unit(),
-          blurScale: scale(1),
-          depth: unit(2),
-          depthScale: scale(1.25),
-          spread: unit(2),
-          spreadScale: scale(1.5),
-        }).exact(),
-        spacing: shape({
-          type: string<SpacingType>('vertical-rhythm').oneOf(['unit', 'vertical-rhythm']),
-          unit: number(),
-        }).exact(),
-        strategy: string<StrategyType>('mobile-first').oneOf(['desktop-first', 'mobile-first']),
-        themes: object(
-          shape({
-            colors: object(
-              shape({
-                '00': hexcode(),
-                '10': hexcode(),
-                '20': hexcode(),
-                '30': hexcode(),
-                '40': hexcode(),
-                '50': hexcode(),
-                '60': hexcode(),
-                '70': hexcode(),
-                '80': hexcode(),
-                '90': hexcode(),
-              })
-                .exact()
-                .required(),
-            )
-              .custom(this.validateColorName)
-              .required(),
-            extends: string().custom(this.validateExtendsTheme),
-            palettes: shape({
-              danger: palette(),
-              info: palette(),
-              muted: palette(),
-              neutral: palette(),
-              primary: palette(),
-              secondary: palette(),
-              success: palette(),
-              tertiary: palette(),
-              warning: palette(),
-            })
-              .exact()
-              .required(),
-            scheme: string<ColorScheme>('light').oneOf(['dark', 'light']),
-          })
-            .exact()
-            .required(),
-        ),
-        typography: shape({
-          fontFamily: string(SYSTEM_FONT_FAMILY).notEmpty(),
-          fontSize: unit(16),
-          headingScale: scale('major-third'),
-          lineHeight: unit(1.5),
-          responsiveScale: scale('minor-second'),
-          textScale: scale('major-second'),
-        }).exact(),
-      },
-      {
-        name: 'Design System',
-        unknown: false,
-      },
-    );
+    this.config = validateDesignConfig(config);
+    this.tokens = this.compile();
   }
 
-  protected validateColorName(colors: ThemeConfig['colors'], config: Config) {
-    const names = new Set(config.colors);
-    const unknown = new Set<string>();
+  unit = (...sizes: number[]): string => {
+    const { type, unit } = this.config.spacing;
+    const { fontSize, lineHeight } = this.config.typography;
+    const calcUnit = type === 'vertical-rhythm' ? fontSize * lineHeight : unit;
 
-    Object.keys(colors).forEach(color => {
-      if (names.has(color)) {
-        names.delete(color);
+    return sizes.map(size => toRem(size * calcUnit, fontSize)).join(' ');
+  };
+
+  protected compile(): DesignTokens {
+    return {
+      border: this.compileBorders(),
+      breakpoint: this.compileBreakpoints(),
+      heading: this.compileHeadings(),
+      layer: this.compileLayers(),
+      shadow: this.compileShadows(),
+      spacing: this.compileSpacing(),
+      text: this.compileText(),
+      typography: this.compileTypography(),
+      unit: this.unit,
+    };
+  }
+
+  protected compileBorders(): DesignTokens['border'] {
+    const { radius, radiusScale, width, widthScale } = this.config.border;
+
+    return {
+      small: {
+        radius: toPx(scaleDown(radius, radiusScale)),
+        width: toPx(scaleDown(width, widthScale)),
+      },
+      normal: {
+        radius: toPx(radius),
+        width: toPx(width),
+      },
+      large: {
+        radius: toPx(scaleUp(radius, radiusScale)),
+        width: toPx(scaleUp(width, widthScale)),
+      },
+    };
+  }
+
+  protected compileBreakpoints(): DesignTokens['breakpoint'] {
+    const { breakpoints, strategy } = this.config;
+    const tokens = BREAKPOINT_SIZES.reduce((obj, name, index) => {
+      const size = breakpoints[index];
+      const query: string[] = [];
+
+      if (strategy === 'mobile-first') {
+        query.push(`(min-width: ${toPx(size)})`);
+
+        const next = breakpoints[index + 1];
+
+        if (next) {
+          query.push(`(max-width: ${toPx(next - 1)})`);
+        }
       } else {
-        unknown.add(color);
+        const prev = breakpoints[index - 1];
+
+        if (prev) {
+          query.push(`(min-width: ${toPx(prev + 1)})`);
+        }
+
+        query.push(`(max-width: ${toPx(size)})`);
       }
+
+      return {
+        ...obj,
+        [name]: {
+          size: breakpoints[index],
+          query: query.join(' and '),
+        },
+      };
+    }, {});
+
+    return tokens as DesignTokens['breakpoint'];
+  }
+
+  protected compileHeadings(): DesignTokens['heading'] {
+    const { fontSize, headingScale } = this.config.typography;
+    let lastHeading = scaleUp(fontSize, headingScale);
+
+    const levels = new Array<number>(HEADING_LEVELS).fill(0);
+    const tokens = levels.reduce((obj, index) => {
+      const level = index + 1;
+      const unit = toRem(lastHeading, fontSize);
+
+      lastHeading = scaleUp(lastHeading, headingScale);
+
+      return {
+        ...obj,
+        [level]: unit,
+      };
+    }, {});
+
+    return tokens as DesignTokens['heading'];
+  }
+
+  protected compileLayers(): DesignTokens['layer'] {
+    return { ...LAYERS };
+  }
+
+  protected compileShadows(): DesignTokens['shadow'] {
+    const { blur, blurScale, depth, depthScale, spread, spreadScale } = this.config.shadow;
+    let lastBlur = blur;
+    let lastDepth = depth;
+    let lastSpread = spread;
+
+    const levels = new Array<number>(SHADOW_LEVELS).fill(0);
+    const tokens = levels.reduce((obj, index) => {
+      const level = index + 1;
+      const token = {
+        blur: toPx(lastBlur),
+        depth: toPx(lastDepth),
+        spread: toPx(lastSpread),
+      };
+
+      lastBlur = scaleUp(lastBlur, blurScale);
+      lastDepth = scaleUp(lastDepth, depthScale);
+      lastSpread = scaleUp(lastSpread, spreadScale);
+
+      return {
+        ...obj,
+        [level]: token,
+      };
+    }, {});
+
+    return tokens as DesignTokens['shadow'];
+  }
+
+  protected compileSpacing(): DesignTokens['spacing'] {
+    return {
+      compact: this.unit(0.25),
+      tight: this.unit(0.5),
+      normal: this.unit(1),
+      loose: this.unit(2),
+      spacious: this.unit(3),
+    };
+  }
+
+  protected compileText(): DesignTokens['text'] {
+    const { fontSize, textScale } = this.config.typography;
+
+    return {
+      small: toRem(scaleDown(fontSize, textScale), fontSize),
+      normal: '1rem',
+      large: toRem(scaleUp(fontSize, textScale), fontSize),
+    };
+  }
+
+  protected compileTypography(): DesignTokens['typography'] {
+    const {
+      breakpoints,
+      strategy,
+      typography: { fontFamily, fontSize, lineHeight, responsiveScale },
+    } = this.config;
+    let lastSize = fontSize;
+
+    const sizes = breakpoints.map(() => {
+      if (strategy === 'mobile-first') {
+        lastSize = scaleUp(lastSize, responsiveScale);
+      } else {
+        lastSize = scaleDown(lastSize, responsiveScale);
+      }
+
+      return toPx(lastSize);
     });
 
-    if (names.size > 0) {
-      throw new Error(
-        `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
-      );
-    }
-
-    if (unknown.size > 0) {
-      throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
-    }
-  }
-
-  protected validateExtendsTheme(name: string, config: Config) {
-    if (name && !config.themes[name]) {
-      throw new Error(`Invalid extends, theme "${name}" does not exist.`);
-    }
+    return {
+      fontFamily,
+      lineHeight,
+      responsiveFontSizes: sizes,
+      rootFontSize: toPx(fontSize),
+      systemFontFamily: SYSTEM_FONT_FAMILY,
+    };
   }
 }
