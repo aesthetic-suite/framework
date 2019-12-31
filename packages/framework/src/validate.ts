@@ -110,7 +110,6 @@ export function validateThemeConfig(config: Partial<ThemeConfig>) {
     )
       // .custom(this.validateColorName)
       .required(),
-    extends: string(), // .custom(this.validateExtendsTheme),
     palettes: shape({
       danger: palette(),
       info: palette(),
@@ -124,7 +123,7 @@ export function validateThemeConfig(config: Partial<ThemeConfig>) {
     })
       .exact()
       .required(),
-    scheme: string<ColorScheme>('light').oneOf(['dark', 'light']),
+    scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
   });
 }
 

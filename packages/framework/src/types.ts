@@ -59,34 +59,6 @@ export type TextSize = 'small' | 'normal' | 'large';
 
 // CONFIG
 
-export type ColorConfig = {
-  [K in ColorShade]: Hexcode;
-};
-
-export interface PaletteStates<T = string> {
-  base: T;
-  disabled: T;
-  focused: T;
-  hovered: T;
-  selected: T;
-}
-
-export type PaletteConfig<T = string> = {
-  [K in PaletteType]: {
-    bg: PaletteStates<T>;
-    fg: PaletteStates<T>;
-  };
-};
-
-export interface ThemeConfig {
-  colors: { [name: string]: ColorConfig };
-  extends: string;
-  palettes: PaletteConfig;
-  scheme: ColorScheme;
-}
-
-export type ExtendableThemeConfig = Pick<ThemeConfig, 'colors' | 'palettes'>;
-
 export interface DesignConfig {
   border: {
     radius: number;
@@ -164,6 +136,31 @@ export interface DesignTokens {
 }
 
 // THEMES
+
+export type ColorConfig = {
+  [K in ColorShade]: Hexcode;
+};
+
+export interface PaletteStates<T = string> {
+  base: T;
+  disabled: T;
+  focused: T;
+  hovered: T;
+  selected: T;
+}
+
+export type PaletteConfig<T = string> = {
+  [K in PaletteType]: {
+    bg: PaletteStates<T>;
+    fg: PaletteStates<T>;
+  };
+};
+
+export interface ThemeConfig {
+  colors: { [name: string]: ColorConfig };
+  palettes: PaletteConfig;
+  scheme: ColorScheme;
+}
 
 export interface ThemeTokens extends DesignTokens {
   palette: PaletteConfig<Hexcode>;

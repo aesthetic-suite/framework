@@ -8,4 +8,4 @@ import Design from './Design';
 export * from './constants';
 export * from './types';
 
-export { Design };
+export default Design;

@@ -1,50 +1,19 @@
-import { DesignConfig, DesignTokens, Scale, PxUnit, RemUnit, DeepPartial } from './types';
+import { DesignConfig, DesignTokens, PxUnit, DeepPartial, ColorScheme, ThemeConfig } from './types';
+import { toPx, toRem, scaleDown, scaleUp } from './unit';
 import { validateDesignConfig } from './validate';
 import {
   SYSTEM_FONT_FAMILY,
   LAYERS,
-  SCALES,
   BREAKPOINT_SIZES,
   HEADING_LEVELS,
   SHADOW_LEVELS,
 } from './constants';
-
-function unit(value: number): string {
-  return value.toFixed(2).replace('.00', '');
-}
-
-function toPx(value: number): PxUnit {
-  return `${unit(value)}px`;
-}
-
-function toRem(value: number, rootSize: number): RemUnit {
-  return `${unit(Math.max(value, 0) / rootSize)}rem`;
-}
-
-function scaleDown(accumulator: number, scale: Scale): number {
-  const factor = typeof scale === 'number' ? scale : SCALES[scale];
-
-  if (factor === 0) {
-    return accumulator;
-  }
-
-  return accumulator / factor;
-}
-
-function scaleUp(accumulator: number, scale: Scale): number {
-  const factor = typeof scale === 'number' ? scale : SCALES[scale];
-
-  if (factor === 0) {
-    return accumulator;
-  }
-
-  return accumulator * factor;
-}
+import Theme from './Theme';
 
 export default class Design {
-  protected config: DesignConfig;
+  protected readonly config: DesignConfig;
 
-  protected tokens: DesignTokens;
+  protected readonly tokens: DesignTokens;
 
   constructor(config: DeepPartial<DesignConfig>) {
     // @ts-ignore TODO: Add tuple upstream for breakpoints
@@ -58,6 +27,10 @@ export default class Design {
       // Largest to smallest
       this.config.breakpoints.sort((a, b) => b - a);
     }
+  }
+
+  createTheme(config: ThemeConfig): Theme {
+    return new Theme(config, this.tokens);
   }
 
   unit = (...sizes: number[]): string => {
