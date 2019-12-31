@@ -8,6 +8,8 @@ export const BREAKPOINT_SIZES: BreakpointSize[] = ['xsmall', 'small', 'medium', 
 
 export const DEFAULT_BREAKPOINTS: DesignConfig['breakpoints'] = [640, 960, 1280, 1600, 1920];
 
+export const DEFAULT_UNIT = 8;
+
 export const HEADING_LEVELS = 6;
 
 export const LAYERS: { [K in LayerType]: number } = {

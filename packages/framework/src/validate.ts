@@ -1,5 +1,5 @@
 import optimal, { array, number, object, shape, string, union } from 'optimal';
-import { DEFAULT_BREAKPOINTS, SYSTEM_FONT_FAMILY, SCALES } from './constants';
+import { DEFAULT_BREAKPOINTS, SYSTEM_FONT_FAMILY, SCALES, DEFAULT_UNIT } from './constants';
 import { DesignConfig, Scale, ThemeConfig, SpacingType, StrategyType, ColorScheme } from './types';
 
 function hexcode() {
@@ -42,10 +42,10 @@ export function validateDesignConfig(config: Partial<DesignConfig>) {
     config,
     {
       border: shape({
-        radius: unit(),
-        radiusScale: scale('major-second'),
+        radius: unit(3),
+        radiusScale: scale('perfect-fourth'),
         width: unit(1),
-        widthScale: scale('minor-second'),
+        widthScale: scale(0),
       }).exact(),
       breakpoints: array(unit(), DEFAULT_BREAKPOINTS)
         .notEmpty()
@@ -62,16 +62,16 @@ export function validateDesignConfig(config: Partial<DesignConfig>) {
         .notEmpty()
         .required(),
       shadow: shape({
-        blur: unit(),
-        blurScale: scale(1),
-        depth: unit(2),
-        depthScale: scale(1.25),
+        blur: unit(2),
+        blurScale: scale('major-second'),
+        depth: unit(1),
+        depthScale: scale('major-third'),
         spread: unit(2),
-        spreadScale: scale(1.5),
+        spreadScale: scale('major-third'),
       }).exact(),
       spacing: shape({
         type: string<SpacingType>('vertical-rhythm').oneOf(['unit', 'vertical-rhythm']),
-        unit: number(),
+        unit: number(DEFAULT_UNIT),
       }).exact(),
       strategy: string<StrategyType>('mobile-first').oneOf(['desktop-first', 'mobile-first']),
       typography: shape({

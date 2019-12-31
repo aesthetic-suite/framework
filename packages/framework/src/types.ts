@@ -130,6 +130,7 @@ export interface DesignTokens {
   };
   breakpoint: {
     [K in BreakpointSize]: {
+      fontSize: PxUnit;
       size: number;
       query: string;
     };
@@ -156,7 +157,6 @@ export interface DesignTokens {
   typography: {
     fontFamily: string;
     lineHeight: number;
-    responsiveFontSizes: PxUnit[];
     rootFontSize: PxUnit;
     systemFontFamily: string;
   };
@@ -208,4 +208,14 @@ export type MixinType =
 
 export type ThemeMixins = {
   [K in MixinType]: DeclarationBlock;
+};
+
+// UTILS
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends (infer U)[]
+    ? DeepPartial<U>[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepPartial<U>[]
+    : DeepPartial<T[P]>;
 };

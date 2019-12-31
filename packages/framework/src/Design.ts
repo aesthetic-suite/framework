@@ -1,4 +1,4 @@
-import { DesignConfig, DesignTokens, Scale, PxUnit, RemUnit } from './types';
+import { DesignConfig, DesignTokens, Scale, PxUnit, RemUnit, DeepPartial } from './types';
 import { validateDesignConfig } from './validate';
 import {
   SYSTEM_FONT_FAMILY,
@@ -9,22 +9,34 @@ import {
   SHADOW_LEVELS,
 } from './constants';
 
+function unit(value: number): string {
+  return value.toFixed(2).replace('.00', '');
+}
+
 function toPx(value: number): PxUnit {
-  return `${value}px`;
+  return `${unit(value)}px`;
 }
 
 function toRem(value: number, rootSize: number): RemUnit {
-  return `${(Math.max(value, 0) / rootSize).toFixed(2)}rem`;
+  return `${unit(Math.max(value, 0) / rootSize)}rem`;
 }
 
 function scaleDown(accumulator: number, scale: Scale): number {
   const factor = typeof scale === 'number' ? scale : SCALES[scale];
+
+  if (factor === 0) {
+    return accumulator;
+  }
 
   return accumulator / factor;
 }
 
 function scaleUp(accumulator: number, scale: Scale): number {
   const factor = typeof scale === 'number' ? scale : SCALES[scale];
+
+  if (factor === 0) {
+    return accumulator;
+  }
 
   return accumulator * factor;
 }
@@ -34,16 +46,28 @@ export default class Design {
 
   protected tokens: DesignTokens;
 
-  constructor(config: Partial<DesignConfig>) {
+  constructor(config: DeepPartial<DesignConfig>) {
     // @ts-ignore TODO: Add tuple upstream for breakpoints
     this.config = validateDesignConfig(config);
     this.tokens = this.compile();
+
+    if (this.config.strategy === 'mobile-first') {
+      // Smallest to largest
+      this.config.breakpoints.sort((a, b) => a - b);
+    } else {
+      // Largest to smallest
+      this.config.breakpoints.sort((a, b) => b - a);
+    }
   }
 
   unit = (...sizes: number[]): string => {
-    const { type, unit } = this.config.spacing;
+    const { type, unit: baseUnit } = this.config.spacing;
     const { fontSize, lineHeight } = this.config.typography;
-    const calcUnit = type === 'vertical-rhythm' ? fontSize * lineHeight : unit;
+    let calcUnit = baseUnit;
+
+    if (type === 'vertical-rhythm') {
+      calcUnit = fontSize * lineHeight;
+    }
 
     return sizes.map(size => toRem(size * calcUnit, fontSize)).join(' ');
   };
@@ -83,6 +107,8 @@ export default class Design {
 
   protected compileBreakpoints(): DesignTokens['breakpoint'] {
     const { breakpoints, strategy } = this.config;
+    const fontSizes = this.compileBreakpointFontSizes();
+
     const tokens = BREAKPOINT_SIZES.reduce((obj, name, index) => {
       const size = breakpoints[index];
       const query: string[] = [];
@@ -108,6 +134,7 @@ export default class Design {
       return {
         ...obj,
         [name]: {
+          fontSize: fontSizes[index],
           size: breakpoints[index],
           query: query.join(' and '),
         },
@@ -117,20 +144,44 @@ export default class Design {
     return tokens as DesignTokens['breakpoint'];
   }
 
+  protected compileBreakpointFontSizes(): PxUnit[] {
+    const {
+      strategy,
+      typography: { fontSize, responsiveScale },
+    } = this.config;
+    let lastFontSize = fontSize;
+
+    const fontSizes = BREAKPOINT_SIZES.map(() => {
+      if (strategy === 'mobile-first') {
+        lastFontSize = scaleUp(lastFontSize, responsiveScale);
+      } else {
+        lastFontSize = scaleDown(lastFontSize, responsiveScale);
+      }
+
+      return toPx(lastFontSize);
+    });
+
+    if (strategy === 'desktop-first') {
+      fontSizes.reverse();
+    }
+
+    return fontSizes;
+  }
+
   protected compileHeadings(): DesignTokens['heading'] {
     const { fontSize, headingScale } = this.config.typography;
     let lastHeading = scaleUp(fontSize, headingScale);
 
     const levels = new Array<number>(HEADING_LEVELS).fill(0);
-    const tokens = levels.reduce((obj, index) => {
+    const tokens = levels.reduce((obj, no, index) => {
       const level = index + 1;
-      const unit = toRem(lastHeading, fontSize);
+      const size = toRem(lastHeading, fontSize);
 
       lastHeading = scaleUp(lastHeading, headingScale);
 
       return {
         ...obj,
-        [level]: unit,
+        [level]: size,
       };
     }, {});
 
@@ -148,7 +199,7 @@ export default class Design {
     let lastSpread = spread;
 
     const levels = new Array<number>(SHADOW_LEVELS).fill(0);
-    const tokens = levels.reduce((obj, index) => {
+    const tokens = levels.reduce((obj, no, index) => {
       const level = index + 1;
       const token = {
         blur: toPx(lastBlur),
@@ -190,27 +241,11 @@ export default class Design {
   }
 
   protected compileTypography(): DesignTokens['typography'] {
-    const {
-      breakpoints,
-      strategy,
-      typography: { fontFamily, fontSize, lineHeight, responsiveScale },
-    } = this.config;
-    let lastSize = fontSize;
-
-    const sizes = breakpoints.map(() => {
-      if (strategy === 'mobile-first') {
-        lastSize = scaleUp(lastSize, responsiveScale);
-      } else {
-        lastSize = scaleDown(lastSize, responsiveScale);
-      }
-
-      return toPx(lastSize);
-    });
+    const { fontFamily, fontSize, lineHeight } = this.config.typography;
 
     return {
       fontFamily,
       lineHeight,
-      responsiveFontSizes: sizes,
       rootFontSize: toPx(fontSize),
       systemFontFamily: SYSTEM_FONT_FAMILY,
     };
