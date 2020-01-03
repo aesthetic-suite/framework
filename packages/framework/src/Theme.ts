@@ -1,15 +1,15 @@
 import { DesignTokens, ThemeTokens, ThemeConfig, ColorScheme, DeepPartial } from './types';
 import { validateThemeConfig } from './validate';
 
-export default class Theme {
+export default class Theme<ColorNames extends string> {
   readonly scheme: ColorScheme;
 
   readonly tokens: ThemeTokens;
 
-  protected readonly config: ThemeConfig;
+  protected readonly config: ThemeConfig<ColorNames>;
 
-  constructor(config: ThemeConfig, tokens: DesignTokens) {
-    this.config = validateThemeConfig(config);
+  constructor(config: ThemeConfig<ColorNames>, tokens: DesignTokens, colors: ColorNames[]) {
+    this.config = validateThemeConfig(config, colors);
     this.scheme = config.scheme;
     this.tokens = {
       ...tokens,
@@ -17,9 +17,9 @@ export default class Theme {
     };
   }
 
-  extend(config: DeepPartial<ThemeConfig>): Theme {
+  extend(config: DeepPartial<ThemeConfig<ColorNames>>): Theme<ColorNames> {
     return new Theme();
   }
 
-  protected compilePalettes(): ThemeConfig['palettes'] {}
+  protected compilePalettes(): ThemeConfig<ColorNames>['palettes'] {}
 }

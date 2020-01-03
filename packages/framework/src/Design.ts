@@ -1,4 +1,4 @@
-import { DesignConfig, DesignTokens, PxUnit, DeepPartial, ColorScheme, ThemeConfig } from './types';
+import { DesignConfig, DesignTokens, PxUnit, DeepPartial, ThemeConfig } from './types';
 import { toPx, toRem, scaleDown, scaleUp } from './unit';
 import { validateDesignConfig } from './validate';
 import {
@@ -10,13 +10,12 @@ import {
 } from './constants';
 import Theme from './Theme';
 
-export default class Design {
-  protected readonly config: DesignConfig;
+export default class Design<ColorNames extends string = string> {
+  private readonly config: DesignConfig<ColorNames>;
 
-  protected readonly tokens: DesignTokens;
+  private readonly tokens: DesignTokens;
 
-  constructor(config: DeepPartial<DesignConfig>) {
-    // @ts-ignore TODO: Add tuple upstream for breakpoints
+  constructor(config: DeepPartial<DesignConfig<ColorNames>>) {
     this.config = validateDesignConfig(config);
     this.tokens = this.compile();
 
@@ -29,8 +28,8 @@ export default class Design {
     }
   }
 
-  createTheme(config: ThemeConfig): Theme {
-    return new Theme(config, this.tokens);
+  createTheme(config: ThemeConfig<ColorNames>): Theme<ColorNames> {
+    return new Theme(config, this.tokens, this.config.colors);
   }
 
   unit = (...sizes: number[]): string => {

@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "@aesthetic/sss": "^0.0.0",
-    "optimal": "^3.4.0"
+    "optimal": "^4.0.0-0"
   }
 }

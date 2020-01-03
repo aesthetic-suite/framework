@@ -59,15 +59,17 @@ export type TextSize = 'small' | 'normal' | 'large';
 
 // CONFIG
 
-export interface DesignConfig {
+export type BreakpointConfig = [number, number, number, number, number];
+
+export interface DesignConfig<ColorNames extends string> {
   border: {
     radius: number;
     radiusScale: Scale;
     width: number;
     widthScale: Scale;
   };
-  breakpoints: [number, number, number, number, number];
-  colors: string[];
+  breakpoints: BreakpointConfig;
+  colors: ColorNames[];
   shadow: {
     blur: number;
     blurScale: Scale;
@@ -156,8 +158,8 @@ export type PaletteConfig<T = string> = {
   };
 };
 
-export interface ThemeConfig {
-  colors: { [name: string]: ColorConfig };
+export interface ThemeConfig<ColorNames extends string> {
+  colors: { [K in ColorNames]: Hexcode | ColorConfig };
   palettes: PaletteConfig;
   scheme: ColorScheme;
 }

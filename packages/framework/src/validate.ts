@@ -1,6 +1,16 @@
-import optimal, { array, number, object, shape, string, union } from 'optimal';
+import optimal, { array, number, object, shape, string, tuple, union, ObjectOf } from 'optimal';
 import { DEFAULT_BREAKPOINTS, SYSTEM_FONT_FAMILY, SCALES, DEFAULT_UNIT } from './constants';
-import { DesignConfig, Scale, ThemeConfig, SpacingType, StrategyType, ColorScheme } from './types';
+import {
+  ColorConfig,
+  ColorScheme,
+  DeepPartial,
+  DesignConfig,
+  Scale,
+  ScaleType,
+  SpacingType,
+  StrategyType,
+  ThemeConfig,
+} from './types';
 
 function hexcode() {
   return string()
@@ -9,7 +19,10 @@ function hexcode() {
 }
 
 function scale(defaultValue: Scale = 'major-third') {
-  return union<Scale>([number().gte(0), string().oneOf(Object.keys(SCALES))], defaultValue);
+  return union<Scale>(
+    [number().positive(), string<ScaleType>().oneOf(Object.keys(SCALES) as ScaleType[])],
+    defaultValue,
+  );
 }
 
 function state() {
@@ -25,7 +38,7 @@ function state() {
 }
 
 function unit(defaultValue: number = 0) {
-  return number(defaultValue).gte(0);
+  return number(defaultValue).positive();
 }
 
 function palette() {
@@ -37,7 +50,9 @@ function palette() {
     .required();
 }
 
-export function validateDesignConfig(config: Partial<DesignConfig>) {
+export function validateDesignConfig<ColorNames extends string>(
+  config: DeepPartial<DesignConfig<ColorNames>>,
+): DesignConfig<ColorNames> {
   return optimal(
     config,
     {
@@ -47,15 +62,15 @@ export function validateDesignConfig(config: Partial<DesignConfig>) {
         width: unit(1),
         widthScale: scale(0),
       }).exact(),
-      breakpoints: array(unit(), DEFAULT_BREAKPOINTS)
-        .notEmpty()
-        .custom(list => {
-          if (list.length !== 5) {
-            throw new Error('Breakpoints required 5 values.');
-          }
-        }),
+      breakpoints: tuple([
+        unit(DEFAULT_BREAKPOINTS[0]),
+        unit(DEFAULT_BREAKPOINTS[1]),
+        unit(DEFAULT_BREAKPOINTS[2]),
+        unit(DEFAULT_BREAKPOINTS[3]),
+        unit(DEFAULT_BREAKPOINTS[4]),
+      ]),
       colors: array(
-        string()
+        string<ColorNames>()
           .notEmpty()
           .camelCase(),
       )
@@ -90,45 +105,11 @@ export function validateDesignConfig(config: Partial<DesignConfig>) {
   );
 }
 
-export function validateThemeConfig(config: Partial<ThemeConfig>) {
-  return optimal(config, {
-    colors: object(
-      shape({
-        '00': hexcode(),
-        '10': hexcode(),
-        '20': hexcode(),
-        '30': hexcode(),
-        '40': hexcode(),
-        '50': hexcode(),
-        '60': hexcode(),
-        '70': hexcode(),
-        '80': hexcode(),
-        '90': hexcode(),
-      })
-        .exact()
-        .required(),
-    )
-      // .custom(this.validateColorName)
-      .required(),
-    palettes: shape({
-      danger: palette(),
-      info: palette(),
-      muted: palette(),
-      neutral: palette(),
-      primary: palette(),
-      secondary: palette(),
-      success: palette(),
-      tertiary: palette(),
-      warning: palette(),
-    })
-      .exact()
-      .required(),
-    scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-  });
-}
-
-/* function validateColorName(colors: ThemeConfig['colors']) {
-  const names = new Set(this.config.colors);
+function validateColorName<ColorNames extends string>(
+  colors: ObjectOf<string | ColorConfig>,
+  colorNames: ColorNames[],
+) {
+  const names = new Set<string>(colorNames);
   const unknown = new Set<string>();
 
   Object.keys(colors).forEach(color => {
@@ -150,8 +131,48 @@ export function validateThemeConfig(config: Partial<ThemeConfig>) {
   }
 }
 
-function validateExtendsTheme(name: string) {
-  if (name && !this.themes[name]) {
-    throw new Error(`Invalid extends, theme "${name}" does not exist.`);
-  }
-} */
+export function validateThemeConfig<ColorNames extends string>(
+  config: ThemeConfig<ColorNames>,
+  colorNames: ColorNames[],
+) {
+  return optimal(config, {
+    colors: object(
+      union<string | ColorConfig>(
+        [
+          hexcode(),
+          shape({
+            '00': hexcode(),
+            '10': hexcode(),
+            '20': hexcode(),
+            '30': hexcode(),
+            '40': hexcode(),
+            '50': hexcode(),
+            '60': hexcode(),
+            '70': hexcode(),
+            '80': hexcode(),
+            '90': hexcode(),
+          })
+            .exact()
+            .required(),
+        ],
+        '',
+      ),
+    )
+      .custom(value => validateColorName(value, colorNames))
+      .required(),
+    palettes: shape({
+      danger: palette(),
+      info: palette(),
+      muted: palette(),
+      neutral: palette(),
+      primary: palette(),
+      secondary: palette(),
+      success: palette(),
+      tertiary: palette(),
+      warning: palette(),
+    })
+      .exact()
+      .required(),
+    scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+  });
+}

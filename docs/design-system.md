@@ -379,13 +379,6 @@ When the build target is standard CSS, it will generate CSS variables (tokens) a
 (mixins). It would look something like the following.
 
 ```css
-/* theme/light.css */
-:root {
-  --primary-bg-focused: #fe8484;
-  --secondary-fg-base: #000;
-  /* ... */
-}
-
 /* system.css */
 :root {
   --spacing-compact: 0.25rem;
@@ -399,6 +392,14 @@ When the build target is standard CSS, it will generate CSS variables (tokens) a
   /* ... */
 }
 
+/* theme/light.css */
+.theme-light {
+  --primary-bg-focused: #fe8484;
+  --secondary-fg-base: #000;
+  /* ... */
+}
+
+/* mixins.css */
 .heading-1 {
   font-family: var(--font-family);
   font-size: var(--heading-size-1);
@@ -423,12 +424,7 @@ When the build target is [SCSS](https://sass-lang.com), it will generate SCSS va
 mixins. It would look something like the following.
 
 ```scss
-// theme/light.css
-$primary-bg-focused: #fe8484;
-$secondary-fg-base: #000;
-// ...
-
-// system.css
+// system.scss
 $spacing-compact: 0.25rem;
 $spacing-tight: 0.5rem;
 $spacing-normal: 1rem;
@@ -439,6 +435,12 @@ $text-size-normal: 1rem;
 $text-size-large: 1.15rem;
 // ...
 
+// theme/light.scss
+$primary-bg-focused: #fe8484;
+$secondary-fg-base: #000;
+// ...
+
+// mixins.scss
 @mixin heading-1 {
   font-family: $font-family;
   font-size: $heading-size-1;
@@ -461,12 +463,7 @@ When the build target is [Less](http://lesscss.org/), it will generate Less vari
 mixins. It would look something like the following.
 
 ```less
-// theme/light.css
-@primary-bg-focused: #fe8484;
-@secondary-fg-base: #000;
-// ...
-
-// system.css
+// system.less
 @spacing-compact: 0.25rem;
 @spacing-tight: 0.5rem;
 @spacing-normal: 1rem;
@@ -477,6 +474,12 @@ mixins. It would look something like the following.
 @text-size-large: 1.15rem;
 // ...
 
+// theme/light.less
+@primary-bg-focused: #fe8484;
+@secondary-fg-base: #000;
+// ...
+
+// mixins.less
 .mixin-heading-1 {
   font-family: @font-family;
   font-size: @heading-size-1;
@@ -501,24 +504,25 @@ mixin theme templates (plain objects), all of which would be used in the officia
 following (API in flux).
 
 ```ts
-// system.ts
-const system = new DesignSystem({
+// design.ts
+const design = new Design({
   // ... variables from the YAML config
 });
 
-system.addTheme('light', {
+// themes/light.ts
+const theme = design.createTheme('light', {
   // ... varibles also
 });
 
 // App.ts
-aesthetic.registerTheme(system.getTheme('light'));
+aesthetic.registerTheme(theme);
 
 // Component.ts
 useStyles((token, mixin) => ({
   input: {
     ...mixin.box,
     ...mixin.input,
-    fontFamily: token.fontFamily,
+    fontFamily: token.typography.fontFamily,
     fontSize: token.text.normal,
   },
 }));
@@ -556,12 +560,12 @@ useStyles(({ color }) => ({
   },
 }));
 
-// After (tokens TBD)
-const styleSheet = createStyleSheet(({ color }) => ({
+// After
+const styleSheet = createStyleSheet(({ palette }) => ({
   button: {
-    border: `1px solid ${color.primary[4]}`,
-    backgroundColor: color.primary[3],
-    color: color.base,
+    border: `1px solid ${palette.primary.bg.base}`,
+    backgroundColor: palette.primary.bg.base,
+    color: palette.neutral.fg.base,
   },
 }));
 
@@ -580,20 +584,20 @@ With style sheets being an instance of `StyleSheet`, we have far more control th
 
 The first avenue for control and customization would be color scheme variants with
 `StyleSheet#addColorSchemeVariant()`. This allows us to change properties based on either the
-"light" or "dark" color schemes being currently active. For example, making the primary color
-lighter when "dark" color schemes are active.
+"light" or "dark" color schemes being currently active. For example, changing the primary color to
+secondary when "dark" color schemes are active.
 
 ```ts
-const styleSheet = createStyleSheet(({ color }) => ({
+const styleSheet = createStyleSheet(({ palette }) => ({
   button: {
-    border: `1px solid ${color.primary[4]}`,
-    backgroundColor: color.primary[3],
-    color: color.base,
+    border: `1px solid ${palette.primary.bg.base}`,
+    backgroundColor: palette.primary.bg.base,
+    color: palette.neutral.fg.base,
   },
-})).addColorSchemeVariant('dark', ({ color }) => ({
+})).addColorSchemeVariant('dark', ({ palette }) => ({
   button: {
-    borderColor: color.primary[2],
-    backgroundColor: color.primary[1],
+    borderColor: palette.secondary.bg.base,
+    backgroundColor: palette.secondary.bg.base,
   },
 }));
 ```
@@ -603,12 +607,12 @@ If using plain CSS instead of CSS-in-JS, a similar solution can be implemented w
 
 ```css
 .button {
-  backgroundcolor: var(--primary-3);
+  background-color: var(--primary-bg-base);
 }
 
 @media (prefers-color-scheme: dark) {
   .button {
-    backgroundcolor: var(--primary-1);
+    background-color: var(--secondary-bg-base);
   }
 }
 ```
@@ -620,15 +624,15 @@ Like color scheme variants, theme variants permit the most granular level of con
 name. For example, say we want explicit red borders when the theme is "fire".
 
 ```ts
-const styleSheet = createStyleSheet(({ color }) => ({
+const styleSheet = createStyleSheet(({ palette }) => ({
   button: {
-    border: `1px solid ${color.primary[4]}`,
-    backgroundColor: color.primary[3],
-    color: color.base,
+    border: `1px solid ${palette.primary.bg.base}`,
+    backgroundColor: palette.primary.bg.base,
+    color: palette.neutral.fg.base,
   },
-})).addThemeVariant('fire', ({ color }) => ({
+})).addThemeVariant('fire', ({ palette }) => ({
   button: {
-    borderColor: color.red[2],
+    borderColor: palette.danger.bg.base,
   },
 }));
 ```
