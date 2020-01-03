@@ -1,20 +1,20 @@
 import { SCALES } from './constants';
 import { PxUnit, RemUnit, Scale } from './types';
 
-export function unit(value: number): string {
+export function formatUnit(value: number): string {
   return value.toFixed(2).replace('.00', '');
 }
 
 export function toPx(value: number): PxUnit {
-  return `${unit(value)}px`;
+  return `${formatUnit(value)}px`;
 }
 
 export function toRem(value: number, rootSize: number): RemUnit {
-  return `${unit(Math.max(value, 0) / rootSize)}rem`;
+  return `${formatUnit(Math.max(value, 0) / rootSize)}rem`;
 }
 
-export function scale(accumulator: number, scaling: Scale, type: 'up' | 'down'): number {
-  const factor = typeof scaling === 'number' ? scaling : SCALES[scaling];
+function scale(accumulator: number, scaling: Scale, type: 'up' | 'down'): number {
+  const factor = (typeof scaling === 'number' ? scaling : SCALES[scaling]) ?? 0;
 
   if (factor === 0) {
     return accumulator;

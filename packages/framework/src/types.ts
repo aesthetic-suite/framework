@@ -57,39 +57,41 @@ export type SpacingType = 'unit' | 'vertical-rhythm';
 
 export type TextSize = 'small' | 'normal' | 'large';
 
+export type FontFamilyType = 'web-system';
+
 // CONFIG
 
 export type BreakpointConfig = [number, number, number, number, number];
 
 export interface DesignConfig<ColorNames extends string> {
-  border: {
-    radius: number;
-    radiusScale: Scale;
-    width: number;
-    widthScale: Scale;
+  border?: {
+    radius?: number;
+    radiusScale?: Scale;
+    width?: number;
+    widthScale?: Scale;
   };
-  breakpoints: BreakpointConfig;
+  breakpoints?: BreakpointConfig;
   colors: ColorNames[];
-  shadow: {
-    blur: number;
-    blurScale: Scale;
-    depth: number;
-    depthScale: Scale;
-    spread: number;
-    spreadScale: Scale;
+  shadow?: {
+    blur?: number;
+    blurScale?: Scale;
+    depth?: number;
+    depthScale?: Scale;
+    spread?: number;
+    spreadScale?: Scale;
   };
-  spacing: {
-    type: SpacingType;
-    unit: number;
+  spacing?: {
+    type?: SpacingType;
+    unit?: number;
   };
-  strategy: StrategyType;
-  typography: {
-    fontFamily: string;
-    fontSize: number;
-    headingScale: Scale;
-    lineHeight: number;
-    responsiveScale: Scale;
-    textScale: Scale;
+  strategy?: StrategyType;
+  typography?: {
+    fontFamily?: string;
+    fontSize?: number;
+    headingScale?: Scale;
+    lineHeight?: number;
+    responsiveScale?: Scale;
+    textScale?: Scale;
   };
 }
 
@@ -145,10 +147,10 @@ export type ColorConfig = {
 
 export interface PaletteStates<T = string> {
   base: T;
-  disabled: T;
-  focused: T;
-  hovered: T;
-  selected: T;
+  disabled?: T;
+  focused?: T;
+  hovered?: T;
+  selected?: T;
 }
 
 export type PaletteConfig<T = string> = {
@@ -217,4 +219,12 @@ export type DeepPartial<T> = {
     : T[P] extends readonly (infer U)[]
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>;
+};
+
+export type DeepRequired<T> = {
+  [P in keyof T]-?: T[P] extends (infer U)[]
+    ? DeepRequired<U>[]
+    : T[P] extends readonly (infer U)[]
+    ? readonly DeepRequired<U>[]
+    : DeepRequired<T[P]>;
 };

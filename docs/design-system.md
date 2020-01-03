@@ -184,8 +184,10 @@ typography:
   # Factor to increase heading font size for each level.
   headingScale: 1.25
 
-  # Root line height.
-  lineHeight: 1.5
+  # Root unitless line height. Can be calculated by dividing the
+  # desired line height (30px) by the font size (20px): 30 / 20 = 1.5.
+  # Initless is preferred for accessibility, scaling, and maintaining the correct ratio.
+  lineHeight: 1.25
 
   # Factor to increase (mobile-first) or decrease (desktop-first) text and headings each breakpoint.
   responsiveScale: 1.1
@@ -257,6 +259,8 @@ themes:
         70: '#FE8484'
         80: '#FE8484'
         90: '#FE8484' # Darkest
+      # Colors can also be a single hexcode
+      black: '#000'
 
     # Mapping of pre-defined palettes to colors and their shades (from above).
     # Supports background and foreground targets, with multiple state variants.
@@ -652,6 +656,7 @@ solutions are:
 - Add rudimentary motion support.
   - Transition scaling?
   - `prefers-reduced-motion`?
+- Color blind variants? (Each should be their own theme)
 
 # References
 

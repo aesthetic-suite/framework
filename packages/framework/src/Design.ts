@@ -1,11 +1,22 @@
-import { DesignConfig, DesignTokens, PxUnit, DeepPartial, ThemeConfig } from './types';
-import { toPx, toRem, scaleDown, scaleUp } from './unit';
-import { validateDesignConfig } from './validate';
+import optimal, { array, number, shape, string, tuple } from 'optimal';
 import {
-  SYSTEM_FONT_FAMILY,
-  LAYERS,
+  DeepPartial,
+  DesignConfig,
+  DesignTokens,
+  PxUnit,
+  SpacingType,
+  StrategyType,
+  ThemeConfig,
+} from './types';
+import { toPx, toRem, scaleDown, scaleUp } from './unit';
+import { unit, scale } from './validate';
+import {
   BREAKPOINT_SIZES,
+  DEFAULT_BREAKPOINTS,
+  DEFAULT_UNIT,
+  FONT_FAMILIES,
   HEADING_LEVELS,
+  LAYERS,
   SHADOW_LEVELS,
 } from './constants';
 import Theme from './Theme';
@@ -16,7 +27,7 @@ export default class Design<ColorNames extends string = string> {
   private readonly tokens: DesignTokens;
 
   constructor(config: DeepPartial<DesignConfig<ColorNames>>) {
-    this.config = validateDesignConfig(config);
+    this.config = this.validateConfig(config);
     this.tokens = this.compile();
 
     if (this.config.strategy === 'mobile-first') {
@@ -219,7 +230,55 @@ export default class Design<ColorNames extends string = string> {
       fontFamily,
       lineHeight,
       rootFontSize: toPx(fontSize),
-      systemFontFamily: SYSTEM_FONT_FAMILY,
+      systemFontFamily: FONT_FAMILIES['web-system'],
     };
   }
+
+  protected validateConfig = (
+    config: DeepPartial<DesignConfig<ColorNames>>,
+  ): DesignConfig<ColorNames> => {
+    return optimal(config, {
+      border: shape({
+        radius: unit(3),
+        radiusScale: scale('perfect-fourth'),
+        width: unit(1),
+        widthScale: scale(0),
+      }).exact(),
+      breakpoints: tuple([
+        unit(DEFAULT_BREAKPOINTS[0]),
+        unit(DEFAULT_BREAKPOINTS[1]),
+        unit(DEFAULT_BREAKPOINTS[2]),
+        unit(DEFAULT_BREAKPOINTS[3]),
+        unit(DEFAULT_BREAKPOINTS[4]),
+      ]),
+      colors: array(
+        string<ColorNames>()
+          .notEmpty()
+          .camelCase(),
+      )
+        .notEmpty()
+        .required(),
+      shadow: shape({
+        blur: unit(2),
+        blurScale: scale('major-second'),
+        depth: unit(1),
+        depthScale: scale('major-third'),
+        spread: unit(2),
+        spreadScale: scale('major-third'),
+      }).exact(),
+      spacing: shape({
+        type: string<SpacingType>('vertical-rhythm').oneOf(['unit', 'vertical-rhythm']),
+        unit: number(DEFAULT_UNIT),
+      }).exact(),
+      strategy: string<StrategyType>('mobile-first').oneOf(['desktop-first', 'mobile-first']),
+      typography: shape({
+        fontFamily: string(FONT_FAMILIES['web-system']).notEmpty(),
+        fontSize: unit(16),
+        headingScale: scale('major-third'),
+        lineHeight: unit(1.25),
+        responsiveScale: scale('minor-second'),
+        textScale: scale('major-second'),
+      }).exact(),
+    });
+  };
 }

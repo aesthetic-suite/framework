@@ -1,12 +1,19 @@
 /* eslint-disable sort-keys */
 
-import { DesignConfig, ScaleType, LayerType, BorderSize, BreakpointSize } from './types';
+import {
+  ScaleType,
+  LayerType,
+  BorderSize,
+  BreakpointSize,
+  FontFamilyType,
+  BreakpointConfig,
+} from './types';
 
 export const BORDER_SIZES: BorderSize[] = ['small', 'normal', 'large'];
 
 export const BREAKPOINT_SIZES: BreakpointSize[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
 
-export const DEFAULT_BREAKPOINTS: DesignConfig['breakpoints'] = [640, 960, 1280, 1600, 1920];
+export const DEFAULT_BREAKPOINTS: BreakpointConfig = [640, 960, 1280, 1600, 1920];
 
 export const DEFAULT_UNIT = 8;
 
@@ -24,8 +31,10 @@ export const LAYERS: { [K in LayerType]: number } = {
 
 export const SHADOW_LEVELS = 10;
 
-export const SYSTEM_FONT_FAMILY =
-  'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+export const FONT_FAMILIES: { [K in FontFamilyType]: string } = {
+  'web-system':
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+};
 
 // https://type-scale.com
 export const SCALES: { [K in ScaleType]: number } = {
