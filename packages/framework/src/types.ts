@@ -22,7 +22,15 @@ export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' |
 
 export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
 
-export type LayerType = 'content' | 'navigation' | 'menu' | 'sheet' | 'modal' | 'toast' | 'tooltip';
+export type LayerType =
+  | 'none'
+  | 'content'
+  | 'navigation'
+  | 'menu'
+  | 'sheet'
+  | 'modal'
+  | 'toast'
+  | 'tooltip';
 
 export type PaletteType =
   | 'primary'
@@ -64,34 +72,34 @@ export type FontFamilyType = 'web-system';
 export type BreakpointConfig = [number, number, number, number, number];
 
 export interface DesignConfig<ColorNames extends string> {
-  border?: {
-    radius?: number;
-    radiusScale?: Scale;
-    width?: number;
-    widthScale?: Scale;
+  border: {
+    radius: number;
+    radiusScale: Scale;
+    width: number;
+    widthScale: Scale;
   };
-  breakpoints?: BreakpointConfig;
+  breakpoints: BreakpointConfig;
   colors: ColorNames[];
-  shadow?: {
-    blur?: number;
-    blurScale?: Scale;
-    depth?: number;
-    depthScale?: Scale;
-    spread?: number;
-    spreadScale?: Scale;
+  shadow: {
+    blur: number;
+    blurScale: Scale;
+    depth: number;
+    depthScale: Scale;
+    spread: number;
+    spreadScale: Scale;
   };
-  spacing?: {
-    type?: SpacingType;
-    unit?: number;
+  spacing: {
+    type: SpacingType;
+    unit: number;
   };
-  strategy?: StrategyType;
-  typography?: {
-    fontFamily?: string;
-    fontSize?: number;
-    headingScale?: Scale;
-    lineHeight?: number;
-    responsiveScale?: Scale;
-    textScale?: Scale;
+  strategy: StrategyType;
+  typography: {
+    fontFamily: string;
+    fontSize: number;
+    headingScale: Scale;
+    lineHeight: number;
+    responsiveScale: Scale;
+    textScale: Scale;
   };
 }
 
@@ -219,12 +227,4 @@ export type DeepPartial<T> = {
     : T[P] extends readonly (infer U)[]
     ? readonly DeepPartial<U>[]
     : DeepPartial<T[P]>;
-};
-
-export type DeepRequired<T> = {
-  [P in keyof T]-?: T[P] extends (infer U)[]
-    ? DeepRequired<U>[]
-    : T[P] extends readonly (infer U)[]
-    ? readonly DeepRequired<U>[]
-    : DeepRequired<T[P]>;
 };

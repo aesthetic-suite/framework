@@ -1,4 +1,5 @@
 import optimal, { array, number, shape, string, tuple } from 'optimal';
+import Theme from './Theme';
 import {
   DeepPartial,
   DesignConfig,
@@ -19,7 +20,6 @@ import {
   LAYERS,
   SHADOW_LEVELS,
 } from './constants';
-import Theme from './Theme';
 
 export default class Design<ColorNames extends string = string> {
   private readonly config: DesignConfig<ColorNames>;
@@ -267,10 +267,10 @@ export default class Design<ColorNames extends string = string> {
         spreadScale: scale('major-third'),
       }).exact(),
       spacing: shape({
-        type: string<SpacingType>('vertical-rhythm').oneOf(['unit', 'vertical-rhythm']),
+        type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
         unit: number(DEFAULT_UNIT),
       }).exact(),
-      strategy: string<StrategyType>('mobile-first').oneOf(['desktop-first', 'mobile-first']),
+      strategy: string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']),
       typography: shape({
         fontFamily: string(FONT_FAMILIES['web-system']).notEmpty(),
         fontSize: unit(16),

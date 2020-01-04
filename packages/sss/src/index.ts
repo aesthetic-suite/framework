@@ -3,10 +3,4 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Design from './Design';
-import Theme from './Theme';
-
-export * from './constants';
 export * from './types';
-
-export { Design, Theme };

@@ -8318,10 +8318,10 @@ optimal@^4.1.1:
   resolved "https://registry.npmjs.org/optimal/-/optimal-4.2.0.tgz#a97d9a12cb543988f2e54b88416b77d9a811ed69"
   integrity sha512-jKFdiBkhJCVMh6oXsGNVFv/huPeFTEdlBtSuwDBYYClFn6lwV0fdRwRhWtpazM1ZMuV+bNNRFMth9SMWvUk3uQ==
 
-optimal@^4.0.0-0:
-  version "4.0.0-0"
-  resolved "https://registry.yarnpkg.com/optimal/-/optimal-4.0.0-0.tgz#d44faabb42aa69ddbd0072633d676316c8237171"
-  integrity sha512-6hYknJIHRuMTU2A80Dg1Xr/k47yFZD4JBBZZ6cli2L/qrJ57r25qwHnUH2GnVzPQDLZJKHasOO37WkAFpcywVQ==
+optimal@^4.0.0-2:
+  version "4.0.0-2"
+  resolved "https://registry.npmjs.org/optimal/-/optimal-4.0.0-2.tgz#271d618a4196496f0790784dc1ab951ddd769e1f"
+  integrity sha512-s3oV+hYWVaT7ZaEWbEWjlN5rswAcgXRs4go+GfI4y5s62QxQ5ad0KqPM1zSHWDqeEvd+f98IB8gE+0qjPnmKiw==
 
 optimist@^0.6.1:
   version "0.6.1"

@@ -1,4 +1,4 @@
-import optimal, { object, shape, string, union, ObjectOf } from 'optimal';
+import optimal, { object, shape, string, union, ObjectOf, Schema } from 'optimal';
 import deepMerge from 'extend';
 import {
   DesignTokens,
@@ -8,6 +8,7 @@ import {
   DeepPartial,
   PaletteStates,
   ColorConfig,
+  ColorShade,
 } from './types';
 import { hexcode } from './validate';
 
@@ -42,10 +43,10 @@ export default class Theme<ColorNames extends string> {
 
   protected compilePalettes(): ThemeConfig<ColorNames>['palettes'] {
     const { palettes } = this.config;
-    const tokens = {};
+    const tokens: Partial<ThemeConfig<ColorNames>['palettes']> = {};
 
     Object.entries(palettes).forEach(([name, config]) => {
-      tokens[name] = {
+      tokens[name as keyof typeof tokens] = {
         bg: this.compilePaletteState(config.bg),
         fg: this.compilePaletteState(config.fg),
       };
@@ -55,35 +56,32 @@ export default class Theme<ColorNames extends string> {
   }
 
   protected compilePaletteState(state: PaletteStates): PaletteStates {
-    const token = {};
+    const token: Partial<PaletteStates> = {};
 
     Object.entries(state).forEach(([key, value]) => {
       const path = String(value);
       let hex = '';
 
       if (path.includes('.')) {
-        const [hue, shade] = path.split('.');
+        const [hue, shade] = path.split('.') as [ColorNames, ColorShade];
 
-        hex = this.config.colors[hue][shade];
+        hex = (this.config.colors[hue] as ColorConfig)[shade];
       } else {
-        hex = this.config.colors[path];
+        hex = this.config.colors[path as ColorNames] as string;
       }
 
-      token[key] = hex;
+      token[key as keyof typeof token] = hex;
     });
 
     return token as PaletteStates;
   }
 
   protected createPaletteBlueprint() {
-    const color = () =>
-      string()
-        .required()
-        .custom(this.validateColorReference);
+    const color = () => string().custom(this.validateColorReference);
 
     const state = () =>
       shape({
-        base: color(),
+        base: color().required(),
         disabled: color(),
         focused: color(),
         hovered: color(),
@@ -102,8 +100,8 @@ export default class Theme<ColorNames extends string> {
 
   protected validateConfig = (config: ThemeConfig<ColorNames>) => {
     return optimal(config, {
-      colors: object(
-        union<string | ColorConfig>(
+      colors: object<string | ColorConfig, ColorNames>(
+        union(
           [
             hexcode(),
             shape({
@@ -144,53 +142,64 @@ export default class Theme<ColorNames extends string> {
   };
 
   protected validateColorNames = (colors: ObjectOf<string | ColorConfig>) => {
-    const names = new Set<string>(this.colorNames);
-    const unknown = new Set<string>();
+    if (__DEV__) {
+      const names = new Set<string>(this.colorNames);
+      const unknown = new Set<string>();
 
-    Object.keys(colors).forEach(color => {
-      if (names.has(color)) {
-        names.delete(color);
-      } else {
-        unknown.add(color);
+      Object.keys(colors).forEach(color => {
+        if (names.has(color)) {
+          names.delete(color);
+        } else {
+          unknown.add(color);
+        }
+      });
+
+      if (names.size > 0) {
+        throw new Error(
+          `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
+        );
       }
-    });
 
-    if (names.size > 0) {
-      throw new Error(
-        `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
-      );
-    }
-
-    if (unknown.size > 0) {
-      throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
+      if (unknown.size > 0) {
+        throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
+      }
     }
   };
 
-  protected validateColorReference = (ref: string) => {
-    return;
+  protected validateColorReference = (ref: string, schema: Schema<ThemeConfig<ColorNames>>) => {
+    if (__DEV__) {
+      const colors = schema.struct.colors!;
 
-    // Hue + shade: black.10
-    if (ref.includes('.')) {
-      const [hue, shade] = ref.split('.');
-
-      if (colors[hue] && typeof colors[hue] === 'string') {
-        throw new Error(
-          `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
-        );
-      } else if (!colors[hue] || !colors[hue][shade]) {
-        throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+      if (!ref) {
+        return;
       }
 
-      return;
-    }
+      // Hue + shade: black.10
+      if (ref.includes('.')) {
+        const [hue, shade] = ref.split('.') as [ColorNames, ColorShade];
+        const config: string | ColorConfig = colors[hue];
 
-    // Hue w/ no shade: black
-    if (colors[ref] && typeof colors[ref] !== 'string') {
-      throw new Error(
-        `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
-      );
-    } else if (!colors[ref]) {
-      throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+        if (typeof config === 'string') {
+          throw new TypeError(
+            `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
+          );
+        } else if (!config || !config[shade]) {
+          throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+        }
+
+        return;
+      }
+
+      // Hue w/ no shade: black
+      const config: string | ColorConfig = colors[ref as ColorNames];
+
+      if (config && typeof config !== 'string') {
+        throw new Error(
+          `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
+        );
+      } else if (!config) {
+        throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+      }
     }
   };
 }

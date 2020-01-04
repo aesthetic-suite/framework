@@ -4,8 +4,8 @@ import { Scale, ScaleType } from './types';
 
 export function hexcode() {
   return string()
-    .required()
-    .match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/iu);
+    .match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/iu)
+    .required();
 }
 
 export function scale(defaultValue: Scale = 'major-third') {

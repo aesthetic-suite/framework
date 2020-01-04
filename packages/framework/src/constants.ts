@@ -20,6 +20,7 @@ export const DEFAULT_UNIT = 8;
 export const HEADING_LEVELS = 6;
 
 export const LAYERS: { [K in LayerType]: number } = {
+  none: 0,
   content: 100,
   navigation: 1000,
   menu: 1100,

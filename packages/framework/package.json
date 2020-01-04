@@ -24,6 +24,6 @@
   "dependencies": {
     "@aesthetic/sss": "^0.0.0",
     "extend": "^3.0.2",
-    "optimal": "^4.0.0-0"
+    "optimal": "^4.0.0-2"
   }
 }

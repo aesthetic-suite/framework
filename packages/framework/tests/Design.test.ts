@@ -55,7 +55,14 @@ describe('Design', () => {
         },
       },
       palettes: {
-        primary: createState(),
+        primary: {
+          bg: {
+            base: 'red.00',
+          },
+          fg: {
+            base: 'red.10',
+          },
+        },
         secondary: createState(),
         tertiary: createState(),
         neutral: createState(),
