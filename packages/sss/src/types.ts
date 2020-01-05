@@ -162,8 +162,6 @@ export interface Properties
   transition?: ExpandProperty<CSS.TransitionProperty, TransitionProperty>;
 }
 
-export type NativeProperties = CSS.StandardProperties<Length>;
-
 export type FallbackProperties = CSS.StandardPropertiesFallback<Length>;
 
 export type Pseudos = { [P in CSS.SimplePseudos]?: DeclarationBlock };
@@ -219,12 +217,9 @@ export type PageBlock = Properties & {
     [K in PageMargins]?: PageBlock;
   };
 
-export type Page = PageBlock & {
-  ':blank'?: PageBlock;
-  ':first'?: PageBlock;
-  ':left'?: PageBlock;
-  ':right'?: PageBlock;
-};
+export type PagePseudos = ':blank' | ':first' | ':left' | ':right';
+
+export type Page = PageBlock & { [K in PagePseudos]?: PageBlock };
 
 export interface Rulesets<T> {
   [selector: string]: T;

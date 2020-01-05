@@ -55,7 +55,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
     Object.keys(globalSheet).forEach(rule => {
       switch (rule) {
-        case '@charset': {
+        /* case '@charset': {
           const charset = globalSheet[rule];
 
           if (typeof charset === 'string') {
@@ -81,7 +81,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           });
 
           break;
-        }
+        } */
 
         case '@global': {
           const globals = globalSheet[rule] || {};
@@ -107,7 +107,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           break;
         }
 
-        case '@import': {
+        /* case '@import': {
           const paths = globalSheet[rule];
 
           if (typeof paths === 'string' || Array.isArray(paths)) {
@@ -149,7 +149,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
           }
 
           break;
-        }
+        } */
 
         default: {
           if (__DEV__) {
@@ -242,7 +242,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
     const atRules: string[] = [];
 
-    Object.keys(unifiedRuleset).forEach(baseKey => {
+    /* Object.keys(unifiedRuleset).forEach(baseKey => {
       const key = baseKey as keyof ComponentBlock;
       const value = unifiedRuleset[key];
 
@@ -260,7 +260,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
 
         this.emit('property', [ruleset, key as keyof NativeBlock, newValue || value]);
       }
-    });
+    }); */
 
     // Process at-rule's after properties, as some at-rule's may require
     // a property or nested value to exist before modifying it.
@@ -343,7 +343,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a nested selector ruleset by emitting the appropriate name.
    */
-  convertSelector(
+  /* convertSelector(
     key: string,
     value: ComponentBlock,
     ruleset: Ruleset<NativeBlock>,
@@ -373,12 +373,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         this.convertRuleset(value, ruleset.createRuleset(selector)),
       ]);
     });
-  }
+  } */
 
   /**
    * Convert a unified syntax list of font face objects to rulesets.
    */
-  convertFontFaces(fontFamily: string, faces: FontFace[], sheet: Sheet<NativeBlock>) {
+  /* convertFontFaces(fontFamily: string, faces: FontFace[], sheet: Sheet<NativeBlock>) {
     const srcPaths: string[][] = [];
     const fontFaces = faces.map(font => {
       srcPaths.push(font.srcPaths);
@@ -393,12 +393,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     });
 
     this.emit('font-face', [sheet, fontFaces, fontFamily, srcPaths]);
-  }
+  } */
 
   /**
    * Convert a unified syntax keyframes object to a ruleset.
    */
-  convertKeyframe(animationName: string, frames: Keyframes, sheet: Sheet<NativeBlock>) {
+  /* convertKeyframe(animationName: string, frames: Keyframes, sheet: Sheet<NativeBlock>) {
     const keyframe = sheet.createRuleset(animationName);
 
     // from, to, and percent keys aren't easily detectable
@@ -414,7 +414,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     });
 
     this.emit('keyframe', [sheet, keyframe, animationName]);
-  }
+  } */
 
   /**
    * Support keyframe objects within the `animationName` property.
