@@ -38,11 +38,6 @@ export interface ColumnRuleProperty {
   width?: CSS.ColumnRuleWidthProperty<Length>;
 }
 
-export interface ColumnsProperty {
-  count?: CSS.ColumnCountProperty;
-  width?: CSS.ColumnWidthProperty<Length>;
-}
-
 export interface FlexProperty {
   basis?: CSS.FlexBasisProperty<Length>;
   grow?: CSS.Properties['flexGrow'];
@@ -127,7 +122,6 @@ export type ShorthandPropertyTypes =
   | 'borderRight'
   | 'borderTop'
   | 'columnRule'
-  | 'columns'
   | 'flex'
   | 'font'
   | 'listStyle'
@@ -140,7 +134,7 @@ export type ShorthandPropertyTypes =
 
 export interface Properties
   extends Omit<CSS.StandardProperties<Length>, CompoundPropertyTypes | ShorthandPropertyTypes> {
-  animation?: CSS.AnimationProperty | AnimationProperty;
+  animation?: ExpandProperty<CSS.AnimationProperty, AnimationProperty>;
   animationName?: ExpandProperty<CSS.AnimationNameProperty, Keyframes>;
   background?: CSS.BackgroundProperty<Length> | BackgroundProperty;
   border?: CSS.BorderProperty<Length> | BorderProperty;
@@ -149,7 +143,6 @@ export interface Properties
   borderRight?: CSS.BorderRightProperty<Length> | BorderProperty;
   borderTop?: CSS.BorderTopProperty<Length> | BorderProperty;
   columnRule?: CSS.ColumnRuleProperty<Length> | ColumnRuleProperty;
-  columns?: CSS.ColumnsProperty<Length> | ColumnsProperty;
   flex?: CSS.FlexProperty<Length> | FlexProperty;
   font?: CSS.FontProperty | FontProperty;
   fontFamily?: ExpandProperty<CSS.FontFamilyProperty, FontFace>;
