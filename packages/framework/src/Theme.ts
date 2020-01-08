@@ -6,15 +6,18 @@ import {
   ThemeConfig,
   ColorScheme,
   DeepPartial,
-  PaletteStates,
+  PaletteConfigStates,
   ColorConfig,
   ColorShade,
+  ContrastLevel,
 } from './types';
 import { hexcode } from './validate';
 
 // TODO mixins
 
 export default class Theme<ColorNames extends string> {
+  readonly contrast: ContrastLevel;
+
   readonly scheme: ColorScheme;
 
   readonly tokens: ThemeTokens;
@@ -26,6 +29,7 @@ export default class Theme<ColorNames extends string> {
   constructor(config: ThemeConfig<ColorNames>, tokens: DesignTokens, colorNames: ColorNames[]) {
     this.colorNames = colorNames;
     this.config = this.validateConfig(config);
+    this.contrast = config.contrast;
     this.scheme = config.scheme;
     this.tokens = {
       ...tokens,
@@ -55,8 +59,8 @@ export default class Theme<ColorNames extends string> {
     return tokens as ThemeConfig<ColorNames>['palettes'];
   }
 
-  protected compilePaletteState(state: PaletteStates): PaletteStates {
-    const token: Partial<PaletteStates> = {};
+  protected compilePaletteState(state: PaletteConfigStates): PaletteConfigStates {
+    const token: Partial<PaletteConfigStates> = {};
 
     Object.entries(state).forEach(([key, value]) => {
       const path = String(value);
@@ -73,7 +77,7 @@ export default class Theme<ColorNames extends string> {
       token[key as keyof typeof token] = hex;
     });
 
-    return token as PaletteStates;
+    return token as PaletteConfigStates;
   }
 
   protected createPaletteBlueprint() {
@@ -124,6 +128,7 @@ export default class Theme<ColorNames extends string> {
       )
         .custom(this.validateColorNames)
         .required(),
+      contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
       palettes: shape({
         danger: this.createPaletteBlueprint(),
         info: this.createPaletteBlueprint(),

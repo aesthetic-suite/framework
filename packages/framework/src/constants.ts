@@ -7,15 +7,21 @@ import {
   BreakpointSize,
   FontFamilyType,
   BreakpointConfig,
+  ShadowSize,
 } from './types';
 
-export const BORDER_SIZES: BorderSize[] = ['small', 'normal', 'large'];
+export const BORDER_SIZES: BorderSize[] = ['sm', 'base', 'lg'];
 
-export const BREAKPOINT_SIZES: BreakpointSize[] = ['xsmall', 'small', 'medium', 'large', 'xlarge'];
+export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export const DEFAULT_BREAKPOINTS: BreakpointConfig = [640, 960, 1280, 1600, 1920];
 
 export const DEFAULT_UNIT = 8;
+
+export const FONT_FAMILIES: { [K in FontFamilyType]: string } = {
+  'web-system':
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+};
 
 export const HEADING_LEVELS = 6;
 
@@ -30,13 +36,6 @@ export const LAYERS: { [K in LayerType]: number } = {
   tooltip: 1500,
 };
 
-export const SHADOW_LEVELS = 10;
-
-export const FONT_FAMILIES: { [K in FontFamilyType]: string } = {
-  'web-system':
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-};
-
 // https://type-scale.com
 export const SCALES: { [K in ScaleType]: number } = {
   'augmented-fourth': 1.414,
@@ -48,3 +47,5 @@ export const SCALES: { [K in ScaleType]: number } = {
   'perfect-fifth': 1.5,
   'perfect-fourth': 1.333,
 };
+
+export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

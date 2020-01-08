@@ -139,9 +139,9 @@ Futhermore, the framework will adhere to the following fundamentals.
 
 - [Modular scale](https://alistapart.com/article/more-meaningful-typography/) will be used for all
   scaling based algorithms. Can be configured per setting, with name or integer based values.
-- Colors may be unique per design system (and maybe theme too), but is inaccessible to consumers.
-  Consumers will need to use palettes, which are pre-defined colors + states for common UI elements,
-  and mixins, which are collections are theme specific CSS properties.
+- Colors may be unique per design system but is inaccessible to consumers (avoids backwards
+  incompatibility). Consumers will need to use palettes, which are pre-defined colors + states for
+  common UI elements, and mixins, which are collections of theme specific CSS properties.
 - Multiple design systems can be used in parallel (e.g., version 2019 vs version 2020). This is
   possible since the "theme template" for the consumer will be identical regardless of design system
   and theme parameters.
@@ -178,25 +178,31 @@ typography:
   # Font family for the entire system. If not provided, defaults to the OS font.
   fontFamily: 'Roboto'
 
-  # Root font size (in pixels).
-  fontSize: 16
+  # Body text settings.
+  text:
+    # Root text size (in pixels). Is the basis for all spacing calculations.
+    size: 16
 
-  # Factor to increase heading font size for each level.
-  headingScale: 1.25
+    # Factor to increase (large) and decrease (small) body text each level.
+    sizeScale: 1.25
 
-  # Root unitless line height. Can be calculated by dividing the
-  # desired line height (30px) by the font size (20px): 30 / 20 = 1.5.
-  # Initless is preferred for accessibility, scaling, and maintaining the correct ratio.
-  lineHeight: 1.25
+    # Unitless line height. Can be calculated by dividing the
+    # desired line height (30px) by the font size (20px): 30 / 20 = 1.5.
+    # Unitless is preferred for accessibility, scaling, and maintaining the correct ratio.
+    lineHeight: 1.25
 
-  # Factor to increase (mobile-first) or decrease (desktop-first) text and headings each breakpoint.
-  responsiveScale: 1.1
+    # Factor to increase (large) and decrease (small) text line height each level.
+    lineHeightScale: 0
 
-  # Factor to increase (large) and decrease (small) body text for each level.
-  textScale: 1.25
+    # Factor to increase (mobile-first) or decrease (desktop-first) text and headings each breakpoint.
+    responsiveScale: 1.1
+
+  # Title heading settings.
+  heading:
+    # Same settings as text above.
 
 # Border related settings.
-border:
+borders:
   # Rounded corner radius (in pixels).
   radius: 3
 
@@ -210,7 +216,9 @@ border:
   widthScale: 1
 
 # Shadow and depth related settings.
-shadow:
+# Accepts an object (below) or an array of objects, where each object in
+# the array will apply multiple borders.
+shadows:
   # Depth Y offset (in pixels).
   depth: 2
 
@@ -242,7 +250,13 @@ themes:
   foo:
     # Base color scheme for this theme. Accepts "light" or "dark".
     # Used in `prefers-color-scheme` browser detection.
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
     scheme: light
+
+    # Whether this is a special contrast target. Accepts "normal", "high", or "low".
+    # Used in `prefers-contrast` browser detection.
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast
+    contrast: normal
 
     # Mapping of all colors in the theme, with a range of 10 hexcodes per color,
     # with 400 being the base default color, and the bounds going from light to dark,
@@ -312,25 +326,25 @@ foundation, with an explicit API changing based on platform target.
 
 - 5 breakpoint media queries, either using `min-width` (mobile-first) or `max-width`
   (desktop-first).
-- 5 spacing targets, `compact` (0.25x), `tight` (0.5x), `normal` (1x), `loose` (2x), and `spacious`
-  (3x).
+- 5 spacing targets, `xs` (0.25x), `sm` (0.5x), `base` (1x), `md` (2x), `lg` (3x), and `xl` (4x).
   - When `spacing.type` is "vertical-rhythm", these values would use `rem`, while "unit" would use
     `px`.
   - The spacing target can also be executed as a function, where it accepts an arbitrary number to
     produce a spacing unit: `theme.spacing(6) -> 48px`.
-- 3 body text levels, `small` (-1s), `normal` (1x), and `large` (+1s).
-  - Normal font size is based on `typography.fontSize`, where small is `-1` and large is `+1`
-    according to `typography.textScale`.
+- 3 body text levels, `sm` (-1s), `base` (1x), and `lg` (+1s).
+  - Root/base font size is based on `typography.fontSize`, where small is `-1` and large is `+1`
+    according to `typography.text.sizeScale`.
   - All 3 levels either increase or decrease within each breakpoint, according to
-    `typography.responsiveScale`.
+    `typography.text.responsiveScale`.
 - 6 heading text levels, `h1`-`h6`, where the font size increases each level according to
-  `typography.headingScale`.
+  `typography.heading.sizeScale`.
   - All 6 levels either increase or decrease within each breakpoint, according to
-    `typography.responsiveScale`.
-- 3 border levels, `small`, `normal`, and `large`.
+    `typography.heading.responsiveScale`.
+- 3 border levels, `sm`, `base`, and `lg`.
   - The border width and radius increases each level according to `border.*` settings.
-- 10 shadow levels.
+- 5 shadow levels.
   - The shadow depth, blur, and spread increases each level according to `shadow.*` settings.
+  - If an array of settings are passed, they will be joined into a single `box-shadow` declaration.
 - An object of all the palettes and their colors.
 - All the hard-coded mixins below. A mixin is a collection of CSS properties that can be spread into
   style sheets, configured to the current theme. etc.
@@ -376,6 +390,7 @@ Furthermore, the design system will embrace the following:
 - Accessible colors and font sizes (AAA, AA Large, etc).
 - Responsive and adaptive aware by default.
 - `prefers-color-scheme` for automatic theme selection.
+- `prefers-contrast` for low/high contrast theme targeting.
 
 #### Web - CSS, CSS Modules
 
@@ -514,8 +529,9 @@ const design = new Design({
 });
 
 // themes/light.ts
-const theme = design.createTheme('light', {
-  // ... varibles also
+const theme = design.createTheme({
+  scheme: 'light',
+  // ... variables also
 });
 
 // App.ts
@@ -527,7 +543,7 @@ useStyles((token, mixin) => ({
     ...mixin.box,
     ...mixin.input,
     fontFamily: token.typography.fontFamily,
-    fontSize: token.text.normal,
+    fontSize: token.text.base,
   },
 }));
 ```
@@ -651,12 +667,10 @@ solutions are:
 
 ## Future roadmap
 
-- Add support for low/high contrast themes for `prefer-contrast`.
 - Add transparency support for `prefers-reduced-transparency`?
 - Add rudimentary motion support.
   - Transition scaling?
   - `prefers-reduced-motion`?
-- Color blind variants? (Each should be their own theme)
 
 # References
 

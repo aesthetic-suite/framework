@@ -12,13 +12,15 @@ export type Unit = PxUnit | EmUnit | RemUnit;
 
 export type Hexcode = string;
 
-export type BorderSize = 'small' | 'normal' | 'large';
+export type BorderSize = 'sm' | 'base' | 'lg';
 
-export type BreakpointSize = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
+export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ColorScheme = 'dark' | 'light';
 
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
+
+export type ContrastLevel = 'normal' | 'high' | 'low';
 
 export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -57,13 +59,13 @@ export type Scale = number | ScaleType;
 
 export type StrategyType = 'mobile-first' | 'desktop-first';
 
-export type ShadowSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type SpacingSize = 'compact' | 'tight' | 'normal' | 'loose' | 'spacious';
+export type SpacingSize = 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl';
 
 export type SpacingType = 'unit' | 'vertical-rhythm';
 
-export type TextSize = 'small' | 'normal' | 'large';
+export type TextSize = 'sm' | 'base' | 'lg';
 
 export type FontFamilyType = 'web-system';
 
@@ -71,35 +73,46 @@ export type FontFamilyType = 'web-system';
 
 export type BreakpointConfig = [number, number, number, number, number];
 
+export interface BorderConfig {
+  radius: number;
+  radiusScale: Scale;
+  width: number;
+  widthScale: Scale;
+}
+
+export interface ShadowConfig {
+  blur: number;
+  blurScale: Scale;
+  depth: number;
+  depthScale: Scale;
+  spread: number;
+  spreadScale: Scale;
+}
+
+export interface SpacingConfig {
+  type: SpacingType;
+  unit: number;
+}
+
+export interface TypographyConfig {
+  lineHeight: number;
+  lineHeightScale: Scale;
+  size: number;
+  sizeScale: Scale;
+  responsiveScale: Scale;
+}
+
 export interface DesignConfig<ColorNames extends string> {
-  border: {
-    radius: number;
-    radiusScale: Scale;
-    width: number;
-    widthScale: Scale;
-  };
+  borders: BorderConfig;
   breakpoints: BreakpointConfig;
   colors: ColorNames[];
-  shadow: {
-    blur: number;
-    blurScale: Scale;
-    depth: number;
-    depthScale: Scale;
-    spread: number;
-    spreadScale: Scale;
-  };
-  spacing: {
-    type: SpacingType;
-    unit: number;
-  };
+  shadows: ShadowConfig | ShadowConfig[];
+  spacing: SpacingConfig;
   strategy: StrategyType;
   typography: {
     fontFamily: string;
-    fontSize: number;
-    headingScale: Scale;
-    lineHeight: number;
-    responsiveScale: Scale;
-    textScale: Scale;
+    heading: TypographyConfig;
+    text: TypographyConfig;
   };
 }
 
@@ -126,11 +139,11 @@ export interface DesignTokens {
     [K in LayerType]: number;
   };
   shadow: {
-    [K in HeadingSize]: {
+    [K in ShadowSize]: {
       blur: PxUnit;
       depth: PxUnit;
       spread: PxUnit;
-    };
+    }[];
   };
   spacing: {
     [K in SpacingSize]: RemUnit;
@@ -140,8 +153,8 @@ export interface DesignTokens {
   };
   typography: {
     fontFamily: string;
-    lineHeight: number;
-    rootFontSize: PxUnit;
+    rootLineHeight: number;
+    rootTextSize: PxUnit;
     systemFontFamily: string;
   };
   unit: UnitFactory;
@@ -153,7 +166,7 @@ export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-export interface PaletteStates<T = string> {
+export interface PaletteConfigStates<T = string> {
   base: T;
   disabled?: T;
   focused?: T;
@@ -163,13 +176,14 @@ export interface PaletteStates<T = string> {
 
 export type PaletteConfig<T = string> = {
   [K in PaletteType]: {
-    bg: PaletteStates<T>;
-    fg: PaletteStates<T>;
+    bg: PaletteConfigStates<T>;
+    fg: PaletteConfigStates<T>;
   };
 };
 
 export interface ThemeConfig<ColorNames extends string> {
   colors: { [K in ColorNames]: Hexcode | ColorConfig };
+  contrast: ContrastLevel;
   palettes: PaletteConfig;
   scheme: ColorScheme;
 }
@@ -203,11 +217,11 @@ export type MixinType =
   | 'root'
   | 'rootBody'
   | 'rootHtml'
-  | 'shadow1'
-  | 'shadow2'
-  | 'shadow3'
-  | 'shadow4'
-  | 'shadow5'
+  | 'shadowXsmall'
+  | 'shadowSmall'
+  | 'shadowMedium'
+  | 'shadowLarge'
+  | 'shadowXlarge'
   | 'stateDisabled'
   | 'stateFocused'
   | 'stateSelected'

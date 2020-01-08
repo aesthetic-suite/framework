@@ -1,4 +1,5 @@
-import { FontFace, NativeFontFace } from './types';
+import CSS from 'csstype';
+import { FontFace } from './types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',
@@ -10,7 +11,7 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: FontFace): NativeFontFace {
+export default function formatFontFace(properties: FontFace): CSS.FontFace {
   const fontFace: FontFace = { ...properties };
   const src: string[] = [];
 
