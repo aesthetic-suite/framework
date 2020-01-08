@@ -83,10 +83,12 @@ export interface BorderConfig {
 export interface ShadowConfig {
   blur: number;
   blurScale: Scale;
-  depth: number;
-  depthScale: Scale;
   spread: number;
   spreadScale: Scale;
+  x: number;
+  xScale: Scale;
+  y: number;
+  yScale: Scale;
 }
 
 export interface SpacingConfig {
@@ -99,7 +101,6 @@ export interface TypographyConfig {
   lineHeightScale: Scale;
   size: number;
   sizeScale: Scale;
-  responsiveScale: Scale;
 }
 
 export interface DesignConfig<ColorNames extends string> {
@@ -113,10 +114,24 @@ export interface DesignConfig<ColorNames extends string> {
     fontFamily: string;
     heading: TypographyConfig;
     text: TypographyConfig;
+    responsiveScale: Scale;
   };
 }
 
 export type UnitFactory = (...sizes: number[]) => string;
+
+export interface BreakpointToken {
+  query: string;
+  rootTextSize: PxUnit;
+  size: number;
+}
+
+export interface ShadowToken {
+  blur: PxUnit;
+  spread: PxUnit;
+  x: PxUnit;
+  y: PxUnit;
+}
 
 export interface DesignTokens {
   border: {
@@ -126,11 +141,7 @@ export interface DesignTokens {
     };
   };
   breakpoint: {
-    [K in BreakpointSize]: {
-      fontSize: PxUnit;
-      size: number;
-      query: string;
-    };
+    [K in BreakpointSize]: BreakpointToken;
   };
   heading: {
     [K in HeadingSize]: RemUnit;
@@ -139,11 +150,7 @@ export interface DesignTokens {
     [K in LayerType]: number;
   };
   shadow: {
-    [K in ShadowSize]: {
-      blur: PxUnit;
-      depth: PxUnit;
-      spread: PxUnit;
-    }[];
+    [K in ShadowSize]: ShadowToken[];
   };
   spacing: {
     [K in SpacingSize]: RemUnit;

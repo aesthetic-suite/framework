@@ -194,12 +194,12 @@ typography:
     # Factor to increase (large) and decrease (small) text line height each level.
     lineHeightScale: 0
 
-    # Factor to increase (mobile-first) or decrease (desktop-first) text and headings each breakpoint.
-    responsiveScale: 1.1
-
   # Title heading settings.
   heading:
     # Same settings as text above.
+
+  # Factor to increase (mobile-first) or decrease (desktop-first) root text size each breakpoint.
+  responsiveScale: 1.1
 
 # Border related settings.
 borders:
@@ -219,11 +219,17 @@ borders:
 # Accepts an object (below) or an array of objects, where each object in
 # the array will apply multiple borders.
 shadows:
-  # Depth Y offset (in pixels).
-  depth: 2
+  # Vertical Y offset (in pixels).
+  y: 2
 
-  # Factor to increase depth each size.
-  depthScale: 1
+  # Factor to increase Y each size.
+  yScale: 1
+
+  # Horizontal X offset (in pixels).
+  x: 0
+
+  # Factor to modify X each size.
+  xScale: 0
 
   # Blur radius (in pixels).
   blur: 2
@@ -372,11 +378,11 @@ foundation, with an explicit API changing based on platform target.
   - `root` - Root and global styles defined on `*`.
   - `rootBody` - Layout and spacing settings defined on the `body`.
   - `rootHtml` - Text and font settings defined at the root `html`.
-  - `shadow1` - The smallest shadow size.
-  - `shadow2` - The small shadow size.
-  - `shadow3` - The normal shadow size.
-  - `shadow4` - The large shadow size.
-  - `shadow5` - The largest shadow size.
+  - `shadowSmallest` - The smallest shadow size.
+  - `shadowSmall` - The small shadow size.
+  - `shadowMedium` - The medium shadow size.
+  - `shadowLarge` - The large shadow size.
+  - `shadowLargest` - The largest shadow size.
   - `stateDisabled` - General state when an element is `disabled`.
   - `stateFocused` - General state when an element is `focused`.
   - `stateSelected` - General state when an element is `selected` (or `active`).

@@ -10,6 +10,7 @@ import {
   StrategyType,
   ThemeConfig,
   ShadowConfig,
+  ShadowToken,
 } from './types';
 import { toPx, toRem, scaleDown, scaleUp } from './unit';
 import { unit, scale } from './validate';
@@ -130,8 +131,11 @@ export default class Design<ColorNames extends string = string> {
   }
 
   protected compileBreakpointFontSizes(): PxUnit[] {
-    const { strategy } = this.config;
-    const { size, responsiveScale } = this.config.typography.text;
+    const { strategy, typography } = this.config;
+    const {
+      responsiveScale,
+      text: { size },
+    } = typography;
     let lastFontSize = size;
 
     const fontSizes = BREAKPOINT_SIZES.map(() => {
@@ -177,32 +181,40 @@ export default class Design<ColorNames extends string = string> {
   }
 
   protected compileShadows(): DesignTokens['shadow'] {
-    const shadows = toArray(this.config.shadows);
+    const configs = toArray(this.config.shadows);
 
-    const tokens = SHADOW_SIZES.reduce((obj, name) => {
-      const list = shadows.map((shadow, index) => {
-        const { blur, blurScale, depth, depthScale, spread, spreadScale } = shadow;
-        let lastBlur = blur;
-        let lastDepth = depth;
-        let lastSpread = spread;
-        const token = {
+    // Increase the scale of each config for each size
+    const matrix = configs.map(config => {
+      const { blur, blurScale, spread, spreadScale, x, xScale, y, yScale } = config;
+      let lastX = x;
+      let lastY = y;
+      let lastBlur = blur;
+      let lastSpread = spread;
+
+      return SHADOW_SIZES.map(() => {
+        const token: ShadowToken = {
+          x: toPx(lastX),
+          y: toPx(lastY),
           blur: toPx(lastBlur),
-          depth: toPx(lastDepth),
           spread: toPx(lastSpread),
         };
 
+        lastX = scaleUp(lastX, xScale);
+        lastY = scaleUp(lastY, yScale);
         lastBlur = scaleUp(lastBlur, blurScale);
-        lastDepth = scaleUp(lastDepth, depthScale);
         lastSpread = scaleUp(lastSpread, spreadScale);
 
         return token;
       });
+    });
 
-      return {
+    const tokens = SHADOW_SIZES.reduce(
+      (obj, name, index) => ({
         ...obj,
-        [name]: list,
-      };
-    }, {});
+        [name]: matrix.map(node => node[index]),
+      }),
+      {},
+    );
 
     return tokens as DesignTokens['shadow'];
   }
@@ -243,13 +255,26 @@ export default class Design<ColorNames extends string = string> {
   protected validateConfig = (
     config: DeepPartial<DesignConfig<ColorNames>>,
   ): DesignConfig<ColorNames> => {
+    const shadowDefault: ShadowConfig = {
+      blur: 2,
+      blurScale: 'major-second',
+      spread: 2,
+      spreadScale: 'major-third',
+      x: 0,
+      xScale: 0,
+      y: 1,
+      yScale: 'major-third',
+    };
+
     const shadowShape = shape({
       blur: unit(2),
       blurScale: scale('major-second'),
-      depth: unit(1),
-      depthScale: scale('major-third'),
       spread: unit(2),
       spreadScale: scale('major-third'),
+      x: unit(0),
+      xScale: scale('major-third'),
+      y: unit(1),
+      yScale: scale('major-third'),
     }).exact();
 
     const typographyShape = shape({
@@ -257,7 +282,6 @@ export default class Design<ColorNames extends string = string> {
       lineHeightScale: scale('major-second'),
       size: unit(16),
       sizeScale: scale('major-second'),
-      responsiveScale: scale('minor-second'),
     }).exact();
 
     return optimal(config, {
@@ -281,7 +305,10 @@ export default class Design<ColorNames extends string = string> {
       )
         .notEmpty()
         .required(),
-      shadows: union<ShadowConfig | ShadowConfig[]>([shadowShape, array(shadowShape)], []),
+      shadows: union<ShadowConfig | ShadowConfig[]>(
+        [shadowShape, array(shadowShape)],
+        shadowDefault,
+      ),
       spacing: shape({
         type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
         unit: number(DEFAULT_UNIT),
@@ -291,6 +318,7 @@ export default class Design<ColorNames extends string = string> {
         fontFamily: string(FONT_FAMILIES['web-system']).notEmpty(),
         heading: typographyShape,
         text: typographyShape,
+        responsiveScale: scale('minor-second'),
       }).exact(),
     });
   };

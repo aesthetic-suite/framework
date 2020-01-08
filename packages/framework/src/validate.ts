@@ -16,5 +16,5 @@ export function scale(defaultValue: Scale = 'major-third') {
 }
 
 export function unit(defaultValue: number = 0) {
-  return number(defaultValue).gte(0);
+  return number(defaultValue);
 }

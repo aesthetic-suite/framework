@@ -31,15 +31,23 @@ describe('Design', () => {
     const b = new Design({
       colors: ['red'],
       strategy: 'desktop-first',
+      shadows: [
+        { x: -1, yScale: 1.1 },
+        { x: 0, yScale: 0 },
+        { x: 1, yScale: 1.1 },
+      ],
       typography: {
-        fontSize: 20,
+        text: {
+          size: 20,
+        },
       },
     });
 
     console.log(a.tokens);
-    console.log(b.tokens);
+    console.log(b.tokens, b.tokens.shadow);
 
     const t = a.createTheme({
+      contrast: 'normal',
       colors: {
         red: {
           '00': '#FE8484',
