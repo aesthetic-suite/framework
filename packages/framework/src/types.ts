@@ -69,9 +69,7 @@ export type TextSize = 'sm' | 'base' | 'lg';
 
 export type FontFamilyType = 'web-system';
 
-// CONFIG
-
-export type BreakpointConfig = [number, number, number, number, number];
+// DESIGN CONFIG
 
 export interface BorderConfig {
   radius: number;
@@ -79,6 +77,8 @@ export interface BorderConfig {
   width: number;
   widthScale: Scale;
 }
+
+export type BreakpointConfig = [number, number, number, number, number];
 
 export interface ShadowConfig {
   blur: number;
@@ -118,7 +118,42 @@ export interface DesignConfig<ColorNames extends string> {
   };
 }
 
+// THEME CONFIG
+
+export type ColorConfig = {
+  [K in ColorShade]: Hexcode;
+};
+
+export interface PaletteConfigStates<T = string> {
+  base: T;
+  disabled: T;
+  focused: T;
+  hovered: T;
+  selected: T;
+}
+
+export type PaletteConfig<T = string> = {
+  [K in PaletteType]: {
+    bg: PaletteConfigStates<T>;
+    fg: PaletteConfigStates<T>;
+  };
+};
+
+export interface ThemeConfig<ColorNames extends string> {
+  colors: { [K in ColorNames]: Hexcode | ColorConfig };
+  contrast: ContrastLevel;
+  palettes: PaletteConfig;
+  scheme: ColorScheme;
+}
+
+// TOKENS
+
 export type UnitFactory = (...sizes: number[]) => string;
+
+export interface BorderToken {
+  radius: PxUnit;
+  width: PxUnit;
+}
 
 export interface BreakpointToken {
   query: string;
@@ -135,10 +170,7 @@ export interface ShadowToken {
 
 export interface DesignTokens {
   border: {
-    [K in BorderSize]: {
-      radius: PxUnit;
-      width: PxUnit;
-    };
+    [K in BorderSize]: BorderToken;
   };
   breakpoint: {
     [K in BreakpointSize]: BreakpointToken;
@@ -167,37 +199,11 @@ export interface DesignTokens {
   unit: UnitFactory;
 }
 
-// THEMES
-
-export type ColorConfig = {
-  [K in ColorShade]: Hexcode;
-};
-
-export interface PaletteConfigStates<T = string> {
-  base: T;
-  disabled?: T;
-  focused?: T;
-  hovered?: T;
-  selected?: T;
-}
-
-export type PaletteConfig<T = string> = {
-  [K in PaletteType]: {
-    bg: PaletteConfigStates<T>;
-    fg: PaletteConfigStates<T>;
-  };
-};
-
-export interface ThemeConfig<ColorNames extends string> {
-  colors: { [K in ColorNames]: Hexcode | ColorConfig };
-  contrast: ContrastLevel;
-  palettes: PaletteConfig;
-  scheme: ColorScheme;
-}
-
 export interface ThemeTokens extends DesignTokens {
   palette: PaletteConfig<Hexcode>;
 }
+
+// MIXINS
 
 export type MixinType =
   | 'border'

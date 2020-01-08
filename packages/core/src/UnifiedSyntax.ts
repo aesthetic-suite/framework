@@ -343,7 +343,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
   /**
    * Convert a nested selector ruleset by emitting the appropriate name.
    */
-  /* convertSelector(
+  convertSelector(
     key: string,
     value: ComponentBlock,
     ruleset: Ruleset<NativeBlock>,
@@ -373,12 +373,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
         this.convertRuleset(value, ruleset.createRuleset(selector)),
       ]);
     });
-  } */
+  }
 
   /**
    * Convert a unified syntax list of font face objects to rulesets.
    */
-  /* convertFontFaces(fontFamily: string, faces: FontFace[], sheet: Sheet<NativeBlock>) {
+  convertFontFaces(fontFamily: string, faces: FontFace[], sheet: Sheet<NativeBlock>) {
     const srcPaths: string[][] = [];
     const fontFaces = faces.map(font => {
       srcPaths.push(font.srcPaths);
@@ -393,12 +393,12 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     });
 
     this.emit('font-face', [sheet, fontFaces, fontFamily, srcPaths]);
-  } */
+  }
 
   /**
    * Convert a unified syntax keyframes object to a ruleset.
    */
-  /* convertKeyframe(animationName: string, frames: Keyframes, sheet: Sheet<NativeBlock>) {
+  convertKeyframe(animationName: string, frames: Keyframes, sheet: Sheet<NativeBlock>) {
     const keyframe = sheet.createRuleset(animationName);
 
     // from, to, and percent keys aren't easily detectable
@@ -414,7 +414,7 @@ export default class UnifiedSyntax<NativeBlock extends object> {
     });
 
     this.emit('keyframe', [sheet, keyframe, animationName]);
-  } */
+  }
 
   /**
    * Support keyframe objects within the `animationName` property.

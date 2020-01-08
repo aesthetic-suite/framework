@@ -1,49 +1,24 @@
-import optimal, { array, number, shape, string, tuple, union } from 'optimal';
 import { toArray } from 'aesthetic-utils';
 import Theme from './Theme';
-import {
-  DeepPartial,
-  DesignConfig,
-  DesignTokens,
-  PxUnit,
-  SpacingType,
-  StrategyType,
-  ThemeConfig,
-  ShadowConfig,
-  ShadowToken,
-} from './types';
 import { toPx, toRem, scaleDown, scaleUp } from './unit';
-import { unit, scale } from './validate';
-import {
-  BREAKPOINT_SIZES,
-  DEFAULT_BREAKPOINTS,
-  DEFAULT_UNIT,
-  FONT_FAMILIES,
-  HEADING_LEVELS,
-  LAYERS,
-  SHADOW_SIZES,
-} from './constants';
+import { BREAKPOINT_SIZES, FONT_FAMILIES, HEADING_LEVELS, LAYERS, SHADOW_SIZES } from './constants';
+import { DesignConfig, DesignTokens, PxUnit, ThemeConfig, ShadowToken } from './types';
 
 export default class Design<ColorNames extends string = string> {
   private readonly config: DesignConfig<ColorNames>;
 
   private readonly tokens: DesignTokens;
 
-  constructor(config: DeepPartial<DesignConfig<ColorNames>>) {
-    this.config = this.validateConfig(config);
-    this.tokens = this.compile();
+  constructor(config: DesignConfig<ColorNames>) {
+    // Smallest to largest for mobile, and reversed for desktop
+    config.breakpoints.sort((a, b) => (config.strategy === 'mobile-first' ? a - b : b - a));
 
-    if (this.config.strategy === 'mobile-first') {
-      // Smallest to largest
-      this.config.breakpoints.sort((a, b) => a - b);
-    } else {
-      // Largest to smallest
-      this.config.breakpoints.sort((a, b) => b - a);
-    }
+    this.config = config;
+    this.tokens = this.compile();
   }
 
   createTheme(config: ThemeConfig<ColorNames>): Theme<ColorNames> {
-    return new Theme(config, this.tokens, this.config.colors);
+    return new Theme(config, this.tokens);
   }
 
   unit = (...sizes: number[]): string => {
@@ -251,75 +226,4 @@ export default class Design<ColorNames extends string = string> {
       systemFontFamily: FONT_FAMILIES['web-system'],
     };
   }
-
-  protected validateConfig = (
-    config: DeepPartial<DesignConfig<ColorNames>>,
-  ): DesignConfig<ColorNames> => {
-    const shadowDefault: ShadowConfig = {
-      blur: 2,
-      blurScale: 'major-second',
-      spread: 2,
-      spreadScale: 'major-third',
-      x: 0,
-      xScale: 0,
-      y: 1,
-      yScale: 'major-third',
-    };
-
-    const shadowShape = shape({
-      blur: unit(2),
-      blurScale: scale('major-second'),
-      spread: unit(2),
-      spreadScale: scale('major-third'),
-      x: unit(0),
-      xScale: scale('major-third'),
-      y: unit(1),
-      yScale: scale('major-third'),
-    }).exact();
-
-    const typographyShape = shape({
-      lineHeight: unit(1.25),
-      lineHeightScale: scale('major-second'),
-      size: unit(16),
-      sizeScale: scale('major-second'),
-    }).exact();
-
-    return optimal(config, {
-      borders: shape({
-        radius: unit(3),
-        radiusScale: scale('perfect-fourth'),
-        width: unit(1),
-        widthScale: scale(0),
-      }).exact(),
-      breakpoints: tuple([
-        unit(DEFAULT_BREAKPOINTS[0]),
-        unit(DEFAULT_BREAKPOINTS[1]),
-        unit(DEFAULT_BREAKPOINTS[2]),
-        unit(DEFAULT_BREAKPOINTS[3]),
-        unit(DEFAULT_BREAKPOINTS[4]),
-      ]),
-      colors: array(
-        string<ColorNames>()
-          .notEmpty()
-          .camelCase(),
-      )
-        .notEmpty()
-        .required(),
-      shadows: union<ShadowConfig | ShadowConfig[]>(
-        [shadowShape, array(shadowShape)],
-        shadowDefault,
-      ),
-      spacing: shape({
-        type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
-        unit: number(DEFAULT_UNIT),
-      }).exact(),
-      strategy: string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']),
-      typography: shape({
-        fontFamily: string(FONT_FAMILIES['web-system']).notEmpty(),
-        heading: typographyShape,
-        text: typographyShape,
-        responsiveScale: scale('minor-second'),
-      }).exact(),
-    });
-  };
 }
