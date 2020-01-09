@@ -61,7 +61,7 @@ useStyles(theme => ({
 This actually breaks interoperability and the 2nd adoption problem above. This was a massive
 oversight on my end when designing the theme layer.
 
-### Global styles are complicated to manage
+### Global styles are complicated
 
 Global styles are primarily applied to `html`, `body`, and `a`, for global inheritance of colors,
 spacing, and font sizing. This works flawlessly until one of the following occurs:
@@ -253,7 +253,7 @@ colors:
 # Mapping of themes and their colors.
 themes:
   # A light theme with a custom name.
-  foo:
+  day:
     # Base color scheme for this theme. Accepts "light" or "dark".
     # Used in `prefers-color-scheme` browser detection.
     # https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
@@ -307,7 +307,7 @@ themes:
       info: # ...
 
   # A dark theme with a custom name.
-  bar:
+  night:
     # Extends another defined theme.
     extends: foo
     scheme: dark
@@ -417,7 +417,7 @@ When the build target is standard CSS, it will generate CSS variables (tokens) a
   /* ... */
 }
 
-/* theme/light.css */
+/* theme/day.css */
 .theme-light {
   --primary-bg-focused: #fe8484;
   --secondary-fg-base: #000;
@@ -460,7 +460,7 @@ $text-size-normal: 1rem;
 $text-size-large: 1.15rem;
 // ...
 
-// theme/light.scss
+// theme/day.scss
 $primary-bg-focused: #fe8484;
 $secondary-fg-base: #000;
 // ...
@@ -499,7 +499,7 @@ mixins. It would look something like the following.
 @text-size-large: 1.15rem;
 // ...
 
-// theme/light.less
+// theme/day.less
 @primary-bg-focused: #fe8484;
 @secondary-fg-base: #000;
 // ...
@@ -534,7 +534,7 @@ const design = new Design({
   // ... variables from the YAML config
 });
 
-// themes/light.ts
+// theme/day.ts
 const theme = design.createTheme({
   scheme: 'light',
   // ... variables also
@@ -564,7 +564,9 @@ Must research, to be determined. Can possibly be solved with
 Must research, to be determined. Can possibly be solved with the
 [built-in XML styling](https://developer.android.com/guide/topics/ui/look-and-feel/themes).
 
-## Style sheet variants
+## Feature implementations
+
+### Style sheets
 
 > This solves the "Component styles are hard to customize" outstanding issue.
 
@@ -573,8 +575,8 @@ When using CSS-in-JS, style sheet properties are typically hard-coded and isolat
 override for other themes.
 
 To overcome this obstacle, I will be introducing a new API, `Aesthetic#createStyleSheet()`, which
-will instantiate a new `StyleSheet` instance that should be passed to `useStyles()` or
-`withStyles()`. The ergonomics are very similar to the previous API.
+will instantiate a new `StyleSheet` instance that should be passed to `useStyles()`, `withStyles()`,
+or another framework agnostic implementation. The ergonomics are very similar to the previous API.
 
 ```ts
 // Before
@@ -601,17 +603,124 @@ useStyles(styleSheet);
 With style sheets being an instance of `StyleSheet`, we have far more control than before.
 
 - Can accept configurable options.
-- Consumers can modify properties if need be (if extendable).
-- Class methods to add variations and new functionality.
+- Consumers can modify properties if need be (when extendable).
+- Color scheme and theme variants.
+- Class methods for additional functionality.
 - Better interoperability between consumers, developers, and systems.
 - Better referencial equality.
 
+### Global styles
+
+> This solves the "Global styles are complicated" outstanding issue.
+
+[Global styles are complicated](#global-styles-are-complicated), so moving forward we will avoid
+them entirely. Instead, we will nest all tag based styles (`a`, `div`, `p`, etc) within a theme
+class name, like `theme-foo`, which will be applied to the `body` tag (`<body class="theme-foo">`).
+
+For example, this:
+
+```css
+:root {
+  --token: 'foo';
+}
+
+body {
+  font-size: 12px;
+  /* ... */
+}
+
+a {
+  /* ... */
+}
+```
+
+Will become this:
+
+```css
+.theme-foo {
+  --token: 'foo';
+
+  font-size: 12px;
+  /* ... */
+}
+
+.theme-foo a {
+  /* ... */
+}
+```
+
+Any CSS resets or styles that should be applied to the root `html` tag should be done outside of
+Aesthetic, primarily in a shared CSS file that is theme agnostic, and not part of the design system.
+
+Furthermore, this approach enables nested themes, through something like React's `ThemeProvider`, as
+this would render a div with the unique class name (`<div class="theme-foo">`). And since "global
+styles" are now nested within the theme class name, it reduces direct collisions. However, it
+doesn't avoid collisions entirely, as the top level `body` theme may define styles that the nested
+theme does not override, so themes should define the bare minimum global styles.
+
+And lastly, dynamically changing themes is as easy as swapping out the `body` class name, as CSS
+variables would be scoped to the theme, and CSS-in-JS solutions would inject styles on demand.
+
+Guidelines:
+
+- CSS resets, root `*` styles, and `html` styles should be handled outside of the design system.
+- Global styles must be scoped within a theme class name that will be applied to the body
+  `<body class="theme-foo>`.
+- No styles should be defined for `body` directly.
+
+### Directionality (RTL)
+
+TODO
+
+Guidelines:
+
+- Direction attribute `dir` will be set on the root `html`, and any block that contains nested
+  directional changes.
+
 ### Color scheme variants
 
-The first avenue for control and customization would be color scheme variants with
-`StyleSheet#addColorSchemeVariant()`. This allows us to change properties based on either the
-"light" or "dark" color schemes being currently active. For example, changing the primary color to
-secondary when "dark" color schemes are active.
+Color schemes allow end users to define whether they prefer light or dark themes, and the ability
+for developers to query this and act accordingly. This functionality is based on the official
+[media query specification](https://drafts.csswg.org/mediaqueries-5/#descdef-media-prefers-color-scheme).
+
+In Aesthetic, color schemes are first class in the design system, as each theme configured in the
+YAML must define a `scheme` setting, which accepts "light" or "dark". Depending on the compilation
+target, different implementations are required.
+
+#### CSS
+
+For CSS and its compilation variants (Sass, Less, etc), each theme should be linked in the document
+using a media query, like the following.
+
+```html
+<link href="themes/day.css" rel="stylesheet" media="screen and (prefers-color-scheme: light)" />
+<link href="themes/night.css" rel="stylesheet" media="screen and (prefers-color-scheme: dark)" />
+```
+
+For inline or one-off overrides, the `@media` block can be used.
+
+```css
+.button {
+  background-color: var(--primary-bg-base);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .button {
+    background-color: var(--secondary-bg-base);
+  }
+}
+```
+
+#### CSS-in-JS
+
+When using the Aesthetic CSS-in-JS solution, it will automatically detect and apply the appropriate
+color scheme theme (inferred from `prefers-color-scheme`), compile and inject "global styles" into
+the document, set the `body` theme class name, and more.
+
+Furthermore, with the new `StyleSheet` API, we have far more control than before. With this new API,
+we can define color scheme variants with `StyleSheet#addColorSchemeVariant()`. This allows us to
+change properties based on either the "light" or "dark" color schemes being currently active. For
+example...
 
 ```ts
 const styleSheet = createStyleSheet(({ palette }) => ({
@@ -628,26 +737,35 @@ const styleSheet = createStyleSheet(({ palette }) => ({
 }));
 ```
 
-If using plain CSS instead of CSS-in-JS, a similar solution can be implemented with
-`prefers-color-scheme`.
+#### Native
 
-```css
-.button {
-  background-color: var(--primary-bg-base);
-}
-
-@media (prefers-color-scheme: dark) {
-  .button {
-    background-color: var(--secondary-bg-base);
-  }
-}
-```
+TODO
 
 ### Theme variants
 
-Like color scheme variants, theme variants permit the most granular level of control with
-`StyleSheet#addThemeVariant()`. These variants will only apply when a custom theme is active by
-name. For example, say we want explicit red borders when the theme is "fire".
+Like color scheme variants, theme variants permit a granular level of control on a theme by theme
+basis.
+
+#### CSS
+
+Depending on the component or how the styles are defined, adding theme variants can either be easy
+or tricky. Assuming a theme class has been set on the `body`, we can nest our theme specific styles
+in that class name.
+
+```css
+.button {
+  border-color: 1px solid var(--palette-primary-bg-base);
+}
+
+.theme-fire .button {
+  border-color: var(--palette-danger-bg-base);
+}
+```
+
+#### CSS-in-JS
+
+When using the new `StyleSheet#addThemeVariant()` API, variant styles will only apply when a theme
+is active by their unique name.
 
 ```ts
 const styleSheet = createStyleSheet(({ palette }) => ({
@@ -663,13 +781,17 @@ const styleSheet = createStyleSheet(({ palette }) => ({
 }));
 ```
 
-When using plain CSS, theme variants are rather difficult to handle natively. Some possible
-solutions are:
+#### Native
 
-- Theme styles would be nested under a `.theme-<name>` class, where this class would be appended to
-  `body`, or specific blocks (like a `div` or `ThemeProvider`).
-- Theme styles would be in a separate file like `themes/<name>.css`, which would be imported last in
-  the document, and therefore overriding previous styles.
+TODO
+
+### Low/high contrast
+
+TODO
+
+### Motion
+
+TODO
 
 ## Future roadmap
 
