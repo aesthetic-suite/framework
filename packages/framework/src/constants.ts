@@ -8,6 +8,8 @@ import {
   FontFamilyType,
   BreakpointConfig,
   ShadowSize,
+  SpacingSize,
+  TextSize,
 } from './types';
 
 export const BORDER_SIZES: BorderSize[] = ['sm', 'base', 'lg'];
@@ -23,7 +25,7 @@ export const FONT_FAMILIES: { [K in FontFamilyType]: string } = {
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 };
 
-export const HEADING_LEVELS = 6;
+export const HEADING_LEVELS: number[] = [1, 2, 3, 4, 5, 6];
 
 export const LAYERS: { [K in LayerType]: number } = {
   none: 0,
@@ -35,6 +37,8 @@ export const LAYERS: { [K in LayerType]: number } = {
   toast: 1400,
   tooltip: 1500,
 };
+
+export const LAYER_LEVELS = Object.keys(LAYERS);
 
 // https://type-scale.com
 export const SCALES: { [K in ScaleType]: number } = {
@@ -49,3 +53,7 @@ export const SCALES: { [K in ScaleType]: number } = {
 };
 
 export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'base', 'md', 'lg', 'xl'];
+
+export const TEXT_SIZES: TextSize[] = ['sm', 'base', 'lg'];

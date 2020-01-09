@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "@aesthetic/framework": "^0.0.0",
+    "aesthetic-utils": "^3.0.0",
+    "ejs": "^3.0.1",
     "js-yaml": "^3.13.1",
     "optimal": "^4.0.0"
   }

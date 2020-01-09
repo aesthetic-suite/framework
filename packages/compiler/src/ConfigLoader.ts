@@ -2,17 +2,11 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import {
   DeepPartial,
-  Scale,
-  ScaleType,
+  ColorScheme,
   SCALES,
   DEFAULT_UNIT,
   DEFAULT_BREAKPOINTS,
   FONT_FAMILIES,
-  ColorConfig,
-  ColorShade,
-  ContrastLevel,
-  ColorScheme,
-  SpacingType,
 } from '@aesthetic/framework';
 import optimal, {
   array,
@@ -25,7 +19,15 @@ import optimal, {
   ObjectOf,
   Schema,
 } from 'optimal';
-import { ConfigFile } from './types';
+import {
+  ConfigFile,
+  ContrastLevel,
+  ColorConfig,
+  ColorShade,
+  Scale,
+  ScaleType,
+  SpacingType,
+} from './types';
 
 export function hexcode() {
   return string()
@@ -124,6 +126,7 @@ export default class ConfigLoader {
             .custom(this.validateThemeImplementsColors)
             .required(),
           contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
+          extends: string(),
           palettes: shape({
             danger: this.createPaletteBlueprint(),
             info: this.createPaletteBlueprint(),
@@ -207,6 +210,7 @@ export default class ConfigLoader {
     // Hue + shade: black.10
     if (ref.includes('.')) {
       const [hue, shade] = ref.split('.') as [string, ColorShade];
+      // @ts-ignore TODO
       const config: string | ColorConfig = colors[hue];
 
       if (typeof config === 'string') {
@@ -221,6 +225,7 @@ export default class ConfigLoader {
     }
 
     // Hue w/ no shade: black
+    // @ts-ignore TODO
     const config: string | ColorConfig = colors[ref];
 
     if (config && typeof config !== 'string') {

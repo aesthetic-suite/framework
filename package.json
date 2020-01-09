@@ -82,5 +82,8 @@
   ],
   "browserslist": [
     "ie 11"
-  ]
+  ],
+  "dependencies": {
+    "@types/ejs": "^3.0.0"
+  }
 }

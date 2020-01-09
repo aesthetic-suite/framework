@@ -9,10 +9,11 @@ import {
   ShadowToken,
   BreakpointCondition,
   BreakpointToken,
+  DesignTemplate,
 } from './types';
 
 export default class Design<ColorNames extends string = string> {
-  readonly tokens: DesignTokens;
+  readonly template: DesignTemplate;
 
   private readonly config: DesignConfig<ColorNames>;
 

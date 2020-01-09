@@ -2,13 +2,7 @@
 
 import { DeclarationBlock } from '@aesthetic/sss';
 
-export type PxUnit = string;
-
-export type EmUnit = string;
-
-export type RemUnit = string;
-
-export type Unit = PxUnit | EmUnit | RemUnit;
+export type Unit = string;
 
 export type Hexcode = string;
 
@@ -17,10 +11,6 @@ export type BorderSize = 'sm' | 'base' | 'lg';
 export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ColorScheme = 'dark' | 'light';
-
-export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
-
-export type ContrastLevel = 'normal' | 'high' | 'low';
 
 export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -45,127 +35,37 @@ export type PaletteType =
   | 'success'
   | 'info';
 
-export type ScaleType =
-  | 'minor-second'
-  | 'major-second'
-  | 'minor-third'
-  | 'major-third'
-  | 'perfect-fourth'
-  | 'augmented-fourth'
-  | 'perfect-fifth'
-  | 'golden-ratio';
-
-export type Scale = number | ScaleType;
-
-export type StrategyType = 'mobile-first' | 'desktop-first';
-
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SpacingSize = 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl';
 
-export type SpacingType = 'unit' | 'vertical-rhythm';
-
 export type TextSize = 'sm' | 'base' | 'lg';
-
-export type FontFamilyType = 'web-system';
-
-// DESIGN CONFIG
-
-export interface BorderConfig {
-  radius: number;
-  radiusScale: Scale;
-  width: number;
-  widthScale: Scale;
-}
-
-export type BreakpointConfig = [number, number, number, number, number];
-
-export interface ShadowConfig {
-  blur: number;
-  blurScale: Scale;
-  spread: number;
-  spreadScale: Scale;
-  x: number;
-  xScale: Scale;
-  y: number;
-  yScale: Scale;
-}
-
-export interface SpacingConfig {
-  type: SpacingType;
-  unit: number;
-}
-
-export interface TypographyConfig {
-  lineHeight: number;
-  lineHeightScale: Scale;
-  size: number;
-  sizeScale: Scale;
-}
-
-export interface DesignConfig<ColorNames extends string> {
-  borders: BorderConfig;
-  breakpoints: BreakpointConfig;
-  colors: ColorNames[];
-  shadows: ShadowConfig | ShadowConfig[];
-  spacing: SpacingConfig;
-  strategy: StrategyType;
-  typography: {
-    fontFamily: string;
-    heading: TypographyConfig;
-    text: TypographyConfig;
-    responsiveScale: Scale;
-  };
-}
-
-// THEME CONFIG
-
-export type ColorConfig = {
-  [K in ColorShade]: Hexcode;
-};
-
-export interface PaletteConfigStates<T = string> {
-  base: T;
-  disabled: T;
-  focused: T;
-  hovered: T;
-  selected: T;
-}
-
-export type PaletteConfig<T = string> = {
-  [K in PaletteType]: {
-    bg: PaletteConfigStates<T>;
-    fg: PaletteConfigStates<T>;
-  };
-};
-
-export interface ThemeConfig<ColorNames extends string> {
-  colors: { [K in ColorNames]: Hexcode | ColorConfig };
-  contrast: ContrastLevel;
-  palettes: PaletteConfig;
-  scheme: ColorScheme;
-}
 
 // TOKENS
 
-export type UnitFactory = (...sizes: number[]) => string;
+export type UnitFactory = (...sizes: number[]) => Unit;
 
 export interface BorderToken {
-  radius: PxUnit;
-  width: PxUnit;
+  radius: Unit;
+  width: Unit;
 }
 
 export interface BreakpointToken {
   query: string;
-  rootTextSize: PxUnit;
-  size: number;
+  querySize: number;
+  rootTextSize: Unit;
 }
 
 export interface ShadowToken {
-  blur: PxUnit;
-  spread: PxUnit;
-  x: PxUnit;
-  y: PxUnit;
+  blur: Unit;
+  spread: Unit;
+  x: Unit;
+  y: Unit;
+}
+
+export interface TypographyToken {
+  lineHeight: number;
+  size: Unit;
 }
 
 export interface DesignTokens {
@@ -176,7 +76,7 @@ export interface DesignTokens {
     [K in BreakpointSize]: BreakpointToken;
   };
   heading: {
-    [K in HeadingSize]: RemUnit;
+    [K in HeadingSize]: TypographyToken;
   };
   layer: {
     [K in LayerType]: number;
@@ -185,22 +85,22 @@ export interface DesignTokens {
     [K in ShadowSize]: ShadowToken[];
   };
   spacing: {
-    [K in SpacingSize]: RemUnit;
+    [K in SpacingSize]: Unit;
   };
   text: {
-    [K in TextSize]: RemUnit;
+    [K in TextSize]: TypographyToken;
   };
   typography: {
     fontFamily: string;
     rootLineHeight: number;
-    rootTextSize: PxUnit;
+    rootTextSize: Unit;
     systemFontFamily: string;
   };
   unit: UnitFactory;
 }
 
 export interface ThemeTokens extends DesignTokens {
-  palette: PaletteConfig<Hexcode>;
+  palette: unknown; // TODO
 }
 
 // MIXINS
