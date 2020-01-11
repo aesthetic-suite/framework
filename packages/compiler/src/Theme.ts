@@ -1,48 +1,42 @@
 import deepMerge from 'extend';
+import { ColorScheme, ContrastLevel, DeepPartial } from '@aesthetic/system';
 import {
-  DesignTokens,
-  ThemeTokens,
   ThemeConfig,
-  ColorScheme,
-  DeepPartial,
   PaletteConfigStates,
   ColorConfig,
   ColorShade,
-  ContrastLevel,
+  DesignTemplate,
+  ThemeTemplate,
 } from './types';
 
 // TODO mixins
 
-export default class Theme<ColorNames extends string> {
+export default class Theme<ColorNames extends string = string> {
   readonly contrast: ContrastLevel;
 
   readonly scheme: ColorScheme;
 
-  readonly tokens: ThemeTokens;
+  readonly template: ThemeTemplate;
 
   private readonly config: ThemeConfig<ColorNames>;
 
-  constructor(config: ThemeConfig<ColorNames>, tokens: DesignTokens) {
+  constructor(config: ThemeConfig<ColorNames>, template: DesignTemplate) {
     this.config = config;
     this.contrast = config.contrast;
     this.scheme = config.scheme;
-    this.tokens = {
-      ...tokens,
+    this.template = {
+      ...template,
       palette: this.compilePalettes(),
     };
   }
 
-  /**
-   * Extend the current theme to create a new theme,
-   * with the ability to override individual configuration settings.
-   */
   extend(config: DeepPartial<ThemeConfig<ColorNames>>): Theme<ColorNames> {
-    return new Theme(deepMerge(true, {}, this.config, config), this.tokens);
+    return new Theme(deepMerge(true, {}, this.config, config), this.template);
   }
 
-  protected compilePalettes(): ThemeConfig<ColorNames>['palettes'] {
+  protected compilePalettes(): ThemeTemplate['palette'] {
     const { palettes } = this.config;
-    const tokens: Partial<ThemeConfig<ColorNames>['palettes']> = {};
+    const tokens: Partial<ThemeTemplate['palette']> = {};
 
     Object.entries(palettes).forEach(([name, config]) => {
       tokens[name as keyof typeof tokens] = {
@@ -51,7 +45,7 @@ export default class Theme<ColorNames extends string> {
       };
     });
 
-    return tokens as ThemeConfig<ColorNames>['palettes'];
+    return tokens as ThemeTemplate['palette'];
   }
 
   protected compilePaletteState(state: PaletteConfigStates): PaletteConfigStates {

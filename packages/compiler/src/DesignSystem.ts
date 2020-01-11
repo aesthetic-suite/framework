@@ -1,48 +1,59 @@
 import { toArray } from 'aesthetic-utils';
-import Theme from './Theme';
-import { toRem, scaleDown, scaleUp } from './unit';
-import { BREAKPOINT_SIZES, FONT_FAMILIES, HEADING_LEVELS, LAYERS, SHADOW_SIZES } from './constants';
 import {
-  DesignConfig,
-  DesignTokens,
-  ThemeConfig,
-  ShadowToken,
+  BREAKPOINT_SIZES,
+  HEADING_LEVELS,
+  LAYERS,
+  SHADOW_SIZES,
+  FONT_FAMILIES,
+} from '@aesthetic/system';
+import Theme from './Theme';
+import { SCALES } from './constants';
+import {
   BreakpointCondition,
-  BreakpointToken,
   DesignTemplate,
+  Scale,
+  BreakpointTemplate,
+  ShadowTemplate,
+  DesignConfig,
+  ThemeConfig,
 } from './types';
 
-export default class Design<ColorNames extends string = string> {
+function scale(accumulator: number, scaling: Scale, type: 'up' | 'down'): number {
+  const factor = (typeof scaling === 'number' ? scaling : SCALES[scaling]) ?? 0;
+
+  if (factor === 0) {
+    return accumulator;
+  }
+
+  return type === 'up' ? accumulator * factor : accumulator / factor;
+}
+
+export function scaleDown(accumulator: number, scaling: Scale): number {
+  return scale(accumulator, scaling, 'down');
+}
+
+export function scaleUp(accumulator: number, scaling: Scale): number {
+  return scale(accumulator, scaling, 'up');
+}
+
+export default class DesignSystem {
   readonly template: DesignTemplate;
 
-  private readonly config: DesignConfig<ColorNames>;
+  private readonly config: DesignConfig;
 
-  constructor(config: DesignConfig<ColorNames>) {
+  constructor(config: DesignConfig) {
     // Smallest to largest for mobile, and reversed for desktop
     config.breakpoints.sort((a, b) => (config.strategy === 'mobile-first' ? a - b : b - a));
 
     this.config = config;
-    this.tokens = this.compile();
+    this.template = this.compile();
   }
 
-  createTheme(config: ThemeConfig<ColorNames>): Theme<ColorNames> {
-    return new Theme(config, this.tokens);
+  createTheme(config: ThemeConfig): Theme {
+    return new Theme(config, this.template);
   }
 
-  unit = (...sizes: number[]): string => {
-    const { type, unit: baseUnit } = this.config.spacing;
-    const { size: rootSize, lineHeight } = this.config.typography.text;
-    let calcUnit = baseUnit;
-
-    if (type === 'vertical-rhythm') {
-      calcUnit = rootSize * lineHeight;
-    }
-
-    // TODO platform agnostic
-    return sizes.map(size => toRem(size * calcUnit, rootSize)).join(' ');
-  };
-
-  protected compile(): DesignTokens {
+  protected compile(): DesignTemplate {
     return {
       border: this.compileBorders(),
       breakpoint: this.compileBreakpoints(),
@@ -52,11 +63,10 @@ export default class Design<ColorNames extends string = string> {
       spacing: this.compileSpacing(),
       text: this.compileText(),
       typography: this.compileTypography(),
-      unit: this.unit,
     };
   }
 
-  protected compileBorders(): DesignTokens['border'] {
+  protected compileBorders(): DesignTemplate['border'] {
     const { radius, radiusScale, width, widthScale } = this.config.borders;
 
     return {
@@ -75,7 +85,7 @@ export default class Design<ColorNames extends string = string> {
     };
   }
 
-  protected compileBreakpoints(): DesignTokens['breakpoint'] {
+  protected compileBreakpoints(): DesignTemplate['breakpoint'] {
     const { breakpoints, strategy } = this.config;
     const fontSizes = this.compileBreakpointFontSizes();
 
@@ -101,7 +111,7 @@ export default class Design<ColorNames extends string = string> {
         conditions.push(['max-width', size]);
       }
 
-      const token: BreakpointToken = {
+      const token: BreakpointTemplate = {
         queryConditions: conditions,
         querySize: breakpoints[index],
         rootTextSize: fontSizes[index],
@@ -113,7 +123,7 @@ export default class Design<ColorNames extends string = string> {
       };
     }, {});
 
-    return tokens as DesignTokens['breakpoint'];
+    return tokens as DesignTemplate['breakpoint'];
   }
 
   protected compileBreakpointFontSizes(): number[] {
@@ -141,7 +151,7 @@ export default class Design<ColorNames extends string = string> {
     return fontSizes;
   }
 
-  protected compileHeadings(): DesignTokens['heading'] {
+  protected compileHeadings(): DesignTemplate['heading'] {
     const { size: baseSize, sizeScale } = this.config.typography.heading;
     let lastHeading = baseSize;
 
@@ -156,14 +166,14 @@ export default class Design<ColorNames extends string = string> {
       };
     }, {});
 
-    return tokens as DesignTokens['heading'];
+    return tokens as DesignTemplate['heading'];
   }
 
-  protected compileLayers(): DesignTokens['layer'] {
+  protected compileLayers(): DesignTemplate['layer'] {
     return { ...LAYERS };
   }
 
-  protected compileShadows(): DesignTokens['shadow'] {
+  protected compileShadows(): DesignTemplate['shadow'] {
     const configs = toArray(this.config.shadows);
 
     // Increase the scale of each config for each size
@@ -175,7 +185,7 @@ export default class Design<ColorNames extends string = string> {
       let lastSpread = spread;
 
       return SHADOW_SIZES.map(() => {
-        const token: ShadowToken = {
+        const token: ShadowTemplate = {
           x: lastX,
           y: lastY,
           blur: lastBlur,
@@ -199,10 +209,10 @@ export default class Design<ColorNames extends string = string> {
       {},
     );
 
-    return tokens as DesignTokens['shadow'];
+    return tokens as DesignTemplate['shadow'];
   }
 
-  protected compileSpacing(): DesignTokens['spacing'] {
+  protected compileSpacing(): DesignTemplate['spacing'] {
     // These are the multipliers, not the actual values
     return {
       xs: 0.25,
@@ -214,17 +224,26 @@ export default class Design<ColorNames extends string = string> {
     };
   }
 
-  protected compileText(): DesignTokens['text'] {
-    const { size, sizeScale } = this.config.typography.text;
+  protected compileText(): DesignTemplate['text'] {
+    const { lineHeight, lineHeightScale, size, sizeScale } = this.config.typography.text;
 
     return {
-      sm: scaleDown(size, sizeScale),
-      base: size,
-      lg: scaleUp(size, sizeScale),
+      sm: {
+        lineHeight: scaleDown(lineHeight, lineHeightScale),
+        size: scaleDown(size, sizeScale),
+      },
+      base: {
+        lineHeight,
+        size,
+      },
+      lg: {
+        lineHeight: scaleUp(lineHeight, lineHeightScale),
+        size: scaleUp(size, sizeScale),
+      },
     };
   }
 
-  protected compileTypography(): DesignTokens['typography'] {
+  protected compileTypography(): DesignTemplate['typography'] {
     const { fontFamily, text } = this.config.typography;
     const { size, lineHeight } = text;
 

@@ -9,7 +9,8 @@ import {
   ShadowSize,
   SpacingSize,
   TextSize,
-} from '@aesthetic/framework';
+  ContrastLevel,
+} from '@aesthetic/system';
 
 export type TargetType =
   | 'android'
@@ -22,7 +23,7 @@ export type TargetType =
   | 'web-ts';
 
 // CONFIG FILE
-// Structure for the YAML config file. Assumes all properties are defined because of optimal.
+// Structure of the YAML config file. Assumes all properties are defined because of optimal.
 
 export type ScaleType =
   | 'minor-second'
@@ -87,8 +88,6 @@ export interface DesignConfig {
   };
 }
 
-export type ContrastLevel = 'normal' | 'high' | 'low';
-
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
 export type ColorConfig = {
@@ -110,29 +109,31 @@ export type PaletteConfig = {
   };
 };
 
-export interface ThemeConfig {
-  colors: { [name: string]: Hexcode | ColorConfig };
+export interface ThemeConfig<ColorNames extends string = string> {
+  colors: { [K in ColorNames]: Hexcode | ColorConfig };
   contrast: ContrastLevel;
   extends: string;
   palettes: PaletteConfig;
   scheme: ColorScheme;
 }
 
-export interface ConfigFile extends DesignConfig {
-  themes: { [name: string]: ThemeConfig };
+export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
+  themes: { [name: string]: ThemeConfig<ColorNames> };
 }
 
-// CONFIG -> TOKENS TEMPLATE
-// A rough design token template where all values are in a raw unitless value.
-// This is because units are platform and target specific, so happen during compilation.
+// CONFIG FILE -> TOKENS TEMPLATE
+// A rough design token template where all values are in a raw unitless state.
+// This is because units are platform and target specific, so happens during compilation.
 
 export interface BorderTemplate {
   radius: number;
   width: number;
 }
 
+export type BreakpointCondition = [string, number];
+
 export interface BreakpointTemplate {
-  query: string;
+  queryConditions: BreakpointCondition[];
   querySize: number;
   rootTextSize: number;
 }
@@ -177,4 +178,8 @@ export interface DesignTemplate {
     rootTextSize: number;
     systemFontFamily: string;
   };
+}
+
+export interface ThemeTemplate extends DesignTemplate {
+  palette: ThemeConfig['palettes'];
 }

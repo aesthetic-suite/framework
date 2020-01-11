@@ -9,7 +9,7 @@ import {
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
-} from '@aesthetic/framework';
+} from '@aesthetic/system';
 import Compiler from '../Compiler';
 
 const TEST_COMPILE_PATH = path.join(process.cwd(), 'build');

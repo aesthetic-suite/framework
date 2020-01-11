@@ -22,9 +22,10 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/framework": "^0.0.0",
+    "@aesthetic/system": "^0.0.0",
     "aesthetic-utils": "^3.0.0",
     "ejs": "^3.0.1",
+    "extend": "^3.0.2",
     "js-yaml": "^3.13.1",
     "optimal": "^4.0.0"
   }

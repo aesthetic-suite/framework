@@ -12,6 +12,8 @@ export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ColorScheme = 'dark' | 'light';
 
+export type ContrastLevel = 'normal' | 'high' | 'low';
+
 export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type LayerType =
@@ -99,9 +101,11 @@ export interface DesignTokens {
   unit: UnitFactory;
 }
 
-export interface ThemeTokens extends DesignTokens {
+export interface ThemeTokens {
   palette: unknown; // TODO
 }
+
+export type Tokens = DesignTokens & ThemeTokens;
 
 // MIXINS
 
@@ -142,11 +146,16 @@ export type MixinType =
   | 'textLarge'
   | 'textSmall';
 
-export type ThemeMixins = {
-  [K in MixinType]: DeclarationBlock;
+export type Mixins = {
+  [K in MixinType]?: DeclarationBlock;
 };
 
-// UTILS
+// OTHER
+
+export interface ThemeOptions {
+  contrast: ContrastLevel;
+  scheme: ColorScheme;
+}
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]

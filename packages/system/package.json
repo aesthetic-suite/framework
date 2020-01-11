@@ -1,14 +1,14 @@
 {
-  "name": "@aesthetic/framework",
+  "name": "@aesthetic/system",
   "version": "0.0.0",
-  "description": "A design system framework.",
+  "description": "Web based building blocks for the Aesthetic design system.",
   "keywords": [
     "aesthetic",
     "design",
     "system",
     "language"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/framework",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/system",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
@@ -22,8 +22,9 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/sss": "^0.0.0",
-    "aesthetic-utils": "^3.0.0",
     "extend": "^3.0.2"
+  },
+  "peerDependencies": {
+    "@aesthetic/sss": "^0.0.0"
   }
 }

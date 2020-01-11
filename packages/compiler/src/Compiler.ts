@@ -1,5 +1,6 @@
 import optimal, { string } from 'optimal';
-import { Design, Theme } from '@aesthetic/framework';
+import DesignSystem from './DesignSystem';
+import Theme from './Theme';
 import { ConfigFile, TargetType } from './types';
 
 export interface CompilerOptions {
@@ -9,7 +10,7 @@ export interface CompilerOptions {
 export default class Compiler {
   readonly config: ConfigFile;
 
-  design!: Design<string>;
+  design!: DesignSystem;
 
   readonly options: Required<CompilerOptions>;
 
@@ -36,7 +37,7 @@ export default class Compiler {
   protected loadDesignAndThemes() {
     const { themes, ...designConfig } = this.config;
 
-    this.design = new Design(designConfig);
+    this.design = new DesignSystem(designConfig);
 
     // Load all themes that do not extend another theme
     Object.entries(themes).forEach(([name, config]) => {

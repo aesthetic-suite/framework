@@ -1,13 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-import {
-  DeepPartial,
-  ColorScheme,
-  SCALES,
-  DEFAULT_UNIT,
-  DEFAULT_BREAKPOINTS,
-  FONT_FAMILIES,
-} from '@aesthetic/framework';
+import { DeepPartial, ColorScheme, FONT_FAMILIES, ContrastLevel } from '@aesthetic/system';
 import optimal, {
   array,
   number,
@@ -19,15 +12,8 @@ import optimal, {
   ObjectOf,
   Schema,
 } from 'optimal';
-import {
-  ConfigFile,
-  ContrastLevel,
-  ColorConfig,
-  ColorShade,
-  Scale,
-  ScaleType,
-  SpacingType,
-} from './types';
+import { ConfigFile, ColorConfig, ColorShade, Scale, ScaleType, SpacingType } from './types';
+import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT } from './constants';
 
 export function hexcode() {
   return string()
