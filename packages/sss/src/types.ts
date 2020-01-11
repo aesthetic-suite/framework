@@ -253,7 +253,7 @@ export type GlobalAtRule =
 export interface GlobalStyleSheet {
   '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
-  '@global'?: LocalStyleSheet;
+  '@global'?: LocalBlock;
   '@import'?: (string | Import)[];
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Page;

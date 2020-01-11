@@ -2,8 +2,9 @@ import { isObject, toArray } from 'aesthetic-utils';
 import Parser from './Parser';
 import formatImport from './formatImport';
 import { GlobalStyleSheet, PagePseudos } from './types';
+import Block from './Block';
 
-export default class GlobalParser extends Parser {
+export default class GlobalParser<T extends object> extends Parser<T> {
   parse(styleSheet: GlobalStyleSheet) {
     this.parseCharset(styleSheet['@charset']);
     this.parseFontFaces(styleSheet['@font-face']);
@@ -47,11 +48,9 @@ export default class GlobalParser extends Parser {
   }
 
   protected parseGlobal(globals: GlobalStyleSheet['@global']) {
-    if (!globals) {
-      return;
+    if (globals) {
+      this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
     }
-
-    // TODO
   }
 
   protected parseImport(imports: GlobalStyleSheet['@import']) {
@@ -82,7 +81,7 @@ export default class GlobalParser extends Parser {
     }
 
     Object.entries(keyframes).forEach(([name, keyframe]) => {
-      this.parseKeyframe(name, keyframe);
+      this.parseKeyframesAnimation(name, keyframe);
     });
   }
 
@@ -99,7 +98,7 @@ export default class GlobalParser extends Parser {
       const value = object[selector];
 
       if (value) {
-        this.emit('page', this.parseBlock(`@page ${selector}`, value));
+        this.emit('page', this.parseBlock(new Block(`@page ${selector}`), value));
 
         delete object[selector];
       }
@@ -107,13 +106,13 @@ export default class GlobalParser extends Parser {
 
     // Then parse the root block itself
     if (Object.keys(object).length > 0) {
-      this.emit('page', this.parseBlock('@page', object));
+      this.emit('page', this.parseBlock(new Block('@page'), object));
     }
   }
 
   protected parseViewport(viewport: GlobalStyleSheet['@viewport']) {
     if (viewport) {
-      this.emit('viewport', this.parseBlock('@viewport', viewport));
+      this.emit('viewport', this.parseBlock(new Block('@viewport'), viewport));
     }
   }
 }
