@@ -9,7 +9,7 @@ import {
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
-} from '@aesthetic/system';
+} from '../constants';
 import Compiler from '../Compiler';
 
 const TEST_COMPILE_PATH = path.join(process.cwd(), 'build');
@@ -61,7 +61,6 @@ export default class WebPlatform {
 
   async writeDesignSystemFile() {
     const template = await this.loadTemplate('system');
-    const { tokens, unit } = this.compiler.design;
 
     return fs.promises.writeFile(
       this.getTargetFilePath('system'),
@@ -73,8 +72,6 @@ export default class WebPlatform {
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,
         textSizes: TEXT_SIZES,
-        tokens,
-        unit,
       }),
       'utf8',
     );

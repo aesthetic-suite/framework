@@ -1,13 +1,13 @@
 import { toArray } from 'aesthetic-utils';
+import Theme from './Theme';
 import {
+  SCALES,
   BREAKPOINT_SIZES,
   HEADING_LEVELS,
   LAYERS,
   SHADOW_SIZES,
   FONT_FAMILIES,
-} from '@aesthetic/system';
-import Theme from './Theme';
-import { SCALES } from './constants';
+} from './constants';
 import {
   BreakpointCondition,
   DesignTemplate,
