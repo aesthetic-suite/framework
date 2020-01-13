@@ -3,7 +3,8 @@
 import { isObject, toArray } from 'aesthetic-utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
-import transformers from './transformers';
+import compoundProperties from './compound';
+import shorthandProperties from './shorthand';
 import {
   DeclarationBlock,
   Keyframes,
@@ -101,7 +102,7 @@ export default abstract class Parser<T extends object> {
     });
   }
 
-  parseFontFace(fontFamily: string, object: FontFace) {
+  parseFontFace(fontFamily: string, object: FontFace): string {
     const fontFace = formatFontFace({
       ...object,
       fontFamily,
@@ -113,9 +114,11 @@ export default abstract class Parser<T extends object> {
       fontFamily,
       object.srcPaths,
     );
+
+    return fontFamily;
   }
 
-  parseKeyframesAnimation(animationName: string, object: Keyframes) {
+  parseKeyframesAnimation(animationName: string, object: Keyframes): string {
     const name = object.name || animationName;
     const keyframes = new Block(`@keyframes ${name}`);
 
@@ -131,6 +134,8 @@ export default abstract class Parser<T extends object> {
     });
 
     this.emit('keyframes', keyframes, name);
+
+    return name;
   }
 
   parseLocalBlock(builder: Block<T>, object: LocalBlock): Block<T> {
@@ -198,8 +203,29 @@ export default abstract class Parser<T extends object> {
   }
 
   transformProperty(key: string, value: unknown): unknown {
-    if (key in transformers && isObject(value)) {
-      return transformers[key as keyof typeof transformers](value);
+    switch (key) {
+      case 'animation':
+        return compoundProperties.animation(value as Properties['animation']);
+
+      case 'animationName':
+        return compoundProperties.animationName(
+          value as Properties['animationName'],
+          (name, frames) => this.parseKeyframesAnimation(name, frames),
+        );
+
+      case 'fontFamily':
+        return compoundProperties.fontFamily(value as Properties['fontFamily'], (name, face) =>
+          this.parseFontFace(name, face),
+        );
+
+      case 'transition':
+        return compoundProperties.transition(value as Properties['transition']);
+
+      default: {
+        if (key in shorthandProperties && isObject(value)) {
+          return shorthandProperties[key as keyof typeof shorthandProperties](value);
+        }
+      }
     }
 
     return value;
