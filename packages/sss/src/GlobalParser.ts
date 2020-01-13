@@ -4,15 +4,19 @@ import formatImport from './formatImport';
 import { GlobalStyleSheet, PagePseudos } from './types';
 import Block from './Block';
 
+const SHEET_LENGTH = 7;
+
 export default class GlobalParser<T extends object> extends Parser<T> {
-  parse(styleSheet: GlobalStyleSheet) {
-    this.parseCharset(styleSheet['@charset']);
-    this.parseFontFaces(styleSheet['@font-face']);
-    this.parseGlobal(styleSheet['@global']);
-    this.parseImport(styleSheet['@import']);
-    this.parseKeyframes(styleSheet['@keyframes']);
-    this.parsePage(styleSheet['@page']);
-    this.parseViewport(styleSheet['@viewport']);
+  async parse(styleSheet: GlobalStyleSheet): Promise<void> {
+    return this.createAsyncQueue(SHEET_LENGTH, enqueue => {
+      enqueue(() => this.parseCharset(styleSheet['@charset']));
+      enqueue(() => this.parseFontFaces(styleSheet['@font-face']));
+      enqueue(() => this.parseGlobal(styleSheet['@global']));
+      enqueue(() => this.parseImport(styleSheet['@import']));
+      enqueue(() => this.parseKeyframes(styleSheet['@keyframes']));
+      enqueue(() => this.parsePage(styleSheet['@page']));
+      enqueue(() => this.parseViewport(styleSheet['@viewport']));
+    });
   }
 
   protected parseCharset(charset: GlobalStyleSheet['@charset']) {

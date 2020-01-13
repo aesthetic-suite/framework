@@ -1,5 +1,5 @@
 import { BackgroundProperty } from '../types';
-import { join, divide } from '../transformProperty';
+import { join, divide } from '../transform';
 
 export default function transformBackground(prop: BackgroundProperty): string {
   return join(

@@ -1,12 +1,22 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members, @typescript-eslint/unified-signatures */
 
-import { isObject } from 'aesthetic-utils';
+import { isObject, toArray } from 'aesthetic-utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import transformers from './transformers';
-import { DeclarationBlock, Keyframes, FontFace, Properties, LocalBlock } from './types';
+import {
+  DeclarationBlock,
+  Keyframes,
+  FontFace,
+  Properties,
+  LocalBlock,
+  FallbackProperties,
+} from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
+export const ASYNC_TIMEOUT = 5000;
+
+export type EnqueueCallback = (cb: () => void | Promise<void>) => void;
 
 // Any is required for method overloading to work
 export type Handler = (...args: any[]) => void;
@@ -20,14 +30,17 @@ export default abstract class Parser<T extends object> {
 
   constructor(handlers: HandlerMap = {}) {
     Object.entries(handlers).forEach(([key, value]) => {
-      this.on(key as 'block', value);
+      this.on(
+        key.replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'block',
+        value,
+      );
     });
   }
 
-  parseBlock(block: Block<T>, object: DeclarationBlock): Block<T> {
+  parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
     if (__DEV__) {
       if (!isObject(object)) {
-        throw new TypeError(`Block "${block.selector}" must be an object of properties.`);
+        throw new TypeError(`Block "${builder.selector}" must be an object of properties.`);
       }
     }
 
@@ -38,21 +51,54 @@ export default abstract class Parser<T extends object> {
 
       // Pseudo and attribute selectors
       if (key.startsWith(':') || key.startsWith('[')) {
-        this.parseSelector(block, key, value as DeclarationBlock);
+        this.parseSelector(builder, key, value as DeclarationBlock);
 
         // Special case for unique at-rules (@page blocks)
       } else if (key.startsWith('@')) {
-        block.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
+        builder.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
 
         // Run for each property so it can be customized
       } else {
-        this.emit('block:property', block, key, this.transformProperty(key, value));
+        this.emit('block:property', builder, key, this.transformProperty(key, value));
       }
     });
 
-    this.emit('block', block);
+    this.emit('block', builder);
 
-    return block;
+    return builder;
+  }
+
+  parseConditionalBlock(
+    builder: Block<T>,
+    object: { [key: string]: LocalBlock },
+    type: 'media' | 'supports',
+  ) {
+    if (__DEV__) {
+      if (!isObject(object)) {
+        throw new Error(`${type} must be an object of queries to declarations.`);
+      }
+    }
+
+    Object.entries(object).forEach(([query, block]) => {
+      this.emit(
+        `block:${type}` as 'block:media',
+        builder,
+        query,
+        this.parseLocalBlock(new Block(`@${type} ${query}`), block),
+      );
+    });
+  }
+
+  parseFallbackProperties(builder: Block<T>, fallbacks: FallbackProperties) {
+    if (__DEV__) {
+      if (!isObject(fallbacks)) {
+        throw new Error('@fallbacks must be an object of property names to fallback values.');
+      }
+    }
+
+    Object.entries(fallbacks).forEach(([prop, value]) => {
+      this.emit('block:fallback', builder, prop, toArray(value));
+    });
   }
 
   parseFontFace(fontFamily: string, object: FontFace) {
@@ -71,7 +117,7 @@ export default abstract class Parser<T extends object> {
 
   parseKeyframesAnimation(animationName: string, object: Keyframes) {
     const name = object.name || animationName;
-    const keyframes = new Block<T>(`@keyframes ${name}`);
+    const keyframes = new Block(`@keyframes ${name}`);
 
     // from, to, and percent keys aren't easily detectable
     Object.entries(object).forEach(([key, value]) => {
@@ -87,27 +133,36 @@ export default abstract class Parser<T extends object> {
     this.emit('keyframes', keyframes, name);
   }
 
-  parseLocalBlock(block: Block<T>, object: LocalBlock): Block<T> {
+  parseLocalBlock(builder: Block<T>, object: LocalBlock): Block<T> {
     const props = { ...object };
 
-    // TODO
     if (props['@fallbacks']) {
+      this.parseFallbackProperties(builder, props['@fallbacks']);
+
       delete props['@fallbacks'];
     }
 
     if (props['@media']) {
+      this.parseConditionalBlock(builder, props['@media'], 'media');
+
       delete props['@media'];
     }
 
     if (props['@selectors']) {
+      Object.entries(props['@selectors']).forEach(([key, value]) => {
+        this.parseSelector(builder, key, value, true);
+      });
+
       delete props['@selectors'];
     }
 
     if (props['@supports']) {
+      this.parseConditionalBlock(builder, props['@supports'], 'supports');
+
       delete props['@supports'];
     }
 
-    return this.parseBlock(block, props);
+    return this.parseBlock(builder, props);
   }
 
   parseSelector(
@@ -126,7 +181,7 @@ export default abstract class Parser<T extends object> {
       }
     }
 
-    const block = this.parseBlock(new Block(selector), object);
+    const block = this.parseLocalBlock(new Block(selector), object);
 
     selector.split(',').forEach(k => {
       const name = k.trim();
@@ -154,23 +209,28 @@ export default abstract class Parser<T extends object> {
    * Execute the defined event listener with the arguments.
    */
   emit(
-    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
-    block: Block<T>,
+    name: 'block:attribute' | 'block:media' | 'block:pseudo' | 'block:selector' | 'block:supports',
+    parent: Block<T>,
     key: string,
     value: Block<T>,
-  ): unknown;
-  emit(name: 'block:property', block: Block<T>, key: string, value: unknown): unknown;
-  emit(name: 'charset', charset: string): unknown;
-  emit(name: 'font-face', fontFace: Block<T>, fontFamily: string, srcPaths: string[]): unknown;
-  emit(name: 'import', path: string): unknown;
-  emit(name: 'keyframes', keyframe: Block<T>, animationName: string): unknown;
-  emit(name: 'block' | 'global' | 'page' | 'viewport', block: Block<T>): unknown;
-  emit(name: string, ...args: unknown[]): unknown {
+  ): void;
+  emit(
+    name: 'block:fallback' | 'block:property',
+    parent: Block<T>,
+    key: string,
+    value: unknown,
+  ): void;
+  emit(name: 'block' | 'global' | 'page' | 'viewport', block: Block<T>): void;
+  emit(name: 'charset' | 'class', charset: string): void;
+  emit(name: 'css', css: string, className: string): void;
+  emit(name: 'font-face', fontFace: Block<T>, fontFamily: string, srcPaths: string[]): void;
+  emit(name: 'import', path: string): void;
+  emit(name: 'keyframes', keyframes: Block<T>, animationName: string): void;
+  emit(name: 'ruleset', selector: string, block: Block<T>): void;
+  emit(name: string, ...args: unknown[]): void {
     if (this.handlers[name]) {
-      return this.handlers[name](...args);
+      this.handlers[name](...args);
     }
-
-    return undefined;
   }
 
   /**
@@ -186,24 +246,59 @@ export default abstract class Parser<T extends object> {
    * Register an event listener.
    */
   on(
-    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
-    callback: (block: Block<T>, name: string, value: Block<T>) => void,
+    name: 'block:attribute' | 'block:media' | 'block:pseudo' | 'block:selector' | 'block:supports',
+    callback: (parent: Block<T>, name: string, value: Block<T>) => void,
   ): this;
   on(
-    name: 'block:property',
-    callback: (block: Block<T>, name: string, value: unknown) => void,
+    name: 'block:fallback' | 'block:property',
+    callback: (parent: Block<T>, name: string, value: unknown) => void,
   ): this;
-  on(name: 'charset', callback: (charset: string) => void): this;
+  on(name: 'block' | 'global' | 'page' | 'viewport', callback: (block: Block<T>) => void): this;
+  on(name: 'charset' | 'class', callback: (value: string) => void): this;
+  on(name: 'css', callback: (css: string, className: string) => void): this;
   on(
     name: 'font-face',
     callback: (fontFace: Block<T>, fontFamily: string, srcPaths: string[]) => void,
   ): this;
   on(name: 'import', callback: (path: string) => void): this;
-  on(name: 'keyframes', callback: (keyframe: Block<T>, animationName: string) => void): this;
-  on(name: 'block' | 'global' | 'page' | 'viewport', callback: (block: Block<T>) => void): this;
+  on(name: 'keyframes', callback: (keyframes: Block<T>, animationName: string) => void): this;
+  on(name: 'ruleset', callback: (selector: string, block: Block<T>) => void): this;
   on(name: string, callback: Handler): this {
     this.handlers[name] = callback;
 
     return this;
+  }
+
+  protected createAsyncQueue(
+    size: number,
+    factory: (enqueue: EnqueueCallback) => void,
+  ): Promise<void> {
+    let counter = 0;
+
+    return new Promise((resolve, reject) => {
+      const runCheck = () => {
+        counter += 1;
+
+        if (counter === size) {
+          resolve();
+        }
+      };
+
+      const enqueue: EnqueueCallback = async cb => {
+        if (counter >= size) {
+          return;
+        }
+
+        await cb();
+
+        runCheck();
+      };
+
+      factory(enqueue);
+
+      setTimeout(() => {
+        reject(new Error('Failed to parse and compile style sheet.'));
+      }, ASYNC_TIMEOUT);
+    });
   }
 }

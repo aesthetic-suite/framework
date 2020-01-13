@@ -1,5 +1,5 @@
 import { FontProperty } from '../types';
-import { join, divide } from '../transformProperty';
+import { join, divide } from '../transform';
 
 export default function transformFont(prop: FontProperty): string {
   if (prop.system) {

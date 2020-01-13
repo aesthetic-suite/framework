@@ -1,5 +1,5 @@
 import { AnimationProperty } from '../types';
-import { join } from '../transformProperty';
+import { join } from '../transform';
 
 export default function transformAnimation(prop: AnimationProperty): string {
   return join(

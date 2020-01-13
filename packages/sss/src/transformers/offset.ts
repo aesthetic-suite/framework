@@ -1,5 +1,5 @@
 import { OffsetProperty } from '../types';
-import { divide, join } from '../transformProperty';
+import { divide, join } from '../transform';
 
 export default function transformOffset(prop: OffsetProperty): string {
   let part = join(prop.path, prop.distance || prop.rotate);

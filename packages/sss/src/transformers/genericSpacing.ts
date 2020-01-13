@@ -1,5 +1,5 @@
 import { MarginProperty, PaddingProperty } from '../types';
-import { join } from '../transformProperty';
+import { join } from '../transform';
 
 export default function transformGenericSpacing(prop: MarginProperty | PaddingProperty): string {
   if (prop.topBottom && prop.leftRight) {

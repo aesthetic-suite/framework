@@ -1,5 +1,5 @@
 import { BorderProperty, ColumnRuleProperty, OutlineProperty } from '../types';
-import { join } from '../transformProperty';
+import { join } from '../transform';
 
 export default function transformGenericStyle(
   prop: BorderProperty | ColumnRuleProperty | OutlineProperty,

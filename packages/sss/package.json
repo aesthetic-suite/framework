@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "aesthetic-utils": "^3.0.0",
-    "csstype": "^2.6.8"
+    "csstype": "^2.6.8",
+    "stylis": "^3.5.4"
   }
 }
