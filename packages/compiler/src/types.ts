@@ -12,6 +12,8 @@ import {
   ContrastLevel,
 } from '@aesthetic/system';
 
+export type PlatformType = 'android' | 'ios' | 'web';
+
 export type TargetType =
   | 'android'
   | 'ios'
@@ -37,9 +39,9 @@ export type ScaleType =
 
 export type Scale = number | ScaleType;
 
-export type SpacingType = 'unit' | 'vertical-rhythm';
-
 export type StrategyType = 'mobile-first' | 'desktop-first';
+
+// Borders
 
 export interface BorderConfig {
   radius: number;
@@ -48,7 +50,17 @@ export interface BorderConfig {
   widthScale: Scale;
 }
 
-export type BreakpointConfig = [number, number, number, number, number];
+// Breakpoints
+
+export type BreakpointListConfig = [number, number, number, number, number];
+
+export type BreakpointSizedConfig = {
+  [K in BreakpointSize]: number;
+};
+
+export type BreakpointConfig = BreakpointListConfig | BreakpointSizedConfig;
+
+// Shadows
 
 export interface ShadowConfig {
   blur: number;
@@ -61,38 +73,89 @@ export interface ShadowConfig {
   yScale: Scale;
 }
 
+// Spacing
+
+export type SpacingType = 'unit' | 'vertical-rhythm';
+
 export interface SpacingConfig {
   type: SpacingType;
   unit: number;
 }
 
-export interface TypographyConfig {
+// Typography
+
+export interface FontConfig {
+  text: string;
+  heading: string;
+  locale: { [locale: string]: string };
+}
+
+export interface ResponsiveScale {
+  responsiveScale: Scale;
+}
+
+export interface TextConfig {
   lineHeight: number;
-  lineHeightScale: Scale;
   size: number;
+}
+
+export interface TextScaledConfig extends TextConfig, ResponsiveScale {
+  lineHeightScale: Scale;
   sizeScale: Scale;
 }
 
+export interface TextSizedConfig extends ResponsiveScale {
+  small: TextConfig;
+  default: TextConfig;
+  large: TextConfig;
+}
+
+export interface HeadingConfig {
+  letterSpacing: number;
+  lineHeight: number;
+  size: number;
+}
+
+export interface HeadingScaledConfig extends HeadingConfig, ResponsiveScale {
+  letterSpacingScale: Scale;
+  lineHeightScale: Scale;
+  sizeScale: Scale;
+}
+
+export interface HeadingSizedConfig extends ResponsiveScale {
+  level1: HeadingConfig;
+  level2: HeadingConfig;
+  level3: HeadingConfig;
+  level4: HeadingConfig;
+  level5: HeadingConfig;
+  level6: HeadingConfig;
+}
+
+export interface TypographyConfig {
+  font: string | FontConfig;
+  text: TextScaledConfig | TextSizedConfig;
+  heading: HeadingScaledConfig | HeadingSizedConfig;
+}
+
 export interface DesignConfig {
-  borders: BorderConfig;
+  // borders: BorderConfig;
   breakpoints: BreakpointConfig;
   colors: string[];
-  shadows: ShadowConfig | ShadowConfig[];
+  // shadows: ShadowConfig | ShadowConfig[];
   spacing: SpacingConfig;
   strategy: StrategyType;
-  typography: {
-    fontFamily: string;
-    heading: TypographyConfig;
-    text: TypographyConfig;
-    responsiveScale: Scale;
-  };
+  typography: TypographyConfig;
 }
+
+// Colors
 
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
 export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
+
+// Palettes
 
 export interface PaletteConfigStates {
   base: string;
@@ -173,10 +236,12 @@ export interface DesignTemplate {
     [K in TextSize]: TypographyTemplate;
   };
   typography: {
-    fontFamily: string;
+    headingFont: string;
+    localeFonts: { [locale: string]: string };
     rootLineHeight: number;
     rootTextSize: number;
-    systemFontFamily: string;
+    systemFont: string;
+    textFont: string;
   };
 }
 

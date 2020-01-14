@@ -176,7 +176,7 @@ spacing:
 # Text and font related settings.
 typography:
   # Font family for the entire system. If not provided, defaults to the OS font.
-  fontFamily: 'Roboto'
+  font: 'Roboto'
 
   # Body text settings.
   text:
@@ -802,5 +802,6 @@ TODO
 
 # References
 
+- https://medium.com/eightshapes-llc/typography-in-design-systems-6ed771432f1e
 - [modular-scale](https://zellwk.com/blog/responsive-modular-scale/)
 - [type-scale](https://type-scale.com/)

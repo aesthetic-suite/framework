@@ -12,7 +12,23 @@ import optimal, {
   ObjectOf,
   Schema,
 } from 'optimal';
-import { ConfigFile, ColorConfig, ColorShade, Scale, ScaleType, SpacingType } from './types';
+import {
+  ConfigFile,
+  ColorConfig,
+  ColorShade,
+  Scale,
+  ScaleType,
+  SpacingType,
+  BreakpointConfig,
+  StrategyType,
+  BreakpointListConfig,
+  TypographyConfig,
+  PlatformType,
+  HeadingScaledConfig,
+  HeadingSizedConfig,
+  TextScaledConfig,
+  TextSizedConfig,
+} from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
 
 export function hexcode() {
@@ -33,6 +49,12 @@ export function unit(defaultValue: number = 0) {
 }
 
 export default class ConfigLoader {
+  platform: PlatformType;
+
+  constructor(platform: PlatformType) {
+    this.platform = platform;
+  }
+
   async load(filePath: string): Promise<ConfigFile> {
     const data = await fs.promises.readFile(filePath, 'utf8');
 
@@ -40,186 +62,301 @@ export default class ConfigLoader {
   }
 
   validate(config: DeepPartial<ConfigFile>): ConfigFile {
-    const shadowShape = shape({
-      blur: unit(2),
-      blurScale: scale('major-second'),
-      spread: unit(2),
-      spreadScale: scale('major-third'),
-      x: unit(0),
-      xScale: scale('major-third'),
-      y: unit(1),
-      yScale: scale('major-third'),
-    }).exact();
+    // @ts-ignore
+    return optimal(config, {
+      breakpoints: this.breakpoints(),
+      colors: this.colors(),
+      spacing: this.spacing(),
+      strategy: this.strategy(),
+      typography: this.typography(),
+    });
+  }
 
-    const typographyShape = shape({
+  protected breakpoints() {
+    const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
+
+    return union<BreakpointConfig>(
+      [
+        tuple<BreakpointListConfig>([unit(xs), unit(sm), unit(md), unit(lg), unit(xl)]),
+        shape({
+          xs: unit(xs),
+          sm: unit(sm),
+          md: unit(md),
+          lg: unit(lg),
+          xl: unit(xl),
+        }),
+      ],
+      DEFAULT_BREAKPOINTS,
+    );
+  }
+
+  protected colors() {
+    return array(
+      string()
+        .notEmpty()
+        .camelCase(),
+    )
+      .notEmpty()
+      .required();
+  }
+
+  protected spacing() {
+    return shape({
+      type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
+      unit: number(DEFAULT_UNIT),
+    }).exact();
+  }
+
+  protected strategy() {
+    return string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']);
+  }
+
+  protected typography() {
+    return shape({
+      font: union<TypographyConfig['font']>(
+        [
+          string(),
+          shape({
+            text: string(),
+            heading: string(),
+            locale: object(string()),
+          }),
+        ],
+        () => FONT_FAMILIES[this.platform],
+      ),
+      text: this.typographyText(),
+      heading: this.typographyHeading(),
+    }).exact();
+  }
+
+  protected typographyHeading() {
+    const headingScaled = shape<HeadingScaledConfig>({
+      letterSpacing: unit(0),
+      letterSpacingScale: scale(0),
       lineHeight: unit(1.25),
       lineHeightScale: scale('major-second'),
+      responsiveScale: scale('minor-second'),
       size: unit(16),
       sizeScale: scale('major-second'),
     }).exact();
 
-    return optimal(config, {
-      borders: shape({
-        radius: unit(3),
-        radiusScale: scale('perfect-fourth'),
-        width: unit(1),
-        widthScale: scale(0),
+    const headingSizes = shape<HeadingSizedConfig>({
+      level1: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
       }).exact(),
-      breakpoints: tuple([
-        unit(DEFAULT_BREAKPOINTS[0]),
-        unit(DEFAULT_BREAKPOINTS[1]),
-        unit(DEFAULT_BREAKPOINTS[2]),
-        unit(DEFAULT_BREAKPOINTS[3]),
-        unit(DEFAULT_BREAKPOINTS[4]),
-      ]),
-      colors: array(
-        string()
-          .notEmpty()
-          .camelCase(),
-      )
-        .notEmpty()
-        .required(),
-      shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
-      spacing: shape({
-        type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
-        unit: number(DEFAULT_UNIT),
+      level2: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
       }).exact(),
-      strategy: string('mobile-first').oneOf(['desktop-first', 'mobile-first']),
-      themes: object(
-        shape({
-          colors: object(
-            union(
-              [
-                hexcode(),
-                shape({
-                  '00': hexcode(),
-                  '10': hexcode(),
-                  '20': hexcode(),
-                  '30': hexcode(),
-                  '40': hexcode(),
-                  '50': hexcode(),
-                  '60': hexcode(),
-                  '70': hexcode(),
-                  '80': hexcode(),
-                  '90': hexcode(),
-                })
-                  .exact()
-                  .required(),
-              ],
-              '',
-            ),
-          )
-            .custom(this.validateThemeImplementsColors)
-            .required(),
-          contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
-          extends: string(),
-          palettes: shape({
-            danger: this.createPaletteBlueprint(),
-            info: this.createPaletteBlueprint(),
-            muted: this.createPaletteBlueprint(),
-            neutral: this.createPaletteBlueprint(),
-            primary: this.createPaletteBlueprint(),
-            secondary: this.createPaletteBlueprint(),
-            success: this.createPaletteBlueprint(),
-            tertiary: this.createPaletteBlueprint(),
-            warning: this.createPaletteBlueprint(),
-          })
-            .exact()
-            .required(),
-          scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-        }),
-      ),
-      typography: shape({
-        fontFamily: string(FONT_FAMILIES['web-system']).notEmpty(),
-        heading: typographyShape,
-        text: typographyShape,
-        responsiveScale: scale('minor-second'),
+      level3: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
       }).exact(),
-    });
-  }
-
-  protected createPaletteBlueprint() {
-    const color = () => string().custom(this.validatePaletteColorReference);
-
-    const state = () =>
-      shape({
-        base: color().required(),
-        disabled: color(),
-        focused: color(),
-        hovered: color(),
-        selected: color(),
-      })
-        .exact()
-        .required();
-
-    return shape({
-      bg: state(),
-      fg: state(),
-    })
-      .exact()
-      .required();
-  }
-
-  protected validateThemeImplementsColors = (
-    colors: ObjectOf<string | ColorConfig>,
-    schema: Schema<ConfigFile>,
-  ) => {
-    const names = new Set<string>(schema.struct.colors);
-    const unknown = new Set<string>();
-
-    Object.keys(colors).forEach(color => {
-      if (names.has(color)) {
-        names.delete(color);
-      } else {
-        unknown.add(color);
-      }
+      level4: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
+      }).exact(),
+      level5: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
+      }).exact(),
+      level6: shape({
+        letterSpacing: unit(0),
+        lineHeight: unit(1.25),
+        size: unit(14),
+      }).exact(),
+      responsiveScale: scale('minor-second'),
     });
 
-    if (names.size > 0) {
-      throw new Error(
-        `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
-      );
-    }
+    return union<TypographyConfig['heading']>(
+      [headingScaled, headingSizes],
+      headingScaled.default(),
+    );
+  }
 
-    if (unknown.size > 0) {
-      throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
-    }
-  };
+  protected typographyText() {
+    const textScaled = shape<TextScaledConfig>({
+      lineHeight: unit(1.25),
+      lineHeightScale: scale('major-second'),
+      responsiveScale: scale('minor-second'),
+      size: unit(16),
+      sizeScale: scale('major-second'),
+    }).exact();
 
-  protected validatePaletteColorReference = (ref: string, schema: Schema<ConfigFile>) => {
-    const colors = schema.struct.colors!;
+    const textSizes = shape<TextSizedConfig>({
+      small: shape({
+        lineHeight: unit(1.25),
+        size: unit(14),
+      }).exact(),
+      default: shape({
+        lineHeight: unit(1.25),
+        size: unit(16),
+      }).exact(),
+      large: shape({
+        lineHeight: unit(1.25),
+        size: unit(18),
+      }).exact(),
+      responsiveScale: scale('minor-second'),
+    });
 
-    if (!ref) {
-      return;
-    }
+    return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());
+  }
 
-    // Hue + shade: black.10
-    if (ref.includes('.')) {
-      const [hue, shade] = ref.split('.') as [string, ColorShade];
-      // @ts-ignore TODO
-      const config: string | ColorConfig = colors[hue];
+  // validateOld(config: DeepPartial<ConfigFile>): ConfigFile {
+  //   const shadowShape = shape({
+  //     blur: unit(2),
+  //     blurScale: scale('major-second'),
+  //     spread: unit(2),
+  //     spreadScale: scale('major-third'),
+  //     x: unit(0),
+  //     xScale: scale('major-third'),
+  //     y: unit(1),
+  //     yScale: scale('major-third'),
+  //   }).exact();
 
-      if (typeof config === 'string') {
-        throw new TypeError(
-          `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
-        );
-      } else if (!config || !config[shade]) {
-        throw new Error(`Invalid color reference, "${ref}" does not exist.`);
-      }
+  //   return optimal(config, {
+  //     borders: shape({
+  //       radius: unit(3),
+  //       radiusScale: scale('perfect-fourth'),
+  //       width: unit(1),
+  //       widthScale: scale(0),
+  //     }).exact(),
+  //     shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
+  //     themes: object(
+  //       shape({
+  //         colors: object(
+  //           union(
+  //             [
+  //               hexcode(),
+  //               shape({
+  //                 '00': hexcode(),
+  //                 '10': hexcode(),
+  //                 '20': hexcode(),
+  //                 '30': hexcode(),
+  //                 '40': hexcode(),
+  //                 '50': hexcode(),
+  //                 '60': hexcode(),
+  //                 '70': hexcode(),
+  //                 '80': hexcode(),
+  //                 '90': hexcode(),
+  //               })
+  //                 .exact()
+  //                 .required(),
+  //             ],
+  //             '',
+  //           ),
+  //         )
+  //           .custom(this.validateThemeImplementsColors)
+  //           .required(),
+  //         contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
+  //         extends: string(),
+  //         palettes: shape({
+  //           danger: this.createPaletteBlueprint(),
+  //           info: this.createPaletteBlueprint(),
+  //           muted: this.createPaletteBlueprint(),
+  //           neutral: this.createPaletteBlueprint(),
+  //           primary: this.createPaletteBlueprint(),
+  //           secondary: this.createPaletteBlueprint(),
+  //           success: this.createPaletteBlueprint(),
+  //           tertiary: this.createPaletteBlueprint(),
+  //           warning: this.createPaletteBlueprint(),
+  //         })
+  //           .exact()
+  //           .required(),
+  //         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+  //       }),
+  //     ),
+  //   });
+  // }
 
-      return;
-    }
+  // protected createPaletteBlueprint() {
+  //   const color = () => string().custom(this.validatePaletteColorReference);
 
-    // Hue w/ no shade: black
-    // @ts-ignore TODO
-    const config: string | ColorConfig = colors[ref];
+  //   const state = () =>
+  //     shape({
+  //       base: color().required(),
+  //       disabled: color(),
+  //       focused: color(),
+  //       hovered: color(),
+  //       selected: color(),
+  //     })
+  //       .exact()
+  //       .required();
 
-    if (config && typeof config !== 'string') {
-      throw new Error(
-        `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
-      );
-    } else if (!config) {
-      throw new Error(`Invalid color reference, "${ref}" does not exist.`);
-    }
-  };
+  //   return shape({
+  //     bg: state(),
+  //     fg: state(),
+  //   })
+  //     .exact()
+  //     .required();
+  // }
+
+  // protected validateThemeImplementsColors = (
+  //   colors: ObjectOf<string | ColorConfig>,
+  //   schema: Schema<ConfigFile>,
+  // ) => {
+  //   const names = new Set<string>(schema.struct.colors);
+  //   const unknown = new Set<string>();
+
+  //   Object.keys(colors).forEach(color => {
+  //     if (names.has(color)) {
+  //       names.delete(color);
+  //     } else {
+  //       unknown.add(color);
+  //     }
+  //   });
+
+  //   if (names.size > 0) {
+  //     throw new Error(
+  //       `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
+  //     );
+  //   }
+
+  //   if (unknown.size > 0) {
+  //     throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
+  //   }
+  // };
+
+  // protected validatePaletteColorReference = (ref: string, schema: Schema<ConfigFile>) => {
+  //   const colors = schema.struct.colors!;
+
+  //   if (!ref) {
+  //     return;
+  //   }
+
+  //   // Hue + shade: black.10
+  //   if (ref.includes('.')) {
+  //     const [hue, shade] = ref.split('.') as [string, ColorShade];
+  //     // @ts-ignore TODO
+  //     const config: string | ColorConfig = colors[hue];
+
+  //     if (typeof config === 'string') {
+  //       throw new TypeError(
+  //         `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
+  //       );
+  //     } else if (!config || !config[shade]) {
+  //       throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+  //     }
+
+  //     return;
+  //   }
+
+  //   // Hue w/ no shade: black
+  //   // @ts-ignore TODO
+  //   const config: string | ColorConfig = colors[ref];
+
+  //   if (config && typeof config !== 'string') {
+  //     throw new Error(
+  //       `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
+  //     );
+  //   } else if (!config) {
+  //     throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+  //   }
+  // };
 }

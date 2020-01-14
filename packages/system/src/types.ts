@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import { DeclarationBlock } from '@aesthetic/sss';
 
 export type Unit = string;
@@ -14,7 +12,7 @@ export type ColorScheme = 'dark' | 'light';
 
 export type ContrastLevel = 'normal' | 'high' | 'low';
 
-export type HeadingSize = 1 | 2 | 3 | 4 | 5 | 6;
+export type HeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
 
 export type LayerType =
   | 'none'

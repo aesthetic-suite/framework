@@ -1,5 +1,8 @@
 # Summary
 
+- Design System
+  - Install & setup
+  - [Configuration](./config.md)
 - Legacy
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)
