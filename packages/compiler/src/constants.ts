@@ -25,15 +25,19 @@ export const FONT_FAMILIES = {
 
 export const HEADING_LEVELS: number[] = [1, 2, 3, 4, 5, 6];
 
-export const LAYERS: { [K in LayerType]: number } = {
-  none: 0,
+export const LAYERS: { [K in LayerType]: string | number } = {
+  auto: 'auto',
+  hide: -1,
+  base: 0,
   content: 100,
   navigation: 1000,
   menu: 1100,
   sheet: 1200,
-  modal: 1300,
-  toast: 1400,
-  tooltip: 1500,
+  overlay: 1300,
+  modal: 1400,
+  popover: 1500,
+  toast: 1600,
+  tooltip: 1700,
 };
 
 export const LAYER_LEVELS = Object.keys(LAYERS);

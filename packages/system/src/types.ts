@@ -15,12 +15,16 @@ export type ContrastLevel = 'normal' | 'high' | 'low';
 export type HeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
 
 export type LayerType =
-  | 'none'
+  | 'hide'
+  | 'auto'
+  | 'base'
   | 'content'
   | 'navigation'
   | 'menu'
   | 'sheet'
+  | 'overlay'
   | 'modal'
+  | 'popover'
   | 'toast'
   | 'tooltip';
 

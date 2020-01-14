@@ -670,12 +670,61 @@ Guidelines:
 
 ### Directionality (RTL)
 
-TODO
+For the most part, directionality in CSS automatically happens based on the `dir` HTML attribute, or
+the CSS `direction` property. When either of these are set to `rtl`, all children text and flow
+content will be reversed. However, for properties that are hard-coded to the left or right
+(`margin-left` vs `margin-right`), additional code will need to be implemented to handle this.
 
 Guidelines:
 
 - Direction attribute `dir` will be set on the root `html`, and any block that contains nested
   directional changes.
+
+#### CSS
+
+For standard CSS, additional declarations will need to be defined to handle layout reversing, using
+a parent `[dir='rtl']` selector (should work for nested direction changes caused by a parent). If
+using Less or Sass, the RTL variant can be handled through mixins, like `.mixin-rtl` or `@mixin rtl`
+respectively.
+
+```css
+.box {
+  border-left: 1px solid black;
+  margin-left: 10px;
+}
+
+[dir='rtl'] .box {
+  border-left: 0;
+  border-right: 1px solid black;
+  margin-left: 0;
+  margin-right: 10px;
+}
+```
+
+In the future (once IE and Edge catch up), the new
+[logical properties and values](https://drafts.csswg.org/css-logical/#propdef-margin-inline-end) can
+be used, which would streamline this entire process. The above code would now become:
+
+```css
+.box {
+  border-inline-start: 1px solid black;
+  margin-inline-start: 10px;
+}
+```
+
+This is possible since the nomenclature of `left` and `right` does not exist anymore. Instead we
+have `start` and `end`, which change depending on the direction and orientation.
+
+#### CSS-in-JS
+
+For the most part, all CSS-in-JS solutions should be using
+[rtl-css-js](https://github.com/kentcdodds/rtl-css-js), which renames `left` to `right`, and vice
+versa. Direction changes would trigger a re-compilation of all styles to support the new RTL
+properties.
+
+#### Native
+
+TODO
 
 ### Color scheme variants
 
@@ -787,7 +836,77 @@ TODO
 
 ### Low/high contrast
 
-TODO
+Like color schemes, theres a new
+[media query specification](https://drafts.csswg.org/mediaqueries-5/#prefers-contrast) for contrast
+levels, where a user can prefer low or high contrast colors. Also like color schemes, contrast is
+first class in the design system, as they are coupled to themes through the `contrast` setting,
+which accepts "high", "low", or "normal" (the default).
+
+In the Aesthetic world, to properly support low or high contrast colors, they must be their own
+theme with custom colors, preferrably by extending a base theme.
+
+```yaml
+themes:
+  # Base night theme for normal contrast
+  night:
+    scheme: dark
+    colors:
+      # ...
+  # High contrast variant of base night theme
+  nightHighContrast:
+    extends: night
+    contrast: high
+    colors:
+      # Higher contrast colors defined here
+```
+
+#### CSS
+
+Contrast based themes can be enabled just like color schemes, by using a media query when linking.
+
+```html
+<link href="themes/day.css" rel="stylesheet" media="screen and (prefers-color-scheme: light)" />
+<link
+  href="themes/day-low-contrast.css"
+  rel="stylesheet"
+  media="screen and (prefers-color-scheme: light) and (prefers-contrast: low)"
+/>
+```
+
+For inline or one-off overrides, the `@media` block can be used. We suggest _against this approach_,
+as colors would then be hard-coded in CSS, and not provided by the theme or CSS variables.
+
+```css
+.button {
+  background-color: var(--primary-bg-base);
+}
+
+@media screen and (prefers-contrast: high) {
+  .button {
+    background-color: var(--secondary-bg-base);
+  }
+}
+```
+
+#### CSS-in-JS
+
+When using the new `StyleSheet#addContrastVariant()` API, variant styles will only apply when the
+browser or device request a different contrast level. For the most part, this API should not be
+used, as contrast themes are preferred.
+
+```ts
+const styleSheet = createStyleSheet(({ palette }) => ({
+  button: {
+    border: `1px solid ${palette.primary.bg.base}`,
+    backgroundColor: palette.primary.bg.base,
+    color: palette.neutral.fg.base,
+  },
+})).addContrastVariant('high', ({ palette }) => ({
+  button: {
+    borderColor: lighten(palette.primary.bg.base),
+  },
+}));
+```
 
 ### Motion
 
