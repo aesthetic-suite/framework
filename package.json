@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@milesj/build-tools": "^1.0.1",
+    "@types/ejs": "^3.0.0",
     "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/js-yaml": "^3.11.1",
@@ -82,8 +83,5 @@
   ],
   "browserslist": [
     "ie 11"
-  ],
-  "dependencies": {
-    "@types/ejs": "^3.0.0"
-  }
+  ]
 }
