@@ -35,7 +35,17 @@ export type ScaleType =
   | 'perfect-fourth'
   | 'augmented-fourth'
   | 'perfect-fifth'
-  | 'golden-ratio';
+  | 'minor-sixth'
+  | 'major-sixth'
+  | 'minor-seventh'
+  | 'major-seventh'
+  | 'major-tenth'
+  | 'major-eleventh'
+  | 'major-twelfth'
+  | 'octave'
+  | 'double-octave'
+  | 'golden-ratio'
+  | 'golden-section';
 
 export type Scale = number | ScaleType;
 

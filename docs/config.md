@@ -6,7 +6,22 @@ TODO
 
 ### Scaling Patterns
 
-TODO
+A good portion of the configuration is based on [modular scale][modular-scale]
+([more info](https://alistapart.com/article/more-meaningful-typography/)), as it calculates and
+provides optimal proportions for layout and typography automaticaly. This removes the burden from
+designers and developers.
+
+Settings that support scaling will always have a sibling setting of the same name, suffixed with
+`Scale`. Scales require either a float to use as an explicit ratio, or a kebab-cased string that
+maps to a common ratio, like `golden-ratio`.
+
+```yaml
+# Floats
+sizeScale: 1.25
+
+# Strings
+sizeScale: major-fourth
+```
 
 ## Strategy
 
@@ -132,17 +147,19 @@ typography:
 
 ### Text
 
-The `typography.text` settings control both the body and paragraph text of the application, and
-spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes -- small,
-normal (default), and large -- and can be configured using a scaled format with
+The `typography.text` settings control both the body and paragraph text of the application, aswell
+as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
+small, normal (default), and large -- and can be configured using a scaled format with
 [TypeScale][type-scale], or with an explicit per size format.
 
-The scaled approach will use the scale properties to calculate small and large sizes automatically,
-so the values configured should be the default text size (normal).
+The scaled approach will use scale equivalent settings to calculate small and large sizes, with the
+starting point being the middle, and going outwards. The values configured should be the default
+text size (normal).
 
 ```yaml
 typography:
   text:
+    # Normal
     size: 16
     sizeScale: 1.25
     lineHeight: 1.25
@@ -167,8 +184,105 @@ typography:
 
 ### Headings
 
-TODO
+Headings work in a similar fashion to text, but are focused on heading and title based text that
+lead a section of the page. There are 6 levels of heading, with level 1 being the largest, and 6
+being the smallest (very similar to `h1`-`h6` HTML tags).
+
+The `typography.heading` setting shares the same settings from text, with the addition of letter
+spacing, and per level configuration (instead of per size).
+
+When using the scaled approach, the settings should be configured for level 6, as 5-1 will be
+automatically calculated based on the scaling factor.
+
+```yaml
+typography:
+  heading:
+    # Level 6
+    size: 16
+    sizeScale: major-third
+    lineHeight: 1.5
+    lineHeightScale: 0
+    letterSpacing: 0.5
+    letterSpacingScale: 0.1
+```
+
+For the explicit approach, define an object with `level*` named properties.
+
+```yaml
+typography:
+  heading:
+    level1:
+      size: 48
+      lineHeight: 1.75
+      letterSpacing: 1
+    level2:
+      size: 40
+      lineHeight: 1.7
+      letterSpacing: 0.95
+    level3:
+      size: 32
+      lineHeight: 1.6
+      letterSpacing: 0.85
+    level4:
+      size: 24
+      lineHeight: 1.5
+      letterSpacing: 0.75
+    level5:
+      size: 20
+      lineHeight: 1.5
+      letterSpacing: 0.5
+    level6:
+      size: 16
+      lineHeight: 1.5
+      letterSpacing: 0.5
+```
+
+### Responsive Scaling
+
+Also known as fluid typography, responsive scaling is the concept of modifying the root font size
+automatically for each breakpoint. When targeting mobile first, the font size will increase so that
+text is legible on desktop viewports, while desktop first will decrease the font size for mobile
+viewports.
+
+Responsive text uses [type scaling][type-scale] under the hood. Because of this, explicit font sizes
+configurations for each breakpoint is not supported.
+
+There are multiple ways to enable responsive scaling, all of which depend on how text and headings
+above are configured. When scaling, a `responsiveScale` setting can be included.
+
+```yaml
+typography:
+  text:
+    size: # ...
+    sizeScale: # ...
+    responsiveScale: major-second
+  heading:
+    size: # ...
+    sizeScale: # ...
+    responsiveScale: minor-third
+```
+
+When using the explicit approach, the `responsiveScale` setting must be included at the root of the
+map, instead of within each item.
+
+```yaml
+typography:
+  text:
+    small: # ...
+    default: # ...
+    large: # ...
+    responsiveScale: 1.125
+  heading:
+    level1: # ...
+    level2: # ...
+    level3: # ...
+    level4: # ...
+    level5: # ...
+    level6: # ...
+    responsiveScale: 1.2
+```
 
 [ios-responsive]:
   https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
-[type-scale]: https://type-scale.com/
+[modular-scale]: https://www.modularscale.com
+[type-scale]: https://type-scale.com

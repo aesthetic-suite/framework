@@ -112,17 +112,19 @@ export default class ConfigLoader {
   }
 
   protected typography() {
+    const defaultValue = () => FONT_FAMILIES[this.platform];
+
     return shape({
       font: union<TypographyConfig['font']>(
         [
           string(),
           shape({
-            text: string(),
-            heading: string(),
+            text: string(defaultValue),
+            heading: string(defaultValue),
             locale: object(string()),
           }),
         ],
-        () => FONT_FAMILIES[this.platform],
+        defaultValue,
       ),
       text: this.typographyText(),
       heading: this.typographyHeading(),

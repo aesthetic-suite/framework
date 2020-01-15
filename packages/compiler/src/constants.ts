@@ -64,11 +64,21 @@ export const PLATFORM_CONFIGS = {
 // https://type-scale.com
 export const SCALES: { [K in ScaleType]: number } = {
   'augmented-fourth': 1.414,
+  'double-octave': 4,
   'golden-ratio': 1.618,
+  'golden-section': 1.618,
   'major-second': 1.125,
   'major-third': 1.25,
+  'major-sixth': 1.667,
+  'major-seventh': 1.875,
+  'major-tenth': 2.5,
+  'major-eleventh': 2.667,
+  'major-twelfth': 3,
   'minor-second': 1.067,
   'minor-third': 1.2,
+  'minor-sixth': 1.6,
+  'minor-seventh': 1.778,
+  octave: 2,
   'perfect-fifth': 1.5,
   'perfect-fourth': 1.333,
 };
