@@ -5,7 +5,8 @@
 
 import Design from './Design';
 import Theme from './Theme';
+import ThemeRegistry from './ThemeRegistry';
 
 export * from './types';
 
-export { Design, Theme };
+export { Design, Theme, ThemeRegistry };

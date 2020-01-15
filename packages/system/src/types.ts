@@ -159,6 +159,11 @@ export interface ThemeOptions {
   scheme: ColorScheme;
 }
 
+export interface QueryParams {
+  contrast?: ContrastLevel;
+  scheme?: ColorScheme;
+}
+
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
     ? DeepPartial<U>[]
