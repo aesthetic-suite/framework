@@ -4,7 +4,7 @@ export type Unit = string;
 
 export type Hexcode = string;
 
-export type BorderSize = 'sm' | 'base' | 'lg';
+export type BorderSize = 'sm' | 'df' | 'lg';
 
 export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -41,9 +41,9 @@ export type PaletteType =
 
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type SpacingSize = 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl';
+export type SpacingSize = 'xs' | 'sm' | 'df' | 'md' | 'lg' | 'xl';
 
-export type TextSize = 'sm' | 'base' | 'lg';
+export type TextSize = 'sm' | 'df' | 'lg';
 
 // TOKENS
 

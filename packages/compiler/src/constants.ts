@@ -8,7 +8,7 @@ import {
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
-export const BORDER_SIZES: BorderSize[] = ['sm', 'base', 'lg'];
+export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
 
 export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
@@ -85,6 +85,6 @@ export const SCALES: { [K in ScaleType]: number } = {
 
 export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
-export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'base', 'md', 'lg', 'xl'];
+export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'md', 'lg', 'xl'];
 
-export const TEXT_SIZES: TextSize[] = ['sm', 'base', 'lg'];
+export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];

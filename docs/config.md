@@ -1,15 +1,27 @@
 # Configuration
 
+TODO
+
 ### Unitless Values
 
-TODO
+All configuration settings that require a unit based value (px, pt, sp, etc) must be defined using a
+unitless number. During the compilation phase, this value will be calculated according to the
+platform and target, and output with the required unit type suffix.
+
+When configuring, assume a unit based on the following table.
+
+| Platform | Spacing | Typography |
+| -------- | ------- | ---------- |
+| Android  | `dp`    | `sp`       |
+| iOS      | `pt`    | `pt`       |
+| Web      | `px`    | `px`       |
 
 ### Scaling Patterns
 
-A good portion of the configuration is based on [modular scale][modular-scale]
-([more info](https://alistapart.com/article/more-meaningful-typography/)), as it calculates and
-provides optimal proportions for layout and typography automaticaly. This removes the burden from
-designers and developers.
+A good portion of the configuration provides an automatic scaling mechanism, based on [modular
+scale][modular-scale] ([more info](https://alistapart.com/article/more-meaningful-typography/)).
+This mechanism calculates and provides optimal proportions for layout and typography automatically,
+which removes the burden from designers and developers.
 
 Settings that support scaling will always have a sibling setting of the same name, suffixed with
 `Scale`. Scales require either a float to use as an explicit ratio, or a kebab-cased string that
@@ -47,9 +59,9 @@ sorted from lowest to highest, and reversed for "desktop-first". This ensures th
 specificity takes place.
 
 The `breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in either a
-list or object format, with values being a unitless integer. On the web, these values will be
-converted to `em` values, while Android uses `dp`, and [ignored by iOS][ios-responsive]. By default,
-the setting is configured to the values in the example below.
+list or object format, with values being a [unit](#unitless-values). On the web, these values will
+be converted to `em` values, while Android uses `dp`, and [ignored by iOS][ios-responsive]. By
+default, the setting is configured to the values in the example below.
 
 ```yaml
 # List
@@ -82,8 +94,8 @@ choose the best for your application. Only 1 type may be chosen.
 
 ### Unit Based
 
-Uses an explicit platform dependent unit to calculate with -- uses `px` for web, `dp` for Android,
-and `pt` for iOS. When using this type, the `spacing.unit` setting must also be defined.
+Uses an explicit platform dependent [unit](#unitless-values) to calculate with. When using this
+type, the `spacing.unit` setting must also be defined.
 
 ```yaml
 spacing:
@@ -149,12 +161,11 @@ typography:
 
 The `typography.text` settings control both the body and paragraph text of the application, aswell
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
-small, normal (default), and large -- and can be configured using a scaled format with
-[TypeScale][type-scale], or with an explicit per size format.
+small, normal (default), and large -- and can be configured using a scaled format, or with an
+explicit per size format.
 
-The scaled approach will use scale equivalent settings to calculate small and large sizes, with the
-starting point being the middle, and going outwards. The values configured should be the default
-text size (normal).
+The scaled approach will use scale equivalent settings to calculate small and large sizes, with
+default being the middle, and going outwards. The values configured should be the default text size.
 
 ```yaml
 typography:
@@ -178,7 +189,7 @@ typography:
       size: 16
       lineHeight: 1.25
     large:
-      size: 16
+      size: 18
       lineHeight: 1.5
 ```
 
@@ -192,7 +203,7 @@ The `typography.heading` setting shares the same settings from text, with the ad
 spacing, and per level configuration (instead of per size).
 
 When using the scaled approach, the settings should be configured for level 6, as 5-1 will be
-automatically calculated based on the scaling factor.
+automatically calculated based on the scaling factor (going upwards).
 
 ```yaml
 typography:
@@ -286,3 +297,9 @@ typography:
   https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
 [modular-scale]: https://www.modularscale.com
 [type-scale]: https://type-scale.com
+
+## Borders
+
+> Platforms: Android, iOS, Web
+
+TODO

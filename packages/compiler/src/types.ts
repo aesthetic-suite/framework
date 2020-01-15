@@ -55,10 +55,17 @@ export type StrategyType = 'mobile-first' | 'desktop-first';
 
 export interface BorderConfig {
   radius: number;
-  radiusScale: Scale;
   width: number;
+}
+
+export interface BorderScaledConfig extends BorderConfig {
+  radiusScale: Scale;
   widthScale: Scale;
 }
+
+export type BorderSizedConfig = {
+  [K in BorderSize]: BorderConfig;
+};
 
 // Breakpoints
 
@@ -148,7 +155,7 @@ export interface TypographyConfig {
 }
 
 export interface DesignConfig {
-  // borders: BorderConfig;
+  borders: BorderScaledConfig | BorderSizedConfig;
   breakpoints: BreakpointConfig;
   colors: string[];
   // shadows: ShadowConfig | ShadowConfig[];

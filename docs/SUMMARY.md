@@ -3,6 +3,8 @@
 - Design System
   - Install & setup
   - [Configuration](./config.md)
+- Structured Style Sheets
+  - TODO
 - Legacy
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)
