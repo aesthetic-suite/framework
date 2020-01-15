@@ -1,11 +1,11 @@
 # Summary
 
-- Design System
+- [Design System](./README.md)
   - Install & setup
-  - [Configuration](./config.md)
+  - [Configuration](./system/config.md)
 - Structured Style Sheets
   - TODO
-- Legacy
+- [Legacy](./README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)
   - [Styling Components](./legacy/style.md)

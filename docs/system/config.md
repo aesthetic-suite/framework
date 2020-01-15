@@ -1,12 +1,16 @@
 # Configuration
 
-TODO
+The design system is configured in human and machine readable format known as
+[YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
+platforms, programming languages, and is easily accessible for both designers and developers.
 
-### Unitless Values
+Before we dive into all configurable settings, a few must know concepts are described below.
 
-All configuration settings that require a unit based value (px, pt, sp, etc) must be defined using a
-unitless number. During the compilation phase, this value will be calculated according to the
-platform and target, and output with the required unit type suffix.
+### Unitless values
+
+All configuration settings that require a unit based value (`px`, `pt`, `sp`, etc) must be defined
+using a unitless number. During the compilation phase, this unitless value will be calculated
+according to the platform and target, and output with the required unit suffix.
 
 When configuring, assume a unit based on the following table.
 
@@ -16,16 +20,16 @@ When configuring, assume a unit based on the following table.
 | iOS      | `pt`    | `pt`       |
 | Web      | `px`    | `px`       |
 
-### Scaling Patterns
+### Scaling patterns
 
-A good portion of the configuration provides an automatic scaling mechanism, based on [modular
+A good portion of the configuration provides an automatic scaling alternative, based on [modular
 scale][modular-scale] ([more info](https://alistapart.com/article/more-meaningful-typography/)).
-This mechanism calculates and provides optimal proportions and density automatically, which
-alleviates the burden from designers and developers.
+This alternative calculates, measures, and provides optimal proportions and density automatically,
+which alleviates the burden from designers and developers.
 
 Settings that support scaling will always have a sibling setting of the same name, suffixed with
-`Scale`. Scales require either a float to use as an explicit ratio, or a kebab-cased string that
-maps to a common ratio, like `golden-ratio`.
+`Scale`. Scale values are either a float that defines an explicit ratio, or a kebab-cased string
+that maps to a common ratio name, like `golden-ratio`.
 
 ```yaml
 # Floats
@@ -35,8 +39,8 @@ sizeScale: 1.25
 sizeScale: major-fourth
 ```
 
-> If you want to use scaling for a specific setting, but not an individual property, pass `0` as the
-> scale ratio.
+> If you want to use scaling for a specific setting group, but not an individual setting, pass `0`
+> as the scale ratio.
 
 ## Responsive
 
@@ -60,15 +64,15 @@ responsive:
 
 > Platforms: Android, Web
 
-Breakpoints integrate with the strategy above to provide responsive and adaptive support, based on
-the device viewport and orientation. When `responsive.strategy` is "mobile-first", the breakpoints
-will be sorted from lowest to highest, and reversed for "desktop-first". This ensures the correct
+Breakpoints integrate with the strategy above to provide responsive support, based on the device
+viewport and orientation. When `responsive.strategy` is "mobile-first", the breakpoints will be
+sorted from lowest to highest, and reversed for "desktop-first". This ensures the correct
 specificity takes place.
 
 The `responsive.breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in
-either a list or object format, with values being a [unit](#unitless-values). On the web, these
-values will be converted to `em` values, while Android uses `dp`, and [ignored by
-iOS][ios-responsive]. By default, the setting is configured to the values in the example below.
+either a list or map, with values being a [unit](#unitless-values). On the web, these values will be
+converted to `em` values, while Android uses `dp`, and [ignored by iOS][ios-responsive]. By default,
+the setting is configured to the values in the example below.
 
 ```yaml
 # List
@@ -101,7 +105,7 @@ Android uses `dp`, and iOS uses `pt`.
 There are many types of spacing calculations to choose from, each with their own pros and cons, so
 choose the best for your application. Only 1 type may be chosen.
 
-### Unit Based
+### Unit based
 
 Uses an explicit platform dependent [unit](#unitless-values) to calculate with. When using this
 type, the `spacing.unit` setting must also be defined.
@@ -112,7 +116,7 @@ spacing:
   unit: 8
 ```
 
-### Vertical Rhythm
+### Vertical rhythm
 
 A concept from print typography where the spacing between elements are consistent. The rhythm unit
 is based on the sum of `font size * line height` (using `typography` settings).
@@ -186,7 +190,7 @@ typography:
     lineHeightScale: 0
 ```
 
-Otherwise, the settings can be explicitly defined for each size using an object.
+Otherwise, the settings can be explicitly defined for each size using a map.
 
 ```yaml
 typography:
@@ -226,7 +230,7 @@ typography:
     letterSpacingScale: 0.1
 ```
 
-For the explicit approach, define an object with `level*` named properties.
+For the explicit approach, define a map with `level*` named properties.
 
 ```yaml
 typography:
@@ -257,7 +261,7 @@ typography:
       letterSpacing: 0.5
 ```
 
-### Responsive Scaling
+### Responsive scaling
 
 Also known as fluid typography, responsive scaling is the concept of modifying the root font size
 automatically for each breakpoint. When targeting mobile first, the font size will increase so that
@@ -311,23 +315,23 @@ typography:
 
 > Platforms: Android, iOS, Web
 
-The `borders` setting controls all borders throughout the system, and comes in 3 sizes: small,
-default, and large. At the moment, only width and radius (corner rounding) are configured here,
-while the color is configured in the neutral theme palette.
+The `borders` setting controls all borders and comes in 3 sizes: small, default, and large. At the
+moment, only width and radius (corner rounding) are configured here, while the color is configured
+in the neutral theme palette.
 
 Like other settings, borders can be configured with scaling or explicit values. Scaled borders are
 calculated from the inside out, with default as the middle, and small and large as the edges.
 
 ```yaml
-# Default
 borders:
+  # Default
   radius: 3
   radiusScale: 1.5
   width: 1
   widthScale: 2
 ```
 
-Use an object of sizes for explicit values.
+Or use a size map for explicit values.
 
 ```yaml
 borders:
