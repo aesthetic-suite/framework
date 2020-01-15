@@ -12,6 +12,7 @@ import {
   Properties,
   LocalBlock,
   FallbackProperties,
+  NestedBlockParams,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -76,7 +77,7 @@ export default abstract class Parser<T extends object> {
   ) {
     if (__DEV__) {
       if (!isObject(object)) {
-        throw new Error(`${type} must be an object of queries to declarations.`);
+        throw new Error(`@${type} must be an object of queries or conditions to declarations.`);
       }
     }
 
@@ -187,10 +188,17 @@ export default abstract class Parser<T extends object> {
     }
 
     const block = this.parseLocalBlock(new Block(selector), object);
+    let specificity = 0;
 
     selector.split(',').forEach(k => {
-      const name = k.trim();
+      let name = k.trim();
       let type = 'block:selector';
+
+      // Capture specificity
+      while (name.charAt(0) === '&') {
+        specificity += 1;
+        name = name.slice(1);
+      }
 
       if (selector.charAt(0) === ':') {
         type = 'block:pseudo';
@@ -198,7 +206,7 @@ export default abstract class Parser<T extends object> {
         type = 'block:attribute';
       }
 
-      this.emit(type as 'block:selector', parent, name, block.clone(name));
+      this.emit(type as 'block:selector', parent, name, block.clone(name), { specificity });
     });
   }
 
@@ -235,16 +243,23 @@ export default abstract class Parser<T extends object> {
    * Execute the defined event listener with the arguments.
    */
   emit(
-    name: 'block:attribute' | 'block:media' | 'block:pseudo' | 'block:selector' | 'block:supports',
+    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
     parent: Block<T>,
     key: string,
     value: Block<T>,
+    params: NestedBlockParams,
   ): void;
   emit(
     name: 'block:fallback' | 'block:property',
     parent: Block<T>,
     key: string,
     value: unknown,
+  ): void;
+  emit(
+    name: 'block:media' | 'block:supports',
+    parent: Block<T>,
+    key: string,
+    value: Block<T>,
   ): void;
   emit(name: 'block' | 'global' | 'page' | 'viewport', block: Block<T>): void;
   emit(name: 'charset' | 'class', charset: string): void;
@@ -272,7 +287,11 @@ export default abstract class Parser<T extends object> {
    * Register an event listener.
    */
   on(
-    name: 'block:attribute' | 'block:media' | 'block:pseudo' | 'block:selector' | 'block:supports',
+    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
+    callback: (parent: Block<T>, name: string, value: Block<T>, params: NestedBlockParams) => void,
+  ): this;
+  on(
+    name: 'block:media' | 'block:supports',
     callback: (parent: Block<T>, name: string, value: Block<T>) => void,
   ): this;
   on(

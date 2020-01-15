@@ -267,3 +267,7 @@ export type GlobalStyleSheetNeverize<T> = {
 // MISC
 
 export type AtRule = LocalAtRule | GlobalAtRule;
+
+export interface NestedBlockParams {
+  specificity: number;
+}
