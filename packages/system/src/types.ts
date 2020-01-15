@@ -29,6 +29,7 @@ export type LayerType =
   | 'tooltip';
 
 export type PaletteType =
+  | 'brand'
   | 'primary'
   | 'secondary'
   | 'tertiary'

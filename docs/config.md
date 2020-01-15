@@ -20,8 +20,8 @@ When configuring, assume a unit based on the following table.
 
 A good portion of the configuration provides an automatic scaling mechanism, based on [modular
 scale][modular-scale] ([more info](https://alistapart.com/article/more-meaningful-typography/)).
-This mechanism calculates and provides optimal proportions for layout and typography automatically,
-which removes the burden from designers and developers.
+This mechanism calculates and provides optimal proportions and density automatically, which
+alleviates the burden from designers and developers.
 
 Settings that support scaling will always have a sibling setting of the same name, suffixed with
 `Scale`. Scales require either a float to use as an explicit ratio, or a kebab-cased string that
@@ -35,10 +35,12 @@ sizeScale: 1.25
 sizeScale: major-fourth
 ```
 
-If you want to use scaling for a specific setting, but not an individual property, simply pass `0`
-as the scale ratio.
+> If you want to use scaling for a specific setting, but not an individual property, pass `0` as the
+> scale ratio.
 
-## Strategy
+## Responsive
+
+### Strategy
 
 > Platforms: Web
 
@@ -46,42 +48,46 @@ First and foremost, the design system needs to know which device is top priority
 This strategy is then referenced internally throughout the configuration, as other settings react to
 it, like breakpoints.
 
-By default, the `strategy` setting is set to "mobile-first", but also accepts "desktop-first".
+By default, the `responsive.strategy` setting is set to "mobile-first", but also accepts
+"desktop-first".
 
 ```yaml
-strategy: mobile-first
+responsive:
+  strategy: mobile-first
 ```
 
-## Breakpoints
+### Breakpoints
 
 > Platforms: Android, Web
 
 Breakpoints integrate with the strategy above to provide responsive and adaptive support, based on
-the device viewport and orientation. When the `strategy` is "mobile-first", the breakpoints will be
-sorted from lowest to highest, and reversed for "desktop-first". This ensures the correct
+the device viewport and orientation. When `responsive.strategy` is "mobile-first", the breakpoints
+will be sorted from lowest to highest, and reversed for "desktop-first". This ensures the correct
 specificity takes place.
 
-The `breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in either a
-list or object format, with values being a [unit](#unitless-values). On the web, these values will
-be converted to `em` values, while Android uses `dp`, and [ignored by iOS][ios-responsive]. By
-default, the setting is configured to the values in the example below.
+The `responsive.breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in
+either a list or object format, with values being a [unit](#unitless-values). On the web, these
+values will be converted to `em` values, while Android uses `dp`, and [ignored by
+iOS][ios-responsive]. By default, the setting is configured to the values in the example below.
 
 ```yaml
 # List
-breakpoints:
-  - 640
-  - 960
-  - 1280
-  - 1600
-  - 1920
+responsive:
+  breakpoints:
+    - 640
+    - 960
+    - 1280
+    - 1600
+    - 1920
 
 # Object
-breakpoints:
-  xs: 640
-  sm: 960
-  md: 1280
-  lg: 1600
-  xl: 1920
+responsive:
+  breakpoints:
+    xs: 640
+    sm: 960
+    md: 1280
+    lg: 1600
+    xl: 1920
 ```
 
 ## Spacing
@@ -133,15 +139,15 @@ typography:
   font: 'Roboto, sans-serif'
 ```
 
-However, the font for both body text and headings can be defined separately, as a means to
-differentiate the two if need be. This can be achieved with the `typography.font.text` and
-`typography.font.heading` settings respectively.
+However, the font for both body text, heading text, and even monospace text can be defined
+separately, as a means to differentiate them all. This can be achieved with the following settings.
 
 ```yaml
 typography:
   font:
     text: 'Roboto, sans-serif'
     heading: 'Droid, sans-serif'
+    monospace: '"Lucida Console", Monaco, monospace'
 ```
 
 When internationalizing an application, it's a great idea to use locale specific fonts to properly

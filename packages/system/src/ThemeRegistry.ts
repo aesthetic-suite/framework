@@ -28,6 +28,7 @@ export default class ThemeRegistry {
    */
   getPreferredTheme(): Theme {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
     const prefersHighContrast = window.matchMedia('(prefers-contrast: high)').matches;
     const prefersLowContrast = window.matchMedia('(prefers-contrast: low)').matches;
     const schemeCheckOrder: ColorScheme[] = ['light', 'dark'];
@@ -60,9 +61,9 @@ export default class ThemeRegistry {
     }
 
     // None found, return a default theme
-    if (this.defaultLightTheme) {
+    if (prefersLightScheme && this.defaultLightTheme) {
       return this.getLightTheme();
-    } else if (this.defaultDarkTheme) {
+    } else if (prefersDarkScheme && this.defaultDarkTheme) {
       return this.getDarkTheme();
     }
 

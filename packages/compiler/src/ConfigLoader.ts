@@ -30,24 +30,33 @@ import {
   TextSizedConfig,
   BorderScaledConfig,
   BorderSizedConfig,
+  DesignConfig,
+  ResponsiveConfig,
+  BreakpointSizedConfig,
+  SpacingConfig,
+  BorderConfig,
 } from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
 
-export function hexcode() {
+function hexcode() {
   return string()
     .match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/iu)
     .required();
 }
 
-export function scale(defaultValue: Scale = 'major-third') {
+function scale(defaultValue: Scale) {
   return union<Scale>(
     [number().gte(0), string<ScaleType>().oneOf(Object.keys(SCALES) as ScaleType[])],
     defaultValue,
   );
 }
 
-export function unit(defaultValue: number = 0) {
+function unit(defaultValue: number = 0) {
   return number(defaultValue);
+}
+
+function font(platform: PlatformType, type: 'monospace' | 'system') {
+  return FONT_FAMILIES[`${platform}-${type}` as 'web-system'];
 }
 
 export default class ConfigLoader {
@@ -67,10 +76,9 @@ export default class ConfigLoader {
     // @ts-ignore
     return optimal(config, {
       borders: this.borders(),
-      breakpoints: this.breakpoints(),
       colors: this.colors(),
+      responsive: this.responsive(),
       spacing: this.spacing(),
-      strategy: this.strategy(),
       typography: this.typography(),
     });
   }
@@ -98,25 +106,7 @@ export default class ConfigLoader {
       }).exact(),
     }).exact();
 
-    return union([borderScaled, borderSizes], borderScaled.default());
-  }
-
-  protected breakpoints() {
-    const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
-
-    return union<BreakpointConfig>(
-      [
-        tuple<BreakpointListConfig>([unit(xs), unit(sm), unit(md), unit(lg), unit(xl)]),
-        shape({
-          xs: unit(xs),
-          sm: unit(sm),
-          md: unit(md),
-          lg: unit(lg),
-          xl: unit(xl),
-        }).exact(),
-      ],
-      DEFAULT_BREAKPOINTS,
-    );
+    return union<BorderConfig>([borderScaled, borderSizes], borderScaled.default());
   }
 
   protected colors() {
@@ -129,31 +119,47 @@ export default class ConfigLoader {
       .required();
   }
 
+  protected responsive() {
+    const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
+
+    return shape<ResponsiveConfig>({
+      strategy: string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']),
+      breakpoints: union<BreakpointConfig>(
+        [
+          tuple<BreakpointListConfig>([unit(xs), unit(sm), unit(md), unit(lg), unit(xl)]),
+          shape<BreakpointSizedConfig>({
+            xs: unit(xs),
+            sm: unit(sm),
+            md: unit(md),
+            lg: unit(lg),
+            xl: unit(xl),
+          }).exact(),
+        ],
+        DEFAULT_BREAKPOINTS,
+      ),
+    }).exact();
+  }
+
   protected spacing() {
-    return shape({
+    return shape<SpacingConfig>({
       type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
       unit: number(DEFAULT_UNIT),
     }).exact();
   }
 
-  protected strategy() {
-    return string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']);
-  }
-
   protected typography() {
-    const defaultValue = () => FONT_FAMILIES[this.platform];
-
-    return shape({
+    return shape<TypographyConfig>({
       font: union<TypographyConfig['font']>(
         [
           string(),
           shape({
-            text: string(defaultValue),
-            heading: string(defaultValue),
+            text: string('system'),
+            heading: string('system'),
+            monospace: string(() => font(this.platform, 'monospace')),
             locale: object(string()),
           }).exact(),
         ],
-        defaultValue,
+        'system',
       ),
       text: this.typographyText(),
       heading: this.typographyHeading(),
@@ -162,45 +168,45 @@ export default class ConfigLoader {
 
   protected typographyHeading() {
     const headingScaled = shape<HeadingScaledConfig>({
-      letterSpacing: unit(0),
-      letterSpacingScale: scale(0),
-      lineHeight: unit(1.25),
+      letterSpacing: unit(0.25),
+      letterSpacingScale: scale('perfect-fourth'),
+      lineHeight: unit(1.5),
       lineHeightScale: scale('major-second'),
       responsiveScale: scale('minor-second'),
       size: unit(16),
-      sizeScale: scale('major-second'),
+      sizeScale: scale('major-third'),
     }).exact();
 
     const headingSizes = shape<HeadingSizedConfig>({
       level1: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(1.05),
+        lineHeight: unit(2.7),
+        size: unit(48),
       }).exact(),
       level2: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(0.79),
+        lineHeight: unit(2.4),
+        size: unit(38),
       }).exact(),
       level3: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(0.59),
+        lineHeight: unit(2.14),
+        size: unit(32),
       }).exact(),
       level4: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(0.44),
+        lineHeight: unit(1.9),
+        size: unit(25),
       }).exact(),
       level5: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(0.33),
+        lineHeight: unit(1.69),
+        size: unit(20),
       }).exact(),
       level6: shape({
-        letterSpacing: unit(0),
-        lineHeight: unit(1.25),
-        size: unit(14),
+        letterSpacing: unit(0.25),
+        lineHeight: unit(1.5),
+        size: unit(16),
       }).exact(),
       responsiveScale: scale('minor-second'),
     }).exact();
@@ -214,24 +220,24 @@ export default class ConfigLoader {
   protected typographyText() {
     const textScaled = shape<TextScaledConfig>({
       lineHeight: unit(1.25),
-      lineHeightScale: scale('major-second'),
+      lineHeightScale: scale(0),
       responsiveScale: scale('minor-second'),
-      size: unit(16),
+      size: unit(14),
       sizeScale: scale('major-second'),
     }).exact();
 
     const textSizes = shape<TextSizedConfig>({
       small: shape({
         lineHeight: unit(1.25),
-        size: unit(14),
+        size: unit(12),
       }).exact(),
       default: shape({
         lineHeight: unit(1.25),
-        size: unit(16),
+        size: unit(14),
       }).exact(),
       large: shape({
         lineHeight: unit(1.25),
-        size: unit(18),
+        size: unit(16),
       }).exact(),
       responsiveScale: scale('minor-second'),
     }).exact();
@@ -239,66 +245,66 @@ export default class ConfigLoader {
     return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());
   }
 
-  validateOld(config: DeepPartial<ConfigFile>): ConfigFile {
-    const shadowShape = shape({
-      blur: unit(2),
-      blurScale: scale('major-second'),
-      spread: unit(2),
-      spreadScale: scale('major-third'),
-      x: unit(0),
-      xScale: scale('major-third'),
-      y: unit(1),
-      yScale: scale('major-third'),
-    }).exact();
+  // validateOld(config: DeepPartial<ConfigFile>): ConfigFile {
+  //   const shadowShape = shape({
+  //     blur: unit(2),
+  //     blurScale: scale('major-second'),
+  //     spread: unit(2),
+  //     spreadScale: scale('major-third'),
+  //     x: unit(0),
+  //     xScale: scale('major-third'),
+  //     y: unit(1),
+  //     yScale: scale('major-third'),
+  //   }).exact();
 
-    return optimal(config, {
-      shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
-      themes: object(
-        shape({
-          colors: object(
-            union(
-              [
-                hexcode(),
-                shape({
-                  '00': hexcode(),
-                  '10': hexcode(),
-                  '20': hexcode(),
-                  '30': hexcode(),
-                  '40': hexcode(),
-                  '50': hexcode(),
-                  '60': hexcode(),
-                  '70': hexcode(),
-                  '80': hexcode(),
-                  '90': hexcode(),
-                })
-                  .exact()
-                  .required(),
-              ],
-              '',
-            ),
-          )
-            .custom(this.validateThemeImplementsColors)
-            .required(),
-          contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
-          extends: string(),
-          palettes: shape({
-            danger: this.createPaletteBlueprint(),
-            info: this.createPaletteBlueprint(),
-            muted: this.createPaletteBlueprint(),
-            neutral: this.createPaletteBlueprint(),
-            primary: this.createPaletteBlueprint(),
-            secondary: this.createPaletteBlueprint(),
-            success: this.createPaletteBlueprint(),
-            tertiary: this.createPaletteBlueprint(),
-            warning: this.createPaletteBlueprint(),
-          })
-            .exact()
-            .required(),
-          scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-        }),
-      ),
-    });
-  }
+  //   return optimal(config, {
+  //     shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
+  //     themes: object(
+  //       shape({
+  //         colors: object(
+  //           union(
+  //             [
+  //               hexcode(),
+  //               shape({
+  //                 '00': hexcode(),
+  //                 '10': hexcode(),
+  //                 '20': hexcode(),
+  //                 '30': hexcode(),
+  //                 '40': hexcode(),
+  //                 '50': hexcode(),
+  //                 '60': hexcode(),
+  //                 '70': hexcode(),
+  //                 '80': hexcode(),
+  //                 '90': hexcode(),
+  //               })
+  //                 .exact()
+  //                 .required(),
+  //             ],
+  //             '',
+  //           ),
+  //         )
+  //           .custom(this.validateThemeImplementsColors)
+  //           .required(),
+  //         contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
+  //         extends: string(),
+  //         palettes: shape({
+  //           danger: this.createPaletteBlueprint(),
+  //           info: this.createPaletteBlueprint(),
+  //           muted: this.createPaletteBlueprint(),
+  //           neutral: this.createPaletteBlueprint(),
+  //           primary: this.createPaletteBlueprint(),
+  //           secondary: this.createPaletteBlueprint(),
+  //           success: this.createPaletteBlueprint(),
+  //           tertiary: this.createPaletteBlueprint(),
+  //           warning: this.createPaletteBlueprint(),
+  //         })
+  //           .exact()
+  //           .required(),
+  //         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+  //       }),
+  //     ),
+  //   });
+  // }
 
   // protected createPaletteBlueprint() {
   //   const color = () => string().custom(this.validatePaletteColorReference);

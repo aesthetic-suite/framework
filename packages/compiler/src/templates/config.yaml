@@ -1,0 +1,54 @@
+# Guidelines
+#   - All unit based settings should be defined as unitless numbers.
+#     Assume "px" for web, "sp" or "dp" for Android, and "pt" for iOS.
+
+# RESPONSIVE
+responsive:
+  # Whether the system should target mobile or desktop devices as first priority.
+  # Accepts "mobile-first" or "desktop-first".
+  strategy: mobile-first
+
+  # A list of 5 breakpoint units to target for device sizes.
+  breakpoints:
+    - 640
+    - 960
+    - 1280
+    - 1600
+    - 1920
+
+# SPACING
+spacing:
+  # The type of algorithm to use when calculating spacing and measurement tokens.
+  # Accepts "vertical-rhythm" or "unit".
+  type: vertical-rhythm
+
+  # The base unit size when type is "unit".
+  unit: 8
+
+# TYPOGRAPHY
+typography:
+  # Font family for all body text and headings. Defaults to the platform "system" font.
+  # Can customize text, heading, monospace, and locale fonts individually by using a map.
+  font: system
+
+  # Default text sizes and line heights, with "small" and "large" sizes being automatically
+  # calculated using modular scale. The default text size is used as the "root font size".
+  # Can customize default, small, and large sizes individually by using a map.
+  text:
+    size: 14
+    sizeScale: major-second
+    lineHeight: 1.25
+    lineHeightScale: 0
+    responsiveScale: minor-second
+
+  # Level 6 heading size, line height, and letter spacing. Levels 5-1 are automatically
+  # calculated by incrementing upwards using module scale.
+  # Can customize each level individually by using a map.
+  heading:
+    size: 16
+    sizeScale: major-third
+    lineHeight: 1.5
+    lineHeightScale: major-second
+    letterSpacing: 0.25
+    letterSpacingScale: perfect-fourth
+    responsiveScale: minor-second

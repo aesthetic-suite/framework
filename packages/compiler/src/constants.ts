@@ -18,9 +18,12 @@ export const DEFAULT_BREAKPOINTS: BreakpointListConfig = [640, 960, 1280, 1600, 
 export const DEFAULT_UNIT = 8;
 
 export const FONT_FAMILIES = {
-  android: 'sans-serif',
-  ios: 'SF Pro',
-  web:
+  'android-monospace': 'monospace',
+  'android-system': 'sans-serif',
+  'ios-monospace': 'Menlo-Regular',
+  'ios-system': 'SF Pro',
+  'web-monospace': '"Lucida Console", Monaco, monospace',
+  'web-system':
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 };
 

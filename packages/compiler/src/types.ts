@@ -49,27 +49,33 @@ export type ScaleType =
 
 export type Scale = number | ScaleType;
 
-export type StrategyType = 'mobile-first' | 'desktop-first';
+export interface ResponsiveScale {
+  responsiveScale: Scale;
+}
 
 // Borders
 
-export interface BorderConfig {
+export interface BaseBorderConfig {
   radius: number;
   width: number;
 }
 
-export interface BorderScaledConfig extends BorderConfig {
+export interface BorderScaledConfig extends BaseBorderConfig {
   radiusScale: Scale;
   widthScale: Scale;
 }
 
 export interface BorderSizedConfig {
-  small: BorderConfig;
-  default: BorderConfig;
-  large: BorderConfig;
+  small: BaseBorderConfig;
+  default: BaseBorderConfig;
+  large: BaseBorderConfig;
 }
 
-// Breakpoints
+export type BorderConfig = BorderScaledConfig | BorderSizedConfig;
+
+// Responsive
+
+export type StrategyType = 'desktop-first' | 'mobile-first';
 
 export type BreakpointListConfig = [number, number, number, number, number];
 
@@ -78,6 +84,11 @@ export type BreakpointSizedConfig = {
 };
 
 export type BreakpointConfig = BreakpointListConfig | BreakpointSizedConfig;
+
+export interface ResponsiveConfig {
+  breakpoints: BreakpointConfig;
+  strategy: StrategyType;
+}
 
 // Shadows
 
@@ -109,60 +120,54 @@ export interface FontConfig {
   locale: { [locale: string]: string };
 }
 
-export interface ResponsiveScale {
-  responsiveScale: Scale;
-}
-
-export interface TextConfig {
+export interface BaseTextConfig {
   lineHeight: number;
   size: number;
 }
 
-export interface TextScaledConfig extends TextConfig, ResponsiveScale {
+export interface TextScaledConfig extends BaseTextConfig, ResponsiveScale {
   lineHeightScale: Scale;
   sizeScale: Scale;
 }
 
 export interface TextSizedConfig extends ResponsiveScale {
-  small: TextConfig;
-  default: TextConfig;
-  large: TextConfig;
+  small: BaseTextConfig;
+  default: BaseTextConfig;
+  large: BaseTextConfig;
 }
 
-export interface HeadingConfig {
+export interface BaseHeadingConfig {
   letterSpacing: number;
   lineHeight: number;
   size: number;
 }
 
-export interface HeadingScaledConfig extends HeadingConfig, ResponsiveScale {
+export interface HeadingScaledConfig extends BaseHeadingConfig, ResponsiveScale {
   letterSpacingScale: Scale;
   lineHeightScale: Scale;
   sizeScale: Scale;
 }
 
 export interface HeadingSizedConfig extends ResponsiveScale {
-  level1: HeadingConfig;
-  level2: HeadingConfig;
-  level3: HeadingConfig;
-  level4: HeadingConfig;
-  level5: HeadingConfig;
-  level6: HeadingConfig;
+  level1: BaseHeadingConfig;
+  level2: BaseHeadingConfig;
+  level3: BaseHeadingConfig;
+  level4: BaseHeadingConfig;
+  level5: BaseHeadingConfig;
+  level6: BaseHeadingConfig;
 }
 
 export interface TypographyConfig {
-  font: string | FontConfig;
+  font: string | 'system' | FontConfig;
   text: TextScaledConfig | TextSizedConfig;
   heading: HeadingScaledConfig | HeadingSizedConfig;
 }
 
 export interface DesignConfig {
-  borders: BorderScaledConfig | BorderSizedConfig;
-  breakpoints: BreakpointConfig;
+  borders: BorderConfig;
   colors: string[];
-  // shadows: ShadowConfig | ShadowConfig[];
+  responsive: ResponsiveConfig;
   spacing: SpacingConfig;
-  strategy: StrategyType;
   typography: TypographyConfig;
 }
 
