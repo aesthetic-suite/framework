@@ -28,6 +28,8 @@ import {
   HeadingSizedConfig,
   TextScaledConfig,
   TextSizedConfig,
+  BorderScaledConfig,
+  BorderSizedConfig,
 } from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
 
@@ -64,12 +66,39 @@ export default class ConfigLoader {
   validate(config: DeepPartial<ConfigFile>): ConfigFile {
     // @ts-ignore
     return optimal(config, {
+      borders: this.borders(),
       breakpoints: this.breakpoints(),
       colors: this.colors(),
       spacing: this.spacing(),
       strategy: this.strategy(),
       typography: this.typography(),
     });
+  }
+
+  protected borders() {
+    const borderScaled = shape<BorderScaledConfig>({
+      radius: unit(3),
+      radiusScale: scale('perfect-fourth'),
+      width: unit(1),
+      widthScale: scale(0),
+    }).exact();
+
+    const borderSizes = shape<BorderSizedConfig>({
+      small: shape({
+        radius: unit(2),
+        width: unit(1),
+      }).exact(),
+      default: shape({
+        radius: unit(3),
+        width: unit(1),
+      }).exact(),
+      large: shape({
+        radius: unit(4),
+        width: unit(1),
+      }).exact(),
+    }).exact();
+
+    return union([borderScaled, borderSizes], borderScaled.default());
   }
 
   protected breakpoints() {
@@ -84,7 +113,7 @@ export default class ConfigLoader {
           md: unit(md),
           lg: unit(lg),
           xl: unit(xl),
-        }),
+        }).exact(),
       ],
       DEFAULT_BREAKPOINTS,
     );
@@ -122,7 +151,7 @@ export default class ConfigLoader {
             text: string(defaultValue),
             heading: string(defaultValue),
             locale: object(string()),
-          }),
+          }).exact(),
         ],
         defaultValue,
       ),
@@ -174,7 +203,7 @@ export default class ConfigLoader {
         size: unit(14),
       }).exact(),
       responsiveScale: scale('minor-second'),
-    });
+    }).exact();
 
     return union<TypographyConfig['heading']>(
       [headingScaled, headingSizes],
@@ -205,77 +234,71 @@ export default class ConfigLoader {
         size: unit(18),
       }).exact(),
       responsiveScale: scale('minor-second'),
-    });
+    }).exact();
 
     return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());
   }
 
-  // validateOld(config: DeepPartial<ConfigFile>): ConfigFile {
-  //   const shadowShape = shape({
-  //     blur: unit(2),
-  //     blurScale: scale('major-second'),
-  //     spread: unit(2),
-  //     spreadScale: scale('major-third'),
-  //     x: unit(0),
-  //     xScale: scale('major-third'),
-  //     y: unit(1),
-  //     yScale: scale('major-third'),
-  //   }).exact();
+  validateOld(config: DeepPartial<ConfigFile>): ConfigFile {
+    const shadowShape = shape({
+      blur: unit(2),
+      blurScale: scale('major-second'),
+      spread: unit(2),
+      spreadScale: scale('major-third'),
+      x: unit(0),
+      xScale: scale('major-third'),
+      y: unit(1),
+      yScale: scale('major-third'),
+    }).exact();
 
-  //   return optimal(config, {
-  //     borders: shape({
-  //       radius: unit(3),
-  //       radiusScale: scale('perfect-fourth'),
-  //       width: unit(1),
-  //       widthScale: scale(0),
-  //     }).exact(),
-  //     shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
-  //     themes: object(
-  //       shape({
-  //         colors: object(
-  //           union(
-  //             [
-  //               hexcode(),
-  //               shape({
-  //                 '00': hexcode(),
-  //                 '10': hexcode(),
-  //                 '20': hexcode(),
-  //                 '30': hexcode(),
-  //                 '40': hexcode(),
-  //                 '50': hexcode(),
-  //                 '60': hexcode(),
-  //                 '70': hexcode(),
-  //                 '80': hexcode(),
-  //                 '90': hexcode(),
-  //               })
-  //                 .exact()
-  //                 .required(),
-  //             ],
-  //             '',
-  //           ),
-  //         )
-  //           .custom(this.validateThemeImplementsColors)
-  //           .required(),
-  //         contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
-  //         extends: string(),
-  //         palettes: shape({
-  //           danger: this.createPaletteBlueprint(),
-  //           info: this.createPaletteBlueprint(),
-  //           muted: this.createPaletteBlueprint(),
-  //           neutral: this.createPaletteBlueprint(),
-  //           primary: this.createPaletteBlueprint(),
-  //           secondary: this.createPaletteBlueprint(),
-  //           success: this.createPaletteBlueprint(),
-  //           tertiary: this.createPaletteBlueprint(),
-  //           warning: this.createPaletteBlueprint(),
-  //         })
-  //           .exact()
-  //           .required(),
-  //         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-  //       }),
-  //     ),
-  //   });
-  // }
+    return optimal(config, {
+      shadows: union([shadowShape, array(shadowShape)], shadowShape.default()),
+      themes: object(
+        shape({
+          colors: object(
+            union(
+              [
+                hexcode(),
+                shape({
+                  '00': hexcode(),
+                  '10': hexcode(),
+                  '20': hexcode(),
+                  '30': hexcode(),
+                  '40': hexcode(),
+                  '50': hexcode(),
+                  '60': hexcode(),
+                  '70': hexcode(),
+                  '80': hexcode(),
+                  '90': hexcode(),
+                })
+                  .exact()
+                  .required(),
+              ],
+              '',
+            ),
+          )
+            .custom(this.validateThemeImplementsColors)
+            .required(),
+          contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
+          extends: string(),
+          palettes: shape({
+            danger: this.createPaletteBlueprint(),
+            info: this.createPaletteBlueprint(),
+            muted: this.createPaletteBlueprint(),
+            neutral: this.createPaletteBlueprint(),
+            primary: this.createPaletteBlueprint(),
+            secondary: this.createPaletteBlueprint(),
+            success: this.createPaletteBlueprint(),
+            tertiary: this.createPaletteBlueprint(),
+            warning: this.createPaletteBlueprint(),
+          })
+            .exact()
+            .required(),
+          scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+        }),
+      ),
+    });
+  }
 
   // protected createPaletteBlueprint() {
   //   const color = () => string().custom(this.validatePaletteColorReference);

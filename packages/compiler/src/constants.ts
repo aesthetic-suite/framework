@@ -4,6 +4,7 @@ import {
   LayerType,
   ShadowSize,
   SpacingSize,
+  HeadingSize,
   TextSize,
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
@@ -23,7 +24,7 @@ export const FONT_FAMILIES = {
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 };
 
-export const HEADING_LEVELS: number[] = [1, 2, 3, 4, 5, 6];
+export const HEADING_LEVELS: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
 
 export const LAYERS: { [K in LayerType]: string | number } = {
   auto: 'auto',

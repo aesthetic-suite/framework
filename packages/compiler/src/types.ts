@@ -63,9 +63,11 @@ export interface BorderScaledConfig extends BorderConfig {
   widthScale: Scale;
 }
 
-export type BorderSizedConfig = {
-  [K in BorderSize]: BorderConfig;
-};
+export interface BorderSizedConfig {
+  small: BorderConfig;
+  default: BorderConfig;
+  large: BorderConfig;
+}
 
 // Breakpoints
 

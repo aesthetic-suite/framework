@@ -35,6 +35,9 @@ sizeScale: 1.25
 sizeScale: major-fourth
 ```
 
+If you want to use scaling for a specific setting, but not an individual property, simply pass `0`
+as the scale ratio.
+
 ## Strategy
 
 > Platforms: Web
@@ -87,7 +90,7 @@ breakpoints:
 
 Spacing is the backbone of any layout, and in Aesthetic, both margin and padding are encapsulated
 under this same mechanism. When integrating design tokens on the web, spacing will use `rem`, while
-Android uses `sp`, and iOS uses `pt`.
+Android uses `dp`, and iOS uses `pt`.
 
 There are many types of spacing calculations to choose from, each with their own pros and cons, so
 choose the best for your application. Only 1 type may be chosen.
@@ -170,7 +173,7 @@ default being the middle, and going outwards. The values configured should be th
 ```yaml
 typography:
   text:
-    # Normal
+    # Default
     size: 16
     sizeScale: 1.25
     lineHeight: 1.25
@@ -302,4 +305,33 @@ typography:
 
 > Platforms: Android, iOS, Web
 
-TODO
+The `borders` setting controls all borders throughout the system, and comes in 3 sizes: small,
+default, and large. At the moment, only width and radius (corner rounding) are configured here,
+while the color is configured in the neutral theme palette.
+
+Like other settings, borders can be configured with scaling or explicit values. Scaled borders are
+calculated from the inside out, with default as the middle, and small and large as the edges.
+
+```yaml
+# Default
+borders:
+  radius: 3
+  radiusScale: 1.5
+  width: 1
+  widthScale: 2
+```
+
+Use an object of sizes for explicit values.
+
+```yaml
+borders:
+  small:
+    radius: 2
+    width: 1
+  default:
+    radius: 3
+    width: 2
+  large:
+    radius: 4
+    width: 3
+```

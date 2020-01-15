@@ -12,7 +12,7 @@ export type ColorScheme = 'dark' | 'light';
 
 export type ContrastLevel = 'normal' | 'high' | 'low';
 
-export type HeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
+export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
 export type LayerType =
   | 'hide'
