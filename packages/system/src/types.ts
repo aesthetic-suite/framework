@@ -4,7 +4,9 @@ export type Unit = string;
 
 export type Hexcode = string;
 
-export type BorderSize = 'sm' | 'df' | 'lg';
+export type CommonSize = 'sm' | 'df' | 'lg';
+
+export type BorderSize = CommonSize;
 
 export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -42,9 +44,9 @@ export type PaletteType =
 
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-export type SpacingSize = 'xs' | 'sm' | 'df' | 'md' | 'lg' | 'xl';
+export type SpacingSize = 'xs' | CommonSize | 'md' | 'xl';
 
-export type TextSize = 'sm' | 'df' | 'lg';
+export type TextSize = CommonSize;
 
 // TOKENS
 
@@ -68,7 +70,13 @@ export interface ShadowToken {
   y: Unit;
 }
 
-export interface TypographyToken {
+export interface HeadingToken {
+  letterSpacing: Unit;
+  lineHeight: number;
+  size: Unit;
+}
+
+export interface TextToken {
   lineHeight: number;
   size: Unit;
 }
@@ -81,7 +89,7 @@ export interface DesignTokens {
     [K in BreakpointSize]: BreakpointToken;
   };
   heading: {
-    [K in HeadingSize]: TypographyToken;
+    [K in HeadingSize]: HeadingToken;
   };
   layer: {
     [K in LayerType]: number;
@@ -93,7 +101,7 @@ export interface DesignTokens {
     [K in SpacingSize]: Unit;
   };
   text: {
-    [K in TextSize]: TypographyToken;
+    [K in TextSize]: TextToken;
   };
   typography: {
     fontFamily: string;
@@ -112,46 +120,45 @@ export type Tokens = DesignTokens & ThemeTokens;
 
 // MIXINS
 
-export type MixinType =
-  | 'border'
-  | 'borderLarge'
-  | 'borderSmall'
-  | 'box'
-  | 'boxLarge'
-  | 'boxSmall'
-  | 'heading1'
-  | 'heading2'
-  | 'heading3'
-  | 'heading4'
-  | 'heading5'
-  | 'heading6'
-  | 'hidden'
-  | 'hiddenOffscreen'
-  | 'input'
-  | 'inputDisabled'
-  | 'inputFocused'
-  | 'inputInvalid'
-  | 'resetButton'
-  | 'resetList'
-  | 'resetText'
-  | 'root'
-  | 'rootBody'
-  | 'rootHtml'
-  | 'shadowXsmall'
-  | 'shadowSmall'
-  | 'shadowMedium'
-  | 'shadowLarge'
-  | 'shadowXlarge'
-  | 'stateDisabled'
-  | 'stateFocused'
-  | 'stateSelected'
-  | 'text'
-  | 'textLarge'
-  | 'textSmall';
-
-export type Mixins = {
-  [K in MixinType]?: DeclarationBlock;
-};
+export interface Mixins {
+  border: {
+    [K in BorderSize]: DeclarationBlock;
+  };
+  box: {
+    [K in CommonSize]: DeclarationBlock;
+  };
+  heading: {
+    [K in HeadingSize]: DeclarationBlock;
+  };
+  input: {
+    default: DeclarationBlock;
+    disabled: DeclarationBlock;
+    focused: DeclarationBlock;
+    invalid: DeclarationBlock;
+  };
+  state: {
+    disabled: DeclarationBlock;
+    focused: DeclarationBlock;
+    invalid: DeclarationBlock;
+  };
+  text: {
+    [K in TextSize]: DeclarationBlock;
+  };
+  typography: {
+    break: DeclarationBlock;
+    root: DeclarationBlock;
+    truncate: DeclarationBlock;
+    wrap: DeclarationBlock;
+  };
+  ui: {
+    hidden: DeclarationBlock;
+    hiddenOffscreen: DeclarationBlock;
+    resetButton: DeclarationBlock;
+    resetInput: DeclarationBlock;
+    resetList: DeclarationBlock;
+    resetTypography: DeclarationBlock;
+  };
+}
 
 // OTHER
 

@@ -2,28 +2,28 @@ import Theme from './Theme';
 import { ColorScheme, ContrastLevel, QueryParams } from './types';
 
 export default class ThemeRegistry {
-  defaultDarkTheme: string = '';
+  protected defaultDarkTheme: string = '';
 
-  defaultLightTheme: string = '';
+  protected defaultLightTheme: string = '';
 
-  themes = new Map<string, Theme>();
+  protected themes = new Map<string, Theme>();
 
   /**
-   * Returns the default dark theme.
+   * Return the default dark theme.
    */
   getDarkTheme(): Theme {
     return this.getTheme(this.defaultDarkTheme);
   }
 
   /**
-   * Returns the default light theme.
+   * Return the default light theme.
    */
   getLightTheme(): Theme {
     return this.getTheme(this.defaultLightTheme);
   }
 
   /**
-   * Finds an approprite theme based on the user's or device's preferences.
+   * Find an approprite theme based on the user's or device's preferences.
    * Will check for preferred color schemes and contrast levels.
    */
   getPreferredTheme(): Theme {

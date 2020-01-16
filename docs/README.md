@@ -1,6 +1,6 @@
 # Aesthetic
 
-Requirements for the design system and framework:
+Goals for the design system and framework:
 
 - **Designers must be able to contribute.** To support this, the design system is configured in
   YAML, which is easy to learn and write, and works across all operating systems and languages.

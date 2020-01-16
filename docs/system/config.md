@@ -345,3 +345,31 @@ borders:
     radius: 4
     width: 3
 ```
+
+## Shadows
+
+TODO
+
+## Motion
+
+TODO
+
+## Colors
+
+TODO
+
+## Themes
+
+TODO
+
+### Color ranges
+
+TODO
+
+### Color palettes
+
+TODO
+
+### Contrast variants
+
+TODO

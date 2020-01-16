@@ -6,7 +6,8 @@
 import Design from './Design';
 import Theme from './Theme';
 import ThemeRegistry from './ThemeRegistry';
+import mixins from './mixins';
 
 export * from './types';
 
-export { Design, Theme, ThemeRegistry };
+export { Design, Theme, ThemeRegistry, mixins };
