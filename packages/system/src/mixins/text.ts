@@ -8,8 +8,6 @@ export function text({ lineHeight, size }: TextToken): DeclarationBlock {
     ...resetTypography(),
     color: '#000',
     fontSize: size,
-    letterSpacing: 'initial',
     lineHeight,
-    textTransform: 'initial',
   };
 }

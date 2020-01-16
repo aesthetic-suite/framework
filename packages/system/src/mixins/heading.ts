@@ -10,6 +10,5 @@ export function heading({ letterSpacing, lineHeight, size }: HeadingToken): Decl
     letterSpacing,
     lineHeight,
     fontSize: size,
-    fontWeight: 'bold',
   };
 }
