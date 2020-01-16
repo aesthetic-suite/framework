@@ -35,6 +35,7 @@ import {
   BreakpointSizedConfig,
   SpacingConfig,
   BorderConfig,
+  ThemeConfig,
 } from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
 
@@ -79,6 +80,7 @@ export default class ConfigLoader {
       colors: this.colors(),
       responsive: this.responsive(),
       spacing: this.spacing(),
+      themes: this.themes(),
       typography: this.typography(),
     });
   }
@@ -145,6 +147,16 @@ export default class ConfigLoader {
       type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
       unit: number(DEFAULT_UNIT),
     }).exact();
+  }
+
+  protected themes() {
+    return object(
+      shape<ThemeConfig>({
+        contrast: string('normal').oneOf<ContrastLevel>(['high', 'low', 'normal']),
+        extends: string(),
+        scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+      }).exact(),
+    );
   }
 
   protected typography() {
@@ -285,8 +297,6 @@ export default class ConfigLoader {
   //         )
   //           .custom(this.validateThemeImplementsColors)
   //           .required(),
-  //         contrast: string('none').oneOf<ContrastLevel>(['normal', 'high', 'low']),
-  //         extends: string(),
   //         palettes: shape({
   //           danger: this.createPaletteBlueprint(),
   //           info: this.createPaletteBlueprint(),
@@ -300,7 +310,6 @@ export default class ConfigLoader {
   //         })
   //           .exact()
   //           .required(),
-  //         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
   //       }),
   //     ),
   //   });

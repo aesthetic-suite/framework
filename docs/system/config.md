@@ -10,7 +10,7 @@ Before we dive into all configurable settings, a few must know concepts are desc
 
 All configuration settings that require a unit based value (`px`, `pt`, `sp`, etc) must be defined
 using a unitless number. During the compilation phase, this unitless value will be calculated
-according to the platform and target, and output with the required unit suffix.
+according to the platform target, and output with the required unit suffix.
 
 When configuring, assume a unit based on the following table.
 
@@ -348,19 +348,64 @@ borders:
 
 ## Shadows
 
+> Platforms: Android, iOS, Web
+
 TODO
 
 ## Motion
+
+> Platforms: Android, iOS, Web
 
 TODO
 
 ## Colors
 
-TODO
+> Platforms: Android, iOS, Web
+
+The `colors` setting does not define actual color values, like hexcodes or RGBs, but instead defines
+a list of color names that all themes must implement. This enforces a consistent contract between
+the design system and its theme variations. It also permits other design systems to use their own
+unique colors without the chance of collision.
+
+Feel free to define as many colors as you want, either using common color names.
+
+```yaml
+colors:
+  - red
+  - green
+  - blue
+  - yellow
+  - orange
+```
+
+Or with custom color names that are unique to your brand.
+
+```yaml
+colors:
+  - gerudo
+  - kokiri
+  - zora
+  - hylian
+  - goron
+```
 
 ## Themes
 
-TODO
+> Platforms: Android, iOS, Web
+
+While the design system configuration above defines primitives, like borders, shadows, and spacing,
+a theme defines [colors](#colors). With this approach, a design system can have multiple color
+variations, while adhering to the same primitives.
+
+Themes are configured with the `themes` map, where the key is the theme name, and the value is a
+configuration map of colors, palettes, and additional settings. One such setting is `theme.scheme`,
+which requires either "light" or "dark", and is utilized in color scheme preference detection.
+
+```yaml
+themes:
+  default:
+    scheme: light
+```
 
 ### Color ranges
 
@@ -370,6 +415,51 @@ TODO
 
 TODO
 
+### Extending themes
+
+Aesthetic also supports the concept of extending themes, where a theme (the child) can extend
+another theme (the parent), to inherit all its colors, palettes, and settings. The child theme can
+then define individual settings, instead of having to define them all.
+
+To extend another theme, use the `theme.extends` setting, which requires the parent theme's name.
+The child theme object will deep merge with the parent theme object.
+
+```yaml
+themes:
+  day:
+    scheme: light
+    colors: # ...
+    palettes: # ...
+  # Only change a single setting
+  dawn:
+    extends: day
+    palettes:
+      primary:
+        bg:
+          hovered: red.50
+```
+
 ### Contrast variants
 
-TODO
+While color schemes offer a light or dark option, what about preferences for low or high contrast
+colors? With the `theme.contrast` setting, a theme can be marked as "low" or "high" contrast, and
+will be utilized during the detection phase.
+
+A contrast variant usually extends a base theme, as we want to use the same palette, but adjust the
+colors. For example, say we have a "night" dark theme, and want to provide a vibrant high contrast
+variant.
+
+```yaml
+themes:
+  night:
+    scheme: dark
+    colors:
+      blue: '#0984e3'
+    palettes:
+      # ...
+  nightHighContrast:
+    extends: night
+    contrast: high
+    colors:
+      blue: '#0652DD'
+```

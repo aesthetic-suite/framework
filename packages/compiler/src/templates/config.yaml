@@ -52,3 +52,17 @@ typography:
     letterSpacing: 0.25
     letterSpacingScale: perfect-fourth
     responsiveScale: minor-second
+
+# COLORS
+colors:
+  - black
+  - white
+
+# THEMES
+themes:
+  default:
+    scheme: light
+    contrast: normal
+    colors:
+      black: '#000'
+      white: '#fff'
