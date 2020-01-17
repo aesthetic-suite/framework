@@ -409,11 +409,107 @@ themes:
 
 ### Color ranges
 
-TODO
+For every [color](#colors) that's been defined, an associated entry must exist within each theme
+under `theme.colors.<name>`. A color supports either a single hexcode value, or a range of 10
+hexcode values (`00` - `90`). These hexcode values are also known as shades.
+
+In a light color scheme, the `00` shade is the lightest color, while `90` is the darkest. This is
+reversed for dark color schemes, where `00` is darkest, and `90` is lightest. In both schemes, the
+`40` shade is the base "common" shade.
+
+```yaml
+themes:
+  default:
+    scheme: light
+    colors:
+      # Single shade
+      black: '#000'
+      # Multiple shades
+      blue:
+        00: '#E3F2FD' # Lightest
+        10: '#BBDEFB'
+        20: '#90CAF9'
+        30: '#64B5F6'
+        40: '#42A5F5' # Base
+        50: '#2196F3'
+        60: '#1E88E5'
+        70: '#1976D2'
+        80: '#1565C0'
+        90: '#0D47A1' # Darkest
+```
 
 ### Color palettes
 
-TODO
+Palettes are the defining feature of Aesthetic, as they enable true interoperability and backwards
+compatibility with other design systems. In Aesthetic, colors (above) are not accessible to
+consumers, and are only accessible within the context of the configuration, as colors are not
+deterministic between systems, but palettes are!
+
+A palette is a collection of color references for both foreground (text) and background (layout)
+colors, grouped by states and interactions. The available palettes are:
+
+- `brand` - Organization or company brand color.
+- `primary` - Primary color. Typically buttons, links, bars, active states, etc.
+- `secondary` - Accent color. Provides emphasis and contrast to the primary color.
+- `tertiary` - Additional complementary color for more variation.
+- `neutral` - Layout, background, border, and text colors. Typically white, black, and gray shades.
+- `muted` - Like neutral, but focused on disabled and empty like states.
+- `info` - State that denotes something as informational.
+- `warning` - State that warns the user of something minor.
+- `danger` - State that indicates a destructive, atomic, or irreversible action.
+- `success` - State when something succeeds or passes.
+
+Hopefully you have a better understanding of all the palettes, so let's dive into the configuration.
+Each palette requires a `fg` (foreground) and `bg` (background), with both variants requiring a map
+of states to color references. A color reference is a string that joins a color (by name) to a shade
+(by number) with a period; non-multiple shade colors reference by name only.
+
+```yaml
+themes:
+  default:
+    scheme: light
+    colors:
+      # ...
+    palettes:
+      primary:
+        # Backgrounds use a lighter shade
+        bg:
+          base: blue.40
+          focused: blue.50
+          selected: blue.50
+          hovered: blue.60
+          disabled: gray.40
+        # While text uses a darker shade for legibility (a11y)
+        fg:
+          base: blue.50
+          focused: blue.60
+          selected: blue.60
+          hovered: blue.70
+          disabled: gray.50
+      secondary:
+        bg: # ...
+        fg: # ...
+      tertiary:
+        # ...
+```
+
+In the example above, you may have noticed 5 different states. In order of priority and specificity,
+they are:
+
+- `base` - The base palette color.
+- `focused` - State when a target is focused through user interaction. _(optional)_
+- `selected` - State when a target is selected, active, expanded, etc. _(optional)_
+- `hovered` - State when a target is being hovered. Should be a higher shade to override focused and
+  selected states. _(optional)_
+- `disabled` - State when a target is disabled. Should override all previous states. _(optional)_
+
+Only the `base` state is required and must be defined. If an optional state is not defined, it will
+automatically infer a color and shade based off the `base` color. For example, if `base` is
+`blue.40`, then `focused` will be `blue.50` (+1 shade), `hovered` will be `blue.70` (+2 shades), so
+on and so forth.
+
+> This may seem like a lot to configure, and it is, but it's thorough and covers all common and
+> industry standard use cases. It also mitigates problems between light and dark themes.
 
 ### Extending themes
 
