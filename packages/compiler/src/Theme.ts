@@ -2,7 +2,7 @@ import deepMerge from 'extend';
 import { ColorScheme, ContrastLevel, DeepPartial } from '@aesthetic/system';
 import {
   ThemeConfig,
-  PaletteConfigStates,
+  ColorStates,
   ColorConfig,
   ColorShade,
   DesignTemplate,
@@ -48,8 +48,8 @@ export default class Theme<ColorNames extends string = string> {
     return tokens as ThemeTemplate['palette'];
   }
 
-  protected compilePaletteState(state: PaletteConfigStates): PaletteConfigStates {
-    const token: Partial<PaletteConfigStates> = {};
+  protected compilePaletteState(state: ColorStates): ColorStates {
+    const token: Partial<ColorStates> = {};
 
     Object.entries(state).forEach(([key, value]) => {
       const path = String(value);
@@ -66,6 +66,6 @@ export default class Theme<ColorNames extends string = string> {
       token[key as keyof typeof token] = hex;
     });
 
-    return token as PaletteConfigStates;
+    return token as ColorStates;
   }
 }

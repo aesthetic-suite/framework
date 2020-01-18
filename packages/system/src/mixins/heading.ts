@@ -1,14 +1,19 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { HeadingToken } from '../types';
-import { resetTypography } from './ui';
+import { Tokens, HeadingSize } from '../types';
+import { resetTypography } from './pattern';
 
-// TODO color
-export function heading({ letterSpacing, lineHeight, size }: HeadingToken): DeclarationBlock {
+export function heading(
+  { heading: h, typography, ui }: Tokens,
+  level: HeadingSize,
+): DeclarationBlock {
+  const { letterSpacing, lineHeight, size } = h[level];
+
   return {
     ...resetTypography(),
-    color: '#000',
+    color: ui.text.base,
     letterSpacing,
     lineHeight,
+    fontFamily: typography.font.heading,
     fontSize: size,
   };
 }

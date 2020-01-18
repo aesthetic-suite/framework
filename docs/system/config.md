@@ -452,8 +452,7 @@ colors, grouped by states and interactions. The available palettes are:
 - `primary` - Primary color. Typically buttons, links, bars, active states, etc.
 - `secondary` - Accent color. Provides emphasis and contrast to the primary color.
 - `tertiary` - Additional complementary color for more variation.
-- `neutral` - Layout, background, border, and text colors. Typically white, black, and gray shades.
-- `muted` - Like neutral, but focused on disabled and empty like states.
+- `muted` - Disabled and empty like states.
 - `info` - State that denotes something as informational.
 - `warning` - State that warns the user of something minor.
 - `danger` - State that indicates a destructive, atomic, or irreversible action.
@@ -498,9 +497,8 @@ they are:
 
 - `base` - The base palette color.
 - `focused` - State when a target is focused through user interaction. _(optional)_
+- `hovered` - State when a target is being hovered. _(optional)_
 - `selected` - State when a target is selected, active, expanded, etc. _(optional)_
-- `hovered` - State when a target is being hovered. Should be a higher shade to override focused and
-  selected states. _(optional)_
 - `disabled` - State when a target is disabled. Should override all previous states. _(optional)_
 
 Only the `base` state is required and must be defined. If an optional state is not defined, it will
@@ -510,6 +508,44 @@ on and so forth.
 
 > This may seem like a lot to configure, and it is, but it's thorough and covers all common and
 > industry standard use cases. It also mitigates problems between light and dark themes.
+
+### User interface
+
+Similar to palettes, the `theme.ui` setting maps colors to states (the 5 above) for user interface
+and layout related elements. The following elements are available.
+
+- `document` - Background color for the entire document / page.
+- `box` - Background color for box or container like elements.
+- `border` - Border color for box, form, and other elements.
+- `shadow` - Shadow, blackout, and backdrop colors.
+- `text` - Text and heading colors.
+
+```yaml
+themes:
+  default:
+    scheme: light
+    colors:
+      # ...
+    palettes:
+      # ...
+    ui:
+      document:
+        base: white
+      box:
+        base: gray.00
+        hovered: gray.20
+        selected: gray.10
+      border:
+        base: gray.30
+        hovered: gray.40
+        selected: blue.40
+        disabled: gray.20
+      shadow:
+        base: black
+      text:
+        base: gray.80
+        hovered: gray.90
+```
 
 ### Extending themes
 

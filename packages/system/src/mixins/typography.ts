@@ -1,4 +1,5 @@
 import { DeclarationBlock } from '@aesthetic/sss';
+import { Tokens } from '../types';
 
 export function breakWord(): DeclarationBlock {
   return {
@@ -8,11 +9,11 @@ export function breakWord(): DeclarationBlock {
   };
 }
 
-// TODO
-export function root(): DeclarationBlock {
+export function root({ typography }: Tokens): DeclarationBlock {
   return {
-    // fontFamily,
-    // fontSize,
+    fontFamily: typography.font.text,
+    fontSize: typography.rootTextSize,
+    lineHeight: typography.rootLineHeight,
     textRendering: 'optimizeLegibility',
     textSizeAdjust: '100%',
     // @ts-ignore

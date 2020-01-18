@@ -86,44 +86,46 @@ export default class Theme {
   }
 
   protected createMixins(): Mixins {
-    const { border, heading, text } = this.tokens;
-
     // @ts-ignore
     return {
       border: {
-        sm: mixins.border(border.sm),
-        df: mixins.border(border.df),
-        lg: mixins.border(border.lg),
+        sm: mixins.border(this.tokens, 'sm'),
+        df: mixins.border(this.tokens, 'df'),
+        lg: mixins.border(this.tokens, 'lg'),
       },
-      // box: {},
+      box: {
+        sm: mixins.box(this.tokens, 'sm'),
+        df: mixins.box(this.tokens, 'df'),
+        lg: mixins.box(this.tokens, 'lg'),
+      },
       heading: {
-        l1: mixins.heading(heading.l1),
-        l2: mixins.heading(heading.l2),
-        l3: mixins.heading(heading.l3),
-        l4: mixins.heading(heading.l4),
-        l5: mixins.heading(heading.l5),
-        l6: mixins.heading(heading.l6),
+        l1: mixins.heading(this.tokens, 'l1'),
+        l2: mixins.heading(this.tokens, 'l2'),
+        l3: mixins.heading(this.tokens, 'l3'),
+        l4: mixins.heading(this.tokens, 'l4'),
+        l5: mixins.heading(this.tokens, 'l5'),
+        l6: mixins.heading(this.tokens, 'l6'),
       },
       // input: {},
-      // state: {},
-      text: {
-        sm: mixins.text(text.sm),
-        df: mixins.text(text.df),
-        lg: mixins.text(text.lg),
-      },
-      typography: {
-        break: mixins.typographyBreak(),
-        root: mixins.typographyRoot(),
-        truncate: mixins.typographyTruncate(),
-        wrap: mixins.typographyWrap(),
-      },
-      ui: {
+      pattern: {
         hidden: mixins.hidden(),
         hiddenOffscreen: mixins.hiddenOffscreen(),
         resetButton: mixins.resetButton(),
         resetInput: mixins.resetInput(),
         resetList: mixins.resetList(),
         resetTypography: mixins.resetTypography(),
+      },
+      // state: {},
+      text: {
+        sm: mixins.text(this.tokens, 'sm'),
+        df: mixins.text(this.tokens, 'df'),
+        lg: mixins.text(this.tokens, 'lg'),
+      },
+      typography: {
+        break: mixins.typographyBreak(),
+        root: mixins.typographyRoot(this.tokens),
+        truncate: mixins.typographyTruncate(),
+        wrap: mixins.typographyWrap(),
       },
     };
   }

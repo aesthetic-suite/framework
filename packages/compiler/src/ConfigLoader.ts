@@ -35,6 +35,7 @@ import {
   TextSizedConfig,
   ThemeConfig,
   TypographyConfig,
+  ColorStates,
 } from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
 
@@ -119,6 +120,20 @@ export default class ConfigLoader {
       .required();
   }
 
+  protected colorState() {
+    const color = () => string().custom(this.validatePaletteColorReference);
+
+    return shape<ColorStates>({
+      base: color().required(),
+      disabled: color(),
+      focused: color(),
+      hovered: color(),
+      selected: color(),
+    })
+      .exact()
+      .required();
+  }
+
   protected responsive() {
     const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
 
@@ -158,7 +173,6 @@ export default class ConfigLoader {
           danger: this.themePalette(),
           info: this.themePalette(),
           muted: this.themePalette(),
-          neutral: this.themePalette(),
           primary: this.themePalette(),
           secondary: this.themePalette(),
           success: this.themePalette(),
@@ -168,6 +182,15 @@ export default class ConfigLoader {
           .exact()
           .required(),
         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
+        ui: shape({
+          border: this.colorState(),
+          box: this.colorState(),
+          document: this.colorState(),
+          shadow: this.colorState(),
+          text: this.colorState(),
+        })
+          .exact()
+          .required(),
       }).exact(),
     );
   }
@@ -198,22 +221,9 @@ export default class ConfigLoader {
   }
 
   protected themePalette() {
-    const color = () => string().custom(this.validatePaletteColorReference);
-
-    const state = () =>
-      shape({
-        base: color().required(),
-        disabled: color(),
-        focused: color(),
-        hovered: color(),
-        selected: color(),
-      })
-        .exact()
-        .required();
-
     return shape({
-      bg: state(),
-      fg: state(),
+      bg: this.colorState(),
+      fg: this.colorState(),
     })
       .exact()
       .required();

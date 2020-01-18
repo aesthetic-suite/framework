@@ -1,12 +1,14 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { TextToken } from '../types';
-import { resetTypography } from './ui';
+import { Tokens, TextSize } from '../types';
+import { resetTypography } from './pattern';
 
-// TODO color
-export function text({ lineHeight, size }: TextToken): DeclarationBlock {
+export function text({ text: t, typography, ui }: Tokens, level: TextSize): DeclarationBlock {
+  const { lineHeight, size } = t[level];
+
   return {
     ...resetTypography(),
-    color: '#000',
+    color: ui.text.base,
+    fontFamily: typography.font.text,
     fontSize: size,
     lineHeight,
   };

@@ -35,12 +35,13 @@ export type PaletteType =
   | 'primary'
   | 'secondary'
   | 'tertiary'
-  | 'neutral'
   | 'muted'
   | 'danger'
   | 'warning'
   | 'success'
   | 'info';
+
+export type UiType = 'document' | 'box' | 'border' | 'shadow' | 'text';
 
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -61,6 +62,14 @@ export interface BreakpointToken {
   query: string;
   querySize: number;
   rootTextSize: Unit;
+}
+
+export interface ColorStateToken {
+  base: Hexcode;
+  disabled: Hexcode;
+  focused: Hexcode;
+  hovered: Hexcode;
+  selected: Hexcode;
 }
 
 export interface ShadowToken {
@@ -104,16 +113,29 @@ export interface DesignTokens {
     [K in TextSize]: TextToken;
   };
   typography: {
-    fontFamily: string;
+    font: {
+      heading: string;
+      locale: { [locale: string]: string };
+      monospace: string;
+      text: string;
+      system: string;
+    };
     rootLineHeight: number;
     rootTextSize: Unit;
-    systemFontFamily: string;
   };
   unit: UnitFactory;
 }
 
 export interface ThemeTokens {
-  palette: unknown; // TODO
+  palette: {
+    [K in PaletteType]: {
+      bg: ColorStateToken;
+      fg: ColorStateToken;
+    };
+  };
+  ui: {
+    [K in UiType]: ColorStateToken;
+  };
 }
 
 export type Tokens = DesignTokens & ThemeTokens;
@@ -136,6 +158,14 @@ export interface Mixins {
     focused: DeclarationBlock;
     invalid: DeclarationBlock;
   };
+  pattern: {
+    hidden: DeclarationBlock;
+    hiddenOffscreen: DeclarationBlock;
+    resetButton: DeclarationBlock;
+    resetInput: DeclarationBlock;
+    resetList: DeclarationBlock;
+    resetTypography: DeclarationBlock;
+  };
   state: {
     disabled: DeclarationBlock;
     focused: DeclarationBlock;
@@ -149,14 +179,6 @@ export interface Mixins {
     root: DeclarationBlock;
     truncate: DeclarationBlock;
     wrap: DeclarationBlock;
-  };
-  ui: {
-    hidden: DeclarationBlock;
-    hiddenOffscreen: DeclarationBlock;
-    resetButton: DeclarationBlock;
-    resetInput: DeclarationBlock;
-    resetList: DeclarationBlock;
-    resetTypography: DeclarationBlock;
   };
 }
 

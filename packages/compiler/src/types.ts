@@ -10,6 +10,7 @@ import {
   SpacingSize,
   TextSize,
   ContrastLevel,
+  UiType,
 } from '@aesthetic/system';
 
 export type PlatformType = 'android' | 'ios' | 'web';
@@ -179,9 +180,7 @@ export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-// Palettes
-
-export interface PaletteConfigStates {
+export interface ColorStates {
   base: string;
   disabled: string;
   focused: string;
@@ -191,10 +190,16 @@ export interface PaletteConfigStates {
 
 export type PaletteConfig = {
   [K in PaletteType]: {
-    bg: PaletteConfigStates;
-    fg: PaletteConfigStates;
+    bg: ColorStates;
+    fg: ColorStates;
   };
 };
+
+export type UiConfig = {
+  [K in UiType]: ColorStates;
+};
+
+// Final
 
 export interface ThemeConfig<ColorNames extends string = string> {
   colors: { [K in ColorNames]: Hexcode | ColorConfig };
@@ -202,6 +207,7 @@ export interface ThemeConfig<ColorNames extends string = string> {
   extends: string;
   palettes: PaletteConfig;
   scheme: ColorScheme;
+  ui: UiConfig;
 }
 
 export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
