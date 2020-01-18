@@ -9,10 +9,10 @@ import {
   ThemeTemplate,
 } from './types';
 
-// TODO mixins
-
-export default class Theme<ColorNames extends string = string> {
+export default class SystemTheme<ColorNames extends string = string> {
   readonly contrast: ContrastLevel;
+
+  readonly extendedFrom: string;
 
   readonly scheme: ColorScheme;
 
@@ -20,7 +20,11 @@ export default class Theme<ColorNames extends string = string> {
 
   private readonly config: ThemeConfig<ColorNames>;
 
-  constructor(config: ThemeConfig<ColorNames>, template: DesignTemplate) {
+  constructor(
+    config: ThemeConfig<ColorNames>,
+    template: DesignTemplate,
+    extendedFrom: string = '',
+  ) {
     this.config = config;
     this.contrast = config.contrast;
     this.scheme = config.scheme;
@@ -28,10 +32,11 @@ export default class Theme<ColorNames extends string = string> {
       ...template,
       palette: this.compilePalettes(),
     };
+    this.extendedFrom = extendedFrom;
   }
 
-  extend(config: DeepPartial<ThemeConfig<ColorNames>>): Theme<ColorNames> {
-    return new Theme(deepMerge(true, {}, this.config, config), this.template);
+  extend(config: DeepPartial<ThemeConfig<ColorNames>>, name: string): SystemTheme<ColorNames> {
+    return new SystemTheme(deepMerge(true, {}, this.config, config), this.template, name);
   }
 
   protected compilePalettes(): ThemeTemplate['palette'] {

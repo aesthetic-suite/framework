@@ -101,7 +101,7 @@ export interface DesignTokens {
     [K in HeadingSize]: HeadingToken;
   };
   layer: {
-    [K in LayerType]: number;
+    [K in LayerType]: number | string;
   };
   shadow: {
     [K in ShadowSize]: ShadowToken[];
@@ -152,12 +152,12 @@ export interface Mixins {
   heading: {
     [K in HeadingSize]: DeclarationBlock;
   };
-  input: {
-    default: DeclarationBlock;
-    disabled: DeclarationBlock;
-    focused: DeclarationBlock;
-    invalid: DeclarationBlock;
-  };
+  // input: {
+  //   default: DeclarationBlock;
+  //   disabled: DeclarationBlock;
+  //   focused: DeclarationBlock;
+  //   invalid: DeclarationBlock;
+  // };
   pattern: {
     hidden: DeclarationBlock;
     hiddenOffscreen: DeclarationBlock;
@@ -165,22 +165,36 @@ export interface Mixins {
     resetInput: DeclarationBlock;
     resetList: DeclarationBlock;
     resetTypography: DeclarationBlock;
+    textBreak: DeclarationBlock;
+    textTruncate: DeclarationBlock;
+    textWrap: DeclarationBlock;
   };
-  state: {
-    disabled: DeclarationBlock;
-    focused: DeclarationBlock;
-    invalid: DeclarationBlock;
-  };
+  // state: {
+  //   disabled: DeclarationBlock;
+  //   focused: DeclarationBlock;
+  //   invalid: DeclarationBlock;
+  // };
   text: {
     [K in TextSize]: DeclarationBlock;
   };
-  typography: {
-    break: DeclarationBlock;
-    root: DeclarationBlock;
-    truncate: DeclarationBlock;
-    wrap: DeclarationBlock;
-  };
 }
+
+export type MixinTarget =
+  | 'border.sm'
+  | 'border.df'
+  | 'border.lg'
+  | 'box.sm'
+  | 'box.df'
+  | 'box.lg'
+  | 'heading.l1'
+  | 'heading.l2'
+  | 'heading.l3'
+  | 'heading.l4'
+  | 'heading.l5'
+  | 'heading.l6'
+  | 'text.sm'
+  | 'text.df'
+  | 'text.lg';
 
 // OTHER
 

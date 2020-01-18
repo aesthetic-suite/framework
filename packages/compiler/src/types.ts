@@ -1,15 +1,15 @@
 import {
-  ColorScheme,
-  Hexcode,
-  PaletteType,
   BorderSize,
   BreakpointSize,
+  ColorScheme,
+  ContrastLevel,
   HeadingSize,
+  Hexcode,
   LayerType,
+  PaletteType,
   ShadowSize,
   SpacingSize,
   TextSize,
-  ContrastLevel,
   UiType,
 } from '@aesthetic/system';
 
@@ -24,6 +24,11 @@ export type TargetType =
   | 'web-scss'
   | 'web-js'
   | 'web-ts';
+
+export interface SystemOptions {
+  platform: PlatformType;
+  target: TargetType;
+}
 
 // CONFIG FILE
 // Structure of the YAML config file. Assumes all properties are defined because of optimal.
@@ -49,10 +54,6 @@ export type ScaleType =
   | 'golden-section';
 
 export type Scale = number | ScaleType;
-
-export interface ResponsiveScale {
-  responsiveScale: Scale;
-}
 
 // Borders
 
@@ -88,7 +89,9 @@ export type BreakpointConfig = BreakpointListConfig | BreakpointSizedConfig;
 
 export interface ResponsiveConfig {
   breakpoints: BreakpointConfig;
+  lineHeightScale: Scale;
   strategy: StrategyType;
+  textScale: Scale;
 }
 
 // Shadows
@@ -119,6 +122,7 @@ export interface FontConfig {
   text: string;
   heading: string;
   locale: { [locale: string]: string };
+  monospace: string;
 }
 
 export interface BaseTextConfig {
@@ -126,12 +130,12 @@ export interface BaseTextConfig {
   size: number;
 }
 
-export interface TextScaledConfig extends BaseTextConfig, ResponsiveScale {
+export interface TextScaledConfig extends BaseTextConfig {
   lineHeightScale: Scale;
   sizeScale: Scale;
 }
 
-export interface TextSizedConfig extends ResponsiveScale {
+export interface TextSizedConfig {
   small: BaseTextConfig;
   default: BaseTextConfig;
   large: BaseTextConfig;
@@ -143,13 +147,13 @@ export interface BaseHeadingConfig {
   size: number;
 }
 
-export interface HeadingScaledConfig extends BaseHeadingConfig, ResponsiveScale {
+export interface HeadingScaledConfig extends BaseHeadingConfig {
   letterSpacingScale: Scale;
   lineHeightScale: Scale;
   sizeScale: Scale;
 }
 
-export interface HeadingSizedConfig extends ResponsiveScale {
+export interface HeadingSizedConfig {
   level1: BaseHeadingConfig;
   level2: BaseHeadingConfig;
   level3: BaseHeadingConfig;
@@ -228,6 +232,7 @@ export type BreakpointCondition = [string, number];
 export interface BreakpointTemplate {
   queryConditions: BreakpointCondition[];
   querySize: number;
+  rootLineHeight: number;
   rootTextSize: number;
 }
 
@@ -239,6 +244,7 @@ export interface ShadowTemplate {
 }
 
 export interface TypographyTemplate {
+  letterSpacing?: number;
   lineHeight: number;
   size: number;
 }
@@ -254,7 +260,7 @@ export interface DesignTemplate {
     [K in HeadingSize]: TypographyTemplate;
   };
   layer: {
-    [K in LayerType]: number;
+    [K in LayerType]: number | string;
   };
   shadow: {
     [K in ShadowSize]: ShadowTemplate[];
@@ -266,12 +272,15 @@ export interface DesignTemplate {
     [K in TextSize]: TypographyTemplate;
   };
   typography: {
-    headingFont: string;
-    localeFonts: { [locale: string]: string };
+    font: {
+      heading: string;
+      locale: { [locale: string]: string };
+      monospace: string;
+      text: string;
+      system: string;
+    };
     rootLineHeight: number;
     rootTextSize: number;
-    systemFont: string;
-    textFont: string;
   };
 }
 

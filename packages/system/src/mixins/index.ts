@@ -8,9 +8,11 @@ import {
   resetInput,
   resetList,
   resetTypography,
+  textBreak,
+  textTruncate,
+  textWrap,
 } from './pattern';
 import { text } from './text';
-import { breakWord, root, truncate, wrapWord } from './typography';
 
 export default {
   border,
@@ -23,8 +25,7 @@ export default {
   resetList,
   resetTypography,
   text,
-  typographyBreak: breakWord,
-  typographyRoot: root,
-  typographyTruncate: truncate,
-  typographyWrap: wrapWord,
+  textBreak,
+  textTruncate,
+  textWrap,
 };

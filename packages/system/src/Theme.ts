@@ -9,21 +9,8 @@ import {
   DeepPartial,
   ThemeTokens,
   Mixins,
+  MixinTarget,
 } from './types';
-
-type MixinTarget =
-  | 'border.sm'
-  | 'border.df'
-  | 'border.lg'
-  | 'heading.l1'
-  | 'heading.l2'
-  | 'heading.l3'
-  | 'heading.l4'
-  | 'heading.l5'
-  | 'heading.l6'
-  | 'text.sm'
-  | 'text.df'
-  | 'text.lg';
 
 export default class Theme {
   readonly contrast: ContrastLevel;
@@ -41,6 +28,9 @@ export default class Theme {
     this.mixins = parentMixins ?? this.createMixins();
   }
 
+  /**
+   * Extend and instantiate a new theme instance with customized tokens.
+   */
   extend(tokens: DeepPartial<ThemeTokens>, options: Partial<ThemeOptions> = {}): Theme {
     return new Theme(
       {
@@ -53,6 +43,9 @@ export default class Theme {
     );
   }
 
+  /**
+   * Merge with or overwrite a mixin with a collection of properties.
+   */
   mixin(path: MixinTarget, properties: DeclarationBlock, overwrite: boolean = false): this {
     interface AnyObject {
       // eslint-disable-next-line
@@ -86,7 +79,6 @@ export default class Theme {
   }
 
   protected createMixins(): Mixins {
-    // @ts-ignore
     return {
       border: {
         sm: mixins.border(this.tokens, 'sm'),
@@ -106,7 +98,6 @@ export default class Theme {
         l5: mixins.heading(this.tokens, 'l5'),
         l6: mixins.heading(this.tokens, 'l6'),
       },
-      // input: {},
       pattern: {
         hidden: mixins.hidden(),
         hiddenOffscreen: mixins.hiddenOffscreen(),
@@ -114,18 +105,14 @@ export default class Theme {
         resetInput: mixins.resetInput(),
         resetList: mixins.resetList(),
         resetTypography: mixins.resetTypography(),
+        textBreak: mixins.textBreak(),
+        textTruncate: mixins.textTruncate(),
+        textWrap: mixins.textWrap(),
       },
-      // state: {},
       text: {
         sm: mixins.text(this.tokens, 'sm'),
         df: mixins.text(this.tokens, 'df'),
         lg: mixins.text(this.tokens, 'lg'),
-      },
-      typography: {
-        break: mixins.typographyBreak(),
-        root: mixins.typographyRoot(this.tokens),
-        truncate: mixins.typographyTruncate(),
-        wrap: mixins.typographyWrap(),
       },
     };
   }

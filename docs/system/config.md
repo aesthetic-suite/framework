@@ -94,6 +94,25 @@ responsive:
     xl: 1920
 ```
 
+### Fluid typography
+
+> Platforms: Android, Web
+
+Fluid typography is the concept of modifying the root text size for each breakpoint, so that
+typography remains legible between viewports and devices. When targeting mobile-first, the font size
+will increase so that text is legible on desktop viewports, while desktop-first will decrease the
+font size for mobile viewports.
+
+Responsive text uses [type scaling][type-scale] under the hood. Because of this, explicit font size
+configurations for each breakpoint is not supported. At the moment, text and line height can be
+scaled with `textScale` and `lineHeightScale` respectively.
+
+```yaml
+responsive:
+  textScale: major-second
+  lineHeightScale: 1.1
+```
+
 ## Spacing
 
 > Platforms: Android, iOS, Web
@@ -260,56 +279,6 @@ typography:
       lineHeight: 1.5
       letterSpacing: 0.5
 ```
-
-### Responsive scaling
-
-Also known as fluid typography, responsive scaling is the concept of modifying the root font size
-automatically for each breakpoint. When targeting mobile first, the font size will increase so that
-text is legible on desktop viewports, while desktop first will decrease the font size for mobile
-viewports.
-
-Responsive text uses [type scaling][type-scale] under the hood. Because of this, explicit font sizes
-configurations for each breakpoint is not supported.
-
-There are multiple ways to enable responsive scaling, all of which depend on how text and headings
-above are configured. When scaling, a `responsiveScale` setting can be included.
-
-```yaml
-typography:
-  text:
-    size: # ...
-    sizeScale: # ...
-    responsiveScale: major-second
-  heading:
-    size: # ...
-    sizeScale: # ...
-    responsiveScale: minor-third
-```
-
-When using the explicit approach, the `responsiveScale` setting must be included at the root of the
-map, instead of within each item.
-
-```yaml
-typography:
-  text:
-    small: # ...
-    default: # ...
-    large: # ...
-    responsiveScale: 1.125
-  heading:
-    level1: # ...
-    level2: # ...
-    level3: # ...
-    level4: # ...
-    level5: # ...
-    level6: # ...
-    responsiveScale: 1.2
-```
-
-[ios-responsive]:
-  https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
-[modular-scale]: https://www.modularscale.com
-[type-scale]: https://type-scale.com
 
 ## Borders
 
@@ -509,7 +478,7 @@ on and so forth.
 > This may seem like a lot to configure, and it is, but it's thorough and covers all common and
 > industry standard use cases. It also mitigates problems between light and dark themes.
 
-### User interface
+### Interface palettes
 
 Similar to palettes, the `theme.ui` setting maps colors to states (the 5 above) for user interface
 and layout related elements. The following elements are available.
@@ -595,3 +564,8 @@ themes:
     colors:
       blue: '#0652DD'
 ```
+
+[ios-responsive]:
+  https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
+[modular-scale]: https://www.modularscale.com
+[type-scale]: https://type-scale.com

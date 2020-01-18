@@ -62,3 +62,41 @@ export function resetTypography(): DeclarationBlock {
     wordWrap: 'break-word',
   };
 }
+
+export function textBreak(): DeclarationBlock {
+  return {
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word',
+  };
+}
+
+// export function root({ typography }: Tokens): DeclarationBlock {
+//   return {
+//     fontFamily: typography.font.text,
+//     fontSize: typography.rootTextSize,
+//     lineHeight: typography.rootLineHeight,
+//     textRendering: 'optimizeLegibility',
+//     textSizeAdjust: '100%',
+//     // @ts-ignore
+//     '-moz-osx-font-smoothing': 'grayscale',
+//     // @ts-ignore
+//     '-webkit-font-smoothing': 'antialiased',
+//   };
+// }
+
+export function textTruncate(): DeclarationBlock {
+  return {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  };
+}
+
+export function textWrap(): DeclarationBlock {
+  return {
+    overflowWrap: 'normal',
+    wordWrap: 'normal',
+    wordBreak: 'normal',
+  };
+}

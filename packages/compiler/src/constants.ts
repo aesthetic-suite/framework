@@ -1,7 +1,6 @@
 import {
   BorderSize,
   BreakpointSize,
-  LayerType,
   ShadowSize,
   SpacingSize,
   HeadingSize,
@@ -27,24 +26,7 @@ export const FONT_FAMILIES = {
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
 };
 
-export const HEADING_LEVELS: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
-
-export const LAYERS: { [K in LayerType]: string | number } = {
-  auto: 'auto',
-  hide: -1,
-  base: 0,
-  content: 100,
-  navigation: 1000,
-  menu: 1100,
-  sheet: 1200,
-  overlay: 1300,
-  modal: 1400,
-  popover: 1500,
-  toast: 1600,
-  tooltip: 1700,
-};
-
-export const LAYER_LEVELS = Object.keys(LAYERS);
+export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
 
 // https://learnui.design/blog/ultimate-guide-font-sizes-ui-design.html
 export const PLATFORM_CONFIGS = {

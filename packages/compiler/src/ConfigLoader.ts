@@ -1,5 +1,6 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
+import { Path } from '@boost/common';
 import { DeepPartial, ColorScheme, ContrastLevel, Hexcode } from '@aesthetic/system';
 import optimal, {
   array,
@@ -37,7 +38,8 @@ import {
   TypographyConfig,
   ColorStates,
 } from './types';
-import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, FONT_FAMILIES } from './constants';
+import { font } from './helpers';
+import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT } from './constants';
 
 function hexcode() {
   return string()
@@ -56,10 +58,6 @@ function unit(defaultValue: number = 0) {
   return number(defaultValue);
 }
 
-function font(platform: PlatformType, type: 'monospace' | 'system') {
-  return FONT_FAMILIES[`${platform}-${type}` as 'web-system'];
-}
-
 export default class ConfigLoader {
   platform: PlatformType;
 
@@ -67,8 +65,8 @@ export default class ConfigLoader {
     this.platform = platform;
   }
 
-  async load(filePath: string): Promise<ConfigFile> {
-    const data = await fs.promises.readFile(filePath, 'utf8');
+  async load(path: Path): Promise<ConfigFile> {
+    const data = await fs.promises.readFile(path.path(), 'utf8');
 
     return this.validate(yaml.safeLoad(data));
   }
@@ -152,6 +150,8 @@ export default class ConfigLoader {
         ],
         DEFAULT_BREAKPOINTS,
       ),
+      textScale: scale('minor-second'),
+      lineHeightScale: scale('minor-second'),
     }).exact();
   }
 
@@ -254,7 +254,6 @@ export default class ConfigLoader {
       letterSpacingScale: scale('perfect-fourth'),
       lineHeight: unit(1.5),
       lineHeightScale: scale('major-second'),
-      responsiveScale: scale('minor-second'),
       size: unit(16),
       sizeScale: scale('major-third'),
     }).exact();
@@ -290,7 +289,6 @@ export default class ConfigLoader {
         lineHeight: unit(1.5),
         size: unit(16),
       }).exact(),
-      responsiveScale: scale('minor-second'),
     }).exact();
 
     return union<TypographyConfig['heading']>(
@@ -303,7 +301,6 @@ export default class ConfigLoader {
     const textScaled = shape<TextScaledConfig>({
       lineHeight: unit(1.25),
       lineHeightScale: scale(0),
-      responsiveScale: scale('minor-second'),
       size: unit(14),
       sizeScale: scale('major-second'),
     }).exact();
@@ -321,7 +318,6 @@ export default class ConfigLoader {
         lineHeight: unit(1.25),
         size: unit(16),
       }).exact(),
-      responsiveScale: scale('minor-second'),
     }).exact();
 
     return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());

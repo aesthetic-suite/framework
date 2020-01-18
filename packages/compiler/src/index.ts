@@ -3,9 +3,10 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import Compiler from './Compiler';
 import ConfigLoader from './ConfigLoader';
 
 export * from './constants';
 export * from './types';
 
-export { ConfigLoader };
+export { Compiler, ConfigLoader };

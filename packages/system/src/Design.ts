@@ -1,14 +1,21 @@
 import deepMerge from 'extend';
-import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
 import Theme from './Theme';
+import { LAYERS } from './constants';
+import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
 
 export default class Design {
   readonly tokens: DesignTokens;
 
-  constructor(tokens: DesignTokens) {
-    this.tokens = tokens;
+  constructor(tokens: Omit<DesignTokens, 'layers'>) {
+    this.tokens = {
+      ...tokens,
+      layer: LAYERS,
+    };
   }
 
+  /**
+   * Create a new theme with the defined tokens, while inheriting the shared design tokens.
+   */
   createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme {
     return new Theme(options, {
       ...this.tokens,
@@ -16,6 +23,9 @@ export default class Design {
     });
   }
 
+  /**
+   * Extend and instantiate a new design instance with customized design tokens.
+   */
   extend(tokens: DeepPartial<DesignTokens>): Design {
     return new Design(deepMerge(true, {}, this.tokens, tokens));
   }
