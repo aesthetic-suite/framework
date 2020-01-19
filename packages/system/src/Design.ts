@@ -6,10 +6,12 @@ import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
 export default class Design {
   readonly tokens: DesignTokens;
 
-  constructor(tokens: Omit<DesignTokens, 'layers'>) {
+  constructor(tokens: Omit<DesignTokens, 'layers' | 'unit'>) {
     this.tokens = {
       ...tokens,
       layer: LAYERS,
+      // TODO
+      unit: () => '',
     };
   }
 

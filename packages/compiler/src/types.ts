@@ -262,9 +262,9 @@ export interface DesignTemplate {
   layer: {
     [K in LayerType]: number | string;
   };
-  shadow: {
-    [K in ShadowSize]: ShadowTemplate[];
-  };
+  // shadow: {
+  //   [K in ShadowSize]: ShadowTemplate[];
+  // };
   spacing: {
     [K in SpacingSize]: number; // Multiplier
   };

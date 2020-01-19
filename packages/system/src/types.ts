@@ -61,6 +61,7 @@ export interface BorderToken {
 export interface BreakpointToken {
   query: string;
   querySize: number;
+  rootLineHeight: number;
   rootTextSize: Unit;
 }
 
@@ -103,9 +104,9 @@ export interface DesignTokens {
   layer: {
     [K in LayerType]: number | string;
   };
-  shadow: {
-    [K in ShadowSize]: ShadowToken[];
-  };
+  // shadow: {
+  //   [K in ShadowSize]: ShadowToken[];
+  // };
   spacing: {
     [K in SpacingSize]: Unit;
   };

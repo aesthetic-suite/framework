@@ -7,6 +7,7 @@ import { LAYERS } from '@aesthetic/system/src';
 import ConfigLoader from './ConfigLoader';
 import System from './System';
 import SystemTheme from './SystemTheme';
+import WebPlatform from './platforms/Web';
 import { TargetType, SystemOptions, PlatformType, ConfigFile } from './types';
 import {
   BORDER_SIZES,
@@ -16,6 +17,8 @@ import {
   SPACING_SIZES,
   TEXT_SIZES,
 } from './constants';
+
+type Platform = WebPlatform;
 
 const TEMPLATES_FOLDER = Path.resolve('./templates', __dirname);
 
@@ -61,8 +64,18 @@ export default class Compiler {
     const system = new System(designConfig, this.options);
     const themes = this.loadThemes(system, themesConfig);
 
+    // Load the platform
+    const platform = this.loadPlatform(system.template.text.df.size);
+
     // Write the system file
-    await this.writeSystemFile(system);
+    await this.writeSystemFile(system, platform);
+
+    // Write all theme files
+    await Promise.all(
+      Array.from(themes.entries()).map(([name, theme]) =>
+        this.writeThemeFile(name, theme, platform),
+      ),
+    );
   }
 
   getTargetExtension(): string {
@@ -98,7 +111,7 @@ export default class Compiler {
     return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
   }
 
-  async writeSystemFile(system: System) {
+  async writeSystemFile(system: System, platform: Platform) {
     const template = await this.loadTemplateFile('system');
 
     return fs.promises.writeFile(
@@ -112,6 +125,7 @@ export default class Compiler {
         spacingSizes: SPACING_SIZES,
         textSizes: TEXT_SIZES,
         template: system.template,
+        platform,
       }),
       'utf8',
     );
@@ -119,13 +133,16 @@ export default class Compiler {
 
   // async writeMixinsFile() {}
 
-  async writeThemeFile(name: string, theme: SystemTheme) {
+  async writeThemeFile(name: string, theme: SystemTheme, platform: Platform) {
     const template = await this.loadTemplateFile('theme');
+    const fileName = camelCase(name);
 
     return fs.promises.writeFile(
-      this.getTargetFilePath(`theme/${camelCase(name)}`),
+      this.getTargetFilePath(`themes/${fileName}`),
       await template({
+        fileName,
         template: theme.template,
+        platform,
       }),
       'utf8',
     );
@@ -143,6 +160,10 @@ export default class Compiler {
     }
 
     return path;
+  }
+
+  protected loadPlatform(rootSize: number): Platform {
+    return new WebPlatform(rootSize);
   }
 
   protected loadThemes(
@@ -170,7 +191,7 @@ export default class Compiler {
         throw new Error(`Trying to extend theme "${extendsFrom}" which does not exist.`);
       }
 
-      map.set(name, parentTheme.extend(themeConfig, extendsFrom));
+      map.set(name, parentTheme.extend(themeConfig, camelCase(extendsFrom)));
     });
 
     return map;
