@@ -1,42 +1,74 @@
 import deepMerge from 'extend';
 import { ColorScheme, ContrastLevel, DeepPartial } from '@aesthetic/system';
-import {
-  ThemeConfig,
-  ColorStates,
-  ColorConfig,
-  ColorShade,
-  DesignTemplate,
-  ThemeTemplate,
-} from './types';
+import { ThemeConfig, ColorStates, ColorConfig, ColorShade, ThemeTemplate } from './types';
 
 export default class SystemTheme<ColorNames extends string = string> {
-  readonly contrast: ContrastLevel;
+  contrast: ContrastLevel;
 
-  readonly extendedFrom: string;
+  extendedFrom: string;
 
-  readonly scheme: ColorScheme;
+  scheme: ColorScheme;
 
-  readonly template: ThemeTemplate;
+  template: ThemeTemplate;
 
   private readonly config: ThemeConfig<ColorNames>;
 
-  constructor(
-    config: ThemeConfig<ColorNames>,
-    template: DesignTemplate,
-    extendedFrom: string = '',
-  ) {
+  constructor(config: ThemeConfig<ColorNames>, extendedFrom: string = '') {
     this.config = config;
     this.contrast = config.contrast;
     this.scheme = config.scheme;
     this.template = {
-      ...template,
       palette: this.compilePalettes(),
+      ui: this.compileUI(),
     };
     this.extendedFrom = extendedFrom;
   }
 
   extend(config: DeepPartial<ThemeConfig<ColorNames>>, name: string): SystemTheme<ColorNames> {
-    return new SystemTheme(deepMerge(true, {}, this.config, config), this.template, name);
+    return new SystemTheme(deepMerge(true, {}, this.config, config), name);
+  }
+
+  protected getColorHexcode(ref: string): string {
+    let hex = '';
+
+    if (ref.includes('.')) {
+      const [hue, shade] = ref.split('.') as [ColorNames, ColorShade];
+
+      hex = (this.config.colors[hue] as ColorConfig)[shade];
+    } else {
+      hex = String(this.config.colors[ref as ColorNames]);
+    }
+
+    return hex;
+  }
+
+  // eslint-disable-next-line complexity
+  protected compileColorState(state: ColorStates): ColorStates {
+    const base = this.getColorHexcode(state.base);
+    let disabled = state.disabled ? this.getColorHexcode(state.disabled) : '';
+    let focused = state.focused ? this.getColorHexcode(state.focused) : '';
+    let hovered = state.hovered ? this.getColorHexcode(state.hovered) : '';
+    let selected = state.selected ? this.getColorHexcode(state.selected) : '';
+
+    // With shades
+    if (base.includes('.')) {
+      const [hue, baseShade] = base.split('.');
+      const shade = Number(baseShade);
+
+      disabled = disabled || base;
+      focused = focused || this.getColorHexcode(`${hue}.${shade + 10}`);
+      hovered = hovered || this.getColorHexcode(`${hue}.${shade + 20}`);
+      selected = selected || this.getColorHexcode(`${hue}.${shade + 10}`);
+
+      // No shades
+    } else {
+      disabled = disabled || base;
+      focused = focused || base;
+      hovered = hovered || base;
+      selected = selected || base;
+    }
+
+    return { base, disabled, focused, hovered, selected };
   }
 
   protected compilePalettes(): ThemeTemplate['palette'] {
@@ -44,33 +76,23 @@ export default class SystemTheme<ColorNames extends string = string> {
     const tokens: Partial<ThemeTemplate['palette']> = {};
 
     Object.entries(palettes).forEach(([name, config]) => {
-      tokens[name as keyof typeof tokens] = {
-        bg: this.compilePaletteState(config.bg),
-        fg: this.compilePaletteState(config.fg),
+      tokens[name as keyof typeof palettes] = {
+        bg: this.compileColorState(config.bg),
+        fg: this.compileColorState(config.fg),
       };
     });
 
     return tokens as ThemeTemplate['palette'];
   }
 
-  protected compilePaletteState(state: ColorStates): ColorStates {
-    const token: Partial<ColorStates> = {};
+  protected compileUI(): ThemeTemplate['ui'] {
+    const { ui } = this.config;
+    const tokens: Partial<ThemeTemplate['ui']> = {};
 
-    Object.entries(state).forEach(([key, value]) => {
-      const path = String(value);
-      let hex = '';
-
-      if (path.includes('.')) {
-        const [hue, shade] = path.split('.') as [ColorNames, ColorShade];
-
-        hex = (this.config.colors[hue] as ColorConfig)[shade];
-      } else {
-        hex = this.config.colors[path as ColorNames] as string;
-      }
-
-      token[key as keyof typeof token] = hex;
+    Object.entries(ui).forEach(([name, config]) => {
+      tokens[name as keyof typeof ui] = this.compileColorState(config);
     });
 
-    return token as ColorStates;
+    return tokens as ThemeTemplate['ui'];
   }
 }

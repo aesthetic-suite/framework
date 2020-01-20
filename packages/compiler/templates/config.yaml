@@ -16,6 +16,10 @@ responsive:
     - 1600
     - 1920
 
+  # Scaling factor to modify the text and line height for each breakpoint.
+  textScale: minor-second
+  lineHeightScale: minor-second
+
 # SPACING
 spacing:
   # The type of algorithm to use when calculating spacing and measurement tokens.
@@ -39,7 +43,6 @@ typography:
     sizeScale: major-second
     lineHeight: 1.25
     lineHeightScale: 0
-    responsiveScale: minor-second
 
   # Level 6 heading size, line height, and letter spacing. Levels 5-1 are automatically
   # calculated by incrementing upwards using module scale.
@@ -51,7 +54,6 @@ typography:
     lineHeightScale: major-second
     letterSpacing: 0.25
     letterSpacingScale: perfect-fourth
-    responsiveScale: minor-second
 
 # COLORS
 colors:
@@ -66,3 +68,60 @@ themes:
     colors:
       black: '#000'
       white: '#fff'
+    palettes:
+      brand:
+        bg:
+          base: white
+        fg:
+          base: black
+      primary:
+        bg:
+          base: white
+        fg:
+          base: black
+      secondary:
+        bg:
+          base: white
+        fg:
+          base: black
+      tertiary:
+        bg:
+          base: white
+        fg:
+          base: black
+      muted:
+        bg:
+          base: white
+        fg:
+          base: black
+      info:
+        bg:
+          base: white
+        fg:
+          base: black
+      warning:
+        bg:
+          base: white
+        fg:
+          base: black
+      danger:
+        bg:
+          base: white
+        fg:
+          base: black
+      success:
+        bg:
+          base: white
+        fg:
+          base: black
+    ui:
+      border:
+        base: black
+      box:
+        base: white
+      document:
+        base: white
+      shadow:
+        base: black
+      text:
+        base: black

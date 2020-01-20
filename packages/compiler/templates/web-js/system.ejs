@@ -9,43 +9,43 @@ export default new Design({
       radius: '<%= platform.rem(template.border[size].radius) %>',
       width: '<%= platform.rem(template.border[size].width) %>',
     },
-    <% } %>
+    <% }) %>
   },
   breakpoint: {
     <% breakpointSizes.forEach(size => { %>
     <%= size %>: {
       query: '<%= platform.query(template.breakpoint[size].queryConditions) %>',
       querySize: <%= template.breakpoint[size].querySize %>,
-      rootLineHeight: <%= template.breakpoint[size].rootLineHeight %>,
-      rootTextSize: '<%= platform.rem(template.breakpoint[size].rootTextSize) %>',
+      rootLineHeight: <%= platform.number(template.breakpoint[size].rootLineHeight) %>,
+      rootTextSize: '<%= platform.px(template.breakpoint[size].rootTextSize) %>',
     },
-    <% } %>
+    <% }) %>
   },
   heading: {
     <% headingSizes.forEach(size => { %>
     <%= size %>: {
       letterSpacing: '<%= platform.px(template.heading[size].letterSpacing) %>',
-      lineHeight: <%= template.heading[size].lineHeight %>,
+      lineHeight: <%= platform.number(template.heading[size].lineHeight) %>,
       size: '<%= platform.rem(template.heading[size].size) %>',
     },
-    <% } %>
+    <% }) %>
   },
   spacing: {
     <% spacingSizes.forEach(size => { %>
     <%= size %>: '<%= template.spacing[size] %>rem',
-    <% } %>
+    <% }) %>
   },
   text: {
     <% textSizes.forEach(size => { %>
     <%= size %>: {
-      lineHeight: <%= template.text[size].lineHeight %>,
+      lineHeight: <%= platform.number(template.text[size].lineHeight) %>,
       size: '<%= platform.rem(template.text[size].size) %>',
     },
-    <% } %>
+    <% }) %>
   },
   typography: {
-    font: <%= JSON.stringify(template.typography.font) %>,
-    rootLineHeight: <%= template.text.df.lineHeight %>,
-    rootTextSize: '<%= platform.rem(template.text.df.size) %>',
-  };
+    font: <%- JSON.stringify(template.typography.font) %>,
+    rootLineHeight: <%= platform.number(template.text.df.lineHeight) %>,
+    rootTextSize: '<%= platform.px(template.text.df.size) %>',
+  },
 });

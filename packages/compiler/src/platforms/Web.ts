@@ -9,6 +9,10 @@ export default class WebPlatform {
     this.rootSize = rootSize;
   }
 
+  number(value: number): number {
+    return Number(formatUnit(value));
+  }
+
   px(value: number): string {
     return `${formatUnit(value)}px`;
   }

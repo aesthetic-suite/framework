@@ -2342,6 +2342,11 @@
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.19.0.tgz#a2502fb7ce9b6626fdbfc2e2a496f472de1bdd05"
   integrity sha512-gDE8JJEygpay7IjA/u3JiIURvwZW08f0cZSZLAzFoX/ZmeqvS0Sqv+97aKuHpNsalAMMhwPe+iAS6fQbfmbt7A==
 
+"@types/prettier@^1.12.0":
+  version "1.19.0"
+  resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.19.0.tgz#a2502fb7ce9b6626fdbfc2e2a496f472de1bdd05"
+  integrity sha512-gDE8JJEygpay7IjA/u3JiIURvwZW08f0cZSZLAzFoX/ZmeqvS0Sqv+97aKuHpNsalAMMhwPe+iAS6fQbfmbt7A==
+
 "@types/prop-types@*", "@types/prop-types@^15.7.3":
   version "15.7.3"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
@@ -8333,10 +8338,10 @@ optimal@^4.1.1:
   resolved "https://registry.npmjs.org/optimal/-/optimal-4.2.0.tgz#a97d9a12cb543988f2e54b88416b77d9a811ed69"
   integrity sha512-jKFdiBkhJCVMh6oXsGNVFv/huPeFTEdlBtSuwDBYYClFn6lwV0fdRwRhWtpazM1ZMuV+bNNRFMth9SMWvUk3uQ==
 
-optimal@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/optimal/-/optimal-4.0.0.tgz#d7bdee96f26fdf27a79ee1b2282fb00fd63e4ebc"
-  integrity sha512-QkKew6FnVXabjMvBZZWIXZBFWl8kdJrluACYFKot/1vMd+eiWi93B5SCkb8PcHbv/8GsSDlCyI/SvO0a4Dxbpw==
+optimal@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/optimal/-/optimal-4.0.1.tgz#d5e776cf2f348b51c79fe8960e7b241758972fd7"
+  integrity sha512-Lu8Z9dC5v1sQKyWhTH9ubM3d1m6N7MgrKKZlaUcbywCxbDqDVg4OrdWjbVIlCSdblYwNcT7AVF9CYdp5sfgPqw==
 
 optimist@^0.6.1:
   version "0.6.1"

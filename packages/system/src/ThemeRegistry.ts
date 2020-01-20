@@ -1,5 +1,5 @@
 import Theme from './Theme';
-import { ColorScheme, ContrastLevel, QueryParams } from './types';
+import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
 
 export default class ThemeRegistry {
   protected defaultDarkTheme: string = '';
@@ -97,7 +97,7 @@ export default class ThemeRegistry {
   /**
    * Query for a theme that matches the defined parameters.
    */
-  query(params: QueryParams): Theme | undefined {
+  query(params: Partial<ThemeOptions>): Theme | undefined {
     return Array.from(this.themes.values()).find(theme => {
       const conditions: boolean[] = [];
 

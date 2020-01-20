@@ -33,7 +33,7 @@ export function scaleUp(accumulator: number, scaling: Scale): number {
 }
 
 export default class System {
-  readonly template: DesignTemplate;
+  template: DesignTemplate;
 
   private readonly config: DesignConfig;
 
@@ -46,7 +46,7 @@ export default class System {
   }
 
   createTheme(config: ThemeConfig): SystemTheme {
-    return new SystemTheme(config, this.template);
+    return new SystemTheme(config);
   }
 
   protected compile(): DesignTemplate {
@@ -57,7 +57,7 @@ export default class System {
       breakpoint: this.compileBreakpoints(text),
       heading: this.compileHeadings(),
       layer: this.compileLayers(),
-      shadow: this.compileShadows(),
+      // shadow: this.compileShadows(),
       spacing: this.compileSpacing(),
       text,
       typography: this.compileTypography(text),
@@ -204,10 +204,10 @@ export default class System {
     return { ...LAYERS };
   }
 
-  protected compileShadows(): DesignTemplate['shadow'] {
-    // @ts-ignore TODO
-    return {};
-  }
+  // protected compileShadows(): DesignTemplate['shadow'] {
+  //   // @ts-ignore TODO
+  //   return {};
+  // }
 
   protected compileSpacing(): DesignTemplate['spacing'] {
     // These are multipliers, not the actual values

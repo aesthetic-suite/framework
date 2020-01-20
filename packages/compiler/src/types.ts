@@ -7,7 +7,6 @@ import {
   Hexcode,
   LayerType,
   PaletteType,
-  ShadowSize,
   SpacingSize,
   TextSize,
   UiType,
@@ -284,6 +283,7 @@ export interface DesignTemplate {
   };
 }
 
-export interface ThemeTemplate extends DesignTemplate {
+export interface ThemeTemplate {
   palette: ThemeConfig['palettes'];
+  ui: ThemeConfig['ui'];
 }
