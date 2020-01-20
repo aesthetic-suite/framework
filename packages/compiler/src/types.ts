@@ -266,6 +266,9 @@ export interface DesignTemplate {
   // };
   spacing: {
     [K in SpacingSize]: number; // Multiplier
+  } & {
+    type: SpacingType;
+    unit: number;
   };
   text: {
     [K in TextSize]: TypographyTemplate;

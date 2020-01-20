@@ -109,6 +109,9 @@ export interface DesignTokens {
   // };
   spacing: {
     [K in SpacingSize]: Unit;
+  } & {
+    type: string;
+    unit: number;
   };
   text: {
     [K in TextSize]: TextToken;

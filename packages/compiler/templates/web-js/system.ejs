@@ -32,8 +32,10 @@ export default new Design({
   },
   spacing: {
     <% spacingSizes.forEach(size => { %>
-    <%= size %>: '<%= template.spacing[size] %>rem',
+    <%= size %>: '<%= platform.unit(template.spacing[size]) %>',
     <% }) %>
+    type: '<%= template.spacing.type %>',
+    unit: <%= template.spacing.unit %>,
   },
   text: {
     <% textSizes.forEach(size => { %>

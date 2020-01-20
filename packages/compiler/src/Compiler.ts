@@ -75,7 +75,7 @@ export default class Compiler {
     const themes = this.loadThemes(system, themesConfig);
 
     // Load the platform
-    const platform = this.loadPlatform(system.template.text.df.size);
+    const platform = this.loadPlatform(system);
 
     // Write the system file
     await this.writeSystemFile(system, platform);
@@ -115,16 +115,25 @@ export default class Compiler {
     return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
   }
 
-  async loadTemplateFile(name: string): Promise<AsyncTemplateFunction> {
+  async loadTemplateFile(name: string): Promise<AsyncTemplateFunction | null> {
     const { target } = this.options;
     const targetFolder = target === 'web-ts' ? 'web-js' : target;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
 
+    // Not all targets use all templates
+    if (!templatePath.exists()) {
+      return null;
+    }
+
     return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
   }
 
-  async writeSystemFile(system: System, platform: Platform) {
+  async writeSystemFile(system: System, platform: Platform): Promise<void> {
     const template = await this.loadTemplateFile('system');
+
+    if (!template) {
+      return Promise.resolve();
+    }
 
     return this.writeFile(
       this.getTargetFilePath('system'),
@@ -145,9 +154,13 @@ export default class Compiler {
 
   // async writeMixinsFile() {}
 
-  async writeThemeFile(name: string, theme: SystemTheme, platform: Platform) {
+  async writeThemeFile(name: string, theme: SystemTheme, platform: Platform): Promise<void> {
     const template = await this.loadTemplateFile('theme');
     const fileName = camelCase(name);
+
+    if (!template) {
+      return Promise.resolve();
+    }
 
     return this.writeFile(
       this.getTargetFilePath(`themes/${fileName}`),
@@ -174,8 +187,8 @@ export default class Compiler {
     return path;
   }
 
-  protected loadPlatform(rootSize: number): Platform {
-    return new WebPlatform(rootSize);
+  protected loadPlatform(system: System): Platform {
+    return new WebPlatform(system.template.text.df.size, system.template.spacing.unit);
   }
 
   protected loadThemes(

@@ -58,7 +58,7 @@ export default class System {
       heading: this.compileHeadings(),
       layer: this.compileLayers(),
       // shadow: this.compileShadows(),
-      spacing: this.compileSpacing(),
+      spacing: this.compileSpacing(text),
       text,
       typography: this.compileTypography(text),
     };
@@ -209,9 +209,14 @@ export default class System {
   //   return {};
   // }
 
-  protected compileSpacing(): DesignTemplate['spacing'] {
-    // These are multipliers, not the actual values
+  protected compileSpacing(text: DesignTemplate['text']): DesignTemplate['spacing'] {
+    const { type, unit: baseUnit } = this.config.spacing;
+    const unit = type === 'vertical-rhythm' ? text.df.size * text.df.lineHeight : baseUnit;
+
     return {
+      type,
+      unit,
+      // These are multipliers, not the actual values
       xs: 0.25,
       sm: 0.5,
       df: 1,

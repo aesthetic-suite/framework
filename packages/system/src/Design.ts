@@ -1,18 +1,30 @@
 import deepMerge from 'extend';
 import Theme from './Theme';
 import { LAYERS } from './constants';
-import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
+import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, Unit } from './types';
 
 export default class Design {
+  readonly rootLineHeight: number;
+
+  readonly rootTextSize: number;
+
+  readonly spacingUnit: number;
+
   readonly tokens: DesignTokens;
 
   constructor(tokens: Omit<DesignTokens, 'layers' | 'unit'>) {
     this.tokens = {
       ...tokens,
       layer: LAYERS,
-      // TODO
-      unit: () => '',
+      unit: this.unit,
     };
+
+    this.rootLineHeight = tokens.typography.rootLineHeight;
+    this.rootTextSize = parseFloat(tokens.typography.rootTextSize);
+    this.spacingUnit =
+      tokens.spacing.type === 'vertical-rhythm'
+        ? this.rootTextSize * this.rootLineHeight
+        : tokens.spacing.unit;
   }
 
   /**
@@ -31,4 +43,13 @@ export default class Design {
   extend(tokens: DeepPartial<DesignTokens>): Design {
     return new Design(deepMerge(true, {}, this.tokens, tokens));
   }
+
+  /**
+   * Return a `rem` unit equivalent for the current spacing type and unit.
+   */
+  unit = (...multipliers: number[]): Unit => {
+    return multipliers
+      .map(m => `${((this.spacingUnit * m) / this.rootTextSize).toFixed(2).replace('.00', '')}rem`)
+      .join(' ');
+  };
 }

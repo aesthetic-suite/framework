@@ -351,33 +351,38 @@ export default class ConfigLoader {
   };
 
   protected validatePaletteColorReference = (ref: string, schema: Schema<ConfigFile>) => {
-    // const colors = schema.struct.colors!;
-    // if (!ref) {
-    //   return;
-    // }
-    // // Hue + shade: black.10
-    // if (ref.includes('.')) {
-    //   const [hue, shade] = ref.split('.') as [string, ColorShade];
-    //   // @ts-ignore TODO need parent object
-    //   const config: string | ColorConfig = colors[hue];
-    //   if (typeof config === 'string') {
-    //     throw new TypeError(
-    //       `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
-    //     );
-    //   } else if (!config || !config[shade]) {
-    //     throw new Error(`Invalid color reference, "${ref}" does not exist.`);
-    //   }
-    //   return;
-    // }
-    // // Hue w/ no shade: black
-    // // @ts-ignore TODO need parent object
-    // const config: string | ColorConfig = colors[ref];
-    // if (config && typeof config !== 'string') {
-    //   throw new Error(
-    //     `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
-    //   );
-    // } else if (!config) {
-    //   throw new Error(`Invalid color reference, "${ref}" does not exist.`);
-    // }
+    const themeName = schema.currentPath.split('.')[1];
+    const colors = schema.struct.themes?.[themeName]?.colors ?? {};
+
+    if (!ref) {
+      return;
+    }
+
+    // Hue + shade: black.10
+    if (ref.includes('.')) {
+      const [hue, shade] = ref.split('.') as [string, ColorShade];
+      const config: string | ColorConfig = colors[hue];
+
+      if (typeof config === 'string') {
+        throw new TypeError(
+          `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
+        );
+      } else if (!config || !config[shade]) {
+        throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+      }
+
+      return;
+    }
+
+    // Hue w/ no shade: black
+    const config: string | ColorConfig = colors[ref];
+
+    if (config && typeof config !== 'string') {
+      throw new Error(
+        `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
+      );
+    } else if (!config) {
+      throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+    }
   };
 }

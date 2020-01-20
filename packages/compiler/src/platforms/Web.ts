@@ -1,12 +1,15 @@
 import { formatUnit } from '../helpers';
 import { BreakpointCondition } from '../types';
 
-// All values are assumed to be px
+// All input values are assumed to be px
 export default class WebPlatform {
   readonly rootSize: number;
 
-  constructor(rootSize: number) {
+  readonly spacingUnit: number;
+
+  constructor(rootSize: number, spacingUnit: number) {
     this.rootSize = rootSize;
+    this.spacingUnit = spacingUnit;
   }
 
   number(value: number): number {
@@ -23,6 +26,10 @@ export default class WebPlatform {
 
   rem(value: number): string {
     return `${formatUnit(value / this.rootSize)}rem`;
+  }
+
+  unit(size: number): string {
+    return this.rem(size * this.spacingUnit);
   }
 
   query(conditions: BreakpointCondition[]): string {

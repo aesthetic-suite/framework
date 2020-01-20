@@ -8338,10 +8338,10 @@ optimal@^4.1.1:
   resolved "https://registry.npmjs.org/optimal/-/optimal-4.2.0.tgz#a97d9a12cb543988f2e54b88416b77d9a811ed69"
   integrity sha512-jKFdiBkhJCVMh6oXsGNVFv/huPeFTEdlBtSuwDBYYClFn6lwV0fdRwRhWtpazM1ZMuV+bNNRFMth9SMWvUk3uQ==
 
-optimal@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.npmjs.org/optimal/-/optimal-4.0.1.tgz#d5e776cf2f348b51c79fe8960e7b241758972fd7"
-  integrity sha512-Lu8Z9dC5v1sQKyWhTH9ubM3d1m6N7MgrKKZlaUcbywCxbDqDVg4OrdWjbVIlCSdblYwNcT7AVF9CYdp5sfgPqw==
+optimal@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/optimal/-/optimal-4.1.0.tgz#5d4b60995252b59c32d4255389a689d6d8317a2c"
+  integrity sha512-159qGqL0Wt7gegXeG8uqwJCDpZ7BTfLpZu531fS6g5FycFnyUrSFQ6E+khUanL8ss+RmARE3tbhlLU0HjgJGCQ==
 
 optimist@^0.6.1:
   version "0.6.1"
