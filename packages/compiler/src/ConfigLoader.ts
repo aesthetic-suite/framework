@@ -37,6 +37,9 @@ import {
   ThemeConfig,
   TypographyConfig,
   ColorStates,
+  ShadowScaledConfig,
+  ShadowSizedConfig,
+  ShadowConfig,
 } from './types';
 import { font } from './helpers';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT } from './constants';
@@ -77,6 +80,7 @@ export default class ConfigLoader {
       borders: this.borders(),
       colors: this.colors(),
       responsive: this.responsive(),
+      shadows: this.shadows(),
       spacing: this.spacing(),
       themes: this.themes(),
       typography: this.typography(),
@@ -154,6 +158,54 @@ export default class ConfigLoader {
       textScale: scale('minor-second'),
       lineHeightScale: scale('minor-second'),
     }).exact();
+  }
+
+  protected shadows() {
+    const shadowScaled = shape<ShadowScaledConfig>({
+      blur: unit(2),
+      blurScale: scale(1.75),
+      spread: unit(0),
+      spreadScale: scale(0),
+      x: unit(0),
+      xScale: scale(0),
+      y: unit(1),
+      yScale: scale('golden-ratio'),
+    }).exact();
+
+    const shadowSizes = shape<ShadowSizedConfig>({
+      xsmall: shape({
+        blur: unit(2),
+        spread: unit(0),
+        x: unit(0),
+        y: unit(1),
+      }).exact(),
+      small: shape({
+        blur: unit(3.5),
+        spread: unit(0),
+        x: unit(0),
+        y: unit(1.6),
+      }).exact(),
+      medium: shape({
+        blur: unit(6),
+        spread: unit(0),
+        x: unit(0),
+        y: unit(2.6),
+      }).exact(),
+      large: shape({
+        blur: unit(10),
+        spread: unit(0),
+        x: unit(0),
+        y: unit(4.25),
+      }).exact(),
+      xlarge: shape({
+        blur: unit(18),
+        spread: unit(0),
+        x: unit(0),
+        y: unit(6.85),
+      }).exact(),
+    }).exact();
+
+    return union<ShadowConfig>([shadowScaled, shadowSizes], shadowScaled.default());
   }
 
   protected spacing() {

@@ -1,7 +1,7 @@
-import { LAYERS } from '@aesthetic/system';
+import { DEPTHS } from '@aesthetic/system';
 import SystemTheme from './SystemTheme';
 import { font as getFont } from './helpers';
-import { SCALES, BREAKPOINT_SIZES } from './constants';
+import { SCALES, BREAKPOINT_SIZES, SHADOW_SIZES } from './constants';
 import {
   BorderTemplate,
   BreakpointCondition,
@@ -55,9 +55,9 @@ export default class System {
     return {
       border: this.compileBorders(),
       breakpoint: this.compileBreakpoints(text),
+      elevation: this.compileElevation(),
       heading: this.compileHeadings(),
-      layer: this.compileLayers(),
-      // shadow: this.compileShadows(),
+      shadow: this.compileShadows(),
       spacing: this.compileSpacing(text),
       text,
       typography: this.compileTypography(text),
@@ -200,14 +200,55 @@ export default class System {
     return { l1, l2, l3, l4, l5, l6 };
   }
 
-  protected compileLayers(): DesignTemplate['layer'] {
-    return { ...LAYERS };
+  protected compileElevation(): DesignTemplate['elevation'] {
+    return { ...DEPTHS };
   }
 
-  // protected compileShadows(): DesignTemplate['shadow'] {
-  //   // @ts-ignore TODO
-  //   return {};
-  // }
+  protected compileShadows(): DesignTemplate['shadow'] {
+    const { shadows } = this.config;
+    const tokens: DesignTemplate['shadow'] = {
+      xs: { x: 0, y: 0, blur: 0, spread: 0 },
+      sm: { x: 0, y: 0, blur: 0, spread: 0 },
+      md: { x: 0, y: 0, blur: 0, spread: 0 },
+      lg: { x: 0, y: 0, blur: 0, spread: 0 },
+      xl: { x: 0, y: 0, blur: 0, spread: 0 },
+    };
+
+    // Explicit values
+    if ('small' in shadows) {
+      const { xsmall: xs, small: sm, medium: md, large: lg, xlarge: xl } = shadows;
+
+      tokens.xs = xs;
+      tokens.sm = sm;
+      tokens.md = md;
+      tokens.lg = lg;
+      tokens.xl = xl;
+
+      // Scaled values
+    } else {
+      const { x, xScale, y, yScale, blur, blurScale, spread, spreadScale } = shadows;
+      let lastX = x;
+      let lastY = y;
+      let lastBlur = blur;
+      let lastSpread = spread;
+
+      SHADOW_SIZES.forEach(size => {
+        tokens[size] = {
+          x: lastX,
+          y: lastY,
+          blur: lastBlur,
+          spread: lastSpread,
+        };
+
+        lastX = scaleUp(lastX, xScale);
+        lastY = scaleUp(lastY, yScale);
+        lastBlur = scaleUp(lastBlur, blurScale);
+        lastSpread = scaleUp(lastSpread, spreadScale);
+      });
+    }
+
+    return tokens;
+  }
 
   protected compileSpacing(text: DesignTemplate['text']): DesignTemplate['spacing'] {
     const { type, unit: baseUnit } = this.config.spacing;

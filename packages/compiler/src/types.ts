@@ -5,11 +5,12 @@ import {
   ContrastLevel,
   HeadingSize,
   Hexcode,
-  LayerType,
   PaletteType,
   SpacingSize,
   TextSize,
   UiType,
+  ElevationType,
+  ShadowSize,
 } from '@aesthetic/system';
 
 export type PlatformType = 'android' | 'ios' | 'web';
@@ -93,18 +94,31 @@ export interface ResponsiveConfig {
   textScale: Scale;
 }
 
-// Shadows
+// Elevation
 
-export interface ShadowConfig {
+export interface BaseShadowConfig {
   blur: number;
-  blurScale: Scale;
   spread: number;
-  spreadScale: Scale;
   x: number;
-  xScale: Scale;
   y: number;
+}
+
+export interface ShadowScaledConfig extends BaseShadowConfig {
+  blurScale: Scale;
+  spreadScale: Scale;
+  xScale: Scale;
   yScale: Scale;
 }
+
+export interface ShadowSizedConfig {
+  xsmall: BaseShadowConfig;
+  small: BaseShadowConfig;
+  medium: BaseShadowConfig;
+  large: BaseShadowConfig;
+  xlarge: BaseShadowConfig;
+}
+
+export type ShadowConfig = ShadowScaledConfig | ShadowSizedConfig;
 
 // Spacing
 
@@ -171,6 +185,7 @@ export interface DesignConfig {
   borders: BorderConfig;
   colors: string[];
   responsive: ResponsiveConfig;
+  shadows: ShadowConfig;
   spacing: SpacingConfig;
   typography: TypographyConfig;
 }
@@ -255,15 +270,15 @@ export interface DesignTemplate {
   breakpoint: {
     [K in BreakpointSize]: BreakpointTemplate;
   };
+  elevation: {
+    [K in ElevationType]: number;
+  };
   heading: {
     [K in HeadingSize]: TypographyTemplate;
   };
-  layer: {
-    [K in LayerType]: number | string;
+  shadow: {
+    [K in ShadowSize]: ShadowTemplate;
   };
-  // shadow: {
-  //   [K in ShadowSize]: ShadowTemplate[];
-  // };
   spacing: {
     [K in SpacingSize]: number; // Multiplier
   } & {

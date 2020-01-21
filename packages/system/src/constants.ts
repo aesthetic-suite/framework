@@ -1,16 +1,13 @@
-import { LayerType } from './types';
+import { ElevationType } from './types';
 
-export const LAYERS: { [K in LayerType]: string | number } = {
-  auto: 'auto',
-  hide: -1,
-  base: 0,
-  content: 100,
-  navigation: 1000,
-  menu: 1100,
-  sheet: 1200,
-  overlay: 1300,
-  modal: 1400,
-  popover: 1500,
-  toast: 1600,
-  tooltip: 1700,
+export const DEPTHS: { [K in ElevationType]: number } = {
+  content: 100, // xs
+  navigation: 1000, // sm
+  menu: 1100, // md
+  sheet: 1200, // lg
+  overlay: 1300, // lg
+  modal: 1400, // xl
+  popover: 1500, // md
+  toast: 1600, // md
+  tooltip: 1700, // sm
 };

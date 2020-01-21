@@ -109,6 +109,13 @@ export default class Theme {
         textTruncate: mixins.textTruncate(),
         textWrap: mixins.textWrap(),
       },
+      shadow: {
+        xs: mixins.shadow(this.tokens, 'xs'),
+        sm: mixins.shadow(this.tokens, 'sm'),
+        md: mixins.shadow(this.tokens, 'md'),
+        lg: mixins.shadow(this.tokens, 'lg'),
+        xl: mixins.shadow(this.tokens, 'xl'),
+      },
       text: {
         sm: mixins.text(this.tokens, 'sm'),
         df: mixins.text(this.tokens, 'df'),

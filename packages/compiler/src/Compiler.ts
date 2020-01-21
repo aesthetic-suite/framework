@@ -4,7 +4,7 @@ import ejs, { AsyncTemplateFunction } from 'ejs';
 import { camelCase } from 'lodash';
 import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
-import { LAYERS } from '@aesthetic/system';
+import { DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
 import System from './System';
 import SystemTheme from './SystemTheme';
@@ -140,8 +140,8 @@ export default class Compiler {
       await template({
         borderSizes: BORDER_SIZES,
         breakpointSizes: BREAKPOINT_SIZES,
+        elevationDepths: DEPTHS,
         headingSizes: HEADING_SIZES,
-        layerLevels: LAYERS,
         platform,
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,

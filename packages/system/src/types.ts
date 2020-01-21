@@ -16,10 +16,7 @@ export type ContrastLevel = 'normal' | 'high' | 'low';
 
 export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
-export type LayerType =
-  | 'hide'
-  | 'auto'
-  | 'base'
+export type ElevationType =
   | 'content'
   | 'navigation'
   | 'menu'
@@ -98,15 +95,15 @@ export interface DesignTokens {
   breakpoint: {
     [K in BreakpointSize]: BreakpointToken;
   };
+  elevation: {
+    [K in ElevationType]: number;
+  };
   heading: {
     [K in HeadingSize]: HeadingToken;
   };
-  layer: {
-    [K in LayerType]: number | string;
+  shadow: {
+    [K in ShadowSize]: ShadowToken;
   };
-  // shadow: {
-  //   [K in ShadowSize]: ShadowToken[];
-  // };
   spacing: {
     [K in SpacingSize]: Unit;
   } & {
@@ -173,6 +170,9 @@ export interface Mixins {
     textTruncate: DeclarationBlock;
     textWrap: DeclarationBlock;
   };
+  shadow: {
+    [K in ShadowSize]: DeclarationBlock;
+  };
   // state: {
   //   disabled: DeclarationBlock;
   //   focused: DeclarationBlock;
@@ -196,6 +196,11 @@ export type MixinTarget =
   | 'heading.l4'
   | 'heading.l5'
   | 'heading.l6'
+  | 'shadow.xs'
+  | 'shadow.sm'
+  | 'shadow.df'
+  | 'shadow.lg'
+  | 'shadow.xl'
   | 'text.sm'
   | 'text.df'
   | 'text.lg';

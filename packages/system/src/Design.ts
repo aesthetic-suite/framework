@@ -1,6 +1,6 @@
 import deepMerge from 'extend';
 import Theme from './Theme';
-import { LAYERS } from './constants';
+import { DEPTHS } from './constants';
 import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, Unit } from './types';
 
 export default class Design {
@@ -12,10 +12,10 @@ export default class Design {
 
   readonly tokens: DesignTokens;
 
-  constructor(tokens: Omit<DesignTokens, 'layers' | 'unit'>) {
+  constructor(tokens: Omit<DesignTokens, 'elevation' | 'unit'>) {
     this.tokens = {
       ...tokens,
-      layer: LAYERS,
+      elevation: DEPTHS,
       unit: this.unit,
     };
 

@@ -12,6 +12,7 @@ import {
   textTruncate,
   textWrap,
 } from './pattern';
+import { shadow } from './shadow';
 import { text } from './text';
 
 export default {
@@ -24,6 +25,7 @@ export default {
   resetInput,
   resetList,
   resetTypography,
+  shadow,
   text,
   textBreak,
   textTruncate,

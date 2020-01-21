@@ -317,7 +317,7 @@ borders:
 
 ## Shadows
 
-> Platforms: Android, iOS, Web
+> Platforms: iOS, Web
 
 TODO
 
@@ -325,7 +325,7 @@ TODO
 
 > Platforms: Android, iOS, Web
 
-TODO
+Coming soon!
 
 ## Colors
 

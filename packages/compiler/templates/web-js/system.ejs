@@ -30,6 +30,16 @@ export default new Design({
     },
     <% }) %>
   },
+  shadow: {
+    <% shadowSizes.forEach(size => { %>
+    <%= size %>: {
+      x: '<%= platform.rem(template.shadow[size].x) %>',
+      y: '<%= platform.rem(template.shadow[size].y) %>',
+      blur: '<%= platform.rem(template.shadow[size].blur) %>',
+      spread: '<%= platform.rem(template.shadow[size].spread) %>',
+    },
+    <% }) %>
+  },
   spacing: {
     <% spacingSizes.forEach(size => { %>
     <%= size %>: '<%= platform.unit(template.spacing[size]) %>',
