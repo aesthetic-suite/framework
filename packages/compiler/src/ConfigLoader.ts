@@ -242,7 +242,10 @@ export default class ConfigLoader {
         ui: shape({
           border: this.colorMap(),
           box: this.colorMap(),
+          boxAccent: this.colorMap(),
           document: this.colorMap(),
+          heading: this.colorMap(),
+          icon: this.colorMap(),
           shadow: this.colorMap(),
           text: this.colorMap(),
         })

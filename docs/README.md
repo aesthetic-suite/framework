@@ -1,5 +1,8 @@
 # Aesthetic
 
+> The new Aesthetic framework is a work in progress. If you're looking for the current React API,
+> please view the legacy docs.
+
 Goals for the design system and framework:
 
 - **Designers must be able to contribute.** To support this, the design system is configured in

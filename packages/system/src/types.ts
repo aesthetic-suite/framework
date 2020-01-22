@@ -18,12 +18,12 @@ export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
 export type ElevationType =
   | 'content'
-  | 'navigation'
+  | 'dialog'
   | 'menu'
-  | 'sheet'
-  | 'overlay'
   | 'modal'
-  | 'popover'
+  | 'navigation'
+  | 'overlay'
+  | 'sheet'
   | 'toast'
   | 'tooltip';
 
@@ -38,7 +38,15 @@ export type PaletteType =
   | 'success'
   | 'info';
 
-export type UiType = 'document' | 'box' | 'border' | 'shadow' | 'text';
+export type UiType =
+  | 'document'
+  | 'box'
+  | 'boxAccent'
+  | 'border'
+  | 'heading'
+  | 'icon'
+  | 'shadow'
+  | 'text';
 
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 

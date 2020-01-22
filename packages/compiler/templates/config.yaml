@@ -55,10 +55,43 @@ typography:
     letterSpacing: 0.25
     letterSpacingScale: perfect-fourth
 
+# BORDERS
+# Scales from the inside (default) out (small, large). Configure for default.
+# Can customize small, default, and large sizes individually by using a map.
+borders:
+  # Controls the rounding of corners.
+  radius: 3
+  radiusScale: 1.5
+
+  # Controls the width or thickness of the border.
+  width: 1
+  widthScale: 2
+
+# SHADOWS
+# Scales from extra small to extra large. Configure for extra small.
+# Can customize all sizes individually by using a map.
+shadows:
+  # Offset the shadow on the X-axis (horizontally).
+  x: 0
+  xScale: 0
+
+  # Offset the shadow on the Y-axis (vertically).
+  y: 2
+  yScale: golden-ratio
+
+  # Controls blur and reduces sharpness, which causes it to be bigger and lighter.
+  blur: 2
+  blurScale: 1.75
+
+  # Controls spread, which causes it to expand, grow, and get thicker.
+  spread: 0
+  spreadScale: 0
+
 # COLORS
 colors:
   - black
   - white
+  - gray
 
 # THEMES
 themes:
@@ -68,6 +101,7 @@ themes:
     colors:
       black: '#000'
       white: '#fff'
+      gray: '#eee'
     palettes:
       brand:
         bg:
@@ -84,8 +118,8 @@ themes:
         bg: white
         fg: black
       muted:
-        bg: white
-        fg: black
+        bg: gray
+        fg: gray
       info:
         bg: white
         fg: black
@@ -102,6 +136,9 @@ themes:
       border:
         base: black
       box: white
+      boxAccent: gray
       document: white
+      heading: black
+      icon: black
       shadow: black
       text: black

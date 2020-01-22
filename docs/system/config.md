@@ -148,9 +148,9 @@ spacing:
 
 ## Typography
 
-> Platforms: Android, iOS, Web
-
 ### Fonts
+
+> Platforms: Android, iOS, Web
 
 The `typography.font` setting controls what font families will be used for text, headings, and even
 locales. If this setting is not defined, it will default to the platform system font.
@@ -191,6 +191,8 @@ typography:
 
 ### Text
 
+> Platforms: Android, iOS, Web
+
 The `typography.text` settings control both the body and paragraph text of the application, aswell
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
 small, normal (default), and large -- and can be configured using a scaled format, or with an
@@ -227,6 +229,8 @@ typography:
 
 ### Headings
 
+> Platforms: Android, iOS, Web
+
 Headings work in a similar fashion to text, but are focused on heading and title based text that
 lead a section of the page. There are 6 levels of heading, with level 1 being the largest, and 6
 being the smallest (very similar to `h1`-`h6` HTML tags).
@@ -259,21 +263,13 @@ typography:
       lineHeight: 1.75
       letterSpacing: 1
     level2:
-      size: 40
-      lineHeight: 1.7
-      letterSpacing: 0.95
+      # ...
     level3:
-      size: 32
-      lineHeight: 1.6
-      letterSpacing: 0.85
+      # ...
     level4:
-      size: 24
-      lineHeight: 1.5
-      letterSpacing: 0.75
+      # ...
     level5:
-      size: 20
-      lineHeight: 1.5
-      letterSpacing: 0.5
+      # ...
     level6:
       size: 16
       lineHeight: 1.5
@@ -315,11 +311,77 @@ borders:
     width: 3
 ```
 
-## Shadows
+## Elevation
+
+### Depths
+
+> Platforms: Web
+
+While depths are not configured in the design system, they're still a must know concept. In
+Aesthetic, depth refers to the layering of surfaces on the Z-axis to denote layout hierarchy. In
+stack and priority order, the following depths are available.
+
+- `content` - Common layout and content elements, like cards and labels.
+- `navigation` - Navigation bars and menus that appear at the top or sides of the document.
+- `sheet` - Surface with complementary content that slides in from the edge of the viewport. Also
+  known as a drawer or panel.
+- `overlay` - Surface that masks content or the entire document. Also known as a scrim or blackout.
+- `modal` - Informational popup that is typically coupled with an overlay.
+- `toast` - Notification popup that temporaily appears above content. Also known as a snackbar.
+- `dialog` - Document blocking popup that requires an action or confirmation. Also known as an
+  alert.
+- `menu` - Menus that are expanded to float over content, like dropdown, flyout, and autocomplete
+  menus.
+- `tooltip` - Informational bubble that appears when hovering over or clicking content. Also known
+  as a popover.
+
+> Android should use the [Material design](https://material.io/design/environment/elevation.html)
+> elevation and shadow guidelines.
+
+### Shadows
 
 > Platforms: iOS, Web
 
-TODO
+To visually represent depth, we use and rely on shadows. The `shadows` setting can be used to
+configure shadows, and comes in 5 sizes: extra small, small, medium, large, and extra large.
+
+Like other settings, shadows can be configured with scaling or explicit values. Scaled shadows are
+calculated from extra small upwards to extra large.
+
+```yaml
+shadows:
+  # Extra small
+  x: 0
+  xScale: 0
+  y: 2
+  yScale: golden-ratio
+  blur: 2
+  blurScale: 1.75
+  spread: 1
+  spreadScale: 1.15
+```
+
+Or use a size map for explicit values.
+
+```yaml
+shadows:
+  xsmall:
+    x: 0
+    y: 2
+    blur: 2
+    spread: 1
+  small:
+    # ...
+  medium:
+    # ...
+  large:
+    # ...
+  xlarge:
+    x: 0
+    y: 6.85
+    blur: 18
+    spread: 1
+```
 
 ## Motion
 

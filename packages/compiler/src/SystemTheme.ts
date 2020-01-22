@@ -70,10 +70,10 @@ export default class SystemTheme<ColorNames extends string = string> {
       const [hue, baseShade] = base.split('.');
       const shade = Number(baseShade);
 
-      disabled = disabled || base;
-      focused = focused || this.getColorHexcode(`${hue}.${shade + 10}`);
-      hovered = hovered || this.getColorHexcode(`${hue}.${shade + 20}`);
-      selected = selected || this.getColorHexcode(`${hue}.${shade + 10}`);
+      disabled = disabled || this.getColorHexcode(`${hue}.${Math.min(shade - 10, 0) || '00'}`);
+      focused = focused || this.getColorHexcode(`${hue}.${Math.max(shade + 10, 90)}`);
+      hovered = hovered || this.getColorHexcode(`${hue}.${Math.max(shade + 20, 90)}`);
+      selected = selected || this.getColorHexcode(`${hue}.${Math.max(shade + 20, 90)}`);
 
       // No shades
     } else {
