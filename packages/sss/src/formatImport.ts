@@ -5,7 +5,7 @@ export default function formatImport(value: string | Import): string {
     return `"${value}"`;
   }
 
-  let path = `"${value.path}`;
+  let path = `"${value.path}"`;
 
   if (value.url) {
     path = `url(${path})`;
