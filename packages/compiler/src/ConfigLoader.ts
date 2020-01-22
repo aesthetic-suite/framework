@@ -42,7 +42,7 @@ import {
   ShadowConfig,
 } from './types';
 import { font } from './helpers';
-import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT } from './constants';
+import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, PLATFORM_CONFIGS } from './constants';
 
 function hexcode() {
   return string()
@@ -121,6 +121,10 @@ export default class ConfigLoader {
     )
       .notEmpty()
       .required();
+  }
+
+  protected colorMap() {
+    return union([string(), this.colorState()], '');
   }
 
   protected colorState() {
@@ -236,11 +240,11 @@ export default class ConfigLoader {
           .required(),
         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
         ui: shape({
-          border: this.themeUI(),
-          box: this.themeUI(),
-          document: this.themeUI(),
-          shadow: this.themeUI(),
-          text: this.themeUI(),
+          border: this.colorMap(),
+          box: this.colorMap(),
+          document: this.colorMap(),
+          shadow: this.colorMap(),
+          text: this.colorMap(),
         })
           .exact()
           .required(),
@@ -275,15 +279,11 @@ export default class ConfigLoader {
 
   protected themePalette() {
     return shape({
-      bg: union([string(), this.colorState()], ''),
-      fg: union([string(), this.colorState()], ''),
+      bg: this.colorMap(),
+      fg: this.colorMap(),
     })
       .exact()
       .required();
-  }
-
-  protected themeUI() {
-    return union([string(), this.colorState()], '');
   }
 
   protected typography() {
@@ -355,6 +355,8 @@ export default class ConfigLoader {
   }
 
   protected typographyText() {
+    const defaultSize = PLATFORM_CONFIGS[this.platform].baseFontSize;
+
     const textScaled = shape<TextScaledConfig>({
       lineHeight: unit(1.25),
       lineHeightScale: scale(0),
@@ -365,15 +367,15 @@ export default class ConfigLoader {
     const textSizes = shape<TextSizedConfig>({
       small: shape({
         lineHeight: unit(1.25),
-        size: unit(12),
+        size: unit(defaultSize - 2),
       }).exact(),
       default: shape({
         lineHeight: unit(1.25),
-        size: unit(14),
+        size: unit(defaultSize),
       }).exact(),
       large: shape({
         lineHeight: unit(1.25),
-        size: unit(16),
+        size: unit(defaultSize + 2),
       }).exact(),
     }).exact();
 
