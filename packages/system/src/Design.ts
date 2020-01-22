@@ -28,7 +28,7 @@ export default class Design {
   }
 
   /**
-   * Create a new theme with the defined tokens, while inheriting the shared design tokens.
+   * Create a new theme with the defined theme tokens, while inheriting the shared design tokens.
    */
   createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme {
     return new Theme(options, {

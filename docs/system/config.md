@@ -1,6 +1,6 @@
 # Configuration
 
-The design system is configured in human and machine readable format known as
+The design system is configured in a human and machine readable format known as
 [YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
 platforms, programming languages, and is easily accessible for both designers and developers.
 

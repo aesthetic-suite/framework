@@ -45,8 +45,8 @@ export default class System {
     this.template = this.compile();
   }
 
-  createTheme(config: ThemeConfig): SystemTheme {
-    return new SystemTheme(config);
+  createTheme(name: string, config: ThemeConfig): SystemTheme {
+    return new SystemTheme(name, config);
   }
 
   protected compile(): DesignTemplate {

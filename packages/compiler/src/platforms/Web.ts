@@ -3,12 +3,12 @@ import { BreakpointCondition } from '../types';
 
 // All input values are assumed to be px
 export default class WebPlatform {
-  readonly rootSize: number;
+  readonly rootTextSize: number;
 
   readonly spacingUnit: number;
 
-  constructor(rootSize: number, spacingUnit: number) {
-    this.rootSize = rootSize;
+  constructor(rootTextSize: number, spacingUnit: number) {
+    this.rootTextSize = rootTextSize;
     this.spacingUnit = spacingUnit;
   }
 
@@ -21,11 +21,11 @@ export default class WebPlatform {
   }
 
   em(value: number): string {
-    return `${formatUnit(value / this.rootSize)}em`;
+    return `${formatUnit(value / this.rootTextSize)}em`;
   }
 
   rem(value: number): string {
-    return `${formatUnit(value / this.rootSize)}rem`;
+    return `${formatUnit(value / this.rootTextSize)}rem`;
   }
 
   unit(size: number): string {

@@ -1,7 +1,6 @@
 import fs from 'fs';
 import optimal, { string } from 'optimal';
 import ejs, { AsyncTemplateFunction } from 'ejs';
-import { camelCase } from 'lodash';
 import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
 import { DEPTHS } from '@aesthetic/system';
@@ -43,6 +42,7 @@ export default class Compiler {
     this.configPath = this.createAndValidatePath(
       configPath,
       'A configuration file path is required.',
+      true,
     );
 
     this.targetPath = this.createAndValidatePath(
@@ -77,14 +77,12 @@ export default class Compiler {
     // Load the platform
     const platform = this.loadPlatform(system);
 
-    // Write the system file
-    await this.writeSystemFile(system, platform);
+    // Write the design system file
+    await this.writeDesignFile(system, platform);
 
     // Write all theme files
     await Promise.all(
-      Array.from(themes.entries()).map(([name, theme]) =>
-        this.writeThemeFile(name, theme, platform),
-      ),
+      Array.from(themes.entries()).map(([name, theme]) => this.writeThemeFile(theme, platform)),
     );
   }
 
@@ -115,7 +113,7 @@ export default class Compiler {
     return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
   }
 
-  async loadTemplateFile(name: string): Promise<AsyncTemplateFunction | null> {
+  async loadTemplate(name: string): Promise<AsyncTemplateFunction | null> {
     const { target } = this.options;
     const targetFolder = target === 'web-ts' ? 'web-js' : target;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
@@ -128,16 +126,17 @@ export default class Compiler {
     return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
   }
 
-  async writeSystemFile(system: System, platform: Platform): Promise<void> {
-    const template = await this.loadTemplateFile('system');
+  async writeDesignFile(system: System, platform: Platform): Promise<void> {
+    const template = await this.loadTemplate('design');
 
     if (!template) {
       return Promise.resolve();
     }
 
     return this.writeFile(
-      this.getTargetFilePath('system'),
+      this.getTargetFilePath('design'),
       await template({
+        data: system.template,
         borderSizes: BORDER_SIZES,
         breakpointSizes: BREAKPOINT_SIZES,
         elevationDepths: DEPTHS,
@@ -146,41 +145,40 @@ export default class Compiler {
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,
         system,
-        template: system.template,
         textSizes: TEXT_SIZES,
       }),
     );
   }
 
-  // async writeMixinsFile() {}
-
-  async writeThemeFile(name: string, theme: SystemTheme, platform: Platform): Promise<void> {
-    const template = await this.loadTemplateFile('theme');
-    const fileName = camelCase(name);
+  async writeThemeFile(theme: SystemTheme, platform: Platform): Promise<void> {
+    const template = await this.loadTemplate('theme');
 
     if (!template) {
       return Promise.resolve();
     }
 
     return this.writeFile(
-      this.getTargetFilePath(`themes/${fileName}`),
+      this.getTargetFilePath(`themes/${theme.name}`),
       await template({
-        fileName,
+        data: theme.template,
         platform,
         theme,
-        template: theme.template,
       }),
     );
   }
 
-  protected createAndValidatePath(filePath: string, message: string): Path {
+  protected createAndValidatePath(
+    filePath: string,
+    message: string,
+    exists: boolean = false,
+  ): Path {
     if (!filePath || typeof filePath !== 'string') {
       throw new Error(message);
     }
 
     const path = Path.resolve(filePath);
 
-    if (!path.exists()) {
+    if (exists && !path.exists()) {
       throw new Error(`File path "${path.name()}" does not exist.`);
     }
 
@@ -201,7 +199,7 @@ export default class Compiler {
     // Load all themes that do not extend another theme
     Object.entries(themes).forEach(([name, config]) => {
       if (!config.extends) {
-        map.set(name, system.createTheme(config));
+        map.set(name, system.createTheme(name, config));
 
         delete themes[name];
       }
@@ -216,7 +214,7 @@ export default class Compiler {
         throw new Error(`Trying to extend theme "${extendsFrom}" which does not exist.`);
       }
 
-      map.set(name, parentTheme.extend(themeConfig, camelCase(extendsFrom)));
+      map.set(name, parentTheme.extend(name, themeConfig, extendsFrom));
     });
 
     return map;
