@@ -472,8 +472,21 @@ they are:
 
 Only the `base` state is required and must be defined. If an optional state is not defined, it will
 automatically infer a color and shade based off the `base` color. For example, if `base` is
-`blue.40`, then `focused` will be `blue.50` (+1 shade), `hovered` will be `blue.70` (+2 shades), so
-on and so forth.
+`blue.40`, then `focused` will be `blue.50` (+1 shade), `hovered` will be `blue.60` (+2 shades), so
+on and so forth. Furthermore, you could also set `fg` and `bg` to the base string when using this
+approach.
+
+```yaml
+themes:
+  default:
+    scheme: light
+    colors:
+      # ...
+    palettes:
+      primary:
+        bg: blue.40
+        fg: blue.50
+```
 
 > This may seem like a lot to configure, and it is, but it's thorough and covers all common and
 > industry standard use cases. It also mitigates problems between light and dark themes.

@@ -208,13 +208,13 @@ export interface ColorStates {
 
 export type PaletteConfig = {
   [K in PaletteType]: {
-    bg: ColorStates;
-    fg: ColorStates;
+    bg: string | ColorStates;
+    fg: string | ColorStates;
   };
 };
 
 export type UiConfig = {
-  [K in UiType]: ColorStates;
+  [K in UiType]: string | ColorStates;
 };
 
 // Final

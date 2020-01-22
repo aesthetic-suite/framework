@@ -75,53 +75,33 @@ themes:
         fg:
           base: black
       primary:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       secondary:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       tertiary:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       muted:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       info:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       warning:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       danger:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
       success:
-        bg:
-          base: white
-        fg:
-          base: black
+        bg: white
+        fg: black
     ui:
       border:
         base: black
-      box:
-        base: white
-      document:
-        base: white
-      shadow:
-        base: black
-      text:
-        base: black
+      box: white
+      document: white
+      shadow: black
+      text: black

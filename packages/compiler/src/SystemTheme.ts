@@ -43,12 +43,19 @@ export default class SystemTheme<ColorNames extends string = string> {
   }
 
   // eslint-disable-next-line complexity
-  protected compileColorState(state: ColorStates): ColorStates {
-    const base = this.getColorHexcode(state.base);
-    let disabled = state.disabled ? this.getColorHexcode(state.disabled) : '';
-    let focused = state.focused ? this.getColorHexcode(state.focused) : '';
-    let hovered = state.hovered ? this.getColorHexcode(state.hovered) : '';
-    let selected = state.selected ? this.getColorHexcode(state.selected) : '';
+  protected compileColorState(state: string | ColorStates): ColorStates {
+    const base = this.getColorHexcode(typeof state === 'string' ? state : state.base);
+    let disabled = '';
+    let focused = '';
+    let hovered = '';
+    let selected = '';
+
+    if (typeof state !== 'string') {
+      disabled = state.disabled ? this.getColorHexcode(state.disabled) : '';
+      focused = state.focused ? this.getColorHexcode(state.focused) : '';
+      hovered = state.hovered ? this.getColorHexcode(state.hovered) : '';
+      selected = state.selected ? this.getColorHexcode(state.selected) : '';
+    }
 
     // With shades
     if (base.includes('.')) {

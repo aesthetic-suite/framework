@@ -236,11 +236,11 @@ export default class ConfigLoader {
           .required(),
         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
         ui: shape({
-          border: this.colorState(),
-          box: this.colorState(),
-          document: this.colorState(),
-          shadow: this.colorState(),
-          text: this.colorState(),
+          border: this.themeUI(),
+          box: this.themeUI(),
+          document: this.themeUI(),
+          shadow: this.themeUI(),
+          text: this.themeUI(),
         })
           .exact()
           .required(),
@@ -275,11 +275,15 @@ export default class ConfigLoader {
 
   protected themePalette() {
     return shape({
-      bg: this.colorState(),
-      fg: this.colorState(),
+      bg: union([string(), this.colorState()], ''),
+      fg: union([string(), this.colorState()], ''),
     })
       .exact()
       .required();
+  }
+
+  protected themeUI() {
+    return union([string(), this.colorState()], '');
   }
 
   protected typography() {
