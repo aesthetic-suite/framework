@@ -4,8 +4,8 @@
   - Install & setup
   - [Configuration](./system/config.md)
 - Structured Style Sheets
-  - [Local StyleSheet](./sss/local.md)
-  - [Global StyleSheet](./sss/global.md)
+  - [Local Styles](./sss/local.md)
+  - [Global Styles](./sss/global.md)
 - [Legacy](./README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)

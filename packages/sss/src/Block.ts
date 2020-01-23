@@ -1,7 +1,7 @@
 export default class Block<T extends object> {
-  nested: Map<string, Block<T>> = new Map();
+  readonly nested: Map<string, Block<T>> = new Map();
 
-  properties: Partial<T> = {};
+  readonly properties: Partial<T> = {};
 
   readonly selector: string;
 
@@ -45,5 +45,15 @@ export default class Block<T extends object> {
     });
 
     return this;
+  }
+
+  toObject(): object {
+    const object: { [key: string]: unknown } = { ...this.properties };
+
+    this.nested.forEach((block, selector) => {
+      object[selector] = block.toObject();
+    });
+
+    return object;
   }
 }

@@ -13,7 +13,7 @@ export default class LocalParser<T extends object> extends Parser<T> {
   async parse(styleSheet: LocalStyleSheet): Promise<void> {
     const entries = Object.entries(styleSheet);
 
-    return this.createAsyncQueue(entries.length, enqueue => {
+    return this.createAsyncQueue(entries.length * 3, enqueue => {
       entries.forEach(([selector, declaration]) => {
         // At-rule
         if (selector.charAt(0) === '@') {
@@ -40,7 +40,7 @@ export default class LocalParser<T extends object> extends Parser<T> {
           // Unknown
         } else if (__DEV__) {
           throw new Error(
-            `Invalid declaration for "${selector}". Must be an object (style declaration) or string (css, class name).`,
+            `Invalid declaration for "${selector}". Must be an object (style declaration) or string (raw css, class name).`,
           );
         }
       });
@@ -60,9 +60,9 @@ export default class LocalParser<T extends object> extends Parser<T> {
       });
     }
 
-    // TODO uniqif
+    // TODO uniqify
     const className = `123-${selector}`;
 
-    this.emit('css', stylis(`.${className}`, raw.trim()), className);
+    this.emit('css', this.stylis(`.${className}`, raw.trim()), className);
   }
 }

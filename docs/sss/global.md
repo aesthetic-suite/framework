@@ -1,12 +1,53 @@
-# Global StyleSheet
+# Global Styles
 
 The global style sheet houses at-rules that should only be processed at the document level -- not
-the component level -- and can be used to generate global styles that are scoped within a single
-class name.
+the component level. It can also be used to generate global styles that should be scoped within a
+class name to avoid collisions.
 
 ## Parsing
 
-TODO
+To parse a style sheet, import and instantiate the `GlobalParser`. Parsing is asynchronous, so to
+streamline consumption, the parser utilizes an event emitter, where each at-rule must be listened to
+and handled. Once registered, call the `parse()` method with the style sheet.
+
+Because of this architecture, you must "build" or "handle" the final result yourself. For example,
+when an event is emitted, we will insert a formatted rule into our style sheet.
+
+```ts
+import { GlobalParser } from '@aesthetic/sss';
+
+const sheet = new CSSStyleSheet();
+
+const parser = new GlobalParser()
+  .on('charset', charset => {
+    sheet.insertRule(`@charset "${charset}";`, 0);
+  })
+  .on('font-face', fontFace => {
+    sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
+  })
+  .on('import', path => {
+    sheet.insertRule(`@import ${path};`, sheet.cssRules.length);
+  })
+  .on('keyframes', (keyframes, name) => {
+    sheet.insertRule(`@keyframes ${name} { ${cssify(keyframes)} }`, sheet.cssRules.length);
+  })
+  .on('page', page => {
+    sheet.insertRule(`${page.selector} { ${cssify(page)} }`, sheet.cssRules.length);
+  })
+  .on('viewport', viewport => {
+    sheet.insertRule(`@viewport { ${cssify(viewport)} }`, sheet.cssRules.length);
+  });
+
+await parser.parse({
+  '@charset': 'utf-8',
+  '@viewport': {
+    width: 'device-width',
+    orientation: 'landscape',
+  },
+});
+```
+
+TODO add link to list of events
 
 ## Specification
 
@@ -25,7 +66,7 @@ const globalSheet = {
 
 Defines a [font face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) that can be
 referenced with the `fontFamily` property. The at-rule requires an object, with the font family name
-as the key, and the font face(s) as the value. Each font face requires an array of `srcPaths`.
+as the key, and the font face(s) as the value. Each font face requires a `srcPaths` array.
 
 ```ts
 const globalSheet = {
@@ -80,7 +121,8 @@ const globalSheet = {
 };
 ```
 
-> The `fontFamily` property can be omitted as it'll be inherited from the at-rule key.
+> The `fontFamily` property can be omitted within the font face as it'll be inherited from the
+> at-rule key.
 
 ### `@global`
 
@@ -115,7 +157,7 @@ If the `url` property is not defined, or is `false`, the import path will not be
 
 Defines a [keyframes animation](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) that
 can be referenced with the `animationName` property. The at-rule requires an object, with the
-animation name as the key, and the keyframes as the value. Supports both `from/to` and percentage
+animation name as the key, and the keyframes as the value. Supports both from/to and percentage
 based sequences.
 
 ```ts
@@ -129,7 +171,7 @@ const globalSheet = {
 
     // Percentage
     slide: {
-      '0%': { left: 0 },
+      '0%': { left: '0%' },
       '50%': { left: '75%' },
       '100%': { left: '100%' },
     },
@@ -155,8 +197,9 @@ const globalSheet = {
 };
 ```
 
-Page type selectors are also supported, and can be defined with an object, where the key is the
-selector. They can be defined in both standard and pseudo-class blocks.
+Page type selectors are also supported, and are defined with an object, where the key is the
+selector, and the value are property declarations. They can be defined in both standard and
+pseudo-class blocks.
 
 ```ts
 const globalSheet = {
