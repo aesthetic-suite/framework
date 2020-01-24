@@ -1,12 +1,26 @@
 import { isObject, toArray } from 'aesthetic-utils';
-import Parser from './Parser';
+import Parser, { CommonEvents } from './Parser';
 import formatImport from './formatImport';
-import { GlobalStyleSheet, PagePseudos } from './types';
+import {
+  GlobalStyleSheet,
+  PagePseudos,
+  CharsetListener,
+  BlockListener,
+  ImportListener,
+} from './types';
 import Block from './Block';
 
 const SHEET_LENGTH = 7;
 
-export default class GlobalParser<T extends object> extends Parser<T> {
+export interface GlobalEvents<T extends object> extends CommonEvents<T> {
+  onCharset?: CharsetListener;
+  onGlobal?: BlockListener<T>;
+  onImport?: ImportListener;
+  onPage?: BlockListener<T>;
+  onViewport?: BlockListener<T>;
+}
+
+export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
   async parse(styleSheet: GlobalStyleSheet): Promise<void> {
     return this.createAsyncQueue(SHEET_LENGTH, enqueue => {
       enqueue(() => this.parseCharset(styleSheet['@charset']));

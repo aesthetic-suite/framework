@@ -1,55 +1,17 @@
 # Global Styles
 
-The global style sheet houses at-rules that should only be processed at the document level -- not
-the component level. It can also be used to generate global styles that should be scoped within a
+A global style sheet serves 2 purposes. The 1st is that it houses all at-rules that should be
+processed at the document level, and not the element level. The 2nd is for defining global-like
+styles, in which `body` style declarations can be defined, and should typically be scoped within a
 class name to avoid collisions.
 
-## Parsing
-
-To parse a style sheet, import and instantiate the `GlobalParser`. Parsing is asynchronous, so to
-streamline consumption, the parser utilizes an event emitter, where each at-rule must be listened to
-and handled. Once registered, call the `parse()` method with the style sheet.
-
-Because of this architecture, you must "build" or "handle" the final result yourself. For example,
-when an event is emitted, we will insert a formatted rule into our style sheet.
+The `GlobalStyleSheet` interface can be used for type information.
 
 ```ts
-import { GlobalParser } from '@aesthetic/sss';
-
-const sheet = new CSSStyleSheet();
-
-const parser = new GlobalParser()
-  .on('charset', charset => {
-    sheet.insertRule(`@charset "${charset}";`, 0);
-  })
-  .on('font-face', fontFace => {
-    sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
-  })
-  .on('import', path => {
-    sheet.insertRule(`@import ${path};`, sheet.cssRules.length);
-  })
-  .on('keyframes', (keyframes, name) => {
-    sheet.insertRule(`@keyframes ${name} { ${cssify(keyframes)} }`, sheet.cssRules.length);
-  })
-  .on('page', page => {
-    sheet.insertRule(`${page.selector} { ${cssify(page)} }`, sheet.cssRules.length);
-  })
-  .on('viewport', viewport => {
-    sheet.insertRule(`@viewport { ${cssify(viewport)} }`, sheet.cssRules.length);
-  });
-
-await parser.parse({
-  '@charset': 'utf-8',
-  '@viewport': {
-    width: 'device-width',
-    orientation: 'landscape',
-  },
-});
+import { GlobalStyleSheet } from '@aesthetic/sss';
 ```
 
-TODO add link to list of events
-
-## Specification
+## Structure
 
 ### `@charset`
 
@@ -57,7 +19,7 @@ Sets the document [character set](https://developer.mozilla.org/en-US/docs/Web/C
 Accepts a [IANA registry](http://www.iana.org/assignments/character-sets) valid string.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@charset': 'utf-8',
 };
 ```
@@ -69,7 +31,7 @@ referenced with the `fontFamily` property. The at-rule requires an object, with 
 as the key, and the font face(s) as the value. Each font face requires a `srcPaths` array.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@font-face': {
     'Open Sans': {
       fontStyle: 'normal',
@@ -83,7 +45,7 @@ const globalSheet = {
 To support multiple font variations, like bold and italics, pass an array of font faces.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@font-face': {
     'Open Sans': [
       {
@@ -106,27 +68,50 @@ const globalSheet = {
 };
 ```
 
-To define `local()` source aliases, pass an array of strings to a `local` property.
-
-```ts
-const globalSheet = {
-  '@font-face': {
-    'Open Sans': {
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      local: ['OpenSans', 'Open-Sans'],
-      srcPaths: ['fonts/OpenSans.ttf'],
-    },
-  },
-};
-```
-
 > The `fontFamily` property can be omitted within the font face as it'll be inherited from the
 > at-rule key.
 
 ### `@global`
 
-TODO
+As stated at the start of the chapter, the global style sheet can generate global-like CSS styles by
+using the `@global` at-rule. This at-rule is a [local style sheet](./local.md) that should be
+processed and generated to a class name that is set on the `body`. It's suggested this way to avoid
+global collisions between multiple themes or differing global style sheets.
+
+```ts
+const globalSheet: GlobalStyleSheet = {
+  '@global': {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 1.5,
+    backgroundColor: 'white',
+    color: 'black',
+    height: '100%',
+    margin: 0,
+    padding: 0,
+
+    '@media': {
+      '(max-width: 400px)': {
+        fontSize: 14,
+        lineHeight: 1.25,
+      },
+    },
+
+    '@selectors': {
+      a: {
+        color: 'blue',
+      },
+
+      p: {
+        margin: 8,
+      },
+    },
+  },
+};
+```
+
+> The `html`, `:root`, or `*` global styles cannot be defined with a global style sheet. Those
+> category of globals should be handled outside of this system.
 
 ### `@import`
 
@@ -135,7 +120,7 @@ relative to the document root. An import can either be a proper CSS formatted st
 quotes), or an object of `path` (required), `query`, and `url`.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@import': [
     // String
     'url("css/reset.css") screen',
@@ -161,7 +146,7 @@ animation name as the key, and the keyframes as the value. Supports both from/to
 based sequences.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@keyframes': {
     // From -> to
     fade: {
@@ -186,7 +171,7 @@ Defines a ruleset to be applied when the
 pseudo-class (`:blank`, `:first`, `:left`, `:right`) declaration blocks.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@page': {
     margin: '1cm',
 
@@ -202,7 +187,7 @@ selector, and the value are property declarations. They can be defined in both s
 pseudo-class blocks.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@page': {
     size: '8.5in 11in',
 
@@ -226,10 +211,58 @@ Defines a ruleset that dictates how the
 height, zoom, and orientation related properties.
 
 ```ts
-const globalSheet = {
+const globalSheet: GlobalStyleSheet = {
   '@viewport': {
     width: 'device-width',
     orientation: 'landscape',
   },
 };
 ```
+
+## Parsing
+
+To parse a style sheet, import and instantiate the `GlobalParser`. Parsing is asynchronous, so as a
+means to streamline consumption, the parser utilizes an event emitter, where each at-rule must be
+listened to and handled. Once listeners are registered, execute the `parse()` method with the style
+sheet.
+
+Because of this architecture, you must "build" or "handle" the final result yourself. In the example
+below, when an event is emitted, we will insert a formatted rule into our style sheet.
+
+```ts
+import { GlobalParser } from '@aesthetic/sss';
+
+const sheet = new CSSStyleSheet();
+
+const parser = new GlobalParser({
+  onCharset(charset) {
+    sheet.insertRule(`@charset "${charset}";`, 0);
+  },
+  onFontFace(fontFace) {
+    sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
+  },
+  onImport(path) {
+    sheet.insertRule(`@import ${path};`, sheet.cssRules.length);
+  },
+  onKeyframes(keyframes, name) {
+    sheet.insertRule(`@keyframes ${name} { ${cssify(keyframes)} }`, sheet.cssRules.length);
+  },
+  onPage(page) {
+    sheet.insertRule(`${page.selector} { ${cssify(page)} }`, sheet.cssRules.length);
+  },
+  onViewport(viewport) {
+    sheet.insertRule(`@viewport { ${cssify(viewport)} }`, sheet.cssRules.length);
+  },
+});
+
+await parser.parse({
+  '@charset': 'utf-8',
+  '@viewport': {
+    width: 'device-width',
+    orientation: 'landscape',
+  },
+});
+```
+
+> The full list of events and their types can be found in the
+> [source `Parser` class](https://github.com/milesj/aesthetic/blob/master/packages/sss/src/Parser.ts).

@@ -15,12 +15,6 @@ export default function animationName(
         return prop;
       }
 
-      if (__DEV__) {
-        if (!prop.name) {
-          throw new Error(`Inline @keyframes requires an animation name.`);
-        }
-      }
-
       return parse(prop.name!, prop);
     })
     .join(', ');

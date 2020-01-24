@@ -1,6 +1,7 @@
 import CSS from 'csstype';
+import Block from './Block';
 
-type Length = string | number;
+export type Length = string | number;
 
 // PROPERTIES
 
@@ -271,3 +272,47 @@ export type AtRule = LocalAtRule | GlobalAtRule;
 export interface NestedBlockParams {
   specificity: number;
 }
+
+// EVENTS
+
+export type BlockConditionListener<T extends object> = (
+  parent: Block<T>,
+  name: string,
+  value: Block<T>,
+) => void;
+
+export type BlockNestedListener<T extends object> = (
+  parent: Block<T>,
+  name: string,
+  value: Block<T>,
+  params: NestedBlockParams,
+) => void;
+
+export type BlockPropertyListener<T extends object> = (
+  parent: Block<T>,
+  name: string,
+  value: unknown,
+) => void;
+
+export type BlockListener<T extends object> = (block: Block<T>) => void;
+
+export type CharsetListener = (charset: string) => void;
+
+export type ClassNameListener = (className: string) => void;
+
+export type CSSListener = (css: string, className: string) => void;
+
+export type FontFaceListener<T extends object> = (
+  fontFace: Block<T>,
+  fontFamily: string,
+  srcPaths: string[],
+) => void;
+
+export type ImportListener = (path: string) => void;
+
+export type KeyframesListener<T extends object> = (
+  keyframes: Block<T>,
+  animationName: string,
+) => void;
+
+export type RulesetListener<T extends object> = (selector: string, block: Block<T>) => void;

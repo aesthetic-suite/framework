@@ -6,13 +6,22 @@ import formatFontFace from './formatFontFace';
 import compoundProperties from './compound';
 import shorthandProperties from './shorthand';
 import {
+  BlockConditionListener,
+  BlockListener,
+  BlockNestedListener,
+  BlockPropertyListener,
+  CharsetListener,
+  CSSListener,
   DeclarationBlock,
-  Keyframes,
-  FontFace,
-  Properties,
-  LocalBlock,
   FallbackProperties,
-  NestedBlockParams,
+  FontFace,
+  FontFaceListener,
+  ImportListener,
+  Keyframes,
+  KeyframesListener,
+  LocalBlock,
+  Properties,
+  RulesetListener,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -27,16 +36,36 @@ export interface HandlerMap {
   [eventName: string]: Handler;
 }
 
-export default abstract class Parser<T extends object> {
+export interface CommonEvents<T extends object> {
+  onBlock?: BlockListener<T>;
+  onBlockAttribute?: BlockNestedListener<T>;
+  onBlockFallback?: BlockPropertyListener<T>;
+  onBlockMedia?: BlockConditionListener<T>;
+  onBlockProperty?: BlockPropertyListener<T>;
+  onBlockPseudo?: BlockNestedListener<T>;
+  onBlockSelector?: BlockNestedListener<T>;
+  onBlockSupports?: BlockConditionListener<T>;
+  onFontFace?: FontFaceListener<T>;
+  onKeyframes?: KeyframesListener<T>;
+}
+
+export default abstract class Parser<T extends object, E extends object> {
   protected handlers: HandlerMap = {};
 
-  constructor(handlers: HandlerMap = {}) {
-    Object.entries(handlers).forEach(([key, value]) => {
-      this.on(
-        key.replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'block',
-        value,
-      );
-    });
+  constructor(handlers?: E) {
+    if (handlers) {
+      Object.entries(handlers).forEach(([key, value]) => {
+        this.on(
+          key.slice(2).replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'block',
+          value,
+        );
+      });
+    }
+  }
+
+  hash(...parts: string[]): string {
+    // eslint-disable-next-line no-magic-numbers
+    return `${parts.join('-')}-${Date.now().toString(32)}`;
   }
 
   parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
@@ -120,7 +149,7 @@ export default abstract class Parser<T extends object> {
   }
 
   parseKeyframesAnimation(animationName: string, object: Keyframes): string {
-    const name = object.name || animationName;
+    const name = object.name || animationName || this.hash('keyframes');
     const keyframes = new Block(`@keyframes ${name}`);
 
     // from, to, and percent keys aren't easily detectable
@@ -244,30 +273,23 @@ export default abstract class Parser<T extends object> {
    */
   emit(
     name: 'block:attribute' | 'block:pseudo' | 'block:selector',
-    parent: Block<T>,
-    key: string,
-    value: Block<T>,
-    params: NestedBlockParams,
+    ...args: Parameters<BlockNestedListener<T>>
   ): void;
   emit(
     name: 'block:fallback' | 'block:property',
-    parent: Block<T>,
-    key: string,
-    value: unknown,
+    ...args: Parameters<BlockPropertyListener<T>>
   ): void;
   emit(
     name: 'block:media' | 'block:supports',
-    parent: Block<T>,
-    key: string,
-    value: Block<T>,
+    ...args: Parameters<BlockConditionListener<T>>
   ): void;
-  emit(name: 'block' | 'global' | 'page' | 'viewport', block: Block<T>): void;
-  emit(name: 'charset' | 'class', charset: string): void;
-  emit(name: 'css', css: string, className: string): void;
-  emit(name: 'font-face', fontFace: Block<T>, fontFamily: string, srcPaths: string[]): void;
-  emit(name: 'import', path: string): void;
-  emit(name: 'keyframes', keyframes: Block<T>, animationName: string): void;
-  emit(name: 'ruleset', selector: string, block: Block<T>): void;
+  emit(name: 'block' | 'global' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
+  emit(name: 'charset' | 'class', ...args: Parameters<CharsetListener>): void;
+  emit(name: 'css', ...args: Parameters<CSSListener>): void;
+  emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): void;
+  emit(name: 'import', ...args: Parameters<ImportListener>): void;
+  emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): void;
+  emit(name: 'ruleset', ...args: Parameters<RulesetListener<T>>): void;
   emit(name: string, ...args: unknown[]): void {
     if (this.handlers[name]) {
       this.handlers[name](...args);
@@ -288,26 +310,17 @@ export default abstract class Parser<T extends object> {
    */
   on(
     name: 'block:attribute' | 'block:pseudo' | 'block:selector',
-    callback: (parent: Block<T>, name: string, value: Block<T>, params: NestedBlockParams) => void,
+    callback: BlockNestedListener<T>,
   ): this;
-  on(
-    name: 'block:media' | 'block:supports',
-    callback: (parent: Block<T>, name: string, value: Block<T>) => void,
-  ): this;
-  on(
-    name: 'block:fallback' | 'block:property',
-    callback: (parent: Block<T>, name: string, value: unknown) => void,
-  ): this;
-  on(name: 'block' | 'global' | 'page' | 'viewport', callback: (block: Block<T>) => void): this;
-  on(name: 'charset' | 'class', callback: (value: string) => void): this;
-  on(name: 'css', callback: (css: string, className: string) => void): this;
-  on(
-    name: 'font-face',
-    callback: (fontFace: Block<T>, fontFamily: string, srcPaths: string[]) => void,
-  ): this;
-  on(name: 'import', callback: (path: string) => void): this;
-  on(name: 'keyframes', callback: (keyframes: Block<T>, animationName: string) => void): this;
-  on(name: 'ruleset', callback: (selector: string, block: Block<T>) => void): this;
+  on(name: 'block:media' | 'block:supports', callback: BlockConditionListener<T>): this;
+  on(name: 'block:fallback' | 'block:property', callback: BlockPropertyListener<T>): this;
+  on(name: 'block' | 'global' | 'page' | 'viewport', callback: BlockListener<T>): this;
+  on(name: 'charset' | 'class', callback: CharsetListener): this;
+  on(name: 'css', callback: CSSListener): this;
+  on(name: 'font-face', callback: FontFaceListener<T>): this;
+  on(name: 'import', callback: ImportListener): this;
+  on(name: 'keyframes', callback: KeyframesListener<T>): this;
+  on(name: 'ruleset', callback: RulesetListener<T>): this;
   on(name: string, callback: Handler): this {
     this.handlers[name] = callback;
 

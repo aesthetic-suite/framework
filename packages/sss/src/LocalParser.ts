@@ -1,13 +1,19 @@
 import { isObject } from 'aesthetic-utils';
-import Parser from './Parser';
+import Parser, { CommonEvents } from './Parser';
 import Block from './Block';
-import { LocalStyleSheet } from './types';
+import { LocalStyleSheet, ClassNameListener, CSSListener, RulesetListener } from './types';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
-type StylisCallback = (selector: string, css: string) => string;
+export type StylisCallback = (selector: string, css: string) => string;
 
-export default class LocalParser<T extends object> extends Parser<T> {
+export interface LocalEvents<T extends object> extends CommonEvents<T> {
+  onClass?: ClassNameListener;
+  onCSS?: CSSListener;
+  onRuleset?: RulesetListener<T>;
+}
+
+export default class LocalParser<T extends object> extends Parser<T, LocalEvents<T>> {
   stylis?: StylisCallback;
 
   async parse(styleSheet: LocalStyleSheet): Promise<void> {
@@ -49,8 +55,7 @@ export default class LocalParser<T extends object> extends Parser<T> {
 
   async parseRawCSS(selector: string, raw: string) {
     if (!this.stylis) {
-      const result = await import('stylis');
-      const Stylis = result.default;
+      const Stylis = (await import('stylis')).default;
 
       this.stylis = new Stylis({
         compress: !__DEV__,
@@ -60,8 +65,7 @@ export default class LocalParser<T extends object> extends Parser<T> {
       });
     }
 
-    // TODO uniqify
-    const className = `123-${selector}`;
+    const className = this.hash(selector);
 
     this.emit('css', this.stylis(`.${className}`, raw.trim()), className);
   }

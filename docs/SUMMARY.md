@@ -1,9 +1,10 @@
 # Summary
 
-- [Design System](./README.md)
+- [Design System](./system/README.md)
   - Install & setup
   - [Configuration](./system/config.md)
-- Structured Style Sheets
+- [Structured Style Sheets](./sss/README.md)
+  - [Specification](./sss/spec.md)
   - [Local Styles](./sss/local.md)
   - [Global Styles](./sss/global.md)
 - [Legacy](./README.md)
