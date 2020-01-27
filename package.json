@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "prepare": "beemo create-config --silent",
-    "build": "beemo run-script build --workspaces=*",
+    "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
     "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
     "coverage": "yarn run jest --coverage",
     "eslint": "beemo eslint",
@@ -11,7 +11,7 @@
     "prettier": "beemo prettier",
     "release": "lerna publish",
     "type": "beemo typescript --build --reference-workspaces",
-    "prerelease": "yarn run clean && yarn test && yarn run build",
+    "prerelease": "yarn run clean && yarn run build && yarn test",
     "pretest": "yarn run type",
     "test": "yarn run coverage",
     "test:bundle": "yarn run build && beemo create-config typescript && webpack",
@@ -35,6 +35,9 @@
     "jest-rut": "^0.8.2",
     "lerna": "^3.20.2",
     "react-dom": "^16.12.0",
+    "rollup": "^1.29.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rut-dom": "^0.1.2",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
@@ -46,7 +49,10 @@
       "eslint",
       "jest",
       "prettier",
-      "typescript"
+      {
+        "driver": "typescript",
+        "declarationOnly": true
+      }
     ],
     "settings": {
       "react": true
