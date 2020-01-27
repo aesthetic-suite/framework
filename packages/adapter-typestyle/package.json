@@ -20,7 +20,7 @@
     "aesthetic-utils": "^3.0.0"
   },
   "peerDependencies": {
-    "aesthetic": "^4.0.0",
+    "aesthetic": "^5.0.0",
     "typestyle": "^2.0.0"
   },
   "devDependencies": {

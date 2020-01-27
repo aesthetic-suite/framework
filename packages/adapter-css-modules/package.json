@@ -17,7 +17,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "aesthetic": "^4.0.0"
+    "aesthetic": "^5.0.0"
   },
   "funding": {
     "type": "ko-fi",
