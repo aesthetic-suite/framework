@@ -1,3 +1,14 @@
+## 5.1.0 - 2020-01-26
+
+#### 🚀 Updates
+
+- Migrated to Rollup for a smaller filesize.
+
+#### 📦 Dependencies
+
+- Updated all to latest.
+- Fixed `aesthetic` peer dependency pointing to the wrong version.
+
 # 5.0.0 - 2019-12-19
 
 #### 💥 Breaking

@@ -1,3 +1,13 @@
+## 3.1.0 - 2020-01-26
+
+#### 🚀 Updates
+
+- Migrated to Rollup for a smaller filesize.
+
+#### 📦 Dependencies
+
+- Updated all to latest.
+
 # 3.0.0 - 2019-12-19
 
 #### 💥 Breaking
