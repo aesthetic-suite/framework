@@ -1,7 +1,7 @@
 import { ClassName } from 'aesthetic';
-import { Style } from 'jss';
+import { JssStyle } from 'jss';
 
-export type NativeBlock = Style & {
+export type NativeBlock = JssStyle & {
   fallbacks?: unknown;
 };
 
