@@ -959,7 +959,7 @@
     "@boost/event" "^1.2.1"
     rimraf "^3.0.0"
 
-"@boost/common@^1.8.1":
+"@boost/common@^1.6.0", "@boost/common@^1.8.1":
   version "1.8.1"
   resolved "https://registry.npmjs.org/@boost/common/-/common-1.8.1.tgz#23783012e3a091ff046f2a69cb7d7e580490a812"
   integrity sha512-qblN1ZgFdllzH3PMghSb6aajGTvSgplRDu2yluEUMQ3aAq5MLQW8P1UGTBDRW6Xz54OLXg7jOpEWU0fPLZJVGA==
@@ -2305,15 +2305,20 @@
   dependencies:
     jest-diff "^25.1.0"
 
-"@types/js-yaml@^3.11.1":
-  version "3.12.1"
-  resolved "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-3.12.1.tgz#5c6f4a1eabca84792fbd916f0cb40847f123c656"
-  integrity sha512-SGGAhXLHDx+PK4YLNcNGa6goPf9XRWQNAUUbffkwVGGXIxmDKWyGGL4inzq2sPmExu431Ekb9aEMn9BkPqEYFA==
+"@types/js-yaml@^3.12.2":
+  version "3.12.2"
+  resolved "https://registry.npmjs.org/@types/js-yaml/-/js-yaml-3.12.2.tgz#a35a1809c33a68200fb6403d1ad708363c56470a"
+  integrity sha512-0CFu/g4mDSNkodVwWijdlr8jH7RoplRWNgovjFLEZeT+QEbbZXjBmCe3HwaWheAlCbHwomTwzZoSedeOycABug==
 
 "@types/json-schema@^7.0.3":
   version "7.0.4"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
+
+"@types/lodash@^4.14.108":
+  version "4.14.149"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
+  integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
 
 "@types/micromatch@^4.0.0":
   version "4.0.0"
@@ -2337,12 +2342,7 @@
   resolved "https://registry.npmjs.org/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
-"@types/prettier@*":
-  version "1.19.0"
-  resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.19.0.tgz#a2502fb7ce9b6626fdbfc2e2a496f472de1bdd05"
-  integrity sha512-gDE8JJEygpay7IjA/u3JiIURvwZW08f0cZSZLAzFoX/ZmeqvS0Sqv+97aKuHpNsalAMMhwPe+iAS6fQbfmbt7A==
-
-"@types/prettier@^1.12.0":
+"@types/prettier@*", "@types/prettier@^1.12.0":
   version "1.19.0"
   resolved "https://registry.npmjs.org/@types/prettier/-/prettier-1.19.0.tgz#a2502fb7ce9b6626fdbfc2e2a496f472de1bdd05"
   integrity sha512-gDE8JJEygpay7IjA/u3JiIURvwZW08f0cZSZLAzFoX/ZmeqvS0Sqv+97aKuHpNsalAMMhwPe+iAS6fQbfmbt7A==
@@ -4517,10 +4517,10 @@ ejs@^3.0.1:
   resolved "https://registry.npmjs.org/ejs/-/ejs-3.0.1.tgz#30c8f6ee9948502cc32e85c37a3f8b39b5a614a5"
   integrity sha512-cuIMtJwxvzumSAkqaaoGY/L6Fc/t6YvoP9/VIaK0V/CyqKLEQ8sqODmYfy/cjXEdZ9+OOL8TecbJu+1RsofGDw==
 
-electron-to-chromium@^1.3.137:
-  version "1.3.144"
-  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.144.tgz#d742d2c451090798303a4a5eea4f33f5e60f5d94"
-  integrity sha512-jNRFJpfNrYm5uJ4x0q9oYMOfbL0JPOlkNli8GS/5zEmCjnE5jAtoCo4BYajHiqSPqEeAjtTdItL4p7EZw+jSfg==
+electron-to-chromium@^1.3.338:
+  version "1.3.341"
+  resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.341.tgz#ad4c039bf621715a12dd814a95a7d89ec80b092c"
+  integrity sha512-iezlV55/tan1rvdvt7yg7VHRSkt+sKfzQ16wTDqTbQqtl4+pSUkKPXpQHDvEt0c7gKcUHHwUbffOgXz6bn096g==
 
 elliptic@^6.0.0:
   version "6.5.2"
@@ -8333,15 +8333,10 @@ onetime@^5.1.0:
   dependencies:
     mimic-fn "^2.1.0"
 
-optimal@^4.1.1:
+optimal@^4.1.1, optimal@^4.2.0:
   version "4.2.0"
   resolved "https://registry.npmjs.org/optimal/-/optimal-4.2.0.tgz#a97d9a12cb543988f2e54b88416b77d9a811ed69"
   integrity sha512-jKFdiBkhJCVMh6oXsGNVFv/huPeFTEdlBtSuwDBYYClFn6lwV0fdRwRhWtpazM1ZMuV+bNNRFMth9SMWvUk3uQ==
-
-optimal@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/optimal/-/optimal-4.1.0.tgz#5d4b60995252b59c32d4255389a689d6d8317a2c"
-  integrity sha512-159qGqL0Wt7gegXeG8uqwJCDpZ7BTfLpZu531fS6g5FycFnyUrSFQ6E+khUanL8ss+RmARE3tbhlLU0HjgJGCQ==
 
 optimist@^0.6.1:
   version "0.6.1"
