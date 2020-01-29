@@ -9,7 +9,6 @@ import {
   PaletteType,
   SpacingSize,
   TextSize,
-  UiType,
   ElevationType,
   ShadowSize,
 } from '@aesthetic/system';
@@ -197,12 +196,12 @@ export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-export interface PaletteState {
-  base: number;
-  disabled: number;
-  focused: number;
-  hovered: number;
-  selected: number;
+export interface PaletteState<T = number> {
+  base: T;
+  disabled: T;
+  focused: T;
+  hovered: T;
+  selected: T;
 }
 
 export interface PaletteConfig {
@@ -215,19 +214,14 @@ export type PalettesConfig = {
   [K in PaletteType]: string | PaletteConfig;
 };
 
-export type UiConfig = {
-  [K in UiType]: string | PaletteState;
-};
-
 // Final
 
 export interface ThemeConfig<ColorNames extends string = string> {
-  colors: { [K in ColorNames]: Hexcode | ColorConfig };
+  colors: { [K in ColorNames]: ColorConfig };
   contrast: ContrastLevel;
   extends: string;
   palettes: PalettesConfig;
   scheme: ColorScheme;
-  // ui: UiConfig;
 }
 
 export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
@@ -272,7 +266,7 @@ export interface DesignTemplate {
   breakpoint: {
     [K in BreakpointSize]: BreakpointTemplate;
   };
-  elevation: {
+  depth: {
     [K in ElevationType]: number;
   };
   heading: {
@@ -303,7 +297,12 @@ export interface DesignTemplate {
   };
 }
 
+export interface PaletteTemplate {
+  color: ColorConfig;
+  bg: PaletteState<Hexcode>;
+  fg: PaletteState<Hexcode>;
+}
+
 export interface ThemeTemplate {
-  palette: ThemeConfig['palettes'];
-  // ui: ThemeConfig['ui'];
+  palette: { [K in PaletteType]: PaletteTemplate };
 }

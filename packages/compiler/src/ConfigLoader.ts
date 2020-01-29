@@ -229,42 +229,24 @@ export default class ConfigLoader {
           .exact()
           .required(),
         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-        // ui: shape({
-        //   border: this.colorMap(),
-        //   box: this.colorMap(),
-        //   boxAccent: this.colorMap(),
-        //   document: this.colorMap(),
-        //   heading: this.colorMap(),
-        //   icon: this.colorMap(),
-        //   shadow: this.colorMap(),
-        //   text: this.colorMap(),
-        // })
-        //   .exact()
-        //   .required(),
       }).exact(),
     );
   }
 
   protected themeColors() {
     return object(
-      union<Hexcode | ColorConfig>(
-        [
-          hexcode(),
-          shape({
-            '00': hexcode(),
-            '10': hexcode(),
-            '20': hexcode(),
-            '30': hexcode(),
-            '40': hexcode(),
-            '50': hexcode(),
-            '60': hexcode(),
-            '70': hexcode(),
-            '80': hexcode(),
-            '90': hexcode(),
-          }).exact(),
-        ],
-        '',
-      ),
+      shape<ColorConfig>({
+        '00': hexcode(),
+        '10': hexcode(),
+        '20': hexcode(),
+        '30': hexcode(),
+        '40': hexcode(),
+        '50': hexcode(),
+        '60': hexcode(),
+        '70': hexcode(),
+        '80': hexcode(),
+        '90': hexcode(),
+      }).exact(),
     )
       .custom(this.validateThemeImplementsColors)
       .required();

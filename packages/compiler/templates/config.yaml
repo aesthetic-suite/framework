@@ -99,9 +99,7 @@ themes:
     scheme: light
     contrast: normal
     colors:
-      black: '#000'
-      white: '#fff'
-      gray: '#eee'
+      # ...
     palettes:
       brand: black
       primary: white
@@ -112,13 +110,3 @@ themes:
       warning: orange
       danger: red
       success: green
-    # ui:
-    #   border:
-    #     base: black
-    #   box: white
-    #   boxAccent: gray
-    #   document: white
-    #   heading: black
-    #   icon: black
-    #   shadow: black
-    #   text: black

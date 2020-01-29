@@ -55,7 +55,7 @@ export default class System {
     return {
       border: this.compileBorders(),
       breakpoint: this.compileBreakpoints(text),
-      elevation: this.compileElevation(),
+      depth: this.compileDepth(),
       heading: this.compileHeadings(),
       shadow: this.compileShadows(),
       spacing: this.compileSpacing(text),
@@ -200,7 +200,7 @@ export default class System {
     return { l1, l2, l3, l4, l5, l6 };
   }
 
-  protected compileElevation(): DesignTemplate['elevation'] {
+  protected compileDepth(): DesignTemplate['depth'] {
     return { ...DEPTHS };
   }
 

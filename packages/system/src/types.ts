@@ -39,16 +39,6 @@ export type PaletteType =
   | 'success'
   | 'info';
 
-export type UiType =
-  | 'document'
-  | 'box'
-  | 'boxAccent'
-  | 'border'
-  | 'heading'
-  | 'icon'
-  | 'shadow'
-  | 'text';
-
 export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SpacingSize = 'xs' | CommonSize | 'md' | 'xl';
@@ -108,7 +98,7 @@ export interface DesignTokens {
   breakpoint: {
     [K in BreakpointSize]: BreakpointToken;
   };
-  elevation: {
+  depth: {
     [K in ElevationType]: number;
   };
   heading: {
@@ -147,9 +137,6 @@ export interface ThemeTokens {
       bg: ColorStateToken;
       fg: ColorStateToken;
     };
-  };
-  ui: {
-    [K in UiType]: ColorStateToken;
   };
 }
 

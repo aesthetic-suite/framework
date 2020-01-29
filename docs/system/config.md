@@ -441,8 +441,8 @@ themes:
 ### Color ranges
 
 For every [color](#colors) that's been defined, an associated entry must exist within each theme
-under `theme.colors.<name>`. A color supports either a single hexcode value, or a range of 10
-hexcode values (`00` - `90`). These hexcode values are also known as shades.
+under `theme.colors.<name>`. A color supports a range of 10 hexcode values (`00` - `90`) known as
+shades.
 
 In a light color scheme, the `00` shade is the lightest color, while `90` is the darkest. This is
 reversed for dark color schemes, where `00` is darkest, and `90` is lightest. In both schemes, the
@@ -453,9 +453,6 @@ themes:
   default:
     scheme: light
     colors:
-      # Single shade
-      black: '#000'
-      # Multiple shades
       blue:
         00: '#E3F2FD' # Lightest
         10: '#BBDEFB'
@@ -554,44 +551,6 @@ themes:
 
 > This may seem like a lot to configure, and it is, but it's thorough and covers all common and
 > industry standard use cases. It also mitigates problems between light and dark themes.
-
-### Interface palettes
-
-Similar to palettes, the `theme.ui` setting maps colors to states (the 5 above) for user interface
-and layout related elements. The following elements are available.
-
-- `document` - Background color for the entire document / page.
-- `box` - Background color for box or container like elements.
-- `border` - Border color for box, form, and other elements.
-- `shadow` - Shadow, blackout, and backdrop colors.
-- `text` - Text and heading colors.
-
-```yaml
-themes:
-  default:
-    scheme: light
-    colors:
-      # ...
-    palettes:
-      # ...
-    ui:
-      document:
-        base: white
-      box:
-        base: gray.00
-        hovered: gray.20
-        selected: gray.10
-      border:
-        base: gray.30
-        hovered: gray.40
-        selected: blue.40
-        disabled: gray.20
-      shadow:
-        base: black
-      text:
-        base: gray.80
-        hovered: gray.90
-```
 
 ### Extending themes
 
