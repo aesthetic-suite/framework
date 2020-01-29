@@ -103,42 +103,22 @@ themes:
       white: '#fff'
       gray: '#eee'
     palettes:
-      brand:
-        bg:
-          base: white
-        fg:
-          base: black
-      primary:
-        bg: white
-        fg: black
-      secondary:
-        bg: white
-        fg: black
-      tertiary:
-        bg: white
-        fg: black
-      muted:
-        bg: gray
-        fg: gray
-      info:
-        bg: white
-        fg: black
-      warning:
-        bg: white
-        fg: black
-      danger:
-        bg: white
-        fg: black
-      success:
-        bg: white
-        fg: black
-    ui:
-      border:
-        base: black
-      box: white
-      boxAccent: gray
-      document: white
-      heading: black
-      icon: black
-      shadow: black
-      text: black
+      brand: black
+      primary: white
+      secondary: gray
+      tertiary: black
+      muted: gray
+      info: blue
+      warning: orange
+      danger: red
+      success: green
+    # ui:
+    #   border:
+    #     base: black
+    #   box: white
+    #   boxAccent: gray
+    #   document: white
+    #   heading: black
+    #   icon: black
+    #   shadow: black
+    #   text: black

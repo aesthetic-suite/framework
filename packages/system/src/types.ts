@@ -32,6 +32,7 @@ export type PaletteType =
   | 'primary'
   | 'secondary'
   | 'tertiary'
+  | 'neutral'
   | 'muted'
   | 'danger'
   | 'warning'
@@ -54,6 +55,8 @@ export type SpacingSize = 'xs' | CommonSize | 'md' | 'xl';
 
 export type TextSize = CommonSize;
 
+export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
+
 // TOKENS
 
 export type UnitFactory = (...sizes: number[]) => Unit;
@@ -69,6 +72,8 @@ export interface BreakpointToken {
   rootLineHeight: number;
   rootTextSize: Unit;
 }
+
+export type ColorRangeToken = { [K in ColorShade]: Hexcode };
 
 export interface ColorStateToken {
   base: Hexcode;
@@ -138,6 +143,7 @@ export interface DesignTokens {
 export interface ThemeTokens {
   palette: {
     [K in PaletteType]: {
+      color: ColorRangeToken;
       bg: ColorStateToken;
       fg: ColorStateToken;
     };

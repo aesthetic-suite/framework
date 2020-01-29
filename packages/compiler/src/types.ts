@@ -2,6 +2,7 @@ import {
   BorderSize,
   BreakpointSize,
   ColorScheme,
+  ColorShade,
   ContrastLevel,
   HeadingSize,
   Hexcode,
@@ -192,29 +193,30 @@ export interface DesignConfig {
 
 // Colors
 
-export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
-
 export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-export interface ColorStates {
-  base: string;
-  disabled: string;
-  focused: string;
-  hovered: string;
-  selected: string;
+export interface PaletteState {
+  base: number;
+  disabled: number;
+  focused: number;
+  hovered: number;
+  selected: number;
 }
 
-export type PaletteConfig = {
-  [K in PaletteType]: {
-    bg: string | ColorStates;
-    fg: string | ColorStates;
-  };
+export interface PaletteConfig {
+  color: string;
+  bg: PaletteState;
+  fg: PaletteState;
+}
+
+export type PalettesConfig = {
+  [K in PaletteType]: string | PaletteConfig;
 };
 
 export type UiConfig = {
-  [K in UiType]: string | ColorStates;
+  [K in UiType]: string | PaletteState;
 };
 
 // Final
@@ -223,9 +225,9 @@ export interface ThemeConfig<ColorNames extends string = string> {
   colors: { [K in ColorNames]: Hexcode | ColorConfig };
   contrast: ContrastLevel;
   extends: string;
-  palettes: PaletteConfig;
+  palettes: PalettesConfig;
   scheme: ColorScheme;
-  ui: UiConfig;
+  // ui: UiConfig;
 }
 
 export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
@@ -303,5 +305,5 @@ export interface DesignTemplate {
 
 export interface ThemeTemplate {
   palette: ThemeConfig['palettes'];
-  ui: ThemeConfig['ui'];
+  // ui: ThemeConfig['ui'];
 }

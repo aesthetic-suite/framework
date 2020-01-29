@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 import fs from 'fs';
 import yaml from 'js-yaml';
 import { Path } from '@boost/common';
@@ -21,7 +23,6 @@ import {
   BreakpointListConfig,
   BreakpointSizedConfig,
   ColorConfig,
-  ColorShade,
   ConfigFile,
   HeadingScaledConfig,
   HeadingSizedConfig,
@@ -36,13 +37,15 @@ import {
   TextSizedConfig,
   ThemeConfig,
   TypographyConfig,
-  ColorStates,
   ShadowScaledConfig,
   ShadowSizedConfig,
   ShadowConfig,
+  PaletteConfig,
+  PaletteState,
+  PalettesConfig,
 } from './types';
-import { font } from './helpers';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, PLATFORM_CONFIGS } from './constants';
+import { font } from './helpers';
 
 function hexcode() {
   return string()
@@ -123,22 +126,8 @@ export default class ConfigLoader {
       .required();
   }
 
-  protected colorMap() {
-    return union([string(), this.colorState()], '');
-  }
-
-  protected colorState() {
-    const color = () => string().custom(this.validatePaletteColorReference);
-
-    return shape<ColorStates>({
-      base: color().required(),
-      disabled: color(),
-      focused: color(),
-      hovered: color(),
-      selected: color(),
-    })
-      .exact()
-      .required();
+  protected colorShade(defaultValue: number) {
+    return number(defaultValue).oneOf([0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
   }
 
   protected responsive() {
@@ -225,11 +214,12 @@ export default class ConfigLoader {
         colors: this.themeColors(),
         contrast: string('normal').oneOf<ContrastLevel>(['high', 'low', 'normal']),
         extends: string(),
-        palettes: shape({
+        palettes: shape<PalettesConfig>({
           brand: this.themePalette(),
           danger: this.themePalette(),
           info: this.themePalette(),
           muted: this.themePalette(),
+          neutral: this.themePalette(),
           primary: this.themePalette(),
           secondary: this.themePalette(),
           success: this.themePalette(),
@@ -239,18 +229,18 @@ export default class ConfigLoader {
           .exact()
           .required(),
         scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-        ui: shape({
-          border: this.colorMap(),
-          box: this.colorMap(),
-          boxAccent: this.colorMap(),
-          document: this.colorMap(),
-          heading: this.colorMap(),
-          icon: this.colorMap(),
-          shadow: this.colorMap(),
-          text: this.colorMap(),
-        })
-          .exact()
-          .required(),
+        // ui: shape({
+        //   border: this.colorMap(),
+        //   box: this.colorMap(),
+        //   boxAccent: this.colorMap(),
+        //   document: this.colorMap(),
+        //   heading: this.colorMap(),
+        //   icon: this.colorMap(),
+        //   shadow: this.colorMap(),
+        //   text: this.colorMap(),
+        // })
+        //   .exact()
+        //   .required(),
       }).exact(),
     );
   }
@@ -280,13 +270,37 @@ export default class ConfigLoader {
       .required();
   }
 
-  protected themePalette() {
-    return shape({
-      bg: this.colorMap(),
-      fg: this.colorMap(),
+  protected themePaletteState(base: number) {
+    return shape<PaletteState>({
+      base: this.colorShade(base),
+      disabled: this.colorShade(base - 10),
+      focused: this.colorShade(base + 10),
+      hovered: this.colorShade(base + 20),
+      selected: this.colorShade(base + 10),
     })
       .exact()
       .required();
+  }
+
+  protected themePalette() {
+    const color = string()
+      .required()
+      .notEmpty()
+      .custom(this.validatePaletteColorReference);
+
+    return union<string | PaletteConfig>(
+      [
+        color,
+        shape<PaletteConfig>({
+          color,
+          bg: this.themePaletteState(40),
+          fg: this.themePaletteState(50),
+        })
+          .exact()
+          .required(),
+      ],
+      '',
+    );
   }
 
   protected typography() {
@@ -411,39 +425,11 @@ export default class ConfigLoader {
     }
   };
 
-  protected validatePaletteColorReference = (ref: string, schema: Schema<ConfigFile>) => {
-    const themeName = schema.currentPath.split('.')[1];
-    const colors = schema.struct.themes?.[themeName]?.colors ?? {};
+  protected validatePaletteColorReference = (name: string, schema: Schema<ConfigFile>) => {
+    const names = new Set<string>(schema.struct.colors);
 
-    if (!ref) {
-      return;
-    }
-
-    // Hue + shade: black.10
-    if (ref.includes('.')) {
-      const [hue, shade] = ref.split('.') as [string, ColorShade];
-      const config: string | ColorConfig = colors[hue];
-
-      if (typeof config === 'string') {
-        throw new TypeError(
-          `Invalid color reference, "${ref}" is pointing to a shade, but the color does not use shades.`,
-        );
-      } else if (!config || !config[shade]) {
-        throw new Error(`Invalid color reference, "${ref}" does not exist.`);
-      }
-
-      return;
-    }
-
-    // Hue w/ no shade: black
-    const config: string | ColorConfig = colors[ref];
-
-    if (config && typeof config !== 'string') {
-      throw new Error(
-        `Invalid color reference, "${ref}" is pointing to shadeless color, but the color is using shades.`,
-      );
-    } else if (!config) {
-      throw new Error(`Invalid color reference, "${ref}" does not exist.`);
+    if (!names.has(name)) {
+      throw new Error(`Invalid color "${name}".`);
     }
   };
 }

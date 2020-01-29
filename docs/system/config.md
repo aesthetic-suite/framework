@@ -472,9 +472,8 @@ themes:
 ### Color palettes
 
 Palettes are the defining feature of Aesthetic, as they enable true interoperability and backwards
-compatibility with other design systems. In Aesthetic, colors (above) are not accessible to
-consumers, and are only accessible within the context of the configuration, as colors are not
-deterministic between systems, but palettes are!
+compatibility with other design systems. In Aesthetic, colors (above) are not directly accessible to
+consumers,as colors are not deterministic between systems, but palettes are!
 
 A palette is a collection of color references for both foreground (text) and background (layout)
 colors, grouped by states and interactions. The available palettes are:
@@ -483,6 +482,8 @@ colors, grouped by states and interactions. The available palettes are:
 - `primary` - Primary color. Typically buttons, links, bars, active states, etc.
 - `secondary` - Accent color. Provides emphasis and contrast to the primary color.
 - `tertiary` - Additional complementary color for more variation.
+- `neutral` - Whites, grays, or blacks that make up background, border, shadow, and other layout
+  related pieces.
 - `muted` - Disabled and empty like states.
 - `info` - State that denotes something as informational.
 - `warning` - State that warns the user of something minor.
@@ -490,9 +491,9 @@ colors, grouped by states and interactions. The available palettes are:
 - `success` - State when something succeeds or passes.
 
 Hopefully you have a better understanding of all the palettes, so let's dive into the configuration.
-Each palette requires a `fg` (foreground) and `bg` (background), with both variants requiring a map
-of states to color references. A color reference is a string that joins a color (by name) to a shade
-(by number) with a period; non-multiple shade colors reference by name only.
+Each palette requires a `color`, `fg` (foreground), and `bg` (background) setting. The `color`
+setting must reference a valid [color name](#colors), and will be the designated color for the
+palette. The `fg` and `bg` variants will map states to shade references.
 
 ```yaml
 themes:
@@ -502,21 +503,23 @@ themes:
       # ...
     palettes:
       primary:
+        color: blue
         # Backgrounds use a lighter shade
         bg:
-          base: blue.40
-          focused: blue.50
-          selected: blue.50
-          hovered: blue.60
-          disabled: gray.40
+          base: 40
+          focused: 50
+          selected: 50
+          hovered: 60
+          disabled: 30
         # While text uses a darker shade for legibility (a11y)
         fg:
-          base: blue.50
-          focused: blue.60
-          selected: blue.60
-          hovered: blue.70
-          disabled: gray.50
+          base: 50
+          focused: 60
+          selected: 60
+          hovered: 70
+          disabled: 40
       secondary:
+        color: orange
         bg: # ...
         fg: # ...
       tertiary:
@@ -532,11 +535,9 @@ they are:
 - `selected` - State when a target is selected, active, expanded, etc. _(optional)_
 - `disabled` - State when a target is disabled. Should override all previous states. _(optional)_
 
-Only the `base` state is required and must be defined. If an optional state is not defined, it will
-automatically infer a color and shade based off the `base` color. For example, if `base` is
-`blue.40`, then `focused` will be `blue.50` (+1 shade), `hovered` will be `blue.60` (+2 shades), so
-on and so forth. Furthermore, you could also set `fg` and `bg` to the base string when using this
-approach.
+All of the states are optional, and will default to the shade references above. If you prefer to
+always use the defaults, a shorthand configuration is available, where the value can simply be set
+to the color name. The above example can now be written as:
 
 ```yaml
 themes:
@@ -545,9 +546,10 @@ themes:
     colors:
       # ...
     palettes:
-      primary:
-        bg: blue.40
-        fg: blue.50
+      primary: blue
+      secondary: orange
+      tertiary:
+        # ...
 ```
 
 > This may seem like a lot to configure, and it is, but it's thorough and covers all common and
