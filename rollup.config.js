@@ -56,7 +56,7 @@ export default packages
     plugins,
   }))
   .concat({
-    external,
+    external: external.concat('./index'),
     input: `packages/core/src/testing.ts`,
     output: [
       {

@@ -5,6 +5,7 @@
 
 import instance from './instance';
 import Adapter from './Adapter';
+import TestAdapter from './TestAdapter';
 import Aesthetic from './Aesthetic';
 import ClassNameAdapter from './ClassNameAdapter';
 import UnifiedSyntax from './UnifiedSyntax';
@@ -14,6 +15,6 @@ import Sheet from './Sheet';
 export * from './constants';
 export * from './types';
 
-export { Adapter, Aesthetic, ClassNameAdapter, UnifiedSyntax, Ruleset, Sheet };
+export { Adapter, TestAdapter, Aesthetic, ClassNameAdapter, UnifiedSyntax, Ruleset, Sheet };
 
 export default instance;

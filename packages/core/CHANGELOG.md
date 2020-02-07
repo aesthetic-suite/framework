@@ -1,3 +1,9 @@
+### 5.1.1 - 2020-02-06
+
+#### 🐞 Fixes
+
+- Fixed an issue with testing utils where duplicate Aesthetic instances were being used.
+
 ## 5.1.0 - 2020-01-26
 
 #### 🚀 Updates

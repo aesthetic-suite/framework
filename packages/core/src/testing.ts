@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, import/no-unresolved, @typescript-eslint/no-explicit-any */
+/* eslint-disable sort-keys, import/no-unresolved, @typescript-eslint/no-explicit-any, unicorn/import-index */
 
 import CSS from 'csstype';
 import convertRTL from 'rtl-css-js';
@@ -7,11 +7,16 @@ import {
   getStyleElements,
   isObject,
 } from 'aesthetic-utils';
-import Aesthetic from './Aesthetic';
-import Adapter from './Adapter';
-import TestAdapter from './TestAdapter';
-import { FontFace, Direction, SheetMap, Keyframes } from './types';
-import { GLOBAL_STYLE_NAME } from './constants';
+import {
+  Aesthetic,
+  Adapter,
+  TestAdapter,
+  FontFace,
+  Direction,
+  SheetMap,
+  Keyframes,
+  GLOBAL_STYLE_NAME,
+} from './index';
 
 export { TestAdapter };
 
