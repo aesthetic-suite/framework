@@ -202,6 +202,43 @@ const styles: DeclarationBlock = {
 
 ## Selectors
 
+For proper type-safety and isolation, only static attribute and pseudo selectors are supported, as
+dynamic selectors with an infinite number of combinations or permutations cannot be typed. The list
+of supported selectors can be found in the [csstype](https://github.com/frenic/csstype) library,
+primarily `SimplePseudos` and `HtmlAttributes`.
+
 ### Attributes
 
+Attribute selectors can be defined by wrapping the attribute name in square brackets.
+
+```ts
+import { DeclarationBlock } from '@aesthetic/sss';
+
+const styles: DeclarationBlock = {
+  // ...
+  '[disabled]': {
+    opacity: 0.3,
+  },
+};
+```
+
 ### Pseudos
+
+Pseudo classes and pseudo elements can be defined by prefixing the pseudo name with a `:` or `::`
+respectively.
+
+```ts
+import { DeclarationBlock } from '@aesthetic/sss';
+
+const styles: DeclarationBlock = {
+  // ...
+  ':hover': {
+    backgroundColor: '#eee',
+  },
+  '::before': {
+    content: '"★"',
+    display: 'inline-block',
+    marginRight: 5,
+  },
+};
+```
