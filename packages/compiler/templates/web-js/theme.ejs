@@ -4,7 +4,6 @@ import parentTheme from './<%= theme.extendedFrom -%>';
 
 export default parentTheme.extend({
   palette: <%- JSON.stringify(data.palette) -%>,
-  ui: <%- JSON.stringify(data.ui) -%>,
 }, {
   contrast: '<%= theme.contrast -%>',
   scheme: '<%= theme.scheme -%>',
@@ -18,6 +17,5 @@ export default design.createTheme({
   scheme: '<%= theme.scheme -%>',
 }, {
   palette: <%- JSON.stringify(data.palette) -%>,
-  ui: <%- JSON.stringify(data.ui) -%>,
 });
 <% } -%>

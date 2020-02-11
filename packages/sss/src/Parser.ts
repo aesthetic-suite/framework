@@ -1,4 +1,4 @@
-/* eslint-disable lines-between-class-members, no-dupe-class-members, @typescript-eslint/unified-signatures */
+/* eslint-disable lines-between-class-members, no-dupe-class-members */
 
 import { isObject, toArray } from 'aesthetic-utils';
 import Block from './Block';

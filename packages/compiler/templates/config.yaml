@@ -90,8 +90,6 @@ shadows:
 # COLORS
 colors:
   - black
-  - white
-  - gray
 
 # THEMES
 themes:
@@ -99,14 +97,25 @@ themes:
     scheme: light
     contrast: normal
     colors:
-      # ...
+      black:
+        '00': '#000'
+        '10': '#000'
+        '20': '#000'
+        '30': '#000'
+        '40': '#000'
+        '50': '#000'
+        '60': '#000'
+        '70': '#000'
+        '80': '#000'
+        '90': '#000'
     palettes:
       brand: black
-      primary: white
-      secondary: gray
+      primary: black
+      secondary: black
       tertiary: black
-      muted: gray
-      info: blue
-      warning: orange
-      danger: red
-      success: green
+      neutral: black
+      muted: black
+      info: black
+      warning: black
+      danger: black
+      success: black

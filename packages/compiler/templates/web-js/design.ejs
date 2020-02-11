@@ -20,6 +20,11 @@ export default new Design({
     },
     <% }) -%>
   },
+  depth: {
+    <% Object.entries(elevationDepths).forEach(([name, index]) => { -%>
+    <%= name -%>: <%= platform.number(index) -%>,
+    <% }) -%>
+  },
   heading: {
     <% headingSizes.forEach(size => { -%>
     <%= size -%>: {

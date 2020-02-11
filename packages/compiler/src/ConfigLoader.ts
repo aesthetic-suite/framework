@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import fs from 'fs';
 import yaml from 'js-yaml';
 import { Path } from '@boost/common';
