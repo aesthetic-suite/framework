@@ -1,0 +1,31 @@
+{
+  "name": "@aesthetic/style",
+  "version": "0.0.0",
+  "description": "A high-performance atomic based CSS-in-JS solution, with full CSS support.",
+  "keywords": [
+    "aesthetic",
+    "style",
+    "stylesheet",
+    "css",
+    "css-in-js"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/style",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  },
+  "dependencies": {
+    "aesthetic-utils": "^3.0.0",
+    "css-in-js-utils": "^3.0.4",
+    "csstype": "^2.6.8",
+    "string-hash": "^1.1.3"
+  }
+}
