@@ -1,29 +1,30 @@
 import { DeclarationBlock } from '@aesthetic/sss';
 import { Tokens, BorderSize } from '../types';
+import { LAYOUT_SHADES } from '../constants';
 
-export function border({ border: b, ui }: Tokens, size: BorderSize): DeclarationBlock {
+export function border({ border: b, palette }: Tokens, size: BorderSize): DeclarationBlock {
   const { width, radius } = b[size];
 
   return {
-    borderColor: ui.border.base,
+    borderColor: palette.neutral.color[LAYOUT_SHADES.border],
     borderRadius: radius,
     borderStyle: 'solid',
     borderWidth: width,
 
     ':focus': {
-      borderColor: ui.border.focused,
+      borderColor: palette.primary.bg.focused,
     },
 
     ':hover': {
-      borderColor: ui.border.hovered,
+      borderColor: palette.primary.bg.hovered,
     },
 
     ':active': {
-      borderColor: ui.border.selected,
+      borderColor: palette.primary.bg.selected,
     },
 
     '[disabled]': {
-      borderColor: ui.border.disabled,
+      borderColor: palette.primary.bg.disabled,
     },
   };
 }
