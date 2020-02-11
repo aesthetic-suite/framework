@@ -1,0 +1,32 @@
+{
+  "name": "@aesthetic/sss",
+  "version": "0.0.0",
+  "description": "A strict, type-safe, and structure-safe CSS-in-JS style sheet format.",
+  "keywords": [
+    "aesthetic",
+    "style",
+    "sheet",
+    "strict",
+    "structure",
+    "type-safe",
+    "css"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/sss",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  },
+  "dependencies": {
+    "aesthetic-utils": "^3.0.0",
+    "csstype": "^2.6.8",
+    "stylis": "^3.5.4"
+  }
+}

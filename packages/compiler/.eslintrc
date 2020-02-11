@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "compat/compat": "off",
+    "no-magic-numbers": "off",
+    "sort-keys": "off"
+  }
+}

@@ -1,0 +1,7 @@
+:root {
+  /* Borders */
+  <% borderSizes.forEach(size => { %>
+  --border-<%= size %>-radius: <%= unit(tokens.border[size].radius) %>;
+  --border-<%= size %>-width: <%= unit(tokens.border[size].width) %>;
+  <% } %>
+}

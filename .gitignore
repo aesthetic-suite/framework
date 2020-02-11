@@ -36,3 +36,7 @@ tsconfig.json
 tsconfig.eslint.json
 tsconfig.options.json
 *.tsbuildinfo
+
+# Local
+build/
+compile.js
