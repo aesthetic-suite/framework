@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/sss",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A strict, type-safe, and structure-safe CSS-in-JS style sheet format.",
   "keywords": [
     "aesthetic",
