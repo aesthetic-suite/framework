@@ -9,6 +9,14 @@ export type Property = keyof Properties;
 
 export type Value = string | number;
 
+export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
+
+export interface Keyframes {
+  [percent: string]: Properties;
+  from?: Properties;
+  to?: Properties;
+}
+
 export type SheetType = 'global' | 'low-pri' | 'high-pri';
 
 export interface CacheItem {

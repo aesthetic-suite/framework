@@ -2,16 +2,19 @@ import hash from 'string-hash';
 import { isObject } from 'aesthetic-utils';
 import { hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
-import { ClassName, Properties, StyleParams, Property, Value } from './types';
+import { ClassName, Properties, StyleParams, Property, Value, FontFace, Keyframes } from './types';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import isMediaQueryCondition from './isMediaQueryCondition';
 import isSupportsCondition from './isSupportsCondition';
 import isNestedSelector from './isNestedSelector';
+import quoteString from './quoteString';
 
 export default class Renderer {
-  protected atRuleCache = new Map();
+  protected atRuleCache = new Set();
 
   protected classNameCache = new AtomicCache();
+
+  protected keyframesIndex = 0;
 
   constructor() {
     // Create the elements in a strict order
@@ -70,9 +73,36 @@ export default class Renderer {
     return className;
   }
 
-  renderFontFace() {}
+  renderFontFace(fontFace: FontFace): string {
+    if (__DEV__) {
+      if (!fontFace.fontFamily) {
+        throw new Error('TODO');
+      }
+    }
 
-  renderKeyframes() {}
+    const fontFamily = fontFace.fontFamily
+      .split(',')
+      .map(family => quoteString(family.trim()))
+      .join(', ');
+
+    // Format font family so its deterministic
+    fontFace.fontFamily = fontFamily;
+
+    this.injectAtRule(`@font-face { ${this.createDeclarationBlock(fontFace)} }`);
+
+    return fontFamily;
+  }
+
+  renderKeyframes(keyframes: Keyframes, name: string = ''): string {
+    const animationName = name || `k${(this.keyframesIndex += 1)}`;
+    const frames = Object.entries(keyframes)
+      .map(([frame, props]) => `${frame} { ${this.createDeclarationBlock(props)} }`)
+      .join(' ');
+
+    this.injectAtRule(`@keyframes ${animationName} { ${frames} }`);
+
+    return animationName;
+  }
 
   protected createDeclaration(property: string, value: Value): string {
     return `${property}: ${value}`;
@@ -107,5 +137,21 @@ export default class Renderer {
 
   protected createUniqueHash(property: string, value: Value, params: StyleParams): string {
     return hash(`${params.condition || ''}${params.selector || ''}${property}${value}`);
+  }
+
+  protected injectAtRule(rule: string): string {
+    const cacheKey = hash(rule);
+
+    if (this.atRuleCache.has(cacheKey)) {
+      return cacheKey;
+    }
+
+    const sheet = getDocumentStyleSheet('global');
+
+    sheet.insertRule(rule, sheet.cssRules.length);
+
+    this.atRuleCache.add(cacheKey);
+
+    return cacheKey;
   }
 }
