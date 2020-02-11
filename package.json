@@ -53,7 +53,10 @@
       "eslint",
       "jest",
       "prettier",
-      "typescript"
+      {
+        "driver": "typescript",
+        "declarationOnly": true
+      }
     ],
     "settings": {
       "react": true

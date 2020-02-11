@@ -8,8 +8,11 @@ const packages = [
   'adapter-fela',
   'adapter-jss',
   'adapter-typestyle',
+  'compiler',
   'core',
   'react',
+  'sss',
+  'system',
   'utils',
 ];
 
@@ -22,15 +25,23 @@ const plugins = [
 ];
 
 const external = [
+  '@aesthetic/sss',
+  '@aesthetic/system',
+  '@boost/common',
   'aesthetic',
   'aesthetic-utils',
   'aphrodite',
   'direction',
+  'ejs',
   'extend',
   'fela',
   'fela-dom',
   'hoist-non-react-statics',
   'jss',
+  'js-yaml',
+  'lodash',
+  'optimal',
+  'prettier',
   'react',
   'rtl-css-js',
   'rtl-css-js/core',
