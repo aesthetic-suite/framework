@@ -27,6 +27,9 @@ export interface QueueItem {
 }
 
 export default class Renderer {
+  // Testing purposes only
+  flushedStyles: string = '';
+
   protected atRuleCache = new Set();
 
   protected classNameCache = new AtomicCache();
@@ -138,8 +141,11 @@ export default class Renderer {
   /**
    * Render any at-rule into the global style sheet.
    */
-  renderAtRule(selector: string, properties: Properties) {
-    this.enqueueAtRule(selector, this.formatDeclarationBlock(properties));
+  renderAtRule(selector: string, properties: string | Properties) {
+    this.enqueueAtRule(
+      selector,
+      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties),
+    );
   }
 
   /**
@@ -160,7 +166,7 @@ export default class Renderer {
 
     fontFace.fontFamily = fontFamily;
 
-    this.enqueueAtRule('@font-face', this.formatDeclarationBlock(fontFace as Properties));
+    this.renderAtRule('@font-face', fontFace as Properties);
 
     return fontFamily;
   }
@@ -180,7 +186,7 @@ export default class Renderer {
     // A bit more deterministic than a counter
     const animationName = customName || `kf${hash(frames)}`;
 
-    this.enqueueAtRule(`@keyframes ${animationName}`, frames);
+    this.renderAtRule(`@keyframes ${animationName}`, frames);
 
     return animationName;
   }
@@ -205,10 +211,10 @@ export default class Renderer {
 
     for (let i = 0; i < props.length; i += 1) {
       block += this.formatDeclaration(props[i], properties[props[i] as Property]!);
-      block += ';';
+      block += '; ';
     }
 
-    return block;
+    return block.trim();
   }
 
   /**
@@ -246,16 +252,24 @@ export default class Renderer {
       return;
     }
 
+    let rule = selector;
+
+    if (selector === '@charset' || selector === '@import') {
+      rule += ` ${body};`;
+    } else {
+      rule += ` { ${body} }`;
+    }
+
     this.atRuleCache.add(cacheKey);
 
     this.ruleBuffer.push({
       callback,
-      rule: `${selector} { ${body} }`,
+      rule,
       type: 'global',
     });
 
     if (!this.frameTimer) {
-      this.frameTimer = requestAnimationFrame(this.flushBufferedRules);
+      this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
     }
   }
 
@@ -270,7 +284,7 @@ export default class Renderer {
     });
 
     if (!this.frameTimer) {
-      this.frameTimer = requestAnimationFrame(this.flushBufferedRules);
+      this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
     }
   }
 
@@ -286,14 +300,18 @@ export default class Renderer {
 
     // Loop through and inject the rule into the style sheet
     for (let i = 0; i < queue.length; i += 1) {
-      const sheet = getDocumentStyleSheet(queue[i].type);
+      const { callback, rule, type } = queue[i];
+      const sheet = getDocumentStyleSheet(type);
       const rank = sheet.cssRules.length;
-      const cb = queue[i].callback;
 
-      sheet.insertRule(queue[i].rule, rank);
+      sheet.insertRule(rule, rank);
 
-      if (typeof cb === 'function') {
-        cb(rank);
+      if (typeof callback === 'function') {
+        callback(rank);
+      }
+
+      if (process.env.NODE_ENV === 'test') {
+        this.flushedStyles += rule;
       }
     }
   };
