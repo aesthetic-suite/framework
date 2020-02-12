@@ -2,8 +2,7 @@ import CSS from 'csstype';
 
 export type ClassName = string;
 
-// Keep in sync with SSS properties
-export type Properties = CSS.StandardProperties;
+export type Properties = CSS.Properties & CSS.PropertiesHyphen;
 
 export type Property = keyof Properties;
 
@@ -12,7 +11,7 @@ export type Value = string | number;
 export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
 
 export interface Keyframes {
-  [percent: string]: Properties;
+  [percent: string]: Properties | undefined;
   from?: Properties;
   to?: Properties;
 }

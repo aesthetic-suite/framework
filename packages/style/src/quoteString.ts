@@ -1,5 +1,7 @@
 export default function quoteString(value: string): string {
-  if (value.charAt(0) === '"') {
+  const char = value.charAt(0);
+
+  if (char === '"' || char === "'") {
     return value;
   }
 

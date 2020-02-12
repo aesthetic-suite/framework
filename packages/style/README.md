@@ -1,13 +1,17 @@
-# Aesthetic - Structural Style Sheets
+# Aesthetic - CSS Style Renderer
 
 [![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
-[![npm version](https://badge.fury.io/js/%40aesthetic%sss.svg)](https://www.npmjs.com/package/@aesthetic/sss)
-[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/sss)](https://www.npmjs.com/package/@aesthetic/sss)
+[![npm version](https://badge.fury.io/js/%40aesthetic%style.svg)](https://www.npmjs.com/package/@aesthetic/style)
+[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/style)](https://www.npmjs.com/package/@aesthetic/style)
 
-A strict, type-safe, and structure-safe CSS-in-JS style sheet format.
+A high-performance atomic-based CSS-in-JS solution, with full CSS support.
 
 ## Installation
 
 ```
-yarn add @aesthetic/sss
+yarn add @aesthetic/style
 ```
+
+## What it does not do
+
+- Does not vendor prefix properties.

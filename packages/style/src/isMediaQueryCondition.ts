@@ -1,3 +1,6 @@
+const PATTERN = /^@media/u;
+
 export default function isMediaQueryCondition(value: string): boolean {
-  return value.startsWith('@media');
+  // https://jsperf.com/string-startswith/66
+  return PATTERN.test(value);
 }
