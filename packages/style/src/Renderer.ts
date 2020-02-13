@@ -58,6 +58,7 @@ export default class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
+  // eslint-disable-next-line complexity
   render(properties: Properties, params: StyleParams = {}): ClassName {
     const props = Object.keys(properties);
     let classNames = '';
@@ -68,7 +69,11 @@ export default class Renderer {
       const valueType = typeof value;
 
       // Skip invalid values
-      if (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') {
+      if (
+        (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') ||
+        value === null ||
+        value === undefined
+      ) {
         if (__DEV__) {
           console.warn(`Invalid value "${value}" for property "${prop}".`);
         }
@@ -138,7 +143,7 @@ export default class Renderer {
     // Enqueue the CSS rule but assign the rank once its been flushed.
     this.enqueueRule(
       this.formatRule(className, prop, val, params),
-      params.type ?? 'low-pri',
+      params.type || 'low-pri',
       rank => {
         item.rank = rank;
       },

@@ -2,6 +2,7 @@ import Renderer from '../src/Renderer';
 
 describe('Renderer', () => {
   let renderer: Renderer;
+  let spy: jest.SpyInstance;
 
   beforeEach(() => {
     renderer = new Renderer();
@@ -10,8 +11,16 @@ describe('Renderer', () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: FrameRequestCallback) => {
       cb(Date.now());
 
-      return 1;
+      // Return 0 so that timer is always falsy
+      return 0;
     });
+
+    // Avoid warnings
+    spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    spy.mockRestore();
   });
 
   it('generates a unique class name for each property', () => {
@@ -41,7 +50,7 @@ describe('Renderer', () => {
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 
-  it('generates a unique class name for each selector even if property value pair is the same', () => {
+  it.only('generates a unique class name for each selector even if property value pair is the same', () => {
     const className = renderer.render({
       background: '#000',
       ':hover': {
@@ -100,6 +109,18 @@ describe('Renderer', () => {
     renderer.renderDeclaration('paddingLeft', '10px');
     renderer.renderDeclaration('height', '10vh');
 
+    expect(renderer.flushedStyles).toMatchSnapshot();
+  });
+
+  it('ignores invalid values', () => {
+    const className = renderer.render({
+      // @ts-ignore
+      margin: true,
+      padding: null,
+      color: undefined,
+    });
+
+    expect(className).toBe('');
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 

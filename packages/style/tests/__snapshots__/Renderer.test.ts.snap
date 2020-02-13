@@ -18,6 +18,8 @@ exports[`Renderer generates a unique class name for each property 1`] = `".13kbe
 
 exports[`Renderer generates a unique class name for each selector even if property value pair is the same 1`] = `".1yedsjc { background:#000 } .yb3jac:hover { background:#000 } .t5sg0a[disable] { background:#000 } "`;
 
+exports[`Renderer ignores invalid values 1`] = `""`;
+
 exports[`Renderer pseudos generates the correct class names with pseudo selector 1`] = `".l1hma1 { padding:5px } .9yzjcx:hover { padding:10px } .1dxv7sg::before { content:\\"★\\" } .hmvnkb::before { display:inline-block } "`;
 
 exports[`Renderer pseudos supports complex attribute selectors 1`] = `".1jb0id6:nth-last-of-type(4n) { color:white } "`;
