@@ -50,7 +50,7 @@ describe('Renderer', () => {
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 
-  it.only('generates a unique class name for each selector even if property value pair is the same', () => {
+  it('generates a unique class name for each selector even if property value pair is the same', () => {
     const className = renderer.render({
       background: '#000',
       ':hover': {
@@ -112,11 +112,20 @@ describe('Renderer', () => {
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 
+  it('supports CSS variables within values', () => {
+    renderer.renderDeclaration('color', 'var(--primary-color)');
+    renderer.renderDeclaration('border', '1px solid var(--border-color)');
+
+    expect(renderer.flushedStyles).toMatchSnapshot();
+  });
+
   it('ignores invalid values', () => {
     const className = renderer.render({
       // @ts-ignore
       margin: true,
+      // @ts-ignore
       padding: null,
+      // @ts-ignore
       color: undefined,
     });
 
@@ -203,26 +212,133 @@ describe('Renderer', () => {
     });
   });
 
+  describe('hierarchy', () => {
+    it('generates the correct class names with hierarchy selector', () => {
+      const className = renderer.render({
+        padding: 10,
+        '+ div': {
+          padding: 10,
+        },
+        '~ SPAN': {
+          padding: 10,
+        },
+        '>li': {
+          padding: 10,
+        },
+        '*': {
+          padding: 10,
+        },
+      });
+
+      expect(className).toBe('2jxlp9 azehd9 vcq0y7 li1ae d8ou53');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('uses same class name between both APIs', () => {
+      const classNameA = renderer.render({
+        '+ div': {
+          backgroundColor: '#000',
+        },
+      });
+      const classNameB = renderer.renderDeclaration('backgroundColor', '#000', {
+        selector: '+ div',
+      });
+
+      expect(classNameA).toBe('jclqu0');
+      expect(classNameA).toBe(classNameB);
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('supports complex attribute selectors', () => {
+      renderer.renderDeclaration('color', 'white', {
+        selector: ':first-of-type + li',
+      });
+
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+  });
+
   describe('at-rules', () => {
-    // describe('@charset', () => {
-    //   it('renders without quotes', () => {
-    //     renderer.renderAtRule('@charset', '"utf8"');
-
-    //     console.log('ASSERT');
-
-    //     expect(renderer.flushedStyles).toBe('');
-    //   });
-    // });
-
     describe('@font-face', () => {
-      it('renders', () => {
-        renderer.renderFontFace({
+      it('renders and returns family name', () => {
+        const name = renderer.renderFontFace({
           fontFamily: 'Open Sans',
           fontStyle: 'normal',
           fontWeight: 800,
           src: 'url("fonts/OpenSans-Bold.woff2")',
         });
 
+        expect(name).toBe('"Open Sans"');
+        expect(renderer.flushedStyles).toMatchSnapshot();
+      });
+
+      it('quotes each font family name', () => {
+        const name = renderer.renderFontFace({
+          fontFamily: '"Open Sans", Roboto, Lucida Console',
+          fontStyle: 'normal',
+          fontWeight: 800,
+          src: 'url("fonts/OpenSans-Bold.woff2")',
+        });
+
+        expect(name).toBe('"Open Sans", "Roboto", "Lucida Console"');
+        expect(renderer.flushedStyles).toMatchSnapshot();
+      });
+    });
+
+    describe('@import', () => {
+      it('renders all variants', () => {
+        renderer.renderImport('url("print.css") print');
+        renderer.renderImport('url("a11y.css") speech');
+        renderer.renderImport("'custom.css'");
+        renderer.renderImport('url("chrome://communicator/skin")');
+        renderer.renderImport('"common.css" screen;'); // Ends in semicolon
+        renderer.renderImport("url('landscape.css') screen and (orientation: landscape)");
+
+        expect(renderer.flushedStyles).toMatchSnapshot();
+      });
+    });
+
+    describe('@keyframes', () => {
+      it('renders from-to based and returns animation name', () => {
+        const name = renderer.renderKeyframes({
+          from: {
+            transform: 'translateX(0%)',
+          },
+          to: {
+            transform: 'translateX(100%)',
+          },
+        });
+
+        expect(name).toBe('kf103rcyx');
+        expect(renderer.flushedStyles).toMatchSnapshot();
+      });
+
+      it('renders percentage based and returns animation name', () => {
+        const name = renderer.renderKeyframes({
+          '0%': { top: 0, left: 0 },
+          '30%': { top: 50 },
+          '68%, 72%': { left: '50px' },
+          '100%': { top: 100, left: '100%' },
+        });
+
+        expect(name).toBe('kfnec9co');
+        expect(renderer.flushedStyles).toMatchSnapshot();
+      });
+
+      it('can provide a custom animation name', () => {
+        const name = renderer.renderKeyframes(
+          {
+            from: {
+              transform: 'translateX(0%)',
+            },
+            to: {
+              transform: 'translateX(100%)',
+            },
+          },
+          'slide',
+        );
+
+        expect(name).toBe('slide');
         expect(renderer.flushedStyles).toMatchSnapshot();
       });
     });

@@ -153,23 +153,6 @@ export default class Renderer {
   }
 
   /**
-   * Render any at-rule into the global style sheet.
-   */
-  renderAtRule(selector: string, properties: string | Properties) {
-    const body =
-      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
-    const cacheKey = generateHash(selector + body);
-
-    if (this.atRuleCache.has(cacheKey)) {
-      return;
-    }
-
-    this.atRuleCache.add(cacheKey);
-
-    this.enqueueAtRule(selector, body);
-  }
-
-  /**
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
   renderFontFace(fontFace: FontFace): string {
@@ -190,6 +173,15 @@ export default class Renderer {
     this.renderAtRule('@font-face', fontFace as Properties);
 
     return fontFamily;
+  }
+
+  /**
+   * Render an `@import` to the global style sheet.
+   */
+  renderImport(value: string) {
+    const path = value.slice(-1) === ';' ? value.slice(0, -1) : value;
+
+    this.renderAtRule('@import', path);
   }
 
   /**
@@ -271,8 +263,12 @@ export default class Renderer {
   protected enqueueAtRule(selector: string, body: string, callback?: QueueItem['callback']) {
     let rule = selector;
 
-    if (selector === '@charset' || selector === '@import') {
-      rule += ` ${body};`;
+    if (selector === '@import') {
+      rule += ` ${body}`;
+
+      if (body.slice(-1) !== ';') {
+        rule += ';';
+      }
     } else {
       rule += ` { ${body} }`;
     }
@@ -334,4 +330,21 @@ export default class Renderer {
       }
     }
   };
+
+  /**
+   * Render any at-rule into the global style sheet.
+   */
+  protected renderAtRule(selector: string, properties: string | Properties) {
+    const body =
+      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
+    const cacheKey = generateHash(selector + body);
+
+    if (this.atRuleCache.has(cacheKey)) {
+      return;
+    }
+
+    this.atRuleCache.add(cacheKey);
+
+    this.enqueueAtRule(selector, body);
+  }
 }

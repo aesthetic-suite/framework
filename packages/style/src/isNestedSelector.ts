@@ -1,6 +1,5 @@
-export default function isNestedSelector(value: string): boolean {
-  const char = value.charAt(0);
+const PATTERN = /^(:|\[|>|~|\+|\*)/u;
 
-  // https://jsperf.com/string-startswith/66
-  return char === ':' || char === '[' || char === '>' || char === '&';
+export default function isNestedSelector(value: string): boolean {
+  return PATTERN.test(value);
 }
