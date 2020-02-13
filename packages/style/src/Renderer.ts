@@ -1,4 +1,4 @@
-import { isObject } from 'aesthetic-utils';
+import { isObject, toArray } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import {
@@ -51,7 +51,9 @@ export default class Renderer {
    * Generate a unique and deterministic class name for a property value pair.
    */
   generateClassName(property: string, value: string, params: StyleParams): string {
-    return generateHash(`${params.condition || ''}${params.selector || ''}${property}${value}`);
+    return generateHash(
+      `${params.conditions?.join('') || ''}${params.selector || ''}${property}${value}`,
+    );
   }
 
   /**
@@ -82,7 +84,12 @@ export default class Renderer {
       } else if (isObject(value)) {
         // @media, @supports
         if (isMediaQueryCondition(prop) || isSupportsCondition(prop)) {
-          classNames += this.render(value, { ...params, condition: prop });
+          const { conditions } = params;
+
+          classNames += this.render(value, {
+            ...params,
+            conditions: conditions ? [prop as string, ...conditions] : [prop as string],
+          });
           classNames += ' ';
 
           // [attribute], :pseudo, ::pseudo
@@ -130,7 +137,7 @@ export default class Renderer {
 
     // Write to the cache immediately in case the same property:value is being rendered
     const item: CacheItem = {
-      condition: '',
+      conditions: [],
       selector: '',
       type: 'low-pri',
       ...params,
@@ -250,8 +257,10 @@ export default class Renderer {
 
     rule += ` { ${this.formatDeclaration(property, value)} } `;
 
-    if (params.condition) {
-      rule = `${params.condition} { ${rule.trim()} } `;
+    if (params.conditions) {
+      params.conditions.forEach(condition => {
+        rule = `${condition} { ${rule.trim()} } `;
+      });
     }
 
     return rule;

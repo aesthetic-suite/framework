@@ -133,6 +133,66 @@ describe('Renderer', () => {
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 
+  describe('media queries', () => {
+    it('supports @media conditions', () => {
+      const className = renderer.render({
+        background: '#000',
+        padding: 15,
+        '@media (max-width: 600px)': {
+          padding: 15,
+        },
+        '@media screen and (min-width: 900px)': {
+          padding: 20,
+        },
+      });
+
+      expect(className).toBe('1yedsjc q1v28o 10pyjxi g71vcm');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('can be nested in @supports', () => {
+      const className = renderer.render({
+        padding: 15,
+        '@supports (display: flex)': {
+          '@media (max-width: 600px)': {
+            padding: 15,
+          },
+        },
+      });
+
+      expect(className).toBe('q1v28o 1rxtb3g');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+  });
+
+  describe('supports', () => {
+    it('supports @supports conditions', () => {
+      const className = renderer.render({
+        display: 'block',
+        '@supports (display: flex)': {
+          display: 'flex',
+        },
+      });
+
+      expect(className).toBe('1s7hmty 119dy5e');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('can be nested in @media', () => {
+      const className = renderer.render({
+        display: 'block',
+        '@media screen and (min-width: 900px)': {
+          '@supports (display: flex)': {
+            display: 'flex',
+          },
+        },
+      });
+
+      expect(className).toBe('1s7hmty kla65m');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+  });
+
   describe('attributes', () => {
     it('generates the correct class names with attribute selector', () => {
       const className = renderer.render({

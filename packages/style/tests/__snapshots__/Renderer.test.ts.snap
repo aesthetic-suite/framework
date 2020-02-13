@@ -36,6 +36,10 @@ exports[`Renderer hierarchy uses same class name between both APIs 1`] = `".jclq
 
 exports[`Renderer ignores invalid values 1`] = `""`;
 
+exports[`Renderer media queries can be nested in @supports 1`] = `".q1v28o { padding:15px } @supports (display: flex) { @media (max-width: 600px) { .1rxtb3g { padding:15px } } } "`;
+
+exports[`Renderer media queries supports @media conditions 1`] = `".1yedsjc { background:#000 } .q1v28o { padding:15px } @media (max-width: 600px) { .10pyjxi { padding:15px } } @media screen and (min-width: 900px) { .g71vcm { padding:20px } } "`;
+
 exports[`Renderer pseudos generates the correct class names with pseudo selector 1`] = `".l1hma1 { padding:5px } .9yzjcx:hover { padding:10px } .1dxv7sg::before { content:\\"★\\" } .hmvnkb::before { display:inline-block } "`;
 
 exports[`Renderer pseudos supports complex attribute selectors 1`] = `".1jb0id6:nth-last-of-type(4n) { color:white } "`;
@@ -43,6 +47,10 @@ exports[`Renderer pseudos supports complex attribute selectors 1`] = `".1jb0id6:
 exports[`Renderer pseudos uses same class name between both APIs 1`] = `".123nku:focus { background-color:#000 } "`;
 
 exports[`Renderer supports CSS variables within values 1`] = `".1qbvicg { color:var(--primary-color) } .1mkzd85 { border:1px solid var(--border-color) } "`;
+
+exports[`Renderer supports can be nested in @media 1`] = `".1s7hmty { display:block } @media screen and (min-width: 900px) { @supports (display: flex) { .kla65m { display:flex } } } "`;
+
+exports[`Renderer supports supports @supports conditions 1`] = `".1s7hmty { display:block } @supports (display: flex) { .119dy5e { display:flex } } "`;
 
 exports[`Renderer uses the same class name for dashed and camel cased properties 1`] = `".1dh7ri5 { text-decoration:none } "`;
 
