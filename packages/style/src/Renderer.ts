@@ -1,4 +1,4 @@
-import { isObject, toArray } from 'aesthetic-utils';
+import { isObject } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import {
@@ -92,7 +92,7 @@ export default class Renderer {
           });
           classNames += ' ';
 
-          // [attribute], :pseudo, ::pseudo
+          // [attribute], :pseudo, > div
         } else if (isNestedSelector(prop)) {
           classNames += this.render(value, { ...params, selector: prop });
           classNames += ' ';
@@ -165,7 +165,7 @@ export default class Renderer {
   renderFontFace(fontFace: FontFace): string {
     if (__DEV__) {
       if (!fontFace.fontFamily) {
-        throw new Error('Font faces required a font family.');
+        throw new Error('Font faces require a font family.');
       }
     }
 
@@ -269,19 +269,7 @@ export default class Renderer {
   /**
    * Enqueue an at-rule to be rendered into the global style sheet.
    */
-  protected enqueueAtRule(selector: string, body: string, callback?: QueueItem['callback']) {
-    let rule = selector;
-
-    if (selector === '@import') {
-      rule += ` ${body}`;
-
-      if (body.slice(-1) !== ';') {
-        rule += ';';
-      }
-    } else {
-      rule += ` { ${body} }`;
-    }
-
+  protected enqueueAtRule(rule: string, callback?: QueueItem['callback']) {
     this.ruleBuffer.push({
       callback,
       rule,
@@ -354,6 +342,14 @@ export default class Renderer {
 
     this.atRuleCache.add(cacheKey);
 
-    this.enqueueAtRule(selector, body);
+    let rule = selector;
+
+    if (selector === '@import') {
+      rule += ` ${body};`;
+    } else {
+      rule += ` { ${body} }`;
+    }
+
+    this.enqueueAtRule(rule);
   }
 }
