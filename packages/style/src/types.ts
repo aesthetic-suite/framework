@@ -4,9 +4,13 @@ export type ClassName = string;
 
 export type Value = string | number;
 
-export type Properties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
+export type BaseProperties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
 
-export type Property = keyof Properties;
+export interface Properties extends BaseProperties {
+  [key: string]: BaseProperties | undefined | unknown;
+}
+
+export type Property = keyof BaseProperties;
 
 export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
 

@@ -41,6 +41,21 @@ describe('Renderer', () => {
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
 
+  it('generates a unique class name for each selector even if property value pair is the same', () => {
+    const className = renderer.render({
+      background: '#000',
+      ':hover': {
+        background: '#000',
+      },
+      '[disable]': {
+        background: '#000',
+      },
+    });
+
+    expect(className).toBe('1yedsjc yb3jac t5sg0a');
+    expect(renderer.flushedStyles).toMatchSnapshot();
+  });
+
   it('uses the same class name for the same property value pair', () => {
     renderer.renderDeclaration('display', 'block');
     renderer.renderDeclaration('display', 'flex');
@@ -48,6 +63,13 @@ describe('Renderer', () => {
     renderer.renderDeclaration('display', 'flex');
     renderer.renderDeclaration('display', 'inline');
     renderer.renderDeclaration('display', 'block');
+
+    expect(renderer.flushedStyles).toMatchSnapshot();
+  });
+
+  it('uses the same class name for dashed and camel cased properties', () => {
+    renderer.renderDeclaration('textDecoration', 'none');
+    renderer.renderDeclaration('text-decoration', 'none');
 
     expect(renderer.flushedStyles).toMatchSnapshot();
   });
@@ -79,6 +101,85 @@ describe('Renderer', () => {
     renderer.renderDeclaration('height', '10vh');
 
     expect(renderer.flushedStyles).toMatchSnapshot();
+  });
+
+  describe('attributes', () => {
+    it('generates the correct class names with attribute selector', () => {
+      const className = renderer.render({
+        background: '#000',
+        '[disabled]': {
+          backgroundColor: '#286090',
+          borderColor: '#204d74',
+        },
+      });
+
+      expect(className).toBe('1yedsjc 1ezu8qz 1m3gba5');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('uses same class name between both APIs', () => {
+      const classNameA = renderer.render({
+        '[disabled]': {
+          backgroundColor: '#000',
+        },
+      });
+      const classNameB = renderer.renderDeclaration('backgroundColor', '#000', {
+        selector: '[disabled]',
+      });
+
+      expect(classNameA).toBe('4u5ry6');
+      expect(classNameA).toBe(classNameB);
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('supports complex attribute selectors', () => {
+      renderer.renderDeclaration('backgroundColor', '#286090', {
+        selector: '[href*="example"]',
+      });
+
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+  });
+
+  describe('pseudos', () => {
+    it('generates the correct class names with pseudo selector', () => {
+      const className = renderer.render({
+        padding: '5px',
+        ':hover': {
+          padding: 10,
+        },
+        '::before': {
+          content: '"★"',
+          display: 'inline-block',
+        },
+      });
+
+      expect(className).toBe('l1hma1 9yzjcx 1dxv7sg hmvnkb');
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('uses same class name between both APIs', () => {
+      const classNameA = renderer.render({
+        ':focus': {
+          backgroundColor: '#000',
+        },
+      });
+      const classNameB = renderer.renderDeclaration('backgroundColor', '#000', {
+        selector: ':focus',
+      });
+
+      expect(classNameA).toBe('123nku');
+      expect(classNameA).toBe(classNameB);
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
+
+    it('supports complex attribute selectors', () => {
+      renderer.renderDeclaration('color', 'white', {
+        selector: ':nth-last-of-type(4n)',
+      });
+
+      expect(renderer.flushedStyles).toMatchSnapshot();
+    });
   });
 
   describe('at-rules', () => {

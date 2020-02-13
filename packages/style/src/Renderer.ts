@@ -68,7 +68,7 @@ export default class Renderer {
       const valueType = typeof value;
 
       // Skip invalid values
-      if (valueType !== 'string' && valueType !== 'number') {
+      if (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') {
         if (__DEV__) {
           console.warn(`Invalid value "${value}" for property "${prop}".`);
         }

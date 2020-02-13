@@ -4,11 +4,27 @@ exports[`Renderer applies a px unit to numeric properties that require it 1`] = 
 
 exports[`Renderer at-rules @font-face renders 1`] = `"@font-face { font-family:\\"Open Sans\\"; font-style:normal; font-weight:800; src:url(\\"fonts/OpenSans-Bold.woff2\\"); }"`;
 
+exports[`Renderer attributes generates the correct class names with attribute selector 1`] = `".1yedsjc { background:#000 } .1ezu8qz[disabled] { background-color:#286090 } .1m3gba5[disabled] { border-color:#204d74 } "`;
+
+exports[`Renderer attributes supports complex attribute selectors 1`] = `".1krihrx[href*=\\"example\\"] { background-color:#286090 } "`;
+
+exports[`Renderer attributes uses same class name between both APIs 1`] = `".4u5ry6[disabled] { background-color:#000 } "`;
+
 exports[`Renderer doesnt apply a px unit to numeric properties that dont require it 1`] = `".1atqjub { line-height:1.5 } .1b6fj3h { font-weight:600 } "`;
 
 exports[`Renderer doesnt apply a px unit to properties that are already prefixed 1`] = `".1yg9pt7 { padding-left:10px } .1cyey9x { height:10vh } "`;
 
 exports[`Renderer generates a unique class name for each property 1`] = `".13kbekr { margin:0 } .fj61tt { padding:6px 12px } .1pue5r2 { border:1px solid #2e6da4 } .odvm0w { border-radius:4px } .169hbqq { display:inline-block } .16r1ggk { cursor:pointer } .1c05vza { font-family:Roboto } .16weknc { font-weight:normal } .wyq6ru { line-height:normal } .1a0rdy6 { white-space:nowrap } .1dh7ri5 { text-decoration:none } .1sl4fpf { text-align:left } .9tlqaj { background-color:#337ab7 } .g4y2l6 { vertical-align:middle } .1o2fiv7 { color:rgba(0, 0, 0, 0) } .1ql63jz { animation-name:fade } .rwfe5q { animation-duration:.3s } "`;
+
+exports[`Renderer generates a unique class name for each selector even if property value pair is the same 1`] = `".1yedsjc { background:#000 } .yb3jac:hover { background:#000 } .t5sg0a[disable] { background:#000 } "`;
+
+exports[`Renderer pseudos generates the correct class names with pseudo selector 1`] = `".l1hma1 { padding:5px } .9yzjcx:hover { padding:10px } .1dxv7sg::before { content:\\"★\\" } .hmvnkb::before { display:inline-block } "`;
+
+exports[`Renderer pseudos supports complex attribute selectors 1`] = `".1jb0id6:nth-last-of-type(4n) { color:white } "`;
+
+exports[`Renderer pseudos uses same class name between both APIs 1`] = `".123nku:focus { background-color:#000 } "`;
+
+exports[`Renderer uses the same class name for dashed and camel cased properties 1`] = `".1dh7ri5 { text-decoration:none } "`;
 
 exports[`Renderer uses the same class name for numeric and string values 1`] = `".1ku22my { width:100px } .1y1doje { width:100em } "`;
 
