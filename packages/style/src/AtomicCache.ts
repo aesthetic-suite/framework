@@ -1,4 +1,4 @@
-import { Value, CacheItem, StyleParams } from './types';
+import { CacheItem, StyleParams } from './types';
 
 // https://jsperf.com/javascript-objects-vs-map-performance
 // https://jsperf.com/performance-of-map-vs-object
@@ -25,7 +25,7 @@ export default class AtomicCache {
     return true;
   }
 
-  read(property: string, value: Value, params: StyleParams): CacheItem | null {
+  read(property: string, value: string, params: StyleParams): CacheItem | null {
     const propertyCache = this.cache[property];
 
     if (!propertyCache) {
@@ -41,7 +41,7 @@ export default class AtomicCache {
     return valueCache.find(item => this.match(item, params)) ?? null;
   }
 
-  write(property: string, value: Value, item: CacheItem): this {
+  write(property: string, value: string, item: CacheItem): this {
     let propertyCache = this.cache[property];
 
     if (!propertyCache) {

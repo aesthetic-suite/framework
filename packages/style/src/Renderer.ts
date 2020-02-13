@@ -1,4 +1,3 @@
-import hash from 'string-hash';
 import { isObject } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
@@ -14,6 +13,7 @@ import {
   CacheItem,
 } from './types';
 import applyUnitToValue from './applyUnitToValue';
+import generateHash from './generateHash';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import isMediaQueryCondition from './isMediaQueryCondition';
 import isSupportsCondition from './isSupportsCondition';
@@ -50,15 +50,15 @@ export default class Renderer {
   /**
    * Generate a unique and deterministic class name for a property value pair.
    */
-  generateClassName(property: string, value: Value, params: StyleParams): string {
-    return hash(`${params.condition || ''}${params.selector || ''}${property}${value}`);
+  generateClassName(property: string, value: string, params: StyleParams): string {
+    return generateHash(`${params.condition || ''}${params.selector || ''}${property}${value}`);
   }
 
   /**
-   * Render an object of property value pairs into the defined style sheet,
-   * with each declaration resulting in a unique class name. Will return multiple class names.
+   * Render an object of property value pairs into the defined style sheet as multiple class names,
+   * with each declaration resulting in a unique class name.
    */
-  render(properties: Properties, params: StyleParams): ClassName {
+  render(properties: Properties, params: StyleParams = {}): ClassName {
     const props = Object.keys(properties);
     let classNames = '';
 
@@ -101,18 +101,27 @@ export default class Renderer {
   }
 
   /**
-   * Render a property value pair into the defined style sheet.
+   * Render a property value pair into the defined style sheet as a single class name.
    */
-  renderDeclaration<K extends Property>(property: K, value: Properties[K], params: StyleParams) {
+  renderDeclaration<K extends Property>(
+    property: K,
+    value: Properties[K],
+    params: StyleParams = {},
+  ) {
     // Hyphenate early so all checks are deterministic
     const prop = hyphenateProperty(property);
-    const cache = this.classNameCache.read(prop, value as Value, params);
+
+    // Apply unit as well so that "0" and "0px" do not generate separate classes
+    const val = applyUnitToValue(property, value as Value);
+
+    // Check the cache immediately
+    const cache = this.classNameCache.read(prop, val, params);
 
     if (cache) {
       return cache.className;
     }
 
-    const className = this.generateClassName(prop, value as Value, params);
+    const className = this.generateClassName(prop, val, params);
 
     // Write to the cache immediately in case the same property:value is being rendered
     const item: CacheItem = {
@@ -124,11 +133,11 @@ export default class Renderer {
       rank: -1,
     };
 
-    this.classNameCache.write(prop, value as Value, item);
+    this.classNameCache.write(prop, val, item);
 
     // Enqueue the CSS rule but assign the rank once its been flushed.
     this.enqueueRule(
-      this.formatRule(className, prop, value as Value, params),
+      this.formatRule(className, prop, val, params),
       params.type ?? 'low-pri',
       rank => {
         item.rank = rank;
@@ -142,10 +151,17 @@ export default class Renderer {
    * Render any at-rule into the global style sheet.
    */
   renderAtRule(selector: string, properties: string | Properties) {
-    this.enqueueAtRule(
-      selector,
-      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties),
-    );
+    const body =
+      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
+    const cacheKey = generateHash(selector + body);
+
+    if (this.atRuleCache.has(cacheKey)) {
+      return;
+    }
+
+    this.atRuleCache.add(cacheKey);
+
+    this.enqueueAtRule(selector, body);
   }
 
   /**
@@ -184,7 +200,7 @@ export default class Renderer {
     }
 
     // A bit more deterministic than a counter
-    const animationName = customName || `kf${hash(frames)}`;
+    const animationName = customName || `kf${generateHash(frames)}`;
 
     this.renderAtRule(`@keyframes ${animationName}`, frames);
 
@@ -193,12 +209,12 @@ export default class Renderer {
 
   /**
    * Format a property value pair into a CSS declaration,
-   * without wrapping brackets. Apply units to numeric values that require it.
+   * without wrapping brackets.
    */
-  protected formatDeclaration(property: string, value: Value): string {
+  protected formatDeclaration(property: string, value: string): string {
     // This hyphenates the property internally:
     // https://github.com/robinweser/css-in-js-utils/blob/master/modules/cssifyDeclaration.js
-    return cssifyDeclaration(property, applyUnitToValue(property, value));
+    return cssifyDeclaration(property, value);
   }
 
   /**
@@ -210,7 +226,9 @@ export default class Renderer {
     let block = '';
 
     for (let i = 0; i < props.length; i += 1) {
-      block += this.formatDeclaration(props[i], properties[props[i] as Property]!);
+      const prop = props[i] as Property;
+
+      block += this.formatDeclaration(prop, applyUnitToValue(prop, properties[prop]!));
       block += '; ';
     }
 
@@ -224,7 +242,7 @@ export default class Renderer {
   protected formatRule(
     className: ClassName,
     property: string,
-    value: Value,
+    value: string,
     params: StyleParams,
   ): string {
     let rule = `.${className}`;
@@ -233,10 +251,10 @@ export default class Renderer {
       rule += params.selector;
     }
 
-    rule += `{ ${this.formatDeclaration(property, value)} }`;
+    rule += ` { ${this.formatDeclaration(property, value)} } `;
 
     if (params.condition) {
-      rule = `${params.condition} { ${rule} }`;
+      rule = `${params.condition} { ${rule.trim()} } `;
     }
 
     return rule;
@@ -246,12 +264,6 @@ export default class Renderer {
    * Enqueue an at-rule to be rendered into the global style sheet.
    */
   protected enqueueAtRule(selector: string, body: string, callback?: QueueItem['callback']) {
-    const cacheKey = hash(selector + body);
-
-    if (this.atRuleCache.has(cacheKey)) {
-      return;
-    }
-
     let rule = selector;
 
     if (selector === '@charset' || selector === '@import') {
@@ -259,8 +271,6 @@ export default class Renderer {
     } else {
       rule += ` { ${body} }`;
     }
-
-    this.atRuleCache.add(cacheKey);
 
     this.ruleBuffer.push({
       callback,
@@ -270,6 +280,10 @@ export default class Renderer {
 
     if (!this.frameTimer) {
       this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
+    }
+
+    if (process.env.NODE_ENV === 'test') {
+      this.flushedStyles += rule;
     }
   }
 
@@ -285,6 +299,10 @@ export default class Renderer {
 
     if (!this.frameTimer) {
       this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
+    }
+
+    if (process.env.NODE_ENV === 'test') {
+      this.flushedStyles += rule;
     }
   }
 
@@ -308,10 +326,6 @@ export default class Renderer {
 
       if (typeof callback === 'function') {
         callback(rank);
-      }
-
-      if (process.env.NODE_ENV === 'test') {
-        this.flushedStyles += rule;
       }
     }
   };

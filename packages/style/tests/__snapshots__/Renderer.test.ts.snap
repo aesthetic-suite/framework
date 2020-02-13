@@ -1,3 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Renderer applies a px unit to numeric properties that require it 1`] = `".1jm753s { width:300px } .6q2ims { margin-top:10px } "`;
+
 exports[`Renderer at-rules @font-face renders 1`] = `"@font-face { font-family:\\"Open Sans\\"; font-style:normal; font-weight:800; src:url(\\"fonts/OpenSans-Bold.woff2\\"); }"`;
+
+exports[`Renderer doesnt apply a px unit to numeric properties that dont require it 1`] = `".1atqjub { line-height:1.5 } .1b6fj3h { font-weight:600 } "`;
+
+exports[`Renderer doesnt apply a px unit to properties that are already prefixed 1`] = `".1yg9pt7 { padding-left:10px } .1cyey9x { height:10vh } "`;
+
+exports[`Renderer generates a unique class name for each property 1`] = `".13kbekr { margin:0 } .fj61tt { padding:6px 12px } .1pue5r2 { border:1px solid #2e6da4 } .odvm0w { border-radius:4px } .169hbqq { display:inline-block } .16r1ggk { cursor:pointer } .1c05vza { font-family:Roboto } .16weknc { font-weight:normal } .wyq6ru { line-height:normal } .1a0rdy6 { white-space:nowrap } .1dh7ri5 { text-decoration:none } .1sl4fpf { text-align:left } .9tlqaj { background-color:#337ab7 } .g4y2l6 { vertical-align:middle } .1o2fiv7 { color:rgba(0, 0, 0, 0) } .1ql63jz { animation-name:fade } .rwfe5q { animation-duration:.3s } "`;
+
+exports[`Renderer uses the same class name for numeric and string values 1`] = `".1ku22my { width:100px } .1y1doje { width:100em } "`;
+
+exports[`Renderer uses the same class name for the same property value pair 1`] = `".1s7hmty { display:block } .4n8yy0 { display:flex } .17whura { display:inline } "`;
