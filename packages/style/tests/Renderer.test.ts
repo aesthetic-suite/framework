@@ -7,14 +7,6 @@ describe('Renderer', () => {
   beforeEach(() => {
     renderer = new Renderer();
 
-    // Stub so that we can flush immediately
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb: FrameRequestCallback) => {
-      cb(Date.now());
-
-      // Return 0 so that timer is always falsy
-      return 0;
-    });
-
     // Avoid warnings
     spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
@@ -24,7 +16,7 @@ describe('Renderer', () => {
   });
 
   it('generates a unique class name for each property', () => {
-    const className = renderer.render({
+    const className = renderer.renderRule({
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
@@ -51,7 +43,7 @@ describe('Renderer', () => {
   });
 
   it('generates a unique class name for each selector even if property value pair is the same', () => {
-    const className = renderer.render({
+    const className = renderer.renderRule({
       background: '#000',
       ':hover': {
         background: '#000',
@@ -120,7 +112,7 @@ describe('Renderer', () => {
   });
 
   it('ignores invalid values', () => {
-    const className = renderer.render({
+    const className = renderer.renderRule({
       // @ts-ignore
       margin: true,
       // @ts-ignore
@@ -135,7 +127,7 @@ describe('Renderer', () => {
 
   describe('media queries', () => {
     it('supports @media conditions', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         background: '#000',
         padding: 15,
         '@media (max-width: 600px)': {
@@ -151,7 +143,7 @@ describe('Renderer', () => {
     });
 
     it('can be nested in @supports', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         padding: 15,
         '@supports (display: flex)': {
           '@media (max-width: 600px)': {
@@ -167,7 +159,7 @@ describe('Renderer', () => {
 
   describe('supports', () => {
     it('supports @supports conditions', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         display: 'block',
         '@supports (display: flex)': {
           display: 'flex',
@@ -179,7 +171,7 @@ describe('Renderer', () => {
     });
 
     it('can be nested in @media', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         display: 'block',
         '@media screen and (min-width: 900px)': {
           '@supports (display: flex)': {
@@ -195,7 +187,7 @@ describe('Renderer', () => {
 
   describe('attributes', () => {
     it('generates the correct class names with attribute selector', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         background: '#000',
         '[disabled]': {
           backgroundColor: '#286090',
@@ -208,7 +200,7 @@ describe('Renderer', () => {
     });
 
     it('uses same class name between both APIs', () => {
-      const classNameA = renderer.render({
+      const classNameA = renderer.renderRule({
         '[disabled]': {
           backgroundColor: '#000',
         },
@@ -233,7 +225,7 @@ describe('Renderer', () => {
 
   describe('pseudos', () => {
     it('generates the correct class names with pseudo selector', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         padding: '5px',
         ':hover': {
           padding: 10,
@@ -249,7 +241,7 @@ describe('Renderer', () => {
     });
 
     it('uses same class name between both APIs', () => {
-      const classNameA = renderer.render({
+      const classNameA = renderer.renderRule({
         ':focus': {
           backgroundColor: '#000',
         },
@@ -274,7 +266,7 @@ describe('Renderer', () => {
 
   describe('hierarchy', () => {
     it('generates the correct class names with hierarchy selector', () => {
-      const className = renderer.render({
+      const className = renderer.renderRule({
         padding: 10,
         '+ div': {
           padding: 10,
@@ -295,7 +287,7 @@ describe('Renderer', () => {
     });
 
     it('uses same class name between both APIs', () => {
-      const classNameA = renderer.render({
+      const classNameA = renderer.renderRule({
         '+ div': {
           backgroundColor: '#000',
         },

@@ -30,6 +30,11 @@ export interface CacheItem {
   type: SheetType;
 }
 
+export interface CacheParams {
+  bypassCache?: boolean;
+  minimumRank?: number;
+}
+
 export interface StyleParams {
   conditions?: string[];
   selector?: string;

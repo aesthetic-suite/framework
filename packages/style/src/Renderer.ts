@@ -10,7 +10,7 @@ import {
   FontFace,
   Keyframes,
   SheetType,
-  CacheItem,
+  CacheParams,
 } from './types';
 import applyUnitToValue from './applyUnitToValue';
 import generateHash from './generateHash';
@@ -34,12 +34,6 @@ export default class Renderer {
 
   protected classNameCache = new AtomicCache();
 
-  protected frameTimer = 0;
-
-  protected keyframesIndex = 0;
-
-  protected ruleBuffer: QueueItem[] = [];
-
   constructor() {
     // Create the elements in a strict order
     getDocumentStyleSheet('global');
@@ -57,68 +51,13 @@ export default class Renderer {
   }
 
   /**
-   * Render an object of property value pairs into the defined style sheet as multiple class names,
-   * with each declaration resulting in a unique class name.
-   */
-  // eslint-disable-next-line complexity
-  render(properties: Properties, params: StyleParams = {}): ClassName {
-    const props = Object.keys(properties);
-    let classNames = '';
-
-    for (let i = 0; i < props.length; i += 1) {
-      const prop = props[i] as Property;
-      const value = properties[prop];
-      const valueType = typeof value;
-
-      // Skip invalid values
-      if (
-        (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') ||
-        value === null ||
-        value === undefined
-      ) {
-        if (__DEV__) {
-          console.warn(`Invalid value "${value}" for property "${prop}".`);
-        }
-
-        // Handle nested selectors and objects
-      } else if (isObject(value)) {
-        // @media, @supports
-        if (isMediaQueryCondition(prop) || isSupportsCondition(prop)) {
-          const { conditions } = params;
-
-          classNames += this.render(value, {
-            ...params,
-            conditions: conditions ? [prop as string, ...conditions] : [prop as string],
-          });
-          classNames += ' ';
-
-          // [attribute], :pseudo, > div
-        } else if (isNestedSelector(prop)) {
-          classNames += this.render(value, { ...params, selector: prop });
-          classNames += ' ';
-
-          // Unknown
-        } else if (__DEV__) {
-          console.warn(`Unknown property selector "${prop}" with value "${value}".`);
-        }
-
-        // Property value pair
-      } else {
-        classNames += this.renderDeclaration(prop as Property, value, params);
-        classNames += ' ';
-      }
-    }
-
-    return classNames.trim();
-  }
-
-  /**
    * Render a property value pair into the defined style sheet as a single class name.
    */
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
     params: StyleParams = {},
+    cacheParams: CacheParams = {},
   ) {
     // Hyphenate early so all checks are deterministic
     const prop = hyphenateProperty(property);
@@ -127,34 +66,28 @@ export default class Renderer {
     const val = applyUnitToValue(property, value as Value);
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(prop, val, params);
+    const cache = cacheParams.bypassCache
+      ? null
+      : this.classNameCache.read(prop, val, params, cacheParams);
 
     if (cache) {
       return cache.className;
     }
 
     const className = this.generateClassName(prop, val, params);
+    const rank = this.insertRule(
+      this.formatRule(className, prop, val, params),
+      params.type || 'low-pri',
+    );
 
-    // Write to the cache immediately in case the same property:value is being rendered
-    const item: CacheItem = {
+    this.classNameCache.write(prop, val, {
       conditions: [],
       selector: '',
       type: 'low-pri',
       ...params,
       className,
-      rank: -1,
-    };
-
-    this.classNameCache.write(prop, val, item);
-
-    // Enqueue the CSS rule but assign the rank once its been flushed.
-    this.enqueueRule(
-      this.formatRule(className, prop, val, params),
-      params.type || 'low-pri',
-      rank => {
-        item.rank = rank;
-      },
-    );
+      rank,
+    });
 
     return className;
   }
@@ -212,6 +145,66 @@ export default class Renderer {
   }
 
   /**
+   * Render an object of property value pairs into the defined style sheet as multiple class names,
+   * with each declaration resulting in a unique class name.
+   */
+  // eslint-disable-next-line complexity
+  renderRule(properties: Properties, params: StyleParams = {}): ClassName {
+    const props = Object.keys(properties);
+    let classNames = '';
+
+    for (let i = 0; i < props.length; i += 1) {
+      const prop = props[i] as Property;
+      const value = properties[prop];
+      const valueType = typeof value;
+
+      // Skip invalid values
+      if (
+        (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') ||
+        value === null ||
+        value === undefined
+      ) {
+        if (__DEV__) {
+          console.warn(`Invalid value "${value}" for property "${prop}".`);
+        }
+
+        // Handle nested selectors and objects
+      } else if (isObject(value)) {
+        // @media, @supports
+        if (isMediaQueryCondition(prop) || isSupportsCondition(prop)) {
+          const { conditions } = params;
+
+          classNames += this.renderRule(value, {
+            ...params,
+            conditions: conditions ? [prop as string, ...conditions] : [prop as string],
+          });
+          classNames += ' ';
+
+          // [attribute], :pseudo, > div
+        } else if (isNestedSelector(prop)) {
+          classNames += this.renderRule(value, { ...params, selector: prop });
+          classNames += ' ';
+
+          // Unknown
+        } else if (__DEV__) {
+          console.warn(`Unknown property selector "${prop}" with value "${value}".`);
+        }
+
+        // Property value pair
+      } else {
+        classNames += this.renderDeclaration(prop as Property, value, params);
+        classNames += ' ';
+      }
+    }
+
+    return classNames.trim();
+  }
+
+  // renderRuleSets<T extends { [set: string]: Properties }>(sets: T, inOrder?: T[]) {
+  //   const order = inOrder ?? ((Object.keys(sets) as unknown) as T[]);
+  // }
+
+  /**
    * Format a property value pair into a CSS declaration,
    * without wrapping brackets.
    */
@@ -267,66 +260,20 @@ export default class Renderer {
   }
 
   /**
-   * Enqueue an at-rule to be rendered into the global style sheet.
-   */
-  protected enqueueAtRule(rule: string, callback?: QueueItem['callback']) {
-    this.ruleBuffer.push({
-      callback,
-      rule,
-      type: 'global',
-    });
-
-    if (!this.frameTimer) {
-      this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
-    }
-
-    if (process.env.NODE_ENV === 'test') {
-      this.flushedStyles += rule;
-    }
-  }
-
-  /**
    * Enqueue a standard CSS rule to be rendered into a style sheet.
    */
-  protected enqueueRule(rule: string, type: SheetType, callback?: QueueItem['callback']) {
-    this.ruleBuffer.push({
-      callback,
-      rule,
-      type,
-    });
+  protected insertRule(rule: string, type: SheetType): number {
+    const sheet = getDocumentStyleSheet(type);
+    const rank = sheet.cssRules.length;
 
-    if (!this.frameTimer) {
-      this.frameTimer = window.requestAnimationFrame(this.flushBufferedRules);
-    }
+    sheet.insertRule(rule, rank);
 
     if (process.env.NODE_ENV === 'test') {
       this.flushedStyles += rule;
     }
+
+    return rank;
   }
-
-  /**
-   * Flush all queued styles into the document.
-   */
-  protected flushBufferedRules = () => {
-    const queue = [...this.ruleBuffer];
-
-    // Reset state immediately in case another animation frame fires
-    this.frameTimer = 0;
-    this.ruleBuffer = [];
-
-    // Loop through and inject the rule into the style sheet
-    for (let i = 0; i < queue.length; i += 1) {
-      const { callback, rule, type } = queue[i];
-      const sheet = getDocumentStyleSheet(type);
-      const rank = sheet.cssRules.length;
-
-      sheet.insertRule(rule, rank);
-
-      if (typeof callback === 'function') {
-        callback(rank);
-      }
-    }
-  };
 
   /**
    * Render any at-rule into the global style sheet.
@@ -350,6 +297,6 @@ export default class Renderer {
       rule += ` { ${body} }`;
     }
 
-    this.enqueueAtRule(rule);
+    this.insertRule(rule, 'global');
   }
 }
