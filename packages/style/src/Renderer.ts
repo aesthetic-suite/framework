@@ -32,8 +32,6 @@ export default class Renderer {
   // Testing purposes only
   flushedStyles: string = '';
 
-  protected atRuleCache = new Set();
-
   protected classNameCache = new AtomicCache();
 
   protected globalStyleSheet = new GlobalStyleSheet();
@@ -261,7 +259,24 @@ export default class Renderer {
   }
 
   /**
-   * Enqueue a standard CSS rule to be rendered into a style sheet.
+   * Insert an at-rule into the global style sheet.
+   */
+  protected insertAtRule(selector: string, properties: string | Properties) {
+    const body =
+      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
+    let rule = selector;
+
+    if (selector === '@import') {
+      rule += ` ${body};`;
+    } else {
+      rule += ` { ${body} }`;
+    }
+
+    this.insertRule(rule, 'global');
+  }
+
+  /**
+   * Insert a CSS rule into a specific style sheet.
    */
   protected insertRule(rule: string, type: SheetType, condition?: string): number {
     if (process.env.NODE_ENV === 'test') {
@@ -276,30 +291,5 @@ export default class Renderer {
       default:
         return this.standardStyleSheet.insertRule(rule);
     }
-  }
-
-  /**
-   * Render any at-rule into the global style sheet.
-   */
-  protected renderAtRule(selector: string, properties: string | Properties) {
-    const body =
-      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
-    const cacheKey = generateHash(selector + body);
-
-    if (this.atRuleCache.has(cacheKey)) {
-      return;
-    }
-
-    this.atRuleCache.add(cacheKey);
-
-    let rule = selector;
-
-    if (selector === '@import') {
-      rule += ` ${body};`;
-    } else {
-      rule += ` { ${body} }`;
-    }
-
-    this.insertRule(rule, 'global');
   }
 }
