@@ -20,7 +20,7 @@ export interface Keyframes {
   to?: Properties;
 }
 
-export type SheetType = 'global' | 'low-pri' | 'high-pri';
+export type SheetType = 'global' | 'standard' | 'media';
 
 export interface CacheItem {
   className: string;

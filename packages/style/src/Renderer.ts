@@ -14,11 +14,13 @@ import {
 } from './types';
 import applyUnitToValue from './applyUnitToValue';
 import generateHash from './generateHash';
-import getDocumentStyleSheet from './getDocumentStyleSheet';
 import isMediaQueryCondition from './isMediaQueryCondition';
 import isSupportsCondition from './isSupportsCondition';
 import isNestedSelector from './isNestedSelector';
 import quoteString from './quoteString';
+import GlobalStyleSheet from './GlobalStyleSheet';
+import MediaStyleSheet from './MediaStyleSheet';
+import StandardStyleSheet from './StandardStyleSheet';
 
 export interface QueueItem {
   callback?: (rank: number) => void;
@@ -34,12 +36,11 @@ export default class Renderer {
 
   protected classNameCache = new AtomicCache();
 
-  constructor() {
-    // Create the elements in a strict order
-    getDocumentStyleSheet('global');
-    getDocumentStyleSheet('low-pri');
-    getDocumentStyleSheet('high-pri');
-  }
+  protected globalStyleSheet = new GlobalStyleSheet();
+
+  protected mediaStyleSheet = new MediaStyleSheet();
+
+  protected standardStyleSheet = new StandardStyleSheet();
 
   /**
    * Generate a unique and deterministic class name for a property value pair.
@@ -77,13 +78,13 @@ export default class Renderer {
     const className = this.generateClassName(prop, val, params);
     const rank = this.insertRule(
       this.formatRule(className, prop, val, params),
-      params.type || 'low-pri',
+      params.type || 'standard',
     );
 
     this.classNameCache.write(prop, val, {
       conditions: [],
       selector: '',
-      type: 'low-pri',
+      type: 'standard',
       ...params,
       className,
       rank,
@@ -262,17 +263,19 @@ export default class Renderer {
   /**
    * Enqueue a standard CSS rule to be rendered into a style sheet.
    */
-  protected insertRule(rule: string, type: SheetType): number {
-    const sheet = getDocumentStyleSheet(type);
-    const rank = sheet.cssRules.length;
-
-    sheet.insertRule(rule, rank);
-
+  protected insertRule(rule: string, type: SheetType, condition?: string): number {
     if (process.env.NODE_ENV === 'test') {
       this.flushedStyles += rule;
     }
 
-    return rank;
+    switch (type) {
+      case 'global':
+        return this.globalStyleSheet.insertRule(rule);
+      case 'media':
+        return this.mediaStyleSheet.insertRule(condition!, rule);
+      default:
+        return this.standardStyleSheet.insertRule(rule);
+    }
   }
 
   /**
