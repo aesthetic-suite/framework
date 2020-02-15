@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-modern-dom-apis */
 
-import { SheetType } from './types';
+import { SheetType } from '../types';
 
 function get(type: SheetType) {
   return document.getElementById(`aesthetic-${type}`);

@@ -1,4 +1,4 @@
-import getDocumentStyleSheet from './getDocumentStyleSheet';
+import getDocumentStyleSheet from './helpers/getDocumentStyleSheet';
 import { SheetType } from './types';
 
 export default abstract class BaseStyleSheet {

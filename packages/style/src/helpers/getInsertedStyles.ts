@@ -1,5 +1,5 @@
 import getDocumentStyleSheet from './getDocumentStyleSheet';
-import { SheetType } from './types';
+import { SheetType } from '../types';
 
 export default function getInsertedStyles(type: SheetType): string {
   const sheet = getDocumentStyleSheet(type);

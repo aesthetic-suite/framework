@@ -1,4 +1,4 @@
-const PATTERN = /^@supports/u;
+const PATTERN = /^@supports(\s+|\()/u;
 
 export default function isSupportsCondition(value: string): boolean {
   // https://jsperf.com/string-startswith/66

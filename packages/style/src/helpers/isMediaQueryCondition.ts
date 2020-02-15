@@ -1,4 +1,4 @@
-const PATTERN = /^@media/u;
+const PATTERN = /^@media(\s+|\()/u;
 
 export default function isMediaQueryCondition(value: string): boolean {
   // https://jsperf.com/string-startswith/66

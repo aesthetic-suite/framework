@@ -3,9 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import AtomicCache from './AtomicCache';
 import Renderer from './Renderer';
 
+export * from './helpers';
 export * from './types';
 
-export { AtomicCache, Renderer };
+export { Renderer };

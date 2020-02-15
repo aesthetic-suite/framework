@@ -1,9 +1,10 @@
 import Renderer from '../src/Renderer';
-import getDocumentStyleSheet from '../src/getDocumentStyleSheet';
-import getInsertedStyles from '../src/getInsertedStyles';
+import getInsertedStyles from '../src/helpers/getInsertedStyles';
 import { SheetType } from '../src/types';
 
 function purgeStyles(type: SheetType) {
+  // This is the only way to generate accurate snapshots.
+  // It may slow down tests though?
   document.getElementById(`aesthetic-${type}`)!.remove();
 }
 
@@ -169,6 +170,18 @@ describe('Renderer', () => {
     expect(getInsertedStyles('global')).toMatchSnapshot();
     expect(getInsertedStyles('standard')).toMatchSnapshot();
     expect(getInsertedStyles('conditions')).toMatchSnapshot();
+  });
+
+  it('logs a warning for unknown nested selector', () => {
+    renderer.renderRule({
+      background: 'white',
+      '$ what is this': {
+        background: 'black',
+      },
+    });
+
+    expect(spy).toHaveBeenCalledWith('Unknown property selector or nested block "$ what is this".');
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   describe('media queries', () => {
@@ -405,6 +418,15 @@ describe('Renderer', () => {
 
         expect(name).toBe('"Open Sans"');
         expect(getInsertedStyles('global')).toMatchSnapshot();
+      });
+
+      it('errors if no family name provided', () => {
+        expect(() => {
+          renderer.renderFontFace({
+            fontFamily: '',
+            fontStyle: 'normal',
+          });
+        }).toThrow('Font faces require a font family.');
       });
     });
 

@@ -68,6 +68,8 @@ exports[`Renderer inserts into the appropriate style sheets 2`] = `".16ejqwc {ba
 
 exports[`Renderer inserts into the appropriate style sheets 3`] = `"@media (prefers-color-scheme: dark) {.woptwm {background: black;}}"`;
 
+exports[`Renderer logs a warning for unknown nested selector 1`] = `".16ejqwc {background: white;}"`;
+
 exports[`Renderer media queries can be nested in @supports 1`] = `".q1v28o {padding: 15px;}"`;
 
 exports[`Renderer media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.1nadnnc {padding: 15px;}}}"`;
