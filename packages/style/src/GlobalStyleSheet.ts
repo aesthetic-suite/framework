@@ -7,9 +7,32 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
     super('global');
   }
 
+  /**
+   * Insert a rule into the global style sheet.
+   */
   insertRule(rule: string): number {
-    // Imports must appear at the top of the document
-    const index = IMPORT_PATTERN.test(rule) ? 0 : this.sheet.cssRules.length;
+    if (IMPORT_PATTERN.test(rule)) {
+      return this.insertImportRule(rule);
+    }
+
+    return this.sheet.insertRule(rule, this.sheet.cssRules.length);
+  }
+
+  /**
+   * Import rules must be inserted at the top of the style sheet,
+   * but we also want to persist the existing order.
+   */
+  insertImportRule(rule: string): number {
+    const { length } = this.sheet.cssRules;
+    let index = 0;
+
+    for (let i = 0; i <= length; i += 1) {
+      index = i;
+
+      if (this.sheet.cssRules[i]?.type !== CSSRule.IMPORT_RULE) {
+        break;
+      }
+    }
 
     return this.sheet.insertRule(rule, index);
   }

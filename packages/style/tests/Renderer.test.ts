@@ -4,11 +4,7 @@ import getInsertedStyles from '../src/getInsertedStyles';
 import { SheetType } from '../src/types';
 
 function purgeStyles(type: SheetType) {
-  const sheet = getDocumentStyleSheet(type);
-
-  for (let i = 0; i < sheet.cssRules.length; i += 1) {
-    sheet.deleteRule(0);
-  }
+  document.getElementById(`aesthetic-${type}`)!.remove();
 }
 
 describe('Renderer', () => {
@@ -160,6 +156,21 @@ describe('Renderer', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
+  it('inserts into the appropriate style sheets', () => {
+    renderer.renderRule({
+      background: 'white',
+      '@media (prefers-color-scheme: dark)': {
+        background: 'black',
+      },
+    });
+
+    renderer.renderImport('url(test.css)');
+
+    expect(getInsertedStyles('global')).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getInsertedStyles('conditions')).toMatchSnapshot();
+  });
+
   describe('media queries', () => {
     it('supports @media conditions', () => {
       const className = renderer.renderRule({
@@ -174,6 +185,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1yedsjc q1v28o 1l0h3j6 1d6vyr6');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
 
@@ -188,6 +200,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('q1v28o 1nadnnc');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
   });
@@ -202,6 +215,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1s7hmty ku62hq');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
 
@@ -216,6 +230,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1s7hmty xu0c72');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
   });
@@ -346,6 +361,39 @@ describe('Renderer', () => {
   });
 
   describe('at-rules', () => {
+    it('doesnt insert the same at-rule more than once', () => {
+      renderer.renderFontFace({
+        fontFamily: '"Open Sans"',
+        fontStyle: 'normal',
+        fontWeight: 800,
+        src: 'url("fonts/OpenSans-Bold.woff2")',
+      });
+      renderer.renderFontFace({
+        fontFamily: '"Open Sans"',
+        fontStyle: 'normal',
+        fontWeight: 800,
+        src: 'url("fonts/OpenSans-Bold.woff2")',
+      });
+      renderer.renderKeyframes({
+        from: {
+          transform: 'translateX(0%)',
+        },
+        to: {
+          transform: 'translateX(100%)',
+        },
+      });
+      renderer.renderKeyframes({
+        from: {
+          transform: 'translateX(0%)',
+        },
+        to: {
+          transform: 'translateX(100%)',
+        },
+      });
+
+      expect(getInsertedStyles('global')).toMatchSnapshot();
+    });
+
     describe('@font-face', () => {
       it('renders and returns family name', () => {
         const name = renderer.renderFontFace({

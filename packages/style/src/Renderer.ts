@@ -25,6 +25,8 @@ import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 
 export default class Renderer {
+  protected atRuleCache: { [hash: string]: boolean } = {};
+
   protected classNameCache = new AtomicCache();
 
   protected globalStyleSheet = new GlobalStyleSheet();
@@ -252,7 +254,13 @@ export default class Renderer {
       rule += ` { ${body} }`;
     }
 
-    this.globalStyleSheet.insertRule(rule);
+    const hash = generateHash(rule);
+
+    // Only insert it once
+    if (!this.atRuleCache[hash]) {
+      this.globalStyleSheet.insertRule(rule);
+      this.atRuleCache[hash] = true;
+    }
   }
 
   /**
