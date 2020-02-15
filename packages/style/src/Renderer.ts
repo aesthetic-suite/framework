@@ -1,42 +1,35 @@
+/* eslint-disable no-magic-numbers */
+
 import { isObject } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import {
+  Block,
+  CacheItem,
+  CacheParams,
   ClassName,
-  Properties,
-  StyleParams,
-  Property,
-  Value,
   FontFace,
   Keyframes,
-  SheetType,
-  CacheParams,
+  Properties,
+  Property,
+  StyleParams,
+  Value,
 } from './types';
 import applyUnitToValue from './applyUnitToValue';
 import generateHash from './generateHash';
 import isMediaQueryCondition from './isMediaQueryCondition';
 import isSupportsCondition from './isSupportsCondition';
 import isNestedSelector from './isNestedSelector';
-import quoteString from './quoteString';
 import GlobalStyleSheet from './GlobalStyleSheet';
-import MediaStyleSheet from './MediaStyleSheet';
+import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 
-export interface QueueItem {
-  callback?: (rank: number) => void;
-  rule: string;
-  type: SheetType;
-}
-
 export default class Renderer {
-  // Testing purposes only
-  flushedStyles: string = '';
-
   protected classNameCache = new AtomicCache();
 
   protected globalStyleSheet = new GlobalStyleSheet();
 
-  protected mediaStyleSheet = new MediaStyleSheet();
+  protected conditionsStyleSheet = new ConditionsStyleSheet();
 
   protected standardStyleSheet = new StandardStyleSheet();
 
@@ -45,7 +38,7 @@ export default class Renderer {
    */
   generateClassName(property: string, value: string, params: StyleParams): string {
     return generateHash(
-      `${params.conditions?.join('') || ''}${params.selector || ''}${property}${value}`,
+      `${params.conditions?.map(c => c.query) || ''}${params.selector || ''}${property}${value}`,
     );
   }
 
@@ -73,20 +66,19 @@ export default class Renderer {
       return cache.className;
     }
 
+    // Generate a deterministic class name
     const className = this.generateClassName(prop, val, params);
-    const rank = this.insertRule(
-      this.formatRule(className, prop, val, params),
-      params.type || 'standard',
-    );
-
-    this.classNameCache.write(prop, val, {
+    const rank = this.insertRule(className, prop, val, params);
+    const item: CacheItem = {
       conditions: [],
       selector: '',
       type: 'standard',
       ...params,
       className,
       rank,
-    });
+    };
+
+    this.classNameCache.write(prop, val, item);
 
     return className;
   }
@@ -101,17 +93,9 @@ export default class Renderer {
       }
     }
 
-    // Format font family so its deterministic
-    const fontFamily = fontFace.fontFamily
-      .split(',')
-      .map(family => quoteString(family.trim()))
-      .join(', ');
+    this.insertAtRule('@font-face', fontFace as Properties);
 
-    fontFace.fontFamily = fontFamily;
-
-    this.renderAtRule('@font-face', fontFace as Properties);
-
-    return fontFamily;
+    return fontFace.fontFamily;
   }
 
   /**
@@ -120,7 +104,7 @@ export default class Renderer {
   renderImport(value: string) {
     const path = value.slice(-1) === ';' ? value.slice(0, -1) : value;
 
-    this.renderAtRule('@import', path);
+    this.insertAtRule('@import', path);
   }
 
   /**
@@ -138,7 +122,7 @@ export default class Renderer {
     // A bit more deterministic than a counter
     const animationName = customName || `kf${generateHash(frames)}`;
 
-    this.renderAtRule(`@keyframes ${animationName}`, frames);
+    this.insertAtRule(`@keyframes ${animationName}`, frames);
 
     return animationName;
   }
@@ -148,7 +132,7 @@ export default class Renderer {
    * with each declaration resulting in a unique class name.
    */
   // eslint-disable-next-line complexity
-  renderRule(properties: Properties, params: StyleParams = {}): ClassName {
+  renderRule(properties: Block, params: StyleParams = {}): ClassName {
     const props = Object.keys(properties);
     let classNames = '';
 
@@ -169,20 +153,29 @@ export default class Renderer {
 
         // Handle nested selectors and objects
       } else if (isObject(value)) {
-        // @media, @supports
-        if (isMediaQueryCondition(prop) || isSupportsCondition(prop)) {
-          const { conditions } = params;
+        const { conditions = [] } = params;
 
-          classNames += this.renderRule(value, {
-            ...params,
-            conditions: conditions ? [prop as string, ...conditions] : [prop as string],
+        // @media
+        if (isMediaQueryCondition(prop)) {
+          conditions.unshift({
+            query: prop.slice(6).trim(),
+            type: CSSRule.MEDIA_RULE,
           });
-          classNames += ' ';
+
+          classNames += this.renderRule(value, { ...params, conditions });
+
+          // @supports
+        } else if (isSupportsCondition(prop)) {
+          conditions.unshift({
+            query: prop.slice(9).trim(),
+            type: CSSRule.SUPPORTS_RULE,
+          });
+
+          classNames += this.renderRule(value, { ...params, conditions });
 
           // [attribute], :pseudo, > div
         } else if (isNestedSelector(prop)) {
           classNames += this.renderRule(value, { ...params, selector: prop });
-          classNames += ' ';
 
           // Unknown
         } else if (__DEV__) {
@@ -192,8 +185,9 @@ export default class Renderer {
         // Property value pair
       } else {
         classNames += this.renderDeclaration(prop as Property, value, params);
-        classNames += ' ';
       }
+
+      classNames += ' ';
     }
 
     return classNames.trim();
@@ -239,23 +233,9 @@ export default class Renderer {
     className: ClassName,
     property: string,
     value: string,
-    params: StyleParams,
+    selector?: string,
   ): string {
-    let rule = `.${className}`;
-
-    if (params.selector) {
-      rule += params.selector;
-    }
-
-    rule += ` { ${this.formatDeclaration(property, value)} } `;
-
-    if (params.conditions) {
-      params.conditions.forEach(condition => {
-        rule = `${condition} { ${rule.trim()} } `;
-      });
-    }
-
-    return rule;
+    return `.${className}${selector || ''} { ${this.formatDeclaration(property, value)} }`;
   }
 
   /**
@@ -272,24 +252,27 @@ export default class Renderer {
       rule += ` { ${body} }`;
     }
 
-    this.insertRule(rule, 'global');
+    this.globalStyleSheet.insertRule(rule);
   }
 
   /**
-   * Insert a CSS rule into a specific style sheet.
+   * Insert a CSS rule into either the standard or conditional style sheet.
    */
-  protected insertRule(rule: string, type: SheetType, condition?: string): number {
-    if (process.env.NODE_ENV === 'test') {
-      this.flushedStyles += rule;
+  protected insertRule(
+    className: ClassName,
+    property: string,
+    value: string,
+    params: StyleParams,
+  ): number {
+    const { conditions = [] } = params;
+    const rule = this.formatRule(className, property, value, params.selector);
+
+    // No media or feature queries so insert into the standard style sheet
+    if (conditions.length === 0) {
+      return this.standardStyleSheet.insertRule(rule);
     }
 
-    switch (type) {
-      case 'global':
-        return this.globalStyleSheet.insertRule(rule);
-      case 'media':
-        return this.mediaStyleSheet.insertRule(condition!, rule);
-      default:
-        return this.standardStyleSheet.insertRule(rule);
-    }
+    // Otherwise insert into the conditional style sheet
+    return this.conditionsStyleSheet.insertRule(conditions, rule);
   }
 }

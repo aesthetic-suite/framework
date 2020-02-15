@@ -9,4 +9,5 @@ const styles = createStyleSheet(() => ({
   red: { color: 'red' },
 }));
 
-const name = styles('blue', 'red');
+// eslint-disable-next-line
+const className = styles('blue', 'red');

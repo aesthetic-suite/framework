@@ -1,4 +1,5 @@
 import Renderer from '../src/Renderer';
+import getInsertedStyles from '../src/getInsertedStyles';
 
 describe('Renderer', () => {
   let renderer: Renderer;
@@ -13,6 +14,28 @@ describe('Renderer', () => {
 
   afterEach(() => {
     spy.mockRestore();
+  });
+
+  it.only('hrmmm', () => {
+    const className = renderer.renderRule({
+      margin: 0,
+      '@media (width: 500px)': {
+        margin: 10,
+        ':hover': {
+          color: 'red',
+        },
+        '@media (width: 350px)': {
+          '@supports (color: blue)': {
+            color: 'blue',
+          },
+        },
+      },
+    });
+
+    console.log(className);
+
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getInsertedStyles('conditions')).toMatchSnapshot();
   });
 
   it('generates a unique class name for each property', () => {
@@ -39,7 +62,7 @@ describe('Renderer', () => {
     expect(className).toBe(
       '13kbekr fj61tt 1pue5r2 odvm0w 169hbqq 16r1ggk 1c05vza 16weknc wyq6ru 1a0rdy6 1dh7ri5 1sl4fpf 9tlqaj g4y2l6 1o2fiv7 1ql63jz rwfe5q',
     );
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('generates a unique class name for each selector even if property value pair is the same', () => {
@@ -48,13 +71,13 @@ describe('Renderer', () => {
       ':hover': {
         background: '#000',
       },
-      '[disable]': {
+      '[disabled]': {
         background: '#000',
       },
     });
 
     expect(className).toBe('1yedsjc yb3jac t5sg0a');
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for the same property value pair', () => {
@@ -65,14 +88,14 @@ describe('Renderer', () => {
     renderer.renderDeclaration('display', 'inline');
     renderer.renderDeclaration('display', 'block');
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for dashed and camel cased properties', () => {
     renderer.renderDeclaration('textDecoration', 'none');
     renderer.renderDeclaration('text-decoration', 'none');
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for numeric and string values', () => {
@@ -80,35 +103,35 @@ describe('Renderer', () => {
     renderer.renderDeclaration('width', '100px');
     renderer.renderDeclaration('width', '100em');
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('applies a px unit to numeric properties that require it', () => {
     renderer.renderDeclaration('width', 300);
     renderer.renderDeclaration('marginTop', 10);
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('doesnt apply a px unit to numeric properties that dont require it', () => {
     renderer.renderDeclaration('lineHeight', 1.5);
     renderer.renderDeclaration('fontWeight', 600);
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('doesnt apply a px unit to properties that are already prefixed', () => {
     renderer.renderDeclaration('paddingLeft', '10px');
     renderer.renderDeclaration('height', '10vh');
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('supports CSS variables within values', () => {
     renderer.renderDeclaration('color', 'var(--primary-color)');
     renderer.renderDeclaration('border', '1px solid var(--border-color)');
 
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('ignores invalid values', () => {
@@ -122,7 +145,7 @@ describe('Renderer', () => {
     });
 
     expect(className).toBe('');
-    expect(renderer.flushedStyles).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   describe('media queries', () => {
@@ -139,7 +162,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1yedsjc q1v28o 10pyjxi g71vcm');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('can be nested in @supports', () => {
@@ -153,7 +176,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('q1v28o 1rxtb3g');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -167,7 +190,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1s7hmty 119dy5e');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('can be nested in @media', () => {
@@ -181,7 +204,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1s7hmty kla65m');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -196,7 +219,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('1yedsjc 1ezu8qz 1m3gba5');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -211,7 +234,7 @@ describe('Renderer', () => {
 
       expect(classNameA).toBe('4u5ry6');
       expect(classNameA).toBe(classNameB);
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -219,7 +242,7 @@ describe('Renderer', () => {
         selector: '[href*="example"]',
       });
 
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -237,7 +260,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('l1hma1 9yzjcx 1dxv7sg hmvnkb');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -252,7 +275,7 @@ describe('Renderer', () => {
 
       expect(classNameA).toBe('123nku');
       expect(classNameA).toBe(classNameB);
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -260,7 +283,7 @@ describe('Renderer', () => {
         selector: ':nth-last-of-type(4n)',
       });
 
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -283,7 +306,7 @@ describe('Renderer', () => {
       });
 
       expect(className).toBe('2jxlp9 azehd9 vcq0y7 li1ae d8ou53');
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -298,7 +321,7 @@ describe('Renderer', () => {
 
       expect(classNameA).toBe('jclqu0');
       expect(classNameA).toBe(classNameB);
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -306,7 +329,7 @@ describe('Renderer', () => {
         selector: ':first-of-type + li',
       });
 
-      expect(renderer.flushedStyles).toMatchSnapshot();
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -321,7 +344,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('"Open Sans"');
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
 
       it('quotes each font family name', () => {
@@ -333,7 +356,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('"Open Sans", "Roboto", "Lucida Console"');
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
     });
 
@@ -346,7 +369,7 @@ describe('Renderer', () => {
         renderer.renderImport('"common.css" screen;'); // Ends in semicolon
         renderer.renderImport("url('landscape.css') screen and (orientation: landscape)");
 
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
     });
 
@@ -362,7 +385,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('kf103rcyx');
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
 
       it('renders percentage based and returns animation name', () => {
@@ -374,7 +397,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('kfnec9co');
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
 
       it('can provide a custom animation name', () => {
@@ -391,7 +414,7 @@ describe('Renderer', () => {
         );
 
         expect(name).toBe('slide');
-        expect(renderer.flushedStyles).toMatchSnapshot();
+        expect(getInsertedStyles('standard')).toMatchSnapshot();
       });
     });
   });

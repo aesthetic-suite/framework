@@ -34,6 +34,10 @@ exports[`Renderer hierarchy supports complex attribute selectors 1`] = `".q0lo5c
 
 exports[`Renderer hierarchy uses same class name between both APIs 1`] = `".jclqu0+ div { background-color:#000 } "`;
 
+exports[`Renderer hrmmm 1`] = `"undefined.13kbekr {margin: 0;}"`;
+
+exports[`Renderer hrmmm 2`] = `"undefined@media (width: 500px) {@media (width: 500px) {.q4ovmf:hover {color: red;}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}.q4ovmf:hover {color: red;}@media (width: 500px) {@media (width: 500px) {.1teez2q {margin: 10px;}}}@media (width: 500px) {.1teez2q {margin: 10px;}}.1teez2q {margin: 10px;}@supports (color: blue) {@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}}@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}@supports (color: blue) {.1kykkn1 {color: blue;}}.1kykkn1 {color: blue;}"`;
+
 exports[`Renderer ignores invalid values 1`] = `""`;
 
 exports[`Renderer media queries can be nested in @supports 1`] = `".q1v28o { padding:15px } @supports (display: flex) { @media (max-width: 600px) { .1rxtb3g { padding:15px } } } "`;

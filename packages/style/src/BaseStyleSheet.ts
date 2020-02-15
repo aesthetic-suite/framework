@@ -7,6 +7,4 @@ export default abstract class BaseStyleSheet {
   constructor(type: SheetType) {
     this.sheet = getDocumentStyleSheet(type);
   }
-
-  abstract insertRule(...params: unknown[]): number;
 }

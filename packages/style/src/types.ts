@@ -4,13 +4,27 @@ export type ClassName = string;
 
 export type Value = string | number;
 
-export type BaseProperties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
+export type Properties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
 
-export interface Properties extends BaseProperties {
-  [key: string]: BaseProperties | undefined | unknown;
+export type Property = keyof Properties;
+
+export type AttributeBlock = {
+  [K in CSS.HtmlAttributes]?: Properties;
+};
+
+export type PseudoBlock = {
+  [K in CSS.SimplePseudos]?: Properties;
+};
+
+export type DeclarationBlock = Properties & AttributeBlock & PseudoBlock;
+
+export interface ConditionsBlock {
+  [key: string]: DeclarationBlock | ConditionsBlock;
 }
 
-export type Property = keyof BaseProperties;
+export interface Block extends DeclarationBlock {
+  [key: string]: Block | Value | unknown;
+}
 
 export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
 
@@ -20,23 +34,25 @@ export interface Keyframes {
   to?: Properties;
 }
 
-export type SheetType = 'global' | 'standard' | 'media';
+export type SheetType = 'global' | 'standard' | 'conditions';
 
-export interface CacheItem {
+export interface Condition {
+  query: string;
+  type: number;
+}
+
+export interface StyleParams {
+  conditions?: Condition[];
+  selector?: string;
+  type?: SheetType;
+}
+
+export interface CacheItem extends Required<StyleParams> {
   className: string;
-  conditions: string[];
   rank: number;
-  selector: string;
-  type: SheetType;
 }
 
 export interface CacheParams {
   bypassCache?: boolean;
   minimumRank?: number;
-}
-
-export interface StyleParams {
-  conditions?: string[];
-  selector?: string;
-  type?: SheetType;
 }

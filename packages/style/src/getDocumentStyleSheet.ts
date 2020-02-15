@@ -9,7 +9,7 @@ function get(type: SheetType) {
 // Elements should be in the order of: global, standard, media
 function insertInOrder(type: SheetType, style: HTMLStyleElement) {
   if (type === 'standard') {
-    const media = get('media');
+    const media = get('conditions');
 
     if (media) {
       media.insertAdjacentElement('beforebegin', style);
@@ -18,7 +18,7 @@ function insertInOrder(type: SheetType, style: HTMLStyleElement) {
     }
   }
 
-  if (type === 'media') {
+  if (type === 'conditions') {
     const standard = get('standard');
 
     if (standard) {

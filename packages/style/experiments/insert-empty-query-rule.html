@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style type="text/css" id="style"></style>
+  </head>
+  <body>
+    <script>
+      // Can we insert a @media and @supports with an empty body?
+      //    YES in Firefox, Chrome, Safari
+
+      const style = document.getElementById('style');
+      const sheet = style.sheet;
+
+      sheet.insertRule(`@media (max-width: 100px) {}`, sheet.cssRules.length);
+      sheet.insertRule(`@supports (display: flex) {}`, sheet.cssRules.length);
+
+      console.log({ style, sheet });
+    </script>
+  </body>
+</html>
