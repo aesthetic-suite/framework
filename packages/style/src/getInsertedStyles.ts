@@ -1,20 +1,13 @@
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import { SheetType } from './types';
 
-function extractCssText(rule: CSSStyleSheet | CSSRule): string {
-  let css = rule.cssText;
+export default function getInsertedStyles(type: SheetType): string {
+  const sheet = getDocumentStyleSheet(type);
+  let css = '';
 
-  if ('cssRules' in rule) {
-    const inst = (rule as unknown) as CSSGroupingRule;
-
-    for (let i = 0; i < inst.cssRules.length; i += 1) {
-      css += extractCssText(inst.cssRules[i]);
-    }
+  for (let i = 0; i < sheet.cssRules.length; i += 1) {
+    css += sheet.cssRules[i].cssText;
   }
 
   return css;
-}
-
-export default function getInsertedStyles(type: SheetType): string {
-  return extractCssText(getDocumentStyleSheet(type));
 }

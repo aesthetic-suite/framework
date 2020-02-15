@@ -1,6 +1,11 @@
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
 import { Condition } from './types';
+import isSupportsCondition from './isSupportsCondition';
+import isMediaQueryCondition from './isMediaQueryCondition';
+
+const canInsertNestedRules =
+  window.CSSGroupingRule !== undefined && CSSGroupingRule.prototype.insertRule !== undefined;
 
 export default class ConditionsStyleSheet extends BaseStyleSheet {
   protected desktopFirst: boolean;
@@ -32,48 +37,56 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
 
   /**
    * Recursively insert the rule based on the list of conditions.
+   * If the browser does not support nested rule insertion,
+   * simply insert it into the root of the style sheet.
    */
   insertRule(conditions: Condition[], rule: string): number {
-    const rootCondition = conditions[0];
-    const finalRule = conditions.reduce(
-      (tempRule, condition) =>
-        `@${condition.type === CSSRule.MEDIA_RULE ? 'media' : 'supports'} ${
-          condition.query
-        } { ${tempRule} }`,
-      rule,
-    );
+    const size = conditions.length;
 
-    if (rootCondition.type === CSSRule.MEDIA_RULE) {
-      this.insertMediaRule(rootCondition.query, finalRule);
-    } else {
-      this.insertFeatureRule(rootCondition.query, finalRule);
+    if (!canInsertNestedRules || size === 1) {
+      const outerCondition = conditions[0];
+      const finalRule = conditions
+        .reverse()
+        .reduce(
+          (tempRule, condition) =>
+            `@${condition.type === CSSRule.MEDIA_RULE ? 'media' : 'supports'} ${
+              condition.query
+            } { ${tempRule} }`,
+          rule,
+        );
+
+      if (outerCondition.type === CSSRule.MEDIA_RULE) {
+        this.insertMediaRule(outerCondition.query, finalRule);
+      } else {
+        this.insertFeatureRule(outerCondition.query, finalRule);
+      }
+
+      return -1;
     }
 
-    // This is not possible at this time. Rules can only be inserted at the root.
-    // const size = conditions.length;
-    // let instance: CSSConditionRule | null = null;
+    let instance: CSSConditionRule | null = null;
 
-    // for (let i = 0; i < size; i += 1) {
-    //   const { query, type } = conditions[i];
-    //   const bodyContent = i === size - 1 ? rule : '';
+    for (let i = 0; i < size; i += 1) {
+      const { query, type } = conditions[i];
+      const bodyContent = i === size - 1 ? rule : '';
 
-    //   // Insert a new condition at the root
-    //   if (i === 0) {
-    //     instance =
-    //       type === CSSRule.MEDIA_RULE
-    //         ? this.insertMediaRule(query, bodyContent)
-    //         : this.insertFeatureRule(query, bodyContent);
+      // Insert a new condition at the root
+      if (i === 0) {
+        instance =
+          type === CSSRule.MEDIA_RULE
+            ? this.insertMediaRule(query, bodyContent)
+            : this.insertFeatureRule(query, bodyContent);
 
-    //     // Recursively insert nested rules
-    //   } else if (instance) {
-    //     instance = this.findNestedRule(instance, query, type) || instance;
+        // Recursively insert nested rules
+      } else if (instance) {
+        instance = this.findNestedRule(instance, query, type) || instance;
 
-    //     // Insert the rule and return a new instance
-    //     instance = instance.cssRules[
-    //       instance.insertRule(bodyContent, instance.cssRules.length)
-    //     ] as CSSConditionRule;
-    //   }
-    // }
+        // Insert the rule and return a new instance
+        instance = instance.cssRules[
+          instance.insertRule(bodyContent, instance.cssRules.length)
+        ] as CSSConditionRule;
+      }
+    }
 
     return -1;
   }
@@ -82,18 +95,18 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
    * Insert an `@supports` rule into the root for the defined query.
    */
   insertFeatureRule(query: string, rule: string): CSSSupportsRule {
-    // const featureRule = this.featureQueries[query];
+    const featureRule = this.featureQueries[query];
 
-    // // Already exists so append a new rule
-    // if (featureRule) {
-    //   const index = featureRule.insertRule(rule, featureRule.cssRules.length);
+    // Already exists so append a new rule
+    if (canInsertNestedRules && featureRule) {
+      const index = featureRule.insertRule(rule, featureRule.cssRules.length);
 
-    //   return featureRule.cssRules[index] as CSSSupportsRule;
-    // }
+      return featureRule.cssRules[index] as CSSSupportsRule;
+    }
 
     // Insert the rule and capture the instance
     const index = this.sheet.insertRule(
-      `@supports ${query} { ${rule} }`,
+      isSupportsCondition(rule) ? rule : `@supports ${query} { ${rule} }`,
       this.sheet.cssRules.length,
     );
 
@@ -107,14 +120,14 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
    * while keeping a mobile/desktop-first sort order.
    */
   insertMediaRule(query: string, rule: string): CSSMediaRule {
-    // const mediaRule = this.mediaQueries[query];
+    const mediaRule = this.mediaQueries[query];
 
-    // // Already exists so append a new rule
-    // if (mediaRule) {
-    //   const index = mediaRule.insertRule(rule, mediaRule.cssRules.length);
+    // Already exists so append a new rule
+    if (canInsertNestedRules && mediaRule) {
+      const index = mediaRule.insertRule(rule, mediaRule.cssRules.length);
 
-    //   return mediaRule.cssRules[index] as CSSMediaRule;
-    // }
+      return mediaRule.cssRules[index] as CSSMediaRule;
+    }
 
     // Sort and determine the index in which to insert a new query
     const sortedQueries = Object.keys(this.mediaQueries)
@@ -123,7 +136,10 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     const index = sortedQueries.indexOf(query);
 
     // Insert the rule and capture the instance
-    this.sheet.insertRule(`@media ${query} { ${rule} }`, index);
+    this.sheet.insertRule(
+      isMediaQueryCondition(rule) ? rule : `@media ${query} { ${rule} }`,
+      index,
+    );
 
     this.mediaQueries[query] = this.sheet.cssRules[index] as CSSMediaRule;
 

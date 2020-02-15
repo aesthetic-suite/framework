@@ -34,9 +34,9 @@ exports[`Renderer hierarchy supports complex attribute selectors 1`] = `".q0lo5c
 
 exports[`Renderer hierarchy uses same class name between both APIs 1`] = `".jclqu0+ div { background-color:#000 } "`;
 
-exports[`Renderer hrmmm 1`] = `"undefined.13kbekr {margin: 0;}"`;
+exports[`Renderer hrmmm 1`] = `".13kbekr {margin: 0;}"`;
 
-exports[`Renderer hrmmm 2`] = `"undefined@media (width: 500px) {@media (width: 500px) {.q4ovmf:hover {color: red;}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}.q4ovmf:hover {color: red;}@media (width: 500px) {@media (width: 500px) {.1teez2q {margin: 10px;}}}@media (width: 500px) {.1teez2q {margin: 10px;}}.1teez2q {margin: 10px;}@supports (color: blue) {@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}}@media (width: 350px) {@supports (color: blue) {.1kykkn1 {color: blue;}}}@supports (color: blue) {.1kykkn1 {color: blue;}}.1kykkn1 {color: blue;}"`;
+exports[`Renderer hrmmm 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;
 
 exports[`Renderer ignores invalid values 1`] = `""`;
 

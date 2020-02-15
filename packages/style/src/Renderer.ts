@@ -157,7 +157,7 @@ export default class Renderer {
 
         // @media
         if (isMediaQueryCondition(prop)) {
-          conditions.unshift({
+          conditions.push({
             query: prop.slice(6).trim(),
             type: CSSRule.MEDIA_RULE,
           });
@@ -166,7 +166,7 @@ export default class Renderer {
 
           // @supports
         } else if (isSupportsCondition(prop)) {
-          conditions.unshift({
+          conditions.push({
             query: prop.slice(9).trim(),
             type: CSSRule.SUPPORTS_RULE,
           });
