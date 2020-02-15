@@ -179,7 +179,7 @@ export default class Renderer {
 
           // Unknown
         } else if (__DEV__) {
-          console.warn(`Unknown property selector "${prop}" with value "${value}".`);
+          console.warn(`Unknown property selector or nested block "${prop}".`);
         }
 
         // Property value pair

@@ -1,63 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer applies a px unit to numeric properties that require it 1`] = `".1jm753s { width:300px } .6q2ims { margin-top:10px } "`;
+exports[`Renderer applies a px unit to numeric properties that require it 1`] = `".1ku22my {width: 100px;}.1y1doje {width: 100em;}.1jm753s {width: 300px;}.6q2ims {margin-top: 10px;}"`;
 
-exports[`Renderer at-rules @font-face quotes each font family name 1`] = `"@font-face { font-family:\\"Open Sans\\", \\"Roboto\\", \\"Lucida Console\\"; font-style:normal; font-weight:800; src:url(\\"fonts/OpenSans-Bold.woff2\\"); }"`;
+exports[`Renderer at-rules @font-face renders and returns family name 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
-exports[`Renderer at-rules @font-face renders and returns family name 1`] = `"@font-face { font-family:\\"Open Sans\\"; font-style:normal; font-weight:800; src:url(\\"fonts/OpenSans-Bold.woff2\\"); }"`;
+exports[`Renderer at-rules @import renders all variants 1`] = `"@import url(landscape.css) screen and (orientation: landscape);@import url(common.css) screen;@import url(chrome://communicator/skin);@import url(custom.css);@import url(a11y.css) speech;@import url(print.css) print;"`;
 
-exports[`Renderer at-rules @import renders all variants 1`] = `"@import url(\\"print.css\\") print;@import url(\\"a11y.css\\") speech;@import 'custom.css';@import url(\\"chrome://communicator/skin\\");@import \\"common.css\\" screen;@import url('landscape.css') screen and (orientation: landscape);"`;
+exports[`Renderer at-rules @keyframes can provide a custom animation name 1`] = `
+"@keyframes kfnec9co { 
+  0% {top: 0; left: 0;} 
+  30% {top: 50px;} 
+  68%,72% {left: 50px;} 
+  100% {top: 100px; left: 100%;} 
+}@keyframes slide { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
 
-exports[`Renderer at-rules @keyframes can provide a custom animation name 1`] = `"@keyframes slide { from { transform:translateX(0%); } to { transform:translateX(100%); }  }"`;
+exports[`Renderer at-rules @keyframes renders from-to based and returns animation name 1`] = `
+"@import url(custom.css);@import url(a11y.css) speech;@import url(print.css) print;@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
 
-exports[`Renderer at-rules @keyframes renders from-to based and returns animation name 1`] = `"@keyframes kf103rcyx { from { transform:translateX(0%); } to { transform:translateX(100%); }  }"`;
+exports[`Renderer at-rules @keyframes renders percentage based and returns animation name 1`] = `
+"@import url(print.css) print;@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}@keyframes kfnec9co { 
+  0% {top: 0; left: 0;} 
+  30% {top: 50px;} 
+  68%,72% {left: 50px;} 
+  100% {top: 100px; left: 100%;} 
+}"
+`;
 
-exports[`Renderer at-rules @keyframes renders percentage based and returns animation name 1`] = `"@keyframes kfnec9co { 0% { top:0; left:0; } 30% { top:50px; } 68%, 72% { left:50px; } 100% { top:100px; left:100%; }  }"`;
+exports[`Renderer attributes generates the correct class names with attribute selector 1`] = `".1s7hmty {display: block;}.1yedsjc {background: #000;}.1ezu8qz[disabled] {background-color: #286090;}.1m3gba5[disabled] {border-color: #204d74;}"`;
 
-exports[`Renderer attributes generates the correct class names with attribute selector 1`] = `".1yedsjc { background:#000 } .1ezu8qz[disabled] { background-color:#286090 } .1m3gba5[disabled] { border-color:#204d74 } "`;
+exports[`Renderer attributes supports complex attribute selectors 1`] = `".4u5ry6[disabled] {background-color: #000;}.1krihrx[href*=\\"example\\"] {background-color: #286090;}"`;
 
-exports[`Renderer attributes supports complex attribute selectors 1`] = `".1krihrx[href*=\\"example\\"] { background-color:#286090 } "`;
+exports[`Renderer attributes uses same class name between both APIs 1`] = `".1ezu8qz[disabled] {background-color: #286090;}.1m3gba5[disabled] {border-color: #204d74;}.4u5ry6[disabled] {background-color: #000;}"`;
 
-exports[`Renderer attributes uses same class name between both APIs 1`] = `".4u5ry6[disabled] { background-color:#000 } "`;
+exports[`Renderer can nest conditionals infinitely 1`] = `".1qbvicg {color: var(--primary-color);}.1mkzd85 {border: 1px solid var(--border-color);}.13kbekr {margin: 0;}"`;
 
-exports[`Renderer doesnt apply a px unit to numeric properties that dont require it 1`] = `".1atqjub { line-height:1.5 } .1b6fj3h { font-weight:600 } "`;
+exports[`Renderer can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;
 
-exports[`Renderer doesnt apply a px unit to properties that are already prefixed 1`] = `".1yg9pt7 { padding-left:10px } .1cyey9x { height:10vh } "`;
+exports[`Renderer doesnt apply a px unit to numeric properties that dont require it 1`] = `".1jm753s {width: 300px;}.6q2ims {margin-top: 10px;}.1atqjub {line-height: 1.5;}.1b6fj3h {font-weight: 600;}"`;
 
-exports[`Renderer generates a unique class name for each property 1`] = `".13kbekr { margin:0 } .fj61tt { padding:6px 12px } .1pue5r2 { border:1px solid #2e6da4 } .odvm0w { border-radius:4px } .169hbqq { display:inline-block } .16r1ggk { cursor:pointer } .1c05vza { font-family:Roboto } .16weknc { font-weight:normal } .wyq6ru { line-height:normal } .1a0rdy6 { white-space:nowrap } .1dh7ri5 { text-decoration:none } .1sl4fpf { text-align:left } .9tlqaj { background-color:#337ab7 } .g4y2l6 { vertical-align:middle } .1o2fiv7 { color:rgba(0, 0, 0, 0) } .1ql63jz { animation-name:fade } .rwfe5q { animation-duration:.3s } "`;
+exports[`Renderer doesnt apply a px unit to properties that are already prefixed 1`] = `".1atqjub {line-height: 1.5;}.1b6fj3h {font-weight: 600;}.1yg9pt7 {padding-left: 10px;}.1cyey9x {height: 10vh;}"`;
 
-exports[`Renderer generates a unique class name for each selector even if property value pair is the same 1`] = `".1yedsjc { background:#000 } .yb3jac:hover { background:#000 } .t5sg0a[disable] { background:#000 } "`;
+exports[`Renderer generates a unique class name for each property 1`] = `".13kbekr {margin: 0;}.fj61tt {padding: 6px 12px;}.1pue5r2 {border: 1px solid #2e6da4;}.odvm0w {border-radius: 4px;}.169hbqq {display: inline-block;}.16r1ggk {cursor: pointer;}.1c05vza {font-family: Roboto;}.16weknc {font-weight: normal;}.wyq6ru {line-height: normal;}.1a0rdy6 {white-space: nowrap;}.1dh7ri5 {text-decoration: none;}.1sl4fpf {text-align: left;}.9tlqaj {background-color: #337ab7;}.g4y2l6 {vertical-align: middle;}.1o2fiv7 {color: rgba(0, 0, 0, 0);}.1ql63jz {animation-name: fade;}.rwfe5q {animation-duration: .3s;}"`;
 
-exports[`Renderer hierarchy generates the correct class names with hierarchy selector 1`] = `".2jxlp9 { padding:10px } .azehd9+ div { padding:10px } .vcq0y7~ SPAN { padding:10px } .li1ae>li { padding:10px } .d8ou53* { padding:10px } "`;
+exports[`Renderer generates a unique class name for each selector even if property value pair is the same 1`] = `".1a0rdy6 {white-space: nowrap;}.1dh7ri5 {text-decoration: none;}.1sl4fpf {text-align: left;}.9tlqaj {background-color: #337ab7;}.g4y2l6 {vertical-align: middle;}.1o2fiv7 {color: rgba(0, 0, 0, 0);}.1ql63jz {animation-name: fade;}.rwfe5q {animation-duration: .3s;}.1yedsjc {background: #000;}.yb3jac:hover {background: #000;}.ooy7ta[disabled] {background: #000;}"`;
 
-exports[`Renderer hierarchy supports complex attribute selectors 1`] = `".q0lo5c:first-of-type + li { color:white } "`;
+exports[`Renderer hierarchy generates the correct class names with hierarchy selector 1`] = `".1jb0id6:nth-last-of-type(4n) {color: white;}.2jxlp9 {padding: 10px;}.azehd9+ div {padding: 10px;}.vcq0y7~ SPAN {padding: 10px;}.li1ae>li {padding: 10px;}.d8ou53* {padding: 10px;}"`;
 
-exports[`Renderer hierarchy uses same class name between both APIs 1`] = `".jclqu0+ div { background-color:#000 } "`;
+exports[`Renderer hierarchy supports complex attribute selectors 1`] = `".d8ou53* {padding: 10px;}.jclqu0+ div {background-color: #000;}.q0lo5c:first-of-type + li {color: white;}"`;
 
-exports[`Renderer hrmmm 1`] = `".13kbekr {margin: 0;}"`;
+exports[`Renderer hierarchy uses same class name between both APIs 1`] = `".vcq0y7~ SPAN {padding: 10px;}.li1ae>li {padding: 10px;}.d8ou53* {padding: 10px;}.jclqu0+ div {background-color: #000;}"`;
 
-exports[`Renderer hrmmm 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;
+exports[`Renderer ignores invalid values 1`] = `".13kbekr {margin: 0;}"`;
 
-exports[`Renderer ignores invalid values 1`] = `""`;
+exports[`Renderer media queries can be nested in @supports 1`] = `"@media (max-width: 600px) {.1l0h3j6 {padding: 15px;}}@supports (display: flex) {@media (max-width: 600px) {.1nadnnc {padding: 15px;}}}"`;
 
-exports[`Renderer media queries can be nested in @supports 1`] = `".q1v28o { padding:15px } @supports (display: flex) { @media (max-width: 600px) { .1rxtb3g { padding:15px } } } "`;
+exports[`Renderer media queries supports @media conditions 1`] = `"@media screen and (min-width: 900px) {.1d6vyr6 {padding: 20px;}}@media (max-width: 600px) {.1l0h3j6 {padding: 15px;}}"`;
 
-exports[`Renderer media queries supports @media conditions 1`] = `".1yedsjc { background:#000 } .q1v28o { padding:15px } @media (max-width: 600px) { .10pyjxi { padding:15px } } @media screen and (min-width: 900px) { .g71vcm { padding:20px } } "`;
+exports[`Renderer pseudos generates the correct class names with pseudo selector 1`] = `".1krihrx[href*=\\"example\\"] {background-color: #286090;}.l1hma1 {padding: 5px;}.9yzjcx:hover {padding: 10px;}.1dxv7sg::before {content: \\"★\\";}.hmvnkb::before {display: inline-block;}"`;
 
-exports[`Renderer pseudos generates the correct class names with pseudo selector 1`] = `".l1hma1 { padding:5px } .9yzjcx:hover { padding:10px } .1dxv7sg::before { content:\\"★\\" } .hmvnkb::before { display:inline-block } "`;
+exports[`Renderer pseudos supports complex attribute selectors 1`] = `".123nku:focus {background-color: #000;}.1jb0id6:nth-last-of-type(4n) {color: white;}"`;
 
-exports[`Renderer pseudos supports complex attribute selectors 1`] = `".1jb0id6:nth-last-of-type(4n) { color:white } "`;
+exports[`Renderer pseudos uses same class name between both APIs 1`] = `".1dxv7sg::before {content: \\"★\\";}.hmvnkb::before {display: inline-block;}.123nku:focus {background-color: #000;}"`;
 
-exports[`Renderer pseudos uses same class name between both APIs 1`] = `".123nku:focus { background-color:#000 } "`;
+exports[`Renderer supports CSS variables within values 1`] = `".1yg9pt7 {padding-left: 10px;}.1cyey9x {height: 10vh;}.1qbvicg {color: var(--primary-color);}.1mkzd85 {border: 1px solid var(--border-color);}"`;
 
-exports[`Renderer supports CSS variables within values 1`] = `".1qbvicg { color:var(--primary-color) } .1mkzd85 { border:1px solid var(--border-color) } "`;
+exports[`Renderer supports can be nested in @media 1`] = `"@media screen and (min-width: 900px) {@supports (display: flex) {.xu0c72 {display: flex;}}}@supports (display: flex) {.ku62hq {display: flex;}}"`;
 
-exports[`Renderer supports can be nested in @media 1`] = `".1s7hmty { display:block } @media screen and (min-width: 900px) { @supports (display: flex) { .kla65m { display:flex } } } "`;
+exports[`Renderer supports supports @supports conditions 1`] = `"@supports (display: flex) {@media (max-width: 600px) {.1nadnnc {padding: 15px;}}}@supports (display: flex) {.ku62hq {display: flex;}}"`;
 
-exports[`Renderer supports supports @supports conditions 1`] = `".1s7hmty { display:block } @supports (display: flex) { .119dy5e { display:flex } } "`;
+exports[`Renderer uses the same class name for dashed and camel cased properties 1`] = `".ooy7ta[disabled] {background: #000;}.1s7hmty {display: block;}.4n8yy0 {display: flex;}.17whura {display: inline;}.1dh7ri5 {text-decoration: none;}"`;
 
-exports[`Renderer uses the same class name for dashed and camel cased properties 1`] = `".1dh7ri5 { text-decoration:none } "`;
+exports[`Renderer uses the same class name for numeric and string values 1`] = `".17whura {display: inline;}.1dh7ri5 {text-decoration: none;}.1ku22my {width: 100px;}.1y1doje {width: 100em;}"`;
 
-exports[`Renderer uses the same class name for numeric and string values 1`] = `".1ku22my { width:100px } .1y1doje { width:100em } "`;
-
-exports[`Renderer uses the same class name for the same property value pair 1`] = `".1s7hmty { display:block } .4n8yy0 { display:flex } .17whura { display:inline } "`;
+exports[`Renderer uses the same class name for the same property value pair 1`] = `".1ql63jz {animation-name: fade;}.rwfe5q {animation-duration: .3s;}.1yedsjc {background: #000;}.yb3jac:hover {background: #000;}.ooy7ta[disabled] {background: #000;}.1s7hmty {display: block;}.4n8yy0 {display: flex;}.17whura {display: inline;}"`;

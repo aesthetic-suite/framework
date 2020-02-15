@@ -1,5 +1,15 @@
 import Renderer from '../src/Renderer';
+import getDocumentStyleSheet from '../src/getDocumentStyleSheet';
 import getInsertedStyles from '../src/getInsertedStyles';
+import { SheetType } from '../src/types';
+
+function purgeStyles(type: SheetType) {
+  const sheet = getDocumentStyleSheet(type);
+
+  for (let i = 0; i < sheet.cssRules.length; i += 1) {
+    sheet.deleteRule(0);
+  }
+}
 
 describe('Renderer', () => {
   let renderer: Renderer;
@@ -14,28 +24,10 @@ describe('Renderer', () => {
 
   afterEach(() => {
     spy.mockRestore();
-  });
 
-  it.only('hrmmm', () => {
-    const className = renderer.renderRule({
-      margin: 0,
-      '@media (width: 500px)': {
-        margin: 10,
-        ':hover': {
-          color: 'red',
-        },
-        '@media (width: 350px)': {
-          '@supports (color: blue)': {
-            color: 'blue',
-          },
-        },
-      },
-    });
-
-    console.log(className);
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-    expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    purgeStyles('global');
+    purgeStyles('standard');
+    purgeStyles('conditions');
   });
 
   it('generates a unique class name for each property', () => {
@@ -76,7 +68,7 @@ describe('Renderer', () => {
       },
     });
 
-    expect(className).toBe('1yedsjc yb3jac t5sg0a');
+    expect(className).toBe('1yedsjc yb3jac ooy7ta');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
@@ -134,6 +126,26 @@ describe('Renderer', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
+  it('can nest conditionals infinitely', () => {
+    renderer.renderRule({
+      margin: 0,
+      '@media (width: 500px)': {
+        margin: 10,
+        ':hover': {
+          color: 'red',
+        },
+        '@media (width: 350px)': {
+          '@supports (color: blue)': {
+            color: 'blue',
+          },
+        },
+      },
+    });
+
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getInsertedStyles('conditions')).toMatchSnapshot();
+  });
+
   it('ignores invalid values', () => {
     const className = renderer.renderRule({
       // @ts-ignore
@@ -161,8 +173,8 @@ describe('Renderer', () => {
         },
       });
 
-      expect(className).toBe('1yedsjc q1v28o 10pyjxi g71vcm');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(className).toBe('1yedsjc q1v28o 1l0h3j6 1d6vyr6');
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @supports', () => {
@@ -175,8 +187,8 @@ describe('Renderer', () => {
         },
       });
 
-      expect(className).toBe('q1v28o 1rxtb3g');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(className).toBe('q1v28o 1nadnnc');
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
   });
 
@@ -189,8 +201,8 @@ describe('Renderer', () => {
         },
       });
 
-      expect(className).toBe('1s7hmty 119dy5e');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(className).toBe('1s7hmty ku62hq');
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @media', () => {
@@ -203,8 +215,8 @@ describe('Renderer', () => {
         },
       });
 
-      expect(className).toBe('1s7hmty kla65m');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(className).toBe('1s7hmty xu0c72');
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
   });
 
@@ -337,26 +349,14 @@ describe('Renderer', () => {
     describe('@font-face', () => {
       it('renders and returns family name', () => {
         const name = renderer.renderFontFace({
-          fontFamily: 'Open Sans',
+          fontFamily: '"Open Sans"',
           fontStyle: 'normal',
           fontWeight: 800,
           src: 'url("fonts/OpenSans-Bold.woff2")',
         });
 
         expect(name).toBe('"Open Sans"');
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
-      });
-
-      it('quotes each font family name', () => {
-        const name = renderer.renderFontFace({
-          fontFamily: '"Open Sans", Roboto, Lucida Console',
-          fontStyle: 'normal',
-          fontWeight: 800,
-          src: 'url("fonts/OpenSans-Bold.woff2")',
-        });
-
-        expect(name).toBe('"Open Sans", "Roboto", "Lucida Console"');
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
+        expect(getInsertedStyles('global')).toMatchSnapshot();
       });
     });
 
@@ -369,7 +369,7 @@ describe('Renderer', () => {
         renderer.renderImport('"common.css" screen;'); // Ends in semicolon
         renderer.renderImport("url('landscape.css') screen and (orientation: landscape)");
 
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
+        expect(getInsertedStyles('global')).toMatchSnapshot();
       });
     });
 
@@ -385,7 +385,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('kf103rcyx');
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
+        expect(getInsertedStyles('global')).toMatchSnapshot();
       });
 
       it('renders percentage based and returns animation name', () => {
@@ -397,7 +397,7 @@ describe('Renderer', () => {
         });
 
         expect(name).toBe('kfnec9co');
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
+        expect(getInsertedStyles('global')).toMatchSnapshot();
       });
 
       it('can provide a custom animation name', () => {
@@ -414,7 +414,7 @@ describe('Renderer', () => {
         );
 
         expect(name).toBe('slide');
-        expect(getInsertedStyles('standard')).toMatchSnapshot();
+        expect(getInsertedStyles('global')).toMatchSnapshot();
       });
     });
   });
