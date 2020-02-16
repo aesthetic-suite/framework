@@ -2,6 +2,8 @@
 
 exports[`Styles applies a px unit to numeric properties that require it 1`] = `".1jm753s {width: 300px;}.6q2ims {margin-top: 10px;}"`;
 
+exports[`Styles can bypass the cache and insert the same declaration 1`] = `".sjf8sr {color: red;}.sjf8sr1 {color: red;}.sjf8sr2 {color: red;}"`;
+
 exports[`Styles can nest conditionals infinitely 1`] = `".13kbekr {margin: 0;}"`;
 
 exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;

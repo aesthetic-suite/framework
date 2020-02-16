@@ -187,4 +187,14 @@ describe('Styles', () => {
     expect(spy).toHaveBeenCalledWith('Unknown property selector or nested block "$ what is this".');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
+
+  it('can bypass the cache and insert the same declaration', () => {
+    const a = renderer.renderDeclaration('color', 'red', {});
+    const b = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
+    const c = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
+
+    expect(a).not.toBe(b);
+    expect(b).not.toBe(c);
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
 });

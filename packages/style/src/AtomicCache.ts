@@ -3,9 +3,9 @@ import { CacheItem, CacheParams, StyleParams } from './types';
 // https://jsperf.com/javascript-objects-vs-map-performance
 // https://jsperf.com/performance-of-map-vs-object
 export default class AtomicCache {
-  protected cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
+  cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
 
-  protected hashes: { [hash: string]: CacheItem } = {};
+  hashes: { [hash: string]: CacheItem } = {};
 
   clear(): this {
     this.cache = {};

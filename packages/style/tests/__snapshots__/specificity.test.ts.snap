@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selectors inserts declarations in the order they are defined (reversed) 1`] = `".1keydhq {width: 50px;}.1aizibx {padding: 1px;}.13kbekr {margin: 0;}"`;
+
+exports[`Selectors inserts declarations in the order they are defined 1`] = `".13kbekr {margin: 0;}.1aizibx {padding: 1px;}.1keydhq {width: 50px;}"`;
+
+exports[`Selectors inserts selectors in the order they are defined (reversed) 1`] = `".1r72mm7 {color: white;}.1roxj5m:hover {color: blue;}.2thpdp:active {color: red;}"`;
+
+exports[`Selectors inserts selectors in the order they are defined 1`] = `".1r72mm7 {color: white;}.2thpdp:active {color: red;}.1roxj5m:hover {color: blue;}"`;

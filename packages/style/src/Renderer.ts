@@ -51,7 +51,7 @@ export default class Renderer {
     property: K,
     value: Properties[K],
     params: StyleParams = {},
-    cacheParams: CacheParams = {},
+    { bypassCache = false }: CacheParams = {},
   ) {
     // Hyphenate early so all checks are deterministic
     const prop = hyphenateProperty(property);
@@ -60,16 +60,20 @@ export default class Renderer {
     const val = applyUnitToValue(property, value as Value);
 
     // Check the cache immediately
-    const cache = cacheParams.bypassCache
-      ? null
-      : this.classNameCache.read(prop, val, params, cacheParams);
+    const cache = this.classNameCache.read(prop, val, params);
 
-    if (cache) {
+    if (cache && !bypassCache) {
       return cache.className;
     }
 
     // Generate a deterministic class name
-    const className = this.generateClassName(prop, val, params);
+    let className = this.generateClassName(prop, val, params);
+
+    // Cache was bypassed but we need to uniqify the name further
+    if (cache) {
+      className += this.classNameCache.cache[prop][val].length;
+    }
+
     const rank = this.insertRule(className, prop, val, params);
     const item: CacheItem = {
       conditions: [],

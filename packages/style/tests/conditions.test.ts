@@ -47,6 +47,30 @@ describe('Conditions', () => {
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
+
+    it('sorts media queries on insert', () => {
+      const block = { padding: 0 };
+
+      renderer.renderRule({
+        '@media screen and (min-width: 1024px)': block,
+        '@media screen and (min-width: 320px) and (max-width: 767px)': block,
+        '@media screen and (min-width: 1280px)': block,
+        '@media screen and (min-height: 480px)': block,
+        '@media screen and (min-height: 480px) and (min-width: 320px)': block,
+        '@media screen and (orientation: portrait)': block,
+        '@media screen and (min-width: 640px)': block,
+        '@media print': block,
+        '@media screen and (max-width: 767px) and (min-width: 320px)': block,
+        '@media tv': block,
+        '@media screen and (max-height: 767px) and (min-height: 320px)': block,
+        '@media screen and (orientation: landscape)': block,
+        '@media screen and (min-device-width: 320px) and (max-device-width: 767px)': block,
+        '@media screen and (max-width: 639px)': block,
+        '@media screen and (max-width: 1023px)': block,
+      });
+
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    });
   });
 
   describe('support queries', () => {
