@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Conditions media queries can be nested in @supports 1`] = `".q1v28o {padding: 15px;}"`;
+
+exports[`Conditions media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.1nadnnc {padding: 15px;}}}"`;
+
+exports[`Conditions media queries supports @media conditions 1`] = `".1yedsjc {background: #000;}.q1v28o {padding: 15px;}"`;
+
+exports[`Conditions media queries supports @media conditions 2`] = `"@media screen and (min-width: 900px) {.1d6vyr6 {padding: 20px;}}@media (max-width: 600px) {.1l0h3j6 {padding: 15px;}}"`;
+
+exports[`Conditions support queries can be nested in @media 1`] = `".1s7hmty {display: block;}"`;
+
+exports[`Conditions support queries can be nested in @media 2`] = `"@media screen and (min-width: 900px) {@supports (display: flex) {.xu0c72 {display: flex;}}}"`;
+
+exports[`Conditions support queries supports @supports conditions 1`] = `".1s7hmty {display: block;}"`;
+
+exports[`Conditions support queries supports @supports conditions 2`] = `"@supports (display: flex) {.ku62hq {display: flex;}}"`;

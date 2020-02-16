@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Styles applies a px unit to numeric properties that require it 1`] = `".1jm753s {width: 300px;}.6q2ims {margin-top: 10px;}"`;
+
+exports[`Styles can nest conditionals infinitely 1`] = `".13kbekr {margin: 0;}"`;
+
+exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;
+
+exports[`Styles doesnt apply a px unit to numeric properties that dont require it 1`] = `".1atqjub {line-height: 1.5;}.1b6fj3h {font-weight: 600;}"`;
+
+exports[`Styles doesnt apply a px unit to properties that are already prefixed 1`] = `".1yg9pt7 {padding-left: 10px;}.1cyey9x {height: 10vh;}"`;
+
+exports[`Styles generates a unique class name for each property 1`] = `".13kbekr {margin: 0;}.fj61tt {padding: 6px 12px;}.1pue5r2 {border: 1px solid #2e6da4;}.odvm0w {border-radius: 4px;}.169hbqq {display: inline-block;}.16r1ggk {cursor: pointer;}.1c05vza {font-family: Roboto;}.16weknc {font-weight: normal;}.wyq6ru {line-height: normal;}.1a0rdy6 {white-space: nowrap;}.1dh7ri5 {text-decoration: none;}.1sl4fpf {text-align: left;}.9tlqaj {background-color: #337ab7;}.g4y2l6 {vertical-align: middle;}.1o2fiv7 {color: rgba(0, 0, 0, 0);}.1ql63jz {animation-name: fade;}.rwfe5q {animation-duration: .3s;}"`;
+
+exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".1yedsjc {background: #000;}.yb3jac:hover {background: #000;}.ooy7ta[disabled] {background: #000;}"`;
+
+exports[`Styles ignores invalid values 1`] = `""`;
+
+exports[`Styles inserts into the appropriate style sheets 1`] = `"@import url(test.css);"`;
+
+exports[`Styles inserts into the appropriate style sheets 2`] = `".16ejqwc {background: white;}"`;
+
+exports[`Styles inserts into the appropriate style sheets 3`] = `"@media (prefers-color-scheme: dark) {.woptwm {background: black;}}"`;
+
+exports[`Styles logs a warning for unknown nested selector 1`] = `".16ejqwc {background: white;}"`;
+
+exports[`Styles logs a warning for unknown property values 1`] = `""`;
+
+exports[`Styles supports CSS variables within values 1`] = `".1qbvicg {color: var(--primary-color);}.1mkzd85 {border: 1px solid var(--border-color);}"`;
+
+exports[`Styles uses the same class name for dashed and camel cased properties 1`] = `".1dh7ri5 {text-decoration: none;}"`;
+
+exports[`Styles uses the same class name for numeric and string values 1`] = `".1ku22my {width: 100px;}.1y1doje {width: 100em;}"`;
+
+exports[`Styles uses the same class name for the same property value pair 1`] = `".1s7hmty {display: block;}.4n8yy0 {display: flex;}.17whura {display: inline;}"`;

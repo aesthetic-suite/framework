@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selectors attributes generates the correct class names with attribute selector 1`] = `".1yedsjc {background: #000;}.1ezu8qz[disabled] {background-color: #286090;}.1m3gba5[disabled] {border-color: #204d74;}"`;
+
+exports[`Selectors attributes supports complex attribute selectors 1`] = `".1krihrx[href*=\\"example\\"] {background-color: #286090;}"`;
+
+exports[`Selectors attributes uses same class name between both APIs 1`] = `".4u5ry6[disabled] {background-color: #000;}"`;
+
+exports[`Selectors hierarchy generates the correct class names with hierarchy selector 1`] = `".2jxlp9 {padding: 10px;}.azehd9+ div {padding: 10px;}.vcq0y7~ SPAN {padding: 10px;}.li1ae>li {padding: 10px;}.d8ou53* {padding: 10px;}"`;
+
+exports[`Selectors hierarchy supports complex attribute selectors 1`] = `".q0lo5c:first-of-type + li {color: white;}"`;
+
+exports[`Selectors hierarchy uses same class name between both APIs 1`] = `".jclqu0+ div {background-color: #000;}"`;
+
+exports[`Selectors pseudos generates the correct class names with pseudo selector 1`] = `".l1hma1 {padding: 5px;}.9yzjcx:hover {padding: 10px;}.1dxv7sg::before {content: \\"★\\";}.hmvnkb::before {display: inline-block;}"`;
+
+exports[`Selectors pseudos supports complex attribute selectors 1`] = `".1jb0id6:nth-last-of-type(4n) {color: white;}"`;
+
+exports[`Selectors pseudos uses same class name between both APIs 1`] = `".123nku:focus {background-color: #000;}"`;

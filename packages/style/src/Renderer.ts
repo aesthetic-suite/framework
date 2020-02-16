@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable no-console, no-magic-numbers */
 
 import { isObject } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';

@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`At-rules @font-face renders and returns family name 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
+
+exports[`At-rules @import renders all variants 1`] = `"@import url(print.css) print;@import url(a11y.css) speech;@import url(custom.css);@import url(chrome://communicator/skin);@import url(common.css) screen;@import url(landscape.css) screen and (orientation: landscape);"`;
+
+exports[`At-rules @keyframes can provide a custom animation name 1`] = `
+"@keyframes slide { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`At-rules @keyframes renders from-to based and returns animation name 1`] = `
+"@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`At-rules @keyframes renders percentage based and returns animation name 1`] = `
+"@keyframes kfnec9co { 
+  0% {top: 0; left: 0;} 
+  30% {top: 50px;} 
+  68%,72% {left: 50px;} 
+  100% {top: 100px; left: 100%;} 
+}"
+`;
+
+exports[`At-rules doesnt insert the same at-rule more than once 1`] = `
+"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import CSS from 'csstype';
 
 export type ClassName = string;
