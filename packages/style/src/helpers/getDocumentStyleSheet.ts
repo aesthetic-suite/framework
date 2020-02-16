@@ -8,11 +8,22 @@ function get(type: SheetType) {
 
 // Elements should be in the order of: global, standard, media
 function insertInOrder(type: SheetType, style: HTMLStyleElement) {
-  if (type === 'standard') {
-    const media = get('conditions');
+  if (type === 'global') {
+    const standard = get('standard');
+    const conditions = get('conditions');
 
-    if (media) {
-      media.insertAdjacentElement('beforebegin', style);
+    if (standard || conditions) {
+      (standard || conditions)!.insertAdjacentElement('beforebegin', style);
+
+      return;
+    }
+  }
+
+  if (type === 'standard') {
+    const conditions = get('conditions');
+
+    if (conditions) {
+      conditions.insertAdjacentElement('beforebegin', style);
 
       return;
     }

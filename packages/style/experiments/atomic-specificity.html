@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style type="text/css" id="style">
+      /* Was defined first but still applies since the pseudo provides higher specificity. */
+      .a:hover {
+        background: red;
+      }
+
+      .b {
+        background: gray;
+      }
+
+      .c {
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="a b c">
+      Test
+    </button>
+  </body>
+</html>

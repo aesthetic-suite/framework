@@ -23,6 +23,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
   /**
    * Attempt to find a child rule within the parent rule that matches the defined query and type.
    */
+  // istanbul ignore next
   findNestedRule(rule: CSSConditionRule, query: string, type: number): CSSConditionRule | null {
     for (let i = 0; i < rule.cssRules.length; i += 1) {
       const child = rule.cssRules[i] as CSSConditionRule | null;
@@ -66,6 +67,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
 
     let instance: CSSConditionRule | null = null;
 
+    // istanbul ignore next
     for (let i = 0; i < size; i += 1) {
       const { query, type } = conditions[i];
       const bodyContent = i === size - 1 ? rule : '';
@@ -98,6 +100,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     const featureRule = this.featureQueries[query];
 
     // Already exists so append a new rule
+    // istanbul ignore next
     if (canInsertNestedRules && featureRule) {
       const index = featureRule.insertRule(rule, featureRule.cssRules.length);
 
@@ -123,6 +126,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     const mediaRule = this.mediaQueries[query];
 
     // Already exists so append a new rule
+    // istanbul ignore next
     if (canInsertNestedRules && mediaRule) {
       const index = mediaRule.insertRule(rule, mediaRule.cssRules.length);
 
