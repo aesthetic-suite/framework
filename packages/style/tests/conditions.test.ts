@@ -28,7 +28,7 @@ describe('Conditions', () => {
         },
       });
 
-      expect(className).toBe('1yedsjc q1v28o 1l0h3j6 1d6vyr6');
+      expect(className).toBe('a b c d');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
@@ -43,7 +43,7 @@ describe('Conditions', () => {
         },
       });
 
-      expect(className).toBe('q1v28o 1nadnnc');
+      expect(className).toBe('a b');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
@@ -109,7 +109,7 @@ describe('Conditions', () => {
         },
       });
 
-      expect(className).toBe('1s7hmty ku62hq');
+      expect(className).toBe('a b');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
@@ -124,7 +124,7 @@ describe('Conditions', () => {
         },
       });
 
-      expect(className).toBe('1s7hmty xu0c72');
+      expect(className).toBe('a b');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });

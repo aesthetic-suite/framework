@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Conditions media queries can be nested in @supports 1`] = `".q1v28o {padding: 15px;}"`;
+exports[`Conditions media queries can be nested in @supports 1`] = `".a {padding: 15px;}"`;
 
-exports[`Conditions media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.1nadnnc {padding: 15px;}}}"`;
+exports[`Conditions media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.b {padding: 15px;}}}"`;
 
-exports[`Conditions media queries sorts media queries using desktop-first 1`] = `"@media screen and (max-width: 1023px) {.179x35b {padding: 0;}}@media screen and (max-width: 767px) and (min-width: 320px) {.l3lqdt {padding: 0;}}@media screen and (max-height: 767px) and (min-height: 320px) {.1pjkxgx {padding: 0;}}@media screen and (max-width: 639px) {.1hrfyer {padding: 0;}}@media screen and (min-device-width: 320px) and (max-device-width: 767px) {.jwcgvl {padding: 0;}}@media screen and (min-width: 320px) and (max-width: 767px) {.1pvlk4x {padding: 0;}}@media screen and (min-height: 480px) and (min-width: 320px) {.1ah80zg {padding: 0;}}@media screen and (min-height: 480px) {.rkfq9g {padding: 0;}}@media screen and (min-width: 640px) {.s5qa83 {padding: 0;}}@media screen and (min-width: 1024px) {.ptaely {padding: 0;}}@media screen and (min-width: 1280px) {.zups56 {padding: 0;}}@media screen and (orientation: landscape) {.138mkwd {padding: 0;}}@media screen and (orientation: portrait) {.16alhw9 {padding: 0;}}@media tv {.gszjs6 {padding: 0;}}@media print {.nw0edx {padding: 0;}}"`;
+exports[`Conditions media queries sorts media queries using desktop-first 1`] = `"@media screen and (max-width: 1023px) {.o {padding: 0;}}@media screen and (max-width: 767px) and (min-width: 320px) {.i {padding: 0;}}@media screen and (max-height: 767px) and (min-height: 320px) {.k {padding: 0;}}@media screen and (max-width: 639px) {.n {padding: 0;}}@media screen and (min-device-width: 320px) and (max-device-width: 767px) {.m {padding: 0;}}@media screen and (min-width: 320px) and (max-width: 767px) {.b {padding: 0;}}@media screen and (min-height: 480px) and (min-width: 320px) {.e {padding: 0;}}@media screen and (min-height: 480px) {.d {padding: 0;}}@media screen and (min-width: 640px) {.g {padding: 0;}}@media screen and (min-width: 1024px) {.a {padding: 0;}}@media screen and (min-width: 1280px) {.c {padding: 0;}}@media screen and (orientation: landscape) {.l {padding: 0;}}@media screen and (orientation: portrait) {.f {padding: 0;}}@media tv {.j {padding: 0;}}@media print {.h {padding: 0;}}"`;
 
-exports[`Conditions media queries sorts media queries using mobile-first 1`] = `"@media screen and (min-width: 320px) and (max-width: 767px) {.1pvlk4x {padding: 0;}}@media screen and (min-height: 480px) {.rkfq9g {padding: 0;}}@media screen and (min-height: 480px) and (min-width: 320px) {.1ah80zg {padding: 0;}}@media screen and (min-width: 640px) {.s5qa83 {padding: 0;}}@media screen and (min-width: 1024px) {.ptaely {padding: 0;}}@media screen and (min-width: 1280px) {.zups56 {padding: 0;}}@media screen and (min-device-width: 320px) and (max-device-width: 767px) {.jwcgvl {padding: 0;}}@media screen and (max-width: 1023px) {.179x35b {padding: 0;}}@media screen and (max-height: 767px) and (min-height: 320px) {.1pjkxgx {padding: 0;}}@media screen and (max-width: 767px) and (min-width: 320px) {.l3lqdt {padding: 0;}}@media screen and (max-width: 639px) {.1hrfyer {padding: 0;}}@media screen and (orientation: landscape) {.138mkwd {padding: 0;}}@media screen and (orientation: portrait) {.16alhw9 {padding: 0;}}@media tv {.gszjs6 {padding: 0;}}@media print {.nw0edx {padding: 0;}}"`;
+exports[`Conditions media queries sorts media queries using mobile-first 1`] = `"@media screen and (min-width: 320px) and (max-width: 767px) {.b {padding: 0;}}@media screen and (min-height: 480px) {.d {padding: 0;}}@media screen and (min-height: 480px) and (min-width: 320px) {.e {padding: 0;}}@media screen and (min-width: 640px) {.g {padding: 0;}}@media screen and (min-width: 1024px) {.a {padding: 0;}}@media screen and (min-width: 1280px) {.c {padding: 0;}}@media screen and (min-device-width: 320px) and (max-device-width: 767px) {.m {padding: 0;}}@media screen and (max-width: 1023px) {.o {padding: 0;}}@media screen and (max-height: 767px) and (min-height: 320px) {.k {padding: 0;}}@media screen and (max-width: 767px) and (min-width: 320px) {.i {padding: 0;}}@media screen and (max-width: 639px) {.n {padding: 0;}}@media screen and (orientation: landscape) {.l {padding: 0;}}@media screen and (orientation: portrait) {.f {padding: 0;}}@media tv {.j {padding: 0;}}@media print {.h {padding: 0;}}"`;
 
-exports[`Conditions media queries supports @media conditions 1`] = `".1yedsjc {background: #000;}.q1v28o {padding: 15px;}"`;
+exports[`Conditions media queries supports @media conditions 1`] = `".a {background: #000;}.b {padding: 15px;}"`;
 
-exports[`Conditions media queries supports @media conditions 2`] = `"@media screen and (min-width: 900px) {.1d6vyr6 {padding: 20px;}}@media (max-width: 600px) {.1l0h3j6 {padding: 15px;}}"`;
+exports[`Conditions media queries supports @media conditions 2`] = `"@media screen and (min-width: 900px) {.d {padding: 20px;}}@media (max-width: 600px) {.c {padding: 15px;}}"`;
 
-exports[`Conditions support queries can be nested in @media 1`] = `".1s7hmty {display: block;}"`;
+exports[`Conditions support queries can be nested in @media 1`] = `".a {display: block;}"`;
 
-exports[`Conditions support queries can be nested in @media 2`] = `"@media screen and (min-width: 900px) {@supports (display: flex) {.xu0c72 {display: flex;}}}"`;
+exports[`Conditions support queries can be nested in @media 2`] = `"@media screen and (min-width: 900px) {@supports (display: flex) {.b {display: flex;}}}"`;
 
-exports[`Conditions support queries supports @supports conditions 1`] = `".1s7hmty {display: block;}"`;
+exports[`Conditions support queries supports @supports conditions 1`] = `".a {display: block;}"`;
 
-exports[`Conditions support queries supports @supports conditions 2`] = `"@supports (display: flex) {.ku62hq {display: flex;}}"`;
+exports[`Conditions support queries supports @supports conditions 2`] = `"@supports (display: flex) {.b {display: flex;}}"`;

@@ -25,7 +25,7 @@ describe('Selectors', () => {
         },
       });
 
-      expect(className).toBe('1yedsjc 1ezu8qz 1m3gba5');
+      expect(className).toBe('a b c');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
@@ -39,7 +39,7 @@ describe('Selectors', () => {
         selector: '[disabled]',
       });
 
-      expect(classNameA).toBe('4u5ry6');
+      expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
@@ -66,7 +66,7 @@ describe('Selectors', () => {
         },
       });
 
-      expect(className).toBe('l1hma1 9yzjcx 1dxv7sg hmvnkb');
+      expect(className).toBe('a b c d');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
@@ -80,7 +80,7 @@ describe('Selectors', () => {
         selector: ':focus',
       });
 
-      expect(classNameA).toBe('123nku');
+      expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
@@ -112,7 +112,7 @@ describe('Selectors', () => {
         },
       });
 
-      expect(className).toBe('2jxlp9 azehd9 vcq0y7 li1ae d8ou53');
+      expect(className).toBe('a b c d e');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });
 
@@ -126,7 +126,7 @@ describe('Selectors', () => {
         selector: '+ div',
       });
 
-      expect(classNameA).toBe('jclqu0');
+      expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
       expect(getInsertedStyles('standard')).toMatchSnapshot();
     });

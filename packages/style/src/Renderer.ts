@@ -23,6 +23,10 @@ import isNestedSelector from './helpers/isNestedSelector';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
+import isInvalidValue from './helpers/isInvalidValue';
+
+const CHARS = 'abcdefghijklmnopqrstuvwxyz';
+const CHARS_LENGTH = CHARS.length;
 
 export default class Renderer {
   protected atRuleCache: { [hash: string]: boolean } = {};
@@ -33,15 +37,25 @@ export default class Renderer {
 
   protected conditionsStyleSheet = new ConditionsStyleSheet();
 
+  protected ruleIndex = 0;
+
   protected standardStyleSheet = new StandardStyleSheet();
 
   /**
    * Generate a unique and deterministic class name for a property value pair.
    */
-  generateClassName(property: string, value: string, params: StyleParams): string {
-    return generateHash(
-      `${params.conditions?.map(c => c.query) || ''}${params.selector || ''}${property}${value}`,
-    );
+  generateClassName(): string {
+    const index = this.ruleIndex;
+
+    if (index < CHARS_LENGTH) {
+      return CHARS[index];
+    }
+
+    return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
+
+    // return generateHash(
+    //   `${params.conditions?.map(c => c.query) || ''}${params.selector || ''}${property}${value}`,
+    // );
   }
 
   /**
@@ -66,14 +80,7 @@ export default class Renderer {
       return cache.className;
     }
 
-    // Generate a deterministic class name
-    let className = this.generateClassName(prop, val, params);
-
-    // Cache was bypassed but we need to uniqify the name further
-    if (cache) {
-      className += this.classNameCache.cache[prop][val].length;
-    }
-
+    const className = this.generateClassName();
     const rank = this.insertRule(className, prop, val, params);
     const item: CacheItem = {
       conditions: [],
@@ -85,6 +92,7 @@ export default class Renderer {
     };
 
     this.classNameCache.write(prop, val, item);
+    this.ruleIndex += 1;
 
     return className;
   }
@@ -145,14 +153,9 @@ export default class Renderer {
     for (let i = 0; i < props.length; i += 1) {
       const prop = props[i] as Property;
       const value = properties[prop];
-      const valueType = typeof value;
 
       // Skip invalid values
-      if (
-        (valueType !== 'string' && valueType !== 'number' && valueType !== 'object') ||
-        value === null ||
-        value === undefined
-      ) {
+      if (isInvalidValue(value)) {
         if (__DEV__) {
           console.warn(`Invalid value "${value}" for property "${prop}".`);
         }

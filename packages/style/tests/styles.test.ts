@@ -1,6 +1,7 @@
 import Renderer from '../src/Renderer';
 import getInsertedStyles from '../src/helpers/getInsertedStyles';
 import purgeStyles from './purgeStyles';
+import { Block } from '../src/types';
 
 describe('Styles', () => {
   let renderer: Renderer;
@@ -19,6 +20,14 @@ describe('Styles', () => {
     purgeStyles('global');
     purgeStyles('standard');
     purgeStyles('conditions');
+  });
+
+  it('generates a unique class name for a large number of properties', () => {
+    for (let i = 0; i < 100; i += 1) {
+      renderer.renderDeclaration('padding', i);
+    }
+
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
   it('generates a unique class name for each property', () => {
@@ -42,9 +51,7 @@ describe('Styles', () => {
       animationDuration: '.3s',
     });
 
-    expect(className).toBe(
-      '13kbekr fj61tt 1pue5r2 odvm0w 169hbqq 16r1ggk 1c05vza 16weknc wyq6ru 1a0rdy6 1dh7ri5 1sl4fpf 9tlqaj g4y2l6 1o2fiv7 1ql63jz rwfe5q',
-    );
+    expect(className).toBe('a b c d e f g h i j k l m n o p q');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
@@ -59,7 +66,7 @@ describe('Styles', () => {
       },
     });
 
-    expect(className).toBe('1yedsjc yb3jac ooy7ta');
+    expect(className).toBe('a b c');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 

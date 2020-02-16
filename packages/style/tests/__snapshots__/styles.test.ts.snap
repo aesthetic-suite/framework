@@ -1,37 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Styles applies a px unit to numeric properties that require it 1`] = `".1jm753s {width: 300px;}.6q2ims {margin-top: 10px;}"`;
+exports[`Styles applies a px unit to numeric properties that require it 1`] = `".a {width: 300px;}.b {margin-top: 10px;}"`;
 
-exports[`Styles can bypass the cache and insert the same declaration 1`] = `".sjf8sr {color: red;}.sjf8sr1 {color: red;}.sjf8sr2 {color: red;}"`;
+exports[`Styles can bypass the cache and insert the same declaration 1`] = `".a {color: red;}.b {color: red;}.c {color: red;}"`;
 
-exports[`Styles can nest conditionals infinitely 1`] = `".13kbekr {margin: 0;}"`;
+exports[`Styles can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
-exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.z5cpnh {color: blue;}}}}@media (width: 500px) {.q4ovmf:hover {color: red;}}@media (width: 500px) {.1teez2q {margin: 10px;}}"`;
+exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {.b {margin: 10px;}}"`;
 
-exports[`Styles doesnt apply a px unit to numeric properties that dont require it 1`] = `".1atqjub {line-height: 1.5;}.1b6fj3h {font-weight: 600;}"`;
+exports[`Styles doesnt apply a px unit to numeric properties that dont require it 1`] = `".a {line-height: 1.5;}.b {font-weight: 600;}"`;
 
-exports[`Styles doesnt apply a px unit to properties that are already prefixed 1`] = `".1yg9pt7 {padding-left: 10px;}.1cyey9x {height: 10vh;}"`;
+exports[`Styles doesnt apply a px unit to properties that are already prefixed 1`] = `".a {padding-left: 10px;}.b {height: 10vh;}"`;
 
-exports[`Styles generates a unique class name for each property 1`] = `".13kbekr {margin: 0;}.fj61tt {padding: 6px 12px;}.1pue5r2 {border: 1px solid #2e6da4;}.odvm0w {border-radius: 4px;}.169hbqq {display: inline-block;}.16r1ggk {cursor: pointer;}.1c05vza {font-family: Roboto;}.16weknc {font-weight: normal;}.wyq6ru {line-height: normal;}.1a0rdy6 {white-space: nowrap;}.1dh7ri5 {text-decoration: none;}.1sl4fpf {text-align: left;}.9tlqaj {background-color: #337ab7;}.g4y2l6 {vertical-align: middle;}.1o2fiv7 {color: rgba(0, 0, 0, 0);}.1ql63jz {animation-name: fade;}.rwfe5q {animation-duration: .3s;}"`;
+exports[`Styles generates a unique class name for a large number of properties 1`] = `".a {padding: 0;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
 
-exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".1yedsjc {background: #000;}.yb3jac:hover {background: #000;}.ooy7ta[disabled] {background: #000;}"`;
+exports[`Styles generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
+
+exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".a {background: #000;}.b:hover {background: #000;}.c[disabled] {background: #000;}"`;
 
 exports[`Styles ignores invalid values 1`] = `""`;
 
 exports[`Styles inserts into the appropriate style sheets 1`] = `"@import url(test.css);"`;
 
-exports[`Styles inserts into the appropriate style sheets 2`] = `".16ejqwc {background: white;}"`;
+exports[`Styles inserts into the appropriate style sheets 2`] = `".a {background: white;}"`;
 
-exports[`Styles inserts into the appropriate style sheets 3`] = `"@media (prefers-color-scheme: dark) {.woptwm {background: black;}}"`;
+exports[`Styles inserts into the appropriate style sheets 3`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
 
-exports[`Styles logs a warning for unknown nested selector 1`] = `".16ejqwc {background: white;}"`;
+exports[`Styles logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
 
 exports[`Styles logs a warning for unknown property values 1`] = `""`;
 
-exports[`Styles supports CSS variables within values 1`] = `".1qbvicg {color: var(--primary-color);}.1mkzd85 {border: 1px solid var(--border-color);}"`;
+exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}"`;
 
-exports[`Styles uses the same class name for dashed and camel cased properties 1`] = `".1dh7ri5 {text-decoration: none;}"`;
+exports[`Styles uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
 
-exports[`Styles uses the same class name for numeric and string values 1`] = `".1ku22my {width: 100px;}.1y1doje {width: 100em;}"`;
+exports[`Styles uses the same class name for numeric and string values 1`] = `".a {width: 100px;}.b {width: 100em;}"`;
 
-exports[`Styles uses the same class name for the same property value pair 1`] = `".1s7hmty {display: block;}.4n8yy0 {display: flex;}.17whura {display: inline;}"`;
+exports[`Styles uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
