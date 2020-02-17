@@ -64,7 +64,7 @@ export default class Renderer {
     property: K,
     value: Properties[K],
     { conditions = [], selector = '', type = 'standard' }: StyleParams = {},
-    { bypassCache = false }: CacheParams = {},
+    { bypassCache = false, minimumRank }: CacheParams = {},
   ) {
     const params = { conditions, selector, type };
 
@@ -75,7 +75,7 @@ export default class Renderer {
     const val = applyUnitToValue(property, value as Value);
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(prop, val, params);
+    const cache = this.classNameCache.read(prop, val, params, minimumRank);
 
     if (cache && !bypassCache) {
       return cache.className;

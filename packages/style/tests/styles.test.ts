@@ -194,13 +194,36 @@ describe('Styles', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
-  it('can bypass the cache and insert the same declaration', () => {
+  it('can insert the same declaration by manually bypassing the cache', () => {
     const a = renderer.renderDeclaration('color', 'red', {});
     const b = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
     const c = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
 
     expect(a).not.toBe(b);
     expect(b).not.toBe(c);
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('can insert the same declaration if using a minimum rank requirement', () => {
+    renderer.renderDeclaration('color', 'red'); // 0
+    renderer.renderDeclaration('color', 'green'); // 1
+
+    const c = renderer.renderDeclaration('color', 'blue'); // 2
+    const d = renderer.renderDeclaration('color', 'blue', {}, { minimumRank: 10 }); // 3
+
+    expect(c).toBe('c');
+    expect(d).toBe('d');
+    expect(c).not.toBe(d);
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('generates the same declaration for each type', () => {
+    const a = renderer.renderDeclaration('color', 'red', { type: 'conditions' });
+    const b = renderer.renderDeclaration('color', 'red', { type: 'standard' });
+
+    expect(a).toBe('a');
+    expect(b).toBe('b');
+    expect(a).not.toBe(b);
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 });

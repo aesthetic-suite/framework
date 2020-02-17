@@ -18,7 +18,7 @@ export default class AtomicCache {
       return false;
     }
 
-    if (Array.isArray(item.conditions) && Array.isArray(params.conditions)) {
+    if (Array.isArray(params.conditions) && params.conditions.length > 0) {
       return params.conditions.every(i =>
         item.conditions.find(p => p.query === i.query && p.type === i.type),
       );
@@ -45,7 +45,7 @@ export default class AtomicCache {
       return null;
     }
 
-    return valueCache.find(item => this.match(item, params)) ?? null;
+    return valueCache.find(item => this.match(item, params, minimumRank)) ?? null;
   }
 
   write(property: string, value: string, item: CacheItem): this {
