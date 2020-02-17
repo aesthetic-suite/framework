@@ -5,15 +5,23 @@ import { CacheItem, StyleParams } from './types';
 export default class AtomicCache {
   cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
 
-  match(item: CacheItem, params: StyleParams): boolean {
-    const keys = Object.keys(params);
+  match(item: CacheItem, params: StyleParams, minimumRank?: number): boolean {
+    if (minimumRank !== undefined && item.rank < minimumRank) {
+      return false;
+    }
 
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i];
+    if (item.selector !== params.selector) {
+      return false;
+    }
 
-      if (item[key as keyof typeof item] !== params[key as keyof typeof params]) {
-        return false;
-      }
+    if (item.type !== params.type) {
+      return false;
+    }
+
+    if (Array.isArray(item.conditions) && Array.isArray(params.conditions)) {
+      return params.conditions.every(i =>
+        item.conditions.find(p => p.query === i.query && p.type === i.type),
+      );
     }
 
     return true;
@@ -37,19 +45,7 @@ export default class AtomicCache {
       return null;
     }
 
-    return (
-      valueCache.find(item => {
-        if (this.match(item, params)) {
-          if (minimumRank !== undefined && item.rank < minimumRank) {
-            return false;
-          }
-
-          return true;
-        }
-
-        return false;
-      }) ?? null
-    );
+    return valueCache.find(item => this.match(item, params)) ?? null;
   }
 
   write(property: string, value: string, item: CacheItem): this {

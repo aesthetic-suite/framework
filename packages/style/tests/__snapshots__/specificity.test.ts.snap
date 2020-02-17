@@ -1,9 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Selectors inserts declarations in the order they are defined (reversed) 1`] = `".a {width: 50px;}.b {padding: 1px;}.c {margin: 0;}"`;
+exports[`Specificity inserts declarations in the order they are defined (reversed) 1`] = `".a {width: 50px;}.b {padding: 1px;}.c {margin: 0;}"`;
 
-exports[`Selectors inserts declarations in the order they are defined 1`] = `".a {margin: 0;}.b {padding: 1px;}.c {width: 50px;}"`;
+exports[`Specificity inserts declarations in the order they are defined 1`] = `".a {margin: 0;}.b {padding: 1px;}.c {width: 50px;}"`;
 
-exports[`Selectors inserts selectors in the order they are defined (reversed) 1`] = `".a {color: white;}.b:hover {color: blue;}.c:active {color: red;}"`;
+exports[`Specificity inserts selectors in the order they are defined (reversed) 1`] = `".a {color: white;}.b:hover {color: blue;}.c:active {color: red;}"`;
 
-exports[`Selectors inserts selectors in the order they are defined 1`] = `".a {color: white;}.b:active {color: red;}.c:hover {color: blue;}"`;
+exports[`Specificity inserts selectors in the order they are defined 1`] = `".a {color: white;}.b:active {color: red;}.c:hover {color: blue;}"`;
+
+exports[`Specificity rule sets can omit sets 1`] = `".a {color: darkred;}"`;
+
+exports[`Specificity rule sets can render set by set 1`] = `".a {color: darkred;}"`;
+
+exports[`Specificity rule sets can render set by set 2`] = `".a {color: darkred;}.b {padding: 8px;}.c {display: inline-block;}.d {color: red;}.e:hover {color: darkred;}"`;
+
+exports[`Specificity rule sets can render set by set 3`] = `".a {color: darkred;}.b {padding: 8px;}.c {display: inline-block;}.d {color: red;}.e:hover {color: darkred;}.f {color: gray;}"`;
+
+exports[`Specificity rule sets renders in a explicit order 1`] = `".a {color: darkred;}.b {color: gray;}.c {padding: 8px;}.d {display: inline-block;}.e {color: red;}.f:hover {color: darkred;}"`;
+
+exports[`Specificity rule sets renders in defined order if no explicit order provided 1`] = `".a {padding: 8px;}.b {display: inline-block;}.c {color: red;}.d:hover {color: darkred;}.e {color: darkred;}.f {color: gray;}"`;
+
+exports[`Specificity rule sets renders the same class names from previous render 1`] = `".a {color: darkred;}"`;

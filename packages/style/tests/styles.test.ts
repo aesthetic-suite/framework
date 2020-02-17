@@ -1,7 +1,6 @@
 import Renderer from '../src/Renderer';
 import getInsertedStyles from '../src/helpers/getInsertedStyles';
 import purgeStyles from './purgeStyles';
-import { Block } from '../src/types';
 
 describe('Styles', () => {
   let renderer: Renderer;

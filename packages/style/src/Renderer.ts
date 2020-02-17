@@ -5,7 +5,6 @@ import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import {
   Block,
-  CacheItem,
   CacheParams,
   ClassName,
   FontFace,
@@ -64,9 +63,11 @@ export default class Renderer {
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
-    params: StyleParams = {},
+    { conditions = [], selector = '', type = 'standard' }: StyleParams = {},
     { bypassCache = false }: CacheParams = {},
   ) {
+    const params = { conditions, selector, type };
+
     // Hyphenate early so all checks are deterministic
     const prop = hyphenateProperty(property);
 
@@ -82,17 +83,15 @@ export default class Renderer {
 
     const className = this.generateClassName();
     const rank = this.insertRule(className, prop, val, params);
-    const item: CacheItem = {
-      conditions: [],
-      selector: '',
-      type: 'standard',
-      ...params,
-      className,
-      rank,
-    };
 
-    this.classNameCache.write(prop, val, item);
     this.ruleIndex += 1;
+    this.classNameCache.write(prop, val, {
+      className,
+      conditions,
+      rank,
+      selector,
+      type,
+    });
 
     return className;
   }
@@ -202,9 +201,21 @@ export default class Renderer {
     return classNames.trim();
   }
 
-  // renderRuleSets<T extends { [set: string]: Properties }>(sets: T, inOrder?: T[]) {
-  //   const order = inOrder ?? ((Object.keys(sets) as unknown) as T[]);
-  // }
+  /**
+   * Render a mapping of multiple rule sets in the defined order.
+   * If no order is provided, they will be rendered sequentially.
+   */
+  renderRuleSets<T extends { [set: string]: Block }>(sets: T, inOrder?: (keyof T)[]) {
+    const order = inOrder ?? (Object.keys(sets) as (keyof T)[]);
+    let className = '';
+
+    for (let i = 0; i < order.length; i += 1) {
+      className += this.renderRule(sets[order[i]]);
+      className += ' ';
+    }
+
+    return className.trim();
+  }
 
   /**
    * Format a property value pair into a CSS declaration,
