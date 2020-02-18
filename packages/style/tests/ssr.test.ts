@@ -5,6 +5,12 @@ describe('SSR', () => {
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
     const renderer = new ServerRenderer();
 
+    renderer.applyRootVariables({
+      fontSize: '16px',
+      bgColor: '#fff',
+      fbColor: 'black',
+    });
+
     renderer.renderRule({
       margin: 0,
       padding: '6px 12px',

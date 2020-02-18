@@ -1,21 +1,34 @@
 import { isMediaQueryCondition, isSupportsCondition } from '../helpers';
+import { StyleRule } from '../types';
 
-export default class TransientStyleRule {
+export default class TransientStyleRule implements StyleRule {
   conditionText: string = '';
 
-  cssRules: TransientStyleRule[] = [];
+  cssRules: StyleRule[] = [];
 
-  cssText: string;
+  cssVariables: StyleRule['cssVariables'] = {};
 
   type: number;
 
-  constructor(type: number, cssText: string = '') {
-    this.cssText = cssText;
+  protected rule: string;
+
+  constructor(type: number, rule: string = '') {
+    this.rule = rule;
     this.type = type;
 
     if (type === CSSRule.MEDIA_RULE || type === CSSRule.SUPPORTS_RULE) {
       this.conditionText = this.extractCondition();
     }
+  }
+
+  get cssText() {
+    let css = this.rule;
+
+    for (let i = 0; i < this.cssRules.length; i += 1) {
+      css += this.cssRules[i].cssText;
+    }
+
+    return css;
   }
 
   determineType(rule: string): number {

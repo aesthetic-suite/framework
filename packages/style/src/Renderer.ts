@@ -1,9 +1,11 @@
 /* eslint-disable no-console, no-magic-numbers */
 
 import { isObject } from 'aesthetic-utils';
-import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
+import { hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import applyUnitToValue from './helpers/applyUnitToValue';
+import formatAtomicRule from './helpers/formatAtomicRule';
+import formatDeclarationBlock from './helpers/formatDeclarationBlock';
 import generateHash from './helpers/generateHash';
 import isMediaQueryCondition from './helpers/isMediaQueryCondition';
 import isSupportsCondition from './helpers/isSupportsCondition';
@@ -24,6 +26,7 @@ import {
   Value,
   StyleRule,
   SheetType,
+  CSSVariables,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -96,7 +99,7 @@ export default abstract class Renderer {
 
     const className = this.generateClassName();
     const rank = this.insertRule(
-      this.formatRule(className, property, val, params.selector),
+      formatAtomicRule(className, property, val, params.selector),
       params,
     );
 
@@ -144,7 +147,7 @@ export default abstract class Renderer {
     let frames = '';
 
     for (let i = 0; i < steps.length; i += 1) {
-      frames += `${steps[i]} { ${this.formatDeclarationBlock(keyframes[steps[i]]!)} }`;
+      frames += `${steps[i]} { ${formatDeclarationBlock(keyframes[steps[i]]!)} }`;
       frames += ' ';
     }
 
@@ -233,52 +236,10 @@ export default abstract class Renderer {
   }
 
   /**
-   * Format a property value pair into a CSS declaration,
-   * without wrapping brackets.
-   */
-  protected formatDeclaration(property: string, value: string): string {
-    // This hyphenates the property internally:
-    // https://github.com/robinweser/css-in-js-utils/blob/master/modules/cssifyDeclaration.js
-    return cssifyDeclaration(property, value);
-  }
-
-  /**
-   * Format an object of property value pairs into a CSS declartion block,
-   * without wrapping brackets.
-   */
-  protected formatDeclarationBlock(properties: Properties): string {
-    const props = Object.keys(properties);
-    let block = '';
-
-    for (let i = 0; i < props.length; i += 1) {
-      const prop = props[i] as Property;
-
-      block += this.formatDeclaration(prop, applyUnitToValue(prop, properties[prop]!));
-      block += '; ';
-    }
-
-    return block.trim();
-  }
-
-  /**
-   * Format a property value pair into a full CSS rule with brackets and class name.
-   * If a selector or at-rule condition is defined, apply them as well.
-   */
-  protected formatRule(
-    className: ClassName,
-    property: string,
-    value: string,
-    selector?: string,
-  ): string {
-    return `.${className}${selector || ''} { ${this.formatDeclaration(property, value)} }`;
-  }
-
-  /**
    * Insert an at-rule into the global style sheet.
    */
   protected insertAtRule(selector: string, properties: string | Properties) {
-    const body =
-      typeof properties === 'string' ? properties : this.formatDeclarationBlock(properties);
+    const body = typeof properties === 'string' ? properties : formatDeclarationBlock(properties);
     let rule = selector;
 
     if (selector === '@import') {
@@ -314,4 +275,9 @@ export default abstract class Renderer {
     // No media or feature queries so insert into the standard style sheet
     return this.standardStyleSheet.insertRule(rule);
   }
+
+  /**
+   * Apply CSS variables to the :root declaration.
+   */
+  abstract applyRootVariables(vars: CSSVariables): void;
 }

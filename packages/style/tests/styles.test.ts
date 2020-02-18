@@ -119,8 +119,25 @@ describe('Styles', () => {
   it('supports CSS variables within values', () => {
     renderer.renderDeclaration('color', 'var(--primary-color)');
     renderer.renderDeclaration('border', '1px solid var(--border-color)');
+    renderer.renderDeclaration('display', 'var(--display, var(--fallback), flex)');
 
     expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('can set CSS variables', () => {
+    renderer.applyRootVariables({
+      someVar: '10px',
+      '--already-formatted-var': '10em',
+      'missing-prefix': 10,
+      mixOfBoth: 10,
+    });
+
+    const root = document.documentElement;
+
+    expect(root.style.getPropertyValue('--some-var')).toBe('10px');
+    expect(root.style.getPropertyValue('--already-formatted-var')).toBe('10em');
+    expect(root.style.getPropertyValue('--missing-prefix')).toBe('10px');
+    expect(root.style.getPropertyValue('--mix-of-both')).toBe('10px');
   });
 
   it('can nest conditionals infinitely', () => {

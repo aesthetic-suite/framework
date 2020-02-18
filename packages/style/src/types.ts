@@ -54,10 +54,15 @@ export interface CacheParams {
   minimumRank?: number;
 }
 
+export interface CSSVariables {
+  [key: string]: Value;
+}
+
 export interface StyleRule {
   conditionText?: string;
   cssRules: StyleRule[];
   cssText: string;
+  cssVariables: CSSVariables;
   type: number;
   insertRule(rule: string, index: number): number;
 }
