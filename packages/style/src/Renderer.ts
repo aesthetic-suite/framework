@@ -3,6 +3,15 @@
 import { isObject } from 'aesthetic-utils';
 import { cssifyDeclaration, hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
+import applyUnitToValue from './helpers/applyUnitToValue';
+import generateHash from './helpers/generateHash';
+import isMediaQueryCondition from './helpers/isMediaQueryCondition';
+import isSupportsCondition from './helpers/isSupportsCondition';
+import isNestedSelector from './helpers/isNestedSelector';
+import isInvalidValue from './helpers/isInvalidValue';
+import GlobalStyleSheet from './GlobalStyleSheet';
+import ConditionsStyleSheet from './ConditionsStyleSheet';
+import StandardStyleSheet from './StandardStyleSheet';
 import {
   Block,
   CacheParams,
@@ -13,13 +22,9 @@ import {
   Property,
   StyleParams,
   Value,
+  StyleRule,
+  SheetType,
 } from './types';
-import applyUnitToValue from './helpers/applyUnitToValue';
-import generateHash from './helpers/generateHash';
-import isMediaQueryCondition from './helpers/isMediaQueryCondition';
-import isSupportsCondition from './helpers/isSupportsCondition';
-import isNestedSelector from './helpers/isNestedSelector';
-import isInvalidValue from './helpers/isInvalidValue';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -30,6 +35,12 @@ export default abstract class Renderer {
   protected classNameCache = new AtomicCache();
 
   protected ruleIndex = 0;
+
+  protected abstract globalStyleSheet: GlobalStyleSheet;
+
+  protected abstract conditionsStyleSheet: ConditionsStyleSheet;
+
+  protected abstract standardStyleSheet: StandardStyleSheet;
 
   /**
    * Generate a unique and deterministic class name for a property value pair.
@@ -42,6 +53,21 @@ export default abstract class Renderer {
     }
 
     return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
+  }
+
+  /**
+   * Return the root style rule for the defined style sheet.
+   */
+  getRootRule(type: SheetType): StyleRule {
+    if (type === 'global') {
+      return this.globalStyleSheet.sheet;
+    }
+
+    if (type === 'conditions') {
+      return this.conditionsStyleSheet.sheet;
+    }
+
+    return this.standardStyleSheet.sheet;
   }
 
   /**
@@ -134,7 +160,6 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
-  // eslint-disable-next-line complexity
   renderRule(properties: Block, params: StyleParams = {}): ClassName {
     const props = Object.keys(properties);
     let classNames = '';
@@ -196,7 +221,7 @@ export default abstract class Renderer {
    * If no order is provided, they will be rendered sequentially.
    */
   renderRuleSets<T extends { [set: string]: Block }>(sets: T, inOrder?: (keyof T)[]) {
-    const order = inOrder ?? (Object.keys(sets) as (keyof T)[]);
+    const order = inOrder ?? Object.keys(sets);
     let className = '';
 
     for (let i = 0; i < order.length; i += 1) {
@@ -272,7 +297,21 @@ export default abstract class Renderer {
   }
 
   /**
-   * Insert a CSS rule into either the standard or conditional style sheet.
+   * Insert a CSS rule into 1 of the 3 style sheets.
    */
-  protected abstract insertRule(rule: string, params: StyleParams): number;
+  protected insertRule(rule: string, params: StyleParams): number {
+    const { conditions = [], type } = params;
+
+    if (type === 'global') {
+      return this.globalStyleSheet.insertRule(rule);
+    }
+
+    // Insert into the conditional style sheet if conditions exist
+    if (type === 'conditions' || conditions.length > 0) {
+      return this.conditionsStyleSheet.insertRule(conditions, rule);
+    }
+
+    // No media or feature queries so insert into the standard style sheet
+    return this.standardStyleSheet.insertRule(rule);
+  }
 }

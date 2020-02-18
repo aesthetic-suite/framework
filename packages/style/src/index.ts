@@ -3,9 +3,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import ClientRenderer from './client/ClientRenderer';
+import Renderer from './client/ClientRenderer';
 
 export * from './helpers';
 export * from './types';
 
-export { ClientRenderer };
+export { Renderer };

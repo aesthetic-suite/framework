@@ -19,4 +19,4 @@ yarn add @aesthetic/style
 ## TODO
 
 - Root CSS variables.
-- SSR.
+- SSR hydration.

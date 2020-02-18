@@ -3,10 +3,6 @@ import BaseStyleSheet from './BaseStyleSheet';
 const IMPORT_PATTERN = /^@import/u;
 
 export default class GlobalStyleSheet extends BaseStyleSheet {
-  constructor() {
-    super('global');
-  }
-
   /**
    * Insert a rule into the global style sheet.
    */

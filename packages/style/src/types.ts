@@ -53,3 +53,11 @@ export interface CacheParams {
   bypassCache?: boolean;
   minimumRank?: number;
 }
+
+export interface StyleRule {
+  conditionText?: string;
+  cssRules: StyleRule[];
+  cssText: string;
+  type: number;
+  insertRule(rule: string, index: number): number;
+}
