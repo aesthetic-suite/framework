@@ -20,7 +20,9 @@ exports[`Styles generates a unique class name for each property 1`] = `".a {marg
 
 exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".a {background: #000;}.b:hover {background: #000;}.c[disabled] {background: #000;}"`;
 
-exports[`Styles generates the same declaration for each type 1`] = `".a {color: red;}.b {color: red;}"`;
+exports[`Styles generates the same declaration for each type (non-standard) 1`] = `".a {color: red;}"`;
+
+exports[`Styles generates the same declaration for each type (non-standard) 2`] = `".b {color: red;}"`;
 
 exports[`Styles ignores invalid values 1`] = `""`;
 

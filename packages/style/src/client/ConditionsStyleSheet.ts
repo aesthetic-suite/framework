@@ -1,8 +1,8 @@
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
-import { Condition } from './types';
-import isSupportsCondition from './helpers/isSupportsCondition';
-import isMediaQueryCondition from './helpers/isMediaQueryCondition';
+import isSupportsCondition from '../helpers/isSupportsCondition';
+import isMediaQueryCondition from '../helpers/isMediaQueryCondition';
+import { Condition } from '../types';
 
 const canInsertNestedRules =
   window.CSSGroupingRule !== undefined && CSSGroupingRule.prototype.insertRule !== undefined;

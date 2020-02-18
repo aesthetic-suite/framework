@@ -1,4 +1,4 @@
-import Renderer from '../src/Renderer';
+import Renderer from '../src/client/ClientRenderer';
 import getInsertedStyles from '../src/helpers/getInsertedStyles';
 import purgeStyles from './purgeStyles';
 
@@ -217,13 +217,14 @@ describe('Styles', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
-  it('generates the same declaration for each type', () => {
-    const a = renderer.renderDeclaration('color', 'red', { type: 'conditions' });
+  it('generates the same declaration for each type (non-standard)', () => {
+    const a = renderer.renderDeclaration('color', 'red', { type: 'global' });
     const b = renderer.renderDeclaration('color', 'red', { type: 'standard' });
 
     expect(a).toBe('a');
     expect(b).toBe('b');
     expect(a).not.toBe(b);
+    expect(getInsertedStyles('global')).toMatchSnapshot();
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 });

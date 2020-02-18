@@ -19,26 +19,17 @@ import generateHash from './helpers/generateHash';
 import isMediaQueryCondition from './helpers/isMediaQueryCondition';
 import isSupportsCondition from './helpers/isSupportsCondition';
 import isNestedSelector from './helpers/isNestedSelector';
-import GlobalStyleSheet from './GlobalStyleSheet';
-import ConditionsStyleSheet from './ConditionsStyleSheet';
-import StandardStyleSheet from './StandardStyleSheet';
 import isInvalidValue from './helpers/isInvalidValue';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-export default class Renderer {
+export default abstract class Renderer {
   protected atRuleCache: { [hash: string]: boolean } = {};
 
   protected classNameCache = new AtomicCache();
 
-  protected globalStyleSheet = new GlobalStyleSheet();
-
-  protected conditionsStyleSheet = new ConditionsStyleSheet();
-
   protected ruleIndex = 0;
-
-  protected standardStyleSheet = new StandardStyleSheet();
 
   /**
    * Generate a unique and deterministic class name for a property value pair.
@@ -51,10 +42,6 @@ export default class Renderer {
     }
 
     return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
-
-    // return generateHash(
-    //   `${params.conditions?.map(c => c.query) || ''}${params.selector || ''}${property}${value}`,
-    // );
   }
 
   /**
@@ -82,7 +69,10 @@ export default class Renderer {
     }
 
     const className = this.generateClassName();
-    const rank = this.insertRule(className, prop, val, params);
+    const rank = this.insertRule(
+      this.formatRule(className, property, val, params.selector),
+      params,
+    );
 
     this.ruleIndex += 1;
     this.classNameCache.write(prop, val, {
@@ -276,7 +266,7 @@ export default class Renderer {
 
     // Only insert it once
     if (!this.atRuleCache[hash]) {
-      this.globalStyleSheet.insertRule(rule);
+      this.insertRule(rule, { type: 'global' });
       this.atRuleCache[hash] = true;
     }
   }
@@ -284,21 +274,5 @@ export default class Renderer {
   /**
    * Insert a CSS rule into either the standard or conditional style sheet.
    */
-  protected insertRule(
-    className: ClassName,
-    property: string,
-    value: string,
-    params: StyleParams,
-  ): number {
-    const { conditions = [] } = params;
-    const rule = this.formatRule(className, property, value, params.selector);
-
-    // No media or feature queries so insert into the standard style sheet
-    if (conditions.length === 0) {
-      return this.standardStyleSheet.insertRule(rule);
-    }
-
-    // Otherwise insert into the conditional style sheet
-    return this.conditionsStyleSheet.insertRule(conditions, rule);
-  }
+  protected abstract insertRule(rule: string, params: StyleParams): number;
 }

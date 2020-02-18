@@ -1,4 +1,4 @@
-import Renderer from '../src/Renderer';
+import Renderer from '../src/client/ClientRenderer';
 import getInsertedStyles from '../src/helpers/getInsertedStyles';
 import purgeStyles from './purgeStyles';
 
