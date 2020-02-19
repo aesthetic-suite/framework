@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Selectors attributes generates the correct class names with attribute selector 1`] = `".a {background: #000;}.b[disabled] {background-color: #286090;}.c[disabled] {border-color: #204d74;}"`;
+
+exports[`Selectors attributes supports complex attribute selectors 1`] = `".a[href*=\\"example\\"] {background-color: #286090;}"`;
+
+exports[`Selectors attributes uses same class name between both APIs 1`] = `".a[disabled] {background-color: #000;}"`;
+
+exports[`Selectors hierarchy generates the correct class names with hierarchy selector 1`] = `".a {padding: 10px;}.b+ div {padding: 10px;}.c~ SPAN {padding: 10px;}.d>li {padding: 10px;}.e* {padding: 10px;}"`;
+
+exports[`Selectors hierarchy supports complex attribute selectors 1`] = `".a:first-of-type + li {color: white;}"`;
+
+exports[`Selectors hierarchy uses same class name between both APIs 1`] = `".a+ div {background-color: #000;}"`;
+
+exports[`Selectors pseudos generates the correct class names with pseudo selector 1`] = `".a {padding: 5px;}.b:hover {padding: 10px;}.c::before {content: \\"★\\";}.d::before {display: inline-block;}"`;
+
+exports[`Selectors pseudos supports complex attribute selectors 1`] = `".a:nth-last-of-type(4n) {color: white;}"`;
+
+exports[`Selectors pseudos uses same class name between both APIs 1`] = `".a:focus {background-color: #000;}"`;

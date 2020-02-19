@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style type="text/css" id="style">
+      body {
+        background: black;
+      }
+
+      @media (max-width: 1000px) {
+        body {
+          background: blue;
+        }
+
+        @supports (display: flex) {
+          div {
+            display: flex;
+          }
+        }
+
+        /* Works in Firefox, Chrome, and Safari. */
+        @media (min-width: 800px) {
+          body {
+            background: red;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      const style = document.getElementById('style');
+      const sheet = style.sheet;
+
+      console.log({ style, sheet });
+    </script>
+  </body>
+</html>
