@@ -1,13 +1,13 @@
 {
-  "name": "aesthetic-utils",
-  "version": "3.0.0",
+  "name": "@aesthetic/utils",
+  "version": "0.0.0",
   "description": "Utility functions for Aesthetic.",
   "keywords": [
     "aesthetic",
     "utils",
     "helpers"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/utils-legacy",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/utils",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

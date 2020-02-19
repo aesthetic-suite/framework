@@ -1,6 +1,6 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { isObject } from 'aesthetic-utils';
+import { isObject } from '@aesthetic/utils';
 import { hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import applyUnitToValue from './helpers/applyUnitToValue';

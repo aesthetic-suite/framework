@@ -26,7 +26,9 @@ const plugins = [
 
 const external = [
   '@aesthetic/sss',
+  '@aesthetic/style',
   '@aesthetic/system',
+  '@aesthetic/utils',
   '@boost/common',
   'aesthetic',
   'aesthetic-utils',

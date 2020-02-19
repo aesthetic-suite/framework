@@ -1,4 +1,4 @@
-import { isObject } from 'aesthetic-utils';
+import { isObject } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import Block from './Block';
 import { LocalStyleSheet, ClassNameListener, CSSListener, RulesetListener } from './types';

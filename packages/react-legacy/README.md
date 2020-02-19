@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/aesthetic-react.svg)](https://www.npmjs.com/package/aesthetic-react)
-[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/react)](https://www.npmjs.com/package/aesthetic-react)
+[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/react-legacy)](https://www.npmjs.com/package/aesthetic-react)
 
 Style React components with hooks or HOCs, using the powerful
 [Aesthetic](https://github.com/milesj/aesthetic) library.

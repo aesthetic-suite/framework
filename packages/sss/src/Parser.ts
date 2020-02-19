@@ -1,6 +1,6 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members */
 
-import { isObject, toArray } from 'aesthetic-utils';
+import { isObject, toArray } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import compoundProperties from './compound';

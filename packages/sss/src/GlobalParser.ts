@@ -1,4 +1,4 @@
-import { isObject, toArray } from 'aesthetic-utils';
+import { isObject, toArray } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import formatImport from './formatImport';
 import {
