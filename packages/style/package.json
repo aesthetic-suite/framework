@@ -1,13 +1,14 @@
 {
   "name": "@aesthetic/style",
   "version": "0.0.0",
-  "description": "A high-performance atomic-based CSS-in-JS solution, with full CSS support.",
+  "description": "A low-level, high-performance, atomic-based CSS-in-JS solution.",
   "keywords": [
     "aesthetic",
     "style",
     "stylesheet",
     "css",
-    "css-in-js"
+    "css-in-js",
+    "renderer"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/style",
   "license": "MIT",

@@ -7,13 +7,14 @@ import applyUnitToValue from './helpers/applyUnitToValue';
 import formatAtomicRule from './helpers/formatAtomicRule';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
 import generateHash from './helpers/generateHash';
-import isMediaQueryCondition from './helpers/isMediaQueryCondition';
-import isSupportsCondition from './helpers/isSupportsCondition';
+import isMediaRule from './helpers/isMediaRule';
+import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
+import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import {
   Block,
   CacheParams,
@@ -182,19 +183,19 @@ export default abstract class Renderer {
         const { conditions = [] } = params;
 
         // @media
-        if (isMediaQueryCondition(prop)) {
+        if (isMediaRule(prop)) {
           conditions.push({
             query: prop.slice(6).trim(),
-            type: CSSRule.MEDIA_RULE,
+            type: MEDIA_RULE,
           });
 
           classNames += this.renderRule(value, { ...params, conditions });
 
           // @supports
-        } else if (isSupportsCondition(prop)) {
+        } else if (isSupportsRule(prop)) {
           conditions.push({
             query: prop.slice(9).trim(),
-            type: CSSRule.SUPPORTS_RULE,
+            type: SUPPORTS_RULE,
           });
 
           classNames += this.renderRule(value, { ...params, conditions });

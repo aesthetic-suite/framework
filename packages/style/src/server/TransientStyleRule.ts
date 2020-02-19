@@ -1,12 +1,20 @@
-import { isMediaQueryCondition, isSupportsCondition } from '../helpers';
-import { StyleRule } from '../types';
+import { isImportRule, isMediaRule, isSupportsRule } from '../helpers';
+import {
+  MEDIA_RULE,
+  SUPPORTS_RULE,
+  FONT_FACE_RULE,
+  KEYFRAMES_RULE,
+  IMPORT_RULE,
+  STYLE_RULE,
+} from '../constants';
+import { StyleRule, CSSVariables } from '../types';
 
 export default class TransientStyleRule implements StyleRule {
   conditionText: string = '';
 
   cssRules: StyleRule[] = [];
 
-  cssVariables: StyleRule['cssVariables'] = {};
+  cssVariables: CSSVariables = {};
 
   type: number;
 
@@ -16,7 +24,7 @@ export default class TransientStyleRule implements StyleRule {
     this.rule = rule;
     this.type = type;
 
-    if (type === CSSRule.MEDIA_RULE || type === CSSRule.SUPPORTS_RULE) {
+    if (type === MEDIA_RULE || type === SUPPORTS_RULE) {
       this.conditionText = this.extractCondition();
     }
   }
@@ -32,19 +40,19 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   determineType(rule: string): number {
-    if (isMediaQueryCondition(rule)) {
-      return CSSRule.MEDIA_RULE;
-    } else if (isSupportsCondition(rule)) {
-      return CSSRule.SUPPORTS_RULE;
+    if (isMediaRule(rule)) {
+      return MEDIA_RULE;
+    } else if (isSupportsRule(rule)) {
+      return SUPPORTS_RULE;
     } else if (rule.startsWith('@font-face')) {
-      return CSSRule.FONT_FACE_RULE;
+      return FONT_FACE_RULE;
     } else if (rule.startsWith('@keyframes')) {
-      return CSSRule.KEYFRAMES_RULE;
-    } else if (rule.startsWith('@import')) {
-      return CSSRule.IMPORT_RULE;
+      return KEYFRAMES_RULE;
+    } else if (isImportRule(rule)) {
+      return IMPORT_RULE;
     }
 
-    return CSSRule.STYLE_RULE;
+    return STYLE_RULE;
   }
 
   extractCondition(): string {

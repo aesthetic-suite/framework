@@ -6,10 +6,11 @@ import formatDeclarationBlock from './formatDeclarationBlock';
 import generateHash from './generateHash';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import getInsertedStyles from './getInsertedStyles';
+import isImportRule from './isImportRule';
 import isInvalidValue from './isInvalidValue';
-import isMediaQueryCondition from './isMediaQueryCondition';
+import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
-import isSupportsCondition from './isSupportsCondition';
+import isSupportsRule from './isSupportsRule';
 
 export {
   applyUnitToValue,
@@ -20,8 +21,9 @@ export {
   generateHash,
   getDocumentStyleSheet,
   getInsertedStyles,
+  isImportRule,
   isInvalidValue,
-  isMediaQueryCondition,
+  isMediaRule,
   isNestedSelector,
-  isSupportsCondition,
+  isSupportsRule,
 };

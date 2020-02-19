@@ -1,7 +1,8 @@
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
-import isSupportsCondition from './helpers/isSupportsCondition';
-import isMediaQueryCondition from './helpers/isMediaQueryCondition';
+import isSupportsRule from './helpers/isSupportsRule';
+import isMediaRule from './helpers/isMediaRule';
+import { MEDIA_RULE } from './constants';
 import { Condition, StyleRule } from './types';
 
 const canInsertNestedRules =
@@ -44,13 +45,13 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
         .reverse()
         .reduce(
           (tempRule, condition) =>
-            `@${condition.type === CSSRule.MEDIA_RULE ? 'media' : 'supports'} ${
+            `@${condition.type === MEDIA_RULE ? 'media' : 'supports'} ${
               condition.query
             } { ${tempRule} }`,
           rule,
         );
 
-      if (outerCondition.type === CSSRule.MEDIA_RULE) {
+      if (outerCondition.type === MEDIA_RULE) {
         this.insertMediaRule(outerCondition.query, finalRule);
       } else {
         this.insertFeatureRule(outerCondition.query, finalRule);
@@ -69,7 +70,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
       // Insert a new condition at the root
       if (i === 0) {
         instance =
-          type === CSSRule.MEDIA_RULE
+          type === MEDIA_RULE
             ? this.insertMediaRule(query, bodyContent)
             : this.insertFeatureRule(query, bodyContent);
 
@@ -101,7 +102,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
 
     // Insert the rule and capture the instance
     const index = this.sheet.insertRule(
-      isSupportsCondition(rule) ? rule : `@supports ${query} { ${rule} }`,
+      isSupportsRule(rule) ? rule : `@supports ${query} { ${rule} }`,
       this.sheet.cssRules.length,
     );
 
@@ -132,10 +133,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     const index = sortedQueries.indexOf(query);
 
     // Insert the rule and capture the instance
-    this.sheet.insertRule(
-      isMediaQueryCondition(rule) ? rule : `@media ${query} { ${rule} }`,
-      index,
-    );
+    this.sheet.insertRule(isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`, index);
 
     this.mediaQueries[query] = this.sheet.cssRules[index];
 

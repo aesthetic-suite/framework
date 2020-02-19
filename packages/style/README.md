@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/%40aesthetic%style.svg)](https://www.npmjs.com/package/@aesthetic/style)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/style)](https://www.npmjs.com/package/@aesthetic/style)
 
-A high-performance atomic-based CSS-in-JS solution, with full CSS support.
+A low-level, high-performance, atomic-based CSS-in-JS solution.
 
 ## Installation
 

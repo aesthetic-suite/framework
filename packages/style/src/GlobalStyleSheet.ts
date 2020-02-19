@@ -1,13 +1,13 @@
 import BaseStyleSheet from './BaseStyleSheet';
-
-const IMPORT_PATTERN = /^@import/u;
+import { isImportRule } from './helpers';
+import { IMPORT_RULE } from './constants';
 
 export default class GlobalStyleSheet extends BaseStyleSheet {
   /**
    * Insert a rule into the global style sheet.
    */
   insertRule(rule: string): number {
-    if (IMPORT_PATTERN.test(rule)) {
+    if (isImportRule(rule)) {
       return this.insertImportRule(rule);
     }
 
@@ -25,7 +25,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
     for (let i = 0; i <= length; i += 1) {
       index = i;
 
-      if (this.sheet.cssRules[i]?.type !== CSSRule.IMPORT_RULE) {
+      if (this.sheet.cssRules[i]?.type !== IMPORT_RULE) {
         break;
       }
     }
