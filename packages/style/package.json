@@ -24,10 +24,9 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "aesthetic-utils": "^3.0.0",
+    "@aesthetic/utils": "^0.0.0",
     "css-in-js-utils": "^3.0.4",
     "csstype": "^2.6.8",
-    "sort-css-media-queries": "^1.5.0",
-    "string-hash": "^1.1.3"
+    "sort-css-media-queries": "^1.5.0"
   }
 }

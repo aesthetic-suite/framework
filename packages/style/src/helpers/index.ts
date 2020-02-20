@@ -3,7 +3,6 @@ import formatAtomicRule from './formatAtomicRule';
 import formatCssVariableName from './formatCssVariableName';
 import formatDeclaration from './formatDeclaration';
 import formatDeclarationBlock from './formatDeclarationBlock';
-import generateHash from './generateHash';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import getInsertedStyles from './getInsertedStyles';
 import isImportRule from './isImportRule';
@@ -18,7 +17,6 @@ export {
   formatCssVariableName,
   formatDeclaration,
   formatDeclarationBlock,
-  generateHash,
   getDocumentStyleSheet,
   getInsertedStyles,
   isImportRule,

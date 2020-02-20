@@ -1,4 +1,4 @@
-import { toArray, isObject } from 'aesthetic-utils';
+import { isObject, toArray } from '@aesthetic/utils';
 import transform from '../shorthand/transition';
 import { Properties } from '../types';
 

@@ -1,12 +1,11 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { isObject } from 'aesthetic-utils';
+import { arrayReduce, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
 import { hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import applyUnitToValue from './helpers/applyUnitToValue';
 import formatAtomicRule from './helpers/formatAtomicRule';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
-import generateHash from './helpers/generateHash';
 import isMediaRule from './helpers/isMediaRule';
 import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
@@ -144,13 +143,10 @@ export default abstract class Renderer {
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
   renderKeyframes(keyframes: Keyframes, customName: string = ''): string {
-    const steps = Object.keys(keyframes);
-    let frames = '';
-
-    for (let i = 0; i < steps.length; i += 1) {
-      frames += `${steps[i]} { ${formatDeclarationBlock(keyframes[steps[i]]!)} }`;
-      frames += ' ';
-    }
+    const frames = objectReduce(
+      keyframes,
+      (step, frame) => `${frame} { ${formatDeclarationBlock(step!)} } `,
+    );
 
     // A bit more deterministic than a counter
     const animationName = customName || `kf${generateHash(frames)}`;
@@ -165,13 +161,9 @@ export default abstract class Renderer {
    * with each declaration resulting in a unique class name.
    */
   renderRule(properties: Block, params: StyleParams = {}): ClassName {
-    const props = Object.keys(properties);
     let classNames = '';
 
-    for (let i = 0; i < props.length; i += 1) {
-      const prop = props[i] as Property;
-      const value = properties[prop];
-
+    objectLoop<Block, Property>(properties, (value, prop) => {
       // Skip invalid values
       if (isInvalidValue(value)) {
         if (__DEV__) {
@@ -211,11 +203,11 @@ export default abstract class Renderer {
 
         // Property value pair
       } else {
-        classNames += this.renderDeclaration(prop as Property, value, params);
+        classNames += this.renderDeclaration(prop, value, params);
       }
 
       classNames += ' ';
-    }
+    });
 
     return classNames.trim();
   }
@@ -226,14 +218,8 @@ export default abstract class Renderer {
    */
   renderRuleSets<T extends { [set: string]: Block }>(sets: T, inOrder?: (keyof T)[]) {
     const order = inOrder ?? Object.keys(sets);
-    let className = '';
 
-    for (let i = 0; i < order.length; i += 1) {
-      className += this.renderRule(sets[order[i]]);
-      className += ' ';
-    }
-
-    return className.trim();
+    return arrayReduce(order, key => `${this.renderRule(sets[key])} `).trim();
   }
 
   /**

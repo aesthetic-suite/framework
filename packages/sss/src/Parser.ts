@@ -1,6 +1,6 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members */
 
-import { isObject, toArray } from 'aesthetic-utils';
+import { isObject, toArray, arrayLoop, objectLoop, generateHash } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import compoundProperties from './compound';
@@ -54,18 +54,17 @@ export default abstract class Parser<T extends object, E extends object> {
 
   constructor(handlers?: E) {
     if (handlers) {
-      Object.entries(handlers).forEach(([key, value]) => {
+      objectLoop(handlers, (handler, name) => {
         this.on(
-          key.slice(2).replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'block',
-          value,
+          name.slice(2).replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'class',
+          (handler as unknown) as Handler,
         );
       });
     }
   }
 
   hash(...parts: string[]): string {
-    // eslint-disable-next-line no-magic-numbers
-    return `${parts.join('-')}-${Date.now().toString(32)}`;
+    return generateHash(parts.join('-'));
   }
 
   parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
@@ -75,17 +74,19 @@ export default abstract class Parser<T extends object, E extends object> {
       }
     }
 
-    Object.entries(object).forEach(([key, value]) => {
+    objectLoop(object, (value, key) => {
       if (value === undefined) {
         return;
       }
 
+      const char = key.charAt(0);
+
       // Pseudo and attribute selectors
-      if (key.startsWith(':') || key.startsWith('[')) {
+      if (char === ':' || char === '[') {
         this.parseSelector(builder, key, value as DeclarationBlock);
 
         // Special case for unique at-rules (@page blocks)
-      } else if (key.startsWith('@')) {
+      } else if (char === '@') {
         builder.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
 
         // Run for each property so it can be customized
@@ -110,7 +111,7 @@ export default abstract class Parser<T extends object, E extends object> {
       }
     }
 
-    Object.entries(object).forEach(([query, block]) => {
+    objectLoop(object, (block, query) => {
       this.emit(
         `block:${type}` as 'block:media',
         builder,
@@ -127,7 +128,7 @@ export default abstract class Parser<T extends object, E extends object> {
       }
     }
 
-    Object.entries(fallbacks).forEach(([prop, value]) => {
+    objectLoop(fallbacks, (value, prop) => {
       this.emit('block:fallback', builder, prop, toArray(value));
     });
   }
@@ -153,7 +154,7 @@ export default abstract class Parser<T extends object, E extends object> {
     const keyframes = new Block(`@keyframes ${name}`);
 
     // from, to, and percent keys aren't easily detectable
-    Object.entries(object).forEach(([key, value]) => {
+    objectLoop(object, (value, key) => {
       if (key === 'name' || value === undefined) {
         return;
       }
@@ -184,7 +185,7 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     if (props['@selectors']) {
-      Object.entries(props['@selectors']).forEach(([key, value]) => {
+      objectLoop(props['@selectors'], (value, key) => {
         this.parseSelector(builder, key, value, true);
       });
 
@@ -219,7 +220,7 @@ export default abstract class Parser<T extends object, E extends object> {
     const block = this.parseLocalBlock(new Block(selector), object);
     let specificity = 0;
 
-    selector.split(',').forEach(k => {
+    arrayLoop(selector.split(','), k => {
       let name = k.trim();
       let type = 'block:selector';
 

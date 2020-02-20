@@ -1,4 +1,4 @@
-import { toArray } from 'aesthetic-utils';
+import { toArray } from '@aesthetic/utils';
 import { Properties, FontFace } from '../types';
 
 export default function fontFamily(

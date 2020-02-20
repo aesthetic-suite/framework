@@ -17,7 +17,7 @@
     "fela",
     "jss"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core",
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core-legacy",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
