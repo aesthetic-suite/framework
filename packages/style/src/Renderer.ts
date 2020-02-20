@@ -33,11 +33,11 @@ const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
 export default abstract class Renderer {
-  protected atRuleCache: { [hash: string]: boolean } = {};
+  atRuleCache: { [hash: string]: boolean } = {};
 
-  protected classNameCache = new AtomicCache();
+  classNameCache = new AtomicCache();
 
-  protected ruleIndex = 0;
+  ruleIndex = 0;
 
   protected abstract globalStyleSheet: GlobalStyleSheet;
 

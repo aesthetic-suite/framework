@@ -15,7 +15,3 @@ yarn add @aesthetic/style
 ## What it does not do
 
 - Does not vendor prefix properties.
-
-## TODO
-
-- SSR hydration.
