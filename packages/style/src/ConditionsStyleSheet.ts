@@ -1,3 +1,4 @@
+import { arrayLoop } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
 import isSupportsRule from './helpers/isSupportsRule';
@@ -63,8 +64,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     let instance: StyleRule | null = null;
 
     // istanbul ignore next
-    for (let i = 0; i < size; i += 1) {
-      const { query, type } = conditions[i];
+    arrayLoop(conditions, ({ query, type }, i) => {
       const bodyContent = i === size - 1 ? rule : '';
 
       // Insert a new condition at the root
@@ -81,7 +81,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
         // Insert the rule and return a new instance
         instance = instance.cssRules[instance.insertRule(bodyContent, instance.cssRules.length)];
       }
-    }
+    });
 
     return -1;
   }

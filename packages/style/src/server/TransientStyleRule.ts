@@ -1,3 +1,4 @@
+import { arrayReduce } from '@aesthetic/utils';
 import { isImportRule, isMediaRule, isSupportsRule } from '../helpers';
 import {
   MEDIA_RULE,
@@ -30,13 +31,7 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   get cssText() {
-    let css = this.rule;
-
-    for (let i = 0; i < this.cssRules.length; i += 1) {
-      css += this.cssRules[i].cssText;
-    }
-
-    return css;
+    return arrayReduce(this.cssRules, rule => rule.cssText, this.rule);
   }
 
   determineType(rule: string): number {

@@ -1,3 +1,4 @@
+import { objectLoop } from '@aesthetic/utils';
 import Renderer from '../Renderer';
 import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
@@ -21,10 +22,10 @@ export default class ClientRenderer extends Renderer {
   applyRootVariables(vars: CSSVariables) {
     const root = document.documentElement;
 
-    Object.keys(vars).forEach(key => {
-      const name = formatCssVariableName(key);
+    objectLoop(vars, (value, key) => {
+      const name = formatCssVariableName(String(key));
 
-      root.style.setProperty(name, applyUnitToValue(name, vars[key]));
+      root.style.setProperty(name, applyUnitToValue(name, value));
     });
   }
 }

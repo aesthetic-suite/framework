@@ -3,7 +3,11 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import arrayLoop from './arrayLoop';
+import arrayReduce from './arrayReduce';
 import isObject from './isObject';
+import objectLoop from './objectLoop';
+import objectReduce from './objectReduce';
 import toArray from './toArray';
 
-export { isObject, toArray };
+export { arrayLoop, arrayReduce, isObject, objectLoop, objectReduce, toArray };

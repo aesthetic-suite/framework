@@ -9,11 +9,13 @@ const packages = [
   'adapter-jss',
   'adapter-typestyle',
   'compiler',
-  'core',
-  'react',
+  'core-legacy',
+  'react-legacy',
   'sss',
+  'style',
   'system',
   'utils',
+  'utils-legacy',
 ];
 
 const plugins = [

@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/aesthetic.svg)](https://www.npmjs.com/package/aesthetic)
-[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core)](https://www.npmjs.com/package/aesthetic)
+[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core-legacy)](https://www.npmjs.com/package/aesthetic)
 
 Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
 whether it be with plain objects, importing style sheets, or simply referencing external class

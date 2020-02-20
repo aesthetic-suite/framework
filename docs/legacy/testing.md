@@ -13,7 +13,7 @@ aesthetic.configure({
 ```
 
 Besides `TestAdapter`, there are a handful of constants and functions that can be found in the
-[testing utilities](https://github.com/milesj/aesthetic/blob/master/packages/core/src/testing.ts).
+[testing utilities](https://github.com/milesj/aesthetic/blob/master/packages/core-legacy/src/testing.ts).
 
 ## Enzyme
 
