@@ -16,6 +16,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "string-hash": "^1.1.3"
+  },
   "funding": {
     "type": "ko-fi",
     "url": "https://ko-fi.com/milesjohnson"

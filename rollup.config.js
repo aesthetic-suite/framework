@@ -35,11 +35,13 @@ const external = [
   'aesthetic',
   'aesthetic-utils',
   'aphrodite',
+  'css-in-js-utils',
   'direction',
   'ejs',
   'extend',
   'fela',
   'fela-dom',
+  'fs',
   'hoist-non-react-statics',
   'jss',
   'js-yaml',
@@ -49,6 +51,8 @@ const external = [
   'react',
   'rtl-css-js',
   'rtl-css-js/core',
+  'sort-css-media-queries',
+  'string-hash',
   'stylis',
   'typestyle',
   'uuid/v4',
@@ -72,14 +76,14 @@ export default packages
   }))
   .concat({
     external: external.concat('./index'),
-    input: `packages/core/src/testing.ts`,
+    input: `packages/core-legacy/src/testing.ts`,
     output: [
       {
-        file: `packages/core/lib/testing.js`,
+        file: `packages/core-legacy/lib/testing.js`,
         format: 'cjs',
       },
       {
-        file: `packages/core/esm/testing.js`,
+        file: `packages/core-legacy/esm/testing.js`,
         format: 'esm',
       },
     ],

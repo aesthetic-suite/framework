@@ -1,4 +1,4 @@
-import { isObject, toArray } from '@aesthetic/utils';
+import { isObject, toArray, objectLoop, arrayLoop } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import formatImport from './formatImport';
 import {
@@ -58,8 +58,8 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
       }
     }
 
-    Object.entries(fontFaces).forEach(([name, faces]) => {
-      toArray(faces).forEach(fontFace => {
+    objectLoop(fontFaces, (faces, name) => {
+      arrayLoop(toArray(faces), fontFace => {
         this.parseFontFace(name, fontFace);
       });
     });
@@ -82,7 +82,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
       }
     }
 
-    imports.forEach(value => {
+    arrayLoop(imports, value => {
       this.emit('import', formatImport(value));
     });
   }
@@ -98,7 +98,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
       }
     }
 
-    Object.entries(keyframes).forEach(([name, keyframe]) => {
+    objectLoop(keyframes, (keyframe, name) => {
       this.parseKeyframesAnimation(name, keyframe);
     });
   }

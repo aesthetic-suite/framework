@@ -1,12 +1,11 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { arrayReduce, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
+import { arrayReduce, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
 import { hyphenateProperty } from 'css-in-js-utils';
 import AtomicCache from './AtomicCache';
 import applyUnitToValue from './helpers/applyUnitToValue';
 import formatAtomicRule from './helpers/formatAtomicRule';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
-import generateHash from './helpers/generateHash';
 import isMediaRule from './helpers/isMediaRule';
 import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';

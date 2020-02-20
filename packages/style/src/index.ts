@@ -3,9 +3,12 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Renderer from './client/ClientRenderer';
+import ClientRenderer from './client/ClientRenderer';
+import ServerRenderer from './server/ServerRenderer';
+import captureStyles from './server/captureStyles';
+import renderToStyleMarkup from './server/renderToStyleMarkup';
 
 export * from './helpers';
 export * from './types';
 
-export { Renderer };
+export { ClientRenderer, ServerRenderer, captureStyles, renderToStyleMarkup };
