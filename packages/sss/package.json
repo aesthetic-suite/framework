@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/sss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A strict, type-safe, and structure-safe CSS-in-JS style sheet format.",
   "keywords": [
     "aesthetic",
@@ -25,7 +25,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/utils": "^0.0.0",
+    "@aesthetic/utils": "^0.0.1",
     "csstype": "^2.6.8",
     "stylis": "^3.5.4"
   }
