@@ -50,6 +50,7 @@ export default function getDocumentStyleSheet(type: SheetType): CSSStyleSheet {
     style.setAttribute('id', `aesthetic-${type}`);
     style.setAttribute('type', 'text/css');
     style.setAttribute('media', 'screen');
+    style.setAttribute('data-aesthetic-type', type);
 
     insertInOrder(type, style);
     element = style;
