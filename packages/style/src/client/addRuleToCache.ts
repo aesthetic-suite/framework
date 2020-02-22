@@ -1,7 +1,7 @@
 import ClientRenderer from './ClientRenderer';
 import { CacheItem } from '../types';
 
-const RULE_PATTERN = /^\.(\w+)((:|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
+const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
 
 export default function addRuleToCache(
   renderer: ClientRenderer,
@@ -12,6 +12,7 @@ export default function addRuleToCache(
 
   if (!match) {
     if (__DEV__) {
+      // eslint-disable-next-line no-console
       console.log(`Failed to parse and hydrate rule: ${rule}`);
     }
 
@@ -19,13 +20,14 @@ export default function addRuleToCache(
   }
 
   const [, className, selector = '', property, value] = match;
+  const val = value.endsWith(';') ? value.slice(0, -1) : value;
 
-  renderer.classNameCache.write(property, value, {
+  renderer.classNameCache.write(property, val, {
     className,
     conditions: [],
     rank: 0,
-    selector,
-    type: '',
+    selector: selector.trim(),
+    type: 'standard',
     ...cache,
   });
 }

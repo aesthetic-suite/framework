@@ -11,7 +11,7 @@ function createElement(type: SheetType, rule: StyleRule, index: number): string 
 
   css += rule.cssText;
 
-  return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-hydrate="true" data-aesthetic-index="${index}">${css}</style>`;
+  return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate="${index}">${css}</style>`;
 }
 
 export default function renderToStyleMarkup(renderer: ServerRenderer): string {

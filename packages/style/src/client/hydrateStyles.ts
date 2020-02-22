@@ -9,7 +9,7 @@ import {
   MEDIA_RULE,
   SUPPORTS_RULE,
 } from '../constants';
-import { Condition } from '../types';
+import { Condition, SheetType } from '../types';
 
 function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, rule => {
@@ -34,8 +34,8 @@ function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   let rank = 0;
 
   const gatherStack = (rule: CSSConditionRule, conditions: Condition[] = []) => {
-    conditions.push({
-      query: rule.conditionText,
+    conditions.unshift({
+      query: rule.conditionText || (rule as CSSMediaRule).media.mediaText,
       type: rule.type,
     });
 
@@ -48,8 +48,8 @@ function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
         });
 
         rank += 1;
-      } else if (rule.type === MEDIA_RULE || rule.type === SUPPORTS_RULE) {
-        gatherStack(rule as CSSConditionRule, conditions);
+      } else if (child.type === MEDIA_RULE || child.type === SUPPORTS_RULE) {
+        gatherStack(child as CSSConditionRule, conditions);
       }
     });
   };
@@ -62,24 +62,22 @@ function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
 }
 
 export default function hydrate(renderer: ClientRenderer) {
-  arrayLoop(
-    document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate="true"]'),
-    style => {
-      const sheet = style.sheet as CSSStyleSheet;
+  arrayLoop(document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'), style => {
+    const sheet = style.sheet as CSSStyleSheet;
+    const type = style.getAttribute('data-aesthetic-type') as SheetType;
 
-      if (style.id === 'aesthetic-global') {
-        hydrateGlobals(renderer, sheet);
-      } else if (style.id === 'aesthetic-standard') {
-        hydrateRules(renderer, sheet);
-      } else if (style.id === 'aesthetic-conditions') {
-        hydrateConditions(renderer, sheet);
-      }
+    if (type === 'global') {
+      hydrateGlobals(renderer, sheet);
+    } else if (type === 'standard') {
+      hydrateRules(renderer, sheet);
+    } else if (type === 'conditions') {
+      hydrateConditions(renderer, sheet);
+    }
 
-      // Persist the rule index
-      renderer.ruleIndex = Number(style.getAttribute('data-aesthetic-index'));
+    // Persist the rule index
+    renderer.ruleIndex = Number(style.getAttribute('data-aesthetic-hydrate'));
 
-      // Disable so that we avoid unnecessary hydration
-      style.setAttribute('data-aesthetic-hydrate', 'false');
-    },
-  );
+    // Disable so that we avoid unnecessary hydration
+    style.removeAttribute('data-aesthetic-hydrate');
+  });
 }

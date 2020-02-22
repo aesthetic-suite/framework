@@ -62,6 +62,8 @@ describe('SSR', () => {
       },
     });
 
+    renderer.renderImport('url("test.css")');
+
     expect(renderToStyleMarkup(renderer)).toMatchSnapshot();
   });
 });
