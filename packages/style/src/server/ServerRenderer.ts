@@ -18,7 +18,7 @@ export default class ServerRenderer extends Renderer {
 
   applyRootVariables(vars: CSSVariables) {
     objectLoop(vars, (value, key) => {
-      const name = formatCssVariableName(String(key));
+      const name = formatCssVariableName(key);
 
       this.globalStyleSheet.sheet.cssVariables[name] = applyUnitToValue(name, value);
     });

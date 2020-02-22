@@ -46,22 +46,22 @@ function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
           rank,
           type: 'conditions',
         });
-
-        rank += 1;
       } else if (child.type === MEDIA_RULE || child.type === SUPPORTS_RULE) {
         gatherStack(child as CSSConditionRule, conditions);
       }
     });
   };
 
-  arrayLoop(sheet.cssRules, rule => {
+  arrayLoop(sheet.cssRules, (rule, currentRank) => {
     if (rule.type === MEDIA_RULE || rule.type === SUPPORTS_RULE) {
+      rank = currentRank;
+
       gatherStack(rule as CSSConditionRule);
     }
   });
 }
 
-export default function hydrate(renderer: ClientRenderer) {
+export default function hydrateStyles(renderer: ClientRenderer) {
   arrayLoop(document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'), style => {
     const sheet = style.sheet as CSSStyleSheet;
     const type = style.getAttribute('data-aesthetic-type') as SheetType;
@@ -75,7 +75,9 @@ export default function hydrate(renderer: ClientRenderer) {
     }
 
     // Persist the rule index
-    renderer.ruleIndex = Number(style.getAttribute('data-aesthetic-hydrate'));
+    if (!renderer.ruleIndex) {
+      renderer.ruleIndex = Number(style.getAttribute('data-aesthetic-hydrate'));
+    }
 
     // Disable so that we avoid unnecessary hydration
     style.removeAttribute('data-aesthetic-hydrate');
