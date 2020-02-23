@@ -1,7 +1,7 @@
-import { hyphenateProperty } from 'css-in-js-utils';
+import { hyphenate } from '@aesthetic/utils';
 
 export default function formatCssVariableName(name: string): string {
-  let varName = hyphenateProperty(name);
+  let varName = hyphenate(name);
 
   if (varName.slice(0, 2) !== '--') {
     varName = `--${varName}`;

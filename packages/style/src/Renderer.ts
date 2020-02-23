@@ -1,7 +1,13 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { arrayReduce, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
-import { hyphenateProperty } from 'css-in-js-utils';
+import {
+  arrayReduce,
+  hyphenate,
+  isObject,
+  objectLoop,
+  objectReduce,
+  generateHash,
+} from '@aesthetic/utils';
 import AtomicCache from './AtomicCache';
 import applyUnitToValue from './helpers/applyUnitToValue';
 import formatAtomicRule from './helpers/formatAtomicRule';
@@ -85,7 +91,7 @@ export default abstract class Renderer {
     const params = { conditions, selector, type };
 
     // Hyphenate early so all checks are deterministic
-    const prop = hyphenateProperty(property);
+    const prop = hyphenate(property);
 
     // Apply unit as well so that "0" and "0px" do not generate separate classes
     const val = applyUnitToValue(property, value as Value);

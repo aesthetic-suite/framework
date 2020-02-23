@@ -1,7 +1,7 @@
 import deepMerge from 'extend';
 import Theme from './Theme';
 import { DEPTHS } from './constants';
-import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, Unit } from './types';
+import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
 
 export default class Design {
   readonly rootLineHeight: number;
@@ -16,7 +16,6 @@ export default class Design {
     this.tokens = {
       ...tokens,
       depth: DEPTHS,
-      unit: this.unit,
     };
 
     this.rootLineHeight = tokens.typography.rootLineHeight;
@@ -31,10 +30,7 @@ export default class Design {
    * Create a new theme with the defined theme tokens, while inheriting the shared design tokens.
    */
   createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme {
-    return new Theme(options, {
-      ...this.tokens,
-      ...tokens,
-    });
+    return new Theme(options, tokens, this);
   }
 
   /**
@@ -43,13 +39,4 @@ export default class Design {
   extend(tokens: DeepPartial<DesignTokens>): Design {
     return new Design(deepMerge(true, {}, this.tokens, tokens));
   }
-
-  /**
-   * Return a `rem` unit equivalent for the current spacing type and unit.
-   */
-  unit = (...multipliers: number[]): Unit => {
-    return multipliers
-      .map(m => `${((this.spacingUnit * m) / this.rootTextSize).toFixed(2).replace('.00', '')}rem`)
-      .join(' ');
-  };
 }

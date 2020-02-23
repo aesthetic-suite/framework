@@ -1,11 +1,15 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { Tokens, ShadowSize } from '../types';
+import { ShadowSize, VarFactory } from '../types';
 import { LAYOUT_SHADES } from '../constants';
 
-export function shadow(tokens: Tokens, size: ShadowSize): DeclarationBlock {
-  const { x, y, blur, spread } = tokens.shadow[size];
-
+export function shadow(vars: VarFactory, size: ShadowSize): DeclarationBlock {
   return {
-    boxShadow: `${x} ${y} ${blur} ${spread} ${tokens.palette.neutral.color[LAYOUT_SHADES.shadow]}`,
+    boxShadow: [
+      vars(`shadow-${size}-x` as 'shadow-sm-x'),
+      vars(`shadow-${size}-y` as 'shadow-sm-y'),
+      vars(`shadow-${size}-blur` as 'shadow-sm-blur'),
+      vars(`shadow-${size}-spread` as 'shadow-sm-spread'),
+      vars(`palette-neutral-color-${LAYOUT_SHADES.shadow}` as 'palette-neutral-color-90'),
+    ].join(' '),
   };
 }
