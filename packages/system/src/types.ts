@@ -461,14 +461,18 @@ export interface Mixins {
   // };
   pattern: {
     hidden: DeclarationBlock;
-    hiddenOffscreen: DeclarationBlock;
-    resetButton: DeclarationBlock;
-    resetInput: DeclarationBlock;
-    resetList: DeclarationBlock;
-    resetTypography: DeclarationBlock;
-    textBreak: DeclarationBlock;
-    textTruncate: DeclarationBlock;
-    textWrap: DeclarationBlock;
+    offscreen: DeclarationBlock;
+    reset: {
+      button: DeclarationBlock;
+      input: DeclarationBlock;
+      list: DeclarationBlock;
+      typography: DeclarationBlock;
+    };
+    text: {
+      break: DeclarationBlock;
+      truncate: DeclarationBlock;
+      wrap: DeclarationBlock;
+    };
   };
   shadow: {
     [K in ShadowSize]: DeclarationBlock;
@@ -484,26 +488,40 @@ export interface Mixins {
 }
 
 export type MixinTarget =
-  | 'border.sm'
-  | 'border.df'
-  | 'border.lg'
-  | 'box.sm'
-  | 'box.df'
-  | 'box.lg'
-  | 'heading.l1'
-  | 'heading.l2'
-  | 'heading.l3'
-  | 'heading.l4'
-  | 'heading.l5'
-  | 'heading.l6'
-  | 'shadow.xs'
-  | 'shadow.sm'
-  | 'shadow.df'
-  | 'shadow.lg'
-  | 'shadow.xl'
-  | 'text.sm'
-  | 'text.df'
-  | 'text.lg';
+  | 'border-sm'
+  | 'border-df'
+  | 'border-lg'
+  | 'box-sm'
+  | 'box-df'
+  | 'box-lg'
+  | 'heading-l1'
+  | 'heading-l2'
+  | 'heading-l3'
+  | 'heading-l4'
+  | 'heading-l5'
+  | 'heading-l6'
+  | 'pattern-hidden'
+  | 'pattern-offscreen'
+  | 'pattern-reset-button'
+  | 'pattern-reset-input'
+  | 'pattern-reset-list'
+  | 'pattern-reset-typography'
+  | 'pattern-text-break'
+  | 'pattern-text-truncate'
+  | 'pattern-text-wrap'
+  | 'shadow-xs'
+  | 'shadow-sm'
+  | 'shadow-df'
+  | 'shadow-lg'
+  | 'shadow-xl'
+  | 'text-sm'
+  | 'text-df'
+  | 'text-lg';
+
+export type MixinFactory = (
+  target: MixinTarget | MixinTarget[],
+  block: DeclarationBlock,
+) => DeclarationBlock;
 
 // OTHER
 

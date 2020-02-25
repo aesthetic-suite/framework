@@ -1,6 +1,4 @@
-import deepMerge from 'extend';
-import { hyphenate, isObject, objectLoop } from '@aesthetic/utils';
-import { DeclarationBlock } from '@aesthetic/sss';
+import { deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
 import mixins from './mixins';
 import {
@@ -15,6 +13,7 @@ import {
   Variables,
   VarFactory,
   UnitFactory,
+  MixinFactory,
 } from './types';
 
 interface AnyObject {
@@ -51,41 +50,18 @@ export default class Theme {
         scheme: this.scheme,
         ...options,
       },
-      deepMerge(true, {}, this.tokens, tokens),
+      deepMerge(this.tokens, tokens),
       this.design,
       this.mixins,
     );
   }
 
   /**
-   * Merge with or overwrite a mixin with a collection of properties.
+   * Merge one or many mixins into the defined properties.
+   * Properties take the highest precendence and will override mixin declarations.
    */
-  mixin(path: MixinTarget, properties: DeclarationBlock, overwrite: boolean = false): this {
-    const paths = path.split('.');
-    let parent: AnyObject = this.mixins;
-    let target: AnyObject = this.mixins;
-    let key = '';
-
-    while (paths.length > 0) {
-      key = paths.shift()!;
-      parent = target;
-      target = target[key] as AnyObject;
-
-      if (__DEV__) {
-        if (target === undefined || typeof target !== 'object') {
-          throw new Error(`Unknown mixin "${path}".`);
-        }
-      }
-    }
-
-    if (overwrite) {
-      parent[key] = { ...properties };
-    } else {
-      parent[key] = deepMerge(true, {}, target, properties);
-    }
-
-    return this;
-  }
+  mixin: MixinFactory = (targets, properties) =>
+    deepMerge(...toArray(targets).map(target => this.getMixin(target)), properties);
 
   /**
    * Return both design and theme tokens.
@@ -103,7 +79,7 @@ export default class Theme {
   toVariables(): Variables {
     const vars: AnyObject = {};
 
-    const collapseTree = (data: object, path: string[]) => {
+    const collapseTree = (data: AnyObject, path: string[]) => {
       objectLoop(data, (value, key) => {
         if (isObject(value)) {
           collapseTree(value, [...path, hyphenate(key)]);
@@ -136,6 +112,9 @@ export default class Theme {
    */
   var: VarFactory = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
 
+  /**
+   * Create the entire mapping of all mixins.
+   */
   protected createMixins(): Mixins {
     return {
       border: {
@@ -158,14 +137,18 @@ export default class Theme {
       },
       pattern: {
         hidden: mixins.hidden(),
-        hiddenOffscreen: mixins.hiddenOffscreen(),
-        resetButton: mixins.resetButton(),
-        resetInput: mixins.resetInput(),
-        resetList: mixins.resetList(),
-        resetTypography: mixins.resetTypography(),
-        textBreak: mixins.textBreak(),
-        textTruncate: mixins.textTruncate(),
-        textWrap: mixins.textWrap(),
+        offscreen: mixins.hiddenOffscreen(),
+        reset: {
+          button: mixins.resetButton(),
+          input: mixins.resetInput(),
+          list: mixins.resetList(),
+          typography: mixins.resetTypography(),
+        },
+        text: {
+          break: mixins.textBreak(),
+          truncate: mixins.textTruncate(),
+          wrap: mixins.textWrap(),
+        },
       },
       shadow: {
         xs: mixins.shadow(this.var, 'xs'),
@@ -180,5 +163,27 @@ export default class Theme {
         lg: mixins.text(this.var, 'lg'),
       },
     };
+  }
+
+  /**
+   * Drill down and return the mixing at the defined target path.
+   */
+  protected getMixin(path: MixinTarget): AnyObject {
+    const paths = path.split('-');
+    let target: AnyObject = this.mixins;
+    let key = '';
+
+    while (paths.length > 0) {
+      key = paths.shift()!;
+      target = target[key];
+
+      if (__DEV__) {
+        if (target === undefined || !isObject(target)) {
+          throw new Error(`Unknown mixin "${path}".`);
+        }
+      }
+    }
+
+    return target;
   }
 }

@@ -1,5 +1,5 @@
-import deepMerge from 'extend';
 import { camelCase } from 'lodash';
+import { deepMerge } from '@aesthetic/utils';
 import { ColorScheme, ContrastLevel, DeepPartial, Hexcode, ColorShade } from '@aesthetic/system';
 import { ThemeConfig, ThemeTemplate, PaletteConfig, PaletteTemplate, PaletteState } from './types';
 import { formatShade } from './helpers';
@@ -33,7 +33,7 @@ export default class SystemTheme<ColorNames extends string = string> {
     config: DeepPartial<ThemeConfig<ColorNames>>,
     extendedFrom: string,
   ): SystemTheme<ColorNames> {
-    return new SystemTheme(name, deepMerge(true, {}, this.config, config), extendedFrom);
+    return new SystemTheme(name, deepMerge(this.config, config), extendedFrom);
   }
 
   protected getColorHexcode(color: string, shade: ColorShade): Hexcode {

@@ -1,4 +1,4 @@
-import deepMerge from 'extend';
+import { deepMerge } from '@aesthetic/utils';
 import Theme from './Theme';
 import { DEPTHS } from './constants';
 import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
@@ -37,6 +37,6 @@ export default class Design {
    * Extend and instantiate a new design instance with customized design tokens.
    */
   extend(tokens: DeepPartial<DesignTokens>): Design {
-    return new Design(deepMerge(true, {}, this.tokens, tokens));
+    return new Design(deepMerge(this.tokens, tokens));
   }
 }
