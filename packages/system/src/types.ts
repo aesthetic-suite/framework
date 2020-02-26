@@ -435,9 +435,9 @@ export type Tokens = DesignTokens & ThemeTokens;
 
 export type Variables = DesignVariables & ThemeVariables;
 
-export type VariableNames = keyof Variables;
+export type VariableName = keyof Variables;
 
-export type VarFactory = (name: VariableNames, ...fallbacks: (string | number)[]) => string;
+export type VarFactory = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 
 export type UnitFactory = (...sizes: number[]) => Unit;
 
@@ -487,7 +487,7 @@ export interface Mixins {
   };
 }
 
-export type MixinTarget =
+export type MixinName =
   | 'border-sm'
   | 'border-df'
   | 'border-lg'
@@ -519,8 +519,8 @@ export type MixinTarget =
   | 'text-lg';
 
 export type MixinFactory = (
-  target: MixinTarget | MixinTarget[],
-  block: DeclarationBlock,
+  name: MixinName | MixinName[],
+  properties: DeclarationBlock,
 ) => DeclarationBlock;
 
 // OTHER

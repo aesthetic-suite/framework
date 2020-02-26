@@ -1,3 +1,4 @@
+import { DeclarationBlock } from '@aesthetic/sss';
 import { deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
 import mixins from './mixins';
@@ -9,7 +10,7 @@ import {
   DeepPartial,
   ThemeTokens,
   Mixins,
-  MixinTarget,
+  MixinName,
   Variables,
   VarFactory,
   UnitFactory,
@@ -57,11 +58,52 @@ export default class Theme {
   }
 
   /**
+   * Extend a mixin with additional CSS properties, and return the new mixin.
+   */
+  extendMixin(
+    name: MixinName,
+    properties?: DeclarationBlock,
+    overwrite?: boolean,
+  ): DeclarationBlock {
+    const paths = name.split('-');
+    let parent: AnyObject = this.mixins;
+    let target: AnyObject = this.mixins;
+    let key = '';
+
+    while (paths.length > 0) {
+      key = paths.shift()!;
+      parent = target;
+      target = parent[key];
+
+      if (__DEV__) {
+        if (target === undefined || !isObject(target)) {
+          throw new Error(`Unknown mixin "${name}".`);
+        }
+      }
+    }
+
+    if (overwrite) {
+      parent[key] = { ...properties };
+    } else if (properties) {
+      parent[key] = deepMerge(target, properties);
+    }
+
+    return parent[key];
+  }
+
+  /**
    * Merge one or many mixins into the defined properties.
    * Properties take the highest precendence and will override mixin declarations.
    */
-  mixin: MixinFactory = (targets, properties) =>
-    deepMerge(...toArray(targets).map(target => this.getMixin(target)), properties);
+  mixin: MixinFactory = (names, properties) =>
+    deepMerge(...toArray(names).map(name => this.extendMixin(name)), properties);
+
+  /**
+   * Overwrite a mixin with a set of custom CSS properties, and return the new mixin.
+   */
+  overwriteMixin(name: MixinName, properties: DeclarationBlock): DeclarationBlock {
+    return this.extendMixin(name, properties, true);
+  }
 
   /**
    * Return both design and theme tokens.
@@ -163,27 +205,5 @@ export default class Theme {
         lg: mixins.text(this.var, 'lg'),
       },
     };
-  }
-
-  /**
-   * Drill down and return the mixing at the defined target path.
-   */
-  protected getMixin(path: MixinTarget): AnyObject {
-    const paths = path.split('-');
-    let target: AnyObject = this.mixins;
-    let key = '';
-
-    while (paths.length > 0) {
-      key = paths.shift()!;
-      target = target[key];
-
-      if (__DEV__) {
-        if (target === undefined || !isObject(target)) {
-          throw new Error(`Unknown mixin "${path}".`);
-        }
-      }
-    }
-
-    return target;
   }
 }
