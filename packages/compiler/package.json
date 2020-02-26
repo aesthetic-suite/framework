@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/compiler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Compiles a design system configuration to a specified platform target.",
   "keywords": [
     "aesthetic",
@@ -22,8 +22,8 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/system": "^0.0.1",
-    "@aesthetic/utils": "^0.0.1",
+    "@aesthetic/system": "^0.0.2",
+    "@aesthetic/utils": "^0.0.2",
     "@boost/common": "^1.6.0",
     "ejs": "^3.0.1",
     "lodash": "^4.17.15",
