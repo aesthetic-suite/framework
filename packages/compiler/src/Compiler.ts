@@ -55,6 +55,7 @@ export default class Compiler {
       target: string().oneOf<TargetType>([
         'android',
         'ios',
+        'web-cjs',
         'web-css',
         'web-less',
         'web-sass',
@@ -100,6 +101,7 @@ export default class Compiler {
         return 'sass';
       case 'web-scss':
         return 'scss';
+      case 'web-cjs':
       case 'web-js':
         return 'js';
       case 'web-ts':

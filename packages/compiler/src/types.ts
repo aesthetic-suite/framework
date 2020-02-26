@@ -18,6 +18,7 @@ export type PlatformType = 'android' | 'ios' | 'web';
 export type TargetType =
   | 'android'
   | 'ios'
+  | 'web-cjs'
   | 'web-css'
   | 'web-less'
   | 'web-sass'
