@@ -12,7 +12,7 @@ export default class Design {
 
   readonly tokens: DesignTokens;
 
-  constructor(tokens: Omit<DesignTokens, 'depth' | 'unit'>) {
+  constructor(tokens: Omit<DesignTokens, 'depth'>) {
     this.tokens = {
       ...tokens,
       depth: DEPTHS,

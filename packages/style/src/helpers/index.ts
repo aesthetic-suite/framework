@@ -10,6 +10,7 @@ import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
 import isSupportsRule from './isSupportsRule';
+import isUnitlessProperty from './isUnitlessProperty';
 
 export {
   applyUnitToValue,
@@ -24,4 +25,5 @@ export {
   isMediaRule,
   isNestedSelector,
   isSupportsRule,
+  isUnitlessProperty,
 };

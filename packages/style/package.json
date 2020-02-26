@@ -8,7 +8,8 @@
     "stylesheet",
     "css",
     "css-in-js",
-    "renderer"
+    "renderer",
+    "engine"
   ],
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/style",
   "license": "MIT",
@@ -25,7 +26,6 @@
   },
   "dependencies": {
     "@aesthetic/utils": "^0.0.1",
-    "css-in-js-utils": "^3.0.4",
     "csstype": "^2.6.8",
     "sort-css-media-queries": "^1.5.0"
   }
