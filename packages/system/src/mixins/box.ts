@@ -1,11 +1,13 @@
 import { DeclarationBlock } from '@aesthetic/sss';
 import { border } from './border';
-import { Tokens, BorderSize } from '../types';
+import { BorderSize, VarFactory } from '../types';
 import { LAYOUT_SHADES } from '../constants';
 
-export function box(tokens: Tokens, size: BorderSize): DeclarationBlock {
+export function box(vars: VarFactory, size: BorderSize): DeclarationBlock {
   return {
-    ...border(tokens, size),
-    backgroundColor: tokens.palette.neutral.color[LAYOUT_SHADES.box],
+    ...border(vars, size),
+    backgroundColor: vars(
+      `palette-neutral-color-${LAYOUT_SHADES.box}` as 'palette-neutral-color-10',
+    ),
   };
 }

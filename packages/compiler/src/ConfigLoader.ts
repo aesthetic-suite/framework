@@ -1,6 +1,4 @@
-import fs from 'fs';
-import yaml from 'js-yaml';
-import { Path } from '@boost/common';
+import { Path, parseFile } from '@boost/common';
 import { DeepPartial, ColorScheme, ContrastLevel, Hexcode } from '@aesthetic/system';
 import optimal, {
   array,
@@ -69,11 +67,8 @@ export default class ConfigLoader {
     this.platform = platform;
   }
 
-  async load(path: Path): Promise<ConfigFile> {
-    const data = await fs.promises.readFile(path.path(), 'utf8');
-    const yml = yaml.safeLoad(data);
-
-    return this.validate(yml);
+  load(path: Path): ConfigFile {
+    return this.validate(parseFile(path));
   }
 
   validate(config: DeepPartial<ConfigFile>): ConfigFile {

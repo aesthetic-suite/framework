@@ -1,4 +1,4 @@
-import { isUnitlessProperty } from 'css-in-js-utils';
+import isUnitlessProperty from './isUnitlessProperty';
 import { Value } from '../types';
 
 export default function applyUnitToValue(property: string, value: Value): string {
