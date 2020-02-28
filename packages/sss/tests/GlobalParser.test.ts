@@ -18,6 +18,7 @@ describe('GlobalParser', () => {
   beforeEach(() => {
     parser = new GlobalParser({
       onBlockProperty(block, key, value) {
+        // @ts-ignore TODO FIX
         block.addProperty(key as keyof Properties, value);
       },
     });
