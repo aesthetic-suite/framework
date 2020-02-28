@@ -2,7 +2,7 @@ import { Import } from './types';
 
 export default function formatImport(value: string | Import): string {
   if (typeof value === 'string') {
-    return `"${value}"`;
+    return value;
   }
 
   let path = `"${value.path}"`;
@@ -11,8 +11,8 @@ export default function formatImport(value: string | Import): string {
     path = `url(${path})`;
   }
 
-  if (value.query) {
-    path += ` ${value.query}`;
+  if (value.media) {
+    path += ` ${value.media}`;
   }
 
   return path;

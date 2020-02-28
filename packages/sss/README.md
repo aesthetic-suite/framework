@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/%40aesthetic%sss.svg)](https://www.npmjs.com/package/@aesthetic/sss)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/sss)](https://www.npmjs.com/package/@aesthetic/sss)
 
-A strict, type-safe, and structure-safe CSS-in-JS style sheet format.
+A strict, type-safe, and structure-safe component style sheet format.
 
 ## Installation
 

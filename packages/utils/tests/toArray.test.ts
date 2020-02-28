@@ -10,4 +10,8 @@ describe('toArray()', () => {
   it('returns an array as is', () => {
     expect(toArray([123, 'foo'])).toEqual([123, 'foo']);
   });
+
+  it('returns an empty array when undefined', () => {
+    expect(toArray(undefined)).toEqual([]);
+  });
 });

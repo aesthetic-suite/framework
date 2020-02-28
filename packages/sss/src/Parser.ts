@@ -1,6 +1,6 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members */
 
-import { isObject, toArray, arrayLoop, objectLoop, generateHash } from '@aesthetic/utils';
+import { isObject, toArray, arrayLoop, objectLoop } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import compoundProperties from './compound';
@@ -10,8 +10,6 @@ import {
   BlockListener,
   BlockNestedListener,
   BlockPropertyListener,
-  CharsetListener,
-  CSSListener,
   DeclarationBlock,
   FallbackProperties,
   FontFace,
@@ -22,12 +20,10 @@ import {
   LocalBlock,
   Properties,
   RulesetListener,
+  ClassNameListener,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
-export const ASYNC_TIMEOUT = 5000;
-
-export type EnqueueCallback = (cb: () => void | Promise<void>) => void;
 
 // Any is required for method overloading to work
 export type Handler = (...args: any[]) => void;
@@ -49,6 +45,17 @@ export interface CommonEvents<T extends object> {
   onKeyframes?: KeyframesListener<T>;
 }
 
+const EVENT_MAP = {
+  onBlockAttribute: 'block:attribute',
+  onBlockFallback: 'block:fallback',
+  onBlockMedia: 'block:media',
+  onBlockProperty: 'block:property',
+  onBlockPseudo: 'block:pseudo',
+  onBlockSelector: 'block:selector',
+  onBlockSupports: 'block:supports',
+  onFontFace: 'font-face',
+};
+
 export default abstract class Parser<T extends object, E extends object> {
   protected handlers: HandlerMap = {};
 
@@ -56,15 +63,11 @@ export default abstract class Parser<T extends object, E extends object> {
     if (handlers) {
       objectLoop(handlers, (handler, name) => {
         this.on(
-          name.slice(2).replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'class',
+          (EVENT_MAP[name as keyof typeof EVENT_MAP] || name.slice(2).toLowerCase()) as 'block',
           (handler as unknown) as Handler,
         );
       });
     }
-  }
-
-  hash(...parts: string[]): string {
-    return generateHash(parts.join('-'));
   }
 
   parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
@@ -107,7 +110,7 @@ export default abstract class Parser<T extends object, E extends object> {
   ) {
     if (__DEV__) {
       if (!isObject(object)) {
-        throw new Error(`@${type} must be an object of queries or conditions to declarations.`);
+        throw new Error(`@${type} must be an object of conditions to declarations.`);
       }
     }
 
@@ -150,7 +153,7 @@ export default abstract class Parser<T extends object, E extends object> {
   }
 
   parseKeyframesAnimation(animationName: string, object: Keyframes): string {
-    const name = object.name || animationName || this.hash('keyframes');
+    const name = object.name || animationName;
     const keyframes = new Block(`@keyframes ${name}`);
 
     // from, to, and percent keys aren't easily detectable
@@ -185,6 +188,14 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     if (props['@selectors']) {
+      if (__DEV__) {
+        if (!isObject(props['@selectors'])) {
+          throw new Error(
+            '@selectors must be an object of CSS selectors to property declarations.',
+          );
+        }
+      }
+
       objectLoop(props['@selectors'], (value, key) => {
         this.parseSelector(builder, key, value, true);
       });
@@ -218,11 +229,11 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     const block = this.parseLocalBlock(new Block(selector), object);
-    let specificity = 0;
 
     arrayLoop(selector.split(','), k => {
       let name = k.trim();
       let type = 'block:selector';
+      let specificity = 0;
 
       // Capture specificity
       while (name.charAt(0) === '&') {
@@ -230,9 +241,9 @@ export default abstract class Parser<T extends object, E extends object> {
         name = name.slice(1);
       }
 
-      if (selector.charAt(0) === ':') {
+      if (name.charAt(0) === ':') {
         type = 'block:pseudo';
-      } else if (selector.charAt(0) === '[') {
+      } else if (name.charAt(0) === '[') {
         type = 'block:attribute';
       }
 
@@ -285,8 +296,7 @@ export default abstract class Parser<T extends object, E extends object> {
     ...args: Parameters<BlockConditionListener<T>>
   ): void;
   emit(name: 'block' | 'global' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
-  emit(name: 'charset' | 'class', ...args: Parameters<CharsetListener>): void;
-  emit(name: 'css', ...args: Parameters<CSSListener>): void;
+  emit(name: 'class', ...args: Parameters<ClassNameListener>): void;
   emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): void;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
   emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): void;
@@ -295,15 +305,6 @@ export default abstract class Parser<T extends object, E extends object> {
     if (this.handlers[name]) {
       this.handlers[name](...args);
     }
-  }
-
-  /**
-   * Delete an event listener.
-   */
-  off(name: string): this {
-    delete this.handlers[name];
-
-    return this;
   }
 
   /**
@@ -316,8 +317,7 @@ export default abstract class Parser<T extends object, E extends object> {
   on(name: 'block:media' | 'block:supports', callback: BlockConditionListener<T>): this;
   on(name: 'block:fallback' | 'block:property', callback: BlockPropertyListener<T>): this;
   on(name: 'block' | 'global' | 'page' | 'viewport', callback: BlockListener<T>): this;
-  on(name: 'charset' | 'class', callback: CharsetListener): this;
-  on(name: 'css', callback: CSSListener): this;
+  on(name: 'class', callback: ClassNameListener): this;
   on(name: 'font-face', callback: FontFaceListener<T>): this;
   on(name: 'import', callback: ImportListener): this;
   on(name: 'keyframes', callback: KeyframesListener<T>): this;
@@ -326,38 +326,5 @@ export default abstract class Parser<T extends object, E extends object> {
     this.handlers[name] = callback;
 
     return this;
-  }
-
-  protected createAsyncQueue(
-    size: number,
-    factory: (enqueue: EnqueueCallback) => void,
-  ): Promise<void> {
-    let counter = 0;
-
-    return new Promise((resolve, reject) => {
-      const runCheck = () => {
-        counter += 1;
-
-        if (counter === size) {
-          resolve();
-        }
-      };
-
-      const enqueue: EnqueueCallback = async cb => {
-        if (counter >= size) {
-          return;
-        }
-
-        await cb();
-
-        runCheck();
-      };
-
-      factory(enqueue);
-
-      setTimeout(() => {
-        reject(new Error('Failed to parse and compile style sheet.'));
-      }, ASYNC_TIMEOUT);
-    });
   }
 }

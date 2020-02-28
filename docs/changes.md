@@ -8,3 +8,4 @@
 ## Breaking
 
 - `@import` is only an array now, no string.
+- Stylis (raw CSS) support has been removed.
