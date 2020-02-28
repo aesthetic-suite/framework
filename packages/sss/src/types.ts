@@ -296,8 +296,6 @@ export type BlockListener<T extends object> = (block: Block<T>) => void;
 
 export type ClassNameListener = (className: string) => void;
 
-export type CSSListener = (css: string, className: string) => void;
-
 export type FontFaceListener<T extends object> = (
   fontFace: Block<T>,
   fontFamily: string,

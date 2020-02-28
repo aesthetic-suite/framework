@@ -1,5 +1,3 @@
-import { objectLoop, isObject } from '@aesthetic/utils';
-import Block from '../src/Block';
 import GlobalParser from '../src/GlobalParser';
 import { Properties } from '../src/types';
 import {
@@ -10,29 +8,16 @@ import {
   KEYFRAMES_RANGE,
   KEYFRAMES_PERCENT,
 } from './__mocks__/global';
-
-function createBlock(selector: string, properties: object): Block<Properties> {
-  const block = new Block(selector);
-
-  objectLoop(properties, (value, key) => {
-    if (isObject(value)) {
-      block.addNested(createBlock(key, value));
-    } else {
-      block.addProperty(key, value);
-    }
-  });
-
-  return block;
-}
+import { createBlock } from './helpers';
 
 describe('GlobalParser', () => {
   let parser: GlobalParser<Properties>;
 
   beforeEach(() => {
-    parser = new GlobalParser();
-
-    parser.on('block:property', (block, key, value) => {
-      block.addProperty(key as keyof Properties, value);
+    parser = new GlobalParser({
+      onBlockProperty(block, key, value) {
+        block.addProperty(key as keyof Properties, value);
+      },
     });
   });
 
@@ -95,13 +80,15 @@ describe('GlobalParser', () => {
     });
   });
 
-  describe.skip('@global', () => {
+  describe('@global', () => {
     let spy: jest.Mock;
 
     beforeEach(() => {
       spy = jest.fn();
       parser.on('global', spy);
     });
+
+    it.todo('todo');
   });
 
   describe('@import', () => {

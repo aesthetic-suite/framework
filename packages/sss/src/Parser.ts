@@ -10,7 +10,6 @@ import {
   BlockListener,
   BlockNestedListener,
   BlockPropertyListener,
-  CSSListener,
   DeclarationBlock,
   FallbackProperties,
   FontFace,
@@ -46,6 +45,17 @@ export interface CommonEvents<T extends object> {
   onKeyframes?: KeyframesListener<T>;
 }
 
+const EVENT_MAP = {
+  onBlockAttribute: 'block:attribute',
+  onBlockFallback: 'block:fallback',
+  onBlockMedia: 'block:media',
+  onBlockProperty: 'block:property',
+  onBlockPseudo: 'block:pseudo',
+  onBlockSelector: 'block:selector',
+  onBlockSupports: 'block:supports',
+  onFontFace: 'font-face',
+};
+
 export default abstract class Parser<T extends object, E extends object> {
   protected handlers: HandlerMap = {};
 
@@ -53,7 +63,7 @@ export default abstract class Parser<T extends object, E extends object> {
     if (handlers) {
       objectLoop(handlers, (handler, name) => {
         this.on(
-          name.slice(2).replace(/([A-Z])/gu, (match, char) => `:${char.toLowerCase()}`) as 'class',
+          (EVENT_MAP[name as keyof typeof EVENT_MAP] || name.slice(2).toLowerCase()) as 'block',
           (handler as unknown) as Handler,
         );
       });
@@ -178,6 +188,14 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     if (props['@selectors']) {
+      if (__DEV__) {
+        if (!isObject(props['@selectors'])) {
+          throw new Error(
+            '@selectors must be an object of CSS selectors to property declarations.',
+          );
+        }
+      }
+
       objectLoop(props['@selectors'], (value, key) => {
         this.parseSelector(builder, key, value, true);
       });
@@ -211,11 +229,11 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     const block = this.parseLocalBlock(new Block(selector), object);
-    let specificity = 0;
 
     arrayLoop(selector.split(','), k => {
       let name = k.trim();
       let type = 'block:selector';
+      let specificity = 0;
 
       // Capture specificity
       while (name.charAt(0) === '&') {
@@ -223,9 +241,9 @@ export default abstract class Parser<T extends object, E extends object> {
         name = name.slice(1);
       }
 
-      if (selector.charAt(0) === ':') {
+      if (name.charAt(0) === ':') {
         type = 'block:pseudo';
-      } else if (selector.charAt(0) === '[') {
+      } else if (name.charAt(0) === '[') {
         type = 'block:attribute';
       }
 
@@ -279,7 +297,6 @@ export default abstract class Parser<T extends object, E extends object> {
   ): void;
   emit(name: 'block' | 'global' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
   emit(name: 'class', ...args: Parameters<ClassNameListener>): void;
-  emit(name: 'css', ...args: Parameters<CSSListener>): void;
   emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): void;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
   emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): void;
@@ -288,15 +305,6 @@ export default abstract class Parser<T extends object, E extends object> {
     if (this.handlers[name]) {
       this.handlers[name](...args);
     }
-  }
-
-  /**
-   * Delete an event listener.
-   */
-  off(name: string): this {
-    delete this.handlers[name];
-
-    return this;
   }
 
   /**
@@ -310,7 +318,6 @@ export default abstract class Parser<T extends object, E extends object> {
   on(name: 'block:fallback' | 'block:property', callback: BlockPropertyListener<T>): this;
   on(name: 'block' | 'global' | 'page' | 'viewport', callback: BlockListener<T>): this;
   on(name: 'class', callback: ClassNameListener): this;
-  on(name: 'css', callback: CSSListener): this;
   on(name: 'font-face', callback: FontFaceListener<T>): this;
   on(name: 'import', callback: ImportListener): this;
   on(name: 'keyframes', callback: KeyframesListener<T>): this;
