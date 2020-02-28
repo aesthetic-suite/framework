@@ -10,6 +10,9 @@ import {
   SYNTAX_SELECTORS_SPECIFICITY,
   SYNTAX_SELECTORS_COMBINATORS,
   SYNTAX_SELECTORS_MULTIPLE,
+  SYNTAX_SUPPORTS,
+  SYNTAX_MEDIA,
+  SYNTAX_MEDIA_NESTED,
 } from './__mocks__/local';
 
 describe('LocalParser', () => {
@@ -24,6 +27,43 @@ describe('LocalParser', () => {
     });
 
     spy = jest.fn();
+  });
+
+  it('errors for an at-rule', () => {
+    expect(() => {
+      parser.parse({
+        '@rule': {},
+      });
+    }).toThrow('At-rules may not be defined at the root of a local block, found "@rule".');
+  });
+
+  it('errors for invalid value type', () => {
+    expect(() => {
+      parser.parse({
+        // @ts-ignore Allow invalid type
+        el: 123,
+      });
+    }).toThrow(
+      'Invalid declaration for "el". Must be an object (style declaration) or string (class name).',
+    );
+  });
+
+  describe('class names', () => {
+    beforeEach(() => {
+      parser.on('class', spy);
+    });
+
+    it('emits for each class name', () => {
+      parser.parse({
+        foo: 'foo',
+        bar: {},
+        baz: 'baz',
+      });
+
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledWith('foo');
+      expect(spy).toHaveBeenCalledWith('baz');
+    });
   });
 
   describe('properties', () => {
@@ -41,6 +81,16 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', 'inline');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', 10);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', 0);
+    });
+
+    it('doesnt emit for undefined values', () => {
+      parser.parse({
+        props: {
+          color: undefined,
+        },
+      });
+
+      expect(spy).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -100,6 +150,34 @@ describe('LocalParser', () => {
     });
   });
 
+  describe('selectors', () => {
+    beforeEach(() => {
+      parser.on('block:selector', spy);
+    });
+
+    it('errors if selector is not an object', () => {
+      expect(() => {
+        parser.parse({
+          // @ts-ignore Allow invalid type
+          selector: {
+            ':hover': 123,
+          },
+        });
+      }).toThrow('Selector ":hover" must be an object of properties.');
+    });
+
+    it('errors if a comma separated list is passed', () => {
+      expect(() => {
+        parser.parse({
+          selector: {
+            // @ts-ignore Allow invalid type
+            ':hover, :focus': {},
+          },
+        });
+      }).toThrow('Advanced selector ":hover, :focus" must be nested within a @selectors block.');
+    });
+  });
+
   describe('@fallbacks', () => {
     beforeEach(() => {
       parser.on('block:fallback', spy);
@@ -117,7 +195,9 @@ describe('LocalParser', () => {
     });
 
     it('does not emit if no fallbacks', () => {
-      parser.parse({});
+      parser.parse({
+        fb: {},
+      });
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -131,6 +211,81 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'background', ['red']);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', ['block', 'inline-block']);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'color', ['blue']);
+    });
+  });
+
+  describe('@media', () => {
+    beforeEach(() => {
+      parser.on('block:media', spy);
+    });
+
+    it('errors if media is not an object', () => {
+      expect(() => {
+        parser.parse({
+          // @ts-ignore Allow invalid type
+          fb: {
+            '@media': 123,
+          },
+        });
+      }).toThrow('@media must be an object of conditions to declarations.');
+    });
+
+    it('does not emit if no media', () => {
+      parser.parse({
+        media: {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each condition', () => {
+      parser.parse({
+        media: SYNTAX_MEDIA,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        '(min-width: 300px)',
+        createBlock('@media (min-width: 300px)', {
+          color: 'blue',
+          paddingLeft: 15,
+        }),
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        '(max-width: 1000px)',
+        createBlock('@media (max-width: 1000px)', {
+          color: 'green',
+          paddingLeft: 20,
+        }),
+      );
+    });
+
+    it('supports nested media conditions', () => {
+      parser.parse({
+        media: SYNTAX_MEDIA_NESTED,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        '(min-width: 300px)',
+        createBlock('@media (min-width: 300px)', {
+          color: 'blue',
+        }),
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        '(max-width: 1000px)',
+        createBlock('@media (max-width: 1000px)', {
+          color: 'green',
+        }),
+      );
     });
   });
 
@@ -151,7 +306,9 @@ describe('LocalParser', () => {
     });
 
     it('does not emit if no selectors', () => {
-      parser.parse({});
+      parser.parse({
+        selectors: {},
+      });
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -257,6 +414,51 @@ describe('LocalParser', () => {
         '> span',
         createBlock('> span', { cursor: 'default' }),
         { specificity: 0 },
+      );
+    });
+  });
+
+  describe('@supports', () => {
+    beforeEach(() => {
+      parser.on('block:supports', spy);
+    });
+
+    it('errors if supports are not an object', () => {
+      expect(() => {
+        parser.parse({
+          // @ts-ignore Allow invalid type
+          fb: {
+            '@supports': 123,
+          },
+        });
+      }).toThrow('@supports must be an object of conditions to declarations.');
+    });
+
+    it('does not emit if no supports', () => {
+      parser.parse({
+        supports: {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each condition', () => {
+      parser.parse({
+        supports: SYNTAX_SUPPORTS,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        '(display: flex)',
+        createBlock('@supports (display: flex)', { display: 'flex' }),
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        'not (display: flex)',
+        createBlock('@supports not (display: flex)', { float: 'left' }),
       );
     });
   });

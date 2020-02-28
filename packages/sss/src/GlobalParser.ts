@@ -40,9 +40,17 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
   }
 
   protected parseGlobal(globals: GlobalStyleSheet['@global']) {
-    if (globals) {
-      this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
+    if (!globals) {
+      return;
     }
+
+    if (__DEV__) {
+      if (!isObject(globals)) {
+        throw new Error('@global must be an object of style properties.');
+      }
+    }
+
+    this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
   }
 
   protected parseImport(imports: GlobalStyleSheet['@import']) {

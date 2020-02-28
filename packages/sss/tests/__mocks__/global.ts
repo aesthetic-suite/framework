@@ -1,5 +1,7 @@
+/* eslint-disable sort-keys */
+
 import CSS from 'csstype';
-import { FontFace, Keyframes } from '../../src/types';
+import { FontFace, Keyframes, GlobalStyleSheet } from '../../src/types';
 
 export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',
@@ -80,4 +82,17 @@ export const KEYFRAMES_PERCENT: Keyframes = {
   '0%': { left: '0%' },
   '50%': { left: '50%' },
   '100%': { left: '100%' },
+};
+
+export const SYNTAX_GLOBAL: GlobalStyleSheet['@global'] = {
+  height: '100%',
+  margin: 0,
+  fontSize: 16,
+  lineHeight: 1.5,
+  backgroundColor: 'white',
+  '@media': {
+    '(prefers-color-scheme: dark)': {
+      backgroundColor: 'black',
+    },
+  },
 };

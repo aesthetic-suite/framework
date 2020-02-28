@@ -110,7 +110,7 @@ export default abstract class Parser<T extends object, E extends object> {
   ) {
     if (__DEV__) {
       if (!isObject(object)) {
-        throw new Error(`@${type} must be an object of queries or conditions to declarations.`);
+        throw new Error(`@${type} must be an object of conditions to declarations.`);
       }
     }
 

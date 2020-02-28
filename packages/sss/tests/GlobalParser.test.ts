@@ -7,11 +7,13 @@ import {
   FONTS_CIRCULAR_FLAT_SRC,
   KEYFRAMES_RANGE,
   KEYFRAMES_PERCENT,
+  SYNTAX_GLOBAL,
 } from './__mocks__/global';
 import { createBlock } from './helpers';
 
 describe('GlobalParser', () => {
   let parser: GlobalParser<Properties>;
+  let spy: jest.Mock;
 
   beforeEach(() => {
     parser = new GlobalParser({
@@ -19,13 +21,12 @@ describe('GlobalParser', () => {
         block.addProperty(key as keyof Properties, value);
       },
     });
+
+    spy = jest.fn();
   });
 
   describe('@font-face', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('font-face', spy);
     });
 
@@ -81,21 +82,51 @@ describe('GlobalParser', () => {
   });
 
   describe('@global', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('global', spy);
     });
 
-    it.todo('todo');
+    it('errors if global is not an object', () => {
+      expect(() => {
+        parser.parse({
+          // @ts-ignore Allow invalid type
+          '@global': 123,
+        });
+      }).toThrow('@global must be an object of style properties.');
+    });
+
+    it('does not emit if no global', () => {
+      parser.parse({});
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('emits a local block for global', () => {
+      parser.on('block:media', (block, query, value) => {
+        block.addNested(value);
+      });
+
+      parser.parse({
+        '@global': SYNTAX_GLOBAL,
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        createBlock('@global', {
+          height: '100%',
+          margin: 0,
+          fontSize: 16,
+          lineHeight: 1.5,
+          backgroundColor: 'white',
+          '@media (prefers-color-scheme: dark)': {
+            backgroundColor: 'black',
+          },
+        }),
+      );
+    });
   });
 
   describe('@import', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('import', spy);
     });
 
@@ -162,10 +193,7 @@ describe('GlobalParser', () => {
   });
 
   describe('@keyframes', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('keyframes', spy);
     });
 
@@ -199,10 +227,7 @@ describe('GlobalParser', () => {
   });
 
   describe('@page', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('page', spy);
     });
 
@@ -284,10 +309,7 @@ describe('GlobalParser', () => {
   });
 
   describe('@viewport', () => {
-    let spy: jest.Mock;
-
     beforeEach(() => {
-      spy = jest.fn();
       parser.on('viewport', spy);
     });
 

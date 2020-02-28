@@ -32,7 +32,7 @@ export default class LocalParser<T extends object> extends Parser<T, LocalEvents
         // Unknown
       } else if (__DEV__) {
         throw new Error(
-          `Invalid declaration for "${selector}". Must be an object (style declaration) or string (raw css, class name).`,
+          `Invalid declaration for "${selector}". Must be an object (style declaration) or string (class name).`,
         );
       }
     });
