@@ -128,7 +128,7 @@ const globalSheet: GlobalStyleSheet = {
     // Object
     {
       path: 'css/reset.css',
-      query: 'screen',
+      media: 'screen',
       url: true,
     },
   ],
@@ -142,13 +142,13 @@ If the `url` property is not defined, or is `false`, the import path will not be
 
 Defines a [keyframes animation](https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes) that
 can be referenced with the `animationName` property. The at-rule requires an object, with the
-animation name as the key, and the keyframes as the value. Supports both from/to and percentage
-based sequences.
+animation name as the key, and the keyframes as the value. Supports both range (from/to) and
+percentage based sequences.
 
 ```ts
 const globalSheet: GlobalStyleSheet = {
   '@keyframes': {
-    // From -> to
+    // Range
     fade: {
       from: { opacity: 0 },
       to: { opacity: 1 },

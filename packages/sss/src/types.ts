@@ -171,7 +171,7 @@ export interface FontFace extends CSS.FontFace {
 
 export interface Import {
   path: string;
-  query?: string;
+  media?: string;
   url?: boolean;
 }
 
@@ -243,7 +243,6 @@ export type LocalStyleSheetNeverize<T> = {
 // GLOBAL STYLE SHEET
 
 export type GlobalAtRule =
-  | '@charset'
   | '@font-face'
   | '@global'
   | '@import'
@@ -252,7 +251,6 @@ export type GlobalAtRule =
   | '@viewport';
 
 export interface GlobalStyleSheet {
-  '@charset'?: string;
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
   '@global'?: LocalBlock;
   '@import'?: (string | Import)[];
@@ -295,8 +293,6 @@ export type BlockPropertyListener<T extends object> = (
 ) => void;
 
 export type BlockListener<T extends object> = (block: Block<T>) => void;
-
-export type CharsetListener = (charset: string) => void;
 
 export type ClassNameListener = (className: string) => void;
 

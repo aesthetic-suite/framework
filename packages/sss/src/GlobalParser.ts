@@ -1,19 +1,10 @@
 import { isObject, toArray, objectLoop, arrayLoop } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import formatImport from './formatImport';
-import {
-  GlobalStyleSheet,
-  PagePseudos,
-  CharsetListener,
-  BlockListener,
-  ImportListener,
-} from './types';
+import { GlobalStyleSheet, PagePseudos, BlockListener, ImportListener } from './types';
 import Block from './Block';
 
-const SHEET_LENGTH = 7;
-
 export interface GlobalEvents<T extends object> extends CommonEvents<T> {
-  onCharset?: CharsetListener;
   onGlobal?: BlockListener<T>;
   onImport?: ImportListener;
   onPage?: BlockListener<T>;
@@ -21,30 +12,13 @@ export interface GlobalEvents<T extends object> extends CommonEvents<T> {
 }
 
 export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
-  async parse(styleSheet: GlobalStyleSheet): Promise<void> {
-    return this.createAsyncQueue(SHEET_LENGTH, enqueue => {
-      enqueue(() => this.parseCharset(styleSheet['@charset']));
-      enqueue(() => this.parseFontFaces(styleSheet['@font-face']));
-      enqueue(() => this.parseGlobal(styleSheet['@global']));
-      enqueue(() => this.parseImport(styleSheet['@import']));
-      enqueue(() => this.parseKeyframes(styleSheet['@keyframes']));
-      enqueue(() => this.parsePage(styleSheet['@page']));
-      enqueue(() => this.parseViewport(styleSheet['@viewport']));
-    });
-  }
-
-  protected parseCharset(charset: GlobalStyleSheet['@charset']) {
-    if (!charset) {
-      return;
-    }
-
-    if (__DEV__) {
-      if (typeof charset !== 'string') {
-        throw new TypeError('@charset must be a string.');
-      }
-    }
-
-    this.emit('charset', charset);
+  parse(styleSheet: GlobalStyleSheet) {
+    this.parseFontFaces(styleSheet['@font-face']);
+    this.parseGlobal(styleSheet['@global']);
+    this.parseImport(styleSheet['@import']);
+    this.parseKeyframes(styleSheet['@keyframes']);
+    this.parsePage(styleSheet['@page']);
+    this.parseViewport(styleSheet['@viewport']);
   }
 
   protected parseFontFaces(fontFaces: GlobalStyleSheet['@font-face']) {
@@ -106,6 +80,12 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
   protected parsePage(page: GlobalStyleSheet['@page']) {
     if (!page) {
       return;
+    }
+
+    if (__DEV__) {
+      if (!isObject(page)) {
+        throw new Error('@page must be an object of properties.');
+      }
     }
 
     const object = { ...page };

@@ -1,7 +1,7 @@
 {
   "name": "@aesthetic/sss",
   "version": "0.0.3",
-  "description": "A strict, type-safe, and structure-safe CSS-in-JS style sheet format.",
+  "description": "A strict, type-safe, and structure-safe component style sheet format.",
   "keywords": [
     "aesthetic",
     "style",
@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@aesthetic/utils": "^0.0.2",
-    "csstype": "^2.6.8",
-    "stylis": "^3.5.4"
+    "csstype": "^2.6.8"
   }
 }

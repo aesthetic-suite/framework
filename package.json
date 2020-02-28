@@ -60,7 +60,7 @@
       }
     ],
     "settings": {
-      "react": true
+      "node": true
     },
     "babel": {
       "plugins": [
