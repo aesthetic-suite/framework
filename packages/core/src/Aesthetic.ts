@@ -1,5 +1,5 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Block, ClientRenderer } from '@aesthetic/style';
+import { Block, ClientRenderer, Renderer } from '@aesthetic/style';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
@@ -14,14 +14,17 @@ import {
 
 // TODO
 // config options
-// sheet cache
 // style injection
 // rtl
+
+function createRenderer(): Renderer {
+  return global.AESTHETIC_SSR || new ClientRenderer();
+}
 
 export default class Aesthetic {
   activeTheme: ThemeName = '';
 
-  renderer = global.AESTHETIC_SSR || new ClientRenderer();
+  renderer = createRenderer();
 
   themeRegistry = new ThemeRegistry();
 
@@ -108,4 +111,13 @@ export default class Aesthetic {
 
     return classNames as ClassNameSheet<StringOnly<keyof T>>;
   };
+
+  /**
+   * Reset the current instance state for testing purposes.
+   */
+  resetForTesting() {
+    this.activeTheme = '';
+    this.renderer = createRenderer();
+    this.themeRegistry.reset();
+  }
 }

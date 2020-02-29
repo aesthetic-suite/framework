@@ -8,6 +8,10 @@ Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for sty
 whether it be with plain objects, importing style sheets, or simply referencing external class
 names, while providing customizability, high-performance, theming, and much more.
 
+## Requirements
+
+- IE 11+
+
 ## Installation
 
 ```

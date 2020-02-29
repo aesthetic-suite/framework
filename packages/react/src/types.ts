@@ -1,5 +1,14 @@
+// Any must be used here for consumers to be typed correctly.
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from 'react';
 import { ClassName, Direction, Theme, ThemeName } from '@aesthetic/core';
+
+export type ClassNameTransformer<T extends string> = (
+  ...keys: (undefined | false | T)[]
+) => ClassName;
+
+// CONTEXT
 
 export type DirectionContextType = Direction;
 
@@ -21,6 +30,20 @@ export interface ThemeProviderProps {
   name?: ThemeName;
 }
 
-export type ClassNameTransformer<T extends string> = (
-  ...keys: (undefined | false | T)[]
-) => ClassName;
+// HOCs
+
+export interface WrapperComponent<T> {
+  WrappedComponent: React.ComponentType<T>;
+}
+
+export interface WithThemeWrapperProps {
+  /** Gain a reference to the wrapped component. Provided by `withTheme`. */
+  wrappedRef?: React.Ref<any>;
+}
+
+export interface WithThemeWrappedProps {
+  /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
+  ref?: React.Ref<any>;
+  /** The theme object. Provided by `withTheme`. */
+  theme: Theme;
+}

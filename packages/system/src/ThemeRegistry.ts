@@ -151,4 +151,13 @@ export default class ThemeRegistry {
 
     return this;
   }
+
+  /**
+   * Reset the registry to initial state.
+   */
+  reset() {
+    this.defaultDarkTheme = '';
+    this.defaultLightTheme = '';
+    this.themes.clear();
+  }
 }
