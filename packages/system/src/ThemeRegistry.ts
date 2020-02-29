@@ -78,7 +78,7 @@ export default class ThemeRegistry {
   /**
    * Return a theme by name or throw an error if not found.
    */
-  getTheme(name: string) {
+  getTheme(name: string): Theme {
     if (__DEV__) {
       if (!name) {
         throw new Error('Cannot find a theme without a name.');
