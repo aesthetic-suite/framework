@@ -1,8 +1,8 @@
 import { ColorScheme, ContrastLevel } from '@aesthetic/system';
-import BaseSheet from './BaseSheet';
+import Sheet from './Sheet';
 import { LocalSheetFactory } from './types';
 
-export default class LocalSheet<T = unknown> extends BaseSheet {
+export default class LocalSheet<T = unknown> extends Sheet {
   protected factory: LocalSheetFactory;
 
   protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory } = {};

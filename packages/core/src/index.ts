@@ -6,6 +6,7 @@
 import Aesthetic from './Aesthetic';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
+import Sheet from './Sheet';
 
 const aesthetic = new Aesthetic();
 
@@ -13,4 +14,4 @@ export const { createComponentStyles, createThemeStyles, getTheme, registerTheme
 
 export * from './types';
 
-export { GlobalSheet, LocalSheet };
+export { GlobalSheet, LocalSheet, Sheet };

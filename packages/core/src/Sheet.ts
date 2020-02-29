@@ -1,4 +1,4 @@
-export default abstract class BaseSheet {
+export default abstract class Sheet {
   protected validateFactory<T>(factory: T): T {
     if (__DEV__) {
       const typeOf = typeof factory;

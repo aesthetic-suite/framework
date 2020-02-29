@@ -3,6 +3,13 @@ import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import { LocalSheetFactory, GlobalSheetFactory } from './types';
 
+// TODO
+// change theme
+// config options
+// sheet cache
+// style injection
+// rtl
+
 export default class Aesthetic {
   themeRegistry = new ThemeRegistry();
 

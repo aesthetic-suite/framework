@@ -1,7 +1,7 @@
-import BaseSheet from './BaseSheet';
+import Sheet from './Sheet';
 import { GlobalSheetFactory } from './types';
 
-export default class GlobalSheet<T = unknown> extends BaseSheet {
+export default class GlobalSheet<T = unknown> extends Sheet {
   protected factory: GlobalSheetFactory;
 
   constructor(factory: GlobalSheetFactory<T>) {
