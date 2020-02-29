@@ -1,6 +1,7 @@
 import { Theme, ThemeRegistry } from '@aesthetic/system';
+import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import { LocalSheetFactory } from './types';
+import { LocalSheetFactory, GlobalSheetFactory } from './types';
 
 export default class Aesthetic {
   themeRegistry = new ThemeRegistry();
@@ -8,7 +9,13 @@ export default class Aesthetic {
   /**
    * Create a local style sheet for use within components.
    */
-  createLocalStyles = <T = unknown>(factory: LocalSheetFactory<T>) => new LocalSheet<T>(factory);
+  createComponentStyles = <T = unknown>(factory: LocalSheetFactory<T>) =>
+    new LocalSheet<T>(factory);
+
+  /**
+   * Create a global style sheet for a theme and its root styles.
+   */
+  createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
 
   /**
    * Return a theme instance by name.
