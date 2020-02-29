@@ -154,7 +154,7 @@ export default abstract class Parser<T extends object, E extends object> {
 
   parseKeyframesAnimation(animationName: string, object: Keyframes): string {
     const name = object.name || animationName;
-    const keyframes = new Block(`@keyframes ${name}`);
+    const keyframes = new Block<T>(`@keyframes ${name}`);
 
     // from, to, and percent keys aren't easily detectable
     objectLoop(object, (value, key) => {

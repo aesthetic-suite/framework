@@ -1,0 +1,41 @@
+{
+  "name": "@aesthetic/react",
+  "version": "0.0.0",
+  "description": "React hooks, composers, and more for styling components with Aesthetic.",
+  "keywords": [
+    "aesthetic",
+    "react",
+    "styles",
+    "hook",
+    "hoc",
+    "composer"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/react",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@aesthetic/utils": "^0.0.3",
+    "@types/react": "*",
+    "direction": "^1.0.4",
+    "hoist-non-react-statics": "^3.3.2"
+  },
+  "peerDependencies": {
+    "@aesthetic/core": "^0.0.0",
+    "react": "^16.6.0"
+  },
+  "devDependencies": {
+    "@aesthetic/core": "^0.0.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}

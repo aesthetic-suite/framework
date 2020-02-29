@@ -1,17 +1,38 @@
+import { LocalParser } from '@aesthetic/sss';
+import { Block, ClientRenderer } from '@aesthetic/style';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import { LocalSheetFactory, GlobalSheetFactory } from './types';
+import {
+  LocalSheetFactory,
+  GlobalSheetFactory,
+  ThemeName,
+  SheetQuery,
+  ClassNameSheet,
+  StringOnly,
+} from './types';
 
 // TODO
-// change theme
 // config options
 // sheet cache
 // style injection
 // rtl
 
 export default class Aesthetic {
+  activeTheme: ThemeName = '';
+
+  renderer = global.AESTHETIC_SSR || new ClientRenderer();
+
   themeRegistry = new ThemeRegistry();
+
+  /**
+   * Change the currently active name.
+   */
+  changeTheme = (name: ThemeName) => {
+    if (this.getTheme(name)) {
+      this.activeTheme = name;
+    }
+  };
 
   /**
    * Create a local style sheet for use within components.
@@ -25,14 +46,66 @@ export default class Aesthetic {
   createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
 
   /**
-   * Return a theme instance by name.
+   * Return the currently active theme instance. If an active instance has not been defined,
+   * one will be detected from the client's browser preferences.
    */
-  getTheme = (name: string) => this.themeRegistry.getTheme(name);
+  getActiveTheme = () => {
+    if (this.activeTheme) {
+      return this.getTheme(this.activeTheme);
+    }
+
+    // Detect theme from browser preferences
+    const theme = this.themeRegistry.getPreferredTheme();
+
+    this.activeTheme = theme.name;
+
+    return theme;
+  };
 
   /**
-   * Register a theme into the registry.
+   * Return a theme instance by name.
    */
-  registerTheme = (name: string, theme: Theme, isDefault: boolean = false) => {
+  getTheme = (name: ThemeName) => this.themeRegistry.getTheme(name);
+
+  /**
+   * Register a default light or dark theme, with optional global theme styles.
+   */
+  registerDefaultTheme = (name: ThemeName, theme: Theme, sheet: GlobalSheet | null = null) => {
+    this.registerTheme(name, theme, sheet, true);
+  };
+
+  /**
+   * Register a theme, with optional global theme styles.
+   */
+  registerTheme = (
+    name: ThemeName,
+    theme: Theme,
+    sheet: GlobalSheet | null = null,
+    isDefault: boolean = false,
+  ) => {
     this.themeRegistry.register(name, theme, isDefault);
+  };
+
+  renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, query: SheetQuery) => {
+    const { renderer } = this;
+    const theme = this.getActiveTheme();
+    const factory = sheet.compose(query);
+    const styles = factory(
+      {
+        mixin: theme.mixin,
+        unit: theme.unit,
+        var: theme.var,
+      },
+      theme.toTokens(),
+    );
+    const classNames: { [key: string]: string } = {};
+
+    new LocalParser<Block>({
+      onRuleset(selector, block) {
+        classNames[selector] = renderer.renderRule(block.toObject());
+      },
+    }).parse(styles);
+
+    return classNames as ClassNameSheet<StringOnly<keyof T>>;
   };
 }

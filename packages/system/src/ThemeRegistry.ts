@@ -144,6 +144,9 @@ export default class ThemeRegistry {
       }
     }
 
+    // eslint-disable-next-line no-param-reassign
+    theme.name = name;
+
     this.themes.set(name, theme);
 
     return this;

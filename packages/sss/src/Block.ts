@@ -1,6 +1,8 @@
 import { objectLoop } from '@aesthetic/utils';
 
 export default class Block<T extends object> {
+  classNames: string = '';
+
   readonly nested: { [key: string]: Block<T> } = {};
 
   readonly properties: Partial<T> = {};
@@ -9,6 +11,12 @@ export default class Block<T extends object> {
 
   constructor(selector: string) {
     this.selector = selector;
+  }
+
+  addClassName(name: string): this {
+    this.classNames += ` ${name}`;
+
+    return this;
   }
 
   addNested(block: Block<T>, merge: boolean = true): this {
@@ -34,7 +42,7 @@ export default class Block<T extends object> {
   }
 
   clone(selector: string): Block<T> {
-    return new Block(selector).merge(this);
+    return new Block<T>(selector).merge(this);
   }
 
   merge(block: Block<T>): this {
@@ -47,13 +55,23 @@ export default class Block<T extends object> {
     return this;
   }
 
-  toObject(): object {
+  toClassNames(): string {
+    let className = this.classNames;
+
+    objectLoop(this.nested, block => {
+      className = ` ${block.toClassNames()}`;
+    });
+
+    return className.trim();
+  }
+
+  toObject(): T {
     const object: { [key: string]: unknown } = { ...this.properties };
 
     objectLoop(this.nested, (block, selector) => {
       object[selector] = block.toObject();
     });
 
-    return object;
+    return object as T;
   }
 }

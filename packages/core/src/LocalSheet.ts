@@ -1,15 +1,16 @@
 import { ColorScheme, ContrastLevel } from '@aesthetic/system';
+import { deepMerge } from '@aesthetic/utils';
 import Sheet from './Sheet';
-import { LocalSheetFactory } from './types';
+import { LocalSheetFactory, SheetQuery } from './types';
 
 export default class LocalSheet<T = unknown> extends Sheet {
-  protected factory: LocalSheetFactory;
+  protected factory: LocalSheetFactory<T>;
 
-  protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory } = {};
+  protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory<T> } = {};
 
-  protected schemeVariants: { [K in ColorScheme]?: LocalSheetFactory } = {};
+  protected schemeVariants: { [K in ColorScheme]?: LocalSheetFactory<T> } = {};
 
-  protected themeVariants: { [theme: string]: LocalSheetFactory } = {};
+  protected themeVariants: { [theme: string]: LocalSheetFactory<T> } = {};
 
   constructor(factory: LocalSheetFactory<T>) {
     super();
@@ -45,5 +46,27 @@ export default class LocalSheet<T = unknown> extends Sheet {
     this.themeVariants[theme] = this.validateFactory(factory);
 
     return this;
+  }
+
+  compose(query: SheetQuery): LocalSheetFactory<T> {
+    const factories = [this.factory];
+
+    if (query.scheme && this.schemeVariants[query.scheme]) {
+      factories.push(this.schemeVariants[query.scheme]!);
+    }
+
+    if (query.contrast && this.contrastVariants[query.contrast]) {
+      factories.push(this.contrastVariants[query.contrast]!);
+    }
+
+    if (query.theme && this.themeVariants[query.theme]) {
+      factories.push(this.themeVariants[query.theme]!);
+    }
+
+    if (factories.length === 1) {
+      return factories[0];
+    }
+
+    return (params, tokens) => deepMerge(...factories.map(factory => factory(params, tokens)));
   }
 }

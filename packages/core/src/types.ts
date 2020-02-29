@@ -6,15 +6,39 @@ import {
   LocalStyleSheet,
   LocalStyleSheetNeverize,
 } from '@aesthetic/sss';
-import { MixinFactory, VarFactory, UnitFactory, Tokens } from '@aesthetic/system';
+import {
+  ColorScheme,
+  ContrastLevel,
+  MixinFactory,
+  Tokens,
+  UnitFactory,
+  VarFactory,
+} from '@aesthetic/system';
 
 export * from '@aesthetic/sss/lib/types';
 export * from '@aesthetic/system/lib/types';
+
+export type Direction = 'neutral' | 'ltr' | 'rtl';
+
+export type ClassName = string;
+
+export type ClassNameSheet<T extends string> = { [K in T]: string };
+
+export type ThemeName = string;
+
+export type StringOnly<T> = T extends string ? string : never;
 
 export interface SheetParams {
   mixin: MixinFactory;
   unit: UnitFactory;
   var: VarFactory;
+}
+
+export interface SheetQuery {
+  contrast?: ContrastLevel;
+  dir?: Direction;
+  scheme?: ColorScheme;
+  theme?: ThemeName;
 }
 
 export type GlobalSheetFactory<T = unknown> = (

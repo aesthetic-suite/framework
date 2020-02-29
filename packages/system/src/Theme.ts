@@ -23,6 +23,8 @@ interface AnyObject {
 }
 
 export default class Theme {
+  name: string = '';
+
   readonly contrast: ContrastLevel;
 
   readonly mixins: Mixins;

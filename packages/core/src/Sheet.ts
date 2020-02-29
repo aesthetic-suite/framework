@@ -1,3 +1,5 @@
+import { SheetQuery } from './types';
+
 export default abstract class Sheet {
   protected validateFactory<T>(factory: T): T {
     if (__DEV__) {
@@ -10,4 +12,6 @@ export default abstract class Sheet {
 
     return factory;
   }
+
+  abstract compose(query: SheetQuery): unknown;
 }
