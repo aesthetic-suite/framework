@@ -4,7 +4,12 @@
  */
 
 import Aesthetic from './Aesthetic';
+import LocalSheet from './LocalSheet';
 
 const aesthetic = new Aesthetic();
 
-export const { getTheme, registerTheme } = aesthetic;
+export const { createLocalStyles, getTheme, registerTheme } = aesthetic;
+
+export * from './types';
+
+export { LocalSheet };

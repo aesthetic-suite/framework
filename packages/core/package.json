@@ -19,6 +19,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@aesthetic/sss": "^0.0.0",
     "@aesthetic/style": "^0.0.0",
     "@aesthetic/system": "^0.0.0",
     "@aesthetic/utils": "^0.0.0"
