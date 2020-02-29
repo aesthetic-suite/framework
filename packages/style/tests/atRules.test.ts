@@ -85,7 +85,7 @@ describe('At-rules', () => {
   });
 
   describe('@keyframes', () => {
-    it('renders from-to based and returns animation name', () => {
+    it('renders range based and returns animation name', () => {
       const name = renderer.renderKeyframes({
         from: {
           transform: 'translateX(0%)',
@@ -107,7 +107,7 @@ describe('At-rules', () => {
         '100%': { top: 100, left: '100%' },
       });
 
-      expect(name).toBe('kfnec9co');
+      expect(name).toBe('kf22exw8');
       expect(getInsertedStyles('global')).toMatchSnapshot();
     });
 

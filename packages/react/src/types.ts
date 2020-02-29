@@ -32,8 +32,8 @@ export interface ThemeProviderProps {
 
 // HOCs
 
-export interface WrapperComponent<T> {
-  WrappedComponent: React.ComponentType<T>;
+export interface WrapperComponent {
+  WrappedComponent: React.ComponentType<any>;
 }
 
 export interface WithThemeWrapperProps {
@@ -46,4 +46,16 @@ export interface WithThemeWrappedProps {
   ref?: React.Ref<any>;
   /** The theme object. Provided by `withTheme`. */
   theme: Theme;
+}
+
+export interface WithStylesWrapperProps {
+  /** Gain a reference to the wrapped component. Provided by `withStyles`. */
+  wrappedRef?: React.Ref<any>;
+}
+
+export interface WithStylesWrappedProps<T extends string> {
+  /** Function to transform styles into CSS class names. Provided by `withStyles`. */
+  cx: ClassNameTransformer<T>;
+  /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
+  ref?: React.Ref<any>;
 }

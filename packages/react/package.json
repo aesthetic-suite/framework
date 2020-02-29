@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/utils": "^0.0.3",
+    "@aesthetic/utils": "^0.0.2",
     "@types/react": "*",
     "direction": "^1.0.4",
     "hoist-non-react-statics": "^3.3.2"

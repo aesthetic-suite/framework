@@ -90,6 +90,12 @@ export default class Aesthetic {
   };
 
   renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, query: SheetQuery) => {
+    if (__DEV__) {
+      if (!(sheet instanceof LocalSheet)) {
+        throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
+      }
+    }
+
     const { renderer } = this;
     const theme = this.getActiveTheme();
     const factory = sheet.compose(query);

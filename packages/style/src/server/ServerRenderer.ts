@@ -20,7 +20,11 @@ export default class ServerRenderer extends Renderer {
     objectLoop(vars, (value, key) => {
       const name = formatCssVariableName(key);
 
-      this.globalStyleSheet.sheet.cssVariables[name] = applyUnitToValue(name, value);
+      this.globalStyleSheet.sheet.cssVariables[name] = applyUnitToValue(
+        name,
+        value,
+        this.options.unit,
+      );
     });
   }
 }

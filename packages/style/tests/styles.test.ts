@@ -54,6 +54,21 @@ describe('Styles', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
+  it('generates a deterministic class name for each property', () => {
+    renderer.options.deterministic = true;
+
+    const className = renderer.renderRule({
+      margin: 0,
+      cursor: 'pointer',
+    });
+    const cursor = renderer.renderDeclaration('cursor', 'pointer');
+
+    expect(className).toBe('13kbekr 16r1ggk');
+    expect(className).toContain(cursor);
+    expect(cursor).toBe('16r1ggk');
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
   it('generates a unique class name for each selector even if property value pair is the same', () => {
     const className = renderer.renderRule({
       background: '#000',
@@ -242,6 +257,15 @@ describe('Styles', () => {
     expect(b).toBe('b');
     expect(a).not.toBe(b);
     expect(getInsertedStyles('global')).toMatchSnapshot();
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('applies vendor prefixes to a property under a single class name', () => {
+    renderer.options.prefix = true;
+
+    renderer.renderDeclaration('display', 'flex'); // Value prefixing (wont show in snapshot)
+    renderer.renderDeclaration('transition', '200ms all'); // Property prefixing
+
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 });

@@ -28,7 +28,7 @@ describe('withTheme()', () => {
   }
 
   it('inherits name from component `constructor.name`', () => {
-    const Wrapped = withTheme(BaseComponent);
+    const Wrapped = withTheme()(BaseComponent);
 
     expect(Wrapped.displayName).toBe('withTheme(BaseComponent)');
   });
@@ -40,13 +40,13 @@ describe('withTheme()', () => {
 
     DisplayComponent.displayName = 'CustomDisplayName';
 
-    const Wrapped = withTheme(DisplayComponent);
+    const Wrapped = withTheme()(DisplayComponent);
 
     expect(Wrapped.displayName).toBe('withTheme(CustomDisplayName)');
   });
 
   it('stores the original component as a static property', () => {
-    const Wrapped = withTheme(BaseComponent);
+    const Wrapped = withTheme()(BaseComponent);
 
     expect(Wrapped.WrappedComponent).toBe(BaseComponent);
   });
@@ -56,7 +56,7 @@ describe('withTheme()', () => {
       return <div />;
     }
 
-    const Wrapped = withTheme(ThemeComponent);
+    const Wrapped = withTheme()(ThemeComponent);
     const { root } = render<{}>(<Wrapped />, { wrapper: <WrappingComponent /> });
 
     expect(root.findOne(ThemeComponent)).toHaveProp('theme', lightTheme);
@@ -75,7 +75,7 @@ describe('withTheme()', () => {
     }
 
     let foundRef: Function | null = null;
-    const Wrapped = withTheme(RefComponent);
+    const Wrapped = withTheme()(RefComponent);
 
     render<{}>(
       <Wrapped
@@ -94,7 +94,7 @@ describe('withTheme()', () => {
     // @ts-ignore Only need to mock matches
     window.matchMedia = () => ({ matches: false });
 
-    const Wrapped = withTheme(BaseComponent);
+    const Wrapped = withTheme()(BaseComponent);
     const { root, update } = render<ThemeProviderProps>(
       <ThemeProvider>
         <Wrapped />

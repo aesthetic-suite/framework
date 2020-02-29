@@ -11,6 +11,10 @@
 - `@import` is only an array now, no string.
 - Stylis (raw CSS) support has been removed.
 
+# Core
+
+EVERYTHING!
+
 # React
 
 ## New
@@ -20,7 +24,7 @@
 
 ## Breaking
 
-- HOCs are no longer factories with options.
 - Styles must now be created with `createComponentStyles`.
+- `useStyles` only returns the `cx` function.
 - `useTheme` returns the new theme object.
-- `withTheme` no longer accepts options (removed `themePropName`).
+- `withStyles` and `withTheme` no longer accepts options.

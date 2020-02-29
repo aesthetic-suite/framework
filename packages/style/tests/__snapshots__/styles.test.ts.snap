@@ -2,6 +2,8 @@
 
 exports[`Styles applies a px unit to numeric properties that require it 1`] = `".a {width: 300px;}.b {margin-top: 10px;}"`;
 
+exports[`Styles applies vendor prefixes to a property under a single class name 1`] = `".a {display: flex;}.b {transition: 200ms all; -webkit-transition: 200ms all; -moz-transition: 200ms all;}"`;
+
 exports[`Styles can insert the same declaration by manually bypassing the cache 1`] = `".a {color: red;}.b {color: red;}.c {color: red;}"`;
 
 exports[`Styles can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
@@ -13,6 +15,8 @@ exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {
 exports[`Styles doesnt apply a px unit to numeric properties that dont require it 1`] = `".a {line-height: 1.5;}.b {font-weight: 600;}"`;
 
 exports[`Styles doesnt apply a px unit to properties that are already prefixed 1`] = `".a {padding-left: 10px;}.b {height: 10vh;}"`;
+
+exports[`Styles generates a deterministic class name for each property 1`] = `".13kbekr {margin: 0;}.16r1ggk {cursor: pointer;}"`;
 
 exports[`Styles generates a unique class name for a large number of properties 1`] = `".a {padding: 0;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
 

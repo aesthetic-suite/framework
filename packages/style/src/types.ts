@@ -66,3 +66,16 @@ export interface StyleRule {
   type: number;
   insertRule(rule: string, index: number): number;
 }
+
+export interface ProcessedProperties {
+  [key: string]: string;
+}
+
+// RENDERER
+
+export interface RendererOptions {
+  deterministic?: boolean;
+  prefix?: boolean;
+  rtl?: boolean;
+  unit?: string;
+}

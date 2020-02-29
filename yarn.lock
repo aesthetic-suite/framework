@@ -2,6 +2,24 @@
 # yarn lockfile v1
 
 
+"@aesthetic/sss@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/@aesthetic/sss/-/sss-0.0.3.tgz#24697f1e3c2cb9ad438426bff92bbb72ff265c7d"
+  integrity sha512-lDMytnwnpu8Ir2/XFhVudDmUz75ic5x3Ur/ieRnI9AhBSbez7Hzlc8PQucxDJbCiJi3g8CLNvG6HQyu7H+wHVQ==
+  dependencies:
+    "@aesthetic/utils" "^0.0.2"
+    csstype "^2.6.8"
+    stylis "^3.5.4"
+
+"@aesthetic/style@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/@aesthetic/style/-/style-0.0.2.tgz#7cf473facb4f920f423193e8d0407cf0e762f48f"
+  integrity sha512-A4lGclpbu3h5h0Nj22cRELgUH15d80yTUChXx4bTPUvXrrPA6ikQjf9wSlZCRjTNUiF/f2SZew6PrBheEjmNWg==
+  dependencies:
+    "@aesthetic/utils" "^0.0.2"
+    csstype "^2.6.8"
+    sort-css-media-queries "^1.5.0"
+
 "@babel/cli@^7.8.4":
   version "7.8.4"
   resolved "https://registry.npmjs.org/@babel/cli/-/cli-7.8.4.tgz#505fb053721a98777b2b175323ea4f090b7d3c1c"
@@ -2268,6 +2286,11 @@
   dependencies:
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
+
+"@types/inline-style-prefixer@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/inline-style-prefixer/-/inline-style-prefixer-3.0.1.tgz#8541e636b029124b747952e9a28848286d2b5bf6"
+  integrity sha512-+kbOcYW1/noncDwRryRoB9tH87IYcMfdBGvw98iocK39LtTA2DFL7agmk4UHW/GxjzVfwrxfjlLrqrgA7MCtmg==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.1"
@@ -7680,7 +7703,7 @@ react-test-renderer@^16.13.0:
     react-is "^16.8.6"
     scheduler "^0.19.0"
 
-react@^16.13.0:
+react@^16.12.0, react@^16.13.0:
   version "16.13.0"
   resolved "https://registry.npmjs.org/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
   integrity sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==

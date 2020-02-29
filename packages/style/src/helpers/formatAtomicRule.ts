@@ -1,5 +1,5 @@
-import formatDeclaration from './formatDeclaration';
-import { ClassName } from '../types';
+import formatDeclarationBlock from './formatDeclarationBlock';
+import { ClassName, ProcessedProperties } from '../types';
 
 /**
  * Format a property value pair into a full CSS rule with brackets and class name.
@@ -7,9 +7,8 @@ import { ClassName } from '../types';
  */
 export default function formatAtomicRule(
   className: ClassName,
-  property: string,
-  value: string,
-  selector?: string,
+  properties: ProcessedProperties,
+  selector: string = '',
 ): string {
-  return `.${className}${selector || ''} { ${formatDeclaration(property, value)} }`;
+  return `.${className}${selector} { ${formatDeclarationBlock(properties)} }`;
 }

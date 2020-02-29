@@ -1,5 +1,7 @@
 /* eslint-disable no-console, no-magic-numbers */
 
+// @ts-ignore Not typed correctly
+import { prefix } from 'inline-style-prefixer';
 import {
   arrayReduce,
   hyphenate,
@@ -33,6 +35,8 @@ import {
   StyleRule,
   SheetType,
   CSSVariables,
+  RendererOptions,
+  ProcessedProperties,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -45,16 +49,33 @@ export default abstract class Renderer {
 
   readonly classNameCache = new AtomicCache();
 
+  readonly options: Required<RendererOptions> = {
+    deterministic: false,
+    prefix: false,
+    rtl: false,
+    unit: 'px',
+  };
+
   protected abstract globalStyleSheet: GlobalStyleSheet;
 
   protected abstract conditionsStyleSheet: ConditionsStyleSheet;
 
   protected abstract standardStyleSheet: StandardStyleSheet;
 
+  constructor(options: RendererOptions = {}) {
+    Object.assign(this.options, options);
+  }
+
   /**
    * Generate a unique and deterministic class name for a property value pair.
    */
-  generateClassName(): string {
+  generateClassName(prop: string, value: string, params: StyleParams): ClassName {
+    if (this.options.deterministic) {
+      const conditions = params.conditions?.map(c => c.query).join(':');
+
+      return generateHash(`${conditions || ''}${params.selector || ''}${prop}${value}`);
+    }
+
     const index = this.ruleIndex;
 
     if (index < CHARS_LENGTH) {
@@ -94,7 +115,7 @@ export default abstract class Renderer {
     const prop = hyphenate(property);
 
     // Apply unit as well so that "0" and "0px" do not generate separate classes
-    const val = applyUnitToValue(property, value as Value);
+    const val = applyUnitToValue(property, value as Value, this.options.unit);
 
     // Check the cache immediately
     const cache = this.classNameCache.read(prop, val, params, minimumRank);
@@ -103,9 +124,10 @@ export default abstract class Renderer {
       return cache.className;
     }
 
-    const className = this.generateClassName();
+    const block = { [prop]: val };
+    const className = this.generateClassName(prop, val, params);
     const rank = this.insertRule(
-      formatAtomicRule(className, property, val, params.selector),
+      formatAtomicRule(className, this.options.prefix ? prefix(block) : block, params.selector),
       params,
     );
 
@@ -151,7 +173,7 @@ export default abstract class Renderer {
   renderKeyframes(keyframes: Keyframes, customName: string = ''): string {
     const frames = objectReduce(
       keyframes,
-      (step, frame) => `${frame} { ${formatDeclarationBlock(step!)} } `,
+      (step, frame) => `${frame} { ${formatDeclarationBlock(this.processProperties(step!))} } `,
     );
 
     // A bit more deterministic than a counter
@@ -232,7 +254,10 @@ export default abstract class Renderer {
    * Insert an at-rule into the global style sheet.
    */
   protected insertAtRule(selector: string, properties: string | Properties) {
-    const body = typeof properties === 'string' ? properties : formatDeclarationBlock(properties);
+    const body =
+      typeof properties === 'string'
+        ? properties
+        : formatDeclarationBlock(this.processProperties(properties));
     let rule = selector;
 
     if (selector === '@import') {
@@ -267,6 +292,21 @@ export default abstract class Renderer {
 
     // No media or feature queries so insert into the standard style sheet
     return this.standardStyleSheet.insertRule(rule);
+  }
+
+  /**
+   * Process a block of properties by applying units to all values that require it.
+   */
+  protected processProperties(properties: Properties): ProcessedProperties {
+    const props: { [key: string]: string } = {};
+
+    objectLoop(properties, (value, property) => {
+      if (value !== undefined) {
+        props[property] = applyUnitToValue(property, value, this.options.unit);
+      }
+    });
+
+    return props;
   }
 
   /**

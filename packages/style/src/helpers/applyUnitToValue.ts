@@ -1,7 +1,7 @@
 import isUnitlessProperty from './isUnitlessProperty';
 import { Value } from '../types';
 
-export default function applyUnitToValue(property: string, value: Value): string {
+export default function applyUnitToValue(property: string, value: Value, unit: string): string {
   if (typeof value === 'string') {
     return value;
   }
@@ -10,5 +10,5 @@ export default function applyUnitToValue(property: string, value: Value): string
     return String(value);
   }
 
-  return `${value}px`;
+  return value + unit;
 }

@@ -25,7 +25,7 @@ export default class ClientRenderer extends Renderer {
     objectLoop(vars, (value, key) => {
       const name = formatCssVariableName(key);
 
-      root.style.setProperty(name, applyUnitToValue(name, value));
+      root.style.setProperty(name, applyUnitToValue(name, value, this.options.unit));
     });
   }
 }
