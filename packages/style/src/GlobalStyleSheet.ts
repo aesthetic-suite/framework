@@ -1,8 +1,10 @@
 import BaseStyleSheet from './BaseStyleSheet';
 import { isImportRule } from './helpers';
-import { IMPORT_RULE } from './constants';
+import { IMPORT_RULE, STYLE_RULE } from './constants';
 
 export default class GlobalStyleSheet extends BaseStyleSheet {
+  protected lastAtRuleIndex: number = 0;
+
   /**
    * Insert a rule into the global style sheet.
    */
@@ -11,7 +13,29 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
       return this.insertImportRule(rule);
     }
 
+    if (rule.charAt(0) === '@') {
+      return this.insertAtRule(rule);
+    }
+
     return this.sheet.insertRule(rule, this.sheet.cssRules.length);
+  }
+
+  /**
+   * At-rules must be inserted before normal style rules.
+   */
+  insertAtRule(rule: string): number {
+    const { length } = this.sheet.cssRules;
+    let index = 0;
+
+    for (let i = 0; i <= length; i += 1) {
+      index = i;
+
+      if (this.sheet.cssRules[i]?.type === STYLE_RULE) {
+        break;
+      }
+    }
+
+    return this.sheet.insertRule(rule, index);
   }
 
   /**

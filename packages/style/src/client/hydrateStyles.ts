@@ -14,7 +14,7 @@ import { Condition, SheetType } from '../types';
 function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, rule => {
     if (rule.type === FONT_FACE_RULE || rule.type === KEYFRAMES_RULE || rule.type === IMPORT_RULE) {
-      renderer.atRuleCache[generateHash(rule.cssText)] = true;
+      renderer.ruleCache[generateHash(rule.cssText)] = true;
     }
   });
 }

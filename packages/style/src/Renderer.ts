@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-magic-numbers */
+/* eslint-disable no-console, no-magic-numbers, no-dupe-class-members, lines-between-class-members */
 
 // @ts-ignore Not typed correctly
 import { prefix } from 'inline-style-prefixer';
@@ -11,9 +11,10 @@ import {
   generateHash,
 } from '@aesthetic/utils';
 import AtomicCache from './AtomicCache';
-import applyUnitToValue from './helpers/applyUnitToValue';
-import formatAtomicRule from './helpers/formatAtomicRule';
+import isUnitlessProperty from './helpers/isUnitlessProperty';
+import formatConditions from './helpers/formatConditions';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
+import formatRule from './helpers/formatRule';
 import isMediaRule from './helpers/isMediaRule';
 import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
@@ -37,6 +38,7 @@ import {
   CSSVariables,
   RendererOptions,
   ProcessedProperties,
+  Condition,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -44,8 +46,6 @@ const CHARS_LENGTH = CHARS.length;
 
 export default abstract class Renderer {
   ruleIndex = 0;
-
-  readonly atRuleCache: { [hash: string]: boolean } = {};
 
   readonly classNameCache = new AtomicCache();
 
@@ -55,6 +55,8 @@ export default abstract class Renderer {
     rtl: false,
     unit: 'px',
   };
+
+  readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
 
   protected abstract globalStyleSheet: GlobalStyleSheet;
 
@@ -67,22 +69,42 @@ export default abstract class Renderer {
   }
 
   /**
-   * Generate a unique and deterministic class name for a property value pair.
+   * Apply a unit suffix to a numeric value if the property requires one.
    */
-  generateClassName(prop: string, value: string, params: StyleParams): ClassName {
-    if (this.options.deterministic) {
-      const conditions = params.conditions?.map(c => c.query).join(':');
-
-      return generateHash(`${conditions || ''}${params.selector || ''}${prop}${value}`);
+  applyUnitToValue<K extends Property>(property: K, value: Properties[K]): string;
+  applyUnitToValue(property: string, value: Value): string;
+  applyUnitToValue(property: string, value: unknown): string {
+    if (typeof value === 'string') {
+      return value;
     }
 
+    if (isUnitlessProperty(property) || value === 0) {
+      return String(value);
+    }
+
+    return value + this.options.unit;
+  }
+
+  /**
+   * Generate an incremental class name.
+   */
+  generateClassName(): ClassName {
     const index = this.ruleIndex;
+
+    this.ruleIndex += 1;
 
     if (index < CHARS_LENGTH) {
       return CHARS[index];
     }
 
     return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
+  }
+
+  /**
+   * Generate a deterministic class name based on the provided rule (without class name).
+   */
+  generateDeterministicClassName(rule: string, conditions: Condition[] = []): ClassName {
+    return generateHash(formatConditions(rule, conditions));
   }
 
   /**
@@ -115,7 +137,7 @@ export default abstract class Renderer {
     const prop = hyphenate(property);
 
     // Apply unit as well so that "0" and "0px" do not generate separate classes
-    const val = applyUnitToValue(property, value as Value, this.options.unit);
+    const val = this.applyUnitToValue(property, value);
 
     // Check the cache immediately
     const cache = this.classNameCache.read(prop, val, params, minimumRank);
@@ -125,13 +147,12 @@ export default abstract class Renderer {
     }
 
     const block = { [prop]: val };
-    const className = this.generateClassName(prop, val, params);
-    const rank = this.insertRule(
-      formatAtomicRule(className, this.options.prefix ? prefix(block) : block, params.selector),
-      params,
-    );
+    const rule = formatRule(this.options.prefix ? prefix(block) : block, params.selector);
+    const className = this.options.deterministic
+      ? this.generateDeterministicClassName(rule, params.conditions)
+      : this.generateClassName();
+    const rank = this.insertRule(`.${className}${rule}`, params);
 
-    this.ruleIndex += 1;
     this.classNameCache.write(prop, val, {
       className,
       conditions,
@@ -171,15 +192,16 @@ export default abstract class Renderer {
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
   renderKeyframes(keyframes: Keyframes, customName: string = ''): string {
-    const frames = objectReduce(
+    const rule = objectReduce(
       keyframes,
-      (step, frame) => `${frame} { ${formatDeclarationBlock(this.processProperties(step!))} } `,
+      (keyframe, step) =>
+        `${step} { ${formatDeclarationBlock(this.processProperties(keyframe!))} } `,
     );
 
     // A bit more deterministic than a counter
-    const animationName = customName || `kf${generateHash(frames)}`;
+    const animationName = customName || `kf${generateHash(rule)}`;
 
-    this.insertAtRule(`@keyframes ${animationName}`, frames);
+    this.insertAtRule(`@keyframes ${animationName}`, rule);
 
     return animationName;
   }
@@ -188,8 +210,10 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
-  renderRule(properties: Block, params: StyleParams = {}): ClassName {
-    let classNames = '';
+  renderRule(properties: Block, params: StyleParams = {}, atomic: boolean = true): ClassName {
+    const className = atomic ? '' : params.className || this.generateClassName();
+    const classNames = new Set<string>();
+    const processed: ProcessedProperties = {};
 
     objectLoop<Block, Property>(properties, (value, prop) => {
       // Skip invalid values
@@ -202,42 +226,57 @@ export default abstract class Renderer {
       } else if (isObject(value)) {
         const { conditions = [] } = params;
 
-        // @media
+        // Media condition
         if (isMediaRule(prop)) {
           conditions.push({
             query: prop.slice(6).trim(),
             type: MEDIA_RULE,
           });
 
-          classNames += this.renderRule(value, { ...params, conditions });
+          classNames.add(this.renderRule(value, { ...params, className, conditions }, atomic));
 
-          // @supports
+          // Supports condition
         } else if (isSupportsRule(prop)) {
           conditions.push({
             query: prop.slice(9).trim(),
             type: SUPPORTS_RULE,
           });
 
-          classNames += this.renderRule(value, { ...params, conditions });
+          classNames.add(this.renderRule(value, { ...params, className, conditions }, atomic));
 
-          // [attribute], :pseudo, > div
+          // Selectors
         } else if (isNestedSelector(prop)) {
-          classNames += this.renderRule(value, { ...params, selector: prop });
+          classNames.add(this.renderRule(value, { ...params, className, selector: prop }, atomic));
 
           // Unknown
         } else if (__DEV__) {
           console.warn(`Unknown property selector or nested block "${prop}".`);
         }
 
-        // Property value pair
-      } else {
-        classNames += this.renderDeclaration(prop, value, params);
-      }
+        // Atomic property value pair
+      } else if (atomic) {
+        classNames.add(this.renderDeclaration(prop, value, params));
 
-      classNames += ' ';
+        // Non-atomic property value pair
+      } else {
+        processed[prop] = this.applyUnitToValue(prop, value);
+      }
     });
 
-    return classNames.trim();
+    // Non-atomic, so render a block of many properties
+    if (!atomic) {
+      classNames.add(className);
+
+      const rule = formatRule(processed, params.selector);
+      const hash = this.generateDeterministicClassName(rule, params.conditions);
+
+      if (!this.ruleCache[hash]) {
+        this.insertRule(`.${className}${rule}`, params);
+        this.ruleCache[hash] = className;
+      }
+    }
+
+    return Array.from(classNames).join(' ');
   }
 
   /**
@@ -266,12 +305,12 @@ export default abstract class Renderer {
       rule += ` { ${body} }`;
     }
 
-    const hash = generateHash(rule);
+    const hash = this.generateDeterministicClassName(rule);
 
     // Only insert it once
-    if (!this.atRuleCache[hash]) {
+    if (!this.ruleCache[hash]) {
       this.insertRule(rule, { type: 'global' });
-      this.atRuleCache[hash] = true;
+      this.ruleCache[hash] = true;
     }
   }
 
@@ -287,7 +326,7 @@ export default abstract class Renderer {
 
     // Insert into the conditional style sheet if conditions exist
     if (type === 'conditions' || conditions.length > 0) {
-      return this.conditionsStyleSheet.insertRule(conditions, rule);
+      return this.conditionsStyleSheet.insertRule(rule, conditions);
     }
 
     // No media or feature queries so insert into the standard style sheet
@@ -302,7 +341,7 @@ export default abstract class Renderer {
 
     objectLoop(properties, (value, property) => {
       if (value !== undefined) {
-        props[property] = applyUnitToValue(property, value, this.options.unit);
+        props[property] = this.applyUnitToValue(property, value);
       }
     });
 

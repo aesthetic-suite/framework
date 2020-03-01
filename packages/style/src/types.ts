@@ -39,6 +39,7 @@ export interface Condition {
 }
 
 export interface StyleParams {
+  className?: ClassName;
   conditions?: Condition[];
   selector?: string;
   type?: SheetType;
@@ -54,21 +55,21 @@ export interface CacheParams {
   minimumRank?: number;
 }
 
-export interface CSSVariables {
-  [key: string]: Value;
+export interface CSSVariables<T = Value> {
+  [key: string]: T;
 }
 
 export interface StyleRule {
   conditionText?: string;
   cssRules: StyleRule[];
   cssText: string;
-  cssVariables: CSSVariables;
+  cssVariables: CSSVariables<string>;
   type: number;
   insertRule(rule: string, index: number): number;
 }
 
 export interface ProcessedProperties {
-  [key: string]: string;
+  [key: string]: string | string[];
 }
 
 // RENDERER

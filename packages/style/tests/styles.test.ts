@@ -63,9 +63,9 @@ describe('Styles', () => {
     });
     const cursor = renderer.renderDeclaration('cursor', 'pointer');
 
-    expect(className).toBe('13kbekr 16r1ggk');
+    expect(className).toBe('1cpw2zw 1jzt5o3');
     expect(className).toContain(cursor);
-    expect(cursor).toBe('16r1ggk');
+    expect(cursor).toBe('1jzt5o3');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 

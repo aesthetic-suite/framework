@@ -5,8 +5,8 @@
 
 import Renderer from './Renderer';
 import ClientRenderer from './client/ClientRenderer';
-import hydrateStyles from './client/hydrateStyles';
 import ServerRenderer from './server/ServerRenderer';
+import hydrateStyles from './client/hydrateStyles';
 import captureStyles from './server/captureStyles';
 import renderToStyleMarkup from './server/renderToStyleMarkup';
 

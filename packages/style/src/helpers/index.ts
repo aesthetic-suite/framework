@@ -1,10 +1,11 @@
-import applyUnitToValue from './applyUnitToValue';
-import formatAtomicRule from './formatAtomicRule';
+import formatConditions from './formatConditions';
 import formatCssVariableName from './formatCssVariableName';
 import formatDeclaration from './formatDeclaration';
 import formatDeclarationBlock from './formatDeclarationBlock';
+import formatRule from './formatRule';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import getInsertedStyles from './getInsertedStyles';
+import isAtRule from './isAtRule';
 import isImportRule from './isImportRule';
 import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
@@ -13,13 +14,14 @@ import isSupportsRule from './isSupportsRule';
 import isUnitlessProperty from './isUnitlessProperty';
 
 export {
-  applyUnitToValue,
-  formatAtomicRule,
+  formatConditions,
   formatCssVariableName,
   formatDeclaration,
   formatDeclarationBlock,
+  formatRule,
   getDocumentStyleSheet,
   getInsertedStyles,
+  isAtRule,
   isImportRule,
   isInvalidValue,
   isMediaRule,

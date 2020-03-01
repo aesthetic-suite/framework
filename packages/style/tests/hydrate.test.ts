@@ -31,12 +31,12 @@ describe('Hydration', () => {
   it('adds at-rules to the global cache', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.atRuleCache).toEqual({});
+    expect(renderer.ruleCache).toEqual({});
     expect(renderer.ruleIndex).toBe(0);
 
     hydrateStyles(renderer);
 
-    expect(renderer.atRuleCache).toEqual({
+    expect(renderer.ruleCache).toEqual({
       '1p8yvkz': true,
       '1xk69aq': true,
       phgikz: true,

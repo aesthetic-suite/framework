@@ -7,5 +7,5 @@ import { ProcessedProperties } from '../types';
  * without wrapping brackets.
  */
 export default function formatDeclarationBlock(properties: ProcessedProperties): string {
-  return objectReduce(properties, (value, key) => formatDeclaration(String(key), value)).trim();
+  return objectReduce(properties, (value, key) => formatDeclaration(key, value)).trim();
 }

@@ -20,9 +20,8 @@ export default function addRuleToCache(
   }
 
   const [, className, selector = '', property, value] = match;
-  const val = value.endsWith(';') ? value.slice(0, -1) : value;
 
-  renderer.classNameCache.write(property, val, {
+  renderer.classNameCache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
     className,
     conditions: [],
     rank: 0,

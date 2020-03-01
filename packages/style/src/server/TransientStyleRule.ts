@@ -15,7 +15,7 @@ export default class TransientStyleRule implements StyleRule {
 
   cssRules: StyleRule[] = [];
 
-  cssVariables: CSSVariables = {};
+  cssVariables: CSSVariables<string> = {};
 
   type: number;
 

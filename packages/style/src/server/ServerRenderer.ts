@@ -4,7 +4,6 @@ import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
 import StandardStyleSheet from '../StandardStyleSheet';
 import TransientStyleRule from './TransientStyleRule';
-import applyUnitToValue from '../helpers/applyUnitToValue';
 import formatCssVariableName from '../helpers/formatCssVariableName';
 import { STYLE_RULE } from '../constants';
 import { CSSVariables } from '../types';
@@ -20,11 +19,7 @@ export default class ServerRenderer extends Renderer {
     objectLoop(vars, (value, key) => {
       const name = formatCssVariableName(key);
 
-      this.globalStyleSheet.sheet.cssVariables[name] = applyUnitToValue(
-        name,
-        value,
-        this.options.unit,
-      );
+      this.globalStyleSheet.sheet.cssVariables[name] = this.applyUnitToValue(name, value);
     });
   }
 }

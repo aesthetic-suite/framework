@@ -3,7 +3,6 @@ import Renderer from '../Renderer';
 import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
 import StandardStyleSheet from '../StandardStyleSheet';
-import applyUnitToValue from '../helpers/applyUnitToValue';
 import formatCssVariableName from '../helpers/formatCssVariableName';
 import getDocumentStyleSheet from '../helpers/getDocumentStyleSheet';
 import { SheetType, StyleRule, CSSVariables } from '../types';
@@ -25,7 +24,7 @@ export default class ClientRenderer extends Renderer {
     objectLoop(vars, (value, key) => {
       const name = formatCssVariableName(key);
 
-      root.style.setProperty(name, applyUnitToValue(name, value, this.options.unit));
+      root.style.setProperty(name, this.applyUnitToValue(name, value));
     });
   }
 }

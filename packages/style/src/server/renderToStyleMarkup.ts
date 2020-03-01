@@ -1,12 +1,12 @@
 import ServerRenderer from './ServerRenderer';
 import formatDeclarationBlock from '../helpers/formatDeclarationBlock';
-import { StyleRule, SheetType, ProcessedProperties } from '../types';
+import { StyleRule, SheetType } from '../types';
 
 function createElement(type: SheetType, rule: StyleRule, index: number): string {
   let css = '';
 
   if (Object.keys(rule.cssVariables).length > 0) {
-    css += `:root { ${formatDeclarationBlock(rule.cssVariables as ProcessedProperties)} }`;
+    css += `:root { ${formatDeclarationBlock(rule.cssVariables)} }`;
   }
 
   css += rule.cssText;
