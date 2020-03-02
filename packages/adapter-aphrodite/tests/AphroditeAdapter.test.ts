@@ -140,6 +140,7 @@ describe('AphroditeAdapter', () => {
 
         it('converts unified syntax to native syntax and transforms to a class name', () => {
           instance.fontFaces.Roboto = [FONT_ROBOTO_FLAT_SRC as CSSProperties];
+          // @ts-ignore
           instance.keyframes.fade = KEYFRAME_FADE;
 
           renderAndExpect(

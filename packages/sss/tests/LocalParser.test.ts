@@ -159,8 +159,8 @@ describe('LocalParser', () => {
     it('errors if selector is not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
           selector: {
+            // @ts-ignore Allow invalid type
             ':hover': 123,
           },
         });
@@ -187,8 +187,8 @@ describe('LocalParser', () => {
     it('errors if fallbacks are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
           fb: {
+            // @ts-ignore Allow invalid type
             '@fallbacks': 123,
           },
         });
@@ -223,8 +223,8 @@ describe('LocalParser', () => {
     it('errors if media is not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
           fb: {
+            // @ts-ignore Allow invalid type
             '@media': 123,
           },
         });
@@ -298,8 +298,8 @@ describe('LocalParser', () => {
     it('errors if selectors are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
           fb: {
+            // @ts-ignore Allow invalid type
             '@selectors': 123,
           },
         });
@@ -427,8 +427,8 @@ describe('LocalParser', () => {
     it('errors if supports are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
           fb: {
+            // @ts-ignore Allow invalid type
             '@supports': 123,
           },
         });
