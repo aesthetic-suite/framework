@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/style",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A low-level, high-performance, atomic-based CSS-in-JS solution.",
   "keywords": [
     "aesthetic",
