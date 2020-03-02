@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { isObject, stripClassPrefix } from 'aesthetic-utils';
 import Aesthetic from './Aesthetic';
 import CacheManager from './CacheManager';

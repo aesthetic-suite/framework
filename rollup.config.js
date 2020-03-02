@@ -55,7 +55,7 @@ const external = [
   'string-hash',
   'stylis',
   'typestyle',
-  'uuid/v4',
+  'uuid',
 ];
 
 export default packages

@@ -6,7 +6,7 @@ import aesthetic, {
   StyleSheetFactory,
   ThemeSheet,
 } from 'aesthetic';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import DirectionContext from './DirectionContext';
 import ThemeContext from './ThemeContext';
 import { UseStylesOptions } from './types';

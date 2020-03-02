@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import aesthetic, { StyleSheetFactory, ThemeSheet } from 'aesthetic';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import useStyles from './useStyles';
 import ThemeContext from './ThemeContext';
 import {

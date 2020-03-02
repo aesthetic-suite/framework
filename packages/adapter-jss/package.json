@@ -24,8 +24,8 @@
     "jss": "^10.0.0"
   },
   "devDependencies": {
-    "jss": "^10.0.3",
-    "jss-preset-default": "^10.0.3"
+    "jss": "^10.0.4",
+    "jss-preset-default": "^10.0.4"
   },
   "funding": {
     "type": "ko-fi",

@@ -38,7 +38,7 @@ import {
 } from 'aesthetic/lib/testing';
 import JSSAdapter from '../src/JSSAdapter';
 
-jest.mock('uuid/v4', () => () => 'uuid');
+jest.mock('uuid', () => ({ v4: () => 'uuid' }));
 
 describe('JSSAdapter', () => {
   let instance: JSSAdapter;

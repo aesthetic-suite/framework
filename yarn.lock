@@ -2390,10 +2390,10 @@
   resolved "https://registry.npmjs.org/@types/string-hash/-/string-hash-1.1.1.tgz#4c336e61d1e13ce2d3efaaa5910005fd080e106b"
   integrity sha512-ijt3zdHi2DmZxQpQTmozXszzDo78V4R3EdvX0jFMfnMH2ZzQSmCbaWOMPGXFUYSzSIdStv78HDjg32m5dxc+tA==
 
-"@types/uuid@^3.4.7":
-  version "3.4.7"
-  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-3.4.7.tgz#51d42247473bc00e38cc8dfaf70d936842a36c03"
-  integrity sha512-C2j2FWgQkF1ru12SjZJyMaTPxs/f6n90+5G5qNakBxKXjTBc/YTSelHh4Pz1HUDwxFXD9WvpQhOGCDC+/Y4mIQ==
+"@types/uuid@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-7.0.0.tgz#9f6993ccc8210efa90bda7e1afabbb06a9f860cd"
+  integrity sha512-RiX1I0lK9WFLFqy2xOxke396f0wKIzk5sAll0tL4J4XDYJXURI7JOs96XQb3nP+2gEpQ/LutBb66jgiT5oQshQ==
 
 "@types/yargs-parser@*", "@types/yargs-parser@^15.0.0":
   version "15.0.0"
@@ -4193,10 +4193,10 @@ cssstyle@^2.0.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^2.2.0, csstype@^2.4.0, csstype@^2.5.5, csstype@^2.6.5, csstype@^2.6.8:
-  version "2.6.8"
-  resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.8.tgz#0fb6fc2417ffd2816a418c9336da74d7f07db431"
-  integrity sha512-msVS9qTuMT5zwAGCVm4mxfrZ18BNc6Csd0oJAtiFMZ1FAx1CCvy2+5MDmYoix63LM/6NDbNtodCiGYGmFgO0dA==
+csstype@^2.2.0, csstype@^2.4.0, csstype@^2.5.5, csstype@^2.6.5, csstype@^2.6.9:
+  version "2.6.9"
+  resolved "https://registry.npmjs.org/csstype/-/csstype-2.6.9.tgz#05141d0cd557a56b8891394c1911c40c8a98d098"
+  integrity sha512-xz39Sb4+OaTsULgUERcCk+TJj8ylkL4aSVDQiX/ksxbELSqwkgt4d4RD7fovIdgJGSuNYqwZEiVjYY5l0ask+Q==
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -5181,99 +5181,99 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fela-dom@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-11.0.2.tgz#1cdf2b111d6c19d438d83572273c97075adbada3"
-  integrity sha512-Z2gUOh2j4zsfk5KzZS+5W9dE2cmLUVpyj4xpZYMqjcfb4qoBWfmeod7j2zNiiKCxxzrvvycErtq/gtPoYxeS1g==
+fela-dom@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-dom/-/fela-dom-11.1.2.tgz#ac1c100fc0c0da852c0ad8ba74c6d5097d1a4819"
+  integrity sha512-6KQFApM679ibDamPtIWL8cf6+xB80s8GwSleVOE6OWy/BNPnOjwa6rLcR9Myto/auWBu2+kJFjoeOP9VxORyjw==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.1"
-    fela-utils "^11.0.2"
+    fela-utils "^11.1.2"
     sort-css-media-queries "^1.4.3"
 
-fela-plugin-embedded@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-11.0.2.tgz#340b89b943c37dc5d960d25f88d053cd1218f6f1"
-  integrity sha512-zSYMDsOr0+W42TDIIowhybthZzl6iW6FsCgyRMLCcCK94TIyswWYMSkwZc+x5RxqIcV7Qwp9Zle7A5ilV/4YzA==
+fela-plugin-embedded@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-plugin-embedded/-/fela-plugin-embedded-11.1.2.tgz#191709c933753f7d7f806c2e97b8ee84cea7f04d"
+  integrity sha512-sjFQtynfVh/PzYcR7QBbxy0SeLZSQAddl7ct8gaeuz6KM0fjn6yvyolubbvoR2B3rYzy2ZfZpg49kjpErXLwYA==
   dependencies:
     fast-loops "^1.0.0"
     isobject "^3.0.1"
 
-fela-plugin-extend@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-plugin-extend/-/fela-plugin-extend-11.0.2.tgz#d67d61bf3a582661dd4ba81fbb7a9bcc2fe2ea0c"
-  integrity sha512-JhmJfwpvS6/jDfKg0CMHVNA4s3BsF+rBb5zVHTX0bGDjDgNAf7qbBAaq7mBnqNCRKX6PpJC5Z/DSoVdNVu8iXQ==
+fela-plugin-extend@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-plugin-extend/-/fela-plugin-extend-11.1.2.tgz#4cd6034a37019743c5c03151cd8027251c070afc"
+  integrity sha512-bW/r7wmmszBrHvwHBrP4XCQGppP8vgSQWjpqMVSRoTs553ki4IshZPK7eXhsOXzd4+uW0we7v2K1OhC3KdKZXA==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela-utils "^11.0.2"
+    fela-utils "^11.1.2"
     isobject "^3.0.1"
 
-fela-plugin-fallback-value@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-11.0.2.tgz#859fcd9ee22a4f30e4434109864f4e901c4c59e3"
-  integrity sha512-MX0gBAYwfKQdYlj2vKbq2Spml5GZRLyR7zc7xZDz/8d43U4K9aZPJAbYESdTEIDJzhVLWJPhiHlQT7K0O+/U0A==
+fela-plugin-fallback-value@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-plugin-fallback-value/-/fela-plugin-fallback-value-11.1.2.tgz#d1becf9626d6f3a99baf738799c75fe68f91d34d"
+  integrity sha512-N612OWTygZE2NJoi3hQ+m4j4OvDcKic0LUMVOdRcAYjxcSeq+ss7HNvQTVvGt82+EcyQASxAbx/ZDtpL9Scqsg==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-plugin-prefixer@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-11.0.2.tgz#80c1ecbc8f5d0bbd42964e36b530098c0a596f97"
-  integrity sha512-BTScfd9w80MEzxjRQO7OQlCNz15fYyFK+sPKq4SFOfXaWqwqJxODPHTJAAcUR9hjgiqdd8dJSIzUZdwFllKh1w==
+fela-plugin-prefixer@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-plugin-prefixer/-/fela-plugin-prefixer-11.1.2.tgz#2abcb0faed6ec0ee4e9207e3b1e4bbba793f1e91"
+  integrity sha512-PqiQvvkndC1aT4JDK/r4TGj+AX2Gvz9xzSDGkPdwPlxPTCjiheO5xdRd96IMrCQC+GSKkGn1BqHGlWAlAmPY2A==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
-    fela-plugin-fallback-value "^11.0.2"
+    fela-plugin-fallback-value "^11.1.2"
     inline-style-prefixer "^5.1.0"
     isobject "^3.0.1"
 
-fela-plugin-unit@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-11.0.2.tgz#3a690ad2787c69c947791babb391e85f6f3570ff"
-  integrity sha512-Og2dJObBXfVANihntp/Gp/JjfZiZOZxIeLOIwu5UFC4cYnHAui5Igv9niKV/QKX5ki+IDTrshYrBLeDkBb7tNw==
+fela-plugin-unit@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-plugin-unit/-/fela-plugin-unit-11.1.2.tgz#52eafc74bcbfc4f6ff979b19e9c7b94d87fc5247"
+  integrity sha512-Gk4aDf60s3wecp+UZupaauXyhVn4pa8XFEoAug8IZbK5804WnJdqwxNljOKG4LA0geicC6gKAAW31GoOIoKnSw==
   dependencies:
     css-in-js-utils "^3.0.0"
     isobject "^3.0.1"
 
-fela-preset-web@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-11.0.2.tgz#6127d14301ad9b0a183e6cdb05ba54a8edeb3277"
-  integrity sha512-N0c7EvoTu4GMQngwwtBd0fuT1TMpmD4FYq449kbOgAjAU4VVzk8glOfZmH467361Q0OfDmLtHW7yjogf3f7ZsA==
+fela-preset-web@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-preset-web/-/fela-preset-web-11.1.2.tgz#255ac5766cbda331b1f653ecd443c8c2a6725d0e"
+  integrity sha512-jqgLPhTYXUtjJlCJDi1hz1euJt2TlESxQcPrM6YbL8XBidW8fgB+7B7xPd8F7k6FdojeeYfWcMcthke+l7sTog==
   dependencies:
-    fela-plugin-embedded "^11.0.2"
-    fela-plugin-extend "^11.0.2"
-    fela-plugin-fallback-value "^11.0.2"
-    fela-plugin-prefixer "^11.0.2"
-    fela-plugin-unit "^11.0.2"
+    fela-plugin-embedded "^11.1.2"
+    fela-plugin-extend "^11.1.2"
+    fela-plugin-fallback-value "^11.1.2"
+    fela-plugin-prefixer "^11.1.2"
+    fela-plugin-unit "^11.1.2"
 
-fela-tools@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-11.0.2.tgz#01b0a7c1eebe65adf15570a7833d8409f34d1bcc"
-  integrity sha512-aScz8kHUDXlggqwf58FGp2Fzjhzsbiti2lJDVHGKio1YDJ3hTfKdlrlxhgYbQsS9dC7n35IkIjPi0sX+qS8UDg==
-  dependencies:
-    css-in-js-utils "^3.0.0"
-    fast-loops "^1.0.0"
-    fela "^11.0.2"
-    fela-utils "^11.0.2"
-
-fela-utils@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-11.0.2.tgz#d736e98830074936ff38ef7149d9db0bc3915c49"
-  integrity sha512-3frW2i64XKWfvkL+YjzAMIYaPcjYlqJpKuZFPqwtG5Ro5JMBfgKNBkMcHJsMgzCYb/Gx/G+32U2Q7wFwABLYlA==
+fela-tools@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-tools/-/fela-tools-11.1.2.tgz#4f4b4d71795e3f341846da5d7e1aa800a33724ca"
+  integrity sha512-GshBOotlxxZD6b0IOf9iOHLZQqJbwhkAw9mncbWTgNeeLmkUWYQuJmVDaXrjfkz8SY4iWHPYf8hkUnZjHF3o8g==
   dependencies:
     css-in-js-utils "^3.0.0"
     fast-loops "^1.0.0"
+    fela "^11.1.2"
+    fela-utils "^11.1.2"
 
-fela@^11.0.2:
-  version "11.0.2"
-  resolved "https://registry.npmjs.org/fela/-/fela-11.0.2.tgz#fb41aef05f32f7432ce6e9291e63a2c2c9d8ebf0"
-  integrity sha512-vGvEs8niBGQpJoJyqpfuQt2wNxRpf/N1GM3HhuZ9TfRvVku2C0RU8dlgBo+GdrwNlw0mKho0oklWyu27bcPoMw==
+fela-utils@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela-utils/-/fela-utils-11.1.2.tgz#edb14b0dbdbda519b213363ad02525f3459328e9"
+  integrity sha512-n101di41/Wd+j1m8hra4HH8aoSH8aeyQU/Vgd16TZDj/mF8UDEuxxc8WJDGPf65JssfriQuN9qWxb5DiVZaXCw==
+  dependencies:
+    css-in-js-utils "^3.0.0"
+    fast-loops "^1.0.0"
+
+fela@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/fela/-/fela-11.1.2.tgz#bf730fdf8e927969f4fb41a12470a71a47f36c30"
+  integrity sha512-KKAoVxxK0/ept9rW07ZjXD2VrJdHCWH43wu7/FUdl/MNofH8f6TU7wiyPRxQw9v+6wETApgVHBm/OBKjZqJbtA==
   dependencies:
     css-in-js-utils "^3.0.0"
     csstype "^2.5.5"
     fast-loops "^1.0.0"
-    fela-utils "^11.0.2"
+    fela-utils "^11.1.2"
     isobject "^3.0.1"
 
 fetch-mock@^9.0.0:
@@ -7092,133 +7092,133 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jss-plugin-camel-case@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-camel-case/-/jss-plugin-camel-case-10.0.3.tgz#ce25f3cdb7f2b80724558361351fe6b644ca9e4f"
-  integrity sha512-rild/oFKFkmRP7AoiX9D6bdDAUfmJv8c7sEBvFoi+JP31dn2W8nw4txMKGnV1LJKlFkYprdZt1X99Uvztl1hug==
+jss-plugin-camel-case@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-camel-case/-/jss-plugin-camel-case-10.0.4.tgz#3dedecec1e5bba0bf6141c2c05e2ab11ea4b468d"
+  integrity sha512-+wnqxJsyfUnOn0LxVg3GgZBSjfBCrjxwx7LFxwVTUih0ceGaXKZoieheNOaTo5EM4w8bt1nbb8XonpQCj67C6A==
   dependencies:
     "@babel/runtime" "^7.3.1"
     hyphenate-style-name "^1.0.3"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-compose@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-compose/-/jss-plugin-compose-10.0.3.tgz#b4c4653ff53a54cd0205a8b7c61f998ca948038e"
-  integrity sha512-S3mwXjWGlW8EynxGvEqEa/O3S4FOv1rcSs5/z6HjbgR85iBx2xZ0NlJBjyfqyR3uqsv2eCXkiwyE6LvC4+3YEg==
+jss-plugin-compose@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-compose/-/jss-plugin-compose-10.0.4.tgz#8931220b9bc1102688c584c2c6e82b15f96f5cef"
+  integrity sha512-MXdbWAByjbzXzc3cHhTHF9RRGlU8ysQlB6HgXE2tW5dXkXw8/hwapaEzdYowZbFp/2jS4kq07jcn/7w3wutBJw==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
     tiny-warning "^1.0.2"
 
-jss-plugin-default-unit@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-default-unit/-/jss-plugin-default-unit-10.0.3.tgz#c4b97b7b18c6cf9e9809e05b8525045decc298d3"
-  integrity sha512-n+XfVLPF9Qh7IOTdQ8M4oRpjpg6egjr/r0NNytubbCafMgCILJYIVrMTGgOTydH+uvak8onQY3f/F9hasPUx6g==
+jss-plugin-default-unit@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-default-unit/-/jss-plugin-default-unit-10.0.4.tgz#df03885de20f20a1fc1c21bdb7c62e865ee400d9"
+  integrity sha512-T0mhL/Ogp/quvod/jAHEqKvptLDxq7Cj3a+7zRuqK8HxUYkftptN89wJElZC3rshhNKiogkEYhCWenpJdFvTBg==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-expand@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-expand/-/jss-plugin-expand-10.0.3.tgz#b8a678363b8540ff6afbda638691cf98876aeec9"
-  integrity sha512-FpkgQs+jOgBthRRDUIyCJoFM7XQei4l+Nuf9DZbSgZkYju8lA0tPBKLGfO1G8qY3jQM3SwbnL1QFl9QMI9rvog==
+jss-plugin-expand@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-expand/-/jss-plugin-expand-10.0.4.tgz#0c7e4d9f6fd66bf6c4dbf8920c54d8fa02189869"
+  integrity sha512-n5PxEnL0L5Xc3gOjOJrfBJas7Uu1t0NA/PZBWCK3mVn0RQAjiQtIPCwSe7IaNw34jRtKxffDnhQ/5U1h71xRFg==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-extend@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-extend/-/jss-plugin-extend-10.0.3.tgz#391482fbc4284f5f96f5555cf9fd1f818c2b8e54"
-  integrity sha512-pLVyOutTGpDDq865ICFUvWpXeMqqva78RjwM3ecFMRcrpt51EsgHs8+2mJtPHfx66GRxXBImqIWQ/VyDgJcyFA==
+jss-plugin-extend@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-extend/-/jss-plugin-extend-10.0.4.tgz#93173f43aff1ac46655eb51378b78e1dea19d81a"
+  integrity sha512-M3R9yPI+J0P62DCDFKPlj6Qg8TOXkIDwfHeQcRbbKQeu3HYblQPGJMzoxdwJqvoy36ydsLavwyFrwfx44e1oSg==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
     tiny-warning "^1.0.2"
 
-jss-plugin-global@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-global/-/jss-plugin-global-10.0.3.tgz#82bc95aa7f2c7171adc3ea47ec7717aca76a2389"
-  integrity sha512-kNotkAciJIXpIGYnmueaIifBne9rdq31O8Xq1nF7KMfKlskNRANTcEX5rVnsGKl2yubTMYfjKBFCeDgcQn6+gA==
+jss-plugin-global@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-global/-/jss-plugin-global-10.0.4.tgz#412245b56133cc88bec654a70d82d5922619f4c5"
+  integrity sha512-N8n9/GHENZce+sqE4UYiZiJtI+t+erT/BypHOrNYAfIoNEj7OYsOEKfIo2P0GpLB3QyDAYf5eo9XNdZ8veEkUA==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-nested@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-nested/-/jss-plugin-nested-10.0.3.tgz#1ff39383154a710008788dbc9f73e6dec77b2852"
-  integrity sha512-OMucRs9YLvWlZ3Ew+VhdgNVMwSS2zZy/2vy+s/etvopnPUzDHgCnJwdY2Wx/SlhLGERJeKKufyih2seH+ui0iw==
+jss-plugin-nested@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-nested/-/jss-plugin-nested-10.0.4.tgz#4d15ad13995fb6e4125618006473a096d2475d75"
+  integrity sha512-QM21BKVt8LDeoRfowvAMh/s+/89VYrreIIE6ch4pvw0oAXDWw1iorUPlqLZ7uCO3UL0uFtQhJq3QMLN6Lr1v0A==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
     tiny-warning "^1.0.2"
 
-jss-plugin-props-sort@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-props-sort/-/jss-plugin-props-sort-10.0.3.tgz#8bc9f2a670fbd603f110486d28c526eb9efcbdc4"
-  integrity sha512-ufhvdCMnRcDa0tNHoZ12OcVNQQyE10yLMohxo/UIMarLV245rM6n9D19A12epjldRgyiS13SoSyLFCJEobprYg==
+jss-plugin-props-sort@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-props-sort/-/jss-plugin-props-sort-10.0.4.tgz#43c880ff8dfcf858f809f663ece5e65a1d945b5a"
+  integrity sha512-WoETdOCjGskuin/OMt2uEdDPLZF3vfQuHXF+XUHGJrq0BAapoyGQDcv37SeReDlkRAbVXkEZPsIMvYrgHSHFiA==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-rule-value-function@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-rule-value-function/-/jss-plugin-rule-value-function-10.0.3.tgz#1103240cf686bde5baee16cd7b15b0daf79d1103"
-  integrity sha512-RWwIT2UBAIwf3f6DQtt5gyjxHMRJoeO9TQku+ueR8dBMakqSSe8vFwQNfjXEoe0W+Tez5HZCTkZKNMulv3Z+9A==
+jss-plugin-rule-value-function@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-rule-value-function/-/jss-plugin-rule-value-function-10.0.4.tgz#2f4cf4a86ad3eba875bb48cb9f4a7ed35cb354e7"
+  integrity sha512-0hrzOSWRF5ABJGaHrlnHbYZjU877Ofzfh2id3uLtBvemGQLHI+ldoL8/+6iPSRa7M8z8Ngfg2vfYhKjUA5gA0g==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-plugin-rule-value-observable@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-rule-value-observable/-/jss-plugin-rule-value-observable-10.0.3.tgz#5dea2286878dd485797c66e58e4f954f80392bb9"
-  integrity sha512-xtB7+HMfCP8QqeSu/hcaGD1oAj6lb6d5tYw4GUp2D3z+Nwy2me1FHBTJTqt9kPQStoOzSflxKD7aqyYZ8VTKtQ==
+jss-plugin-rule-value-observable@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-rule-value-observable/-/jss-plugin-rule-value-observable-10.0.4.tgz#e3a42406e60a6cf92a93f16a81d6e7967869f712"
+  integrity sha512-1XB8kUzL7yv8jgRrS2WjeVHYk0fCI5oIz3GizWGJaA9gK3wTVGR7YgDJ2CbCcwy1TxsOp1qYVKeRsom8sQGo5w==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
     symbol-observable "^1.2.0"
 
-jss-plugin-template@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-template/-/jss-plugin-template-10.0.3.tgz#58c49621b011c5880fa45f63b3406fed5a57338f"
-  integrity sha512-O+u+mO0jlcGqIknKZ6TJadQFH6yWrB9eoif6et0tuzo7zUlqRI2M3ANKrytqV1iWDHSk5K0NmbhaiPv0NWXFNQ==
+jss-plugin-template@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-template/-/jss-plugin-template-10.0.4.tgz#c89275cc37988cb58cef436bc75c364693fc3912"
+  integrity sha512-ZVJgxZo4DT8omdK3liHrkUYVuip98evt+f7dHl7Tg1Ye3j4RmFQYO2LWjw8fHjo3aObFxY5muv8W901w/0BdbA==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
+    jss "10.0.4"
     tiny-warning "^1.0.2"
 
-jss-plugin-vendor-prefixer@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-plugin-vendor-prefixer/-/jss-plugin-vendor-prefixer-10.0.3.tgz#cfdf2ac1263e190ee9a0d874cdcc6092df452012"
-  integrity sha512-zVs6e5z4tFRK/fJ5kuTLzXlTFQbLeFTVwk7lTZiYNufmZwKT0kSmnOJDUukcSe7JLGSRztjWhnHB/6voP174gw==
+jss-plugin-vendor-prefixer@10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-plugin-vendor-prefixer/-/jss-plugin-vendor-prefixer-10.0.4.tgz#1626ef612a4541cff17cf96815e1740155214ed2"
+  integrity sha512-4JgEbcrdeMda1qvxTm1CnxFJAWVV++VLpP46HNTrfH7VhVlvUpihnUNs2gAlKuRT/XSBuiWeLAkrTqF4NVrPig==
   dependencies:
     "@babel/runtime" "^7.3.1"
     css-vendor "^2.0.7"
-    jss "^10.0.3"
+    jss "10.0.4"
 
-jss-preset-default@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss-preset-default/-/jss-preset-default-10.0.3.tgz#9a1fbbf104b4e10d9abe2ed0cfcebe7bf59177ed"
-  integrity sha512-xGTs5r1jstNNzj+gPkgnwxQWTQTrTKiLKPgXYkAtHrzn/oiQSKbZNq8l8k5obNscZa3vOnDAJQn8sXiaUolCCw==
+jss-preset-default@^10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss-preset-default/-/jss-preset-default-10.0.4.tgz#4da8e3fcbee100fb8a7c88279c6a4aa38c2ca858"
+  integrity sha512-XstC0o0JU5tgn25GUCT/QdF7QcWuYGyJ36D3+PtZvUQn2wnRhg7auvj11n2aj17xY7OLaY679V+C2CJCd72R0A==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    jss "^10.0.3"
-    jss-plugin-camel-case "^10.0.3"
-    jss-plugin-compose "^10.0.3"
-    jss-plugin-default-unit "^10.0.3"
-    jss-plugin-expand "^10.0.3"
-    jss-plugin-extend "^10.0.3"
-    jss-plugin-global "^10.0.3"
-    jss-plugin-nested "^10.0.3"
-    jss-plugin-props-sort "^10.0.3"
-    jss-plugin-rule-value-function "^10.0.3"
-    jss-plugin-rule-value-observable "^10.0.3"
-    jss-plugin-template "^10.0.3"
-    jss-plugin-vendor-prefixer "^10.0.3"
+    jss "10.0.4"
+    jss-plugin-camel-case "10.0.4"
+    jss-plugin-compose "10.0.4"
+    jss-plugin-default-unit "10.0.4"
+    jss-plugin-expand "10.0.4"
+    jss-plugin-extend "10.0.4"
+    jss-plugin-global "10.0.4"
+    jss-plugin-nested "10.0.4"
+    jss-plugin-props-sort "10.0.4"
+    jss-plugin-rule-value-function "10.0.4"
+    jss-plugin-rule-value-observable "10.0.4"
+    jss-plugin-template "10.0.4"
+    jss-plugin-vendor-prefixer "10.0.4"
 
-jss@^10.0.3:
-  version "10.0.3"
-  resolved "https://registry.npmjs.org/jss/-/jss-10.0.3.tgz#5c160f96aa8ce8b9f851ee0b33505dcd37f490a4"
-  integrity sha512-AcDvFdOk16If9qvC9KN3oFXsrkHWM9+TaPMpVB9orm3z+nq1Xw3ofHyflRe/mkSucRZnaQtlhZs1hdP3DR9uRw==
+jss@10.0.4, jss@^10.0.4:
+  version "10.0.4"
+  resolved "https://registry.npmjs.org/jss/-/jss-10.0.4.tgz#46ebdde1c40c9a079d64f3334cb88ae28fd90bfd"
+  integrity sha512-GqHmeDK83qbqMAVjxyPfN1qJVTKZne533a9bdCrllZukUM8npG/k+JumEPI86IIB5ifaZAHG2HAsUziyxOiooQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
     csstype "^2.6.5"
@@ -9055,15 +9055,15 @@ randomfill@^1.0.3:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
 
-react-dom@^16.12.0:
-  version "16.12.0"
-  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
-  integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
+react-dom@^16.13.0:
+  version "16.13.0"
+  resolved "https://registry.npmjs.org/react-dom/-/react-dom-16.13.0.tgz#cdde54b48eb9e8a0ca1b3dc9943d9bb409b81866"
+  integrity sha512-y09d2c4cG220DzdlFkPTnVvGTszVvNpC73v+AaLGLHbkpy3SSgvYq8x0rNwPJ/Rk/CicTNgk0hbHNw1gMEZAXg==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.18.0"
+    scheduler "^0.19.0"
 
 react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.6:
   version "16.13.0"
@@ -9080,10 +9080,10 @@ react-test-renderer@^16.13.0:
     react-is "^16.8.6"
     scheduler "^0.19.0"
 
-react@^16.12.0:
-  version "16.12.0"
-  resolved "https://registry.npmjs.org/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
-  integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
+react@^16.13.0:
+  version "16.13.0"
+  resolved "https://registry.npmjs.org/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
+  integrity sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -9699,14 +9699,6 @@ saxes@^3.1.9:
   integrity sha512-Ydydq3zC+WYDJK1+gRxRapLIED9PWeSuuS41wqyoRmzvhhh9nc+QQrVMKJYzJFULazeGhzSV0QleN2wD3boh2g==
   dependencies:
     xmlchars "^2.1.1"
-
-scheduler@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.npmjs.org/scheduler/-/scheduler-0.18.0.tgz#5901ad6659bc1d8f3fdaf36eb7a67b0d6746b1c4"
-  integrity sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.19.0:
   version "0.19.0"
@@ -10887,10 +10879,15 @@ util@^0.11.0:
   dependencies:
     inherits "2.0.3"
 
-uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-7.0.1.tgz#95ed6ff3d8c881cbf85f0f05cc3915ef994818ef"
+  integrity sha512-yqjRXZzSJm9Dbl84H2VDHpM3zMjzSJQ+hn6C4zqd5ilW+7P4ZmLEEqwho9LjP+tGuZlF4xrHQXT0h9QZUS/pWA==
 
 v8-compile-cache@2.0.3:
   version "2.0.3"
