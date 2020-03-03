@@ -24,7 +24,7 @@ import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import {
-  Block,
+  Rule,
   CacheParams,
   ClassName,
   FontFace,
@@ -43,6 +43,13 @@ import {
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
+
+type OnProperty<K extends Property> = (
+  property: K,
+  value: Properties[K],
+  params: StyleParams,
+) => ClassName;
+type OnNestedRule = (properties: Rule, params: StyleParams) => ClassName;
 
 export default abstract class Renderer {
   ruleIndex = 0;
@@ -104,7 +111,10 @@ export default abstract class Renderer {
    * Generate a deterministic class name based on the provided rule (without class name).
    */
   generateDeterministicClassName(rule: string, conditions: Condition[] = []): ClassName {
-    return generateHash(formatConditions(rule, conditions));
+    const hash = generateHash(formatConditions(rule, conditions));
+
+    // Avoid hashes that start with an invalid number
+    return `c${hash}`;
   }
 
   /**
@@ -128,7 +138,12 @@ export default abstract class Renderer {
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
-    { conditions = [], selector = '', type = 'standard' }: StyleParams = {},
+    {
+      className: fixedClassName,
+      conditions = [],
+      selector = '',
+      type = 'standard',
+    }: StyleParams = {},
     { bypassCache = false, minimumRank }: CacheParams = {},
   ) {
     const params = { conditions, selector, type };
@@ -148,9 +163,11 @@ export default abstract class Renderer {
 
     const block = { [prop]: val };
     const rule = formatRule(this.options.prefix ? prefix(block) : block, params.selector);
-    const className = this.options.deterministic
-      ? this.generateDeterministicClassName(rule, params.conditions)
-      : this.generateClassName();
+    const className =
+      fixedClassName ||
+      (this.options.deterministic
+        ? this.generateDeterministicClassName(rule, params.conditions)
+        : this.generateClassName());
     const rank = this.insertRule(`.${className}${rule}`, params);
 
     this.classNameCache.write(prop, val, {
@@ -210,80 +227,52 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
-  renderRule(properties: Block, params: StyleParams = {}, atomic: boolean = true): ClassName {
-    const className = atomic ? '' : params.className || this.generateClassName();
-    const classNames = new Set<string>();
-    const processed: ProcessedProperties = {};
+  renderRule = (properties: Rule, params: StyleParams = {}): ClassName => {
+    return this.processRule(properties, params, this.renderRule, true);
+  };
 
-    objectLoop<Block, Property>(properties, (value, prop) => {
-      // Skip invalid values
-      if (isInvalidValue(value)) {
-        if (__DEV__) {
-          console.warn(`Invalid value "${value}" for property "${prop}".`);
-        }
+  /**
+   * Render an object of property value pairs into the defined style sheet as a single class name,
+   * with all properties grouped within.
+   */
+  renderRuleGrouped = (properties: Rule, params: StyleParams = {}): ClassName => {
+    const nestedRules: { [selector: string]: Rule } = {};
+    const processedProperties: ProcessedProperties = {};
 
-        // Handle nested selectors and objects
-      } else if (isObject(value)) {
-        const { conditions = [] } = params;
-
-        // Media condition
-        if (isMediaRule(prop)) {
-          conditions.push({
-            query: prop.slice(6).trim(),
-            type: MEDIA_RULE,
-          });
-
-          classNames.add(this.renderRule(value, { ...params, className, conditions }, atomic));
-
-          // Supports condition
-        } else if (isSupportsRule(prop)) {
-          conditions.push({
-            query: prop.slice(9).trim(),
-            type: SUPPORTS_RULE,
-          });
-
-          classNames.add(this.renderRule(value, { ...params, className, conditions }, atomic));
-
-          // Selectors
-        } else if (isNestedSelector(prop)) {
-          classNames.add(this.renderRule(value, { ...params, className, selector: prop }, atomic));
-
-          // Unknown
-        } else if (__DEV__) {
-          console.warn(`Unknown property selector or nested block "${prop}".`);
-        }
-
-        // Atomic property value pair
-      } else if (atomic) {
-        classNames.add(this.renderDeclaration(prop, value, params));
-
-        // Non-atomic property value pair
-      } else {
-        processed[prop] = this.applyUnitToValue(prop, value);
+    // Extract all nested rules first as we need to process them *after* properties
+    objectLoop<Rule, Property>(properties, (value, prop) => {
+      if (isObject(value)) {
+        nestedRules[prop] = value;
+      } else if (!isInvalidValue(value)) {
+        processedProperties[prop] = this.applyUnitToValue(prop, value);
       }
     });
 
-    // Non-atomic, so render a block of many properties
-    if (!atomic) {
-      classNames.add(className);
+    const rule = formatRule(
+      this.options.prefix ? prefix(processedProperties) : processedProperties,
+      params.selector,
+    );
+    const hash = this.generateDeterministicClassName(rule, params.conditions);
+    const className =
+      params.className || (this.options.deterministic ? hash : this.generateClassName());
 
-      const rule = formatRule(processed, params.selector);
-      const hash = this.generateDeterministicClassName(rule, params.conditions);
-
-      if (!this.ruleCache[hash]) {
-        this.insertRule(`.${className}${rule}`, params);
-        this.ruleCache[hash] = className;
-      }
+    // Insert once and cache separately than atomic class names
+    if (!this.ruleCache[hash]) {
+      this.insertRule(`.${className}${rule}`, params);
+      this.ruleCache[hash] = className;
     }
 
-    return Array.from(classNames).join(' ');
-  }
+    // Render all nested rules with the top-level class name
+    this.processRule(nestedRules, { ...params, className }, this.renderRuleGrouped);
+
+    return className;
+  };
 
   /**
    * Render a mapping of multiple rule sets in the defined order.
    * If no order is provided, they will be rendered sequentially.
    */
-  renderRuleSets<T extends { [set: string]: Block }>(sets: T, inOrder?: (keyof T)[]) {
+  renderRuleSets<T extends { [set: string]: Rule }>(sets: T, inOrder?: (keyof T)[]) {
     const order = inOrder ?? Object.keys(sets);
 
     return arrayReduce(order, key => `${this.renderRule(sets[key])} `).trim();
@@ -346,6 +335,64 @@ export default abstract class Renderer {
     });
 
     return props;
+  }
+
+  /**
+   * Process a rule block with the defined params and factories.
+   */
+  protected processRule(
+    properties: Rule,
+    params: StyleParams,
+    onNestedRule: OnNestedRule,
+    processProperty: boolean = false,
+  ) {
+    const classNames = new Set();
+
+    objectLoop<Rule, Property>(properties, (value, prop) => {
+      // Skip invalid values
+      if (isInvalidValue(value)) {
+        if (__DEV__) {
+          console.warn(`Invalid value "${value}" for property "${prop}".`);
+        }
+
+        // Handle nested selectors and objects
+      } else if (isObject(value)) {
+        const { conditions = [] } = params;
+
+        // Media condition
+        if (isMediaRule(prop)) {
+          conditions.push({
+            query: prop.slice(6).trim(),
+            type: MEDIA_RULE,
+          });
+
+          classNames.add(onNestedRule(value, { ...params, conditions }));
+
+          // Supports condition
+        } else if (isSupportsRule(prop)) {
+          conditions.push({
+            query: prop.slice(9).trim(),
+            type: SUPPORTS_RULE,
+          });
+
+          classNames.add(onNestedRule(value, { ...params, conditions }));
+
+          // Selectors
+        } else if (isNestedSelector(prop)) {
+          classNames.add(onNestedRule(value, { ...params, selector: prop }));
+
+          // Unknown
+        } else if (__DEV__) {
+          console.warn(`Unknown property selector or nested block "${prop}".`);
+        }
+
+        // Property value pair
+      } else if (processProperty) {
+        classNames.add(this.renderDeclaration(prop, value, params));
+      }
+    });
+
+    return Array.from(classNames).join(' ');
   }
 
   /**

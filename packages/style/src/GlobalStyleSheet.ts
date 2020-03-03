@@ -3,8 +3,6 @@ import { isImportRule } from './helpers';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 
 export default class GlobalStyleSheet extends BaseStyleSheet {
-  protected lastAtRuleIndex: number = 0;
-
   /**
    * Insert a rule into the global style sheet.
    */

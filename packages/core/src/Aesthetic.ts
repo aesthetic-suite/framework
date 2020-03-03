@@ -1,5 +1,5 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Block, ClientRenderer, Renderer } from '@aesthetic/style';
+import { Rule, ClientRenderer, Renderer } from '@aesthetic/style';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
@@ -109,7 +109,7 @@ export default class Aesthetic {
     );
     const classNames: { [key: string]: string } = {};
 
-    new LocalParser<Block>({
+    new LocalParser<Rule>({
       onRuleset(selector, block) {
         classNames[selector] = renderer.renderRule(block.toObject());
       },

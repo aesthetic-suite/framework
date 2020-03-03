@@ -63,9 +63,9 @@ describe('Styles', () => {
     });
     const cursor = renderer.renderDeclaration('cursor', 'pointer');
 
-    expect(className).toBe('1cpw2zw 1jzt5o3');
+    expect(className).toBe('c1cpw2zw c1jzt5o3');
     expect(className).toContain(cursor);
-    expect(cursor).toBe('1jzt5o3');
+    expect(cursor).toBe('c1jzt5o3');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
@@ -267,5 +267,55 @@ describe('Styles', () => {
     renderer.renderDeclaration('transition', '200ms all'); // Property prefixing
 
     expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  describe('rule grouping', () => {
+    const rule = {
+      display: 'block',
+      background: 'transparent',
+      color: 'black',
+      padding: 0,
+      margin: 0,
+      transition: '200ms all',
+      ':hover': {
+        display: 'flex',
+        color: 'blue',
+      },
+      '@media (width: 500px)': {
+        margin: 10,
+        padding: 10,
+        ':hover': {
+          color: 'darkblue',
+        },
+      },
+    };
+
+    it('can generate a non-atomic single class by grouping all properties', () => {
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('a');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can utilize deterministic class names', () => {
+      renderer.options.deterministic = true;
+
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('cbas0dr');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can vendor prefix applicable properties', () => {
+      renderer.options.prefix = true;
+
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('a');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    });
   });
 });

@@ -19,8 +19,8 @@ export type PseudoBlock = {
 
 export type DeclarationBlock = Properties & AttributeBlock & PseudoBlock;
 
-export interface Block extends DeclarationBlock {
-  [key: string]: Block | Value | unknown;
+export interface Rule extends DeclarationBlock {
+  [key: string]: Rule | Value | unknown;
 }
 
 export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
