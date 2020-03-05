@@ -94,7 +94,11 @@ export default abstract class Parser<T extends object, E extends object> {
 
         // Run for each property so it can be customized
       } else {
-        this.emit('block:property', builder, key, this.transformProperty(key, value));
+        const nextValue = this.transformProperty(key, value);
+
+        builder.addProperty(key as keyof T, nextValue as T[keyof T]);
+
+        this.emit('block:property', builder, key, nextValue);
       }
     });
 
@@ -115,12 +119,11 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     objectLoop(object, (block, query) => {
-      this.emit(
-        `block:${type}` as 'block:media',
-        builder,
-        query,
-        this.parseLocalBlock(new Block(`@${type} ${query}`), block),
-      );
+      const nestedBlock = this.parseLocalBlock(new Block(`@${type} ${query}`), block);
+
+      builder.addNested(nestedBlock);
+
+      this.emit(`block:${type}` as 'block:media', builder, query, nestedBlock);
     });
   }
 
@@ -247,7 +250,11 @@ export default abstract class Parser<T extends object, E extends object> {
         type = 'block:attribute';
       }
 
-      this.emit(type as 'block:selector', parent, name, block.clone(name), { specificity });
+      const nestedBlock = block.clone(name);
+
+      parent.addNested(nestedBlock);
+
+      this.emit(type as 'block:selector', parent, name, nestedBlock, { specificity });
     });
   }
 

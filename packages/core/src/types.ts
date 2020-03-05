@@ -6,14 +6,7 @@ import {
   LocalStyleSheet,
   LocalStyleSheetNeverize,
 } from '@aesthetic/sss';
-import {
-  ColorScheme,
-  ContrastLevel,
-  MixinFactory,
-  Tokens,
-  UnitFactory,
-  VarFactory,
-} from '@aesthetic/system';
+import { ColorScheme, ContrastLevel, Tokens, ThemeName, Factories } from '@aesthetic/system';
 
 export * from '@aesthetic/sss/lib/types';
 export * from '@aesthetic/system/lib/types';
@@ -24,15 +17,7 @@ export type ClassName = string;
 
 export type ClassNameSheet<T extends string> = { [K in T]: string };
 
-export type ThemeName = string;
-
 export type StringOnly<T> = T extends string ? string : never;
-
-export interface SheetParams {
-  mixin: MixinFactory;
-  unit: UnitFactory;
-  var: VarFactory;
-}
 
 export interface SheetQuery {
   contrast?: ContrastLevel;
@@ -42,11 +27,11 @@ export interface SheetQuery {
 }
 
 export type GlobalSheetFactory<T = unknown> = (
-  params: SheetParams,
+  factories: Factories,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type LocalSheetFactory<T = unknown> = (
-  params: SheetParams,
+  factories: Factories,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;

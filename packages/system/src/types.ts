@@ -1,4 +1,9 @@
 import { DeclarationBlock } from '@aesthetic/sss';
+import Theme from './Theme';
+
+export type ThemeName = string;
+
+export type ThemeResult = [ThemeName, Theme];
 
 export type Unit = string;
 
@@ -524,6 +529,12 @@ export type MixinFactory = (
 ) => DeclarationBlock;
 
 // OTHER
+
+export interface Factories {
+  mixin: MixinFactory;
+  unit: UnitFactory;
+  var: VarFactory;
+}
 
 export interface ThemeOptions {
   contrast: ContrastLevel;

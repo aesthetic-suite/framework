@@ -65,13 +65,13 @@ export default class Block<T extends object> {
     return className.trim();
   }
 
-  toObject(): T {
+  toObject<O extends object = T>(): O {
     const object: { [key: string]: unknown } = { ...this.properties };
 
     objectLoop(this.nested, (block, selector) => {
       object[selector] = block.toObject();
     });
 
-    return object as T;
+    return object as O;
   }
 }

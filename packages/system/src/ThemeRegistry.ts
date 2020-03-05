@@ -1,32 +1,32 @@
 import Theme from './Theme';
-import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
+import { ColorScheme, ContrastLevel, ThemeOptions, ThemeName, ThemeResult } from './types';
 
 export default class ThemeRegistry {
   protected defaultDarkTheme: string = '';
 
   protected defaultLightTheme: string = '';
 
-  protected themes = new Map<string, Theme>();
+  protected themes = new Map<ThemeName, Theme>();
 
   /**
    * Return the default dark theme.
    */
-  getDarkTheme(): Theme {
-    return this.getTheme(this.defaultDarkTheme);
+  getDarkTheme(): ThemeResult {
+    return [this.defaultDarkTheme, this.getTheme(this.defaultDarkTheme)];
   }
 
   /**
    * Return the default light theme.
    */
-  getLightTheme(): Theme {
-    return this.getTheme(this.defaultLightTheme);
+  getLightTheme(): ThemeResult {
+    return [this.defaultLightTheme, this.getTheme(this.defaultLightTheme)];
   }
 
   /**
    * Find an approprite theme based on the user's or device's preferences.
    * Will check for preferred color schemes and contrast levels.
    */
-  getPreferredTheme(): Theme {
+  getPreferredTheme(): ThemeResult {
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
     const prefersHighContrast = window.matchMedia('(prefers-contrast: high)').matches;
@@ -37,7 +37,7 @@ export default class ThemeRegistry {
       schemeCheckOrder.reverse();
     }
 
-    let possibleTheme: Theme | undefined;
+    let possibleTheme: ThemeResult | undefined;
 
     // Find a theme based on device preferences
     schemeCheckOrder.some(scheme => {
@@ -69,7 +69,7 @@ export default class ThemeRegistry {
 
     // Not sure how we got here but return something
     if (this.themes.size > 0) {
-      return Array.from(this.themes.values())[0];
+      return Array.from(this.themes.entries())[0];
     }
 
     throw new Error('Unable to find a preferred theme as no themes have been registered.');
@@ -97,8 +97,8 @@ export default class ThemeRegistry {
   /**
    * Query for a theme that matches the defined parameters.
    */
-  query(params: Partial<ThemeOptions>): Theme | undefined {
-    return Array.from(this.themes.values()).find(theme => {
+  query(params: Partial<ThemeOptions>): ThemeResult | undefined {
+    return Array.from(this.themes.entries()).find(([, theme]) => {
       const conditions: boolean[] = [];
 
       if (params.contrast) {
@@ -143,9 +143,6 @@ export default class ThemeRegistry {
         this.defaultLightTheme = name;
       }
     }
-
-    // eslint-disable-next-line no-param-reassign
-    theme.name = name;
 
     this.themes.set(name, theme);
 

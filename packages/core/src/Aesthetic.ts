@@ -1,5 +1,5 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Rule, ClientRenderer, Renderer } from '@aesthetic/style';
+import { Rule, ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
@@ -28,12 +28,25 @@ export default class Aesthetic {
 
   themeRegistry = new ThemeRegistry();
 
+  protected globalSheets = new Map<ThemeName, GlobalSheet>();
+
   /**
-   * Change the currently active name.
+   * Change the currently active theme.
    */
   changeTheme = (name: ThemeName) => {
-    if (this.getTheme(name)) {
-      this.activeTheme = name;
+    const theme = this.getTheme(name);
+
+    // Set as the active theme
+    this.activeTheme = name;
+
+    // Apply CSS variables to `:root`
+    this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
+
+    // Render theme styles and append a `body` class name
+    const globalSheet = this.globalSheets.get(name);
+
+    if (globalSheet) {
+      document.body.className = globalSheet.render(this.renderer, theme);
     }
   };
 
@@ -58,9 +71,9 @@ export default class Aesthetic {
     }
 
     // Detect theme from browser preferences
-    const theme = this.themeRegistry.getPreferredTheme();
+    const [name, theme] = this.themeRegistry.getPreferredTheme();
 
-    this.activeTheme = theme.name;
+    this.changeTheme(name);
 
     return theme;
   };
@@ -87,6 +100,10 @@ export default class Aesthetic {
     isDefault: boolean = false,
   ) => {
     this.themeRegistry.register(name, theme, isDefault);
+
+    if (sheet) {
+      this.globalSheets.set(name, sheet);
+    }
   };
 
   renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, query: SheetQuery) => {

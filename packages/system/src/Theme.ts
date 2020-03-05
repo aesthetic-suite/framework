@@ -15,6 +15,7 @@ import {
   VarFactory,
   UnitFactory,
   MixinFactory,
+  Factories,
 } from './types';
 
 interface AnyObject {
@@ -23,8 +24,6 @@ interface AnyObject {
 }
 
 export default class Theme {
-  name: string = '';
-
   readonly contrast: ContrastLevel;
 
   readonly mixins: Mixins;
@@ -105,6 +104,17 @@ export default class Theme {
    */
   overwriteMixin(name: MixinName, properties: DeclarationBlock): DeclarationBlock {
     return this.extendMixin(name, properties, true);
+  }
+
+  /**
+   * Return a mapping of all theme specific factory methods.
+   */
+  toFactories(): Factories {
+    return {
+      mixin: this.mixin,
+      unit: this.unit,
+      var: this.var,
+    };
   }
 
   /**
