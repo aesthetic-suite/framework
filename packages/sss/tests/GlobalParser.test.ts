@@ -16,13 +16,7 @@ describe('GlobalParser', () => {
   let spy: jest.Mock;
 
   beforeEach(() => {
-    parser = new GlobalParser({
-      onBlockProperty(block, key, value) {
-        // @ts-ignore TODO FIX
-        block.addProperty(key as keyof Properties, value);
-      },
-    });
-
+    parser = new GlobalParser();
     spy = jest.fn();
   });
 

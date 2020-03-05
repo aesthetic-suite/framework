@@ -51,6 +51,9 @@ describe('SSR', () => {
           },
         },
       },
+      '@supports (color: green)': {
+        color: 'green',
+      },
     });
 
     renderer.renderKeyframes({

@@ -13,8 +13,8 @@ export default function ThemeProvider({ children, name: baseName = '' }: ThemePr
 
   useEffect(() => {
     if (baseName) {
-      setName(baseName);
       changeTheme(baseName);
+      setName(baseName);
     }
   }, [baseName]);
 

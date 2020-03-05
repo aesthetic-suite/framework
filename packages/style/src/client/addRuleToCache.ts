@@ -8,18 +8,7 @@ export default function addRuleToCache(
   rule: string,
   cache: Partial<CacheItem>,
 ) {
-  const match = rule.match(RULE_PATTERN);
-
-  if (!match) {
-    if (__DEV__) {
-      // eslint-disable-next-line no-console
-      console.log(`Failed to parse and hydrate rule: ${rule}`);
-    }
-
-    return;
-  }
-
-  const [, className, selector = '', property, value] = match;
+  const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
 
   renderer.classNameCache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
     className,

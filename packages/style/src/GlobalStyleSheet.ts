@@ -1,5 +1,5 @@
 import BaseStyleSheet from './BaseStyleSheet';
-import { isImportRule } from './helpers';
+import { isImportRule, isAtRule } from './helpers';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 
 export default class GlobalStyleSheet extends BaseStyleSheet {
@@ -11,7 +11,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
       return this.insertImportRule(rule);
     }
 
-    if (rule.charAt(0) === '@') {
+    if (isAtRule(rule)) {
       return this.insertAtRule(rule);
     }
 

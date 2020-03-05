@@ -1,28 +1,40 @@
-// describe('applyUnitToValue()', () => {
-//   it('does nothing to strings', () => {
-//     expect(applyUnitToValue('display', 'foo', 'px')).toBe('foo');
-//     expect(applyUnitToValue('display', '100px', 'px')).toBe('100px');
-//     expect(applyUnitToValue('display', 'red', 'px')).toBe('red');
-//   });
+import Renderer from '../src/client/ClientRenderer';
 
-//   it('does nothing to zeros', () => {
-//     expect(applyUnitToValue('width', 0, 'px')).toBe('0');
-//   });
+describe('Renderer', () => {
+  let renderer: Renderer;
 
-//   it('does nothing to unitless properties', () => {
-//     expect(applyUnitToValue('lineHeight', 1.5, 'px')).toBe('1.5');
-//   });
+  beforeEach(() => {
+    renderer = new Renderer();
+  });
 
-//   it('does nothing if a unit already exists', () => {
-//     expect(applyUnitToValue('width', '100em', 'px')).toBe('100em');
-//     expect(applyUnitToValue('height', '10vh', 'px')).toBe('10vh');
-//   });
+  describe('applyUnitToValue()', () => {
+    it('does nothing to strings', () => {
+      expect(renderer.applyUnitToValue('display', 'foo')).toBe('foo');
+      expect(renderer.applyUnitToValue('display', '100px')).toBe('100px');
+      expect(renderer.applyUnitToValue('display', 'red')).toBe('red');
+    });
 
-//   it('appends px to numbers', () => {
-//     expect(applyUnitToValue('width', 100, 'px')).toBe('100px');
-//   });
+    it('does nothing to zeros', () => {
+      expect(renderer.applyUnitToValue('width', 0)).toBe('0');
+    });
 
-//   it('can customize unit', () => {
-//     expect(applyUnitToValue('width', 100, 'em')).toBe('100em');
-//   });
-// });
+    it('does nothing to unitless properties', () => {
+      expect(renderer.applyUnitToValue('lineHeight', 1.5)).toBe('1.5');
+    });
+
+    it('does nothing if a unit already exists', () => {
+      expect(renderer.applyUnitToValue('width', '100em')).toBe('100em');
+      expect(renderer.applyUnitToValue('height', '10vh')).toBe('10vh');
+    });
+
+    it('appends px to numbers', () => {
+      expect(renderer.applyUnitToValue('width', 100)).toBe('100px');
+    });
+
+    it('can customize unit', () => {
+      renderer.options.unit = 'em';
+
+      expect(renderer.applyUnitToValue('width', 100)).toBe('100em');
+    });
+  });
+});

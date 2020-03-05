@@ -20,13 +20,7 @@ describe('LocalParser', () => {
   let spy: jest.Mock;
 
   beforeEach(() => {
-    parser = new LocalParser({
-      onBlockProperty(block, key, value) {
-        // @ts-ignore TODO FIX
-        block.addProperty(key as keyof Properties, value);
-      },
-    });
-
+    parser = new LocalParser();
     spy = jest.fn();
   });
 
@@ -62,8 +56,8 @@ describe('LocalParser', () => {
       });
 
       expect(spy).toHaveBeenCalledTimes(2);
-      expect(spy).toHaveBeenCalledWith('foo');
-      expect(spy).toHaveBeenCalledWith('baz');
+      expect(spy).toHaveBeenCalledWith('foo', 'foo');
+      expect(spy).toHaveBeenCalledWith('baz', 'baz');
     });
   });
 
@@ -277,6 +271,9 @@ describe('LocalParser', () => {
         '(min-width: 300px)',
         createBlock('@media (min-width: 300px)', {
           color: 'blue',
+          '@media (max-width: 1000px)': {
+            color: 'green',
+          },
         }),
       );
 

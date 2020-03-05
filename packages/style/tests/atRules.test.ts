@@ -48,6 +48,19 @@ describe('At-rules', () => {
     expect(getInsertedStyles('global')).toMatchSnapshot();
   });
 
+  it('inserts at-rules before standard rules', () => {
+    renderer.renderRule({ display: 'block' }, { type: 'global' });
+
+    renderer.renderFontFace({
+      fontFamily: '"Open Sans"',
+      fontStyle: 'normal',
+      fontWeight: 800,
+      src: 'url("fonts/OpenSans-Bold.woff2")',
+    });
+
+    expect(getInsertedStyles('global')).toMatchSnapshot();
+  });
+
   describe('@font-face', () => {
     it('renders and returns family name', () => {
       const name = renderer.renderFontFace({

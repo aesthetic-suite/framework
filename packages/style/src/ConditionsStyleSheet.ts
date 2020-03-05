@@ -50,31 +50,29 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
       } else {
         this.insertFeatureRule(outerCondition.query, finalRule);
       }
+    } else {
+      let instance: StyleRule | undefined;
 
-      return -1;
+      // istanbul ignore next
+      arrayLoop(conditions, ({ query, type }, i) => {
+        const bodyContent = i === size - 1 ? rule : '';
+
+        // Insert a new condition at the root
+        if (i === 0) {
+          instance =
+            type === MEDIA_RULE
+              ? this.insertMediaRule(query, bodyContent)
+              : this.insertFeatureRule(query, bodyContent);
+
+          // Recursively insert nested rules
+        } else if (instance) {
+          instance = this.findNestedRule(instance, query, type) || instance;
+
+          // Insert the rule and return a new instance
+          instance = instance.cssRules[instance.insertRule(bodyContent, instance.cssRules.length)];
+        }
+      });
     }
-
-    let instance: StyleRule | null = null;
-
-    // istanbul ignore next
-    arrayLoop(conditions, ({ query, type }, i) => {
-      const bodyContent = i === size - 1 ? rule : '';
-
-      // Insert a new condition at the root
-      if (i === 0) {
-        instance =
-          type === MEDIA_RULE
-            ? this.insertMediaRule(query, bodyContent)
-            : this.insertFeatureRule(query, bodyContent);
-
-        // Recursively insert nested rules
-      } else if (instance) {
-        instance = this.findNestedRule(instance, query, type) || instance;
-
-        // Insert the rule and return a new instance
-        instance = instance.cssRules[instance.insertRule(bodyContent, instance.cssRules.length)];
-      }
-    });
 
     return -1;
   }

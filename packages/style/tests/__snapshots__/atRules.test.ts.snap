@@ -33,3 +33,5 @@ exports[`At-rules doesnt insert the same at-rule more than once 1`] = `
   to {transform: translateX(100%);} 
 }"
 `;
+
+exports[`At-rules inserts at-rules before standard rules 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}.a {display: block;}"`;
