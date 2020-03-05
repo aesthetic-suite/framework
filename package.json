@@ -14,7 +14,6 @@
     "prerelease": "yarn run clean && yarn run build && yarn test",
     "pretest": "yarn run type",
     "test": "yarn run coverage",
-    "test:bundle": "yarn run build && beemo create-config typescript && webpack",
     "posttest": "yarn run eslint"
   },
   "devDependencies": {
@@ -22,30 +21,23 @@
     "@types/ejs": "^3.0.1",
     "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/js-yaml": "^3.12.2",
     "@types/lodash": "^4.14.108",
     "@types/prettier": "^1.12.0",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
     "@types/string-hash": "^1.1.1",
-    "@types/uuid": "^7.0.0",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-css-modules-transform": "1.6.2",
-    "babel-register": "^6.26.0",
-    "chalk": "^3.0.0",
     "conventional-changelog-beemo": "^1.6.0",
     "eslint-plugin-rut": "^1.0.0",
-    "glob": "^7.1.6",
     "jest-rut": "^1.0.0",
     "lerna": "^3.20.2",
+    "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "rollup": "^1.32.0",
+    "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rut-dom": "^1.0.0",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "rut-dom": "^1.0.0"
   },
   "beemo": {
     "module": "@milesj/build-tools",
@@ -61,11 +53,6 @@
     ],
     "settings": {
       "react": true
-    },
-    "babel": {
-      "plugins": [
-        "babel-plugin-css-modules-transform"
-      ]
     },
     "eslint": {
       "extends": [

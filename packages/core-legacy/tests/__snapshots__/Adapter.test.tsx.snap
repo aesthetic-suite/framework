@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Adapter transformStyles() errors for invalid value 1`] = `"Unsupported style type to transform."`;

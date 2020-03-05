@@ -1,7 +1,0 @@
-{
-  "rules": {
-    "prefer-destructuring": "off",
-    "react/no-multi-comp": "off",
-    "react/prefer-stateless-function": "off"
-  }
-}
