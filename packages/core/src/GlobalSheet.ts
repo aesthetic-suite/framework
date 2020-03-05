@@ -1,11 +1,13 @@
 import { GlobalParser } from '@aesthetic/sss';
-import { Renderer } from '@aesthetic/style';
+import { Renderer, ClassName } from '@aesthetic/style';
 import { Theme } from '@aesthetic/system';
 import Sheet from './Sheet';
 import { GlobalSheetFactory } from './types';
 
 export default class GlobalSheet<T = unknown> extends Sheet {
   protected factory: GlobalSheetFactory<T>;
+
+  protected renderedClassName?: ClassName;
 
   constructor(factory: GlobalSheetFactory<T>) {
     super();
@@ -17,7 +19,7 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     return this.factory;
   }
 
-  render(renderer: Renderer, theme: Theme) {
+  render(renderer: Renderer, theme: Theme): ClassName {
     if (this.renderedClassName !== undefined) {
       return this.renderedClassName;
     }

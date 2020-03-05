@@ -1,20 +1,11 @@
-import { LocalParser } from '@aesthetic/sss';
-import { Rule, ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
+import { ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import {
-  LocalSheetFactory,
-  GlobalSheetFactory,
-  ThemeName,
-  SheetQuery,
-  ClassNameSheet,
-  StringOnly,
-} from './types';
+import { LocalSheetFactory, GlobalSheetFactory, ThemeName, SheetQuery } from './types';
 
 // TODO
 // config options
-// style injection
 // rtl
 
 function createRenderer(): Renderer {
@@ -24,11 +15,11 @@ function createRenderer(): Renderer {
 export default class Aesthetic {
   activeTheme: ThemeName = '';
 
+  globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+
   renderer = createRenderer();
 
   themeRegistry = new ThemeRegistry();
-
-  protected globalSheets = new Map<ThemeName, GlobalSheet>();
 
   /**
    * Change the currently active theme.
@@ -43,7 +34,7 @@ export default class Aesthetic {
     this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
 
     // Render theme styles and append a `body` class name
-    const globalSheet = this.globalSheets.get(name);
+    const globalSheet = this.globalSheetRegistry.get(name);
 
     if (globalSheet) {
       document.body.className = globalSheet.render(this.renderer, theme);
@@ -102,7 +93,13 @@ export default class Aesthetic {
     this.themeRegistry.register(name, theme, isDefault);
 
     if (sheet) {
-      this.globalSheets.set(name, sheet);
+      if (__DEV__) {
+        if (!(sheet instanceof GlobalSheet)) {
+          throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
+        }
+      }
+
+      this.globalSheetRegistry.set(name, sheet);
     }
   };
 
@@ -113,26 +110,7 @@ export default class Aesthetic {
       }
     }
 
-    const { renderer } = this;
-    const theme = this.getActiveTheme();
-    const factory = sheet.compose(query);
-    const styles = factory(
-      {
-        mixin: theme.mixin,
-        unit: theme.unit,
-        var: theme.var,
-      },
-      theme.toTokens(),
-    );
-    const classNames: { [key: string]: string } = {};
-
-    new LocalParser<Rule>({
-      onRuleset(selector, block) {
-        classNames[selector] = renderer.renderRule(block.toObject());
-      },
-    }).parse(styles);
-
-    return classNames as ClassNameSheet<StringOnly<keyof T>>;
+    return sheet.render(this.renderer, this.getActiveTheme(), query);
   };
 
   /**

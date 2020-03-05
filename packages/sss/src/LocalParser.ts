@@ -23,7 +23,7 @@ export default class LocalParser<T extends object> extends Parser<T, LocalEvents
 
         // Class name
       } else if (typeof declaration === 'string' && declaration.match(CLASS_NAME)) {
-        this.emit('class', declaration);
+        this.emit('class', selector, declaration);
 
         // Declaration
       } else if (isObject(declaration)) {

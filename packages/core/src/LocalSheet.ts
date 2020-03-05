@@ -1,12 +1,16 @@
-import { ColorScheme, ContrastLevel } from '@aesthetic/system';
+import { LocalParser } from '@aesthetic/sss';
+import { Renderer } from '@aesthetic/style';
+import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { deepMerge } from '@aesthetic/utils';
 import Sheet from './Sheet';
-import { LocalSheetFactory, SheetQuery } from './types';
+import { LocalSheetFactory, SheetQuery, ClassNameSheet } from './types';
 
 export default class LocalSheet<T = unknown> extends Sheet {
   protected factory: LocalSheetFactory<T>;
 
   protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory<T> } = {};
+
+  protected renderedQueries = new WeakMap<SheetQuery, ClassNameSheet<string>>();
 
   protected schemeVariants: { [K in ColorScheme]?: LocalSheetFactory<T> } = {};
 
@@ -68,5 +72,36 @@ export default class LocalSheet<T = unknown> extends Sheet {
     }
 
     return (params, tokens) => deepMerge(...factories.map(factory => factory(params, tokens)));
+  }
+
+  render(renderer: Renderer, theme: Theme, query: SheetQuery): ClassNameSheet<string> {
+    const cache = this.renderedQueries.get(query);
+
+    if (cache) {
+      return cache;
+    }
+
+    const classNames: ClassNameSheet<string> = {};
+    const composer = this.compose(query);
+    const styles = composer(theme.toFactories(), theme.toTokens());
+
+    new LocalParser({
+      onClass(selector, className) {
+        classNames[selector] = className;
+      },
+      onFontFace(fontFace) {
+        renderer.renderFontFace(fontFace.toObject());
+      },
+      onKeyframes(keyframes, animationName) {
+        renderer.renderKeyframes(keyframes.toObject(), animationName);
+      },
+      onRuleset(selector, block) {
+        classNames[selector] = renderer.renderRule(block.toObject());
+      },
+    }).parse(styles);
+
+    this.renderedQueries.set(query, classNames);
+
+    return classNames;
   }
 }

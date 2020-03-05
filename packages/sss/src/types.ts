@@ -294,7 +294,7 @@ export type BlockPropertyListener<T extends object> = (
 
 export type BlockListener<T extends object> = (block: Block<T>) => void;
 
-export type ClassNameListener = (className: string) => void;
+export type ClassNameListener = (selector: string, className: string) => void;
 
 export type FontFaceListener<T extends object> = (
   fontFace: Block<T>,
