@@ -3,14 +3,12 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { Design, Theme } from '@aesthetic/system';
 import Aesthetic from './Aesthetic';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import Sheet from './Sheet';
 
 export const aesthetic = new Aesthetic();
-
 export const {
   changeTheme,
   createComponentStyles,
@@ -22,6 +20,8 @@ export const {
   renderComponentStyles,
 } = aesthetic;
 
+export * from '@aesthetic/sss';
+export * from '@aesthetic/system';
 export * from './types';
 
-export { Design, GlobalSheet, LocalSheet, Sheet, Theme };
+export { GlobalSheet, LocalSheet, Sheet };

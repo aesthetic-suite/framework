@@ -1,8 +1,8 @@
 import { ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
-import { Theme, ThemeRegistry } from '@aesthetic/system';
+import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import { LocalSheetFactory, GlobalSheetFactory, ThemeName, SheetQuery } from './types';
+import { LocalSheetFactory, GlobalSheetFactory, SheetQuery } from './types';
 
 // TODO
 // config options
@@ -48,7 +48,7 @@ export default class Aesthetic {
     new LocalSheet<T>(factory);
 
   /**
-   * Create a global style sheet for a theme and its root styles.
+   * Create a global style sheet for root theme styles.
    */
   createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
 
@@ -62,9 +62,9 @@ export default class Aesthetic {
     }
 
     // Detect theme from browser preferences
-    const [name, theme] = this.themeRegistry.getPreferredTheme();
+    const theme = this.themeRegistry.getPreferredTheme();
 
-    this.changeTheme(name);
+    this.changeTheme(theme.name);
 
     return theme;
   };
@@ -103,6 +103,9 @@ export default class Aesthetic {
     }
   };
 
+  /**
+   * Render a component style sheet to the document with the defined style query parameters.
+   */
   renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, query: SheetQuery) => {
     if (__DEV__) {
       if (!(sheet instanceof LocalSheet)) {
@@ -119,6 +122,7 @@ export default class Aesthetic {
   resetForTesting() {
     this.activeTheme = '';
     this.renderer = createRenderer();
+    this.globalSheetRegistry.clear();
     this.themeRegistry.reset();
   }
 }

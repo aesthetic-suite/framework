@@ -1,9 +1,6 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import Theme from './Theme';
 
 export type ThemeName = string;
-
-export type ThemeResult = [ThemeName, Theme];
 
 export type Unit = string;
 
