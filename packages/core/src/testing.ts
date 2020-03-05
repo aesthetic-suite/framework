@@ -501,5 +501,7 @@ export function setupAesthetic() {
 }
 
 export function teardownAesthetic() {
+  lightTheme.name = '';
+  darkTheme.name = '';
   aesthetic.resetForTesting();
 }

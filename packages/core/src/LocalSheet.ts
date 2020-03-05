@@ -74,7 +74,14 @@ export default class LocalSheet<T = unknown> extends Sheet {
     return (params, tokens) => deepMerge(...factories.map(factory => factory(params, tokens)));
   }
 
-  render(renderer: Renderer, theme: Theme, query: SheetQuery): ClassNameSheet<string> {
+  render(renderer: Renderer, theme: Theme, baseQuery: SheetQuery): ClassNameSheet<string> {
+    const query: Required<SheetQuery> = {
+      contrast: theme.contrast,
+      dir: 'ltr',
+      scheme: theme.scheme,
+      theme: theme.name,
+      ...baseQuery,
+    };
     const cache = this.renderedQueries.get(query);
 
     if (cache) {
