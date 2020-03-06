@@ -3,6 +3,7 @@
 import { isObject, toArray, arrayLoop, objectLoop } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
+import isUnitlessProperty from './isUnitlessProperty';
 import compoundProperties from './compound';
 import shorthandProperties from './shorthand';
 import {
@@ -21,6 +22,8 @@ import {
   Properties,
   RulesetListener,
   ClassNameListener,
+  ParserOptions,
+  Length,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -59,7 +62,11 @@ const EVENT_MAP = {
 export default abstract class Parser<T extends object, E extends object> {
   protected handlers: HandlerMap = {};
 
-  constructor(handlers?: E) {
+  protected options: Required<ParserOptions> = {
+    unit: 'px',
+  };
+
+  constructor(handlers?: E, options?: ParserOptions) {
     if (handlers) {
       objectLoop(handlers, (handler, name) => {
         this.on(
@@ -68,7 +75,27 @@ export default abstract class Parser<T extends object, E extends object> {
         );
       });
     }
+
+    if (options) {
+      Object.assign(this.options, options);
+    }
   }
+
+  applyUnitToValue = (property: string, value: unknown) => {
+    if (value === undefined) {
+      return '';
+    }
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (isUnitlessProperty(property) || value === 0) {
+      return String(value);
+    }
+
+    return value + this.options.unit;
+  };
 
   parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
     if (__DEV__) {
@@ -258,7 +285,7 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  transformProperty(key: string, value: unknown): unknown {
+  transformProperty(key: string, value: unknown): Length {
     switch (key) {
       case 'animation':
         return compoundProperties.animation(value as Properties['animation']);
@@ -279,12 +306,15 @@ export default abstract class Parser<T extends object, E extends object> {
 
       default: {
         if (key in shorthandProperties && isObject(value)) {
-          return shorthandProperties[key as keyof typeof shorthandProperties](value);
+          return shorthandProperties[key as keyof typeof shorthandProperties](
+            value,
+            this.applyUnitToValue,
+          );
         }
       }
     }
 
-    return value;
+    return value as string;
   }
 
   /**

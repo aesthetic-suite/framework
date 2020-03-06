@@ -65,7 +65,7 @@ describe('Shorthand properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'border', '1 solid red');
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'border', '1px solid red');
   });
 
   it('collapses `columnRule`', () => {
@@ -77,7 +77,7 @@ describe('Shorthand properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'columnRule', '2 dashed blue');
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'columnRule', '2px dashed blue');
   });
 
   it('collapses `flex`', () => {
@@ -108,7 +108,7 @@ describe('Shorthand properties', () => {
     expect(spy).toHaveBeenCalledWith(
       expect.any(Block),
       'font',
-      'italic contextual 300 expanded 14 / 1.5 "Open Sans"',
+      'italic contextual 300 expanded 14px / 1.5 "Open Sans"',
     );
   });
 
@@ -141,7 +141,7 @@ describe('Shorthand properties', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
         topBottom: '1px',
-        leftRight: '2px',
+        leftRight: 2,
       },
     });
 
@@ -152,7 +152,7 @@ describe('Shorthand properties', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
         bottom: '1px',
-        leftRight: '3px',
+        leftRight: 3,
         top: '2px',
       },
     });
@@ -166,7 +166,7 @@ describe('Shorthand properties', () => {
         bottom: '1px',
         left: '3px',
         right: '4px',
-        top: '2px',
+        top: 2,
       },
     });
 
@@ -223,12 +223,12 @@ describe('Shorthand properties', () => {
   it('collapses `padding` (2-sided)', () => {
     parser.parseBlock(createBlock('padding'), {
       padding: {
-        topBottom: '1px',
-        leftRight: '2px',
+        topBottom: 1,
+        leftRight: '2rem',
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '1px 2px');
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '1px 2rem');
   });
 
   it('collapses `padding` (3-sided)', () => {
@@ -246,14 +246,14 @@ describe('Shorthand properties', () => {
   it('collapses `padding` (4-sided)', () => {
     parser.parseBlock(createBlock('padding'), {
       padding: {
-        bottom: '1px',
+        bottom: 1,
         left: '3px',
-        right: '4px',
+        right: '4em',
         top: '2px',
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '2px 4px 1px 3px');
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '2px 4em 1px 3px');
   });
 
   it('collapses `textDecoration`', () => {

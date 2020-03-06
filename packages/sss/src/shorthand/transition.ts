@@ -1,6 +1,6 @@
 import { TransitionProperty } from '../types';
-import { join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformTransition(prop: TransitionProperty): string {
-  return join(prop.property, prop.duration, prop.timingFunction, prop.delay);
-}
+export default createTransformer<TransitionProperty>('transition', (prop, { join }) =>
+  join(prop.property, prop.duration, prop.timingFunction, prop.delay),
+);

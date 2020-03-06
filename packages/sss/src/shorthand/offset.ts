@@ -1,7 +1,7 @@
 import { OffsetProperty } from '../types';
-import { divide, join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformOffset(prop: OffsetProperty): string {
+export default createTransformer<OffsetProperty>('offset', (prop, { join, separate }) => {
   let part = join(prop.path, prop.distance || prop.rotate);
 
   if (prop.position) {
@@ -9,8 +9,8 @@ export default function transformOffset(prop: OffsetProperty): string {
   }
 
   if (prop.anchor) {
-    return divide(part, prop.anchor);
+    return separate(part, prop.anchor);
   }
 
   return part;
-}
+});

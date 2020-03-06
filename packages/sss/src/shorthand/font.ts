@@ -1,7 +1,7 @@
 import { FontProperty } from '../types';
-import { join, divide } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformFont(prop: FontProperty): string {
+export default createTransformer<FontProperty>('font', (prop, { join, separate, wrap }) => {
   if (prop.system) {
     return prop.system;
   }
@@ -11,7 +11,7 @@ export default function transformFont(prop: FontProperty): string {
     prop.variant,
     prop.weight,
     prop.stretch,
-    divide(prop.size, prop.lineHeight),
+    separate(wrap(prop.size), prop.lineHeight),
     prop.family,
   );
-}
+});

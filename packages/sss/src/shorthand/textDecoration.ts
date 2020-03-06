@@ -1,6 +1,6 @@
 import { TextDecorationProperty } from '../types';
-import { join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformTextDecoration(prop: TextDecorationProperty): string {
-  return join(prop.line, prop.style, prop.color, prop.thickness);
-}
+export default createTransformer<TextDecorationProperty>('textDecoration', (prop, { join, wrap }) =>
+  join(prop.line, prop.style, prop.color, wrap(prop.thickness)),
+);

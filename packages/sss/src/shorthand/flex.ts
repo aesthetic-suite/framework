@@ -1,6 +1,6 @@
 import { FlexProperty } from '../types';
-import { join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformFlex(prop: FlexProperty): string {
-  return join(prop.grow, prop.shrink, prop.basis);
-}
+export default createTransformer<FlexProperty>('flex', (prop, { join, wrap }) =>
+  join(prop.grow, prop.shrink, wrap(prop.basis)),
+);

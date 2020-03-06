@@ -72,8 +72,8 @@ export interface MarginProperty {
 }
 
 export interface OffsetProperty {
-  anchor?: CSS.OffsetAnchorProperty<Length>;
-  distance?: CSS.OffsetDistanceProperty<Length>;
+  anchor?: CSS.OffsetAnchorProperty<string>;
+  distance?: CSS.OffsetDistanceProperty<string>;
   path?: CSS.OffsetPathProperty;
   position?: string; // NOT UPSTREAM
   rotate?: CSS.OffsetRotateProperty;
@@ -270,6 +270,25 @@ export type AtRule = LocalAtRule | GlobalAtRule;
 export interface NestedBlockParams {
   specificity: number;
 }
+
+export interface ParserOptions {
+  unit?: string;
+}
+
+// TRANSFORMERS
+
+export type UnitWrapper = (property: string, value: Length | undefined) => string;
+
+export type Transformer<T> = (
+  property: T,
+  utils: {
+    join: (...props: (Length | undefined)[]) => string;
+    separate: (...props: (Length | undefined)[]) => string;
+    wrap: (value: Length | undefined) => string;
+  },
+) => string;
+
+export type TransformerHandler<T> = (property: T, wrap: UnitWrapper) => string;
 
 // EVENTS
 

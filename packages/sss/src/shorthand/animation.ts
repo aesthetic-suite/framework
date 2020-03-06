@@ -1,8 +1,8 @@
 import { AnimationProperty } from '../types';
-import { join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformAnimation(prop: AnimationProperty): string {
-  return join(
+export default createTransformer<AnimationProperty>('animation', (prop, { join }) =>
+  join(
     prop.duration,
     prop.timingFunction,
     prop.delay,
@@ -11,5 +11,5 @@ export default function transformAnimation(prop: AnimationProperty): string {
     prop.fillMode,
     prop.playState,
     prop.name,
-  );
-}
+  ),
+);

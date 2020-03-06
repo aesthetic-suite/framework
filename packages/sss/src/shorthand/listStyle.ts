@@ -1,6 +1,6 @@
 import { ListStyleProperty } from '../types';
-import { join } from '../transform';
+import createTransformer from '../createTransformer';
 
-export default function transformListStyle(prop: ListStyleProperty): string {
-  return join(prop.type, prop.position, prop.image);
-}
+export default createTransformer<ListStyleProperty>('listStyle', (prop, { join }) =>
+  join(prop.type, prop.position, prop.image),
+);
