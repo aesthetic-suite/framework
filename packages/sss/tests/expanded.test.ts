@@ -3,7 +3,7 @@ import Block from '../src/Block';
 import { Properties } from '../src/types';
 import { createBlock } from './helpers';
 
-describe('Shorthand properties', () => {
+describe('Expanded properties', () => {
   let parser: LocalParser<Properties>;
   let spy: jest.Mock;
 

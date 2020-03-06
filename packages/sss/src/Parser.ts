@@ -5,7 +5,7 @@ import Block from './Block';
 import formatFontFace from './formatFontFace';
 import isUnitlessProperty from './isUnitlessProperty';
 import compoundProperties from './compound';
-import shorthandProperties from './shorthand';
+import expandedProperties from './expanded';
 import {
   BlockConditionListener,
   BlockListener,
@@ -305,8 +305,8 @@ export default abstract class Parser<T extends object, E extends object> {
         return compoundProperties.transition(value as Properties['transition']);
 
       default: {
-        if (key in shorthandProperties && isObject(value)) {
-          return shorthandProperties[key as keyof typeof shorthandProperties](
+        if (key in expandedProperties && isObject(value)) {
+          return expandedProperties[key as keyof typeof expandedProperties](
             value,
             this.applyUnitToValue,
           );

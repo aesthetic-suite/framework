@@ -114,7 +114,7 @@ export type ExpandProperty<B, T> = B | T | (B | T)[];
 
 export type CompoundPropertyTypes = 'animationName' | 'fontFamily';
 
-export type ShorthandPropertyTypes =
+export type ExpandedPropertyTypes =
   | 'animation'
   | 'background'
   | 'border'
@@ -134,7 +134,7 @@ export type ShorthandPropertyTypes =
   | 'transition';
 
 export interface Properties
-  extends Omit<CSS.StandardProperties<Length>, CompoundPropertyTypes | ShorthandPropertyTypes> {
+  extends Omit<CSS.StandardProperties<Length>, CompoundPropertyTypes | ExpandedPropertyTypes> {
   animation?: ExpandProperty<CSS.AnimationProperty, AnimationProperty>;
   animationName?: ExpandProperty<CSS.AnimationNameProperty, Keyframes>;
   background?: CSS.BackgroundProperty<Length> | BackgroundProperty;
