@@ -6,9 +6,11 @@ export default function transformOffset(prop: OffsetProperty): string {
 
   if (prop.position) {
     part = join(prop.position, part);
-  } else {
-    return '';
   }
 
-  return divide(part, prop.anchor);
+  if (prop.anchor) {
+    return divide(part, prop.anchor);
+  }
+
+  return part;
 }

@@ -31,3 +31,9 @@ export type LocalSheetFactory<T = unknown> = (
   factories: Factories,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
+
+export interface AestheticOptions {
+  defaultUnit?: string;
+  deterministicClasses?: boolean;
+  vendorPrefixes?: boolean;
+}

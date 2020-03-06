@@ -2,10 +2,9 @@ import { ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
 import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import { LocalSheetFactory, GlobalSheetFactory, SheetQuery } from './types';
+import { LocalSheetFactory, GlobalSheetFactory, SheetQuery, AestheticOptions } from './types';
 
 // TODO
-// config options
 // rtl
 
 function createRenderer(): Renderer {
@@ -38,6 +37,23 @@ export default class Aesthetic {
 
     if (globalSheet) {
       document.body.className = globalSheet.render(this.renderer, theme);
+    }
+  };
+
+  /**
+   * Configure Aesthetic and its styling engine.
+   */
+  configure = (options: AestheticOptions) => {
+    if (options.defaultUnit !== undefined) {
+      this.renderer.options.unit = options.defaultUnit;
+    }
+
+    if (options.deterministicClasses !== undefined) {
+      this.renderer.options.deterministic = options.deterministicClasses;
+    }
+
+    if (options.vendorPrefixes !== undefined) {
+      this.renderer.options.prefix = options.vendorPrefixes;
     }
   };
 
