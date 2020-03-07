@@ -49,9 +49,9 @@ export default abstract class Renderer {
   readonly classNameCache = new AtomicCache();
 
   readonly options: Required<RendererOptions> = {
-    deterministic: false,
-    prefix: false,
-    unit: 'px',
+    defaultUnit: 'px', // Passed to parser
+    deterministicClasses: false,
+    vendorPrefixes: false,
   };
 
   readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
@@ -136,10 +136,10 @@ export default abstract class Renderer {
     }
 
     const block = { [prop]: val };
-    const rule = formatRule(this.options.prefix ? prefix(block) : block, params.selector);
+    const rule = formatRule(this.options.vendorPrefixes ? prefix(block) : block, params.selector);
     const className =
       fixedClassName ||
-      (this.options.deterministic
+      (this.options.deterministicClasses
         ? this.generateDeterministicClassName(rule, params.conditions)
         : this.generateClassName());
     const rank = this.insertRule(`.${className}${rule}`, params);
@@ -222,12 +222,12 @@ export default abstract class Renderer {
     });
 
     const rule = formatRule(
-      this.options.prefix ? prefix(processedProperties) : processedProperties,
+      this.options.vendorPrefixes ? prefix(processedProperties) : processedProperties,
       params.selector,
     );
     const hash = this.generateDeterministicClassName(rule, params.conditions);
     const className =
-      params.className || (this.options.deterministic ? hash : this.generateClassName());
+      params.className || (this.options.deterministicClasses ? hash : this.generateClassName());
 
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
@@ -304,7 +304,7 @@ export default abstract class Renderer {
     onNestedRule: OnNestedRule,
     processProperty: boolean = false,
   ) {
-    const classNames = new Set();
+    const classNames = new Set<string>();
 
     objectLoop<Rule, Property>(properties, (value, prop) => {
       // Skip invalid values

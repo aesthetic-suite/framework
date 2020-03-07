@@ -108,7 +108,7 @@ export default class LocalSheet<T = unknown> extends Sheet {
         },
       },
       {
-        unit: renderer.options.unit,
+        unit: renderer.options.defaultUnit,
       },
     ).parse(styles);
 

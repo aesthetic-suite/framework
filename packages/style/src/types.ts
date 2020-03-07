@@ -75,7 +75,7 @@ export interface StyleRule {
 // RENDERER
 
 export interface RendererOptions {
-  deterministic?: boolean;
-  prefix?: boolean;
-  unit?: string;
+  defaultUnit?: string;
+  deterministicClasses?: boolean;
+  vendorPrefixes?: boolean;
 }

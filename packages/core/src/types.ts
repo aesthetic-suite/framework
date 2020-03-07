@@ -4,7 +4,7 @@ import {
   LocalStyleSheet,
   LocalStyleSheetNeverize,
 } from '@aesthetic/sss';
-import { ClassName as BaseClassName } from '@aesthetic/style';
+import { ClassName as BaseClassName, RendererOptions } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Tokens, ThemeName, Factories } from '@aesthetic/system';
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
@@ -32,8 +32,5 @@ export type LocalSheetFactory<T = unknown> = (
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
-export interface AestheticOptions {
-  defaultUnit?: string;
-  deterministicClasses?: boolean;
-  vendorPrefixes?: boolean;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface AestheticOptions extends RendererOptions {}

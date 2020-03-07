@@ -18,6 +18,9 @@ export const {
   registerDefaultTheme,
   registerTheme,
   renderComponentStyles,
+  renderFontFace,
+  renderImport,
+  renderKeyframes,
 } = aesthetic;
 
 export * from '@aesthetic/sss';

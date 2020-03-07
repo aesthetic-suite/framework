@@ -55,7 +55,7 @@ describe('Styles', () => {
   });
 
   it('generates a deterministic class name for each property', () => {
-    renderer.options.deterministic = true;
+    renderer.options.deterministicClasses = true;
 
     const className = renderer.renderRule({
       margin: 0,
@@ -240,7 +240,7 @@ describe('Styles', () => {
   });
 
   it('applies vendor prefixes to a property under a single class name', () => {
-    renderer.options.prefix = true;
+    renderer.options.vendorPrefixes = true;
 
     renderer.renderDeclaration('display', 'flex'); // Value prefixing (wont show in snapshot)
     renderer.renderDeclaration('transition', '200ms all'); // Property prefixing
@@ -278,7 +278,7 @@ describe('Styles', () => {
     });
 
     it('can utilize deterministic class names', () => {
-      renderer.options.deterministic = true;
+      renderer.options.deterministicClasses = true;
 
       const className = renderer.renderRuleGrouped(rule);
 
@@ -288,7 +288,7 @@ describe('Styles', () => {
     });
 
     it('can vendor prefix applicable properties', () => {
-      renderer.options.prefix = true;
+      renderer.options.vendorPrefixes = true;
 
       const className = renderer.renderRuleGrouped(rule);
 

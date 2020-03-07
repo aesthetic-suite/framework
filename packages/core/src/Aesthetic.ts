@@ -1,4 +1,4 @@
-import { ClientRenderer, Renderer, CSSVariables } from '@aesthetic/style';
+import { ClientRenderer, Renderer, CSSVariables, FontFace, Keyframes } from '@aesthetic/style';
 import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
@@ -6,6 +6,7 @@ import { LocalSheetFactory, GlobalSheetFactory, SheetQuery, AestheticOptions } f
 
 // TODO
 // rtl
+// theme specific `style` elements
 
 function createRenderer(): Renderer {
   return global.AESTHETIC_SSR || new ClientRenderer();
@@ -45,15 +46,15 @@ export default class Aesthetic {
    */
   configure = (options: AestheticOptions) => {
     if (options.defaultUnit !== undefined) {
-      this.renderer.options.unit = options.defaultUnit;
+      this.renderer.options.defaultUnit = options.defaultUnit;
     }
 
     if (options.deterministicClasses !== undefined) {
-      this.renderer.options.deterministic = options.deterministicClasses;
+      this.renderer.options.deterministicClasses = options.deterministicClasses;
     }
 
     if (options.vendorPrefixes !== undefined) {
-      this.renderer.options.prefix = options.vendorPrefixes;
+      this.renderer.options.vendorPrefixes = options.vendorPrefixes;
     }
   };
 
@@ -131,6 +132,22 @@ export default class Aesthetic {
 
     return sheet.render(this.renderer, this.getActiveTheme(), query);
   };
+
+  /**
+   * Render a `@font-face` to the global style sheet and return the font family name.
+   */
+  renderFontFace = (fontFace: FontFace) => this.renderer.renderFontFace(fontFace);
+
+  /**
+   * Render an `@import` to the global style sheet.
+   */
+  renderImport = (path: string) => this.renderer.renderImport(path);
+
+  /**
+   * Render a `@keyframes` to the global style sheet and return the animation name.
+   */
+  renderKeyframes = (animationName: string, keyframes: Keyframes) =>
+    this.renderer.renderKeyframes(keyframes, animationName);
 
   /**
    * Reset the current instance state for testing purposes.
