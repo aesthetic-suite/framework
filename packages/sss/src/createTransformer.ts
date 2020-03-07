@@ -1,5 +1,5 @@
 import { isObject } from '@aesthetic/utils';
-import { Transformer, TransformerHandler, Properties, TransformerUtils, Length } from './types';
+import { Transformer, TransformerHandler, Properties, TransformerUtils, Value } from './types';
 
 export default function createTransformer<T>(
   property: keyof Properties,
@@ -7,6 +7,14 @@ export default function createTransformer<T>(
   unique?: boolean,
 ): TransformerHandler<T> {
   return (prop, wrap, customTransformer) => {
+    if (typeof prop === 'string') {
+      return prop;
+    }
+
+    if (typeof prop === 'number') {
+      return wrap(property, prop);
+    }
+
     const utils: TransformerUtils = {
       join(...values) {
         return values.filter(Boolean).join(' ');
@@ -30,7 +38,7 @@ export default function createTransformer<T>(
         }
       }
 
-      return (item as unknown) as Length;
+      return (item as unknown) as Value;
     };
 
     if (Array.isArray(prop)) {

@@ -99,25 +99,22 @@ export default class LocalSheet<T = unknown> extends Sheet {
       rtl: params.direction === 'rtl',
     };
 
-    new LocalParser<Properties>(
-      {
-        onClass(selector, className) {
-          classNames[selector] = className;
-        },
-        onFontFace(fontFace) {
-          renderer.renderFontFace(fontFace.toObject());
-        },
-        onKeyframes(keyframes, animationName) {
-          renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
-        },
-        onRuleset(selector, block) {
-          classNames[selector] = renderer.renderRule(block.toObject(), renderParams);
-        },
+    new LocalParser<Properties>({
+      onClass(selector, className) {
+        classNames[selector] = className;
       },
-      {
-        unit: params.unit,
+      onFontFace(fontFace) {
+        renderer.renderFontFace(fontFace.toObject());
       },
-    ).parse(styles);
+      onKeyframes(keyframes, animationName) {
+        renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
+      },
+      onRuleset(selector, block) {
+        classNames[selector] = renderer.renderRule(block.toObject(), renderParams);
+      },
+    }).parse(styles, {
+      unit: params.unit,
+    });
 
     this.renderedQueries[cacheKey] = classNames;
 

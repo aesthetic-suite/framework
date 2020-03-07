@@ -33,28 +33,25 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     };
 
     // TODO @page, @viewport
-    new GlobalParser<Properties>(
-      {
-        onFontFace(fontFace) {
-          renderer.renderFontFace(fontFace.toObject());
-        },
-        onGlobal(block) {
-          className = renderer.renderRuleGrouped(block.toObject(), {
-            ...renderParams,
-            type: 'global',
-          });
-        },
-        onImport(path) {
-          renderer.renderImport(path);
-        },
-        onKeyframes(keyframes, animationName) {
-          renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
-        },
+    new GlobalParser<Properties>({
+      onFontFace(fontFace) {
+        renderer.renderFontFace(fontFace.toObject());
       },
-      {
-        unit: params.unit,
+      onGlobal(block) {
+        className = renderer.renderRuleGrouped(block.toObject(), {
+          ...renderParams,
+          type: 'global',
+        });
       },
-    ).parse(styles);
+      onImport(path) {
+        renderer.renderImport(path);
+      },
+      onKeyframes(keyframes, animationName) {
+        renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
+      },
+    }).parse(styles, {
+      unit: params.unit,
+    });
 
     this.renderedClassName = className;
 

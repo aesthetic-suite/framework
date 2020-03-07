@@ -1,7 +1,13 @@
 import { isObject, toArray, objectLoop, arrayLoop } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import formatImport from './formatImport';
-import { GlobalStyleSheet, PagePseudos, BlockListener, ImportListener } from './types';
+import {
+  GlobalStyleSheet,
+  PagePseudos,
+  BlockListener,
+  ImportListener,
+  ParserOptions,
+} from './types';
 import Block from './Block';
 
 export interface GlobalEvents<T extends object> extends CommonEvents<T> {
@@ -12,7 +18,11 @@ export interface GlobalEvents<T extends object> extends CommonEvents<T> {
 }
 
 export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
-  parse(styleSheet: GlobalStyleSheet) {
+  parse(styleSheet: GlobalStyleSheet, options?: ParserOptions) {
+    if (options) {
+      Object.assign(this.options, options);
+    }
+
     this.parseFontFacesMap(styleSheet['@font-face']);
     this.parseGlobal(styleSheet['@global']);
     this.parseImport(styleSheet['@import']);

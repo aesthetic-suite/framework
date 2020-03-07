@@ -22,7 +22,7 @@ import {
   RulesetListener,
   ClassNameListener,
   ParserOptions,
-  Length,
+  Value,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -65,7 +65,7 @@ export default abstract class Parser<T extends object, E extends object> {
     unit: 'px',
   };
 
-  constructor(handlers?: E, options?: ParserOptions) {
+  constructor(handlers?: E) {
     if (handlers) {
       objectLoop(handlers, (handler, name) => {
         this.on(
@@ -73,10 +73,6 @@ export default abstract class Parser<T extends object, E extends object> {
           (handler as unknown) as Handler,
         );
       });
-    }
-
-    if (options) {
-      Object.assign(this.options, options);
     }
   }
 
@@ -270,7 +266,7 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  transformProperty<K extends keyof Properties>(key: K, value: unknown): Length | undefined {
+  transformProperty<K extends keyof Properties>(key: K, value: unknown): Value | undefined {
     if (value === undefined) {
       return undefined;
     }
@@ -305,7 +301,7 @@ export default abstract class Parser<T extends object, E extends object> {
       }
     }
 
-    return value as Length;
+    return value as Value;
   }
 
   wrapValueWithUnit = (property: string, value: unknown): string => {

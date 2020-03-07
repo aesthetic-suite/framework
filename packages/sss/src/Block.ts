@@ -1,12 +1,12 @@
 /* eslint-disable no-dupe-class-members, lines-between-class-members */
 
 import { objectLoop } from '@aesthetic/utils';
-import { Length } from './types';
+import { Value } from './types';
 
 export default class Block<T extends object = object> {
   readonly nested: { [key: string]: Block<T> } = {};
 
-  readonly properties: { [key: string]: Length } = {};
+  readonly properties: { [key: string]: Value } = {};
 
   readonly selector: string;
 
@@ -25,14 +25,14 @@ export default class Block<T extends object = object> {
   }
 
   addProperty<K extends keyof T>(key: K, value: T[K]): this;
-  addProperty(key: string, value: Length): this;
+  addProperty(key: string, value: Value): this;
   addProperty(key: string, value: unknown): this {
     this.properties[key] = value as string;
 
     return this;
   }
 
-  addProperties(properties: Partial<T> | { [key: string]: Length }): this;
+  addProperties(properties: Partial<T> | { [key: string]: Value }): this;
   addProperties(properties: { [key: string]: unknown }): this {
     Object.assign(this.properties, properties);
 
