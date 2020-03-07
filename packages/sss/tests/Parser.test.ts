@@ -1,4 +1,5 @@
 import LocalParser from '../src/LocalParser';
+import { KEYFRAMES_PERCENT } from './__mocks__/global';
 
 describe('Renderer', () => {
   let parser: LocalParser<object>;
@@ -7,7 +8,57 @@ describe('Renderer', () => {
     parser = new LocalParser();
   });
 
+  describe('parseFontFace()', () => {
+    it('errors if no family name', () => {
+      expect(() => {
+        parser.parseFontFace('', { fontWeight: 300, srcPaths: [] });
+      }).toThrow('@font-face requires a font family name.');
+    });
+
+    it('accepts an family name from the font face object', () => {
+      expect(() => {
+        parser.parseFontFace('', { fontFamily: 'Test', fontWeight: 300, srcPaths: [] });
+      }).not.toThrow();
+    });
+  });
+
+  describe('parseKeyframes()', () => {
+    it('errors if no animation name', () => {
+      expect(() => {
+        parser.parseKeyframes('', KEYFRAMES_PERCENT);
+      }).toThrow('@keyframes requires an animation name.');
+    });
+
+    it('accepts an animation name from the keyframes object', () => {
+      expect(() => {
+        parser.parseKeyframes('', { ...KEYFRAMES_PERCENT, name: 'test' });
+      }).not.toThrow();
+    });
+  });
+
+  describe('transformProperty()', () => {
+    it('returns undefined if undefined', () => {
+      expect(parser.transformProperty('display', undefined)).toBeUndefined();
+    });
+
+    it('errors if value is an array and not a compound property', () => {
+      expect(() => {
+        parser.transformProperty('color', ['red']);
+      }).toThrow('No property transformer defined for "color". Cannot accept arrays or objects.');
+    });
+
+    it('errors if value is an object and not a compound property', () => {
+      expect(() => {
+        parser.transformProperty('color', { foo: 'red' });
+      }).toThrow('No property transformer defined for "color". Cannot accept arrays or objects.');
+    });
+  });
+
   describe('wrapValueWithUnit()', () => {
+    it('returns an empty string for undefined', () => {
+      expect(parser.wrapValueWithUnit('display', undefined)).toBe('');
+    });
+
     it('does nothing to strings', () => {
       expect(parser.wrapValueWithUnit('display', 'foo')).toBe('foo');
       expect(parser.wrapValueWithUnit('display', '100px')).toBe('100px');

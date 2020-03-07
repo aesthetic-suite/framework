@@ -100,11 +100,7 @@ export default abstract class Parser<T extends object, E extends object> {
 
         // Run for each property so it can be customized
       } else {
-        const nextValue = this.transformProperty(key as keyof Properties, value);
-
-        if (nextValue === undefined) {
-          return;
-        }
+        const nextValue = this.transformProperty(key as keyof Properties, value)!;
 
         parent.addProperty(key, nextValue);
 
@@ -142,27 +138,29 @@ export default abstract class Parser<T extends object, E extends object> {
   }
 
   parseFontFace = (fontFamily: string, object: FontFace): string => {
-    this.validateDeclarationBlock(object, `@font-face ${fontFamily}`);
+    const name = object.fontFamily || fontFamily;
 
     if (__DEV__) {
-      if (!fontFamily) {
+      if (!name) {
         throw new Error(`@font-face requires a font family name.`);
       }
     }
 
+    this.validateDeclarationBlock(object, `@font-face ${name}`);
+
     const fontFace = formatFontFace({
       ...object,
-      fontFamily,
+      fontFamily: name,
     }) as Properties;
 
     this.emit(
       'font-face',
       this.parseBlock(new Block('@font-face'), fontFace),
-      fontFamily,
+      name,
       object.srcPaths,
     );
 
-    return fontFamily;
+    return name;
   };
 
   parseKeyframes = (animationName: string, object: Keyframes): string => {

@@ -2,6 +2,14 @@ import LocalParser from '../src/LocalParser';
 import Block from '../src/Block';
 import { Properties } from '../src/types';
 import { createBlock } from './helpers';
+import {
+  KEYFRAMES_PERCENT,
+  KEYFRAMES_RANGE,
+  FONT_ROBOTO,
+  FONTS_CIRCULAR,
+  FONT_ROBOTO_FLAT_SRC,
+  FONTS_CIRCULAR_FLAT_SRC,
+} from './__mocks__/global';
 
 describe('Special properties', () => {
   let parser: LocalParser<Properties>;
@@ -33,6 +41,25 @@ describe('Special properties', () => {
       'animation',
       '300ms linear 30ms 1 normal both running fade',
     );
+  });
+
+  it('parses `animationName` and renders keyframes', () => {
+    const kfSpy = jest.fn();
+
+    parser.on('keyframes', kfSpy);
+    parser.parseBlock(createBlock('animationName'), {
+      animationName: [
+        'slide',
+        { ...KEYFRAMES_PERCENT, name: 'swipe' },
+        { ...KEYFRAMES_RANGE, name: 'fade' },
+      ],
+    });
+
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'animationName', 'slide, swipe, fade');
+
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes swipe', KEYFRAMES_PERCENT), 'swipe');
+
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes fade', KEYFRAMES_RANGE), 'fade');
   });
 
   it('collapses `background`', () => {
@@ -123,6 +150,29 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(expect.any(Block), 'font', 'monospace');
+  });
+
+  it('parses `fontFamily` and renders font faces', () => {
+    const ffSpy = jest.fn();
+
+    parser.on('font-face', ffSpy);
+    parser.parseBlock(createBlock('fontFamily'), {
+      fontFamily: [FONT_ROBOTO, 'Arial', ...FONTS_CIRCULAR],
+    });
+
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'fontFamily', 'Roboto, Arial, Circular');
+
+    expect(ffSpy).toHaveBeenCalledWith(
+      createBlock('@font-face', FONT_ROBOTO_FLAT_SRC),
+      'Roboto',
+      FONT_ROBOTO.srcPaths,
+    );
+
+    expect(ffSpy).toHaveBeenCalledWith(
+      createBlock('@font-face', FONTS_CIRCULAR_FLAT_SRC[3]),
+      'Circular',
+      FONTS_CIRCULAR[3].srcPaths,
+    );
   });
 
   it('collapses `listStyle`', () => {

@@ -285,13 +285,13 @@ export interface TransformerUtils {
   wrap: (value: Length | undefined) => string;
 }
 
-export type Transformer<T> = (property: T, utils: TransformerUtils) => string;
+export type Transformer<T> = (property: T, utils: TransformerUtils) => Length;
 
 export type TransformerHandler<T> = (
   property: T,
   wrap: UnitWrapper,
   customTransformer?: Transformer<T>,
-) => string;
+) => Length;
 
 // EVENTS
 
