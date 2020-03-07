@@ -1,6 +1,8 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { prefix } from 'inline-style-prefixer';
+import applyRightToLeft from 'rtl-css-js';
+import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
+import { prefix as applyPrefixes } from 'inline-style-prefixer';
 import {
   arrayReduce,
   hyphenate,
@@ -22,37 +24,40 @@ import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import {
-  Rule,
   CacheParams,
   ClassName,
+  Condition,
+  CSSVariables,
   FontFace,
+  GenericProperties,
   Keyframes,
+  ProcessParams,
   Properties,
   Property,
-  StyleParams,
-  StyleRule,
+  Rule,
   SheetType,
-  CSSVariables,
-  RendererOptions,
-  GenericProperties,
-  Condition,
+  RenderParams,
+  StyleRule,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
+const DEFAULT_PARAMS: Required<RenderParams> = {
+  className: '',
+  conditions: [],
+  deterministic: false,
+  prefix: false,
+  rtl: false,
+  selector: '',
+  type: 'standard',
+};
 
-type OnNestedRule = (properties: Rule, params: StyleParams) => ClassName;
+type OnNestedRule = (properties: Rule, params: RenderParams) => ClassName;
 
 export default abstract class Renderer {
   ruleIndex = 0;
 
   readonly classNameCache = new AtomicCache();
-
-  readonly options: Required<RendererOptions> = {
-    defaultUnit: 'px', // Passed to parser
-    deterministicClasses: false,
-    vendorPrefixes: false,
-  };
 
   readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
 
@@ -61,10 +66,6 @@ export default abstract class Renderer {
   protected abstract conditionsStyleSheet: ConditionsStyleSheet;
 
   protected abstract standardStyleSheet: StandardStyleSheet;
-
-  constructor(options: RendererOptions = {}) {
-    Object.assign(this.options, options);
-  }
 
   /**
    * Generate an incremental class name.
@@ -112,44 +113,49 @@ export default abstract class Renderer {
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
-    {
-      className: fixedClassName,
-      conditions = [],
-      selector = '',
-      type = 'standard',
-    }: StyleParams = {},
+    baseParams: RenderParams = {},
     { bypassCache = false, minimumRank }: CacheParams = {},
   ) {
-    const params = { conditions, selector, type };
+    const params: Required<RenderParams> = {
+      ...DEFAULT_PARAMS,
+      conditions: [], // Break refs
+      ...baseParams,
+    };
 
-    // Hyphenate early so all checks are deterministic
-    const prop = hyphenate(property);
+    // Hyphenate and cast values so they're deterministic
+    let key = hyphenate(property);
+    let val = String(value);
 
-    // Cast to string so values are always deterministic
-    const val = String(value);
+    if (params.rtl) {
+      key = getPropertyDoppelganger(key);
+      val = getValueDoppelganger(key, val);
+    }
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(prop, val, params, minimumRank);
+    const cache = this.classNameCache.read(key, val, params, minimumRank);
 
     if (cache && !bypassCache) {
       return cache.className;
     }
 
-    const block = { [prop]: val };
-    const rule = formatRule(this.options.vendorPrefixes ? prefix(block) : block, params.selector);
+    // Format and insert the rule
+    const rule = formatRule(
+      this.processProperties({ [key]: val }, { prefix: params.prefix }),
+      params.selector,
+    );
+
     const className =
-      fixedClassName ||
-      (this.options.deterministicClasses
+      params.className ||
+      (params.deterministic
         ? this.generateDeterministicClassName(rule, params.conditions)
         : this.generateClassName());
+
     const rank = this.insertRule(`.${className}${rule}`, params);
 
-    this.classNameCache.write(prop, val, {
+    this.classNameCache.write(key, val, {
+      ...params,
       className,
-      conditions,
       rank,
-      selector,
-      type,
     });
 
     return className;
@@ -182,14 +188,14 @@ export default abstract class Renderer {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes(keyframes: Keyframes, customName: string = ''): string {
+  renderKeyframes(name: string, keyframes: Keyframes, params: ProcessParams = {}): string {
     const rule = objectReduce(
       keyframes,
-      (keyframe, step) => `${step} { ${formatDeclarationBlock(keyframe as GenericProperties)} } `,
+      (keyframe, step) =>
+        `${step} { ${formatDeclarationBlock(this.processProperties(keyframe!, params))} } `,
     );
 
-    // A bit more deterministic than a counter
-    const animationName = customName || `kf${generateHash(rule)}`;
+    const animationName = `kf${generateHash(rule)}`;
 
     this.insertAtRule(`@keyframes ${animationName}`, rule);
 
@@ -200,7 +206,7 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
-  renderRule = (properties: Rule, params: StyleParams = {}): ClassName => {
+  renderRule = (properties: Rule, params: RenderParams = {}): ClassName => {
     return this.processRule(properties, params, this.renderRule, true);
   };
 
@@ -208,26 +214,22 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as a single class name,
    * with all properties grouped within.
    */
-  renderRuleGrouped = (properties: Rule, params: StyleParams = {}): ClassName => {
+  renderRuleGrouped = (properties: Rule, params: RenderParams = {}): ClassName => {
     const nestedRules: { [selector: string]: Rule } = {};
-    const processedProperties: GenericProperties = {};
+    const nextProperties: GenericProperties = {};
 
     // Extract all nested rules first as we need to process them *after* properties
     objectLoop<Rule, Property>(properties, (value, prop) => {
       if (isObject(value)) {
         nestedRules[prop] = value;
       } else if (!isInvalidValue(value)) {
-        processedProperties[prop] = value!;
+        nextProperties[prop] = value!;
       }
     });
 
-    const rule = formatRule(
-      this.options.vendorPrefixes ? prefix(processedProperties) : processedProperties,
-      params.selector,
-    );
+    const rule = formatRule(this.processProperties(nextProperties, params), params.selector);
     const hash = this.generateDeterministicClassName(rule, params.conditions);
-    const className =
-      params.className || (this.options.deterministicClasses ? hash : this.generateClassName());
+    const className = params.className || (params.deterministic ? hash : this.generateClassName());
 
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
@@ -279,8 +281,8 @@ export default abstract class Renderer {
   /**
    * Insert a CSS rule into 1 of the 3 style sheets.
    */
-  protected insertRule(rule: string, params: StyleParams): number {
-    const { conditions = [], type } = params;
+  protected insertRule(rule: string, params: RenderParams): number {
+    const { conditions = [], type = 'standard' } = params;
 
     if (type === 'global') {
       return this.globalStyleSheet.insertRule(rule);
@@ -296,17 +298,37 @@ export default abstract class Renderer {
   }
 
   /**
+   * Apply vendor prefixes and RTL conversions to a block of properties.
+   */
+  protected processProperties(
+    properties: Properties,
+    { prefix, rtl }: ProcessParams,
+  ): GenericProperties {
+    let props = properties;
+
+    if (prefix) {
+      props = applyPrefixes(props);
+    }
+
+    if (rtl) {
+      props = applyRightToLeft(props);
+    }
+
+    return props as GenericProperties;
+  }
+
+  /**
    * Process a rule block with the defined params and factories.
    */
   protected processRule(
-    properties: Rule,
-    params: StyleParams,
+    rule: Rule,
+    params: RenderParams,
     onNestedRule: OnNestedRule,
     processProperty: boolean = false,
   ) {
     const classNames = new Set<string>();
 
-    objectLoop<Rule, Property>(properties, (value, prop) => {
+    objectLoop<Rule, Property>(rule, (value, prop) => {
       // Skip invalid values
       if (isInvalidValue(value)) {
         if (__DEV__) {

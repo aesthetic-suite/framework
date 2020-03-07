@@ -1,8 +1,8 @@
 import { GlobalParser } from '@aesthetic/sss';
-import { Renderer, ClassName } from '@aesthetic/style';
+import { Renderer, ClassName, Properties } from '@aesthetic/style';
 import { Theme } from '@aesthetic/system';
 import Sheet from './Sheet';
-import { GlobalSheetFactory } from './types';
+import { GlobalSheetFactory, SheetParams } from './types';
 
 export default class GlobalSheet<T = unknown> extends Sheet {
   protected factory: GlobalSheetFactory<T>;
@@ -19,7 +19,7 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     return this.factory;
   }
 
-  render(renderer: Renderer, theme: Theme): ClassName {
+  render(renderer: Renderer, theme: Theme, params: SheetParams): ClassName {
     if (this.renderedClassName !== undefined) {
       return this.renderedClassName;
     }
@@ -27,25 +27,32 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     let className = '';
     const composer = this.compose();
     const styles = composer(theme.toFactories(), theme.toTokens());
+    const renderParams = {
+      prefix: params.prefix,
+      rtl: params.direction === 'rtl',
+    };
 
     // TODO @page, @viewport
-    new GlobalParser(
+    new GlobalParser<Properties>(
       {
         onFontFace(fontFace) {
           renderer.renderFontFace(fontFace.toObject());
         },
         onGlobal(block) {
-          className = renderer.renderRuleGrouped(block.toObject(), { type: 'global' });
+          className = renderer.renderRuleGrouped(block.toObject(), {
+            ...renderParams,
+            type: 'global',
+          });
         },
         onImport(path) {
           renderer.renderImport(path);
         },
         onKeyframes(keyframes, animationName) {
-          renderer.renderKeyframes(keyframes.toObject(), animationName);
+          renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
         },
       },
       {
-        unit: renderer.options.defaultUnit,
+        unit: params.unit,
       },
     ).parse(styles);
 

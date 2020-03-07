@@ -42,15 +42,20 @@ export interface Condition {
   type: number;
 }
 
-export interface StyleParams {
+export interface ProcessParams {
+  deterministic?: boolean;
+  prefix?: boolean;
+  rtl?: boolean;
+}
+
+export interface RenderParams extends ProcessParams {
   className?: ClassName;
   conditions?: Condition[];
   selector?: string;
   type?: SheetType;
 }
 
-export interface CacheItem extends Required<StyleParams> {
-  className: string;
+export interface CacheItem extends Required<Omit<RenderParams, keyof ProcessParams>> {
   rank: number;
 }
 
@@ -68,14 +73,7 @@ export interface StyleRule {
   cssRules: StyleRule[];
   cssText: string;
   cssVariables: CSSVariables<string>;
+  textContent: string;
   type: number;
   insertRule(rule: string, index: number): number;
-}
-
-// RENDERER
-
-export interface RendererOptions {
-  defaultUnit?: string;
-  deterministicClasses?: boolean;
-  vendorPrefixes?: boolean;
 }

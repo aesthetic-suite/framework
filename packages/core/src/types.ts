@@ -4,7 +4,7 @@ import {
   LocalStyleSheet,
   LocalStyleSheetNeverize,
 } from '@aesthetic/sss';
-import { ClassName as BaseClassName, RendererOptions } from '@aesthetic/style';
+import { ClassName as BaseClassName } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Tokens, ThemeName, Factories } from '@aesthetic/system';
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
@@ -15,11 +15,13 @@ export type ClassNameSheet<T extends string> = { [K in T]: ClassName };
 
 export type StringOnly<T> = T extends string ? string : never;
 
-export interface SheetQuery {
+export interface SheetParams {
   contrast?: ContrastLevel;
-  dir?: Direction;
+  direction?: Direction;
+  prefix?: boolean;
   scheme?: ColorScheme;
   theme?: ThemeName;
+  unit?: string;
 }
 
 export type GlobalSheetFactory<T = unknown> = (
@@ -32,5 +34,8 @@ export type LocalSheetFactory<T = unknown> = (
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AestheticOptions extends RendererOptions {}
+export interface AestheticOptions {
+  defaultUnit?: string;
+  deterministicClasses?: boolean;
+  vendorPrefixes?: boolean;
+}

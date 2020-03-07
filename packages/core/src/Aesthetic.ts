@@ -1,11 +1,24 @@
-import { ClientRenderer, Renderer, CSSVariables, FontFace, Keyframes } from '@aesthetic/style';
+import {
+  ClientRenderer,
+  Renderer,
+  CSSVariables,
+  FontFace,
+  Keyframes,
+  ProcessParams,
+} from '@aesthetic/style';
 import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
-import { LocalSheetFactory, GlobalSheetFactory, SheetQuery, AestheticOptions } from './types';
+import {
+  LocalSheetFactory,
+  GlobalSheetFactory,
+  SheetParams,
+  AestheticOptions,
+  Direction,
+} from './types';
 
 // TODO
-// rtl
+// contextual themeing
 // theme specific `style` elements
 
 function createRenderer(): Renderer {
@@ -16,6 +29,12 @@ export default class Aesthetic {
   activeTheme: ThemeName = '';
 
   globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+
+  options: Required<AestheticOptions> = {
+    defaultUnit: 'px',
+    deterministicClasses: false,
+    vendorPrefixes: false,
+  };
 
   renderer = createRenderer();
 
@@ -37,7 +56,11 @@ export default class Aesthetic {
     const globalSheet = this.globalSheetRegistry.get(name);
 
     if (globalSheet) {
-      document.body.className = globalSheet.render(this.renderer, theme);
+      document.body.className = globalSheet.render(this.renderer, theme, {
+        direction: (document.documentElement.getAttribute('dir') as Direction) || 'ltr',
+        prefix: this.options.vendorPrefixes,
+        unit: this.options.defaultUnit,
+      });
     }
   };
 
@@ -45,17 +68,7 @@ export default class Aesthetic {
    * Configure Aesthetic and its styling engine.
    */
   configure = (options: AestheticOptions) => {
-    if (options.defaultUnit !== undefined) {
-      this.renderer.options.defaultUnit = options.defaultUnit;
-    }
-
-    if (options.deterministicClasses !== undefined) {
-      this.renderer.options.deterministicClasses = options.deterministicClasses;
-    }
-
-    if (options.vendorPrefixes !== undefined) {
-      this.renderer.options.vendorPrefixes = options.vendorPrefixes;
-    }
+    Object.assign(this.options, options);
   };
 
   /**
@@ -123,14 +136,18 @@ export default class Aesthetic {
   /**
    * Render a component style sheet to the document with the defined style query parameters.
    */
-  renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, query: SheetQuery) => {
+  renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, params: SheetParams) => {
     if (__DEV__) {
       if (!(sheet instanceof LocalSheet)) {
         throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
       }
     }
 
-    return sheet.render(this.renderer, this.getActiveTheme(), query);
+    return sheet.render(this.renderer, this.getActiveTheme(), {
+      prefix: this.options.vendorPrefixes,
+      unit: this.options.defaultUnit,
+      ...params,
+    });
   };
 
   /**
@@ -146,16 +163,18 @@ export default class Aesthetic {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes = (animationName: string, keyframes: Keyframes) =>
-    this.renderer.renderKeyframes(keyframes, animationName);
+  renderKeyframes = (animationName: string, keyframes: Keyframes, params?: ProcessParams) =>
+    this.renderer.renderKeyframes(animationName, keyframes, params);
 
   /**
    * Reset the current instance state for testing purposes.
    */
   resetForTesting() {
-    this.activeTheme = '';
-    this.renderer = createRenderer();
-    this.globalSheetRegistry.clear();
-    this.themeRegistry.reset();
+    if (process.env.NODE_ENV === 'test') {
+      this.activeTheme = '';
+      this.renderer = createRenderer();
+      this.globalSheetRegistry.clear();
+      this.themeRegistry.reset();
+    }
   }
 }

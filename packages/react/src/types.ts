@@ -4,7 +4,7 @@
 import React from 'react';
 import { ClassName, Direction, Theme, ThemeName } from '@aesthetic/core';
 
-export type ClassNameTransformer<T extends string> = (
+export type ClassNameGenerator<T extends string> = (
   ...keys: (undefined | false | T)[]
 ) => ClassName;
 
@@ -55,7 +55,7 @@ export interface WithStylesWrapperProps {
 
 export interface WithStylesWrappedProps<T extends string> {
   /** Function to transform styles into CSS class names. Provided by `withStyles`. */
-  cx: ClassNameTransformer<T>;
+  cx: ClassNameGenerator<T>;
   /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
   ref?: React.Ref<any>;
 }

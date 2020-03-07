@@ -1,11 +1,11 @@
-import { CacheItem, StyleParams } from './types';
+import { CacheItem, RenderParams } from './types';
 
 // https://jsperf.com/javascript-objects-vs-map-performance
 // https://jsperf.com/performance-of-map-vs-object
 export default class AtomicCache {
   cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
 
-  match(item: CacheItem, params: StyleParams, minimumRank?: number): boolean {
+  match(item: CacheItem, params: RenderParams, minimumRank?: number): boolean {
     if (minimumRank !== undefined && item.rank < minimumRank) {
       return false;
     }
@@ -30,7 +30,7 @@ export default class AtomicCache {
   read(
     property: string,
     value: string,
-    params: StyleParams,
+    params: RenderParams,
     minimumRank?: number,
   ): CacheItem | null {
     const propertyCache = this.cache[property];

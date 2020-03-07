@@ -18,9 +18,13 @@ exports[`Styles generates a unique class name for each property 1`] = `".a {marg
 
 exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".a {background: #000;}.b:hover {background: #000;}.c[disabled] {background: #000;}"`;
 
+exports[`Styles generates different declarations when RTL converting 1`] = `".a {margin-left: 10px;}.b {margin-right: 10px;}"`;
+
 exports[`Styles generates the same declaration for each type (non-standard) 1`] = `".a {color: red;}"`;
 
 exports[`Styles generates the same declaration for each type (non-standard) 2`] = `".b {color: red;}"`;
+
+exports[`Styles handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".c5f5o58 {display: flex;}.c8nj8ar {margin-left: 10px;}.c1u1u927 {text-align: right;}.c1oaar8e {transition: 200ms all; -webkit-transition: 200ms all; -moz-transition: 200ms all;}.c1ryula0 {margin-right: 10px;}.cfi87yc {text-align: left;}"`;
 
 exports[`Styles ignores invalid values 1`] = `""`;
 
@@ -34,15 +38,19 @@ exports[`Styles logs a warning for unknown nested selector 1`] = `".a {backgroun
 
 exports[`Styles logs a warning for unknown property values 1`] = `""`;
 
-exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".a {display: block; background: transparent; color: black; padding: 0; margin: 0; transition: 200ms all;}.a:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can RTL convert applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all;}.a:hover {display: flex; color: blue;}"`;
+
+exports[`Styles rule grouping can RTL convert applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
+
+exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all;}.a:hover {display: flex; color: blue;}"`;
 
 exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
 
-exports[`Styles rule grouping can utilize deterministic class names 1`] = `".cbas0dr {display: block; background: transparent; color: black; padding: 0; margin: 0; transition: 200ms all;}.cbas0dr:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can utilize deterministic class names 1`] = `".c6bnd1w {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all;}.c6bnd1w:hover {display: flex; color: blue;}"`;
 
-exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.cbas0dr:hover {color: darkblue;}}@media (width: 500px) {.cbas0dr {margin: 10px; padding: 10px;}}"`;
+exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.c6bnd1w:hover {color: darkblue;}}@media (width: 500px) {.c6bnd1w {margin: 10px; padding: 10px;}}"`;
 
-exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding: 0; margin: 0; transition: 200ms all; -webkit-transition: 200ms all; -moz-transition: 200ms all;}.a:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; -webkit-transition: 200ms all; -moz-transition: 200ms all;}.a:hover {display: flex; color: blue;}"`;
 
 exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
 

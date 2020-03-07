@@ -55,13 +55,14 @@ describe('Styles', () => {
   });
 
   it('generates a deterministic class name for each property', () => {
-    renderer.options.deterministicClasses = true;
-
-    const className = renderer.renderRule({
-      margin: 0,
-      cursor: 'pointer',
-    });
-    const cursor = renderer.renderDeclaration('cursor', 'pointer');
+    const className = renderer.renderRule(
+      {
+        margin: 0,
+        cursor: 'pointer',
+      },
+      { deterministic: true },
+    );
+    const cursor = renderer.renderDeclaration('cursor', 'pointer', { deterministic: true });
 
     expect(className).toBe('c1cpw2zw c1jzt5o3');
     expect(className).toContain(cursor);
@@ -239,12 +240,58 @@ describe('Styles', () => {
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
+  it('generates different declarations when RTL converting', () => {
+    const a = renderer.renderDeclaration('margin-left', '10px');
+    const b = renderer.renderDeclaration('margin-left', '10px', { rtl: true });
+
+    expect(a).toBe('a');
+    expect(b).toBe('b');
+    expect(a).not.toBe(b);
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
   it('applies vendor prefixes to a property under a single class name', () => {
-    renderer.options.vendorPrefixes = true;
+    // Value prefixing (wont show in snapshot)
+    renderer.renderDeclaration('display', 'flex', { prefix: true });
 
-    renderer.renderDeclaration('display', 'flex'); // Value prefixing (wont show in snapshot)
-    renderer.renderDeclaration('transition', '200ms all'); // Property prefixing
+    // Property prefixing
+    renderer.renderDeclaration('transition', '200ms all', { prefix: true });
 
+    expect(getInsertedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('handles right-to-left, vendor prefixes, and deterministic classes all at once', () => {
+    const a = renderer.renderRule(
+      {
+        display: 'flex',
+        marginLeft: '10px',
+        textAlign: 'right',
+        transition: '200ms all',
+      },
+      {
+        deterministic: true,
+        prefix: true,
+        rtl: false,
+      },
+    );
+
+    // RTL
+    const b = renderer.renderRule(
+      {
+        display: 'flex',
+        marginLeft: '10px',
+        textAlign: 'right',
+        transition: '200ms all',
+      },
+      {
+        deterministic: true,
+        prefix: true,
+        rtl: true,
+      },
+    );
+
+    expect(a).toBe('c5f5o58 c8nj8ar c1u1u927 c1oaar8e');
+    expect(b).toBe('c5f5o58 c1ryula0 cfi87yc c1oaar8e');
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
 
@@ -253,8 +300,8 @@ describe('Styles', () => {
       display: 'block',
       background: 'transparent',
       color: 'black',
-      padding: 0,
-      margin: 0,
+      paddingRight: 0,
+      marginLeft: 0,
       transition: '200ms all',
       ':hover': {
         display: 'flex',
@@ -278,19 +325,23 @@ describe('Styles', () => {
     });
 
     it('can utilize deterministic class names', () => {
-      renderer.options.deterministicClasses = true;
+      const className = renderer.renderRuleGrouped(rule, { deterministic: true });
 
-      const className = renderer.renderRuleGrouped(rule);
-
-      expect(className).toBe('cbas0dr');
+      expect(className).toBe('c6bnd1w');
       expect(getInsertedStyles('standard')).toMatchSnapshot();
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can vendor prefix applicable properties', () => {
-      renderer.options.vendorPrefixes = true;
+      const className = renderer.renderRuleGrouped(rule, { prefix: true });
 
-      const className = renderer.renderRuleGrouped(rule);
+      expect(className).toBe('a');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can RTL convert applicable properties', () => {
+      const className = renderer.renderRuleGrouped(rule, { rtl: true });
 
       expect(className).toBe('a');
       expect(getInsertedStyles('standard')).toMatchSnapshot();

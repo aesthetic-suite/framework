@@ -28,7 +28,7 @@ describe('At-rules', () => {
       fontWeight: 800,
       src: 'url("fonts/OpenSans-Bold.woff2")',
     });
-    renderer.renderKeyframes({
+    renderer.renderKeyframes('foo', {
       from: {
         transform: 'translateX(0%)',
       },
@@ -36,7 +36,7 @@ describe('At-rules', () => {
         transform: 'translateX(100%)',
       },
     });
-    renderer.renderKeyframes({
+    renderer.renderKeyframes('bar', {
       from: {
         transform: 'translateX(0%)',
       },
@@ -99,7 +99,7 @@ describe('At-rules', () => {
 
   describe('@keyframes', () => {
     it('renders range based and returns animation name', () => {
-      const name = renderer.renderKeyframes({
+      const name = renderer.renderKeyframes('foo', {
         from: {
           transform: 'translateX(0%)',
         },
@@ -113,7 +113,7 @@ describe('At-rules', () => {
     });
 
     it('renders percentage based and returns animation name', () => {
-      const name = renderer.renderKeyframes({
+      const name = renderer.renderKeyframes('bar', {
         '0%': { top: 0, left: 0 },
         '30%': { top: '50px' },
         '68%, 72%': { left: '50px' },
@@ -124,20 +124,33 @@ describe('At-rules', () => {
       expect(getInsertedStyles('global')).toMatchSnapshot();
     });
 
-    it('can provide a custom animation name', () => {
-      const name = renderer.renderKeyframes(
+    it('supports ltr and rtl', () => {
+      const ltr = renderer.renderKeyframes('foo', {
+        from: {
+          left: '0',
+        },
+        to: {
+          right: '100px',
+        },
+      });
+
+      const rtl = renderer.renderKeyframes(
+        'foo',
         {
           from: {
-            transform: 'translateX(0%)',
+            left: '0',
           },
           to: {
-            transform: 'translateX(100%)',
+            right: '100px',
           },
         },
-        'slide',
+        {
+          rtl: true,
+        },
       );
 
-      expect(name).toBe('slide');
+      expect(ltr).toBe('kf1lt4056');
+      expect(rtl).toBe('kf944ipm');
       expect(getInsertedStyles('global')).toMatchSnapshot();
     });
   });

@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { LocalSheet, renderComponentStyles, StringOnly, ClassNameSheet } from '@aesthetic/core';
 import { arrayReduce } from '@aesthetic/utils';
-import { ClassNameTransformer } from './types';
+import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
 
@@ -12,19 +12,19 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
  */
 export default function useStyles<T = unknown>(
   sheet: LocalSheet<T>,
-): ClassNameTransformer<StringOnly<keyof T>> {
-  const dir = useDirection();
+): ClassNameGenerator<StringOnly<keyof T>> {
+  const direction = useDirection();
   const theme = useTheme();
   const [classNames, setClassNames] = useState<ClassNameSheet<string>>({});
 
   useSideEffect(() => {
     setClassNames(
       renderComponentStyles(sheet, {
-        dir,
+        direction,
         theme: theme.name,
       }),
     );
-  }, [dir, theme]);
+  }, [direction, theme]);
 
   return (...keys) =>
     arrayReduce(keys, key => (key && classNames[key] ? ` ${classNames[key]}` : '')).trim();

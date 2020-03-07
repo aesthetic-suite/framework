@@ -1,16 +1,16 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Renderer } from '@aesthetic/style';
+import { Renderer, Properties } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { deepMerge } from '@aesthetic/utils';
 import Sheet from './Sheet';
-import { LocalSheetFactory, SheetQuery, ClassNameSheet } from './types';
+import { LocalSheetFactory, SheetParams, ClassNameSheet } from './types';
 
 export default class LocalSheet<T = unknown> extends Sheet {
   protected factory: LocalSheetFactory<T>;
 
   protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory<T> } = {};
 
-  protected renderedQueries = new WeakMap<SheetQuery, ClassNameSheet<string>>();
+  protected renderedQueries: { [cache: string]: ClassNameSheet<string> } = {};
 
   protected schemeVariants: { [K in ColorScheme]?: LocalSheetFactory<T> } = {};
 
@@ -52,47 +52,54 @@ export default class LocalSheet<T = unknown> extends Sheet {
     return this;
   }
 
-  compose(query: SheetQuery): LocalSheetFactory<T> {
+  compose(params: SheetParams): LocalSheetFactory<T> {
     const factories = [this.factory];
 
-    if (query.scheme && this.schemeVariants[query.scheme]) {
-      factories.push(this.schemeVariants[query.scheme]!);
+    if (params.scheme && this.schemeVariants[params.scheme]) {
+      factories.push(this.schemeVariants[params.scheme]!);
     }
 
-    if (query.contrast && this.contrastVariants[query.contrast]) {
-      factories.push(this.contrastVariants[query.contrast]!);
+    if (params.contrast && this.contrastVariants[params.contrast]) {
+      factories.push(this.contrastVariants[params.contrast]!);
     }
 
-    if (query.theme && this.themeVariants[query.theme]) {
-      factories.push(this.themeVariants[query.theme]!);
+    if (params.theme && this.themeVariants[params.theme]) {
+      factories.push(this.themeVariants[params.theme]!);
     }
 
     if (factories.length === 1) {
       return factories[0];
     }
 
-    return (params, tokens) => deepMerge(...factories.map(factory => factory(params, tokens)));
+    return (p, tokens) => deepMerge(...factories.map(factory => factory(p, tokens)));
   }
 
-  render(renderer: Renderer, theme: Theme, baseQuery: SheetQuery): ClassNameSheet<string> {
-    const query: Required<SheetQuery> = {
+  render(renderer: Renderer, theme: Theme, baseParams: SheetParams): ClassNameSheet<string> {
+    const params: Required<SheetParams> = {
       contrast: theme.contrast,
-      dir: 'ltr',
+      direction: 'ltr',
+      prefix: false,
       scheme: theme.scheme,
       theme: theme.name,
-      ...baseQuery,
+      unit: 'px',
+      ...baseParams,
     };
-    const cache = this.renderedQueries.get(query);
+    const cacheKey = JSON.stringify(params);
+    const cache = this.renderedQueries[cacheKey];
 
     if (cache) {
       return cache;
     }
 
     const classNames: ClassNameSheet<string> = {};
-    const composer = this.compose(query);
+    const composer = this.compose(params);
     const styles = composer(theme.toFactories(), theme.toTokens());
+    const renderParams = {
+      prefix: params.prefix,
+      rtl: params.direction === 'rtl',
+    };
 
-    new LocalParser(
+    new LocalParser<Properties>(
       {
         onClass(selector, className) {
           classNames[selector] = className;
@@ -101,18 +108,18 @@ export default class LocalSheet<T = unknown> extends Sheet {
           renderer.renderFontFace(fontFace.toObject());
         },
         onKeyframes(keyframes, animationName) {
-          renderer.renderKeyframes(keyframes.toObject(), animationName);
+          renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
         },
         onRuleset(selector, block) {
-          classNames[selector] = renderer.renderRule(block.toObject());
+          classNames[selector] = renderer.renderRule(block.toObject(), renderParams);
         },
       },
       {
-        unit: renderer.options.defaultUnit,
+        unit: params.unit,
       },
     ).parse(styles);
 
-    this.renderedQueries.set(query, classNames);
+    this.renderedQueries[cacheKey] = classNames;
 
     return classNames;
   }
