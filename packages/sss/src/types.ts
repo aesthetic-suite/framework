@@ -279,22 +279,25 @@ export interface ParserOptions {
 
 export type UnitWrapper = (property: string, value: Length | undefined) => string;
 
-export type Transformer<T> = (
-  property: T,
-  utils: {
-    join: (...props: (Length | undefined)[]) => string;
-    separate: (...props: (Length | undefined)[]) => string;
-    wrap: (value: Length | undefined) => string;
-  },
-) => string;
+export interface TransformerUtils {
+  join: (...props: (Length | undefined)[]) => string;
+  separate: (...props: (Length | undefined)[]) => string;
+  wrap: (value: Length | undefined) => string;
+}
 
-export type TransformerHandler<T> = (property: T, wrap: UnitWrapper) => string;
+export type Transformer<T> = (property: T, utils: TransformerUtils) => string;
+
+export type TransformerHandler<T> = (
+  property: T,
+  wrap: UnitWrapper,
+  customTransformer?: Transformer<T>,
+) => string;
 
 // EVENTS
 
 export type BlockConditionListener<T extends object> = (
   parent: Block<T>,
-  name: string,
+  condition: string,
   value: Block<T>,
 ) => void;
 

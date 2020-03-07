@@ -5,6 +5,10 @@ export type ClassName = string;
 
 export type Value = string | number;
 
+export interface GenericProperties {
+  [key: string]: Value | Value[];
+}
+
 export type Properties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
 
 export type Property = keyof Properties;
@@ -68,15 +72,10 @@ export interface StyleRule {
   insertRule(rule: string, index: number): number;
 }
 
-export interface ProcessedProperties {
-  [key: string]: string | string[];
-}
-
 // RENDERER
 
 export interface RendererOptions {
   deterministic?: boolean;
   prefix?: boolean;
-  rtl?: boolean;
   unit?: string;
 }

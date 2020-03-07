@@ -1,11 +1,12 @@
-import { Transformer, TransformerHandler, Properties } from './types';
+import { toArray, isObject } from '@aesthetic/utils';
+import { Transformer, TransformerHandler, Properties, TransformerUtils } from './types';
 
 export default function createTransformer<T>(
   property: keyof Properties,
-  transformer: Transformer<T>,
+  transformer?: Transformer<T>,
 ): TransformerHandler<T> {
-  return (prop, wrap) =>
-    transformer(prop, {
+  return (prop, wrap, customTransformer) => {
+    const utils: TransformerUtils = {
       join(...props) {
         return props.filter(Boolean).join(' ');
       },
@@ -15,5 +16,26 @@ export default function createTransformer<T>(
       wrap(value) {
         return wrap(property, value);
       },
-    });
+    };
+
+    return toArray(prop)
+      .map(item => {
+        if (isObject(item)) {
+          if (customTransformer) {
+            return customTransformer(item, utils);
+          }
+
+          if (transformer) {
+            return transformer(prop, utils);
+          }
+
+          if (__DEV__) {
+            throw new Error(`Missing transformer for "${property}".`);
+          }
+        }
+
+        return item;
+      })
+      .join(', ');
+  };
 }

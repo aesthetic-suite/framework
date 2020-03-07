@@ -29,20 +29,25 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     const styles = composer(theme.toFactories(), theme.toTokens());
 
     // TODO @page, @viewport
-    new GlobalParser({
-      onFontFace(fontFace) {
-        renderer.renderFontFace(fontFace.toObject());
+    new GlobalParser(
+      {
+        onFontFace(fontFace) {
+          renderer.renderFontFace(fontFace.toObject());
+        },
+        onGlobal(block) {
+          className = renderer.renderRuleGrouped(block.toObject(), { type: 'global' });
+        },
+        onImport(path) {
+          renderer.renderImport(path);
+        },
+        onKeyframes(keyframes, animationName) {
+          renderer.renderKeyframes(keyframes.toObject(), animationName);
+        },
       },
-      onGlobal(block) {
-        className = renderer.renderRuleGrouped(block.toObject(), { type: 'global' });
+      {
+        unit: renderer.options.unit,
       },
-      onImport(path) {
-        renderer.renderImport(path);
-      },
-      onKeyframes(keyframes, animationName) {
-        renderer.renderKeyframes(keyframes.toObject(), animationName);
-      },
-    }).parse(styles);
+    ).parse(styles);
 
     this.renderedClassName = className;
 

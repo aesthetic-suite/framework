@@ -13,15 +13,15 @@ export interface GlobalEvents<T extends object> extends CommonEvents<T> {
 
 export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
   parse(styleSheet: GlobalStyleSheet) {
-    this.parseFontFaces(styleSheet['@font-face']);
+    this.parseFontFacesMap(styleSheet['@font-face']);
     this.parseGlobal(styleSheet['@global']);
     this.parseImport(styleSheet['@import']);
-    this.parseKeyframes(styleSheet['@keyframes']);
+    this.parseKeyframesMap(styleSheet['@keyframes']);
     this.parsePage(styleSheet['@page']);
     this.parseViewport(styleSheet['@viewport']);
   }
 
-  protected parseFontFaces(fontFaces: GlobalStyleSheet['@font-face']) {
+  protected parseFontFacesMap(fontFaces: GlobalStyleSheet['@font-face']) {
     if (!fontFaces) {
       return;
     }
@@ -69,7 +69,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     });
   }
 
-  protected parseKeyframes(keyframes: GlobalStyleSheet['@keyframes']) {
+  protected parseKeyframesMap(keyframes: GlobalStyleSheet['@keyframes']) {
     if (!keyframes) {
       return;
     }
@@ -81,7 +81,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     }
 
     objectLoop(keyframes, (keyframe, name) => {
-      this.parseKeyframesAnimation(name, keyframe);
+      this.parseKeyframes(name, keyframe);
     });
   }
 

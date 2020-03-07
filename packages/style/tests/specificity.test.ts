@@ -18,8 +18,8 @@ describe('Specificity', () => {
   it('inserts declarations in the order they are defined', () => {
     renderer.renderRule({
       margin: 0,
-      padding: 1,
-      width: 50,
+      padding: '1px',
+      width: '50px',
     });
 
     expect(getInsertedStyles('standard')).toMatchSnapshot();
@@ -27,8 +27,8 @@ describe('Specificity', () => {
 
   it('inserts declarations in the order they are defined (reversed)', () => {
     renderer.renderRule({
-      width: 50,
-      padding: 1,
+      width: '50px',
+      padding: '1px',
       margin: 0,
     });
 
@@ -66,7 +66,7 @@ describe('Specificity', () => {
   describe('rule sets', () => {
     const ruleSet = {
       button: {
-        padding: 8,
+        padding: '8px',
         display: 'inline-block',
         color: 'red',
 

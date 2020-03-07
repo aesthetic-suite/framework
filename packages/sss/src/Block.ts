@@ -1,22 +1,17 @@
+/* eslint-disable no-dupe-class-members, lines-between-class-members */
+
 import { objectLoop } from '@aesthetic/utils';
+import { Length } from './types';
 
-export default class Block<T extends object> {
-  classNames: string = '';
-
+export default class Block<T extends object = object> {
   readonly nested: { [key: string]: Block<T> } = {};
 
-  readonly properties: Partial<T> = {};
+  readonly properties: { [key: string]: Length } = {};
 
   readonly selector: string;
 
   constructor(selector: string) {
     this.selector = selector;
-  }
-
-  addClassName(name: string): this {
-    this.classNames += ` ${name}`;
-
-    return this;
   }
 
   addNested(block: Block<T>, merge: boolean = true): this {
@@ -29,13 +24,16 @@ export default class Block<T extends object> {
     return this;
   }
 
-  addProperty<K extends keyof T>(key: K, value: T[K]): this {
-    this.properties[key] = value;
+  addProperty<K extends keyof T>(key: K, value: T[K]): this;
+  addProperty(key: string, value: Length): this;
+  addProperty(key: string, value: unknown): this {
+    this.properties[key] = value as string;
 
     return this;
   }
 
-  addProperties(properties: Partial<T>): this {
+  addProperties(properties: Partial<T> | { [key: string]: Length }): this;
+  addProperties(properties: { [key: string]: unknown }): this {
     Object.assign(this.properties, properties);
 
     return this;
@@ -53,16 +51,6 @@ export default class Block<T extends object> {
     });
 
     return this;
-  }
-
-  toClassNames(): string {
-    let className = this.classNames;
-
-    objectLoop(this.nested, block => {
-      className = ` ${block.toClassNames()}`;
-    });
-
-    return className.trim();
   }
 
   toObject<O extends object = T>(): O {

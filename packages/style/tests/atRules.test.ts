@@ -115,9 +115,9 @@ describe('At-rules', () => {
     it('renders percentage based and returns animation name', () => {
       const name = renderer.renderKeyframes({
         '0%': { top: 0, left: 0 },
-        '30%': { top: 50 },
+        '30%': { top: '50px' },
         '68%, 72%': { left: '50px' },
-        '100%': { top: 100, left: '100%' },
+        '100%': { top: '100px', left: '100%' },
       });
 
       expect(name).toBe('kf22exw8');

@@ -158,7 +158,7 @@ describe('LocalParser', () => {
             ':hover': 123,
           },
         });
-      }).toThrow('Selector ":hover" must be an object of properties.');
+      }).toThrow('":hover" must be a declaration object of CSS properties.');
     });
 
     it('errors if a comma separated list is passed', () => {
@@ -186,7 +186,7 @@ describe('LocalParser', () => {
             '@fallbacks': 123,
           },
         });
-      }).toThrow('@fallbacks must be an object of property names to fallback values.');
+      }).toThrow('"@fallback" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no fallbacks', () => {
@@ -222,7 +222,7 @@ describe('LocalParser', () => {
             '@media': 123,
           },
         });
-      }).toThrow('@media must be an object of conditions to declarations.');
+      }).toThrow('@media must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no media', () => {
@@ -300,7 +300,7 @@ describe('LocalParser', () => {
             '@selectors': 123,
           },
         });
-      }).toThrow('@selectors must be an object of CSS selectors to property declarations.');
+      }).toThrow('@selectors must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no selectors', () => {
@@ -429,7 +429,7 @@ describe('LocalParser', () => {
             '@supports': 123,
           },
         });
-      }).toThrow('@supports must be an object of conditions to declarations.');
+      }).toThrow('@supports must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no supports', () => {

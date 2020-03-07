@@ -92,20 +92,25 @@ export default class LocalSheet<T = unknown> extends Sheet {
     const composer = this.compose(query);
     const styles = composer(theme.toFactories(), theme.toTokens());
 
-    new LocalParser({
-      onClass(selector, className) {
-        classNames[selector] = className;
+    new LocalParser(
+      {
+        onClass(selector, className) {
+          classNames[selector] = className;
+        },
+        onFontFace(fontFace) {
+          renderer.renderFontFace(fontFace.toObject());
+        },
+        onKeyframes(keyframes, animationName) {
+          renderer.renderKeyframes(keyframes.toObject(), animationName);
+        },
+        onRuleset(selector, block) {
+          classNames[selector] = renderer.renderRule(block.toObject());
+        },
       },
-      onFontFace(fontFace) {
-        renderer.renderFontFace(fontFace.toObject());
+      {
+        unit: renderer.options.unit,
       },
-      onKeyframes(keyframes, animationName) {
-        renderer.renderKeyframes(keyframes.toObject(), animationName);
-      },
-      onRuleset(selector, block) {
-        classNames[selector] = renderer.renderRule(block.toObject());
-      },
-    }).parse(styles);
+    ).parse(styles);
 
     this.renderedQueries.set(query, classNames);
 

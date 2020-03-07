@@ -314,7 +314,7 @@ describe('GlobalParser', () => {
           // @ts-ignore Allow invalid type
           '@viewport': 123,
         });
-      }).toThrow('Block "@viewport" must be an object of properties.');
+      }).toThrow('"@viewport" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no viewport', () => {

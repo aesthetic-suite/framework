@@ -15,7 +15,7 @@ describe('SSR', () => {
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
-      borderRadius: 4,
+      borderRadius: '4px',
       display: 'inline-block',
       cursor: 'pointer',
       fontFamily: 'Roboto',
@@ -41,7 +41,7 @@ describe('SSR', () => {
     renderer.renderRule({
       margin: 0,
       '@media (width: 500px)': {
-        margin: 10,
+        margin: '10px',
         ':hover': {
           color: 'red',
         },

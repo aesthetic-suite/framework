@@ -11,7 +11,6 @@ import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
 import isSupportsRule from './isSupportsRule';
-import isUnitlessProperty from './isUnitlessProperty';
 
 export {
   formatConditions,
@@ -27,5 +26,4 @@ export {
   isMediaRule,
   isNestedSelector,
   isSupportsRule,
-  isUnitlessProperty,
 };

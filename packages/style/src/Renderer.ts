@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-magic-numbers, no-dupe-class-members, lines-between-class-members */
+/* eslint-disable no-console, no-magic-numbers */
 
 // @ts-ignore Not typed correctly
 import { prefix } from 'inline-style-prefixer';
@@ -11,7 +11,6 @@ import {
   generateHash,
 } from '@aesthetic/utils';
 import AtomicCache from './AtomicCache';
-import isUnitlessProperty from './helpers/isUnitlessProperty';
 import formatConditions from './helpers/formatConditions';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
 import formatRule from './helpers/formatRule';
@@ -32,23 +31,17 @@ import {
   Properties,
   Property,
   StyleParams,
-  Value,
   StyleRule,
   SheetType,
   CSSVariables,
   RendererOptions,
-  ProcessedProperties,
+  GenericProperties,
   Condition,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-type OnProperty<K extends Property> = (
-  property: K,
-  value: Properties[K],
-  params: StyleParams,
-) => ClassName;
 type OnNestedRule = (properties: Rule, params: StyleParams) => ClassName;
 
 export default abstract class Renderer {
@@ -59,7 +52,6 @@ export default abstract class Renderer {
   readonly options: Required<RendererOptions> = {
     deterministic: false,
     prefix: false,
-    rtl: false,
     unit: 'px',
   };
 
@@ -73,23 +65,6 @@ export default abstract class Renderer {
 
   constructor(options: RendererOptions = {}) {
     Object.assign(this.options, options);
-  }
-
-  /**
-   * Apply a unit suffix to a numeric value if the property requires one.
-   */
-  applyUnitToValue<K extends Property>(property: K, value: Properties[K]): string;
-  applyUnitToValue(property: string, value: Value): string;
-  applyUnitToValue(property: string, value: unknown): string {
-    if (typeof value === 'string') {
-      return value;
-    }
-
-    if (isUnitlessProperty(property) || value === 0) {
-      return String(value);
-    }
-
-    return value + this.options.unit;
   }
 
   /**
@@ -151,8 +126,8 @@ export default abstract class Renderer {
     // Hyphenate early so all checks are deterministic
     const prop = hyphenate(property);
 
-    // Apply unit as well so that "0" and "0px" do not generate separate classes
-    const val = this.applyUnitToValue(property, value);
+    // Cast to string so values are always deterministic
+    const val = String(value);
 
     // Check the cache immediately
     const cache = this.classNameCache.read(prop, val, params, minimumRank);
@@ -211,8 +186,7 @@ export default abstract class Renderer {
   renderKeyframes(keyframes: Keyframes, customName: string = ''): string {
     const rule = objectReduce(
       keyframes,
-      (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(this.processProperties(keyframe!))} } `,
+      (keyframe, step) => `${step} { ${formatDeclarationBlock(keyframe as GenericProperties)} } `,
     );
 
     // A bit more deterministic than a counter
@@ -237,14 +211,14 @@ export default abstract class Renderer {
    */
   renderRuleGrouped = (properties: Rule, params: StyleParams = {}): ClassName => {
     const nestedRules: { [selector: string]: Rule } = {};
-    const processedProperties: ProcessedProperties = {};
+    const processedProperties: GenericProperties = {};
 
     // Extract all nested rules first as we need to process them *after* properties
     objectLoop<Rule, Property>(properties, (value, prop) => {
       if (isObject(value)) {
         nestedRules[prop] = value;
       } else if (!isInvalidValue(value)) {
-        processedProperties[prop] = this.applyUnitToValue(prop, value);
+        processedProperties[prop] = value!;
       }
     });
 
@@ -285,7 +259,7 @@ export default abstract class Renderer {
     const body =
       typeof properties === 'string'
         ? properties
-        : formatDeclarationBlock(this.processProperties(properties));
+        : formatDeclarationBlock(properties as GenericProperties);
     let rule = selector;
 
     if (selector === '@import') {
@@ -320,21 +294,6 @@ export default abstract class Renderer {
 
     // No media or feature queries so insert into the standard style sheet
     return this.standardStyleSheet.insertRule(rule);
-  }
-
-  /**
-   * Process a block of properties by applying units to all values that require it.
-   */
-  protected processProperties(properties: Properties): ProcessedProperties {
-    const props: { [key: string]: string } = {};
-
-    objectLoop(properties, (value, property) => {
-      if (value !== undefined) {
-        props[property] = this.applyUnitToValue(property, value);
-      }
-    });
-
-    return props;
   }
 
   /**

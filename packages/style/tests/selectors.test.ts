@@ -58,7 +58,7 @@ describe('Selectors', () => {
       const className = renderer.renderRule({
         padding: '5px',
         ':hover': {
-          padding: 10,
+          padding: '10px',
         },
         '::before': {
           content: '"★"',
@@ -97,18 +97,18 @@ describe('Selectors', () => {
   describe('hierarchy', () => {
     it('generates the correct class names with hierarchy selector', () => {
       const className = renderer.renderRule({
-        padding: 10,
+        padding: '10px',
         '+ div': {
-          padding: 10,
+          padding: '10px',
         },
         '~ SPAN': {
-          padding: 10,
+          padding: '10px',
         },
         '>li': {
-          padding: 10,
+          padding: '10px',
         },
         '*': {
-          padding: 10,
+          padding: '10px',
         },
       });
 

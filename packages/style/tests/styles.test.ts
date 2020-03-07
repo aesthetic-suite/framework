@@ -23,7 +23,7 @@ describe('Styles', () => {
 
   it('generates a unique class name for a large number of properties', () => {
     for (let i = 0; i < 100; i += 1) {
-      renderer.renderDeclaration('padding', i);
+      renderer.renderDeclaration('padding', `${i}px`);
     }
 
     expect(getInsertedStyles('standard')).toMatchSnapshot();
@@ -34,7 +34,7 @@ describe('Styles', () => {
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
-      borderRadius: 4,
+      borderRadius: '4px',
       display: 'inline-block',
       cursor: 'pointer',
       fontFamily: 'Roboto',
@@ -103,30 +103,9 @@ describe('Styles', () => {
   });
 
   it('uses the same class name for numeric and string values', () => {
-    renderer.renderDeclaration('width', 100);
-    renderer.renderDeclaration('width', '100px');
+    renderer.renderDeclaration('width', 0);
+    renderer.renderDeclaration('width', '0');
     renderer.renderDeclaration('width', '100em');
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('applies a px unit to numeric properties that require it', () => {
-    renderer.renderDeclaration('width', 300);
-    renderer.renderDeclaration('marginTop', 10);
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('doesnt apply a px unit to numeric properties that dont require it', () => {
-    renderer.renderDeclaration('lineHeight', 1.5);
-    renderer.renderDeclaration('fontWeight', 600);
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('doesnt apply a px unit to properties that are already prefixed', () => {
-    renderer.renderDeclaration('paddingLeft', '10px');
-    renderer.renderDeclaration('height', '10vh');
 
     expect(getInsertedStyles('standard')).toMatchSnapshot();
   });
@@ -143,8 +122,8 @@ describe('Styles', () => {
     renderer.applyRootVariables({
       someVar: '10px',
       '--already-formatted-var': '10em',
-      'missing-prefix': 10,
-      mixOfBoth: 10,
+      'missing-prefix': '10px',
+      mixOfBoth: '10px',
     });
 
     const root = document.documentElement;
@@ -159,7 +138,7 @@ describe('Styles', () => {
     renderer.renderRule({
       margin: 0,
       '@media (width: 500px)': {
-        margin: 10,
+        margin: '10px',
         ':hover': {
           color: 'red',
         },
@@ -282,8 +261,8 @@ describe('Styles', () => {
         color: 'blue',
       },
       '@media (width: 500px)': {
-        margin: 10,
-        padding: 10,
+        margin: '10px',
+        padding: '10px',
         ':hover': {
           color: 'darkblue',
         },

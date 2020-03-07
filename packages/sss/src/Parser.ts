@@ -4,8 +4,7 @@ import { isObject, toArray, arrayLoop, objectLoop } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import isUnitlessProperty from './isUnitlessProperty';
-import compoundProperties from './compound';
-import expandedProperties from './expanded';
+import propertyTransformers from './properties';
 import {
   BlockConditionListener,
   BlockListener,
@@ -81,28 +80,8 @@ export default abstract class Parser<T extends object, E extends object> {
     }
   }
 
-  applyUnitToValue = (property: string, value: unknown) => {
-    if (value === undefined) {
-      return '';
-    }
-
-    if (typeof value === 'string') {
-      return value;
-    }
-
-    if (isUnitlessProperty(property) || value === 0) {
-      return String(value);
-    }
-
-    return value + this.options.unit;
-  };
-
-  parseBlock(builder: Block<T>, object: DeclarationBlock): Block<T> {
-    if (__DEV__) {
-      if (!isObject(object)) {
-        throw new TypeError(`Block "${builder.selector}" must be an object of properties.`);
-      }
-    }
+  parseBlock(parent: Block<T>, object: DeclarationBlock): Block<T> {
+    this.validateDeclarationBlock(object, parent.selector);
 
     objectLoop(object, (value, key) => {
       if (value === undefined) {
@@ -113,60 +92,64 @@ export default abstract class Parser<T extends object, E extends object> {
 
       // Pseudo and attribute selectors
       if (char === ':' || char === '[') {
-        this.parseSelector(builder, key, value as DeclarationBlock);
+        this.parseSelector(parent, key, value as DeclarationBlock);
 
         // Special case for unique at-rules (@page blocks)
       } else if (char === '@') {
-        builder.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
+        parent.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
 
         // Run for each property so it can be customized
       } else {
-        const nextValue = this.transformProperty(key, value);
+        const nextValue = this.transformProperty(key as keyof Properties, value);
 
-        builder.addProperty(key as keyof T, nextValue as T[keyof T]);
+        if (nextValue === undefined) {
+          return;
+        }
 
-        this.emit('block:property', builder, key, nextValue);
+        parent.addProperty(key, nextValue);
+
+        this.emit('block:property', parent, key, nextValue);
       }
     });
 
-    this.emit('block', builder);
+    this.emit('block', parent);
 
-    return builder;
+    return parent;
   }
 
   parseConditionalBlock(
-    builder: Block<T>,
-    object: { [key: string]: LocalBlock },
+    parent: Block<T>,
+    conditions: { [key: string]: LocalBlock },
     type: 'media' | 'supports',
   ) {
-    if (__DEV__) {
-      if (!isObject(object)) {
-        throw new Error(`@${type} must be an object of conditions to declarations.`);
-      }
-    }
+    this.validateDeclarations(conditions, `@${type}`);
 
-    objectLoop(object, (block, query) => {
-      const nestedBlock = this.parseLocalBlock(new Block(`@${type} ${query}`), block);
+    objectLoop(conditions, (object, condition) => {
+      const nestedBlock = this.parseLocalBlock(new Block(`@${type} ${condition}`), object);
 
-      builder.addNested(nestedBlock);
+      parent.addNested(nestedBlock);
 
-      this.emit(`block:${type}` as 'block:media', builder, query, nestedBlock);
+      this.emit(`block:${type}` as 'block:media', parent, condition, nestedBlock);
     });
   }
 
-  parseFallbackProperties(builder: Block<T>, fallbacks: FallbackProperties) {
-    if (__DEV__) {
-      if (!isObject(fallbacks)) {
-        throw new Error('@fallbacks must be an object of property names to fallback values.');
-      }
-    }
+  parseFallbackProperties(parent: Block<T>, fallbacks: FallbackProperties) {
+    this.validateDeclarationBlock(fallbacks, '@fallback');
 
     objectLoop(fallbacks, (value, prop) => {
-      this.emit('block:fallback', builder, prop, toArray(value));
+      this.emit('block:fallback', parent, prop, toArray(value));
     });
   }
 
-  parseFontFace(fontFamily: string, object: FontFace): string {
+  parseFontFace = (fontFamily: string, object: FontFace): string => {
+    this.validateDeclarationBlock(object, `@font-face ${fontFamily}`);
+
+    if (__DEV__) {
+      if (!fontFamily) {
+        throw new Error(`@font-face requires a font family name.`);
+      }
+    }
+
     const fontFace = formatFontFace({
       ...object,
       fontFamily,
@@ -180,11 +163,19 @@ export default abstract class Parser<T extends object, E extends object> {
     );
 
     return fontFamily;
-  }
+  };
 
-  parseKeyframesAnimation(animationName: string, object: Keyframes): string {
+  parseKeyframes = (animationName: string, object: Keyframes): string => {
     const name = object.name || animationName;
     const keyframes = new Block<T>(`@keyframes ${name}`);
+
+    if (__DEV__) {
+      if (!name) {
+        throw new Error(`@keyframes requires an animation name.`);
+      }
+    }
+
+    this.validateDeclarationBlock(object, keyframes.selector);
 
     // from, to, and percent keys aren't easily detectable
     objectLoop(object, (value, key) => {
@@ -200,46 +191,42 @@ export default abstract class Parser<T extends object, E extends object> {
     this.emit('keyframes', keyframes, name);
 
     return name;
-  }
+  };
 
-  parseLocalBlock(builder: Block<T>, object: LocalBlock): Block<T> {
+  parseLocalBlock(parent: Block<T>, object: LocalBlock): Block<T> {
+    this.validateDeclarationBlock(object, parent.selector);
+
     const props = { ...object };
 
     if (props['@fallbacks']) {
-      this.parseFallbackProperties(builder, props['@fallbacks']);
+      this.parseFallbackProperties(parent, props['@fallbacks']);
 
       delete props['@fallbacks'];
     }
 
     if (props['@media']) {
-      this.parseConditionalBlock(builder, props['@media'], 'media');
+      this.parseConditionalBlock(parent, props['@media'], 'media');
 
       delete props['@media'];
     }
 
     if (props['@selectors']) {
-      if (__DEV__) {
-        if (!isObject(props['@selectors'])) {
-          throw new Error(
-            '@selectors must be an object of CSS selectors to property declarations.',
-          );
-        }
-      }
+      this.validateDeclarations(props['@selectors'], '@selectors');
 
       objectLoop(props['@selectors'], (value, key) => {
-        this.parseSelector(builder, key, value, true);
+        this.parseSelector(parent, key, value, true);
       });
 
       delete props['@selectors'];
     }
 
     if (props['@supports']) {
-      this.parseConditionalBlock(builder, props['@supports'], 'supports');
+      this.parseConditionalBlock(parent, props['@supports'], 'supports');
 
       delete props['@supports'];
     }
 
-    return this.parseBlock(builder, props);
+    return this.parseBlock(parent, props);
   }
 
   parseSelector(
@@ -248,10 +235,10 @@ export default abstract class Parser<T extends object, E extends object> {
     object: DeclarationBlock,
     inAtRule: boolean = false,
   ) {
+    this.validateDeclarationBlock(object, selector);
+
     if (__DEV__) {
-      if (!isObject(object)) {
-        throw new Error(`Selector "${selector}" must be an object of properties.`);
-      } else if ((selector.includes(',') || !selector.match(SELECTOR)) && !inAtRule) {
+      if ((selector.includes(',') || !selector.match(SELECTOR)) && !inAtRule) {
         throw new Error(
           `Advanced selector "${selector}" must be nested within a @selectors block.`,
         );
@@ -285,37 +272,59 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  transformProperty(key: string, value: unknown): Length {
-    switch (key) {
-      case 'animation':
-        return compoundProperties.animation(value as Properties['animation']);
+  transformProperty<K extends keyof Properties>(key: K, value: unknown): Length | undefined {
+    if (value === undefined) {
+      return undefined;
+    }
 
-      case 'animationName':
-        return compoundProperties.animationName(
-          value as Properties['animationName'],
-          (name, frames) => this.parseKeyframesAnimation(name, frames),
+    const prop = key as keyof typeof propertyTransformers;
+
+    if (Array.isArray(value) || isObject(value)) {
+      if (prop === 'animationName') {
+        return propertyTransformers.animationName(
+          value as Keyframes,
+          this.wrapValueWithUnit,
+          keyframes => this.parseKeyframes(keyframes.name!, keyframes),
         );
+      }
 
-      case 'fontFamily':
-        return compoundProperties.fontFamily(value as Properties['fontFamily'], (name, face) =>
-          this.parseFontFace(name, face),
+      if (prop === 'fontFamily') {
+        return propertyTransformers.fontFamily(
+          value as FontFace,
+          this.wrapValueWithUnit,
+          fontFace => this.parseFontFace(fontFace.fontFamily!, fontFace),
         );
+      }
 
-      case 'transition':
-        return compoundProperties.transition(value as Properties['transition']);
+      if (propertyTransformers[prop]) {
+        return propertyTransformers[prop](value, this.wrapValueWithUnit);
+      }
 
-      default: {
-        if (key in expandedProperties && isObject(value)) {
-          return expandedProperties[key as keyof typeof expandedProperties](
-            value,
-            this.applyUnitToValue,
-          );
-        }
+      if (__DEV__) {
+        throw new Error(
+          `No property transformer defined for "${key}". Cannot accept arrays or objects.`,
+        );
       }
     }
 
-    return value as string;
+    return value as Length;
   }
+
+  wrapValueWithUnit = (property: string, value: unknown): string => {
+    if (value === undefined) {
+      return '';
+    }
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (isUnitlessProperty(property) || value === 0) {
+      return String(value);
+    }
+
+    return value + this.options.unit;
+  };
 
   /**
    * Execute the defined event listener with the arguments.
@@ -363,5 +372,25 @@ export default abstract class Parser<T extends object, E extends object> {
     this.handlers[name] = callback;
 
     return this;
+  }
+
+  protected validateDeclarationBlock(block: unknown, name: string): block is object {
+    if (__DEV__) {
+      if (!isObject(block)) {
+        throw new TypeError(`"${name}" must be a declaration object of CSS properties.`);
+      }
+    }
+
+    return true;
+  }
+
+  protected validateDeclarations(block: unknown, name: string): block is object {
+    if (__DEV__) {
+      if (!isObject(block)) {
+        throw new Error(`${name} must be a mapping of CSS declarations.`);
+      }
+    }
+
+    return true;
   }
 }
