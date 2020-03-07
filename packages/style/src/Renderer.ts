@@ -1,6 +1,5 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-// @ts-ignore Not typed correctly
 import { prefix } from 'inline-style-prefixer';
 import {
   arrayReduce,

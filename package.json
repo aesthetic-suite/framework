@@ -1,6 +1,7 @@
 {
   "name": "aesthetic-root",
   "private": true,
+  "version": "0.0.0",
   "scripts": {
     "prepare": "beemo create-config --silent",
     "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
@@ -16,12 +17,15 @@
     "test": "yarn run coverage",
     "posttest": "yarn run eslint"
   },
+  "engines": {
+    "node": ">=10.10.0"
+  },
   "devDependencies": {
-    "@milesj/build-tools": "^1.1.0",
+    "@milesj/build-tools": "^2.0.0",
     "@types/ejs": "^3.0.1",
     "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/inline-style-prefixer": "^3.0.1",
+    "@types/inline-style-prefixer": "^5.0.0",
     "@types/lodash": "^4.14.108",
     "@types/prettier": "^1.12.0",
     "@types/prop-types": "^15.7.3",
@@ -29,8 +33,8 @@
     "@types/react-dom": "^16.9.5",
     "@types/string-hash": "^1.1.1",
     "conventional-changelog-beemo": "^1.6.0",
-    "eslint-plugin-rut": "^1.0.0",
-    "jest-rut": "^1.0.0",
+    "eslint-plugin-rut": "^1.0.1",
+    "jest-rut": "^1.0.1",
     "lerna": "^3.20.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
@@ -38,7 +42,7 @@
     "rollup-plugin-auto-external": "^2.0.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rut-dom": "^1.0.0"
+    "rut-dom": "^1.0.1"
   },
   "beemo": {
     "module": "@milesj/build-tools",
@@ -66,7 +70,8 @@
     "jest": {
       "setupFilesAfterEnv": [
         "jest-rut"
-      ]
+      ],
+      "testEnvironment": "jsdom"
     }
   },
   "workspaces": [

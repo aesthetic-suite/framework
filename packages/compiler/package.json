@@ -21,6 +21,9 @@
     "type": "ko-fi",
     "url": "https://ko-fi.com/milesjohnson"
   },
+  "engines": {
+    "node": ">=10.10.0"
+  },
   "dependencies": {
     "@aesthetic/system": "^0.0.2",
     "@aesthetic/utils": "^0.0.2",
