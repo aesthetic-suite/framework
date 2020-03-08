@@ -93,7 +93,7 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
         renderer.renderFontFace(fontFace.toObject());
       },
       onKeyframes(keyframes, animationName) {
-        renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
+        return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
       onRuleset(selector, ruleset) {
         classNames[selector] = renderer.renderRule(ruleset.toObject(), renderParams);

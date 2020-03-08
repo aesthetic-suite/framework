@@ -93,11 +93,11 @@ describe('GlobalSheet', () => {
     sheet.render(renderer, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
-      'fade',
       {
         from: { opacity: 0 },
         to: { opacity: 1 },
       },
+      'fade',
       {
         prefix: false,
         rtl: false,

@@ -42,7 +42,7 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
         renderer.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
-        renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
+        return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
     }).parse(styles, {
       unit: params.unit,

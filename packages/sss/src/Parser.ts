@@ -164,32 +164,20 @@ export default abstract class Parser<T extends object, E extends object> {
     return name;
   };
 
-  parseKeyframes = (animationName: string, object: Keyframes): string => {
-    const name = object.name || animationName;
-    const keyframes = new Block<T>(`@keyframes ${name}`);
-
-    if (__DEV__) {
-      if (!name) {
-        throw new Error(`@keyframes requires an animation name.`);
-      }
-    }
+  parseKeyframes = (object: Keyframes, animationName?: string): string => {
+    const keyframes = new Block<T>(`@keyframes`);
 
     this.validateDeclarationBlock(object, keyframes.selector);
 
     // from, to, and percent keys aren't easily detectable
     objectLoop(object, (value, key) => {
-      if (key === 'name' || value === undefined) {
-        return;
-      }
-
-      if (typeof value !== 'string') {
+      if (value !== undefined) {
         keyframes.addNested(this.parseBlock(new Block(key), value));
       }
     });
 
-    this.emit('keyframes', keyframes, name);
-
-    return name;
+    // Inherit the name from the listener as it may be generated
+    return this.emit('keyframes', keyframes, animationName) || animationName!;
   };
 
   parseLocalBlock(parent: Block<T>, object: LocalBlock): Block<T> {
@@ -308,7 +296,7 @@ export default abstract class Parser<T extends object, E extends object> {
       return propertyTransformers.animationName(
         value as Keyframes,
         this.wrapValueWithUnit,
-        keyframes => this.parseKeyframes(keyframes.name!, keyframes),
+        keyframes => this.parseKeyframes(keyframes),
       );
     }
 
@@ -360,13 +348,11 @@ export default abstract class Parser<T extends object, E extends object> {
   emit(name: 'class', ...args: Parameters<ClassNameListener>): void;
   emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): void;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
-  emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): void;
+  emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): string;
   emit(name: 'ruleset', ...args: Parameters<RulesetListener<T>>): void;
   emit(name: 'variable', ...args: Parameters<VariableListener>): void;
-  emit(name: string, ...args: unknown[]): void {
-    if (this.handlers[name]) {
-      this.handlers[name](...args);
-    }
+  emit(name: string, ...args: unknown[]): unknown {
+    return this.handlers[name]?.(...args);
   }
 
   /**

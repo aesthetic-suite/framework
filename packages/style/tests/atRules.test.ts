@@ -28,7 +28,7 @@ describe('At-rules', () => {
       fontWeight: 800,
       src: 'url("fonts/OpenSans-Bold.woff2")',
     });
-    renderer.renderKeyframes('foo', {
+    renderer.renderKeyframes({
       from: {
         transform: 'translateX(0%)',
       },
@@ -36,7 +36,7 @@ describe('At-rules', () => {
         transform: 'translateX(100%)',
       },
     });
-    renderer.renderKeyframes('bar', {
+    renderer.renderKeyframes({
       from: {
         transform: 'translateX(0%)',
       },
@@ -99,7 +99,7 @@ describe('At-rules', () => {
 
   describe('@keyframes', () => {
     it('renders range based and returns animation name', () => {
-      const name = renderer.renderKeyframes('foo', {
+      const name = renderer.renderKeyframes({
         from: {
           transform: 'translateX(0%)',
         },
@@ -113,7 +113,7 @@ describe('At-rules', () => {
     });
 
     it('renders percentage based and returns animation name', () => {
-      const name = renderer.renderKeyframes('bar', {
+      const name = renderer.renderKeyframes({
         '0%': { top: 0, left: 0 },
         '30%': { top: '50px' },
         '68%, 72%': { left: '50px' },
@@ -124,8 +124,25 @@ describe('At-rules', () => {
       expect(getInsertedStyles('global')).toMatchSnapshot();
     });
 
+    it('can provide a custom animation name', () => {
+      const name = renderer.renderKeyframes(
+        {
+          from: {
+            opacity: 0,
+          },
+          to: {
+            opacity: 1,
+          },
+        },
+        'fade',
+      );
+
+      expect(name).toBe('fade');
+      expect(getInsertedStyles('global')).toMatchSnapshot();
+    });
+
     it('supports ltr and rtl', () => {
-      const ltr = renderer.renderKeyframes('foo', {
+      const ltr = renderer.renderKeyframes({
         from: {
           left: '0',
         },
@@ -135,7 +152,6 @@ describe('At-rules', () => {
       });
 
       const rtl = renderer.renderKeyframes(
-        'foo',
         {
           from: {
             left: '0',
@@ -144,6 +160,7 @@ describe('At-rules', () => {
             right: '100px',
           },
         },
+        '',
         {
           rtl: true,
         },

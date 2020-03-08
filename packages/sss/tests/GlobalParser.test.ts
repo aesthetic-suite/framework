@@ -217,8 +217,8 @@ describe('GlobalParser', () => {
       });
 
       expect(spy).toHaveBeenCalledTimes(2);
-      expect(spy).toHaveBeenCalledWith(createBlock('@keyframes fade', KEYFRAMES_RANGE), 'fade');
-      expect(spy).toHaveBeenCalledWith(createBlock('@keyframes slide', KEYFRAMES_PERCENT), 'slide');
+      expect(spy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_RANGE), 'fade');
+      expect(spy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), 'slide');
     });
   });
 

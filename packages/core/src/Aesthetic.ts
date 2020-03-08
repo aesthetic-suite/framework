@@ -20,7 +20,6 @@ import {
 // TODO
 // contextual themeing
 // theme specific `style` elements
-// keyframes name -> hash aliasing
 
 function createRenderer(): Renderer {
   return global.AESTHETIC_SSR || new ClientRenderer();
@@ -164,8 +163,8 @@ export default class Aesthetic {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes = (animationName: string, keyframes: Keyframes, params?: ProcessParams) =>
-    this.renderer.renderKeyframes(animationName, keyframes, params);
+  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessParams) =>
+    this.renderer.renderKeyframes(keyframes, animationName, params);
 
   /**
    * Reset the current instance state for testing purposes.

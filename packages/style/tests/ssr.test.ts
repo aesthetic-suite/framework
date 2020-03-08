@@ -56,7 +56,7 @@ describe('SSR', () => {
       },
     });
 
-    renderer.renderKeyframes('fade', {
+    renderer.renderKeyframes({
       from: {
         transform: 'translateX(0%)',
       },

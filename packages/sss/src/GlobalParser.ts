@@ -82,7 +82,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     }
 
     objectLoop(keyframes, (keyframe, name) => {
-      this.parseKeyframes(name, keyframe);
+      this.parseKeyframes(keyframe, name);
     });
   }
 

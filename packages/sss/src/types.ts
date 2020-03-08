@@ -176,10 +176,9 @@ export interface Import {
 }
 
 export interface Keyframes {
-  [percent: string]: DeclarationBlock | string | undefined;
+  [percent: string]: DeclarationBlock | undefined;
   from?: DeclarationBlock;
   to?: DeclarationBlock;
-  name?: string;
 }
 
 export interface CSSVariables {
@@ -335,8 +334,8 @@ export type ImportListener = (path: string) => void;
 
 export type KeyframesListener<T extends object> = (
   keyframes: Block<T>,
-  animationName: string,
-) => void;
+  animationName: string | undefined,
+) => string;
 
 export type RulesetListener<T extends object> = (selector: string, block: Block<T>) => void;
 

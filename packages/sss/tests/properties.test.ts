@@ -44,22 +44,21 @@ describe('Special properties', () => {
   });
 
   it('parses `animationName` and renders keyframes', () => {
-    const kfSpy = jest.fn();
+    let count = 0;
+
+    // eslint-disable-next-line no-plusplus
+    const kfSpy = jest.fn(() => `test${++count}`);
 
     parser.on('keyframes', kfSpy);
     parser.parseBlock(createBlock('animationName'), {
-      animationName: [
-        'slide',
-        { ...KEYFRAMES_PERCENT, name: 'swipe' },
-        { ...KEYFRAMES_RANGE, name: 'fade' },
-      ],
+      animationName: ['slide', KEYFRAMES_PERCENT, KEYFRAMES_RANGE],
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'animationName', 'slide, swipe, fade');
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'animationName', 'slide, test1, test2');
 
-    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes swipe', KEYFRAMES_PERCENT), 'swipe');
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
 
-    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes fade', KEYFRAMES_RANGE), 'fade');
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_RANGE), undefined);
   });
 
   it('collapses `background`', () => {

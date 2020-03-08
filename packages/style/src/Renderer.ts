@@ -187,14 +187,18 @@ export default abstract class Renderer {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes(name: string, keyframes: Keyframes, params: ProcessParams = {}): string {
+  renderKeyframes(
+    keyframes: Keyframes,
+    customName: string = '',
+    params: ProcessParams = {},
+  ): string {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
         `${step} { ${formatDeclarationBlock(this.processProperties(keyframe!, params))} } `,
     );
 
-    const animationName = `kf${generateHash(rule)}`;
+    const animationName = customName || `kf${generateHash(rule)}`;
 
     this.insertAtRule(`@keyframes ${animationName}`, rule);
 

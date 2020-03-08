@@ -1,5 +1,4 @@
 import LocalParser from '../src/LocalParser';
-import { KEYFRAMES_PERCENT } from './__mocks__/global';
 
 describe('Parser', () => {
   let parser: LocalParser<object>;
@@ -18,20 +17,6 @@ describe('Parser', () => {
     it('accepts an family name from the font face object', () => {
       expect(() => {
         parser.parseFontFace('', { fontFamily: 'Test', fontWeight: 300, srcPaths: [] });
-      }).not.toThrow();
-    });
-  });
-
-  describe('parseKeyframes()', () => {
-    it('errors if no animation name', () => {
-      expect(() => {
-        parser.parseKeyframes('', KEYFRAMES_PERCENT);
-      }).toThrow('@keyframes requires an animation name.');
-    });
-
-    it('accepts an animation name from the keyframes object', () => {
-      expect(() => {
-        parser.parseKeyframes('', { ...KEYFRAMES_PERCENT, name: 'test' });
       }).not.toThrow();
     });
   });
