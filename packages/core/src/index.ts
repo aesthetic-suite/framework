@@ -21,6 +21,7 @@ export const {
   renderFontFace,
   renderImport,
   renderKeyframes,
+  renderThemeStyles,
 } = aesthetic;
 
 export * from '@aesthetic/sss';

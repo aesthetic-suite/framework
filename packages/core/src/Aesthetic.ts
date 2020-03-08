@@ -10,6 +10,7 @@ import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import {
+  ClassName,
   LocalSheetFactory,
   GlobalSheetFactory,
   SheetParams,
@@ -49,19 +50,11 @@ export default class Aesthetic {
     // Set as the active theme
     this.activeTheme = name;
 
-    // Apply CSS variables to `:root`
+    // Apply theme variables to `:root`
     this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
 
     // Render theme styles and append a `body` class name
-    const globalSheet = this.globalSheetRegistry.get(name);
-
-    if (globalSheet) {
-      document.body.className = globalSheet.render(this.renderer, theme, {
-        direction: (document.documentElement.getAttribute('dir') as Direction) || 'ltr',
-        prefix: this.options.vendorPrefixes,
-        unit: this.options.defaultUnit,
-      });
-    }
+    document.body.className = this.renderThemeStyles(theme);
   };
 
   /**
@@ -165,6 +158,23 @@ export default class Aesthetic {
    */
   renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessParams) =>
     this.renderer.renderKeyframes(keyframes, animationName, params);
+
+  /**
+   * Render a global theme style sheet and return a class name, if one was generated.
+   */
+  renderThemeStyles = (theme: Theme): ClassName => {
+    const sheet = this.globalSheetRegistry.get(name);
+
+    if (!sheet) {
+      return '';
+    }
+
+    return sheet.render(this.renderer, theme, {
+      direction: (document.documentElement.getAttribute('dir') as Direction) || 'ltr',
+      prefix: this.options.vendorPrefixes,
+      unit: this.options.defaultUnit,
+    });
+  };
 
   /**
    * Reset the current instance state for testing purposes.

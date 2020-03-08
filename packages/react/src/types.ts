@@ -28,6 +28,8 @@ export interface ThemeProviderProps {
   children: NonNullable<React.ReactNode>;
   /** Theme to activate. */
   name?: ThemeName;
+  /** Provider is being rendered at the root of the application. */
+  root?: boolean;
 }
 
 // HOCs
