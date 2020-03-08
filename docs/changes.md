@@ -4,6 +4,7 @@
 
 - `@import` supports an object form.
 - `@page` now supports type selectors.
+- `@variables` for both local and global.
 
 ## Breaking
 

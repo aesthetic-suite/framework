@@ -156,3 +156,12 @@ export const SYNTAX_SUPPORTS: LocalBlock = {
     },
   },
 };
+
+export const SYNTAX_VARIABLES: LocalBlock = {
+  display: 'block',
+  '@variables': {
+    fontSize: '14px',
+    color: 'red',
+    '--line-height': 1.5,
+  },
+};

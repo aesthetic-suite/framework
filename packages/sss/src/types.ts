@@ -182,6 +182,10 @@ export interface Keyframes {
   name?: string;
 }
 
+export interface CSSVariables {
+  [name: string]: Value;
+}
+
 export type Viewport = CSS.Viewport<Value>;
 
 // TODO add upstream to csstype
@@ -221,13 +225,14 @@ export interface Rulesets<T> {
 
 // LOCAL STYLE SHEET
 
-export type LocalAtRule = '@fallbacks' | '@media' | '@selectors' | '@supports';
+export type LocalAtRule = '@fallbacks' | '@media' | '@selectors' | '@supports' | '@variables';
 
 export type LocalBlock = DeclarationBlock & {
   '@fallbacks'?: FallbackProperties;
   '@media'?: { [mediaQuery: string]: LocalBlock };
   '@selectors'?: { [selector: string]: LocalBlock };
   '@supports'?: { [featureQuery: string]: LocalBlock };
+  '@variables'?: CSSVariables;
 };
 
 export type LocalBlockNeverize<T> = {
@@ -248,6 +253,7 @@ export type GlobalAtRule =
   | '@import'
   | '@keyframes'
   | '@page'
+  | '@variables'
   | '@viewport';
 
 export interface GlobalStyleSheet {
@@ -256,6 +262,7 @@ export interface GlobalStyleSheet {
   '@import'?: (string | Import)[];
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Page;
+  '@variables'?: CSSVariables;
   '@viewport'?: Viewport;
 }
 
@@ -332,3 +339,5 @@ export type KeyframesListener<T extends object> = (
 ) => void;
 
 export type RulesetListener<T extends object> = (selector: string, block: Block<T>) => void;
+
+export type VariableListener = (name: string, value: Value) => void;

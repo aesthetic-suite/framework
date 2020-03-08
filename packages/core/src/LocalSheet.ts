@@ -95,8 +95,8 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
       onKeyframes(keyframes, animationName) {
         renderer.renderKeyframes(animationName, keyframes.toObject(), renderParams);
       },
-      onRuleset(selector, block) {
-        classNames[selector] = renderer.renderRule(block.toObject(), renderParams);
+      onRuleset(selector, ruleset) {
+        classNames[selector] = renderer.renderRule(ruleset.toObject(), renderParams);
       },
     }).parse(styles, {
       unit: params.unit,

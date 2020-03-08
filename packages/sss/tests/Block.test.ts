@@ -81,6 +81,21 @@ describe('Block', () => {
     });
   });
 
+  describe('addVariable()', () => {
+    it('sets a variable', () => {
+      instance.addVariable('--color', 'red');
+
+      expect(instance.variables['--color']).toBe('red');
+    });
+
+    it('overwrites a variable of the same name', () => {
+      instance.addVariable('--color', 'red');
+      instance.addVariable('--color', 'blue');
+
+      expect(instance.variables['--color']).toBe('blue');
+    });
+  });
+
   describe('merge()', () => {
     it('inherits properties from ruleset', () => {
       instance.addProperty('color', 'red').addProperty('display', 'block');
@@ -150,9 +165,13 @@ describe('Block', () => {
 
   describe('toObject()', () => {
     it('returns a plain object', () => {
-      instance.addProperty('color', 'red').addProperty('display', 'block');
+      instance
+        .addProperty('color', 'red')
+        .addProperty('display', 'block')
+        .addVariable('--font-size', '14px');
 
       expect(instance.toObject()).toEqual({
+        '--font-size': '14px',
         color: 'red',
         display: 'block',
       });

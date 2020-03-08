@@ -10,6 +10,7 @@ import {
   SYNTAX_GLOBAL,
 } from './__mocks__/global';
 import { createBlock } from './helpers';
+import { SYNTAX_VARIABLES } from './__mocks__/local';
 
 describe('GlobalParser', () => {
   let parser: GlobalParser<Properties>;
@@ -87,7 +88,7 @@ describe('GlobalParser', () => {
           // @ts-ignore Allow invalid type
           '@global': 123,
         });
-      }).toThrow('@global must be an object of style properties.');
+      }).toThrow('"@global" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no global', () => {
@@ -232,7 +233,7 @@ describe('GlobalParser', () => {
           // @ts-ignore Allow invalid type
           '@page': 123,
         });
-      }).toThrow('@page must be an object of properties.');
+      }).toThrow('"@page" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no page', () => {
@@ -300,6 +301,53 @@ describe('GlobalParser', () => {
           },
         }),
       );
+    });
+  });
+
+  describe('@variables', () => {
+    beforeEach(() => {
+      parser.on('variable', spy);
+    });
+
+    it('errors if variables are not an object', () => {
+      expect(() => {
+        parser.parse({
+          // @ts-ignore Allow invalid type
+          '@variables': 123,
+        });
+      }).toThrow('@variables must be a mapping of CSS variables.');
+    });
+
+    it('does not emit if no variables', () => {
+      parser.parse({
+        '@variables': {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not emit `block:variable` listener', () => {
+      const varSpy = jest.fn();
+
+      parser.on('block:variable', varSpy);
+      parser.parse({
+        '@variables': {
+          color: 'red',
+        },
+      });
+
+      expect(varSpy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each variable', () => {
+      parser.parse({
+        '@variables': SYNTAX_VARIABLES['@variables'],
+      });
+
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledWith('--font-size', '14px');
+      expect(spy).toHaveBeenCalledWith('--color', 'red');
+      expect(spy).toHaveBeenCalledWith('--line-height', 1.5);
     });
   });
 

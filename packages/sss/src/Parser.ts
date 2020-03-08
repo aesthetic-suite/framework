@@ -1,6 +1,6 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members */
 
-import { isObject, toArray, arrayLoop, objectLoop } from '@aesthetic/utils';
+import { isObject, toArray, arrayLoop, objectLoop, hyphenate } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './formatFontFace';
 import isUnitlessProperty from './isUnitlessProperty';
@@ -10,6 +10,8 @@ import {
   BlockListener,
   BlockNestedListener,
   BlockPropertyListener,
+  ClassNameListener,
+  CSSVariables,
   DeclarationBlock,
   FallbackProperties,
   FontFace,
@@ -18,11 +20,11 @@ import {
   Keyframes,
   KeyframesListener,
   LocalBlock,
+  ParserOptions,
   Properties,
   RulesetListener,
-  ClassNameListener,
-  ParserOptions,
   Value,
+  VariableListener,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -43,8 +45,10 @@ export interface CommonEvents<T extends object> {
   onBlockPseudo?: BlockNestedListener<T>;
   onBlockSelector?: BlockNestedListener<T>;
   onBlockSupports?: BlockConditionListener<T>;
+  onBlockVariable?: BlockPropertyListener<T>;
   onFontFace?: FontFaceListener<T>;
   onKeyframes?: KeyframesListener<T>;
+  onVariable?: VariableListener;
 }
 
 const EVENT_MAP = {
@@ -55,6 +59,7 @@ const EVENT_MAP = {
   onBlockPseudo: 'block:pseudo',
   onBlockSelector: 'block:selector',
   onBlockSupports: 'block:supports',
+  onBlockVariable: 'block:variable',
   onFontFace: 'font-face',
 };
 
@@ -126,7 +131,7 @@ export default abstract class Parser<T extends object, E extends object> {
   }
 
   parseFallbackProperties(parent: Block<T>, fallbacks: FallbackProperties) {
-    this.validateDeclarationBlock(fallbacks, '@fallback');
+    this.validateDeclarationBlock(fallbacks, '@fallbacks');
 
     objectLoop(fallbacks, (value, prop) => {
       this.emit('block:fallback', parent, prop, toArray(value));
@@ -220,6 +225,12 @@ export default abstract class Parser<T extends object, E extends object> {
       delete props['@supports'];
     }
 
+    if (props['@variables']) {
+      this.parseVariables(parent, props['@variables']);
+
+      delete props['@variables'];
+    }
+
     return this.parseBlock(parent, props);
   }
 
@@ -263,6 +274,26 @@ export default abstract class Parser<T extends object, E extends object> {
       parent.addNested(nestedBlock);
 
       this.emit(type as 'block:selector', parent, name, nestedBlock, { specificity });
+    });
+  }
+
+  parseVariables(parent: Block<T> | null, variables: CSSVariables) {
+    this.validateDeclarations(variables, '@variables');
+
+    objectLoop(variables, (value, prop) => {
+      let name = hyphenate(prop);
+
+      if (name.slice(0, 2) !== '--') {
+        name = `--${name}`;
+      }
+
+      if (parent) {
+        parent.addVariable(name, value);
+
+        this.emit('block:variable', parent, name, value);
+      } else {
+        this.emit('variable', name, value);
+      }
     });
   }
 
@@ -318,7 +349,7 @@ export default abstract class Parser<T extends object, E extends object> {
     ...args: Parameters<BlockNestedListener<T>>
   ): void;
   emit(
-    name: 'block:fallback' | 'block:property',
+    name: 'block:fallback' | 'block:property' | 'block:variable',
     ...args: Parameters<BlockPropertyListener<T>>
   ): void;
   emit(
@@ -331,6 +362,7 @@ export default abstract class Parser<T extends object, E extends object> {
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
   emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): void;
   emit(name: 'ruleset', ...args: Parameters<RulesetListener<T>>): void;
+  emit(name: 'variable', ...args: Parameters<VariableListener>): void;
   emit(name: string, ...args: unknown[]): void {
     if (this.handlers[name]) {
       this.handlers[name](...args);
@@ -345,13 +377,17 @@ export default abstract class Parser<T extends object, E extends object> {
     callback: BlockNestedListener<T>,
   ): this;
   on(name: 'block:media' | 'block:supports', callback: BlockConditionListener<T>): this;
-  on(name: 'block:fallback' | 'block:property', callback: BlockPropertyListener<T>): this;
+  on(
+    name: 'block:fallback' | 'block:property' | 'block:variable',
+    callback: BlockPropertyListener<T>,
+  ): this;
   on(name: 'block' | 'global' | 'page' | 'viewport', callback: BlockListener<T>): this;
   on(name: 'class', callback: ClassNameListener): this;
   on(name: 'font-face', callback: FontFaceListener<T>): this;
   on(name: 'import', callback: ImportListener): this;
   on(name: 'keyframes', callback: KeyframesListener<T>): this;
   on(name: 'ruleset', callback: RulesetListener<T>): this;
+  on(name: 'variable', callback: VariableListener): this;
   on(name: string, callback: Handler): this {
     this.handlers[name] = callback;
 
@@ -371,7 +407,11 @@ export default abstract class Parser<T extends object, E extends object> {
   protected validateDeclarations(block: unknown, name: string): block is object {
     if (__DEV__) {
       if (!isObject(block)) {
-        throw new Error(`${name} must be a mapping of CSS declarations.`);
+        throw new Error(
+          `${name} must be a mapping of CSS ${
+            name === '@variables' ? 'variables' : 'declarations'
+          }.`,
+        );
       }
     }
 

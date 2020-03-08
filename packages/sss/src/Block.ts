@@ -4,11 +4,13 @@ import { objectLoop } from '@aesthetic/utils';
 import { Value } from './types';
 
 export default class Block<T extends object = object> {
-  readonly nested: { [key: string]: Block<T> } = {};
+  readonly nested: { [selector: string]: Block<T> } = {};
 
-  readonly properties: { [key: string]: Value } = {};
+  readonly properties: { [prop: string]: Value } = {};
 
   readonly selector: string;
+
+  readonly variables: { [name: string]: Value } = {};
 
   constructor(selector: string) {
     this.selector = selector;
@@ -39,6 +41,12 @@ export default class Block<T extends object = object> {
     return this;
   }
 
+  addVariable(key: string, value: Value): this {
+    this.variables[key] = value;
+
+    return this;
+  }
+
   clone(selector: string): Block<T> {
     return new Block<T>(selector).merge(this);
   }
@@ -54,7 +62,10 @@ export default class Block<T extends object = object> {
   }
 
   toObject<O extends object = T>(): O {
-    const object: { [key: string]: unknown } = { ...this.properties };
+    const object: { [key: string]: unknown } = {
+      ...this.variables,
+      ...this.properties,
+    };
 
     objectLoop(this.nested, (block, selector) => {
       object[selector] = block.toObject();

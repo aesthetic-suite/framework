@@ -14,6 +14,7 @@ import {
   SYNTAX_MEDIA,
   SYNTAX_MEDIA_NESTED,
   SYNTAX_LOCAL_BLOCK,
+  SYNTAX_VARIABLES,
 } from './__mocks__/local';
 
 describe('LocalParser', () => {
@@ -206,7 +207,7 @@ describe('LocalParser', () => {
             '@fallbacks': 123,
           },
         });
-      }).toThrow('"@fallback" must be a declaration object of CSS properties.');
+      }).toThrow('"@fallbacks" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no fallbacks', () => {
@@ -478,6 +479,53 @@ describe('LocalParser', () => {
         'not (display: flex)',
         createBlock('@supports not (display: flex)', { float: 'left' }),
       );
+    });
+  });
+
+  describe('@variables', () => {
+    beforeEach(() => {
+      parser.on('block:variable', spy);
+    });
+
+    it('errors if variables are not an object', () => {
+      expect(() => {
+        parser.parse({
+          vars: {
+            // @ts-ignore Allow invalid type
+            '@variables': 123,
+          },
+        });
+      }).toThrow('@variables must be a mapping of CSS variables.');
+    });
+
+    it('does not emit if no variables', () => {
+      parser.parse({
+        vars: {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not emit `variable` listener', () => {
+      const varSpy = jest.fn();
+
+      parser.on('variable', varSpy);
+      parser.parse({
+        vars: SYNTAX_VARIABLES,
+      });
+
+      expect(varSpy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each variable', () => {
+      parser.parse({
+        vars: SYNTAX_VARIABLES,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--font-size', '14px');
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--color', 'red');
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--line-height', 1.5);
     });
   });
 });

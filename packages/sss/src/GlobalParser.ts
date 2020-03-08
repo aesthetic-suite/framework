@@ -26,6 +26,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     this.parseImport(styleSheet['@import']);
     this.parseKeyframesMap(styleSheet['@keyframes']);
     this.parsePage(styleSheet['@page']);
+    this.parseRootVariables(styleSheet['@variables']);
     this.parseViewport(styleSheet['@viewport']);
   }
 
@@ -48,17 +49,9 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
   }
 
   protected parseGlobal(globals: GlobalStyleSheet['@global']) {
-    if (!globals) {
-      return;
+    if (globals) {
+      this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
     }
-
-    if (__DEV__) {
-      if (!isObject(globals)) {
-        throw new Error('@global must be an object of style properties.');
-      }
-    }
-
-    this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
   }
 
   protected parseImport(imports: GlobalStyleSheet['@import']) {
@@ -98,11 +91,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
       return;
     }
 
-    if (__DEV__) {
-      if (!isObject(page)) {
-        throw new Error('@page must be an object of properties.');
-      }
-    }
+    this.validateDeclarationBlock(page, '@page');
 
     const object = { ...page };
     const pseudos: PagePseudos[] = [':blank', ':first', ':left', ':right'];
@@ -121,6 +110,12 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     // Then parse the root block itself
     if (Object.keys(object).length > 0) {
       this.emit('page', this.parseBlock(new Block('@page'), object));
+    }
+  }
+
+  protected parseRootVariables(variables: GlobalStyleSheet['@variables']) {
+    if (variables) {
+      this.parseVariables(null, variables);
     }
   }
 
