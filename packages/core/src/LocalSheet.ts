@@ -5,12 +5,10 @@ import { deepMerge } from '@aesthetic/utils';
 import Sheet from './Sheet';
 import { LocalSheetFactory, SheetParams, ClassNameSheet } from './types';
 
-export default class LocalSheet<T = unknown> extends Sheet {
+export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string>> {
   protected factory: LocalSheetFactory<T>;
 
   protected contrastVariants: { [K in ContrastLevel]?: LocalSheetFactory<T> } = {};
-
-  protected renderedQueries: { [cache: string]: ClassNameSheet<string> } = {};
 
   protected schemeVariants: { [K in ColorScheme]?: LocalSheetFactory<T> } = {};
 
@@ -74,23 +72,11 @@ export default class LocalSheet<T = unknown> extends Sheet {
     return (p, tokens) => deepMerge(...factories.map(factory => factory(p, tokens)));
   }
 
-  render(renderer: Renderer, theme: Theme, baseParams: SheetParams): ClassNameSheet<string> {
-    const params: Required<SheetParams> = {
-      contrast: theme.contrast,
-      direction: 'ltr',
-      prefix: false,
-      scheme: theme.scheme,
-      theme: theme.name,
-      unit: 'px',
-      ...baseParams,
-    };
-    const cacheKey = JSON.stringify(params);
-    const cache = this.renderedQueries[cacheKey];
-
-    if (cache) {
-      return cache;
-    }
-
+  protected doRender(
+    renderer: Renderer,
+    theme: Theme,
+    params: Required<SheetParams>,
+  ): ClassNameSheet<string> {
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
     const styles = composer(theme.toUtilities(), theme.toTokens());
@@ -115,8 +101,6 @@ export default class LocalSheet<T = unknown> extends Sheet {
     }).parse(styles, {
       unit: params.unit,
     });
-
-    this.renderedQueries[cacheKey] = classNames;
 
     return classNames;
   }

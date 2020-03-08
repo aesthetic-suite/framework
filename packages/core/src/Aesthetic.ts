@@ -20,6 +20,8 @@ import {
 // TODO
 // contextual themeing
 // theme specific `style` elements
+// keyframes name -> hash aliasing
+// css variables within a class
 
 function createRenderer(): Renderer {
   return global.AESTHETIC_SSR || new ClientRenderer();

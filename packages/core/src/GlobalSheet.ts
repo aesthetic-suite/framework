@@ -4,10 +4,8 @@ import { Theme } from '@aesthetic/system';
 import Sheet from './Sheet';
 import { GlobalSheetFactory, SheetParams } from './types';
 
-export default class GlobalSheet<T = unknown> extends Sheet {
+export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
   protected factory: GlobalSheetFactory<T>;
-
-  protected renderedClassName?: ClassName;
 
   constructor(factory: GlobalSheetFactory<T>) {
     super();
@@ -19,11 +17,7 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     return this.factory;
   }
 
-  render(renderer: Renderer, theme: Theme, params: SheetParams): ClassName {
-    if (this.renderedClassName !== undefined) {
-      return this.renderedClassName;
-    }
-
+  protected doRender(renderer: Renderer, theme: Theme, params: Required<SheetParams>): ClassName {
     let className = '';
     const composer = this.compose();
     const styles = composer(theme.toUtilities(), theme.toTokens());
@@ -40,6 +34,7 @@ export default class GlobalSheet<T = unknown> extends Sheet {
       onGlobal(block) {
         className = renderer.renderRuleGrouped(block.toObject(), {
           ...renderParams,
+          deterministic: true,
           type: 'global',
         });
       },
@@ -52,8 +47,6 @@ export default class GlobalSheet<T = unknown> extends Sheet {
     }).parse(styles, {
       unit: params.unit,
     });
-
-    this.renderedClassName = className;
 
     return className;
   }
