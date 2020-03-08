@@ -93,7 +93,7 @@ export default class LocalSheet<T = unknown> extends Sheet {
 
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
-    const styles = composer(theme.toFactories(), theme.toTokens());
+    const styles = composer(theme.toUtilities(), theme.toTokens());
     const renderParams = {
       prefix: params.prefix,
       rtl: params.direction === 'rtl',

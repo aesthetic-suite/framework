@@ -1,9 +1,9 @@
 import { DeclarationBlock } from '@aesthetic/sss';
 import { border } from './border';
-import { BorderSize, VarFactory } from '../types';
+import { BorderSize, VarUtil } from '../types';
 import { LAYOUT_SHADES } from '../constants';
 
-export function box(vars: VarFactory, size: BorderSize): DeclarationBlock {
+export function box(vars: VarUtil, size: BorderSize): DeclarationBlock {
   return {
     ...border(vars, size),
     backgroundColor: vars(

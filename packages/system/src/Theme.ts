@@ -12,10 +12,10 @@ import {
   Mixins,
   MixinName,
   Variables,
-  VarFactory,
-  UnitFactory,
-  MixinFactory,
-  Factories,
+  VarUtil,
+  UnitUtil,
+  MixinUtil,
+  Utilities,
 } from './types';
 
 interface AnyObject {
@@ -56,7 +56,7 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      this.mixins,
+      deepMerge(this.mixins, {}), // Clone
     );
   }
 
@@ -98,7 +98,7 @@ export default class Theme {
    * Merge one or many mixins into the defined properties.
    * Properties take the highest precendence and will override mixin declarations.
    */
-  mixin: MixinFactory = (names, properties) =>
+  mixin: MixinUtil = (names, properties = {}) =>
     deepMerge(...toArray(names).map(name => this.extendMixin(name)), properties);
 
   /**
@@ -106,17 +106,6 @@ export default class Theme {
    */
   overwriteMixin(name: MixinName, properties: DeclarationBlock): DeclarationBlock {
     return this.extendMixin(name, properties, true);
-  }
-
-  /**
-   * Return a mapping of all theme specific factory methods.
-   */
-  toFactories(): Factories {
-    return {
-      mixin: this.mixin,
-      unit: this.unit,
-      var: this.var,
-    };
   }
 
   /**
@@ -130,6 +119,17 @@ export default class Theme {
   }
 
   /**
+   * Return a mapping of all theme specific utility methods.
+   */
+  toUtilities(): Utilities {
+    return {
+      mixin: this.mixin,
+      unit: this.unit,
+      var: this.var,
+    };
+  }
+
+  /**
    * Return both design and theme tokens as a mapping of CSS variables.
    */
   toVariables(): Variables {
@@ -137,10 +137,12 @@ export default class Theme {
 
     const collapseTree = (data: AnyObject, path: string[]) => {
       objectLoop(data, (value, key) => {
+        const nextPath = [...path, hyphenate(key)];
+
         if (isObject(value)) {
-          collapseTree(value, [...path, hyphenate(key)]);
+          collapseTree(value, nextPath);
         } else {
-          vars[[...path, key].join('-')] = value;
+          vars[nextPath.join('-')] = value;
         }
       });
     };
@@ -153,7 +155,7 @@ export default class Theme {
   /**
    * Return a `rem` unit equivalent for the current spacing type and unit.
    */
-  unit: UnitFactory = (...multipliers) =>
+  unit: UnitUtil = (...multipliers) =>
     multipliers
       .map(
         m =>
@@ -166,7 +168,7 @@ export default class Theme {
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var: VarFactory = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
+  var: VarUtil = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
 
   /**
    * Create the entire mapping of all mixins.

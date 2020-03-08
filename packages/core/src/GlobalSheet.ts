@@ -26,7 +26,7 @@ export default class GlobalSheet<T = unknown> extends Sheet {
 
     let className = '';
     const composer = this.compose();
-    const styles = composer(theme.toFactories(), theme.toTokens());
+    const styles = composer(theme.toUtilities(), theme.toTokens());
     const renderParams = {
       prefix: params.prefix,
       rtl: params.direction === 'rtl',

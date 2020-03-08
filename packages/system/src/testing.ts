@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys, unicorn/import-index */
+/* eslint-disable unicorn/import-index */
 
 import { Design } from './index';
 

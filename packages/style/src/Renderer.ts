@@ -318,7 +318,7 @@ export default abstract class Renderer {
   }
 
   /**
-   * Process a rule block with the defined params and factories.
+   * Process a rule block with the defined params and processors.
    */
   protected processRule(
     rule: Rule,

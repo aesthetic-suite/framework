@@ -439,9 +439,9 @@ export type Variables = DesignVariables & ThemeVariables;
 
 export type VariableName = keyof Variables;
 
-export type VarFactory = (name: VariableName, ...fallbacks: (string | number)[]) => string;
+export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 
-export type UnitFactory = (...sizes: number[]) => Unit;
+export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
@@ -520,17 +520,17 @@ export type MixinName =
   | 'text-df'
   | 'text-lg';
 
-export type MixinFactory = (
+export type MixinUtil = (
   name: MixinName | MixinName[],
-  properties: DeclarationBlock,
+  properties?: DeclarationBlock,
 ) => DeclarationBlock;
 
 // OTHER
 
-export interface Factories {
-  mixin: MixinFactory;
-  unit: UnitFactory;
-  var: VarFactory;
+export interface Utilities {
+  mixin: MixinUtil;
+  unit: UnitUtil;
+  var: VarUtil;
 }
 
 export interface ThemeOptions {
