@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mixins border 1`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-sm-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-sm-width)",
+}
+`;
+
+exports[`Mixins border 2`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins border 3`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-lg-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-lg-width)",
+}
+`;
+
+exports[`Mixins box 1`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "backgroundColor": "var(--palette-neutral-color-10)",
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-sm-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-sm-width)",
+}
+`;
+
+exports[`Mixins box 2`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "backgroundColor": "var(--palette-neutral-color-10)",
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins box 3`] = `
+Object {
+  ":active": Object {
+    "borderColor": "var(--palette-primary-bg-selected)",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-bg-focused)",
+  },
+  ":hover": Object {
+    "borderColor": "var(--palette-primary-bg-hovered)",
+  },
+  "[disabled]": Object {
+    "borderColor": "var(--palette-primary-bg-disabled)",
+  },
+  "backgroundColor": "var(--palette-neutral-color-10)",
+  "borderColor": "var(--palette-neutral-color-30)",
+  "borderRadius": "var(--border-lg-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-lg-width)",
+}
+`;
+
+exports[`Mixins heading 1`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l1-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l1-letter-spacing)",
+  "lineHeight": "var(--heading-l1-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins heading 2`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l2-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l2-letter-spacing)",
+  "lineHeight": "var(--heading-l2-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins heading 3`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l3-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l3-letter-spacing)",
+  "lineHeight": "var(--heading-l3-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins heading 4`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l4-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l4-letter-spacing)",
+  "lineHeight": "var(--heading-l4-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins heading 5`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l5-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l5-letter-spacing)",
+  "lineHeight": "var(--heading-l5-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins heading 6`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-heading)",
+  "fontSize": "var(--heading-l6-size)",
+  "fontWeight": "normal",
+  "letterSpacing": "var(--heading-l6-letter-spacing)",
+  "lineHeight": "var(--heading-l6-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins pattern 1`] = `
+Object {
+  "display": "none",
+}
+`;
+
+exports[`Mixins pattern 2`] = `
+Object {
+  "clipPath": "rect(1px, 1px, 1px, 1px)",
+  "height": 1,
+  "left": "-5vw",
+  "overflow": "hidden",
+  "position": "fixed",
+  "width": 1,
+}
+`;
+
+exports[`Mixins pattern 3`] = `
+Object {
+  "appearance": "none",
+  "backgroundColor": "transparent",
+  "border": 0,
+  "cursor": "pointer",
+  "display": "inline-block",
+  "fontSize": "inherit",
+  "margin": 0,
+  "padding": 0,
+  "textDecoration": "none",
+  "userSelect": "auto",
+  "verticalAlign": "middle",
+}
+`;
+
+exports[`Mixins pattern 4`] = `
+Object {
+  "::-moz-focus-outer": Object {
+    "border": 0,
+  },
+  "appearance": "none",
+  "backgroundColor": "transparent",
+  "margin": 0,
+  "padding": 0,
+  "width": "100%",
+}
+`;
+
+exports[`Mixins pattern 5`] = `
+Object {
+  "listStyle": "none",
+  "margin": 0,
+  "padding": 0,
+}
+`;
+
+exports[`Mixins pattern 6`] = `
+Object {
+  "fontFamily": "inherit",
+  "fontWeight": "normal",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins pattern 7`] = `
+Object {
+  "overflowWrap": "break-word",
+  "wordBreak": "break-word",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins pattern 8`] = `
+Object {
+  "overflow": "hidden",
+  "textOverflow": "ellipsis",
+  "whiteSpace": "nowrap",
+}
+`;
+
+exports[`Mixins pattern 9`] = `
+Object {
+  "overflowWrap": "normal",
+  "wordBreak": "normal",
+  "wordWrap": "normal",
+}
+`;
+
+exports[`Mixins shadow 1`] = `
+Object {
+  "boxShadow": "var(--shadow-xs-x) var(--shadow-xs-y) var(--shadow-xs-blur) var(--shadow-xs-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins shadow 2`] = `
+Object {
+  "boxShadow": "var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins shadow 3`] = `
+Object {
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins shadow 4`] = `
+Object {
+  "boxShadow": "var(--shadow-lg-x) var(--shadow-lg-y) var(--shadow-lg-blur) var(--shadow-lg-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins shadow 5`] = `
+Object {
+  "boxShadow": "var(--shadow-xl-x) var(--shadow-xl-y) var(--shadow-xl-blur) var(--shadow-xl-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins text 1`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-sm-size)",
+  "fontWeight": "normal",
+  "lineHeight": "var(--text-sm-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins text 2`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-df-size)",
+  "fontWeight": "normal",
+  "lineHeight": "var(--text-df-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins text 3`] = `
+Object {
+  "color": "var(--palette-neutral-color-80)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-lg-size)",
+  "fontWeight": "normal",
+  "lineHeight": "var(--text-lg-line-height)",
+  "wordWrap": "break-word",
+}
+`;

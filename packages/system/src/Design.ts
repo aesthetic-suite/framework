@@ -20,10 +20,7 @@ export default class Design {
 
     this.rootLineHeight = tokens.typography.rootLineHeight;
     this.rootTextSize = parseFloat(tokens.typography.rootTextSize);
-    this.spacingUnit =
-      tokens.spacing.type === 'vertical-rhythm'
-        ? this.rootTextSize * this.rootLineHeight
-        : tokens.spacing.unit;
+    this.spacingUnit = tokens.spacing.unit;
   }
 
   /**
