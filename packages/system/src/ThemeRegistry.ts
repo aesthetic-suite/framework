@@ -6,7 +6,9 @@ export default class ThemeRegistry {
 
   protected defaultLightTheme: string = '';
 
-  protected themes = new Map<ThemeName, Theme>();
+  protected defaultTheme: string = '';
+
+  protected themes: { [name: string]: Theme } = {};
 
   /**
    * Return the default dark theme.
@@ -31,10 +33,12 @@ export default class ThemeRegistry {
     const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
     const prefersHighContrast = window.matchMedia('(prefers-contrast: high)').matches;
     const prefersLowContrast = window.matchMedia('(prefers-contrast: low)').matches;
-    const schemeCheckOrder: ColorScheme[] = ['light', 'dark'];
+    const schemeCheckOrder: ColorScheme[] = [];
 
     if (prefersDarkScheme) {
-      schemeCheckOrder.reverse();
+      schemeCheckOrder.push('dark');
+    } else if (prefersLightScheme) {
+      schemeCheckOrder.push('light');
     }
 
     let possibleTheme: Theme | undefined;
@@ -56,31 +60,20 @@ export default class ThemeRegistry {
       });
     });
 
-    if (possibleTheme) {
-      return possibleTheme;
-    }
-
-    // None found, return a default theme
-    if (prefersLightScheme && this.defaultLightTheme) {
-      return this.getLightTheme();
-    } else if (prefersDarkScheme && this.defaultDarkTheme) {
-      return this.getDarkTheme();
-    }
-
-    throw new Error('Unable to find a preferred theme as no themes have been registered.');
+    return possibleTheme ?? this.getTheme(this.defaultTheme);
   }
 
   /**
    * Return a theme by name or throw an error if not found.
    */
-  getTheme(name: string): Theme {
+  getTheme(name: ThemeName): Theme {
     if (__DEV__) {
       if (!name) {
         throw new Error('Cannot find a theme without a name.');
       }
     }
 
-    const theme = this.themes.get(name);
+    const theme = this.themes[name];
 
     if (theme) {
       return theme;
@@ -93,7 +86,7 @@ export default class ThemeRegistry {
    * Query for a theme that matches the defined parameters.
    */
   query(params: Partial<ThemeOptions>): Theme | undefined {
-    return Array.from(this.themes.values()).find(theme => {
+    return Object.values(this.themes).find(theme => {
       const conditions: boolean[] = [];
 
       if (params.contrast) {
@@ -138,6 +131,10 @@ export default class ThemeRegistry {
       } else {
         this.defaultLightTheme = name;
       }
+
+      if (!this.defaultTheme) {
+        this.defaultTheme = name;
+      }
     }
 
     if (theme.name) {
@@ -149,7 +146,7 @@ export default class ThemeRegistry {
       theme.name = name;
     }
 
-    this.themes.set(name, theme);
+    this.themes[name] = theme;
 
     return this;
   }
@@ -160,6 +157,6 @@ export default class ThemeRegistry {
   reset() {
     this.defaultDarkTheme = '';
     this.defaultLightTheme = '';
-    this.themes.clear();
+    this.themes = {};
   }
 }

@@ -1,5 +1,4 @@
-import Design from '../src/Design';
-import Theme from '../src/Theme';
+import { Design, Theme } from '../src';
 import { design, lightTheme } from '../src/testing';
 
 describe('Design', () => {

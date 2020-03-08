@@ -1,4 +1,4 @@
-import Theme from '../src/Theme';
+import { Theme } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('Theme', () => {
