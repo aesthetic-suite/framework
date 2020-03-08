@@ -187,6 +187,14 @@ describe('Special properties', () => {
     expect(spy).toHaveBeenCalledWith(expect.any(Block), 'listStyle', 'none outside inherit');
   });
 
+  it('formats `margin`', () => {
+    parser.parseBlock(createBlock('margin'), {
+      margin: 5,
+    });
+
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'margin', '5px');
+  });
+
   it('collapses `margin` (2-sided)', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
@@ -268,6 +276,14 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(expect.any(Block), 'outline', '3px dotted green');
+  });
+
+  it('skips `padding`', () => {
+    parser.parseBlock(createBlock('padding'), {
+      padding: '10px',
+    });
+
+    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '10px');
   });
 
   it('collapses `padding` (2-sided)', () => {

@@ -277,18 +277,18 @@ export interface ParserOptions {
 
 // TRANSFORMERS
 
-export type UnitWrapper = (property: string, value: Value | undefined) => string;
+export type UnitWrapper = (property: string, value: Value | undefined) => Value;
 
 export interface TransformerUtils {
   join: (...props: (Value | undefined)[]) => string;
   separate: (...props: (Value | undefined)[]) => string;
-  wrap: (value: Value | undefined) => string;
+  wrap: (value: Value | undefined) => Value;
 }
 
 export type Transformer<T> = (property: T, utils: TransformerUtils) => Value;
 
 export type TransformerHandler<T> = (
-  property: T,
+  property: Value | T,
   wrap: UnitWrapper,
   customTransformer?: Transformer<T>,
 ) => Value;

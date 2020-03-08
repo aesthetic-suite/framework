@@ -273,38 +273,28 @@ export default abstract class Parser<T extends object, E extends object> {
 
     const prop = key as keyof typeof propertyTransformers;
 
-    if (Array.isArray(value) || isObject(value)) {
-      if (prop === 'animationName') {
-        return propertyTransformers.animationName(
-          value as Keyframes,
-          this.wrapValueWithUnit,
-          keyframes => this.parseKeyframes(keyframes.name!, keyframes),
-        );
-      }
-
-      if (prop === 'fontFamily') {
-        return propertyTransformers.fontFamily(
-          value as FontFace,
-          this.wrapValueWithUnit,
-          fontFace => this.parseFontFace(fontFace.fontFamily!, fontFace),
-        );
-      }
-
-      if (propertyTransformers[prop]) {
-        return propertyTransformers[prop](value, this.wrapValueWithUnit);
-      }
-
-      if (__DEV__) {
-        throw new Error(
-          `No property transformer defined for "${key}". Cannot accept arrays or objects.`,
-        );
-      }
+    if (prop === 'animationName') {
+      return propertyTransformers.animationName(
+        value as Keyframes,
+        this.wrapValueWithUnit,
+        keyframes => this.parseKeyframes(keyframes.name!, keyframes),
+      );
     }
 
-    return value as Value;
+    if (prop === 'fontFamily') {
+      return propertyTransformers.fontFamily(value as FontFace, this.wrapValueWithUnit, fontFace =>
+        this.parseFontFace(fontFace.fontFamily!, fontFace),
+      );
+    }
+
+    if (propertyTransformers[prop]) {
+      return propertyTransformers[prop](value as Value, this.wrapValueWithUnit);
+    }
+
+    return this.wrapValueWithUnit(key, value);
   }
 
-  wrapValueWithUnit = (property: string, value: unknown): string => {
+  wrapValueWithUnit = (property: string, value: unknown): Value => {
     if (value === undefined) {
       return '';
     }
@@ -314,7 +304,7 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     if (isUnitlessProperty(property) || value === 0) {
-      return String(value);
+      return Number(value);
     }
 
     return value + this.options.unit;

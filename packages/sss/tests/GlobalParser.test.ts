@@ -109,7 +109,7 @@ describe('GlobalParser', () => {
         createBlock('@global', {
           height: '100%',
           margin: 0,
-          fontSize: 16,
+          fontSize: '16px',
           lineHeight: 1.5,
           backgroundColor: 'white',
           '@media (prefers-color-scheme: dark)': {

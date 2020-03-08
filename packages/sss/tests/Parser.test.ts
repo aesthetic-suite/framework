@@ -1,7 +1,7 @@
 import LocalParser from '../src/LocalParser';
 import { KEYFRAMES_PERCENT } from './__mocks__/global';
 
-describe('Renderer', () => {
+describe('Parser', () => {
   let parser: LocalParser<object>;
 
   beforeEach(() => {
@@ -40,18 +40,6 @@ describe('Renderer', () => {
     it('returns undefined if undefined', () => {
       expect(parser.transformProperty('display', undefined)).toBeUndefined();
     });
-
-    it('errors if value is an array and not a compound property', () => {
-      expect(() => {
-        parser.transformProperty('color', ['red']);
-      }).toThrow('No property transformer defined for "color". Cannot accept arrays or objects.');
-    });
-
-    it('errors if value is an object and not a compound property', () => {
-      expect(() => {
-        parser.transformProperty('color', { foo: 'red' });
-      }).toThrow('No property transformer defined for "color". Cannot accept arrays or objects.');
-    });
   });
 
   describe('wrapValueWithUnit()', () => {
@@ -66,11 +54,11 @@ describe('Renderer', () => {
     });
 
     it('does nothing to zeros', () => {
-      expect(parser.wrapValueWithUnit('width', 0)).toBe('0');
+      expect(parser.wrapValueWithUnit('width', 0)).toBe(0);
     });
 
     it('does nothing to unitless properties', () => {
-      expect(parser.wrapValueWithUnit('lineHeight', 1.5)).toBe('1.5');
+      expect(parser.wrapValueWithUnit('lineHeight', 1.5)).toBe(1.5);
     });
 
     it('does nothing if a unit already exists', () => {
@@ -83,7 +71,8 @@ describe('Renderer', () => {
     });
 
     it('can customize unit', () => {
-      parser = new LocalParser({}, { unit: 'em' });
+      // @ts-ignore Allow
+      parser.options.unit = 'em';
 
       expect(parser.wrapValueWithUnit('width', 100)).toBe('100em');
     });

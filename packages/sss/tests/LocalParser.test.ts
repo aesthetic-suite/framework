@@ -13,6 +13,7 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_MEDIA,
   SYNTAX_MEDIA_NESTED,
+  SYNTAX_LOCAL_BLOCK,
 } from './__mocks__/local';
 
 describe('LocalParser', () => {
@@ -40,6 +41,25 @@ describe('LocalParser', () => {
       });
     }).toThrow(
       'Invalid declaration for "el". Must be an object (style declaration) or string (class name).',
+    );
+  });
+
+  it('renders a full block', () => {
+    parser.on('ruleset', spy);
+    parser.parse({
+      selector: SYNTAX_LOCAL_BLOCK,
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      'selector',
+      createBlock('selector', {
+        ...SYNTAX_LOCAL_BLOCK,
+        borderRadius: '4px',
+        '::before': {
+          ...SYNTAX_LOCAL_BLOCK['::before'],
+          marginRight: '5px',
+        },
+      }),
     );
   });
 
@@ -74,7 +94,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'color', 'black');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', 'inline');
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', 10);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', '10px');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', 0);
     });
 
@@ -245,7 +265,7 @@ describe('LocalParser', () => {
         '(min-width: 300px)',
         createBlock('@media (min-width: 300px)', {
           color: 'blue',
-          paddingLeft: 15,
+          paddingLeft: '15px',
         }),
       );
 
@@ -254,7 +274,7 @@ describe('LocalParser', () => {
         '(max-width: 1000px)',
         createBlock('@media (max-width: 1000px)', {
           color: 'green',
-          paddingLeft: 20,
+          paddingLeft: '20px',
         }),
       );
     });

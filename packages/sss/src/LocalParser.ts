@@ -11,10 +11,8 @@ export interface LocalEvents<T extends object> extends CommonEvents<T> {
 }
 
 export default class LocalParser<T extends object> extends Parser<T, LocalEvents<T>> {
-  parse(styleSheet: LocalStyleSheet, options?: ParserOptions) {
-    if (options) {
-      Object.assign(this.options, options);
-    }
+  parse(styleSheet: LocalStyleSheet, options: ParserOptions = {}) {
+    Object.assign(this.options, options);
 
     objectLoop(styleSheet, (declaration, selector) => {
       // At-rule

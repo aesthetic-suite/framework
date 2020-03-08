@@ -18,10 +18,8 @@ export interface GlobalEvents<T extends object> extends CommonEvents<T> {
 }
 
 export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
-  parse(styleSheet: GlobalStyleSheet, options?: ParserOptions) {
-    if (options) {
-      Object.assign(this.options, options);
-    }
+  parse(styleSheet: GlobalStyleSheet, options: ParserOptions = {}) {
+    Object.assign(this.options, options);
 
     this.parseFontFacesMap(styleSheet['@font-face']);
     this.parseGlobal(styleSheet['@global']);
