@@ -348,4 +348,30 @@ describe('Styles', () => {
       expect(getInsertedStyles('conditions')).toMatchSnapshot();
     });
   });
+
+  describe('css variables', () => {
+    const rule = {
+      display: 'block',
+      color: 'var(--color)',
+      '--color': 'red',
+      '--font-size': '14px',
+    };
+
+    it('includes variables in rule when using a rule group', () => {
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('a');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('warns about variables when using a non-grouped rule', () => {
+      const className = renderer.renderRule(rule);
+
+      expect(className).toBe('a b');
+      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(spy).toHaveBeenCalledWith(
+        'CSS variables are only accepted within rule groups. Found "--color" variable.',
+      );
+    });
+  });
 });

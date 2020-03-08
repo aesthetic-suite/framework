@@ -39,6 +39,7 @@ import {
   RenderParams,
   StyleRule,
 } from './types';
+import isCssVariable from './helpers/isCssVariable';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -51,8 +52,6 @@ const DEFAULT_PARAMS: Required<RenderParams> = {
   selector: '',
   type: 'standard',
 };
-
-type OnNestedRule = (properties: Rule, params: RenderParams) => ClassName;
 
 export default abstract class Renderer {
   ruleIndex = 0;
@@ -140,8 +139,8 @@ export default abstract class Renderer {
 
     // Format and insert the rule
     const rule = formatRule(
-      this.processProperties({ [key]: val }, { prefix: params.prefix }),
       params.selector,
+      this.processProperties({ [key]: val }, { prefix: params.prefix }),
     );
 
     const className =
@@ -216,18 +215,28 @@ export default abstract class Renderer {
    */
   renderRuleGrouped = (properties: Rule, params: RenderParams = {}): ClassName => {
     const nestedRules: { [selector: string]: Rule } = {};
+    const cssVariables: CSSVariables = {};
     const nextProperties: GenericProperties = {};
 
     // Extract all nested rules first as we need to process them *after* properties
     objectLoop<Rule, Property>(properties, (value, prop) => {
-      if (isObject(value)) {
+      if (isInvalidValue(value)) {
+        // Skip
+      } else if (isObject(value)) {
         nestedRules[prop] = value;
-      } else if (!isInvalidValue(value)) {
+      } else if (isCssVariable(prop)) {
+        cssVariables[prop] = value!;
+      } else {
         nextProperties[prop] = value!;
       }
     });
 
-    const rule = formatRule(this.processProperties(nextProperties, params), params.selector);
+    const rule = formatRule(
+      params.selector,
+      this.processProperties(nextProperties, params),
+      cssVariables,
+    );
+
     const hash = this.generateDeterministicClassName(rule, params.conditions);
     const className = params.className || (params.deterministic ? hash : this.generateClassName());
 
@@ -323,7 +332,7 @@ export default abstract class Renderer {
   protected processRule(
     rule: Rule,
     params: RenderParams,
-    onNestedRule: OnNestedRule,
+    onNestedRule: (properties: Rule, params: RenderParams) => ClassName,
     processProperty: boolean = false,
   ) {
     const classNames = new Set<string>();
@@ -364,6 +373,14 @@ export default abstract class Renderer {
           // Unknown
         } else if (__DEV__) {
           console.warn(`Unknown property selector or nested block "${prop}".`);
+        }
+
+        // Handle CSS variables
+      } else if (isCssVariable(prop)) {
+        if (__DEV__) {
+          console.warn(
+            `CSS variables are only accepted within rule groups. Found "${prop}" variable.`,
+          );
         }
 
         // Property value pair
