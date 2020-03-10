@@ -163,7 +163,7 @@ export default class Aesthetic {
    * Render a global theme style sheet and return a class name, if one was generated.
    */
   renderThemeStyles = (theme: Theme): ClassName => {
-    const sheet = this.globalSheetRegistry.get(name);
+    const sheet = this.globalSheetRegistry.get(theme.name);
 
     if (!sheet) {
       return '';
