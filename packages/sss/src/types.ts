@@ -3,6 +3,8 @@ import Block from './Block';
 
 export type Value = string | number;
 
+export type MaybeValue = Value | undefined;
+
 // PROPERTIES
 
 export interface AnimationProperty {
@@ -283,12 +285,12 @@ export interface ParserOptions {
 
 // TRANSFORMERS
 
-export type UnitWrapper = (property: string, value: Value | undefined) => Value;
+export type UnitWrapper = (property: string, value: MaybeValue) => Value;
 
 export interface TransformerUtils {
-  join: (...props: (Value | undefined)[]) => string;
-  separate: (...props: (Value | undefined)[]) => string;
-  wrap: (value: Value | undefined) => Value;
+  join: (...props: MaybeValue[]) => string;
+  separate: (...props: MaybeValue[]) => string;
+  wrap: (value: MaybeValue) => Value;
 }
 
 export type Transformer<T> = (property: T, utils: TransformerUtils) => Value;

@@ -42,6 +42,37 @@ describe('GlobalSheet', () => {
     }));
   });
 
+  it('errors if a non-function factory is passed', () => {
+    expect(
+      () =>
+        new GlobalSheet(
+          // @ts-ignore Allow
+          123,
+        ),
+    ).toThrow('A style sheet factory function is required, found "number".');
+  });
+
+  it('only renders once when cached', () => {
+    const spy = jest.spyOn(sheet, 'compose');
+
+    sheet.render(renderer, lightTheme, {});
+    sheet.render(renderer, lightTheme, {});
+    sheet.render(renderer, lightTheme, {});
+
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('re-renders when params change', () => {
+    const spy = jest.spyOn(sheet, 'compose');
+
+    sheet.render(renderer, lightTheme, {});
+    sheet.render(renderer, lightTheme, { direction: 'rtl' });
+    sheet.render(renderer, lightTheme, {});
+    sheet.render(renderer, lightTheme, { direction: 'rtl' });
+
+    expect(spy).toHaveBeenCalledTimes(2);
+  });
+
   it('renders @font-face', () => {
     const spy = jest.spyOn(renderer, 'renderFontFace');
 

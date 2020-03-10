@@ -5,7 +5,7 @@ import {
   LocalStyleSheetNeverize,
 } from '@aesthetic/sss';
 import { ClassName as BaseClassName } from '@aesthetic/style';
-import { ColorScheme, ContrastLevel, Tokens, ThemeName, Utilities } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel, Tokens, ThemeName, Utilities, Unit } from '@aesthetic/system';
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
 
@@ -21,7 +21,7 @@ export interface SheetParams {
   prefix?: boolean;
   scheme?: ColorScheme;
   theme?: ThemeName;
-  unit?: string;
+  unit?: Unit;
 }
 
 export type GlobalSheetFactory<T = unknown> = (
@@ -35,7 +35,7 @@ export type LocalSheetFactory<T = unknown> = (
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
 export interface AestheticOptions {
-  defaultUnit?: string;
+  defaultUnit?: Unit;
   deterministicClasses?: boolean;
   vendorPrefixes?: boolean;
 }

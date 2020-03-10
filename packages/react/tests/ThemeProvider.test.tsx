@@ -205,8 +205,8 @@ describe('ThemeProvider', () => {
         </ThemeProvider>,
       );
 
-      expect(renderThemeStyles).toHaveBeenCalledWith(darkTheme); // Initial
-      expect(renderThemeStyles).toHaveBeenCalledWith(lightTheme); // Rerender
+      expect(renderThemeStyles).toHaveBeenCalledWith(darkTheme, { direction: 'ltr' }); // Initial
+      expect(renderThemeStyles).toHaveBeenCalledWith(lightTheme, { direction: 'ltr' }); // Rerender
     });
 
     it('doesnt call `changeTheme` if inner `name` changes', () => {

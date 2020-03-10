@@ -15,7 +15,6 @@ import {
   GlobalSheetFactory,
   SheetParams,
   AestheticOptions,
-  Direction,
 } from './types';
 
 // TODO
@@ -128,7 +127,7 @@ export default class Aesthetic {
   /**
    * Render a component style sheet to the document with the defined style query parameters.
    */
-  renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, params: SheetParams) => {
+  renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, params: SheetParams = {}) => {
     if (__DEV__) {
       if (!(sheet instanceof LocalSheet)) {
         throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
@@ -161,7 +160,7 @@ export default class Aesthetic {
   /**
    * Render a global theme style sheet and return a class name, if one was generated.
    */
-  renderThemeStyles = (theme: Theme): ClassName => {
+  renderThemeStyles = (theme: Theme, params: SheetParams = {}): ClassName => {
     const sheet = this.globalSheetRegistry.get(theme.name);
 
     if (!sheet) {
@@ -169,9 +168,9 @@ export default class Aesthetic {
     }
 
     return sheet.render(this.renderer, theme, {
-      direction: (document.documentElement.getAttribute('dir') as Direction) || 'ltr',
       prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
+      ...params,
     });
   };
 

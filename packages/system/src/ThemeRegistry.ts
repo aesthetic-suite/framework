@@ -60,7 +60,13 @@ export default class ThemeRegistry {
       });
     });
 
-    return possibleTheme ?? this.getTheme(this.defaultTheme);
+    if (possibleTheme) {
+      return possibleTheme;
+    } else if (this.defaultTheme) {
+      return this.getTheme(this.defaultTheme);
+    }
+
+    throw new Error('No themes have been registered.');
   }
 
   /**
@@ -131,10 +137,6 @@ export default class ThemeRegistry {
       } else {
         this.defaultLightTheme = name;
       }
-
-      if (!this.defaultTheme) {
-        this.defaultTheme = name;
-      }
     }
 
     if (theme.name) {
@@ -144,6 +146,10 @@ export default class ThemeRegistry {
     } else {
       // eslint-disable-next-line no-param-reassign
       theme.name = name;
+    }
+
+    if (!this.defaultTheme) {
+      this.defaultTheme = name;
     }
 
     this.themes[name] = theme;

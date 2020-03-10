@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { changeTheme, getActiveTheme, getTheme, renderThemeStyles } from '@aesthetic/core';
 import ThemeContext from './ThemeContext';
+import useDirection from './useDirection';
 import { ThemeProviderProps } from './types';
 
 /**
@@ -11,6 +12,7 @@ export default function ThemeProvider({ children, name = '' }: ThemeProviderProp
   const contextual = useContext(ThemeContext) !== null;
   const [themeName, setThemeName] = useState(name);
   const [className, setClassName] = useState('');
+  const direction = useDirection();
   const theme = themeName ? getTheme(themeName) : getActiveTheme();
 
   if (__DEV__) {
@@ -33,9 +35,9 @@ export default function ThemeProvider({ children, name = '' }: ThemeProviderProp
 
   useEffect(() => {
     if (contextual) {
-      setClassName(renderThemeStyles(theme));
+      setClassName(renderThemeStyles(theme, { direction }));
     }
-  }, [theme, contextual]);
+  }, [theme, contextual, direction]);
 
   const content = <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 
