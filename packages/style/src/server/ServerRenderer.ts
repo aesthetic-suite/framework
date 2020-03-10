@@ -4,7 +4,7 @@ import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
 import StandardStyleSheet from '../StandardStyleSheet';
 import TransientStyleRule from './TransientStyleRule';
-import formatCssVariableName from '../helpers/formatCssVariableName';
+import formatVariableName from '../helpers/formatVariableName';
 import { STYLE_RULE } from '../constants';
 import { CSSVariables } from '../types';
 
@@ -17,7 +17,7 @@ export default class ServerRenderer extends Renderer {
 
   applyRootVariables(vars: CSSVariables) {
     objectLoop(vars, (value, key) => {
-      this.globalStyleSheet.sheet.cssVariables[formatCssVariableName(key)] = String(value);
+      this.globalStyleSheet.sheet.cssVariables[formatVariableName(key)] = String(value);
     });
   }
 }

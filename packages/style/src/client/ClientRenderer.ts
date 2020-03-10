@@ -3,7 +3,7 @@ import Renderer from '../Renderer';
 import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
 import StandardStyleSheet from '../StandardStyleSheet';
-import formatCssVariableName from '../helpers/formatCssVariableName';
+import formatVariableName from '../helpers/formatVariableName';
 import getDocumentStyleSheet from '../helpers/getDocumentStyleSheet';
 import { SheetType, StyleRule, CSSVariables } from '../types';
 
@@ -22,7 +22,7 @@ export default class ClientRenderer extends Renderer {
     const root = document.documentElement;
 
     objectLoop(vars, (value, key) => {
-      root.style.setProperty(formatCssVariableName(key), String(value));
+      root.style.setProperty(formatVariableName(key), String(value));
     });
   }
 }

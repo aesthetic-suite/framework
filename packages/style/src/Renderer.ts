@@ -19,6 +19,7 @@ import isMediaRule from './helpers/isMediaRule';
 import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
+import isVariable from './helpers/isVariable';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
@@ -39,7 +40,6 @@ import {
   RenderParams,
   StyleRule,
 } from './types';
-import isCssVariable from './helpers/isCssVariable';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -228,7 +228,7 @@ export default abstract class Renderer {
         // Skip
       } else if (isObject(value)) {
         nestedRules[prop] = value;
-      } else if (isCssVariable(prop)) {
+      } else if (isVariable(prop)) {
         cssVariables[prop] = value!;
       } else {
         nextProperties[prop] = value!;
@@ -380,7 +380,7 @@ export default abstract class Renderer {
         }
 
         // Handle CSS variables
-      } else if (isCssVariable(prop)) {
+      } else if (isVariable(prop)) {
         if (__DEV__) {
           console.warn(
             `CSS variables are only accepted within rule groups. Found "${prop}" variable.`,

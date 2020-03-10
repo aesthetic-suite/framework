@@ -1,8 +1,9 @@
 import formatConditions from './formatConditions';
-import formatCssVariableName from './formatCssVariableName';
 import formatDeclaration from './formatDeclaration';
 import formatDeclarationBlock from './formatDeclarationBlock';
 import formatRule from './formatRule';
+import formatVariable from './formatVariable';
+import formatVariableName from './formatVariableName';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
 import getInsertedStyles from './getInsertedStyles';
 import isAtRule from './isAtRule';
@@ -14,10 +15,11 @@ import isSupportsRule from './isSupportsRule';
 
 export {
   formatConditions,
-  formatCssVariableName,
   formatDeclaration,
   formatDeclarationBlock,
   formatRule,
+  formatVariable,
+  formatVariableName,
   getDocumentStyleSheet,
   getInsertedStyles,
   isAtRule,
