@@ -10,16 +10,16 @@ import { DirectionProviderProps } from './types';
  */
 export default function DirectionProvider({
   children,
-  dir,
+  direction,
   inline,
   value,
 }: DirectionProviderProps) {
   const Tag = inline ? 'span' : 'div';
-  const direction: Direction = dir || getDirection(value) || 'ltr';
+  const dir: Direction = direction || getDirection(value) || 'ltr';
 
   return (
-    <DirectionContext.Provider value={direction}>
-      <Tag dir={direction}>{children}</Tag>
+    <DirectionContext.Provider value={dir}>
+      <Tag dir={dir}>{children}</Tag>
     </DirectionContext.Provider>
   );
 }

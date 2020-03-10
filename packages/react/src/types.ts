@@ -15,7 +15,7 @@ export type DirectionContextType = Direction;
 export interface DirectionProviderProps {
   children: NonNullable<React.ReactNode>;
   /** Explicit direction to use. */
-  dir?: Exclude<Direction, 'neutral'>;
+  direction?: Exclude<Direction, 'neutral'>;
   /** Render an inline element instead of block. */
   inline?: boolean;
   /** Locale aware string to deduce the direction from. */
@@ -28,8 +28,6 @@ export interface ThemeProviderProps {
   children: NonNullable<React.ReactNode>;
   /** Theme to activate. */
   name?: ThemeName;
-  /** Provider is being rendered at the root of the application. */
-  root?: boolean;
 }
 
 // HOCs
@@ -38,26 +36,27 @@ export interface WrapperComponent {
   WrappedComponent: React.ComponentType<any>;
 }
 
-export interface WithThemeWrapperProps {
-  /** Gain a reference to the wrapped component. Provided by `withTheme`. */
+export interface WrapperProps {
+  /** Gain a reference to the wrapped component. */
   wrappedRef?: React.Ref<any>;
 }
 
-export interface WithThemeWrappedProps {
-  /** The ref passed by the `wrappedRef` prop. Provided by `withTheme`. */
+export interface WrappedProps {
+  /** The ref passed by the `wrappedRef` prop. */
   ref?: React.Ref<any>;
+}
+
+export interface WithDirectionWrappedProps extends WrappedProps {
+  /** The current direction. Provided by `withDirection`. */
+  direction: Direction;
+}
+
+export interface WithThemeWrappedProps extends WrappedProps {
   /** The theme object. Provided by `withTheme`. */
   theme: Theme;
 }
 
-export interface WithStylesWrapperProps {
-  /** Gain a reference to the wrapped component. Provided by `withStyles`. */
-  wrappedRef?: React.Ref<any>;
-}
-
-export interface WithStylesWrappedProps<T extends string> {
-  /** Function to transform styles into CSS class names. Provided by `withStyles`. */
+export interface WithStylesWrappedProps<T extends string> extends WrappedProps {
+  /** Function generate CSS class names from a style sheet. Provided by `withStyles`. */
   cx: ClassNameGenerator<T>;
-  /** The ref passed by the `wrappedRef` prop. Provided by `withStyles`. */
-  ref?: React.Ref<any>;
 }

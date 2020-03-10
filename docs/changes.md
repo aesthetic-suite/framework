@@ -26,6 +26,7 @@ EVERYTHING!
 ## Breaking
 
 - Styles must now be created with `createComponentStyles`.
+- `DirectionProvider` prop `dir` is now `direction`.
 - `useStyles` only returns the `cx` function.
 - `useTheme` returns the new theme object.
 - `withStyles` and `withTheme` no longer accepts options.

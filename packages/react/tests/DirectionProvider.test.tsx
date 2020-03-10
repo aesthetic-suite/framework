@@ -37,7 +37,7 @@ describe('DirectionProvider', () => {
 
   it('renders `ltr` explicitly with `dir`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider dir="ltr">
+      <DirectionProvider direction="ltr">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -47,7 +47,7 @@ describe('DirectionProvider', () => {
 
   it('renders `rtl` explicitly with `dir`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider dir="rtl">
+      <DirectionProvider direction="rtl">
         <section>Content</section>
       </DirectionProvider>,
     );
@@ -57,7 +57,7 @@ describe('DirectionProvider', () => {
 
   it('renders `dir` over `value`', () => {
     const { root } = render<DirectionProviderProps>(
-      <DirectionProvider dir="rtl" value="Hello!">
+      <DirectionProvider direction="rtl" value="Hello!">
         <section>Content</section>
       </DirectionProvider>,
     );

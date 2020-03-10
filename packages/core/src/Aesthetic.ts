@@ -19,7 +19,6 @@ import {
 } from './types';
 
 // TODO
-// contextual themeing
 // theme specific `style` elements
 
 function createRenderer(): Renderer {

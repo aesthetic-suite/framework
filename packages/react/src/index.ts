@@ -11,6 +11,7 @@ import ThemeProvider from './ThemeProvider';
 import useDirection from './useDirection';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
+import withDirection from './withDirection';
 import withStyles from './withStyles';
 import withTheme from './withTheme';
 
@@ -26,6 +27,7 @@ export {
   useDirection,
   useStyles,
   useTheme,
+  withDirection,
   withStyles,
   withTheme,
 };
