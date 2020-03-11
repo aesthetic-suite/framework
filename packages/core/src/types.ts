@@ -3,6 +3,7 @@ import {
   GlobalStyleSheetNeverize,
   LocalStyleSheet,
   LocalStyleSheetNeverize,
+  LocalBlock,
 } from '@aesthetic/sss';
 import { ClassName as BaseClassName } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Tokens, ThemeName, Utilities, Unit } from '@aesthetic/system';
@@ -25,12 +26,12 @@ export interface SheetParams {
 }
 
 export type GlobalSheetFactory<T = unknown> = (
-  utils: Utilities,
+  utils: Utilities<LocalBlock>,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type LocalSheetFactory<T = unknown> = (
-  utils: Utilities,
+  utils: Utilities<LocalBlock>,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 

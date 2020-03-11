@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('At-rules', () => {
   let renderer: Renderer;
@@ -45,7 +44,7 @@ describe('At-rules', () => {
       },
     });
 
-    expect(getInsertedStyles('global')).toMatchSnapshot();
+    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   it('inserts at-rules before standard rules', () => {
@@ -58,7 +57,7 @@ describe('At-rules', () => {
       src: 'url("fonts/OpenSans-Bold.woff2")',
     });
 
-    expect(getInsertedStyles('global')).toMatchSnapshot();
+    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   describe('@font-face', () => {
@@ -71,7 +70,7 @@ describe('At-rules', () => {
       });
 
       expect(name).toBe('"Open Sans"');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('errors if no family name provided', () => {
@@ -93,7 +92,7 @@ describe('At-rules', () => {
       renderer.renderImport('"common.css" screen;'); // Ends in semicolon
       renderer.renderImport("url('landscape.css') screen and (orientation: landscape)");
 
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
 
@@ -109,7 +108,7 @@ describe('At-rules', () => {
       });
 
       expect(name).toBe('kf103rcyx');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('renders percentage based and returns animation name', () => {
@@ -121,7 +120,7 @@ describe('At-rules', () => {
       });
 
       expect(name).toBe('kf22exw8');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('can provide a custom animation name', () => {
@@ -138,7 +137,7 @@ describe('At-rules', () => {
       );
 
       expect(name).toBe('fade');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('supports ltr and rtl', () => {
@@ -168,7 +167,7 @@ describe('At-rules', () => {
 
       expect(ltr).toBe('kf1lt4056');
       expect(rtl).toBe('kf944ipm');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
 });

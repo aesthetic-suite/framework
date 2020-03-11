@@ -98,7 +98,7 @@ export default class Theme {
    * Merge one or many mixins into the defined properties.
    * Properties take the highest precendence and will override mixin declarations.
    */
-  mixin: MixinUtil = (names, properties = {}) =>
+  mixin: MixinUtil<object> = (names, properties = {}) =>
     deepMerge(...toArray(names).map(name => this.extendMixin(name)), properties);
 
   /**
@@ -121,12 +121,12 @@ export default class Theme {
   /**
    * Return a mapping of all theme specific utility methods.
    */
-  toUtilities(): Utilities {
-    return {
+  toUtilities<T extends object>(): Utilities<T> {
+    return ({
       mixin: this.mixin,
       unit: this.unit,
       var: this.var,
-    };
+    } as unknown) as Utilities<T>;
   }
 
   /**

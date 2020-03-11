@@ -5,7 +5,7 @@ import formatRule from './formatRule';
 import formatVariable from './formatVariable';
 import formatVariableName from './formatVariableName';
 import getDocumentStyleSheet from './getDocumentStyleSheet';
-import getInsertedStyles from './getInsertedStyles';
+import getStyleElement from './getStyleElement';
 import isAtRule from './isAtRule';
 import isImportRule from './isImportRule';
 import isInvalidValue from './isInvalidValue';
@@ -21,7 +21,7 @@ export {
   formatVariable,
   formatVariableName,
   getDocumentStyleSheet,
-  getInsertedStyles,
+  getStyleElement,
   isAtRule,
   isImportRule,
   isInvalidValue,

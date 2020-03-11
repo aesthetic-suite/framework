@@ -4,9 +4,7 @@
 import React from 'react';
 import { ClassName, Direction, Theme, ThemeName, StringOnly } from '@aesthetic/core';
 
-export type ClassNameGenerator<T> = (
-  ...keys: (undefined | null | false | StringOnly<T>)[]
-) => ClassName;
+export type ClassNameGenerator<T> = (...keys: (undefined | null | false | T)[]) => ClassName;
 
 // CONTEXT
 

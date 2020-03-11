@@ -1,10 +1,7 @@
 /* eslint-disable unicorn/prefer-modern-dom-apis */
 
+import getStyleElement from './getStyleElement';
 import { SheetType } from '../types';
-
-export function getStyleElement(type: SheetType): HTMLStyleElement | null {
-  return document.getElementById(`aesthetic-${type}`) as HTMLStyleElement;
-}
 
 // Elements should be in the order of: global, standard, media
 function insertInOrder(type: SheetType, style: HTMLStyleElement) {

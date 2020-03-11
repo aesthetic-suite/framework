@@ -146,7 +146,9 @@ export default class Aesthetic {
       }
     }
 
-    return sheet.render(this.renderer, this.getActiveTheme(), {
+    const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
+
+    return sheet.render(this.renderer, theme, {
       prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
       ...params,

@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('Specificity', () => {
   let renderer: Renderer;
@@ -22,7 +21,7 @@ describe('Specificity', () => {
       width: '50px',
     });
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('inserts declarations in the order they are defined (reversed)', () => {
@@ -32,7 +31,7 @@ describe('Specificity', () => {
       margin: 0,
     });
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('inserts selectors in the order they are defined', () => {
@@ -46,7 +45,7 @@ describe('Specificity', () => {
       },
     });
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('inserts selectors in the order they are defined (reversed)', () => {
@@ -60,7 +59,7 @@ describe('Specificity', () => {
       },
     });
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   describe('rule sets', () => {
@@ -86,7 +85,7 @@ describe('Specificity', () => {
       const className = renderer.renderRuleSets(ruleSet);
 
       expect(className).toBe('a b c d e f');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('renders in a explicit order', () => {
@@ -97,7 +96,7 @@ describe('Specificity', () => {
       ]);
 
       expect(className).toBe('a b c d e f');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('renders the same class names from previous render', () => {
@@ -106,31 +105,31 @@ describe('Specificity', () => {
 
       expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('can omit sets', () => {
       const className = renderer.renderRuleSets(ruleSet, ['buttonActive']);
 
       expect(className).toBe('a');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('can render set by set', () => {
       const a = renderer.renderRuleSets(ruleSet, ['buttonActive']);
 
       expect(a).toBe('a');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
 
       const b = renderer.renderRuleSets(ruleSet, ['button']);
 
       expect(b).toBe('b c d e');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
 
       const c = renderer.renderRuleSets(ruleSet, ['buttonDisabled']);
 
       expect(c).toBe('f');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 });

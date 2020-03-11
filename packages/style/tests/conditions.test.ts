@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('Conditions', () => {
   let renderer: Renderer;
@@ -29,8 +28,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b c d');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @supports', () => {
@@ -44,8 +43,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('sorts media queries using mobile-first', () => {
@@ -69,7 +68,7 @@ describe('Conditions', () => {
         '@media screen and (max-width: 1023px)': block,
       });
 
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('sorts media queries using desktop-first', () => {
@@ -96,7 +95,7 @@ describe('Conditions', () => {
         '@media screen and (max-width: 1023px)': block,
       });
 
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
   });
 
@@ -110,8 +109,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @media', () => {
@@ -125,8 +124,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
   });
 });

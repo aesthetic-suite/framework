@@ -520,15 +520,12 @@ export type MixinName =
   | 'text-df'
   | 'text-lg';
 
-export type MixinUtil = (
-  name: MixinName | MixinName[],
-  properties?: DeclarationBlock,
-) => DeclarationBlock;
+export type MixinUtil<T extends object> = (name: MixinName | MixinName[], properties?: T) => T;
 
 // OTHER
 
-export interface Utilities {
-  mixin: MixinUtil;
+export interface Utilities<T extends object> {
+  mixin: MixinUtil<T>;
   unit: UnitUtil;
   var: VarUtil;
 }
