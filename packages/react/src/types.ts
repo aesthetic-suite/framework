@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from 'react';
-import { ClassName, Direction, Theme, ThemeName } from '@aesthetic/core';
+import { ClassName, Direction, Theme, ThemeName, StringOnly } from '@aesthetic/core';
 
-export type ClassNameGenerator<T extends string> = (
-  ...keys: (undefined | false | T)[]
+export type ClassNameGenerator<T> = (
+  ...keys: (undefined | null | false | StringOnly<T>)[]
 ) => ClassName;
 
 // CONTEXT
@@ -56,7 +56,7 @@ export interface WithThemeWrappedProps extends WrappedProps {
   theme: Theme;
 }
 
-export interface WithStylesWrappedProps<T extends string> extends WrappedProps {
+export interface WithStylesWrappedProps<T> extends WrappedProps {
   /** Function generate CSS class names from a style sheet. Provided by `withStyles`. */
   cx: ClassNameGenerator<T>;
 }

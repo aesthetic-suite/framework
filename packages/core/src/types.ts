@@ -11,7 +11,7 @@ export type Direction = 'neutral' | 'ltr' | 'rtl';
 
 export type ClassName = BaseClassName;
 
-export type ClassNameSheet<T extends string> = { [K in T]: ClassName };
+export type ClassNameSheet<T extends string> = { [K in T]?: ClassName };
 
 export type StringOnly<T> = T extends string ? string : never;
 

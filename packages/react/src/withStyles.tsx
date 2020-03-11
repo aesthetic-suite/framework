@@ -1,6 +1,6 @@
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { LocalSheet, StringOnly } from '@aesthetic/core';
+import { LocalSheet } from '@aesthetic/core';
 import useStyles from './useStyles';
 import { WithStylesWrappedProps, WrapperProps, WrapperComponent } from './types';
 
@@ -8,10 +8,8 @@ import { WithStylesWrappedProps, WrapperProps, WrapperComponent } from './types'
  * Wrap a React component with an HOC that injects the style to class name transfer function.
  */
 export default function withStyles<T = unknown>(factory: LocalSheet<T>) /* infer */ {
-  type StringKeys = StringOnly<keyof T>;
-
   return function withStylesComposer<Props extends object = {}>(
-    WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<StringKeys>>,
+    WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<keyof T>>,
   ): React.NamedExoticComponent<Props & WrapperProps> & WrapperComponent {
     const WithStyles = React.memo(function WithStyles({
       wrappedRef,

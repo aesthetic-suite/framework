@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
-import { LocalSheet, renderComponentStyles, StringOnly, ClassNameSheet } from '@aesthetic/core';
+import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
 import { arrayReduce } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
@@ -10,9 +10,7 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
 /**
  * Hook within a component to provide a style sheet.
  */
-export default function useStyles<T = unknown>(
-  sheet: LocalSheet<T>,
-): ClassNameGenerator<StringOnly<keyof T>> {
+export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameGenerator<keyof T> {
   const direction = useDirection();
   const theme = useTheme();
   const [classNames, setClassNames] = useState<ClassNameSheet<string>>({});
