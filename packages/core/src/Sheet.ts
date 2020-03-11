@@ -3,7 +3,7 @@ import { Theme } from '@aesthetic/system';
 import { SheetParams } from './types';
 
 export default abstract class Sheet<T> {
-  protected renderedQueries: { [key: string]: T } = {};
+  protected renderCache: { [key: string]: T } = {};
 
   /**
    * Factory and render the style sheet to the document.
@@ -19,7 +19,7 @@ export default abstract class Sheet<T> {
       ...baseParams,
     };
     const key = JSON.stringify(params);
-    const cache = this.renderedQueries[key];
+    const cache = this.renderCache[key];
 
     if (cache) {
       return cache;
@@ -27,7 +27,7 @@ export default abstract class Sheet<T> {
 
     const result = this.doRender(renderer, theme, params);
 
-    this.renderedQueries[key] = result;
+    this.renderCache[key] = result;
 
     return result;
   }

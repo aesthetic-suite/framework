@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { changeTheme, getActiveTheme, getTheme, renderThemeStyles } from '@aesthetic/core';
+import {
+  changeTheme,
+  getActiveTheme,
+  getTheme,
+  renderThemeStyles,
+  subscribe,
+  unsubscribe,
+} from '@aesthetic/core';
 import ThemeContext from './ThemeContext';
 import useDirection from './useDirection';
 import { ThemeProviderProps } from './types';
@@ -23,16 +30,27 @@ export default function ThemeProvider({ children, name = '' }: ThemeProviderProp
     }
   }
 
+  // Listen to theme changes that occur outside of the provider
+  useEffect(() => {
+    subscribe('change:theme', setThemeName);
+
+    return () => {
+      unsubscribe('change:theme', setThemeName);
+    };
+  }, []);
+
+  // Update state when the `name` prop changes
   useEffect(() => {
     if (name) {
       if (!contextual) {
-        changeTheme(name);
+        changeTheme(name, false);
       }
 
       setThemeName(name);
     }
   }, [name, contextual]);
 
+  // Render styles when nested and theme/direction change
   useEffect(() => {
     if (contextual) {
       setClassName(renderThemeStyles(theme, { direction }));

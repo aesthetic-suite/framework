@@ -16,6 +16,20 @@ describe('Aesthetic', () => {
     teardownAesthetic(aesthetic);
   });
 
+  it('can subscribe and unsubscribe events', () => {
+    const spy = jest.fn();
+
+    aesthetic.subscribe('change:theme', spy);
+
+    // @ts-ignore Allow
+    expect(aesthetic.listeners['change:theme'].has(spy)).toBe(true);
+
+    aesthetic.unsubscribe('change:theme', spy);
+
+    // @ts-ignore Allow
+    expect(aesthetic.listeners['change:theme'].has(spy)).toBe(false);
+  });
+
   describe('changeTheme()', () => {
     beforeEach(() => {
       setupAesthetic(aesthetic);
@@ -27,6 +41,15 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(aesthetic.activeTheme).toBe('night');
+    });
+
+    it('doesnt run if changing to same name', () => {
+      const spy = jest.spyOn(aesthetic.renderer, 'applyRootVariables');
+
+      aesthetic.changeTheme('night');
+      aesthetic.changeTheme('night');
+
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('applies root css variables', () => {
@@ -49,6 +72,24 @@ describe('Aesthetic', () => {
       expect(document.body.className).toBe('theme-night');
 
       expect(spy).toHaveBeenCalledWith(darkTheme);
+    });
+
+    it('emits `change:theme` event', () => {
+      const spy = jest.fn();
+
+      aesthetic.subscribe('change:theme', spy);
+      aesthetic.changeTheme('night');
+
+      expect(spy).toHaveBeenCalledWith('night');
+    });
+
+    it('doesnt emit `change:theme` event if `propagate` is false', () => {
+      const spy = jest.fn();
+
+      aesthetic.subscribe('change:theme', spy);
+      aesthetic.changeTheme('night', false);
+
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -164,6 +205,74 @@ describe('Aesthetic', () => {
           123,
         );
       }).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
+    });
+  });
+
+  describe('renderComponentStyles()', () => {
+    function createTempSheet() {
+      return aesthetic.createComponentStyles(() => ({
+        foo: {
+          display: 'block',
+        },
+        bar: {
+          color: 'black',
+        },
+        baz: {
+          position: 'absolute',
+        },
+      }));
+    }
+
+    beforeEach(() => {
+      setupAesthetic(aesthetic);
+    });
+
+    it('errors if sheet is not a `LocalSheet` instance', () => {
+      expect(() => {
+        aesthetic.renderComponentStyles(
+          // @ts-ignore Allow
+          123,
+        );
+      }).toThrow('Rendering component styles require a `LocalSheet` instance.');
+    });
+
+    it('returns an empty object if no sheet selectors', () => {
+      expect(aesthetic.renderComponentStyles(aesthetic.createComponentStyles(() => ({})))).toEqual(
+        {},
+      );
+    });
+
+    it('renders a sheet and returns an object class name', () => {
+      const sheet = createTempSheet();
+      const spy = jest.spyOn(sheet, 'render');
+
+      expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+        foo: 'a',
+        bar: 'b',
+        baz: 'c',
+      });
+      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+        prefix: false,
+        unit: 'px',
+      });
+    });
+
+    it('can customize params with options', () => {
+      const sheet = createTempSheet();
+      const spy = jest.spyOn(sheet, 'render');
+
+      aesthetic.configure({
+        defaultUnit: 'em',
+        vendorPrefixes: true,
+      });
+
+      aesthetic.renderComponentStyles(sheet, { direction: 'rtl' });
+
+      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+        direction: 'rtl',
+        prefix: true,
+        unit: 'em',
+      });
     });
   });
 

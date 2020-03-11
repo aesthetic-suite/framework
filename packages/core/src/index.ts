@@ -22,6 +22,8 @@ export const {
   renderImport,
   renderKeyframes,
   renderThemeStyles,
+  subscribe,
+  unsubscribe,
 } = aesthetic;
 
 export * from '@aesthetic/sss';

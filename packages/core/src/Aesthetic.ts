@@ -1,3 +1,5 @@
+/* eslint-disable no-dupe-class-members */
+
 import {
   ClientRenderer,
   Renderer,
@@ -15,10 +17,9 @@ import {
   GlobalSheetFactory,
   SheetParams,
   AestheticOptions,
+  OnChangeTheme,
+  EventType,
 } from './types';
-
-// TODO
-// theme specific `style` elements
 
 function createRenderer(): Renderer {
   return global.AESTHETIC_SSR || new ClientRenderer();
@@ -39,10 +40,16 @@ export default class Aesthetic {
 
   themeRegistry = new ThemeRegistry();
 
+  protected listeners: { [K in EventType]?: Set<(...args: unknown[]) => void> } = {};
+
   /**
    * Change the currently active theme.
    */
-  changeTheme = (name: ThemeName) => {
+  changeTheme = (name: ThemeName, propagate: boolean = true) => {
+    if (name === this.activeTheme) {
+      return;
+    }
+
     const theme = this.getTheme(name);
 
     // Set as the active theme
@@ -53,6 +60,11 @@ export default class Aesthetic {
 
     // Render theme styles and append a `body` class name
     document.body.className = this.renderThemeStyles(theme);
+
+    // Let consumers know about the change
+    if (propagate) {
+      this.emit('change:theme', [name]);
+    }
   };
 
   /**
@@ -184,5 +196,41 @@ export default class Aesthetic {
       this.globalSheetRegistry.clear();
       this.themeRegistry.reset();
     }
+  }
+
+  /**
+   * Subscribe and listen to an event by name.
+   */
+  subscribe = (type: EventType, listener: OnChangeTheme) => {
+    this.getListeners(type).add(listener);
+  };
+
+  /**
+   * Unsubscribe from an event by name.
+   */
+  unsubscribe = (type: EventType, listener: OnChangeTheme) => {
+    this.getListeners(type).delete(listener);
+  };
+
+  /**
+   * Emit all listeners by type, with the defined arguments.
+   */
+  protected emit(type: 'change:theme', args: Parameters<OnChangeTheme>): void;
+
+  protected emit(type: EventType, args: unknown[]): void {
+    this.getListeners(type).forEach(listener => {
+      listener(...args);
+    });
+  }
+
+  /**
+   * Return a set of listeners, or create it if it does not exist.
+   */
+  protected getListeners<T extends Function>(type: EventType): Set<T> {
+    if (!this.listeners[type]) {
+      this.listeners[type] = new Set();
+    }
+
+    return (this.listeners[type] as unknown) as Set<T>;
   }
 }

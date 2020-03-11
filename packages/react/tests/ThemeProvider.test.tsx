@@ -2,11 +2,21 @@
 
 import React from 'react';
 import { render } from 'rut-dom';
-import { changeTheme, getActiveTheme, getTheme, renderThemeStyles } from '@aesthetic/core';
+import { act } from 'react-test-renderer';
+import {
+  changeTheme,
+  getActiveTheme,
+  getTheme,
+  renderThemeStyles,
+  subscribe,
+  unsubscribe,
+  OnChangeTheme,
+} from '@aesthetic/core';
 import { lightTheme, darkTheme } from '@aesthetic/core/src/testing';
 import ThemeProvider from '../src/ThemeProvider';
-import { ThemeProviderProps } from '../src/types';
+import { ThemeProviderProps, DirectionProviderProps } from '../src/types';
 import useTheme from '../src/useTheme';
+import DirectionProvider from '../src/DirectionProvider';
 
 jest.mock('@aesthetic/core');
 
@@ -22,6 +32,8 @@ describe('ThemeProvider', () => {
     (getActiveTheme as jest.Mock).mockImplementation(() => lightTheme);
     (renderThemeStyles as jest.Mock).mockImplementation(theme => `theme-${theme.name}`);
     (changeTheme as jest.Mock).mockReset();
+    (subscribe as jest.Mock).mockReset();
+    (unsubscribe as jest.Mock).mockReset();
   });
 
   afterEach(() => {
@@ -122,7 +134,77 @@ describe('ThemeProvider', () => {
       name: 'night',
     });
 
-    expect(changeTheme).toHaveBeenCalledWith('night');
+    expect(changeTheme).toHaveBeenCalledWith('night', false);
+  });
+
+  describe('subscriptions', () => {
+    it('subscribes on mount', () => {
+      render<ThemeProviderProps>(
+        <ThemeProvider>
+          <div />
+        </ThemeProvider>,
+      );
+
+      expect(subscribe).toHaveBeenCalledTimes(1);
+      expect(subscribe).toHaveBeenCalledWith('change:theme', expect.any(Function));
+    });
+
+    it('only subscribes once', () => {
+      const { update } = render<ThemeProviderProps>(
+        <ThemeProvider>
+          <div />
+        </ThemeProvider>,
+      );
+
+      update();
+      update();
+      update();
+
+      expect(subscribe).toHaveBeenCalledTimes(1);
+    });
+
+    it('unsubscribes on unmount', () => {
+      const { unmount } = render<ThemeProviderProps>(
+        <ThemeProvider>
+          <div />
+        </ThemeProvider>,
+      );
+
+      unmount();
+
+      expect(unsubscribe).toHaveBeenCalledTimes(1);
+      expect(unsubscribe).toHaveBeenCalledWith('change:theme', expect.any(Function));
+    });
+
+    it('changes them if outside `changeTheme` is called', () => {
+      const themeSpy = jest.fn();
+      let doChangeTheme: OnChangeTheme = () => {};
+
+      // Janky, but since we mocked the module, we need to extract this
+      (subscribe as jest.Mock).mockImplementation((name, cb) => {
+        doChangeTheme = cb;
+      });
+
+      function Comp() {
+        themeSpy(useTheme());
+
+        return null;
+      }
+
+      render<ThemeProviderProps>(
+        <ThemeProvider name="day">
+          <Comp />
+        </ThemeProvider>,
+      );
+
+      // eslint-disable-next-line rut/no-act
+      act(() => {
+        doChangeTheme('night');
+      });
+
+      expect(themeSpy).toHaveBeenCalledWith(lightTheme);
+      expect(themeSpy).toHaveBeenCalledWith(darkTheme);
+    });
   });
 
   describe('contextual', () => {
@@ -207,6 +289,33 @@ describe('ThemeProvider', () => {
 
       expect(renderThemeStyles).toHaveBeenCalledWith(darkTheme, { direction: 'ltr' }); // Initial
       expect(renderThemeStyles).toHaveBeenCalledWith(lightTheme, { direction: 'ltr' }); // Rerender
+    });
+
+    it('re-renders theme styles if direction changes', () => {
+      const { rerender } = render<DirectionProviderProps>(
+        <DirectionProvider direction="ltr">
+          <ThemeProvider>
+            <Outer />
+            <ThemeProvider name="night">
+              <div />
+            </ThemeProvider>
+          </ThemeProvider>
+        </DirectionProvider>,
+      );
+
+      rerender(
+        <DirectionProvider direction="rtl">
+          <ThemeProvider>
+            <Outer />
+            <ThemeProvider name="night">
+              <div />
+            </ThemeProvider>
+          </ThemeProvider>
+        </DirectionProvider>,
+      );
+
+      expect(renderThemeStyles).toHaveBeenCalledWith(darkTheme, { direction: 'ltr' }); // Initial
+      expect(renderThemeStyles).toHaveBeenCalledWith(darkTheme, { direction: 'rtl' }); // Rerender
     });
 
     it('doesnt call `changeTheme` if inner `name` changes', () => {

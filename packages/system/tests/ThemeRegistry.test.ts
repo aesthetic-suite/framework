@@ -46,6 +46,14 @@ describe('ThemeRegistry', () => {
       registry.register('night-low', lowTheme);
     });
 
+    it('errors if no themes', () => {
+      registry = new ThemeRegistry();
+
+      expect(() => {
+        registry.getPreferredTheme();
+      }).toThrow('No themes have been registered.');
+    });
+
     it('returns 1st registered default theme if no media matches', () => {
       expect(registry.getPreferredTheme()).toBe(lightTheme);
     });

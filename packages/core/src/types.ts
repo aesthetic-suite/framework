@@ -39,3 +39,7 @@ export interface AestheticOptions {
   deterministicClasses?: boolean;
   vendorPrefixes?: boolean;
 }
+
+export type EventType = 'change:theme';
+
+export type OnChangeTheme = (newTheme: ThemeName) => void;
