@@ -25,6 +25,10 @@ export interface SheetParams {
   unit?: Unit;
 }
 
+export type SheetStructure<T extends string> = {
+  [K in T]: string | object;
+};
+
 export type GlobalSheetFactory<T = unknown> = (
   utils: Utilities<LocalBlock>,
   tokens: Tokens,

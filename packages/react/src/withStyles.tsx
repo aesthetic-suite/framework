@@ -7,15 +7,16 @@ import { WithStylesWrappedProps, WrapperProps, WrapperComponent } from './types'
 /**
  * Wrap a React component with an HOC that injects the style to class name transfer function.
  */
-export default function withStyles<T = unknown>(factory: LocalSheet<T>) /* infer */ {
+export default function withStyles<T = unknown>(sheet: LocalSheet<T>) /* infer */ {
   return function withStylesComposer<Props extends object = {}>(
     WrappedComponent: React.ComponentType<Props & WithStylesWrappedProps<keyof T>>,
-  ): React.NamedExoticComponent<Props & WrapperProps> & WrapperComponent {
+  ): React.NamedExoticComponent<Omit<Props, keyof WithStylesWrappedProps> & WrapperProps> &
+    WrapperComponent {
     const WithStyles = React.memo(function WithStyles({
       wrappedRef,
       ...props
     }: Props & WrapperProps) {
-      const cx = useStyles(factory);
+      const cx = useStyles(sheet);
 
       return <WrappedComponent {...(props as any)} ref={wrappedRef} cx={cx} />;
     }) as ReturnType<typeof withStylesComposer>;

@@ -8,6 +8,7 @@ import DirectionContext from './DirectionContext';
 import DirectionProvider from './DirectionProvider';
 import ThemeContext from './ThemeContext';
 import ThemeProvider from './ThemeProvider';
+import ContextualThemeProvider from './ContextualThemeProvider';
 import useDirection from './useDirection';
 import useStyles from './useStyles';
 import useTheme from './useTheme';
@@ -22,6 +23,7 @@ export {
   DirectionProvider,
   ThemeContext,
   ThemeProvider,
+  ContextualThemeProvider,
   createComponentStyles,
   createThemeStyles,
   useDirection,
