@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React hooks, composers, and more for styling components with Aesthetic.",
   "keywords": [
     "aesthetic",
@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/utils": "^0.0.2",
+    "@aesthetic/utils": "^0.0.3",
     "@types/react": "*",
     "direction": "^1.0.4",
     "hoist-non-react-statics": "^3.3.2"
@@ -30,7 +30,7 @@
     "react": "^16.6.0"
   },
   "devDependencies": {
-    "@aesthetic/core": "^0.0.0",
+    "@aesthetic/core": "^0.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
