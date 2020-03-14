@@ -2,17 +2,18 @@
 
 import React from 'react';
 import { render } from 'rut-dom';
+import { aesthetic } from '@aesthetic/core';
 import { setupAesthetic, teardownAesthetic } from '@aesthetic/core/lib/testing';
 import DirectionProvider from '../src/DirectionProvider';
 import { DirectionProviderProps } from '../src/types';
 
 describe('DirectionProvider', () => {
   beforeEach(() => {
-    setupAesthetic();
+    setupAesthetic(aesthetic);
   });
 
   afterEach(() => {
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   it('renders a `div` by default', () => {

@@ -1,6 +1,15 @@
 import ServerRenderer from '../src/server/ServerRenderer';
 
 describe('SSR', () => {
+  it('sets SSR global', () => {
+    expect(global.AESTHETIC_SSR_CLIENT).toBeUndefined();
+
+    const renderer = new ServerRenderer();
+    renderer.captureStyles(null);
+
+    expect(global.AESTHETIC_SSR_CLIENT).toBe(renderer);
+  });
+
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
     const renderer = new ServerRenderer();
 

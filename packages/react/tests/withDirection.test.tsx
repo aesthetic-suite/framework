@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'rut-dom';
+import { aesthetic } from '@aesthetic/core';
 import { setupAesthetic, teardownAesthetic } from '@aesthetic/core/lib/testing';
 import withDirection from '../src/withDirection';
 import DirectionProvider from '../src/DirectionProvider';
@@ -7,11 +8,11 @@ import { DirectionProviderProps, WithDirectionWrappedProps } from '../src/types'
 
 describe('withDirection()', () => {
   beforeEach(() => {
-    setupAesthetic();
+    setupAesthetic(aesthetic);
   });
 
   afterEach(() => {
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   function BaseComponent(props: WithDirectionWrappedProps) {

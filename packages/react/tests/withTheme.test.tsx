@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'rut-dom';
+import { aesthetic } from '@aesthetic/core';
 import {
   setupAesthetic,
   teardownAesthetic,
@@ -12,11 +13,11 @@ import { ThemeProviderProps, WithThemeWrappedProps } from '../src/types';
 
 describe('withTheme()', () => {
   beforeEach(() => {
-    setupAesthetic();
+    setupAesthetic(aesthetic);
   });
 
   afterEach(() => {
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   function BaseComponent(props: WithThemeWrappedProps) {

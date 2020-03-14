@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'rut-dom';
+import { aesthetic } from '@aesthetic/core';
 import {
   setupAesthetic,
   teardownAesthetic,
@@ -11,11 +12,11 @@ import ThemeProvider from '../src/ThemeProvider';
 
 describe('useTheme()', () => {
   beforeEach(() => {
-    setupAesthetic();
+    setupAesthetic(aesthetic);
   });
 
   afterEach(() => {
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   it('errors if no context provided', () => {

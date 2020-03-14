@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { render } from 'rut-dom';
+import { aesthetic } from '@aesthetic/core';
 import {
   setupAesthetic,
   teardownAesthetic,
@@ -16,11 +17,11 @@ import { createStyleSheet, ButtonProps, Wrapper } from './__mocks__/Button';
 
 describe('withStyles()', () => {
   beforeEach(() => {
-    setupAesthetic();
+    setupAesthetic(aesthetic);
   });
 
   afterEach(() => {
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   function BaseButton({

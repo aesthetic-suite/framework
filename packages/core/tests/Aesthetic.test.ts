@@ -1,4 +1,4 @@
-import { ClientRenderer } from '@aesthetic/style';
+import { ClientRenderer, ServerRenderer } from '@aesthetic/style';
 import Aesthetic from '../src/Aesthetic';
 import { LocalSheet, GlobalSheet } from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
@@ -170,6 +170,16 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('hydrate()', () => {
+    it('calls hydration on client renderer', () => {
+      const spy = jest.spyOn(aesthetic.renderer as ClientRenderer, 'hydrateStyles');
+
+      aesthetic.hydrate();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
   describe('registerDefaultTheme()', () => {
     it('registers a default theme', () => {
       const spy = jest.spyOn(aesthetic.themeRegistry, 'register');
@@ -215,13 +225,13 @@ describe('Aesthetic', () => {
       expect(aesthetic.renderer).toBeInstanceOf(ClientRenderer);
     });
 
-    // it('passes a server renderer when wrapping for SSR', () => {
-    //   const sr = new ServerRenderer();
+    it('passes a server renderer when wrapping for SSR', () => {
+      const sr = new ServerRenderer();
 
-    //   captureStyles(sr, () => aesthetic.renderer);
+      global.AESTHETIC_SSR_CLIENT = sr;
 
-    //   expect(aesthetic.renderer).toBe(sr);
-    // });
+      expect(aesthetic.renderer).toBe(sr);
+    });
   });
 
   describe('renderComponentStyles()', () => {
@@ -288,6 +298,19 @@ describe('Aesthetic', () => {
         direction: 'rtl',
         prefix: true,
         unit: 'em',
+      });
+    });
+
+    it('can customize theme with options', () => {
+      const sheet = createTempSheet();
+      const spy = jest.spyOn(sheet, 'render');
+
+      aesthetic.renderComponentStyles(sheet, { theme: 'night' });
+
+      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, darkTheme, {
+        theme: 'night',
+        prefix: false,
+        unit: 'px',
       });
     });
   });
