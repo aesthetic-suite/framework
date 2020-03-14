@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('At-rules', () => {
   let renderer: Renderer;
@@ -45,7 +44,20 @@ describe('At-rules', () => {
       },
     });
 
-    expect(getInsertedStyles('global')).toMatchSnapshot();
+    expect(getRenderedStyles('global')).toMatchSnapshot();
+  });
+
+  it('inserts at-rules before standard rules', () => {
+    renderer.renderRule({ display: 'block' }, { type: 'global' });
+
+    renderer.renderFontFace({
+      fontFamily: '"Open Sans"',
+      fontStyle: 'normal',
+      fontWeight: 800,
+      src: 'url("fonts/OpenSans-Bold.woff2")',
+    });
+
+    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   describe('@font-face', () => {
@@ -58,7 +70,7 @@ describe('At-rules', () => {
       });
 
       expect(name).toBe('"Open Sans"');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('errors if no family name provided', () => {
@@ -80,12 +92,12 @@ describe('At-rules', () => {
       renderer.renderImport('"common.css" screen;'); // Ends in semicolon
       renderer.renderImport("url('landscape.css') screen and (orientation: landscape)");
 
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
 
   describe('@keyframes', () => {
-    it('renders from-to based and returns animation name', () => {
+    it('renders range based and returns animation name', () => {
       const name = renderer.renderKeyframes({
         from: {
           transform: 'translateX(0%)',
@@ -96,36 +108,66 @@ describe('At-rules', () => {
       });
 
       expect(name).toBe('kf103rcyx');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('renders percentage based and returns animation name', () => {
       const name = renderer.renderKeyframes({
         '0%': { top: 0, left: 0 },
-        '30%': { top: 50 },
+        '30%': { top: '50px' },
         '68%, 72%': { left: '50px' },
-        '100%': { top: 100, left: '100%' },
+        '100%': { top: '100px', left: '100%' },
       });
 
-      expect(name).toBe('kfnec9co');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(name).toBe('kf22exw8');
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('can provide a custom animation name', () => {
       const name = renderer.renderKeyframes(
         {
           from: {
-            transform: 'translateX(0%)',
+            opacity: 0,
           },
           to: {
-            transform: 'translateX(100%)',
+            opacity: 1,
           },
         },
-        'slide',
+        'fade',
       );
 
-      expect(name).toBe('slide');
-      expect(getInsertedStyles('global')).toMatchSnapshot();
+      expect(name).toBe('fade');
+      expect(getRenderedStyles('global')).toMatchSnapshot();
+    });
+
+    it('supports ltr and rtl', () => {
+      const ltr = renderer.renderKeyframes({
+        from: {
+          left: '0',
+        },
+        to: {
+          right: '100px',
+        },
+      });
+
+      const rtl = renderer.renderKeyframes(
+        {
+          from: {
+            left: '0',
+          },
+          to: {
+            right: '100px',
+          },
+        },
+        '',
+        {
+          rtl: true,
+        },
+      );
+
+      expect(ltr).toBe('kf1lt4056');
+      expect(rtl).toBe('kf944ipm');
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
 });

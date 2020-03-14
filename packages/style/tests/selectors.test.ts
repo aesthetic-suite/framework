@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('Selectors', () => {
   let renderer: Renderer;
@@ -26,7 +25,7 @@ describe('Selectors', () => {
       });
 
       expect(className).toBe('a b c');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -41,7 +40,7 @@ describe('Selectors', () => {
 
       expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -49,7 +48,7 @@ describe('Selectors', () => {
         selector: '[href*="example"]',
       });
 
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 
@@ -58,7 +57,7 @@ describe('Selectors', () => {
       const className = renderer.renderRule({
         padding: '5px',
         ':hover': {
-          padding: 10,
+          padding: '10px',
         },
         '::before': {
           content: '"★"',
@@ -67,7 +66,7 @@ describe('Selectors', () => {
       });
 
       expect(className).toBe('a b c d');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -82,7 +81,7 @@ describe('Selectors', () => {
 
       expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -90,30 +89,30 @@ describe('Selectors', () => {
         selector: ':nth-last-of-type(4n)',
       });
 
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 
   describe('hierarchy', () => {
     it('generates the correct class names with hierarchy selector', () => {
       const className = renderer.renderRule({
-        padding: 10,
+        padding: '10px',
         '+ div': {
-          padding: 10,
+          padding: '10px',
         },
         '~ SPAN': {
-          padding: 10,
+          padding: '10px',
         },
         '>li': {
-          padding: 10,
+          padding: '10px',
         },
         '*': {
-          padding: 10,
+          padding: '10px',
         },
       });
 
       expect(className).toBe('a b c d e');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('uses same class name between both APIs', () => {
@@ -128,7 +127,7 @@ describe('Selectors', () => {
 
       expect(classNameA).toBe('a');
       expect(classNameA).toBe(classNameB);
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('supports complex attribute selectors', () => {
@@ -136,7 +135,7 @@ describe('Selectors', () => {
         selector: ':first-of-type + li',
       });
 
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 });

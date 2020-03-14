@@ -13,6 +13,8 @@ import {
   SYNTAX_SUPPORTS,
   SYNTAX_MEDIA,
   SYNTAX_MEDIA_NESTED,
+  SYNTAX_LOCAL_BLOCK,
+  SYNTAX_VARIABLES,
 } from './__mocks__/local';
 
 describe('LocalParser', () => {
@@ -20,13 +22,7 @@ describe('LocalParser', () => {
   let spy: jest.Mock;
 
   beforeEach(() => {
-    parser = new LocalParser({
-      onBlockProperty(block, key, value) {
-        // @ts-ignore TODO FIX
-        block.addProperty(key as keyof Properties, value);
-      },
-    });
-
+    parser = new LocalParser();
     spy = jest.fn();
   });
 
@@ -49,6 +45,25 @@ describe('LocalParser', () => {
     );
   });
 
+  it('renders a full block', () => {
+    parser.on('ruleset', spy);
+    parser.parse({
+      selector: SYNTAX_LOCAL_BLOCK,
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      'selector',
+      createBlock('selector', {
+        ...SYNTAX_LOCAL_BLOCK,
+        borderRadius: '4px',
+        '::before': {
+          ...SYNTAX_LOCAL_BLOCK['::before'],
+          marginRight: '5px',
+        },
+      }),
+    );
+  });
+
   describe('class names', () => {
     beforeEach(() => {
       parser.on('class', spy);
@@ -62,8 +77,8 @@ describe('LocalParser', () => {
       });
 
       expect(spy).toHaveBeenCalledTimes(2);
-      expect(spy).toHaveBeenCalledWith('foo');
-      expect(spy).toHaveBeenCalledWith('baz');
+      expect(spy).toHaveBeenCalledWith('foo', 'foo');
+      expect(spy).toHaveBeenCalledWith('baz', 'baz');
     });
   });
 
@@ -80,7 +95,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'color', 'black');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', 'inline');
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', 10);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', '10px');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', 0);
     });
 
@@ -164,7 +179,7 @@ describe('LocalParser', () => {
             ':hover': 123,
           },
         });
-      }).toThrow('Selector ":hover" must be an object of properties.');
+      }).toThrow('":hover" must be a declaration object of CSS properties.');
     });
 
     it('errors if a comma separated list is passed', () => {
@@ -192,7 +207,7 @@ describe('LocalParser', () => {
             '@fallbacks': 123,
           },
         });
-      }).toThrow('@fallbacks must be an object of property names to fallback values.');
+      }).toThrow('"@fallbacks" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no fallbacks', () => {
@@ -228,7 +243,7 @@ describe('LocalParser', () => {
             '@media': 123,
           },
         });
-      }).toThrow('@media must be an object of conditions to declarations.');
+      }).toThrow('@media must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no media', () => {
@@ -251,7 +266,7 @@ describe('LocalParser', () => {
         '(min-width: 300px)',
         createBlock('@media (min-width: 300px)', {
           color: 'blue',
-          paddingLeft: 15,
+          paddingLeft: '15px',
         }),
       );
 
@@ -260,7 +275,7 @@ describe('LocalParser', () => {
         '(max-width: 1000px)',
         createBlock('@media (max-width: 1000px)', {
           color: 'green',
-          paddingLeft: 20,
+          paddingLeft: '20px',
         }),
       );
     });
@@ -277,6 +292,9 @@ describe('LocalParser', () => {
         '(min-width: 300px)',
         createBlock('@media (min-width: 300px)', {
           color: 'blue',
+          '@media (max-width: 1000px)': {
+            color: 'green',
+          },
         }),
       );
 
@@ -303,7 +321,7 @@ describe('LocalParser', () => {
             '@selectors': 123,
           },
         });
-      }).toThrow('@selectors must be an object of CSS selectors to property declarations.');
+      }).toThrow('@selectors must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no selectors', () => {
@@ -432,7 +450,7 @@ describe('LocalParser', () => {
             '@supports': 123,
           },
         });
-      }).toThrow('@supports must be an object of conditions to declarations.');
+      }).toThrow('@supports must be a mapping of CSS declarations.');
     });
 
     it('does not emit if no supports', () => {
@@ -461,6 +479,53 @@ describe('LocalParser', () => {
         'not (display: flex)',
         createBlock('@supports not (display: flex)', { float: 'left' }),
       );
+    });
+  });
+
+  describe('@variables', () => {
+    beforeEach(() => {
+      parser.on('block:variable', spy);
+    });
+
+    it('errors if variables are not an object', () => {
+      expect(() => {
+        parser.parse({
+          vars: {
+            // @ts-ignore Allow invalid type
+            '@variables': 123,
+          },
+        });
+      }).toThrow('@variables must be a mapping of CSS variables.');
+    });
+
+    it('does not emit if no variables', () => {
+      parser.parse({
+        vars: {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('does not emit `variable` listener', () => {
+      const varSpy = jest.fn();
+
+      parser.on('variable', varSpy);
+      parser.parse({
+        vars: SYNTAX_VARIABLES,
+      });
+
+      expect(varSpy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each variable', () => {
+      parser.parse({
+        vars: SYNTAX_VARIABLES,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--font-size', '14px');
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--color', 'red');
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--line-height', 1.5);
     });
   });
 });

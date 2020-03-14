@@ -5,6 +5,10 @@ export type ClassName = string;
 
 export type Value = string | number;
 
+export interface GenericProperties {
+  [key: string]: Value | Value[];
+}
+
 export type Properties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
 
 export type Property = keyof Properties;
@@ -19,8 +23,8 @@ export type PseudoBlock = {
 
 export type DeclarationBlock = Properties & AttributeBlock & PseudoBlock;
 
-export interface Block extends DeclarationBlock {
-  [key: string]: Block | Value | unknown;
+export interface Rule extends DeclarationBlock {
+  [key: string]: Rule | Value | unknown;
 }
 
 export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
@@ -38,14 +42,20 @@ export interface Condition {
   type: number;
 }
 
-export interface StyleParams {
+export interface ProcessParams {
+  deterministic?: boolean;
+  prefix?: boolean;
+  rtl?: boolean;
+}
+
+export interface RenderParams extends ProcessParams {
+  className?: ClassName;
   conditions?: Condition[];
   selector?: string;
   type?: SheetType;
 }
 
-export interface CacheItem extends Required<StyleParams> {
-  className: string;
+export interface CacheItem extends Required<Omit<RenderParams, keyof ProcessParams>> {
   rank: number;
 }
 
@@ -54,15 +64,16 @@ export interface CacheParams {
   minimumRank?: number;
 }
 
-export interface CSSVariables {
-  [key: string]: Value;
+export interface CSSVariables<T = Value> {
+  [key: string]: T;
 }
 
 export interface StyleRule {
   conditionText?: string;
   cssRules: StyleRule[];
   cssText: string;
-  cssVariables: CSSVariables;
+  cssVariables: CSSVariables<string>;
+  textContent: string;
   type: number;
   insertRule(rule: string, index: number): number;
 }

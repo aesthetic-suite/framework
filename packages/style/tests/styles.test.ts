@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('Styles', () => {
   let renderer: Renderer;
@@ -23,10 +22,10 @@ describe('Styles', () => {
 
   it('generates a unique class name for a large number of properties', () => {
     for (let i = 0; i < 100; i += 1) {
-      renderer.renderDeclaration('padding', i);
+      renderer.renderDeclaration('padding', `${i}px`);
     }
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('generates a unique class name for each property', () => {
@@ -34,7 +33,7 @@ describe('Styles', () => {
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
-      borderRadius: 4,
+      borderRadius: '4px',
       display: 'inline-block',
       cursor: 'pointer',
       fontFamily: 'Roboto',
@@ -51,7 +50,23 @@ describe('Styles', () => {
     });
 
     expect(className).toBe('a b c d e f g h i j k l m n o p q');
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('generates a deterministic class name for each property', () => {
+    const className = renderer.renderRule(
+      {
+        margin: 0,
+        cursor: 'pointer',
+      },
+      { deterministic: true },
+    );
+    const cursor = renderer.renderDeclaration('cursor', 'pointer', { deterministic: true });
+
+    expect(className).toBe('c1cpw2zw c1jzt5o3');
+    expect(className).toContain(cursor);
+    expect(cursor).toBe('c1jzt5o3');
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('generates a unique class name for each selector even if property value pair is the same', () => {
@@ -66,7 +81,7 @@ describe('Styles', () => {
     });
 
     expect(className).toBe('a b c');
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for the same property value pair', () => {
@@ -77,43 +92,22 @@ describe('Styles', () => {
     renderer.renderDeclaration('display', 'inline');
     renderer.renderDeclaration('display', 'block');
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for dashed and camel cased properties', () => {
     renderer.renderDeclaration('textDecoration', 'none');
     renderer.renderDeclaration('text-decoration', 'none');
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('uses the same class name for numeric and string values', () => {
-    renderer.renderDeclaration('width', 100);
-    renderer.renderDeclaration('width', '100px');
+    renderer.renderDeclaration('width', 0);
+    renderer.renderDeclaration('width', '0');
     renderer.renderDeclaration('width', '100em');
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('applies a px unit to numeric properties that require it', () => {
-    renderer.renderDeclaration('width', 300);
-    renderer.renderDeclaration('marginTop', 10);
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('doesnt apply a px unit to numeric properties that dont require it', () => {
-    renderer.renderDeclaration('lineHeight', 1.5);
-    renderer.renderDeclaration('fontWeight', 600);
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('doesnt apply a px unit to properties that are already prefixed', () => {
-    renderer.renderDeclaration('paddingLeft', '10px');
-    renderer.renderDeclaration('height', '10vh');
-
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('supports CSS variables within values', () => {
@@ -121,15 +115,15 @@ describe('Styles', () => {
     renderer.renderDeclaration('border', '1px solid var(--border-color)');
     renderer.renderDeclaration('display', 'var(--display, var(--fallback), flex)');
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('can set CSS variables', () => {
     renderer.applyRootVariables({
       someVar: '10px',
       '--already-formatted-var': '10em',
-      'missing-prefix': 10,
-      mixOfBoth: 10,
+      'missing-prefix': '10px',
+      mixOfBoth: '10px',
     });
 
     const root = document.documentElement;
@@ -144,7 +138,7 @@ describe('Styles', () => {
     renderer.renderRule({
       margin: 0,
       '@media (width: 500px)': {
-        margin: 10,
+        margin: '10px',
         ':hover': {
           color: 'red',
         },
@@ -156,8 +150,8 @@ describe('Styles', () => {
       },
     });
 
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-    expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('conditions')).toMatchSnapshot();
   });
 
   it('ignores invalid values', () => {
@@ -171,7 +165,7 @@ describe('Styles', () => {
     });
 
     expect(className).toBe('');
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('inserts into the appropriate style sheets', () => {
@@ -184,9 +178,9 @@ describe('Styles', () => {
 
     renderer.renderImport('url(test.css)');
 
-    expect(getInsertedStyles('global')).toMatchSnapshot();
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
-    expect(getInsertedStyles('conditions')).toMatchSnapshot();
+    expect(getRenderedStyles('global')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('conditions')).toMatchSnapshot();
   });
 
   it('logs a warning for unknown property values', () => {
@@ -196,7 +190,7 @@ describe('Styles', () => {
     });
 
     expect(spy).toHaveBeenCalledWith('Invalid value "true" for property "color".');
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('logs a warning for unknown nested selector', () => {
@@ -208,7 +202,7 @@ describe('Styles', () => {
     });
 
     expect(spy).toHaveBeenCalledWith('Unknown property selector or nested block "$ what is this".');
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('can insert the same declaration by manually bypassing the cache', () => {
@@ -218,7 +212,7 @@ describe('Styles', () => {
 
     expect(a).not.toBe(b);
     expect(b).not.toBe(c);
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('can insert the same declaration if using a minimum rank requirement', () => {
@@ -231,7 +225,7 @@ describe('Styles', () => {
     expect(c).toBe('c');
     expect(d).toBe('d');
     expect(c).not.toBe(d);
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('generates the same declaration for each type (non-standard)', () => {
@@ -241,7 +235,142 @@ describe('Styles', () => {
     expect(a).toBe('a');
     expect(b).toBe('b');
     expect(a).not.toBe(b);
-    expect(getInsertedStyles('global')).toMatchSnapshot();
-    expect(getInsertedStyles('standard')).toMatchSnapshot();
+    expect(getRenderedStyles('global')).toMatchSnapshot();
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('generates different declarations when RTL converting', () => {
+    const a = renderer.renderDeclaration('margin-left', '10px');
+    const b = renderer.renderDeclaration('margin-left', '10px', { rtl: true });
+
+    expect(a).toBe('a');
+    expect(b).toBe('b');
+    expect(a).not.toBe(b);
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('applies vendor prefixes to a property under a single class name', () => {
+    // Value prefixing (wont show in snapshot)
+    renderer.renderDeclaration('display', 'flex', { prefix: true });
+
+    // Property prefixing
+    renderer.renderDeclaration('transition', '200ms all', { prefix: true });
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('handles right-to-left, vendor prefixes, and deterministic classes all at once', () => {
+    const a = renderer.renderRule(
+      {
+        display: 'flex',
+        marginLeft: '10px',
+        textAlign: 'right',
+        transition: '200ms all',
+      },
+      {
+        deterministic: true,
+        prefix: true,
+        rtl: false,
+      },
+    );
+
+    // RTL
+    const b = renderer.renderRule(
+      {
+        display: 'flex',
+        marginLeft: '10px',
+        textAlign: 'right',
+        transition: '200ms all',
+      },
+      {
+        deterministic: true,
+        prefix: true,
+        rtl: true,
+      },
+    );
+
+    expect(a).toBe('c5f5o58 c8nj8ar c1u1u927 c1oaar8e');
+    expect(b).toBe('c5f5o58 c1ryula0 cfi87yc c1oaar8e');
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  describe('rule grouping', () => {
+    const rule = {
+      display: 'block',
+      background: 'transparent',
+      color: 'black',
+      paddingRight: 0,
+      marginLeft: 0,
+      transition: '200ms all',
+      ':hover': {
+        display: 'flex',
+        color: 'blue',
+      },
+      '@media (width: 500px)': {
+        margin: '10px',
+        padding: '10px',
+        ':hover': {
+          color: 'darkblue',
+        },
+      },
+    };
+
+    it('can generate a non-atomic single class by grouping all properties', () => {
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('a');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can utilize deterministic class names', () => {
+      const className = renderer.renderRuleGrouped(rule, { deterministic: true });
+
+      expect(className).toBe('c6bnd1w');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can vendor prefix applicable properties', () => {
+      const className = renderer.renderRuleGrouped(rule, { prefix: true });
+
+      expect(className).toBe('a');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can RTL convert applicable properties', () => {
+      const className = renderer.renderRuleGrouped(rule, { rtl: true });
+
+      expect(className).toBe('a');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+  });
+
+  describe('css variables', () => {
+    const rule = {
+      display: 'block',
+      color: 'var(--color)',
+      '--color': 'red',
+      '--font-size': '14px',
+    };
+
+    it('includes variables in rule when using a rule group', () => {
+      const className = renderer.renderRuleGrouped(rule);
+
+      expect(className).toBe('a');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('warns about variables when using a non-grouped rule', () => {
+      const className = renderer.renderRule(rule);
+
+      expect(className).toBe('a b');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(spy).toHaveBeenCalledWith(
+        'CSS variables are only accepted within rule groups. Found "--color" variable.',
+      );
+    });
   });
 });

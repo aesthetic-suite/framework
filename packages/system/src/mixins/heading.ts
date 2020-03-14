@@ -1,9 +1,9 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { HeadingSize, VarFactory } from '../types';
+import { HeadingSize, VarUtil } from '../types';
 import { resetTypography } from './pattern';
 import { LAYOUT_SHADES } from '../constants';
 
-export function heading(vars: VarFactory, level: HeadingSize): DeclarationBlock {
+export function heading(vars: VarUtil, level: HeadingSize): DeclarationBlock {
   return {
     ...resetTypography(),
     color: vars(`palette-neutral-color-${LAYOUT_SHADES.text}` as 'palette-neutral-color-80'),

@@ -1,5 +1,4 @@
 import ClientRenderer from '../src/client/ClientRenderer';
-import hydrateStyles from '../src/client/hydrateStyles';
 import { SheetType } from '../src/types';
 
 function createStyle(type: SheetType) {
@@ -31,16 +30,18 @@ describe('Hydration', () => {
   it('adds at-rules to the global cache', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.atRuleCache).toEqual({});
+    expect(renderer.ruleCache).toEqual({});
+    // @ts-ignore Allow access
     expect(renderer.ruleIndex).toBe(0);
 
-    hydrateStyles(renderer);
+    renderer.hydrateStyles();
 
-    expect(renderer.atRuleCache).toEqual({
+    expect(renderer.ruleCache).toEqual({
       '1p8yvkz': true,
       '1xk69aq': true,
       phgikz: true,
     });
+    // @ts-ignore Allow access
     expect(renderer.ruleIndex).toBe(20);
   });
 
@@ -48,9 +49,10 @@ describe('Hydration', () => {
     const renderer = new ClientRenderer();
 
     expect(renderer.classNameCache.cache).toEqual({});
+    // @ts-ignore Allow access
     expect(renderer.ruleIndex).toBe(0);
 
-    hydrateStyles(renderer);
+    renderer.hydrateStyles();
 
     expect(renderer.classNameCache.cache).toEqual({
       margin: {
@@ -142,6 +144,7 @@ describe('Hydration', () => {
         '.3s': [{ className: 'q', conditions: [], rank: 16, selector: '', type: 'standard' }],
       },
     });
+    // @ts-ignore Allow access
     expect(renderer.ruleIndex).toBe(20);
   });
 });

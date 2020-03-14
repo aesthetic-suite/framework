@@ -1,9 +1,9 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { TextSize, VarFactory } from '../types';
+import { TextSize, VarUtil } from '../types';
 import { resetTypography } from './pattern';
 import { LAYOUT_SHADES } from '../constants';
 
-export function text(vars: VarFactory, level: TextSize): DeclarationBlock {
+export function text(vars: VarUtil, level: TextSize): DeclarationBlock {
   return {
     ...resetTypography(),
     color: vars(`palette-neutral-color-${LAYOUT_SHADES.text}` as 'palette-neutral-color-80'),

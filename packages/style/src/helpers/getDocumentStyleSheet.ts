@@ -1,16 +1,13 @@
 /* eslint-disable unicorn/prefer-modern-dom-apis */
 
+import getStyleElement from './getStyleElement';
 import { SheetType } from '../types';
-
-function get(type: SheetType) {
-  return document.getElementById(`aesthetic-${type}`);
-}
 
 // Elements should be in the order of: global, standard, media
 function insertInOrder(type: SheetType, style: HTMLStyleElement) {
   if (type === 'global') {
-    const standard = get('standard');
-    const conditions = get('conditions');
+    const standard = getStyleElement('standard');
+    const conditions = getStyleElement('conditions');
 
     if (standard || conditions) {
       (standard || conditions)!.insertAdjacentElement('beforebegin', style);
@@ -20,7 +17,7 @@ function insertInOrder(type: SheetType, style: HTMLStyleElement) {
   }
 
   if (type === 'standard') {
-    const conditions = get('conditions');
+    const conditions = getStyleElement('conditions');
 
     if (conditions) {
       conditions.insertAdjacentElement('beforebegin', style);
@@ -30,7 +27,7 @@ function insertInOrder(type: SheetType, style: HTMLStyleElement) {
   }
 
   if (type === 'conditions') {
-    const standard = get('standard');
+    const standard = getStyleElement('standard');
 
     if (standard) {
       standard.insertAdjacentElement('afterend', style);
@@ -43,7 +40,7 @@ function insertInOrder(type: SheetType, style: HTMLStyleElement) {
 }
 
 export default function getDocumentStyleSheet(type: SheetType): CSSStyleSheet {
-  let element = get(type);
+  let element = getStyleElement(type);
 
   if (!element) {
     const style = document.createElement('style');

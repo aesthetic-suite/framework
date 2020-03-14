@@ -11,7 +11,3 @@ A low-level, high-performance, atomic-based CSS-in-JS solution.
 ```
 yarn add @aesthetic/style
 ```
-
-## What it does not do
-
-- Does not vendor prefix properties.

@@ -1,6 +1,7 @@
 import { arrayLoop } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
+import formatConditions from './helpers/formatConditions';
 import isSupportsRule from './helpers/isSupportsRule';
 import isMediaRule from './helpers/isMediaRule';
 import { MEDIA_RULE } from './constants';
@@ -37,51 +38,41 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
    * If the browser does not support nested rule insertion,
    * simply insert it into the root of the style sheet.
    */
-  insertRule(conditions: Condition[], rule: string): number {
+  insertRule(rule: string, conditions: Condition[]): number {
     const size = conditions.length;
 
     if (!canInsertNestedRules || size === 1) {
       const outerCondition = conditions[0];
-      const finalRule = conditions
-        .reverse()
-        .reduce(
-          (tempRule, condition) =>
-            `@${condition.type === MEDIA_RULE ? 'media' : 'supports'} ${
-              condition.query
-            } { ${tempRule} }`,
-          rule,
-        );
+      const finalRule = formatConditions(rule, conditions);
 
       if (outerCondition.type === MEDIA_RULE) {
         this.insertMediaRule(outerCondition.query, finalRule);
       } else {
         this.insertFeatureRule(outerCondition.query, finalRule);
       }
+    } else {
+      let instance: StyleRule | undefined;
 
-      return -1;
+      // istanbul ignore next
+      arrayLoop(conditions, ({ query, type }, i) => {
+        const bodyContent = i === size - 1 ? rule : '';
+
+        // Insert a new condition at the root
+        if (i === 0) {
+          instance =
+            type === MEDIA_RULE
+              ? this.insertMediaRule(query, bodyContent)
+              : this.insertFeatureRule(query, bodyContent);
+
+          // Recursively insert nested rules
+        } else if (instance) {
+          instance = this.findNestedRule(instance, query, type) || instance;
+
+          // Insert the rule and return a new instance
+          instance = instance.cssRules[instance.insertRule(bodyContent, instance.cssRules.length)];
+        }
+      });
     }
-
-    let instance: StyleRule | null = null;
-
-    // istanbul ignore next
-    arrayLoop(conditions, ({ query, type }, i) => {
-      const bodyContent = i === size - 1 ? rule : '';
-
-      // Insert a new condition at the root
-      if (i === 0) {
-        instance =
-          type === MEDIA_RULE
-            ? this.insertMediaRule(query, bodyContent)
-            : this.insertFeatureRule(query, bodyContent);
-
-        // Recursively insert nested rules
-      } else if (instance) {
-        instance = this.findNestedRule(instance, query, type) || instance;
-
-        // Insert the rule and return a new instance
-        instance = instance.cssRules[instance.insertRule(bodyContent, instance.cssRules.length)];
-      }
-    });
 
     return -1;
   }

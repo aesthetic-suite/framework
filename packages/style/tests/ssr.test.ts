@@ -1,7 +1,15 @@
 import ServerRenderer from '../src/server/ServerRenderer';
-import renderToStyleMarkup from '../src/server/renderToStyleMarkup';
 
 describe('SSR', () => {
+  it('sets SSR global', () => {
+    expect(global.AESTHETIC_SSR_CLIENT).toBeUndefined();
+
+    const renderer = new ServerRenderer();
+    renderer.captureStyles(null);
+
+    expect(global.AESTHETIC_SSR_CLIENT).toBe(renderer);
+  });
+
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
     const renderer = new ServerRenderer();
 
@@ -15,7 +23,7 @@ describe('SSR', () => {
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
-      borderRadius: 4,
+      borderRadius: '4px',
       display: 'inline-block',
       cursor: 'pointer',
       fontFamily: 'Roboto',
@@ -41,7 +49,7 @@ describe('SSR', () => {
     renderer.renderRule({
       margin: 0,
       '@media (width: 500px)': {
-        margin: 10,
+        margin: '10px',
         ':hover': {
           color: 'red',
         },
@@ -50,6 +58,9 @@ describe('SSR', () => {
             color: 'blue',
           },
         },
+      },
+      '@supports (color: green)': {
+        color: 'green',
       },
     });
 
@@ -64,6 +75,6 @@ describe('SSR', () => {
 
     renderer.renderImport('url("test.css")');
 
-    expect(renderToStyleMarkup(renderer)).toMatchSnapshot();
+    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
   });
 });

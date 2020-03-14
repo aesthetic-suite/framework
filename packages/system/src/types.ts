@@ -1,5 +1,7 @@
 import { DeclarationBlock } from '@aesthetic/sss';
 
+export type ThemeName = string;
+
 export type Unit = string;
 
 export type Hexcode = string;
@@ -437,9 +439,9 @@ export type Variables = DesignVariables & ThemeVariables;
 
 export type VariableName = keyof Variables;
 
-export type VarFactory = (name: VariableName, ...fallbacks: (string | number)[]) => string;
+export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 
-export type UnitFactory = (...sizes: number[]) => Unit;
+export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
@@ -518,12 +520,15 @@ export type MixinName =
   | 'text-df'
   | 'text-lg';
 
-export type MixinFactory = (
-  name: MixinName | MixinName[],
-  properties: DeclarationBlock,
-) => DeclarationBlock;
+export type MixinUtil<T extends object> = (name: MixinName | MixinName[], properties?: T) => T;
 
 // OTHER
+
+export interface Utilities<T extends object> {
+  mixin: MixinUtil<T>;
+  unit: UnitUtil;
+  var: VarUtil;
+}
 
 export interface ThemeOptions {
   contrast: ContrastLevel;

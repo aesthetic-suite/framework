@@ -1,0 +1,31 @@
+{
+  "name": "@aesthetic/core",
+  "version": "0.0.0",
+  "description": "Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components.",
+  "keywords": [
+    "aesthetic",
+    "components",
+    "style",
+    "css",
+    "css-in-js"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@aesthetic/sss": "^0.0.4",
+    "@aesthetic/style": "^0.0.3",
+    "@aesthetic/system": "^0.0.2",
+    "@aesthetic/utils": "^0.0.2"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}

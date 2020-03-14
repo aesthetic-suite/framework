@@ -12,9 +12,10 @@ import {
   Mixins,
   MixinName,
   Variables,
-  VarFactory,
-  UnitFactory,
-  MixinFactory,
+  VarUtil,
+  UnitUtil,
+  MixinUtil,
+  Utilities,
 } from './types';
 
 interface AnyObject {
@@ -23,6 +24,8 @@ interface AnyObject {
 }
 
 export default class Theme {
+  name: string = '';
+
   readonly contrast: ContrastLevel;
 
   readonly mixins: Mixins;
@@ -53,7 +56,7 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      this.mixins,
+      deepMerge(this.mixins, {}), // Clone
     );
   }
 
@@ -95,7 +98,7 @@ export default class Theme {
    * Merge one or many mixins into the defined properties.
    * Properties take the highest precendence and will override mixin declarations.
    */
-  mixin: MixinFactory = (names, properties) =>
+  mixin: MixinUtil<object> = (names, properties = {}) =>
     deepMerge(...toArray(names).map(name => this.extendMixin(name)), properties);
 
   /**
@@ -116,6 +119,17 @@ export default class Theme {
   }
 
   /**
+   * Return a mapping of all theme specific utility methods.
+   */
+  toUtilities<T extends object>(): Utilities<T> {
+    return ({
+      mixin: this.mixin,
+      unit: this.unit,
+      var: this.var,
+    } as unknown) as Utilities<T>;
+  }
+
+  /**
    * Return both design and theme tokens as a mapping of CSS variables.
    */
   toVariables(): Variables {
@@ -123,10 +137,12 @@ export default class Theme {
 
     const collapseTree = (data: AnyObject, path: string[]) => {
       objectLoop(data, (value, key) => {
+        const nextPath = [...path, hyphenate(key)];
+
         if (isObject(value)) {
-          collapseTree(value, [...path, hyphenate(key)]);
+          collapseTree(value, nextPath);
         } else {
-          vars[[...path, key].join('-')] = value;
+          vars[nextPath.join('-')] = value;
         }
       });
     };
@@ -139,7 +155,7 @@ export default class Theme {
   /**
    * Return a `rem` unit equivalent for the current spacing type and unit.
    */
-  unit: UnitFactory = (...multipliers) =>
+  unit: UnitUtil = (...multipliers) =>
     multipliers
       .map(
         m =>
@@ -152,7 +168,7 @@ export default class Theme {
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var: VarFactory = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
+  var: VarUtil = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
 
   /**
    * Create the entire mapping of all mixins.

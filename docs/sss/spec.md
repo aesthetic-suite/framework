@@ -163,7 +163,7 @@ const styles: DeclarationBlock = {
 };
 ```
 
-### Shorthands
+### Expanded Values
 
 CSS has a concept known as
 [shorthand properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties), where

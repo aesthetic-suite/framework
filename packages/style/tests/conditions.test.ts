@@ -1,6 +1,5 @@
 import Renderer from '../src/client/ClientRenderer';
-import getInsertedStyles from '../src/helpers/getInsertedStyles';
-import purgeStyles from './purgeStyles';
+import { getRenderedStyles, purgeStyles } from '../src/testing';
 
 describe('Conditions', () => {
   let renderer: Renderer;
@@ -19,33 +18,33 @@ describe('Conditions', () => {
     it('supports @media conditions', () => {
       const className = renderer.renderRule({
         background: '#000',
-        padding: 15,
+        padding: '15px',
         '@media (max-width: 600px)': {
-          padding: 15,
+          padding: '15px',
         },
         '@media screen and (min-width: 900px)': {
-          padding: 20,
+          padding: '20px',
         },
       });
 
       expect(className).toBe('a b c d');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @supports', () => {
       const className = renderer.renderRule({
-        padding: 15,
+        padding: '15px',
         '@supports (display: flex)': {
           '@media (max-width: 600px)': {
-            padding: 15,
+            padding: '15px',
           },
         },
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('sorts media queries using mobile-first', () => {
@@ -69,7 +68,7 @@ describe('Conditions', () => {
         '@media screen and (max-width: 1023px)': block,
       });
 
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('sorts media queries using desktop-first', () => {
@@ -96,7 +95,7 @@ describe('Conditions', () => {
         '@media screen and (max-width: 1023px)': block,
       });
 
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
   });
 
@@ -110,8 +109,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
     it('can be nested in @media', () => {
@@ -125,8 +124,8 @@ describe('Conditions', () => {
       });
 
       expect(className).toBe('a b');
-      expect(getInsertedStyles('standard')).toMatchSnapshot();
-      expect(getInsertedStyles('conditions')).toMatchSnapshot();
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
   });
 });

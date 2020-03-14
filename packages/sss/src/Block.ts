@@ -1,11 +1,16 @@
+/* eslint-disable no-dupe-class-members, lines-between-class-members */
+
 import { objectLoop } from '@aesthetic/utils';
+import { Value } from './types';
 
-export default class Block<T extends object> {
-  readonly nested: { [key: string]: Block<T> } = {};
+export default class Block<T extends object = object> {
+  readonly nested: { [selector: string]: Block<T> } = {};
 
-  readonly properties: Partial<T> = {};
+  readonly properties: { [prop: string]: Value } = {};
 
   readonly selector: string;
+
+  readonly variables: { [name: string]: Value } = {};
 
   constructor(selector: string) {
     this.selector = selector;
@@ -21,20 +26,29 @@ export default class Block<T extends object> {
     return this;
   }
 
-  addProperty<K extends keyof T>(key: K, value: T[K]): this {
-    this.properties[key] = value;
+  addProperty<K extends keyof T>(key: K, value: T[K]): this;
+  addProperty(key: string, value: Value): this;
+  addProperty(key: string, value: unknown): this {
+    this.properties[key] = value as string;
 
     return this;
   }
 
-  addProperties(properties: Partial<T>): this {
+  addProperties(properties: Partial<T> | { [key: string]: Value }): this;
+  addProperties(properties: { [key: string]: unknown }): this {
     Object.assign(this.properties, properties);
 
     return this;
   }
 
+  addVariable(key: string, value: Value): this {
+    this.variables[key] = value;
+
+    return this;
+  }
+
   clone(selector: string): Block<T> {
-    return new Block(selector).merge(this);
+    return new Block<T>(selector).merge(this);
   }
 
   merge(block: Block<T>): this {
@@ -47,13 +61,16 @@ export default class Block<T extends object> {
     return this;
   }
 
-  toObject(): object {
-    const object: { [key: string]: unknown } = { ...this.properties };
+  toObject<O extends object = T>(): O {
+    const object: { [key: string]: unknown } = {
+      ...this.variables,
+      ...this.properties,
+    };
 
     objectLoop(this.nested, (block, selector) => {
       object[selector] = block.toObject();
     });
 
-    return object;
+    return object as O;
   }
 }

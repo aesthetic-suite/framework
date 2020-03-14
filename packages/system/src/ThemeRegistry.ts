@@ -1,12 +1,14 @@
 import Theme from './Theme';
-import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
+import { ColorScheme, ContrastLevel, ThemeOptions, ThemeName } from './types';
 
 export default class ThemeRegistry {
   protected defaultDarkTheme: string = '';
 
   protected defaultLightTheme: string = '';
 
-  protected themes = new Map<string, Theme>();
+  protected defaultTheme: string = '';
+
+  protected themes: { [name: string]: Theme } = {};
 
   /**
    * Return the default dark theme.
@@ -31,10 +33,12 @@ export default class ThemeRegistry {
     const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
     const prefersHighContrast = window.matchMedia('(prefers-contrast: high)').matches;
     const prefersLowContrast = window.matchMedia('(prefers-contrast: low)').matches;
-    const schemeCheckOrder: ColorScheme[] = ['light', 'dark'];
+    const schemeCheckOrder: ColorScheme[] = [];
 
     if (prefersDarkScheme) {
-      schemeCheckOrder.reverse();
+      schemeCheckOrder.push('dark');
+    } else if (prefersLightScheme) {
+      schemeCheckOrder.push('light');
     }
 
     let possibleTheme: Theme | undefined;
@@ -58,34 +62,24 @@ export default class ThemeRegistry {
 
     if (possibleTheme) {
       return possibleTheme;
+    } else if (this.defaultTheme) {
+      return this.getTheme(this.defaultTheme);
     }
 
-    // None found, return a default theme
-    if (prefersLightScheme && this.defaultLightTheme) {
-      return this.getLightTheme();
-    } else if (prefersDarkScheme && this.defaultDarkTheme) {
-      return this.getDarkTheme();
-    }
-
-    // Not sure how we got here but return something
-    if (this.themes.size > 0) {
-      return Array.from(this.themes.values())[0];
-    }
-
-    throw new Error('Unable to find a preferred theme as no themes have been registered.');
+    throw new Error('No themes have been registered.');
   }
 
   /**
    * Return a theme by name or throw an error if not found.
    */
-  getTheme(name: string) {
+  getTheme(name: ThemeName): Theme {
     if (__DEV__) {
       if (!name) {
         throw new Error('Cannot find a theme without a name.');
       }
     }
 
-    const theme = this.themes.get(name);
+    const theme = this.themes[name];
 
     if (theme) {
       return theme;
@@ -98,7 +92,7 @@ export default class ThemeRegistry {
    * Query for a theme that matches the defined parameters.
    */
   query(params: Partial<ThemeOptions>): Theme | undefined {
-    return Array.from(this.themes.values()).find(theme => {
+    return Object.values(this.themes).find(theme => {
       const conditions: boolean[] = [];
 
       if (params.contrast) {
@@ -117,6 +111,7 @@ export default class ThemeRegistry {
    * Register a theme with a unique name. Can optionally mark a theme
    * as default for their defined color scheme.
    */
+  // eslint-disable-next-line complexity
   register(name: string, theme: Theme, isDefault: boolean = false): this {
     if (__DEV__) {
       if (!(theme instanceof Theme)) {
@@ -144,8 +139,30 @@ export default class ThemeRegistry {
       }
     }
 
-    this.themes.set(name, theme);
+    if (theme.name) {
+      if (__DEV__) {
+        throw new Error(`Theme "${name}" has already been registered under "${theme.name}".`);
+      }
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      theme.name = name;
+    }
+
+    if (!this.defaultTheme) {
+      this.defaultTheme = name;
+    }
+
+    this.themes[name] = theme;
 
     return this;
+  }
+
+  /**
+   * Reset the registry to initial state.
+   */
+  reset() {
+    this.defaultDarkTheme = '';
+    this.defaultLightTheme = '';
+    this.themes = {};
   }
 }

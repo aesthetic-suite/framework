@@ -1,6 +1,5 @@
 import arrayLoop from './arrayLoop';
-
-export type StringKey<T> = T extends string ? T : string;
+import { StringKey } from './types';
 
 export default function objectLoop<T extends object, K extends keyof T>(
   object: T,
