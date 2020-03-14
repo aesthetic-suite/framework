@@ -3,6 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { ClientRenderer, ServerRenderer } from '@aesthetic/style';
 import Aesthetic from './Aesthetic';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
@@ -15,6 +16,7 @@ export const {
   createThemeStyles,
   getActiveTheme,
   getTheme,
+  hydrate,
   registerDefaultTheme,
   registerTheme,
   renderComponentStyles,
@@ -30,4 +32,4 @@ export * from '@aesthetic/sss';
 export * from '@aesthetic/system';
 export * from './types';
 
-export { GlobalSheet, LocalSheet, Sheet };
+export { GlobalSheet, LocalSheet, Sheet, ClientRenderer, ServerRenderer };

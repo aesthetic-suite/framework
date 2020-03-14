@@ -68,6 +68,7 @@ export interface ButtonProps {
   children: NonNullable<React.ReactNode>;
   block?: boolean;
   disabled?: boolean;
+  href?: string;
   large?: boolean;
   small?: boolean;
   sheet?: LocalSheet;

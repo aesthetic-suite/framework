@@ -54,11 +54,11 @@ const DEFAULT_PARAMS: Required<RenderParams> = {
 };
 
 export default abstract class Renderer {
-  ruleIndex = 0;
-
   readonly classNameCache = new AtomicCache();
 
   readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
+
+  protected ruleIndex = 0;
 
   protected abstract globalStyleSheet: GlobalStyleSheet;
 

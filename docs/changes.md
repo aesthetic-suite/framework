@@ -26,6 +26,7 @@ EVERYTHING!
 ## Breaking
 
 - Styles must now be created with `createComponentStyles`.
+- Style factory tokens are now strict via a design system.
 - `DirectionProvider` prop `dir` is now `direction`.
 - `useStyles` only returns the `cx` function.
 - `useTheme` returns the new theme object.

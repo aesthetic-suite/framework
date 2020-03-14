@@ -1,5 +1,4 @@
 import ServerRenderer from '../src/server/ServerRenderer';
-import renderToStyleMarkup from '../src/server/renderToStyleMarkup';
 
 describe('SSR', () => {
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
@@ -67,6 +66,6 @@ describe('SSR', () => {
 
     renderer.renderImport('url("test.css")');
 
-    expect(renderToStyleMarkup(renderer)).toMatchSnapshot();
+    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
   });
 });

@@ -1,6 +1,5 @@
 import { arrayLoop, generateHash } from '@aesthetic/utils';
 import ClientRenderer from './ClientRenderer';
-import addRuleToCache from './addRuleToCache';
 import {
   FONT_FACE_RULE,
   KEYFRAMES_RULE,
@@ -9,9 +8,24 @@ import {
   MEDIA_RULE,
   SUPPORTS_RULE,
 } from '../constants';
-import { Condition, SheetType } from '../types';
+import { Condition, CacheItem } from '../types';
 
-function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
+const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
+
+function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<CacheItem>) {
+  const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
+
+  renderer.classNameCache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
+    className,
+    conditions: [],
+    rank: 0,
+    selector: selector.trim(),
+    type: 'standard',
+    ...cache,
+  });
+}
+
+export function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, rule => {
     if (rule.type === FONT_FACE_RULE || rule.type === KEYFRAMES_RULE || rule.type === IMPORT_RULE) {
       renderer.ruleCache[generateHash(rule.cssText)] = true;
@@ -19,7 +33,7 @@ function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   });
 }
 
-function hydrateRules(renderer: ClientRenderer, sheet: CSSStyleSheet) {
+export function hydrateRules(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, (rule, rank) => {
     if (rule.type === STYLE_RULE) {
       addRuleToCache(renderer, rule.cssText, {
@@ -30,7 +44,7 @@ function hydrateRules(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   });
 }
 
-function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
+export function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   let rank = 0;
 
   const gatherStack = (rule: CSSConditionRule, conditions: Condition[] = []) => {
@@ -58,28 +72,5 @@ function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet) {
 
       gatherStack(rule as CSSConditionRule);
     }
-  });
-}
-
-export default function hydrateStyles(renderer: ClientRenderer) {
-  arrayLoop(document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'), style => {
-    const sheet = style.sheet as CSSStyleSheet;
-    const type = style.getAttribute('data-aesthetic-type') as SheetType;
-
-    if (type === 'global') {
-      hydrateGlobals(renderer, sheet);
-    } else if (type === 'standard') {
-      hydrateRules(renderer, sheet);
-    } else if (type === 'conditions') {
-      hydrateConditions(renderer, sheet);
-    }
-
-    // Persist the rule index
-    if (!renderer.ruleIndex) {
-      renderer.ruleIndex = Number(style.getAttribute('data-aesthetic-hydrate'));
-    }
-
-    // Disable so that we avoid unnecessary hydration
-    style.removeAttribute('data-aesthetic-hydrate');
   });
 }

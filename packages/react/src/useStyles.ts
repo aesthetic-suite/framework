@@ -1,11 +1,9 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
 import { arrayReduce } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
-
-const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 /**
  * Hook within a component to provide a style sheet.
@@ -13,7 +11,22 @@ const useSideEffect = typeof window === 'undefined' ? useEffect : useLayoutEffec
 export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameGenerator<keyof T> {
   const direction = useDirection();
   const theme = useTheme();
-  const [classNames, setClassNames] = useState<ClassNameSheet<string>>({});
+
+  // Render the styles immediately for SSR
+  const [classNames, setClassNames] = useState<ClassNameSheet<string>>(() => {
+    if (!global.AESTHETIC_SSR_CLIENT) {
+      return {};
+    }
+
+    return renderComponentStyles(sheet, {
+      direction,
+      theme: theme.name,
+    });
+  });
+
+  // Re-render styles when the theme or direction change
+  const useSideEffect =
+    typeof window === 'undefined' || global.AESTHETIC_SSR_CLIENT ? useEffect : useLayoutEffect;
 
   useSideEffect(() => {
     setClassNames(

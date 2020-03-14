@@ -21,14 +21,8 @@ import {
   EventType,
 } from './types';
 
-function createRenderer(): Renderer {
-  return global.AESTHETIC_SSR || new ClientRenderer();
-}
-
 export default class Aesthetic {
   activeTheme: ThemeName = '';
-
-  globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
   options: Required<AestheticOptions> = {
     defaultUnit: 'px',
@@ -36,11 +30,13 @@ export default class Aesthetic {
     vendorPrefixes: false,
   };
 
-  renderer = createRenderer();
-
   themeRegistry = new ThemeRegistry();
 
+  protected globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+
   protected listeners: { [K in EventType]?: Set<(...args: unknown[]) => void> } = {};
+
+  protected styleRenderer?: Renderer;
 
   /**
    * Change the currently active theme.
@@ -108,6 +104,15 @@ export default class Aesthetic {
   getTheme = (name: ThemeName) => this.themeRegistry.getTheme(name);
 
   /**
+   * Hydrate styles from the document if they have been pre-compiled during a server-side render.
+   */
+  hydrate = () => {
+    if (this.renderer instanceof ClientRenderer) {
+      this.renderer.hydrateStyles();
+    }
+  };
+
+  /**
    * Register a default light or dark theme, with optional global theme styles.
    */
   registerDefaultTheme = (name: ThemeName, theme: Theme, sheet: GlobalSheet | null = null) => {
@@ -135,6 +140,17 @@ export default class Aesthetic {
       this.globalSheetRegistry.set(name, sheet);
     }
   };
+
+  /**
+   * Return a style renderer. When SSR, use a server based renderer.
+   */
+  get renderer() {
+    if (!this.styleRenderer) {
+      this.styleRenderer = global.AESTHETIC_SSR_CLIENT || new ClientRenderer();
+    }
+
+    return this.styleRenderer;
+  }
 
   /**
    * Render a component style sheet to the document with the defined style query parameters.
@@ -194,7 +210,7 @@ export default class Aesthetic {
   resetForTesting() {
     if (process.env.NODE_ENV === 'test') {
       this.activeTheme = '';
-      this.renderer = createRenderer();
+      this.styleRenderer = undefined;
       this.globalSheetRegistry.clear();
       this.themeRegistry.reset();
     }

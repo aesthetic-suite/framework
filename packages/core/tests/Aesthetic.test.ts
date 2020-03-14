@@ -1,3 +1,4 @@
+import { ClientRenderer } from '@aesthetic/style';
 import Aesthetic from '../src/Aesthetic';
 import { LocalSheet, GlobalSheet } from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
@@ -193,6 +194,7 @@ describe('Aesthetic', () => {
 
       aesthetic.registerTheme('day', lightTheme, sheet);
 
+      // @ts-ignore Allow
       expect(aesthetic.globalSheetRegistry.get('day')).toBe(sheet);
     });
 
@@ -206,6 +208,20 @@ describe('Aesthetic', () => {
         );
       }).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
     });
+  });
+
+  describe('renderer()', () => {
+    it('returns a client renderer by default', () => {
+      expect(aesthetic.renderer).toBeInstanceOf(ClientRenderer);
+    });
+
+    // it('passes a server renderer when wrapping for SSR', () => {
+    //   const sr = new ServerRenderer();
+
+    //   captureStyles(sr, () => aesthetic.renderer);
+
+    //   expect(aesthetic.renderer).toBe(sr);
+    // });
   });
 
   describe('renderComponentStyles()', () => {
