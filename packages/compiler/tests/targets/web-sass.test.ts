@@ -1,3 +1,3 @@
 import runTargetTests from './runTargetTests';
 
-runTargetTests('web', 'web-sass');
+runTargetTests('web', 'web-sass', true);

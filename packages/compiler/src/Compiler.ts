@@ -92,10 +92,11 @@ export default class Compiler {
 
   getTargetExtension(): string {
     switch (this.options.target) {
-      case 'android':
-        return 'java';
-      case 'ios':
-        return 'swift';
+      // TODO
+      // case 'android':
+      //   return 'java';
+      // case 'ios':
+      //   return 'swift';
       case 'web-css':
         return 'css';
       case 'web-less':
@@ -104,13 +105,10 @@ export default class Compiler {
         return 'sass';
       case 'web-scss':
         return 'scss';
-      case 'web-cjs':
-      case 'web-js':
-        return 'js';
       case 'web-ts':
         return 'ts';
       default:
-        return '';
+        return 'js';
     }
   }
 
@@ -136,13 +134,9 @@ export default class Compiler {
   async writeDesignFile(design: SystemDesign, platform: Platform): Promise<void> {
     const template = await this.loadTemplate('design');
 
-    if (!template) {
-      return Promise.resolve();
-    }
-
     return this.writeFile(
       this.getTargetFilePath(design.name),
-      await template({
+      await template!({
         data: design.template,
         design,
         borderSizes: BORDER_SIZES,
@@ -180,13 +174,9 @@ export default class Compiler {
   ): Promise<void> {
     const template = await this.loadTemplate('theme');
 
-    if (!template) {
-      return Promise.resolve();
-    }
-
     return this.writeFile(
       this.getTargetFilePath(`themes/${theme.name}`),
-      await template({
+      await template!({
         data: theme.template,
         design,
         paletteTypes: PALETTE_TYPES,

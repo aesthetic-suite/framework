@@ -7,8 +7,8 @@ import { Design } from '@aesthetic/core';
 export default new Design('example', {
   border: {
     sm: {
-      radius: '0.14rem',
-      width: '0.04rem',
+      radius: '0.11rem',
+      width: '0rem',
     },
     df: {
       radius: '0.21rem',
@@ -93,25 +93,25 @@ export default new Design('example', {
     sm: {
       x: '0rem',
       y: '0.23rem',
-      blur: '0.25rem',
+      blur: '0.27rem',
       spread: '0rem',
     },
     md: {
       x: '0rem',
       y: '0.37rem',
-      blur: '0.44rem',
+      blur: '0.39rem',
       spread: '0rem',
     },
     lg: {
       x: '0rem',
       y: '0.61rem',
-      blur: '0.77rem',
+      blur: '0.52rem',
       spread: '0rem',
     },
     xl: {
       x: '0rem',
       y: '0.98rem',
-      blur: '1.34rem',
+      blur: '0.64rem',
       spread: '0rem',
     },
   },

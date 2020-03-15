@@ -2,15 +2,24 @@ import fs from 'fs';
 import path from 'path';
 import { Compiler, PlatformType, TargetType } from '../../src';
 
-export default function runTargetTests(platform: PlatformType, target: TargetType) {
+export default function runTargetTests(
+  platform: PlatformType,
+  target: TargetType,
+  // Alternate testing fixed and scaled configs
+  fixed: boolean = false,
+) {
   describe(`Target ${target}`, () => {
     let compiler: Compiler;
 
     beforeEach(() => {
-      compiler = new Compiler(path.join(__dirname, '../../templates/config.yaml'), __dirname, {
-        platform,
-        target,
-      });
+      compiler = new Compiler(
+        path.join(__dirname, `../../templates/${fixed ? 'config-fixed' : 'config'}.yaml`),
+        __dirname,
+        {
+          platform,
+          target,
+        },
+      );
     });
 
     it('compiles and writes files', async () => {
