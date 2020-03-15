@@ -1,0 +1,10 @@
+<% Object.entries(props).forEach(([name, value]) => {
+// Nested selectors
+if (typeof value === 'object') { -%>
+
+<%= '  '.repeat(indent) %>&<%= name %>
+<%- include('css', { props: value, indent: indent + 1 }) -%>
+<% // Property value
+} else { -%>
+<%= '  '.repeat(indent) %><%= platform.property(name) -%>: <%= value %>
+<% }}) -%>
