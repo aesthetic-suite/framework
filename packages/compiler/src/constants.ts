@@ -7,7 +7,6 @@ import {
   TextSize,
   PaletteType,
   ColorShade,
-  MixinName,
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
@@ -102,36 +101,4 @@ export const SHADE_RANGES: ColorShade[] = [
   '70',
   '80',
   '90',
-];
-
-export const MIXIN_NAMES: MixinName[] = [
-  'border-sm',
-  'border-df',
-  'border-lg',
-  'box-sm',
-  'box-df',
-  'box-lg',
-  'heading-l1',
-  'heading-l2',
-  'heading-l3',
-  'heading-l4',
-  'heading-l5',
-  'heading-l6',
-  'pattern-hidden',
-  'pattern-offscreen',
-  'pattern-reset-button',
-  'pattern-reset-input',
-  'pattern-reset-list',
-  'pattern-reset-typography',
-  'pattern-text-break',
-  'pattern-text-truncate',
-  'pattern-text-wrap',
-  'shadow-xs',
-  'shadow-sm',
-  'shadow-df',
-  'shadow-lg',
-  'shadow-xl',
-  'text-sm',
-  'text-df',
-  'text-lg',
 ];

@@ -11,6 +11,7 @@ import {
   TextSize,
   ElevationType,
   ShadowSize,
+  MixinName,
 } from '@aesthetic/system';
 
 export type PlatformType = 'android' | 'ios' | 'web';
@@ -308,3 +309,7 @@ export interface PaletteTemplate {
 export interface ThemeTemplate {
   palette: { [K in PaletteType]: PaletteTemplate };
 }
+
+export type MixinsTemplate = {
+  [K in MixinName]: object;
+};

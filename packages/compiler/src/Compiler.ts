@@ -3,21 +3,21 @@ import optimal, { string } from 'optimal';
 import ejs, { AsyncTemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
-import { DEPTHS } from '@aesthetic/system';
+import { createMixins, DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { TargetType, SystemOptions, PlatformType, ConfigFile } from './types';
+import { TargetType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
 import {
   BORDER_SIZES,
   BREAKPOINT_SIZES,
   HEADING_SIZES,
+  PALETTE_TYPES,
+  SHADE_RANGES,
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
-  PALETTE_TYPES,
-  SHADE_RANGES,
 } from './constants';
 
 type Platform = WebPlatform;
@@ -80,12 +80,13 @@ export default class Compiler {
     // Load the platform
     const platform = this.loadPlatform(design);
 
-    // Write the design system file
+    // Write the design system and mixin files
+    await this.writeMixinsFile(platform);
     await this.writeDesignFile(design, platform);
 
     // Write all theme files
     await Promise.all(
-      Array.from(themes.entries()).map(([, theme]) => this.writeThemeFile(theme, platform)),
+      Array.from(themes.entries()).map(([, theme]) => this.writeThemeFile(design, theme, platform)),
     );
   }
 
@@ -127,7 +128,10 @@ export default class Compiler {
       return null;
     }
 
-    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
+    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), {
+      async: true,
+      filename: templatePath.path(),
+    });
   }
 
   async writeDesignFile(design: SystemDesign, platform: Platform): Promise<void> {
@@ -138,7 +142,7 @@ export default class Compiler {
     }
 
     return this.writeFile(
-      this.getTargetFilePath('design'),
+      this.getTargetFilePath(design.name),
       await template({
         data: design.template,
         design,
@@ -154,7 +158,27 @@ export default class Compiler {
     );
   }
 
-  async writeThemeFile(theme: SystemTheme, platform: Platform): Promise<void> {
+  async writeMixinsFile(platform: Platform): Promise<void> {
+    const template = await this.loadTemplate('mixins');
+
+    if (!template) {
+      return Promise.resolve();
+    }
+
+    return this.writeFile(
+      this.getTargetFilePath('mixins'),
+      await template({
+        mixins: this.loadMixins(platform),
+        platform,
+      }),
+    );
+  }
+
+  async writeThemeFile(
+    design: SystemDesign,
+    theme: SystemTheme,
+    platform: Platform,
+  ): Promise<void> {
     const template = await this.loadTemplate('theme');
 
     if (!template) {
@@ -165,6 +189,7 @@ export default class Compiler {
       this.getTargetFilePath(`themes/${theme.name}`),
       await template({
         data: theme.template,
+        design,
         paletteTypes: PALETTE_TYPES,
         platform,
         shadeRanges: SHADE_RANGES,
@@ -191,8 +216,48 @@ export default class Compiler {
     return path;
   }
 
+  protected loadMixins(platform: Platform): MixinsTemplate {
+    const mixins = createMixins(platform.var);
+
+    return {
+      'border-sm': mixins.border.sm,
+      'border-df': mixins.border.df,
+      'border-lg': mixins.border.lg,
+      'box-sm': mixins.box.sm,
+      'box-df': mixins.box.df,
+      'box-lg': mixins.box.lg,
+      'heading-l1': mixins.heading.l1,
+      'heading-l2': mixins.heading.l2,
+      'heading-l3': mixins.heading.l3,
+      'heading-l4': mixins.heading.l4,
+      'heading-l5': mixins.heading.l5,
+      'heading-l6': mixins.heading.l6,
+      'pattern-hidden': mixins.pattern.hidden,
+      'pattern-offscreen': mixins.pattern.offscreen,
+      'pattern-reset-button': mixins.pattern.reset.button,
+      'pattern-reset-input': mixins.pattern.reset.input,
+      'pattern-reset-list': mixins.pattern.reset.list,
+      'pattern-reset-typography': mixins.pattern.reset.typography,
+      'pattern-text-break': mixins.pattern.text.break,
+      'pattern-text-truncate': mixins.pattern.text.truncate,
+      'pattern-text-wrap': mixins.pattern.text.wrap,
+      'shadow-xs': mixins.shadow.xs,
+      'shadow-sm': mixins.shadow.sm,
+      'shadow-md': mixins.shadow.md,
+      'shadow-lg': mixins.shadow.lg,
+      'shadow-xl': mixins.shadow.xs,
+      'text-sm': mixins.text.sm,
+      'text-df': mixins.text.df,
+      'text-lg': mixins.text.lg,
+    };
+  }
+
   protected loadPlatform(design: SystemDesign): Platform {
-    return new WebPlatform(design.template.text.df.size, design.template.spacing.unit);
+    return new WebPlatform(
+      this.options.target,
+      design.template.text.df.size,
+      design.template.spacing.unit,
+    );
   }
 
   protected loadThemes(

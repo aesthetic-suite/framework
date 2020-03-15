@@ -519,7 +519,7 @@ export type MixinName =
   | 'pattern-text-wrap'
   | 'shadow-xs'
   | 'shadow-sm'
-  | 'shadow-df'
+  | 'shadow-md'
   | 'shadow-lg'
   | 'shadow-xl'
   | 'text-sm'

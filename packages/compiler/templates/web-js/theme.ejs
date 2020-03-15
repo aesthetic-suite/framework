@@ -10,7 +10,7 @@ export default parentTheme.extend({
 });
 
 <% } else { -%>
-import design from '../design';
+import design from '../<%= design.name -%>';
 
 export default design.createTheme({
   contrast: '<%= theme.contrast -%>',
