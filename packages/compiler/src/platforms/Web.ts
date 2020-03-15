@@ -45,6 +45,10 @@ export default class WebPlatform {
       return `$${value}`;
     }
 
+    if (this.target === 'web-less') {
+      return `@${value}`;
+    }
+
     return `var(--${value})`;
   };
 
