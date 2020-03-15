@@ -1,4 +1,4 @@
-import { camelCase } from 'lodash';
+import { camelCase, kebabCase } from 'lodash';
 import { deepMerge } from '@aesthetic/utils';
 import { ColorScheme, ContrastLevel, DeepPartial, Hexcode, ColorShade } from '@aesthetic/system';
 import { ThemeConfig, ThemeTemplate, PaletteConfig, PaletteTemplate, PaletteState } from './types';
@@ -6,6 +6,8 @@ import { formatShade } from './helpers';
 
 export default class SystemTheme<ColorNames extends string = string> {
   contrast: ContrastLevel;
+
+  dashedName: string;
 
   extendedFrom: string;
 
@@ -19,6 +21,7 @@ export default class SystemTheme<ColorNames extends string = string> {
 
   constructor(name: string, config: ThemeConfig<ColorNames>, extendedFrom: string = '') {
     this.name = camelCase(name);
+    this.dashedName = kebabCase(name);
     this.config = config;
     this.contrast = config.contrast;
     this.scheme = config.scheme;

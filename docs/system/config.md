@@ -42,6 +42,17 @@ sizeScale: major-fourth
 > If you want to use scaling for a specific setting group, but not an individual setting, pass `0`
 > as the scale ratio.
 
+## Name
+
+> Platforms: Android, Web, iOS
+
+What is a design system without a name? The name should be unique and is used by specific
+compilation targets.
+
+```yaml
+name: aesthetic-2020
+```
+
 ## Responsive
 
 ### Strategy

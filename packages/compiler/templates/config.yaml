@@ -2,6 +2,10 @@
 #   - All unit based settings should be defined as unitless numbers.
 #     Assume "px" for web, "sp" or "dp" for Android, and "pt" for iOS.
 
+# NAME
+# Unique name of the design system.
+name: example
+
 # RESPONSIVE
 responsive:
   # Whether the system should target mobile or desktop devices as first priority.

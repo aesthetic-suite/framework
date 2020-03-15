@@ -16,6 +16,8 @@ import {
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
+  PALETTE_TYPES,
+  SHADE_RANGES,
 } from './constants';
 
 type Platform = WebPlatform;
@@ -69,10 +71,10 @@ export default class Compiler {
   async compile(): Promise<void> {
     // Load and validate the config
     const loader = new ConfigLoader(this.options.platform);
-    const { themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
+    const { name, themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
 
     // Create the design system and theme variants
-    const system = new System(designConfig, this.options);
+    const system = new System(name, designConfig, this.options);
     const themes = this.loadThemes(system, themesConfig);
 
     // Load the platform
@@ -83,7 +85,7 @@ export default class Compiler {
 
     // Write all theme files
     await Promise.all(
-      Array.from(themes.entries()).map(([name, theme]) => this.writeThemeFile(theme, platform)),
+      Array.from(themes.entries()).map(([, theme]) => this.writeThemeFile(theme, platform)),
     );
   }
 
@@ -141,7 +143,7 @@ export default class Compiler {
         data: system.template,
         borderSizes: BORDER_SIZES,
         breakpointSizes: BREAKPOINT_SIZES,
-        elevationDepths: DEPTHS,
+        elevationDepths: Object.entries(DEPTHS),
         headingSizes: HEADING_SIZES,
         platform,
         shadowSizes: SHADOW_SIZES,
@@ -163,7 +165,9 @@ export default class Compiler {
       this.getTargetFilePath(`themes/${theme.name}`),
       await template({
         data: theme.template,
+        paletteTypes: PALETTE_TYPES,
         platform,
+        shadeRanges: SHADE_RANGES,
         theme,
       }),
     );

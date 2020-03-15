@@ -1,6 +1,7 @@
+import { camelCase, kebabCase } from 'lodash';
 import { DEPTHS } from '@aesthetic/system';
 import SystemTheme from './SystemTheme';
-import { font as getFont } from './helpers';
+import { getPlatformFont as getFont } from './helpers';
 import { SCALES, BREAKPOINT_SIZES, SHADOW_SIZES } from './constants';
 import {
   BorderTemplate,
@@ -32,14 +33,24 @@ export function scaleUp(accumulator: number, scaling: Scale): number {
   return scale(accumulator, scaling, 'up');
 }
 
+export function quote(value: string): string {
+  return value.replace(/'/gu, '"');
+}
+
 export default class System {
+  dashedName: string;
+
+  name: string;
+
   template: DesignTemplate;
 
   private readonly config: DesignConfig;
 
   private readonly options: SystemOptions;
 
-  constructor(config: DesignConfig, options: SystemOptions) {
+  constructor(name: string, config: DesignConfig, options: SystemOptions) {
+    this.name = camelCase(name);
+    this.dashedName = kebabCase(name);
     this.config = config;
     this.options = options;
     this.template = this.compile();
@@ -317,11 +328,11 @@ export default class System {
 
     return {
       font: {
-        heading: headingFont || systemFont,
+        heading: quote(headingFont || systemFont),
         locale: localeFonts,
-        monospace: monospaceFont || getFont(this.options.platform, 'monospace'),
-        text: textFont || systemFont,
-        system: systemFont,
+        monospace: quote(monospaceFont || getFont(this.options.platform, 'monospace')),
+        text: quote(textFont || systemFont),
+        system: quote(systemFont),
       },
       rootLineHeight: text.df.lineHeight,
       rootTextSize: text.df.size,

@@ -4,6 +4,8 @@ import { DEPTHS } from './constants';
 import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
 
 export default class Design {
+  readonly name: string;
+
   readonly rootLineHeight: number;
 
   readonly rootTextSize: number;
@@ -12,7 +14,8 @@ export default class Design {
 
   readonly tokens: DesignTokens;
 
-  constructor(tokens: Omit<DesignTokens, 'depth'>) {
+  constructor(name: string, tokens: Omit<DesignTokens, 'depth'>) {
+    this.name = name;
     this.tokens = {
       ...tokens,
       depth: DEPTHS,
@@ -33,7 +36,7 @@ export default class Design {
   /**
    * Extend and instantiate a new design instance with customized design tokens.
    */
-  extend(tokens: DeepPartial<DesignTokens>): Design {
-    return new Design(deepMerge(this.tokens, tokens));
+  extend(name: string, tokens: DeepPartial<DesignTokens>): Design {
+    return new Design(name, deepMerge(this.tokens, tokens));
   }
 }

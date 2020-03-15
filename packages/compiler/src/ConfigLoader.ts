@@ -41,7 +41,7 @@ import {
   PalettesConfig,
 } from './types';
 import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, PLATFORM_CONFIGS } from './constants';
-import { font } from './helpers';
+import { getPlatformFont } from './helpers';
 
 function hexcode() {
   return string()
@@ -73,6 +73,7 @@ export default class ConfigLoader {
 
   validate(config: DeepPartial<ConfigFile>): ConfigFile {
     return optimal(config, {
+      name: this.name(),
       borders: this.borders(),
       colors: this.colors(),
       responsive: this.responsive(),
@@ -121,6 +122,10 @@ export default class ConfigLoader {
 
   protected colorShade(defaultValue: number) {
     return number(defaultValue).oneOf([0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+  }
+
+  protected name() {
+    return string().notEmpty();
   }
 
   protected responsive() {
@@ -286,7 +291,7 @@ export default class ConfigLoader {
           shape({
             text: string('system'),
             heading: string('system'),
-            monospace: string(() => font(this.platform, 'monospace')),
+            monospace: string(() => getPlatformFont(this.platform, 'monospace')),
             locale: object(string()),
           }).exact(),
         ],

@@ -5,6 +5,8 @@ import {
   SpacingSize,
   HeadingSize,
   TextSize,
+  PaletteType,
+  ColorShade,
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
@@ -74,3 +76,29 @@ export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'md', 'lg', 'xl'];
 
 export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
+
+export const PALETTE_TYPES: PaletteType[] = [
+  'brand',
+  'primary',
+  'secondary',
+  'tertiary',
+  'neutral',
+  'muted',
+  'danger',
+  'warning',
+  'success',
+  'info',
+];
+
+export const SHADE_RANGES: ColorShade[] = [
+  '00',
+  '10',
+  '20',
+  '30',
+  '40',
+  '50',
+  '60',
+  '70',
+  '80',
+  '90',
+];

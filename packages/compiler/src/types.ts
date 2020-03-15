@@ -226,6 +226,7 @@ export interface ThemeConfig<ColorNames extends string = string> {
 }
 
 export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
+  name: string;
   themes: { [name: string]: ThemeConfig<ColorNames> };
 }
 
