@@ -5,7 +5,7 @@ import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
 import { DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
-import System from './System';
+import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
 import { TargetType, SystemOptions, PlatformType, ConfigFile } from './types';
@@ -74,14 +74,14 @@ export default class Compiler {
     const { name, themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
 
     // Create the design system and theme variants
-    const system = new System(name, designConfig, this.options);
-    const themes = this.loadThemes(system, themesConfig);
+    const design = new SystemDesign(name, designConfig, this.options);
+    const themes = this.loadThemes(design, themesConfig);
 
     // Load the platform
-    const platform = this.loadPlatform(system);
+    const platform = this.loadPlatform(design);
 
     // Write the design system file
-    await this.writeDesignFile(system, platform);
+    await this.writeDesignFile(design, platform);
 
     // Write all theme files
     await Promise.all(
@@ -130,7 +130,7 @@ export default class Compiler {
     return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
   }
 
-  async writeDesignFile(system: System, platform: Platform): Promise<void> {
+  async writeDesignFile(design: SystemDesign, platform: Platform): Promise<void> {
     const template = await this.loadTemplate('design');
 
     if (!template) {
@@ -140,7 +140,8 @@ export default class Compiler {
     return this.writeFile(
       this.getTargetFilePath('design'),
       await template({
-        data: system.template,
+        data: design.template,
+        design,
         borderSizes: BORDER_SIZES,
         breakpointSizes: BREAKPOINT_SIZES,
         elevationDepths: Object.entries(DEPTHS),
@@ -148,7 +149,6 @@ export default class Compiler {
         platform,
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,
-        system,
         textSizes: TEXT_SIZES,
       }),
     );
@@ -191,12 +191,12 @@ export default class Compiler {
     return path;
   }
 
-  protected loadPlatform(system: System): Platform {
-    return new WebPlatform(system.template.text.df.size, system.template.spacing.unit);
+  protected loadPlatform(design: SystemDesign): Platform {
+    return new WebPlatform(design.template.text.df.size, design.template.spacing.unit);
   }
 
   protected loadThemes(
-    system: System,
+    design: SystemDesign,
     themesConfig: ConfigFile['themes'],
   ): Map<string, SystemTheme> {
     const themes = { ...themesConfig };
@@ -205,7 +205,7 @@ export default class Compiler {
     // Load all themes that do not extend another theme
     Object.entries(themes).forEach(([name, config]) => {
       if (!config.extends) {
-        map.set(name, system.createTheme(name, config));
+        map.set(name, design.createTheme(name, config));
 
         delete themes[name];
       }

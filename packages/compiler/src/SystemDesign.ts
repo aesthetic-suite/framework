@@ -37,7 +37,7 @@ export function quote(value: string): string {
   return value.replace(/'/gu, '"');
 }
 
-export default class System {
+export default class SystemDesign {
   dashedName: string;
 
   name: string;
