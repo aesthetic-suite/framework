@@ -1,6 +1,6 @@
 import fs from 'fs';
 import optimal, { string } from 'optimal';
-import ejs, { AsyncTemplateFunction } from 'ejs';
+import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
 import { createMixins, DEPTHS } from '@aesthetic/system';
@@ -118,7 +118,7 @@ export default class Compiler {
     return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
   }
 
-  async loadTemplate(name: string): Promise<AsyncTemplateFunction | null> {
+  async loadTemplate(name: string): Promise<TemplateFunction | null> {
     const { target } = this.options;
     const targetFolder = target === 'web-ts' ? 'web-js' : target;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
@@ -129,7 +129,6 @@ export default class Compiler {
     }
 
     return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), {
-      async: true,
       filename: templatePath.path(),
     });
   }
