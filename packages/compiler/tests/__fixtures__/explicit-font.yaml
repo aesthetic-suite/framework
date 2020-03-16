@@ -1,0 +1,5 @@
+name: test
+colors:
+  - black
+typography:
+  font: Roboto, "Open Sans"

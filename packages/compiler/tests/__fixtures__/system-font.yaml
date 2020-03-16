@@ -1,0 +1,5 @@
+name: test
+colors:
+  - black
+typography:
+  font: system

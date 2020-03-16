@@ -1,0 +1,13 @@
+name: test
+colors:
+  - black
+typography:
+  font:
+    text: 'Roboto, sans-serif'
+    heading: 'Droid, sans-serif'
+    monospace: '"Lucida Console", Monaco, monospace'
+    locale:
+      # Japanese
+      ja_JP: 'YuGothic, "Meiryo UI", Meiryo, Osaka, Tahoma, Arial, sans-serif'
+      # Thai
+      th_TH: '"Leelawadee UI Regular", "Kmer UI", Tahoma, Arial, sans-serif'
