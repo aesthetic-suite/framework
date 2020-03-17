@@ -1,3 +1,4 @@
+extends: ../../templates/config.yaml
 name: test
 colors:
   - black

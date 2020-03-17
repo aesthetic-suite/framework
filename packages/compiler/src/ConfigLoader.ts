@@ -1,4 +1,5 @@
 import { Path, parseFile } from '@boost/common';
+import { deepMerge } from '@aesthetic/utils';
 import { DeepPartial, ColorScheme, ContrastLevel, Hexcode } from '@aesthetic/system';
 import optimal, {
   array,
@@ -60,6 +61,10 @@ function unit(defaultValue: number = 0) {
   return number(defaultValue);
 }
 
+function addYamlExtension(path: string): string {
+  return path.endsWith('.yaml') ? path : `${path}.yaml`;
+}
+
 export default class ConfigLoader {
   platform: PlatformType;
 
@@ -68,14 +73,30 @@ export default class ConfigLoader {
   }
 
   load(path: Path): ConfigFile {
-    return this.validate(parseFile(path));
+    let config = parseFile<DeepPartial<ConfigFile>>(path);
+
+    if (config.extends) {
+      const fileName = addYamlExtension(config.extends);
+      let extendsPath: Path;
+
+      if (fileName.startsWith('.')) {
+        extendsPath = Path.resolve(fileName, path.parent());
+      } else {
+        extendsPath = path.parent().append(fileName);
+      }
+
+      config = deepMerge(this.load(extendsPath), config);
+    }
+
+    return this.validate(config);
   }
 
   validate(config: DeepPartial<ConfigFile>): ConfigFile {
     return optimal(config, {
-      name: this.name(),
       borders: this.borders(),
       colors: this.colors(),
+      extends: string(),
+      name: this.name(),
       responsive: this.responsive(),
       shadows: this.shadows(),
       spacing: this.spacing(),
