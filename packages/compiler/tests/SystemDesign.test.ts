@@ -135,4 +135,33 @@ describe('SystemDesign', () => {
       expect(design.template.typography.font.text).toBe('Roboto, "Open Sans"');
     });
   });
+
+  describe('themes', () => {
+    it('errors when theme doesnt implement the defined colors', () => {
+      expect(() =>
+        new ConfigLoader('web').load(
+          new Path(__dirname, './__fixtures__/missing-theme-color.yaml'),
+        ),
+      ).toThrow(
+        'Invalid field "themes.default.colors". Theme has not implemented the following colors: black, white',
+      );
+    });
+    it('errors when theme implements an unknown colors', () => {
+      expect(() =>
+        new ConfigLoader('web').load(
+          new Path(__dirname, './__fixtures__/unknown-theme-color.yaml'),
+        ),
+      ).toThrow('Invalid field "themes.default.colors". Theme is using unknown colors: white');
+    });
+
+    it('errors when theme palette references an invalid color', () => {
+      expect(() =>
+        new ConfigLoader('web').load(
+          new Path(__dirname, './__fixtures__/invalid-palette-color.yaml'),
+        ),
+      )
+        .toThrow(`Invalid field "themes.default.palettes.brand". Type must be one of: string, shape. Received string with the following invalidations:
+ - Invalid color "white".`);
+    });
+  });
 });

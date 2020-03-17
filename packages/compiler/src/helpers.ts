@@ -7,7 +7,7 @@ export function getPlatformFont(platform: PlatformType, type: 'monospace' | 'sys
 }
 
 export function formatShade(value: number): ColorShade {
-  return String(value ?? 0)
+  return String(value)
     .padStart(2, '0')
     .slice(0, 2) as ColorShade;
 }
