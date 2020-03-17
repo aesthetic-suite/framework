@@ -126,24 +126,10 @@ export default class SystemDesign {
 
       if (strategy === 'mobile-first') {
         conditions.push(['min-width', size]);
-
-        const next = points[index + 1];
-
-        if (next) {
-          conditions.push(['max-width', next - 1]);
-        }
-
         lastLineHeight = scaleUp(lastLineHeight, lineHeightScale);
         lastTextSize = scaleUp(lastTextSize, textScale);
       } else {
-        const prev = points[index - 1];
-
-        if (prev) {
-          conditions.push(['min-width', prev + 1]);
-        }
-
         conditions.push(['max-width', size]);
-
         lastLineHeight = scaleDown(lastLineHeight, lineHeightScale);
         lastTextSize = scaleDown(lastTextSize, textScale);
       }
@@ -155,6 +141,11 @@ export default class SystemDesign {
         rootTextSize: lastTextSize,
       };
     });
+
+    // Reverse before destructuring
+    if (strategy === 'desktop-first') {
+      templates.reverse();
+    }
 
     // Destructure into the right sizes
     const [xs, sm, md, lg, xl] = templates;

@@ -21,25 +21,25 @@ export default new Design('example', {
   },
   breakpoint: {
     xs: {
-      query: '(min-width: 45.71em) and (max-width: 68.50em)',
+      query: '(min-width: 45.71em)',
       querySize: 640,
       rootLineHeight: 1.33,
       rootTextSize: '14.94px',
     },
     sm: {
-      query: '(min-width: 68.57em) and (max-width: 91.36em)',
+      query: '(min-width: 68.57em)',
       querySize: 960,
       rootLineHeight: 1.42,
       rootTextSize: '15.94px',
     },
     md: {
-      query: '(min-width: 91.43em) and (max-width: 114.21em)',
+      query: '(min-width: 91.43em)',
       querySize: 1280,
       rootLineHeight: 1.52,
       rootTextSize: '17.01px',
     },
     lg: {
-      query: '(min-width: 114.29em) and (max-width: 137.07em)',
+      query: '(min-width: 114.29em)',
       querySize: 1600,
       rootLineHeight: 1.62,
       rootTextSize: '18.15px',

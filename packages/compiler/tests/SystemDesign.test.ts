@@ -11,6 +11,90 @@ describe('SystemDesign', () => {
     target: 'web-ts',
   };
 
+  describe('breakpoints', () => {
+    it('handles mobile first', () => {
+      const config = new ConfigLoader('web').load(
+        new Path(__dirname, './__fixtures__/mobile-first.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+
+      expect(design.template.breakpoint).toEqual({
+        xs: {
+          queryConditions: [['min-width', 640]],
+          querySize: 640,
+          rootLineHeight: 1.33375,
+          rootTextSize: 14.937999999999999,
+        },
+        sm: {
+          queryConditions: [['min-width', 960]],
+          querySize: 960,
+          rootLineHeight: 1.4231112499999998,
+          rootTextSize: 15.938845999999998,
+        },
+        md: {
+          queryConditions: [['min-width', 1280]],
+          querySize: 1280,
+          rootLineHeight: 1.5184597037499998,
+          rootTextSize: 17.006748681999998,
+        },
+        lg: {
+          queryConditions: [['min-width', 1600]],
+          querySize: 1600,
+          rootLineHeight: 1.6201965039012498,
+          rootTextSize: 18.146200843693997,
+        },
+        xl: {
+          queryConditions: [['min-width', 1920]],
+          querySize: 1920,
+          rootLineHeight: 1.7287496696626334,
+          rootTextSize: 19.361996300221495,
+        },
+      });
+    });
+
+    it('handles desktop first', () => {
+      const config = new ConfigLoader('web').load(
+        new Path(__dirname, './__fixtures__/desktop-first.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+
+      expect(design.template.breakpoint).toEqual({
+        xs: {
+          queryConditions: [['max-width', 640]],
+          querySize: 640,
+          rootLineHeight: 0.9038324214430207,
+          rootTextSize: 10.122923120161829,
+        },
+        sm: {
+          queryConditions: [['max-width', 960]],
+          querySize: 960,
+          rootLineHeight: 0.964389193679703,
+          rootTextSize: 10.801158969212672,
+        },
+        md: {
+          queryConditions: [['max-width', 1280]],
+          querySize: 1280,
+          rootLineHeight: 1.029003269656243,
+          rootTextSize: 11.524836620149921,
+        },
+        lg: {
+          queryConditions: [['max-width', 1600]],
+          querySize: 1600,
+          rootLineHeight: 1.0979464887232113,
+          rootTextSize: 12.297000673699966,
+        },
+        xl: {
+          queryConditions: [['max-width', 1920]],
+          querySize: 1920,
+          rootLineHeight: 1.1715089034676665,
+          rootTextSize: 13.120899718837864,
+        },
+      });
+    });
+  });
+
   describe('typography', () => {
     it('sets each font', () => {
       const config = new ConfigLoader('web').load(new Path(__dirname, './__fixtures__/fonts.yaml'));

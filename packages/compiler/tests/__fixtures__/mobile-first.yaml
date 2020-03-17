@@ -1,0 +1,4 @@
+extends: desktop-first
+name: test
+responsive:
+  strategy: mobile-first
