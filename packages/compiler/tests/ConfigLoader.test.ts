@@ -13,4 +13,12 @@ describe('ConfigLoader', () => {
       new ConfigLoader('web').load(new Path(__dirname, '../templates/config-fixed.yaml')),
     ).not.toThrow();
   });
+
+  it('errors if theme extends unknown theme', () => {
+    expect(() =>
+      new ConfigLoader('web').load(
+        new Path(__dirname, './__fixtures__/missing-theme-reference.yaml'),
+      ),
+    ).toThrow('Parent theme "unknown" does not exist.');
+  });
 });

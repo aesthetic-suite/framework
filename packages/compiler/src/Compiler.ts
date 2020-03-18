@@ -270,11 +270,8 @@ export default class Compiler {
       const { extends: extendsFrom, ...themeConfig } = config;
       const parentTheme = map.get(extendsFrom!);
 
-      if (!parentTheme) {
-        throw new Error(`Trying to extend theme "${extendsFrom}" which does not exist.`);
-      }
-
-      map.set(name, parentTheme.extend(name, themeConfig, extendsFrom));
+      // Theme existence is validated before hand
+      map.set(name, parentTheme!.extend(name, themeConfig, extendsFrom));
     });
 
     return map;

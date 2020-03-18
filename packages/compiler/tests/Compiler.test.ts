@@ -1,7 +1,30 @@
+/* eslint-disable jest/expect-expect */
+
+import fs from 'fs';
 import path from 'path';
 import { Compiler } from '../src';
 
 const CONFIG_PATH = path.join(__dirname, '../templates/config.yaml');
+
+async function runCompilerSnapshot(filePath: string) {
+  const mkdirSpy = jest.spyOn(fs.promises, 'mkdir').mockImplementation(() => Promise.resolve());
+
+  const writeSpy = jest.spyOn(fs.promises, 'writeFile').mockImplementation((fp, contents) => {
+    expect(contents).toMatchSnapshot();
+
+    return Promise.resolve();
+  });
+
+  const compiler = new Compiler(filePath, __dirname, {
+    platform: 'web',
+    target: 'web-ts',
+  });
+
+  await compiler.compile();
+
+  mkdirSpy.mockRestore();
+  writeSpy.mockRestore();
+}
 
 describe('Compiler', () => {
   describe('constructor()', () => {
@@ -51,6 +74,20 @@ describe('Compiler', () => {
       ).toThrow(
         'Invalid field "target". String must be one of: android, ios, web-cjs, web-css, web-less, web-sass, web-scss, web-js, web-ts',
       );
+    });
+  });
+
+  describe('compile()', () => {
+    it('compiles base config', async () => {
+      await runCompilerSnapshot(CONFIG_PATH);
+    });
+
+    it('compiles fonts', async () => {
+      await runCompilerSnapshot(path.join(__dirname, `./__fixtures__/fonts.yaml`));
+    });
+
+    it('compiles multiple themes', async () => {
+      await runCompilerSnapshot(path.join(__dirname, `./__fixtures__/themes.yaml`));
     });
   });
 });

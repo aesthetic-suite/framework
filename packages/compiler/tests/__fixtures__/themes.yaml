@@ -98,3 +98,33 @@ themes:
           selected: 90
       danger: blue
       success: green
+  other:
+    scheme: light
+    extends: default
+    colors:
+      white:
+        # Lowercased compared to parent
+        '00': '#ff0'
+        '10': '#ff1'
+        '20': '#ff2'
+        '30': '#ff3'
+        '40': '#ff4'
+        '50': '#ff5'
+        '60': '#ff6'
+        '70': '#ff7'
+        '80': '#ff8'
+        '90': '#ff9'
+    palettes:
+      brand: blue
+      neutral:
+        color: green
+        fg:
+          base: 0
+          focused: 40
+          selected: 80
+      danger:
+        color: red
+        bg:
+          base: 90
+        fg:
+          base: '00'

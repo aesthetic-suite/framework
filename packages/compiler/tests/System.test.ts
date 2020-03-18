@@ -148,6 +148,18 @@ describe('System', () => {
       expect(theme.template).toMatchSnapshot();
     });
 
+    it('supports theme extending', () => {
+      const config = new ConfigLoader('web').load(
+        new Path(__dirname, './__fixtures__/themes.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+      const base = design.createTheme('default', config.themes.default);
+      const other = base.extend('other', config.themes.other, 'default');
+
+      expect(other.template).toMatchSnapshot();
+    });
+
     it('errors when theme doesnt implement the defined colors', () => {
       expect(() =>
         new ConfigLoader('web').load(

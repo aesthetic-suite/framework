@@ -81,6 +81,7 @@ export default class ConfigLoader {
   load(path: Path): ConfigFile {
     let config = parseFile<DeepPartial<ConfigFile>>(path);
 
+    // Extend from parent config
     if (config.extends) {
       const fileName = addYamlExtension(config.extends);
       let extendsPath: Path;
@@ -92,6 +93,22 @@ export default class ConfigLoader {
       }
 
       config = deepMerge(this.load(extendsPath), config);
+    }
+
+    // Merge themes that extend from each other,
+    // as our validation requires many fields to exist
+    if (config.themes) {
+      Object.entries(config.themes).forEach(([name, theme]) => {
+        if (theme?.extends) {
+          const parentTheme = config.themes![theme.extends]!;
+
+          if (!parentTheme) {
+            throw new Error(`Parent theme "${theme.extends}" does not exist.`);
+          }
+
+          config.themes![name] = deepMerge(parentTheme, theme);
+        }
+      });
     }
 
     return this.validate(config);
@@ -411,8 +428,14 @@ export default class ConfigLoader {
     colors: ObjectOf<Hexcode | ColorConfig>,
     schema: Schema<ConfigFile>,
   ) => {
+    const theme = schema.currentPath.split('.')[1];
     const names = new Set<string>(schema.struct.colors);
     const unknown = new Set<string>();
+
+    // Theme extends another theme, so dont validate as it will merge
+    if (schema.struct.themes?.[theme]?.extends) {
+      return;
+    }
 
     Object.keys(colors).forEach(color => {
       if (names.has(color)) {
