@@ -15,7 +15,7 @@ describe('Design', () => {
   });
 
   it('can extend and create a new design', () => {
-    const newDesign = design.extend({
+    const newDesign = design.extend('new-design', {
       spacing: {
         unit: 8,
       },
@@ -27,6 +27,7 @@ describe('Design', () => {
     });
 
     expect(newDesign).toBeInstanceOf(Design);
+    expect(newDesign.name).toBe('new-design');
     expect(newDesign.tokens.spacing.unit).toBe(8);
     expect(newDesign.tokens.text.df.size).toBe('20px');
   });

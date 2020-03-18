@@ -1,0 +1,6 @@
+extends: ../../templates/config.yaml
+name: test
+colors:
+  - black
+typography:
+  font: Roboto, "Open Sans"

@@ -42,6 +42,31 @@ sizeScale: major-fourth
 > If you want to use scaling for a specific setting group, but not an individual setting, pass `0`
 > as the scale ratio.
 
+## System
+
+> Platforms: Android, iOS, Web
+
+### Name
+
+What is a design system without a name? The name should be unique and is used by specific
+compilation targets.
+
+```yaml
+name: aesthetic-2020
+```
+
+### Extending systems
+
+Instead of duplicating entire configurations, you can extend an existing design system configuration
+by providing its name (must be relative to the current config file), or a relative file path.
+
+```yaml
+extends: other-config
+
+# Relative config
+extends: ../other-system/config.yaml
+```
+
 ## Responsive
 
 ### Strategy

@@ -1,18 +1,20 @@
 import fs from 'fs';
 import optimal, { string } from 'optimal';
-import ejs, { AsyncTemplateFunction } from 'ejs';
+import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import { Path } from '@boost/common';
-import { DEPTHS } from '@aesthetic/system';
+import { createMixins, DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
-import System from './System';
+import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { TargetType, SystemOptions, PlatformType, ConfigFile } from './types';
+import { TargetType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
 import {
   BORDER_SIZES,
   BREAKPOINT_SIZES,
   HEADING_SIZES,
+  PALETTE_TYPES,
+  SHADE_RANGES,
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
@@ -69,30 +71,32 @@ export default class Compiler {
   async compile(): Promise<void> {
     // Load and validate the config
     const loader = new ConfigLoader(this.options.platform);
-    const { themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
+    const { name, themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
 
     // Create the design system and theme variants
-    const system = new System(designConfig, this.options);
-    const themes = this.loadThemes(system, themesConfig);
+    const design = new SystemDesign(name, designConfig, this.options);
+    const themes = this.loadThemes(design, themesConfig);
 
     // Load the platform
-    const platform = this.loadPlatform(system);
+    const platform = this.loadPlatform(design);
 
-    // Write the design system file
-    await this.writeDesignFile(system, platform);
+    // Write the design system and mixin files
+    await this.writeMixinsFile(platform);
+    await this.writeDesignFile(design, platform);
 
     // Write all theme files
     await Promise.all(
-      Array.from(themes.entries()).map(([name, theme]) => this.writeThemeFile(theme, platform)),
+      Array.from(themes.entries()).map(([, theme]) => this.writeThemeFile(design, theme, platform)),
     );
   }
 
   getTargetExtension(): string {
     switch (this.options.target) {
-      case 'android':
-        return 'java';
-      case 'ios':
-        return 'swift';
+      // TODO
+      // case 'android':
+      //   return 'java';
+      // case 'ios':
+      //   return 'swift';
       case 'web-css':
         return 'css';
       case 'web-less':
@@ -101,13 +105,10 @@ export default class Compiler {
         return 'sass';
       case 'web-scss':
         return 'scss';
-      case 'web-cjs':
-      case 'web-js':
-        return 'js';
       case 'web-ts':
         return 'ts';
       default:
-        return '';
+        return 'js';
     }
   }
 
@@ -115,7 +116,7 @@ export default class Compiler {
     return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
   }
 
-  async loadTemplate(name: string): Promise<AsyncTemplateFunction | null> {
+  async loadTemplate(name: string): Promise<TemplateFunction | null> {
     const { target } = this.options;
     const targetFolder = target === 'web-ts' ? 'web-js' : target;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
@@ -125,45 +126,62 @@ export default class Compiler {
       return null;
     }
 
-    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), { async: true });
+    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), {
+      filename: templatePath.path(),
+    });
   }
 
-  async writeDesignFile(system: System, platform: Platform): Promise<void> {
+  async writeDesignFile(design: SystemDesign, platform: Platform): Promise<void> {
     const template = await this.loadTemplate('design');
 
-    if (!template) {
-      return Promise.resolve();
-    }
-
     return this.writeFile(
-      this.getTargetFilePath('design'),
-      await template({
-        data: system.template,
+      this.getTargetFilePath(design.name),
+      await template!({
+        data: design.template,
+        design,
         borderSizes: BORDER_SIZES,
         breakpointSizes: BREAKPOINT_SIZES,
-        elevationDepths: DEPTHS,
+        elevationDepths: Object.entries(DEPTHS),
         headingSizes: HEADING_SIZES,
         platform,
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,
-        system,
         textSizes: TEXT_SIZES,
       }),
     );
   }
 
-  async writeThemeFile(theme: SystemTheme, platform: Platform): Promise<void> {
-    const template = await this.loadTemplate('theme');
+  async writeMixinsFile(platform: Platform): Promise<void> {
+    const template = await this.loadTemplate('mixins');
 
     if (!template) {
       return Promise.resolve();
     }
 
     return this.writeFile(
-      this.getTargetFilePath(`themes/${theme.name}`),
+      this.getTargetFilePath('mixins'),
       await template({
-        data: theme.template,
+        mixins: this.loadMixins(platform),
         platform,
+      }),
+    );
+  }
+
+  async writeThemeFile(
+    design: SystemDesign,
+    theme: SystemTheme,
+    platform: Platform,
+  ): Promise<void> {
+    const template = await this.loadTemplate('theme');
+
+    return this.writeFile(
+      this.getTargetFilePath(`themes/${theme.name}`),
+      await template!({
+        data: theme.template,
+        design,
+        paletteTypes: PALETTE_TYPES,
+        platform,
+        shadeRanges: SHADE_RANGES,
         theme,
       }),
     );
@@ -187,12 +205,52 @@ export default class Compiler {
     return path;
   }
 
-  protected loadPlatform(system: System): Platform {
-    return new WebPlatform(system.template.text.df.size, system.template.spacing.unit);
+  protected loadMixins(platform: Platform): MixinsTemplate {
+    const mixins = createMixins(platform.var);
+
+    return {
+      'border-sm': mixins.border.sm,
+      'border-df': mixins.border.df,
+      'border-lg': mixins.border.lg,
+      'box-sm': mixins.box.sm,
+      'box-df': mixins.box.df,
+      'box-lg': mixins.box.lg,
+      'heading-l1': mixins.heading.l1,
+      'heading-l2': mixins.heading.l2,
+      'heading-l3': mixins.heading.l3,
+      'heading-l4': mixins.heading.l4,
+      'heading-l5': mixins.heading.l5,
+      'heading-l6': mixins.heading.l6,
+      'pattern-hidden': mixins.pattern.hidden,
+      'pattern-offscreen': mixins.pattern.offscreen,
+      'pattern-reset-button': mixins.pattern.reset.button,
+      'pattern-reset-input': mixins.pattern.reset.input,
+      'pattern-reset-list': mixins.pattern.reset.list,
+      'pattern-reset-typography': mixins.pattern.reset.typography,
+      'pattern-text-break': mixins.pattern.text.break,
+      'pattern-text-truncate': mixins.pattern.text.truncate,
+      'pattern-text-wrap': mixins.pattern.text.wrap,
+      'shadow-xs': mixins.shadow.xs,
+      'shadow-sm': mixins.shadow.sm,
+      'shadow-md': mixins.shadow.md,
+      'shadow-lg': mixins.shadow.lg,
+      'shadow-xl': mixins.shadow.xs,
+      'text-sm': mixins.text.sm,
+      'text-df': mixins.text.df,
+      'text-lg': mixins.text.lg,
+    };
+  }
+
+  protected loadPlatform(design: SystemDesign): Platform {
+    return new WebPlatform(
+      this.options.target,
+      design.template.text.df.size,
+      design.template.spacing.unit,
+    );
   }
 
   protected loadThemes(
-    system: System,
+    design: SystemDesign,
     themesConfig: ConfigFile['themes'],
   ): Map<string, SystemTheme> {
     const themes = { ...themesConfig };
@@ -201,7 +259,7 @@ export default class Compiler {
     // Load all themes that do not extend another theme
     Object.entries(themes).forEach(([name, config]) => {
       if (!config.extends) {
-        map.set(name, system.createTheme(name, config));
+        map.set(name, design.createTheme(name, config));
 
         delete themes[name];
       }
@@ -212,11 +270,8 @@ export default class Compiler {
       const { extends: extendsFrom, ...themeConfig } = config;
       const parentTheme = map.get(extendsFrom!);
 
-      if (!parentTheme) {
-        throw new Error(`Trying to extend theme "${extendsFrom}" which does not exist.`);
-      }
-
-      map.set(name, parentTheme.extend(name, themeConfig, extendsFrom));
+      // Theme existence is validated before hand
+      map.set(name, parentTheme!.extend(name, themeConfig, extendsFrom));
     });
 
     return map;

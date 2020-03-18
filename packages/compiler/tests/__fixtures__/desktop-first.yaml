@@ -1,0 +1,4 @@
+extends: ../../templates/config
+name: test
+responsive:
+  strategy: desktop-first

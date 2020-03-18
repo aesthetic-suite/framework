@@ -11,6 +11,7 @@ import {
   TextSize,
   ElevationType,
   ShadowSize,
+  MixinName,
 } from '@aesthetic/system';
 
 export type PlatformType = 'android' | 'ios' | 'web';
@@ -197,7 +198,7 @@ export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-export interface PaletteState<T = number> {
+export interface PaletteState<T = number | string> {
   base: T;
   disabled: T;
   focused: T;
@@ -226,6 +227,8 @@ export interface ThemeConfig<ColorNames extends string = string> {
 }
 
 export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
+  extends: string;
+  name: string;
   themes: { [name: string]: ThemeConfig<ColorNames> };
 }
 
@@ -307,3 +310,7 @@ export interface PaletteTemplate {
 export interface ThemeTemplate {
   palette: { [K in PaletteType]: PaletteTemplate };
 }
+
+export type MixinsTemplate = {
+  [K in MixinName]: object;
+};

@@ -1,0 +1,6 @@
+extends: ../../templates/config
+name: test
+colors:
+  - black
+typography:
+  font: system

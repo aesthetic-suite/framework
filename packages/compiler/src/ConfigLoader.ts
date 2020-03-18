@@ -1,4 +1,5 @@
 import { Path, parseFile } from '@boost/common';
+import { deepMerge } from '@aesthetic/utils';
 import { DeepPartial, ColorScheme, ContrastLevel, Hexcode } from '@aesthetic/system';
 import optimal, {
   array,
@@ -40,8 +41,14 @@ import {
   PaletteState,
   PalettesConfig,
 } from './types';
-import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, PLATFORM_CONFIGS } from './constants';
-import { font } from './helpers';
+import {
+  SCALES,
+  DEFAULT_BREAKPOINTS,
+  DEFAULT_UNIT,
+  PLATFORM_CONFIGS,
+  SHADE_RANGES,
+} from './constants';
+import { getPlatformFont } from './helpers';
 
 function hexcode() {
   return string()
@@ -60,6 +67,10 @@ function unit(defaultValue: number = 0) {
   return number(defaultValue);
 }
 
+function addYamlExtension(path: string): string {
+  return path.endsWith('.yaml') ? path : `${path}.yaml`;
+}
+
 export default class ConfigLoader {
   platform: PlatformType;
 
@@ -68,13 +79,47 @@ export default class ConfigLoader {
   }
 
   load(path: Path): ConfigFile {
-    return this.validate(parseFile(path));
+    let config = parseFile<DeepPartial<ConfigFile>>(path);
+
+    // Extend from parent config
+    if (config.extends) {
+      const fileName = addYamlExtension(config.extends);
+      let extendsPath: Path;
+
+      if (fileName.startsWith('.')) {
+        extendsPath = Path.resolve(fileName, path.parent());
+      } else {
+        extendsPath = path.parent().append(fileName);
+      }
+
+      config = deepMerge(this.load(extendsPath), config);
+    }
+
+    // Merge themes that extend from each other,
+    // as our validation requires many fields to exist
+    if (config.themes) {
+      Object.entries(config.themes).forEach(([name, theme]) => {
+        if (theme?.extends) {
+          const parentTheme = config.themes![theme.extends]!;
+
+          if (!parentTheme) {
+            throw new Error(`Parent theme "${theme.extends}" does not exist.`);
+          }
+
+          config.themes![name] = deepMerge(parentTheme, theme);
+        }
+      });
+    }
+
+    return this.validate(config);
   }
 
   validate(config: DeepPartial<ConfigFile>): ConfigFile {
     return optimal(config, {
       borders: this.borders(),
       colors: this.colors(),
+      extends: string(),
+      name: this.name(),
       responsive: this.responsive(),
       shadows: this.shadows(),
       spacing: this.spacing(),
@@ -120,7 +165,14 @@ export default class ConfigLoader {
   }
 
   protected colorShade(defaultValue: number) {
-    return number(defaultValue).oneOf([0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+    return union<number | string>(
+      [number().oneOf(SHADE_RANGES.map(Number)), string().oneOf(SHADE_RANGES)],
+      defaultValue,
+    );
+  }
+
+  protected name() {
+    return string().notEmpty();
   }
 
   protected responsive() {
@@ -252,9 +304,7 @@ export default class ConfigLoader {
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
       selected: this.colorShade(base + 10),
-    })
-      .exact()
-      .required();
+    }).exact();
   }
 
   protected themePalette() {
@@ -286,7 +336,7 @@ export default class ConfigLoader {
           shape({
             text: string('system'),
             heading: string('system'),
-            monospace: string(() => font(this.platform, 'monospace')),
+            monospace: string(() => getPlatformFont(this.platform, 'monospace')),
             locale: object(string()),
           }).exact(),
         ],
@@ -378,8 +428,14 @@ export default class ConfigLoader {
     colors: ObjectOf<Hexcode | ColorConfig>,
     schema: Schema<ConfigFile>,
   ) => {
+    const theme = schema.currentPath.split('.')[1];
     const names = new Set<string>(schema.struct.colors);
     const unknown = new Set<string>();
+
+    // Theme extends another theme, so dont validate as it will merge
+    if (schema.struct.themes?.[theme]?.extends) {
+      return;
+    }
 
     Object.keys(colors).forEach(color => {
       if (names.has(color)) {

@@ -1,7 +1,6 @@
 import { DeclarationBlock } from '@aesthetic/sss';
 import { deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
-import mixins from './mixins';
 import {
   ColorScheme,
   ContrastLevel,
@@ -17,6 +16,7 @@ import {
   MixinUtil,
   Utilities,
 } from './types';
+import createMixins from './createMixins';
 
 interface AnyObject {
   // eslint-disable-next-line
@@ -41,7 +41,7 @@ export default class Theme {
     this.scheme = options.scheme;
     this.design = design;
     this.tokens = tokens;
-    this.mixins = parentMixins ?? this.createMixins();
+    this.mixins = parentMixins ?? createMixins(this.var);
   }
 
   /**
@@ -169,57 +169,4 @@ export default class Theme {
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
   var: VarUtil = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
-
-  /**
-   * Create the entire mapping of all mixins.
-   */
-  protected createMixins(): Mixins {
-    return {
-      border: {
-        sm: mixins.border(this.var, 'sm'),
-        df: mixins.border(this.var, 'df'),
-        lg: mixins.border(this.var, 'lg'),
-      },
-      box: {
-        sm: mixins.box(this.var, 'sm'),
-        df: mixins.box(this.var, 'df'),
-        lg: mixins.box(this.var, 'lg'),
-      },
-      heading: {
-        l1: mixins.heading(this.var, 'l1'),
-        l2: mixins.heading(this.var, 'l2'),
-        l3: mixins.heading(this.var, 'l3'),
-        l4: mixins.heading(this.var, 'l4'),
-        l5: mixins.heading(this.var, 'l5'),
-        l6: mixins.heading(this.var, 'l6'),
-      },
-      pattern: {
-        hidden: mixins.hidden(),
-        offscreen: mixins.hiddenOffscreen(),
-        reset: {
-          button: mixins.resetButton(),
-          input: mixins.resetInput(),
-          list: mixins.resetList(),
-          typography: mixins.resetTypography(),
-        },
-        text: {
-          break: mixins.textBreak(),
-          truncate: mixins.textTruncate(),
-          wrap: mixins.textWrap(),
-        },
-      },
-      shadow: {
-        xs: mixins.shadow(this.var, 'xs'),
-        sm: mixins.shadow(this.var, 'sm'),
-        md: mixins.shadow(this.var, 'md'),
-        lg: mixins.shadow(this.var, 'lg'),
-        xl: mixins.shadow(this.var, 'xl'),
-      },
-      text: {
-        sm: mixins.text(this.var, 'sm'),
-        df: mixins.text(this.var, 'df'),
-        lg: mixins.text(this.var, 'lg'),
-      },
-    };
-  }
 }

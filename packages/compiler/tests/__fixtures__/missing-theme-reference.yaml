@@ -1,0 +1,8 @@
+name: test
+colors:
+  - black
+themes:
+  default:
+    scheme: light
+    colors: {}
+    extends: unknown

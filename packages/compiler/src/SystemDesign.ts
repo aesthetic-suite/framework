@@ -1,6 +1,7 @@
+import { camelCase, kebabCase } from 'lodash';
 import { DEPTHS } from '@aesthetic/system';
 import SystemTheme from './SystemTheme';
-import { font as getFont } from './helpers';
+import { getPlatformFont as getFont } from './helpers';
 import { SCALES, BREAKPOINT_SIZES, SHADOW_SIZES } from './constants';
 import {
   BorderTemplate,
@@ -32,14 +33,24 @@ export function scaleUp(accumulator: number, scaling: Scale): number {
   return scale(accumulator, scaling, 'up');
 }
 
-export default class System {
+export function quote(value: string): string {
+  return value.replace(/'/gu, '"');
+}
+
+export default class SystemDesign {
+  dashedName: string;
+
+  name: string;
+
   template: DesignTemplate;
 
   private readonly config: DesignConfig;
 
   private readonly options: SystemOptions;
 
-  constructor(config: DesignConfig, options: SystemOptions) {
+  constructor(name: string, config: DesignConfig, options: SystemOptions) {
+    this.name = camelCase(name);
+    this.dashedName = kebabCase(name);
     this.config = config;
     this.options = options;
     this.template = this.compile();
@@ -115,24 +126,10 @@ export default class System {
 
       if (strategy === 'mobile-first') {
         conditions.push(['min-width', size]);
-
-        const next = points[index + 1];
-
-        if (next) {
-          conditions.push(['max-width', next - 1]);
-        }
-
         lastLineHeight = scaleUp(lastLineHeight, lineHeightScale);
         lastTextSize = scaleUp(lastTextSize, textScale);
       } else {
-        const prev = points[index - 1];
-
-        if (prev) {
-          conditions.push(['min-width', prev + 1]);
-        }
-
         conditions.push(['max-width', size]);
-
         lastLineHeight = scaleDown(lastLineHeight, lineHeightScale);
         lastTextSize = scaleDown(lastTextSize, textScale);
       }
@@ -144,6 +141,11 @@ export default class System {
         rootTextSize: lastTextSize,
       };
     });
+
+    // Reverse before destructuring
+    if (strategy === 'desktop-first') {
+      templates.reverse();
+    }
 
     // Destructure into the right sizes
     const [xs, sm, md, lg, xl] = templates;
@@ -317,11 +319,11 @@ export default class System {
 
     return {
       font: {
-        heading: headingFont || systemFont,
+        heading: quote(headingFont || systemFont),
         locale: localeFonts,
-        monospace: monospaceFont || getFont(this.options.platform, 'monospace'),
-        text: textFont || systemFont,
-        system: systemFont,
+        monospace: quote(monospaceFont || getFont(this.options.platform, 'monospace')),
+        text: quote(textFont || systemFont),
+        system: quote(systemFont),
       },
       rootLineHeight: text.df.lineHeight,
       rootTextSize: text.df.size,
