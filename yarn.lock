@@ -959,6 +959,13 @@
     "@boost/event" "^1.3.0"
     rimraf "^3.0.2"
 
+"@boost/args@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@boost/args/-/args-1.2.0.tgz#534bb5f43d77c56bb2b13383f63e3916c5936478"
+  integrity sha512-BqSu4H2vE8BrWqyfTZeTK5BxegzxdVd/+ZUSGq7WyXt4NKAa6munhp9FSWaTrnHJt1UwAG8BELusuBdIb80Gvw==
+  dependencies:
+    "@boost/internal" "^1.1.0"
+
 "@boost/common@^1.6.0", "@boost/common@^1.8.2":
   version "1.8.2"
   resolved "https://registry.npmjs.org/@boost/common/-/common-1.8.2.tgz#affa8b0d1de8ee9e150ce3c3c53580c21bff9008"

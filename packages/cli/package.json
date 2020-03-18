@@ -1,0 +1,32 @@
+{
+  "name": "@aesthetic/cli",
+  "version": "0.0.0",
+  "description": "CLI for the Aesthetic styling framework.",
+  "keywords": [
+    "aesthetic",
+    "cli",
+    "style",
+    "framework",
+    "suite"
+  ],
+  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/cli",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "bin": {
+    "aesthetic": "./bin/aesthetic.js"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@aesthetic/compiler": "^0.0.4",
+    "@boost/args": "^1.2.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}
