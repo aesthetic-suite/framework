@@ -198,7 +198,7 @@ export type ColorConfig = {
   [K in ColorShade]: Hexcode;
 };
 
-export interface PaletteState<T = number> {
+export interface PaletteState<T = number | string> {
   base: T;
   disabled: T;
   focused: T;

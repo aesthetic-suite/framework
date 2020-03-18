@@ -41,7 +41,13 @@ import {
   PaletteState,
   PalettesConfig,
 } from './types';
-import { SCALES, DEFAULT_BREAKPOINTS, DEFAULT_UNIT, PLATFORM_CONFIGS } from './constants';
+import {
+  SCALES,
+  DEFAULT_BREAKPOINTS,
+  DEFAULT_UNIT,
+  PLATFORM_CONFIGS,
+  SHADE_RANGES,
+} from './constants';
 import { getPlatformFont } from './helpers';
 
 function hexcode() {
@@ -142,7 +148,10 @@ export default class ConfigLoader {
   }
 
   protected colorShade(defaultValue: number) {
-    return number(defaultValue).oneOf([0, 10, 20, 30, 40, 50, 60, 70, 80, 90]);
+    return union<number | string>(
+      [number().oneOf(SHADE_RANGES.map(Number)), string().oneOf(SHADE_RANGES)],
+      defaultValue,
+    );
   }
 
   protected name() {
@@ -278,9 +287,7 @@ export default class ConfigLoader {
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
       selected: this.colorShade(base + 10),
-    })
-      .exact()
-      .required();
+    }).exact();
   }
 
   protected themePalette() {

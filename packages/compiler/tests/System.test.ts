@@ -5,7 +5,7 @@ import ConfigLoader from '../src/ConfigLoader';
 import SystemDesign from '../src/SystemDesign';
 import { SystemOptions, FONT_FAMILIES } from '../src';
 
-describe('SystemDesign', () => {
+describe('System', () => {
   const options: SystemOptions = {
     platform: 'web',
     target: 'web-ts',
@@ -137,6 +137,17 @@ describe('SystemDesign', () => {
   });
 
   describe('themes', () => {
+    it('loads a theme and all palette colors', () => {
+      const config = new ConfigLoader('web').load(
+        new Path(__dirname, './__fixtures__/themes.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+      const theme = design.createTheme('default', config.themes.default);
+
+      expect(theme.template).toMatchSnapshot();
+    });
+
     it('errors when theme doesnt implement the defined colors', () => {
       expect(() =>
         new ConfigLoader('web').load(
@@ -146,12 +157,21 @@ describe('SystemDesign', () => {
         'Invalid field "themes.default.colors". Theme has not implemented the following colors: black, white',
       );
     });
+
     it('errors when theme implements an unknown colors', () => {
       expect(() =>
         new ConfigLoader('web').load(
           new Path(__dirname, './__fixtures__/unknown-theme-color.yaml'),
         ),
       ).toThrow('Invalid field "themes.default.colors". Theme is using unknown colors: white');
+    });
+
+    it('errors when theme implements too many color ranges', () => {
+      expect(() =>
+        new ConfigLoader('web').load(
+          new Path(__dirname, './__fixtures__/invalid-palette-range.yaml'),
+        ),
+      ).toThrow('Unknown "themes.default.colors.black" fields: 100.');
     });
 
     it('errors when theme palette references an invalid color', () => {
@@ -162,6 +182,14 @@ describe('SystemDesign', () => {
       )
         .toThrow(`Invalid field "themes.default.palettes.brand". Type must be one of: string, shape. Received string with the following invalidations:
  - Invalid color "white".`);
+    });
+
+    it('errors when theme palette references an invalid color shade', () => {
+      expect(() =>
+        new ConfigLoader('web').load(
+          new Path(__dirname, './__fixtures__/invalid-palette-color-reference.yaml'),
+        ),
+      ).toThrowErrorMatchingSnapshot();
     });
   });
 });
