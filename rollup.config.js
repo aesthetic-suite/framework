@@ -2,12 +2,13 @@
 
 import fs from 'fs';
 import path from 'path';
-import autoExternal from 'rollup-plugin-auto-external';
+import externals from 'rollup-plugin-node-externals';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 
 // Order is imporant!
 const packages = ['utils', 'system', 'style', 'sss', 'core', 'react', 'compiler'];
+const targets = [];
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 const plugins = [
@@ -18,14 +19,8 @@ const plugins = [
   }),
 ];
 
-const external = ['rtl-css-js/core', '@aesthetic/system/lib/testing'];
-const targets = [];
-
 packages.forEach(pkg => {
-  external.push(`@aesthetic/${pkg}`, `@aesthetic/${pkg}/lib/testing`);
-
   targets.push({
-    external,
     input: `packages/${pkg}/src/index.ts`,
     output: [
       {
@@ -38,16 +33,17 @@ packages.forEach(pkg => {
       },
     ],
     plugins: [
-      ...plugins,
-      autoExternal({
+      externals({
+        deps: true,
         packagePath: path.resolve(`packages/${pkg}/package.json`),
       }),
+      ...plugins,
     ],
   });
 
   if (fs.existsSync(`packages/${pkg}/src/testing.ts`)) {
     targets.push({
-      external: external.concat('./index'),
+      external: ['@aesthetic/style/lib/testing', '@aesthetic/system/lib/testing', './index'],
       input: `packages/${pkg}/src/testing.ts`,
       output: [
         {
