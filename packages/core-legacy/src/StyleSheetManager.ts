@@ -6,12 +6,22 @@ export default class StyleSheetManager {
   private sheet: CSSStyleSheet | null = null;
 
   getFlushedStyles(): string {
-    return getFlushedStyles(this.getStyleElement());
+    const element = this.getStyleElement();
+
+    if (element) {
+      return getFlushedStyles(element);
+    }
+
+    return '';
   }
 
-  getStyleElement(): HTMLStyleElement {
+  getStyleElement(): HTMLStyleElement | null {
     if (this.element) {
       return this.element;
+    }
+
+    if (typeof document === 'undefined') {
+      return null;
     }
 
     this.element = document.createElement('style');
@@ -29,20 +39,29 @@ export default class StyleSheetManager {
   }
 
   injectRule(rule: string): this {
-    this.getStyleElement();
-    this.sheet!.insertRule(rule, this.sheet!.cssRules.length);
+    if (this.getStyleElement()) {
+      this.sheet!.insertRule(rule, this.sheet!.cssRules.length);
+    }
 
     return this;
   }
 
   injectStatements(css: string): this {
-    this.getStyleElement().textContent += css;
+    const element = this.getStyleElement();
+
+    if (element) {
+      element.textContent += css;
+    }
 
     return this;
   }
 
   purgeStyles(): this {
-    purgeStyles(this.getStyleElement());
+    const element = this.getStyleElement();
+
+    if (element) {
+      purgeStyles(element);
+    }
 
     return this;
   }

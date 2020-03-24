@@ -1,3 +1,9 @@
+### 5.1.2 - 2020-03-23
+
+#### 🐞 Fixes
+
+- Will no longer attempt to flush global styles when SSRing.
+
 ### 5.1.1 - 2020-02-06
 
 #### 🐞 Fixes

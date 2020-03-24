@@ -1,3 +1,9 @@
+### 3.1.1 - 2020-03-23
+
+#### 🐞 Fixes
+
+- Updated `getStyleElements` to not break SSR.
+
 ## 3.1.0 - 2020-01-26
 
 #### 🚀 Updates
