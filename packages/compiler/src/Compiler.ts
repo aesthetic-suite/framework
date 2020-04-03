@@ -2,7 +2,7 @@ import fs from 'fs';
 import optimal, { string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
-import { Path } from '@boost/common';
+import { Path, PortablePath } from '@boost/common';
 import { createMixins, DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
 import SystemDesign from './SystemDesign';
@@ -40,7 +40,7 @@ export default class Compiler {
 
   readonly targetPath: Path;
 
-  constructor(configPath: string, targetPath: string, options: SystemOptions) {
+  constructor(configPath: PortablePath, targetPath: PortablePath, options: SystemOptions) {
     this.configPath = this.createAndValidatePath(
       configPath,
       'A configuration file path is required.',
@@ -188,11 +188,11 @@ export default class Compiler {
   }
 
   protected createAndValidatePath(
-    filePath: string,
+    filePath: PortablePath,
     message: string,
     exists: boolean = false,
   ): Path {
-    if (!filePath || typeof filePath !== 'string') {
+    if (!filePath || (typeof filePath !== 'string' && !(filePath instanceof Path))) {
       throw new Error(message);
     }
 

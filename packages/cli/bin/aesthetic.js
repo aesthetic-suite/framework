@@ -1,4 +1,11 @@
 #!/usr/bin/env node
 
-// eslint-disable-next-line import/no-unresolved
+try {
+  // Attempt to load it incase some dependencies require it
+  // eslint-disable-next-line
+  require('regenerator-runtime');
+} catch {
+  // Ignore if missing
+}
+
 require('../lib');

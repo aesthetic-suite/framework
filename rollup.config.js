@@ -7,11 +7,20 @@ import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 
 // Order is imporant!
-const packages = ['utils', 'system', 'style', 'sss', 'core', 'react', 'compiler'];
+const packages = ['utils', 'system', 'style', 'sss', 'core', 'react', 'compiler', 'cli'];
+const nodeOnly = ['compiler', 'cli'];
 const targets = [];
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
-const plugins = [
+const nodePlugins = [
+  resolve({ extensions }),
+  babel({
+    exclude: 'node_modules/**',
+    extensions,
+    presets: [['env', { node: 'current' }]],
+  }),
+];
+const webPlugins = [
   resolve({ extensions }),
   babel({
     exclude: 'node_modules/**',
@@ -19,7 +28,7 @@ const plugins = [
   }),
 ];
 
-packages.forEach(pkg => {
+packages.forEach((pkg) => {
   targets.push({
     input: `packages/${pkg}/src/index.ts`,
     output: [
@@ -37,7 +46,7 @@ packages.forEach(pkg => {
         deps: true,
         packagePath: path.resolve(`packages/${pkg}/package.json`),
       }),
-      ...plugins,
+      ...webPlugins,
     ],
   });
 
@@ -55,7 +64,7 @@ packages.forEach(pkg => {
           format: 'esm',
         },
       ],
-      plugins,
+      plugins: webPlugins,
     });
   }
 });

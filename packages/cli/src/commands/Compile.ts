@@ -1,58 +1,42 @@
-import path from 'path';
-import { parse, Argv } from '@boost/args';
+import { Path } from '@boost/common';
+import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { Compiler, TargetType, PlatformType } from '@aesthetic/compiler';
+import { CONFIG_FILE, FORMAT_LIST } from '../constants';
 
-interface CompileOptions {
+export interface CompileOptions extends GlobalOptions {
   config: string;
   format: TargetType;
 }
 
-export default async function compile(argv: Argv) {
-  const args = parse<CompileOptions, [string]>(argv, {
-    options: {
-      config: {
-        default: 'aesthetic.yaml',
-        description: 'Relative path to the configuration file.',
-        type: 'string',
-      },
-      format: {
-        choices: [
-          'android',
-          'ios',
-          'web-cjs',
-          'web-css',
-          'web-less',
-          'web-sass',
-          'web-scss',
-          'web-js',
-          'web-ts',
-        ] as 'web-js'[],
-        default: 'web-js' as const,
-        description: 'Target platform and technology format.',
-        type: 'string',
-      },
-    },
-    params: [
-      {
-        description: 'Directory in which to write files to',
-        label: 'target',
-        required: true,
-        type: 'string',
-      },
-    ],
-  });
-  const cwd = process.cwd();
-  const { config: configPath, format } = args.options;
-  const [targetPath] = args.params;
+export type CompileParams = [];
 
-  const compiler = new Compiler(path.resolve(cwd, configPath), path.resolve(cwd, targetPath), {
-    platform: format.split('-')[0] as PlatformType,
-    target: format,
-  });
+@Config('compile', 'Compile a configuration file into a platform target')
+export default class Compile extends Command<CompileOptions, [string]> {
+  @Arg.String('Relative path to the configuration file')
+  config: string = CONFIG_FILE;
 
-  console.log(`Compiling ${format} files to ${targetPath}`);
+  @Arg.String('Target platform and technology format', { choices: FORMAT_LIST })
+  format: TargetType = 'web-js';
 
-  await compiler.compile();
+  @Arg.Params({
+    description: 'Directory in which to write files to',
+    label: 'target',
+    required: true,
+    type: 'string',
+  })
+  async run(target: string) {
+    const cwd = process.cwd();
+    const configPath = Path.resolve(this.config, cwd);
+    const targetPath = Path.resolve(target, cwd);
+    const compiler = new Compiler(configPath, targetPath, {
+      platform: this.format.split('-')[0] as PlatformType,
+      target: this.format,
+    });
 
-  console.log('Compiled files!');
+    this.log('Compiling %s files to %s', this.format, targetPath);
+
+    await compiler.compile();
+
+    this.log('Compiled files!');
+  }
 }

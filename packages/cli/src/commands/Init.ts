@@ -1,33 +1,34 @@
 import fs from 'fs';
-import path from 'path';
-import { parse, Argv } from '@boost/args';
+import { Path } from '@boost/common';
+import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
+import { CONFIG_FILE } from '../constants';
 
-export default async function init(argv: Argv) {
-  const args = parse<{ scaled: boolean }, [string]>(argv, {
-    options: {
-      scaled: {
-        description: 'Generate a modular scaled based configuration file.',
-        type: 'boolean',
-      },
-    },
-    params: [
-      {
-        default: process.cwd(),
-        description: 'Directory in which to copy files to',
-        label: 'cwd',
-        type: 'string',
-      },
-    ],
-  });
+export interface InitOptions extends GlobalOptions {
+  modularScale: boolean;
+}
 
-  const [cwd] = args.params;
-  const configPath = require.resolve(
-    `@aesthetic/compiler/templates/${args.options.scaled ? 'config' : 'config-fixed'}.yaml`,
-  );
+@Config('init', 'Generate a design system configuration file')
+export default class Init extends Command<InitOptions, [string]> {
+  @Arg.Flag('Generate a modular scaled based configuration file')
+  modularScale: boolean = false;
 
-  console.log(`Creating config file in ${cwd}`);
+  @Arg.Params({
+    description: 'Directory in which to create file',
+    label: 'cwd',
+    type: 'string',
+  })
+  async run(cwd: string = process.cwd()) {
+    const configPath = Path.resolve(CONFIG_FILE, cwd);
+    const templatePath = new Path(
+      require.resolve(
+        `@aesthetic/compiler/templates/${this.modularScale ? 'config' : 'config-fixed'}.yaml`,
+      ),
+    );
 
-  await fs.promises.copyFile(configPath, path.join(cwd, 'aesthetic.yaml'));
+    this.log('Creating config file in %s', cwd);
 
-  console.log('Created!');
+    await fs.promises.copyFile(templatePath.path(), configPath.path());
+
+    this.log('Created!');
+  }
 }

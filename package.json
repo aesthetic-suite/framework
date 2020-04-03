@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
     "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
     "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
@@ -57,6 +58,8 @@
       }
     ],
     "settings": {
+      "decorators": true,
+      "node": true,
       "react": true
     },
     "eslint": {

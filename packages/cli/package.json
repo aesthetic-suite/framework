@@ -23,7 +23,10 @@
   },
   "dependencies": {
     "@aesthetic/compiler": "^0.0.4",
-    "@boost/args": "^1.2.1"
+    "@boost/cli": "^0.0.3",
+    "@boost/common": "^1.8.3",
+    "ink": "^2.7.1",
+    "react": "^16.13.1"
   },
   "funding": {
     "type": "ko-fi",
