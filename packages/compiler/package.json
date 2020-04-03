@@ -27,10 +27,10 @@
   "dependencies": {
     "@aesthetic/system": "^0.0.3",
     "@aesthetic/utils": "^0.0.3",
-    "@boost/common": "^1.6.0",
-    "ejs": "^3.0.1",
+    "@boost/common": "^1.8.3",
+    "ejs": "^3.0.2",
     "lodash": "^4.17.15",
     "optimal": "^4.2.0",
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.2"
   }
 }
