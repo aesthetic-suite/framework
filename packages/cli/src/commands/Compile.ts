@@ -1,7 +1,7 @@
 import { Path } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { Compiler, TargetType, PlatformType } from '@aesthetic/compiler';
-import { CONFIG_FILE, FORMAT_LIST } from '../constants';
+import { CONFIG_FILE, FORMAT_LIST, CWD } from '../constants';
 
 export interface CompileOptions extends GlobalOptions {
   config: string;
@@ -10,7 +10,7 @@ export interface CompileOptions extends GlobalOptions {
 
 export type CompileParams = [];
 
-@Config('compile', 'Compile a configuration file into a platform target')
+@Config('compile', 'Compile a configuration file into a platform specific format')
 export default class Compile extends Command<CompileOptions, [string]> {
   @Arg.String('Relative path to the configuration file')
   config: string = CONFIG_FILE;
@@ -25,9 +25,8 @@ export default class Compile extends Command<CompileOptions, [string]> {
     type: 'string',
   })
   async run(target: string) {
-    const cwd = process.cwd();
-    const configPath = Path.resolve(this.config, cwd);
-    const targetPath = Path.resolve(target, cwd);
+    const configPath = Path.resolve(this.config, CWD);
+    const targetPath = Path.resolve(target, CWD);
     const compiler = new Compiler(configPath, targetPath, {
       platform: this.format.split('-')[0] as PlatformType,
       target: this.format,
