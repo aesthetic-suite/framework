@@ -19,10 +19,10 @@
     "posttest": "yarn run lint"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=10.17.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.3.0",
+    "@milesj/build-tools": "^2.4.0",
     "@types/ejs": "^3.0.2",
     "@types/extend": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",

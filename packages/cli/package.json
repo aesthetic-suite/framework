@@ -21,9 +21,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": {
+    "node": ">=10.17.0"
+  },
   "dependencies": {
     "@aesthetic/compiler": "^0.0.4",
-    "@boost/cli": "^0.0.3",
+    "@boost/cli": "^0.1.0",
     "@boost/common": "^1.8.3",
     "ink": "^2.7.1",
     "react": "^16.13.1"

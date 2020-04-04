@@ -22,7 +22,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=10.17.0"
   },
   "dependencies": {
     "@aesthetic/system": "^0.0.3",
