@@ -7,12 +7,14 @@ export interface InitOptions extends GlobalOptions {
   modularScale: boolean;
 }
 
+export type InitParams = [string];
+
 @Config('init', 'Generate a design system configuration file')
-export default class Init extends Command<InitOptions, [string]> {
+export default class Init extends Command<InitOptions, InitParams> {
   @Arg.Flag('Generate a modular scaled based configuration file')
   modularScale: boolean = false;
 
-  @Arg.Params({
+  @Arg.Params<InitParams>({
     description: 'Directory in which to create file',
     label: 'cwd',
     type: 'string',

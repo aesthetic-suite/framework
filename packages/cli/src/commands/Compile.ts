@@ -8,17 +8,17 @@ export interface CompileOptions extends GlobalOptions {
   format: FormatType;
 }
 
-export type CompileParams = [];
+export type CompileParams = [string];
 
 @Config('compile', 'Compile a configuration file into a platform specific format')
-export default class Compile extends Command<CompileOptions, [string]> {
+export default class Compile extends Command<CompileOptions, CompileParams> {
   @Arg.String('Relative path to the configuration file')
   config: string = CONFIG_FILE;
 
   @Arg.String('Target platform and technology format', { choices: FORMAT_LIST })
   format: FormatType = 'web-js';
 
-  @Arg.Params({
+  @Arg.Params<CompileParams>({
     description: 'Directory in which to write files to',
     label: 'target',
     required: true,
