@@ -1,11 +1,11 @@
 import { Path } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
-import { Compiler, TargetType, PlatformType } from '@aesthetic/compiler';
+import { Compiler, FormatType, PlatformType } from '@aesthetic/compiler';
 import { CONFIG_FILE, FORMAT_LIST, CWD } from '../constants';
 
 export interface CompileOptions extends GlobalOptions {
   config: string;
-  format: TargetType;
+  format: FormatType;
 }
 
 export type CompileParams = [];
@@ -16,7 +16,7 @@ export default class Compile extends Command<CompileOptions, [string]> {
   config: string = CONFIG_FILE;
 
   @Arg.String('Target platform and technology format', { choices: FORMAT_LIST })
-  format: TargetType = 'web-js';
+  format: FormatType = 'web-js';
 
   @Arg.Params({
     description: 'Directory in which to write files to',
@@ -28,8 +28,8 @@ export default class Compile extends Command<CompileOptions, [string]> {
     const configPath = Path.resolve(this.config, CWD);
     const targetPath = Path.resolve(target, CWD);
     const compiler = new Compiler(configPath, targetPath, {
+      format: this.format,
       platform: this.format.split('-')[0] as PlatformType,
-      target: this.format,
     });
 
     this.log('Compiling %s files to %s', this.format, targetPath);

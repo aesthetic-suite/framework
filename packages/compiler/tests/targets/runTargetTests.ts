@@ -2,15 +2,15 @@
 
 import fs from 'fs-extra';
 import path from 'path';
-import { Compiler, PlatformType, TargetType } from '../../src';
+import { Compiler, PlatformType, FormatType } from '../../src';
 
 export default function runTargetTests(
   platform: PlatformType,
-  target: TargetType,
+  format: FormatType,
   // Alternate testing fixed and scaled configs
   fixed: boolean = false,
 ) {
-  describe(`Target ${target}`, () => {
+  describe(`Format ${format}`, () => {
     let compiler: Compiler;
 
     beforeEach(() => {
@@ -18,8 +18,8 @@ export default function runTargetTests(
         path.join(__dirname, `../../templates/${fixed ? 'config-fixed' : 'config'}.yaml`),
         __dirname,
         {
+          format,
           platform,
-          target,
         },
       );
     });
@@ -35,7 +35,7 @@ export default function runTargetTests(
 
       await compiler.compile();
 
-      if (target === 'web-cjs' || target === 'web-js' || target === 'web-ts') {
+      if (format === 'web-cjs' || format === 'web-js' || format === 'web-ts') {
         expect(writeSpy).toHaveBeenCalledTimes(2);
       } else {
         expect(writeSpy).toHaveBeenCalledTimes(3);

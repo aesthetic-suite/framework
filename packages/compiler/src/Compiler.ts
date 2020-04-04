@@ -8,7 +8,7 @@ import ConfigLoader from './ConfigLoader';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { TargetType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
+import { FormatType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
 import {
   BORDER_SIZES,
   BREAKPOINT_SIZES,
@@ -53,8 +53,7 @@ export default class Compiler {
     );
 
     this.options = optimal(options, {
-      platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
-      target: string().oneOf<TargetType>([
+      format: string().oneOf<FormatType>([
         'android',
         'ios',
         'web-cjs',
@@ -65,6 +64,7 @@ export default class Compiler {
         'web-js',
         'web-ts',
       ]),
+      platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
     });
   }
 
@@ -90,8 +90,8 @@ export default class Compiler {
     );
   }
 
-  getTargetExtension(): string {
-    switch (this.options.target) {
+  getFormatExtension(): string {
+    switch (this.options.format) {
       // TODO
       // case 'android':
       //   return 'java';
@@ -113,12 +113,12 @@ export default class Compiler {
   }
 
   getTargetFilePath(fileName: string): Path {
-    return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
+    return this.targetPath.append(`${fileName}.${this.getFormatExtension()}`);
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
-    const { target } = this.options;
-    const targetFolder = target === 'web-ts' ? 'web-js' : target;
+    const { format } = this.options;
+    const targetFolder = format === 'web-ts' ? 'web-js' : format;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
 
     // Not all targets use all templates
@@ -243,7 +243,7 @@ export default class Compiler {
 
   protected loadPlatform(design: SystemDesign): Platform {
     return new WebPlatform(
-      this.options.target,
+      this.options.format,
       design.template.text.df.size,
       design.template.spacing.unit,
     );
