@@ -1,4 +1,6 @@
-import fs from 'fs';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
+import fs from 'fs-extra';
 import path from 'path';
 import { Compiler, PlatformType, TargetType } from '../../src';
 
@@ -23,15 +25,13 @@ export default function runTargetTests(
     });
 
     it('compiles and writes files', async () => {
-      const mkdirSpy = jest.spyOn(fs.promises, 'mkdir').mockImplementation(() => Promise.resolve());
+      const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
 
-      const writeSpy = jest
-        .spyOn(fs.promises, 'writeFile')
-        .mockImplementation((filePath, contents) => {
-          expect(contents).toMatchSnapshot();
+      const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((filePath, contents) => {
+        expect(contents).toMatchSnapshot();
 
-          return Promise.resolve();
-        });
+        return Promise.resolve();
+      });
 
       await compiler.compile();
 

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import optimal, { string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
@@ -126,7 +126,7 @@ export default class Compiler {
       return null;
     }
 
-    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), {
+    return ejs.compile(await fs.readFile(templatePath.path(), 'utf8'), {
       filename: templatePath.path(),
     });
   }
@@ -282,7 +282,7 @@ export default class Compiler {
     let contents = data;
 
     // Make sure the target folder exists
-    await fs.promises.mkdir(filePath.parent().path(), { recursive: true });
+    await fs.ensureDir(filePath.parent().path());
 
     // Run prettier on the code
     const configPath = await prettier.resolveConfigFile();
@@ -297,6 +297,6 @@ export default class Compiler {
     }
 
     // Write the file
-    return fs.promises.writeFile(filePath.path(), contents, 'utf8');
+    return fs.writeFile(filePath.path(), contents, 'utf8');
   }
 }

@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import { Path } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { CONFIG_FILE } from '../constants';
@@ -27,7 +27,7 @@ export default class Init extends Command<InitOptions, [string]> {
 
     this.log('Creating config file in %s', cwd);
 
-    await fs.promises.copyFile(templatePath.path(), configPath.path());
+    await fs.copyFile(templatePath.path(), configPath.path());
 
     this.log('Created!');
   }

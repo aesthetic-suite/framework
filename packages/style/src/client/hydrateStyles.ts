@@ -10,6 +10,7 @@ import {
 } from '../constants';
 import { Condition, CacheItem } from '../types';
 
+// eslint-disable-next-line security/detect-unsafe-regex
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
 
 function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<CacheItem>) {
@@ -26,7 +27,7 @@ function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<C
 }
 
 export function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
-  arrayLoop(sheet.cssRules, rule => {
+  arrayLoop(sheet.cssRules, (rule) => {
     if (rule.type === FONT_FACE_RULE || rule.type === KEYFRAMES_RULE || rule.type === IMPORT_RULE) {
       renderer.ruleCache[generateHash(rule.cssText)] = true;
     }
@@ -53,7 +54,7 @@ export function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet
       type: rule.type,
     });
 
-    arrayLoop(rule.cssRules, child => {
+    arrayLoop(rule.cssRules, (child) => {
       if (child.type === STYLE_RULE) {
         addRuleToCache(renderer, child.cssText, {
           conditions,

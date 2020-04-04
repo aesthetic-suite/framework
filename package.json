@@ -25,6 +25,7 @@
     "@milesj/build-tools": "^2.4.0",
     "@types/ejs": "^3.0.2",
     "@types/extend": "^3.0.1",
+    "@types/fs-extra": "^8.1.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/inline-style-prefixer": "^5.0.0",
     "@types/lodash": "^4.14.108",
@@ -67,7 +68,8 @@
         "plugin:rut/recommended"
       ],
       "rules": {
-        "import/export": "off"
+        "import/export": "off",
+        "node/no-missing-import": "off"
       }
     },
     "jest": {

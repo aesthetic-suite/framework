@@ -1,15 +1,15 @@
-/* eslint-disable jest/expect-expect */
+/* eslint-disable @typescript-eslint/no-misused-promises, jest/expect-expect */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import { Compiler } from '../src';
 
 const CONFIG_PATH = path.join(__dirname, '../templates/config.yaml');
 
 async function runCompilerSnapshot(filePath: string) {
-  const mkdirSpy = jest.spyOn(fs.promises, 'mkdir').mockImplementation(() => Promise.resolve());
+  const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
 
-  const writeSpy = jest.spyOn(fs.promises, 'writeFile').mockImplementation((fp, contents) => {
+  const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((fp, contents) => {
     expect(contents).toMatchSnapshot();
 
     return Promise.resolve();
