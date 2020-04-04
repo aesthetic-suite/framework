@@ -8,7 +8,4 @@ const program = new Program({
   version: '0.0.0',
 });
 
-program
-  .register(new Init())
-  .register(new Compile())
-  .runAndExit(process.argv);
+program.register(new Init()).register(new Compile()).runAndExit(process.argv);

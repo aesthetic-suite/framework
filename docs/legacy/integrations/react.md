@@ -74,7 +74,7 @@ import { StyleSheetFactory } from 'aesthetic';
 import { useStyles } from 'aesthetic-react';
 import { Theme } from './types';
 
-const styleSheet: StyleSheetFactory<Theme> = theme => ({
+const styleSheet: StyleSheetFactory<Theme> = (theme) => ({
   button: {
     display: 'inline-block',
     padding: theme.unit,
@@ -133,7 +133,7 @@ class Search extends React.Component<{}, { input: string }> {
     input: '',
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({
       input: event.currentTarget.value,
     });
@@ -268,7 +268,7 @@ wrapped component is required, and as such, a specialized ref can be used. When 
 let buttonInstance = null; // Button component
 
 <StyledButton
-  wrappedRef={ref => {
+  wrappedRef={(ref) => {
     buttonInstance = ref;
   }}
 />;

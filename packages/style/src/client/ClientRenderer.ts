@@ -30,7 +30,7 @@ export default class ClientRenderer extends Renderer {
   hydrateStyles() {
     arrayLoop(
       document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'),
-      style => {
+      (style) => {
         const sheet = style.sheet as CSSStyleSheet;
         const type = style.getAttribute('data-aesthetic-type') as SheetType;
 

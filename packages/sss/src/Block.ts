@@ -54,7 +54,7 @@ export default class Block<T extends object = object> {
   merge(block: Block<T>): this {
     this.addProperties(block.properties);
 
-    objectLoop(block.nested, nested => {
+    objectLoop(block.nested, (nested) => {
       this.addNested(nested);
     });
 

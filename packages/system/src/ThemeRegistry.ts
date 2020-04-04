@@ -44,7 +44,7 @@ export default class ThemeRegistry {
     let possibleTheme: Theme | undefined;
 
     // Find a theme based on device preferences
-    schemeCheckOrder.some(scheme => {
+    schemeCheckOrder.some((scheme) => {
       const contrastCheckOrder: ContrastLevel[] = ['normal'];
 
       if (prefersHighContrast) {
@@ -53,7 +53,7 @@ export default class ThemeRegistry {
         contrastCheckOrder.unshift('low');
       }
 
-      return contrastCheckOrder.some(contrast => {
+      return contrastCheckOrder.some((contrast) => {
         possibleTheme = this.query({ contrast, scheme });
 
         return !!possibleTheme;
@@ -92,7 +92,7 @@ export default class ThemeRegistry {
    * Query for a theme that matches the defined parameters.
    */
   query(params: Partial<ThemeOptions>): Theme | undefined {
-    return Object.values(this.themes).find(theme => {
+    return Object.values(this.themes).find((theme) => {
       const conditions: boolean[] = [];
 
       if (params.contrast) {
@@ -103,7 +103,7 @@ export default class ThemeRegistry {
         conditions.push(theme.scheme === params.scheme);
       }
 
-      return conditions.every(c => c === true);
+      return conditions.every((c) => c === true);
     });
   }
 

@@ -53,6 +53,6 @@ export default class WebPlatform {
   };
 
   query(conditions: BreakpointCondition[]): string {
-    return conditions.map(cond => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
+    return conditions.map((cond) => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
   }
 }

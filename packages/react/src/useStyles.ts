@@ -38,7 +38,7 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
   }, [direction, theme]);
 
   return (...keys) =>
-    arrayReduce(keys, key =>
+    arrayReduce(keys, (key) =>
       key && classNames[key as string] ? ` ${classNames[key as string]}` : '',
     ).trim();
 }

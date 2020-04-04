@@ -53,7 +53,7 @@ parallel, components will break when themes change, as the following styles woul
 one theme, not both.
 
 ```ts
-useStyles(theme => ({
+useStyles((theme) => ({
   padding: theme.unit * 2,
 }));
 ```

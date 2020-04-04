@@ -64,7 +64,7 @@ describe('Aesthetic', () => {
     it('renders theme sheet and sets body class name', () => {
       const spy = jest
         .spyOn(aesthetic, 'renderThemeStyles')
-        .mockImplementation(theme => `theme-${theme.name}`);
+        .mockImplementation((theme) => `theme-${theme.name}`);
 
       expect(document.body.className).toBe('');
 

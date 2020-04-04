@@ -155,13 +155,7 @@ export default class ConfigLoader {
   }
 
   protected colors() {
-    return array(
-      string()
-        .notEmpty()
-        .camelCase(),
-    )
-      .notEmpty()
-      .required();
+    return array(string().notEmpty().camelCase()).notEmpty().required();
   }
 
   protected colorShade(defaultValue: number) {
@@ -308,10 +302,7 @@ export default class ConfigLoader {
   }
 
   protected themePalette() {
-    const color = string()
-      .required()
-      .notEmpty()
-      .custom(this.validatePaletteColorReference);
+    const color = string().required().notEmpty().custom(this.validatePaletteColorReference);
 
     return union<string | PaletteConfig>(
       [
@@ -437,7 +428,7 @@ export default class ConfigLoader {
       return;
     }
 
-    Object.keys(colors).forEach(color => {
+    Object.keys(colors).forEach((color) => {
       if (names.has(color)) {
         names.delete(color);
       } else {

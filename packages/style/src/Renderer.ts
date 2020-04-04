@@ -263,7 +263,7 @@ export default abstract class Renderer {
   renderRuleSets<T extends { [set: string]: Rule }>(sets: T, inOrder?: (keyof T)[]) {
     const order = inOrder ?? Object.keys(sets);
 
-    return arrayReduce(order, key => `${this.renderRule(sets[key])} `).trim();
+    return arrayReduce(order, (key) => `${this.renderRule(sets[key])} `).trim();
   }
 
   /**

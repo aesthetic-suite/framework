@@ -236,7 +236,7 @@ export default class Aesthetic {
   protected emit(type: 'change:theme', args: Parameters<OnChangeTheme>): void;
 
   protected emit(type: EventType, args: unknown[]): void {
-    this.getListeners(type).forEach(listener => {
+    this.getListeners(type).forEach((listener) => {
       listener(...args);
     });
   }

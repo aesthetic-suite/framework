@@ -16,7 +16,7 @@ export default function formatFontFace(properties: Partial<FontFace>): CSS.FontF
   const src: string[] = [];
 
   if (Array.isArray(fontFace.local)) {
-    fontFace.local.forEach(alias => {
+    fontFace.local.forEach((alias) => {
       src.push(`local('${alias}')`);
     });
 
@@ -24,7 +24,7 @@ export default function formatFontFace(properties: Partial<FontFace>): CSS.FontF
   }
 
   if (Array.isArray(fontFace.srcPaths)) {
-    fontFace.srcPaths.forEach(srcPath => {
+    fontFace.srcPaths.forEach((srcPath) => {
       let ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
       if (ext.includes('?')) {

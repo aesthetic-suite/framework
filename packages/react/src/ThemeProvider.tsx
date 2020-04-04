@@ -12,7 +12,7 @@ export default function ThemeProvider({ children, name = '' }: ThemeProviderProp
 
   // Listen to theme changes that occur outside of the provider
   const handleChangeTheme = useCallback(
-    nextTheme => {
+    (nextTheme) => {
       if (nextTheme !== themeName) {
         setThemeName(nextTheme);
       }

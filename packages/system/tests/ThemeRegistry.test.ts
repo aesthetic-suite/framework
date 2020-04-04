@@ -11,7 +11,7 @@ describe('ThemeRegistry', () => {
     registry.register('night', darkTheme, true);
 
     // @ts-ignore Omit other properties
-    window.matchMedia = query => ({
+    window.matchMedia = (query) => ({
       matches: mediaMocks[query] || false,
     });
   });

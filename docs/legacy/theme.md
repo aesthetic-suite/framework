@@ -49,7 +49,7 @@ aesthetic.registerTheme(
     },
     unit: 8,
   },
-  theme => ({
+  (theme) => ({
     '@global': {
       body: {
         margin: 0,

@@ -9,7 +9,7 @@ export default function useSideEffect(cb: EffectCallback, deps: DependencyList) 
   // as hooks do not execute normally, and we need to generate styles somehow.
   if (global.AESTHETIC_SSR_CLIENT) {
     useInternalEffect = () => {
-      const hasRan = cache.some(item => item.every((value, index) => value === deps[index]));
+      const hasRan = cache.some((item) => item.every((value, index) => value === deps[index]));
 
       if (!hasRan) {
         cb();

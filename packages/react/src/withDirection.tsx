@@ -18,8 +18,9 @@ export default function withDirection() /* infer */ {
 
     hoistNonReactStatics(WithDirection, WrappedComponent);
 
-    WithDirection.displayName = `withDirection(${WrappedComponent.displayName ||
-      WrappedComponent.name})`;
+    WithDirection.displayName = `withDirection(${
+      WrappedComponent.displayName || WrappedComponent.name
+    })`;
 
     WithDirection.WrappedComponent = WrappedComponent;
 

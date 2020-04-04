@@ -8,7 +8,7 @@ export default function objectReduce<T extends object, K extends keyof T>(
 ): string {
   return arrayReduce(
     Object.keys(object) as K[],
-    key => callback(object[key], key as StringKey<K>),
+    (key) => callback(object[key], key as StringKey<K>),
     initialValue,
   );
 }
