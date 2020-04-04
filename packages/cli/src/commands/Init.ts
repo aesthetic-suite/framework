@@ -15,7 +15,7 @@ export default class Init extends Command<InitOptions, InitParams> {
   modularScale: boolean = false;
 
   @Arg.Params<InitParams>({
-    description: 'Directory in which to create file',
+    description: 'Directory in which to create the file',
     label: 'cwd',
     type: 'string',
   })

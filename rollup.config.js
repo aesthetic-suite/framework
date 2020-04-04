@@ -6,25 +6,39 @@ import externals from 'rollup-plugin-node-externals';
 import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 
+const babelConfig = require('./babel.config');
+
 // Order is imporant!
-const packages = ['utils', 'system', 'style', 'sss', 'core', 'react', 'compiler', 'cli'];
-const nodeOnly = ['compiler', 'cli'];
+const packages = ['utils', 'system', 'style', 'sss', 'core', 'react'];
 const targets = [];
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
-const nodePlugins = [
-  resolve({ extensions }),
-  babel({
-    exclude: 'node_modules/**',
-    extensions,
-    presets: [['env', { node: 'current' }]],
-  }),
-];
 const webPlugins = [
   resolve({ extensions }),
   babel({
+    ...babelConfig,
     exclude: 'node_modules/**',
     extensions,
+  }),
+];
+const nodePlugins = [
+  resolve({ extensions }),
+  babel({
+    ...babelConfig,
+    exclude: 'node_modules/**',
+    extensions,
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          loose: true,
+          modules: false,
+          shippedProposals: true,
+          targets: { node: '10.10' },
+        },
+      ],
+      '@babel/preset-typescript',
+    ],
   }),
 ];
 
@@ -67,6 +81,26 @@ packages.forEach((pkg) => {
       plugins: webPlugins,
     });
   }
+});
+
+// Node only
+['compiler', 'cli'].forEach((pkg) => {
+  targets.push({
+    input: `packages/${pkg}/src/index.ts`,
+    output: [
+      {
+        file: `packages/${pkg}/lib/index.js`,
+        format: 'cjs',
+      },
+    ],
+    plugins: [
+      externals({
+        deps: true,
+        packagePath: path.resolve(`packages/${pkg}/package.json`),
+      }),
+      ...nodePlugins,
+    ],
+  });
 });
 
 export default targets;

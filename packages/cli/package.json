@@ -12,7 +12,6 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/cli",
   "license": "MIT",
   "main": "./lib/index.js",
-  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "bin": {
     "aesthetic": "./bin/aesthetic.js"

@@ -10,7 +10,6 @@ import {
 } from '../constants';
 import { Condition, CacheItem } from '../types';
 
-// eslint-disable-next-line security/detect-unsafe-regex
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
 
 function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<CacheItem>) {
