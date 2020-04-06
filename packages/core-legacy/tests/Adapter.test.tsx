@@ -131,7 +131,7 @@ describe('Adapter', () => {
 
       expect(spy).toHaveBeenCalledWith(
         { el: {} },
-        { dir: 'ltr', global: false, name: '', theme: 'default' },
+        { dir: 'ltr', global: false, name: 'foo', theme: 'default' },
       );
     });
 

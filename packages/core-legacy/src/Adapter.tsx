@@ -85,24 +85,19 @@ export default abstract class Adapter<
     // Apply global styles on first render
     this.applyGlobalStyles(baseOptions);
 
+    // Convert and parse the sheet
+    options.name = styleName;
+
     const nativeSheet = this.syntax.convertStyleSheet(
       this.aesthetic.getStyleSheet(styleName, options.theme),
-      {
-        ...options,
-        name: styleName,
-      },
+      options,
     );
 
     const parsedSheet = this.parseStyleSheet(nativeSheet.toObject(), options);
 
-    return this.cacheManager.set(
-      styleName,
-      {
-        ...parsedSheet,
-        ...nativeSheet.classNames,
-      } as SheetMap<ParsedBlock>,
-      options,
-    );
+    Object.assign(parsedSheet, nativeSheet.classNames);
+
+    return this.cacheManager.set(styleName, parsedSheet, options);
   }
 
   /**
