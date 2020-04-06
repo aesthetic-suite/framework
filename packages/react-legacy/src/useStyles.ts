@@ -1,10 +1,11 @@
-import { useContext, useRef, useEffect, useLayoutEffect } from 'react';
+import { useContext, useRef, useEffect, useLayoutEffect, useState } from 'react';
 import aesthetic, {
   ClassNameTransformer,
   CompiledStyleSheet,
   StyleName,
   StyleSheetFactory,
   ThemeSheet,
+  SheetMap,
 } from 'aesthetic';
 import { v4 as uuid } from 'uuid';
 import DirectionContext from './DirectionContext';
@@ -21,35 +22,36 @@ export default function useStyles<Theme = ThemeSheet, T = unknown>(
   options: UseStylesOptions = {},
 ): [CompiledStyleSheet, ClassNameTransformer, StyleName] {
   const { styleName: customName } = options;
+  const adapter = aesthetic.getAdapter();
   const ref = useRef<string>();
   const dir = useContext(DirectionContext);
-  const themeName = useContext(ThemeContext);
-  let styleName = '';
+  const theme = useContext(ThemeContext);
+  let name = '';
 
   // Only register the style sheet once
   if (ref.current) {
-    styleName = ref.current;
+    name = ref.current;
   } else {
-    styleName = customName || uuid();
-    ref.current = styleName;
+    name = customName || uuid();
+    ref.current = name;
 
-    if (!aesthetic.styleSheets[styleName]) {
-      aesthetic.registerStyleSheet(styleName, styleSheet);
+    if (!aesthetic.styleSheets[name]) {
+      aesthetic.registerStyleSheet(name, styleSheet);
     }
   }
 
   // Create a unique style sheet for this component
-  const params = { dir, name: styleName, theme: themeName };
-  const sheet = aesthetic.getAdapter().createStyleSheet(styleName, params);
+  const [sheet, setSheet] = useState<SheetMap<object>>({});
 
-  // Flush styles on mount
   useSideEffect(() => {
-    aesthetic.getAdapter().flushStyles(styleName);
-  }, [dir, styleName, themeName]);
+    setSheet(adapter.createStyleSheet(name, { dir, name, theme }));
+
+    adapter.flushStyles(name);
+  }, [dir, name, theme]);
 
   // Create a CSS transformer
   const cx: ClassNameTransformer = (...styles) =>
-    aesthetic.getAdapter().transformStyles(styles, params);
+    adapter.transformStyles(styles, { dir, name, theme });
 
-  return [sheet, cx, styleName];
+  return [sheet, cx, name];
 }

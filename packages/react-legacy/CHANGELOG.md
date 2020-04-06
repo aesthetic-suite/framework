@@ -1,3 +1,9 @@
+## 2.2.0 - 2020-04-06
+
+#### 🚀 Updates
+
+- `useStyles` will now cache the style sheet to reduce `createStyleSheet` calls.
+
 ## 2.1.0 - 2020-01-26
 
 #### 🚀 Updates
