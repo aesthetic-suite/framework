@@ -49,27 +49,25 @@ export default class Sheet<Block extends object> {
   }
 
   toObject(): SheetMap<Block> {
-    const atRules: { [key: string]: unknown } = {};
-    const sets: { [key: string]: Sheet<Block> | Ruleset<Block> } = {};
+    const block: { [key: string]: unknown } = {};
 
     Object.keys(this.atRules).forEach(key => {
       const value = this.atRules[key];
 
       if (value instanceof Sheet || value instanceof Ruleset) {
-        sets[key] = value;
+        block[key] = value.toObject();
       } else if (Array.isArray(value)) {
         // @ts-ignore This type is resolving weird
-        atRules[key] = value.map(item => (item instanceof Ruleset ? item.toObject() : item));
+        block[key] = value.map(item => (item instanceof Ruleset ? item.toObject() : item));
       } else {
-        atRules[key] = value;
+        block[key] = value;
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    return {
-      ...atRules,
-      ...toObjectRecursive(sets),
-      ...toObjectRecursive(this.ruleSets),
-    } as SheetMap<Block>;
+    toObjectRecursive(this.ruleSets, (key, value) => {
+      block[key] = value;
+    });
+
+    return block as SheetMap<Block>;
   }
 }

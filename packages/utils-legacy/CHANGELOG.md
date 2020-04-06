@@ -1,3 +1,9 @@
+## 3.2.0 - 2020-04-06
+
+#### 🚀 Updates
+
+- Adds a callback argument to `toObjectRecursive`.
+
 ### 3.1.1 - 2020-03-23
 
 #### 🐞 Fixes

@@ -1,3 +1,9 @@
+## 5.2.0 - 2020-04-06
+
+#### 🚀 Updates
+
+- Migrates some object spread usage to `Object.assign` to improve performance.
+
 ### 5.1.2 - 2020-03-23
 
 #### 🐞 Fixes

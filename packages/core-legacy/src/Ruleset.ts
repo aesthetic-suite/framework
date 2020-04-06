@@ -65,20 +65,20 @@ export default class Ruleset<Block extends object> {
   }
 
   toObject(): Block {
-    const props = isRTL(this.root.options.dir) ? convertRTL(this.properties) : this.properties;
-    const compounds: { [key: string]: unknown } = {};
+    const block: { [key: string]: unknown } = isRTL(this.root.options.dir)
+      ? convertRTL(this.properties)
+      : this.properties;
 
     // Compound properties are a list of rulesets that have already been cast to block objects.
     // We shouldn't convert to RTL, otherwise it would flip back to the original state.
     this.compoundProperties.forEach((compound, key) => {
-      compounds[key] = compound;
+      block[key] = compound;
     });
 
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    return {
-      ...props,
-      ...compounds,
-      ...toObjectRecursive(this.nested),
-    } as Block;
+    toObjectRecursive(this.nested, (key, value) => {
+      block[key] = value;
+    });
+
+    return block as Block;
   }
 }
