@@ -12,6 +12,7 @@ import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
 import isSupportsRule from './isSupportsRule';
+import isVariable from './isVariable';
 
 export {
   formatConditions,
@@ -28,4 +29,5 @@ export {
   isMediaRule,
   isNestedSelector,
   isSupportsRule,
+  isVariable,
 };

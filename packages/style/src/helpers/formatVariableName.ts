@@ -1,7 +1,7 @@
 import { hyphenate } from '@aesthetic/utils';
 import isVariable from './isVariable';
 
-export default function formatCssVariableName(name: string): string {
+export default function formatVariableName(name: string): string {
   let varName = hyphenate(name);
 
   if (!isVariable(varName)) {

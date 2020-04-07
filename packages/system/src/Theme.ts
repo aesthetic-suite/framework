@@ -34,6 +34,8 @@ export default class Theme {
 
   readonly tokens: ThemeTokens;
 
+  private cachedTokens?: Tokens;
+
   private design: Design;
 
   constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design, parentMixins?: Mixins) {
@@ -112,10 +114,14 @@ export default class Theme {
    * Return both design and theme tokens.
    */
   toTokens(): Tokens {
-    return {
-      ...this.design.tokens,
-      ...this.tokens,
-    };
+    if (!this.cachedTokens) {
+      this.cachedTokens = {
+        ...this.design.tokens,
+        ...this.tokens,
+      };
+    }
+
+    return this.cachedTokens;
   }
 
   /**

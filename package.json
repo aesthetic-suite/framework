@@ -67,6 +67,7 @@
         "plugin:rut/recommended"
       ],
       "rules": {
+        "prefer-object-spread": "off",
         "import/export": "off",
         "node/no-missing-import": "off"
       }

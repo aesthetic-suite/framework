@@ -43,15 +43,21 @@ import {
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
-const DEFAULT_PARAMS: Required<RenderParams> = {
-  className: '',
-  conditions: [],
-  deterministic: false,
-  prefix: false,
-  rtl: false,
-  selector: '',
-  type: 'standard',
-};
+
+function createDefaultParams(params: RenderParams): Required<RenderParams> {
+  return Object.assign(
+    {
+      className: '',
+      conditions: [],
+      deterministic: false,
+      prefix: false,
+      rtl: false,
+      selector: '',
+      type: 'standard',
+    },
+    params,
+  );
+}
 
 export default abstract class Renderer {
   readonly classNameCache = new AtomicCache();
@@ -115,11 +121,7 @@ export default abstract class Renderer {
     baseParams: RenderParams = {},
     { bypassCache = false, minimumRank }: CacheParams = {},
   ) {
-    const params: Required<RenderParams> = {
-      ...DEFAULT_PARAMS,
-      conditions: [], // Break refs
-      ...baseParams,
-    };
+    const params = createDefaultParams(baseParams);
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
