@@ -55,7 +55,9 @@ export default class Aesthetic {
     this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
 
     // Render theme styles and append a `body` class name
-    document.body.className = this.renderThemeStyles(theme);
+    if (typeof document !== 'undefined') {
+      document.body.className = this.renderThemeStyles(theme);
+    }
 
     // Let consumers know about the change
     if (propagate) {

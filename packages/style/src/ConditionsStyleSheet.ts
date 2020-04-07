@@ -8,7 +8,9 @@ import { MEDIA_RULE } from './constants';
 import { Condition, StyleRule } from './types';
 
 const canInsertNestedRules =
-  window.CSSGroupingRule !== undefined && CSSGroupingRule.prototype.insertRule !== undefined;
+  typeof window !== 'undefined' &&
+  typeof window.CSSGroupingRule !== 'undefined' &&
+  typeof CSSGroupingRule.prototype.insertRule !== 'undefined';
 
 export default class ConditionsStyleSheet extends BaseStyleSheet {
   desktopFirst: boolean = false;
