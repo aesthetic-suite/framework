@@ -41,7 +41,14 @@ export default function useStyles<Theme = ThemeSheet, T = unknown>(
   }
 
   // Create a unique style sheet for this component
-  const [sheet, setSheet] = useState<SheetMap<object>>({});
+  const [sheet, setSheet] = useState<SheetMap<object>>(() => {
+    // Avoid double renders in tests or frameworks that poorly support hooks
+    if (process.env.NODE_ENV === 'test') {
+      return adapter.createStyleSheet(name, { dir, name, theme });
+    }
+
+    return {};
+  });
 
   useSideEffect(() => {
     setSheet(adapter.createStyleSheet(name, { dir, name, theme }));

@@ -1,3 +1,9 @@
+### 2.2.1 - 2020-04-07
+
+#### 🛠 Internals
+
+- Updated `useStyles` to render styles immediately when testing.
+
 ## 2.2.0 - 2020-04-06
 
 #### 🚀 Updates
