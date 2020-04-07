@@ -17,8 +17,8 @@ export default abstract class BaseStyleSheet {
   protected enqueueRule(rule: string, customIndex?: number): number {
     let index = 0;
 
-    // When testing, just insert the rule immediately
-    if (process.env.NODE_ENV === 'test') {
+    // When testing or SSR, just insert the rule immediately
+    if (process.env.NODE_ENV === 'test' || isSSR()) {
       index = customIndex ?? this.sheet.cssRules.length;
 
       this.injectRule(rule, index);

@@ -5,8 +5,10 @@ export default function getStyleElement(type: SheetType): HTMLStyleElement | nul
   // This is a little hacky, but hopefully this never gets interacted with
   if (isSSR()) {
     return ({
-      insertRule() {},
-      sheet: {},
+      sheet: {
+        cssRules: [],
+        insertRule() {},
+      },
     } as unknown) as HTMLStyleElement;
   }
 
