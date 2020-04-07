@@ -10,7 +10,7 @@ const banner = `  ¸ ¸__ __¸__¸  ¸¸__¸__¸ __
 const program = new Program({
   banner,
   bin: 'aesthetic',
-  name: 'Aesthetic Design Suite',
+  name: 'Aesthetic Style Framework',
   version: '0.0.0',
 });
 

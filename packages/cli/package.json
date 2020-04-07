@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@aesthetic/compiler": "^0.0.4",
-    "@boost/cli": "^0.1.0",
+    "@boost/cli": "0.1.0",
     "@boost/common": "^1.8.3",
     "fs-extra": "^9.0.0",
     "ink": "^2.7.1",
