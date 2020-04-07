@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI for the Aesthetic styling framework.",
   "keywords": [
     "aesthetic",

@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/react",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "React hooks, composers, and more for styling components with Aesthetic.",
   "keywords": [
     "aesthetic",
