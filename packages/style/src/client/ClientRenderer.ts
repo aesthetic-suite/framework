@@ -1,4 +1,4 @@
-import { arrayLoop, objectLoop } from '@aesthetic/utils';
+import { arrayLoop, objectLoop, isSSR } from '@aesthetic/utils';
 import Renderer from '../Renderer';
 import GlobalStyleSheet from '../GlobalStyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
@@ -20,6 +20,10 @@ export default class ClientRenderer extends Renderer {
   protected standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
 
   applyRootVariables(vars: CSSVariables) {
+    if (isSSR()) {
+      return;
+    }
+
     const root = document.documentElement;
 
     objectLoop(vars, (value, key) => {
@@ -28,6 +32,10 @@ export default class ClientRenderer extends Renderer {
   }
 
   hydrateStyles() {
+    if (isSSR()) {
+      return;
+    }
+
     arrayLoop(
       document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'),
       (style) => {

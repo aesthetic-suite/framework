@@ -9,6 +9,7 @@ import {
   ProcessParams,
 } from '@aesthetic/style';
 import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
+import { isSSR } from '@aesthetic/utils';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import {
@@ -55,8 +56,10 @@ export default class Aesthetic {
     this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
 
     // Render theme styles and append a `body` class name
-    if (typeof document !== 'undefined') {
-      document.body.className = this.renderThemeStyles(theme);
+    const themeClassName = this.renderThemeStyles(theme);
+
+    if (!isSSR()) {
+      document.body.className = themeClassName;
     }
 
     // Let consumers know about the change

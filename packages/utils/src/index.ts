@@ -9,6 +9,7 @@ import deepMerge from './deepMerge';
 import generateHash from './generateHash';
 import hyphenate from './hyphenate';
 import isObject from './isObject';
+import isSSR from './isSSR';
 import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
 import toArray from './toArray';
@@ -20,6 +21,7 @@ export {
   generateHash,
   hyphenate,
   isObject,
+  isSSR,
   objectLoop,
   objectReduce,
   toArray,

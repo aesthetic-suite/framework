@@ -1,4 +1,4 @@
-import { arrayLoop } from '@aesthetic/utils';
+import { arrayLoop, isSSR } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
 import formatConditions from './helpers/formatConditions';
@@ -8,7 +8,7 @@ import { MEDIA_RULE } from './constants';
 import { Condition, StyleRule } from './types';
 
 const canInsertNestedRules =
-  typeof window !== 'undefined' &&
+  !isSSR() &&
   typeof window.CSSGroupingRule !== 'undefined' &&
   typeof CSSGroupingRule.prototype.insertRule !== 'undefined';
 

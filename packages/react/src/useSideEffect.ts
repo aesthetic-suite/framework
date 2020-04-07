@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, EffectCallback, DependencyList } from 'react';
+import { isSSR } from '@aesthetic/utils';
 
 const cache: DependencyList[] = [];
 
@@ -18,7 +19,7 @@ export default function useSideEffect(cb: EffectCallback, deps: DependencyList) 
     };
 
     // No window available, so execute as an async side-effect.
-  } else if (typeof window === 'undefined') {
+  } else if (isSSR()) {
     useInternalEffect = useEffect;
 
     // Otherwise, we want to execute in sync with the render phase.

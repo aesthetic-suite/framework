@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
-import { arrayReduce } from '@aesthetic/utils';
+import { arrayReduce, isSSR } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
@@ -25,8 +25,7 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
   });
 
   // Re-render styles when the theme or direction change
-  const useSideEffect =
-    typeof window === 'undefined' || global.AESTHETIC_SSR_CLIENT ? useEffect : useLayoutEffect;
+  const useSideEffect = isSSR() || global.AESTHETIC_SSR_CLIENT ? useEffect : useLayoutEffect;
 
   useSideEffect(() => {
     setClassNames(
