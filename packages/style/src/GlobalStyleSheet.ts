@@ -15,7 +15,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
       return this.insertAtRule(rule);
     }
 
-    return this.sheet.insertRule(rule, this.sheet.cssRules.length);
+    return this.enqueueRule(rule);
   }
 
   /**
@@ -33,7 +33,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
       }
     }
 
-    return this.sheet.insertRule(rule, index);
+    return this.enqueueRule(rule, index);
   }
 
   /**
@@ -52,6 +52,6 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
       }
     }
 
-    return this.sheet.insertRule(rule, index);
+    return this.enqueueRule(rule, index);
   }
 }

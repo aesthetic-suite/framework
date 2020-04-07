@@ -94,10 +94,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
     }
 
     // Insert the rule and capture the instance
-    const index = this.sheet.insertRule(
-      isSupportsRule(rule) ? rule : `@supports ${query} { ${rule} }`,
-      this.sheet.cssRules.length,
-    );
+    const index = this.enqueueRule(isSupportsRule(rule) ? rule : `@supports ${query} { ${rule} }`);
 
     this.featureQueries[query] = this.sheet.cssRules[index];
 
@@ -125,8 +122,8 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
       .sort(this.desktopFirst ? sortMediaQueries.desktopFirst : sortMediaQueries);
     const index = sortedQueries.indexOf(query);
 
-    // Insert the rule and capture the instance
-    this.sheet.insertRule(isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`, index);
+    // NOTE: We must inject instead of enqueue, otherwise the sort order is ruined!
+    this.injectRule(isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`, index);
 
     this.mediaQueries[query] = this.sheet.cssRules[index];
 
