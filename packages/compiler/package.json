@@ -24,8 +24,8 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "@aesthetic/system": "^0.0.4",
-    "@aesthetic/utils": "^0.0.4",
+    "@aesthetic/system": "^0.1.0",
+    "@aesthetic/utils": "^0.1.0",
     "@boost/common": "^1.8.3",
     "ejs": "^3.0.2",
     "fs-extra": "^9.0.0",

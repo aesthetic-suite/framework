@@ -19,10 +19,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/sss": "^0.0.6",
-    "@aesthetic/style": "^0.0.6",
-    "@aesthetic/system": "^0.0.4",
-    "@aesthetic/utils": "^0.0.4"
+    "@aesthetic/sss": "^0.1.0",
+    "@aesthetic/style": "^0.1.0",
+    "@aesthetic/system": "^0.1.0",
+    "@aesthetic/utils": "^0.1.0"
   },
   "funding": {
     "type": "ko-fi",

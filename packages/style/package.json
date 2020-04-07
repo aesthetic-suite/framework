@@ -25,7 +25,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/utils": "^0.0.4",
+    "@aesthetic/utils": "^0.1.0",
     "csstype": "^2.6.10",
     "inline-style-prefixer": "^6.0.0",
     "rtl-css-js": "^1.14.0",
