@@ -15,7 +15,7 @@ The first phase is registering and persisting the actual style sheet with
 is used as a cache key) and the style sheet function as the 2nd argument.
 
 ```ts
-aesthetic.registerStyleSheet('button-component', theme => ({
+aesthetic.registerStyleSheet('button-component', (theme) => ({
   button: {
     padding: theme.unit,
   },
@@ -58,7 +58,7 @@ A CSS object is a plain JavaScript object that defines CSS properties and styles
 [unified syntax specification](./unified). This is the standard approach for styling components.
 
 ```ts
-const factory = theme => ({
+const factory = (theme) => ({
   button: {
     padding: theme.unit,
     display: 'inline-block',
@@ -83,7 +83,7 @@ This pattern requires explicit values, for example, defining "px" instead of rel
 unit insertion. To reference the current class name, use `&` as an insertion point.
 
 ```ts
-const factory = theme => ({
+const factory = (theme) => ({
   button: `
     padding: ${theme.unit}px;
     display: inline-block;
@@ -120,7 +120,7 @@ Once a [theme has been registered](./theme.md), we can access the theme object w
 in the style sheet function.
 
 ```ts
-const factory = theme => ({
+const factory = (theme) => ({
   button: {
     fontSize: `${theme.fontSizes.normal}px`,
     fontFamily: theme.fontFamily,
@@ -184,7 +184,7 @@ const styleSheet = aesthetic.extendStyles(
     },
   }),
   // Another style sheet function
-  theme => ({
+  (theme) => ({
     button: {
       background: theme.color.primary,
       // ...
@@ -210,7 +210,7 @@ export const TransparentButton = BaseButton.extendStyles(() => ({
   },
 }));
 
-export const PrimaryButton = BaseButton.extendStyles(theme => ({
+export const PrimaryButton = BaseButton.extendStyles((theme) => ({
   button: {
     background: theme.color.primary,
     // ...

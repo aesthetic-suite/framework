@@ -7,8 +7,8 @@ import { SystemOptions, FONT_FAMILIES } from '../src';
 
 describe('System', () => {
   const options: SystemOptions = {
+    format: 'web-ts',
     platform: 'web',
-    target: 'web-ts',
   };
 
   describe('breakpoints', () => {

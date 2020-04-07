@@ -1,14 +1,16 @@
-import fs from 'fs';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+
+import fs from 'fs-extra';
 import path from 'path';
-import { Compiler, PlatformType, TargetType } from '../../src';
+import { Compiler, PlatformType, FormatType } from '../../src';
 
 export default function runTargetTests(
   platform: PlatformType,
-  target: TargetType,
+  format: FormatType,
   // Alternate testing fixed and scaled configs
   fixed: boolean = false,
 ) {
-  describe(`Target ${target}`, () => {
+  describe(`Format ${format}`, () => {
     let compiler: Compiler;
 
     beforeEach(() => {
@@ -16,26 +18,24 @@ export default function runTargetTests(
         path.join(__dirname, `../../templates/${fixed ? 'config-fixed' : 'config'}.yaml`),
         __dirname,
         {
+          format,
           platform,
-          target,
         },
       );
     });
 
     it('compiles and writes files', async () => {
-      const mkdirSpy = jest.spyOn(fs.promises, 'mkdir').mockImplementation(() => Promise.resolve());
+      const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
 
-      const writeSpy = jest
-        .spyOn(fs.promises, 'writeFile')
-        .mockImplementation((filePath, contents) => {
-          expect(contents).toMatchSnapshot();
+      const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((filePath, contents) => {
+        expect(contents).toMatchSnapshot();
 
-          return Promise.resolve();
-        });
+        return Promise.resolve();
+      });
 
       await compiler.compile();
 
-      if (target === 'web-cjs' || target === 'web-js' || target === 'web-ts') {
+      if (format === 'web-cjs' || format === 'web-js' || format === 'web-ts') {
         expect(writeSpy).toHaveBeenCalledTimes(2);
       } else {
         expect(writeSpy).toHaveBeenCalledTimes(3);

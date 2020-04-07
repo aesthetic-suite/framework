@@ -27,9 +27,9 @@ describe('ThemeProvider', () => {
     lightTheme.name = 'day';
     darkTheme.name = 'night';
 
-    (getTheme as jest.Mock).mockImplementation(name => (name === 'day' ? lightTheme : darkTheme));
+    (getTheme as jest.Mock).mockImplementation((name) => (name === 'day' ? lightTheme : darkTheme));
     (getActiveTheme as jest.Mock).mockImplementation(() => lightTheme);
-    (renderThemeStyles as jest.Mock).mockImplementation(theme => `theme-${theme.name}`);
+    (renderThemeStyles as jest.Mock).mockImplementation((theme) => `theme-${theme.name}`);
     (changeTheme as jest.Mock).mockReset();
     (subscribe as jest.Mock).mockReset();
     (unsubscribe as jest.Mock).mockReset();

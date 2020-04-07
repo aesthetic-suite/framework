@@ -1,23 +1,23 @@
-/* eslint-disable jest/expect-expect */
+/* eslint-disable @typescript-eslint/no-misused-promises, jest/expect-expect */
 
-import fs from 'fs';
+import fs from 'fs-extra';
 import path from 'path';
 import { Compiler } from '../src';
 
 const CONFIG_PATH = path.join(__dirname, '../templates/config.yaml');
 
 async function runCompilerSnapshot(filePath: string) {
-  const mkdirSpy = jest.spyOn(fs.promises, 'mkdir').mockImplementation(() => Promise.resolve());
+  const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
 
-  const writeSpy = jest.spyOn(fs.promises, 'writeFile').mockImplementation((fp, contents) => {
+  const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((fp, contents) => {
     expect(contents).toMatchSnapshot();
 
     return Promise.resolve();
   });
 
   const compiler = new Compiler(filePath, __dirname, {
+    format: 'web-ts',
     platform: 'web',
-    target: 'web-ts',
   });
 
   await compiler.compile();
@@ -29,26 +29,26 @@ async function runCompilerSnapshot(filePath: string) {
 describe('Compiler', () => {
   describe('constructor()', () => {
     it('errors if no config path', () => {
-      expect(() => new Compiler('', '', { platform: 'web', target: 'web-js' })).toThrow(
+      expect(() => new Compiler('', '', { platform: 'web', format: 'web-js' })).toThrow(
         'A configuration file path is required.',
       );
     });
 
     it('errors if config file is missing', () => {
-      expect(() => new Compiler('./foo.yaml', '', { platform: 'web', target: 'web-js' })).toThrow(
+      expect(() => new Compiler('./foo.yaml', '', { platform: 'web', format: 'web-js' })).toThrow(
         'File path "foo.yaml" does not exist.',
       );
     });
 
     it('errors if no target path', () => {
-      expect(() => new Compiler(CONFIG_PATH, '', { platform: 'web', target: 'web-js' })).toThrow(
+      expect(() => new Compiler(CONFIG_PATH, '', { platform: 'web', format: 'web-js' })).toThrow(
         'A target destination file path is required.',
       );
     });
 
     it('does not error if target path is missing', () => {
       expect(
-        () => new Compiler(CONFIG_PATH, './unknown-target', { platform: 'web', target: 'web-js' }),
+        () => new Compiler(CONFIG_PATH, './unknown-target', { platform: 'web', format: 'web-js' }),
       ).not.toThrow();
     });
 
@@ -58,7 +58,7 @@ describe('Compiler', () => {
           new Compiler(CONFIG_PATH, './unknown-target', {
             // @ts-ignore Allow
             platform: 'osx',
-            target: 'web-js',
+            format: 'web-js',
           }),
       ).toThrow('Invalid field "platform". String must be one of: android, ios, web');
     });
@@ -69,10 +69,10 @@ describe('Compiler', () => {
           new Compiler(CONFIG_PATH, './unknown-target', {
             platform: 'web',
             // @ts-ignore Allow
-            target: 'web-tsx',
+            format: 'web-tsx',
           }),
       ).toThrow(
-        'Invalid field "target". String must be one of: android, ios, web-cjs, web-css, web-less, web-sass, web-scss, web-js, web-ts',
+        'Invalid field "format". String must be one of: android, ios, web-cjs, web-css, web-less, web-sass, web-scss, web-js, web-ts',
       );
     });
   });

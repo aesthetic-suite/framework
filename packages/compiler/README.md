@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/%40aesthetic%compiler.svg)](https://www.npmjs.com/package/@aesthetic/compiler)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/compiler)](https://www.npmjs.com/package/@aesthetic/compiler)
 
-Compiles a design system configuration to a specified platform target.
+Compiles a design system configuration to a specified platform format.
 
 ## Installation
 

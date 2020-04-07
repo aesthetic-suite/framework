@@ -69,7 +69,7 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
       return factories[0];
     }
 
-    return (p, tokens) => deepMerge(...factories.map(factory => factory(p, tokens)));
+    return (p, tokens) => deepMerge(...factories.map((factory) => factory(p, tokens)));
   }
 
   protected doRender(

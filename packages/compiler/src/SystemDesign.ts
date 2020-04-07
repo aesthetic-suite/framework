@@ -234,7 +234,7 @@ export default class SystemDesign {
       let lastBlur = blur;
       let lastSpread = spread;
 
-      SHADOW_SIZES.forEach(size => {
+      SHADOW_SIZES.forEach((size) => {
         tokens[size] = {
           x: lastX,
           y: lastY,

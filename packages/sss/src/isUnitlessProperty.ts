@@ -23,7 +23,7 @@ const unitlessProperties = new Set<string>();
   'strokeMiterlimit',
   'strokeOpacity',
   'strokeWidth',
-].forEach(property => {
+].forEach((property) => {
   unitlessProperties.add(property);
   unitlessProperties.add(hyphenate(property));
 });

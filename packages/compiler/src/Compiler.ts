@@ -1,14 +1,14 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import optimal, { string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
-import { Path } from '@boost/common';
+import { Path, PortablePath } from '@boost/common';
 import { createMixins, DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { TargetType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
+import { FormatType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
 import {
   BORDER_SIZES,
   BREAKPOINT_SIZES,
@@ -40,7 +40,7 @@ export default class Compiler {
 
   readonly targetPath: Path;
 
-  constructor(configPath: string, targetPath: string, options: SystemOptions) {
+  constructor(configPath: PortablePath, targetPath: PortablePath, options: SystemOptions) {
     this.configPath = this.createAndValidatePath(
       configPath,
       'A configuration file path is required.',
@@ -53,8 +53,7 @@ export default class Compiler {
     );
 
     this.options = optimal(options, {
-      platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
-      target: string().oneOf<TargetType>([
+      format: string().oneOf<FormatType>([
         'android',
         'ios',
         'web-cjs',
@@ -65,6 +64,7 @@ export default class Compiler {
         'web-js',
         'web-ts',
       ]),
+      platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
     });
   }
 
@@ -90,8 +90,8 @@ export default class Compiler {
     );
   }
 
-  getTargetExtension(): string {
-    switch (this.options.target) {
+  getFormatExtension(): string {
+    switch (this.options.format) {
       // TODO
       // case 'android':
       //   return 'java';
@@ -113,12 +113,12 @@ export default class Compiler {
   }
 
   getTargetFilePath(fileName: string): Path {
-    return this.targetPath.append(`${fileName}.${this.getTargetExtension()}`);
+    return this.targetPath.append(`${fileName}.${this.getFormatExtension()}`);
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
-    const { target } = this.options;
-    const targetFolder = target === 'web-ts' ? 'web-js' : target;
+    const { format } = this.options;
+    const targetFolder = format === 'web-ts' ? 'web-js' : format;
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
 
     // Not all targets use all templates
@@ -126,7 +126,7 @@ export default class Compiler {
       return null;
     }
 
-    return ejs.compile(await fs.promises.readFile(templatePath.path(), 'utf8'), {
+    return ejs.compile(await fs.readFile(templatePath.path(), 'utf8'), {
       filename: templatePath.path(),
     });
   }
@@ -188,11 +188,11 @@ export default class Compiler {
   }
 
   protected createAndValidatePath(
-    filePath: string,
+    filePath: PortablePath,
     message: string,
     exists: boolean = false,
   ): Path {
-    if (!filePath || typeof filePath !== 'string') {
+    if (!filePath || (typeof filePath !== 'string' && !(filePath instanceof Path))) {
       throw new Error(message);
     }
 
@@ -243,7 +243,7 @@ export default class Compiler {
 
   protected loadPlatform(design: SystemDesign): Platform {
     return new WebPlatform(
-      this.options.target,
+      this.options.format,
       design.template.text.df.size,
       design.template.spacing.unit,
     );
@@ -282,7 +282,7 @@ export default class Compiler {
     let contents = data;
 
     // Make sure the target folder exists
-    await fs.promises.mkdir(filePath.parent().path(), { recursive: true });
+    await fs.ensureDir(filePath.parent().path());
 
     // Run prettier on the code
     const configPath = await prettier.resolveConfigFile();
@@ -297,6 +297,6 @@ export default class Compiler {
     }
 
     // Write the file
-    return fs.promises.writeFile(filePath.path(), contents, 'utf8');
+    return fs.writeFile(filePath.path(), contents, 'utf8');
   }
 }

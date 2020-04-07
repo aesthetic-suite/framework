@@ -1,6 +1,6 @@
 import { hyphenate } from '@aesthetic/utils';
 import { formatUnit } from '../helpers';
-import { BreakpointCondition, TargetType } from '../types';
+import { BreakpointCondition, FormatType } from '../types';
 
 // All input values are assumed to be px
 export default class WebPlatform {
@@ -8,10 +8,10 @@ export default class WebPlatform {
 
   readonly spacingUnit: number;
 
-  readonly target: TargetType;
+  readonly format: FormatType;
 
-  constructor(target: TargetType, rootTextSize: number, spacingUnit: number) {
-    this.target = target;
+  constructor(format: FormatType, rootTextSize: number, spacingUnit: number) {
+    this.format = format;
     this.rootTextSize = rootTextSize;
     this.spacingUnit = spacingUnit;
   }
@@ -41,11 +41,11 @@ export default class WebPlatform {
   }
 
   var = (value: string): string => {
-    if (this.target === 'web-sass' || this.target === 'web-scss') {
+    if (this.format === 'web-sass' || this.format === 'web-scss') {
       return `$${value}`;
     }
 
-    if (this.target === 'web-less') {
+    if (this.format === 'web-less') {
       return `@${value}`;
     }
 
@@ -53,6 +53,6 @@ export default class WebPlatform {
   };
 
   query(conditions: BreakpointCondition[]): string {
-    return conditions.map(cond => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
+    return conditions.map((cond) => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
   }
 }

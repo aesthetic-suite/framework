@@ -7,7 +7,7 @@ import { Value } from '../types';
  */
 export default function formatDeclaration(property: string, value: Value | Value[]): string {
   if (Array.isArray(value)) {
-    return arrayReduce(value, val => formatDeclaration(property, val));
+    return arrayReduce(value, (val) => formatDeclaration(property, val));
   }
 
   return `${hyphenate(property)}:${value};`;

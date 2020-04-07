@@ -16,7 +16,7 @@ import {
 
 export type PlatformType = 'android' | 'ios' | 'web';
 
-export type TargetType =
+export type FormatType =
   | 'android'
   | 'ios'
   | 'web-cjs'
@@ -28,8 +28,8 @@ export type TargetType =
   | 'web-ts';
 
 export interface SystemOptions {
+  format: FormatType;
   platform: PlatformType;
-  target: TargetType;
 }
 
 // CONFIG FILE

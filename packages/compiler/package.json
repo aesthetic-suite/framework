@@ -1,7 +1,7 @@
 {
   "name": "@aesthetic/compiler",
   "version": "0.0.4",
-  "description": "Compiles a design system configuration to a specified platform target.",
+  "description": "Compiles a design system configuration to a specified platform format.",
   "keywords": [
     "aesthetic",
     "design",
@@ -11,7 +11,6 @@
   "repository": "https://github.com/milesj/aesthetic/tree/master/packages/compiler",
   "license": "MIT",
   "main": "./lib/index.js",
-  "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
@@ -27,10 +26,11 @@
   "dependencies": {
     "@aesthetic/system": "^0.0.3",
     "@aesthetic/utils": "^0.0.3",
-    "@boost/common": "^1.6.0",
-    "ejs": "^3.0.1",
+    "@boost/common": "^1.8.3",
+    "ejs": "^3.0.2",
+    "fs-extra": "^9.0.0",
     "lodash": "^4.17.15",
     "optimal": "^4.2.0",
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.4"
   }
 }

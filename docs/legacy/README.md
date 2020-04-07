@@ -63,7 +63,7 @@ class Carousel extends React.Component<Props & WithStylesWrappedProps<Theme>, St
   }
 }
 
-export default withStyles<Theme>(theme => ({
+export default withStyles<Theme>((theme) => ({
   carousel: {
     position: 'relative',
     maxWidth: '100%',

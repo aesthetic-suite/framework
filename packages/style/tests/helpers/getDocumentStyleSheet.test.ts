@@ -1,7 +1,7 @@
 import getDocumentStyleSheet from '../../src/helpers/getDocumentStyleSheet';
 
 function getStyleElements(): string[] {
-  return Array.from(document.querySelectorAll('style')).map(element =>
+  return Array.from(document.querySelectorAll('style')).map((element) =>
     element.id.replace('aesthetic-', ''),
   );
 }

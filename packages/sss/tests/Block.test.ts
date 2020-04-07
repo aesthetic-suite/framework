@@ -129,19 +129,12 @@ describe('Block', () => {
         .addProperty('display', 'inline-flex')
         .addProperty('background', 'transparent');
 
-      instance
-        .addNested(hover)
-        .addNested(active)
-        .addNested(media);
+      instance.addNested(hover).addNested(active).addNested(media);
 
       media.addNested(mediaHover);
       media2.addNested(mediaHover2);
 
-      instance.merge(
-        createBlock('new')
-          .addNested(hover2)
-          .addNested(media2),
-      );
+      instance.merge(createBlock('new').addNested(hover2).addNested(media2));
 
       expect(instance.toObject()).toEqual({
         ':hover': {

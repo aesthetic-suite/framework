@@ -42,7 +42,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     }
 
     objectLoop(fontFaces, (faces, name) => {
-      arrayLoop(toArray(faces), fontFace => {
+      arrayLoop(toArray(faces), (fontFace) => {
         this.parseFontFace(name, fontFace);
       });
     });
@@ -65,7 +65,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
       }
     }
 
-    arrayLoop(imports, value => {
+    arrayLoop(imports, (value) => {
       this.emit('import', formatImport(value));
     });
   }
@@ -97,7 +97,7 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     const pseudos: PagePseudos[] = [':blank', ':first', ':left', ':right'];
 
     // Parse each nested selector as its own page block
-    pseudos.forEach(selector => {
+    pseudos.forEach((selector) => {
       const value = object[selector];
 
       if (value) {

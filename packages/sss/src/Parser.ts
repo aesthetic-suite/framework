@@ -240,7 +240,7 @@ export default abstract class Parser<T extends object, E extends object> {
 
     const block = this.parseLocalBlock(new Block(selector), object);
 
-    arrayLoop(selector.split(','), k => {
+    arrayLoop(selector.split(','), (k) => {
       let name = k.trim();
       let type = 'block:selector';
       let specificity = 0;
@@ -296,13 +296,15 @@ export default abstract class Parser<T extends object, E extends object> {
       return propertyTransformers.animationName(
         value as Keyframes,
         this.wrapValueWithUnit,
-        keyframes => this.parseKeyframes(keyframes),
+        (keyframes) => this.parseKeyframes(keyframes),
       );
     }
 
     if (prop === 'fontFamily') {
-      return propertyTransformers.fontFamily(value as FontFace, this.wrapValueWithUnit, fontFace =>
-        this.parseFontFace(fontFace.fontFamily!, fontFace),
+      return propertyTransformers.fontFamily(
+        value as FontFace,
+        this.wrapValueWithUnit,
+        (fontFace) => this.parseFontFace(fontFace.fontFamily!, fontFace),
       );
     }
 

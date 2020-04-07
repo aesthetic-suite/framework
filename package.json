@@ -3,11 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
     "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
     "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
     "coverage": "yarn run jest --coverage",
-    "eslint": "beemo eslint",
+    "lint": "beemo eslint",
     "jest": "beemo jest",
     "prettier": "beemo prettier",
     "release": "lerna publish",
@@ -15,32 +16,33 @@
     "prerelease": "yarn run clean && yarn run build && yarn test",
     "pretest": "yarn run type",
     "test": "yarn run coverage",
-    "posttest": "yarn run eslint"
+    "posttest": "yarn run lint"
   },
   "engines": {
     "node": ">=10.10.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.1.0",
-    "@types/ejs": "^3.0.1",
+    "@milesj/build-tools": "^2.4.0",
+    "@types/ejs": "^3.0.2",
     "@types/extend": "^3.0.1",
+    "@types/fs-extra": "^8.1.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/inline-style-prefixer": "^5.0.0",
     "@types/lodash": "^4.14.108",
-    "@types/prettier": "^1.12.0",
+    "@types/prettier": "^2.0.0",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
     "@types/string-hash": "^1.1.1",
     "conventional-changelog-beemo": "^1.6.0",
     "eslint-plugin-rut": "^1.0.1",
     "jest-rut": "^1.0.1",
     "lerna": "^3.20.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "rollup": "^1.32.0",
-    "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-babel": "^4.3.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "rollup": "^2.3.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-externals": "^2.1.3",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rut-dom": "^1.0.1"
   },
@@ -57,6 +59,7 @@
       }
     ],
     "settings": {
+      "decorators": true,
       "react": true
     },
     "eslint": {
@@ -64,7 +67,8 @@
         "plugin:rut/recommended"
       ],
       "rules": {
-        "import/export": "off"
+        "import/export": "off",
+        "node/no-missing-import": "off"
       }
     },
     "jest": {

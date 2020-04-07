@@ -99,7 +99,7 @@ export default class Theme {
    * Properties take the highest precendence and will override mixin declarations.
    */
   mixin: MixinUtil<object> = (names, properties = {}) =>
-    deepMerge(...toArray(names).map(name => this.extendMixin(name)), properties);
+    deepMerge(...toArray(names).map((name) => this.extendMixin(name)), properties);
 
   /**
    * Overwrite a mixin with a set of custom CSS properties, and return the new mixin.
@@ -158,7 +158,7 @@ export default class Theme {
   unit: UnitUtil = (...multipliers) =>
     multipliers
       .map(
-        m =>
+        (m) =>
           `${((this.design.spacingUnit * m) / this.design.rootTextSize)
             .toFixed(2)
             .replace('.00', '')}rem`,

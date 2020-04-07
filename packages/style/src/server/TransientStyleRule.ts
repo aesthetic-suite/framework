@@ -33,7 +33,7 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   get cssText() {
-    return arrayReduce(this.cssRules, rule => rule.cssText, this.rule);
+    return arrayReduce(this.cssRules, (rule) => rule.cssText, this.rule);
   }
 
   determineType(rule: string): number {
@@ -53,11 +53,7 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   extractCondition(): string {
-    return this.cssText
-      .split('{')[0]
-      .replace('@media', '')
-      .replace('@supports', '')
-      .trim();
+    return this.cssText.split('{')[0].replace('@media', '').replace('@supports', '').trim();
   }
 
   insertRule(rule: string, index: number): number {

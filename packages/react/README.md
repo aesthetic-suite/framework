@@ -11,7 +11,7 @@ Style React components with hooks or HOCs, using the powerful
 import React from 'react';
 import { createComponentStyles, useStyles } from '@aesthetic/react';
 
-const styleSheet = createComponentStyles(css => ({
+const styleSheet = createComponentStyles((css) => ({
   button: {
     textAlign: 'center',
     display: 'inline-block',

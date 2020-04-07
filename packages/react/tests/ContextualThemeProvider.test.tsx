@@ -16,8 +16,8 @@ describe('ContextualThemeProvider', () => {
     lightTheme.name = 'day';
     darkTheme.name = 'night';
 
-    (getTheme as jest.Mock).mockImplementation(name => (name === 'day' ? lightTheme : darkTheme));
-    (renderThemeStyles as jest.Mock).mockImplementation(theme => `theme-${theme.name}`);
+    (getTheme as jest.Mock).mockImplementation((name) => (name === 'day' ? lightTheme : darkTheme));
+    (renderThemeStyles as jest.Mock).mockImplementation((theme) => `theme-${theme.name}`);
   });
 
   afterEach(() => {

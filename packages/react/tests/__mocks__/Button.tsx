@@ -5,7 +5,7 @@ import { LocalSheet } from '@aesthetic/core';
 import { createComponentStyles, DirectionProvider, ThemeProvider } from '../../src';
 
 export function createStyleSheet() {
-  return createComponentStyles(css => ({
+  return createComponentStyles((css) => ({
     button: css.mixin(['pattern-reset-button', 'border-df'], {
       position: 'relative',
       display: 'inline-flex',
