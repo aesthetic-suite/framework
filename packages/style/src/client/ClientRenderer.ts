@@ -13,11 +13,11 @@ function getSheet(type: SheetType): StyleRule {
 }
 
 export default class ClientRenderer extends Renderer {
-  protected globalStyleSheet = new GlobalStyleSheet(getSheet('global'));
+  conditionsStyleSheet = new ConditionsStyleSheet(getSheet('conditions'));
 
-  protected conditionsStyleSheet = new ConditionsStyleSheet(getSheet('conditions'));
+  globalStyleSheet = new GlobalStyleSheet(getSheet('global'));
 
-  protected standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
+  standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
 
   applyRootVariables(vars: CSSVariables) {
     if (isSSR()) {
@@ -37,26 +37,37 @@ export default class ClientRenderer extends Renderer {
     }
 
     arrayLoop(
-      document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate]'),
+      document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate-index]'),
       (style) => {
         const sheet = style.sheet as CSSStyleSheet;
         const type = style.getAttribute('data-aesthetic-type') as SheetType;
+        const lastIndex = Number(style.getAttribute('data-aesthetic-hydrate-index'));
 
-        if (type === 'global') {
-          hydrateGlobals(this, sheet);
-        } else if (type === 'standard') {
-          hydrateRules(this, sheet);
-        } else if (type === 'conditions') {
-          hydrateConditions(this, sheet);
+        switch (type) {
+          case 'global':
+            hydrateGlobals(this, sheet);
+            this.globalStyleSheet.lastIndex = lastIndex;
+            break;
+
+          case 'conditions':
+            hydrateConditions(this, sheet);
+            this.conditionsStyleSheet.lastIndex = lastIndex;
+            break;
+
+          default:
+            hydrateRules(this, sheet);
+            this.standardStyleSheet.lastIndex = lastIndex;
+            break;
         }
 
         // Persist the rule index
-        if (!this.ruleIndex) {
-          this.ruleIndex = Number(style.getAttribute('data-aesthetic-hydrate'));
+        if (this.ruleIndex === -1) {
+          this.ruleIndex = Number(style.getAttribute('data-aesthetic-rule-index'));
         }
 
         // Disable so that we avoid unnecessary hydration
-        style.removeAttribute('data-aesthetic-hydrate');
+        style.removeAttribute('data-aesthetic-hydrate-index');
+        style.removeAttribute('data-aesthetic-rule-index');
       },
     );
   }

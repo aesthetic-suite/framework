@@ -19,11 +19,11 @@ declare global {
 }
 
 export default class ServerRenderer extends Renderer {
-  protected globalStyleSheet = new GlobalStyleSheet(new TransientStyleRule(STYLE_RULE));
+  conditionsStyleSheet = new ConditionsStyleSheet(new TransientStyleRule(STYLE_RULE));
 
-  protected conditionsStyleSheet = new ConditionsStyleSheet(new TransientStyleRule(STYLE_RULE));
+  globalStyleSheet = new GlobalStyleSheet(new TransientStyleRule(STYLE_RULE));
 
-  protected standardStyleSheet = new StandardStyleSheet(new TransientStyleRule(STYLE_RULE));
+  standardStyleSheet = new StandardStyleSheet(new TransientStyleRule(STYLE_RULE));
 
   applyRootVariables(vars: CSSVariables) {
     objectLoop(vars, (value, key) => {

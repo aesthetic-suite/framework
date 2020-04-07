@@ -2,11 +2,11 @@ import { isSSR } from '@aesthetic/utils';
 import { StyleRule } from './types';
 
 export default abstract class BaseStyleSheet {
+  lastIndex: number = -1;
+
   sheet: StyleRule;
 
-  protected rafHandle = 0;
-
-  protected lastIndex = -1;
+  protected rafHandle: number = 0;
 
   protected ruleBuffer: { index: number; rule: string }[] = [];
 

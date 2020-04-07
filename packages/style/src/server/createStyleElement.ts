@@ -4,8 +4,9 @@ import { StyleRule, SheetType } from '../types';
 export default function createStyleElement(
   type: SheetType,
   rule: StyleRule,
-  index: number,
+  ruleIndex: number,
 ): string {
+  const lastIndex = rule.cssRules.length - 1;
   let css = '';
 
   if (Object.keys(rule.cssVariables).length > 0) {
@@ -14,5 +15,5 @@ export default function createStyleElement(
 
   css += rule.cssText;
 
-  return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate="${index}">${css}</style>`;
+  return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate-index="${lastIndex}" data-aesthetic-rule-index="${ruleIndex}">${css}</style>`;
 }

@@ -58,21 +58,21 @@ export default abstract class Renderer {
 
   readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
 
-  protected ruleIndex = 0;
+  ruleIndex: number = -1;
 
-  protected abstract globalStyleSheet: GlobalStyleSheet;
+  abstract globalStyleSheet: GlobalStyleSheet;
 
-  protected abstract conditionsStyleSheet: ConditionsStyleSheet;
+  abstract conditionsStyleSheet: ConditionsStyleSheet;
 
-  protected abstract standardStyleSheet: StandardStyleSheet;
+  abstract standardStyleSheet: StandardStyleSheet;
 
   /**
    * Generate an incremental class name.
    */
   generateClassName(): ClassName {
-    const index = this.ruleIndex;
-
     this.ruleIndex += 1;
+
+    const index = this.ruleIndex;
 
     if (index < CHARS_LENGTH) {
       return CHARS[index];
