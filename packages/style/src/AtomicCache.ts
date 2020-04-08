@@ -18,13 +18,13 @@ export default class AtomicCache {
       return false;
     }
 
-    if (Array.isArray(params.conditions) && params.conditions.length > 0) {
-      return params.conditions.every((i) =>
-        item.conditions.find((p) => p.query === i.query && p.type === i.type),
-      );
+    if (item.conditions.length !== params.conditions?.length) {
+      return false;
     }
 
-    return true;
+    return (params.conditions || []).every(
+      (i) => !!item.conditions.find((p) => p.query === i.query && p.type === i.type),
+    );
   }
 
   read(

@@ -1,5 +1,6 @@
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
+import { MEDIA_RULE } from '../src/constants';
 
 describe('Styles', () => {
   let renderer: Renderer;
@@ -108,6 +109,17 @@ describe('Styles', () => {
     renderer.renderDeclaration('width', '100em');
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('generates different class names between standard and condition rules, when condition is inserted first', () => {
+    const a = renderer.renderDeclaration('width', '100em', {
+      conditions: [{ query: '(max-width: 100px)', type: MEDIA_RULE }],
+    });
+    const b = renderer.renderDeclaration('width', '100em');
+
+    expect(a).toBe('a');
+    expect(b).toBe('b');
+    expect(a).not.toBe(b);
   });
 
   it('supports CSS variables within values', () => {
