@@ -5,6 +5,7 @@
 
 import arrayLoop from './arrayLoop';
 import arrayReduce from './arrayReduce';
+import deepClone from './deepClone';
 import deepMerge from './deepMerge';
 import generateHash from './generateHash';
 import hyphenate from './hyphenate';
@@ -17,6 +18,7 @@ import toArray from './toArray';
 export {
   arrayLoop,
   arrayReduce,
+  deepClone,
   deepMerge,
   generateHash,
   hyphenate,

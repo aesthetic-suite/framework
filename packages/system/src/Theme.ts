@@ -1,5 +1,5 @@
 import { DeclarationBlock } from '@aesthetic/sss';
-import { deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
+import { deepClone, deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
 import {
   ColorScheme,
@@ -58,7 +58,7 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      deepMerge(this.mixins, {}), // Clone
+      deepClone(this.mixins),
     );
   }
 
