@@ -33,7 +33,7 @@ export default abstract class BaseStyleSheet {
       });
 
       if (!this.rafHandle) {
-        this.rafHandle = requestAnimationFrame(this.flushRules);
+        this.rafHandle = window.requestAnimationFrame(this.flushRules);
       }
     }
 
@@ -42,7 +42,7 @@ export default abstract class BaseStyleSheet {
 
   protected injectRule = (rule: string, index: number) => {
     this.sheet.insertRule(rule, index);
-    this.lastIndex = this.sheet.cssRules.length;
+    this.lastIndex = this.sheet.cssRules.length - 1;
   };
 
   protected flushRules = () => {

@@ -3,6 +3,7 @@ import { SheetType } from '../types';
 
 export default function getStyleElement(type: SheetType): HTMLStyleElement | null {
   // This is a little hacky, but hopefully this never gets interacted with
+  // istanbul ignore next
   if (isSSR()) {
     return ({
       sheet: {

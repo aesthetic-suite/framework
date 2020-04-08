@@ -20,6 +20,7 @@ export default class ClientRenderer extends Renderer {
   standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
 
   applyRootVariables(vars: CSSVariables) {
+    // istanbul ignore next
     if (isSSR()) {
       return;
     }
@@ -32,6 +33,7 @@ export default class ClientRenderer extends Renderer {
   }
 
   hydrateStyles() {
+    // istanbul ignore next
     if (isSSR()) {
       return;
     }
