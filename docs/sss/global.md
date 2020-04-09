@@ -13,17 +13,6 @@ import { GlobalStyleSheet } from '@aesthetic/sss';
 
 ## Structure
 
-### `@charset`
-
-Sets the document [character set](https://developer.mozilla.org/en-US/docs/Web/CSS/@charset).
-Accepts a [IANA registry](http://www.iana.org/assignments/character-sets) valid string.
-
-```ts
-const globalSheet: GlobalStyleSheet = {
-  '@charset': 'utf-8',
-};
-```
-
 ### `@font-face`
 
 Defines a [font face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) that can be
@@ -75,7 +64,7 @@ const globalSheet: GlobalStyleSheet = {
 
 As stated at the start of the chapter, the global style sheet can generate global-like CSS styles by
 using the `@global` at-rule. This at-rule is a [local style sheet](./local.md) that should be
-processed and generated to a class name that is set on the `body`. It's suggested this way to avoid
+processed and generated to a class name that is set on the `body`. It's built this way to avoid
 global collisions between multiple themes or differing global style sheets.
 
 ```ts
@@ -221,10 +210,9 @@ const globalSheet: GlobalStyleSheet = {
 
 ## Parsing
 
-To parse a style sheet, import and instantiate the `GlobalParser`. Parsing is asynchronous, so as a
-means to streamline consumption, the parser utilizes an event emitter, where each at-rule must be
-listened to and handled. Once listeners are registered, execute the `parse()` method with the style
-sheet.
+To parse a style sheet, import and instantiate the `GlobalParser`. To streamline consumption, the
+parser utilizes an event emitter, where each at-rule must be listened to and handled. Once listeners
+are registered, execute the `parse()` method with the style sheet.
 
 Because of this architecture, you must "build" or "handle" the final result yourself. In the example
 below, when an event is emitted, we will insert a formatted rule into our style sheet.

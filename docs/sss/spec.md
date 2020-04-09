@@ -59,8 +59,9 @@ The foundation of all styles are properties, where each key-value pair maps to a
 abides the following:
 
 - Property names are camel cased versions of their CSS equivalent property.
-- Vendor properties are _not_ supported. Use an auto-prefixer if you need vendor prefixes.
-- Unit values that default to `px` can be written as literal numbers.
+- Vendor properties are _not_ supported. Use the `vendorPrefixes` settings to enable this
+  automatically.
+- Unit values that default to the `defaultUnit` setting can be written as literal numbers.
 - Values that require quotes in the CSS output must manually handle the quotes within the string.
 
 ```ts
@@ -82,8 +83,7 @@ const styles: DeclarationBlock = {
 ### Animations
 
 Inline keyframes can be defined by passing an object or an array of objects to `animationName`,
-where each object abides the [keyframes](#keyframes) specification. Furthermore, an optional `name`
-property can be defined to customize the resulting animation name, otherwise one is generated.
+where each object abides the [keyframes](#keyframes) specification.
 
 ```ts
 import { DeclarationBlock } from '@aesthetic/sss';
@@ -98,7 +98,6 @@ const styles: DeclarationBlock = {
   animationName: {
     from: { opacity: 0 },
     to: { opacity: 1 },
-    name: 'fade',
   },
 };
 
@@ -109,7 +108,6 @@ const styles: DeclarationBlock = {
     {
       from: { opacity: 0 },
       to: { opacity: 1 },
-      name: 'fade',
     },
     {
       '0%': { bottom: 0 },
@@ -163,18 +161,18 @@ const styles: DeclarationBlock = {
 };
 ```
 
-### Expanded Values
+### Expanded properties
 
 CSS has a concept known as
 [shorthand properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties), where
 multiple properties and their values can be declared with a single property. For example,
-`border-width`, `border-style`, and `border-color` can be defined in `border`.
+`border-width`, `border-style`, and `border-color` can be combined in `border`.
 
-However, in CSS-in-JS, shorthand properties are non-deterministic and can be complicated to parse,
-so Aesthetic offers an expanded form for a handful of shorthand properties (cue irony). The current
-shorthand properties that support an expanded form are: `animation`, `background`, `border`,
-`borderBottom`, `borderLeft`, `borderRight`, `borderTop`, `columnRule`, `flex`, `font`, `listStyle`,
-`margin`, `offset`, `outline`, `padding`, `textDecoration`, and `transition`;
+However, in CSS-in-JS, shorthand properties cause issues when defined alongside their longhand
+properties, so Aesthetic offers an expanded form for a handful of shorthand properties (cue irony).
+The current shorthand properties that support an expanded form are: `animation`, `background`,
+`border`, `borderBottom`, `borderLeft`, `borderRight`, `borderTop`, `columnRule`, `flex`, `font`,
+`listStyle`, `margin`, `offset`, `outline`, `padding`, `textDecoration`, and `transition`;
 
 To utilize the expanded form, define an object where each property within maps to an equivalent
 longhand property. Using the border example above, the object would look like the following:
