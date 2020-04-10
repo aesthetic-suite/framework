@@ -28,12 +28,26 @@ export default class TransientStyleRule implements StyleRule {
     this.type = type;
 
     if (type === MEDIA_RULE || type === SUPPORTS_RULE) {
-      this.conditionText = this.extractCondition();
+      this.rule = '';
+      this.conditionText = rule
+        .slice(0, rule.indexOf('{') - 1)
+        .replace(this.conditionAtRule, '')
+        .trim();
     }
   }
 
+  get conditionAtRule() {
+    return this.type === MEDIA_RULE ? '@media' : '@supports';
+  }
+
   get cssText() {
-    return arrayReduce(this.cssRules, (rule) => rule.cssText, this.rule);
+    const css = arrayReduce(this.cssRules, (rule) => rule.cssText, this.rule);
+
+    if (this.type === MEDIA_RULE || this.type === SUPPORTS_RULE) {
+      return `${this.conditionAtRule} ${this.conditionText} { ${css} }`;
+    }
+
+    return css;
   }
 
   determineType(rule: string): number {
@@ -50,10 +64,6 @@ export default class TransientStyleRule implements StyleRule {
     }
 
     return STYLE_RULE;
-  }
-
-  extractCondition(): string {
-    return this.cssText.split('{')[0].replace('@media', '').replace('@supports', '').trim();
   }
 
   insertRule(rule: string, index: number): number {

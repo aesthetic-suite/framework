@@ -22,6 +22,7 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
       });
     }
 
+    // istanbul ignore next
     return {};
   });
 

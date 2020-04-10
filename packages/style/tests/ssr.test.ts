@@ -1,6 +1,10 @@
 import ServerRenderer from '../src/server/ServerRenderer';
 
 describe('SSR', () => {
+  afterEach(() => {
+    delete global.AESTHETIC_SSR_CLIENT;
+  });
+
   it('sets SSR global', () => {
     expect(global.AESTHETIC_SSR_CLIENT).toBeUndefined();
 
@@ -12,6 +16,8 @@ describe('SSR', () => {
 
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
     const renderer = new ServerRenderer();
+
+    global.AESTHETIC_SSR_CLIENT = renderer;
 
     renderer.applyRootVariables({
       fontSize: '16px',
@@ -74,6 +80,17 @@ describe('SSR', () => {
     });
 
     renderer.renderImport('url("test.css")');
+
+    // Test that conditions are merged
+    renderer.renderRule({
+      margin: 0,
+      '@media (width: 500px)': {
+        margin: '5px',
+      },
+      '@supports (color: green)': {
+        color: 'black',
+      },
+    });
 
     expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
   });
