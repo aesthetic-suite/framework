@@ -11,21 +11,22 @@ import useTheme from './useTheme';
 export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameGenerator<keyof T> {
   const direction = useDirection();
   const theme = useTheme();
+  const ssr = isSSR() || global.AESTHETIC_SSR_CLIENT;
 
-  // Render the styles immediately for SSR
+  // Render the styles immediately for SSR and tests
   const [classNames, setClassNames] = useState<ClassNameSheet<string>>(() => {
-    if (!global.AESTHETIC_SSR_CLIENT) {
-      return {};
+    if (ssr || process.env.NODE_ENV === 'test') {
+      return renderComponentStyles(sheet, {
+        direction,
+        theme: theme.name,
+      });
     }
 
-    return renderComponentStyles(sheet, {
-      direction,
-      theme: theme.name,
-    });
+    return {};
   });
 
   // Re-render styles when the theme or direction change
-  const useSideEffect = isSSR() || global.AESTHETIC_SSR_CLIENT ? useEffect : useLayoutEffect;
+  const useSideEffect = ssr ? useEffect : useLayoutEffect;
 
   useSideEffect(() => {
     setClassNames(
