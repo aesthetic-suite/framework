@@ -36,8 +36,8 @@ export default class WebPlatform {
     return `${formatUnit(value / this.rootTextSize)}rem`;
   }
 
-  unit(size: number): string {
-    return this.rem(size * this.spacingUnit);
+  unit(size: number, type: string = 'rem'): number {
+    return size * this.spacingUnit;
   }
 
   var = (value: string): string => {

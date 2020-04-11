@@ -5,8 +5,8 @@ module.exports = new Design('<%= design.dashedName -%>', {
   border: {
     <% borderSizes.forEach(size => { -%>
     <%= size -%>: {
-      radius: '<%= platform.rem(data.border[size].radius) -%>',
-      width: '<%= platform.rem(data.border[size].width) -%>',
+      radius: '<%= platform.rem(data.border[size].radius) -%>', // <%= platform.px(data.border[size].radius) %>
+      width: '<%= platform.rem(data.border[size].width) -%>', // <%= platform.px(data.border[size].width) %>
     },
     <% }) -%>
   },
@@ -25,23 +25,23 @@ module.exports = new Design('<%= design.dashedName -%>', {
     <%= size -%>: {
       letterSpacing: '<%= platform.px(data.heading[size].letterSpacing) -%>',
       lineHeight: <%= platform.number(data.heading[size].lineHeight) -%>,
-      size: '<%= platform.rem(data.heading[size].size) -%>',
+      size: '<%= platform.rem(data.heading[size].size) -%>', // <%= platform.px(data.heading[size].size) %>
     },
     <% }) -%>
   },
   shadow: {
     <% shadowSizes.forEach(size => { -%>
     <%= size -%>: {
-      x: '<%= platform.rem(data.shadow[size].x) -%>',
-      y: '<%= platform.rem(data.shadow[size].y) -%>',
-      blur: '<%= platform.rem(data.shadow[size].blur) -%>',
-      spread: '<%= platform.rem(data.shadow[size].spread) -%>',
+      x: '<%= platform.rem(data.shadow[size].x) -%>', // <%= platform.px(data.shadow[size].x) %>
+      y: '<%= platform.rem(data.shadow[size].y) -%>', // <%= platform.px(data.shadow[size].y) %>
+      blur: '<%= platform.rem(data.shadow[size].blur) -%>', // <%= platform.px(data.shadow[size].blur) %>
+      spread: '<%= platform.rem(data.shadow[size].spread) -%>', // <%= platform.px(data.shadow[size].spread) %>
     },
     <% }) -%>
   },
   spacing: {
     <% spacingSizes.forEach(size => { -%>
-    <%= size -%>: '<%= platform.unit(data.spacing[size]) -%>',
+    <%= size -%>: '<%= platform.rem(platform.unit(data.spacing[size])) -%>', // <%= platform.px(platform.unit(data.spacing[size])) %>
     <% }) -%>
     type: '<%= data.spacing.type -%>',
     unit: <%= data.spacing.unit -%>,
@@ -50,7 +50,7 @@ module.exports = new Design('<%= design.dashedName -%>', {
     <% textSizes.forEach(size => { -%>
     <%= size -%>: {
       lineHeight: <%= platform.number(data.text[size].lineHeight) -%>,
-      size: '<%= platform.rem(data.text[size].size) -%>',
+      size: '<%= platform.rem(data.text[size].size) -%>', // <%= platform.px(data.text[size].size) %>
     },
     <% }) -%>
   },

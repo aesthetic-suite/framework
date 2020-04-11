@@ -7,16 +7,16 @@ import { Design } from '@aesthetic/core';
 export default new Design('example', {
   border: {
     sm: {
-      radius: '0.14rem',
-      width: '0.04rem',
+      radius: '0.14rem', // 2px
+      width: '0.04rem', // 0.50px
     },
     df: {
-      radius: '0.21rem',
-      width: '0.07rem',
+      radius: '0.21rem', // 3px
+      width: '0.07rem', // 1px
     },
     lg: {
-      radius: '0.32rem',
-      width: '0.14rem',
+      radius: '0.32rem', // 4.50px
+      width: '0.14rem', // 2px
     },
   },
   breakpoint: {
@@ -55,88 +55,88 @@ export default new Design('example', {
     l1: {
       letterSpacing: '0.25px',
       lineHeight: 1.5,
-      size: '1.14rem',
+      size: '1.14rem', // 16px
     },
     l2: {
       letterSpacing: '0.33px',
       lineHeight: 1.69,
-      size: '1.43rem',
+      size: '1.43rem', // 20px
     },
     l3: {
       letterSpacing: '0.44px',
       lineHeight: 1.9,
-      size: '1.79rem',
+      size: '1.79rem', // 25px
     },
     l4: {
       letterSpacing: '0.59px',
       lineHeight: 2.14,
-      size: '2.23rem',
+      size: '2.23rem', // 31.25px
     },
     l5: {
       letterSpacing: '0.79px',
       lineHeight: 2.4,
-      size: '2.79rem',
+      size: '2.79rem', // 39.06px
     },
     l6: {
       letterSpacing: '1.05px',
       lineHeight: 2.7,
-      size: '3.49rem',
+      size: '3.49rem', // 48.83px
     },
   },
   shadow: {
     xs: {
-      x: '0rem',
-      y: '0.14rem',
-      blur: '0.14rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.14rem', // 2px
+      blur: '0.14rem', // 2px
+      spread: '0rem', // 0px
     },
     sm: {
-      x: '0rem',
-      y: '0.23rem',
-      blur: '0.25rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.23rem', // 3.24px
+      blur: '0.25rem', // 3.50px
+      spread: '0rem', // 0px
     },
     md: {
-      x: '0rem',
-      y: '0.37rem',
-      blur: '0.44rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.37rem', // 5.24px
+      blur: '0.44rem', // 6.13px
+      spread: '0rem', // 0px
     },
     lg: {
-      x: '0rem',
-      y: '0.61rem',
-      blur: '0.77rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.61rem', // 8.47px
+      blur: '0.77rem', // 10.72px
+      spread: '0rem', // 0px
     },
     xl: {
-      x: '0rem',
-      y: '0.98rem',
-      blur: '1.34rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.98rem', // 13.71px
+      blur: '1.34rem', // 18.76px
+      spread: '0rem', // 0px
     },
   },
   spacing: {
-    xs: '0.31rem',
-    sm: '0.63rem',
-    df: '1.25rem',
-    md: '2.50rem',
-    lg: '3.75rem',
-    xl: '5rem',
+    xs: '0.31rem', // 4.38px
+    sm: '0.63rem', // 8.75px
+    df: '1.25rem', // 17.50px
+    md: '2.50rem', // 35px
+    lg: '3.75rem', // 52.50px
+    xl: '5rem', // 70px
     type: 'vertical-rhythm',
     unit: 17.5,
   },
   text: {
     sm: {
       lineHeight: 1.25,
-      size: '0.89rem',
+      size: '0.89rem', // 12.44px
     },
     df: {
       lineHeight: 1.25,
-      size: '1rem',
+      size: '1rem', // 14px
     },
     lg: {
       lineHeight: 1.25,
-      size: '1.13rem',
+      size: '1.13rem', // 15.75px
     },
   },
   typography: {
@@ -341,16 +341,16 @@ import { Design } from '@aesthetic/core';
 export default new Design('test', {
   border: {
     sm: {
-      radius: '0.14rem',
-      width: '0.04rem',
+      radius: '0.14rem', // 2px
+      width: '0.04rem', // 0.50px
     },
     df: {
-      radius: '0.21rem',
-      width: '0.07rem',
+      radius: '0.21rem', // 3px
+      width: '0.07rem', // 1px
     },
     lg: {
-      radius: '0.32rem',
-      width: '0.14rem',
+      radius: '0.32rem', // 4.50px
+      width: '0.14rem', // 2px
     },
   },
   breakpoint: {
@@ -389,88 +389,88 @@ export default new Design('test', {
     l1: {
       letterSpacing: '0.25px',
       lineHeight: 1.5,
-      size: '1.14rem',
+      size: '1.14rem', // 16px
     },
     l2: {
       letterSpacing: '0.33px',
       lineHeight: 1.69,
-      size: '1.43rem',
+      size: '1.43rem', // 20px
     },
     l3: {
       letterSpacing: '0.44px',
       lineHeight: 1.9,
-      size: '1.79rem',
+      size: '1.79rem', // 25px
     },
     l4: {
       letterSpacing: '0.59px',
       lineHeight: 2.14,
-      size: '2.23rem',
+      size: '2.23rem', // 31.25px
     },
     l5: {
       letterSpacing: '0.79px',
       lineHeight: 2.4,
-      size: '2.79rem',
+      size: '2.79rem', // 39.06px
     },
     l6: {
       letterSpacing: '1.05px',
       lineHeight: 2.7,
-      size: '3.49rem',
+      size: '3.49rem', // 48.83px
     },
   },
   shadow: {
     xs: {
-      x: '0rem',
-      y: '0.14rem',
-      blur: '0.14rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.14rem', // 2px
+      blur: '0.14rem', // 2px
+      spread: '0rem', // 0px
     },
     sm: {
-      x: '0rem',
-      y: '0.23rem',
-      blur: '0.25rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.23rem', // 3.24px
+      blur: '0.25rem', // 3.50px
+      spread: '0rem', // 0px
     },
     md: {
-      x: '0rem',
-      y: '0.37rem',
-      blur: '0.44rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.37rem', // 5.24px
+      blur: '0.44rem', // 6.13px
+      spread: '0rem', // 0px
     },
     lg: {
-      x: '0rem',
-      y: '0.61rem',
-      blur: '0.77rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.61rem', // 8.47px
+      blur: '0.77rem', // 10.72px
+      spread: '0rem', // 0px
     },
     xl: {
-      x: '0rem',
-      y: '0.98rem',
-      blur: '1.34rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.98rem', // 13.71px
+      blur: '1.34rem', // 18.76px
+      spread: '0rem', // 0px
     },
   },
   spacing: {
-    xs: '0.31rem',
-    sm: '0.63rem',
-    df: '1.25rem',
-    md: '2.50rem',
-    lg: '3.75rem',
-    xl: '5rem',
+    xs: '0.31rem', // 4.38px
+    sm: '0.63rem', // 8.75px
+    df: '1.25rem', // 17.50px
+    md: '2.50rem', // 35px
+    lg: '3.75rem', // 52.50px
+    xl: '5rem', // 70px
     type: 'vertical-rhythm',
     unit: 17.5,
   },
   text: {
     sm: {
       lineHeight: 1.25,
-      size: '0.89rem',
+      size: '0.89rem', // 12.44px
     },
     df: {
       lineHeight: 1.25,
-      size: '1rem',
+      size: '1rem', // 14px
     },
     lg: {
       lineHeight: 1.25,
-      size: '1.13rem',
+      size: '1.13rem', // 15.75px
     },
   },
   typography: {
@@ -676,16 +676,16 @@ import { Design } from '@aesthetic/core';
 export default new Design('test', {
   border: {
     sm: {
-      radius: '0.16rem',
-      width: '0.07rem',
+      radius: '0.16rem', // 2.25px
+      width: '0.07rem', // 1px
     },
     df: {
-      radius: '0.21rem',
-      width: '0.07rem',
+      radius: '0.21rem', // 3px
+      width: '0.07rem', // 1px
     },
     lg: {
-      radius: '0.29rem',
-      width: '0.07rem',
+      radius: '0.29rem', // 4px
+      width: '0.07rem', // 1px
     },
   },
   breakpoint: {
@@ -724,88 +724,88 @@ export default new Design('test', {
     l1: {
       letterSpacing: '0.25px',
       lineHeight: 1.5,
-      size: '1.14rem',
+      size: '1.14rem', // 16px
     },
     l2: {
       letterSpacing: '0.33px',
       lineHeight: 1.69,
-      size: '1.43rem',
+      size: '1.43rem', // 20px
     },
     l3: {
       letterSpacing: '0.44px',
       lineHeight: 1.9,
-      size: '1.79rem',
+      size: '1.79rem', // 25px
     },
     l4: {
       letterSpacing: '0.59px',
       lineHeight: 2.14,
-      size: '2.23rem',
+      size: '2.23rem', // 31.25px
     },
     l5: {
       letterSpacing: '0.79px',
       lineHeight: 2.4,
-      size: '2.79rem',
+      size: '2.79rem', // 39.06px
     },
     l6: {
       letterSpacing: '1.05px',
       lineHeight: 2.7,
-      size: '3.49rem',
+      size: '3.49rem', // 48.83px
     },
   },
   shadow: {
     xs: {
-      x: '0rem',
-      y: '0.07rem',
-      blur: '0.14rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.07rem', // 1px
+      blur: '0.14rem', // 2px
+      spread: '0rem', // 0px
     },
     sm: {
-      x: '0rem',
-      y: '0.12rem',
-      blur: '0.25rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.12rem', // 1.62px
+      blur: '0.25rem', // 3.50px
+      spread: '0rem', // 0px
     },
     md: {
-      x: '0rem',
-      y: '0.19rem',
-      blur: '0.44rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.19rem', // 2.62px
+      blur: '0.44rem', // 6.13px
+      spread: '0rem', // 0px
     },
     lg: {
-      x: '0rem',
-      y: '0.30rem',
-      blur: '0.77rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.30rem', // 4.24px
+      blur: '0.77rem', // 10.72px
+      spread: '0rem', // 0px
     },
     xl: {
-      x: '0rem',
-      y: '0.49rem',
-      blur: '1.34rem',
-      spread: '0rem',
+      x: '0rem', // 0px
+      y: '0.49rem', // 6.85px
+      blur: '1.34rem', // 18.76px
+      spread: '0rem', // 0px
     },
   },
   spacing: {
-    xs: '0.31rem',
-    sm: '0.63rem',
-    df: '1.25rem',
-    md: '2.50rem',
-    lg: '3.75rem',
-    xl: '5rem',
+    xs: '0.31rem', // 4.38px
+    sm: '0.63rem', // 8.75px
+    df: '1.25rem', // 17.50px
+    md: '2.50rem', // 35px
+    lg: '3.75rem', // 52.50px
+    xl: '5rem', // 70px
     type: 'vertical-rhythm',
     unit: 17.5,
   },
   text: {
     sm: {
       lineHeight: 1.25,
-      size: '0.89rem',
+      size: '0.89rem', // 12.44px
     },
     df: {
       lineHeight: 1.25,
-      size: '1rem',
+      size: '1rem', // 14px
     },
     lg: {
       lineHeight: 1.25,
-      size: '1.13rem',
+      size: '1.13rem', // 15.75px
     },
   },
   typography: {
