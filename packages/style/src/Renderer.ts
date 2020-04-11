@@ -25,7 +25,6 @@ import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import {
-  CacheParams,
   ClassName,
   Condition,
   CSSVariables,
@@ -51,12 +50,19 @@ function createDefaultParams(params: RenderParams): Required<RenderParams> {
       conditions: [],
       deterministic: false,
       prefix: false,
+      rankings: {},
       rtl: false,
       selector: '',
       type: 'standard',
     },
     params,
   );
+}
+
+function persistRank(params: Required<RenderParams>, property: string, rank: number) {
+  if (params.rankings[property] === undefined || rank > params.rankings[property]) {
+    params.rankings[property] = rank;
+  }
 }
 
 export default abstract class Renderer {
@@ -119,7 +125,6 @@ export default abstract class Renderer {
     property: K,
     value: Properties[K],
     baseParams: RenderParams = {},
-    { bypassCache = false, minimumRank }: CacheParams = {},
   ) {
     const params = createDefaultParams(baseParams);
 
@@ -133,9 +138,11 @@ export default abstract class Renderer {
     }
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(key, val, params, minimumRank);
+    const cache = this.classNameCache.read(key, val, params, params.rankings[key]);
 
-    if (cache && !bypassCache) {
+    if (cache) {
+      persistRank(params, key, cache.rank);
+
       return cache.className;
     }
 
@@ -151,12 +158,18 @@ export default abstract class Renderer {
         ? this.generateDeterministicClassName(rule, params.conditions)
         : this.generateClassName());
 
+    // Persist the max ranking
     const rank = this.insertRule(`.${className}${rule}`, params);
 
+    persistRank(params, key, rank);
+
+    // Write to cache
     this.classNameCache.write(key, val, {
-      ...params,
       className,
+      conditions: params.conditions,
       rank,
+      selector: params.selector,
+      type: params.type,
     });
 
     return className;
@@ -262,10 +275,14 @@ export default abstract class Renderer {
    * Render a mapping of multiple rule sets in the defined order.
    * If no order is provided, they will be rendered sequentially.
    */
-  renderRuleSets<T extends { [set: string]: Rule }>(sets: T, inOrder?: (keyof T)[]) {
+  renderRuleSets<T extends { [set: string]: Rule }>(
+    sets: T,
+    inOrder?: (keyof T)[],
+    params?: RenderParams,
+  ) {
     const order = inOrder ?? Object.keys(sets);
 
-    return arrayReduce(order, (key) => `${this.renderRule(sets[key])} `).trim();
+    return arrayReduce(order, (key) => `${this.renderRule(sets[key], params)} `).trim();
   }
 
   /**

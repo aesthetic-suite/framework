@@ -80,8 +80,10 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
     const styles = composer(theme.toUtilities(), theme.toTokens());
+    const rankCache = {};
     const renderParams = {
       prefix: params.prefix,
+      rankings: rankCache,
       rtl: params.direction === 'rtl',
     };
 

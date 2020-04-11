@@ -42,9 +42,14 @@ export interface Condition {
   type: number;
 }
 
+export interface RankCache {
+  [property: string]: number;
+}
+
 export interface ProcessParams {
   deterministic?: boolean;
   prefix?: boolean;
+  rankings?: RankCache;
   rtl?: boolean;
 }
 
@@ -57,11 +62,6 @@ export interface RenderParams extends ProcessParams {
 
 export interface CacheItem extends Required<Omit<RenderParams, keyof ProcessParams>> {
   rank: number;
-}
-
-export interface CacheParams {
-  bypassCache?: boolean;
-  minimumRank?: number;
 }
 
 export interface CSSVariables<T = Value> {

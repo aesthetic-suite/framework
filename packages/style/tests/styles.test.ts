@@ -217,26 +217,41 @@ describe('Styles', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('can insert the same declaration by manually bypassing the cache', () => {
-    const a = renderer.renderDeclaration('color', 'red', {});
-    const b = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
-    const c = renderer.renderDeclaration('color', 'red', {}, { bypassCache: true });
-
-    expect(a).not.toBe(b);
-    expect(b).not.toBe(c);
-    expect(getRenderedStyles('standard')).toMatchSnapshot();
-  });
-
   it('can insert the same declaration if using a minimum rank requirement', () => {
     renderer.renderDeclaration('color', 'red'); // 0
     renderer.renderDeclaration('color', 'green'); // 1
 
     const c = renderer.renderDeclaration('color', 'blue'); // 2
-    const d = renderer.renderDeclaration('color', 'blue', {}, { minimumRank: 10 }); // 3
+    const d = renderer.renderDeclaration('color', 'blue', { rankings: { color: 10 } }); // 3
 
     expect(c).toBe('c');
     expect(d).toBe('d');
     expect(c).not.toBe(d);
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('can insert the same declaration if using a shared rankings cache', () => {
+    const rankings = {};
+
+    renderer.renderRule({ color: 'red', display: 'inline' }, { rankings });
+    renderer.renderRule({ color: 'blue' }, { rankings });
+    renderer.renderRule({ color: 'green', display: 'block' }, { rankings });
+
+    // Should render again
+    renderer.renderRule({ color: 'red', display: 'inline' }, { rankings });
+
+    expect(rankings).toEqual({ color: 5, display: 6 });
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('wont insert the same declaration if not using a shared rankings cache', () => {
+    renderer.renderRule({ color: 'red', display: 'inline' });
+    renderer.renderRule({ color: 'blue' });
+    renderer.renderRule({ color: 'green', display: 'block' });
+
+    // Should NOT render again
+    renderer.renderRule({ color: 'red', display: 'inline' });
+
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 

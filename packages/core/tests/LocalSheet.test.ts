@@ -91,6 +91,7 @@ describe('LocalSheet', () => {
       },
       {
         prefix: false,
+        rankings: expect.any(Object),
         rtl: false,
       },
     );
@@ -102,6 +103,7 @@ describe('LocalSheet', () => {
       },
       {
         prefix: false,
+        rankings: expect.any(Object),
         rtl: false,
       },
     );
@@ -133,6 +135,7 @@ describe('LocalSheet', () => {
       undefined,
       {
         prefix: false,
+        rankings: expect.any(Object),
         rtl: false,
       },
     );

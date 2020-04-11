@@ -2,9 +2,9 @@
 
 exports[`Styles applies vendor prefixes to a property under a single class name 1`] = `".a {display: flex;}.b {transition: 200ms all; -webkit-transition: 200ms all; -moz-transition: 200ms all;}"`;
 
-exports[`Styles can insert the same declaration by manually bypassing the cache 1`] = `".a {color: red;}.b {color: red;}.c {color: red;}"`;
-
 exports[`Styles can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
+
+exports[`Styles can insert the same declaration if using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}.f {color: red;}.g {display: inline;}"`;
 
 exports[`Styles can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
@@ -65,3 +65,5 @@ exports[`Styles uses the same class name for dashed and camel cased properties 1
 exports[`Styles uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
 
 exports[`Styles uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
+
+exports[`Styles wont insert the same declaration if not using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}"`;
