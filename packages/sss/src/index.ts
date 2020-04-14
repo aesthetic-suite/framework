@@ -6,7 +6,9 @@
 import Block from './Block';
 import GlobalParser from './GlobalParser';
 import LocalParser from './LocalParser';
+import formatFontFace from './formatFontFace';
+import formatImport from './formatImport';
 
 export * from './types';
 
-export { Block, GlobalParser, LocalParser };
+export { Block, GlobalParser, LocalParser, formatFontFace, formatImport };

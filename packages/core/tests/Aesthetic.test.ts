@@ -325,7 +325,30 @@ describe('Aesthetic', () => {
 
       aesthetic.renderFontFace(fontFace);
 
-      expect(spy).toHaveBeenCalledWith(fontFace);
+      expect(spy).toHaveBeenCalledWith(fontFace, undefined);
+
+      spy.mockRestore();
+    });
+
+    it('supports SSS format', () => {
+      const spy = jest.spyOn(aesthetic.renderer, 'renderFontFace');
+
+      aesthetic.renderFontFace(
+        {
+          srcPaths: ['fonts/Roboto.woff2'],
+        },
+        'Roboto',
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        {
+          fontFamily: 'Roboto',
+          src: "url('fonts/Roboto.woff2') format('woff2')",
+        },
+        undefined,
+      );
+
+      spy.mockRestore();
     });
   });
 
@@ -337,6 +360,21 @@ describe('Aesthetic', () => {
       aesthetic.renderImport(path);
 
       expect(spy).toHaveBeenCalledWith(path);
+
+      spy.mockRestore();
+    });
+
+    it('supports SSS format', () => {
+      const spy = jest.spyOn(aesthetic.renderer, 'renderImport');
+
+      aesthetic.renderImport({
+        path: 'test.css',
+        url: true,
+      });
+
+      expect(spy).toHaveBeenCalledWith('url("test.css")');
+
+      spy.mockRestore();
     });
   });
 

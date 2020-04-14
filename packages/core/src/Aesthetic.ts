@@ -2,12 +2,18 @@
 
 import {
   ClientRenderer,
-  Renderer,
   CSSVariables,
   FontFace,
   Keyframes,
   ProcessParams,
+  Renderer,
 } from '@aesthetic/style';
+import {
+  FontFace as SSSFontFace,
+  Import as SSSImport,
+  formatFontFace,
+  formatImport,
+} from '@aesthetic/sss';
 import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
 import { isSSR } from '@aesthetic/utils';
 import GlobalSheet from './GlobalSheet';
@@ -183,12 +189,23 @@ export default class Aesthetic {
   /**
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
-  renderFontFace = (fontFace: FontFace) => this.renderer.renderFontFace(fontFace);
+  renderFontFace = (
+    fontFace: FontFace | SSSFontFace,
+    fontFamily?: string,
+    params?: ProcessParams,
+  ) =>
+    this.renderer.renderFontFace(
+      formatFontFace({
+        fontFamily,
+        ...fontFace,
+      }) as FontFace,
+      params,
+    );
 
   /**
    * Render an `@import` to the global style sheet.
    */
-  renderImport = (path: string) => this.renderer.renderImport(path);
+  renderImport = (path: string | SSSImport) => this.renderer.renderImport(formatImport(path));
 
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
