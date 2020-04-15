@@ -36,6 +36,8 @@ export default class Theme {
 
   private cachedTokens?: Tokens;
 
+  private cachedVariables?: Variables;
+
   private design: Design;
 
   constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design, parentMixins?: Mixins) {
@@ -139,6 +141,10 @@ export default class Theme {
    * Return both design and theme tokens as a mapping of CSS variables.
    */
   toVariables(): Variables {
+    if (this.cachedVariables) {
+      return this.cachedVariables;
+    }
+
     const vars: AnyObject = {};
 
     const collapseTree = (data: AnyObject, path: string[]) => {
@@ -155,7 +161,9 @@ export default class Theme {
 
     collapseTree(this.toTokens(), []);
 
-    return (vars as unknown) as Variables;
+    this.cachedVariables = (vars as unknown) as Variables;
+
+    return this.cachedVariables;
   }
 
   /**

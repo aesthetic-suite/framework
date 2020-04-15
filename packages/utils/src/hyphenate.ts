@@ -1,5 +1,5 @@
 const CAMEL_CASE_PATTERN = /[A-Z]/gu;
-const VENDOR_PREFIX_PATTERN = /^(ms|moz|webkit)/u;
+const VENDOR_PREFIX_PATTERN = /^(ms|moz|webkit)/iu;
 const cache: { [key: string]: string } = {};
 
 function toLower(match: string): string {

@@ -31,6 +31,8 @@ import {
 export default class Aesthetic {
   activeTheme: ThemeName = '';
 
+  globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+
   options: Required<AestheticOptions> = {
     defaultUnit: 'px',
     deterministicClasses: false,
@@ -38,8 +40,6 @@ export default class Aesthetic {
   };
 
   themeRegistry = new ThemeRegistry();
-
-  protected globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
   protected listeners: { [K in EventType]?: Set<(...args: unknown[]) => void> } = {};
 

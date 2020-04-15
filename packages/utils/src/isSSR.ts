@@ -1,3 +1,9 @@
+let cache: boolean | null = null;
+
 export default function isSSR(): boolean {
-  return typeof window === 'undefined' || typeof document === 'undefined';
+  if (cache === null) {
+    cache = typeof window === 'undefined' || typeof document === 'undefined';
+  }
+
+  return cache;
 }

@@ -7,13 +7,21 @@ import isMediaRule from './helpers/isMediaRule';
 import { MEDIA_RULE } from './constants';
 import { Condition, StyleRule } from './types';
 
-function canInsertNestedRules() {
-  return (
-    !!global.AESTHETIC_SSR_CLIENT ||
-    (!isSSR() &&
+let canInsert: boolean | null = null;
+
+function canInsertNestedRules(): boolean {
+  if (global.AESTHETIC_SSR_CLIENT) {
+    return true;
+  }
+
+  if (canInsert === null) {
+    canInsert =
+      !isSSR() &&
       typeof window.CSSGroupingRule !== 'undefined' &&
-      typeof CSSGroupingRule.prototype.insertRule !== 'undefined')
-  );
+      typeof CSSGroupingRule.prototype.insertRule !== 'undefined';
+  }
+
+  return canInsert;
 }
 
 export default class ConditionsStyleSheet extends BaseStyleSheet {

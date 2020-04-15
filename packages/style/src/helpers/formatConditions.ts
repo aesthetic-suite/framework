@@ -5,10 +5,10 @@ export default function formatConditions(rule: string, conditions: Condition[]):
   return conditions
     .reverse()
     .reduce(
-      (tempRule, condition) =>
+      (innerRule, condition) =>
         `@${condition.type === MEDIA_RULE ? 'media' : 'supports'} ${
           condition.query
-        } { ${tempRule} }`,
+        } { ${innerRule} }`,
       rule,
     );
 }
