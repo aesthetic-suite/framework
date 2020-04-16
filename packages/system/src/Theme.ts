@@ -146,7 +146,6 @@ export default class Theme {
     }
 
     const vars: AnyObject = {};
-
     const collapseTree = (data: AnyObject, path: string[]) => {
       objectLoop(data, (value, key) => {
         const nextPath = [...path, hyphenate(key)];
@@ -182,5 +181,6 @@ export default class Theme {
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var: VarUtil = (name, ...fallbacks) => `var(${[`--${name}`, ...fallbacks].join(', ')})`;
+  var: VarUtil = (name, ...fallbacks) =>
+    fallbacks.length > 0 ? `var(${[`--${name}`, ...fallbacks].join(', ')})` : `var(--${name})`;
 }
