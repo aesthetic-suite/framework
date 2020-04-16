@@ -44,19 +44,17 @@ const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
 function createDefaultParams(params: RenderParams): Required<RenderParams> {
-  return Object.assign(
-    {
-      className: '',
-      conditions: [],
-      deterministic: false,
-      prefix: false,
-      rankings: {},
-      rtl: false,
-      selector: '',
-      type: 'standard',
-    },
-    params,
-  );
+  return {
+    className: '',
+    conditions: [],
+    deterministic: false,
+    prefix: false,
+    rankings: {},
+    rtl: false,
+    selector: '',
+    type: 'standard',
+    ...params,
+  };
 }
 
 function persistRank(params: Required<RenderParams>, property: string, rank: number) {

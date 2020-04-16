@@ -17,8 +17,6 @@ export default class TransientStyleRule implements StyleRule {
 
   cssVariables: CSSVariables<string> = {};
 
-  textContent: string = '';
-
   type: number;
 
   protected rule: string;
@@ -36,10 +34,6 @@ export default class TransientStyleRule implements StyleRule {
     }
   }
 
-  get conditionAtRule() {
-    return this.type === MEDIA_RULE ? '@media' : '@supports';
-  }
-
   get cssText() {
     const css = arrayReduce(this.cssRules, (rule) => rule.cssText, this.rule);
 
@@ -50,7 +44,17 @@ export default class TransientStyleRule implements StyleRule {
     return css;
   }
 
-  determineType(rule: string): number {
+  insertRule(rule: string, index: number): number {
+    this.cssRules.splice(index, 0, new TransientStyleRule(this.determineType(rule), rule));
+
+    return index;
+  }
+
+  protected get conditionAtRule() {
+    return this.type === MEDIA_RULE ? '@media' : '@supports';
+  }
+
+  protected determineType(rule: string): number {
     if (isMediaRule(rule)) {
       return MEDIA_RULE;
     } else if (isSupportsRule(rule)) {
@@ -64,11 +68,5 @@ export default class TransientStyleRule implements StyleRule {
     }
 
     return STYLE_RULE;
-  }
-
-  insertRule(rule: string, index: number): number {
-    this.cssRules.splice(index, 0, new TransientStyleRule(this.determineType(rule), rule));
-
-    return index;
   }
 }

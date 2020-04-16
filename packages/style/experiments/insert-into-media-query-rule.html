@@ -19,7 +19,7 @@
         sheet.cssRules.length,
       );
 
-      const media = Array.from(sheet.cssRules).find(rule => {
+      const media = Array.from(sheet.cssRules).find((rule) => {
         if (rule.type !== CSSRule.MEDIA_RULE) {
           return false;
         }
@@ -38,6 +38,10 @@
       }
 
       console.log({ style, sheet, media, mediaByIndex: sheet.cssRules.item(index) });
+      console.log(
+        typeof window.CSSGroupingRule !== 'undefined' &&
+          typeof CSSGroupingRule.prototype.insertRule !== 'undefined',
+      );
     </script>
   </body>
 </html>

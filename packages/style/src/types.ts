@@ -73,7 +73,6 @@ export interface StyleRule {
   cssRules: StyleRule[];
   cssText: string;
   cssVariables: CSSVariables<string>;
-  textContent: string;
   type: number;
   insertRule(rule: string, index: number): number;
 }
