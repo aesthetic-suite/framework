@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/compiler",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Compiles a design system configuration to a specified platform format.",
   "keywords": [
     "aesthetic",
@@ -24,8 +24,8 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "@aesthetic/system": "^0.1.2",
-    "@aesthetic/utils": "^0.1.1",
+    "@aesthetic/system": "^0.1.3",
+    "@aesthetic/utils": "^0.1.2",
     "@boost/common": "^1.8.3",
     "ejs": "^3.0.2",
     "fs-extra": "^9.0.0",
