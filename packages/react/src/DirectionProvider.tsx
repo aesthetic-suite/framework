@@ -15,6 +15,7 @@ export default function DirectionProvider({
   value,
 }: DirectionProviderProps) {
   const Tag = inline ? 'span' : 'div';
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const dir: Direction = direction || getDirection(value) || 'ltr';
 
   return (

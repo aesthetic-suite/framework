@@ -91,6 +91,7 @@ describe('LocalSheet', () => {
       },
       {
         prefix: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
       },
@@ -103,6 +104,7 @@ describe('LocalSheet', () => {
       },
       {
         prefix: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
       },
@@ -135,6 +137,7 @@ describe('LocalSheet', () => {
       undefined,
       {
         prefix: false,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
       },

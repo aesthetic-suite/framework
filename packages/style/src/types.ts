@@ -74,5 +74,5 @@ export interface StyleRule {
   cssText: string;
   cssVariables: CSSVariables<string>;
   type: number;
-  insertRule(rule: string, index: number): number;
+  insertRule: (rule: string, index: number) => number;
 }

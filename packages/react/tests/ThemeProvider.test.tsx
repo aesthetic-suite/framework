@@ -181,7 +181,7 @@ describe('ThemeProvider', () => {
 
       // Janky, but since we mocked the module, we need to extract this
       (subscribe as jest.Mock).mockImplementation((name, cb) => {
-        doChangeTheme = cb;
+        doChangeTheme = cb as OnChangeTheme;
       });
 
       function Comp() {

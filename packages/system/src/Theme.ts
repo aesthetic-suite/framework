@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
+
 import { DeclarationBlock } from '@aesthetic/sss';
 import { deepClone, deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
@@ -19,7 +21,6 @@ import {
 import createMixins from './createMixins';
 
 interface AnyObject {
-  // eslint-disable-next-line
   [key: string]: any;
 }
 

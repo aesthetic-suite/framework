@@ -22,12 +22,12 @@
     "node": ">=10.10.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.4.0",
+    "@milesj/build-tools": "^2.5.0",
     "@types/ejs": "^3.0.2",
     "@types/fs-extra": "^8.1.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/inline-style-prefixer": "^5.0.0",
-    "@types/lodash": "^4.14.108",
+    "@types/lodash": "^4.14.150",
     "@types/prettier": "^2.0.0",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.34",
@@ -39,7 +39,7 @@
     "lerna": "^3.20.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rollup": "^2.6.1",
+    "rollup": "^2.7.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-externals": "^2.1.5",
     "rollup-plugin-node-resolve": "^5.2.0",
