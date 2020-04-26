@@ -59,9 +59,10 @@ The foundation of all styles are properties, where each key-value pair maps to a
 abides the following:
 
 - Property names are camel cased versions of their CSS equivalent property.
-- Vendor properties are _not_ supported. Use the `vendorPrefixes` settings to enable this
+- Vendor prefixed properties are _not_ supported. Use the `vendorPrefixes` setting to enable this
   automatically.
-- Unit values that default to the `defaultUnit` setting can be written as literal numbers.
+- Unit values that default to the `defaultUnit` (typically `px`) setting can be written as literal
+  numbers.
 - Values that require quotes in the CSS output must manually handle the quotes within the string.
 
 ```ts

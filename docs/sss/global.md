@@ -13,6 +13,8 @@ import { GlobalStyleSheet } from '@aesthetic/sss';
 
 ## Structure
 
+For global style sheets, the following at-rules are defined in the root of the sheet.
+
 ### `@font-face`
 
 Defines a [font face](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) that can be
@@ -60,6 +62,8 @@ const globalSheet: GlobalStyleSheet = {
 > The `fontFamily` property can be omitted within the font face as it'll be inherited from the
 > at-rule key.
 
+Emits a `font-face` event for each declaration.
+
 ### `@global`
 
 As stated at the start of the chapter, the global style sheet can generate global-like CSS styles by
@@ -102,6 +106,8 @@ const globalSheet: GlobalStyleSheet = {
 > The `html`, `:root`, or `*` global styles cannot be defined with a global style sheet. Those
 > category of globals should be handled outside of this system.
 
+Emits a single `global` event.
+
 ### `@import`
 
 Defines one or many [CSS files to import](https://developer.mozilla.org/en-US/docs/Web/CSS/@import),
@@ -126,6 +132,8 @@ const globalSheet: GlobalStyleSheet = {
 
 If the `url` property is not defined, or is `false`, the import path will not be wrapped with
 `url()`.
+
+Emits an `import` event for each import.
 
 ### `@keyframes`
 
@@ -152,6 +160,8 @@ const globalSheet: GlobalStyleSheet = {
   },
 };
 ```
+
+Emits a `keyframes` event for each declaration.
 
 ### `@page`
 
@@ -193,6 +203,8 @@ const globalSheet: GlobalStyleSheet = {
 };
 ```
 
+Emits a `page` event for each declaration, including selectors.
+
 ### `@viewport`
 
 Defines a ruleset that dictates how the
@@ -207,6 +219,8 @@ const globalSheet: GlobalStyleSheet = {
   },
 };
 ```
+
+Emits a `viewport` event.
 
 ## Parsing
 
@@ -223,9 +237,6 @@ import { GlobalParser } from '@aesthetic/sss';
 const sheet = new CSSStyleSheet();
 
 const parser = new GlobalParser({
-  onCharset(charset) {
-    sheet.insertRule(`@charset "${charset}";`, 0);
-  },
   onFontFace(fontFace) {
     sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
   },
@@ -234,6 +245,8 @@ const parser = new GlobalParser({
   },
   onKeyframes(keyframes, name) {
     sheet.insertRule(`@keyframes ${name} { ${cssify(keyframes)} }`, sheet.cssRules.length);
+
+    return name;
   },
   onPage(page) {
     sheet.insertRule(`${page.selector} { ${cssify(page)} }`, sheet.cssRules.length);
@@ -243,8 +256,7 @@ const parser = new GlobalParser({
   },
 });
 
-await parser.parse({
-  '@charset': 'utf-8',
+parser.parse({
   '@viewport': {
     width: 'device-width',
     orientation: 'landscape',
