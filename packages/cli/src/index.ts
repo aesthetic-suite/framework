@@ -10,8 +10,9 @@ const banner = `  ¸ ¸__ __¸__¸  ¸¸__¸__¸ __
 const program = new Program({
   banner,
   bin: 'aesthetic',
-  name: 'Aesthetic Style Framework',
-  version: '0.0.0',
+  name: 'Aesthetic Framework',
+  // eslint-disable-next-line
+  version: require('@aestheitc/core/package.json').version,
 });
 
 program
