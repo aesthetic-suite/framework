@@ -253,19 +253,13 @@ export default class SystemDesign {
   }
 
   protected compileSpacing(text: DesignTemplate['text']): DesignTemplate['spacing'] {
-    const { type, unit: baseUnit } = this.config.spacing;
+    const { multipliers, type, unit: baseUnit } = this.config.spacing;
     const unit = type === 'vertical-rhythm' ? text.df.size * text.df.lineHeight : baseUnit;
 
     return {
       type,
       unit,
-      // These are multipliers, not the actual values
-      xs: 0.25,
-      sm: 0.5,
-      df: 1,
-      md: 2,
-      lg: 3,
-      xl: 4,
+      ...multipliers,
     };
   }
 

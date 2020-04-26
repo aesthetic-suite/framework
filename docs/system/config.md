@@ -64,7 +64,7 @@ by providing its name (must be relative to the current config file), or a relati
 extends: other-config
 
 # Relative config
-extends: ../other-system/config.yaml
+extends: ../some/path/other-config.yaml
 ```
 
 ## Responsive
@@ -163,13 +163,33 @@ spacing:
 ### Vertical rhythm
 
 A concept from print typography where the spacing between elements are consistent. The rhythm unit
-is based on the sum of `font size * line height` (using `typography` settings).
+is based on the sum of `font size * line height` (using [typography](#typography) settings).
 [Learn more about vertical rhythm](https://zellwk.com/blog/why-vertical-rhythms/).
 
 ```yaml
 spacing:
   type: vertical-rhythm
 ```
+
+### Multipliers
+
+For developers, there are 6 spacing sizes to choose from, ranging from extra small to extra large.
+These 6 sizes are provided so that all implementations use consistent spacing. However, the
+multipliers for each of these sizes can be customized, like so (defaults used below).
+
+```yaml
+spacing:
+  multipliers:
+    xs: 0.25
+    sm: 0.5
+    df: 1 # Default
+    md: 2
+    lg: 3
+    xl: 4
+```
+
+In basic terms, the multiplier will be used and calculated against the spacing type. For example, an
+`xl` size would be equivalent to "vertical rhythm" (or "unit") x 4.
 
 ## Typography
 
@@ -202,7 +222,6 @@ When internationalizing an application, it's a great idea to use locale specific
 support the language. This can be achieved with the `typography.font.locale` setting, which maps a
 locale to a font family.
 
-<!-- prettier-ignore -->
 ```yaml
 typography:
   font:
@@ -218,13 +237,14 @@ typography:
 
 > Platforms: Android, iOS, Web
 
-The `typography.text` settings control both the body and paragraph text of the application, aswell
+The `typography.text` settings control both the body and paragraph text of the application, as well
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
-small, normal (default), and large -- and can be configured using a scaled format, or with an
-explicit per size format.
+small, default (normal), and large -- and can be configured using a
+[scaled format](#scaling-patterns), or with an explicit per size format.
 
 The scaled approach will use scale equivalent settings to calculate small and large sizes, with
-default being the middle, and going outwards. The values configured should be the default text size.
+default being the middle, and scaling outwards. The values configured should be the default text
+size.
 
 ```yaml
 typography:
@@ -263,8 +283,8 @@ being the smallest (very similar to `h1`-`h6` HTML tags).
 The `typography.heading` setting shares the same settings from text, with the addition of letter
 spacing, and per level configuration (instead of per size).
 
-When using the scaled approach, the settings should be configured for level 6, as 5-1 will be
-automatically calculated based on the scaling factor (going upwards).
+When using the [scaled approach](#scaling-patterns), the settings should be configured for level 6,
+as 5-1 will be automatically calculated based on the scaling factor (going upwards).
 
 ```yaml
 typography:
@@ -307,7 +327,7 @@ typography:
 
 The `borders` setting controls all borders and comes in 3 sizes: small, default, and large. At the
 moment, only width and radius (corner rounding) are configured here, while the color is configured
-in the neutral theme palette.
+in the neutral [theme palette](#color-palettes).
 
 Like other settings, borders can be configured with scaling or explicit values. Scaled borders are
 calculated from the inside out, with default as the middle, and small and large as the edges.
@@ -423,7 +443,7 @@ a list of color names that all themes must implement. This enforces a consistent
 the design system and its theme variations. It also permits other design systems to use their own
 unique colors without the chance of collision.
 
-Feel free to define as many colors as you want, either using common color names.
+Feel free to define as many colors as you want, either using actual color names.
 
 ```yaml
 colors:
@@ -494,8 +514,8 @@ themes:
 ### Color palettes
 
 Palettes are the defining feature of Aesthetic, as they enable true interoperability and backwards
-compatibility with other design systems. In Aesthetic, colors (above) are not directly accessible to
-consumers,as colors are not deterministic between systems, but palettes are!
+compatibility with other Aestheic powered design systems. In Aesthetic, colors (above) are not
+directly accessible to consumers, as colors are not deterministic between systems, but palettes are!
 
 A palette is a collection of color references for both foreground (text) and background (layout)
 colors, grouped by states and interactions. The available palettes are:
@@ -522,7 +542,8 @@ themes:
   default:
     scheme: light
     colors:
-      # ...
+      blue:
+        # 00-90 ...
     palettes:
       primary:
         color: blue

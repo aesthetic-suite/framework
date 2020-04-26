@@ -242,6 +242,14 @@ export default class ConfigLoader {
 
   protected spacing() {
     return shape<SpacingConfig>({
+      multipliers: shape<SpacingConfig['multipliers']>({
+        xs: number(0.25),
+        sm: number(0.5),
+        df: number(1),
+        md: number(2),
+        lg: number(3),
+        xl: number(4),
+      }),
       type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
       unit: number(DEFAULT_UNIT),
     }).exact();
