@@ -4,35 +4,47 @@
 [![npm version](https://badge.fury.io/js/aesthetic-react.svg)](https://www.npmjs.com/package/aesthetic-react)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/react-legacy)](https://www.npmjs.com/package/aesthetic-react)
 
-Style React components with hooks or HOCs, using the powerful
-[Aesthetic](https://github.com/milesj/aesthetic) library.
+Provides styles for React components through hook or HOC based APIs. Built around the powerful
+[Aesthetic](https://github.com/milesj/aesthetic) core library.
 
 ```tsx
 import React from 'react';
 import { createComponentStyles, useStyles } from '@aesthetic/react';
 
-const styleSheet = createComponentStyles((css) => ({
+export const styleSheet = createComponentStyles((css) => ({
   button: {
     textAlign: 'center',
     display: 'inline-block',
     padding: css.var('spacing-df'),
   },
+
+  button_block: {
+    display: 'block',
+  },
 }));
 
-export type Props = {
+export interface ButtonProps {
   children: React.ReactNode;
-};
+  block?: boolean;
+}
 
-export default function Button({ children }: Props) {
+export default function Button({ children, block = false }: ButtonProps) {
   const cx = useStyles(styleSheet);
 
   return (
-    <button type="button" className={cx('button')}>
+    <button type="button" className={cx('button', block && 'button_block')}>
       {children}
     </button>
   );
 }
 ```
+
+## Features
+
+- Hook and HOC based APIs for styling components, accessing the theme, and handling directionality.
+- Global and document level themes powered through context.
+- Nested themes that avoid polluting the global scope.
+- First-class directionality support (RTL, LTR).
 
 ## Requirements
 

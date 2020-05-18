@@ -127,6 +127,7 @@ export type ShadowConfig = ShadowScaledConfig | ShadowSizedConfig;
 export type SpacingType = 'unit' | 'vertical-rhythm';
 
 export interface SpacingConfig {
+  multipliers: { [K in SpacingSize]: number };
   type: SpacingType;
   unit: number;
 }

@@ -40,3 +40,4 @@ tsconfig.options.json
 # Local
 build/
 compile.js
+aesthetic.yaml
