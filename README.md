@@ -4,18 +4,35 @@
 [![npm version](https://badge.fury.io/js/%40aesthetic%core.svg)](https://www.npmjs.com/package/@aesthetic/core)
 [![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/core)](https://www.npmjs.com/package/@aesthetic/core)
 
-Aesthetic is an end-to-end multi-platform styling suite that offers a strict design system, robust
-atomic CSS-in-JS engine, a structural style sheet specification (SSS), a low-runtime solution, and
-much more!
+> Currently in development. Packages are in a usable state, while documentation is currently being
+> written.
+
+Aesthetic is an end-to-end, multi-platform styling and design suite, that offers the following
+packages.
+
+- [Compiler](./packages/compiler) - Compiles a design system YAML configuration into Android, iOS,
+  and Web targets -- like Less, Sass, or CSS-in-JS.
+- [Design System](./packages/system) - JavaScript implementation of the design system configuration,
+  with theme and user preference support (color schemes, contrast levels, etc).
+- [Structured Style Sheets](./packages/sss) - Also known as SSS, it provides a type-safe and
+  structured style sheet format for CSS-in-JS solutions. Provides parsers for local and global
+  scopes.
+- [Style](./packages/style) - Low-level API that renders CSS declarations into the DOM using atomic
+  class names and CSS variables for high performance, low filesize, and efficient caching. Also
+  supports server-side rendering and client-side hydration.
+- [Core](./packages/core) - Core API the combines the previous 4 packages into a single but powerful
+  CSS-in-JS solution. Is framework agnostic and can be used within any project.
+- [React](./packages/react) - React integration that is built on top of the core API. Provides hook
+  and HOC based patterns, with support for contextual themes, directionality, and SSR.
 
 ## Goals
 
 There are many styling solutions that exist, but none of them are perfect. They either offer too
-little or too many features, are not cross-platform, have complicated APIs, too much overhead, so on
+little, or too much, are not cross-platform, have complicated APIs, require too much overhead, so on
 and so forth.
 
 Aesthetic aims to solve all of these problems as streamlined and efficient as possible by delivering
-on the following goals for both designers and engineers.
+on the following goals for both designers _and_ engineers.
 
 - **Designers must be able to contribute.** To support this, the design system is configured in
   YAML, which is easy to learn, read, and write, and works across all operating systems and
@@ -49,12 +66,11 @@ on the following goals for both designers and engineers.
 ## Requirements
 
 - IE 11+
-
-## Installation
-
-```
-yarn add @aesthetic/core
-```
+- APIs
+  - `Array.from`
+  - `Number.parseFloat`
+  - `Object.assign`
+  - `Object.values`
 
 ## Documentation
 
