@@ -13,7 +13,8 @@ import { GlobalStyleSheet } from '@aesthetic/sss';
 
 ## Structure
 
-For global style sheets, the following at-rules are defined in the root of the sheet.
+For global style sheets, the following at-rules are the only values that may be defined in the root
+of the sheet.
 
 ### `@font-face`
 

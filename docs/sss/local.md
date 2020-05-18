@@ -12,10 +12,33 @@ import { LocalStyleSheet } from '@aesthetic/sss';
 
 ## Structure
 
-TODO
+As mentioned above, local style sheets map selectors to style declarations. You can imagine a
+selector as either an element or an element state, like the following.
 
-For local style sheets, the following at-rules are defined within each selector ruleset, and are
-_not allowed_ in the sheet root.
+```ts
+const localSheet: LocalStyleSheet = {
+  modal: {
+    display: 'block',
+  },
+  modal_hidden: {
+    display: 'none',
+  },
+  modal_fixed: {
+    position: 'fixed',
+  },
+  modalHeader: {},
+  modalBody: {},
+  modalBody_overflow: {},
+  modalFooter: {},
+};
+```
+
+In the example above, we have 4 elements denoted by camel case names, and 3 states/modifiers denoted
+by underscores. We use a BEM-like format to easily differentiate purpose, but feel free to write
+selectors however you please!
+
+Besides standard CSS properties, the following at-rules can be defined within each selector ruleset,
+and are _not allowed_ in the sheet root.
 
 ### `@fallbacks`
 
@@ -152,8 +175,8 @@ const localSheet: LocalStyleSheet = {
 };
 ```
 
-Variable values are not transformed in any way, so they must be explicit. For example, unitless
-values are not supported for values that require a unit suffix.
+> Variable values are not transformed in any way, so they must be explicit. For example, unitless
+> values are not supported for values that require a unit suffix.
 
 Emits a `block:variable` event for each CSS variable.
 
@@ -173,11 +196,11 @@ import { LocalParser } from '@aesthetic/sss';
 const sheet = new CSSStyleSheet();
 
 const parser = new LocalParser({
-  // For `fontFamily`
+  // For `fontFamily` property
   onFontFace(fontFace) {
     sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
   },
-  // For `animationName`
+  // For `animationName` property
   onKeyframes(keyframes, name) {
     sheet.insertRule(`@keyframes ${name} { ${cssify(keyframes)} }`, sheet.cssRules.length);
 
