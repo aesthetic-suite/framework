@@ -71,6 +71,8 @@ on the following goals for both designers _and_ engineers.
   - `Number.parseFloat`
   - `Object.assign`
   - `Object.values`
+  - `matchMedia`
+  - `requestAnimationFrame`
 
 ## Documentation
 

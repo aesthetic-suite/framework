@@ -17,6 +17,7 @@ function canInsertNestedRules(): boolean {
   if (canInsert === null) {
     canInsert =
       !isSSR() &&
+      typeof window !== 'undefined' &&
       typeof window.CSSGroupingRule !== 'undefined' &&
       typeof CSSGroupingRule.prototype.insertRule !== 'undefined';
   }

@@ -33,7 +33,8 @@ export default abstract class BaseStyleSheet {
       });
 
       if (!this.rafHandle) {
-        this.rafHandle = window.requestAnimationFrame(this.flushRules);
+        // Dont prepend `window.` to support React Native
+        this.rafHandle = requestAnimationFrame(this.flushRules);
       }
     }
 
