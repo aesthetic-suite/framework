@@ -73,7 +73,7 @@
         "node/no-missing-import": "off"
       },
       "ignore": [
-        "./scripts"
+        "scripts/"
       ]
     },
     "jest": {

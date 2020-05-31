@@ -17,10 +17,6 @@ export default function processProperties(
   properties: Properties,
   { prefix, rtl }: ProcessParams = {},
 ): GenericProperties {
-  if (!prefix && !rtl) {
-    return properties as GenericProperties;
-  }
-
   const props: GenericProperties = {};
 
   objectLoop(properties, (val, key) => {

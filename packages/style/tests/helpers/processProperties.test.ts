@@ -1,6 +1,10 @@
 import processProperties from '../../src/helpers/processProperties';
 
 describe('processProperties()', () => {
+  it('removes undefined values', () => {
+    expect(processProperties({ background: undefined })).toEqual({});
+  });
+
   describe('prefixes', () => {
     it('does nothing for an unsupported property', () => {
       expect(processProperties({ background: 'none' }, { prefix: true })).toEqual({

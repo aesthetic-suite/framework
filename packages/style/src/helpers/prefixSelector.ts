@@ -6,14 +6,12 @@ export default function prefixSelector(selector: string, rule: string): string {
   let output = '';
 
   getPrefixesFromMask(mask).forEach((prefix) => {
-    let prefixedSelector = '';
+    let prefixedSelector = selector;
 
     if (selector.startsWith('::')) {
       prefixedSelector = `::${prefix}${selector.slice(2)}`;
     } else if (selector.startsWith(':')) {
       prefixedSelector = `:${prefix}${selector.slice(1)}`;
-    } else {
-      return;
     }
 
     output += rule.replace(selector, prefixedSelector);

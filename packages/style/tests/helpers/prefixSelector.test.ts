@@ -7,6 +7,12 @@ describe('prefixSelector()', () => {
     );
   });
 
+  it('doesnt prefix for attribute selector', () => {
+    expect(prefixSelector('[title]', '.c[title] { display:none; }')).toBe(
+      '.c[title] { display:none; }',
+    );
+  });
+
   it('prefixes a supported pseudo class', () => {
     expect(prefixSelector(':fullscreen', '.d:fullscreen { display:none; }')).toBe(
       '.d:-ms-fullscreen { display:none; }.d:-webkit-fullscreen { display:none; }.d:fullscreen { display:none; }',
