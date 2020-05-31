@@ -277,11 +277,14 @@ describe('Styles', () => {
   });
 
   it('applies vendor prefixes to a property under a single class name', () => {
-    // Value prefixing (wont show in snapshot)
-    renderer.renderDeclaration('display', 'flex', { prefix: true });
+    // Value prefixing (wont show in snapshot because of DOM)
+    renderer.renderDeclaration('min-width', 'fit-content', { prefix: true });
+
+    // Value function prefixing (wont show in snapshot because of DOM)
+    renderer.renderDeclaration('background', 'image-set()', { prefix: true });
 
     // Property prefixing
-    renderer.renderDeclaration('transition', '200ms all', { prefix: true });
+    renderer.renderDeclaration('appearance', 'none', { prefix: true });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
@@ -292,7 +295,7 @@ describe('Styles', () => {
         display: 'flex',
         marginLeft: '10px',
         textAlign: 'right',
-        transition: '200ms all',
+        appearance: 'none',
       },
       {
         deterministic: true,
@@ -307,7 +310,7 @@ describe('Styles', () => {
         display: 'flex',
         marginLeft: '10px',
         textAlign: 'right',
-        transition: '200ms all',
+        appearance: 'none',
       },
       {
         deterministic: true,
@@ -316,8 +319,8 @@ describe('Styles', () => {
       },
     );
 
-    expect(a).toBe('c5f5o58 c8nj8ar c1u1u927 c1oaar8e');
-    expect(b).toBe('c5f5o58 c1ryula0 cfi87yc c1oaar8e');
+    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 clkg0oz');
+    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc clkg0oz');
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
@@ -329,6 +332,7 @@ describe('Styles', () => {
       paddingRight: 0,
       marginLeft: 0,
       transition: '200ms all',
+      appearance: 'none',
       ':hover': {
         display: 'flex',
         color: 'blue',
@@ -340,7 +344,7 @@ describe('Styles', () => {
           color: 'darkblue',
         },
       },
-    };
+    } as const;
 
     it('can generate a non-atomic single class by grouping all properties', () => {
       const className = renderer.renderRuleGrouped(rule);
@@ -353,7 +357,7 @@ describe('Styles', () => {
     it('can utilize deterministic class names', () => {
       const className = renderer.renderRuleGrouped(rule, { deterministic: true });
 
-      expect(className).toBe('c6bnd1w');
+      expect(className).toBe('c19x5a9t');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
