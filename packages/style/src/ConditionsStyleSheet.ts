@@ -10,7 +10,7 @@ import { Condition, StyleRule } from './types';
 let canInsert: boolean | null = null;
 
 function canInsertNestedRules(): boolean {
-  if (global.AESTHETIC_SSR_CLIENT) {
+  if (global.AESTHETIC_CUSTOM_RENDERER) {
     return true;
   }
 

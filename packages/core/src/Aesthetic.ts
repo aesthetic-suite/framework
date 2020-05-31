@@ -156,8 +156,8 @@ export default class Aesthetic {
    * Return a style renderer. When SSR, use a server based renderer.
    */
   get renderer() {
-    if (global.AESTHETIC_SSR_CLIENT) {
-      return global.AESTHETIC_SSR_CLIENT;
+    if (global.AESTHETIC_CUSTOM_RENDERER) {
+      return global.AESTHETIC_CUSTOM_RENDERER;
     }
 
     if (!this.styleRenderer) {

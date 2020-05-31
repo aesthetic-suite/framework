@@ -11,7 +11,7 @@ import useTheme from './useTheme';
 export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameGenerator<keyof T> {
   const direction = useDirection();
   const theme = useTheme();
-  const ssr = isSSR() || global.AESTHETIC_SSR_CLIENT;
+  const ssr = isSSR() || global.AESTHETIC_CUSTOM_RENDERER;
 
   // Render the styles immediately for SSR and tests
   const [classNames, setClassNames] = useState<ClassNameSheet<string>>(() => {

@@ -228,7 +228,7 @@ describe('Aesthetic', () => {
     it('passes a server renderer when wrapping for SSR', () => {
       const sr = new ServerRenderer();
 
-      global.AESTHETIC_SSR_CLIENT = sr;
+      global.AESTHETIC_CUSTOM_RENDERER = sr;
 
       expect(aesthetic.renderer).toBe(sr);
     });
