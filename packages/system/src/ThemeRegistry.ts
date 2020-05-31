@@ -29,10 +29,11 @@ export default class ThemeRegistry {
    * Will check for preferred color schemes and contrast levels.
    */
   getPreferredTheme(): Theme {
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
-    const prefersHighContrast = window.matchMedia('(prefers-contrast: high)').matches;
-    const prefersLowContrast = window.matchMedia('(prefers-contrast: low)').matches;
+    // Dont prepend `window.` to support React Native
+    const prefersDarkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersLightScheme = matchMedia('(prefers-color-scheme: light)').matches;
+    const prefersHighContrast = matchMedia('(prefers-contrast: high)').matches;
+    const prefersLowContrast = matchMedia('(prefers-contrast: low)').matches;
     const schemeCheckOrder: ColorScheme[] = [];
 
     if (prefersDarkScheme) {

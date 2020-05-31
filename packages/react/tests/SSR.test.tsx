@@ -59,7 +59,7 @@ describe('SSR', () => {
     purgeStyles('standard');
     purgeStyles('conditions');
 
-    delete global.AESTHETIC_SSR_CLIENT;
+    delete global.AESTHETIC_CUSTOM_RENDERER;
   });
 
   describe('renderToString()', () => {

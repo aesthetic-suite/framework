@@ -2,22 +2,22 @@ import ServerRenderer from '../src/server/ServerRenderer';
 
 describe('SSR', () => {
   afterEach(() => {
-    delete global.AESTHETIC_SSR_CLIENT;
+    delete global.AESTHETIC_CUSTOM_RENDERER;
   });
 
   it('sets SSR global', () => {
-    expect(global.AESTHETIC_SSR_CLIENT).toBeUndefined();
+    expect(global.AESTHETIC_CUSTOM_RENDERER).toBeUndefined();
 
     const renderer = new ServerRenderer();
     renderer.captureStyles(null);
 
-    expect(global.AESTHETIC_SSR_CLIENT).toBe(renderer);
+    expect(global.AESTHETIC_CUSTOM_RENDERER).toBe(renderer);
   });
 
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
     const renderer = new ServerRenderer();
 
-    global.AESTHETIC_SSR_CLIENT = renderer;
+    global.AESTHETIC_CUSTOM_RENDERER = renderer;
 
     renderer.applyRootVariables({
       fontSize: '16px',

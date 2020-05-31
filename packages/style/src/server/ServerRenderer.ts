@@ -13,7 +13,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
-      AESTHETIC_SSR_CLIENT: ServerRenderer;
+      AESTHETIC_CUSTOM_RENDERER: ServerRenderer;
     }
   }
 }
@@ -32,7 +32,7 @@ export default class ServerRenderer extends Renderer {
   }
 
   captureStyles<T>(result: T): T {
-    global.AESTHETIC_SSR_CLIENT = this;
+    global.AESTHETIC_CUSTOM_RENDERER = this;
 
     return result;
   }
