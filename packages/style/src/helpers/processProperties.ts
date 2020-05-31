@@ -9,6 +9,9 @@ import { Properties, ProcessParams, GenericProperties, Value } from '../types';
 
 /**
  * Apply vendor prefixes and RTL conversions to a block of properties.
+ *
+ * @link https://css-tricks.com/ordering-css3-properties/
+ * @link https://css-tricks.com/how-to-deal-with-vendor-prefixes/
  */
 export default function processProperties(
   properties: Properties,
@@ -34,9 +37,6 @@ export default function processProperties(
       value = getValueDoppelganger(prop, value);
     }
 
-    // Set the value in case we dont need prefixing
-    props[prop] = value;
-
     // Inject vendor prefixed variants
     const map = declarationMapping[prop];
 
@@ -50,13 +50,15 @@ export default function processProperties(
         nextValue = prefixValue(nextValue, values);
       }
 
-      // Base property comes first
-      props[prop] = nextValue;
-
-      // Prefixed properties come after
+      // Prefixed properties come first
       getPrefixesFromMask(mask).forEach((pre) => {
         props[pre + prop] = nextValue;
       });
+
+      // Base property comes last
+      props[prop] = nextValue;
+    } else {
+      props[prop] = value;
     }
   });
 
