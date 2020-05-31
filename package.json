@@ -8,6 +8,7 @@
     "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
     "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
     "coverage": "yarn run jest --coverage",
+    "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
     "lint": "beemo eslint",
     "jest": "beemo jest",
     "prettier": "beemo prettier",
@@ -26,13 +27,13 @@
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/inline-style-prefixer": "^5.0.0",
     "@types/lodash": "^4.14.151",
     "@types/prettier": "^2.0.0",
     "@types/prop-types": "^15.7.3",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/string-hash": "^1.1.1",
+    "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^1.6.0",
     "eslint-plugin-rut": "^1.0.1",
     "jest-rut": "^1.0.1",
@@ -43,7 +44,8 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-externals": "^2.1.6",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rut-dom": "^1.0.1"
+    "rut-dom": "^1.0.1",
+    "ts-node": "^8.10.2"
   },
   "beemo": {
     "module": "@milesj/build-tools",
@@ -69,7 +71,10 @@
         "prefer-object-spread": "off",
         "import/export": "off",
         "node/no-missing-import": "off"
-      }
+      },
+      "ignore": [
+        "scripts/"
+      ]
     },
     "jest": {
       "setupFilesAfterEnv": [

@@ -76,3 +76,17 @@ export interface StyleRule {
   type: number;
   insertRule: (rule: string, index: number) => number;
 }
+
+// DATA
+
+export interface PrefixMap {
+  [value: string]: number;
+}
+
+export interface DeclarationPrefixMap {
+  [property: string]: {
+    prefixes?: number;
+    functions?: PrefixMap;
+    values?: PrefixMap;
+  };
+}

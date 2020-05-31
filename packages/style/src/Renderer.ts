@@ -1,8 +1,6 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import applyRightToLeft from 'rtl-css-js';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
-import { prefix as applyPrefixes } from 'inline-style-prefixer';
 import {
   arrayReduce,
   hyphenate,
@@ -20,6 +18,8 @@ import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
+import prefixSelector from './helpers/prefixSelector';
+import processProperties from './helpers/processProperties';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
@@ -147,7 +147,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       params.selector,
-      this.processProperties({ [key]: val }, { prefix: params.prefix }),
+      processProperties({ [key]: val }, { prefix: params.prefix }),
     );
 
     const className =
@@ -156,8 +156,13 @@ export default abstract class Renderer {
         ? this.generateDeterministicClassName(rule, params.conditions)
         : this.generateClassName());
 
+    const classRule = `.${className}${rule}`;
+
     // Persist the max ranking
-    const rank = this.insertRule(`.${className}${rule}`, params);
+    const rank = this.insertRule(
+      params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
+      params,
+    );
 
     persistRank(params, key, rank);
 
@@ -183,7 +188,7 @@ export default abstract class Renderer {
       }
     }
 
-    this.insertAtRule('@font-face', this.processProperties(fontFace as Properties, params));
+    this.insertAtRule('@font-face', processProperties(fontFace as Properties, params));
 
     return fontFace.fontFamily;
   }
@@ -208,7 +213,7 @@ export default abstract class Renderer {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(this.processProperties(keyframe!, params))} } `,
+        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, params))} } `,
     );
 
     const animationName = customName || `kf${generateHash(rule)}`;
@@ -250,7 +255,7 @@ export default abstract class Renderer {
 
     const rule = formatRule(
       params.selector,
-      this.processProperties(nextProperties, params),
+      processProperties(nextProperties, params),
       cssVariables,
     );
 
@@ -259,7 +264,13 @@ export default abstract class Renderer {
 
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
-      this.insertRule(`.${className}${rule}`, params);
+      const classRule = `.${className}${rule}`;
+
+      this.insertRule(
+        params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
+        params,
+      );
+
       this.ruleCache[hash] = className;
     }
 
@@ -325,26 +336,6 @@ export default abstract class Renderer {
 
     // No media or feature queries so insert into the standard style sheet
     return this.standardStyleSheet.insertRule(rule);
-  }
-
-  /**
-   * Apply vendor prefixes and RTL conversions to a block of properties.
-   */
-  protected processProperties(
-    properties: Properties,
-    { prefix, rtl }: ProcessParams,
-  ): GenericProperties {
-    let props = properties;
-
-    if (prefix) {
-      props = applyPrefixes(props);
-    }
-
-    if (rtl) {
-      props = applyRightToLeft(props);
-    }
-
-    return props as GenericProperties;
   }
 
   /**
