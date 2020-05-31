@@ -286,6 +286,9 @@ describe('Styles', () => {
     // Property prefixing
     renderer.renderDeclaration('appearance', 'none', { prefix: true });
 
+    // Selector prefixing
+    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', prefix: true });
+
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
@@ -319,8 +322,8 @@ describe('Styles', () => {
       },
     );
 
-    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 clkg0oz');
-    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc clkg0oz');
+    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 c16p9s9v');
+    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc c16p9s9v');
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
@@ -336,6 +339,9 @@ describe('Styles', () => {
       ':hover': {
         display: 'flex',
         color: 'blue',
+      },
+      '::backdrop': {
+        background: 'black',
       },
       '@media (width: 500px)': {
         margin: '10px',

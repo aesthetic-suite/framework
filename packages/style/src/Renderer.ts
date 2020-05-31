@@ -18,6 +18,7 @@ import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
+import prefixSelector from './helpers/prefixSelector';
 import processProperties from './helpers/processProperties';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
@@ -155,8 +156,13 @@ export default abstract class Renderer {
         ? this.generateDeterministicClassName(rule, params.conditions)
         : this.generateClassName());
 
+    const classRule = `.${className}${rule}`;
+
     // Persist the max ranking
-    const rank = this.insertRule(`.${className}${rule}`, params);
+    const rank = this.insertRule(
+      params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
+      params,
+    );
 
     persistRank(params, key, rank);
 
@@ -258,7 +264,13 @@ export default abstract class Renderer {
 
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
-      this.insertRule(`.${className}${rule}`, params);
+      const classRule = `.${className}${rule}`;
+
+      this.insertRule(
+        params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
+        params,
+      );
+
       this.ruleCache[hash] = className;
     }
 

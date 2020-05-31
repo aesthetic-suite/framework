@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Styles applies vendor prefixes to a property under a single class name 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}"`;
+exports[`Styles applies vendor prefixes to a property under a single class name 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {-ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.d:-ms-fullscreen {display: none;}"`;
 
 exports[`Styles can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
 
@@ -28,7 +28,7 @@ exports[`Styles generates the same declaration for each type (non-standard) 1`] 
 
 exports[`Styles generates the same declaration for each type (non-standard) 2`] = `".b {color: red;}"`;
 
-exports[`Styles handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".cu4ygwf {display: flex;}.c8nj8ar {margin-left: 10px;}.c1u1u927 {text-align: right;}.clkg0oz {appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1ryula0 {margin-right: 10px;}.cfi87yc {text-align: left;}"`;
+exports[`Styles handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".cu4ygwf {display: flex;}.c8nj8ar {margin-left: 10px;}.c1u1u927 {text-align: right;}.c16p9s9v {-ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.c1ryula0 {margin-right: 10px;}.cfi87yc {text-align: left;}"`;
 
 exports[`Styles ignores invalid values 1`] = `""`;
 
@@ -42,19 +42,19 @@ exports[`Styles logs a warning for unknown nested selector 1`] = `".a {backgroun
 
 exports[`Styles logs a warning for unknown property values 1`] = `""`;
 
-exports[`Styles rule grouping can RTL convert applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can RTL convert applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}.a::backdrop {background: black;}"`;
 
 exports[`Styles rule grouping can RTL convert applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
 
-exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}.a::backdrop {background: black;}"`;
 
 exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
 
-exports[`Styles rule grouping can utilize deterministic class names 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can utilize deterministic class names 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
 
 exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}"`;
 
-exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.a:hover {display: flex; color: blue;}"`;
+exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.a:hover {display: flex; color: blue;}.a::-ms-backdrop {background: black;}"`;
 
 exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
 
