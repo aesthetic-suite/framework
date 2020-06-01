@@ -5,7 +5,7 @@ import getPrefixesFromMask from './getPrefixesFromMask';
 import isPrefixedProperty from './isPrefixedProperty';
 import prefixValueFunction from './prefixValueFunction';
 import prefixValue from './prefixValue';
-import { Properties, ProcessParams, GenericProperties, Value } from '../types';
+import { Properties, ProcessOptions, GenericProperties, Value } from '../types';
 
 /**
  * Apply vendor prefixes and RTL conversions to a block of properties.
@@ -15,7 +15,7 @@ import { Properties, ProcessParams, GenericProperties, Value } from '../types';
  */
 export default function processProperties(
   properties: Properties,
-  { prefix, rtl }: ProcessParams = {},
+  { prefix, rtl }: ProcessOptions = {},
 ): GenericProperties {
   const props: GenericProperties = {};
 

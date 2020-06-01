@@ -46,21 +46,21 @@ export interface RankCache {
   [property: string]: number;
 }
 
-export interface ProcessParams {
+export interface ProcessOptions {
   deterministic?: boolean;
   prefix?: boolean;
   rankings?: RankCache;
   rtl?: boolean;
 }
 
-export interface RenderParams extends ProcessParams {
+export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
   selector?: string;
   type?: SheetType;
 }
 
-export interface CacheItem extends Required<Omit<RenderParams, keyof ProcessParams>> {
+export interface CacheItem extends Required<Omit<RenderOptions, keyof ProcessOptions>> {
   rank: number;
 }
 

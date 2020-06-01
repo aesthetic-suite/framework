@@ -5,7 +5,7 @@ import {
   CSSVariables,
   FontFace,
   Keyframes,
-  ProcessParams,
+  ProcessOptions,
   Renderer,
 } from '@aesthetic/style';
 import {
@@ -192,7 +192,7 @@ export default class Aesthetic {
   renderFontFace = (
     fontFace: FontFace | SSSFontFace,
     fontFamily?: string,
-    params?: ProcessParams,
+    params?: ProcessOptions,
   ) =>
     this.renderer.renderFontFace(
       formatFontFace({
@@ -210,7 +210,7 @@ export default class Aesthetic {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessParams) =>
+  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessOptions) =>
     this.renderer.renderKeyframes(keyframes, animationName, params);
 
   /**

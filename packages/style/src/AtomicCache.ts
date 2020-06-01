@@ -1,28 +1,28 @@
-import { CacheItem, RenderParams } from './types';
+import { CacheItem, RenderOptions } from './types';
 
 // https://jsperf.com/javascript-objects-vs-map-performance
 // https://jsperf.com/performance-of-map-vs-object
 export default class AtomicCache {
   cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
 
-  match(item: CacheItem, params: RenderParams, minimumRank?: number): boolean {
+  match(item: CacheItem, options: RenderOptions, minimumRank?: number): boolean {
     if (minimumRank !== undefined && item.rank < minimumRank) {
       return false;
     }
 
-    if (item.selector !== params.selector) {
+    if (item.selector !== options.selector) {
       return false;
     }
 
-    if (item.type !== params.type) {
+    if (item.type !== options.type) {
       return false;
     }
 
-    if (item.conditions.length !== params.conditions?.length) {
+    if (item.conditions.length !== options.conditions?.length) {
       return false;
     }
 
-    return (params.conditions || []).every(
+    return (options.conditions || []).every(
       (i) => !!item.conditions.find((p) => p.query === i.query && p.type === i.type),
     );
   }
@@ -30,7 +30,7 @@ export default class AtomicCache {
   read(
     property: string,
     value: string,
-    params: RenderParams,
+    options: RenderOptions,
     minimumRank?: number,
   ): CacheItem | null {
     const propertyCache = this.cache[property];
@@ -45,7 +45,7 @@ export default class AtomicCache {
       return null;
     }
 
-    return valueCache.find((item) => this.match(item, params, minimumRank)) ?? null;
+    return valueCache.find((item) => this.match(item, options, minimumRank)) ?? null;
   }
 
   write(property: string, value: string, item: CacheItem): this {
