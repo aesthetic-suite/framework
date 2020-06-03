@@ -11,8 +11,13 @@ import isImportRule from './isImportRule';
 import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
+import isPrefixedProperty from './isPrefixedProperty';
 import isSupportsRule from './isSupportsRule';
 import isVariable from './isVariable';
+import prefixSelector from './prefixSelector';
+import prefixValue from './prefixValue';
+import prefixValueFunction from './prefixValueFunction';
+import processProperties from './processProperties';
 
 export {
   formatConditions,
@@ -28,6 +33,11 @@ export {
   isInvalidValue,
   isMediaRule,
   isNestedSelector,
+  isPrefixedProperty,
   isSupportsRule,
   isVariable,
+  prefixSelector,
+  prefixValue,
+  prefixValueFunction,
+  processProperties,
 };

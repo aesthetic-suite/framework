@@ -31,7 +31,7 @@ export default class ServerRenderer extends Renderer {
     });
   }
 
-  captureStyles<T>(result: T): T {
+  extractStyles<T>(result: T): T {
     global.AESTHETIC_CUSTOM_RENDERER = this;
 
     return result;

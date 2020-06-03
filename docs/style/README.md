@@ -5,3 +5,5 @@
 ## Server-side Rendering
 
 ## Client-side Hydration
+
+- [API](./api.md)

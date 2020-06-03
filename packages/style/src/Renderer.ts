@@ -108,7 +108,7 @@ export default abstract class Renderer {
     property: K,
     value: Properties[K],
     opts: RenderOptions = {},
-  ) {
+  ): ClassName {
     const options = createDefaultOptions(opts);
 
     // Hyphenate and cast values so they're deterministic
