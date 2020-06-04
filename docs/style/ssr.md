@@ -5,9 +5,9 @@ of setup, on both ends.
 
 ## Server
 
-On the server, we'll need to import and instantiate the `ServerRenderer` to extract critical CSS. We
-can do this as part of the React DOM server rendering process. In the example below, we'll use
-[Express](https://expressjs.com/) as our server.
+On the server, we'll need to import and instantiate the `ServerRenderer` to extract critical CSS
+with `extractStyles()`. We can do this as part of the React DOM server rendering process. In the
+example below, we'll use [Express](https://expressjs.com/) as our server.
 
 ```tsx
 import express from 'express';
@@ -56,8 +56,8 @@ layout HTML file without being escaped. Something like the following.
 
 Because of this architecture, the React application _cannot_ include and render the full HTML
 document. To work around this, a double render will need to be executed, where the application is
-rendered 1st with `renderToString`, and the layout that includes the content and styles is rendered
-2nd with `renderToStaticMarkup`.
+rendered 1st with `renderToString()`, and the layout that includes the content and styles is
+rendered 2nd with `renderToStaticMarkup()`.
 
 ```tsx
 server.get('/', (req, res) => {
@@ -86,11 +86,12 @@ import ReactDOM from 'react-dom';
 import { ClientRenderer } from '@aesthetic/style';
 import App from './path/to/client/App';
 
+// Instantiate a renderer for the client
 const renderer = new ClientRenderer();
-const hydrated = renderer.hydrateStyles();
 
-const root = document.getElementById('root');
+// Hydrate CSS styles
+renderer.hydrateStyles();
 
-// Logic to determine hydration should be custom per your application
-hydrated ? ReactDOM.hydrate(<App />, root) : ReactDOM.render(<App />, root);
+// Render and hydrate the application
+ReactDOM.hydrate(<App />, document.getElementById('root'));
 ```

@@ -4,7 +4,8 @@
 
 ### `RenderOptions`
 
-Most render methods support the following options.
+Most render methods support the following options. Read the documentation on [options](./options.md)
+for more information.
 
 - `deterministic` (`boolean`) - Generate class names using a deterministic hash (`c1sjakp`) instead
   of an auto-incremented value (`a1`). Useful for scenarios like unit tests.
@@ -16,6 +17,20 @@ Most render methods support the following options.
   (right-to-left).
 - `selector` (`string`) - A CSS selector to scope the declaration(s) within. This is handled
   automatically when using [rules](#renderrule).
+
+### `applyRootVariables`
+
+> Renderer#applyRootVariables(vars: CSSVariables): void
+
+Applies CSS variables to the document `:root`. Variable names can be defined in camel-case or
+standard variable format (leading `--`).
+
+```ts
+renderer.applyRootVariables({
+  '--font-color': 'black',
+  backgroundColor: 'white',
+});
+```
 
 ### `renderDeclaration`
 
@@ -99,6 +114,9 @@ const className = renderer.renderRuleGrouped({
 //   background: transparent;
 // }
 ```
+
+> This method should rarely be used, as it circumvents the performance and filesize gains that the
+> atomic cache provides.
 
 ### `renderFontFace`
 

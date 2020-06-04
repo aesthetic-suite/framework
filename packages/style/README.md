@@ -1,4 +1,4 @@
-# Aesthetic - CSS-in-JS Engine
+# Aesthetic - CSS-in-JS Style Engine
 
 [![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/%40aesthetic%style.svg)](https://www.npmjs.com/package/@aesthetic/style)
@@ -42,7 +42,7 @@ const className = renderer.renderRule(
 
 ## Features
 
-- 5.1kb minified and gzipped (31kb original).
+- 6.1kb minified and gzipped (38.6kb original).
 - Atomic based CSS. One property per class name.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
@@ -52,7 +52,7 @@ const className = renderer.renderRule(
 - Style declarations support pseudos, attributes, conditional at-rules, and nested declarations.
 - Deterministic or atomic incremental CSS class names.
 - Right-to-left (RTL) integration.
-- Automatic vendor prefixing for browsers with > 1% market share.
+- Automatic vendor prefixing for browsers with >= 1% market share.
 - First-class CSS variables support.
 - Server-side rendering _and_ client-side hydration.
 - Framework and library agnostic. Can be used stand-alone.
