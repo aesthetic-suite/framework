@@ -9,7 +9,7 @@ Most render methods support the following options.
 - `deterministic` (`boolean`) - Generate class names using a deterministic hash (`c1sjakp`) instead
   of an auto-incremented value (`a1`). Useful for scenarios like unit tests.
 - `prefix` (`boolean`) - Apply vendor prefixes to properties and values that require it. We prefix
-  features for browsers with > 1% market share.
+  features for browsers with >= 1% market share.
 - `rankings` (`object`) - An empty object to use for specificity ranking cache lookups. Useful for
   ensuring the correct specificity when order of declarations change.
 - `rtl` (`boolean`) - Convert and swap LTR (left-to-right) based declarations to RTL
@@ -45,7 +45,7 @@ const className = renderer.renderDeclaration('display', 'block', { selector: ':h
 > Renderer#renderRule(properties: Rule, options?: RenderOptions): ClassName
 
 Renders a collection of property-value pairs, known as a CSS rule (or ruleset), and returns a CSS
-class name for each declaration. A collection of declarations is known as a `style object`.
+class name for each declaration. A collection of declarations is known as a _style object_.
 
 ```ts
 const className = renderer.renderRule({
@@ -60,7 +60,7 @@ const className = renderer.renderRule({
 ```
 
 Rules can also infinitely render nested `@media` queries, `@supports` queries, pseudo classes and
-elements, attributes, combinators, and other selectors, by declaring nested `style objects`.
+elements, attributes, combinators, and other selectors, by declaring nested _style objects_.
 
 ```ts
 const className = renderer.renderRule({
@@ -123,7 +123,7 @@ const fontFamily = renderer.renderFontFace({
 > Renderer#renderImport(path: string): void
 
 Renders a CSS file path as an `@import` at-rule. Does not format the path, so proper quotes and
-syntax is required.
+syntax are required.
 
 ```ts
 renderer.renderImport('url("./path/to/file.css")');
@@ -136,8 +136,8 @@ renderer.renderImport('url("./path/to/file.css")');
 > Renderer#renderKeyframes(keyframes: Keyframes, name?: string, options?: RenderOptions): string
 
 Renders a _keyframes object_ as a `@keyframes` at-rule and returns the animation name. A custom
-animation name may be provided as the 2rd argument (does not account for collision), or a unique one
-will be generated.
+animation name may be provided as the 2rd argument (does not account for collision), otherwise a
+unique collision-free one will be generated.
 
 ```ts
 const animationName = renderer.renderKeyframes({
@@ -147,9 +147,9 @@ const animationName = renderer.renderKeyframes({
   to: {
     transform: 'translateX(100%)',
   },
-}); // -> kf18jdch28d
+}); // -> kf18jh28d
 
-// @keyframes kf18jdch28d { ... }
+// @keyframes kf18jh28d { ... }
 ```
 
 ## `ClientRenderer`
@@ -159,7 +159,8 @@ const animationName = renderer.renderKeyframes({
 > ClientRenderer#hydrateStyles(): void
 
 Queries the document for all Aesthetic owned `style` tags (rendered by the server) and hydrates the
-renderer's cache will applicable CSS information -- everything from class names to at-rules.
+renderer's cache with applicable CSS information -- everything from class names to at-rules. _Must
+be_ run in the browser.
 
 ```ts
 renderer.hydrateStyles();

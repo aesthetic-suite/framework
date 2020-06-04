@@ -1,9 +1,6 @@
 # CSS-in-JS Style Engine
 
-# SSR
+## Chapters
 
-## Server-side Rendering
-
-## Client-side Hydration
-
+- [SSR](./ssr.md)
 - [API](./api.md)
