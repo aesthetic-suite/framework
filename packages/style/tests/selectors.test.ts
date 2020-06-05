@@ -9,9 +9,7 @@ describe('Selectors', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   describe('attributes', () => {

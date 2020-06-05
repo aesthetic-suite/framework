@@ -4,7 +4,36 @@ The following features can be enabled on case-by-case basis using render options
 
 ## Deterministic classes
 
-TODO
+Since the style engine generates atomic CSS, the amount of class names required grows rather
+quickly, as we need 1 class name for every 1 declaration. Class names use an autoincremented
+approach, where we combine an alphabet character and a counter, to return names like `a`, `j4`, and
+`z8`. However, the class name returned for a declaration cannot be guaranteed, as the order of
+insertion may change, or the autoincremented value may differ, as shown below.
+
+```ts
+renderer.renderDeclaration('margin', 0); // -> a
+renderer.renderDeclaration('display', 'flex'); // -> b
+
+// Page refreshed and order changes
+renderer.renderDeclaration('display', 'flex'); // -> a
+renderer.renderDeclaration('margin', 0); // -> b
+```
+
+That being said, Aesthetic does support the concept of deterministic classes, where the same class
+name will always be returned for the same declaration, regardless of insertion order or other
+factors. Perfect for scenarios like unit testing. It does this by hashing the CSS rule itself, and
+generating a unique class name based on the hash.
+
+Deterministic classes can be enabled when [rendering](./api.md) by using the `deterministic` option.
+
+```ts
+renderer.renderDeclaration('margin', 0, { deterministic: true }); // -> c1cpw2zw
+renderer.renderDeclaration('display', 'flex', { deterministic: true }); // -> cu4ygwf
+
+// Page refreshed and order changes
+renderer.renderDeclaration('display', 'flex', { deterministic: true }); // -> cu4ygwf
+renderer.renderDeclaration('margin', 0, { deterministic: true }); // -> c1cpw2zw
+```
 
 ## Directionality
 

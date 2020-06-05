@@ -209,3 +209,27 @@ Renders [extracted styles](#extractstyles) into a collection of `style` tags for
 ```ts
 const markup = renderer.renderToStyleMarkup();
 ```
+
+## Testing
+
+### `getRenderedStyles`
+
+> getRenderedStyles(type: 'global' | 'standard' | 'conditions'): string
+
+Returns all rendered styles as a CSS string for the target `<style />` type.
+
+```ts
+expect(getRenderedStyles('standard')).toMatchSnapshot();
+```
+
+### `purgeStyles`
+
+> purgeStyles(type: 'global' | 'standard' | 'conditions'): void
+
+Removes all rendered styles from the target `<style />` type. If the type is not provided, it will
+purge all 3 types.
+
+```ts
+purgeStyles(); // all
+purgeStyles('global');
+```

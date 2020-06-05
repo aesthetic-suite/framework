@@ -9,9 +9,7 @@ describe('At-rules', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('doesnt insert the same at-rule more than once', () => {

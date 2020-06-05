@@ -2,7 +2,7 @@ import { objectLoop } from '@aesthetic/utils';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 import { declarationMapping } from '../data/prefixes';
 import getPrefixesFromMask from './getPrefixesFromMask';
-import isPrefixedProperty from './isPrefixedProperty';
+import isPrefixed from './isPrefixed';
 import prefixValueFunction from './prefixValueFunction';
 import prefixValue from './prefixValue';
 import { Properties, ProcessOptions, GenericProperties, Value } from '../types';
@@ -36,7 +36,7 @@ export default function processProperties(
     // Inject vendor prefixed variants
     const map = declarationMapping[prop];
 
-    if (prefix && map && !isPrefixedProperty(prop)) {
+    if (prefix && map && !isPrefixed(prop)) {
       const { prefixes: mask, functions, values } = map;
       let nextValue: Value | Value[] = value;
 

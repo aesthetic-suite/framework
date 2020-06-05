@@ -9,8 +9,14 @@ export function getRenderedStyles(type: SheetType): string {
   );
 }
 
-export function purgeStyles(type: SheetType) {
-  // This is the only way to generate accurate snapshots.
-  // It may slow down tests though?
-  getStyleElement(type)?.remove();
+export function purgeStyles(type?: SheetType): void {
+  if (type) {
+    // This is the only way to generate accurate snapshots.
+    // It may slow down tests though?
+    getStyleElement(type)?.remove();
+  } else {
+    purgeStyles('global');
+    purgeStyles('standard');
+    purgeStyles('conditions');
+  }
 }

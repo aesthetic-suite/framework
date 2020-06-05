@@ -7,6 +7,7 @@ engine. It can be used stand-alone but has been designed to power additional abs
 - [Rendering concepts](./concepts.md)
 - [Features & options](./options.md)
 - [Server-side rendering](./ssr.md)
+- [Test utilities](./testing.md)
 - [API](./api.md)
 
 ## What it provides

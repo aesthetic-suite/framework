@@ -1,7 +1,7 @@
-# SSR
+# Server-side rendering
 
 Aesthetic supports server-side rendering _and_ client-side hydration. However, it does require a bit
-of setup, on both ends.
+of setup on both ends.
 
 ## Server
 
@@ -38,11 +38,11 @@ server.listen(8080);
 ```
 
 Since our CSS extraction results in multiple `<style />` tags, they'll need to be injected into a
-layout HTML file without being escaped. Something like the following.
+layout HTML file _without_ being escaped. Something like the following.
 
 ```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <title>{{title}}</title>
@@ -56,7 +56,7 @@ layout HTML file without being escaped. Something like the following.
 
 Because of this architecture, the React application _cannot_ include and render the full HTML
 document. To work around this, a double render will need to be executed, where the application is
-rendered 1st with `renderToString()`, and the layout that includes the content and styles is
+rendered 1st with `renderToString()`, and the document that includes the content and styles is
 rendered 2nd with `renderToStaticMarkup()`.
 
 ```tsx

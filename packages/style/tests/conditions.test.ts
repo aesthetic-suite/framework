@@ -9,9 +9,7 @@ describe('Conditions', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   describe('media queries', () => {

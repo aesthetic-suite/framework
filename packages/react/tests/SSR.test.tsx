@@ -54,10 +54,7 @@ describe('SSR', () => {
 
   afterEach(() => {
     teardownAesthetic(aesthetic);
-
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
 
     delete global.AESTHETIC_CUSTOM_RENDERER;
   });

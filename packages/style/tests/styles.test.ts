@@ -16,9 +16,7 @@ describe('Styles', () => {
   afterEach(() => {
     spy.mockRestore();
 
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('generates a unique class name for a large number of properties', () => {
