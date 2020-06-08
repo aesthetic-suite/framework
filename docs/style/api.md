@@ -44,8 +44,12 @@ the same class name for the same property-value pair.
 
 ```ts
 const className = renderer.renderDeclaration('display', 'block'); // -> a
+```
 
-// .a { display: block }
+```css
+.a {
+  display: block;
+}
 ```
 
 Declarations can also be scoped within a selector (pseudo, attribute, etc) by using the `selector`
@@ -53,8 +57,12 @@ option.
 
 ```ts
 const className = renderer.renderDeclaration('display', 'block', { selector: ':hover' }); // -> b
+```
 
-// .b:hover { display: block }
+```css
+.b:hover {
+  display: block;
+}
 ```
 
 ### `renderRule`
@@ -70,10 +78,18 @@ const className = renderer.renderRule({
   textAlign: 'center',
   background: 'transparent',
 }); // -> a b c
+```
 
-// .a { display: block }
-// .b { text-align: center }
-// .c { background: transparent }
+```css
+.a {
+  display: block;
+}
+.b {
+  text-align: center;
+}
+.c {
+  background: transparent;
+}
 ```
 
 Rules can also infinitely render nested `@media` queries, `@supports` queries, pseudo classes and
@@ -109,12 +125,14 @@ const className = renderer.renderRuleGrouped({
   textAlign: 'center',
   background: 'transparent',
 }); // -> a
+```
 
-// .a {
-//   display: block;
-//   text-align: center;
-//   background: transparent;
-// }
+```css
+.a {
+  display: block;
+  text-align: center;
+  background: transparent;
+}
 ```
 
 > This method should rarely be used, as it circumvents the performance and filesize gains that the
@@ -134,8 +152,12 @@ const fontFamily = renderer.renderFontFace({
   fontWeight: 800,
   src: 'url("fonts/Roboto.woff2")',
 }); // -> Roboto
+```
 
-// @font-face { ... }
+```css
+@font-face {
+  /* ... */
+}
 ```
 
 ### `renderImport`
@@ -146,9 +168,11 @@ Renders a CSS file path as an `@import` at-rule. Does not format the path, so pr
 syntax are required.
 
 ```ts
-renderer.renderImport('url("./path/to/file.css")');
+renderer.renderImport(`url('./path/to/file.css')`);
+```
 
-// @import url("./path/to/file.css")
+```css
+@import url('./path/to/file.css');
 ```
 
 ### `renderKeyframes`
@@ -168,8 +192,12 @@ const animationName = renderer.renderKeyframes({
     transform: 'translateX(100%)',
   },
 }); // -> kf18jh28d
+```
 
-// @keyframes kf18jh28d { ... }
+```css
+@keyframes kf18jh28d {
+  /* ... */
+}
 ```
 
 ## `ClientRenderer`
