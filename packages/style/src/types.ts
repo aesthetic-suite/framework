@@ -46,10 +46,13 @@ export interface RankCache {
   [property: string]: number;
 }
 
+export type UnitFactory = (property: string) => string | undefined;
+
 export interface ProcessOptions {
   deterministic?: boolean;
   rankings?: RankCache;
   rtl?: boolean;
+  unit?: string | UnitFactory;
   vendor?: boolean;
 }
 

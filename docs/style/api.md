@@ -8,15 +8,17 @@ Most render methods support the following options. Read the documentation on [op
 for more information.
 
 - `deterministic` (`boolean`) - Generate class names using a deterministic hash (`c1sjakp`) instead
-  of an auto-incremented value (`a1`). Useful for scenarios like unit tests.
+  of an auto-incremented value (`a1`). Useful for scenarios like unit tests. Defaults to `false`.
 - `rankings` (`object`) - An empty object to use for specificity ranking cache lookups. Useful for
   ensuring the correct specificity when order of declarations change.
 - `rtl` (`boolean`) - Convert and swap LTR (left-to-right) based declarations to RTL
-  (right-to-left).
+  (right-to-left). Defaults to `false`.
 - `selector` (`string`) - A CSS selector to scope the declaration(s) within. This is handled
   automatically when using [rules](#renderrule).
+- `unit` (`string | (prop: string) => string`) - A unit to append to numerical values. Can be a
+  string or a function that returns a string. Defaults to `px`.
 - `vendor` (`boolean`) - Apply vendor prefixes to properties and values that require it. We prefix
-  features for browsers with >= 1% market share.
+  features for browsers with >= 1% market share. Defaults to `false`.
 
 ### `applyRootVariables`
 

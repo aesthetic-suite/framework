@@ -82,6 +82,62 @@ const className = renderer.renderRule(
 > [RTL guidelines](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/RTL_Guidelines)
 > for more information on these and how to properly mirror content.
 
+## Unit suffixes
+
+Defining a property value using a number (`10`) instead of a unit suffixed number (`10px`) is easier
+to read and write, and as such, Aesthetic supports this pattern. By default, all numerical values
+are automatically suffixed with `px`, unless the property in question requires no unit.
+
+```ts
+const className = renderer.renderRule({
+  marginLeft: 10,
+  lineHeight: 1.25,
+}); // -> a b
+
+// .a { margin-left: 10px; }
+// .b { line-height: 1.25; }
+```
+
+Units can be customized when [rendering](./api.md) by using the `unit` option. This option accepts a
+string, or a function that returns a string, in which the unit can be changed based on property name
+(in kebab-case).
+
+```ts
+// All units as "rem"
+const className = renderer.renderRule(
+  {
+    marginLeft: 10,
+    paddingBottom: 15,
+  },
+  {
+    unit: 'rem',
+  },
+); // -> a b
+
+// .a { margin-left: 10rem; }
+// .b { padding-bottom: 15rem; }
+```
+
+```ts
+// Different unit per property
+const className = renderer.renderRule(
+  {
+    marginLeft: 10,
+    paddingBottom: 15,
+  },
+  {
+    unit(prop) {
+      if (prop === 'margin-left') return 'em';
+      if (prop === 'padding-bottom') return '%';
+      // Otherwise px
+    },
+  },
+); // -> a b
+
+// .a { margin-left: 10em; }
+// .b { padding-bottom: 15%; }
+```
+
 ## Vendor prefixes
 
 Aesthetic implements a custom runtime for

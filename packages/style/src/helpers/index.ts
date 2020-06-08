@@ -13,6 +13,7 @@ import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
 import isPrefixed from './isPrefixed';
 import isSupportsRule from './isSupportsRule';
+import isUnitlessProperty from './isUnitlessProperty';
 import isVariable from './isVariable';
 import prefixSelector from './prefixSelector';
 import prefixValue from './prefixValue';
@@ -35,6 +36,7 @@ export {
   isNestedSelector,
   isPrefixed,
   isSupportsRule,
+  isUnitlessProperty,
   isVariable,
   prefixSelector,
   prefixValue,

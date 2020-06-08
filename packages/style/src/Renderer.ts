@@ -20,6 +20,7 @@ import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
 import prefixSelector from './helpers/prefixSelector';
 import processProperties from './helpers/processProperties';
+import processValue from './helpers/processValue';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
@@ -52,6 +53,7 @@ function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
     rtl: false,
     selector: '',
     type: 'standard',
+    unit: 'px',
     vendor: false,
     ...options,
   };
@@ -113,7 +115,7 @@ export default abstract class Renderer {
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
-    let val = String(value);
+    let val = processValue(key, value, opts.unit);
 
     if (options.rtl) {
       key = getPropertyDoppelganger(key);

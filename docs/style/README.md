@@ -22,6 +22,7 @@ engine. It can be used stand-alone but has been designed to power additional abs
 - Deterministic or atomic incremental CSS class names.
 - Right-to-left (RTL) integration.
 - Vendor prefixing for browsers with >= 1% market share.
+- Unit suffixing for numerical values.
 - First-class CSS variables support.
 - Server-side rendering _and_ client-side hydration.
 - Framework and library agnostic. Can be used stand-alone.
@@ -29,6 +30,5 @@ engine. It can be used stand-alone but has been designed to power additional abs
 ## What it does not provide
 
 - A plugin system, as such a system would degrade performance.
-- Numerical values are not automatically suffixed with a unit (`px`, etc).
 - Rendering of styles in the global scope: `div`, `a`, etc.
 - Rendering of uncommon at-rules: `@namespace`, `@document`, `@page`, `@viewport`.

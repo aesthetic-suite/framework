@@ -407,4 +407,67 @@ describe('Styles', () => {
       );
     });
   });
+
+  describe('unit suffixes', () => {
+    it('adds suffix to number values', () => {
+      renderer.renderRule({
+        marginLeft: '10px',
+        marginRight: 20,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('doesnt suffix 0 values', () => {
+      renderer.renderRule({
+        margin: 0,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('doesnt suffix unitless values', () => {
+      renderer.renderRule({
+        lineHeight: 1.25,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('can customize with a string `unit` option', () => {
+      renderer.renderRule(
+        {
+          marginLeft: '10px',
+          marginRight: 20,
+        },
+        {
+          unit: 'rem',
+        },
+      );
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('can customize with a function `unit` option', () => {
+      renderer.renderRule(
+        {
+          margin: 10,
+          padding: 20,
+          fontSize: 16,
+          width: 100,
+        },
+        {
+          unit(prop) {
+            if (prop.includes('margin')) return '%';
+            if (prop.includes('padding')) return 'rem';
+            if (prop === 'font-size') return 'pt';
+
+            return 'px';
+          },
+        },
+      );
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+  });
 });
