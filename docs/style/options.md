@@ -90,10 +90,10 @@ values, and value functions, as we need full control of the implementation and b
 Currently, features and browsers that are _not dead_ and have _>= 1% market share_ will apply vendor
 prefixes.
 
-Prefixes can be enabled when [rendering](./api.md) by using the `prefix` option.
+Prefixes can be enabled when [rendering](./api.md) by using the `vendor` option.
 
 ```ts
-// Without prefixing
+// Without vendor prefixing
 const className = renderer.renderRule({
   appearance: 'none',
   minWidth: 'fit-content',
@@ -104,13 +104,13 @@ const className = renderer.renderRule({
 ```
 
 ```ts
-// With prefixing
+// With vendor prefixing
 const className = renderer.renderRule(
   {
     appearance: 'none',
     minWidth: 'fit-content',
   },
-  { prefix: true },
+  { vendor: true },
 ); // -> a b
 
 // .a {

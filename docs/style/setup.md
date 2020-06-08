@@ -4,6 +4,6 @@
 
 ## Usage
 
-## Insertion order
+## Style sheet order
 
 ## Development vs production

@@ -21,7 +21,7 @@ engine. It can be used stand-alone but has been designed to power additional abs
 - Style declarations support pseudos, attributes, conditional at-rules, and nested declarations.
 - Deterministic or atomic incremental CSS class names.
 - Right-to-left (RTL) integration.
-- Automatic vendor prefixing for browsers with >= 1% market share.
+- Vendor prefixing for browsers with >= 1% market share.
 - First-class CSS variables support.
 - Server-side rendering _and_ client-side hydration.
 - Framework and library agnostic. Can be used stand-alone.

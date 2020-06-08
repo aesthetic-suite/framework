@@ -48,9 +48,9 @@ export interface RankCache {
 
 export interface ProcessOptions {
   deterministic?: boolean;
-  prefix?: boolean;
   rankings?: RankCache;
   rtl?: boolean;
+  vendor?: boolean;
 }
 
 export interface RenderOptions extends ProcessOptions {

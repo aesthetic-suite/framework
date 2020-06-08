@@ -275,16 +275,16 @@ describe('Styles', () => {
 
   it('applies vendor prefixes to a property under a single class name', () => {
     // Value prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('min-width', 'fit-content', { prefix: true });
+    renderer.renderDeclaration('min-width', 'fit-content', { vendor: true });
 
     // Value function prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('background', 'image-set()', { prefix: true });
+    renderer.renderDeclaration('background', 'image-set()', { vendor: true });
 
     // Property prefixing
-    renderer.renderDeclaration('appearance', 'none', { prefix: true });
+    renderer.renderDeclaration('appearance', 'none', { vendor: true });
 
     // Selector prefixing
-    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', prefix: true });
+    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', vendor: true });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
@@ -299,7 +299,7 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        prefix: true,
+        vendor: true,
         rtl: false,
       },
     );
@@ -314,7 +314,7 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        prefix: true,
+        vendor: true,
         rtl: true,
       },
     );
@@ -366,7 +366,7 @@ describe('Styles', () => {
     });
 
     it('can vendor prefix applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { prefix: true });
+      const className = renderer.renderRuleGrouped(rule, { vendor: true });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();

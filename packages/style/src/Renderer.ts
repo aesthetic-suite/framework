@@ -48,11 +48,11 @@ function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
     className: '',
     conditions: [],
     deterministic: false,
-    prefix: false,
     rankings: {},
     rtl: false,
     selector: '',
     type: 'standard',
+    vendor: false,
     ...options,
   };
 }
@@ -132,7 +132,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       options.selector,
-      processProperties({ [key]: val }, { prefix: options.prefix }),
+      processProperties({ [key]: val }, { vendor: options.vendor }),
     );
 
     const className =
@@ -145,7 +145,7 @@ export default abstract class Renderer {
 
     // Persist the max ranking
     const rank = this.insertRule(
-      options.prefix && options.selector ? prefixSelector(options.selector, classRule) : classRule,
+      options.vendor && options.selector ? prefixSelector(options.selector, classRule) : classRule,
       options,
     );
 
@@ -253,7 +253,7 @@ export default abstract class Renderer {
       const classRule = `.${className}${rule}`;
 
       this.insertRule(
-        options.prefix && options.selector
+        options.vendor && options.selector
           ? prefixSelector(options.selector, classRule)
           : classRule,
         options,
