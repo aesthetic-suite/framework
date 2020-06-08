@@ -72,7 +72,6 @@ describe('Conditions', () => {
     it('sorts media queries using desktop-first', () => {
       const block = { padding: 0 };
 
-      // @ts-ignore
       renderer.conditionsStyleSheet.desktopFirst = true;
 
       renderer.renderRule({

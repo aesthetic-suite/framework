@@ -40,7 +40,7 @@ export function resetInput(): DeclarationBlock {
     margin: 0,
     padding: 0,
     width: '100%',
-    // @ts-ignore
+    // @ts-expect-error
     '::-moz-focus-outer': {
       border: 0,
     },

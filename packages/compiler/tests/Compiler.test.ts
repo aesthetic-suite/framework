@@ -56,7 +56,7 @@ describe('Compiler', () => {
       expect(
         () =>
           new Compiler(CONFIG_PATH, './unknown-target', {
-            // @ts-ignore Allow
+            // @ts-expect-error
             platform: 'osx',
             format: 'web-js',
           }),
@@ -68,7 +68,7 @@ describe('Compiler', () => {
         () =>
           new Compiler(CONFIG_PATH, './unknown-target', {
             platform: 'web',
-            // @ts-ignore Allow
+            // @ts-expect-error
             format: 'web-tsx',
           }),
       ).toThrow(

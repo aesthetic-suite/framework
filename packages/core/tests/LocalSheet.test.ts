@@ -39,7 +39,7 @@ describe('LocalSheet', () => {
     expect(
       () =>
         new LocalSheet(
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');
@@ -176,7 +176,7 @@ describe('LocalSheet', () => {
     it('errors for invalid color scheme name', () => {
       expect(() => {
         sheet.addColorSchemeVariant(
-          // @ts-ignore Allow
+          // @ts-expect-error
           'unknown',
           () => ({}),
         );
@@ -186,7 +186,7 @@ describe('LocalSheet', () => {
     it('errors for invalid contrast name', () => {
       expect(() => {
         sheet.addContrastVariant(
-          // @ts-ignore Allow
+          // @ts-expect-error
           'unknown',
           () => ({}),
         );

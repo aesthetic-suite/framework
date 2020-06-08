@@ -86,7 +86,7 @@ describe('ContextualThemeProvider', () => {
     const wrapper = root.findOne('div');
 
     expect(wrapper).toHaveProp('className', 'theme-night');
-    // @ts-ignore Data props not typed
+    // @ts-expect-error Data props not typed
     expect(wrapper).toHaveProp('data-theme', 'night');
   });
 

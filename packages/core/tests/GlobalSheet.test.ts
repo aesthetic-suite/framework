@@ -46,7 +46,7 @@ describe('GlobalSheet', () => {
     expect(
       () =>
         new GlobalSheet(
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');

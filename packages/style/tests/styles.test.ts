@@ -166,11 +166,10 @@ describe('Styles', () => {
 
   it('ignores invalid values', () => {
     const className = renderer.renderRule({
-      // @ts-ignore
+      // @ts-expect-error
       margin: true,
-      // @ts-ignore
+      // @ts-expect-error
       padding: null,
-      // @ts-ignore
       color: undefined,
     });
 
@@ -195,7 +194,7 @@ describe('Styles', () => {
 
   it('logs a warning for unknown property values', () => {
     renderer.renderRule({
-      // @ts-ignore
+      // @ts-expect-error
       color: true,
     });
 

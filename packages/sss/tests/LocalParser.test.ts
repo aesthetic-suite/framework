@@ -37,7 +37,7 @@ describe('LocalParser', () => {
   it('errors for invalid value type', () => {
     expect(() => {
       parser.parse({
-        // @ts-ignore Allow invalid type
+        // @ts-expect-error
         el: 123,
       });
     }).toThrow(
@@ -175,7 +175,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           selector: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             ':hover': 123,
           },
         });
@@ -186,7 +186,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           selector: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             ':hover, :focus': {},
           },
         });
@@ -203,7 +203,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@fallbacks': 123,
           },
         });
@@ -239,7 +239,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@media': 123,
           },
         });
@@ -317,7 +317,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@selectors': 123,
           },
         });
@@ -446,7 +446,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@supports': 123,
           },
         });
@@ -491,7 +491,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           vars: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@variables': 123,
           },
         });

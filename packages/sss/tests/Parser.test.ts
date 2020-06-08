@@ -56,7 +56,7 @@ describe('Parser', () => {
     });
 
     it('can customize unit', () => {
-      // @ts-ignore Allow
+      // @ts-expect-error
       parser.options.unit = 'em';
 
       expect(parser.wrapValueWithUnit('width', 100)).toBe('100em');

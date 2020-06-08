@@ -9,7 +9,7 @@ describe('Aesthetic', () => {
   beforeEach(() => {
     aesthetic = new Aesthetic();
 
-    // @ts-ignore Only need to mock matches
+    // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
   });
 
@@ -22,12 +22,12 @@ describe('Aesthetic', () => {
 
     aesthetic.subscribe('change:theme', spy);
 
-    // @ts-ignore Allow
+    // @ts-expect-error
     expect(aesthetic.listeners['change:theme'].has(spy)).toBe(true);
 
     aesthetic.unsubscribe('change:theme', spy);
 
-    // @ts-ignore Allow
+    // @ts-expect-error
     expect(aesthetic.listeners['change:theme'].has(spy)).toBe(false);
   });
 
@@ -204,7 +204,6 @@ describe('Aesthetic', () => {
 
       aesthetic.registerTheme('day', lightTheme, sheet);
 
-      // @ts-ignore Allow
       expect(aesthetic.globalSheetRegistry.get('day')).toBe(sheet);
     });
 
@@ -213,7 +212,7 @@ describe('Aesthetic', () => {
         aesthetic.registerTheme(
           'day',
           lightTheme,
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         );
       }).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
@@ -256,7 +255,7 @@ describe('Aesthetic', () => {
     it('errors if sheet is not a `LocalSheet` instance', () => {
       expect(() => {
         aesthetic.renderComponentStyles(
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         );
       }).toThrow('Rendering component styles require a `LocalSheet` instance.');

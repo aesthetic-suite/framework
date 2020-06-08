@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import { Path } from '@boost/common';
 import ConfigLoader from '../src/ConfigLoader';
 import SystemDesign from '../src/SystemDesign';

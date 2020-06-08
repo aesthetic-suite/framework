@@ -78,7 +78,7 @@ describe('Conditions', () => {
 
     expect(sheet.buffer()).toEqual([]);
     expect(sheet.lastIndex).toBe(2);
-    // @ts-ignore Allow access
+    // @ts-expect-error
     expect(sheet.rafHandle).toBe(0);
     expect(nativeSheet.cssRules).toHaveLength(3);
   });
