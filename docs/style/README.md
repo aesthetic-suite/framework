@@ -12,7 +12,7 @@ engine. It can be used stand-alone but has been designed to power additional abs
 
 ## What it provides
 
-- Atomic based CSS. One property per class name.
+- Atomic based CSS. One declaration per class name.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
 - Media and support queries are grouped and rendered after normal declarations.
@@ -27,8 +27,16 @@ engine. It can be used stand-alone but has been designed to power additional abs
 - Server-side rendering _and_ client-side hydration.
 - Framework and library agnostic. Can be used stand-alone.
 
-## What it does not provide
+## What it _does not_ provide
 
 - A plugin system, as such a system would degrade performance.
 - Rendering of styles in the global scope: `div`, `a`, etc.
 - Rendering of uncommon at-rules: `@namespace`, `@document`, `@page`, `@viewport`.
+
+## Benefits
+
+TODO
+
+## Caveats
+
+TODO

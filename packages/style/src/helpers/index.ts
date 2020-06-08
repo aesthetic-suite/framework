@@ -19,6 +19,7 @@ import prefixSelector from './prefixSelector';
 import prefixValue from './prefixValue';
 import prefixValueFunction from './prefixValueFunction';
 import processProperties from './processProperties';
+import processValue from './processValue';
 
 export {
   formatConditions,
@@ -42,4 +43,5 @@ export {
   prefixValue,
   prefixValueFunction,
   processProperties,
+  processValue,
 };

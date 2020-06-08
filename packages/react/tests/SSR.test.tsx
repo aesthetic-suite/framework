@@ -3,7 +3,7 @@
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { aesthetic, LocalSheet, SheetStructure } from '@aesthetic/core';
-import { ServerRenderer } from '@aesthetic/style';
+import { ServerRenderer } from '@aesthetic/style/server';
 import { setupAesthetic, teardownAesthetic, purgeStyles } from '@aesthetic/core/src/testing';
 import { useStyles, ThemeProvider } from '../src';
 import { createStyleSheet, ButtonProps } from './__mocks__/Button';

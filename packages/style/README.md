@@ -43,7 +43,7 @@ const className = renderer.renderRule(
 ## Features
 
 - 6.1kb minified and gzipped (38.6kb original).
-- Atomic based CSS. One property per class name.
+- Atomic based CSS. One declaration per class name.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
 - Media and support queries are grouped and rendered after normal declarations.

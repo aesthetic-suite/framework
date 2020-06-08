@@ -244,4 +244,34 @@ const className = renderer.renderRule(
 
 ## Specificity rankings
 
-TODO
+When an application and its CSS grows, the chance for specificity issues gradually arise. For
+example, if class `a` was rendered first, but we need it to override class `b`, which was rendered
+later, this wouldn't be possible with the default atomic cache. To work around this, Aesthetic
+supports the concept of specificity rankings, where each class name is given a rank based on
+insertion order.
+
+```ts
+const a = renderer.renderDeclaration('color', 'red'); // -> a (rank 1)
+const b = renderer.renderDeclaration('color', 'blue'); // -> b (rank 2)
+
+// Will be blue, even though a comes after b
+const className = `${b} ${a}`;
+```
+
+This ranking is not enabled by default, as it does insert duplicate properties to solve specificity
+issues, which results in larger CSS. For example, for `a` to override `b` above, we would simply
+insert a new class with the same declaration as `a`, which would result in a new class of `c` that
+has a higher specificity.
+
+To enable specificity rankings, pass an empty object to the `rankings` option. This object acts a
+cache and lookup for rank resolutions.
+
+```ts
+const rankings = {};
+const a = renderer.renderDeclaration('color', 'red', { rankings }); // -> a (rank 1)
+const b = renderer.renderDeclaration('color', 'blue', { rankings }); // -> b (rank 2)
+const c = renderer.renderDeclaration('color', 'red', { rankings }); // -> c (rank 3)
+
+// Will be red since c overrides all
+const className = `${b} ${a} ${c}`;
+```

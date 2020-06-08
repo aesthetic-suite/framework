@@ -5,14 +5,15 @@ of setup on both ends.
 
 ## Server
 
-On the server, we'll need to import and instantiate the `ServerRenderer` to extract critical CSS
-with `extractStyles()`. We can do this as part of the React DOM server rendering process. In the
-example below, we'll use [Express](https://expressjs.com/) as our server.
+On the server, we'll need to import and instantiate the `ServerRenderer` from
+`@aesthetic/style/server` to extract critical CSS with `extractStyles()`. We can do this as part of
+the React DOM server rendering process. In the example below, we'll use
+[Express](https://expressjs.com/) as our server.
 
 ```tsx
 import express from 'express';
 import ReactDOMServer from 'react-dom/server';
-import { ServerRenderer } from '@aesthetic/style';
+import { ServerRenderer } from '@aesthetic/style/server';
 import App from './path/to/client/App';
 
 const server = express();

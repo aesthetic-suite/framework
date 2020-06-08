@@ -42,8 +42,13 @@ export default abstract class BaseStyleSheet {
   }
 
   protected injectRule = (rule: string, index: number) => {
-    this.sheet.insertRule(rule, index);
-    this.lastIndex = this.sheet.cssRules.length - 1;
+    // istanbul ignore next
+    if (process.env.NODE_ENV === 'development') {
+      this.sheet.textContent += rule;
+    } else {
+      this.sheet.insertRule(rule, index);
+      this.lastIndex = this.sheet.cssRules.length - 1;
+    }
   };
 
   protected flushRules = () => {

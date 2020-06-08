@@ -1,4 +1,5 @@
-import { ClientRenderer, ServerRenderer } from '@aesthetic/style';
+import { ClientRenderer } from '@aesthetic/style';
+import { ServerRenderer } from '@aesthetic/style/server';
 import Aesthetic from '../src/Aesthetic';
 import { LocalSheet, GlobalSheet } from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';

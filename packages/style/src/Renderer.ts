@@ -65,6 +65,15 @@ function persistRank(options: Required<RenderOptions>, property: string, rank: n
   }
 }
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      AESTHETIC_CUSTOM_RENDERER: Renderer;
+    }
+  }
+}
+
 export default abstract class Renderer {
   readonly classNameCache = new AtomicCache();
 

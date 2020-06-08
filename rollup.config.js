@@ -64,6 +64,29 @@ packages.forEach((pkg) => {
     ],
   });
 
+  if (pkg === 'style') {
+    targets.push({
+      input: `packages/${pkg}/src/server.ts`,
+      output: [
+        {
+          file: `packages/${pkg}/lib/server.js`,
+          format: 'cjs',
+        },
+        {
+          file: `packages/${pkg}/esm/server.js`,
+          format: 'esm',
+        },
+      ],
+      plugins: [
+        externals({
+          deps: true,
+          packagePath: path.resolve(`packages/${pkg}/package.json`),
+        }),
+        ...webPlugins,
+      ],
+    });
+  }
+
   if (fs.existsSync(`packages/${pkg}/src/testing.ts`)) {
     targets.push({
       external: ['@aesthetic/style/lib/testing', '@aesthetic/system/lib/testing', './index'],
