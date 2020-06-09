@@ -27,7 +27,7 @@ export interface Rule extends DeclarationBlock {
   [key: string]: Rule | Value | unknown;
 }
 
-export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
+export type FontFace = CSS.FontFace;
 
 export interface Keyframes {
   [percent: string]: Properties | undefined;

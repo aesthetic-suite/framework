@@ -24,7 +24,7 @@ const renderer = new ClientRenderer();
 
 You can then render CSS declarations and rulesets to generate atomic class names (1 class name per
 declaration). Rendered styles are batched and inserted every animation frame, in an effort to reduce
-paints and layout tearing.
+repaints and layout tearing.
 
 ```ts
 const className = renderer.renderRule({
@@ -46,18 +46,21 @@ const className = renderer.renderRule({
 ```
 
 That's about it, basic right? If you're looking for more advanced techniques, patterns, and usage,
-take a look at the [rendering concepts](./concepts.md) and [API documentation](./api.md).
+continue reading the following chapters.
+
+- [Rendering concepts](./concepts.md)
+- [Features & options](./options.md)
+- [API](./api.md)
 
 ## Style sheet order
 
 The renderer implements a unique approach around managing `<style />` elements, as it uses 3
 elements unlike most competitors which use 1. By using multiple elements, we can ensure proper
-specificity and ordering of styles. In order of insertion, the style sheets are:
+specificity and ordering of styles. In document order, the style sheets are:
 
 - **Globals** are the 1st style sheet. Primarily used for rendering root level at-rules like
   `@font-face` and `@keyframes`, but can house anything.
-- **Standard rules** are the 2nd style sheet. This is where most CSS declarations and rules are
-  rendered.
+- **Standard rules** are the 2nd style sheet. This is where most CSS declarations are rendered.
 - **Conditional rules** are the 3rd and final style sheet. Only renders `@media` and `@supports`
   rules to ensure their styles override the standard styles. Media queries are also
   [sorted based on their query](https://www.npmjs.com/package/sort-css-media-queries).

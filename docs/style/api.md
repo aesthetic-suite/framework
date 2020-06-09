@@ -142,8 +142,8 @@ const className = renderer.renderRuleGrouped({
 
 > Renderer#renderFontFace(fontFace: FontFace, options?: RenderOptions): string
 
-Renders a _font face object_ as a `@font-face` at-rule and returns the font family name. The
-`fontFamily` property is required.
+Renders a _font face object_ as a `@font-face` at-rule and returns the font family name. If the
+`fontFamily` property is not defined, a unique collision-free one will be generated.
 
 ```ts
 const fontFamily = renderer.renderFontFace({

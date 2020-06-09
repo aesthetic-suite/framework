@@ -36,7 +36,3 @@ engine. It can be used stand-alone but has been designed to power additional abs
 ## Benefits
 
 TODO
-
-## Caveats
-
-TODO

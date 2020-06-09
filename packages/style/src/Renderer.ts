@@ -178,15 +178,22 @@ export default abstract class Renderer {
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
   renderFontFace(fontFace: FontFace, options: ProcessOptions = {}): string {
-    if (__DEV__) {
-      if (!fontFace.fontFamily) {
-        throw new Error('Font faces require a font family.');
-      }
-    }
+    const fontFamily =
+      fontFace.fontFamily ||
+      `ff${generateHash(formatDeclarationBlock(fontFace as GenericProperties))}`;
 
-    this.insertAtRule('@font-face', processProperties(fontFace as Properties, options));
+    this.insertAtRule(
+      '@font-face',
+      processProperties(
+        {
+          ...fontFace,
+          fontFamily,
+        } as Properties,
+        options,
+      ),
+    );
 
-    return fontFace.fontFamily;
+    return fontFamily;
   }
 
   /**
