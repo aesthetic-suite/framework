@@ -1,25 +1,18 @@
 /* eslint-disable no-dupe-class-members */
 
-import {
-  ClientRenderer,
-  CSSVariables,
-  FontFace,
-  Keyframes,
-  ProcessOptions,
-  Renderer,
-} from '@aesthetic/style';
+import { ClientRenderer, ProcessOptions, Renderer } from '@aesthetic/style';
 import {
   FontFace as SSSFontFace,
   Import as SSSImport,
   formatFontFace,
   formatImport,
 } from '@aesthetic/sss';
-import { Theme, ThemeName, ThemeRegistry } from '@aesthetic/system';
+import { Theme, ThemeRegistry } from '@aesthetic/system';
 import { isSSR } from '@aesthetic/utils';
+import { ClassName, ThemeName, FontFace, Keyframes, Variables } from '@aesthetic/types';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import {
-  ClassName,
   LocalSheetFactory,
   GlobalSheetFactory,
   SheetParams,
@@ -59,7 +52,7 @@ export default class Aesthetic {
     this.activeTheme = name;
 
     // Apply theme variables to `:root`
-    this.renderer.applyRootVariables((theme.toVariables() as unknown) as CSSVariables);
+    this.renderer.applyRootVariables((theme.toVariables() as unknown) as Variables);
 
     // Render theme styles and append a `body` class name
     const themeClassName = this.renderThemeStyles(theme);

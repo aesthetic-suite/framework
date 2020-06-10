@@ -1,4 +1,5 @@
-import { Property, OnProcessProperty, Processor, Value } from '../types';
+import { Property, Value } from '@aesthetic/types';
+import { OnProcessProperty, Processor } from '../types';
 
 export default function processCompoundProperty<T extends object>(
   property: Property,

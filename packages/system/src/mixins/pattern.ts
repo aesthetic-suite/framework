@@ -1,12 +1,12 @@
-import { DeclarationBlock } from '@aesthetic/sss';
+import { Declarations } from '@aesthetic/types';
 
-export function hidden(): DeclarationBlock {
+export function hidden(): Declarations {
   return {
     display: 'none',
   };
 }
 
-export function hiddenOffscreen(): DeclarationBlock {
+export function hiddenOffscreen(): Declarations {
   return {
     clipPath: 'rect(1px, 1px, 1px, 1px)',
     height: 1,
@@ -17,7 +17,7 @@ export function hiddenOffscreen(): DeclarationBlock {
   };
 }
 
-export function resetButton(): DeclarationBlock {
+export function resetButton(): Declarations {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
@@ -33,7 +33,7 @@ export function resetButton(): DeclarationBlock {
   };
 }
 
-export function resetInput(): DeclarationBlock {
+export function resetInput(): Declarations {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
@@ -47,7 +47,7 @@ export function resetInput(): DeclarationBlock {
   };
 }
 
-export function resetList(): DeclarationBlock {
+export function resetList(): Declarations {
   return {
     listStyle: 'none',
     margin: 0,
@@ -55,7 +55,7 @@ export function resetList(): DeclarationBlock {
   };
 }
 
-export function resetTypography(): DeclarationBlock {
+export function resetTypography(): Declarations {
   return {
     fontFamily: 'inherit',
     fontWeight: 'normal',
@@ -63,7 +63,7 @@ export function resetTypography(): DeclarationBlock {
   };
 }
 
-export function textBreak(): DeclarationBlock {
+export function textBreak(): Declarations {
   return {
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
@@ -71,7 +71,7 @@ export function textBreak(): DeclarationBlock {
   };
 }
 
-// export function root({ typography }: Tokens): DeclarationBlock {
+// export function root({ typography }: Tokens): Declarations {
 //   return {
 //     fontFamily: typography.font.text,
 //     fontSize: typography.rootTextSize,
@@ -85,7 +85,7 @@ export function textBreak(): DeclarationBlock {
 //   };
 // }
 
-export function textTruncate(): DeclarationBlock {
+export function textTruncate(): Declarations {
   return {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -93,7 +93,7 @@ export function textTruncate(): DeclarationBlock {
   };
 }
 
-export function textWrap(): DeclarationBlock {
+export function textWrap(): Declarations {
   return {
     overflowWrap: 'normal',
     wordWrap: 'normal',

@@ -1,7 +1,8 @@
+import { CSS } from '@aesthetic/types';
 import { MEDIA_RULE } from '../constants';
 import { Condition } from '../types';
 
-export default function formatConditions(rule: string, conditions: Condition[]): string {
+export default function formatConditions(rule: CSS, conditions: Condition[]): CSS {
   return conditions
     .reverse()
     .reduce(

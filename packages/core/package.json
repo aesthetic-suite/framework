@@ -22,6 +22,7 @@
     "@aesthetic/sss": "^0.1.3",
     "@aesthetic/style": "^0.1.4",
     "@aesthetic/system": "^0.1.3",
+    "@aesthetic/types": "^0.0.0",
     "@aesthetic/utils": "^0.1.2"
   },
   "funding": {

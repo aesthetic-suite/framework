@@ -1,5 +1,6 @@
+import { Property, Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import { Property, OnProcessProperty, Value, Processor } from '../types';
+import { OnProcessProperty, Processor } from '../types';
 
 export default function processExpandedProperty<T extends object>(
   property: Property,

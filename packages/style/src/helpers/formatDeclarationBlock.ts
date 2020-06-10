@@ -1,6 +1,6 @@
+import { CSS, GenericProperties, Variables } from '@aesthetic/types';
 import { objectReduce } from '@aesthetic/utils';
 import formatDeclaration from './formatDeclaration';
-import { GenericProperties, CSSVariables } from '../types';
 import formatVariable from './formatVariable';
 
 /**
@@ -9,8 +9,8 @@ import formatVariable from './formatVariable';
  */
 export default function formatDeclarationBlock(
   properties: GenericProperties,
-  variables?: CSSVariables,
-): string {
+  variables?: Variables,
+): CSS {
   let css = '';
 
   if (variables) {

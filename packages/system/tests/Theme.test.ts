@@ -132,6 +132,13 @@ describe('Theme', () => {
     it('returns tokens as a flat object of CSS variables', () => {
       expect(lightTheme.toVariables()).toMatchSnapshot();
     });
+
+    it('caches and returns same instance', () => {
+      const a = lightTheme.toVariables();
+      const b = lightTheme.toVariables();
+
+      expect(a).toBe(b);
+    });
   });
 
   describe('unit()', () => {

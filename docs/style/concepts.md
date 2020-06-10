@@ -172,7 +172,7 @@ const rule: Rule = {
 #### Variables
 
 Variables, also known as
-[custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
+[custom properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties),
 are a feature that allows for specific values to be reused throughout the CSS document. CSS
 variables defined within a rule are scoped to the element in which the class is applied to, not the
 document root.
@@ -192,7 +192,7 @@ const rule: Rule = {
 Root level variables can be defined with the [applyRootVariables()](./api.md#applyrootvariables)
 method.
 
-### Font Faces
+### Font faces
 
 Font faces allow for [custom fonts](https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face) to
 be used, are represented by the `@font-face` at-rule, and are defined using a _font face object_.

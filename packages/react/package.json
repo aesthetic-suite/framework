@@ -20,16 +20,16 @@
     "access": "public"
   },
   "dependencies": {
+    "@aesthetic/core": "^0.1.4",
+    "@aesthetic/types": "^0.0.0",
     "@aesthetic/utils": "^0.1.2",
     "direction": "^1.0.4",
     "hoist-non-react-statics": "^3.3.2"
   },
   "peerDependencies": {
-    "@aesthetic/core": "^0.1.0",
     "react": "^16.6.0"
   },
   "devDependencies": {
-    "@aesthetic/core": "^0.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

@@ -46,7 +46,7 @@ describe('LocalParser', () => {
   });
 
   it('renders a full block', () => {
-    parser.on('ruleset', spy);
+    parser.on('rule', spy);
     parser.parse({
       selector: SYNTAX_LOCAL_BLOCK,
     });

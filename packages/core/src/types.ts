@@ -5,12 +5,8 @@ import {
   LocalStyleSheetNeverize,
   LocalBlock,
 } from '@aesthetic/sss';
-import { ClassName as BaseClassName, UnitFactory } from '@aesthetic/style';
-import { ColorScheme, ContrastLevel, Tokens, ThemeName, Utilities, Unit } from '@aesthetic/system';
-
-export type Direction = 'neutral' | 'ltr' | 'rtl';
-
-export type ClassName = BaseClassName;
+import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
+import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 
 export type ClassNameSheet<T extends string> = { [K in T]?: ClassName };
 

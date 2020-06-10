@@ -22,7 +22,7 @@ import { ClientRenderer } from '@aesthetic/style';
 const renderer = new ClientRenderer();
 ```
 
-You can then render CSS declarations and rulesets to generate atomic class names (1 class name per
+You can then render CSS declarations and rules to generate atomic class names (1 class name per
 declaration). Rendered styles are batched and inserted every animation frame, in an effort to reduce
 repaints and layout tearing.
 

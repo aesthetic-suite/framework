@@ -1,5 +1,5 @@
+import { CSS, GenericProperties, Variables } from '@aesthetic/types';
 import formatDeclarationBlock from './formatDeclarationBlock';
-import { GenericProperties, CSSVariables } from '../types';
 
 /**
  * Format a property value pair into a full CSS rule with brackets and optional selector.
@@ -8,7 +8,7 @@ import { GenericProperties, CSSVariables } from '../types';
 export default function formatRule(
   selector: string | undefined,
   properties: GenericProperties,
-  variables?: CSSVariables,
-): string {
+  variables?: Variables,
+): CSS {
   return `${selector || ''} { ${formatDeclarationBlock(properties, variables)} }`;
 }

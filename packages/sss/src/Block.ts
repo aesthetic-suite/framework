@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-class-members, lines-between-class-members */
 
+import { Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import { Value } from './types';
 
 export default class Block<T extends object = object> {
   readonly nested: { [selector: string]: Block<T> } = {};

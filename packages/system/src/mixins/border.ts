@@ -1,8 +1,8 @@
-import { DeclarationBlock } from '@aesthetic/sss';
+import { Declarations } from '@aesthetic/types';
 import { BorderSize, VarUtil } from '../types';
 import { LAYOUT_SHADES } from '../constants';
 
-export function border(vars: VarUtil, size: BorderSize): DeclarationBlock {
+export function border(vars: VarUtil, size: BorderSize): Declarations {
   return {
     borderColor: vars(
       `palette-neutral-color-${LAYOUT_SHADES.border}` as 'palette-neutral-color-30',

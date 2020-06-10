@@ -97,14 +97,14 @@ describe('Block', () => {
   });
 
   describe('merge()', () => {
-    it('inherits properties from ruleset', () => {
+    it('inherits properties from rule', () => {
       instance.addProperty('color', 'red').addProperty('display', 'block');
 
-      const ruleset = createBlock('nested')
+      const rule = createBlock('nested')
         .addProperty('color', 'blue')
         .addProperty('background', 'white');
 
-      instance.merge(ruleset);
+      instance.merge(rule);
 
       expect(instance.toObject()).toEqual({
         color: 'blue',
@@ -113,7 +113,7 @@ describe('Block', () => {
       });
     });
 
-    it('inherits nested from ruleset', () => {
+    it('inherits nested from rule', () => {
       // Base
       const hover = createBlock(':hover').addProperty('color', 'black');
       const active = createBlock(':active').addProperty('color', 'blue');

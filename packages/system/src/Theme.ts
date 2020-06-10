@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { DeclarationBlock } from '@aesthetic/sss';
+import { Declarations } from '@aesthetic/types';
 import { deepClone, deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
+import createMixins from './createMixins';
 import {
   ColorScheme,
   ContrastLevel,
@@ -18,7 +19,6 @@ import {
   MixinUtil,
   Utilities,
 } from './types';
-import createMixins from './createMixins';
 
 interface AnyObject {
   [key: string]: any;
@@ -68,11 +68,7 @@ export default class Theme {
   /**
    * Extend a mixin with additional CSS properties, and return the new mixin.
    */
-  extendMixin(
-    name: MixinName,
-    properties?: DeclarationBlock,
-    overwrite?: boolean,
-  ): DeclarationBlock {
+  extendMixin(name: MixinName, properties?: Declarations, overwrite?: boolean): Declarations {
     const paths = name.split('-');
     let parent: AnyObject = this.mixins;
     let target: AnyObject = this.mixins;
@@ -109,7 +105,7 @@ export default class Theme {
   /**
    * Overwrite a mixin with a set of custom CSS properties, and return the new mixin.
    */
-  overwriteMixin(name: MixinName, properties: DeclarationBlock): DeclarationBlock {
+  overwriteMixin(name: MixinName, properties: Declarations): Declarations {
     return this.extendMixin(name, properties, true);
   }
 

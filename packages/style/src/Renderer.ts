@@ -2,6 +2,15 @@
 
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 import {
+  ClassName,
+  FontFace,
+  Keyframes,
+  Property,
+  Properties,
+  GenericProperties,
+  Variables,
+} from '@aesthetic/types';
+import {
   arrayReduce,
   hyphenate,
   isObject,
@@ -25,21 +34,7 @@ import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import {
-  ClassName,
-  Condition,
-  CSSVariables,
-  FontFace,
-  GenericProperties,
-  Keyframes,
-  ProcessOptions,
-  Properties,
-  Property,
-  Rule,
-  SheetType,
-  RenderOptions,
-  StyleRule,
-} from './types';
+import { Condition, ProcessOptions, Rule, SheetType, RenderOptions, StyleRule } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -240,7 +235,7 @@ export default abstract class Renderer {
    */
   renderRuleGrouped = (properties: Rule, options: RenderOptions = {}): ClassName => {
     const nestedRules: { [selector: string]: Rule } = {};
-    const cssVariables: CSSVariables = {};
+    const cssVariables: Variables = {};
     const nextProperties: GenericProperties = {};
 
     // Extract all nested rules first as we need to process them *after* properties
@@ -287,10 +282,10 @@ export default abstract class Renderer {
   };
 
   /**
-   * Render a mapping of multiple rule sets in the defined order.
+   * Render a mapping of multiple rules in the defined order.
    * If no order is provided, they will be rendered sequentially.
    */
-  renderRuleSets<T extends { [set: string]: Rule }>(
+  renderRulesOrdered<T extends { [set: string]: Rule }>(
     sets: T,
     inOrder?: (keyof T)[],
     options?: RenderOptions,
@@ -428,5 +423,5 @@ export default abstract class Renderer {
   /**
    * Apply CSS variables to the :root declaration.
    */
-  abstract applyRootVariables(vars: CSSVariables): void;
+  abstract applyRootVariables(vars: Variables): void;
 }

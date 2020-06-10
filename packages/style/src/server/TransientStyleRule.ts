@@ -1,3 +1,4 @@
+import { Variables } from '@aesthetic/types';
 import { arrayReduce } from '@aesthetic/utils';
 import { isImportRule, isMediaRule, isSupportsRule } from '../helpers';
 import {
@@ -8,14 +9,14 @@ import {
   IMPORT_RULE,
   STYLE_RULE,
 } from '../constants';
-import { StyleRule, CSSVariables } from '../types';
+import { StyleRule } from '../types';
 
 export default class TransientStyleRule implements StyleRule {
   conditionText: string = '';
 
   cssRules: StyleRule[] = [];
 
-  cssVariables: CSSVariables<string> = {};
+  cssVariables: Variables<string> = {};
 
   textContent: string = '';
 
