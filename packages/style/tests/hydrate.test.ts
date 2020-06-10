@@ -30,9 +30,7 @@ describe('Hydration', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('adds at-rules to the global cache', () => {

@@ -1,7 +1,7 @@
 import { isObject, objectLoop } from '@aesthetic/utils';
 import Parser, { CommonEvents } from './Parser';
 import Block from './Block';
-import { LocalStyleSheet, ClassNameListener, RulesetListener, ParserOptions } from './types';
+import { LocalStyleSheet, ClassNameListener, RulesetListener } from './types';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
@@ -11,9 +11,7 @@ export interface LocalEvents<T extends object> extends CommonEvents<T> {
 }
 
 export default class LocalParser<T extends object> extends Parser<T, LocalEvents<T>> {
-  parse(styleSheet: LocalStyleSheet, options: ParserOptions = {}) {
-    Object.assign(this.options, options);
-
+  parse(styleSheet: LocalStyleSheet) {
     objectLoop(styleSheet, (declaration, selector) => {
       // At-rule
       if (selector.charAt(0) === '@') {

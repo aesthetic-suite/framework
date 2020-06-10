@@ -1,6 +1,6 @@
 # Specification
 
-## Font Faces
+## Font faces
 
 A font face is a unique declaration used by [`@font-face` at-rules](./global.md#font-face) and
 [local fonts](#fonts). Unlike normal CSS where you define a `src` property, in Aesthetic you define
@@ -198,6 +198,9 @@ const styles: DeclarationBlock = {
   },
 };
 ```
+
+> While parsing, expanded properties will be converted to longhand, to mitigate issues caused by
+> shorthand when dealing with atomic CSS and CSS-in-JS.
 
 ## Selectors
 

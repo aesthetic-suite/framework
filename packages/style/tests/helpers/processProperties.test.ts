@@ -7,14 +7,14 @@ describe('processProperties()', () => {
 
   describe('prefixes', () => {
     it('does nothing for an unsupported property', () => {
-      expect(processProperties({ background: 'none' }, { prefix: true })).toEqual({
+      expect(processProperties({ background: 'none' }, { vendor: true })).toEqual({
         background: 'none',
       });
     });
 
     it('adds vendor prefixed properties for those that need prefixing', () => {
       expect(
-        processProperties({ appearance: 'none', 'user-select': 'none' }, { prefix: true }),
+        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: true }),
       ).toEqual({
         '-ms-appearance': 'none',
         '-moz-appearance': 'none',
@@ -28,7 +28,7 @@ describe('processProperties()', () => {
 
     it('doesnt add vendor prefixed properties for those that need prefixing if `prefix` is false', () => {
       expect(
-        processProperties({ appearance: 'none', 'user-select': 'none' }, { prefix: false }),
+        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: false }),
       ).toEqual({
         appearance: 'none',
         'user-select': 'none',
@@ -39,7 +39,7 @@ describe('processProperties()', () => {
       expect(
         processProperties(
           { 'background-image': 'cross-fade(url(white.png) 0%, url(black.png) 100%);' },
-          { prefix: true },
+          { vendor: true },
         ),
       ).toEqual({
         'background-image': [
@@ -51,7 +51,7 @@ describe('processProperties()', () => {
     });
 
     it('adds vendor prefixed properties for values', () => {
-      expect(processProperties({ 'unicode-bidi': 'isolate' }, { prefix: true })).toEqual({
+      expect(processProperties({ 'unicode-bidi': 'isolate' }, { vendor: true })).toEqual({
         'unicode-bidi': ['-webkit-isolate', 'isolate'],
       });
     });

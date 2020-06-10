@@ -28,7 +28,7 @@
     "@aesthetic/utils": "^0.1.2",
     "@boost/common": "^1.8.5",
     "ejs": "^3.1.3",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^9.0.1",
     "lodash": "^4.17.15",
     "optimal": "^4.2.0",
     "prettier": "^2.0.5"

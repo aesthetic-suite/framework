@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`At-rules @font-face generates a hashed family name if none provided 1`] = `"@font-face {font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\"); font-family: ffweix7s;}"`;
+
 exports[`At-rules @font-face renders and returns family name 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
 exports[`At-rules @import renders all variants 1`] = `"@import url(print.css) print;@import url(a11y.css) speech;@import url(custom.css);@import url(chrome://communicator/skin);@import url(common.css) screen;@import url(landscape.css) screen and (orientation: landscape);"`;

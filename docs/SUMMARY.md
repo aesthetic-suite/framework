@@ -1,12 +1,13 @@
 # Summary
 
-- Guides
+- Packages
   - [Design System](./system/README.md)
     - [Configuration](./system/config.md)
   - [Structured Style Sheets](./sss/README.md)
     - [Specification](./sss/spec.md)
     - [Local Styles](./sss/local.md)
     - [Global Styles](./sss/global.md)
+  - [Style Engine](./style/README.md)
 - [Legacy](./README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)

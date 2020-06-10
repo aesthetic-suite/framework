@@ -9,9 +9,7 @@ describe('Specificity', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('inserts declarations in the order they are defined', () => {

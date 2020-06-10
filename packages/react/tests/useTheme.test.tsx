@@ -32,7 +32,7 @@ describe('useTheme()', () => {
   });
 
   it('returns a preferred theme if no name provided', () => {
-    // @ts-ignore Only need to mock matches
+    // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
 
     let theme;

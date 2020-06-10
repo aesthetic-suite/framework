@@ -29,7 +29,7 @@ describe('GlobalParser', () => {
     it('errors if font faces are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@font-face': 123,
         });
       }).toThrow('@font-face must be an object of font family names to font faces.');
@@ -85,7 +85,7 @@ describe('GlobalParser', () => {
     it('errors if global is not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@global': 123,
         });
       }).toThrow('"@global" must be a declaration object of CSS properties.');
@@ -110,7 +110,7 @@ describe('GlobalParser', () => {
         createBlock('@global', {
           height: '100%',
           margin: 0,
-          fontSize: '16px',
+          fontSize: 16,
           lineHeight: 1.5,
           backgroundColor: 'white',
           '@media (prefers-color-scheme: dark)': {
@@ -129,7 +129,7 @@ describe('GlobalParser', () => {
     it('errors if import is not an array', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@import': 'test.css',
         });
       }).toThrow('@import must be an array of strings or import objects.');
@@ -196,7 +196,7 @@ describe('GlobalParser', () => {
     it('errors if keyframes are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@keyframes': 123,
         });
       }).toThrow('@keyframes must be an object of animation names to keyframes.');
@@ -230,7 +230,7 @@ describe('GlobalParser', () => {
     it('errors if page is not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@page': 123,
         });
       }).toThrow('"@page" must be a declaration object of CSS properties.');
@@ -312,7 +312,7 @@ describe('GlobalParser', () => {
     it('errors if variables are not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@variables': 123,
         });
       }).toThrow('@variables must be a mapping of CSS variables.');
@@ -359,7 +359,7 @@ describe('GlobalParser', () => {
     it('errors if viewport is not an object', () => {
       expect(() => {
         parser.parse({
-          // @ts-ignore Allow invalid type
+          // @ts-expect-error
           '@viewport': 123,
         });
       }).toThrow('"@viewport" must be a declaration object of CSS properties.');

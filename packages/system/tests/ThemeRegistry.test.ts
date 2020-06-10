@@ -10,7 +10,7 @@ describe('ThemeRegistry', () => {
     registry.register('day', lightTheme, true);
     registry.register('night', darkTheme, true);
 
-    // @ts-ignore Omit other properties
+    // @ts-expect-error Omit other properties
     window.matchMedia = (query) => ({
       matches: mediaMocks[query] || false,
     });
@@ -116,7 +116,7 @@ describe('ThemeRegistry', () => {
       expect(() => {
         registry.register(
           'test',
-          // @ts-ignore Allow
+          // @ts-expect-error
           {},
         );
       }).toThrow('Only a `Theme` object can be registered.');

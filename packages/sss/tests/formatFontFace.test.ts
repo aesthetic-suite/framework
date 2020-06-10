@@ -1,4 +1,4 @@
-import formatFontFace from '../src/formatFontFace';
+import formatFontFace from '../src/helpers/formatFontFace';
 import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__mocks__/global';
 
 describe('formatFontFace()', () => {

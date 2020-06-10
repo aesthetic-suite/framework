@@ -9,7 +9,7 @@ describe('SSR', () => {
     expect(global.AESTHETIC_CUSTOM_RENDERER).toBeUndefined();
 
     const renderer = new ServerRenderer();
-    renderer.captureStyles(null);
+    renderer.extractStyles(null);
 
     expect(global.AESTHETIC_CUSTOM_RENDERER).toBe(renderer);
   });

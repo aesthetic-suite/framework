@@ -5,5 +5,5 @@ format. It's a specification that provides a global style sheet for handling doc
 and a local style sheet for handling isolated element and component styles.
 
 - [Specification](./spec.md)
-- [Local Styles](./local.md)
-- [Global Styles](./global.md)
+- [Local styles](./local.md)
+- [Global styles](./global.md)

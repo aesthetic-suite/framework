@@ -9,15 +9,6 @@ import createStyleElement from './createStyleElement';
 import { STYLE_RULE } from '../constants';
 import { CSSVariables } from '../types';
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface Global {
-      AESTHETIC_CUSTOM_RENDERER: ServerRenderer;
-    }
-  }
-}
-
 export default class ServerRenderer extends Renderer {
   conditionsStyleSheet = new ConditionsStyleSheet(new TransientStyleRule(STYLE_RULE));
 
@@ -31,7 +22,7 @@ export default class ServerRenderer extends Renderer {
     });
   }
 
-  captureStyles<T>(result: T): T {
+  extractStyles<T>(result: T): T {
     global.AESTHETIC_CUSTOM_RENDERER = this;
 
     return result;

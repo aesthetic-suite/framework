@@ -15,6 +15,7 @@ const program = new Program({
   version: require('@aestheitc/core/package.json').version,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 program
   .register(new Init())
   .register(new Compile())

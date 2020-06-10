@@ -124,7 +124,7 @@ describe('withStyles()', () => {
 
     expect(root.findOne('button')).toHaveProp(
       'className',
-      'a b c d e f g h i j k l m n o p q r s t u v w x y z a1 b1',
+      'a b c d e f g h i j k l m n o p q r s t u v w x y z a1 b1 c1 d1 e1',
     );
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();

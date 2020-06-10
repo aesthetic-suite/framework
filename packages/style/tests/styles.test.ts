@@ -16,9 +16,7 @@ describe('Styles', () => {
   afterEach(() => {
     spy.mockRestore();
 
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('generates a unique class name for a large number of properties', () => {
@@ -168,11 +166,10 @@ describe('Styles', () => {
 
   it('ignores invalid values', () => {
     const className = renderer.renderRule({
-      // @ts-ignore
+      // @ts-expect-error
       margin: true,
-      // @ts-ignore
+      // @ts-expect-error
       padding: null,
-      // @ts-ignore
       color: undefined,
     });
 
@@ -197,7 +194,7 @@ describe('Styles', () => {
 
   it('logs a warning for unknown property values', () => {
     renderer.renderRule({
-      // @ts-ignore
+      // @ts-expect-error
       color: true,
     });
 
@@ -278,16 +275,16 @@ describe('Styles', () => {
 
   it('applies vendor prefixes to a property under a single class name', () => {
     // Value prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('min-width', 'fit-content', { prefix: true });
+    renderer.renderDeclaration('min-width', 'fit-content', { vendor: true });
 
     // Value function prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('background', 'image-set()', { prefix: true });
+    renderer.renderDeclaration('background', 'image-set()', { vendor: true });
 
     // Property prefixing
-    renderer.renderDeclaration('appearance', 'none', { prefix: true });
+    renderer.renderDeclaration('appearance', 'none', { vendor: true });
 
     // Selector prefixing
-    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', prefix: true });
+    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', vendor: true });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
@@ -302,7 +299,7 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        prefix: true,
+        vendor: true,
         rtl: false,
       },
     );
@@ -317,7 +314,7 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        prefix: true,
+        vendor: true,
         rtl: true,
       },
     );
@@ -369,7 +366,7 @@ describe('Styles', () => {
     });
 
     it('can vendor prefix applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { prefix: true });
+      const className = renderer.renderRuleGrouped(rule, { vendor: true });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -408,6 +405,69 @@ describe('Styles', () => {
       expect(spy).toHaveBeenCalledWith(
         'CSS variables are only accepted within rule groups. Found "--color" variable.',
       );
+    });
+  });
+
+  describe('unit suffixes', () => {
+    it('adds suffix to number values', () => {
+      renderer.renderRule({
+        marginLeft: '10px',
+        marginRight: 20,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('doesnt suffix 0 values', () => {
+      renderer.renderRule({
+        margin: 0,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('doesnt suffix unitless values', () => {
+      renderer.renderRule({
+        lineHeight: 1.25,
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('can customize with a string `unit` option', () => {
+      renderer.renderRule(
+        {
+          marginLeft: '10px',
+          marginRight: 20,
+        },
+        {
+          unit: 'rem',
+        },
+      );
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('can customize with a function `unit` option', () => {
+      renderer.renderRule(
+        {
+          margin: 10,
+          padding: 20,
+          fontSize: 16,
+          width: 100,
+        },
+        {
+          unit(prop) {
+            if (prop.includes('margin')) return '%';
+            if (prop.includes('padding')) return 'rem';
+            if (prop === 'font-size') return 'pt';
+
+            return 'px';
+          },
+        },
+      );
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 });

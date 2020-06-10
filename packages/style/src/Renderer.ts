@@ -20,6 +20,7 @@ import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
 import prefixSelector from './helpers/prefixSelector';
 import processProperties from './helpers/processProperties';
+import processValue from './helpers/processValue';
 import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
@@ -31,35 +32,45 @@ import {
   FontFace,
   GenericProperties,
   Keyframes,
-  ProcessParams,
+  ProcessOptions,
   Properties,
   Property,
   Rule,
   SheetType,
-  RenderParams,
+  RenderOptions,
   StyleRule,
 } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-function createDefaultParams(params: RenderParams): Required<RenderParams> {
+function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
   return {
     className: '',
     conditions: [],
     deterministic: false,
-    prefix: false,
     rankings: {},
     rtl: false,
     selector: '',
     type: 'standard',
-    ...params,
+    unit: 'px',
+    vendor: false,
+    ...options,
   };
 }
 
-function persistRank(params: Required<RenderParams>, property: string, rank: number) {
-  if (params.rankings[property] === undefined || rank > params.rankings[property]) {
-    params.rankings[property] = rank;
+function persistRank(options: Required<RenderOptions>, property: string, rank: number) {
+  if (options.rankings[property] === undefined || rank > options.rankings[property]) {
+    options.rankings[property] = rank;
+  }
+}
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      AESTHETIC_CUSTOM_RENDERER: Renderer;
+    }
   }
 }
 
@@ -102,77 +113,62 @@ export default abstract class Renderer {
   }
 
   /**
-   * Return the root style rule for the defined style sheet.
-   */
-  getRootRule(type: SheetType): StyleRule {
-    if (type === 'global') {
-      return this.globalStyleSheet.sheet;
-    }
-
-    if (type === 'conditions') {
-      return this.conditionsStyleSheet.sheet;
-    }
-
-    return this.standardStyleSheet.sheet;
-  }
-
-  /**
    * Render a property value pair into the defined style sheet as a single class name.
    */
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
-    baseParams: RenderParams = {},
-  ) {
-    const params = createDefaultParams(baseParams);
+    opts: RenderOptions = {},
+  ): ClassName {
+    const options = createDefaultOptions(opts);
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
-    let val = String(value);
+    let val = processValue(key, value, opts.unit);
 
-    if (params.rtl) {
+    if (options.rtl) {
       key = getPropertyDoppelganger(key);
       val = getValueDoppelganger(key, val);
     }
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(key, val, params, params.rankings[key]);
+    const cache = this.classNameCache.read(key, val, options, options.rankings[key]);
 
     if (cache) {
-      persistRank(params, key, cache.rank);
+      persistRank(options, key, cache.rank);
 
       return cache.className;
     }
 
     // Format and insert the rule
     const rule = formatRule(
-      params.selector,
-      processProperties({ [key]: val }, { prefix: params.prefix }),
+      options.selector,
+      processProperties({ [key]: val }, { vendor: options.vendor }),
     );
 
     const className =
-      params.className ||
-      (params.deterministic
-        ? this.generateDeterministicClassName(rule, params.conditions)
+      options.className ||
+      (options.deterministic
+        ? this.generateDeterministicClassName(rule, options.conditions)
         : this.generateClassName());
 
     const classRule = `.${className}${rule}`;
 
     // Persist the max ranking
     const rank = this.insertRule(
-      params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
-      params,
+      options.vendor && options.selector ? prefixSelector(options.selector, classRule) : classRule,
+      options,
     );
 
-    persistRank(params, key, rank);
+    persistRank(options, key, rank);
 
     // Write to cache
     this.classNameCache.write(key, val, {
       className,
-      conditions: params.conditions,
+      conditions: options.conditions,
       rank,
-      selector: params.selector,
-      type: params.type,
+      selector: options.selector,
+      type: options.type,
     });
 
     return className;
@@ -181,16 +177,23 @@ export default abstract class Renderer {
   /**
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
-  renderFontFace(fontFace: FontFace, params: ProcessParams = {}): string {
-    if (__DEV__) {
-      if (!fontFace.fontFamily) {
-        throw new Error('Font faces require a font family.');
-      }
-    }
+  renderFontFace(fontFace: FontFace, options: ProcessOptions = {}): string {
+    const fontFamily =
+      fontFace.fontFamily ||
+      `ff${generateHash(formatDeclarationBlock(fontFace as GenericProperties))}`;
 
-    this.insertAtRule('@font-face', processProperties(fontFace as Properties, params));
+    this.insertAtRule(
+      '@font-face',
+      processProperties(
+        {
+          ...fontFace,
+          fontFamily,
+        } as Properties,
+        options,
+      ),
+    );
 
-    return fontFace.fontFamily;
+    return fontFamily;
   }
 
   /**
@@ -208,12 +211,12 @@ export default abstract class Renderer {
   renderKeyframes(
     keyframes: Keyframes,
     customName: string = '',
-    params: ProcessParams = {},
+    options: ProcessOptions = {},
   ): string {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, params))} } `,
+        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options))} } `,
     );
 
     const animationName = customName || `kf${generateHash(rule)}`;
@@ -227,15 +230,15 @@ export default abstract class Renderer {
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.
    */
-  renderRule = (properties: Rule, params: RenderParams = {}): ClassName => {
-    return this.processRule(properties, params, this.renderRule, true);
+  renderRule = (properties: Rule, options: RenderOptions = {}): ClassName => {
+    return this.processRule(properties, options, this.renderRule, true);
   };
 
   /**
    * Render an object of property value pairs into the defined style sheet as a single class name,
    * with all properties grouped within.
    */
-  renderRuleGrouped = (properties: Rule, params: RenderParams = {}): ClassName => {
+  renderRuleGrouped = (properties: Rule, options: RenderOptions = {}): ClassName => {
     const nestedRules: { [selector: string]: Rule } = {};
     const cssVariables: CSSVariables = {};
     const nextProperties: GenericProperties = {};
@@ -254,28 +257,31 @@ export default abstract class Renderer {
     });
 
     const rule = formatRule(
-      params.selector,
-      processProperties(nextProperties, params),
+      options.selector,
+      processProperties(nextProperties, options),
       cssVariables,
     );
 
-    const hash = this.generateDeterministicClassName(rule, params.conditions);
-    const className = params.className || (params.deterministic ? hash : this.generateClassName());
+    const hash = this.generateDeterministicClassName(rule, options.conditions);
+    const className =
+      options.className || (options.deterministic ? hash : this.generateClassName());
 
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
       const classRule = `.${className}${rule}`;
 
       this.insertRule(
-        params.prefix && params.selector ? prefixSelector(params.selector, classRule) : classRule,
-        params,
+        options.vendor && options.selector
+          ? prefixSelector(options.selector, classRule)
+          : classRule,
+        options,
       );
 
       this.ruleCache[hash] = className;
     }
 
     // Render all nested rules with the top-level class name
-    this.processRule(nestedRules, { ...params, className }, this.renderRuleGrouped);
+    this.processRule(nestedRules, { ...options, className }, this.renderRuleGrouped);
 
     return className;
   };
@@ -287,11 +293,26 @@ export default abstract class Renderer {
   renderRuleSets<T extends { [set: string]: Rule }>(
     sets: T,
     inOrder?: (keyof T)[],
-    params?: RenderParams,
+    options?: RenderOptions,
   ) {
     const order = inOrder ?? Object.keys(sets);
 
-    return arrayReduce(order, (key) => `${this.renderRule(sets[key], params)} `).trim();
+    return arrayReduce(order, (key) => `${this.renderRule(sets[key], options)} `).trim();
+  }
+
+  /**
+   * Return the root style rule for the defined style sheet.
+   */
+  protected getRootRule(type: SheetType): StyleRule {
+    if (type === 'global') {
+      return this.globalStyleSheet.sheet;
+    }
+
+    if (type === 'conditions') {
+      return this.conditionsStyleSheet.sheet;
+    }
+
+    return this.standardStyleSheet.sheet;
   }
 
   /**
@@ -322,8 +343,8 @@ export default abstract class Renderer {
   /**
    * Insert a CSS rule into 1 of the 3 style sheets.
    */
-  protected insertRule(rule: string, params: RenderParams): number {
-    const { conditions = [], type = 'standard' } = params;
+  protected insertRule(rule: string, options: RenderOptions): number {
+    const { conditions = [], type = 'standard' } = options;
 
     if (type === 'global') {
       return this.globalStyleSheet.insertRule(rule);
@@ -339,12 +360,12 @@ export default abstract class Renderer {
   }
 
   /**
-   * Process a rule block with the defined params and processors.
+   * Process a rule block with the defined options and processors.
    */
   protected processRule(
     rule: Rule,
-    params: RenderParams,
-    onNestedRule: (properties: Rule, params: RenderParams) => ClassName,
+    options: RenderOptions,
+    onNestedRule: (properties: Rule, options: RenderOptions) => ClassName,
     processProperty: boolean = false,
   ) {
     const classNames = new Set<string>();
@@ -358,7 +379,7 @@ export default abstract class Renderer {
 
         // Handle nested selectors and objects
       } else if (isObject(value)) {
-        const { conditions = [] } = params;
+        const { conditions = [] } = options;
 
         // Media condition
         if (isMediaRule(prop)) {
@@ -367,7 +388,7 @@ export default abstract class Renderer {
             type: MEDIA_RULE,
           });
 
-          classNames.add(onNestedRule(value, { ...params, conditions }));
+          classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Supports condition
         } else if (isSupportsRule(prop)) {
@@ -376,11 +397,11 @@ export default abstract class Renderer {
             type: SUPPORTS_RULE,
           });
 
-          classNames.add(onNestedRule(value, { ...params, conditions }));
+          classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Selectors
         } else if (isNestedSelector(prop)) {
-          classNames.add(onNestedRule(value, { ...params, selector: prop }));
+          classNames.add(onNestedRule(value, { ...options, selector: prop }));
 
           // Unknown
         } else if (__DEV__) {
@@ -397,7 +418,7 @@ export default abstract class Renderer {
 
         // Property value pair
       } else if (processProperty) {
-        classNames.add(this.renderDeclaration(prop, value, params));
+        classNames.add(this.renderDeclaration(prop, value, options));
       }
     });
 

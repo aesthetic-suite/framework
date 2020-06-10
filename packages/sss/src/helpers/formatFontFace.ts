@@ -1,5 +1,5 @@
 import CSS from 'csstype';
-import { FontFace } from './types';
+import { FontFace } from '../types';
 
 const FORMATS: { [ext: string]: string } = {
   '.eot': 'embedded-opentype',

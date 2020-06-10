@@ -60,6 +60,16 @@ exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@m
 
 exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 
+exports[`Styles unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
+
+exports[`Styles unit suffixes can customize with a function \`unit\` option 1`] = `".a {margin: 10%;}.b {padding: 20rem;}.c {font-size: 16pt;}.d {width: 100px;}"`;
+
+exports[`Styles unit suffixes can customize with a string \`unit\` option 1`] = `".a {margin-left: 10px;}.b {margin-right: 20rem;}"`;
+
+exports[`Styles unit suffixes doesnt suffix 0 values 1`] = `".a {margin: 0;}"`;
+
+exports[`Styles unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
+
 exports[`Styles uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
 
 exports[`Styles uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;

@@ -3,7 +3,7 @@
 import React from 'react';
 import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { aesthetic, LocalSheet, SheetStructure } from '@aesthetic/core';
-import { ServerRenderer } from '@aesthetic/style';
+import { ServerRenderer } from '@aesthetic/style/server';
 import { setupAesthetic, teardownAesthetic, purgeStyles } from '@aesthetic/core/src/testing';
 import { useStyles, ThemeProvider } from '../src';
 import { createStyleSheet, ButtonProps } from './__mocks__/Button';
@@ -54,24 +54,21 @@ describe('SSR', () => {
 
   afterEach(() => {
     teardownAesthetic(aesthetic);
-
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
 
     delete global.AESTHETIC_CUSTOM_RENDERER;
   });
 
   describe('renderToString()', () => {
     it('renders markup', () => {
-      expect(renderToString(renderer.captureStyles(<App />))).toMatchSnapshot();
+      expect(renderToString(renderer.extractStyles(<App />))).toMatchSnapshot();
       expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
     });
   });
 
   describe('renderToStaticMarkup()', () => {
     it('renders markup', () => {
-      expect(renderToStaticMarkup(renderer.captureStyles(<App />))).toMatchSnapshot();
+      expect(renderToStaticMarkup(renderer.extractStyles(<App />))).toMatchSnapshot();
       expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
     });
   });

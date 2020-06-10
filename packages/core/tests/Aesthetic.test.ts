@@ -1,4 +1,5 @@
-import { ClientRenderer, ServerRenderer } from '@aesthetic/style';
+import { ClientRenderer } from '@aesthetic/style';
+import { ServerRenderer } from '@aesthetic/style/server';
 import Aesthetic from '../src/Aesthetic';
 import { LocalSheet, GlobalSheet } from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
@@ -9,7 +10,7 @@ describe('Aesthetic', () => {
   beforeEach(() => {
     aesthetic = new Aesthetic();
 
-    // @ts-ignore Only need to mock matches
+    // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
   });
 
@@ -22,12 +23,12 @@ describe('Aesthetic', () => {
 
     aesthetic.subscribe('change:theme', spy);
 
-    // @ts-ignore Allow
+    // @ts-expect-error
     expect(aesthetic.listeners['change:theme'].has(spy)).toBe(true);
 
     aesthetic.unsubscribe('change:theme', spy);
 
-    // @ts-ignore Allow
+    // @ts-expect-error
     expect(aesthetic.listeners['change:theme'].has(spy)).toBe(false);
   });
 
@@ -204,7 +205,6 @@ describe('Aesthetic', () => {
 
       aesthetic.registerTheme('day', lightTheme, sheet);
 
-      // @ts-ignore Allow
       expect(aesthetic.globalSheetRegistry.get('day')).toBe(sheet);
     });
 
@@ -213,7 +213,7 @@ describe('Aesthetic', () => {
         aesthetic.registerTheme(
           'day',
           lightTheme,
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         );
       }).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
@@ -256,7 +256,7 @@ describe('Aesthetic', () => {
     it('errors if sheet is not a `LocalSheet` instance', () => {
       expect(() => {
         aesthetic.renderComponentStyles(
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         );
       }).toThrow('Rendering component styles require a `LocalSheet` instance.');
@@ -278,8 +278,8 @@ describe('Aesthetic', () => {
         baz: 'c',
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
 
@@ -296,8 +296,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
         direction: 'rtl',
-        prefix: true,
         unit: 'em',
+        vendor: true,
       });
     });
 
@@ -309,8 +309,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, darkTheme, {
         theme: 'night',
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
   });
@@ -427,8 +427,8 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cnneg4x');
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
 
@@ -445,8 +445,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
         direction: 'rtl',
-        prefix: true,
         unit: 'em',
+        vendor: true,
       });
     });
   });

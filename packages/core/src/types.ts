@@ -5,7 +5,7 @@ import {
   LocalStyleSheetNeverize,
   LocalBlock,
 } from '@aesthetic/sss';
-import { ClassName as BaseClassName } from '@aesthetic/style';
+import { ClassName as BaseClassName, UnitFactory } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Tokens, ThemeName, Utilities, Unit } from '@aesthetic/system';
 
 export type Direction = 'neutral' | 'ltr' | 'rtl';
@@ -19,10 +19,10 @@ export type StringOnly<T> = T extends string ? string : never;
 export interface SheetParams {
   contrast?: ContrastLevel;
   direction?: Direction;
-  prefix?: boolean;
   scheme?: ColorScheme;
   theme?: ThemeName;
-  unit?: Unit;
+  unit?: Unit | UnitFactory;
+  vendor?: boolean;
 }
 
 export type SheetStructure<T extends string> = {
@@ -40,7 +40,7 @@ export type LocalSheetFactory<T = unknown> = (
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
 export interface AestheticOptions {
-  defaultUnit?: Unit;
+  defaultUnit?: Unit | UnitFactory;
   deterministicClasses?: boolean;
   vendorPrefixes?: boolean;
 }

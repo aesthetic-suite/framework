@@ -27,7 +27,7 @@ export interface Rule extends DeclarationBlock {
   [key: string]: Rule | Value | unknown;
 }
 
-export type FontFace = Omit<CSS.FontFace, 'fontFamily'> & { fontFamily: string };
+export type FontFace = CSS.FontFace;
 
 export interface Keyframes {
   [percent: string]: Properties | undefined;
@@ -46,21 +46,24 @@ export interface RankCache {
   [property: string]: number;
 }
 
-export interface ProcessParams {
+export type UnitFactory = (property: string) => string | undefined;
+
+export interface ProcessOptions {
   deterministic?: boolean;
-  prefix?: boolean;
   rankings?: RankCache;
   rtl?: boolean;
+  unit?: string | UnitFactory;
+  vendor?: boolean;
 }
 
-export interface RenderParams extends ProcessParams {
+export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
   selector?: string;
   type?: SheetType;
 }
 
-export interface CacheItem extends Required<Omit<RenderParams, keyof ProcessParams>> {
+export interface CacheItem extends Required<Omit<RenderOptions, keyof ProcessOptions>> {
   rank: number;
 }
 
@@ -73,6 +76,7 @@ export interface StyleRule {
   cssRules: StyleRule[];
   cssText: string;
   cssVariables: CSSVariables<string>;
+  textContent: string;
   type: number;
   insertRule: (rule: string, index: number) => number;
 }

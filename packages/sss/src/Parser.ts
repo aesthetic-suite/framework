@@ -2,9 +2,11 @@
 
 import { isObject, toArray, arrayLoop, objectLoop, hyphenate } from '@aesthetic/utils';
 import Block from './Block';
-import formatFontFace from './formatFontFace';
-import isUnitlessProperty from './isUnitlessProperty';
-import propertyTransformers from './properties';
+import formatFontFace from './helpers/formatFontFace';
+import processCompoundProperty from './helpers/processCompoundProperty';
+import processExpandedProperty from './helpers/processExpandedProperty';
+import { expandedProperties } from './properties';
+import { COMPOUND_PROPERTIES, EXPANDED_PROPERTIES } from './constants';
 import {
   BlockConditionListener,
   BlockListener,
@@ -20,11 +22,12 @@ import {
   Keyframes,
   KeyframesListener,
   LocalBlock,
-  ParserOptions,
+  Property,
   Properties,
   RulesetListener,
   Value,
   VariableListener,
+  ProcessorMap,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -66,10 +69,6 @@ const EVENT_MAP = {
 export default abstract class Parser<T extends object, E extends object> {
   protected handlers: HandlerMap = {};
 
-  protected options: Required<ParserOptions> = {
-    unit: 'px',
-  };
-
   constructor(handlers?: E) {
     if (handlers) {
       objectLoop(handlers, (handler, name) => {
@@ -101,11 +100,7 @@ export default abstract class Parser<T extends object, E extends object> {
 
         // Run for each property so it can be customized
       } else {
-        const nextValue = this.transformProperty(key as keyof Properties, value)!;
-
-        parent.addProperty(key, nextValue);
-
-        this.emit('block:property', parent, key, nextValue);
+        this.parseProperty(parent, key as Property, value);
       }
     });
 
@@ -138,30 +133,23 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  parseFontFace = (fontFamily: string, object: FontFace): string => {
-    const name = object.fontFamily || fontFamily;
+  parseFontFace = (object: FontFace, fontFamily?: string): string => {
+    const name = object.fontFamily || fontFamily || '';
 
-    if (__DEV__) {
-      if (!name) {
-        throw new Error(`@font-face requires a font family name.`);
-      }
-    }
-
-    this.validateDeclarationBlock(object, `@font-face ${name}`);
+    this.validateDeclarationBlock(object, name);
 
     const fontFace = formatFontFace({
       ...object,
       fontFamily: name,
     }) as Properties;
 
-    this.emit(
+    // Inherit the name from the listener as it may be generated
+    return this.emit(
       'font-face',
       this.parseBlock(new Block('@font-face'), fontFace),
       name,
       object.srcPaths,
     );
-
-    return name;
   };
 
   parseKeyframes = (object: Keyframes, animationName?: string): string => {
@@ -177,7 +165,7 @@ export default abstract class Parser<T extends object, E extends object> {
     });
 
     // Inherit the name from the listener as it may be generated
-    return this.emit('keyframes', keyframes, animationName) || animationName!;
+    return this.emit('keyframes', keyframes, animationName) || animationName || '';
   };
 
   parseLocalBlock(parent: Block<T>, object: LocalBlock): Block<T> {
@@ -220,6 +208,38 @@ export default abstract class Parser<T extends object, E extends object> {
     }
 
     return this.parseBlock(parent, props);
+  }
+
+  parseProperty(parent: Block<T>, name: Property, value: unknown) {
+    const handler = (n: Property, v: Value) => {
+      parent.addProperty(n, v);
+
+      this.emit('block:property', parent, n, v);
+    };
+
+    // Convert expanded properties to longhand
+    if (EXPANDED_PROPERTIES.has(name) && isObject(value)) {
+      processExpandedProperty(name, value, expandedProperties[name], handler);
+
+      return;
+    }
+
+    // Convert compound properties
+    if (COMPOUND_PROPERTIES.has(name) && (isObject(value) || Array.isArray(value))) {
+      const compoundProperties: ProcessorMap = {
+        animationName: (prop: Keyframes) => this.parseKeyframes(prop),
+        fontFamily: (prop: FontFace) => this.parseFontFace(prop),
+      };
+
+      processCompoundProperty(name, value, compoundProperties[name], handler);
+
+      return;
+    }
+
+    // Normal property
+    if (typeof value === 'number' || typeof value === 'string') {
+      handler(name, value);
+    }
   }
 
   parseSelector(
@@ -285,52 +305,6 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  transformProperty<K extends keyof Properties>(key: K, value: unknown): Value | undefined {
-    if (value === undefined) {
-      return undefined;
-    }
-
-    const prop = key as keyof typeof propertyTransformers;
-
-    if (prop === 'animationName') {
-      return propertyTransformers.animationName(
-        value as Keyframes,
-        this.wrapValueWithUnit,
-        (keyframes) => this.parseKeyframes(keyframes),
-      );
-    }
-
-    if (prop === 'fontFamily') {
-      return propertyTransformers.fontFamily(
-        value as FontFace,
-        this.wrapValueWithUnit,
-        (fontFace) => this.parseFontFace(fontFace.fontFamily!, fontFace),
-      );
-    }
-
-    if (propertyTransformers[prop]) {
-      return propertyTransformers[prop](value as Value, this.wrapValueWithUnit);
-    }
-
-    return this.wrapValueWithUnit(key, value);
-  }
-
-  wrapValueWithUnit = (property: string, value: unknown): Value => {
-    if (value === undefined) {
-      return '';
-    }
-
-    if (typeof value === 'string') {
-      return value;
-    }
-
-    if (isUnitlessProperty(property) || value === 0) {
-      return Number(value);
-    }
-
-    return value + this.options.unit;
-  };
-
   /**
    * Execute the defined event listener with the arguments.
    */
@@ -348,7 +322,7 @@ export default abstract class Parser<T extends object, E extends object> {
   ): void;
   emit(name: 'block' | 'global' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
   emit(name: 'class', ...args: Parameters<ClassNameListener>): void;
-  emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): void;
+  emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): string;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
   emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): string;
   emit(name: 'ruleset', ...args: Parameters<RulesetListener<T>>): void;

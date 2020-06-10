@@ -1,4 +1,4 @@
-# Aesthetic - CSS-in-JS Engine
+# Aesthetic - CSS-in-JS Style Engine
 
 [![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/%40aesthetic%style.svg)](https://www.npmjs.com/package/@aesthetic/style)
@@ -34,7 +34,7 @@ const className = renderer.renderRule(
     },
   },
   {
-    prefix: true,
+    vendor: true,
     rtl: true,
   },
 ); // -> a b c d e f g h
@@ -42,8 +42,8 @@ const className = renderer.renderRule(
 
 ## Features
 
-- 5.1kb minified and gzipped (31kb original).
-- Atomic based CSS. One property per class name.
+- 5.8kb minified and gzipped (35.4kb original).
+- Atomic based CSS. One declaration per class name.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
 - Media and support queries are grouped and rendered after normal declarations.
@@ -52,7 +52,8 @@ const className = renderer.renderRule(
 - Style declarations support pseudos, attributes, conditional at-rules, and nested declarations.
 - Deterministic or atomic incremental CSS class names.
 - Right-to-left (RTL) integration.
-- Automatic vendor prefixing.
+- Vendor prefixing for browsers with >= 1% market share.
+- Unit suffixing for numerical values.
 - First-class CSS variables support.
 - Server-side rendering _and_ client-side hydration.
 - Framework and library agnostic. Can be used stand-alone.
@@ -62,3 +63,7 @@ const className = renderer.renderRule(
 ```
 yarn add @aesthetic/style
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/style](https://milesj.gitbook.io/aesthetic/style)

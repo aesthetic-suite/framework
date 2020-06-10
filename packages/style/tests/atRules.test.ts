@@ -9,9 +9,7 @@ describe('At-rules', () => {
   });
 
   afterEach(() => {
-    purgeStyles('global');
-    purgeStyles('standard');
-    purgeStyles('conditions');
+    purgeStyles();
   });
 
   it('doesnt insert the same at-rule more than once', () => {
@@ -73,13 +71,15 @@ describe('At-rules', () => {
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
-    it('errors if no family name provided', () => {
-      expect(() => {
-        renderer.renderFontFace({
-          fontFamily: '',
-          fontStyle: 'normal',
-        });
-      }).toThrow('Font faces require a font family.');
+    it('generates a hashed family name if none provided', () => {
+      const name = renderer.renderFontFace({
+        fontStyle: 'normal',
+        fontWeight: 800,
+        src: 'url("fonts/OpenSans-Bold.woff2")',
+      });
+
+      expect(name).toBe('ffweix7s');
+      expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
 

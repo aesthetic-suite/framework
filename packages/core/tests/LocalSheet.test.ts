@@ -39,7 +39,7 @@ describe('LocalSheet', () => {
     expect(
       () =>
         new LocalSheet(
-          // @ts-ignore Allow
+          // @ts-expect-error
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');
@@ -86,14 +86,15 @@ describe('LocalSheet', () => {
         display: 'block',
         background: 'white',
         color: 'black',
-        fontSize: '12px',
+        fontSize: 12,
         fontFamily: '"Open Sans", Roboto',
       },
       {
-        prefix: false,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
+        unit: 'px',
+        vendor: false,
       },
     );
 
@@ -103,10 +104,11 @@ describe('LocalSheet', () => {
         animationName: 'kf1plt5bd',
       },
       {
-        prefix: false,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
+        unit: 'px',
+        vendor: false,
       },
     );
   });
@@ -136,10 +138,11 @@ describe('LocalSheet', () => {
       },
       undefined,
       {
-        prefix: false,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
+        unit: 'px',
+        vendor: false,
       },
     );
   });
@@ -176,7 +179,7 @@ describe('LocalSheet', () => {
     it('errors for invalid color scheme name', () => {
       expect(() => {
         sheet.addColorSchemeVariant(
-          // @ts-ignore Allow
+          // @ts-expect-error
           'unknown',
           () => ({}),
         );
@@ -186,7 +189,7 @@ describe('LocalSheet', () => {
     it('errors for invalid contrast name', () => {
       expect(() => {
         sheet.addContrastVariant(
-          // @ts-ignore Allow
+          // @ts-expect-error
           'unknown',
           () => ({}),
         );

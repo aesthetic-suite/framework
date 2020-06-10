@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers, sort-keys, @typescript-eslint/camelcase */
+/* eslint-disable no-magic-numbers, sort-keys */
 
 import React from 'react';
 import { LocalSheet } from '@aesthetic/core';

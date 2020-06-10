@@ -5,9 +5,8 @@
 
 import Renderer from './Renderer';
 import ClientRenderer from './client/ClientRenderer';
-import ServerRenderer from './server/ServerRenderer';
 
 export * from './helpers';
 export * from './types';
 
-export { Renderer, ClientRenderer, ServerRenderer };
+export { Renderer, ClientRenderer };

@@ -37,7 +37,7 @@ describe('LocalParser', () => {
   it('errors for invalid value type', () => {
     expect(() => {
       parser.parse({
-        // @ts-ignore Allow invalid type
+        // @ts-expect-error
         el: 123,
       });
     }).toThrow(
@@ -51,17 +51,7 @@ describe('LocalParser', () => {
       selector: SYNTAX_LOCAL_BLOCK,
     });
 
-    expect(spy).toHaveBeenCalledWith(
-      'selector',
-      createBlock('selector', {
-        ...SYNTAX_LOCAL_BLOCK,
-        borderRadius: '4px',
-        '::before': {
-          ...SYNTAX_LOCAL_BLOCK['::before'],
-          marginRight: '5px',
-        },
-      }),
-    );
+    expect(spy).toHaveBeenCalledWith('selector', createBlock('selector', SYNTAX_LOCAL_BLOCK));
   });
 
   describe('class names', () => {
@@ -95,7 +85,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'color', 'black');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', 'inline');
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', '10px');
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', 10);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', 0);
     });
 
@@ -175,7 +165,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           selector: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             ':hover': 123,
           },
         });
@@ -186,7 +176,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           selector: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             ':hover, :focus': {},
           },
         });
@@ -203,7 +193,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@fallbacks': 123,
           },
         });
@@ -239,7 +229,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@media': 123,
           },
         });
@@ -266,7 +256,7 @@ describe('LocalParser', () => {
         '(min-width: 300px)',
         createBlock('@media (min-width: 300px)', {
           color: 'blue',
-          paddingLeft: '15px',
+          paddingLeft: 15,
         }),
       );
 
@@ -275,7 +265,7 @@ describe('LocalParser', () => {
         '(max-width: 1000px)',
         createBlock('@media (max-width: 1000px)', {
           color: 'green',
-          paddingLeft: '20px',
+          paddingLeft: 20,
         }),
       );
     });
@@ -317,7 +307,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@selectors': 123,
           },
         });
@@ -446,7 +436,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           fb: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@supports': 123,
           },
         });
@@ -491,7 +481,7 @@ describe('LocalParser', () => {
       expect(() => {
         parser.parse({
           vars: {
-            // @ts-ignore Allow invalid type
+            // @ts-expect-error
             '@variables': 123,
           },
         });

@@ -72,7 +72,7 @@ describe('Theme', () => {
 
     it('errors for unknown path', () => {
       expect(() => {
-        // @ts-ignore Allow
+        // @ts-expect-error
         testTheme.extendMixin('border-unknown');
       }).toThrow('Unknown mixin "border-unknown".');
     });

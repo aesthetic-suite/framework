@@ -1,4 +1,4 @@
-# Local Styles
+# Local styles
 
 A local style sheet defines styles for multiple elements within a single component by mapping
 selectors (elements and element states) to style declarations, which is known as a ruleset. Within
@@ -95,8 +95,8 @@ Emits a `block:media` event per media query declaration.
 Define advanced [selectors](./spec.md#selectors) that aren't type-safe or supported by
 [csstype](https://github.com/frenic/csstype)'s standard attributes and pseudos. This includes:
 
-- [Child combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) denoted by
-  a leading `>` (also known as direct descendents).
+- [Combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) denoted by a
+  leading `>` (also known as direct descendents).
 - [Attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) that
   match against a value using patterns.
 - [Pseudo class functions](https://developer.mozilla.org/en-US/docs/Web/CSS/:not) like `:not()` and
@@ -197,8 +197,10 @@ const sheet = new CSSStyleSheet();
 
 const parser = new LocalParser({
   // For `fontFamily` property
-  onFontFace(fontFace) {
+  onFontFace(fontFace, family) {
     sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
+
+    return family;
   },
   // For `animationName` property
   onKeyframes(keyframes, name) {

@@ -92,7 +92,7 @@ describe('withTheme()', () => {
   });
 
   it('returns new theme if theme context changes', () => {
-    // @ts-ignore Only need to mock matches
+    // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
 
     const Wrapped = withTheme()(BaseComponent);

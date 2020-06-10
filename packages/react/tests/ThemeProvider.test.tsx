@@ -21,7 +21,7 @@ jest.mock('@aesthetic/core');
 
 describe('ThemeProvider', () => {
   beforeEach(() => {
-    // @ts-ignore Only need to mock matches
+    // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
 
     lightTheme.name = 'day';
@@ -196,7 +196,7 @@ describe('ThemeProvider', () => {
         </ThemeProvider>,
       );
 
-      // eslint-disable-next-line rut/no-act
+      // eslint-disable-next-line rut/no-act, @typescript-eslint/no-floating-promises
       act(() => {
         doChangeTheme('night');
       });

@@ -5,7 +5,7 @@ import {
   CSSVariables,
   FontFace,
   Keyframes,
-  ProcessParams,
+  ProcessOptions,
   Renderer,
 } from '@aesthetic/style';
 import {
@@ -180,8 +180,8 @@ export default class Aesthetic {
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
 
     return sheet.render(this.renderer, theme, {
-      prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
+      vendor: this.options.vendorPrefixes,
       ...params,
     });
   };
@@ -192,7 +192,7 @@ export default class Aesthetic {
   renderFontFace = (
     fontFace: FontFace | SSSFontFace,
     fontFamily?: string,
-    params?: ProcessParams,
+    params?: ProcessOptions,
   ) =>
     this.renderer.renderFontFace(
       formatFontFace({
@@ -210,7 +210,7 @@ export default class Aesthetic {
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessParams) =>
+  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: ProcessOptions) =>
     this.renderer.renderKeyframes(keyframes, animationName, params);
 
   /**
@@ -224,8 +224,8 @@ export default class Aesthetic {
     }
 
     return sheet.render(this.renderer, theme, {
-      prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
+      vendor: this.options.vendorPrefixes,
       ...params,
     });
   };
