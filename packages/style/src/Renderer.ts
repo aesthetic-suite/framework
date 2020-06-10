@@ -282,10 +282,10 @@ export default abstract class Renderer {
   };
 
   /**
-   * Render a mapping of multiple rule sets in the defined order.
+   * Render a mapping of multiple rules in the defined order.
    * If no order is provided, they will be rendered sequentially.
    */
-  renderRuleSets<T extends { [set: string]: Rule }>(
+  renderRulesOrdered<T extends { [set: string]: Rule }>(
     sets: T,
     inOrder?: (keyof T)[],
     options?: RenderOptions,

@@ -166,7 +166,7 @@ export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
 
 export type Rule = Declarations<Properties>;
 
-export interface Rulesets<T> {
+export interface RuleMap<T> {
   [selector: string]: T;
 }
 
@@ -232,7 +232,7 @@ export type LocalBlockNeverize<T> = {
   [K in keyof T]: K extends keyof LocalBlock ? T[K] : never;
 };
 
-export type LocalStyleSheet = Rulesets<string | LocalBlock>;
+export type LocalStyleSheet = RuleMap<string | LocalBlock>;
 
 export type LocalStyleSheetNeverize<T> = {
   [K in keyof T]: T[K] extends string ? string : LocalBlockNeverize<T[K]>;
@@ -318,6 +318,6 @@ export type KeyframesListener<T extends object> = (
   animationName: string | undefined,
 ) => string;
 
-export type RulesetListener<T extends object> = (selector: string, block: Block<T>) => void;
+export type RuleListener<T extends object> = (selector: string, block: Block<T>) => void;
 
 export type VariableListener = (name: string, value: Value) => void;

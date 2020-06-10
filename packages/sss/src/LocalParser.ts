@@ -1,13 +1,13 @@
 import { isObject, objectLoop } from '@aesthetic/utils';
 import Block from './Block';
 import Parser, { CommonEvents } from './Parser';
-import { LocalStyleSheet, ClassNameListener, RulesetListener } from './types';
+import { LocalStyleSheet, ClassNameListener, RuleListener } from './types';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 export interface LocalEvents<T extends object> extends CommonEvents<T> {
   onClass?: ClassNameListener;
-  onRuleset?: RulesetListener<T>;
+  onRule?: RuleListener<T>;
 }
 
 export default class LocalParser<T extends object> extends Parser<T, LocalEvents<T>> {
@@ -27,7 +27,7 @@ export default class LocalParser<T extends object> extends Parser<T, LocalEvents
 
         // Rule
       } else if (isObject(declaration)) {
-        this.emit('ruleset', selector, this.parseLocalBlock(new Block(selector), declaration));
+        this.emit('rule', selector, this.parseLocalBlock(new Block(selector), declaration));
 
         // Unknown
       } else if (__DEV__) {

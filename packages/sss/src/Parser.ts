@@ -23,7 +23,7 @@ import {
   LocalBlock,
   Properties,
   Rule,
-  RulesetListener,
+  RuleListener,
   VariableListener,
   ProcessorMap,
 } from './types';
@@ -318,7 +318,7 @@ export default abstract class Parser<T extends object, E extends object> {
   emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): string;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
   emit(name: 'keyframes', ...args: Parameters<KeyframesListener<T>>): string;
-  emit(name: 'ruleset', ...args: Parameters<RulesetListener<T>>): void;
+  emit(name: 'rule', ...args: Parameters<RuleListener<T>>): void;
   emit(name: 'variable', ...args: Parameters<VariableListener>): void;
   emit(name: string, ...args: unknown[]): unknown {
     return this.handlers[name]?.(...args);
@@ -341,7 +341,7 @@ export default abstract class Parser<T extends object, E extends object> {
   on(name: 'font-face', callback: FontFaceListener<T>): this;
   on(name: 'import', callback: ImportListener): this;
   on(name: 'keyframes', callback: KeyframesListener<T>): this;
-  on(name: 'ruleset', callback: RulesetListener<T>): this;
+  on(name: 'rule', callback: RuleListener<T>): this;
   on(name: 'variable', callback: VariableListener): this;
   on(name: string, callback: Handler): this {
     this.handlers[name] = callback;
