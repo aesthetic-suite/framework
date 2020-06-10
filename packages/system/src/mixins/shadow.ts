@@ -1,8 +1,8 @@
-import { DeclarationBlock } from '@aesthetic/sss';
+import { Declarations } from '@aesthetic/types';
 import { ShadowSize, VarUtil } from '../types';
 import { LAYOUT_SHADES } from '../constants';
 
-export function shadow(vars: VarUtil, size: ShadowSize): DeclarationBlock {
+export function shadow(vars: VarUtil, size: ShadowSize): Declarations {
   return {
     boxShadow: [
       vars(`shadow-${size}-x` as 'shadow-sm-x'),

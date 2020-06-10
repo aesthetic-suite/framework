@@ -1,3 +1,4 @@
+import { CSS } from '@aesthetic/types';
 import { arrayLoop, isSSR } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 import BaseStyleSheet from './BaseStyleSheet';
@@ -52,7 +53,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
    * If the browser does not support nested rule insertion,
    * simply insert it into the root of the style sheet.
    */
-  insertRule(rule: string, conditions: Condition[]): number {
+  insertRule(rule: CSS, conditions: Condition[]): number {
     if (canInsertNestedRules()) {
       let parent: StyleRule = this.sheet;
 
@@ -88,7 +89,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
   /**
    * Insert an `@supports` rule into the root for the defined query.
    */
-  insertFeatureRule(query: string, rule: string, parentRule?: StyleRule): number {
+  insertFeatureRule(query: string, rule: CSS, parentRule?: StyleRule): number {
     const formattedRule = isSupportsRule(rule) ? rule : `@supports ${query} { ${rule} }`;
 
     // Already exists so append a new rule
@@ -108,7 +109,7 @@ export default class ConditionsStyleSheet extends BaseStyleSheet {
    * Insert a `@media` rule for into the root for the defined query,
    * while keeping a mobile/desktop-first sort order.
    */
-  insertMediaRule(query: string, rule: string, parentRule?: StyleRule): number {
+  insertMediaRule(query: string, rule: CSS, parentRule?: StyleRule): number {
     const formattedRule = isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`;
 
     // Already exists so append a new rule

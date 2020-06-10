@@ -1,7 +1,8 @@
+import { CSS } from '@aesthetic/types';
 import getPrefixesFromMask from './getPrefixesFromMask';
 import { selectorMapping } from '../data/prefixes';
 
-export default function prefixSelector(selector: string, rule: string): string {
+export default function prefixSelector(selector: string, rule: CSS): CSS {
   const mask = selectorMapping[selector];
   let output = '';
 

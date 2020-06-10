@@ -1,5 +1,6 @@
+import { ThemeName } from '@aesthetic/types';
 import Theme from './Theme';
-import { ColorScheme, ContrastLevel, ThemeOptions, ThemeName } from './types';
+import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
 
 export default class ThemeRegistry {
   protected defaultDarkTheme: string = '';

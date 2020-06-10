@@ -1,3 +1,4 @@
+import { NativeProperty } from '@aesthetic/types';
 import isUnitlessProperty from './isUnitlessProperty';
 import { ProcessOptions } from '../types';
 
@@ -14,7 +15,7 @@ export default function processValue(
     return String(value);
   }
 
-  const suffix = typeof unit === 'function' ? unit(property) : unit;
+  const suffix = typeof unit === 'function' ? unit(property as NativeProperty) : unit;
 
   return value + (suffix || 'px');
 }

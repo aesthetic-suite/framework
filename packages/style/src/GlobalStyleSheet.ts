@@ -1,3 +1,4 @@
+import { CSS } from '@aesthetic/types';
 import BaseStyleSheet from './BaseStyleSheet';
 import { isImportRule, isAtRule } from './helpers';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
@@ -6,7 +7,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
   /**
    * Insert a rule into the global style sheet.
    */
-  insertRule(rule: string): number {
+  insertRule(rule: CSS): number {
     if (isImportRule(rule)) {
       return this.insertImportRule(rule);
     }
@@ -21,7 +22,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
   /**
    * At-rules must be inserted before normal style rules.
    */
-  insertAtRule(rule: string): number {
+  insertAtRule(rule: CSS): number {
     const { length } = this.sheet.cssRules;
     let index = 0;
 
@@ -40,7 +41,7 @@ export default class GlobalStyleSheet extends BaseStyleSheet {
    * Import rules must be inserted at the top of the style sheet,
    * but we also want to persist the existing order.
    */
-  insertImportRule(rule: string): number {
+  insertImportRule(rule: CSS): number {
     const { length } = this.sheet.cssRules;
     let index = 0;
 

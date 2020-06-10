@@ -1,3 +1,4 @@
+import { Variables } from '@aesthetic/types';
 import { arrayLoop, objectLoop, isSSR } from '@aesthetic/utils';
 import Renderer from '../Renderer';
 import GlobalStyleSheet from '../GlobalStyleSheet';
@@ -6,7 +7,7 @@ import StandardStyleSheet from '../StandardStyleSheet';
 import formatVariableName from '../helpers/formatVariableName';
 import getDocumentStyleSheet from '../helpers/getDocumentStyleSheet';
 import { hydrateGlobals, hydrateRules, hydrateConditions } from './hydrateStyles';
-import { SheetType, StyleRule, CSSVariables } from '../types';
+import { SheetType, StyleRule } from '../types';
 
 function getSheet(type: SheetType): StyleRule {
   return (getDocumentStyleSheet(type) as unknown) as StyleRule;
@@ -19,7 +20,7 @@ export default class ClientRenderer extends Renderer {
 
   standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
 
-  applyRootVariables(vars: CSSVariables) {
+  applyRootVariables(vars: Variables) {
     // istanbul ignore next
     if (isSSR()) {
       return;

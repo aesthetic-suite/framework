@@ -1,8 +1,4 @@
-import { DeclarationBlock } from '@aesthetic/sss';
-
-export type ThemeName = string;
-
-export type Unit = string;
+import { Declarations, Unit } from '@aesthetic/types';
 
 export type Hexcode = string;
 
@@ -453,45 +449,45 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 export interface Mixins {
   border: {
-    [K in BorderSize]: DeclarationBlock;
+    [K in BorderSize]: Declarations;
   };
   box: {
-    [K in CommonSize]: DeclarationBlock;
+    [K in CommonSize]: Declarations;
   };
   heading: {
-    [K in HeadingSize]: DeclarationBlock;
+    [K in HeadingSize]: Declarations;
   };
   // input: {
-  //   default: DeclarationBlock;
-  //   disabled: DeclarationBlock;
-  //   focused: DeclarationBlock;
-  //   invalid: DeclarationBlock;
+  //   default: Declarations;
+  //   disabled: Declarations;
+  //   focused: Declarations;
+  //   invalid: Declarations;
   // };
   pattern: {
-    hidden: DeclarationBlock;
-    offscreen: DeclarationBlock;
+    hidden: Declarations;
+    offscreen: Declarations;
     reset: {
-      button: DeclarationBlock;
-      input: DeclarationBlock;
-      list: DeclarationBlock;
-      typography: DeclarationBlock;
+      button: Declarations;
+      input: Declarations;
+      list: Declarations;
+      typography: Declarations;
     };
     text: {
-      break: DeclarationBlock;
-      truncate: DeclarationBlock;
-      wrap: DeclarationBlock;
+      break: Declarations;
+      truncate: Declarations;
+      wrap: Declarations;
     };
   };
   shadow: {
-    [K in ShadowSize]: DeclarationBlock;
+    [K in ShadowSize]: Declarations;
   };
   // state: {
-  //   disabled: DeclarationBlock;
-  //   focused: DeclarationBlock;
-  //   invalid: DeclarationBlock;
+  //   disabled: Declarations;
+  //   focused: Declarations;
+  //   invalid: Declarations;
   // };
   text: {
-    [K in TextSize]: DeclarationBlock;
+    [K in TextSize]: Declarations;
   };
 }
 

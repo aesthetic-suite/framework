@@ -1,38 +1,15 @@
-// eslint-disable-next-line import/no-unresolved
-import CSS from 'csstype';
+import {
+  CSS,
+  Declarations,
+  Value,
+  ClassName,
+  Unit,
+  UnitFactory,
+  Variables,
+} from '@aesthetic/types';
 
-export type ClassName = string;
-
-export type Value = string | number;
-
-export interface GenericProperties {
-  [key: string]: Value | Value[];
-}
-
-export type Properties = CSS.Properties<Value> & CSS.PropertiesHyphen<Value>;
-
-export type Property = keyof Properties;
-
-export type AttributeBlock = {
-  [K in CSS.HtmlAttributes]?: Properties;
-};
-
-export type PseudoBlock = {
-  [K in CSS.SimplePseudos]?: Properties;
-};
-
-export type DeclarationBlock = Properties & AttributeBlock & PseudoBlock;
-
-export interface Rule extends DeclarationBlock {
+export interface Rule extends Declarations {
   [key: string]: Rule | Value | unknown;
-}
-
-export type FontFace = CSS.FontFace;
-
-export interface Keyframes {
-  [percent: string]: Properties | undefined;
-  from?: Properties;
-  to?: Properties;
 }
 
 export type SheetType = 'global' | 'standard' | 'conditions';
@@ -46,13 +23,11 @@ export interface RankCache {
   [property: string]: number;
 }
 
-export type UnitFactory = (property: string) => string | undefined;
-
 export interface ProcessOptions {
   deterministic?: boolean;
   rankings?: RankCache;
   rtl?: boolean;
-  unit?: string | UnitFactory;
+  unit?: Unit | UnitFactory;
   vendor?: boolean;
 }
 
@@ -67,18 +42,14 @@ export interface CacheItem extends Required<Omit<RenderOptions, keyof ProcessOpt
   rank: number;
 }
 
-export interface CSSVariables<T = Value> {
-  [key: string]: T;
-}
-
 export interface StyleRule {
   conditionText?: string;
   cssRules: StyleRule[];
-  cssText: string;
-  cssVariables: CSSVariables<string>;
-  textContent: string;
+  cssText: CSS;
+  cssVariables: Variables<string>;
+  textContent: CSS;
   type: number;
-  insertRule: (rule: string, index: number) => number;
+  insertRule: (rule: CSS, index: number) => number;
 }
 
 // DATA

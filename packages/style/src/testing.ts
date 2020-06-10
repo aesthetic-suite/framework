@@ -1,8 +1,9 @@
 /* eslint-disable unicorn/import-index, no-unused-expressions */
 
+import { CSS } from '@aesthetic/types';
 import { SheetType, getDocumentStyleSheet, getStyleElement } from './index';
 
-export function getRenderedStyles(type: SheetType): string {
+export function getRenderedStyles(type: SheetType): CSS {
   return Array.from(getDocumentStyleSheet(type).cssRules).reduce(
     (css, rule) => css + rule.cssText,
     '',

@@ -1,3 +1,4 @@
+import { Value, Properties, GenericProperties } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 import { declarationMapping } from '../data/prefixes';
@@ -5,7 +6,7 @@ import getPrefixesFromMask from './getPrefixesFromMask';
 import isPrefixed from './isPrefixed';
 import prefixValueFunction from './prefixValueFunction';
 import prefixValue from './prefixValue';
-import { Properties, ProcessOptions, GenericProperties, Value } from '../types';
+import { ProcessOptions } from '../types';
 
 /**
  * Apply vendor prefixes and RTL conversions to a block of properties.
