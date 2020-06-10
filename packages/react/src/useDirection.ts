@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Direction } from '@aesthetic/core';
+import { Direction } from '@aesthetic/types';
 import DirectionContext from './DirectionContext';
 
 /**

@@ -1,9 +1,13 @@
 import CSS from 'csstype';
+import {
+  FontFace as BaseFontFace,
+  Keyframes as BaseKeyframes,
+  Declarations,
+  Property,
+  Value,
+  Variables,
+} from '@aesthetic/types';
 import Block from './Block';
-
-export type Value = string | number;
-
-export type MaybeValue = Value | undefined;
 
 // PROPERTIES
 
@@ -158,21 +162,15 @@ export interface Properties
   transition?: CSS.TransitionProperty | TransitionProperty;
 }
 
-export type Property = keyof Properties;
-
 export type FallbackProperties = CSS.StandardPropertiesFallback<Value>;
 
-export interface GenericProperties {
-  [key: string]: Value;
+export type Rule = Declarations<Properties>;
+
+export interface Rulesets<T> {
+  [selector: string]: T;
 }
 
-export type Pseudos = { [P in CSS.SimplePseudos]?: DeclarationBlock };
-
-export type Attributes = { [A in CSS.HtmlAttributes]?: DeclarationBlock };
-
-export type DeclarationBlock = Properties & Pseudos & Attributes;
-
-export interface FontFace extends CSS.FontFace {
+export interface FontFace extends BaseFontFace {
   local?: string[];
   srcPaths: string[];
 }
@@ -183,15 +181,7 @@ export interface Import {
   url?: boolean;
 }
 
-export interface Keyframes {
-  [percent: string]: DeclarationBlock | undefined;
-  from?: DeclarationBlock;
-  to?: DeclarationBlock;
-}
-
-export interface CSSVariables {
-  [name: string]: Value;
-}
+export type Keyframes = BaseKeyframes<Rule>;
 
 export type Viewport = CSS.Viewport<Value>;
 
@@ -226,20 +216,16 @@ export type PagePseudos = ':blank' | ':first' | ':left' | ':right';
 
 export type Page = PageBlock & { [K in PagePseudos]?: PageBlock };
 
-export interface Rulesets<T> {
-  [selector: string]: T;
-}
-
 // LOCAL STYLE SHEET
 
 export type LocalAtRule = '@fallbacks' | '@media' | '@selectors' | '@supports' | '@variables';
 
-export type LocalBlock = DeclarationBlock & {
+export type LocalBlock = Rule & {
   '@fallbacks'?: FallbackProperties;
   '@media'?: { [mediaQuery: string]: LocalBlock };
   '@selectors'?: { [selector: string]: LocalBlock };
   '@supports'?: { [featureQuery: string]: LocalBlock };
-  '@variables'?: CSSVariables;
+  '@variables'?: Variables;
 };
 
 export type LocalBlockNeverize<T> = {
@@ -269,7 +255,7 @@ export interface GlobalStyleSheet {
   '@import'?: (string | Import)[];
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Page;
-  '@variables'?: CSSVariables;
+  '@variables'?: Variables;
   '@viewport'?: Viewport;
 }
 

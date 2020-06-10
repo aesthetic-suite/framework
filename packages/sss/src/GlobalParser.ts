@@ -1,8 +1,8 @@
 import { isObject, toArray, objectLoop, arrayLoop } from '@aesthetic/utils';
+import Block from './Block';
 import Parser, { CommonEvents } from './Parser';
 import formatImport from './helpers/formatImport';
 import { GlobalStyleSheet, PagePseudos, BlockListener, ImportListener } from './types';
-import Block from './Block';
 
 export interface GlobalEvents<T extends object> extends CommonEvents<T> {
   onGlobal?: BlockListener<T>;

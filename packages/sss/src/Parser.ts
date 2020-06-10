@@ -1,5 +1,6 @@
 /* eslint-disable lines-between-class-members, no-dupe-class-members */
 
+import { Property, Value, Variables } from '@aesthetic/types';
 import { isObject, toArray, arrayLoop, objectLoop, hyphenate } from '@aesthetic/utils';
 import Block from './Block';
 import formatFontFace from './helpers/formatFontFace';
@@ -13,8 +14,6 @@ import {
   BlockNestedListener,
   BlockPropertyListener,
   ClassNameListener,
-  CSSVariables,
-  DeclarationBlock,
   FallbackProperties,
   FontFace,
   FontFaceListener,
@@ -22,10 +21,9 @@ import {
   Keyframes,
   KeyframesListener,
   LocalBlock,
-  Property,
   Properties,
+  Rule,
   RulesetListener,
-  Value,
   VariableListener,
   ProcessorMap,
 } from './types';
@@ -80,7 +78,7 @@ export default abstract class Parser<T extends object, E extends object> {
     }
   }
 
-  parseBlock(parent: Block<T>, object: DeclarationBlock): Block<T> {
+  parseBlock(parent: Block<T>, object: Rule): Block<T> {
     this.validateDeclarationBlock(object, parent.selector);
 
     objectLoop(object, (value, key) => {
@@ -92,11 +90,11 @@ export default abstract class Parser<T extends object, E extends object> {
 
       // Pseudo and attribute selectors
       if (char === ':' || char === '[') {
-        this.parseSelector(parent, key, value as DeclarationBlock);
+        this.parseSelector(parent, key, value as Rule);
 
         // Special case for unique at-rules (@page blocks)
       } else if (char === '@') {
-        parent.addNested(this.parseBlock(new Block(key), value as DeclarationBlock));
+        parent.addNested(this.parseBlock(new Block(key), value as Rule));
 
         // Run for each property so it can be customized
       } else {
@@ -242,12 +240,7 @@ export default abstract class Parser<T extends object, E extends object> {
     }
   }
 
-  parseSelector(
-    parent: Block<T>,
-    selector: string,
-    object: DeclarationBlock,
-    inAtRule: boolean = false,
-  ) {
+  parseSelector(parent: Block<T>, selector: string, object: Rule, inAtRule: boolean = false) {
     this.validateDeclarationBlock(object, selector);
 
     if (__DEV__) {
@@ -285,7 +278,7 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  parseVariables(parent: Block<T> | null, variables: CSSVariables) {
+  parseVariables(parent: Block<T> | null, variables: Variables) {
     this.validateDeclarations(variables, '@variables');
 
     objectLoop(variables, (value, prop) => {

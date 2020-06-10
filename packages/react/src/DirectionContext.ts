@@ -1,5 +1,5 @@
 import React from 'react';
-import { Direction } from '@aesthetic/core';
+import { Direction } from '@aesthetic/types';
 import { isSSR } from '@aesthetic/utils';
 import { DirectionContextType } from './types';
 

@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from 'react';
-import { ClassName, Direction, Theme, ThemeName } from '@aesthetic/core';
+import { Theme } from '@aesthetic/core';
+import { ClassName, Direction, ThemeName } from '@aesthetic/types';
 
 export type ClassNameGenerator<T> = (...keys: (undefined | null | false | T)[]) => ClassName;
 

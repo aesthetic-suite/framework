@@ -1,6 +1,7 @@
 import { GlobalParser } from '@aesthetic/sss';
-import { Renderer, ClassName, Properties } from '@aesthetic/style';
+import { Renderer, Rule } from '@aesthetic/style';
 import { Theme } from '@aesthetic/system';
+import { ClassName } from '@aesthetic/types';
 import Sheet from './Sheet';
 import { GlobalSheetFactory, SheetParams } from './types';
 
@@ -28,7 +29,7 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
     };
 
     // TODO @page, @viewport
-    new GlobalParser<Properties>({
+    new GlobalParser<Rule>({
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject());
       },

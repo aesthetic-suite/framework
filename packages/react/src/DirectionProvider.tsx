@@ -1,6 +1,6 @@
 import React from 'react';
 import getDirection from 'direction';
-import { Direction } from '@aesthetic/core';
+import { Direction } from '@aesthetic/types';
 import DirectionContext from './DirectionContext';
 import { DirectionProviderProps } from './types';
 

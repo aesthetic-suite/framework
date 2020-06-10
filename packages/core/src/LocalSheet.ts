@@ -1,5 +1,5 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Renderer, Properties } from '@aesthetic/style';
+import { Renderer, Rule } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { deepMerge } from '@aesthetic/utils';
 import Sheet from './Sheet';
@@ -88,7 +88,7 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
       vendor: params.vendor,
     };
 
-    new LocalParser<Properties>({
+    new LocalParser<Rule>({
       onClass(selector, className) {
         classNames[selector] = className;
       },
