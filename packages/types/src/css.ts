@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-unresolved
 import CSST from 'csstype';
 
+export { CSST };
+
 export type CSS = string;
 
 // VALUES
