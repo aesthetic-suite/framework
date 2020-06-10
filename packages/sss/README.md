@@ -11,3 +11,7 @@ A strict, type-safe, and structure-safe component style sheet format.
 ```
 yarn add @aesthetic/sss
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/sss](https://milesj.gitbook.io/aesthetic/sss)

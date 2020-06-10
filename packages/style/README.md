@@ -42,7 +42,7 @@ const className = renderer.renderRule(
 
 ## Features
 
-- 6.1kb minified and gzipped (38.6kb original).
+- 5.8kb minified and gzipped (35.4kb original).
 - Atomic based CSS. One declaration per class name.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
@@ -63,3 +63,7 @@ const className = renderer.renderRule(
 ```
 yarn add @aesthetic/style
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/style](https://milesj.gitbook.io/aesthetic/style)
