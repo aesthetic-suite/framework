@@ -180,8 +180,8 @@ export default class Aesthetic {
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
 
     return sheet.render(this.renderer, theme, {
-      prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
+      vendor: this.options.vendorPrefixes,
       ...params,
     });
   };
@@ -224,8 +224,8 @@ export default class Aesthetic {
     }
 
     return sheet.render(this.renderer, theme, {
-      prefix: this.options.vendorPrefixes,
       unit: this.options.defaultUnit,
+      vendor: this.options.vendorPrefixes,
       ...params,
     });
   };

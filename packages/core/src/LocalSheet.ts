@@ -82,9 +82,10 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
     const styles = composer(theme.toUtilities(), theme.toTokens());
     const rankCache = {};
     const renderParams = {
-      prefix: params.prefix,
       rankings: rankCache,
       rtl: params.direction === 'rtl',
+      unit: params.unit,
+      vendor: params.vendor,
     };
 
     new LocalParser<Properties>({
@@ -92,7 +93,7 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
         classNames[selector] = className;
       },
       onFontFace(fontFace) {
-        renderer.renderFontFace(fontFace.toObject());
+        return renderer.renderFontFace(fontFace.toObject());
       },
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
@@ -100,9 +101,7 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
       onRuleset(selector, ruleset) {
         classNames[selector] = renderer.renderRule(ruleset.toObject(), renderParams);
       },
-    }).parse(styles, {
-      unit: params.unit,
-    });
+    }).parse(styles);
 
     return classNames;
   }

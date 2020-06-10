@@ -32,7 +32,3 @@ engine. It can be used stand-alone but has been designed to power additional abs
 - A plugin system, as such a system would degrade performance.
 - Rendering of styles in the global scope: `div`, `a`, etc.
 - Rendering of uncommon at-rules: `@namespace`, `@document`, `@page`, `@viewport`.
-
-## Benefits
-
-TODO

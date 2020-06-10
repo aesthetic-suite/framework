@@ -1,4 +1,4 @@
-# Global Styles
+# Global styles
 
 A global style sheet serves 2 purposes. The 1st is that it houses all at-rules that should be
 processed at the document level, and not the element level. The 2nd is for defining global-like
@@ -238,8 +238,10 @@ import { GlobalParser } from '@aesthetic/sss';
 const sheet = new CSSStyleSheet();
 
 const parser = new GlobalParser({
-  onFontFace(fontFace) {
+  onFontFace(fontFace, family) {
     sheet.insertRule(`@font-face { ${cssify(fontFace)} }`, sheet.cssRules.length);
+
+    return family;
   },
   onImport(path) {
     sheet.insertRule(`@import ${path};`, sheet.cssRules.length);

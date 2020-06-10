@@ -22,14 +22,15 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
     const composer = this.compose();
     const styles = composer(theme.toUtilities(), theme.toTokens());
     const renderParams = {
-      prefix: params.prefix,
       rtl: params.direction === 'rtl',
+      unit: params.unit,
+      vendor: params.vendor,
     };
 
     // TODO @page, @viewport
     new GlobalParser<Properties>({
       onFontFace(fontFace) {
-        renderer.renderFontFace(fontFace.toObject());
+        return renderer.renderFontFace(fontFace.toObject());
       },
       onGlobal(block) {
         className = renderer.renderRuleGrouped(block.toObject(), {
@@ -44,9 +45,7 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
-    }).parse(styles, {
-      unit: params.unit,
-    });
+    }).parse(styles);
 
     return className;
   }

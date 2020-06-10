@@ -1,5 +1,4 @@
 import LocalParser from '../src/LocalParser';
-import Block from '../src/Block';
 import { Properties } from '../src/types';
 import { createBlock } from './helpers';
 import {
@@ -18,11 +17,11 @@ describe('Special properties', () => {
   beforeEach(() => {
     spy = jest.fn();
     parser = new LocalParser({
-      onBlockProperty: spy,
+      onBlock: spy,
     });
   });
 
-  it('collapses `animation`', () => {
+  it('expands `animation`', () => {
     parser.parseBlock(createBlock('animation'), {
       animation: {
         delay: '30ms',
@@ -37,13 +36,37 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      expect.any(Block),
-      'animation',
-      '300ms linear 30ms 1 normal both running fade',
+      createBlock('animation', {
+        animationDelay: '30ms',
+        animationDirection: 'normal',
+        animationDuration: '300ms',
+        animationFillMode: 'both',
+        animationIterationCount: 1,
+        animationName: 'fade',
+        animationPlayState: 'running',
+        animationTimingFunction: 'linear',
+      }),
     );
   });
 
   it('parses `animationName` and renders keyframes', () => {
+    const kfSpy = jest.fn(() => 'test1');
+
+    parser.on('keyframes', kfSpy);
+    parser.parseBlock(createBlock('animationName'), {
+      animationName: KEYFRAMES_PERCENT,
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('animationName', {
+        animationName: 'test1',
+      }),
+    );
+
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
+  });
+
+  it('parses `animationName` as a list', () => {
     let count = 0;
 
     // eslint-disable-next-line no-plusplus
@@ -54,14 +77,18 @@ describe('Special properties', () => {
       animationName: ['slide', KEYFRAMES_PERCENT, KEYFRAMES_RANGE],
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'animationName', 'slide, test1, test2');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('animationName', {
+        animationName: 'slide, test1, test2',
+      }),
+    );
 
     expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
 
     expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_RANGE), undefined);
   });
 
-  it('collapses `background`', () => {
+  it('expands `background`', () => {
     parser.parseBlock(createBlock('background'), {
       background: {
         attachment: 'fixed',
@@ -76,13 +103,20 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      expect.any(Block),
-      'background',
-      'black none center / 50% no-repeat fixed border-box content-box',
+      createBlock('background', {
+        backgroundAttachment: 'fixed',
+        backgroundClip: 'border-box',
+        backgroundColor: 'black',
+        backgroundImage: 'none',
+        backgroundOrigin: 'content-box',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '50%',
+      }),
     );
   });
 
-  it('collapses `border`', () => {
+  it('expands `border`', () => {
     parser.parseBlock(createBlock('border'), {
       border: {
         color: 'red',
@@ -91,10 +125,16 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'border', '1px solid red');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('border', {
+        borderColor: 'red',
+        borderStyle: 'solid',
+        borderWidth: 1,
+      }),
+    );
   });
 
-  it('collapses `columnRule`', () => {
+  it('expands `columnRule`', () => {
     parser.parseBlock(createBlock('columnRule'), {
       columnRule: {
         color: 'blue',
@@ -103,10 +143,16 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'columnRule', '2px dashed blue');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('columnRule', {
+        columnRuleColor: 'blue',
+        columnRuleStyle: 'dashed',
+        columnRuleWidth: 2,
+      }),
+    );
   });
 
-  it('collapses `flex`', () => {
+  it('expands `flex`', () => {
     parser.parseBlock(createBlock('flex'), {
       flex: {
         grow: 2,
@@ -115,10 +161,16 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'flex', '2 1 50%');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('flex', {
+        flexGrow: 2,
+        flexShrink: 1,
+        flexBasis: '50%',
+      }),
+    );
   });
 
-  it('collapses `font`', () => {
+  it('expands `font`', () => {
     parser.parseBlock(createBlock('font'), {
       font: {
         family: '"Open Sans"',
@@ -132,13 +184,19 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      expect.any(Block),
-      'font',
-      'italic contextual 300 expanded 14px / 1.5 "Open Sans"',
+      createBlock('font', {
+        fontFamily: '"Open Sans"',
+        lineHeight: 1.5,
+        fontSize: 14,
+        fontStretch: 'expanded',
+        fontStyle: 'italic',
+        fontVariant: 'contextual',
+        fontWeight: 300,
+      }),
     );
   });
 
-  it('collapses `font` to system', () => {
+  it('expands `font` to system', () => {
     parser.parseBlock(createBlock('font'), {
       font: {
         family: '"Open Sans"',
@@ -148,18 +206,48 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'font', 'monospace');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('font', {
+        font: 'monospace',
+        lineHeight: 1.5,
+      }),
+    );
   });
 
   it('parses `fontFamily` and renders font faces', () => {
-    const ffSpy = jest.fn();
+    const ffSpy = jest.fn((obj, fontFamily) => fontFamily || obj.fontFamily);
+
+    parser.on('font-face', ffSpy);
+    parser.parseBlock(createBlock('fontFamily'), {
+      fontFamily: FONT_ROBOTO,
+    });
+
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('fontFamily', {
+        fontFamily: 'Roboto',
+      }),
+    );
+
+    expect(ffSpy).toHaveBeenCalledWith(
+      createBlock('@font-face', FONT_ROBOTO_FLAT_SRC),
+      'Roboto',
+      FONT_ROBOTO.srcPaths,
+    );
+  });
+
+  it('parses `fontFamily` as a list', () => {
+    const ffSpy = jest.fn((obj, fontFamily) => fontFamily || obj.fontFamily);
 
     parser.on('font-face', ffSpy);
     parser.parseBlock(createBlock('fontFamily'), {
       fontFamily: [FONT_ROBOTO, 'Arial', ...FONTS_CIRCULAR],
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'fontFamily', 'Roboto, Arial, Circular');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('fontFamily', {
+        fontFamily: 'Roboto, Arial, Circular',
+      }),
+    );
 
     expect(ffSpy).toHaveBeenCalledWith(
       createBlock('@font-face', FONT_ROBOTO_FLAT_SRC),
@@ -174,7 +262,7 @@ describe('Special properties', () => {
     );
   });
 
-  it('collapses `listStyle`', () => {
+  it('expands `listStyle`', () => {
     parser.parseBlock(createBlock('listStyle'), {
       listStyle: {
         image: 'inherit',
@@ -183,7 +271,13 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'listStyle', 'none outside inherit');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('listStyle', {
+        listStyleImage: 'inherit',
+        listStylePosition: 'outside',
+        listStyleType: 'none',
+      }),
+    );
   });
 
   it('formats `margin`', () => {
@@ -191,10 +285,14 @@ describe('Special properties', () => {
       margin: 5,
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'margin', '5px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('margin', {
+        margin: 5,
+      }),
+    );
   });
 
-  it('collapses `margin` (2-sided)', () => {
+  it('expands `margin` (2-sided)', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
         topBottom: '1px',
@@ -202,10 +300,17 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'margin', '1px 2px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('margin', {
+        marginTop: '1px',
+        marginBottom: '1px',
+        marginLeft: 2,
+        marginRight: 2,
+      }),
+    );
   });
 
-  it('collapses `margin` (3-sided)', () => {
+  it('expands `margin` (3-sided)', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
         bottom: '1px',
@@ -214,10 +319,17 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'margin', '2px 3px 1px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('margin', {
+        marginTop: '2px',
+        marginBottom: '1px',
+        marginLeft: 3,
+        marginRight: 3,
+      }),
+    );
   });
 
-  it('collapses `margin` (4-sided)', () => {
+  it('expands `margin` (4-sided)', () => {
     parser.parseBlock(createBlock('margin'), {
       margin: {
         bottom: '1px',
@@ -227,45 +339,37 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'margin', '2px 4px 1px 3px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('margin', {
+        marginTop: 2,
+        marginBottom: '1px',
+        marginLeft: '3px',
+        marginRight: '4px',
+      }),
+    );
   });
 
-  it('collapses `offset`', () => {
-    parser.parseBlock(createBlock('offset'), {
-      offset: {
-        distance: '40%',
-        path: 'url(arc.svg)',
-      },
-    });
-
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'offset', 'url(arc.svg) 40%');
-  });
-
-  it('collapses `offset` with rotate and position', () => {
-    parser.parseBlock(createBlock('offset'), {
-      offset: {
-        path: 'url(arc.svg)',
-        position: 'top',
-        rotate: '90deg',
-      },
-    });
-
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'offset', 'top url(arc.svg) 90deg');
-  });
-
-  it('collapses `offset` with anchor', () => {
+  it('expands `offset`', () => {
     parser.parseBlock(createBlock('offset'), {
       offset: {
         anchor: 'left bottom',
         distance: '40%',
         path: 'url(arc.svg)',
+        position: 'top',
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'offset', 'url(arc.svg) 40% / left bottom');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('offset', {
+        offsetAnchor: 'left bottom',
+        offsetDistance: '40%',
+        offsetPath: 'url(arc.svg)',
+        offsetPosition: 'top',
+      }),
+    );
   });
 
-  it('collapses `outline`', () => {
+  it('expands `outline`', () => {
     parser.parseBlock(createBlock('outline'), {
       outline: {
         color: 'green',
@@ -274,7 +378,13 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'outline', '3px dotted green');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('outline', {
+        outlineColor: 'green',
+        outlineStyle: 'dotted',
+        outlineWidth: '3px',
+      }),
+    );
   });
 
   it('skips `padding`', () => {
@@ -282,10 +392,14 @@ describe('Special properties', () => {
       padding: '10px',
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '10px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('padding', {
+        padding: '10px',
+      }),
+    );
   });
 
-  it('collapses `padding` (2-sided)', () => {
+  it('expands `padding` (2-sided)', () => {
     parser.parseBlock(createBlock('padding'), {
       padding: {
         topBottom: 1,
@@ -293,10 +407,17 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '1px 2rem');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('padding', {
+        paddingTop: 1,
+        paddingBottom: 1,
+        paddingLeft: '2rem',
+        paddingRight: '2rem',
+      }),
+    );
   });
 
-  it('collapses `padding` (3-sided)', () => {
+  it('expands `padding` (3-sided)', () => {
     parser.parseBlock(createBlock('padding'), {
       padding: {
         bottom: '1px',
@@ -305,10 +426,17 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '2px 3px 1px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('padding', {
+        paddingTop: '2px',
+        paddingBottom: '1px',
+        paddingLeft: '3px',
+        paddingRight: '3px',
+      }),
+    );
   });
 
-  it('collapses `padding` (4-sided)', () => {
+  it('expands `padding` (4-sided)', () => {
     parser.parseBlock(createBlock('padding'), {
       padding: {
         bottom: 1,
@@ -318,10 +446,17 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', '2px 4em 1px 3px');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('padding', {
+        paddingTop: '2px',
+        paddingBottom: 1,
+        paddingLeft: '3px',
+        paddingRight: '4em',
+      }),
+    );
   });
 
-  it('collapses `textDecoration`', () => {
+  it('expands `textDecoration`', () => {
     parser.parseBlock(createBlock('textDecoration'), {
       textDecoration: {
         color: 'black',
@@ -332,13 +467,16 @@ describe('Special properties', () => {
     });
 
     expect(spy).toHaveBeenCalledWith(
-      expect.any(Block),
-      'textDecoration',
-      'blink dashed black from-font',
+      createBlock('textDecoration', {
+        textDecorationColor: 'black',
+        textDecorationLine: 'blink',
+        textDecorationStyle: 'dashed',
+        textDecorationThickness: 'from-font',
+      }),
     );
   });
 
-  it('collapses `transition`', () => {
+  it('expands `transition`', () => {
     parser.parseBlock(createBlock('transition'), {
       transition: {
         delay: '10ms',
@@ -348,6 +486,13 @@ describe('Special properties', () => {
       },
     });
 
-    expect(spy).toHaveBeenCalledWith(expect.any(Block), 'transition', 'color 200ms ease-in 10ms');
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('transition', {
+        transitionDelay: '10ms',
+        transitionDuration: '200ms',
+        transitionProperty: 'color',
+        transitionTimingFunction: 'ease-in',
+      }),
+    );
   });
 });

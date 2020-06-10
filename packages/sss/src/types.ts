@@ -110,7 +110,7 @@ export interface TransitionProperty {
   timingFunction?: CSS.TransitionTimingFunctionProperty;
 }
 
-export type ExpandProperty<B, T> = B | T | (B | T)[];
+export type ListableProperty<B, T> = B | T | (B | T)[];
 
 // SYNTAX
 
@@ -137,8 +137,8 @@ export type ExpandedPropertyTypes =
 
 export interface Properties
   extends Omit<CSS.StandardProperties<Value>, CompoundPropertyTypes | ExpandedPropertyTypes> {
-  animation?: ExpandProperty<CSS.AnimationProperty, AnimationProperty>;
-  animationName?: ExpandProperty<CSS.AnimationNameProperty, Keyframes>;
+  animation?: CSS.AnimationProperty | AnimationProperty;
+  animationName?: ListableProperty<CSS.AnimationNameProperty, Keyframes>;
   background?: CSS.BackgroundProperty<Value> | BackgroundProperty;
   border?: CSS.BorderProperty<Value> | BorderProperty;
   borderBottom?: CSS.BorderBottomProperty<Value> | BorderProperty;
@@ -148,17 +148,23 @@ export interface Properties
   columnRule?: CSS.ColumnRuleProperty<Value> | ColumnRuleProperty;
   flex?: CSS.FlexProperty<Value> | FlexProperty;
   font?: CSS.FontProperty | FontProperty;
-  fontFamily?: ExpandProperty<CSS.FontFamilyProperty, FontFace>;
+  fontFamily?: ListableProperty<CSS.FontFamilyProperty, FontFace>;
   listStyle?: CSS.ListStyleProperty | ListStyleProperty;
   margin?: CSS.MarginProperty<Value> | MarginProperty;
   offset?: CSS.OffsetProperty<Value> | OffsetProperty;
   outline?: CSS.OutlineProperty<Value> | OutlineProperty;
   padding?: CSS.PaddingProperty<Value> | PaddingProperty;
   textDecoration?: CSS.TextDecorationProperty<Value> | TextDecorationProperty;
-  transition?: ExpandProperty<CSS.TransitionProperty, TransitionProperty>;
+  transition?: CSS.TransitionProperty | TransitionProperty;
 }
 
+export type Property = keyof Properties;
+
 export type FallbackProperties = CSS.StandardPropertiesFallback<Value>;
+
+export interface GenericProperties {
+  [key: string]: Value;
+}
 
 export type Pseudos = { [P in CSS.SimplePseudos]?: DeclarationBlock };
 
@@ -279,27 +285,14 @@ export interface NestedBlockParams {
   specificity: number;
 }
 
-export interface ParserOptions {
-  unit?: string;
+export type OnProcessProperty = (property: Property, value: Value) => void;
+
+export type Processor<T> = (value: T, onProcess: OnProcessProperty) => Value | undefined | void;
+
+export interface ProcessorMap {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: Processor<any>;
 }
-
-// TRANSFORMERS
-
-export type UnitWrapper = (property: string, value: MaybeValue) => Value;
-
-export interface TransformerUtils {
-  join: (...props: MaybeValue[]) => string;
-  separate: (...props: MaybeValue[]) => string;
-  wrap: (value: MaybeValue) => Value;
-}
-
-export type Transformer<T> = (property: T, utils: TransformerUtils) => Value;
-
-export type TransformerHandler<T> = (
-  property: Value | T,
-  wrap: UnitWrapper,
-  customTransformer?: Transformer<T>,
-) => Value;
 
 // EVENTS
 

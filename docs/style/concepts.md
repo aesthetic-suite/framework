@@ -185,6 +185,7 @@ import { Rule } from '@aesthetic/style';
 
 const rule: Rule = {
   '--font-size': '16px',
+  fontSize: 'var(--font-size)',
 };
 ```
 

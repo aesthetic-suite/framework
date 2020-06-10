@@ -278,8 +278,8 @@ describe('Aesthetic', () => {
         baz: 'c',
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
 
@@ -296,8 +296,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
         direction: 'rtl',
-        prefix: true,
         unit: 'em',
+        vendor: true,
       });
     });
 
@@ -309,8 +309,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, darkTheme, {
         theme: 'night',
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
   });
@@ -427,8 +427,8 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cnneg4x');
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
-        prefix: false,
         unit: 'px',
+        vendor: false,
       });
     });
 
@@ -445,8 +445,8 @@ describe('Aesthetic', () => {
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
         direction: 'rtl',
-        prefix: true,
         unit: 'em',
+        vendor: true,
       });
     });
   });

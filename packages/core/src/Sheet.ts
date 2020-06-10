@@ -12,10 +12,10 @@ export default abstract class Sheet<T> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
-      prefix: false,
       scheme: theme.scheme,
       theme: theme.name,
       unit: 'px',
+      vendor: false,
       ...baseParams,
     };
     const key = JSON.stringify(params);

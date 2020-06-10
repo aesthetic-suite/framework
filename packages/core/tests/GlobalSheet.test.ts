@@ -91,20 +91,21 @@ describe('GlobalSheet', () => {
     const spy = jest.spyOn(renderer, 'renderRuleGrouped');
     const className = sheet.render(renderer, lightTheme, {});
 
-    expect(className).toBe('ca3196k');
+    expect(className).toBe('c954zw4');
     expect(spy).toHaveBeenCalledWith(
       {
         height: '100%',
         margin: 0,
-        fontSize: '16px',
+        fontSize: 16,
         lineHeight: 1.5,
         backgroundColor: 'white',
       },
       {
         deterministic: true,
-        prefix: false,
         rtl: false,
         type: 'global',
+        unit: 'px',
+        vendor: false,
       },
     );
   });
@@ -130,8 +131,9 @@ describe('GlobalSheet', () => {
       },
       'fade',
       {
-        prefix: false,
         rtl: false,
+        unit: 'px',
+        vendor: false,
       },
     );
   });

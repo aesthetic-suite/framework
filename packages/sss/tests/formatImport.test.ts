@@ -1,4 +1,4 @@
-import formatImport from '../src/formatImport';
+import formatImport from '../src/helpers/formatImport';
 
 describe('formatImport()', () => {
   it('returns strings as is', () => {
