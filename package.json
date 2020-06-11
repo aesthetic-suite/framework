@@ -37,7 +37,7 @@
     "conventional-changelog-beemo": "^1.6.0",
     "eslint-plugin-rut": "^1.0.1",
     "jest-rut": "^1.0.1",
-    "lerna": "^3.22.0",
+    "lerna": "^3.22.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "rollup": "^2.14.0",
