@@ -1,13 +1,13 @@
 # Summary
 
-- Packages
-  - [Design System](./system/README.md)
+- [Packages](./packages.md)
+  - [Design system](./system/README.md)
     - [Configuration](./system/config.md)
-  - [Structured Style Sheets](./sss/README.md)
+  - [Structured style sheets](./sss/README.md)
     - [Specification](./sss/spec.md)
     - [Local styles](./sss/local.md)
     - [Global styles](./sss/global.md)
-  - [Style Engine](./style/README.md)
+  - [Style engine](./style/README.md)
     - [Getting started](./style/setup.md)
     - [Rendering concepts](./style/concepts.md)
     - [Features & options](./style/options.md)
