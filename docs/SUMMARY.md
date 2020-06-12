@@ -1,8 +1,25 @@
 # Summary
 
+- [Installation and setup](./setup.md)
+- [Create a design system](./create-system.md)
+- [Compose themes](./compose-themes.md)
+- [Configure the design system](./config-system.md)
+- [Compile to a platform target](./compile-target.md)
+- [Style components](./style-components.md)
+- Basics
+  - Themes
+  - Styles
+  - Selectors
+  - Media queries
+  - Feature queries
+  - Font faces
+  - Keyframes
+- Advanced
+  - Theme mixins
+  - Style sheet variants
+  - Server-side rendering
 - [Packages](./packages.md)
   - [Design system](./system/README.md)
-    - [Configuration](./system/config.md)
   - [Structured style sheets](./sss/README.md)
     - [Specification](./sss/spec.md)
     - [Local styles](./sss/local.md)

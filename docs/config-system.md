@@ -1,4 +1,4 @@
-# Configuration
+# Configuring the design system
 
 The design system is configured in a human and machine readable format known as
 [YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
