@@ -4,7 +4,7 @@
 - [Create a design system](./create-system.md)
 - [Compose themes](./compose-themes.md)
 - [Configure the design system](./config-system.md)
-- [Compile to a platform target](./compile-target.md)
+- [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)
 - Basics
   - Themes

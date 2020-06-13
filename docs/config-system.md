@@ -1,4 +1,4 @@
-# Configuring the design system
+# Configure the design system
 
 The design system is configured in a human and machine readable format known as
 [YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
@@ -240,7 +240,7 @@ typography:
 The `typography.text` settings control both the body and paragraph text of the application, as well
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
 small, default (normal), and large -- and can be configured using a
-[scaled format](#scaling-patterns), or with an explicit per size format.
+[scaled format](#scaling-patterns), or with a fixed per size format.
 
 The scaled approach will use scale equivalent settings to calculate small and large sizes, with
 default being the middle, and scaling outwards. The values configured should be the default text
@@ -298,7 +298,7 @@ typography:
     letterSpacingScale: 0.1
 ```
 
-For the explicit approach, define a map with `level*` named properties.
+For the fixed approach, define a map with `level*` named properties.
 
 ```yaml
 typography:
@@ -329,7 +329,7 @@ The `borders` setting controls all borders and comes in 3 sizes: small, default,
 moment, only width and radius (corner rounding) are configured here, while the color is configured
 in the neutral [theme palette](#color-palettes).
 
-Like other settings, borders can be configured with scaling or explicit values. Scaled borders are
+Like other settings, borders can be configured with scaling or fixed values. Scaled borders are
 calculated from the inside out, with default as the middle, and small and large as the edges.
 
 ```yaml
@@ -341,7 +341,7 @@ borders:
   widthScale: 2
 ```
 
-Or use a size map for explicit values.
+Or use a size map for fixed values.
 
 ```yaml
 borders:
@@ -390,7 +390,7 @@ stack and priority order, the following depths are available.
 To visually represent depth, we use and rely on shadows. The `shadows` setting can be used to
 configure shadows, and comes in 5 sizes: extra small, small, medium, large, and extra large.
 
-Like other settings, shadows can be configured with scaling or explicit values. Scaled shadows are
+Like other settings, shadows can be configured with scaling or fixed values. Scaled shadows are
 calculated from extra small upwards to extra large.
 
 ```yaml
@@ -406,7 +406,7 @@ shadows:
   spreadScale: 1.15
 ```
 
-Or use a size map for explicit values.
+Or use a size map for fixed values.
 
 ```yaml
 shadows:

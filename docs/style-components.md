@@ -1,1 +1,1 @@
-# Styling components
+# Style components
