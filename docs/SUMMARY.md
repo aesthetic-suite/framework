@@ -1,6 +1,6 @@
 # Summary
 
-- [Installation and setup](./setup.md)
+- [Prerequisites](./prereqs.md)
 - [Create a design system](./create-system.md)
 - [Compose themes](./compose-themes.md)
 - [Configure the design system](./config-system.md)

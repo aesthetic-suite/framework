@@ -1,5 +1,7 @@
 # Aesthetic
 
+> This documentation is for the old `aesthetic` NPM packages.
+
 Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components,
 whether it be with plain objects, importing style sheets, or simply referencing external class
 names. Simply put, Aesthetic is an abstraction layer for the compilation of styles via third-party

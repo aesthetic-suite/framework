@@ -1,17 +1,13 @@
 # Aesthetic
 
-> The new Aesthetic framework is a work in progress. If you're looking for the current React API,
-> please view the legacy docs.
-
 Aesthetic is an end-to-end design and development framework for declaring consistent visual styles
 across platforms, languages, projects, and teams.
 
 The entry point to Aesthetic is a fixed [design system](./create-system.md), created and
 [configured in YAML](./config-system.md). This design system is then
-[compiled to design tokens](./compile-tokens.md) for a target platform (Android, iOS, and Web). For
-example, the web platform supports CSS, SCSS, JavaScript, and many more formats. With this, all
-platforms are supported, across many languages and technologies, with the design system
-configuration being the single shared source of truth.
+[compiled to design tokens](./compile-tokens.md) for a target platform (Android, iOS, and Web) and
+format (CSS, SCSS, etc). With this, all platforms are supported, across many languages and
+technologies, with the design system configuration being the single shared source of truth.
 
 Furthermore, the design system isn't the only feature that Aesthetic provides. It also provides a
 framework-agnostic CSS-in-JS solution, built around the design system itself. This solution provides
@@ -19,8 +15,8 @@ a highly performant and ergonomic API for styling web components.
 
 ## For designers
 
-As a designer, you can own the design system, its parameters, and its themes, by managing the YAML
-configuration file. In the future, this YAML file can be automatically exported from a Figma file,
+As a designer, you own the design system, its aspects, and its themes, by managing the YAML
+configuration file. In the future, this YAML file will be automatically exported from a Figma file,
 or additional upstream sources.
 
 - [Create a design system](./create-system.md)
@@ -29,9 +25,8 @@ or additional upstream sources.
 
 ## For developers
 
-As a developer, you can compile the design system YAML configuration into design tokens for one or
-many platform targets as you wish. These design tokens can then be used to style your website or
-components.
+As a developer, you compile the design system configuration into design tokens for one or many
+platform targets. These design tokens can then be used to style your website or components.
 
 - [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)

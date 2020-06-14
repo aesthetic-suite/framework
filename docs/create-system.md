@@ -1,6 +1,6 @@
 # Create a design system
 
-Aesthetic itself isn't a design system, instead, it provides a design system "layer", in which a
+Aesthetic itself isn't a design system, instead, it provides a design system "builder", in which a
 company or individual can create and manage a design system for their project. To create a design
 system, run the following command in your project root.
 
@@ -8,7 +8,7 @@ system, run the following command in your project root.
 npx @aesthetic/cli init
 ```
 
-This command will generate a [YAML configuration file](./config-system.md) in which you may
+This command will generate an [YAML configuration file](./config-system.md) in which you may
 customize all aspects of the system. By default, the `init` command will generate the configuration
 using fixed settings. If you would prefer to use scaled settings (using
 [modular scale](./config-system.md#scaling-patterns)), pass the `--modularScale` flag.
@@ -75,3 +75,6 @@ no more, no less).
 - Typography
   - 3 body text levels (small, default, large)
   - 6 heading levels (1-6)
+
+> These numbers were derived from popular design systems by researching tech industry leaders. We
+> finalized the features and numbers based on the commonalities and consistencies across them all.
