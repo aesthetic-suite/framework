@@ -12,13 +12,13 @@ classes. This layer is powered by the [@aesthetic/system](../../packages/system/
 ## File structure
 
 During compilation, an `index.js` file will be created based on the design system YAML configuration
-file. An additional `themes/<name>.js` file will be created for each theme configured in the YAML
+file. Additional `themes/<name>.js` files will be created for each theme configured in the YAML
 file.
 
 This would look something like the following:
 
 ```
-<target>/
+css/<target>/
 ├── themes/
 │   ├── day.js
 │   └── night.js
@@ -259,12 +259,18 @@ export default design.createTheme(
 );
 ```
 
+## Mixins
+
+Coming soon...
+
+## Usage
+
 Token values can be accessed from both `Design` and `Theme` instances using the `tokens` class
 property, which is a multidimensional object.
 
 ```js
-import design from './ds';
-import theme from './ds/themes/day';
+import design from './css';
+import theme from './css/themes/day';
 
 design.tokens.heading.l3.size; // 1.79rem
 theme.tokens.palette.brand.color['30']; // #90a4ae
@@ -272,7 +278,3 @@ theme.tokens.palette.brand.color['30']; // #90a4ae
 
 There are far more advanced ways of utilizing design tokens. We suggest reading the documentation on
 the [design system package](../../packages/system/README.md) itself for more examples.
-
-## Mixins
-
-Coming soon...
