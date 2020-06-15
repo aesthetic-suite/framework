@@ -19,11 +19,11 @@
   - Style sheet variants
   - Server-side rendering
 - Formats
-  - Android
-  - iOS
-  - Web
-    - JavaScript
-    - TypeScript
+  - [Android](./formats/android/README.md)
+  - [iOS](./formats/ios/README.md)
+  - [Web](./formats/web/README.md)
+    - [JavaScript](./formats/web/js.md)
+    - [TypeScript](./formats/web/ts.md)
     - CSS
     - SCSS
     - Sass

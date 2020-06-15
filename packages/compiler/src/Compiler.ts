@@ -2,6 +2,7 @@ import fs from 'fs-extra';
 import optimal, { string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
+import camelCase from 'lodash/camelCase';
 import { Path, PortablePath } from '@boost/common';
 import { createMixins, DEPTHS } from '@aesthetic/system';
 import ConfigLoader from './ConfigLoader';
@@ -113,7 +114,7 @@ export default class Compiler {
   }
 
   getTargetFilePath(fileName: string): Path {
-    return this.targetPath.append(`${fileName}.${this.getFormatExtension()}`);
+    return this.targetPath.append(`${camelCase(fileName)}.${this.getFormatExtension()}`);
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
