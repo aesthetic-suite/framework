@@ -24,7 +24,7 @@
   - [Web](./formats/web/README.md)
     - [JavaScript](./formats/web/js.md)
     - [TypeScript](./formats/web/ts.md)
-    - CSS
+    - [CSS](./formats/web/css.md)
     - SCSS
     - Sass
     - Less

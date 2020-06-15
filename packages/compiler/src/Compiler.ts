@@ -136,7 +136,7 @@ export default class Compiler {
     const template = await this.loadTemplate('design');
 
     return this.writeFile(
-      this.getTargetFilePath(design.name),
+      this.getTargetFilePath('index'),
       await template!({
         data: design.template,
         design,

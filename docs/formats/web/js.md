@@ -11,11 +11,9 @@ classes. This layer is powered by the [@aesthetic/system](../../packages/system/
 
 ## File structure
 
-During compilation, a single `js` file will be created based on the design system YAML configuration
-file, named after the YAML `name` setting.
-
-Furthermore, an additional `js` file will be created for each theme configured in the YAML file. The
-name of these files will be associated to their theme name.
+During compilation, an `index.js` file will be created based on the design system YAML configuration
+file. An additional `themes/<name>.js` file will be created for each theme configured in the YAML
+file.
 
 This would look something like the following:
 
@@ -23,12 +21,11 @@ This would look something like the following:
 <target>/
 ├── themes/
 │   ├── day.js
-│   ├── night.js
-│   └── <name>.js
-└── example.js
+│   └── night.js
+└── index.js
 ```
 
-## Design tokens
+## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
 defines [aspect tokens](../../create-system.md#aspects) through an exported `Design` class instance.
@@ -193,7 +190,7 @@ export default new Design('example', {
 While the compiled theme files look loosely like this (removed some repetition for brevity):
 
 ```js
-import design from '../example';
+import design from '..';
 
 export default design.createTheme(
   {
@@ -266,8 +263,8 @@ Token values can be accessed from both `Design` and `Theme` instances using the 
 property, which is a multidimensional object.
 
 ```js
-import design from './example';
-import theme from './themes/day';
+import design from './ds';
+import theme from './ds/themes/day';
 
 design.tokens.heading.l3.size; // 1.79rem
 theme.tokens.palette.brand.color['30']; // #90a4ae

@@ -2,7 +2,7 @@
 
 - [JavaScript](./js.md)
 - [TypeScript](./ts.md)
-- CSS
+- [CSS](./css.md)
 - SCSS
 - Sass
 - Less
