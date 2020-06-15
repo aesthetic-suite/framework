@@ -18,20 +18,30 @@
   - Theme mixins
   - Style sheet variants
   - Server-side rendering
-- [Packages](./packages.md)
-  - [Design system](./system/README.md)
-  - [Structured style sheets](./sss/README.md)
-    - [Specification](./sss/spec.md)
-    - [Local styles](./sss/local.md)
-    - [Global styles](./sss/global.md)
-  - [Style engine](./style/README.md)
-    - [Getting started](./style/setup.md)
-    - [Rendering concepts](./style/concepts.md)
-    - [Features & options](./style/options.md)
-    - [Server-side rendering](./style/ssr.md)
-    - [Test utilities](./style/testing.md)
-    - [API](./style/api.md)
-- [Legacy](./README.md)
+- Formats
+  - Android
+  - iOS
+  - Web
+    - JavaScript
+    - TypeScript
+    - CSS
+    - SCSS
+    - Sass
+    - Less
+- [Packages](./packages/README.md)
+  - [Design system](./packages/system/README.md)
+  - [Structured style sheets](./packages/sss/README.md)
+    - [Specification](./packages/sss/spec.md)
+    - [Local styles](./packages/sss/local.md)
+    - [Global styles](./packages/sss/global.md)
+  - [Style engine](./packages/style/README.md)
+    - [Getting started](./packages/style/setup.md)
+    - [Rendering concepts](./packages/style/concepts.md)
+    - [Features & options](./packages/style/options.md)
+    - [Server-side rendering](./packages/style/ssr.md)
+    - [Test utilities](./packages/style/testing.md)
+    - [API](./packages/style/api.md)
+- [Legacy](./legacy/README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)
   - [Styling Components](./legacy/style.md)
