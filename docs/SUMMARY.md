@@ -16,9 +16,10 @@
   - Keyframes
 - Advanced
   - Theme mixins
+  - Dark mode
   - Style sheet variants
   - Server-side rendering
-- Formats
+- [Formats](./formats/README.md)
   - [Android](./formats/android/README.md)
   - [iOS](./formats/ios/README.md)
   - [Web](./formats/web/README.md)
@@ -28,6 +29,8 @@
     - [SCSS](./formats/web/scss.md)
     - [Sass](./formats/web/sass.md)
     - Less
+- [Integrations](./integrations.md)
+  - [React](./packages/react/README.md)
 - [Packages](./packages/README.md)
   - [Design system](./packages/system/README.md)
   - [Structured style sheets](./packages/sss/README.md)
@@ -41,6 +44,7 @@
     - [Server-side rendering](./packages/style/ssr.md)
     - [Test utilities](./packages/style/testing.md)
     - [API](./packages/style/api.md)
+  - [React integration](./packages/react/README.md)
 - [Legacy](./legacy/README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)
@@ -66,4 +70,5 @@
     - [3.0](./legacy/migrate/3.0.md)
     - [4.0](./legacy/migrate/4.0.md)
     - [5.0](./legacy/migrate/5.0.md)
+- [Roadmap](https://github.com/milesj/aesthetic/blob/master/ROADMAP.md)
 - [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)

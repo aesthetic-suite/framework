@@ -183,7 +183,7 @@ Begin by importing the theme into scope using a namespace.
 @use "styles/<target>/themes/day" as token
 
 .button
-  font-size: token.$text-df-size;
+  font-size: token.$text-df-size
 ```
 
 While namespacing is great to avoid collision, it can be a bit verbose. If you prefer to import into
@@ -193,7 +193,7 @@ the global scope, use `*`.
 @use "styles/<target>/themes/day" as *
 
 .button
-  font-size: $text-df-size;
+  font-size: $text-df-size
 ```
 
 Tokens support [!default](https://sass-lang.com/documentation/variables) so that their value may be
