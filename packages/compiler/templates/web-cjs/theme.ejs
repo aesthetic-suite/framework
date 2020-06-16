@@ -10,7 +10,7 @@ module.exports = parentTheme.extend({
 });
 
 <% } else { -%>
-const design = require('../<%= design.name -%>');
+const design = require('..');
 
 module.exports = design.createTheme({
   contrast: '<%= theme.contrast -%>',

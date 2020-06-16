@@ -16,7 +16,7 @@ file.
 This would look something like the following:
 
 ```
-css/<target>/
+styles/<target>/
 ├── themes/
 │   ├── day.ts
 │   └── night.ts
@@ -267,8 +267,8 @@ Token values can be accessed from both `Design` and `Theme` instances using the 
 property, which is a multidimensional object.
 
 ```js
-import design from './css';
-import theme from './css/themes/day';
+import design from './styles/<target>';
+import theme from './styles/<target>/themes/day';
 
 design.tokens.heading.l3.size; // 1.79rem
 theme.tokens.palette.brand.color['30']; // #90a4ae

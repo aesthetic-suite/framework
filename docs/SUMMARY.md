@@ -25,8 +25,8 @@
     - [JavaScript](./formats/web/js.md)
     - [TypeScript](./formats/web/ts.md)
     - [CSS](./formats/web/css.md)
-    - SCSS
-    - Sass
+    - [SCSS](./formats/web/scss.md)
+    - [Sass](./formats/web/sass.md)
     - Less
 - [Packages](./packages/README.md)
   - [Design system](./packages/system/README.md)

@@ -15,7 +15,7 @@ in the YAML file. And lastly, a `mixins.css` file will also be created.
 This would look something like the following:
 
 ```
-css/<target>/
+styles/<target>/
 ├── themes/
 │   ├── day.css
 │   └── night.css
@@ -186,8 +186,8 @@ To activate a design system and theme, link the CSS file within your document to
 variables available.
 
 ```html
-<link href="css/<target>/index.css" rel="stylesheet" />
-<link href="css/<target>/themes/day.css" rel="stylesheet" />
+<link href="styles/<target>/index.css" rel="stylesheet" />
+<link href="styles/<target>/themes/day.css" rel="stylesheet" />
 ```
 
 With this pattern, only 1 design system may be active at a time, as they all rely on `:root`.
@@ -204,8 +204,8 @@ If using a bundler like Webpack or Parcel, import the CSS file within the root e
 early as possible.
 
 ```js
-import './css/<target>/index.css';
-import './css/<target>/themes/day.css';
+import './styles/<target>/index.css';
+import './styles/<target>/themes/day.css';
 ```
 
 ## Usage
@@ -229,7 +229,7 @@ Simply reference the tokens listed above like so:
 }
 ```
 
-And apply your classes to HTML as normal.
+And apply the classes to HTML as normal.
 
 ```html
 <button type="button" class="button">Continue</button>

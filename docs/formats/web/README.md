@@ -3,6 +3,6 @@
 - [JavaScript](./js.md)
 - [TypeScript](./ts.md)
 - [CSS](./css.md)
-- SCSS
-- Sass
+- [SCSS](./scss.md)
+- [Sass](./sass.md)
 - Less

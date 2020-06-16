@@ -113,8 +113,17 @@ export default class Compiler {
     }
   }
 
-  getTargetFilePath(fileName: string): Path {
-    return this.targetPath.append(`${camelCase(fileName)}.${this.getFormatExtension()}`);
+  getTargetFilePath(...parts: string[]): Path {
+    const { format } = this.options;
+    let fileName = camelCase(parts.pop());
+
+    if (format === 'web-scss' || format === 'web-sass') {
+      fileName = `_${fileName}`;
+    }
+
+    fileName += `.${this.getFormatExtension()}`;
+
+    return this.targetPath.append(...parts, fileName);
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
@@ -176,7 +185,7 @@ export default class Compiler {
     const template = await this.loadTemplate('theme');
 
     return this.writeFile(
-      this.getTargetFilePath(`themes/${theme.name}`),
+      this.getTargetFilePath('themes', theme.name),
       await template!({
         data: theme.template,
         design,
