@@ -1,7 +1,7 @@
 import { Path } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { Compiler, FormatType, PlatformType } from '@aesthetic/compiler';
-import { CONFIG_FILE, FORMAT_LIST, CWD } from '../constants';
+import { FORMAT_LIST, CWD } from '../constants';
 
 export interface CompileOptions extends GlobalOptions {
   config: string;
@@ -13,9 +13,9 @@ export type CompileParams = [string];
 @Config('compile', 'Compile a configuration file into a platform specific format')
 export default class Compile extends Command<CompileOptions, CompileParams> {
   @Arg.String('Relative path to the configuration file')
-  config: string = CONFIG_FILE;
+  config: string = '';
 
-  @Arg.String('Target platform and technology format', { choices: FORMAT_LIST })
+  @Arg.String('Target platform and format', { choices: FORMAT_LIST })
   format: FormatType = 'web-js';
 
   @Arg.Params<CompileParams>({

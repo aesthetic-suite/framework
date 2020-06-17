@@ -1,7 +1,7 @@
 import { Path, parseFile } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { ConfigLoader } from '@aesthetic/compiler';
-import { CONFIG_FILE, CWD } from '../constants';
+import { CWD } from '../constants';
 
 export interface ValidateOptions extends GlobalOptions {
   config: string;
@@ -10,7 +10,7 @@ export interface ValidateOptions extends GlobalOptions {
 @Config('validate', 'Validate a configuration file')
 export default class Validate extends Command<ValidateOptions> {
   @Arg.String('Relative path to the configuration file')
-  config: string = CONFIG_FILE;
+  config: string = '';
 
   async run() {
     const configPath = Path.resolve(this.config, CWD);
