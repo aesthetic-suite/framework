@@ -5,11 +5,13 @@ import prettier, { BuiltInParserName } from 'prettier';
 import camelCase from 'lodash/camelCase';
 import { Path, PortablePath } from '@boost/common';
 import { createMixins, DEPTHS } from '@aesthetic/system';
-import ConfigLoader from './ConfigLoader';
+import BrandLoader from './BrandLoader';
+import LanguageLoader from './LanguageLoader';
+import ThemesLoader from './ThemesLoader';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { FormatType, SystemOptions, PlatformType, ConfigFile, MixinsTemplate } from './types';
+import { FormatType, SystemOptions, PlatformType, MixinsTemplate, ThemesConfigFile } from './types';
 import {
   BORDER_SIZES,
   BREAKPOINT_SIZES,
@@ -35,16 +37,16 @@ const PRETTIER_IGNORE: { [ext: string]: boolean } = {
 };
 
 export default class Compiler {
-  readonly configPath: Path;
+  readonly configDir: Path;
 
   readonly options: Required<SystemOptions>;
 
   readonly targetPath: Path;
 
-  constructor(configPath: PortablePath, targetPath: PortablePath, options: SystemOptions) {
-    this.configPath = this.createAndValidatePath(
-      configPath,
-      'A configuration file path is required.',
+  constructor(configDir: PortablePath, targetPath: PortablePath, options: SystemOptions) {
+    this.configDir = this.createAndValidatePath(
+      configDir,
+      'A configuration folder path is required.',
       true,
     );
 
@@ -70,12 +72,20 @@ export default class Compiler {
   }
 
   async compile(): Promise<void> {
-    // Load and validate the config
-    const loader = new ConfigLoader(this.options.platform);
-    const { name, themes: themesConfig, ...designConfig } = await loader.load(this.configPath);
+    // Load and validate the brand config
+    const brandLoader = new BrandLoader();
+    const brandConfig = await brandLoader.load(this.configDir);
+
+    // Load and validate the design language config
+    const languageLoader = new LanguageLoader(this.options.platform);
+    const languageConfig = await languageLoader.load(this.configDir);
+
+    // Load and validate the themes config
+    const themesLoader = new ThemesLoader(languageConfig.colors);
+    const themesConfig = themesLoader.load(this.configDir);
 
     // Create the design system and theme variants
-    const design = new SystemDesign(name, designConfig, this.options);
+    const design = new SystemDesign(brandConfig.name, languageConfig, this.options);
     const themes = this.loadThemes(design, themesConfig);
 
     // Load the platform
@@ -261,7 +271,7 @@ export default class Compiler {
 
   protected loadThemes(
     design: SystemDesign,
-    themesConfig: ConfigFile['themes'],
+    themesConfig: ThemesConfigFile,
   ): Map<string, SystemTheme> {
     const themes = { ...themesConfig };
     const map = new Map<string, SystemTheme>();

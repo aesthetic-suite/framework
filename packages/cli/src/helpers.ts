@@ -1,7 +1,8 @@
 import { Path } from '@boost/common';
-import { CWD, CONFIG_FOLDER } from './constants';
+import { CONFIG_FOLDER } from '@aesthetic/compiler';
+import { CWD } from './constants';
 
-export function getConfigFolderPath(name: string): Path {
+export function getConfigFolderDir(name: string): Path {
   return new Path(CWD, CONFIG_FOLDER, name);
 }
 

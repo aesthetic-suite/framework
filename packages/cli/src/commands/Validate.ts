@@ -1,6 +1,6 @@
 import { Path, parseFile } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
-import { ConfigLoader } from '@aesthetic/compiler';
+// import { ConfigLoader } from '@aesthetic/compiler';
 import { CWD } from '../constants';
 
 export interface ValidateOptions extends GlobalOptions {
@@ -21,7 +21,7 @@ export default class Validate extends Command<ValidateOptions> {
 
     this.log('Validating config file %s', configPath);
 
-    new ConfigLoader('web').validate(await parseFile(configPath));
+    // new ConfigLoader('web').validate(await parseFile(configPath));
 
     this.log('No issues found');
 

@@ -1,14 +1,8 @@
 import fs from 'fs-extra';
 import { Path } from '@boost/common';
 import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
-import { getConfigFolderPath, validateSystemName } from '../helpers';
-import {
-  CONFIG_FOLDER,
-  BRAND_FILE,
-  LANGUAGE_FILE,
-  LANGUAGE_SCALED_FILE,
-  THEMES_FILE,
-} from '../constants';
+import { CONFIG_FOLDER, BRAND_FILE, LANGUAGE_FILE, THEMES_FILE } from '@aesthetic/compiler';
+import { getConfigFolderDir, validateSystemName } from '../helpers';
 
 export interface InitOptions extends GlobalOptions {
   modularScale: boolean;
@@ -29,19 +23,20 @@ export default class Init extends Command<InitOptions, InitParams> {
     validate: validateSystemName,
   })
   async run(name: string) {
-    const targetFolder = getConfigFolderPath(name);
+    const configDir = getConfigFolderDir(name);
 
-    await fs.ensureDir(targetFolder.path());
-    await this.createBrandConfig(targetFolder, name);
-    await this.createLanguageConfig(targetFolder);
-    await this.createThemesConfig(targetFolder);
+    await fs.ensureDir(configDir.path());
+
+    await this.createBrandConfig(configDir, name);
+    await this.createLanguageConfig(configDir);
+    await this.createThemesConfig(configDir);
 
     this.log('Initialized design system to "%s/%s"', CONFIG_FOLDER, name);
 
     // TODO Add enquirer integration and ask basic questions to inject into the yaml file
   }
 
-  async createBrandConfig(targetFolder: Path, name: string) {
+  async createBrandConfig(configDir: Path, name: string) {
     let contents = await fs.readFile(
       require.resolve(`@aesthetic/cli/templates/${BRAND_FILE}`),
       'utf8',
@@ -50,22 +45,24 @@ export default class Init extends Command<InitOptions, InitParams> {
     // Inject the design system name
     contents = contents.replace('example-name', name);
 
-    await fs.writeFile(targetFolder.append(BRAND_FILE).path(), contents, 'utf8');
+    await fs.writeFile(configDir.append(BRAND_FILE).path(), contents, 'utf8');
   }
 
-  async createLanguageConfig(targetFolder: Path) {
+  async createLanguageConfig(configDir: Path) {
     await fs.copyFile(
       require.resolve(
-        `@aesthetic/cli/templates/${this.modularScale ? LANGUAGE_SCALED_FILE : LANGUAGE_FILE}`,
+        `@aesthetic/cli/templates/${
+          this.modularScale ? LANGUAGE_FILE.replace('language', 'language-scaled') : LANGUAGE_FILE
+        }`,
       ),
-      targetFolder.append(LANGUAGE_FILE).path(),
+      configDir.append(LANGUAGE_FILE).path(),
     );
   }
 
-  async createThemesConfig(targetFolder: Path) {
+  async createThemesConfig(configDir: Path) {
     await fs.copyFile(
       require.resolve(`@aesthetic/cli/templates/${THEMES_FILE}`),
-      targetFolder.append(THEMES_FILE).path(),
+      configDir.append(THEMES_FILE).path(),
     );
   }
 }

@@ -217,7 +217,7 @@ export type PalettesConfig = {
   [K in PaletteType]: string | PaletteConfig;
 };
 
-// Final
+// Themes
 
 export interface ThemeConfig<ColorNames extends string = string> {
   colors: { [K in ColorNames]: ColorConfig };
@@ -227,10 +227,18 @@ export interface ThemeConfig<ColorNames extends string = string> {
   scheme: ColorScheme;
 }
 
-export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
-  extends: string;
+// Final
+
+export interface BrandConfigFile {
   name: string;
-  themes: { [name: string]: ThemeConfig<ColorNames> };
+}
+
+export interface LanguageConfigFile extends DesignConfig {
+  extends: string;
+}
+
+export interface ThemesConfigFile<ColorNames extends string = string> {
+  [name: string]: ThemeConfig<ColorNames>;
 }
 
 // CONFIG FILE -> TOKENS TEMPLATE

@@ -1,17 +1,15 @@
 import { Path, parseFile } from '@boost/common';
 import { deepMerge } from '@aesthetic/utils';
-import { DeepPartial, ColorScheme, ContrastLevel, Hexcode } from '@aesthetic/system';
-import optimal, {
-  array,
-  number,
-  object,
-  ObjectOf,
-  Schema,
-  shape,
-  string,
-  tuple,
-  union,
-} from 'optimal';
+import { DeepPartial } from '@aesthetic/system';
+import optimal, { array, number, object, shape, string, tuple, union } from 'optimal';
+import {
+  SCALES,
+  DEFAULT_BREAKPOINTS,
+  DEFAULT_UNIT,
+  PLATFORM_CONFIGS,
+  LANGUAGE_FILE,
+} from './constants';
+import { getPlatformFont } from './helpers';
 import {
   BorderConfig,
   BorderScaledConfig,
@@ -19,42 +17,23 @@ import {
   BreakpointConfig,
   BreakpointListConfig,
   BreakpointSizedConfig,
-  ColorConfig,
-  ConfigFile,
   HeadingScaledConfig,
   HeadingSizedConfig,
+  LanguageConfigFile,
   PlatformType,
   ResponsiveConfig,
   Scale,
   ScaleType,
+  ShadowConfig,
+  ShadowScaledConfig,
+  ShadowSizedConfig,
   SpacingConfig,
   SpacingType,
   StrategyType,
   TextScaledConfig,
   TextSizedConfig,
-  ThemeConfig,
   TypographyConfig,
-  ShadowScaledConfig,
-  ShadowSizedConfig,
-  ShadowConfig,
-  PaletteConfig,
-  PaletteState,
-  PalettesConfig,
 } from './types';
-import {
-  SCALES,
-  DEFAULT_BREAKPOINTS,
-  DEFAULT_UNIT,
-  PLATFORM_CONFIGS,
-  SHADE_RANGES,
-} from './constants';
-import { getPlatformFont } from './helpers';
-
-function hexcode() {
-  return string()
-    .match(/^#([0-9a-f]{6}|[0-9a-f]{3})$/iu)
-    .required();
-}
 
 function scale(defaultValue: Scale) {
   return union<Scale>(
@@ -67,65 +46,41 @@ function unit(defaultValue: number = 0) {
   return number(defaultValue);
 }
 
-function addYamlExtension(path: string): string {
-  return path.endsWith('.yaml') ? path : `${path}.yaml`;
-}
-
-export default class ConfigLoader {
+export default class LanguageLoader {
   platform: PlatformType;
 
   constructor(platform: PlatformType) {
     this.platform = platform;
   }
 
-  load(path: Path): ConfigFile {
-    let config = parseFile<DeepPartial<ConfigFile>>(path);
+  load(configDir: Path): LanguageConfigFile {
+    const filePath = configDir.append(LANGUAGE_FILE);
+    let config = parseFile<DeepPartial<LanguageConfigFile>>(filePath);
 
     // Extend from parent config
     if (config.extends) {
-      const fileName = addYamlExtension(config.extends);
-      let extendsPath: Path;
-
-      if (fileName.startsWith('.')) {
-        extendsPath = Path.resolve(fileName, path.parent());
-      } else {
-        extendsPath = path.parent().append(fileName);
-      }
-
-      config = deepMerge(this.load(extendsPath), config);
+      config = deepMerge(this.load(configDir.parent().append(config.extends)), config);
     }
 
-    // Merge themes that extend from each other,
-    // as our validation requires many fields to exist
-    if (config.themes) {
-      Object.entries(config.themes).forEach(([name, theme]) => {
-        if (theme?.extends) {
-          const parentTheme = config.themes![theme.extends]!;
-
-          if (!parentTheme) {
-            throw new Error(`Parent theme "${theme.extends}" does not exist.`);
-          }
-
-          config.themes![name] = deepMerge(parentTheme, theme);
-        }
-      });
-    }
-
-    return this.validate(config);
+    return this.validate(config, filePath);
   }
 
-  validate(config: DeepPartial<ConfigFile>): ConfigFile {
-    return optimal(config, {
-      borders: this.borders(),
-      colors: this.colors(),
-      extends: string(),
-      name: this.name(),
-      responsive: this.responsive(),
-      shadows: this.shadows(),
-      spacing: this.spacing(),
-      themes: this.themes(),
-      typography: this.typography(),
-    });
+  validate(config: DeepPartial<LanguageConfigFile>, filePath: Path): LanguageConfigFile {
+    return optimal(
+      config,
+      {
+        borders: this.borders(),
+        colors: this.colors(),
+        extends: string(),
+        responsive: this.responsive(),
+        shadows: this.shadows(),
+        spacing: this.spacing(),
+        typography: this.typography(),
+      },
+      {
+        file: filePath.path(),
+      },
+    );
   }
 
   protected borders() {
@@ -156,17 +111,6 @@ export default class ConfigLoader {
 
   protected colors() {
     return array(string().notEmpty().camelCase()).notEmpty().required();
-  }
-
-  protected colorShade(defaultValue: number) {
-    return union<number | string>(
-      [number().oneOf(SHADE_RANGES.map(Number)), string().oneOf(SHADE_RANGES)],
-      defaultValue,
-    );
-  }
-
-  protected name() {
-    return string().notEmpty();
   }
 
   protected responsive() {
@@ -253,78 +197,6 @@ export default class ConfigLoader {
       type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
       unit: number(DEFAULT_UNIT),
     }).exact();
-  }
-
-  protected themes() {
-    return object(
-      shape<ThemeConfig>({
-        colors: this.themeColors(),
-        contrast: string('normal').oneOf<ContrastLevel>(['high', 'low', 'normal']),
-        extends: string(),
-        palettes: shape<PalettesConfig>({
-          brand: this.themePalette(),
-          danger: this.themePalette(),
-          info: this.themePalette(),
-          muted: this.themePalette(),
-          neutral: this.themePalette(),
-          primary: this.themePalette(),
-          secondary: this.themePalette(),
-          success: this.themePalette(),
-          tertiary: this.themePalette(),
-          warning: this.themePalette(),
-        })
-          .exact()
-          .required(),
-        scheme: string('light').oneOf<ColorScheme>(['dark', 'light']),
-      }).exact(),
-    );
-  }
-
-  protected themeColors() {
-    return object(
-      shape<ColorConfig>({
-        '00': hexcode(),
-        '10': hexcode(),
-        '20': hexcode(),
-        '30': hexcode(),
-        '40': hexcode(),
-        '50': hexcode(),
-        '60': hexcode(),
-        '70': hexcode(),
-        '80': hexcode(),
-        '90': hexcode(),
-      }).exact(),
-    )
-      .custom(this.validateThemeImplementsColors)
-      .required();
-  }
-
-  protected themePaletteState(base: number) {
-    return shape<PaletteState>({
-      base: this.colorShade(base),
-      disabled: this.colorShade(base - 10),
-      focused: this.colorShade(base + 10),
-      hovered: this.colorShade(base + 20),
-      selected: this.colorShade(base + 10),
-    }).exact();
-  }
-
-  protected themePalette() {
-    const color = string().required().notEmpty().custom(this.validatePaletteColorReference);
-
-    return union<string | PaletteConfig>(
-      [
-        color,
-        shape<PaletteConfig>({
-          color,
-          bg: this.themePaletteState(40),
-          fg: this.themePaletteState(50),
-        })
-          .exact()
-          .required(),
-      ],
-      '',
-    );
   }
 
   protected typography() {
@@ -422,44 +294,4 @@ export default class ConfigLoader {
 
     return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());
   }
-
-  protected validateThemeImplementsColors = (
-    colors: ObjectOf<Hexcode | ColorConfig>,
-    schema: Schema<ConfigFile>,
-  ) => {
-    const theme = schema.currentPath.split('.')[1];
-    const names = new Set<string>(schema.struct.colors);
-    const unknown = new Set<string>();
-
-    // Theme extends another theme, so dont validate as it will merge
-    if (schema.struct.themes?.[theme]?.extends) {
-      return;
-    }
-
-    Object.keys(colors).forEach((color) => {
-      if (names.has(color)) {
-        names.delete(color);
-      } else {
-        unknown.add(color);
-      }
-    });
-
-    if (names.size > 0) {
-      throw new Error(
-        `Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
-      );
-    }
-
-    if (unknown.size > 0) {
-      throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
-    }
-  };
-
-  protected validatePaletteColorReference = (name: string, schema: Schema<ConfigFile>) => {
-    const names = new Set<string>(schema.struct.colors);
-
-    if (!names.has(name)) {
-      throw new Error(`Invalid color "${name}".`);
-    }
-  };
 }
