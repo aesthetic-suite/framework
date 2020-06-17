@@ -7,6 +7,7 @@
 - [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)
 - Basics
+  - [Design system](./basics/design-system.md)
   - Themes
   - Styles
   - Selectors
