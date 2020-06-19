@@ -10,7 +10,7 @@ export interface CompileOptions extends GlobalOptions {
 
 export type CompileParams = [string, string];
 
-@Config('compile', 'Compile a configuration into a platform specific format')
+@Config('compile', 'Compile a design system configuration into a platform specific format')
 export default class Compile extends Command<CompileOptions, CompileParams> {
   @Arg.String('Current working directory')
   cwd: string = CWD;
@@ -41,10 +41,8 @@ export default class Compile extends Command<CompileOptions, CompileParams> {
       platform: this.format.split('-')[0] as PlatformType,
     });
 
-    this.log('Compiling %s files to %s', this.format, targetPath);
-
     await compiler.compile();
 
-    this.log('Compiled files!');
+    this.log('Compiled %s files to %s', this.format, targetPath);
   }
 }
