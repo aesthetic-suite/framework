@@ -15,7 +15,7 @@ export default function runTargetTests(
 
     beforeEach(() => {
       compiler = new Compiler(
-        path.join(__dirname, `../../templates/${fixed ? 'config-fixed' : 'config'}.yaml`),
+        path.join(__dirname, `../__fixtures__/${fixed ? 'system-fixed' : 'system-scaled'}`),
         __dirname,
         {
           format,

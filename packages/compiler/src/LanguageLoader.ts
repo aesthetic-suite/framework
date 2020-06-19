@@ -54,7 +54,9 @@ export default class LanguageLoader {
   }
 
   load(configDir: Path): LanguageConfigFile {
-    const filePath = configDir.append(LANGUAGE_FILE);
+    const filePath = configDir.path().endsWith('yaml')
+      ? configDir
+      : configDir.append(LANGUAGE_FILE);
     let config = parseFile<DeepPartial<LanguageConfigFile>>(filePath);
 
     // Extend from parent config

@@ -1,5 +1,6 @@
 import { Path } from '@boost/common';
-import ConfigLoader from '../src/ConfigLoader';
+import LanguageLoader from '../src/LanguageLoader';
+import ThemesLoader from '../src/ThemesLoader';
 import SystemDesign from '../src/SystemDesign';
 import { SystemOptions, FONT_FAMILIES } from '../src';
 
@@ -11,7 +12,7 @@ describe('System', () => {
 
   describe('breakpoints', () => {
     it('handles mobile first', () => {
-      const config = new ConfigLoader('web').load(
+      const config = new LanguageLoader('web').load(
         new Path(__dirname, './__fixtures__/mobile-first.yaml'),
       );
 
@@ -52,7 +53,7 @@ describe('System', () => {
     });
 
     it('handles desktop first', () => {
-      const config = new ConfigLoader('web').load(
+      const config = new LanguageLoader('web').load(
         new Path(__dirname, './__fixtures__/desktop-first.yaml'),
       );
 
@@ -95,7 +96,9 @@ describe('System', () => {
 
   describe('typography', () => {
     it('sets each font', () => {
-      const config = new ConfigLoader('web').load(new Path(__dirname, './__fixtures__/fonts.yaml'));
+      const config = new LanguageLoader('web').load(
+        new Path(__dirname, './__fixtures__/fonts.yaml'),
+      );
 
       const design = new SystemDesign('test', config, options);
 
@@ -112,7 +115,7 @@ describe('System', () => {
     });
 
     it('sets heading and text font based on "system"', () => {
-      const config = new ConfigLoader('web').load(
+      const config = new LanguageLoader('web').load(
         new Path(__dirname, './__fixtures__/system-font.yaml'),
       );
 
@@ -123,7 +126,7 @@ describe('System', () => {
     });
 
     it('sets explicit heading and text font', () => {
-      const config = new ConfigLoader('web').load(
+      const config = new LanguageLoader('web').load(
         new Path(__dirname, './__fixtures__/explicit-font.yaml'),
       );
 
@@ -136,32 +139,40 @@ describe('System', () => {
 
   describe('themes', () => {
     it('loads a theme and all palette colors', () => {
-      const config = new ConfigLoader('web').load(
-        new Path(__dirname, './__fixtures__/themes.yaml'),
+      const config = new LanguageLoader('web').load(
+        new Path(__dirname, './__fixtures__/colors.yaml'),
+      );
+
+      const themes = new ThemesLoader(config.colors).load(
+        new Path(__dirname, './__fixtures__/themes/themes.yaml'),
       );
 
       const design = new SystemDesign('test', config, options);
-      const theme = design.createTheme('default', config.themes.default);
+      const theme = design.createTheme('default', themes.default);
 
       expect(theme.template).toMatchSnapshot();
     });
 
     it('supports theme extending', () => {
-      const config = new ConfigLoader('web').load(
-        new Path(__dirname, './__fixtures__/themes.yaml'),
+      const config = new LanguageLoader('web').load(
+        new Path(__dirname, './__fixtures__/colors.yaml'),
+      );
+
+      const themes = new ThemesLoader(config.colors).load(
+        new Path(__dirname, './__fixtures__/themes/themes.yaml'),
       );
 
       const design = new SystemDesign('test', config, options);
-      const base = design.createTheme('default', config.themes.default);
-      const other = base.extend('other', config.themes.other, 'default');
+      const base = design.createTheme('default', themes.default);
+      const other = base.extend('other', themes.other, 'default');
 
       expect(other.template).toMatchSnapshot();
     });
 
     it('errors when theme doesnt implement the defined colors', () => {
       expect(() =>
-        new ConfigLoader('web').load(
-          new Path(__dirname, './__fixtures__/missing-theme-color.yaml'),
+        new ThemesLoader(['black', 'white']).load(
+          new Path(__dirname, './__fixtures__/themes/missing-theme-color.yaml'),
         ),
       ).toThrow(
         'Invalid field "themes.default.colors". Theme has not implemented the following colors: black, white',
@@ -170,24 +181,24 @@ describe('System', () => {
 
     it('errors when theme implements an unknown colors', () => {
       expect(() =>
-        new ConfigLoader('web').load(
-          new Path(__dirname, './__fixtures__/unknown-theme-color.yaml'),
+        new ThemesLoader(['black']).load(
+          new Path(__dirname, './__fixtures__/themes/unknown-theme-color.yaml'),
         ),
       ).toThrow('Invalid field "themes.default.colors". Theme is using unknown colors: white');
     });
 
     it('errors when theme implements too many color ranges', () => {
       expect(() =>
-        new ConfigLoader('web').load(
-          new Path(__dirname, './__fixtures__/invalid-palette-range.yaml'),
+        new ThemesLoader(['black']).load(
+          new Path(__dirname, './__fixtures__/themes/invalid-palette-range.yaml'),
         ),
       ).toThrow('Unknown "themes.default.colors.black" fields: 100.');
     });
 
     it('errors when theme palette references an invalid color', () => {
       expect(() =>
-        new ConfigLoader('web').load(
-          new Path(__dirname, './__fixtures__/invalid-palette-color.yaml'),
+        new ThemesLoader(['black']).load(
+          new Path(__dirname, './__fixtures__/themes/invalid-palette-color.yaml'),
         ),
       )
         .toThrow(`Invalid field "themes.default.palettes.brand". Type must be one of: string, shape. Received string with the following invalidations:
@@ -196,8 +207,8 @@ describe('System', () => {
 
     it('errors when theme palette references an invalid color shade', () => {
       expect(() =>
-        new ConfigLoader('web').load(
-          new Path(__dirname, './__fixtures__/invalid-palette-color-reference.yaml'),
+        new ThemesLoader(['black']).load(
+          new Path(__dirname, './__fixtures__/themes/invalid-palette-color-reference.yaml'),
         ),
       ).toThrowErrorMatchingSnapshot();
     });

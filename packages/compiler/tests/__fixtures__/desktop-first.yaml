@@ -1,4 +1,3 @@
-extends: ../../templates/config
-name: test
+extends: ./system-fixed/language.yaml
 responsive:
   strategy: desktop-first

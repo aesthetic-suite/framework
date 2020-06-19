@@ -10,6 +10,8 @@ import {
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
+export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
+
 export const CONFIG_FOLDER = '.aesthetic';
 
 export const BRAND_FILE = 'brand.yaml';

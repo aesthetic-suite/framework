@@ -26,7 +26,7 @@ export default class ThemesLoader {
   }
 
   load(configDir: Path): ThemesConfigFile {
-    const filePath = configDir.append(THEMES_FILE);
+    const filePath = configDir.path().endsWith('yaml') ? configDir : configDir.append(THEMES_FILE);
     const themes = parseFile<DeepPartial<ThemesConfigFile>>(filePath);
     const config: ThemesConfigFile = {};
 
@@ -50,7 +50,11 @@ export default class ThemesLoader {
   }
 
   validate(themes: DeepPartial<ThemesConfigFile>, filePath: Path): ThemesConfigFile {
-    return optimal({ themes }, { themes: this.themes() }, { file: filePath.path() }).themes;
+    return optimal(
+      { themes },
+      { themes: this.themes() },
+      { file: process.env.NODE_ENV === 'test' ? undefined : filePath.path() },
+    ).themes;
   }
 
   protected colorShade(defaultValue: number) {
