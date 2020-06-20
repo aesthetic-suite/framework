@@ -277,16 +277,16 @@ export default class Compiler {
     const map = new Map<string, SystemTheme>();
 
     // Load all themes that do not extend another theme
-    Object.entries(themes).forEach(([name, config]) => {
+    Object.entries(themes.themes).forEach(([name, config]) => {
       if (!config.extends) {
         map.set(name, design.createTheme(name, config));
 
-        delete themes[name];
+        delete themes.themes[name];
       }
     });
 
     // Load themes that do extend another theme
-    Object.entries(themes).forEach(([name, config]) => {
+    Object.entries(themes.themes).forEach(([name, config]) => {
       const { extends: extendsFrom, ...themeConfig } = config;
       const parentTheme = map.get(extendsFrom!);
 

@@ -148,7 +148,7 @@ describe('System', () => {
       );
 
       const design = new SystemDesign('test', config, options);
-      const theme = design.createTheme('default', themes.default);
+      const theme = design.createTheme('default', themes.themes.default);
 
       expect(theme.template).toMatchSnapshot();
     });
@@ -163,8 +163,8 @@ describe('System', () => {
       );
 
       const design = new SystemDesign('test', config, options);
-      const base = design.createTheme('default', themes.default);
-      const other = base.extend('other', themes.other, 'default');
+      const base = design.createTheme('default', themes.themes.default);
+      const other = base.extend('other', themes.themes.other, 'default');
 
       expect(other.template).toMatchSnapshot();
     });

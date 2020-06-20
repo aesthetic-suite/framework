@@ -4,7 +4,7 @@ Aesthetic is an end-to-end design and development framework for declaring consis
 across platforms, languages, projects, and teams.
 
 The entry point to Aesthetic is a fixed [design system](./create-system.md), created and
-[configured in YAML](./config-system.md). This design system is then
+[configured in YAML](./config/README.md). This design system is then
 [compiled to design tokens](./compile-tokens.md) for a target platform (Android, iOS, and Web) and
 format (CSS, SCSS, etc). With this, all platforms are supported, across many languages and
 technologies, with the design system configuration being the single shared source of truth.
@@ -21,7 +21,7 @@ or additional upstream sources.
 
 - [Create a design system](./create-system.md)
 - [Compose themes](./compose-themes.md)
-- [Configure the design system](./config-system.md)
+- [Configure the design system](./config/README.md)
 
 ## For developers
 

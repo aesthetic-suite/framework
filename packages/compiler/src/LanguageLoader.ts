@@ -1,7 +1,7 @@
-import { Path, parseFile } from '@boost/common';
-import { deepMerge } from '@aesthetic/utils';
+import { Path } from '@boost/common';
 import { DeepPartial } from '@aesthetic/system';
 import optimal, { array, number, object, shape, string, tuple, union } from 'optimal';
+import Loader from './Loader';
 import {
   SCALES,
   DEFAULT_BREAKPOINTS,
@@ -46,25 +46,17 @@ function unit(defaultValue: number = 0) {
   return number(defaultValue);
 }
 
-export default class LanguageLoader {
+export default class LanguageLoader extends Loader<LanguageConfigFile> {
   platform: PlatformType;
 
   constructor(platform: PlatformType) {
+    super();
+
     this.platform = platform;
   }
 
-  load(configDir: Path): LanguageConfigFile {
-    const filePath = configDir.path().endsWith('yaml')
-      ? configDir
-      : configDir.append(LANGUAGE_FILE);
-    let config = parseFile<DeepPartial<LanguageConfigFile>>(filePath);
-
-    // Extend from parent config
-    if (config.extends) {
-      config = deepMerge(this.load(configDir.parent().append(config.extends)), config);
-    }
-
-    return this.validate(config, filePath);
+  getFileName() {
+    return LANGUAGE_FILE;
   }
 
   validate(config: DeepPartial<LanguageConfigFile>, filePath: Path): LanguageConfigFile {

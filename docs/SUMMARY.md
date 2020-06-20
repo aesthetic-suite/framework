@@ -2,8 +2,10 @@
 
 - [Prerequisites](./prereqs.md)
 - [Create a design system](./create-system.md)
-- [Compose themes](./compose-themes.md)
-- [Configure the design system](./config-system.md)
+- [Configure the design system](./config/README.md)
+  - [Brand](./config/brand.md)
+  - [Language](./config/language.md)
+  - [Themes](./config/themes.md)
 - [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)
 - Basics

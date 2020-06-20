@@ -1,21 +1,22 @@
 import { DeepPartial } from '@aesthetic/system';
-import { Path, parseFile } from '@boost/common';
+import { Path } from '@boost/common';
 import optimal, { string } from 'optimal';
 import { BRAND_FILE, NAME_PATTERN } from './constants';
 import { BrandConfigFile } from './types';
+import Loader from './Loader';
 
-export default class BrandLoader {
-  load(configDir: Path): BrandConfigFile {
-    const filePath = configDir.path().endsWith('yaml') ? configDir : configDir.append(BRAND_FILE);
-    const config = parseFile<DeepPartial<BrandConfigFile>>(filePath);
-
-    return this.validate(config, filePath);
+export default class BrandLoader extends Loader<BrandConfigFile> {
+  getFileName() {
+    return BRAND_FILE;
   }
 
   validate(config: DeepPartial<BrandConfigFile>, filePath: Path): BrandConfigFile {
     return optimal(
       config,
-      { name: string().notEmpty().match(NAME_PATTERN) },
+      {
+        extends: string(),
+        name: string().notEmpty().match(NAME_PATTERN),
+      },
       { file: filePath.path() },
     );
   }

@@ -1,7 +1,8 @@
 import { deepMerge } from '@aesthetic/utils';
 import { DeepPartial, ContrastLevel, ColorScheme, Hexcode } from '@aesthetic/system';
-import { Path, parseFile } from '@boost/common';
+import { Path } from '@boost/common';
 import optimal, { number, object, ObjectOf, Schema, shape, string, union } from 'optimal';
+import Loader from './Loader';
 import { SHADE_RANGES, THEMES_FILE } from './constants';
 import {
   ThemesConfigFile,
@@ -18,43 +19,53 @@ function hexcode() {
     .required();
 }
 
-export default class ThemesLoader {
+export default class ThemesLoader extends Loader<ThemesConfigFile> {
   colorNames: string[];
 
   constructor(colorNames: string[]) {
+    super();
+
     this.colorNames = colorNames;
   }
 
-  load(configDir: Path): ThemesConfigFile {
-    const filePath = configDir.path().endsWith('yaml') ? configDir : configDir.append(THEMES_FILE);
-    const themes = parseFile<DeepPartial<ThemesConfigFile>>(filePath);
-    const config: ThemesConfigFile = {};
+  getFileName() {
+    return THEMES_FILE;
+  }
+
+  validate(config: DeepPartial<ThemesConfigFile>, filePath: Path): ThemesConfigFile {
+    const themes: ThemesConfigFile['themes'] = {};
 
     // Merge themes that extend from each other,
     // as our validation requires many fields to exist
-    Object.entries<ThemeConfig>(themes as ThemesConfigFile).forEach(([name, theme]) => {
-      if (theme.extends) {
-        const parentTheme = config[theme.extends];
+    if (config.themes) {
+      Object.entries<ThemeConfig>(config.themes as ThemesConfigFile['themes']).forEach(
+        ([name, theme]) => {
+          if (theme.extends) {
+            const parentTheme = themes[theme.extends];
 
-        if (!parentTheme) {
-          throw new Error(`Parent theme "${theme.extends}" does not exist.`);
-        }
+            if (!parentTheme) {
+              throw new Error(`Parent theme "${theme.extends}" does not exist.`);
+            }
 
-        config[name] = deepMerge(parentTheme, theme);
-      } else {
-        config[name] = theme;
-      }
-    });
+            themes[name] = deepMerge(parentTheme, theme);
+          } else {
+            themes[name] = theme;
+          }
+        },
+      );
 
-    return this.validate(config, filePath);
-  }
+      // eslint-disable-next-line no-param-reassign
+      config.themes = themes;
+    }
 
-  validate(themes: DeepPartial<ThemesConfigFile>, filePath: Path): ThemesConfigFile {
     return optimal(
-      { themes },
-      { themes: this.themes() },
+      config,
+      {
+        extends: string(),
+        themes: this.themes(),
+      },
       { file: process.env.NODE_ENV === 'test' ? undefined : filePath.path() },
-    ).themes;
+    );
   }
 
   protected colorShade(defaultValue: number) {
@@ -153,7 +164,7 @@ export default class ThemesLoader {
     const unknown = new Set<string>();
 
     // Theme extends another theme, so dont validate as it will merge
-    if (schema.struct?.[theme]?.extends) {
+    if (schema.struct.themes?.[theme]?.extends) {
       return;
     }
 

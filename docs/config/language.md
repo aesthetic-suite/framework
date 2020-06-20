@@ -1,71 +1,8 @@
-# Configure the design system
+# Language
 
-The design system is configured in a human and machine readable format known as
-[YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
-platforms, programming languages, and is easily accessible for both designers and developers.
-
-Before we dive into all configurable settings, a few must know concepts are described below.
-
-### Unitless values
-
-All configuration settings that require a unit based value (`px`, `pt`, `sp`, etc) must be defined
-using a unitless number. During the compilation phase, this unitless value will be calculated
-according to the platform target, and output with the required unit suffix.
-
-When configuring, assume a unit based on the following table.
-
-| Platform | Spacing | Typography |
-| -------- | ------- | ---------- |
-| Android  | `dp`    | `sp`       |
-| iOS      | `pt`    | `pt`       |
-| Web      | `px`    | `px`       |
-
-### Scaling patterns
-
-A good portion of the configuration provides an automatic scaling alternative, based on [modular
-scale][modular-scale] ([more info](https://alistapart.com/article/more-meaningful-typography/)).
-This alternative calculates, measures, and provides optimal proportions and density automatically,
-which alleviates the burden from designers and developers.
-
-Settings that support scaling will always have a sibling setting of the same name, suffixed with
-`Scale`. Scale values are either a float that defines an explicit ratio, or a kebab-cased string
-that maps to a common ratio name, like `golden-ratio`.
-
-```yaml
-# Floats
-sizeScale: 1.25
-
-# Strings
-sizeScale: major-fourth
-```
-
-> If you want to use scaling for a specific setting group, but not an individual setting, pass `0`
-> as the scale ratio.
-
-## System
-
-> Platforms: Android, iOS, Web
-
-### Name
-
-What is a design system without a name? The name should be unique and is used by specific
-compilation targets.
-
-```yaml
-name: aesthetic-2020
-```
-
-### Extending systems
-
-Instead of duplicating entire configurations, you can extend an existing design system configuration
-by providing its name (must be relative to the current config file), or a relative file path.
-
-```yaml
-extends: other-config
-
-# Relative config
-extends: ../some/path/other-config.yaml
-```
+The core of a design system is known as the design language, as it pertains to the visual aspect of
+a brand. The design language defines common aspects and primitives like borders, shadows, and
+spacing, through the `.aesthetic/<name>/language.yaml` file.
 
 ## Responsive
 
@@ -96,8 +33,9 @@ specificity takes place.
 
 The `responsive.breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in
 either a list or map, with values being a [unit](#unitless-values). On the web, these values will be
-converted to `em` values, while Android uses `dp`, and [ignored by iOS][ios-responsive]. By default,
-the setting is configured to the values in the example below.
+converted to `em` values, while Android uses `dp`, and
+[ignored by iOS](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/).
+By default, the setting is configured to the values in the example below.
 
 ```yaml
 # List
@@ -128,9 +66,9 @@ typography remains legible between viewports and devices. When targeting mobile-
 will increase so that text is legible on desktop viewports, while desktop-first will decrease the
 font size for mobile viewports.
 
-Responsive text uses [type scaling][type-scale] under the hood. Because of this, explicit font size
-configurations for each breakpoint is not supported. At the moment, text and line height can be
-scaled with `textScale` and `lineHeightScale` respectively.
+Responsive text uses [type scaling](https://type-scale.com) under the hood. Because of this,
+explicit font size configurations for each breakpoint is not supported. At the moment, text and line
+height can be scaled with `textScale` and `lineHeightScale` respectively.
 
 ```yaml
 responsive:
@@ -240,7 +178,7 @@ typography:
 The `typography.text` settings control both the body and paragraph text of the application, as well
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
 small, default (normal), and large -- and can be configured using a
-[scaled format](#scaling-patterns), or with a fixed per size format.
+[scaled format](./README.md#scaled-patterns), or with a fixed per size format.
 
 The scaled approach will use scale equivalent settings to calculate small and large sizes, with
 default being the middle, and scaling outwards. The values configured should be the default text
@@ -283,8 +221,8 @@ being the smallest (very similar to `h1`-`h6` HTML tags).
 The `typography.heading` setting shares the same settings from text, with the addition of letter
 spacing, and per level configuration (instead of per size).
 
-When using the [scaled approach](#scaling-patterns), the settings should be configured for level 6,
-as 5-1 will be automatically calculated based on the scaling factor (going upwards).
+When using the [scaled approach](./README.md#scaled-patterns), the settings should be configured for
+level 6, as 5-1 will be automatically calculated based on the scaling factor (going upwards).
 
 ```yaml
 typography:
@@ -464,190 +402,3 @@ colors:
   - hylian
   - goron
 ```
-
-## Themes
-
-> Platforms: Android, iOS, Web
-
-While the design system configuration above defines primitives, like borders, shadows, and spacing,
-a theme defines [colors](#colors). With this approach, a design system can have multiple color
-variations, while adhering to the same primitives.
-
-Themes are configured with the `themes` map, where the key is the theme name, and the value is a
-configuration map of colors, palettes, and additional settings. One such setting is `theme.scheme`,
-which requires either "light" or "dark", and is utilized in color scheme preference detection.
-
-```yaml
-themes:
-  default:
-    scheme: light
-```
-
-### Color ranges
-
-For every [color](#colors) that's been defined, an associated entry must exist within each theme
-under `theme.colors.<name>`. A color supports a range of 10 hexcode values (`00` - `90`) known as
-shades.
-
-In a light color scheme, the `00` shade is the lightest color, while `90` is the darkest. This is
-reversed for dark color schemes, where `00` is darkest, and `90` is lightest. In both schemes, the
-`40` shade is the base "common" shade.
-
-```yaml
-themes:
-  default:
-    scheme: light
-    colors:
-      blue:
-        00: '#E3F2FD' # Lightest
-        10: '#BBDEFB'
-        20: '#90CAF9'
-        30: '#64B5F6'
-        40: '#42A5F5' # Base
-        50: '#2196F3'
-        60: '#1E88E5'
-        70: '#1976D2'
-        80: '#1565C0'
-        90: '#0D47A1' # Darkest
-```
-
-### Color palettes
-
-Palettes are the defining feature of Aesthetic, as they enable true interoperability and backwards
-compatibility with other Aestheic powered design systems. In Aesthetic, colors (above) are not
-directly accessible to consumers, as colors are not deterministic between systems, but palettes are!
-
-A palette is a collection of color references for both foreground (text) and background (layout)
-colors, grouped by states and interactions. The available palettes are:
-
-- `brand` - Organization or company brand color.
-- `primary` - Primary color. Typically buttons, links, bars, active states, etc.
-- `secondary` - Accent color. Provides emphasis and contrast to the primary color.
-- `tertiary` - Additional complementary color for more variation.
-- `neutral` - Whites, grays, or blacks that make up background, border, shadow, and other layout
-  related pieces.
-- `muted` - Disabled and empty like states.
-- `info` - State that denotes something as informational.
-- `warning` - State that warns the user of something minor.
-- `danger` - State that indicates a destructive, atomic, or irreversible action.
-- `success` - State when something succeeds or passes.
-
-Hopefully you have a better understanding of all the palettes, so let's dive into the configuration.
-Each palette requires a `color`, `fg` (foreground), and `bg` (background) setting. The `color`
-setting must reference a valid [color name](#colors), and will be the designated color for the
-palette. The `fg` and `bg` variants will map states to shade references.
-
-```yaml
-themes:
-  default:
-    scheme: light
-    colors:
-      blue:
-        # 00-90 ...
-    palettes:
-      primary:
-        color: blue
-        # Backgrounds use a lighter shade
-        bg:
-          base: 40
-          focused: 50
-          selected: 50
-          hovered: 60
-          disabled: 30
-        # While text uses a darker shade for legibility (a11y)
-        fg:
-          base: 50
-          focused: 60
-          selected: 60
-          hovered: 70
-          disabled: 40
-      secondary:
-        color: orange
-        bg: # ...
-        fg: # ...
-      tertiary:
-        # ...
-```
-
-In the example above, you may have noticed 5 different states. In order of priority and specificity,
-they are:
-
-- `base` - The base palette color.
-- `focused` - State when a target is focused through user interaction. _(optional)_
-- `hovered` - State when a target is being hovered. _(optional)_
-- `selected` - State when a target is selected, active, expanded, etc. _(optional)_
-- `disabled` - State when a target is disabled. Should override all previous states. _(optional)_
-
-All of the states are optional, and will default to the shade references above. If you prefer to
-always use the defaults, a shorthand configuration is available, where the value can simply be set
-to the color name. The above example can now be written as:
-
-```yaml
-themes:
-  default:
-    scheme: light
-    colors:
-      # ...
-    palettes:
-      primary: blue
-      secondary: orange
-      tertiary:
-        # ...
-```
-
-> This may seem like a lot to configure, and it is, but it's thorough and covers all common and
-> industry standard use cases. It also mitigates problems between light and dark themes.
-
-### Extending themes
-
-Aesthetic also supports the concept of extending themes, where a theme (the child) can extend
-another theme (the parent), to inherit all its colors, palettes, and settings. The child theme can
-then define individual settings, instead of having to define them all.
-
-To extend another theme, use the `theme.extends` setting, which requires the parent theme's name.
-The child theme object will deep merge with the parent theme object.
-
-```yaml
-themes:
-  day:
-    scheme: light
-    colors: # ...
-    palettes: # ...
-  # Only change a single setting
-  dawn:
-    extends: day
-    palettes:
-      primary:
-        bg:
-          hovered: red.50
-```
-
-### Contrast variants
-
-While color schemes offer a light or dark option, what about preferences for low or high contrast
-colors? With the `theme.contrast` setting, a theme can be marked as "low" or "high" contrast, and
-will be utilized during the detection phase.
-
-A contrast variant usually extends a base theme, as we want to use the same palette, but adjust the
-colors. For example, say we have a "night" dark theme, and want to provide a vibrant high contrast
-variant.
-
-```yaml
-themes:
-  night:
-    scheme: dark
-    colors:
-      blue: '#0984e3'
-    palettes:
-      # ...
-  nightHighContrast:
-    extends: night
-    contrast: high
-    colors:
-      blue: '#0652DD'
-```
-
-[ios-responsive]:
-  https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/
-[modular-scale]: https://www.modularscale.com
-[type-scale]: https://type-scale.com

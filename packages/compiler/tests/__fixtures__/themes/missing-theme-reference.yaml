@@ -1,4 +1,5 @@
-default:
-  scheme: light
-  colors: {}
-  extends: unknown
+themes:
+  default:
+    scheme: light
+    colors: {}
+    extends: unknown

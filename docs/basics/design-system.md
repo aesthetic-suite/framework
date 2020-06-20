@@ -19,13 +19,14 @@ Aesthetic, the design system is structured around the following 3 pillars.
 +---------------------------------------------------+
 ```
 
+Jump to the [configuring a design system](../config/README.md) chapter for more information on
+customizing these pillars.
+
 ## Brand
 
 Brand is much more than a name and a logo. It’s the values that define your unique identity and what
 makes you stand out from others. This is represented by an overarching vision, accompanying design
 principles, guidelines, and more.
-
-> Aesthetic currently does not configure the brand. Support for this is on the roadmap.
 
 ## Language
 
@@ -39,9 +40,6 @@ following categories:
 - **Responsive/Adaptive** - Breakpoints, strategies, and scaling.
 - **Spacing** - Spacing algorithms and multipliers.
 - **Typography** - Text/heading fonts, sizing, and letter spacing.
-
-Jump to the [configuring a design system](../config-system.md) chapter for more information on
-customizing these aspects.
 
 ## Theme
 

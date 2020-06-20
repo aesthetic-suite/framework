@@ -8,10 +8,10 @@ system, run the following command in your project root.
 npx @aesthetic/cli init
 ```
 
-This command will generate an [YAML configuration file](./config-system.md) in which you may
+This command will generate an [YAML configuration file](./config/README.md) in which you may
 customize all aspects of the system. By default, the `init` command will generate the configuration
 using fixed settings. If you would prefer to use scaled settings (using
-[modular scale](./config-system.md#scaling-patterns)), pass the `--modularScale` flag.
+[modular scale](./config/README.md#scaled-patterns)), pass the `--modularScale` flag.
 
 ```
 npx @aesthetic/cli init --modularScale

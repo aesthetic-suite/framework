@@ -9,5 +9,5 @@ tokens (variables and mixins) across platforms and technologies.
 
 ### References
 
-- [Configure the design system](../config-system.md)
+- [Configure the design system](../config/README.md)
 - [Compile design tokens](../compile-tokens.md)

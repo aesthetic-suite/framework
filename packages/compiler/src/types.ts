@@ -229,16 +229,18 @@ export interface ThemeConfig<ColorNames extends string = string> {
 
 // Final
 
-export interface BrandConfigFile {
-  name: string;
-}
-
-export interface LanguageConfigFile extends DesignConfig {
+export interface ConfigFile {
   extends: string;
 }
 
-export interface ThemesConfigFile<ColorNames extends string = string> {
-  [name: string]: ThemeConfig<ColorNames>;
+export interface BrandConfigFile extends ConfigFile {
+  name: string;
+}
+
+export interface LanguageConfigFile extends DesignConfig, ConfigFile {}
+
+export interface ThemesConfigFile<ColorNames extends string = string> extends ConfigFile {
+  themes: { [name: string]: ThemeConfig<ColorNames> };
 }
 
 // CONFIG FILE -> TOKENS TEMPLATE
