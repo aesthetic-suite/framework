@@ -8,15 +8,15 @@
   - [Themes](./config/themes.md)
 - [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)
-- Basics
+- [Basics](./basics/README.md)
   - [Design system](./basics/design-system.md)
   - Themes
-  - Styles
-  - Selectors
-  - Media queries
-  - Feature queries
-  - Font faces
-  - Keyframes
+  - [Styles](./packages/style/concepts.md#styles)
+  - [Selectors](./packages/style/concepts.md#rules)
+  - [Media queries](./packages/style/concepts.md#media-queries)
+  - [Feature queries](./packages/style/concepts.md#feature-queries)
+  - [Font faces](./packages/style/concepts.md#font-faces)
+  - [Keyframes](./packages/style/concepts.md#keyframes)
 - Advanced
   - Theme mixins
   - Dark mode

@@ -1,7 +1,7 @@
 # Rendering concepts
 
 To understand Aesthetic and the rendering process, there are a few key concepts around styling and
-its structure.
+its structure. All of the concepts below assume a web based CSS-in-JS integration is being used.
 
 ## Styles
 
@@ -35,7 +35,7 @@ const rule: Rule = {
 Rules can be rendered with the [renderRule()](./api.md#renderrule) method, while individual
 declarations can be rendered with [renderDeclaration()](./api.md#renderdeclaration).
 
-#### Pseudo classes and elements
+#### Pseudo selectors
 
 [Pseudo classes and pseudo elements](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors/Pseudo-classes_and_pseudo-elements)
 are a highly important features of CSS, and as such, are supported in _rule objects_ by defining
