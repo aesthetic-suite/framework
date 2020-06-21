@@ -1,30 +1,36 @@
 # Create a design system
 
-Aesthetic itself isn't a design system, instead, it provides a design system "builder", in which a
+Aesthetic itself isn't a design system, instead, it provides a design system "manager", in which a
 company or individual can create and manage a design system for their project. To create a design
-system, run the following command in your project root.
+system, run the following [command](./prerequisites.md#command-line) in your project root with a
+unique name (in kebab-case).
 
 ```
-npx @aesthetic/cli init
+aesthetic init dls-2020
 ```
 
-This command will generate an [YAML configuration file](./config/README.md) in which you may
-customize all aspects of the system. By default, the `init` command will generate the configuration
-using fixed settings. If you would prefer to use scaled settings (using
-[modular scale](./config/README.md#scaled-patterns)), pass the `--modularScale` flag.
+By default, the `init` command will generate the configuration using fixed settings. If you would
+prefer to use scaled settings (using [modular scale](./config/README.md#scaled-patterns)), pass the
+`--modularScale` flag.
 
 ```
-npx @aesthetic/cli init --modularScale
+aesthetic init dls-2020 --modularScale
 ```
 
-Furthermore, if you would prefer to create the configuration file in another location, you can pass
-a relative folder path as an argument. This may be useful for supporting multiple design systems.
-However, be aware that the file name is the same, and as such, you may run into overwrites or
-collisions.
+## Folder structure
+
+The `init` command will create multiple [YAML configuration files](./config/README.md) in an
+`.aesthetic` folder within the project root.
 
 ```
-npx @aesthetic/cli init ./design-systems/2020
+.aesthetic/dls-2020/
+├── brand.yaml
+├── language.yaml
+└── themes.yaml
 ```
+
+This `.aesthetic` folder is where all design systems, their configurations, and future features will
+be housed.
 
 ## References
 

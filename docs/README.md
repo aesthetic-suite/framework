@@ -20,7 +20,6 @@ configuration file. In the future, this YAML file will be automatically exported
 or additional upstream sources.
 
 - [Create a design system](./create-system.md)
-- [Compose themes](./compose-themes.md)
 - [Configure the design system](./config/README.md)
 
 ## For developers

@@ -1,6 +1,6 @@
 # Summary
 
-- [Prerequisites](./prereqs.md)
+- [Prerequisites](./prerequisites.md)
 - [Create a design system](./create-system.md)
 - [Configure the design system](./config/README.md)
   - [Brand](./config/brand.md)
