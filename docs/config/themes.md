@@ -187,3 +187,15 @@ themes:
         40: '#0652DD'
         # ...
 ```
+
+## Constraints
+
+Like the [design language](./language.md#constraints), themes also enforce the following constraints
+as the system currently relies on fixed settings.
+
+- 10 color shades (00, 10, 20, 30, 40 (default), 50, 60, 70, 80, 90)
+- 10 palettes (brand, primary, secondary, tertiary, neutral/layout, muted, info, success, warning,
+  danger)
+- 5 palette states (base, hovered, selected, disabled, focused)
+- Light scheme OR dark scheme
+- High, low, OR normal contrast
