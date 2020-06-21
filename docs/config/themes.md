@@ -2,10 +2,6 @@
 
 > Platforms: Android, iOS, Web
 
-While the [design language](./language.md) defines primitives, a theme defines
-[colors](./language.md#colors). With this approach, a design system can have multiple color
-variations through themes, while adhering to the same primitives.
-
 Themes are configured with a `themes` map in the `.aesthetic/<name>/themes.yaml` file, where the key
 is the theme name, and the value is a configuration object of colors, palettes, and additional
 settings.
@@ -161,7 +157,7 @@ themes:
           hovered: red.50
 ```
 
-## Contrast variants
+## Contrast levels
 
 While [color schemes](#color-scheme) offer a light or dark option, what about preferences for low or
 high contrast colors? With the `contrast` setting, a theme can be marked as "low" or "high"

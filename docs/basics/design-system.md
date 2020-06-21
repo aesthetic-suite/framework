@@ -6,7 +6,7 @@ Aesthetic, the design system is structured around the following 3 pillars.
 ```
 +----------------- Design System -------------------+
 | +-------------+ +-------------+ +---------------+ |
-| | Brand       | | Language    | | Theme         | |
+| | Brand       | | Language    | | Themes        | |
 | +-------------+ +-------------+ +---------------+ |
 | | Vision      | | Borders     | | Colors        | |
 | | Principles  | | Elevation   | | Color schemes | |
@@ -19,8 +19,8 @@ Aesthetic, the design system is structured around the following 3 pillars.
 +---------------------------------------------------+
 ```
 
-Jump to the [configuring a design system](../config/README.md) chapter for more information on
-customizing these pillars.
+> Jump to the [configuring a design system](../config/README.md) chapter for more information on
+> customizing these pillars.
 
 ## Brand
 
@@ -41,7 +41,7 @@ following categories:
 - **Spacing** - Spacing algorithms and multipliers.
 - **Typography** - Text/heading fonts, sizing, and letter spacing.
 
-## Theme
+## Themes
 
 You may have noticed the absence of color mentioned in language, as color is a very important
 feature of a product's visual identity. That's because in an Aesthetic design system, color is
@@ -77,7 +77,7 @@ In it's current state, the following cannot be changed.
 > These numbers were derived from popular design systems by researching tech industry leaders. We
 > finalized the features and numbers based on the commonalities and consistencies across them all.
 
-## References
+## Resources
 
 - [Design system checklist](https://designsystemchecklist.com/)
 - [Everything you need to know about design systems](https://uxdesign.cc/everything-you-need-to-know-about-design-systems-54b109851969)

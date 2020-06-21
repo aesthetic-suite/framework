@@ -10,7 +10,7 @@
 - [Style components](./style-components.md)
 - [Basics](./basics/README.md)
   - [Design system](./basics/design-system.md)
-  - Themes
+  - [Themes](./basics/themes.md)
   - [Styles](./packages/style/concepts.md#styles)
   - [Selectors](./packages/style/concepts.md#rules)
   - [Media queries](./packages/style/concepts.md#media-queries)

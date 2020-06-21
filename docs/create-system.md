@@ -5,7 +5,7 @@ company or individual can create and manage a design system for their project. T
 system, run the following [command](./prerequisites.md#command-line) in your project root with a
 unique name (in kebab-case).
 
-```
+```bash
 aesthetic init dls-2020
 ```
 
@@ -13,7 +13,7 @@ By default, the `init` command will generate the configuration using fixed setti
 prefer to use scaled settings (using [modular scale](./config/README.md#scaled-patterns)), pass the
 `--modularScale` flag.
 
-```
+```bash
 aesthetic init dls-2020 --modularScale
 ```
 
@@ -35,3 +35,4 @@ be housed.
 ## References
 
 - [Basics - Design system](./basics/design-system.md)
+- [Basics - Themes](./basics/themes.md)
