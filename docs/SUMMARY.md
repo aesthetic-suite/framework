@@ -31,7 +31,7 @@
     - [CSS](./formats/web/css.md)
     - [SCSS](./formats/web/scss.md)
     - [Sass](./formats/web/sass.md)
-    - Less
+    - [Less](./formats/web/less.md)
 - [Integrations](./integrations.md)
   - [React](./packages/react/README.md)
 - [Packages](./packages/README.md)
