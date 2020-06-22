@@ -47,7 +47,7 @@
     - [Server-side rendering](./packages/style/ssr.md)
     - [Test utilities](./packages/style/testing.md)
     - [API](./packages/style/api.md)
-  - [React integration](./packages/react/README.md)
+  - [React API](./packages/react/README.md)
 - [Legacy](./legacy/README.md)
   - [Setup](./legacy/setup.md)
   - [Using Themes](./legacy/theme.md)

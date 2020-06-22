@@ -51,6 +51,6 @@ export default class Validate extends Command<GlobalOptions, ValidateParams> {
 
     this.log('No issues found');
 
-    // TODO gather all possible errors and list them?
+    // TODO Gather all possible errors and list them?
   }
 }

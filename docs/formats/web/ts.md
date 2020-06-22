@@ -26,9 +26,9 @@ styles/<target>/
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines [aspect tokens](../../create-system.md#aspects) through an exported `Design` class instance.
-Each theme file defines [color and palette tokens](#todo) through an exported `Theme` class
-instance, while also inheriting all aspect tokens from the parent design system.
+defines aspect tokens through an exported `Design` class instance. Each theme file defines color and
+palette tokens through an exported `Theme` class instance, while also inheriting all aspect tokens
+from the parent design system.
 
 The compiled design system file looks something like the following:
 

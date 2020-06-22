@@ -23,8 +23,8 @@ styles/<target>/
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines [aspect tokens](../../create-system.md#aspects), while each theme file defines
-[color and palette tokens](#todo), both of which rely on Sass variables.
+defines aspect tokens, while each theme file defines color and palette tokens, both of which rely on
+Sass variables.
 
 The compiled design system file looks something like the following:
 
@@ -169,7 +169,7 @@ $palette-brand-fg-selected: #455a64 !default
 
 ## Mixins
 
-TODO
+Coming soon...
 
 ## Integration
 

@@ -10,8 +10,8 @@ from other themes, promoting color reuse.
 
 ```
                         +-----------+
-                        |  Design   |
-                        |  System   |
+                        | Design    |
+                        | Language  |
                         +-+---+---+-+
                           |   |   |
          +----------------+   |   +----------------+

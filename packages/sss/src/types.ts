@@ -185,7 +185,7 @@ export type Keyframes = BaseKeyframes<Rule>;
 
 export type Viewport = CSST.Viewport<Value>;
 
-// TODO add upstream to csstype
+// TODO Add upstream to csstype
 export type PageMargins =
   | '@top-left-corner'
   | '@top-left'

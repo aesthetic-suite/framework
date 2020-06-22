@@ -103,7 +103,6 @@ export default class Compiler {
 
   getFormatExtension(): string {
     switch (this.options.format) {
-      // TODO
       // case 'android':
       //   return 'java';
       // case 'ios':
