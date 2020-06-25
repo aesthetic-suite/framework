@@ -31,8 +31,3 @@ The `init` command will create multiple [YAML configuration files](./config/READ
 
 This `.aesthetic` folder is where all design systems, their configurations, and future features will
 be housed.
-
-## References
-
-- [Basics - Design system](./basics/design-system.md)
-- [Basics - Themes](./basics/themes.md)

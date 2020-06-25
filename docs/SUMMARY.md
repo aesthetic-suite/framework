@@ -1,6 +1,7 @@
 # Summary
 
 - [Prerequisites](./prerequisites.md)
+- [What is a design system?](./about-system.md)
 - [Create a design system](./create-system.md)
 - [Configure the design system](./config/README.md)
   - [Brand](./config/brand.md)
@@ -8,9 +9,6 @@
   - [Themes](./config/themes.md)
 - [Compile design tokens](./compile-tokens.md)
 - [Style components](./style-components.md)
-- [Basics](./basics/README.md)
-  - [Design system](./basics/design-system.md)
-  - [Themes](./basics/themes.md)
   - [Styles](./packages/style/concepts.md#styles)
   - [Selectors](./packages/style/concepts.md#rules)
   - [Media queries](./packages/style/concepts.md#media-queries)
