@@ -1,7 +1,7 @@
 # Less format
 
 The following format is provided when [compiling design tokens](../../compile-tokens.md) to
-[Less](http://lesscss.org/).
+[Less](http://lesscss.org/) using `web-less`.
 
 ## File structure
 
@@ -23,8 +23,8 @@ styles/<target>/
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines aspect tokens, while each theme file defines color and palette tokens, both of which rely on
-Less variables.
+defines primitive tokens, while each theme file defines color and palette tokens, both of which rely
+on Less variables.
 
 The compiled design system file looks something like the following:
 

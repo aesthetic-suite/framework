@@ -1,7 +1,6 @@
 # Web
 
-- [JavaScript](./js.md)
-- [TypeScript](./ts.md)
+- [CSS-in-JS](./css-in-js.md)
 - [CSS](./css.md)
 - [SCSS](./scss.md)
 - [Sass](./sass.md)

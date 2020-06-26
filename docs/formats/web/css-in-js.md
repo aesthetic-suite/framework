@@ -1,18 +1,22 @@
-# JavaScript format
+# CSS-in-JS format
 
-The following format is provided when [compiling design tokens](../../compile-tokens.md) to
-JavaScript, primarily for CSS-in-JS solutions. The compiled output uses ECMASCript modules by
-default. If you prefer to use [CommonJS](https://nodejs.org/docs/latest/api/modules.html), use the
-`web-cjs` format.
+The following format is provided when [compiling design tokens](../../compile-tokens.md) for
+CSS-in-JS solutions. It currently supports 3 different targets:
 
-The JavaScript format is different from other CSS-like formats, as it _does not_ generate a list of
-variables (design tokens), but instead generates a design system and theme hierarchy composed of
-classes. This layer is powered by the [@aesthetic/system](../../packages/system/README.md) package.
+- `web-ts` for TypeScript.
+- `web-js` for JavaScript using ECMA modules.
+- `web-cjs` for JavaScript using CommonJS.
+
+This format is different from other CSS-like formats, as it _does not_ generate a list of variables
+(design tokens), but instead generates a design system and theme hierarchy composed of classes. This
+layer is powered by the [@aesthetic/system](../../packages/system/README.md) package.
+
+For the remainder of this documentation, we'll use TypeScript as our format.
 
 ## File structure
 
-During compilation, an `index.js` file will be created based on the design system YAML configuration
-file. Additional `themes/<name>.js` files will be created for each theme configured in the YAML
+During compilation, an `index.ts` file will be created based on the design system YAML configuration
+file. Additional `themes/<name>.ts` files will be created for each theme configured in the YAML
 file.
 
 This would look something like the following:
@@ -20,17 +24,19 @@ This would look something like the following:
 ```
 styles/<target>/
 ├── themes/
-│   ├── day.js
-│   └── night.js
-└── index.js
+│   ├── day.ts
+│   └── night.ts
+└── index.ts
 ```
+
+> JavaScript formats will use `.js` file extensions.
 
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines aspect tokens through an exported `Design` class instance. Each theme file defines color and
-palette tokens through an exported `Theme` class instance, while also inheriting all aspect tokens
-from the parent design system.
+defines primitive tokens through an exported `Design` class instance. Each theme file defines color
+and palette tokens through an exported `Theme` class instance, while also inheriting all primitive
+tokens from the parent design system.
 
 The compiled design system file looks something like the following:
 

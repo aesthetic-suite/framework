@@ -1,7 +1,7 @@
 # SCSS format
 
 The following format is provided when [compiling design tokens](../../compile-tokens.md) to
-[SCSS](https://sass-lang.com/documentation/syntax).
+[SCSS](https://sass-lang.com/documentation/syntax) using `web-scss`.
 
 ## File structure
 
@@ -23,8 +23,8 @@ styles/<target>/
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines aspect tokens, while each theme file defines color and palette tokens, both of which rely on
-SCSS variables.
+defines primitive tokens, while each theme file defines color and palette tokens, both of which rely
+on SCSS variables.
 
 The compiled design system file looks something like the following:
 

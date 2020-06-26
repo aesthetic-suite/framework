@@ -1,7 +1,7 @@
 # CSS format
 
-The following format is provided when [compiling design tokens](../../compile-tokens.md) to CSS. It
-utilizes
+The following format is provided when [compiling design tokens](../../compile-tokens.md) to CSS
+using `web-css`. It utilizes
 [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) for
 reusability. If you need to support legacy browsers, we suggest the
 [css-vars-ponyfill](https://github.com/jhildenbiddle/css-vars-ponyfill) library.
@@ -26,8 +26,8 @@ styles/<target>/
 ## Tokens
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines aspect tokens, while each theme file defines color and palette tokens, both of which rely on
-CSS variables.
+defines primitive tokens, while each theme file defines color and palette tokens, both of which rely
+on CSS variables.
 
 The compiled design system file uses `:root` and looks something like the following:
 
