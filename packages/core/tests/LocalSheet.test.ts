@@ -90,7 +90,6 @@ describe('LocalSheet', () => {
         fontFamily: '"Open Sans", Roboto',
       },
       {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',
@@ -104,7 +103,6 @@ describe('LocalSheet', () => {
         animationName: 'kf1plt5bd',
       },
       {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',
@@ -138,7 +136,6 @@ describe('LocalSheet', () => {
       },
       undefined,
       {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',

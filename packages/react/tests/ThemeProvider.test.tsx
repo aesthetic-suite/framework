@@ -196,7 +196,7 @@ describe('ThemeProvider', () => {
         </ThemeProvider>,
       );
 
-      // eslint-disable-next-line rut/no-act, @typescript-eslint/no-floating-promises
+      // eslint-disable-next-line rut/no-act
       act(() => {
         doChangeTheme('night');
       });

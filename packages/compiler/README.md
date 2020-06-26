@@ -11,3 +11,7 @@ Compiles a design system configuration to a specified platform format.
 ```
 yarn add @aesthetic/compiler
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic](https://milesj.gitbook.io/aesthetic)

@@ -21,5 +21,5 @@ package as if it's being used stand-alone. The following packages are available.
 Aesthetic was designed to be framework agnostic, and as such, provides integrations for the
 following popular view/template based libraries.
 
-- **React** - React integration that is built on top of the core API. Provides hook and HOC based
-  patterns, with support for contextual themes, directionality, and SSR.
+- [React](./react/README.md) - React integration that is built on top of the core API. Provides hook
+  and HOC based patterns, with support for contextual themes, directionality, and SSR.

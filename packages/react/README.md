@@ -58,4 +58,4 @@ yarn add @aesthetic/core @aesthetic/react react
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic/integrations/react](https://milesj.gitbook.io/aesthetic/integrations/react)
+[https://milesj.gitbook.io/aesthetic/packages/react](https://milesj.gitbook.io/aesthetic/packages/react)
