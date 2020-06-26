@@ -52,35 +52,8 @@
   - [Test utilities](./packages/style/testing.md)
   - [API](./packages/style/api.md)
 
-## Legacy
-
-- [Intro](./legacy/README.md)
-- [Setup](./legacy/setup.md)
-- [Using Themes](./legacy/theme.md)
-- [Styling Components](./legacy/style.md)
-- [Integrations](./legacy/integrations/README.md)
-  - [React](./legacy/integrations/react.md)
-- [Style Adapters](./legacy/adapters/README.md)
-  - [Aphrodite](./legacy/adapters/aphrodite.md)
-  - [CSS Modules](./legacy/adapters/css-modules.md)
-  - [Fela](./legacy/adapters/fela.md)
-  - [JSS](./legacy/adapters/jss.md)
-  - [TypeStyle](./legacy/adapters/typestyle.md)
-- [Unified Syntax](./legacy/unified/README.md)
-  - [Properties](./legacy/unified/properties.md)
-  - [Selectors](./legacy/unified/selectors.md)
-  - [Global At-rules](./legacy/unified/global-at.md)
-  - [Local At-rules](./legacy/unified/local-at.md)
-- [Right-to-Left](./legacy/rtl.md)
-- [Testing](./legacy/testing.md)
-- [Competitors Comparison](./legacy/comparison.md)
-- Migration Guides
-  - [2.0](./legacy/migrate/2.0.md)
-  - [3.0](./legacy/migrate/3.0.md)
-  - [4.0](./legacy/migrate/4.0.md)
-  - [5.0](./legacy/migrate/5.0.md)
-
 ## Resources
 
 - [Roadmap](https://github.com/milesj/aesthetic/blob/master/ROADMAP.md)
 - [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
+- [Legacy docs](https://github.com/aesthetic-suite/framework/tree/legacy/docs)

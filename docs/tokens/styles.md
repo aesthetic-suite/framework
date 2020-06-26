@@ -1,7 +1,7 @@
 # Style components
 
 How you style components is entirely dependent on what [format](./compile.md#formats) you compiled
-your design tokens to, and what framework [integration](../integrations.md) you are using, if any.
+your design tokens to, and what framework [integration](../integrations) you are using, if any.
 
 With that being said, a large portion of Aesthetic will be used as a CSS-in-JS solution. To
 seamlessly integrate with the design system and JavaScript (or TypeScript) based design tokens, we
