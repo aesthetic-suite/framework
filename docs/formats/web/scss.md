@@ -1,6 +1,6 @@
 # SCSS format
 
-The following format is provided when [compiling design tokens](../../compile-tokens.md) to
+The following format is provided when [compiling design tokens](../../design/tokens.md) to
 [SCSS](https://sass-lang.com/documentation/syntax) using `web-scss`.
 
 ## File structure

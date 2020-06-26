@@ -2,7 +2,7 @@
 
 A design system is the single source of truth for a product or company's visual identity. It's more
 than just a style guide, pattern library, or raw design files, it's a set of standards that promote
-consistent,, reusable, and scalable components that enable teams to design, develop, and actualize a
+consistent, reusable, and scalable components that enable teams to design, develop, and actualize a
 product.
 
 Design systems have grown in popularity over the years, resulting in different and or
@@ -25,7 +25,7 @@ system is structured around the following 3 pillars and their offerings.
 +---------------------------------------------------+
 ```
 
-> Jump to the [configuring a design system](./config/README.md) chapter for more information on
+> Jump to the [configuring a design system](../config/README.md) chapter for more information on
 > customizing these pillars.
 
 ## Brand

@@ -1,13 +1,13 @@
 # Summary
 
 - [Prerequisites](./prerequisites.md)
-- [What is a design system?](./about-system.md)
-- [Create a design system](./create-system.md)
+- [What is a design system?](./design/README.md)
+- [Create a design system](./design/create.md)
 - [Configure the design system](./config/README.md)
   - [Brand](./config/brand.md)
   - [Language](./config/language.md)
   - [Themes](./config/themes.md)
-- [Compile design tokens](./compile-tokens.md)
+- [Compile design tokens](./design/tokens.md)
   - [Android](./formats/android/README.md)
   - [iOS](./formats/ios/README.md)
   - [Web](./formats/web/README.md)
@@ -16,13 +16,7 @@
     - [SCSS](./formats/web/scss.md)
     - [Sass](./formats/web/sass.md)
     - [Less](./formats/web/less.md)
-- [Style components](./style-components.md) (CSS-in-JS)
-  - [Styles](./packages/style/concepts.md#styles)
-  - [Selectors](./packages/style/concepts.md#rules)
-  - [Media queries](./packages/style/concepts.md#media-queries)
-  - [Feature queries](./packages/style/concepts.md#feature-queries)
-  - [Font faces](./packages/style/concepts.md#font-faces)
-  - [Keyframes](./packages/style/concepts.md#keyframes)
+- [Style components](./styles.md) (CSS-in-JS)
 - Advanced
   - Theme mixins
   - Dark mode

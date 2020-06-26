@@ -3,9 +3,9 @@
 Aesthetic is an end-to-end design and development framework for declaring consistent visual styles
 across platforms, languages, projects, and teams.
 
-The entry point to Aesthetic is a fixed [design system](./create-system.md), created and
+The entry point to Aesthetic is a fixed [design system](./design/README.md), created and
 [configured in YAML](./config/README.md). This design system is then
-[compiled to design tokens](./compile-tokens.md) for a target platform (Android, iOS, and Web) and
+[compiled to design tokens](./design/tokens.md) for a target platform (Android, iOS, and Web) and
 format (CSS, SCSS, etc). With this, all platforms are supported, across many languages and
 technologies, with the design system configuration being the single shared source of truth.
 
@@ -19,7 +19,7 @@ As a designer, you own the design system, its aspects, and its themes, by managi
 configuration file. In the future, this YAML file will be automatically exported from a Figma file,
 or additional upstream sources.
 
-- [Create a design system](./create-system.md)
+- [Create a design system](./design/create.md)
 - [Configure the design system](./config/README.md)
 
 ## For developers
@@ -27,8 +27,8 @@ or additional upstream sources.
 As a developer, you compile the design system configuration into design tokens for one or many
 platform targets. These design tokens can then be used to style your website or components.
 
-- [Compile design tokens](./compile-tokens.md)
-- [Style components](./style-components.md)
+- [Compile design tokens](./design/tokens.md)
+- [Style components](./styles.md)
 
 ## Motivation and goals
 

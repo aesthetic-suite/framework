@@ -133,30 +133,6 @@ themes:
 > This may seem like a lot to configure, and it is, but it's thorough and covers many common and
 > industry standard use cases. It also mitigates problems between light and dark themes.
 
-## Extending themes
-
-Aesthetic also supports the concept of extending themes, where a theme (the child) can extend
-another theme (the parent), to inherit all its colors, palettes, and settings. The child theme can
-then define individual settings, instead of having to define them all.
-
-To extend another theme, use the `extends` setting, which requires the parent theme's name. The
-child theme object will deep merge with the parent theme object.
-
-```yaml
-themes:
-  day:
-    scheme: light
-    colors: # ...
-    palettes: # ...
-  # Only change a single setting
-  dawn:
-    extends: day
-    palettes:
-      primary:
-        bg:
-          hovered: red.50
-```
-
 ## Contrast levels
 
 While [color schemes](#color-scheme) offer a light or dark option, what about preferences for low or
@@ -186,6 +162,30 @@ themes:
         # ...
         40: '#0652DD'
         # ...
+```
+
+## Extending themes
+
+Aesthetic also supports the concept of extending themes, where a theme (the child) can extend
+another theme (the parent), to inherit all its colors, palettes, and settings. The child theme can
+then define individual settings, instead of having to define them all.
+
+To extend another theme, use the `extends` setting, which requires the parent theme's name. The
+child theme object will deep merge with the parent theme object.
+
+```yaml
+themes:
+  day:
+    scheme: light
+    colors: # ...
+    palettes: # ...
+  # Only change a single setting
+  dawn:
+    extends: day
+    palettes:
+      primary:
+        bg:
+          hovered: red.50
 ```
 
 ## Constraints
