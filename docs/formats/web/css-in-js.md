@@ -7,9 +7,9 @@ CSS-in-JS solutions. It currently supports 3 different targets:
 - `web-js` for JavaScript using ECMA modules.
 - `web-cjs` for JavaScript using CommonJS.
 
-This format is different from other CSS-like formats, as it _does not_ generate a list of variables
-(design tokens), but instead generates a design system and theme hierarchy composed of classes. This
-layer is powered by the [@aesthetic/system](../../packages/system/README.md) package.
+This format is different from other CSS-like formats, as it _does not_ generate a standard list of
+variables (design tokens), but instead generates a design system and theme hierarchy composed of
+classes. This layer is powered by the [@aesthetic/system](../../packages/system/README.md) package.
 
 For the remainder of this documentation, we'll use TypeScript as our format.
 
@@ -31,12 +31,12 @@ styles/<target>/
 
 > JavaScript formats will use `.js` file extensions.
 
-## Tokens
+## Variables
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines primitive tokens through an exported `Design` class instance. Each theme file defines color
-and palette tokens through an exported `Theme` class instance, while also inheriting all primitive
-tokens from the parent design system.
+defines primitive variables through an exported `Design` class instance. Each theme file defines
+color and palette variables through an exported `Theme` class instance, while also inheriting all
+primitive variables from the parent design system.
 
 The compiled design system file looks something like the following:
 
@@ -271,7 +271,7 @@ Coming soon...
 
 ## Usage
 
-Token values can be accessed from both `Design` and `Theme` instances using the `tokens` class
+Variables can be accessed from both `Design` and `Theme` instances using the `tokens` class
 property, which is a multidimensional object.
 
 ```js

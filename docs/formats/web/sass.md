@@ -20,11 +20,11 @@ styles/<target>/
 └── _mixins.sass
 ```
 
-## Tokens
+## Variables
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines primitive tokens, while each theme file defines color and palette tokens, both of which rely
-on Sass variables.
+defines primitive variables, while each theme file defines color and palette variables, both of
+which rely on Sass variables.
 
 The compiled design system file looks something like the following:
 
@@ -196,8 +196,8 @@ the global scope, use `*`.
   font-size: $text-df-size
 ```
 
-Tokens support [!default](https://sass-lang.com/documentation/variables) so that their value may be
-customized during import -- outside the context of the compiler. This is useful for migration
+Variables support [!default](https://sass-lang.com/documentation/variables) so that their value may
+be customized during import -- outside the context of the compiler. This is useful for migration
 purposes, but we suggest the patterns above and using the variables as-is.
 
 ```sass

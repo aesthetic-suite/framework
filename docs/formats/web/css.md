@@ -23,11 +23,11 @@ styles/<target>/
 └── mixins.css
 ```
 
-## Tokens
+## Variables
 
 As mentioned above, a design system and multiple theme files are created. The design system file
-defines primitive tokens, while each theme file defines color and palette tokens, both of which rely
-on CSS variables.
+defines primitive variables, while each theme file defines color and palette variables, both of
+which rely on CSS variables.
 
 The compiled design system file uses `:root` and looks something like the following:
 
@@ -136,7 +136,7 @@ The compiled design system file uses `:root` and looks something like the follow
 ```
 
 While the compiled theme files look loosely like the below (removed some repetition for brevity). Do
-note that theme tokens are scoped within a class name, _not_ `:root`, and as such, _cannot_ be
+note that theme variables are scoped within a class name, _not_ `:root`, and as such, _cannot_ be
 polyfilled.
 
 ```css
@@ -211,7 +211,7 @@ import './styles/<target>/themes/day.css';
 ## Usage
 
 Since the CSS format is built around variables, we can utilize the `var()` function for reusability.
-Simply reference the tokens listed above like so:
+Simply reference the variables listed above like so:
 
 ```css
 .button {
