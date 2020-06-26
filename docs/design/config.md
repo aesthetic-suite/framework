@@ -4,9 +4,9 @@ The design system is configured in a human and machine readable format known as
 [YAML](https://en.wikipedia.org/wiki/YAML). This format works across all operating systems,
 platforms, programming languages, and is easily accessible for both designers and developers.
 
-- [Brand](./brand.md)
-- [Language](./language.md)
-- [Themes](./themes.md)
+- [Brand](./config/brand.md)
+- [Language](./config/language.md)
+- [Themes](./config/themes.md)
 
 Before we dive into all configurable settings, a few must know concepts are described below.
 

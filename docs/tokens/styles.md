@@ -1,7 +1,7 @@
 # Style components
 
-How you style components is entirely dependent on what [format](./formats/README.md) you compiled
-your design tokens to, and what framework [integration](./integrations.md) you are using, if any.
+How you style components is entirely dependent on what [format](./compile.md#formats) you compiled
+your design tokens to, and what framework [integration](../integrations.md) you are using, if any.
 
 With that being said, a large portion of Aesthetic will be used as a CSS-in-JS solution. To
 seamlessly integrate with the design system and JavaScript (or TypeScript) based design tokens, we
@@ -67,11 +67,11 @@ methods.
 ## References
 
 Style objects are based on the structure provided by the `@aesthetic/style`
-[package](./packages/style/README.md).
+[package](../packages/style/README.md).
 
-- [Styles](./packages/style/concepts.md#styles)
-- [Selectors](./packages/style/concepts.md#rules)
-- [Media queries](./packages/style/concepts.md#media-queries)
-- [Feature queries](./packages/style/concepts.md#feature-queries)
-- [Font faces](./packages/style/concepts.md#font-faces)
-- [Keyframes](./packages/style/concepts.md#keyframes)
+- [Styles](../packages/style/concepts.md#styles)
+- [Selectors](../packages/style/concepts.md#rules)
+- [Media queries](../packages/style/concepts.md#media-queries)
+- [Feature queries](../packages/style/concepts.md#feature-queries)
+- [Font faces](../packages/style/concepts.md#font-faces)
+- [Keyframes](../packages/style/concepts.md#keyframes)

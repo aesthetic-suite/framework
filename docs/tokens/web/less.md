@@ -1,7 +1,7 @@
 # Less format
 
-The following format is provided when [compiling design tokens](../../design/tokens.md) to
-[Less](http://lesscss.org/) using `web-less`.
+The following format is provided when compiling design tokens to [Less](http://lesscss.org/) using
+`web-less`.
 
 ## File structure
 

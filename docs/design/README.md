@@ -25,8 +25,8 @@ system is structured around the following 3 pillars and their offerings.
 +---------------------------------------------------+
 ```
 
-> Jump to the [configuring a design system](../config/README.md) chapter for more information on
-> customizing these pillars.
+> Jump to the [configuring a design system](./config.md) chapter for more information on customizing
+> these pillars.
 
 ## Brand
 

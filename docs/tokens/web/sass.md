@@ -1,7 +1,7 @@
 # Sass format
 
-The following format is provided when [compiling design tokens](../../design/tokens.md) to
-[Sass](https://sass-lang.com) using `web-sass`.
+The following format is provided when compiling design tokens to [Sass](https://sass-lang.com) using
+`web-sass`.
 
 ## File structure
 

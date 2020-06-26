@@ -1,7 +1,7 @@
 # CSS-in-JS format
 
-The following format is provided when [compiling design tokens](../../design/tokens.md) for
-CSS-in-JS solutions. It currently supports 3 different targets:
+The following format is provided when compiling design tokens for CSS-in-JS solutions. It currently
+supports 3 different targets:
 
 - `web-ts` for TypeScript.
 - `web-js` for JavaScript using ECMA modules.

@@ -32,7 +32,7 @@ sorted from lowest to highest, and reversed for "desktop-first". This ensures th
 specificity takes place.
 
 The `responsive.breakpoints` setting _requires 5 breakpoints_ ranging from smallest to largest, in
-either a list or map, with values being a [unit](./README.md#unitless-values). On the web, these
+either a list or map, with values being a [unit](../config.md#unitless-values). On the web, these
 values will be converted to `em` values, while Android uses `dp`, and
 [ignored by iOS](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/).
 By default, the setting is configured to the values in the example below.
@@ -89,7 +89,7 @@ choose the best for your application. Only 1 type may be chosen.
 
 ### Unit based
 
-Uses an explicit platform dependent [unit](./README.md#unitless-values) to calculate with. When
+Uses an explicit platform dependent [unit](../config.md#unitless-values) to calculate with. When
 using this type, the `spacing.unit` setting must also be defined.
 
 ```yaml
@@ -178,7 +178,7 @@ typography:
 The `typography.text` settings control both the body and paragraph text of the application, as well
 as spacing based calculations (primarily used by `spacing.type`). Body text comes in 3 sizes --
 small, default (normal), and large -- and can be configured using a
-[scaled format](./README.md#scaled-patterns), or with a fixed per size format.
+[scaled format](../config.md#scaled-patterns), or with a fixed per size format.
 
 The scaled approach will use scale equivalent settings to calculate small and large sizes, with
 default being the middle, and scaling outwards. The values configured should be the default text
@@ -221,8 +221,8 @@ being the smallest (very similar to `h1`-`h6` HTML tags).
 The `typography.heading` setting shares the same settings from text, with the addition of letter
 spacing, and per level configuration (instead of per size).
 
-When using the [scaled approach](./README.md#scaled-patterns), the settings should be configured for
-level 6, as 5-1 will be automatically calculated based on the scaling factor (going upwards).
+When using the [scaled approach](../config.md#scaled-patterns), the settings should be configured
+for level 6, as 5-1 will be automatically calculated based on the scaling factor (going upwards).
 
 ```yaml
 typography:
