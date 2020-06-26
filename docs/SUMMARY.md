@@ -13,8 +13,10 @@
 
 ## Design tokens
 
-- [What are design tokens?](./tokens/README.md)
+- [What are design tokens?](./tokens.md)
 - [Compile design tokens](./tokens/compile.md)
+- [Style components](./tokens/styles.md)
+- Formats
   - [Android](./tokens/android/README.md)
   - [iOS](./tokens/ios/README.md)
   - [Web](./tokens/web/README.md)
@@ -23,12 +25,11 @@
     - [SCSS](./tokens/web/scss.md)
     - [Sass](./tokens/web/sass.md)
     - [Less](./tokens/web/less.md)
-- [Style components](./styles.md) (CSS-in-JS)
 
 ## Advanced
 
 - Theme mixins
-- Dark mode
+- Light and dark modes
 - Style sheet variants
 - Server-side rendering
 
@@ -50,10 +51,10 @@
   - [Server-side rendering](./packages/style/ssr.md)
   - [Test utilities](./packages/style/testing.md)
   - [API](./packages/style/api.md)
-- [React API](./packages/react/README.md)
 
 ## Legacy
 
+- [Intro](./legacy/README.md)
 - [Setup](./legacy/setup.md)
 - [Using Themes](./legacy/theme.md)
 - [Styling Components](./legacy/style.md)

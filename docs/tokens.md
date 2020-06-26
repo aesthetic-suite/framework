@@ -2,7 +2,8 @@
 
 Design tokens are reusable, flexible, and scalable variables and mixins that are derived from a
 design system's language and themes. They enable teams to work cross-platform, across different
-implementations, libraries, and programming languages, by offering true interoperability.
+implementations, libraries, and programming languages, by offering true interoperability. You can
+imagine tokens as the implementation to the design system's specification.
 
 ## Resources
 

@@ -3,11 +3,11 @@
 Aesthetic is an end-to-end design and development framework for declaring consistent visual styles
 across platforms, languages, projects, and teams.
 
-The entry point to Aesthetic is a fixed [design system](./design/README.md), created and
-[configured in YAML](./config/README.md). This design system is then
-[compiled to design tokens](./design/tokens.md) for a target platform (Android, iOS, and Web) and
-format (CSS, SCSS, etc). With this, all platforms are supported, across many languages and
-technologies, with the design system configuration being the single shared source of truth.
+The entry point to Aesthetic is a fixed [design system](./design.md), created and
+[configured in YAML](./design/config.md). This design system is then
+[compiled to design tokens](./tokens.md) for a target platform (Android, iOS, and Web) and format
+(CSS, SCSS, etc). With this, all platforms are supported, across many languages and technologies,
+with the design system configuration being the single shared source of truth.
 
 Furthermore, the design system isn't the only feature that Aesthetic provides. It also provides a
 framework-agnostic CSS-in-JS solution, built around the design system itself. This solution provides
@@ -20,15 +20,15 @@ configuration file. In the future, this YAML file will be automatically exported
 or additional upstream sources.
 
 - [Create a design system](./design/create.md)
-- [Configure the design system](./config/README.md)
+- [Configure the design system](./design/config.md)
 
 ## For developers
 
 As a developer, you compile the design system configuration into design tokens for one or many
 platform targets. These design tokens can then be used to style your website or components.
 
-- [Compile design tokens](./design/tokens.md)
-- [Style components](./styles.md)
+- [Compile design tokens](./tokens/compile.md)
+- [Style components](./tokens/styles.md)
 
 ## Motivation and goals
 
