@@ -4,7 +4,7 @@
 
 ## Design system
 
-- [What is a design system?](./design/README.md)
+- [What is a design system?](./design/about.md)
 - [Create a design system](./design/create.md)
 - [Configure the design system](./design/config.md)
   - [Brand](./design/config/brand.md)
@@ -13,7 +13,7 @@
 
 ## Design tokens
 
-- [What are design tokens?](./tokens.md)
+- [What are design tokens?](./tokens/about.md)
 - [Compile design tokens](./tokens/compile.md)
 - [Style components](./tokens/styles.md)
 - Formats
