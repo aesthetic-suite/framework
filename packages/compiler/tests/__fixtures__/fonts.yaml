@@ -1,5 +1,4 @@
-extends: ../../templates/config
-name: test
+extends: ./system-scaled/language.yaml
 colors:
   - black
 typography:

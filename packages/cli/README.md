@@ -11,3 +11,7 @@ A CLI for creating, managing, and compiling design systems.
 ```
 yarn add @aesthetic/cli
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic](https://milesj.gitbook.io/aesthetic)

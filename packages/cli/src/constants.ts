@@ -1,7 +1,5 @@
 export const CWD = process.cwd();
 
-export const CONFIG_FILE = 'aesthetic.yaml';
-
 export const FORMAT_LIST = [
   // 'android',
   // 'ios',

@@ -31,7 +31,6 @@ describe('GlobalSheet', () => {
           to: { opacity: 1 },
         },
       },
-      // TODO
       '@page': {
         size: '8.5in 11in',
       },

@@ -1,8 +1,0 @@
-name: test
-colors:
-  - black
-  - white
-themes:
-  default:
-    scheme: light
-    colors: {}

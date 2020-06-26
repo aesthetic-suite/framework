@@ -1,5 +1,5 @@
 {
-  "name": "aesthetic-root",
+  "name": "aesthetic-framework",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -23,14 +23,14 @@
     "node": ">=10.10.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.7.2",
+    "@milesj/build-tools": "^2.9.0",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/lodash": "^4.14.155",
+    "@types/lodash": "^4.14.157",
     "@types/prettier": "^2.0.1",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.36",
+    "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
     "@types/string-hash": "^1.1.1",
     "caniuse-api": "^3.0.0",
@@ -40,7 +40,7 @@
     "lerna": "^3.22.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rollup": "^2.15.0",
+    "rollup": "^2.18.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-externals": "^2.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",

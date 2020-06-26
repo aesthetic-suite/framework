@@ -1,4 +1,3 @@
-extends: desktop-first
-name: test
+extends: ./desktop-first.yaml
 responsive:
   strategy: mobile-first

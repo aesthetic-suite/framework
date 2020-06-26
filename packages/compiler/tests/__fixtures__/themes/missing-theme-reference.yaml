@@ -1,0 +1,5 @@
+themes:
+  default:
+    scheme: light
+    colors: {}
+    extends: unknown

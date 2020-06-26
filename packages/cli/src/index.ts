@@ -12,7 +12,7 @@ const program = new Program({
   bin: 'aesthetic',
   name: 'Aesthetic Framework',
   // eslint-disable-next-line
-  version: require('@aestheitc/core/package.json').version,
+  version: require('@aesthetic/core/package.json').version,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

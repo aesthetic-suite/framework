@@ -10,6 +10,16 @@ import {
 } from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
+export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
+
+export const CONFIG_FOLDER = '.aesthetic';
+
+export const BRAND_FILE = 'brand.yaml';
+
+export const LANGUAGE_FILE = 'language.yaml';
+
+export const THEMES_FILE = 'themes.yaml';
+
 export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
 
 export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];

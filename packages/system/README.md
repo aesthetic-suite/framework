@@ -11,3 +11,7 @@ Web based building blocks for the Aesthetic design system.
 ```
 yarn add @aesthetic/system
 ```
+
+## Documentation
+
+[https://milesj.gitbook.io/aesthetic/packages/system](https://milesj.gitbook.io/aesthetic/packages/system)

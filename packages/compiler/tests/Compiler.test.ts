@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import { Compiler } from '../src';
 
-const CONFIG_PATH = path.join(__dirname, '../templates/config.yaml');
+const CONFIG_PATH = path.join(__dirname, './__fixtures__/system-scaled');
 
 async function runCompilerSnapshot(filePath: string) {
   const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
@@ -30,7 +30,7 @@ describe('Compiler', () => {
   describe('constructor()', () => {
     it('errors if no config path', () => {
       expect(() => new Compiler('', '', { platform: 'web', format: 'web-js' })).toThrow(
-        'A configuration file path is required.',
+        'A configuration folder path is required.',
       );
     });
 
@@ -78,16 +78,8 @@ describe('Compiler', () => {
   });
 
   describe('compile()', () => {
-    it('compiles base config', async () => {
+    it('compiles all configs', async () => {
       await runCompilerSnapshot(CONFIG_PATH);
-    });
-
-    it('compiles fonts', async () => {
-      await runCompilerSnapshot(path.join(__dirname, `./__fixtures__/fonts.yaml`));
-    });
-
-    it('compiles multiple themes', async () => {
-      await runCompilerSnapshot(path.join(__dirname, `./__fixtures__/themes.yaml`));
     });
   });
 });

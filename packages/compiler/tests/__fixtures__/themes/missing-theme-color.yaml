@@ -1,0 +1,4 @@
+themes:
+  default:
+    scheme: light
+    colors: {}

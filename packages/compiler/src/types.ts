@@ -217,7 +217,7 @@ export type PalettesConfig = {
   [K in PaletteType]: string | PaletteConfig;
 };
 
-// Final
+// Themes
 
 export interface ThemeConfig<ColorNames extends string = string> {
   colors: { [K in ColorNames]: ColorConfig };
@@ -227,9 +227,19 @@ export interface ThemeConfig<ColorNames extends string = string> {
   scheme: ColorScheme;
 }
 
-export interface ConfigFile<ColorNames extends string = string> extends DesignConfig {
+// Final
+
+export interface ConfigFile {
   extends: string;
+}
+
+export interface BrandConfigFile extends ConfigFile {
   name: string;
+}
+
+export interface LanguageConfigFile extends DesignConfig, ConfigFile {}
+
+export interface ThemesConfigFile<ColorNames extends string = string> extends ConfigFile {
   themes: { [name: string]: ThemeConfig<ColorNames> };
 }
 

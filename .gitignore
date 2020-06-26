@@ -38,6 +38,7 @@ tsconfig.options.json
 *.tsbuildinfo
 
 # Local
+.aesthetic/
 build/
 compile.js
 aesthetic.yaml
