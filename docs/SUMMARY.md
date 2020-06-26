@@ -8,7 +8,7 @@
   - [Language](./config/language.md)
   - [Themes](./config/themes.md)
 - [Compile design tokens](./compile-tokens.md)
-- [Style components](./style-components.md)
+- [Style components](./style-components.md) (CSS-in-JS)
   - [Styles](./packages/style/concepts.md#styles)
   - [Selectors](./packages/style/concepts.md#rules)
   - [Media queries](./packages/style/concepts.md#media-queries)
