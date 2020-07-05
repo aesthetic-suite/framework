@@ -29,6 +29,15 @@ spacing:
   # The base unit size when type is "unit".
   unit: 8
 
+  # Multipliers for each spacing size.
+  multipliers:
+    xs: 0.25
+    sm: 0.5
+    df: 1 # Default
+    md: 2
+    lg: 3
+    xl: 4
+
 # TYPOGRAPHY
 typography:
   # Font family for all body text and headings. Defaults to the platform "system" font.
