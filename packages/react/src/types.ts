@@ -6,7 +6,7 @@ import { Theme } from '@aesthetic/core';
 import { ClassName, Direction, ThemeName } from '@aesthetic/types';
 
 export interface ClassNameVariants {
-  [key: string]: string;
+  [type: string]: string;
 }
 
 export type ClassNameGenerator<T> = (

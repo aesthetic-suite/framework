@@ -183,22 +183,18 @@ Emits a `block:variable` event for each CSS variable.
 ### `@variants`
 
 Defines multiple variations for the rule in question. Each variation is a style object that maps to
-a specific variation type and value combination, defined by the object key and separated by a single
-underscore.
+a specific variation type and value combination, defined by the object key and separated by a
+_single_ underscore.
 
 ```ts
 const localSheet: LocalStyleSheet = {
   element: {
-    fontSize: 16,
+    display: 'block',
 
     '@variants': {
-      size_small: {
-        fontSize: 14,
-      },
-
-      size_large: {
-        fontSize: 18,
-      },
+      size_small: { fontSize: 14 },
+      size_default: { fontSize: 16 },
+      size_large: { fontSize: 18 },
 
       type_failure: {},
       type_success: {},
