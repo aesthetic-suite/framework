@@ -45,6 +45,10 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
     arrayLoop(keys, (key) => {
       if (isObject(key)) {
         objectLoop(key, (value, type) => {
+          if (!value || !type) {
+            return;
+          }
+
           const variant = `${type}_${value}`;
 
           objectLoop(classNames, (clx) => {

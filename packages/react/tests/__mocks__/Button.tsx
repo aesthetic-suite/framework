@@ -62,6 +62,16 @@ export function createStyleSheet() {
 
     button_disabled: {
       opacity: 0.5,
+
+      '@variants': {
+        size_sm: {
+          opacity: 0.4,
+        },
+
+        size_lg: {
+          opacity: 0.6,
+        },
+      },
     },
   }));
 }
