@@ -525,8 +525,8 @@ mixins. It would look something like the following.
 
 When the build target is JS/TS, it will instantiate system and theme classes, generate token and
 mixin theme templates (plain objects), all of which would be used in the official
-[Aesthetic](https://github.com/milesj/aesthetic) CSS-in-JS library. It would look something like the
-following (API in flux).
+[Aesthetic](https://github.com/aesthetic-suite/framework) CSS-in-JS library. It would look something
+like the following (API in flux).
 
 ```ts
 // design.ts

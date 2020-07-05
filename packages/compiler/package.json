@@ -8,7 +8,7 @@
     "system",
     "compiler"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/compiler",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/compiler",
   "license": "MIT",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

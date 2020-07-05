@@ -11,7 +11,7 @@
     "type-safe",
     "css"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/sss",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/sss",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

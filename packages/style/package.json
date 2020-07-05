@@ -11,7 +11,7 @@
     "renderer",
     "engine"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/style",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/style",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

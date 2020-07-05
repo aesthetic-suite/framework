@@ -9,7 +9,7 @@
     "css",
     "css-in-js"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/core",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/core",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

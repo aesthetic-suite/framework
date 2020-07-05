@@ -1,11 +1,11 @@
 # Aesthetic - React Integration
 
-[![Build Status](https://github.com/milesj/aesthetic/workflows/Build/badge.svg)](https://github.com/milesj/aesthetic/actions?query=branch%3Amaster)
+[![Build Status](https://github.com/aesthetic-suite/framework/workflows/Build/badge.svg)](https://github.com/aesthetic-suite/framework/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/aesthetic-react.svg)](https://www.npmjs.com/package/aesthetic-react)
-[![npm deps](https://david-dm.org/milesj/aesthetic.svg?path=packages/react-legacy)](https://www.npmjs.com/package/aesthetic-react)
+[![npm deps](https://david-dm.org/aesthetic-suite/framework.svg?path=packages/react-legacy)](https://www.npmjs.com/package/aesthetic-react)
 
 Provides styles for React components through hook or HOC based APIs. Built around the powerful
-[Aesthetic](https://github.com/milesj/aesthetic) core library.
+[Aesthetic](https://github.com/aesthetic-suite/framework) core library.
 
 ```tsx
 import React from 'react';

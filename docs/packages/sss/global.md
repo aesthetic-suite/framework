@@ -268,4 +268,4 @@ parser.parse({
 ```
 
 > The full list of events and their types can be found in the
-> [source `Parser` class](https://github.com/milesj/aesthetic/blob/master/packages/sss/src/Parser.ts).
+> [source `Parser` class](https://github.com/aesthetic-suite/framework/blob/master/packages/sss/src/Parser.ts).

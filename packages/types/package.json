@@ -6,7 +6,7 @@
     "aesthetic",
     "types"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/types",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/types",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

@@ -54,6 +54,6 @@
 
 ## Resources
 
-- [Roadmap](https://github.com/milesj/aesthetic/blob/master/ROADMAP.md)
-- [Changelog](https://github.com/milesj/aesthetic/blob/master/CHANGELOG.md)
+- [Roadmap](https://github.com/aesthetic-suite/framework/blob/master/ROADMAP.md)
+- [Changelog](https://github.com/aesthetic-suite/framework/blob/master/CHANGELOG.md)
 - [Legacy docs](https://github.com/aesthetic-suite/framework/tree/legacy/docs)

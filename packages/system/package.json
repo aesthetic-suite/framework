@@ -8,7 +8,7 @@
     "system",
     "language"
   ],
-  "repository": "https://github.com/milesj/aesthetic/tree/master/packages/system",
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/system",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
