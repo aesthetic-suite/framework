@@ -555,12 +555,14 @@ describe('LocalParser', () => {
         expect.any(Block),
         'size_small',
         createBlock('@variants size_small', { fontSize: 14 }),
+        { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         'size_large',
         createBlock('@variants size_large', { fontSize: 18 }),
+        { specificity: 0 },
       );
     });
   });
