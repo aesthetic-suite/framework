@@ -34,7 +34,8 @@ the burden from designers and developers.
 
 Settings that support scaling will always have a sibling setting of the same name, suffixed with
 `Scale`. Scale values are either a float that defines an explicit ratio, or a kebab-cased string
-that maps to a common ratio name, like `golden-ratio`.
+that maps to a common ratio name, like `golden-ratio`
+([view all scale types](https://github.com/aesthetic-suite/framework/blob/master/packages/compiler/src/types.ts#L38)).
 
 ```yaml
 # Floats
