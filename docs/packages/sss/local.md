@@ -42,7 +42,7 @@ and are _not allowed_ in the sheet root.
 
 ### `@fallbacks`
 
-Define
+Defines
 [CSS property fallbacks](https://modernweb.com/using-css-fallback-properties-for-better-cross-browser-compatibility/)
 for legacy browsers that do not support newer properties. The at-rule requires an object, with the
 key being a property name, and the value being a property value, or an array of values.
@@ -67,7 +67,7 @@ Emits a `block:fallback` event per property with an array of values.
 
 ### `@media`
 
-Define [media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) by mapping
+Defines [media queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@media) by mapping
 breakpoints and queries to style declarations. Declarations can nest selectors and additional
 at-rules.
 
@@ -92,7 +92,7 @@ Emits a `block:media` event per media query declaration.
 
 ### `@selectors`
 
-Define advanced [selectors](./spec.md#selectors) that aren't type-safe or supported by
+Defines advanced [selectors](./spec.md#selectors) that aren't type-safe or supported by
 [csstype](https://github.com/frenic/csstype)'s standard attributes and pseudos. This includes:
 
 - [Combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) denoted by a
@@ -135,7 +135,7 @@ Emits a `block:selector`, `block:pseudo`, or `block:attribute` event per selecto
 
 ### `@supports`
 
-Define [supports](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports) by mapping feature
+Defines [supports](https://developer.mozilla.org/en-US/docs/Web/CSS/@supports) by mapping feature
 queries to style declarations. Declarations can nest selectors and additional at-rules.
 
 ```ts
@@ -160,7 +160,7 @@ Emits a `block:media` event per feature query declaration.
 
 ### `@variables`
 
-Define element level CSS variables, by mapping variable names to their value. Names can be in camel
+Defines element level CSS variables, by mapping variable names to their value. Names can be in camel
 case or variable kebab case (prefixed with `--`). Useful for overriding root and theme CSS variables
 on a per element basis.
 
@@ -179,6 +179,35 @@ const localSheet: LocalStyleSheet = {
 > values are not supported for values that require a unit suffix.
 
 Emits a `block:variable` event for each CSS variable.
+
+### `@variants`
+
+Defines multiple variations for the rule in question. Each variation is a style object that maps to
+a specific variation type and value combination, defined by the object key and separated by a
+_single_ underscore.
+
+```ts
+const localSheet: LocalStyleSheet = {
+  element: {
+    display: 'block',
+
+    '@variants': {
+      size_small: { fontSize: 14 },
+      size_default: { fontSize: 16 },
+      size_large: { fontSize: 18 },
+
+      type_failure: {},
+      type_success: {},
+      type_brandPrimary: {},
+    },
+  },
+};
+```
+
+The variant block _does not_ merge into the parent block, as the consumer should handle what to do
+with variants. If no custom handling is provided, variants are a no-op.
+
+Emits a `block:variant` event for each CSS variant object.
 
 ## Parsing
 

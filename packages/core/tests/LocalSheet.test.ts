@@ -70,9 +70,9 @@ describe('LocalSheet', () => {
     const classes = sheet.render(renderer, lightTheme, {});
 
     expect(classes).toEqual({
-      foo: 'a b c d e',
-      bar: 'f g',
-      baz: 'class-baz',
+      foo: { class: 'a b c d e' },
+      bar: { class: 'f g' },
+      baz: { class: 'class-baz' },
     });
   });
 

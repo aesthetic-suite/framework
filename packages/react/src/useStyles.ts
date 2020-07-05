@@ -1,9 +1,10 @@
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useCallback, useState, useEffect, useLayoutEffect } from 'react';
 import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
-import { arrayReduce, isSSR } from '@aesthetic/utils';
+import { isSSR } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
+import generateClassName from './generateClassName';
 
 /**
  * Hook within a component to provide a style sheet.
@@ -38,8 +39,8 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
     );
   }, [direction, theme]);
 
-  return (...keys) =>
-    arrayReduce(keys, (key) =>
-      key && classNames[key as string] ? ` ${classNames[key as string]}` : '',
-    ).trim();
+  // Generate dynamic class names
+  const cx = useCallback((...keys) => generateClassName(keys, classNames), [classNames]);
+
+  return cx;
 }

@@ -47,6 +47,7 @@ export interface CommonEvents<T extends object> {
   onBlockSelector?: BlockNestedListener<T>;
   onBlockSupports?: BlockConditionListener<T>;
   onBlockVariable?: BlockPropertyListener<T>;
+  onBlockVariant?: BlockNestedListener<T>;
   onFontFace?: FontFaceListener<T>;
   onKeyframes?: KeyframesListener<T>;
   onVariable?: VariableListener;
@@ -61,6 +62,7 @@ const EVENT_MAP = {
   onBlockSelector: 'block:selector',
   onBlockSupports: 'block:supports',
   onBlockVariable: 'block:variable',
+  onBlockVariant: 'block:variant',
   onFontFace: 'font-face',
 };
 
@@ -205,6 +207,12 @@ export default abstract class Parser<T extends object, E extends object> {
       delete props['@variables'];
     }
 
+    if (props['@variants']) {
+      this.parseVariants(parent, props['@variants']);
+
+      delete props['@variants'];
+    }
+
     return this.parseBlock(parent, props);
   }
 
@@ -298,11 +306,25 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
+  parseVariants(parent: Block<T>, variants: { [key: string]: LocalBlock }) {
+    this.validateDeclarations(variants, '@variants');
+
+    objectLoop(variants, (object, type) => {
+      this.emit(
+        'block:variant',
+        parent,
+        type,
+        this.parseLocalBlock(new Block(`@variants ${type}`), object),
+        { specificity: 0 },
+      );
+    });
+  }
+
   /**
    * Execute the defined event listener with the arguments.
    */
   emit(
-    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
+    name: 'block:attribute' | 'block:pseudo' | 'block:selector' | 'block:variant',
     ...args: Parameters<BlockNestedListener<T>>
   ): void;
   emit(
@@ -328,7 +350,7 @@ export default abstract class Parser<T extends object, E extends object> {
    * Register an event listener.
    */
   on(
-    name: 'block:attribute' | 'block:pseudo' | 'block:selector',
+    name: 'block:attribute' | 'block:pseudo' | 'block:selector' | 'block:variant',
     callback: BlockNestedListener<T>,
   ): this;
   on(name: 'block:media' | 'block:supports', callback: BlockConditionListener<T>): this;
