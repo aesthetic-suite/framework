@@ -242,6 +242,12 @@ describe('Aesthetic', () => {
         },
         bar: {
           color: 'black',
+
+          '@variants': {
+            type_red: {
+              color: 'red',
+            },
+          },
         },
         baz: {
           position: 'absolute',
@@ -273,9 +279,9 @@ describe('Aesthetic', () => {
       const spy = jest.spyOn(sheet, 'render');
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
-        foo: 'a',
-        bar: 'b',
-        baz: 'c',
+        foo: { class: 'a' },
+        bar: { class: 'c', variants: { type_red: 'b' } },
+        baz: { class: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
         unit: 'px',

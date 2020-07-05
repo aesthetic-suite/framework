@@ -218,7 +218,13 @@ export type Page = PageBlock & { [K in PagePseudos]?: PageBlock };
 
 // LOCAL STYLE SHEET
 
-export type LocalAtRule = '@fallbacks' | '@media' | '@selectors' | '@supports' | '@variables';
+export type LocalAtRule =
+  | '@fallbacks'
+  | '@media'
+  | '@selectors'
+  | '@supports'
+  | '@variables'
+  | '@variants';
 
 export type LocalBlock = Rule & {
   '@fallbacks'?: FallbackProperties;
@@ -226,6 +232,7 @@ export type LocalBlock = Rule & {
   '@selectors'?: { [selector: string]: LocalBlock };
   '@supports'?: { [featureQuery: string]: LocalBlock };
   '@variables'?: Variables;
+  '@variants'?: { [variant: string]: LocalBlock };
 };
 
 export type LocalBlockNeverize<T> = {

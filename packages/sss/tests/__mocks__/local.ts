@@ -165,3 +165,15 @@ export const SYNTAX_VARIABLES: LocalBlock = {
     '--line-height': 1.5,
   },
 };
+
+export const SYNTAX_VARIANTS: LocalBlock = {
+  fontSize: 16,
+  '@variants': {
+    size_small: {
+      fontSize: 14,
+    },
+    size_large: {
+      fontSize: 18,
+    },
+  },
+};

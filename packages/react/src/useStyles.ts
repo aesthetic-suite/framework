@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
-import { arrayReduce, isSSR } from '@aesthetic/utils';
+import { isSSR, arrayLoop, isObject, objectLoop } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
@@ -38,8 +38,26 @@ export default function useStyles<T = unknown>(sheet: LocalSheet<T>): ClassNameG
     );
   }, [direction, theme]);
 
-  return (...keys) =>
-    arrayReduce(keys, (key) =>
-      key && classNames[key as string] ? ` ${classNames[key as string]}` : '',
-    ).trim();
+  // Generate class names on demand
+  return (...keys) => {
+    const list: string[] = [];
+
+    arrayLoop(keys, (key) => {
+      if (isObject(key)) {
+        objectLoop(key, (value, type) => {
+          const variant = `${type}_${value}`;
+
+          objectLoop(classNames, (clx) => {
+            if (clx?.variants?.[variant]) {
+              list.push(clx.variants[variant]);
+            }
+          });
+        });
+      } else if (typeof key === 'string' && classNames[key]?.class) {
+        list.push(classNames[key]!.class);
+      }
+    });
+
+    return list.join(' ');
+  };
 }

@@ -5,7 +5,13 @@ import React from 'react';
 import { Theme } from '@aesthetic/core';
 import { ClassName, Direction, ThemeName } from '@aesthetic/types';
 
-export type ClassNameGenerator<T> = (...keys: (undefined | null | false | T)[]) => ClassName;
+export interface ClassNameVariants {
+  [key: string]: string;
+}
+
+export type ClassNameGenerator<T> = (
+  ...keys: (undefined | null | false | T | ClassNameVariants)[]
+) => ClassName;
 
 // CONTEXT
 

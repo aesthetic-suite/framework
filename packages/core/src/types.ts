@@ -8,7 +8,12 @@ import {
 import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 
-export type ClassNameSheet<T extends string> = { [K in T]?: ClassName };
+export type ClassNameSheet<T extends string> = {
+  [K in T]?: {
+    class: ClassName;
+    variants?: { [value: string]: ClassName };
+  };
+};
 
 export type StringOnly<T> = T extends string ? string : never;
 

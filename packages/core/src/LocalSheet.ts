@@ -89,8 +89,24 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
     };
 
     new LocalParser<Rule>({
+      onBlockVariant(parent, variant, block) {
+        const { selector } = parent;
+
+        if (!classNames[selector]) {
+          classNames[selector] = { class: '' };
+        }
+
+        if (!classNames[selector]?.variants) {
+          classNames[selector]!.variants = {};
+        }
+
+        classNames[selector]!.variants![variant] = renderer.renderRule(
+          block.toObject(),
+          renderParams,
+        );
+      },
       onClass(selector, className) {
-        classNames[selector] = className;
+        classNames[selector] = { class: className };
       },
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject());
@@ -99,7 +115,11 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
       onRule(selector, rule) {
-        classNames[selector] = renderer.renderRule(rule.toObject(), renderParams);
+        if (!classNames[selector]) {
+          classNames[selector] = { class: '' };
+        }
+
+        classNames[selector]!.class = renderer.renderRule(rule.toObject(), renderParams);
       },
     }).parse(styles);
 

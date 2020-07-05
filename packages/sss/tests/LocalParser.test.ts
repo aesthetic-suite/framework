@@ -15,6 +15,7 @@ import {
   SYNTAX_MEDIA_NESTED,
   SYNTAX_LOCAL_BLOCK,
   SYNTAX_VARIABLES,
+  SYNTAX_VARIANTS,
 } from './__mocks__/local';
 
 describe('LocalParser', () => {
@@ -516,6 +517,51 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(expect.any(Block), '--font-size', '14px');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), '--color', 'red');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), '--line-height', 1.5);
+    });
+  });
+
+  describe('@variants', () => {
+    beforeEach(() => {
+      parser.on('block:variant', spy);
+    });
+
+    it('errors if variants are not an object', () => {
+      expect(() => {
+        parser.parse({
+          fb: {
+            // @ts-expect-error
+            '@variants': 123,
+          },
+        });
+      }).toThrow('@variants must be a mapping of CSS declarations.');
+    });
+
+    it('does not emit if no variants', () => {
+      parser.parse({
+        variants: {},
+      });
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('emits for each condition', () => {
+      parser.parse({
+        variants: SYNTAX_VARIANTS,
+      });
+
+      expect(spy).toHaveBeenCalledTimes(2);
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        'size_small',
+        createBlock('@variants size_small', { fontSize: 14 }),
+      );
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        'size_large',
+        createBlock('@variants size_large', { fontSize: 18 }),
+      );
     });
   });
 });

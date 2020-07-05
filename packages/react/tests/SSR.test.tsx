@@ -20,13 +20,10 @@ describe('SSR', () => {
     return (
       <button
         type="button"
-        className={cx(
-          'button',
-          block && 'button_block',
-          disabled && 'button_disabled',
-          large && 'button_large',
-          small && 'button_small',
-        )}
+        className={cx('button', block && 'button_block', disabled && 'button_disabled', {
+          // eslint-disable-next-line no-nested-ternary
+          size: large ? 'lg' : small ? 'sm' : '',
+        })}
       >
         {children}
       </button>

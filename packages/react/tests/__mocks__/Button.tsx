@@ -33,6 +33,24 @@ export function createStyleSheet() {
           margin: 0,
         },
       },
+
+      '@variants': {
+        size_sm: {
+          minWidth: css.unit(6),
+          padding: {
+            topBottom: css.var('spacing-sm'),
+            leftRight: css.var('spacing-df'),
+          },
+        },
+
+        size_lg: {
+          minWidth: css.unit(10),
+          padding: {
+            topBottom: css.var('spacing-md'),
+            leftRight: css.var('spacing-lg'),
+          },
+        },
+      },
     }),
 
     button_block: css.mixin('pattern-text-wrap', {
@@ -41,22 +59,6 @@ export function createStyleSheet() {
       whiteSpace: 'normal',
       overflow: 'hidden',
     }),
-
-    button_small: {
-      minWidth: css.unit(6),
-      padding: {
-        topBottom: css.var('spacing-sm'),
-        leftRight: css.var('spacing-df'),
-      },
-    },
-
-    button_large: {
-      minWidth: css.unit(10),
-      padding: {
-        topBottom: css.var('spacing-md'),
-        leftRight: css.var('spacing-lg'),
-      },
-    },
 
     button_disabled: {
       opacity: 0.5,
