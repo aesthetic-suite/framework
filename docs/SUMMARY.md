@@ -28,14 +28,16 @@
 
 ## Advanced
 
+- Component style sheets
+- Theme style sheets
 - Theme mixins
 - Light and dark modes
-- Style sheet variants
 - Server-side rendering
 
 ## Integrations
 
 - [React](./packages/react/README.md)
+  - [Getting started](./packages/react/setup.md)
 
 ## Packages
 

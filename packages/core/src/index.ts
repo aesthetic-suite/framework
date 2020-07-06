@@ -12,6 +12,7 @@ import Sheet from './Sheet';
 export const aesthetic = new Aesthetic();
 export const {
   changeTheme,
+  configure,
   createComponentStyles,
   createThemeStyles,
   getActiveTheme,

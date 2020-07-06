@@ -53,7 +53,7 @@ export default function Button({ children, block = false }: ButtonProps) {
 ## Installation
 
 ```
-yarn add @aesthetic/core @aesthetic/react react
+yarn add @aesthetic/react react react-dom
 ```
 
 ## Documentation
