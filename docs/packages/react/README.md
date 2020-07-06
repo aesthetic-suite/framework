@@ -5,6 +5,7 @@ itself. It enables components to easily and fluently style themselves with desig
 a design system.
 
 - [Getting started](./setup.md)
+- [Using themes](./themes.md)
 
 ## Features
 
