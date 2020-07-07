@@ -25,6 +25,8 @@ ReactDOM.render(
 );
 ```
 
+> Only 1 `ThemeProvider` may be rendered in an application.
+
 ## Registering themes
 
 Themes can only be accessed within a style sheet when registered into Aesthetic. We can achieve this
@@ -74,4 +76,24 @@ changeTheme('twilight');
 
 ## Contextual and nested themes
 
-TODO
+A root `ThemeProvider` provides design tokens to the entire application by declaring `:root` level
+CSS variables and applying a `<body />` class name. Because of this architectural decision, themes
+and styles can be dynamically changed with ease.
+
+Because we utilize CSS variables, we implicitly support nested themes by taking advantage of
+element-level CSS variable cascading. To integrate nested themes, use the `ContextualThemeProvider`
+with an explicit theme name.
+
+```tsx
+import { ThemeProvider, ContextualThemeProvider } from '@aesthetic/react';
+
+<ThemeProvider name="day">
+  <div>Inherits styles from the day theme.</div>
+
+  <ContextualThemeProvider name="night">
+    <div>Inherits styles from the night theme.</div>
+  </ContextualThemeProvider>
+</ThemeProvider>;
+```
+
+> `ContextualThemeProvider`s can be infinitely nested, but not recommended.

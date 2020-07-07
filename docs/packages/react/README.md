@@ -6,6 +6,7 @@ a design system.
 
 - [Getting started](./setup.md)
 - [Using themes](./themes.md)
+- [Creating style sheets](./style-sheets.md)
 
 ## Features
 
