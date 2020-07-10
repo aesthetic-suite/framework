@@ -26,9 +26,9 @@
     - [Sass](./tokens/web/sass.md)
     - [Less](./tokens/web/less.md)
 
-## Advanced
+## Development
 
-- Component style sheets
+- [Component style sheets](./development/component-styles.md)
 - Theme style sheets
 - Theme mixins
 - Light and dark modes
