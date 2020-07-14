@@ -13,9 +13,18 @@ import { createComponentStyles } from '@aesthetic/core';
 
 const styleSheet = createComponentStyles(() => ({
   button: {
+    appearance: 'none',
+    backgroundColor: 'transparent',
+    border: 0,
+    cursor: 'pointer',
     display: 'inline-flex',
+    fontSize: 'inherit',
+    margin: 0,
     padding: '6px 8px',
     textAlign: 'center',
+    textDecoration: 'none',
+    userSelect: 'auto',
+    verticalAlign: 'middle',
   },
   button_selected: { /* ... */ },
   button_disabled: { /* ... */ },
@@ -36,8 +45,8 @@ popular [BEM syntax](http://getbem.com/naming/), without the block, as our style
 ## Using tokens
 
 Manually writing style objects over and over can be tiresome, especially when you need to reuse
-specific values (font sizes, spacing, etc) across many components. Aesthetic solves this through its
-robust [design system](../design/about.md), which is a hard requirement as it powers all
+consistent values (font sizes, spacing, etc) across many components. Aesthetic solves this through
+its robust [design system](../design/about.md), which is a _hard requirement_ as it powers all
 reusability. To make use of this, the design system must be compiled into JavaScript/TypeScript
 based [design tokens](../tokens/about.md).
 
@@ -47,7 +56,68 @@ our argument `css`).
 
 ### Variables
 
+Variables are consistent and reusable values that are derived from settings within a design system's
+language and themes. A variable can be accessed with the `var(name: string)` method, which requires
+a fully qualified name based on the token object structure.
+
+Let's now update our example to _not_ use hard-coded padding values.
+
+```ts
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    appearance: 'none',
+    backgroundColor: 'transparent',
+    border: 0,
+    cursor: 'pointer',
+    display: 'inline-flex',
+    fontSize: 'inherit',
+    margin: 0,
+    padding: {
+      topBottom: css.var('spacing-df'), // Default padding
+      leftRight: css.var('spacing-md'), // Medium padding
+    },
+    textAlign: 'center',
+    textDecoration: 'none',
+    userSelect: 'auto',
+    verticalAlign: 'middle',
+  },
+
+  /* ... */
+}));
+```
+
+> Variables utilize CSS variables under the hood for dynamic styling and reduced output size.
+
+- [List of valid variable names](https://github.com/aesthetic-suite/framework/blob/master/packages/system/src/types.ts#L442)
+
 ### Mixins
+
+Mixins also provide reusability, but instead of providing a single value, they provide a collection
+of pre-styled CSS properties that can be merged into your own style objects via the
+`mixin(name: string, styles: object)` method. The list of properties are hard-coded in Aesthetic but
+can be customized through the design system package.
+
+Continuing our example even further, let's easily reset our button. You'll notice that we removed
+most of the properties. That's because they are provided by the mixin and we no longer have to
+define them manually!
+
+```ts
+const styleSheet = createComponentStyles((css) => ({
+  button: css.mixin('pattern-reset-button', {
+    padding: {
+      topBottom: css.var('spacing-df'),
+      leftRight: css.var('spacing-md'),
+    },
+    textAlign: 'center',
+  }),
+
+  /* ... */
+}));
+```
+
+- [List of valid mixin names](https://github.com/aesthetic-suite/framework/blob/master/packages/system/src/types.ts#L494)
+- [Built-in mixins and their CSS properties](https://github.com/aesthetic-suite/framework/tree/master/packages/system/src/mixins)
+- Customizing mixins _(coming soon)_
 
 ### Units
 

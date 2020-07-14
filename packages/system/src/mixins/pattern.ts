@@ -23,7 +23,7 @@ export function resetButton(): Declarations {
     backgroundColor: 'transparent',
     border: 0,
     cursor: 'pointer',
-    display: 'inline-block',
+    display: 'inline-flex',
     fontSize: 'inherit',
     margin: 0,
     padding: 0,
