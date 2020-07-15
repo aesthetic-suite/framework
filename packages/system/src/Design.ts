@@ -21,6 +21,8 @@ export default class Design {
 
     this.rootLineHeight = tokens.typography.rootLineHeight;
     this.rootTextSize = Number.parseFloat(tokens.typography.rootTextSize);
+
+    // Pre-compiled for the chosen type, no need to calculate manually
     this.spacingUnit = tokens.spacing.unit;
   }
 

@@ -82,7 +82,7 @@ const styleSheet = createComponentStyles((css) => ({
     verticalAlign: 'middle',
   },
 
-  /* ... */
+  // ...
 }));
 ```
 
@@ -111,9 +111,11 @@ const styleSheet = createComponentStyles((css) => ({
     textAlign: 'center',
   }),
 
-  /* ... */
+  // ...
 }));
 ```
+
+> Mixins are very experimental. Feedback is greatly appreciated!
 
 - [List of valid mixin names](https://github.com/aesthetic-suite/framework/blob/master/packages/system/src/types.ts#L494)
 - [Built-in mixins and their CSS properties](https://github.com/aesthetic-suite/framework/tree/master/packages/system/src/mixins)
@@ -121,17 +123,194 @@ const styleSheet = createComponentStyles((css) => ({
 
 ### Units
 
+If you ever need a `rem` unit based on the design system's spacing type, use the
+`unit(...sizes: number[])` method, which requires any number of multipliers.
+
+Let's say our root text size is 16px and our spacing unit is 8px, we would generate the following
+`rem` values.
+
+```ts
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    // All edges
+    padding: css.unit(1), // .5rem
+    // Top/bottom, left/right
+    padding: css.unit(1, 2), // .5rem 1rem
+    // Top, right, bottom, left
+    padding: css.unit(1, 2, 3, 4), // .5rem 1rem 1.5 2rem
+    // ...
+  },
+
+  // ...
+}));
+```
+
+> Using explicit units is frowned upon as it deviates from the design system's strict spacing
+> guidelines. It also increases the CSS output size as it generates additional class names. Use
+> sparingly.
+
 ## Styling elements
+
+Now that you know how to create style sheets and utilize tokens, let's talk about styles. Styles are
+written using plain JavaScript objects and are aptly named _style objects_.
+
+The structure of a style object is based on the `LocalBlock` type provided by the
+[@aesthetic/sss](../packages/sss/README.md) package. The SSS documentation has in-depth examples,
+but for convenience, we'll also provide some examples below.
 
 ### Selectors
 
+There are 2 types of selectors, the first being _basic selectors_, which includes pseudo elements,
+pseudo classes, and HTML attributes that are deterministic and **do not** have permutations. They
+can be defined as nested style objects directly on the element's style object.
+
+```ts
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    backgroundColor: css.var('palette-brand-bg-base'),
+    // ...
+
+    ':hover': {
+      backgroundColor: css.var('palette-brand-bg-hovered'),
+    },
+
+    '[disabled]': {
+      backgroundColor: css.var('palette-brand-bg-disabled'),
+      opacity: 0.75,
+    },
+  },
+
+  // ...
+}));
+```
+
+The other type is _advanced selectors_, which includes
+[combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors#Combinators), as well
+as pseudos and attributes that **do** have permutations. Furthermore, multiple selectors can be
+defined at once using a comma separated list.
+
+Advanced selectors must be nested within a `@selectors` object as they can not be properly typed
+with TypeScript.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    // ...
+
+    '@selectors': {
+      // Combinators must start with >, ~, or +
+      '> li': {
+        listStyle: 'none',
+      },
+
+      // Attributes must start with [ and end with ]
+      '[href*="foo"]': {
+        color: 'red',
+      },
+
+      // Pseudos must start with : or ::
+      ':not(:nth-child(9))': {
+        display: 'hidden',
+      },
+
+      // Multiple selectors can be separated with a comma
+      ':disabled, [disabled]': {
+        opacity: 0.75,
+      },
+    },
+  },
+}));
+```
+
 ### Media and feature queries
+
+Media and feature queries can be defined within a style object using `@media` and `@supports`
+respectively. Both types require an object that maps query expressions to nested style objects.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  button: {
+    display: 'inline-block',
+    // ...
+
+    '@media': {
+      '(max-width: 600px)': {
+        width: '100%',
+      },
+    },
+
+    '@supports': {
+      '(display: inline-flex)': {
+        display: 'inline-flex',
+      },
+    },
+  },
+
+  // ...
+}));
+```
+
+> Both `@media` and `@supports` may be nested within itself and each other.
 
 ### Font faces
 
+Fonts are special as they need to be defined on the document instead of an element, which should be
+done with a [theme style sheet](./theme-styles.md). However, we provide some convenience through the
+`fontFamily` property, which can accept one or many _font face objects_.
+
+Unlike normal CSS font faces, a _font face object_ requires a `srcPath` property, with a list of
+file paths, instead of a `src` property.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    // ...
+    fontFamily: {
+      fontFamily: 'Open Sans',
+      fontStyle: 'normal',
+      fontWeight: 'normal',
+      srcPaths: ['fonts/OpenSans.woff2', 'fonts/OpenSans.ttf'],
+    },
+  },
+}));
+```
+
 ### Keyframes
 
+Animations have the same semantics as fonts and should be defined on a document using a
+[theme style sheet](./theme-styles.md), but also like fonts, we provide some convenience through the
+`animationName` property, which can accept one or many _keyframes objects_.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    // ...
+    animationName: {
+      from: { opacity: 0 },
+      to: { opacity: 1 },
+    },
+  },
+}));
+```
+
 ### Fallbacks
+
+A rarely used but necessary feature for progressive enhancement and supporting legacy browsers.
+Fallbacks allow you to define one or many different values for a single property through the
+`@fallbacks` object.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    // ...
+    display: 'inline-flex',
+
+    '@fallbacks': {
+      display: ['inline', 'inline-block'],
+    },
+  },
+}));
+```
 
 ## Adding variants
 

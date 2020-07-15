@@ -95,8 +95,8 @@ Emits a `block:media` event per media query declaration.
 Defines advanced [selectors](./spec.md#selectors) that aren't type-safe or supported by
 [csstype](https://github.com/frenic/csstype)'s standard attributes and pseudos. This includes:
 
-- [Combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) denoted by a
-  leading `>` (also known as direct descendents).
+- [Combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors#Combinators) denoted
+  by a leading `>` (also known as direct descendents).
 - [Attribute selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) that
   match against a value using patterns.
 - [Pseudo class functions](https://developer.mozilla.org/en-US/docs/Web/CSS/:not) like `:not()` and
@@ -107,22 +107,22 @@ Defines advanced [selectors](./spec.md#selectors) that aren't type-safe or suppo
 const localSheet: LocalStyleSheet = {
   element: {
     '@selectors': {
-      // Must start with >
+      // Combinators must start with >, ~, or +
       '> li': {
         listStyle: 'none',
       },
 
-      // Must start with [
+      // Attributes must start with [ and end with ]
       '[href*="foo"]': {
         color: 'red',
       },
 
-      // Must start with :
+      // Pseudos must start with : or ::
       ':not(:nth-child(9))': {
         display: 'hidden',
       },
 
-      // Must be separated with a comma
+      // Multiple selectors can be separated with a comma
       ':disabled, [disabled]': {
         opacity: 0.75,
       },
