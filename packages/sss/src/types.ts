@@ -142,7 +142,7 @@ export type ExpandedPropertyTypes =
 export interface Properties
   extends Omit<CSST.StandardProperties<Value>, CompoundPropertyTypes | ExpandedPropertyTypes> {
   animation?: CSST.AnimationProperty | AnimationProperty;
-  animationName?: ListableProperty<CSST.AnimationNameProperty, Keyframes>;
+  animationName?: CSST.AnimationNameProperty | Keyframes;
   background?: CSST.BackgroundProperty<Value> | BackgroundProperty;
   border?: CSST.BorderProperty<Value> | BorderProperty;
   borderBottom?: CSST.BorderBottomProperty<Value> | BorderProperty;

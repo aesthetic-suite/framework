@@ -279,16 +279,18 @@ const styleSheet = createComponentStyles(() => ({
 
 Animations have the same semantics as fonts and should be defined on a document using a
 [theme style sheet](./theme-styles.md), but also like fonts, we provide some convenience through the
-`animationName` property, which can accept one or many _keyframes objects_.
+`animationName` property, which accepts a single _keyframes object_.
 
 ```ts
 const styleSheet = createComponentStyles(() => ({
   element: {
     // ...
     animationName: {
-      from: { opacity: 0 },
-      to: { opacity: 1 },
+      from: { transform: 'scaleX(0)' },
+      to: { transform: 'scaleX(1)' },
     },
+    animationDuration: '3s',
+    animationTimingFunction: 'ease-in',
   },
 }));
 ```
@@ -312,13 +314,179 @@ const styleSheet = createComponentStyles(() => ({
 }));
 ```
 
+### Variants
+
+Variants are a staple feature of many components -- especially commonly used ones like buttons,
+alerts, and labels -- and encompasses everything from sizing (small, large) to palettes (success,
+failure, etc).
+
+With that being said, the guiding principle behind variants is that _only 1_ may ever be active at a
+time. If you need to apply more than 1, then you should use the element-modifier syntax mentioned at
+the beginning of the chapter.
+
+To utilize variants, we define a `@variants` object on a per element basis that maps each variant
+name to a _style object_ (that'll be applied when activated). Variant names are critically important
+and must be written in a format of `<type>_<variant>`, as demonstrated below.
+
+```ts
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    // ...
+
+    '@variants': {
+      size_sm: { fontSize: 14 },
+      size_df: { fontSize: 16 },
+      size_lg: { fontSize: 18 },
+
+      palette_brand: { backgroundColor: css.var('palette-brand-bg-base') },
+      palette_success: { backgroundColor: css.var('palette-success-bg-base') },
+      palette_warning: { backgroundColor: css.var('palette-warning-bg-base') },
+    },
+  },
+
+  // ...
+}));
+```
+
+How a variant gets activated is highly dependent on the integration you are using, but it basically
+boils down to the following class name generation.
+
+```ts
+const className = cx('button', { size: 'sm', palette: 'brand' });
+```
+
+#### Handling defaults
+
+When handling default styles for a variant, you _must_ define it as a variant instead of defining it
+on the element directly. This is necessary as it avoids style collisions and specificity issues.
+
+```ts
+// Correct
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    '@variants': {
+      size_sm: { fontSize: 14 },
+      size_df: { fontSize: 16 },
+      size_lg: { fontSize: 18 },
+    },
+  },
+}));
+
+// INCORRECT
+const styleSheet = createComponentStyles((css) => ({
+  button: {
+    fontSize: 16,
+
+    '@variants': {
+      size_sm: { fontSize: 14 },
+      size_lg: { fontSize: 18 },
+    },
+  },
+}));
+```
+
 ## Adding variants
+
+While we support variants per [element](#variants), we also support variants on the style sheet.
+When defined at this level, any variants deemed active will be deeply merged into a single style
+sheet in the order of: base < color scheme < contrast level < theme.
+
+Style sheet variants will override any selector, element, element at-rule (even their variants), or
+nested style object from the base style sheet! This makes it very powerful and very robust.
 
 ### By color scheme
 
+Use the `addColorSchemeVariant()` method for variants depending on the "light" or "dark" color
+scheme of the currently active theme. This is perfect for making slight changes to a theme between
+the two modes.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    display: 'block',
+    color: 'gray',
+  },
+}))
+  .addColorSchemeVariant('light', () => ({
+    element: {
+      backgroundColor: 'white',
+      color: 'black',
+    },
+  }))
+  .addColorSchemeVariant('dark', () => ({
+    element: {
+      backgroundColor: 'black',
+      color: 'white',
+    },
+  }));
+```
+
+This is equivalent to the native `prefers-color-scheme` media query.
+
+```html
+<link href="themes/default.css" rel="stylesheet" />
+<link href="themes/day.css" rel="stylesheet" media="screen and (prefers-color-scheme: light)" />
+<link href="themes/night.css" rel="stylesheet" media="screen and (prefers-color-scheme: dark)" />
+```
+
 ### By contrast level
 
+Use the `addContrastVariant()` method for variants depending on the "low" or "high" contrast level
+of the currently active theme. This is perfect for providing accessible themes.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    display: 'block',
+    color: 'orange',
+  },
+}))
+  .addContrastVariant('low', () => ({
+    element: {
+      color: 'red',
+    },
+  }))
+  .addContrastVariant('high', () => ({
+    element: {
+      color: 'yellow',
+    },
+  }));
+```
+
+This is equivalent to the native `prefers-contrast` media query.
+
+```html
+<link href="themes/default.css" rel="stylesheet" />
+<link href="themes/default-low.css" rel="stylesheet" media="screen and (prefers-contrast: low)" />
+<link href="themes/default-low.css" rel="stylesheet" media="screen and (prefers-contrast: low)" />
+```
+
 ### By theme
+
+And finally, use the `addThemeVariant()` method for variants depending on the currently active theme
+itself. This provides granular styles on a theme-by-theme basis, perfect for style sheets that are
+provided by third-parties.
+
+```ts
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    display: 'block',
+    color: 'gray',
+  },
+}))
+  .addThemeVariant('night', () => ({
+    element: {
+      color: 'blue',
+    },
+  }))
+  .addThemeVariant('twilight', () => ({
+    element: {
+      color: 'purple',
+    },
+  }));
+```
+
+> Theme names must match the names passed to `registerTheme()` or `registerDefaultTheme()`.
 
 ## Rendering CSS
 

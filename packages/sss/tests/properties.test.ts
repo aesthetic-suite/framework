@@ -3,7 +3,6 @@ import { Properties } from '../src/types';
 import { createBlock } from './helpers';
 import {
   KEYFRAMES_PERCENT,
-  KEYFRAMES_RANGE,
   FONT_ROBOTO,
   FONTS_CIRCULAR,
   FONT_ROBOTO_FLAT_SRC,
@@ -64,28 +63,6 @@ describe('Special properties', () => {
     );
 
     expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
-  });
-
-  it('parses `animationName` as a list', () => {
-    let count = 0;
-
-    // eslint-disable-next-line no-plusplus
-    const kfSpy = jest.fn(() => `test${++count}`);
-
-    parser.on('keyframes', kfSpy);
-    parser.parseBlock(createBlock('animationName'), {
-      animationName: ['slide', KEYFRAMES_PERCENT, KEYFRAMES_RANGE],
-    });
-
-    expect(spy).toHaveBeenCalledWith(
-      createBlock('animationName', {
-        animationName: 'slide, test1, test2',
-      }),
-    );
-
-    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
-
-    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_RANGE), undefined);
   });
 
   it('expands `background`', () => {
