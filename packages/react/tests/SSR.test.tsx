@@ -22,7 +22,7 @@ describe('SSR', () => {
         type="button"
         className={cx('button', block && 'button_block', disabled && 'button_disabled', {
           // eslint-disable-next-line no-nested-ternary
-          size: large ? 'lg' : small ? 'sm' : '',
+          size: large ? 'lg' : small ? 'sm' : 'df',
         })}
       >
         {children}

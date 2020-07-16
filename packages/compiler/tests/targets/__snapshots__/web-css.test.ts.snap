@@ -222,7 +222,7 @@ exports[`Format web-css compiles and writes files 1`] = `
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
   font-size: inherit;
   margin: 0;
   padding: 0;

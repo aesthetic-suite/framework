@@ -2,15 +2,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from 'react';
-import { Theme } from '@aesthetic/core';
+import { Theme, ClassNameSheetVariants } from '@aesthetic/core';
 import { ClassName, Direction, ThemeName } from '@aesthetic/types';
 
-export interface ClassNameVariants {
-  [type: string]: string;
-}
-
 export type ClassNameGenerator<T> = (
-  ...keys: (undefined | null | false | T | ClassNameVariants)[]
+  ...keys: (undefined | null | false | T | ClassNameSheetVariants)[]
 ) => ClassName;
 
 // CONTEXT

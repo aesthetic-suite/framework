@@ -1,10 +1,14 @@
 import { useCallback, useState, useEffect, useLayoutEffect } from 'react';
-import { LocalSheet, renderComponentStyles, ClassNameSheet } from '@aesthetic/core';
+import {
+  ClassNameSheet,
+  generateClassName,
+  LocalSheet,
+  renderComponentStyles,
+} from '@aesthetic/core';
 import { isSSR } from '@aesthetic/utils';
 import { ClassNameGenerator } from './types';
 import useDirection from './useDirection';
 import useTheme from './useTheme';
-import generateClassName from './generateClassName';
 
 /**
  * Hook within a component to provide a style sheet.

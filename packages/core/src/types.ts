@@ -8,10 +8,14 @@ import {
 import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 
+export interface ClassNameSheetVariants {
+  [value: string]: ClassName;
+}
+
 export type ClassNameSheet<T extends string> = {
   [K in T]?: {
-    class: ClassName;
-    variants?: { [value: string]: ClassName };
+    class?: ClassName;
+    variants?: ClassNameSheetVariants;
   };
 };
 

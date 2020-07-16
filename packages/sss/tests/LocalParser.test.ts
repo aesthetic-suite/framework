@@ -549,7 +549,7 @@ describe('LocalParser', () => {
         variants: SYNTAX_VARIANTS,
       });
 
-      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(3);
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),

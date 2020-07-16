@@ -8,11 +8,13 @@ import {
   formatImport,
 } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
-import { isSSR } from '@aesthetic/utils';
+import { arrayLoop, isObject, objectLoop, isSSR } from '@aesthetic/utils';
 import { ClassName, ThemeName, FontFace, Keyframes, Variables } from '@aesthetic/types';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import {
+  ClassNameSheet,
+  ClassNameSheetVariants,
   LocalSheetFactory,
   GlobalSheetFactory,
   SheetParams,
@@ -84,6 +86,51 @@ export default class Aesthetic {
    * Create a global style sheet for root theme styles.
    */
   createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
+
+  /**
+   * Generate a class name using the selectors of a style sheet.
+   * If an object is provided, it will be used to check for variants.
+   */
+  generateClassName = <T extends string>(
+    keys: (T | ClassNameSheetVariants)[],
+    classNames: ClassNameSheet<string>,
+  ): ClassName => {
+    const className: string[] = [];
+    const variants: ClassNameSheetVariants = {};
+    const selectors: T[] = [];
+
+    arrayLoop(keys, (key) => {
+      if (isObject(key)) {
+        Object.assign(variants, key);
+      } else if (typeof key === 'string') {
+        selectors.push(key);
+      }
+    });
+
+    arrayLoop(selectors, (selector) => {
+      const hash = classNames[selector];
+
+      if (!hash) {
+        return;
+      }
+
+      if (hash.class) {
+        className.push(hash.class);
+      }
+
+      if (hash.variants) {
+        objectLoop(variants, (value, type) => {
+          const variant = `${type}_${value}`;
+
+          if (hash.variants?.[variant]) {
+            className.push(hash.variants[variant]);
+          }
+        });
+      }
+    });
+
+    return className.join(' ');
+  };
 
   /**
    * Return the currently active theme instance. If an active instance has not been defined,

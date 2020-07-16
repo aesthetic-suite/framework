@@ -12,11 +12,6 @@ export function createStyleSheet() {
       textAlign: 'center',
       backgroundColor: css.var('palette-brand-color-40'),
       color: css.var('palette-neutral-color-00'),
-      minWidth: css.unit(8),
-      padding: {
-        topBottom: css.var('spacing-df'),
-        leftRight: css.var('spacing-md'),
-      },
 
       ':hover': {
         backgroundColor: css.var('palette-brand-color-50'),
@@ -43,6 +38,14 @@ export function createStyleSheet() {
           },
         },
 
+        size_df: {
+          minWidth: css.unit(8),
+          padding: {
+            topBottom: css.var('spacing-df'),
+            leftRight: css.var('spacing-md'),
+          },
+        },
+
         size_lg: {
           minWidth: css.unit(10),
           padding: {
@@ -61,11 +64,13 @@ export function createStyleSheet() {
     }),
 
     button_disabled: {
-      opacity: 0.5,
-
       '@variants': {
         size_sm: {
           opacity: 0.4,
+        },
+
+        size_df: {
+          opacity: 0.5,
         },
 
         size_lg: {

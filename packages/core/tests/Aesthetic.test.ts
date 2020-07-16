@@ -128,6 +128,47 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('generateClassName()', () => {
+    const classes = {
+      a: { class: 'a', variants: { size_df: 'a_size_df' } },
+      b: { class: 'b' },
+      c: { class: 'c', variants: { size_md: 'c_size_md', type_red: 'c_size_red' } },
+      d: { variants: { size_df: 'd_size_df' } },
+      e: { class: 'e' },
+      f: { class: 'f', variants: { size_df: 'f_size_df', size_md: 'f_size_md' } },
+      g: { class: 'g', variants: { type_red: 'c_size_red' } },
+    };
+
+    it('returns class names', () => {
+      expect(aesthetic.generateClassName(['a', 'e'], classes)).toBe('a e');
+    });
+
+    it('returns class names and their variants', () => {
+      expect(aesthetic.generateClassName(['a', { size: 'df' }], classes)).toBe('a a_size_df');
+      expect(aesthetic.generateClassName(['a', { size: 'df' }, 'f'], classes)).toBe(
+        'a a_size_df f f_size_df',
+      );
+    });
+
+    it('returns nothing for an invalid selector', () => {
+      expect(aesthetic.generateClassName(['z'], classes)).toBe('');
+    });
+
+    it('returns nothing for a valid selector but no class name', () => {
+      expect(aesthetic.generateClassName(['d'], classes)).toBe('');
+    });
+
+    it('returns variants even if theres no base class name', () => {
+      expect(aesthetic.generateClassName(['d', { size: 'df' }], classes)).toBe('d_size_df');
+    });
+
+    it('subsequent variants override each other', () => {
+      expect(
+        aesthetic.generateClassName(['a', { size: 'df' }, 'f', 'b', { size: 'md' }, 'c'], classes),
+      ).toBe('a f f_size_md b c c_size_md');
+    });
+  });
+
   describe('getActiveTheme()', () => {
     it('errors if no themes registered', () => {
       expect(() => {

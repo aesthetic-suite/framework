@@ -15,6 +15,7 @@ export const {
   configure,
   createComponentStyles,
   createThemeStyles,
+  generateClassName,
   getActiveTheme,
   getTheme,
   hydrate,
