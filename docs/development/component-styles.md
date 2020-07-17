@@ -39,9 +39,6 @@ combination of element and optional modifier (separated by an underscore). This 
 popular [BEM syntax](http://getbem.com/naming/), without the block, as our style sheet is the block
 (since styles are scoped implicitly). Style sheets support as many selectors as needed!
 
-> In the example above we import from `@aesthetic/core`. This should be replaced with your
-> integration of choice, for example if using React, import from `@aesthetic/react`.
-
 ## Using tokens
 
 Manually writing style objects over and over can be tiresome, especially when you need to reuse
@@ -153,10 +150,6 @@ const styleSheet = createComponentStyles((css) => ({
 
 Now that you know how to create style sheets and utilize tokens, let's talk about styles. Styles are
 written using plain JavaScript objects and are aptly named _style objects_.
-
-The structure of a style object is based on the `LocalBlock` type provided by the
-[@aesthetic/sss](../packages/sss/README.md) package. The SSS documentation has in-depth examples,
-but for convenience, we'll also provide some examples below.
 
 ### Selectors
 
@@ -518,3 +511,18 @@ The following options are supported:
 - `unit` (`string | (prop: string) => string`) - Default unit suffix. Defaults to `defaultUnit`
   option.
 - `vendor` (`boolean`) - Apply vendor prefixes. Defaults to `vendorPrefixes`.
+
+## References
+
+The structure of style objects is based on types provided by the
+[@aesthetic/sss](../packages/sss/README.md) and [@aesthetic/style](../packages/style/README.md)
+packages.
+
+- [Local style sheets](../packages/sss/local.md)
+- [Global style sheets](../packages/sss/global.md)
+- [Styles](../packages/style/concepts.md#styles)
+- [Selectors](../packages/style/concepts.md#rules)
+- [Media queries](../packages/style/concepts.md#media-queries)
+- [Feature queries](../packages/style/concepts.md#feature-queries)
+- [Font faces](../packages/style/concepts.md#font-faces)
+- [Keyframes](../packages/style/concepts.md#keyframes)

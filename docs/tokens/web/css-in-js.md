@@ -41,7 +41,7 @@ primitive variables from the parent design system.
 The compiled design system file looks something like the following:
 
 ```js
-import { Design } from '@aesthetic/core';
+import { Design } from '@aesthetic/system';
 
 export default new Design('example', {
   border: {

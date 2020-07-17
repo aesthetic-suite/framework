@@ -13,8 +13,6 @@ configure({
 });
 ```
 
-> Import from your integration of choice instead of `@aesthetic/core`.
-
 ## Options
 
 The following options are currently supported. These options are based on the `@aesthetic/style`

@@ -15,7 +15,6 @@
 
 - [What are design tokens?](./tokens/about.md)
 - [Compile design tokens](./tokens/compile.md)
-- [Style components](./tokens/styles.md)
 - Formats
   - [Android](./tokens/android/README.md)
   - [iOS](./tokens/ios/README.md)
@@ -28,6 +27,7 @@
 
 ## Development
 
+- [Preface](./development/preface.md)
 - [Configuration](./development/configure.md)
 - [Component style sheets](./development/component-styles.md)
 - Theme style sheets
