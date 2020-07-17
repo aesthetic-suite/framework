@@ -28,6 +28,7 @@
 
 ## Development
 
+- [Configuration](./development/configure.md)
 - [Component style sheets](./development/component-styles.md)
 - Theme style sheets
 - Theme mixins
@@ -43,18 +44,18 @@
 
 ## Packages
 
-- [Design system](./packages/system/README.md)
-- [Structured style sheets](./packages/sss/README.md)
+- [@aesthetic/sss](./packages/sss/README.md)
   - [Specification](./packages/sss/spec.md)
   - [Local styles](./packages/sss/local.md)
   - [Global styles](./packages/sss/global.md)
-- [Style engine](./packages/style/README.md)
+- [@aesthetic/style](./packages/style/README.md)
   - [Getting started](./packages/style/setup.md)
   - [Rendering concepts](./packages/style/concepts.md)
   - [Features & options](./packages/style/options.md)
   - [Server-side rendering](./packages/style/ssr.md)
   - [Test utilities](./packages/style/testing.md)
   - [API](./packages/style/api.md)
+- [@aesthetic/system](./packages/system/README.md)
 
 ## Resources
 

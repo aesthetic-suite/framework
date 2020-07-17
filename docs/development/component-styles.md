@@ -458,7 +458,7 @@ This is equivalent to the native `prefers-contrast` media query.
 ```html
 <link href="themes/default.css" rel="stylesheet" />
 <link href="themes/default-low.css" rel="stylesheet" media="screen and (prefers-contrast: low)" />
-<link href="themes/default-low.css" rel="stylesheet" media="screen and (prefers-contrast: low)" />
+<link href="themes/default-high.css" rel="stylesheet" media="screen and (prefers-contrast: high)" />
 ```
 
 ### By theme
@@ -490,4 +490,31 @@ const styleSheet = createComponentStyles(() => ({
 
 ## Rendering CSS
 
-- Talk about hooks/cx.
+Rendering a style sheet into CSS and injecting into the document is typically handled by an
+integration and abstracted away from the consumer (see `useStyles()` in the React package). However,
+if you would like to render styles manually, you may do so with the `renderComponentStyles()`
+method.
+
+This method requires the style sheet instance as the 1st argument, an optional object of
+customizable options as the 2nd argument, and returns an object of class names mapped to their
+selector.
+
+```ts
+import { renderComponentStyles } from '@aesthetic/core';
+import styleSheet from './some/styleSheet';
+
+const classNames = renderComponentStyles(styleSheet, {
+  direction: 'rtl',
+  vendor: true,
+});
+```
+
+The following options are supported:
+
+- `contrast` (`low | high`) - Contrast level variant to activate.
+- `direction` (`ltr | rtl`) - Directionality of properties and their values.
+- `scheme` (`light | dark`) - Color scheme variant to activate.
+- `theme` (`string`) - Theme instance to pass to style sheets. Defaults to the active theme.
+- `unit` (`string | (prop: string) => string`) - Default unit suffix. Defaults to `defaultUnit`
+  option.
+- `vendor` (`boolean`) - Apply vendor prefixes. Defaults to `vendorPrefixes`.
