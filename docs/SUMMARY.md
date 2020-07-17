@@ -30,7 +30,7 @@
 - [Preface](./development/preface.md)
 - [Configuration](./development/configure.md)
 - [Component style sheets](./development/component-styles.md)
-- Theme style sheets
+- [Theme style sheets](./development/theme-styles.md)
 - Theme mixins
 - Light and dark modes
 - Server-side rendering
