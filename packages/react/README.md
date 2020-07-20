@@ -41,8 +41,8 @@ export default function Button({ children, block = false }: ButtonProps) {
 
 ## Features
 
-- Hook and HOC based APIs for styling components, accessing the theme, and handling directionality.
-- Global and document level themes powered through context.
+- Hook and HOC based APIs for styling components, accessing themes, and handling directionality.
+- Global, document, and element level themes powered through context.
 - Nested themes that avoid polluting the global scope.
 - First-class directionality support (RTL, LTR).
 

@@ -6,6 +6,7 @@ customization should happen near the root of the application, _before_ any Aesth
 component is imported or rendered.
 
 ```ts
+// setup.ts
 import { configure } from '@aesthetic/core';
 
 configure({
@@ -16,8 +17,8 @@ configure({
 ## Options
 
 The following options are currently supported. These options are based on the `@aesthetic/style`
-package. Jump over to the [official documentation](../style/options.md) for more information on
-them. Do note however that the APIs differ, but the general concept is the same.
+package. Jump over to the [official documentation](../packages/style/options.md) for expanded
+information on them.
 
 - `defaultUnit` (`string | (prop: string) => string`) - A unit to append to numerical values. Can be
   a string or a function that returns a string. Defaults to `px`.

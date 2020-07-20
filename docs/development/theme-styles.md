@@ -4,8 +4,8 @@ While [component style sheets](./component-styles.md) are used to style elements
 theme style sheet is used to style the document (or a container), while also providing global
 at-rules like font faces or keyframes.
 
-Use the `createThemeStyles()` method to create a theme style sheet. Once ready for production, the
-style sheet can be passed on a theme-by-theme basis during registration with `registerTheme()` or
+Use the `createThemeStyles()` method to create a theme style sheet. When ready, the style sheet can
+be passed on a theme-by-theme basis during registration with `registerTheme()` or
 `registerDefaultTheme()`. Feel free to add a style sheet to one or many themes.
 
 ```ts
