@@ -29,8 +29,8 @@ const styleSheet = createComponentStyles(() => ({
   button_selected: { /* ... */ },
   button_disabled: { /* ... */ },
   button_asBlock: { /* ... */ },
-  beforeIcon: { /* ... */ },
-  afterIcon: { /* ... */ },
+  before: { /* ... */ },
+  after: { /* ... */ },
 }));
 ```
 
