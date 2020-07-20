@@ -21,9 +21,11 @@ export default function ThemeProvider({ children, name = '' }: ThemeProviderProp
   );
 
   useEffect(() => {
+    subscribe('change:direction', handleChangeTheme);
     subscribe('change:theme', handleChangeTheme);
 
     return () => {
+      unsubscribe('change:direction', handleChangeTheme);
       unsubscribe('change:theme', handleChangeTheme);
     };
   }, [handleChangeTheme]);

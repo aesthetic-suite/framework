@@ -144,7 +144,8 @@ describe('ThemeProvider', () => {
         </ThemeProvider>,
       );
 
-      expect(subscribe).toHaveBeenCalledTimes(1);
+      expect(subscribe).toHaveBeenCalledTimes(2);
+      expect(subscribe).toHaveBeenCalledWith('change:direction', expect.any(Function));
       expect(subscribe).toHaveBeenCalledWith('change:theme', expect.any(Function));
     });
 
@@ -159,7 +160,7 @@ describe('ThemeProvider', () => {
       update();
       update();
 
-      expect(subscribe).toHaveBeenCalledTimes(1);
+      expect(subscribe).toHaveBeenCalledTimes(2); // theme, dir
     });
 
     it('unsubscribes on unmount', () => {
@@ -171,11 +172,12 @@ describe('ThemeProvider', () => {
 
       unmount();
 
-      expect(unsubscribe).toHaveBeenCalledTimes(1);
+      expect(unsubscribe).toHaveBeenCalledTimes(2);
+      expect(unsubscribe).toHaveBeenCalledWith('change:direction', expect.any(Function));
       expect(unsubscribe).toHaveBeenCalledWith('change:theme', expect.any(Function));
     });
 
-    it('changes them if outside `changeTheme` is called', () => {
+    it('changes theme if outside `changeTheme` is called', () => {
       const themeSpy = jest.fn();
       let doChangeTheme: OnChangeTheme = () => {};
 

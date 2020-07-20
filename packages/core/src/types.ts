@@ -50,6 +50,8 @@ export interface AestheticOptions {
   vendorPrefixes?: boolean;
 }
 
-export type EventType = 'change:theme';
+export type EventType = 'change:direction' | 'change:theme';
+
+export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName) => void;
