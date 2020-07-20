@@ -12,7 +12,7 @@ export default class Design {
 
   readonly spacingUnit: number;
 
-  readonly tokens: DesignTokens;
+  protected tokens: DesignTokens;
 
   constructor(name: string, tokens: Omit<DesignTokens, 'depth'>) {
     this.name = name;
@@ -38,5 +38,12 @@ export default class Design {
    */
   extend(name: string, tokens: DeepPartial<DesignTokens>): Design {
     return new Design(name, deepMerge(this.tokens, tokens));
+  }
+
+  /**
+   * Return current design tokens.
+   */
+  getTokens(): DesignTokens {
+    return this.tokens;
   }
 }

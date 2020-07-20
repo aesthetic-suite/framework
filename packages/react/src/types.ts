@@ -58,6 +58,6 @@ export interface WithThemeWrappedProps extends WrappedProps {
 }
 
 export interface WithStylesWrappedProps<T = string> extends WrappedProps {
-  /** Function generate CSS class names from a style sheet. Provided by `withStyles`. */
+  /** Function to generate CSS class names from a style sheet. Provided by `withStyles`. */
   cx: ClassNameGenerator<T>;
 }

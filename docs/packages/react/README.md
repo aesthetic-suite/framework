@@ -6,11 +6,12 @@ a design system.
 
 - [Getting started](./setup.md)
 - [Using themes](./themes.md)
-- [Creating style sheets](./style-sheets.md)
+- [Styling components](./styles.md)
+- [Directionality](./direction.md)
 
 ## Features
 
-- Hook and HOC based APIs for styling components, accessing the theme, and handling directionality.
+- Hook and HOC based APIs for styling components, accessing themes, and handling directionality.
 - Global and document level themes powered through context.
 - Nested themes that avoid polluting the global scope.
 - First-class directionality support (RTL, LTR).

@@ -9,7 +9,11 @@ describe('Design', () => {
   });
 
   it('can return a theme instance', () => {
-    const theme = design.createTheme({ contrast: 'normal', scheme: 'light' }, lightTheme.tokens);
+    const theme = design.createTheme(
+      { contrast: 'normal', scheme: 'light' },
+      // @ts-expect-error
+      lightTheme.tokens,
+    );
 
     expect(theme).toBeInstanceOf(Theme);
   });
@@ -28,7 +32,7 @@ describe('Design', () => {
 
     expect(newDesign).toBeInstanceOf(Design);
     expect(newDesign.name).toBe('new-design');
-    expect(newDesign.tokens.spacing.unit).toBe(8);
-    expect(newDesign.tokens.text.df.size).toBe('20px');
+    expect(newDesign.getTokens().spacing.unit).toBe(8);
+    expect(newDesign.getTokens().text.df.size).toBe('20px');
   });
 });

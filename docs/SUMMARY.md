@@ -40,7 +40,8 @@
 - [React](./packages/react/README.md)
   - [Getting started](./packages/react/setup.md)
   - [Using themes](./packages/react/themes.md)
-  - [Creating style sheets](./packages/react/style-sheets.md)
+  - [Styling components](./packages/react/styles.md)
+  - [Directionality](./packages/react/direction.md)
 
 ## Packages
 

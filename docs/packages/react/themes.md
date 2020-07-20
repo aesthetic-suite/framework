@@ -31,8 +31,8 @@ ReactDOM.render(
 
 Themes can only be accessed within a style sheet when registered into Aesthetic. We can achieve this
 using the `registerTheme()` and `registerDefaultTheme()` methods, both of which require a unique
-name. A default theme can only be defined twice, once for a light color scheme, the other for a dark
-color scheme.
+name and an optional [theme style sheet](../../development/theme-styles.md). A default theme can
+only be defined twice, once for a light color scheme, the other for a dark color scheme.
 
 ```ts
 // setup.ts
@@ -46,8 +46,8 @@ registerDefaultTheme('night', nightTheme);
 registerTheme('twilight', twilightTheme);
 ```
 
-Registration should happen near the root of the application, _before_ any Aesthetic styled React
-component is imported or rendered.
+> Registration should happen near the root of the application, _before_ any Aesthetic styled React
+> component is imported or rendered.
 
 ## Changing themes
 
@@ -73,7 +73,7 @@ import { changeTheme } from '@aesthetic/react';
 changeTheme('twilight');
 ```
 
-## Contextual and nested themes
+## Contextual themeing
 
 A root `ThemeProvider` provides design tokens to the entire application by declaring `:root` level
 CSS variables and applying a `<body />` class name. Because of this architectural decision, themes
@@ -96,3 +96,38 @@ import { ThemeProvider, ContextualThemeProvider } from '@aesthetic/react';
 ```
 
 > `ContextualThemeProvider`s can be infinitely nested, but not recommended.
+
+## Accessing the theme
+
+To access the provided `Theme` object, either from the root or contextually, use the `useTheme()`
+hook.
+
+```tsx
+import { useTheme } from '@aesthetic/react';
+
+export default function Component() {
+  const theme = useTheme();
+
+  if (theme.scheme === 'dark') {
+    // Do something
+  }
+
+  return <div />;
+}
+```
+
+Or use the `withTheme()` HOC, which passes the theme as a `theme` prop.
+
+```tsx
+import { withTheme, WithThemeWrappedProps } from '@aesthetic/react';
+
+function Component({ theme }: WithThemeWrappedProps) {
+  if (theme.contrast === 'high') {
+    // Do something
+  }
+
+  return <div />;
+}
+
+export default withTheme()(Component);
+```

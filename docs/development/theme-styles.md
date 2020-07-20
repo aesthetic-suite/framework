@@ -36,7 +36,7 @@ information on how to use design tokens, jump to the
 ```ts
 const styleSheet = createThemeStyles((css) => ({
   '@root': css.mixin('root', {
-    fontSize: css.var('text-df-size'),
+    color: css.var('palette-neutral-fg-base'),
   }),
 }));
 ```
