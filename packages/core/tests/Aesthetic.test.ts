@@ -454,7 +454,7 @@ describe('Aesthetic', () => {
   describe('renderThemeStyles()', () => {
     function createTempSheet() {
       return aesthetic.createThemeStyles(() => ({
-        '@global': {
+        '@root': {
           display: 'block',
         },
       }));

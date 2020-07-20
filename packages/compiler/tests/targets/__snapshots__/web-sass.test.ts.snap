@@ -248,6 +248,18 @@ exports[`Format web-sass compiles and writes files 1`] = `
   word-break: normal
 
 
+@mixin root
+  font-family: $typography-font-text
+  font-size: $typography-root-text-size
+  line-height: $typography-root-line-height
+  text-rendering: optimizeLegibility
+  text-size-adjust: 100%
+  margin: 0
+  padding: 0
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+
 @mixin shadow-xs
   box-shadow: $shadow-xs-x $shadow-xs-y $shadow-xs-blur $shadow-xs-spread $palette-neutral-color-90
 

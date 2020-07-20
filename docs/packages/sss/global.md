@@ -65,50 +65,6 @@ const globalSheet: GlobalStyleSheet = {
 
 Emits a `font-face` event for each declaration.
 
-### `@global`
-
-As stated at the start of the chapter, the global style sheet can generate global-like CSS styles by
-using the `@global` at-rule. This at-rule is a [local style sheet](./local.md) that should be
-processed and generated to a class name that is set on the `body`. It's built this way to avoid
-global collisions between multiple themes or differing global style sheets.
-
-```ts
-const globalSheet: GlobalStyleSheet = {
-  '@global': {
-    fontFamily: 'Roboto',
-    fontSize: 16,
-    lineHeight: 1.5,
-    backgroundColor: 'white',
-    color: 'black',
-    height: '100%',
-    margin: 0,
-    padding: 0,
-
-    '@media': {
-      '(max-width: 400px)': {
-        fontSize: 14,
-        lineHeight: 1.25,
-      },
-    },
-
-    '@selectors': {
-      a: {
-        color: 'blue',
-      },
-
-      p: {
-        margin: 8,
-      },
-    },
-  },
-};
-```
-
-> The `html`, `:root`, or `*` global styles cannot be defined with a global style sheet. Those
-> category of globals should be handled outside of this system.
-
-Emits a single `global` event.
-
 ### `@import`
 
 Defines one or many [CSS files to import](https://developer.mozilla.org/en-US/docs/Web/CSS/@import),
@@ -205,6 +161,50 @@ const globalSheet: GlobalStyleSheet = {
 ```
 
 Emits a `page` event for each declaration, including selectors.
+
+### `@root`
+
+As stated at the start of the chapter, the global style sheet can generate global-like CSS styles by
+using the `@root` at-rule. This at-rule is a [local style sheet](./local.md) that should be
+processed and generated to a class name that is set on the `body` element. It's built this way to
+avoid global collisions between multiple themes or differing global style sheets.
+
+```ts
+const globalSheet: GlobalStyleSheet = {
+  '@root': {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 1.5,
+    backgroundColor: 'white',
+    color: 'black',
+    height: '100%',
+    margin: 0,
+    padding: 0,
+
+    '@media': {
+      '(max-width: 400px)': {
+        fontSize: 14,
+        lineHeight: 1.25,
+      },
+    },
+
+    '@selectors': {
+      a: {
+        color: 'blue',
+      },
+
+      p: {
+        margin: 8,
+      },
+    },
+  },
+};
+```
+
+> The `html`, `:root`, or `*` global styles cannot be defined with a global style sheet. Those
+> category of globals should be handled outside of this system.
+
+Emits a single `root` event.
 
 ### `@viewport`
 

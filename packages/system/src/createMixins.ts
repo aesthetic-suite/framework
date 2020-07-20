@@ -30,6 +30,7 @@ export default function createMixins(vars: VarUtil): Mixins {
         list: mixins.resetList(),
         typography: mixins.resetTypography(),
       },
+      root: mixins.root(vars),
       text: {
         break: mixins.textBreak(),
         truncate: mixins.textTruncate(),

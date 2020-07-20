@@ -249,6 +249,7 @@ export default class Compiler {
       'pattern-text-break': mixins.pattern.text.break,
       'pattern-text-truncate': mixins.pattern.text.truncate,
       'pattern-text-wrap': mixins.pattern.text.wrap,
+      root: mixins.pattern.root,
       'shadow-xs': mixins.shadow.xs,
       'shadow-sm': mixins.shadow.sm,
       'shadow-md': mixins.shadow.md,

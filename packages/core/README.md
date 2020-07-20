@@ -31,9 +31,10 @@ registerDefaultTheme('day', dayTheme);
 
 // Register a theme that has global styles
 registerTheme('night', nightTheme, (css) => ({
-  '@global': {
-    fontSize: css.var('text-df-size'),
-  },
+  '@root': css.mixin('root', {
+    backgroundColor: css.var('palette-neutral-bg-base'),
+    height: '100%',
+  }),
 }));
 
 // Create a component style sheet

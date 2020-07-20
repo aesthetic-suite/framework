@@ -1,4 +1,5 @@
 import { Declarations } from '@aesthetic/types';
+import { VarUtil } from '../types';
 
 export function hidden(): Declarations {
   return {
@@ -71,19 +72,20 @@ export function textBreak(): Declarations {
   };
 }
 
-// export function root({ typography }: Tokens): Declarations {
-//   return {
-//     fontFamily: typography.font.text,
-//     fontSize: typography.rootTextSize,
-//     lineHeight: typography.rootLineHeight,
-//     textRendering: 'optimizeLegibility',
-//     textSizeAdjust: '100%',
-//     // @ts-ignore
-//     '-moz-osx-font-smoothing': 'grayscale',
-//     // @ts-ignore
-//     '-webkit-font-smoothing': 'antialiased',
-//   };
-// }
+export function root(vars: VarUtil): Declarations {
+  return {
+    fontFamily: vars('typography-font-text'),
+    fontSize: vars('typography-root-text-size'),
+    lineHeight: vars('typography-root-line-height'),
+    textRendering: 'optimizeLegibility',
+    textSizeAdjust: '100%',
+    margin: 0,
+    padding: 0,
+    // @ts-expect-error
+    '-webkit-font-smoothing': 'antialiased',
+    '-moz-osx-font-smoothing': 'grayscale',
+  };
+}
 
 export function textTruncate(): Declarations {
   return {

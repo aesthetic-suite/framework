@@ -7,7 +7,7 @@ import {
   FONTS_CIRCULAR_FLAT_SRC,
   KEYFRAMES_RANGE,
   KEYFRAMES_PERCENT,
-  SYNTAX_GLOBAL,
+  SYNTAX_ROOT,
 } from './__mocks__/global';
 import { createBlock } from './helpers';
 import { SYNTAX_VARIABLES } from './__mocks__/local';
@@ -77,37 +77,37 @@ describe('GlobalParser', () => {
     });
   });
 
-  describe('@global', () => {
+  describe('@root', () => {
     beforeEach(() => {
-      parser.on('global', spy);
+      parser.on('root', spy);
     });
 
-    it('errors if global is not an object', () => {
+    it('errors if root is not an object', () => {
       expect(() => {
         parser.parse({
           // @ts-expect-error
-          '@global': 123,
+          '@root': 123,
         });
-      }).toThrow('"@global" must be a declaration object of CSS properties.');
+      }).toThrow('"@root" must be a declaration object of CSS properties.');
     });
 
-    it('does not emit if no global', () => {
+    it('does not emit if no goot', () => {
       parser.parse({});
 
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it('emits a local block for global', () => {
+    it('emits a local block for root', () => {
       parser.on('block:media', (block, query, value) => {
         block.addNested(value);
       });
 
       parser.parse({
-        '@global': SYNTAX_GLOBAL,
+        '@root': SYNTAX_ROOT,
       });
 
       expect(spy).toHaveBeenCalledWith(
-        createBlock('@global', {
+        createBlock('@root', {
           height: '100%',
           margin: 0,
           fontSize: 16,

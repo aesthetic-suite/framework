@@ -472,6 +472,7 @@ export interface Mixins {
       list: Declarations;
       typography: Declarations;
     };
+    root: Declarations;
     text: {
       break: Declarations;
       truncate: Declarations;
@@ -513,6 +514,7 @@ export type MixinName =
   | 'pattern-text-break'
   | 'pattern-text-truncate'
   | 'pattern-text-wrap'
+  | 'root'
   | 'shadow-xs'
   | 'shadow-sm'
   | 'shadow-md'

@@ -273,6 +273,18 @@ exports[`Format web-css compiles and writes files 1`] = `
   word-break: normal;
 }
 
+.root {
+  font-family: var(--typography-font-text);
+  font-size: var(--typography-root-text-size);
+  line-height: var(--typography-root-line-height);
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .shadow-xs {
   box-shadow: var(--shadow-xs-x) var(--shadow-xs-y) var(--shadow-xs-blur) var(--shadow-xs-spread)
     var(--palette-neutral-color-90);
