@@ -44,6 +44,7 @@
   - [Using themes](./packages/react/themes.md)
   - [Styling components](./packages/react/styles.md)
   - [Directionality](./packages/react/direction.md)
+  - [API](./packages/react/api.md)
 
 ## Packages
 
@@ -51,6 +52,7 @@
   - [Specification](./packages/sss/spec.md)
   - [Local styles](./packages/sss/local.md)
   - [Global styles](./packages/sss/global.md)
+  - [API](./packages/sss/api.md)
 - [@aesthetic/style](./packages/style/README.md)
   - [Getting started](./packages/style/setup.md)
   - [Rendering concepts](./packages/style/concepts.md)
