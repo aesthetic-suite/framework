@@ -17,7 +17,7 @@ describe('GlobalSheet', () => {
           srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
         },
       },
-      '@global': {
+      '@root': {
         height: '100%',
         margin: 0,
         fontSize: 16,
@@ -86,7 +86,7 @@ describe('GlobalSheet', () => {
     });
   });
 
-  it('renders @global', () => {
+  it('renders @root', () => {
     const spy = jest.spyOn(renderer, 'renderRuleGrouped');
     const className = sheet.render(renderer, lightTheme, {});
 

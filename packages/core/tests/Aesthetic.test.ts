@@ -16,6 +16,7 @@ describe('Aesthetic', () => {
 
   afterEach(() => {
     teardownAesthetic(aesthetic);
+    document.documentElement.setAttribute('dir', 'ltr');
   });
 
   it('can subscribe and unsubscribe events', () => {
@@ -32,13 +33,65 @@ describe('Aesthetic', () => {
     expect(aesthetic.listeners['change:theme'].has(spy)).toBe(false);
   });
 
+  describe('changeDirection()', () => {
+    beforeEach(() => {
+      setupAesthetic(aesthetic);
+    });
+
+    it('sets active theme', () => {
+      expect(aesthetic.activeDirection).toBeUndefined();
+
+      aesthetic.changeDirection('rtl');
+
+      expect(aesthetic.activeDirection).toBe('rtl');
+    });
+
+    it('doesnt run if changing to same name', () => {
+      // @ts-expect-error
+      const spy = jest.spyOn(aesthetic, 'emit');
+
+      aesthetic.changeDirection('rtl');
+      aesthetic.changeDirection('rtl');
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('sets document attribute', () => {
+      document.documentElement.dir = 'ltr';
+
+      expect(document.documentElement.dir).toBe('ltr');
+
+      aesthetic.changeDirection('rtl');
+
+      expect(document.documentElement.dir).toBe('rtl');
+    });
+
+    it('emits `change:direction` event', () => {
+      const spy = jest.fn();
+
+      aesthetic.subscribe('change:direction', spy);
+      aesthetic.changeDirection('rtl');
+
+      expect(spy).toHaveBeenCalledWith('rtl');
+    });
+
+    it('doesnt emit `change:direction` event if `propagate` is false', () => {
+      const spy = jest.fn();
+
+      aesthetic.subscribe('change:direction', spy);
+      aesthetic.changeDirection('rtl', false);
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+  });
+
   describe('changeTheme()', () => {
     beforeEach(() => {
       setupAesthetic(aesthetic);
     });
 
     it('sets active theme', () => {
-      expect(aesthetic.activeTheme).toBe('');
+      expect(aesthetic.activeTheme).toBeUndefined();
 
       aesthetic.changeTheme('night');
 
@@ -125,6 +178,81 @@ describe('Aesthetic', () => {
   describe('createThemeStyles()', () => {
     it('returns a `GlobalSheet` instance', () => {
       expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(GlobalSheet);
+    });
+  });
+
+  describe('generateClassName()', () => {
+    const classes = {
+      a: { class: 'a', variants: { size_df: 'a_size_df' } },
+      b: { class: 'b' },
+      c: { class: 'c', variants: { size_md: 'c_size_md', type_red: 'c_size_red' } },
+      d: { variants: { size_df: 'd_size_df' } },
+      e: { class: 'e' },
+      f: { class: 'f', variants: { size_df: 'f_size_df', size_md: 'f_size_md' } },
+      g: { class: 'g', variants: { type_red: 'c_size_red' } },
+    };
+
+    it('returns class names', () => {
+      expect(aesthetic.generateClassName(['a', 'e'], classes)).toBe('a e');
+    });
+
+    it('returns class names and their variants', () => {
+      expect(aesthetic.generateClassName(['a', { size: 'df' }], classes)).toBe('a a_size_df');
+      expect(aesthetic.generateClassName(['a', { size: 'df' }, 'f'], classes)).toBe(
+        'a a_size_df f f_size_df',
+      );
+    });
+
+    it('returns nothing for an invalid selector', () => {
+      expect(aesthetic.generateClassName(['z'], classes)).toBe('');
+    });
+
+    it('returns nothing for a valid selector but no class name', () => {
+      expect(aesthetic.generateClassName(['d'], classes)).toBe('');
+    });
+
+    it('returns variants even if theres no base class name', () => {
+      expect(aesthetic.generateClassName(['d', { size: 'df' }], classes)).toBe('d_size_df');
+    });
+
+    it('subsequent variants override each other', () => {
+      expect(
+        aesthetic.generateClassName(['a', { size: 'df' }, 'f', 'b', { size: 'md' }, 'c'], classes),
+      ).toBe('a f f_size_md b c c_size_md');
+    });
+  });
+
+  describe('getActiveDirection()', () => {
+    it('returns the direction defined on the html `dir` attribute', () => {
+      const changeSpy = jest.spyOn(aesthetic, 'changeDirection');
+
+      document.documentElement.setAttribute('dir', 'rtl');
+      document.body.removeAttribute('dir');
+
+      expect(aesthetic.getActiveDirection()).toBe('rtl');
+      expect(changeSpy).toHaveBeenCalled();
+    });
+
+    it('returns the direction defined on the body `dir` attribute', () => {
+      document.documentElement.removeAttribute('dir');
+      document.body.setAttribute('dir', 'rtl');
+
+      expect(aesthetic.getActiveDirection()).toBe('rtl');
+    });
+
+    it('returns ltr if no dir found', () => {
+      document.documentElement.removeAttribute('dir');
+      document.body.removeAttribute('dir');
+
+      expect(aesthetic.getActiveDirection()).toBe('ltr');
+    });
+
+    it('caches result for subsequent lookups', () => {
+      expect(aesthetic.getActiveDirection()).toBe('ltr');
+
+      document.documentElement.setAttribute('dir', 'rtl');
+
+      expect(aesthetic.getActiveDirection()).toBe('ltr');
     });
   });
 
@@ -284,6 +412,7 @@ describe('Aesthetic', () => {
         baz: { class: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+        direction: expect.any(String),
         unit: 'px',
         vendor: false,
       });
@@ -314,6 +443,7 @@ describe('Aesthetic', () => {
       aesthetic.renderComponentStyles(sheet, { theme: 'night' });
 
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, darkTheme, {
+        direction: expect.any(String),
         theme: 'night',
         unit: 'px',
         vendor: false,
@@ -413,7 +543,7 @@ describe('Aesthetic', () => {
   describe('renderThemeStyles()', () => {
     function createTempSheet() {
       return aesthetic.createThemeStyles(() => ({
-        '@global': {
+        '@root': {
           display: 'block',
         },
       }));
@@ -433,6 +563,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cnneg4x');
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+        direction: expect.any(String),
         unit: 'px',
         vendor: false,
       });

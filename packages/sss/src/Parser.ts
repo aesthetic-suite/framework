@@ -335,7 +335,7 @@ export default abstract class Parser<T extends object, E extends object> {
     name: 'block:media' | 'block:supports',
     ...args: Parameters<BlockConditionListener<T>>
   ): void;
-  emit(name: 'block' | 'global' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
+  emit(name: 'block' | 'root' | 'page' | 'viewport', ...args: Parameters<BlockListener<T>>): void;
   emit(name: 'class', ...args: Parameters<ClassNameListener>): void;
   emit(name: 'font-face', ...args: Parameters<FontFaceListener<T>>): string;
   emit(name: 'import', ...args: Parameters<ImportListener>): void;
@@ -358,7 +358,7 @@ export default abstract class Parser<T extends object, E extends object> {
     name: 'block:fallback' | 'block:property' | 'block:variable',
     callback: BlockPropertyListener<T>,
   ): this;
-  on(name: 'block' | 'global' | 'page' | 'viewport', callback: BlockListener<T>): this;
+  on(name: 'block' | 'root' | 'page' | 'viewport', callback: BlockListener<T>): this;
   on(name: 'class', callback: ClassNameListener): this;
   on(name: 'font-face', callback: FontFaceListener<T>): this;
   on(name: 'import', callback: ImportListener): this;

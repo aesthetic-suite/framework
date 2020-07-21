@@ -8,10 +8,14 @@ import {
 import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 
+export interface ClassNameSheetVariants {
+  [value: string]: ClassName;
+}
+
 export type ClassNameSheet<T extends string> = {
   [K in T]?: {
-    class: ClassName;
-    variants?: { [value: string]: ClassName };
+    class?: ClassName;
+    variants?: ClassNameSheetVariants;
   };
 };
 
@@ -46,6 +50,8 @@ export interface AestheticOptions {
   vendorPrefixes?: boolean;
 }
 
-export type EventType = 'change:theme';
+export type EventType = 'change:direction' | 'change:theme';
+
+export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName) => void;

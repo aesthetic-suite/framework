@@ -29,11 +29,11 @@ export default class Theme {
 
   readonly contrast: ContrastLevel;
 
-  readonly mixins: Mixins;
-
   readonly scheme: ColorScheme;
 
-  readonly tokens: ThemeTokens;
+  protected mixins: Mixins;
+
+  protected tokens: ThemeTokens;
 
   private cachedTokens?: Tokens;
 
@@ -115,7 +115,7 @@ export default class Theme {
   toTokens(): Tokens {
     if (!this.cachedTokens) {
       this.cachedTokens = {
-        ...this.design.tokens,
+        ...this.design.getTokens(),
         ...this.tokens,
       };
     }

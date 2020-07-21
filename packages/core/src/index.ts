@@ -11,9 +11,13 @@ import Sheet from './Sheet';
 
 export const aesthetic = new Aesthetic();
 export const {
+  changeDirection,
   changeTheme,
+  configure,
   createComponentStyles,
   createThemeStyles,
+  generateClassName,
+  getActiveDirection,
   getActiveTheme,
   getTheme,
   hydrate,

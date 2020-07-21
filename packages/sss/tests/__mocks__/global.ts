@@ -84,7 +84,7 @@ export const KEYFRAMES_PERCENT: Keyframes = {
   '100%': { left: '100%' },
 };
 
-export const SYNTAX_GLOBAL: GlobalStyleSheet['@global'] = {
+export const SYNTAX_ROOT: GlobalStyleSheet['@root'] = {
   height: '100%',
   margin: 0,
   fontSize: 16,

@@ -29,7 +29,6 @@ platform targets. These design tokens can then be used to style your website or 
 
 - [What are design tokens?](./tokens/about.md)
 - [Compile design tokens](./tokens/compile.md)
-- [Style components](./tokens/styles.md)
 
 ## Motivation and goals
 

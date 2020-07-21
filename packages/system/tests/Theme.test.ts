@@ -31,7 +31,7 @@ describe('Theme', () => {
     expect(newTheme).toBeInstanceOf(Theme);
     expect(newTheme.contrast).toBe('high');
     expect(newTheme.scheme).toBe('light');
-    expect(newTheme.tokens.palette.brand.color['00']).toBe('red');
+    expect(newTheme.toTokens().palette.brand.color['00']).toBe('red');
   });
 
   it('inherits the parents customized mixins', () => {

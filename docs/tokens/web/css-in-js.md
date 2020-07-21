@@ -41,7 +41,7 @@ primitive variables from the parent design system.
 The compiled design system file looks something like the following:
 
 ```js
-import { Design } from '@aesthetic/core';
+import { Design } from '@aesthetic/system';
 
 export default new Design('example', {
   border: {
@@ -275,11 +275,12 @@ Variables can be accessed from both `Design` and `Theme` instances using the `to
 property, which is a multidimensional object.
 
 ```js
-import design from './styles/<target>';
 import theme from './styles/<target>/themes/day';
 
-design.tokens.heading.l3.size; // 1.79rem
-theme.tokens.palette.brand.color['30']; // #90a4ae
+const tokens = theme.toTokens();
+
+tokens.heading.l3.size; // 1.79rem
+tokens.palette.brand.color['30']; // #90a4ae
 ```
 
 There are far more advanced ways of utilizing design tokens. We suggest reading the documentation on

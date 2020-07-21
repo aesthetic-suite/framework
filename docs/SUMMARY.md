@@ -15,7 +15,6 @@
 
 - [What are design tokens?](./tokens/about.md)
 - [Compile design tokens](./tokens/compile.md)
-- [Style components](./tokens/styles.md)
 - Formats
   - [Android](./tokens/android/README.md)
   - [iOS](./tokens/ios/README.md)
@@ -26,31 +25,40 @@
     - [Sass](./tokens/web/sass.md)
     - [Less](./tokens/web/less.md)
 
-## Advanced
+## Development
 
-- Theme mixins
+- [Preface](./development/preface.md)
+- [Configuration](./development/configure.md)
+- [Themes](./development/themes.md)
+- [Style sheets](./development/style-sheets.md)
+  - [Components](./development/style-sheets/components.md)
+  - [Themes](./development/style-sheets/themes.md)
+- [Directionality](./development/direction.md)
 - Light and dark modes
-- Style sheet variants
 - Server-side rendering
 
 ## Integrations
 
 - [React](./packages/react/README.md)
+  - [Getting started](./packages/react/setup.md)
+  - [Using themes](./packages/react/themes.md)
+  - [Styling components](./packages/react/styles.md)
+  - [Directionality](./packages/react/direction.md)
 
 ## Packages
 
-- [Design system](./packages/system/README.md)
-- [Structured style sheets](./packages/sss/README.md)
+- [@aesthetic/sss](./packages/sss/README.md)
   - [Specification](./packages/sss/spec.md)
   - [Local styles](./packages/sss/local.md)
   - [Global styles](./packages/sss/global.md)
-- [Style engine](./packages/style/README.md)
+- [@aesthetic/style](./packages/style/README.md)
   - [Getting started](./packages/style/setup.md)
   - [Rendering concepts](./packages/style/concepts.md)
   - [Features & options](./packages/style/options.md)
   - [Server-side rendering](./packages/style/ssr.md)
   - [Test utilities](./packages/style/testing.md)
   - [API](./packages/style/api.md)
+- [@aesthetic/system](./packages/system/README.md)
 
 ## Resources
 

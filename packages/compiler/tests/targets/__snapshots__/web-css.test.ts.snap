@@ -222,7 +222,7 @@ exports[`Format web-css compiles and writes files 1`] = `
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
   font-size: inherit;
   margin: 0;
   padding: 0;
@@ -271,6 +271,18 @@ exports[`Format web-css compiles and writes files 1`] = `
   overflow-wrap: normal;
   word-wrap: normal;
   word-break: normal;
+}
+
+.root {
+  font-family: var(--typography-font-text);
+  font-size: var(--typography-root-text-size);
+  line-height: var(--typography-root-line-height);
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .shadow-xs {

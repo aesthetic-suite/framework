@@ -198,7 +198,7 @@ exports[`Format web-sass compiles and writes files 1`] = `
   background-color: transparent
   border: 0
   cursor: pointer
-  display: inline-block
+  display: inline-flex
   font-size: inherit
   margin: 0
   padding: 0
@@ -246,6 +246,18 @@ exports[`Format web-sass compiles and writes files 1`] = `
   overflow-wrap: normal
   word-wrap: normal
   word-break: normal
+
+
+@mixin root
+  font-family: $typography-font-text
+  font-size: $typography-root-text-size
+  line-height: $typography-root-line-height
+  text-rendering: optimizeLegibility
+  text-size-adjust: 100%
+  margin: 0
+  padding: 0
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 
 @mixin shadow-xs

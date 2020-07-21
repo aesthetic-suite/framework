@@ -5,19 +5,19 @@ import formatImport from './helpers/formatImport';
 import { GlobalStyleSheet, PagePseudos, BlockListener, ImportListener } from './types';
 
 export interface GlobalEvents<T extends object> extends CommonEvents<T> {
-  onGlobal?: BlockListener<T>;
   onImport?: ImportListener;
   onPage?: BlockListener<T>;
+  onRoot?: BlockListener<T>;
   onViewport?: BlockListener<T>;
 }
 
 export default class GlobalParser<T extends object> extends Parser<T, GlobalEvents<T>> {
   parse(styleSheet: GlobalStyleSheet) {
     this.parseFontFacesMap(styleSheet['@font-face']);
-    this.parseGlobal(styleSheet['@global']);
     this.parseImport(styleSheet['@import']);
     this.parseKeyframesMap(styleSheet['@keyframes']);
     this.parsePage(styleSheet['@page']);
+    this.parseRoot(styleSheet['@root']);
     this.parseRootVariables(styleSheet['@variables']);
     this.parseViewport(styleSheet['@viewport']);
   }
@@ -38,12 +38,6 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
         this.parseFontFace(fontFace, name);
       });
     });
-  }
-
-  protected parseGlobal(globals: GlobalStyleSheet['@global']) {
-    if (globals) {
-      this.emit('global', this.parseLocalBlock(new Block('@global'), globals));
-    }
   }
 
   protected parseImport(imports: GlobalStyleSheet['@import']) {
@@ -102,6 +96,12 @@ export default class GlobalParser<T extends object> extends Parser<T, GlobalEven
     // Then parse the root block itself
     if (Object.keys(object).length > 0) {
       this.emit('page', this.parseBlock(new Block('@page'), object));
+    }
+  }
+
+  protected parseRoot(globals: GlobalStyleSheet['@root']) {
+    if (globals) {
+      this.emit('root', this.parseLocalBlock(new Block('@root'), globals));
     }
   }
 

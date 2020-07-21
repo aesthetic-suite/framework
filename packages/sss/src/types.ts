@@ -142,7 +142,7 @@ export type ExpandedPropertyTypes =
 export interface Properties
   extends Omit<CSST.StandardProperties<Value>, CompoundPropertyTypes | ExpandedPropertyTypes> {
   animation?: CSST.AnimationProperty | AnimationProperty;
-  animationName?: ListableProperty<CSST.AnimationNameProperty, Keyframes>;
+  animationName?: CSST.AnimationNameProperty | Keyframes;
   background?: CSST.BackgroundProperty<Value> | BackgroundProperty;
   border?: CSST.BorderProperty<Value> | BorderProperty;
   borderBottom?: CSST.BorderBottomProperty<Value> | BorderProperty;
@@ -249,19 +249,19 @@ export type LocalStyleSheetNeverize<T> = {
 
 export type GlobalAtRule =
   | '@font-face'
-  | '@global'
   | '@import'
   | '@keyframes'
   | '@page'
+  | '@root'
   | '@variables'
   | '@viewport';
 
 export interface GlobalStyleSheet {
   '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
-  '@global'?: LocalBlock;
   '@import'?: (string | Import)[];
   '@keyframes'?: { [animationName: string]: Keyframes };
   '@page'?: Page;
+  '@root'?: LocalBlock;
   '@variables'?: Variables;
   '@viewport'?: Viewport;
 }

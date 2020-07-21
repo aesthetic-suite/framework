@@ -33,18 +33,18 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject());
       },
-      onGlobal(block) {
-        className = renderer.renderRuleGrouped(block.toObject(), {
-          ...renderParams,
-          deterministic: true,
-          type: 'global',
-        });
-      },
       onImport(path) {
         renderer.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
+      },
+      onRoot(block) {
+        className = renderer.renderRuleGrouped(block.toObject(), {
+          ...renderParams,
+          deterministic: true,
+          type: 'global',
+        });
       },
     }).parse(styles);
 

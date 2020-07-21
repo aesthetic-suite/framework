@@ -8,21 +8,26 @@ import {
   formatImport,
 } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
-import { isSSR } from '@aesthetic/utils';
-import { ClassName, ThemeName, FontFace, Keyframes, Variables } from '@aesthetic/types';
+import { arrayLoop, isObject, objectLoop, isSSR } from '@aesthetic/utils';
+import { ClassName, ThemeName, FontFace, Keyframes, Variables, Direction } from '@aesthetic/types';
 import GlobalSheet from './GlobalSheet';
 import LocalSheet from './LocalSheet';
 import {
-  LocalSheetFactory,
-  GlobalSheetFactory,
-  SheetParams,
   AestheticOptions,
-  OnChangeTheme,
+  ClassNameSheet,
+  ClassNameSheetVariants,
   EventType,
+  GlobalSheetFactory,
+  LocalSheetFactory,
+  OnChangeDirection,
+  OnChangeTheme,
+  SheetParams,
 } from './types';
 
 export default class Aesthetic {
-  activeTheme: ThemeName = '';
+  activeDirection?: Direction;
+
+  activeTheme?: ThemeName;
 
   globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
@@ -38,8 +43,36 @@ export default class Aesthetic {
 
   protected styleRenderer?: Renderer;
 
+  constructor() {
+    // We must bind here so that we can method overload
+    this.subscribe = this.subscribe.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
+  }
+
   /**
-   * Change the currently active theme.
+   * Change the active direction.
+   */
+  changeDirection = (direction: Direction, propagate: boolean = true) => {
+    if (direction === this.activeDirection) {
+      return;
+    }
+
+    // Set the active direction
+    this.activeDirection = direction;
+
+    // Update document attribute
+    if (!isSSR()) {
+      document.documentElement.setAttribute('dir', direction);
+    }
+
+    // Let consumers know about the change
+    if (propagate) {
+      this.emit('change:direction', [direction]);
+    }
+  };
+
+  /**
+   * Change the active theme.
    */
   changeTheme = (name: ThemeName, propagate: boolean = true) => {
     if (name === this.activeTheme) {
@@ -48,7 +81,7 @@ export default class Aesthetic {
 
     const theme = this.getTheme(name);
 
-    // Set as the active theme
+    // Set the active theme
     this.activeTheme = name;
 
     // Apply theme variables to `:root`
@@ -86,10 +119,77 @@ export default class Aesthetic {
   createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
 
   /**
+   * Generate a class name using the selectors of a style sheet.
+   * If an object is provided, it will be used to check for variants.
+   */
+  generateClassName = <T extends string>(
+    keys: (T | ClassNameSheetVariants)[],
+    classNames: ClassNameSheet<string>,
+  ): ClassName => {
+    const className: string[] = [];
+    const variants: ClassNameSheetVariants = {};
+    const selectors: T[] = [];
+
+    arrayLoop(keys, (key) => {
+      if (isObject(key)) {
+        Object.assign(variants, key);
+      } else if (typeof key === 'string') {
+        selectors.push(key);
+      }
+    });
+
+    arrayLoop(selectors, (selector) => {
+      const hash = classNames[selector];
+
+      if (!hash) {
+        return;
+      }
+
+      if (hash.class) {
+        className.push(hash.class);
+      }
+
+      if (hash.variants) {
+        objectLoop(variants, (value, type) => {
+          const variant = `${type}_${value}`;
+
+          if (hash.variants?.[variant]) {
+            className.push(hash.variants[variant]);
+          }
+        });
+      }
+    });
+
+    return className.join(' ');
+  };
+
+  /**
+   * Return the active direction for the entire document. If an active direction is undefined,
+   * it will be detected from the browser's `dir` attribute.
+   */
+  getActiveDirection = (): Direction => {
+    if (this.activeDirection) {
+      return this.activeDirection;
+    }
+
+    let direction: Direction = 'ltr';
+
+    if (!isSSR()) {
+      direction = (document.documentElement?.getAttribute('dir') ||
+        document.body?.getAttribute('dir') ||
+        'ltr') as Direction;
+    }
+
+    this.changeDirection(direction);
+
+    return direction;
+  };
+
+  /**
    * Return the currently active theme instance. If an active instance has not been defined,
    * one will be detected from the client's browser preferences.
    */
-  getActiveTheme = () => {
+  getActiveTheme = (): Theme => {
     if (this.activeTheme) {
       return this.getTheme(this.activeTheme);
     }
@@ -173,6 +273,7 @@ export default class Aesthetic {
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
 
     return sheet.render(this.renderer, theme, {
+      direction: this.getActiveDirection(),
       unit: this.options.defaultUnit,
       vendor: this.options.vendorPrefixes,
       ...params,
@@ -217,6 +318,7 @@ export default class Aesthetic {
     }
 
     return sheet.render(this.renderer, theme, {
+      direction: this.getActiveDirection(),
       unit: this.options.defaultUnit,
       vendor: this.options.vendorPrefixes,
       ...params,
@@ -228,6 +330,7 @@ export default class Aesthetic {
    */
   resetForTesting() {
     if (process.env.NODE_ENV === 'test') {
+      this.activeDirection = 'ltr';
       this.activeTheme = '';
       this.styleRenderer = undefined;
       this.globalSheetRegistry.clear();
@@ -238,20 +341,30 @@ export default class Aesthetic {
   /**
    * Subscribe and listen to an event by name.
    */
-  subscribe = (type: EventType, listener: OnChangeTheme) => {
+  subscribe(type: 'change:direction', listener: OnChangeDirection): void;
+
+  subscribe(type: 'change:theme', listener: OnChangeTheme): void;
+
+  subscribe(type: EventType, listener: Function) {
     this.getListeners(type).add(listener);
-  };
+  }
 
   /**
    * Unsubscribe from an event by name.
    */
-  unsubscribe = (type: EventType, listener: OnChangeTheme) => {
+  unsubscribe(type: 'change:direction', listener: OnChangeDirection): void;
+
+  unsubscribe(type: 'change:theme', listener: OnChangeTheme): void;
+
+  unsubscribe(type: EventType, listener: Function) {
     this.getListeners(type).delete(listener);
-  };
+  }
 
   /**
    * Emit all listeners by type, with the defined arguments.
    */
+  protected emit(type: 'change:direction', args: Parameters<OnChangeDirection>): void;
+
   protected emit(type: 'change:theme', args: Parameters<OnChangeTheme>): void;
 
   protected emit(type: EventType, args: unknown[]): void {
