@@ -8,7 +8,7 @@ categories.
 - [Theme style sheets](./style-sheets/themes.md). Provides styles and at-rules for the document, per
   theme.
 
-Style sheets are created with the `createComponentStyles()` or `createThemeStyles()` methods
+Style sheets are created with either the `createComponentStyles()` or `createThemeStyles()` methods
 respectively. Both methods require a function that returns a _style object_ (also known as a factory
 function).
 
@@ -33,7 +33,7 @@ const styleSheet = createComponentStyles(() => ({
 }));
 ```
 
-## Using tokens
+## Utilities
 
 Manually writing style objects over and over can be tiresome, especially when you need to reuse
 consistent values (font sizes, spacing, etc) across many components. Aesthetic solves this through
@@ -41,10 +41,8 @@ its robust [design system](../design/about.md), which is a _hard requirement_ as
 reusability. To make use of this, the design system must be compiled into JavaScript/TypeScript
 based [design tokens](../tokens/about.md).
 
-What's a token you ask? In Aesthetic speak, a token is either a variable or a mixin. Both of which,
-including additional utility, is available on the utility object passed as the 1st argument to the
-factory function within `createComponentStyles()` or `createThemeStyles()`. We like to name this
-object `css`, as demonstrated in many of our upcoming examples.
+A few design token based utility methods are passed to the 1st argument within the style sheet
+factory function. We like to name this object `css`, as demonstrated within the examples below.
 
 ### Variables
 

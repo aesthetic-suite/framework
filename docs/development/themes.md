@@ -29,7 +29,7 @@ registerTheme('twilight', twilightTheme);
 ## Changing themes
 
 The currently active theme can be changed programmatically by calling the `changeTheme()` method
-anywhere in your application.
+within in your application.
 
 ```ts
 import { changeTheme } from '@aesthetic/core';

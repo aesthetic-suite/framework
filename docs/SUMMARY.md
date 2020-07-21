@@ -33,6 +33,7 @@
 - [Style sheets](./development/style-sheets.md)
   - [Components](./development/style-sheets/components.md)
   - [Themes](./development/style-sheets/themes.md)
+- [Directionality](./development/direction.md)
 - Light and dark modes
 - Server-side rendering
 
