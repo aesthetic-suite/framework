@@ -1,17 +1,14 @@
 # Roadmap
 
-## June 2020
+## July 2020
 
 - Add primary documentation.
 - Differentiate between `mobile-first` and `desktop-first` in the style engine.
 
-## July 2020
-
-- Release v1.
-
 ## August 2020
 
 - Build and release new website.
+- Alpha release.
 
 # Backlog
 
