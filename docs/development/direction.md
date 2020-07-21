@@ -1,13 +1,13 @@
 # Directionality
 
-Directionality is the concept of supporting both left-to-right (LTR) and right-to-left (RTL)
-languages, also know as bi-directionality, or bidi. With Aesthetic, directionality is built directly
-into the style engine and all integrations.
+Directionality is the concept of localizing and supporting both left-to-right (LTR) and
+right-to-left (RTL) languages, also know as bi-directionality, or bidi. With Aesthetic,
+directionality is built directly into the style engine and all integrations.
 
 ## Default direction
 
 By default, when in a browser based environment, the primary direction will be inferred from the
-`<html>` element's `dir` attribute. If not defined or found, the value will default to `ltr`.
+document's `dir` attribute. If not defined or found, the direction will default to `ltr`.
 
 ```html
 <html dir="ltr" lang="en" />

@@ -8,8 +8,8 @@ a `Theme` class. Themes are automatically generated when compiling a
 
 Themes can _only_ be accessed within a style sheet when registered into Aesthetic. We can achieve
 this using the `registerTheme()` and `registerDefaultTheme()` methods, both of which require a
-unique name and an optional [theme style sheet](../../development/style-sheets/themes.md). A default
-theme can only be defined twice, once for a light color scheme, the other for a dark color scheme.
+unique name and an optional [theme style sheet](./style-sheets/themes.md). A default theme can only
+be defined twice, once for a light color scheme, the other for a dark color scheme.
 
 ```ts
 // setup.ts

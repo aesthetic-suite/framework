@@ -2,7 +2,7 @@
 
 Components and their tree are styled through style sheets created with the `createComponentStyles()`
 method. For the purpose of this documentation, let's say we're building a button component that
-renders many elements and componenets, we would have a style sheet that looks something like the
+renders many elements and components, we would have a style sheet that looks something like the
 following.
 
 <!-- prettier-ignore -->
@@ -135,7 +135,7 @@ const styleSheet = createComponentStyles(() => ({
 ### Font faces
 
 Fonts are special as they need to be defined on the document instead of an element, which should be
-done with a [theme style sheet](./theme-styles.md). However, we provide some convenience through the
+done with a [theme style sheet](./themes.md). However, we provide some convenience through the
 `fontFamily` property, which can accept one or many _font face objects_.
 
 Unlike normal CSS font faces, a _font face object_ requires a `srcPath` property, with a list of
@@ -158,7 +158,7 @@ const styleSheet = createComponentStyles(() => ({
 ### Keyframes
 
 Animations have the same semantics as fonts and should be defined on a document using a
-[theme style sheet](./theme-styles.md), but also like fonts, we provide some convenience through the
+[theme style sheet](./themes.md), but also like fonts, we provide some convenience through the
 `animationName` property, which accepts a single _keyframes object_.
 
 ```ts
@@ -214,9 +214,9 @@ const styleSheet = createComponentStyles((css) => ({
     // ...
 
     '@variants': {
-      size_sm: { fontSize: 14 },
-      size_df: { fontSize: 16 },
-      size_lg: { fontSize: 18 },
+      size_sm: { fontSize: css.var('text-sm-size') },
+      size_df: { fontSize: css.var('text-df-size') },
+      size_lg: { fontSize: css.var('text-lg-size') },
 
       palette_brand: { backgroundColor: css.var('palette-brand-bg-base') },
       palette_success: { backgroundColor: css.var('palette-success-bg-base') },
@@ -402,14 +402,14 @@ The following options are supported:
 ## References
 
 The structure of style objects is based on types provided by the
-[@aesthetic/sss](../packages/sss/README.md) and [@aesthetic/style](../packages/style/README.md)
-packages.
+[@aesthetic/sss](../../packages/sss/README.md) and
+[@aesthetic/style](../../packages/style/README.md) packages.
 
-- [Local style sheets](../packages/sss/local.md)
-- [Global style sheets](../packages/sss/global.md)
-- [Styles](../packages/style/concepts.md#styles)
-- [Selectors](../packages/style/concepts.md#rules)
-- [Media queries](../packages/style/concepts.md#media-queries)
-- [Feature queries](../packages/style/concepts.md#feature-queries)
-- [Font faces](../packages/style/concepts.md#font-faces)
-- [Keyframes](../packages/style/concepts.md#keyframes)
+- [Local style sheets](../../packages/sss/local.md)
+- [Global style sheets](../../packages/sss/global.md)
+- [Styles](../../packages/style/concepts.md#styles)
+- [Selectors](../../packages/style/concepts.md#rules)
+- [Media queries](../../packages/style/concepts.md#media-queries)
+- [Feature queries](../../packages/style/concepts.md#feature-queries)
+- [Font faces](../../packages/style/concepts.md#font-faces)
+- [Keyframes](../../packages/style/concepts.md#keyframes)

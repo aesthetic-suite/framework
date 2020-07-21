@@ -5,8 +5,7 @@ categories.
 
 - [Component style sheets](./style-sheets/components.md). Isolates styles to components and their
   elements.
-- [Theme style sheets](./style-sheets/themes.md). Provides styles and at-rules for the document, per
-  theme.
+- [Theme style sheets](./style-sheets/themes.md). Provides styles and at-rules for the document.
 
 Style sheets are created with either the `createComponentStyles()` or `createThemeStyles()` methods
 respectively. Both methods require a function that returns a _style object_ (also known as a factory

@@ -3,8 +3,9 @@
 > Knowledge of [style sheets](../../development/style-sheets.md) is required.
 
 Components are styled with the `useStyles()` hook (preferred) or the `withStyles()`
-higher-order-component. Both APIs require a [style sheet](../../development/component-styles.md)
-that is conditionally rendered to CSS to generate atomic class names.
+higher-order-component. Both APIs require a
+[style sheet](../../development/style-sheets/components.md) that is conditionally rendered to CSS to
+generate atomic class names.
 
 To continue with the example found in the style sheet documentation, let's design and style a button
 component. The button file would look something like the following.
@@ -90,8 +91,8 @@ and `button_disabled` selectors will only be rendered when the button is conditi
 the `selected` and `disabled` props respectively.
 
 We can take this a step further by supporting
-[variants](../../development/component-styles.md#variants). All that's required is to pass an object
-to `cx()` with the name of every variant, and the variation to activate.
+[variants](../../development/style-sheets/components.md#variants). All that's required is to pass an
+object to `cx()` with the name of every variant, and the variation to activate.
 
 ```tsx
 function Button({ selected, disabled, size = 'df', palette = 'primary' }: ButtonProps) {
