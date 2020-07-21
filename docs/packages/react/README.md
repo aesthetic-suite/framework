@@ -8,6 +8,7 @@ a design system.
 - [Using themes](./themes.md)
 - [Styling components](./styles.md)
 - [Directionality](./direction.md)
+- [API](./api.md)
 
 ## Features
 
