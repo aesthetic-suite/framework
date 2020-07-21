@@ -8,3 +8,4 @@ component styles.
 - [Specification](./spec.md)
 - [Local styles](./local.md)
 - [Global styles](./global.md)
+- [API](./api.md)
