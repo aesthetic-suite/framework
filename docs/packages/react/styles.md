@@ -1,5 +1,7 @@
 # Styling components
 
+> Knowledge of [style sheets](../../development/style-sheets.md) is required.
+
 Components are styled with the `useStyles()` hook (preferred) or the `withStyles()`
 higher-order-component. Both APIs require a [style sheet](../../development/component-styles.md)
 that is conditionally rendered to CSS to generate atomic class names.

@@ -1,17 +1,18 @@
 # Theme style sheets
 
-While [component style sheets](./component-styles.md) are used to style elements in isolation, a
-theme style sheet is used to style the document (or a container), while also providing global
-at-rules like font faces or keyframes.
+While [component style sheets](./components.md) are used to style elements in isolation, a theme
+style sheet is used to style the document (using a container), while also providing global at-rules
+like font faces or keyframes.
 
-Use the `createThemeStyles()` method to create a theme style sheet. When ready, the style sheet can
-be passed on a theme-by-theme basis during registration with `registerTheme()` or
+Use the `createThemeStyles()` method to create a theme style sheet. This style sheet can then be
+passed on a theme-by-theme basis during registration with `registerTheme()` or
 `registerDefaultTheme()`. Feel free to add a style sheet to one or many themes.
 
 ```ts
+// setup.ts
 import { createThemeStyles, registerTheme } from '@aesthetic/core';
-import dayTheme from './themes/day';
-import nightTheme from './themes/night';
+import dayTheme from './system/dls/themes/day';
+import nightTheme from './system/dls/themes/night';
 
 const styleSheet = createThemeStyles(() => ({
   '@font-face': {
@@ -27,23 +28,7 @@ registerTheme('day', dayTheme, styleSheet);
 registerTheme('night', nightTheme, styleSheet);
 ```
 
-## Using tokens
-
-Themes style sheets can also use design tokens provided by an upstream design system. For more
-information on how to use design tokens, jump to the
-[component style sheet documentation](./component-styles.md#using-tokens).
-
-```ts
-const styleSheet = createThemeStyles((css) => ({
-  '@root': css.mixin('root', {
-    color: css.var('palette-neutral-fg-base'),
-  }),
-}));
-```
-
-## Styling themes
-
-Theme style sheets primarily define global at-rules and container styles with _style objects_.
+## Styling the document
 
 ### Root containers
 
@@ -182,7 +167,7 @@ If the `url` property is not defined, or is `false`, the import path will not be
 ## References
 
 The structure of this style sheet is based on types provided by the
-[@aesthetic/sss](../packages/sss/README.md) package.
+[@aesthetic/sss](../../packages/sss/README.md) package.
 
-- [Local style sheets](../packages/sss/local.md)
-- [Global style sheets](../packages/sss/global.md)
+- [Local style sheets](../../packages/sss/local.md)
+- [Global style sheets](../../packages/sss/global.md)
