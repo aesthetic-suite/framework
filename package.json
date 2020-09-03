@@ -24,28 +24,28 @@
     "node": ">=10.10.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.9.0",
+    "@milesj/build-tools": "^2.11.0",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/lodash": "^4.14.157",
-    "@types/prettier": "^2.0.2",
+    "@types/lodash": "^4.14.161",
+    "@types/prettier": "^2.1.0",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.43",
+    "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/string-hash": "^1.1.1",
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.0.0",
-    "eslint-plugin-rut": "^1.0.1",
-    "jest-rut": "^1.0.1",
+    "eslint-plugin-rut": "^1.1.0",
+    "jest-rut": "^1.0.2",
     "lerna": "^3.22.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rollup": "^2.22.1",
+    "rollup": "^2.26.9",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-externals": "^2.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rut-dom": "^1.0.1",
+    "rut-dom": "^1.0.2",
     "ts-node": "^8.10.2"
   },
   "beemo": {
@@ -68,11 +68,6 @@
       "extends": [
         "plugin:rut/recommended"
       ],
-      "rules": {
-        "prefer-object-spread": "off",
-        "import/export": "off",
-        "node/no-missing-import": "off"
-      },
       "ignore": [
         "scripts/"
       ]

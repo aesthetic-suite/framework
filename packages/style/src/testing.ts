@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/import-index, no-unused-expressions */
+/* eslint-disable unicorn/import-index */
 
 import { CSS } from '@aesthetic/types';
 import { SheetType, getDocumentStyleSheet, getStyleElement } from './index';

@@ -26,10 +26,10 @@
   "dependencies": {
     "@aesthetic/compiler": "^0.2.1",
     "@aesthetic/core": "^0.2.1",
-    "@boost/cli": "2.0.0",
-    "@boost/common": "^2.0.0",
+    "@boost/cli": "2.1.0",
+    "@boost/common": "^2.2.0",
     "fs-extra": "^9.0.1",
-    "ink": "^3.0.0-6",
+    "ink": "^3.0.5",
     "react": "^16.13.1"
   },
   "funding": {

@@ -458,6 +458,7 @@ describe('Styles', () => {
         },
         {
           unit(prop) {
+            /* eslint-disable jest/no-if */
             if (prop.includes('margin')) return '%';
             if (prop.includes('padding')) return 'rem';
             if (prop === 'font-size') return 'pt';

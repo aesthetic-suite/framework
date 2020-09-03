@@ -2,6 +2,7 @@ import ServerRenderer from '../src/server/ServerRenderer';
 
 describe('SSR', () => {
   afterEach(() => {
+    // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_RENDERER;
   });
 
