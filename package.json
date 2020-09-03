@@ -29,24 +29,15 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/ejs": "^3.0.4",
     "@types/fs-extra": "^9.0.1",
-    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/lodash": "^4.14.161",
     "@types/prettier": "^2.1.0",
-    "@types/prop-types": "^15.7.3",
-    "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.8",
     "@types/string-hash": "^1.1.1",
     "builtin-modules": "^3.1.0",
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.0.0",
-    "eslint-plugin-rut": "^1.1.0",
-    "jest-rut": "^1.0.2",
     "lerna": "^3.22.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "rollup": "^2.26.9",
     "rollup-plugin-node-externals": "^2.2.0",
-    "rut-dom": "^1.0.2",
     "ts-node": "^9.0.0"
   },
   "beemo": {
@@ -62,22 +53,12 @@
       }
     ],
     "settings": {
-      "decorators": true,
-      "react": true
+      "decorators": true
     },
     "eslint": {
-      "extends": [
-        "plugin:rut/recommended"
-      ],
       "ignore": [
         "scripts/"
       ]
-    },
-    "jest": {
-      "setupFilesAfterEnv": [
-        "jest-rut"
-      ],
-      "testEnvironment": "jsdom"
     }
   },
   "workspaces": [
