@@ -3,8 +3,8 @@
 import fs from 'fs';
 import path from 'path';
 import externals from 'rollup-plugin-node-externals';
-import resolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
+import resolve from '@rollup/plugin-node-resolve';
+import babel from '@rollup/plugin-babel';
 
 const babelConfig = require('./babel.config');
 
@@ -17,6 +17,7 @@ const webPlugins = [
   resolve({ extensions }),
   babel({
     ...babelConfig,
+    babelHelpers: 'bundled',
     exclude: 'node_modules/**',
     extensions,
   }),
@@ -25,6 +26,7 @@ const nodePlugins = [
   resolve({ extensions }),
   babel({
     ...babelConfig,
+    babelHelpers: 'bundled',
     exclude: 'node_modules/**',
     extensions,
     presets: [
