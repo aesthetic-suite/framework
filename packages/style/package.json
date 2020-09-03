@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/style",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A low-level, high-performance, atomic-based CSS-in-JS style engine.",
   "keywords": [
     "aesthetic",
@@ -25,7 +25,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.1.1",
+    "@aesthetic/types": "^0.1.2",
     "@aesthetic/utils": "^0.2.1",
     "rtl-css-js": "^1.14.0",
     "sort-css-media-queries": "^1.5.0"
