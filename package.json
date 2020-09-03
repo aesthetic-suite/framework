@@ -46,7 +46,7 @@
     "rollup-plugin-node-externals": "^2.2.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rut-dom": "^1.0.2",
-    "ts-node": "^8.10.2"
+    "ts-node": "^9.0.0"
   },
   "beemo": {
     "module": "@milesj/build-tools",
