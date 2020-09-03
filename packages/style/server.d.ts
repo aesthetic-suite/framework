@@ -1,5 +1,5 @@
-import ServerRenderer from './src/server/ServerRenderer';
+import ServerRenderer from './lib/server/ServerRenderer';
 
-export * from './src/types';
+export * from './lib/types';
 export { ServerRenderer };
 

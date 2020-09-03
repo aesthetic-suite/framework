@@ -9,7 +9,7 @@ import babel from '@rollup/plugin-babel';
 const babelConfig = require('./babel.config');
 
 // Order is imporant!
-const packages = ['types', 'utils', 'system', 'style', 'sss', 'core', 'react'];
+const packages = ['types', 'utils', 'system', 'style', 'sss', 'core'];
 const targets = [];
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];

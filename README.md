@@ -22,8 +22,9 @@ packages.
   Also supports server-side rendering and client-side hydration.
 - [Core](./packages/core) - Core API the combines the previous 4 packages into a single but powerful
   CSS-in-JS solution. Is framework agnostic and can be used within any project.
-- [React](./packages/react) - React integration that is built on top of the core API. Provides hook
-  and HOC based patterns, with support for contextual themes, directionality, and SSR.
+- [React](https://github.com/aesthetic-suite/react) - React integration that is built on top of the
+  core API. Provides hook and HOC based patterns, with support for contextual themes,
+  directionality, and SSR.
 
 ## Goals
 
