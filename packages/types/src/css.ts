@@ -41,7 +41,7 @@ export type Declarations<T = Properties> = T & Attributes<T> & Pseudos<T>;
 
 // AT-RULES
 
-export type FontFace = CSST.FontFace;
+export type FontFace = CSST.AtRule.FontFace;
 
 export interface Keyframes<T = Properties> {
   [percent: string]: T | undefined;

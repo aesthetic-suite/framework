@@ -242,7 +242,7 @@ export default abstract class Renderer {
     objectLoop<Rule, Property>(properties, (value, prop) => {
       if (isInvalidValue(value)) {
         // Skip
-      } else if (isObject(value)) {
+      } else if (isObject<Rule>(value)) {
         nestedRules[prop] = value;
       } else if (isVariable(prop)) {
         cssVariables[prop] = value!;
@@ -373,7 +373,7 @@ export default abstract class Renderer {
         }
 
         // Handle nested selectors and objects
-      } else if (isObject(value)) {
+      } else if (isObject<Rule>(value)) {
         const { conditions = [] } = options;
 
         // Media condition

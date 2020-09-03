@@ -11,7 +11,7 @@ export const FONT_ROBOTO: FontFace = {
   srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 };
 
-export const FONT_ROBOTO_FLAT_SRC: CSS.FontFace = {
+export const FONT_ROBOTO_FLAT_SRC: CSS.AtRule.FontFace = {
   fontFamily: 'Roboto',
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -46,7 +46,7 @@ export const FONTS_CIRCULAR: FontFace[] = [
   },
 ];
 
-export const FONTS_CIRCULAR_FLAT_SRC: CSS.FontFace[] = [
+export const FONTS_CIRCULAR_FLAT_SRC: CSS.AtRule.FontFace[] = [
   {
     fontFamily: 'Circular',
     fontStyle: 'normal',

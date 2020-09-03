@@ -20,6 +20,6 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "csstype": "^2.6.11"
+    "csstype": "^3.0.3"
   }
 }

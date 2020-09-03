@@ -81,7 +81,6 @@ export function root(vars: VarUtil): Declarations {
     textSizeAdjust: '100%',
     margin: 0,
     padding: 0,
-    // @ts-expect-error
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',
   };

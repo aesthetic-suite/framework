@@ -11,7 +11,7 @@ const FORMATS: { [ext: string]: string } = {
   '.woff2': 'woff2',
 };
 
-export default function formatFontFace(properties: Partial<FontFace>): CSS.FontFace {
+export default function formatFontFace(properties: Partial<FontFace>): CSS.AtRule.FontFace {
   const fontFace = { ...properties };
   const src: string[] = [];
 

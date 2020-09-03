@@ -12,106 +12,106 @@ import Block from './Block';
 // PROPERTIES
 
 export interface AnimationProperty {
-  delay?: CSST.StandardProperties['animationDelay'];
-  direction?: CSST.AnimationDirectionProperty;
-  duration?: CSST.StandardProperties['animationDuration'];
-  fillMode?: CSST.AnimationFillModeProperty;
-  iterationCount?: CSST.AnimationIterationCountProperty;
-  name?: CSST.AnimationNameProperty;
-  playState?: CSST.AnimationPlayStateProperty;
-  timingFunction?: CSST.AnimationTimingFunctionProperty;
+  delay?: CSST.Property.AnimationDelay;
+  direction?: CSST.Property.AnimationDirection;
+  duration?: CSST.Property.AnimationDuration;
+  fillMode?: CSST.Property.AnimationFillMode;
+  iterationCount?: CSST.Property.AnimationIterationCount;
+  name?: CSST.Property.AnimationName;
+  playState?: CSST.Property.AnimationPlayState;
+  timingFunction?: CSST.Property.AnimationTimingFunction;
 }
 
 export interface BackgroundProperty {
-  attachment?: CSST.BackgroundAttachmentProperty;
-  clip?: CSST.BackgroundClipProperty;
-  color?: CSST.BackgroundColorProperty;
-  image?: CSST.BackgroundImageProperty;
-  origin?: CSST.BackgroundOriginProperty;
-  position?: CSST.BackgroundPositionProperty<Value>;
-  repeat?: CSST.BackgroundRepeatProperty;
-  size?: CSST.BackgroundSizeProperty<Value>;
+  attachment?: CSST.Property.BackgroundAttachment;
+  clip?: CSST.Property.BackgroundClip;
+  color?: CSST.Property.BackgroundColor;
+  image?: CSST.Property.BackgroundImage;
+  origin?: CSST.Property.BackgroundOrigin;
+  position?: CSST.Property.BackgroundPosition<Value>;
+  repeat?: CSST.Property.BackgroundRepeat;
+  size?: CSST.Property.BackgroundSize<Value>;
 }
 
 export interface BorderProperty {
-  color?: CSST.BorderColorProperty;
-  style?: CSST.BorderStyleProperty;
-  width?: CSST.BorderWidthProperty<Value>;
+  color?: CSST.Property.BorderColor;
+  style?: CSST.Property.BorderStyle;
+  width?: CSST.Property.BorderWidth<Value>;
 }
 
 export interface ColumnRuleProperty {
-  color?: CSST.ColumnRuleColorProperty;
-  style?: CSST.ColumnRuleStyleProperty;
-  width?: CSST.ColumnRuleWidthProperty<Value>;
+  color?: CSST.Property.ColumnRuleColor;
+  style?: CSST.Property.ColumnRuleStyle;
+  width?: CSST.Property.ColumnRuleWidth<Value>;
 }
 
 export interface FlexProperty {
-  basis?: CSST.FlexBasisProperty<Value>;
-  grow?: CSST.Properties['flexGrow'];
-  shrink?: CSST.Properties['flexShrink'];
+  basis?: CSST.Property.FlexBasis<Value>;
+  grow?: CSST.Property.FlexGrow;
+  shrink?: CSST.Property.FlexShrink;
 }
 
 export interface FontProperty {
-  family?: CSST.FontFamilyProperty;
-  lineHeight?: CSST.LineHeightProperty<Value>;
-  size?: CSST.FontSizeProperty<Value>;
-  stretch?: CSST.FontStretchProperty;
-  style?: CSST.FontStyleProperty;
+  family?: CSST.Property.FontFamily;
+  lineHeight?: CSST.Property.LineHeight<Value>;
+  size?: CSST.Property.FontSize<Value>;
+  stretch?: CSST.Property.FontStretch;
+  style?: CSST.Property.FontStyle;
   system?: string;
-  variant?: CSST.FontVariantProperty;
-  weight?: CSST.FontWeightProperty;
+  variant?: CSST.Property.FontVariant;
+  weight?: CSST.Property.FontWeight;
 }
 
 export interface ListStyleProperty {
-  image?: CSST.ListStyleImageProperty;
-  position?: CSST.ListStylePositionProperty;
-  type?: CSST.ListStyleTypeProperty;
+  image?: CSST.Property.ListStyleImage;
+  position?: CSST.Property.ListStylePosition;
+  type?: CSST.Property.ListStyleType;
 }
 
 export interface MarginProperty {
-  bottom?: CSST.MarginBottomProperty<Value>;
-  left?: CSST.MarginLeftProperty<Value>;
-  leftRight?: CSST.MarginLeftProperty<Value> | CSST.MarginRightProperty<Value>;
-  right?: CSST.MarginRightProperty<Value>;
-  top?: CSST.MarginTopProperty<Value>;
-  topBottom?: CSST.MarginTopProperty<Value> | CSST.MarginBottomProperty<Value>;
+  bottom?: CSST.Property.MarginBottom<Value>;
+  left?: CSST.Property.MarginLeft<Value>;
+  leftRight?: CSST.Property.MarginLeft<Value> | CSST.Property.MarginRight<Value>;
+  right?: CSST.Property.MarginRight<Value>;
+  top?: CSST.Property.MarginTop<Value>;
+  topBottom?: CSST.Property.MarginTop<Value> | CSST.Property.MarginBottom<Value>;
 }
 
 export interface OffsetProperty {
-  anchor?: CSST.OffsetAnchorProperty<string>;
-  distance?: CSST.OffsetDistanceProperty<string>;
-  path?: CSST.OffsetPathProperty;
+  anchor?: CSST.Property.OffsetAnchor<string>;
+  distance?: CSST.Property.OffsetDistance<string>;
+  path?: CSST.Property.OffsetPath;
   position?: string; // NOT UPSTREAM
-  rotate?: CSST.OffsetRotateProperty;
+  rotate?: CSST.Property.OffsetRotate;
 }
 
 export interface OutlineProperty {
-  color?: CSST.OutlineColorProperty;
-  style?: CSST.OutlineStyleProperty;
-  width?: CSST.OutlineWidthProperty<Value>;
+  color?: CSST.Property.OutlineColor;
+  style?: CSST.Property.OutlineStyle;
+  width?: CSST.Property.OutlineWidth<Value>;
 }
 
 export interface PaddingProperty {
-  bottom?: CSST.PaddingBottomProperty<Value>;
-  left?: CSST.PaddingLeftProperty<Value>;
-  leftRight?: CSST.PaddingLeftProperty<Value> | CSST.PaddingRightProperty<Value>;
-  right?: CSST.PaddingRightProperty<Value>;
-  top?: CSST.PaddingTopProperty<Value>;
-  topBottom?: CSST.PaddingTopProperty<Value> | CSST.PaddingBottomProperty<Value>;
+  bottom?: CSST.Property.PaddingBottom<Value>;
+  left?: CSST.Property.PaddingLeft<Value>;
+  leftRight?: CSST.Property.PaddingLeft<Value> | CSST.Property.PaddingRight<Value>;
+  right?: CSST.Property.PaddingRight<Value>;
+  top?: CSST.Property.PaddingTop<Value>;
+  topBottom?: CSST.Property.PaddingTop<Value> | CSST.Property.PaddingBottom<Value>;
 }
 
 export interface TextDecorationProperty {
-  color?: CSST.TextDecorationColorProperty;
-  line?: CSST.TextDecorationLineProperty;
-  style?: CSST.TextDecorationStyleProperty;
-  thickness?: CSST.TextDecorationThicknessProperty<Value>;
+  color?: CSST.Property.TextDecorationColor;
+  line?: CSST.Property.TextDecorationLine;
+  style?: CSST.Property.TextDecorationStyle;
+  thickness?: CSST.Property.TextDecorationThickness<Value>;
 }
 
 export interface TransitionProperty {
-  delay?: CSST.StandardProperties['transitionDelay'];
-  duration?: CSST.StandardProperties['transitionDuration'];
-  property?: CSST.TransitionPropertyProperty;
-  timingFunction?: CSST.TransitionTimingFunctionProperty;
+  delay?: CSST.Property.TransitionDelay;
+  duration?: CSST.Property.TransitionDuration;
+  property?: CSST.Property.TransitionProperty;
+  timingFunction?: CSST.Property.TransitionTimingFunction;
 }
 
 export type ListableProperty<B, T> = B | T | (B | T)[];
@@ -141,25 +141,25 @@ export type ExpandedPropertyTypes =
 
 export interface Properties
   extends Omit<CSST.StandardProperties<Value>, CompoundPropertyTypes | ExpandedPropertyTypes> {
-  animation?: CSST.AnimationProperty | AnimationProperty;
-  animationName?: CSST.AnimationNameProperty | Keyframes;
-  background?: CSST.BackgroundProperty<Value> | BackgroundProperty;
-  border?: CSST.BorderProperty<Value> | BorderProperty;
-  borderBottom?: CSST.BorderBottomProperty<Value> | BorderProperty;
-  borderLeft?: CSST.BorderLeftProperty<Value> | BorderProperty;
-  borderRight?: CSST.BorderRightProperty<Value> | BorderProperty;
-  borderTop?: CSST.BorderTopProperty<Value> | BorderProperty;
-  columnRule?: CSST.ColumnRuleProperty<Value> | ColumnRuleProperty;
-  flex?: CSST.FlexProperty<Value> | FlexProperty;
-  font?: CSST.FontProperty | FontProperty;
-  fontFamily?: ListableProperty<CSST.FontFamilyProperty, FontFace>;
-  listStyle?: CSST.ListStyleProperty | ListStyleProperty;
-  margin?: CSST.MarginProperty<Value> | MarginProperty;
-  offset?: CSST.OffsetProperty<Value> | OffsetProperty;
-  outline?: CSST.OutlineProperty<Value> | OutlineProperty;
-  padding?: CSST.PaddingProperty<Value> | PaddingProperty;
-  textDecoration?: CSST.TextDecorationProperty<Value> | TextDecorationProperty;
-  transition?: CSST.TransitionProperty | TransitionProperty;
+  animation?: CSST.Property.Animation | AnimationProperty;
+  animationName?: CSST.Property.AnimationName | Keyframes;
+  background?: CSST.Property.Background<Value> | BackgroundProperty;
+  border?: CSST.Property.Border<Value> | BorderProperty;
+  borderBottom?: CSST.Property.BorderBottom<Value> | BorderProperty;
+  borderLeft?: CSST.Property.BorderLeft<Value> | BorderProperty;
+  borderRight?: CSST.Property.BorderRight<Value> | BorderProperty;
+  borderTop?: CSST.Property.BorderTop<Value> | BorderProperty;
+  columnRule?: CSST.Property.ColumnRule<Value> | ColumnRuleProperty;
+  flex?: CSST.Property.Flex<Value> | FlexProperty;
+  font?: CSST.Property.Font | FontProperty;
+  fontFamily?: ListableProperty<CSST.Property.FontFamily, FontFace>;
+  listStyle?: CSST.Property.ListStyle | ListStyleProperty;
+  margin?: CSST.Property.Margin<Value> | MarginProperty;
+  offset?: CSST.Property.Offset<Value> | OffsetProperty;
+  outline?: CSST.Property.Outline<Value> | OutlineProperty;
+  padding?: CSST.Property.Padding<Value> | PaddingProperty;
+  textDecoration?: CSST.Property.TextDecoration<Value> | TextDecorationProperty;
+  transition?: CSST.Property.Transition | TransitionProperty;
 }
 
 export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
@@ -183,7 +183,7 @@ export interface Import {
 
 export type Keyframes = BaseKeyframes<Rule>;
 
-export type Viewport = CSST.Viewport<Value>;
+export type Viewport = CSST.AtRule.Viewport<Value>;
 
 // TODO Add upstream to csstype
 export type PageMargins =
