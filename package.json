@@ -53,12 +53,16 @@
       }
     ],
     "settings": {
-      "decorators": true
+      "decorators": true,
+      "react": true
     },
     "eslint": {
       "ignore": [
         "scripts/"
       ]
+    },
+    "jest": {
+      "testEnvironment": "jsdom"
     }
   },
   "workspaces": [

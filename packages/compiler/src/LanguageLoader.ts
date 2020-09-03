@@ -202,6 +202,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
             text: string('system'),
             heading: string('system'),
             monospace: string(() => getPlatformFont(this.platform, 'monospace')),
+            // eslint-disable-next-line react/forbid-prop-types
             locale: object(string()),
           }).exact(),
         ],
