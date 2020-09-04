@@ -13,12 +13,12 @@ Object.entries(block).forEach(([name, value]) => {
 }); -%>
 
 .<%= mixin %> {
-  <%- include('css', { props }) -%>
+  <%- include('../partials/web/css', { props }) -%>
 }
 <% Object.entries(nested).forEach(([selector, value]) => { -%>
 
 .<%= mixin %><%= selector %> {
-  <%- include('css', { props: value }) -%>
+  <%- include('../partials/web/css', { props: value }) -%>
 }
 <% });
 }) -%>

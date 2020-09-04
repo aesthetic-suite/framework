@@ -1,0 +1,10 @@
+{
+  <% shadowSizes.forEach(size => { -%>
+  <%= size -%>: {
+    x: '<%= platform.rem(data.shadow[size].x) -%>', // <%= platform.px(data.shadow[size].x) %>
+    y: '<%= platform.rem(data.shadow[size].y) -%>', // <%= platform.px(data.shadow[size].y) %>
+    blur: '<%= platform.rem(data.shadow[size].blur) -%>', // <%= platform.px(data.shadow[size].blur) %>
+    spread: '<%= platform.rem(data.shadow[size].spread) -%>', // <%= platform.px(data.shadow[size].spread) %>
+  },
+  <% }) -%>
+}

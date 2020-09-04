@@ -2,7 +2,7 @@
 
 <% Object.entries(mixins).forEach(([mixin, props]) => { -%>
 @mixin <%= mixin %> {
-  <%- include('css', { props }) -%>
+  <%- include('../partials/web/css', { props }) -%>
 }
 
 <% }) -%>

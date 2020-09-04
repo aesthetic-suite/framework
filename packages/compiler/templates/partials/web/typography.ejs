@@ -1,0 +1,5 @@
+{
+  font: <%- JSON.stringify(data.typography.font) -%>,
+  rootLineHeight: <%= platform.number(data.text.df.lineHeight) -%>,
+  rootTextSize: '<%= platform.px(data.text.df.size) -%>',
+}

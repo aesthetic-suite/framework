@@ -1,0 +1,8 @@
+{
+  <% textSizes.forEach(size => { -%>
+  <%= size -%>: {
+    lineHeight: <%= platform.number(data.text[size].lineHeight) -%>,
+    size: '<%= platform.rem(data.text[size].size) -%>', // <%= platform.px(data.text[size].size) %>
+  },
+  <% }) -%>
+}
