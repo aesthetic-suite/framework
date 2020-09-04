@@ -34,6 +34,7 @@ export type PaletteType =
   | 'muted'
   | 'danger'
   | 'warning'
+  | 'failure'
   | 'success'
   | 'info';
 

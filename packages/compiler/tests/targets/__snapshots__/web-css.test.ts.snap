@@ -621,6 +621,27 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-warning-fg-hovered: #000;
   --palette-warning-fg-selected: #000;
 
+  --palette-failure-color-00: #000;
+  --palette-failure-color-10: #000;
+  --palette-failure-color-20: #000;
+  --palette-failure-color-30: #000;
+  --palette-failure-color-40: #000;
+  --palette-failure-color-50: #000;
+  --palette-failure-color-60: #000;
+  --palette-failure-color-70: #000;
+  --palette-failure-color-80: #000;
+  --palette-failure-color-90: #000;
+  --palette-failure-bg-base: #000;
+  --palette-failure-bg-disabled: #000;
+  --palette-failure-bg-focused: #000;
+  --palette-failure-bg-hovered: #000;
+  --palette-failure-bg-selected: #000;
+  --palette-failure-fg-base: #000;
+  --palette-failure-fg-disabled: #000;
+  --palette-failure-fg-focused: #000;
+  --palette-failure-fg-hovered: #000;
+  --palette-failure-fg-selected: #000;
+
   --palette-success-color-00: #000;
   --palette-success-color-10: #000;
   --palette-success-color-20: #000;

@@ -25,4 +25,5 @@ themes:
       info: black
       warning: black
       danger: black
+      failure: black
       success: black

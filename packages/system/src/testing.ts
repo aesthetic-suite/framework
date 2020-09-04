@@ -304,6 +304,22 @@ export const lightTheme = design.createTheme(
         bg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
         fg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
       },
+      failure: {
+        color: {
+          '10': '#fff',
+          '20': '#fff',
+          '30': '#fff',
+          '40': '#fff',
+          '50': '#fff',
+          '60': '#fff',
+          '70': '#fff',
+          '80': '#fff',
+          '90': '#fff',
+          '00': '#fff',
+        },
+        bg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
+        fg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
+      },
       success: {
         color: {
           '10': '#fff',
@@ -460,6 +476,22 @@ export const darkTheme = design.createTheme(
         fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
       },
       danger: {
+        color: {
+          '10': '#000',
+          '20': '#000',
+          '30': '#000',
+          '40': '#000',
+          '50': '#000',
+          '60': '#000',
+          '70': '#000',
+          '80': '#000',
+          '90': '#000',
+          '00': '#000',
+        },
+        bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+        fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+      },
+      failure: {
         color: {
           '10': '#000',
           '20': '#000',
