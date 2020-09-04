@@ -117,6 +117,7 @@ export default class Compiler {
       case 'web-scss':
         return 'scss';
       case 'web-ts':
+      case 'web-css-in-ts':
         return 'ts';
       default:
         return 'js';
@@ -138,7 +139,7 @@ export default class Compiler {
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
     const { format } = this.options;
-    const targetFolder = format === 'web-ts' ? 'web-js' : format;
+    const targetFolder = format.replace('-ts', '-js');
     const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
 
     // Not all targets use all templates

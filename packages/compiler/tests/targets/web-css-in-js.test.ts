@@ -1,3 +1,3 @@
 import runTargetTests from './runTargetTests';
 
-runTargetTests('web', 'web-js', true);
+runTargetTests('web', 'web-css-in-js', true);

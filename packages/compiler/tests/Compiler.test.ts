@@ -16,7 +16,7 @@ async function runCompilerSnapshot(filePath: string) {
   });
 
   const compiler = new Compiler(filePath, __dirname, {
-    format: 'web-ts',
+    format: 'web-css-in-ts',
     platform: 'web',
   });
 
@@ -29,26 +29,30 @@ async function runCompilerSnapshot(filePath: string) {
 describe('Compiler', () => {
   describe('constructor()', () => {
     it('errors if no config path', () => {
-      expect(() => new Compiler('', '', { platform: 'web', format: 'web-js' })).toThrow(
+      expect(() => new Compiler('', '', { platform: 'web', format: 'web-css-in-js' })).toThrow(
         'A configuration folder path is required.',
       );
     });
 
     it('errors if config file is missing', () => {
-      expect(() => new Compiler('./foo.yaml', '', { platform: 'web', format: 'web-js' })).toThrow(
-        'File path "foo.yaml" does not exist.',
-      );
+      expect(
+        () => new Compiler('./foo.yaml', '', { platform: 'web', format: 'web-css-in-js' }),
+      ).toThrow('File path "foo.yaml" does not exist.');
     });
 
     it('errors if no target path', () => {
-      expect(() => new Compiler(CONFIG_PATH, '', { platform: 'web', format: 'web-js' })).toThrow(
-        'A target destination file path is required.',
-      );
+      expect(
+        () => new Compiler(CONFIG_PATH, '', { platform: 'web', format: 'web-css-in-js' }),
+      ).toThrow('A target destination file path is required.');
     });
 
     it('does not error if target path is missing', () => {
       expect(
-        () => new Compiler(CONFIG_PATH, './unknown-target', { platform: 'web', format: 'web-js' }),
+        () =>
+          new Compiler(CONFIG_PATH, './unknown-target', {
+            platform: 'web',
+            format: 'web-css-in-js',
+          }),
       ).not.toThrow();
     });
 
@@ -58,7 +62,7 @@ describe('Compiler', () => {
           new Compiler(CONFIG_PATH, './unknown-target', {
             // @ts-expect-error
             platform: 'osx',
-            format: 'web-js',
+            format: 'web-css-in-js',
           }),
       ).toThrow('Invalid field "platform". String must be one of: android, ios, web');
     });
