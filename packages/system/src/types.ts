@@ -52,12 +52,18 @@ export interface BorderToken {
   width: Unit;
 }
 
+export type BorderTokens = Record<BorderSize, BorderToken>;
+
 export interface BreakpointToken {
   query: string;
   querySize: number;
   rootLineHeight: number;
   rootTextSize: Unit;
 }
+
+export type BreakpointTokens = Record<BreakpointSize, BreakpointToken>;
+
+export type DepthTokens = Record<ElevationType, number>;
 
 export type ColorRangeToken = { [K in ColorShade]: Hexcode };
 
@@ -76,53 +82,49 @@ export interface ShadowToken {
   y: Unit;
 }
 
+export type ShadowTokens = Record<ShadowSize, ShadowToken>;
+
+export type SpacingTokens = Record<SpacingSize, Unit> & {
+  type: string;
+  unit: number;
+};
+
 export interface HeadingToken {
   letterSpacing: Unit;
   lineHeight: number;
   size: Unit;
 }
 
+export type HeadingTokens = Record<HeadingSize, HeadingToken>;
+
 export interface TextToken {
   lineHeight: number;
   size: Unit;
 }
 
+export type TextTokens = Record<TextSize, TextToken>;
+
+export interface TypographyToken {
+  font: {
+    heading: string;
+    locale: { [locale: string]: string };
+    monospace: string;
+    text: string;
+    system: string;
+  };
+  rootLineHeight: number;
+  rootTextSize: Unit;
+}
+
 export interface DesignTokens {
-  border: {
-    [K in BorderSize]: BorderToken;
-  };
-  breakpoint: {
-    [K in BreakpointSize]: BreakpointToken;
-  };
-  depth: {
-    [K in ElevationType]: number;
-  };
-  heading: {
-    [K in HeadingSize]: HeadingToken;
-  };
-  shadow: {
-    [K in ShadowSize]: ShadowToken;
-  };
-  spacing: {
-    [K in SpacingSize]: Unit;
-  } & {
-    type: string;
-    unit: number;
-  };
-  text: {
-    [K in TextSize]: TextToken;
-  };
-  typography: {
-    font: {
-      heading: string;
-      locale: { [locale: string]: string };
-      monospace: string;
-      text: string;
-      system: string;
-    };
-    rootLineHeight: number;
-    rootTextSize: Unit;
-  };
+  border: BorderTokens;
+  breakpoint: BreakpointTokens;
+  depth: DepthTokens;
+  heading: HeadingTokens;
+  shadow: ShadowTokens;
+  spacing: SpacingTokens;
+  text: TextTokens;
+  typography: TypographyToken;
 }
 
 // Keep roughly in sync with the tokens above
@@ -221,14 +223,16 @@ export interface DesignVariables {
   'typography-root-text-size': Unit;
 }
 
+export interface PaletteToken {
+  color: ColorRangeToken;
+  bg: ColorStateToken;
+  fg: ColorStateToken;
+}
+
+export type PaletteTokens = Record<PaletteType, PaletteToken>;
+
 export interface ThemeTokens {
-  palette: {
-    [K in PaletteType]: {
-      color: ColorRangeToken;
-      bg: ColorStateToken;
-      fg: ColorStateToken;
-    };
-  };
+  palette: PaletteTokens;
 }
 
 // Keep in sync with the tokens above

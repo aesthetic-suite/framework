@@ -59,13 +59,14 @@ export default class Compiler {
       format: string().oneOf<FormatType>([
         'android',
         'ios',
-        'web-cjs',
         'web-css',
+        'web-js',
+        'web-jsx',
         'web-less',
         'web-sass',
         'web-scss',
-        'web-js',
         'web-ts',
+        'web-tsx',
       ]),
       platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
     });
@@ -116,6 +117,7 @@ export default class Compiler {
       case 'web-scss':
         return 'scss';
       case 'web-ts':
+      case 'web-tsx':
         return 'ts';
       default:
         return 'js';
@@ -136,9 +138,7 @@ export default class Compiler {
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
-    const { format } = this.options;
-    const targetFolder = format === 'web-ts' ? 'web-js' : format;
-    const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
+    const templatePath = TEMPLATES_FOLDER.append(this.options.format, `${name}.ejs`);
 
     // Not all targets use all templates
     if (!templatePath.exists()) {
