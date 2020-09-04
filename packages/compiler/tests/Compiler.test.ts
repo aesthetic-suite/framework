@@ -16,7 +16,7 @@ async function runCompilerSnapshot(filePath: string) {
   });
 
   const compiler = new Compiler(filePath, __dirname, {
-    format: 'web-css-in-ts',
+    format: 'web-tsx',
     platform: 'web',
   });
 
@@ -29,21 +29,21 @@ async function runCompilerSnapshot(filePath: string) {
 describe('Compiler', () => {
   describe('constructor()', () => {
     it('errors if no config path', () => {
-      expect(() => new Compiler('', '', { platform: 'web', format: 'web-css-in-js' })).toThrow(
+      expect(() => new Compiler('', '', { platform: 'web', format: 'web-jsx' })).toThrow(
         'A configuration folder path is required.',
       );
     });
 
     it('errors if config file is missing', () => {
-      expect(
-        () => new Compiler('./foo.yaml', '', { platform: 'web', format: 'web-css-in-js' }),
-      ).toThrow('File path "foo.yaml" does not exist.');
+      expect(() => new Compiler('./foo.yaml', '', { platform: 'web', format: 'web-jsx' })).toThrow(
+        'File path "foo.yaml" does not exist.',
+      );
     });
 
     it('errors if no target path', () => {
-      expect(
-        () => new Compiler(CONFIG_PATH, '', { platform: 'web', format: 'web-css-in-js' }),
-      ).toThrow('A target destination file path is required.');
+      expect(() => new Compiler(CONFIG_PATH, '', { platform: 'web', format: 'web-jsx' })).toThrow(
+        'A target destination file path is required.',
+      );
     });
 
     it('does not error if target path is missing', () => {
@@ -51,7 +51,7 @@ describe('Compiler', () => {
         () =>
           new Compiler(CONFIG_PATH, './unknown-target', {
             platform: 'web',
-            format: 'web-css-in-js',
+            format: 'web-jsx',
           }),
       ).not.toThrow();
     });
@@ -62,7 +62,7 @@ describe('Compiler', () => {
           new Compiler(CONFIG_PATH, './unknown-target', {
             // @ts-expect-error
             platform: 'osx',
-            format: 'web-css-in-js',
+            format: 'web-jsx',
           }),
       ).toThrow('Invalid field "platform". String must be one of: android, ios, web');
     });
@@ -73,7 +73,7 @@ describe('Compiler', () => {
           new Compiler(CONFIG_PATH, './unknown-target', {
             platform: 'web',
             // @ts-expect-error
-            format: 'web-tsx',
+            format: 'unknown',
           }),
       ).toThrowErrorMatchingSnapshot();
     });

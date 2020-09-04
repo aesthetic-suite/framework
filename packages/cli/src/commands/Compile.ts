@@ -16,7 +16,7 @@ export default class Compile extends Command<CompileOptions, CompileParams> {
   cwd: string = CWD;
 
   @Arg.String('Target platform and format', { choices: FORMAT_LIST })
-  format: FormatType = 'web-css-in-ts';
+  format: FormatType = 'web-tsx';
 
   @Arg.Params<CompileParams>(
     {

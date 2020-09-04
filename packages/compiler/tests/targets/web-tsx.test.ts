@@ -1,3 +1,3 @@
 import runTargetTests from './runTargetTests';
 
-runTargetTests('web', 'web-css-in-ts', true);
+runTargetTests('web', 'web-tsx', true);

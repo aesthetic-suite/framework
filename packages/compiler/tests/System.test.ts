@@ -6,7 +6,7 @@ import { SystemOptions, FONT_FAMILIES } from '../src';
 
 describe('System', () => {
   const options: SystemOptions = {
-    format: 'web-css-in-ts',
+    format: 'web-tsx',
     platform: 'web',
   };
 

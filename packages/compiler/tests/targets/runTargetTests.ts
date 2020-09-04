@@ -37,9 +37,9 @@ export default function runTargetTests(
 
       if (
         format === 'web-js' ||
+        format === 'web-jsx' ||
         format === 'web-ts' ||
-        format === 'web-css-in-js' ||
-        format === 'web-css-in-ts'
+        format === 'web-tsx'
       ) {
         expect(writeSpy).toHaveBeenCalledTimes(2);
       } else {

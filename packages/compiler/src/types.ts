@@ -19,8 +19,8 @@ export type PlatformType = 'android' | 'ios' | 'web';
 export type FormatType =
   | 'android'
   | 'ios'
-  | 'web-css-in-js'
-  | 'web-css-in-ts'
+  | 'web-jsx'
+  | 'web-tsx'
   | 'web-css'
   | 'web-js'
   | 'web-less'
