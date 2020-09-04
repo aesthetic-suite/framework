@@ -138,9 +138,7 @@ export default class Compiler {
   }
 
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
-    const { format } = this.options;
-    const targetFolder = format === 'web-tsx' ? 'web-jsx' : format;
-    const templatePath = TEMPLATES_FOLDER.append(targetFolder, `${name}.ejs`);
+    const templatePath = TEMPLATES_FOLDER.append(this.options.format, `${name}.ejs`);
 
     // Not all targets use all templates
     if (!templatePath.exists()) {
