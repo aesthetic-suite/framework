@@ -1,11 +1,10 @@
-# Aesthetic (DEVELOPMENT)
+# Aesthetic
 
 [![Build Status](https://github.com/aesthetic-suite/framework/workflows/Build/badge.svg)](https://github.com/aesthetic-suite/framework/actions?query=branch%3Amaster)
 [![npm version](https://badge.fury.io/js/%40aesthetic%core.svg)](https://www.npmjs.com/package/@aesthetic/core)
 [![npm deps](https://david-dm.org/aesthetic-suite/framework.svg?path=packages/core)](https://www.npmjs.com/package/@aesthetic/core)
 
-> Currently in development. Packages are in a usable state, while documentation is currently being
-> written.
+> Start using Aesthetic now! [aestheticsuite.dev](https://aestheticsuite.dev)
 
 Aesthetic is an end-to-end, multi-platform styling and design suite, that offers the following
 packages.

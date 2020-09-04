@@ -8,3 +8,8 @@
 - [@aesthetic/system](./packages/system/CHANGELOG.md)
 - [@aesthetic/types](./packages/types/CHANGELOG.md)
 - [@aesthetic/utils](./packages/utils/CHANGELOG.md)
+
+## Integrations
+
+- [@aesthetic/react](https://github.com/aesthetic-suite/react/blob/master/packages/react/CHANGELOG.md)
+- [@aesthetic/react-ui](https://github.com/aesthetic-suite/react/blob/master/packages/react-ui/CHANGELOG.md)

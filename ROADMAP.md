@@ -1,14 +1,11 @@
 # Roadmap
 
-## July 2020
+## September 2020
 
-- Add primary documentation.
+- Design and launch a new website.
 - Differentiate between `mobile-first` and `desktop-first` in the style engine.
-
-## August 2020
-
-- Build and release new website.
-- Alpha release.
+- Investigate React Native support.
+- Start scaffolding out React UI components.
 
 # Backlog
 
@@ -22,6 +19,7 @@ In no particular order.
   [designsystemchecklist.com](https://designsystemchecklist.com).
 - Research a Figma file to be used as the design system. Should export to the YAML configuration
   format.
+- Borrow ideas from [superfriendlydesign.systems](https://superfriendlydesign.systems/).
 
 ## Build & compiler
 
