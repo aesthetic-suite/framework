@@ -614,6 +614,27 @@ $palette-warning-fg-focused: #000 !default;
 $palette-warning-fg-hovered: #000 !default;
 $palette-warning-fg-selected: #000 !default;
 
+$palette-failure-color-00: #000 !default;
+$palette-failure-color-10: #000 !default;
+$palette-failure-color-20: #000 !default;
+$palette-failure-color-30: #000 !default;
+$palette-failure-color-40: #000 !default;
+$palette-failure-color-50: #000 !default;
+$palette-failure-color-60: #000 !default;
+$palette-failure-color-70: #000 !default;
+$palette-failure-color-80: #000 !default;
+$palette-failure-color-90: #000 !default;
+$palette-failure-bg-base: #000 !default;
+$palette-failure-bg-disabled: #000 !default;
+$palette-failure-bg-focused: #000 !default;
+$palette-failure-bg-hovered: #000 !default;
+$palette-failure-bg-selected: #000 !default;
+$palette-failure-fg-base: #000 !default;
+$palette-failure-fg-disabled: #000 !default;
+$palette-failure-fg-focused: #000 !default;
+$palette-failure-fg-hovered: #000 !default;
+$palette-failure-fg-selected: #000 !default;
+
 $palette-success-color-00: #000 !default;
 $palette-success-color-10: #000 !default;
 $palette-success-color-20: #000 !default;

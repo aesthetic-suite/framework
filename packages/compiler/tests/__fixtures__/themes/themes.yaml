@@ -90,6 +90,7 @@ themes:
           hovered: 90
           selected: 90
       danger: blue
+      failure: blue
       success: green
   other:
     scheme: light
