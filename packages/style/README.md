@@ -66,4 +66,4 @@ yarn add @aesthetic/style
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic/packages/style](https://milesj.gitbook.io/aesthetic/packages/style)
+[https://aestheticsuite.dev/docs/packages/style](https://aestheticsuite.dev/docs/packages/style)

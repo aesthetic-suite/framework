@@ -14,4 +14,4 @@ yarn add @aesthetic/compiler
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic](https://milesj.gitbook.io/aesthetic)
+[https://aestheticsuite.dev](https://aestheticsuite.dev)

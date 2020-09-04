@@ -77,4 +77,4 @@ on the following goals for both designers _and_ engineers.
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic](https://milesj.gitbook.io/aesthetic)
+[https://aestheticsuite.dev](https://aestheticsuite.dev)
