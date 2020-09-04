@@ -14,4 +14,4 @@ yarn add @aesthetic/system
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic/packages/system](https://milesj.gitbook.io/aesthetic/packages/system)
+[https://aestheticsuite.dev/docs/packages/system](https://aestheticsuite.dev/docs/packages/system)

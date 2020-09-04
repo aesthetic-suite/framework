@@ -1,3 +1,0 @@
-# Design system
-
-Coming soon...

@@ -14,4 +14,4 @@ yarn add @aesthetic/sss
 
 ## Documentation
 
-[https://milesj.gitbook.io/aesthetic/packages/sss](https://milesj.gitbook.io/aesthetic/packages/sss)
+[https://aestheticsuite.dev/docs/packages/sss](https://aestheticsuite.dev/docs/packages/sss)

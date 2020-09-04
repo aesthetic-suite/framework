@@ -12,9 +12,7 @@ logs/
 yarn.lock
 
 # Directories
-_book/
 coverage/
-docs/
 src/
 tests/
 types/
@@ -30,7 +28,6 @@ dist/
 .eslintignore
 .eslintrc.js
 .flowconfig
-.gitbook.yaml
 .prettierignore
 babel.config.js
 book.json
