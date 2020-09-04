@@ -19,13 +19,13 @@ export type PlatformType = 'android' | 'ios' | 'web';
 export type FormatType =
   | 'android'
   | 'ios'
-  | 'web-css'
   | 'web-css-in-js'
   | 'web-css-in-ts'
+  | 'web-css'
+  | 'web-js'
   | 'web-less'
   | 'web-sass'
   | 'web-scss'
-  | 'web-js'
   | 'web-ts';
 
 export interface SystemOptions {

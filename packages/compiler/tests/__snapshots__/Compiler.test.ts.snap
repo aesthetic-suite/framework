@@ -333,3 +333,5 @@ export default design.createTheme(
 );
 "
 `;
+
+exports[`Compiler constructor() errors for unknown target 1`] = `"Invalid field \\"format\\". String must be one of: android, ios, web-css-in-js, web-css-in-ts, web-css, web-js, web-less, web-sass, web-scss, web-ts"`;
