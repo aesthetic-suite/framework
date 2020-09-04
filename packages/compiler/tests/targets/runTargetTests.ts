@@ -35,7 +35,7 @@ export default function runTargetTests(
 
       await compiler.compile();
 
-      if (format === 'web-cjs' || format === 'web-js' || format === 'web-ts') {
+      if (format === 'web-js' || format === 'web-ts') {
         expect(writeSpy).toHaveBeenCalledTimes(2);
       } else {
         expect(writeSpy).toHaveBeenCalledTimes(3);

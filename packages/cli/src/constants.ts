@@ -3,8 +3,9 @@ export const CWD = process.cwd();
 export const FORMAT_LIST = [
   // 'android',
   // 'ios',
-  'web-cjs',
   'web-css',
+  'web-css-in-js',
+  'web-css-in-ts',
   'web-less',
   'web-sass',
   'web-scss',

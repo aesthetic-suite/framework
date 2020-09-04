@@ -59,8 +59,9 @@ export default class Compiler {
       format: string().oneOf<FormatType>([
         'android',
         'ios',
-        'web-cjs',
         'web-css',
+        'web-css-in-js',
+        'web-css-in-ts',
         'web-less',
         'web-sass',
         'web-scss',

@@ -72,7 +72,7 @@ describe('Compiler', () => {
             format: 'web-tsx',
           }),
       ).toThrow(
-        'Invalid field "format". String must be one of: android, ios, web-cjs, web-css, web-less, web-sass, web-scss, web-js, web-ts',
+        'Invalid field "format". String must be one of: android, ios, web-css, web-css-in-js, web-css-in-ts, web-less, web-sass, web-scss, web-js, web-ts',
       );
     });
   });
