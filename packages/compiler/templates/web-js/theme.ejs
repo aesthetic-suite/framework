@@ -3,6 +3,8 @@
 // contrast: <%= theme.contrast %>
 // scheme: <%= theme.scheme %>
 
+export * from '..';
+
 <% Object.entries(data.palette).forEach(([name, palette]) => { -%>
 export const <%= name -%> = <%- JSON.stringify(palette) -%>;
 

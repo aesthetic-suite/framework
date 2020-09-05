@@ -178,6 +178,8 @@ exports[`Format web-js compiles and writes files 2`] = `
 // contrast: normal
 // scheme: light
 
+export * from '..';
+
 export const brand = {
   color: {
     10: '#000',

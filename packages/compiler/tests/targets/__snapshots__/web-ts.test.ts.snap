@@ -189,6 +189,8 @@ import { PaletteToken } from '@aesthetic/system';
 // contrast: normal
 // scheme: light
 
+export * from '..';
+
 export const brand: PaletteToken = {
   color: {
     '10': '#000',
