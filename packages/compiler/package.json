@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/compiler",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Compiles a design system configuration to a specified platform format.",
   "keywords": [
     "aesthetic",
