@@ -3,7 +3,7 @@
 import parentTheme from './<%= theme.extendedFrom -%>';
 
 export default parentTheme.extend({
-  palette: <%- JSON.stringify(data.palette) -%>,
+  palette: <%- include('../partials/web/palettes') -%>,
 }, {
   contrast: '<%= theme.contrast -%>',
   scheme: '<%= theme.scheme -%>',
@@ -16,6 +16,6 @@ export default design.createTheme({
   contrast: '<%= theme.contrast -%>',
   scheme: '<%= theme.scheme -%>',
 }, {
-  palette: <%- JSON.stringify(data.palette) -%>,
+  palette: <%- include('../partials/web/palettes') -%>,
 });
 <% } -%>

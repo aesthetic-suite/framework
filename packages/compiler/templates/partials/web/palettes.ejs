@@ -1,0 +1,5 @@
+{
+  <% paletteTypes.forEach(type => { -%>
+  <%= type -%>: <%- include('palette', { palette: data.palette[type] }) -%>,
+  <% }) -%>
+}

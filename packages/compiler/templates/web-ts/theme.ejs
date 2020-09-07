@@ -7,6 +7,6 @@ import { PaletteToken } from '@aesthetic/system';
 export * from '..';
 
 <% Object.entries(data.palette).forEach(([name, palette]) => { -%>
-export const <%= name -%>: PaletteToken = <%- JSON.stringify(palette) -%>;
+export const <%= name -%>: PaletteToken = <%- include('../partials/web/palette', { palette }) -%>;
 
 <% }) -%>

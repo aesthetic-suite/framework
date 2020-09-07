@@ -182,6 +182,7 @@ export * from '..';
 
 export const brand = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -191,14 +192,26 @@ export const brand = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const primary = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -208,14 +221,26 @@ export const primary = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const secondary = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -225,14 +250,26 @@ export const secondary = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const tertiary = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -242,14 +279,26 @@ export const tertiary = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const neutral = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -259,14 +308,26 @@ export const neutral = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const muted = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -276,14 +337,26 @@ export const muted = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const info = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -293,14 +366,26 @@ export const info = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const warning = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -310,14 +395,26 @@ export const warning = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const danger = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -327,14 +424,26 @@ export const danger = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const failure = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -344,14 +453,26 @@ export const failure = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const success = {
   color: {
+    '00': '#000',
     10: '#000',
     20: '#000',
     30: '#000',
@@ -361,10 +482,21 @@ export const success = {
     70: '#000',
     80: '#000',
     90: '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 "
 `;

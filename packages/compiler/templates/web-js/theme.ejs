@@ -6,6 +6,6 @@
 export * from '..';
 
 <% Object.entries(data.palette).forEach(([name, palette]) => { -%>
-export const <%= name -%> = <%- JSON.stringify(palette) -%>;
+export const <%= name -%> = <%- include('../partials/web/palette', { palette }) -%>;
 
 <% }) -%>

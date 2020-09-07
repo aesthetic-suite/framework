@@ -1,0 +1,21 @@
+{
+  color: {
+    <% shadeRanges.forEach(shade => { -%>
+    '<%= shade -%>': '<%= palette.color[shade] -%>',
+    <% }) -%>
+  },
+  bg: {
+    base: '<%= palette.bg.base -%>',
+    disabled: '<%= palette.bg.disabled -%>',
+    focused: '<%= palette.bg.focused -%>',
+    hovered: '<%= palette.bg.hovered -%>',
+    selected: '<%= palette.bg.selected -%>',
+  },
+  fg: {
+    base: '<%= palette.fg.base -%>',
+    disabled: '<%= palette.fg.disabled -%>',
+    focused: '<%= palette.fg.focused -%>',
+    hovered: '<%= palette.fg.hovered -%>',
+    selected: '<%= palette.fg.selected -%>',
+  },
+}

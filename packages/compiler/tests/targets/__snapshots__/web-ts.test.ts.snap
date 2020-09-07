@@ -193,6 +193,7 @@ export * from '..';
 
 export const brand: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -202,14 +203,26 @@ export const brand: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const primary: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -219,14 +232,26 @@ export const primary: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const secondary: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -236,14 +261,26 @@ export const secondary: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const tertiary: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -253,14 +290,26 @@ export const tertiary: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const neutral: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -270,14 +319,26 @@ export const neutral: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const muted: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -287,14 +348,26 @@ export const muted: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const info: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -304,14 +377,26 @@ export const info: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const warning: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -321,14 +406,26 @@ export const warning: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const danger: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -338,14 +435,26 @@ export const danger: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const failure: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -355,14 +464,26 @@ export const failure: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 
 export const success: PaletteToken = {
   color: {
+    '00': '#000',
     '10': '#000',
     '20': '#000',
     '30': '#000',
@@ -372,10 +493,21 @@ export const success: PaletteToken = {
     '70': '#000',
     '80': '#000',
     '90': '#000',
-    '00': '#000',
   },
-  bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
-  fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
+  bg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
+  fg: {
+    base: '#000',
+    disabled: '#000',
+    focused: '#000',
+    hovered: '#000',
+    selected: '#000',
+  },
 };
 "
 `;

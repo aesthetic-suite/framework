@@ -196,9 +196,9 @@ export interface DesignConfig {
 
 // Colors
 
-export type ColorConfig = {
-  [K in ColorShade]: Hexcode;
-};
+export type ColorConfig = Record<ColorShade, Hexcode>;
+
+export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig>;
 
 export interface PaletteState<T = number | string> {
   base: T;
@@ -221,7 +221,7 @@ export type PalettesConfig = {
 // Themes
 
 export interface ThemeConfig<ColorNames extends string = string> {
-  colors: { [K in ColorNames]: ColorConfig };
+  colors: ColorConfigMap<ColorNames>;
   contrast: ContrastLevel;
   extends: string;
   palettes: PalettesConfig;
