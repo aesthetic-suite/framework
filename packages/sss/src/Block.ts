@@ -4,13 +4,15 @@ import { Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 
 export default class Block<T extends object = object> {
-  readonly nested: { [selector: string]: Block<T> } = {};
+  readonly nested: Record<string, Block<T>> = {};
 
-  readonly properties: { [prop: string]: Value } = {};
+  readonly properties: Record<string, Value> = {};
 
   readonly selector: string;
 
-  readonly variables: { [name: string]: Value } = {};
+  readonly variables: Record<string, Value> = {};
+
+  variants?: Block<T>;
 
   constructor(selector: string) {
     this.selector = selector;
@@ -43,6 +45,16 @@ export default class Block<T extends object = object> {
 
   addVariable(key: string, value: Value): this {
     this.variables[key] = value;
+
+    return this;
+  }
+
+  addVariant(block: Block<T>): this {
+    if (!this.variants) {
+      this.variants = new Block('@variants');
+    }
+
+    this.variants.addNested(block);
 
     return this;
   }

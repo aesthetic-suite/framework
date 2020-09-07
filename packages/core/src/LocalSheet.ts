@@ -1,7 +1,7 @@
 import { LocalParser } from '@aesthetic/sss';
 import { Renderer, Rule } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { deepMerge } from '@aesthetic/utils';
+import { deepMerge, objectLoop } from '@aesthetic/utils';
 import Sheet from './Sheet';
 import { LocalSheetFactory, SheetParams, ClassNameSheet } from './types';
 
@@ -89,22 +89,6 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
     };
 
     new LocalParser<Rule>({
-      onBlockVariant(parent, variant, block) {
-        const { selector } = parent;
-
-        if (!classNames[selector]) {
-          classNames[selector] = { class: '' };
-        }
-
-        if (!classNames[selector]?.variants) {
-          classNames[selector]!.variants = {};
-        }
-
-        classNames[selector]!.variants![variant] = renderer.renderRule(
-          block.toObject(),
-          renderParams,
-        );
-      },
       onClass(selector, className) {
         classNames[selector] = { class: className };
       },
@@ -115,11 +99,21 @@ export default class LocalSheet<T = unknown> extends Sheet<ClassNameSheet<string
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
       onRule(selector, rule) {
-        if (!classNames[selector]) {
-          classNames[selector] = { class: '' };
+        const cache = classNames[selector] || {};
+
+        cache.class = renderer.renderRule(rule.toObject(), renderParams);
+
+        if (rule.variants) {
+          if (!cache.variants) {
+            cache.variants = {};
+          }
+
+          objectLoop(rule.variants.toObject(), (variant, type) => {
+            cache.variants![type] = renderer.renderRule(variant as Rule, renderParams);
+          });
         }
 
-        classNames[selector]!.class = renderer.renderRule(rule.toObject(), renderParams);
+        classNames[selector] = cache;
       },
     }).parse(styles);
 

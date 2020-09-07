@@ -408,7 +408,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
         foo: { class: 'a' },
-        bar: { class: 'c', variants: { type_red: 'b' } },
+        bar: { class: 'b', variants: { type_red: 'c' } },
         baz: { class: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {

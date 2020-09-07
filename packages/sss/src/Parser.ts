@@ -310,13 +310,11 @@ export default abstract class Parser<T extends object, E extends object> {
     this.validateDeclarations(variants, '@variants');
 
     objectLoop(variants, (object, type) => {
-      this.emit(
-        'block:variant',
-        parent,
-        type,
-        this.parseLocalBlock(new Block(`@variants ${type}`), object),
-        { specificity: 0 },
-      );
+      const block = this.parseLocalBlock(new Block(type), object);
+
+      parent.addVariant(block);
+
+      this.emit('block:variant', parent, type, block, { specificity: 0 });
     });
   }
 
