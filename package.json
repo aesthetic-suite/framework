@@ -5,7 +5,7 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "beemo create-config babel --esm --silent && rollup --config && yarn run type",
+    "build": "beemo create-config babel --esm --silent && rollup --config",
     "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",

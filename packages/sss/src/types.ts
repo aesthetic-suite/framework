@@ -166,9 +166,7 @@ export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
 
 export type Rule = Declarations<Properties>;
 
-export interface RuleMap<T> {
-  [selector: string]: T;
-}
+export type RuleMap<T> = Record<string, T>;
 
 export interface FontFace extends BaseFontFace {
   local?: string[];
@@ -228,12 +226,16 @@ export type LocalAtRule =
 
 export type LocalBlock = Rule & {
   '@fallbacks'?: FallbackProperties;
-  '@media'?: { [mediaQuery: string]: LocalBlock };
-  '@selectors'?: { [selector: string]: LocalBlock };
-  '@supports'?: { [featureQuery: string]: LocalBlock };
+  '@media'?: LocalBlockMap;
+  '@selectors'?: LocalBlockMap;
+  '@supports'?: LocalBlockMap;
   '@variables'?: Variables;
-  '@variants'?: { [variant: string]: LocalBlock };
+  '@variants'?: LocalBlockVariants;
 };
+
+export type LocalBlockMap = Record<string, LocalBlock>;
+
+export type LocalBlockVariants = Record<string, LocalBlockMap>;
 
 export type LocalBlockNeverize<T> = {
   [K in keyof T]: K extends keyof LocalBlock ? T[K] : never;
@@ -257,9 +259,9 @@ export type GlobalAtRule =
   | '@viewport';
 
 export interface GlobalStyleSheet {
-  '@font-face'?: { [fontFamily: string]: FontFace | FontFace[] };
+  '@font-face'?: Record<string, FontFace | FontFace[]>;
   '@import'?: (string | Import)[];
-  '@keyframes'?: { [animationName: string]: Keyframes };
+  '@keyframes'?: Record<string, Keyframes>;
   '@page'?: Page;
   '@root'?: LocalBlock;
   '@variables'?: Variables;

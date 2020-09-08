@@ -168,14 +168,16 @@ export const SYNTAX_VARIABLES: LocalBlock = {
 
 export const SYNTAX_VARIANTS: LocalBlock = {
   '@variants': {
-    size_small: {
-      fontSize: 14,
-    },
-    size_default: {
-      fontSize: 16,
-    },
-    size_large: {
-      fontSize: 18,
+    size: {
+      small: {
+        fontSize: 14,
+      },
+      default: {
+        fontSize: 16,
+      },
+      large: {
+        fontSize: 18,
+      },
     },
   },
 };
