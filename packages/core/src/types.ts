@@ -55,3 +55,9 @@ export type EventType = 'change:direction' | 'change:theme';
 export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName) => void;
+
+// ALIASES
+
+export type CSSDeclaration = LocalBlock;
+
+export type DeclarationBlock = LocalBlock;

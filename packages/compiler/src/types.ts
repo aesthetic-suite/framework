@@ -12,6 +12,7 @@ import {
   ElevationType,
   ShadowSize,
   MixinName,
+  StateType,
 } from '@aesthetic/system';
 
 export type PlatformType = 'android' | 'ios' | 'web';
@@ -200,13 +201,9 @@ export type ColorConfig = Record<ColorShade, Hexcode>;
 
 export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig>;
 
-export interface PaletteState<T = number | string> {
+export type PaletteState<T = number | string> = {
   base: T;
-  disabled: T;
-  focused: T;
-  hovered: T;
-  selected: T;
-}
+} & Record<StateType, T>;
 
 export interface PaletteConfig {
   color: string;

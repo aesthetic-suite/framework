@@ -1,26 +1,13 @@
+import { objectCreate } from '@aesthetic/utils';
 import mixins from './mixins';
 import { Mixins, VarUtil } from './types';
+import { BORDER_SIZES, HEADING_SIZES, SHADOW_SIZES, TEXT_SIZES } from './constants';
 
 export default function createMixins(vars: VarUtil): Mixins {
   return {
-    border: {
-      sm: mixins.border(vars, 'sm'),
-      df: mixins.border(vars, 'df'),
-      lg: mixins.border(vars, 'lg'),
-    },
-    box: {
-      sm: mixins.box(vars, 'sm'),
-      df: mixins.box(vars, 'df'),
-      lg: mixins.box(vars, 'lg'),
-    },
-    heading: {
-      l1: mixins.heading(vars, 'l1'),
-      l2: mixins.heading(vars, 'l2'),
-      l3: mixins.heading(vars, 'l3'),
-      l4: mixins.heading(vars, 'l4'),
-      l5: mixins.heading(vars, 'l5'),
-      l6: mixins.heading(vars, 'l6'),
-    },
+    border: objectCreate(BORDER_SIZES, (size) => mixins.border(vars, size)),
+    box: objectCreate(TEXT_SIZES, (size) => mixins.box(vars, size)),
+    heading: objectCreate(HEADING_SIZES, (size) => mixins.heading(vars, size)),
     pattern: {
       hide: {
         completely: mixins.hideCompletely(),
@@ -41,17 +28,7 @@ export default function createMixins(vars: VarUtil): Mixins {
         wrap: mixins.textWrap(),
       },
     },
-    shadow: {
-      xs: mixins.shadow(vars, 'xs'),
-      sm: mixins.shadow(vars, 'sm'),
-      md: mixins.shadow(vars, 'md'),
-      lg: mixins.shadow(vars, 'lg'),
-      xl: mixins.shadow(vars, 'xl'),
-    },
-    text: {
-      sm: mixins.text(vars, 'sm'),
-      df: mixins.text(vars, 'df'),
-      lg: mixins.text(vars, 'lg'),
-    },
+    shadow: objectCreate(SHADOW_SIZES, (size) => mixins.shadow(vars, size)),
+    text: objectCreate(TEXT_SIZES, (size) => mixins.text(vars, size)),
   };
 }

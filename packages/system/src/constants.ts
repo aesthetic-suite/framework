@@ -8,6 +8,7 @@ import {
   TextSize,
   PaletteType,
   ColorShade,
+  StateType,
 } from './types';
 
 export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
@@ -60,3 +61,5 @@ export const SHADE_RANGES: ColorShade[] = [
   '80',
   '90',
 ];
+
+export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];

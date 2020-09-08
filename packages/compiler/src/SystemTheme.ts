@@ -80,10 +80,10 @@ export default class SystemTheme<ColorNames extends string = string> {
   ): PaletteState<Hexcode> {
     return {
       base: this.getColorHexcode(color, formatShade(state.base ?? 40)),
-      disabled: this.getColorHexcode(color, formatShade(state.disabled ?? 30)),
       focused: this.getColorHexcode(color, formatShade(state.focused ?? 50)),
       hovered: this.getColorHexcode(color, formatShade(state.hovered ?? 60)),
       selected: this.getColorHexcode(color, formatShade(state.selected ?? 50)),
+      disabled: this.getColorHexcode(color, formatShade(state.disabled ?? 30)),
     };
   }
 }

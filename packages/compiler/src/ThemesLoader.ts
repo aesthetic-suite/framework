@@ -123,10 +123,10 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
   protected themePaletteState(base: number) {
     return shape<PaletteState>({
       base: this.colorShade(base),
-      disabled: this.colorShade(base - 10),
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
       selected: this.colorShade(base + 10),
+      disabled: this.colorShade(base - 10),
     }).exact();
   }
 

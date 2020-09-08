@@ -15,6 +15,7 @@ import {
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
+  STATE_ORDER,
 } from '@aesthetic/system';
 import BrandLoader from './BrandLoader';
 import LanguageLoader from './LanguageLoader';
@@ -202,6 +203,7 @@ export default class Compiler {
         paletteTypes: PALETTE_TYPES,
         platform,
         shadeRanges: SHADE_RANGES,
+        stateOrder: STATE_ORDER,
         theme,
       }),
     );
