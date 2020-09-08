@@ -11,6 +11,7 @@ import generateHash from './generateHash';
 import hyphenate from './hyphenate';
 import isObject from './isObject';
 import isSSR from './isSSR';
+import objectCreate from './objectCreate';
 import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
 import toArray from './toArray';
@@ -24,6 +25,7 @@ export {
   hyphenate,
   isObject,
   isSSR,
+  objectCreate,
   objectLoop,
   objectReduce,
   toArray,
