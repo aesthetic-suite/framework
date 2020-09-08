@@ -42,8 +42,16 @@ export default abstract class BaseStyleSheet {
   }
 
   protected injectRule = (rule: string, index: number) => {
-    this.sheet.insertRule(rule, index);
-    this.lastIndex = this.sheet.cssRules.length - 1;
+    try {
+      this.sheet.insertRule(rule, index);
+      this.lastIndex = this.sheet.cssRules.length - 1;
+    } catch {
+      // Vendor prefixed properties, pseudos, etc, that are inserted
+      // into different vendors will trigger a failure. For example,
+      // `-moz` or `-ms` being inserted into WebKit.
+      // There's no easy way around this, so let's just ignore the
+      // error so that subsequent styles are inserted.
+    }
   };
 
   protected flushRules = () => {
