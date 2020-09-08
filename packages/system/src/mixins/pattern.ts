@@ -1,13 +1,13 @@
 import { Declarations } from '@aesthetic/types';
 import { VarUtil } from '../types';
 
-export function hidden(): Declarations {
+export function hideCompletely(): Declarations {
   return {
     display: 'none',
   };
 }
 
-export function hiddenOffscreen(): Declarations {
+export function hideOffscreen(): Declarations {
   return {
     clipPath: 'rect(1px, 1px, 1px, 1px)',
     height: 1,
@@ -15,6 +15,20 @@ export function hiddenOffscreen(): Declarations {
     overflow: 'hidden',
     position: 'fixed',
     width: 1,
+  };
+}
+
+export function hideVisually(): Declarations {
+  return {
+    [':not(:focus):not(:active)' as ':focus']: {
+      clip: 'rect(0 0 0 0)',
+      clipPath: 'inset(50%)',
+      height: 1,
+      overflow: 'hidden',
+      position: 'absolute',
+      whiteSpace: 'nowrap',
+      width: 1,
+    } as const,
   };
 }
 
@@ -64,16 +78,10 @@ export function resetTypography(): Declarations {
   };
 }
 
-export function textBreak(): Declarations {
-  return {
-    overflowWrap: 'break-word',
-    wordWrap: 'break-word',
-    wordBreak: 'break-word',
-  };
-}
-
 export function root(vars: VarUtil): Declarations {
   return {
+    backgroundColor: vars('palette-neutral-bg-base'),
+    color: vars('palette-neutral-fg-base'),
     fontFamily: vars('typography-font-text'),
     fontSize: vars('typography-root-text-size'),
     lineHeight: vars('typography-root-line-height'),
@@ -83,6 +91,14 @@ export function root(vars: VarUtil): Declarations {
     padding: 0,
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',
+  };
+}
+
+export function textBreak(): Declarations {
+  return {
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word',
   };
 }
 

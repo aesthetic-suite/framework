@@ -22,8 +22,11 @@ export default function createMixins(vars: VarUtil): Mixins {
       l6: mixins.heading(vars, 'l6'),
     },
     pattern: {
-      hidden: mixins.hidden(),
-      offscreen: mixins.hiddenOffscreen(),
+      hide: {
+        completely: mixins.hideCompletely(),
+        offscreen: mixins.hideOffscreen(),
+        visually: mixins.hideVisually(),
+      },
       reset: {
         button: mixins.resetButton(),
         input: mixins.resetInput(),

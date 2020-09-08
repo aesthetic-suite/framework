@@ -2,19 +2,7 @@
 
 exports[`Mixins border 1`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-sm-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-sm-width)",
@@ -23,19 +11,7 @@ Object {
 
 exports[`Mixins border 2`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -44,19 +20,7 @@ Object {
 
 exports[`Mixins border 3`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-lg-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-lg-width)",
@@ -65,20 +29,8 @@ Object {
 
 exports[`Mixins box 1`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "backgroundColor": "var(--palette-neutral-color-10)",
-  "borderColor": "var(--palette-neutral-color-30)",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-sm-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-sm-width)",
@@ -87,20 +39,8 @@ Object {
 
 exports[`Mixins box 2`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "backgroundColor": "var(--palette-neutral-color-10)",
-  "borderColor": "var(--palette-neutral-color-30)",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -109,20 +49,8 @@ Object {
 
 exports[`Mixins box 3`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "backgroundColor": "var(--palette-neutral-color-10)",
-  "borderColor": "var(--palette-neutral-color-30)",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-lg-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-lg-width)",
@@ -131,7 +59,7 @@ Object {
 
 exports[`Mixins heading 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l1-size)",
   "fontWeight": "normal",
@@ -143,7 +71,7 @@ Object {
 
 exports[`Mixins heading 2`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l2-size)",
   "fontWeight": "normal",
@@ -155,7 +83,7 @@ Object {
 
 exports[`Mixins heading 3`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l3-size)",
   "fontWeight": "normal",
@@ -167,7 +95,7 @@ Object {
 
 exports[`Mixins heading 4`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l4-size)",
   "fontWeight": "normal",
@@ -179,7 +107,7 @@ Object {
 
 exports[`Mixins heading 5`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l5-size)",
   "fontWeight": "normal",
@@ -191,7 +119,7 @@ Object {
 
 exports[`Mixins heading 6`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l6-size)",
   "fontWeight": "normal",
@@ -220,6 +148,20 @@ Object {
 
 exports[`Mixins pattern 3`] = `
 Object {
+  ":not(:focus):not(:active)": Object {
+    "clip": "rect(0 0 0 0)",
+    "clipPath": "inset(50%)",
+    "height": 1,
+    "overflow": "hidden",
+    "position": "absolute",
+    "whiteSpace": "nowrap",
+    "width": 1,
+  },
+}
+`;
+
+exports[`Mixins pattern 4`] = `
+Object {
   "appearance": "none",
   "backgroundColor": "transparent",
   "border": 0,
@@ -234,7 +176,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 4`] = `
+exports[`Mixins pattern 5`] = `
 Object {
   "::-moz-focus-outer": Object {
     "border": 0,
@@ -247,7 +189,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 5`] = `
+exports[`Mixins pattern 6`] = `
 Object {
   "listStyle": "none",
   "margin": 0,
@@ -255,7 +197,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 6`] = `
+exports[`Mixins pattern 7`] = `
 Object {
   "fontFamily": "inherit",
   "fontWeight": "normal",
@@ -263,7 +205,23 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 7`] = `
+exports[`Mixins pattern 8`] = `
+Object {
+  "-moz-osx-font-smoothing": "grayscale",
+  "-webkit-font-smoothing": "antialiased",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--typography-root-text-size)",
+  "lineHeight": "var(--typography-root-line-height)",
+  "margin": 0,
+  "padding": 0,
+  "textRendering": "optimizeLegibility",
+  "textSizeAdjust": "100%",
+}
+`;
+
+exports[`Mixins pattern 9`] = `
 Object {
   "overflowWrap": "break-word",
   "wordBreak": "break-word",
@@ -271,7 +229,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 8`] = `
+exports[`Mixins pattern 10`] = `
 Object {
   "overflow": "hidden",
   "textOverflow": "ellipsis",
@@ -279,7 +237,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 9`] = `
+exports[`Mixins pattern 11`] = `
 Object {
   "overflowWrap": "normal",
   "wordBreak": "normal",
@@ -319,7 +277,7 @@ Object {
 
 exports[`Mixins text 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-sm-size)",
   "fontWeight": "normal",
@@ -330,7 +288,7 @@ Object {
 
 exports[`Mixins text 2`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",
   "fontWeight": "normal",
@@ -341,7 +299,7 @@ Object {
 
 exports[`Mixins text 3`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-lg-size)",
   "fontWeight": "normal",

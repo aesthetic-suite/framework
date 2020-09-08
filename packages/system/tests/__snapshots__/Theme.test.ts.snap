@@ -2,7 +2,7 @@
 
 exports[`Theme extendMixin() can extend a mixing with additional properties 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",
   "fontWeight": "normal",
@@ -26,19 +26,7 @@ Object {
 
 exports[`Theme extendMixin() will deep merge properties 1`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -47,20 +35,10 @@ Object {
 
 exports[`Theme extendMixin() will deep merge properties 2`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
   ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
     "outline": "none",
   },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -69,20 +47,8 @@ Object {
 
 exports[`Theme mixin() can merge from multiple targets 1`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "backgroundColor": "var(--palette-neutral-color-10)",
-  "borderColor": "var(--palette-neutral-color-30)",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-sm-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-sm-width)",
@@ -98,7 +64,7 @@ Object {
 
 exports[`Theme mixin() merges objects with mixin 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
@@ -109,7 +75,7 @@ Object {
 
 exports[`Theme overwriteMixin() can completely replace an existing mixin 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",
   "fontWeight": "normal",

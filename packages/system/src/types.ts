@@ -469,8 +469,11 @@ export interface Mixins {
   //   invalid: Declarations;
   // };
   pattern: {
-    hidden: Declarations;
-    offscreen: Declarations;
+    hide: {
+      completely: Declarations;
+      offscreen: Declarations;
+      visually: Declarations;
+    };
     reset: {
       button: Declarations;
       input: Declarations;
@@ -510,8 +513,9 @@ export type MixinName =
   | 'heading-l4'
   | 'heading-l5'
   | 'heading-l6'
-  | 'pattern-hidden'
-  | 'pattern-offscreen'
+  | 'pattern-hide-completely'
+  | 'pattern-hide-offscreen'
+  | 'pattern-hide-visually'
   | 'pattern-reset-button'
   | 'pattern-reset-input'
   | 'pattern-reset-list'

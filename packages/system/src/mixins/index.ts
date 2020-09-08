@@ -2,8 +2,9 @@ import { border } from './border';
 import { box } from './box';
 import { heading } from './heading';
 import {
-  hidden,
-  hiddenOffscreen,
+  hideCompletely,
+  hideOffscreen,
+  hideVisually,
   resetButton,
   resetInput,
   resetList,
@@ -20,8 +21,9 @@ export default {
   border,
   box,
   heading,
-  hidden,
-  hiddenOffscreen,
+  hideCompletely,
+  hideOffscreen,
+  hideVisually,
   resetButton,
   resetInput,
   resetList,
