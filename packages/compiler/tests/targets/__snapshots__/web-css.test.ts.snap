@@ -50,62 +50,62 @@ exports[`Format web-css compiles and writes files 1`] = `
 
 .heading-l1 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l1-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l1-letter-spacing);
   line-height: var(--heading-l1-line-height);
-  font-size: var(--heading-l1-size);
 }
 
 .heading-l2 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l2-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l2-letter-spacing);
   line-height: var(--heading-l2-line-height);
-  font-size: var(--heading-l2-size);
 }
 
 .heading-l3 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l3-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l3-letter-spacing);
   line-height: var(--heading-l3-line-height);
-  font-size: var(--heading-l3-size);
 }
 
 .heading-l4 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l4-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l4-letter-spacing);
   line-height: var(--heading-l4-line-height);
-  font-size: var(--heading-l4-size);
 }
 
 .heading-l5 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l5-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l5-letter-spacing);
   line-height: var(--heading-l5-line-height);
-  font-size: var(--heading-l5-size);
 }
 
 .heading-l6 {
   font-family: var(--typography-font-heading);
+  font-size: var(--heading-l6-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
   letter-spacing: var(--heading-l6-letter-spacing);
   line-height: var(--heading-l6-line-height);
-  font-size: var(--heading-l6-size);
 }
 
 .pattern-hide-completely {
@@ -125,10 +125,13 @@ exports[`Format web-css compiles and writes files 1`] = `
 }
 
 .pattern-hide-visually:not(:focus):not(:active) {
-  clip: rect(0 0 0 0);
+  border: 0;
+  clip: rect(0, 0, 0, 0);
   clip-path: inset(50%);
   height: 1;
+  margin: 0;
   overflow: hidden;
+  padding: 0;
   position: absolute;
   white-space: nowrap;
   width: 1;
@@ -166,8 +169,14 @@ exports[`Format web-css compiles and writes files 1`] = `
   padding: 0;
 }
 
+.pattern-reset-media {
+  display: block;
+  vertical-align: middle;
+}
+
 .pattern-reset-typography {
   font-family: inherit;
+  font-size: inherit;
   font-weight: normal;
   word-wrap: break-word;
 }
@@ -231,28 +240,28 @@ exports[`Format web-css compiles and writes files 1`] = `
 
 .text-sm {
   font-family: var(--typography-font-text);
+  font-size: var(--text-sm-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
-  font-size: var(--text-sm-size);
   line-height: var(--text-sm-line-height);
 }
 
 .text-df {
   font-family: var(--typography-font-text);
+  font-size: var(--text-df-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
-  font-size: var(--text-df-size);
   line-height: var(--text-df-line-height);
 }
 
 .text-lg {
   font-family: var(--typography-font-text);
+  font-size: var(--text-lg-size);
   font-weight: normal;
   word-wrap: break-word;
   color: var(--palette-neutral-fg-base);
-  font-size: var(--text-lg-size);
   line-height: var(--text-lg-line-height);
 }
 "
@@ -355,10 +364,10 @@ exports[`Format web-css compiles and writes files 2`] = `
   --text-lg-line-height: 1.25;
   --text-lg-size: 1.13rem; /* 15.75px */
 
-  --typography-font-heading: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"';
-  --typography-font-monospace: '\\"Lucida Console\\", Monaco, monospace';
-  --typography-font-text: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"';
-  --typography-font-system: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"';
+  --typography-font-heading: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
+  --typography-font-monospace: 'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace';
+  --typography-font-text: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
+  --typography-font-system: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
   --typography-root-line-height: 1.25;
   --typography-root-text-size: 14px;
 }

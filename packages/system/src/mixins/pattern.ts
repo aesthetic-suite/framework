@@ -21,10 +21,13 @@ export function hideOffscreen(): Declarations {
 export function hideVisually(): Declarations {
   return {
     [':not(:focus):not(:active)' as ':focus']: {
-      clip: 'rect(0 0 0 0)',
+      border: 0,
+      clip: 'rect(0, 0, 0, 0)',
       clipPath: 'inset(50%)',
       height: 1,
+      margin: 0,
       overflow: 'hidden',
+      padding: 0,
       position: 'absolute',
       whiteSpace: 'nowrap',
       width: 1,
@@ -38,7 +41,7 @@ export function resetButton(): Declarations {
     backgroundColor: 'transparent',
     border: 0,
     cursor: 'pointer',
-    display: 'inline-flex',
+    display: 'inline-block',
     fontSize: 'inherit',
     margin: 0,
     padding: 0,
@@ -70,9 +73,17 @@ export function resetList(): Declarations {
   };
 }
 
+export function resetMedia(): Declarations {
+  return {
+    display: 'block',
+    verticalAlign: 'middle',
+  };
+}
+
 export function resetTypography(): Declarations {
   return {
     fontFamily: 'inherit',
+    fontSize: 'inherit',
     fontWeight: 'normal',
     wordWrap: 'break-word',
   };

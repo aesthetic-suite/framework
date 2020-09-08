@@ -149,10 +149,13 @@ Object {
 exports[`Mixins pattern 3`] = `
 Object {
   ":not(:focus):not(:active)": Object {
-    "clip": "rect(0 0 0 0)",
+    "border": 0,
+    "clip": "rect(0, 0, 0, 0)",
     "clipPath": "inset(50%)",
     "height": 1,
+    "margin": 0,
     "overflow": "hidden",
+    "padding": 0,
     "position": "absolute",
     "whiteSpace": "nowrap",
     "width": 1,
@@ -166,7 +169,7 @@ Object {
   "backgroundColor": "transparent",
   "border": 0,
   "cursor": "pointer",
-  "display": "inline-flex",
+  "display": "inline-block",
   "fontSize": "inherit",
   "margin": 0,
   "padding": 0,
@@ -199,13 +202,21 @@ Object {
 
 exports[`Mixins pattern 7`] = `
 Object {
+  "display": "block",
+  "verticalAlign": "middle",
+}
+`;
+
+exports[`Mixins pattern 8`] = `
+Object {
   "fontFamily": "inherit",
+  "fontSize": "inherit",
   "fontWeight": "normal",
   "wordWrap": "break-word",
 }
 `;
 
-exports[`Mixins pattern 8`] = `
+exports[`Mixins pattern 9`] = `
 Object {
   "-moz-osx-font-smoothing": "grayscale",
   "-webkit-font-smoothing": "antialiased",
@@ -221,7 +232,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 9`] = `
+exports[`Mixins pattern 10`] = `
 Object {
   "overflowWrap": "break-word",
   "wordBreak": "break-word",
@@ -229,7 +240,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 10`] = `
+exports[`Mixins pattern 11`] = `
 Object {
   "overflow": "hidden",
   "textOverflow": "ellipsis",
@@ -237,7 +248,7 @@ Object {
 }
 `;
 
-exports[`Mixins pattern 11`] = `
+exports[`Mixins pattern 12`] = `
 Object {
   "overflowWrap": "normal",
   "wordBreak": "normal",

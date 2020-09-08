@@ -246,6 +246,7 @@ export default class Compiler {
       'pattern-reset-button': mixins.pattern.reset.button,
       'pattern-reset-input': mixins.pattern.reset.input,
       'pattern-reset-list': mixins.pattern.reset.list,
+      'pattern-reset-media': mixins.pattern.reset.media,
       'pattern-reset-typography': mixins.pattern.reset.typography,
       'pattern-text-break': mixins.pattern.text.break,
       'pattern-text-truncate': mixins.pattern.text.truncate,

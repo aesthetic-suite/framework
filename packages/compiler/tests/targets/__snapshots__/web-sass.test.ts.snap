@@ -50,62 +50,62 @@ exports[`Format web-sass compiles and writes files 1`] = `
 
 @mixin heading-l1
   font-family: $typography-font-heading
+  font-size: $heading-l1-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l1-letter-spacing
   line-height: $heading-l1-line-height
-  font-size: $heading-l1-size
 
 
 @mixin heading-l2
   font-family: $typography-font-heading
+  font-size: $heading-l2-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l2-letter-spacing
   line-height: $heading-l2-line-height
-  font-size: $heading-l2-size
 
 
 @mixin heading-l3
   font-family: $typography-font-heading
+  font-size: $heading-l3-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l3-letter-spacing
   line-height: $heading-l3-line-height
-  font-size: $heading-l3-size
 
 
 @mixin heading-l4
   font-family: $typography-font-heading
+  font-size: $heading-l4-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l4-letter-spacing
   line-height: $heading-l4-line-height
-  font-size: $heading-l4-size
 
 
 @mixin heading-l5
   font-family: $typography-font-heading
+  font-size: $heading-l5-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l5-letter-spacing
   line-height: $heading-l5-line-height
-  font-size: $heading-l5-size
 
 
 @mixin heading-l6
   font-family: $typography-font-heading
+  font-size: $heading-l6-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
   letter-spacing: $heading-l6-letter-spacing
   line-height: $heading-l6-line-height
-  font-size: $heading-l6-size
 
 
 @mixin pattern-hide-completely
@@ -124,10 +124,13 @@ exports[`Format web-sass compiles and writes files 1`] = `
 @mixin pattern-hide-visually
 
   &:not(:focus):not(:active)
-    clip: rect(0 0 0 0)
+    border: 0
+    clip: rect(0, 0, 0, 0)
     clip-path: inset(50%)
     height: 1
+    margin: 0
     overflow: hidden
+    padding: 0
     position: absolute
     white-space: nowrap
     width: 1
@@ -164,8 +167,14 @@ exports[`Format web-sass compiles and writes files 1`] = `
   padding: 0
 
 
+@mixin pattern-reset-media
+  display: block
+  vertical-align: middle
+
+
 @mixin pattern-reset-typography
   font-family: inherit
+  font-size: inherit
   font-weight: normal
   word-wrap: break-word
 
@@ -224,28 +233,28 @@ exports[`Format web-sass compiles and writes files 1`] = `
 
 @mixin text-sm
   font-family: $typography-font-text
+  font-size: $text-sm-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
-  font-size: $text-sm-size
   line-height: $text-sm-line-height
 
 
 @mixin text-df
   font-family: $typography-font-text
+  font-size: $text-df-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
-  font-size: $text-df-size
   line-height: $text-df-line-height
 
 
 @mixin text-lg
   font-family: $typography-font-text
+  font-size: $text-lg-size
   font-weight: normal
   word-wrap: break-word
   color: $palette-neutral-fg-base
-  font-size: $text-lg-size
   line-height: $text-lg-line-height
 
 
@@ -348,10 +357,10 @@ $text-df-size: 1rem !default // 14px
 $text-lg-line-height: 1.25 !default
 $text-lg-size: 1.13rem !default // 15.75px
 
-$typography-font-heading: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"' !default
-$typography-font-monospace: '\\"Lucida Console\\", Monaco, monospace' !default
-$typography-font-text: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"' !default
-$typography-font-system: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"' !default
+$typography-font-heading: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"' !default
+$typography-font-monospace: 'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace' !default
+$typography-font-text: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"' !default
+$typography-font-system: 'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"' !default
 $typography-root-line-height: 1.25 !default
 $typography-root-text-size: 14px !default
 "

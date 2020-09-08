@@ -478,6 +478,7 @@ export interface Mixins {
       button: Declarations;
       input: Declarations;
       list: Declarations;
+      media: Declarations;
       typography: Declarations;
     };
     root: Declarations;
@@ -519,6 +520,7 @@ export type MixinName =
   | 'pattern-reset-button'
   | 'pattern-reset-input'
   | 'pattern-reset-list'
+  | 'pattern-reset-media'
   | 'pattern-reset-typography'
   | 'pattern-text-break'
   | 'pattern-text-truncate'
@@ -537,7 +539,7 @@ export type MixinUtil<T extends object> = (name: MixinName | MixinName[], proper
 
 // OTHER
 
-export interface Utilities<T extends object> {
+export interface Utilities<T extends object = {}> {
   mixin: MixinUtil<T>;
   unit: UnitUtil;
   var: VarUtil;

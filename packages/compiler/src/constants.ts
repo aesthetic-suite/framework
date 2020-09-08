@@ -33,9 +33,10 @@ export const FONT_FAMILIES = {
   'android-system': 'sans-serif',
   'ios-monospace': 'Menlo-Regular',
   'ios-system': 'SF Pro',
-  'web-monospace': '"Lucida Console", Monaco, monospace',
+  'web-monospace':
+    'Menlo, Monaco, Consolas, "Lucida Console", "Liberation Mono", "Courier New", monospace',
   'web-system':
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
 };
 
 export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];

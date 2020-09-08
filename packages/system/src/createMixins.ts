@@ -31,6 +31,7 @@ export default function createMixins(vars: VarUtil): Mixins {
         button: mixins.resetButton(),
         input: mixins.resetInput(),
         list: mixins.resetList(),
+        media: mixins.resetMedia(),
         typography: mixins.resetTypography(),
       },
       root: mixins.root(vars),
