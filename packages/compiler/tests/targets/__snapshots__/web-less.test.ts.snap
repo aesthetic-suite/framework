@@ -141,7 +141,7 @@ exports[`Format web-less compiles and writes files 1`] = `
   background-color: transparent;
   border: 0;
   cursor: pointer;
-  display: inline-flex;
+  display: inline-block;
   font-size: inherit;
   margin: 0;
   padding: 0;

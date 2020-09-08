@@ -1,13 +1,3 @@
-import {
-  BorderSize,
-  BreakpointSize,
-  ShadowSize,
-  SpacingSize,
-  HeadingSize,
-  TextSize,
-  PaletteType,
-  ColorShade,
-} from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
 export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
@@ -19,10 +9,6 @@ export const BRAND_FILE = 'brand.yaml';
 export const LANGUAGE_FILE = 'language.yaml';
 
 export const THEMES_FILE = 'themes.yaml';
-
-export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
-
-export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export const DEFAULT_BREAKPOINTS: BreakpointListConfig = [640, 960, 1280, 1600, 1920];
 
@@ -38,8 +24,6 @@ export const FONT_FAMILIES = {
   'web-system':
     'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
 };
-
-export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
 
 // https://learnui.design/blog/ultimate-guide-font-sizes-ui-design.html
 export const PLATFORM_CONFIGS = {
@@ -81,36 +65,3 @@ export const SCALES: { [K in ScaleType]: number } = {
   'perfect-fifth': 1.5,
   'perfect-fourth': 1.333,
 };
-
-export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-
-export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'md', 'lg', 'xl'];
-
-export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
-
-export const PALETTE_TYPES: PaletteType[] = [
-  'brand',
-  'primary',
-  'secondary',
-  'tertiary',
-  'neutral',
-  'muted',
-  'danger',
-  'warning',
-  'failure',
-  'success',
-  'info',
-];
-
-export const SHADE_RANGES: ColorShade[] = [
-  '00',
-  '10',
-  '20',
-  '30',
-  '40',
-  '50',
-  '60',
-  '70',
-  '80',
-  '90',
-];

@@ -1,8 +1,8 @@
 import { camelCase, kebabCase } from 'lodash';
-import { DEPTHS } from '@aesthetic/system';
+import { DEPTHS, BREAKPOINT_SIZES, SHADOW_SIZES } from '@aesthetic/system';
 import SystemTheme from './SystemTheme';
 import { getPlatformFont as getFont } from './helpers';
-import { SCALES, BREAKPOINT_SIZES, SHADOW_SIZES } from './constants';
+import { SCALES } from './constants';
 import {
   BorderTemplate,
   BreakpointCondition,
