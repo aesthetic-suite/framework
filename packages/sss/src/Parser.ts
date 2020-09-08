@@ -26,6 +26,8 @@ import {
   RuleListener,
   VariableListener,
   ProcessorMap,
+  LocalBlockMap,
+  LocalBlockVariants,
 } from './types';
 
 export const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -109,11 +111,7 @@ export default abstract class Parser<T extends object, E extends object> {
     return parent;
   }
 
-  parseConditionalBlock(
-    parent: Block<T>,
-    conditions: { [key: string]: LocalBlock },
-    type: 'media' | 'supports',
-  ) {
+  parseConditionalBlock(parent: Block<T>, conditions: LocalBlockMap, type: 'media' | 'supports') {
     this.validateDeclarations(conditions, `@${type}`);
 
     objectLoop(conditions, (object, condition) => {
@@ -306,15 +304,18 @@ export default abstract class Parser<T extends object, E extends object> {
     });
   }
 
-  parseVariants(parent: Block<T>, variants: { [key: string]: LocalBlock }) {
+  parseVariants(parent: Block<T>, variants: LocalBlockVariants) {
     this.validateDeclarations(variants, '@variants');
 
-    objectLoop(variants, (object, type) => {
-      const block = this.parseLocalBlock(new Block(type), object);
+    objectLoop(variants, (variant, parentType) => {
+      objectLoop(variant, (object, subType) => {
+        const type = `${parentType}_${subType}`;
+        const block = this.parseLocalBlock(new Block(type), object);
 
-      parent.addVariant(block);
+        parent.addVariant(block);
 
-      this.emit('block:variant', parent, type, block, { specificity: 0 });
+        this.emit('block:variant', parent, type, block, { specificity: 0 });
+      });
     });
   }
 

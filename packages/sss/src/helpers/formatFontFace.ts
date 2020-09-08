@@ -1,7 +1,7 @@
 import CSS from 'csstype';
 import { FontFace } from '../types';
 
-const FORMATS: { [ext: string]: string } = {
+const FORMATS: Record<string, string> = {
   '.eot': 'embedded-opentype',
   '.otf': 'opentype',
   '.svg': 'svg',

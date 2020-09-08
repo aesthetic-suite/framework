@@ -372,8 +372,10 @@ describe('Aesthetic', () => {
           color: 'black',
 
           '@variants': {
-            type_red: {
-              color: 'red',
+            type: {
+              red: {
+                color: 'red',
+              },
             },
           },
         },
