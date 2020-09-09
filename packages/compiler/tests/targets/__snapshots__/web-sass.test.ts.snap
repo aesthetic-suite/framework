@@ -366,6 +366,237 @@ exports[`Format web-sass compiles and writes files 1`] = `
   line-height: $text-lg-line-height
 
 
+@mixin ui-button-brand
+  color: $palette-brand-color-00
+  background-color: $palette-brand-color-40
+  border-color: $palette-brand-color-50
+
+  &:focus
+    border-color: $palette-brand-color-60
+
+  &:hover
+    background-color: $palette-brand-color-60
+    border-color: $palette-brand-color-70
+
+  &:active
+    background-color: $palette-brand-color-50
+    border-color: $palette-brand-color-60
+
+  &:disabled
+    background-color: $palette-brand-color-20
+    border-color: $palette-brand-color-30
+
+
+@mixin ui-button-danger
+  color: $palette-danger-color-00
+  background-color: $palette-danger-color-40
+  border-color: $palette-danger-color-50
+
+  &:focus
+    border-color: $palette-danger-color-60
+
+  &:hover
+    background-color: $palette-danger-color-60
+    border-color: $palette-danger-color-70
+
+  &:active
+    background-color: $palette-danger-color-50
+    border-color: $palette-danger-color-60
+
+  &:disabled
+    background-color: $palette-danger-color-20
+    border-color: $palette-danger-color-30
+
+
+@mixin ui-button-failure
+  color: $palette-failure-color-00
+  background-color: $palette-failure-color-40
+  border-color: $palette-failure-color-50
+
+  &:focus
+    border-color: $palette-failure-color-60
+
+  &:hover
+    background-color: $palette-failure-color-60
+    border-color: $palette-failure-color-70
+
+  &:active
+    background-color: $palette-failure-color-50
+    border-color: $palette-failure-color-60
+
+  &:disabled
+    background-color: $palette-failure-color-20
+    border-color: $palette-failure-color-30
+
+
+@mixin ui-button-info
+  color: $palette-info-color-00
+  background-color: $palette-info-color-40
+  border-color: $palette-info-color-50
+
+  &:focus
+    border-color: $palette-info-color-60
+
+  &:hover
+    background-color: $palette-info-color-60
+    border-color: $palette-info-color-70
+
+  &:active
+    background-color: $palette-info-color-50
+    border-color: $palette-info-color-60
+
+  &:disabled
+    background-color: $palette-info-color-20
+    border-color: $palette-info-color-30
+
+
+@mixin ui-button-muted
+  color: $palette-muted-color-00
+  background-color: $palette-muted-color-40
+  border-color: $palette-muted-color-50
+
+  &:focus
+    border-color: $palette-muted-color-60
+
+  &:hover
+    background-color: $palette-muted-color-60
+    border-color: $palette-muted-color-70
+
+  &:active
+    background-color: $palette-muted-color-50
+    border-color: $palette-muted-color-60
+
+  &:disabled
+    background-color: $palette-muted-color-20
+    border-color: $palette-muted-color-30
+
+
+@mixin ui-button-neutral
+  color: $palette-neutral-color-00
+  background-color: $palette-neutral-color-40
+  border-color: $palette-neutral-color-50
+
+  &:focus
+    border-color: $palette-neutral-color-60
+
+  &:hover
+    background-color: $palette-neutral-color-60
+    border-color: $palette-neutral-color-70
+
+  &:active
+    background-color: $palette-neutral-color-50
+    border-color: $palette-neutral-color-60
+
+  &:disabled
+    background-color: $palette-neutral-color-20
+    border-color: $palette-neutral-color-30
+
+
+@mixin ui-button-primary
+  color: $palette-primary-color-00
+  background-color: $palette-primary-color-40
+  border-color: $palette-primary-color-50
+
+  &:focus
+    border-color: $palette-primary-color-60
+
+  &:hover
+    background-color: $palette-primary-color-60
+    border-color: $palette-primary-color-70
+
+  &:active
+    background-color: $palette-primary-color-50
+    border-color: $palette-primary-color-60
+
+  &:disabled
+    background-color: $palette-primary-color-20
+    border-color: $palette-primary-color-30
+
+
+@mixin ui-button-secondary
+  color: $palette-secondary-color-00
+  background-color: $palette-secondary-color-40
+  border-color: $palette-secondary-color-50
+
+  &:focus
+    border-color: $palette-secondary-color-60
+
+  &:hover
+    background-color: $palette-secondary-color-60
+    border-color: $palette-secondary-color-70
+
+  &:active
+    background-color: $palette-secondary-color-50
+    border-color: $palette-secondary-color-60
+
+  &:disabled
+    background-color: $palette-secondary-color-20
+    border-color: $palette-secondary-color-30
+
+
+@mixin ui-button-success
+  color: $palette-success-color-00
+  background-color: $palette-success-color-40
+  border-color: $palette-success-color-50
+
+  &:focus
+    border-color: $palette-success-color-60
+
+  &:hover
+    background-color: $palette-success-color-60
+    border-color: $palette-success-color-70
+
+  &:active
+    background-color: $palette-success-color-50
+    border-color: $palette-success-color-60
+
+  &:disabled
+    background-color: $palette-success-color-20
+    border-color: $palette-success-color-30
+
+
+@mixin ui-button-tertiary
+  color: $palette-tertiary-color-00
+  background-color: $palette-tertiary-color-40
+  border-color: $palette-tertiary-color-50
+
+  &:focus
+    border-color: $palette-tertiary-color-60
+
+  &:hover
+    background-color: $palette-tertiary-color-60
+    border-color: $palette-tertiary-color-70
+
+  &:active
+    background-color: $palette-tertiary-color-50
+    border-color: $palette-tertiary-color-60
+
+  &:disabled
+    background-color: $palette-tertiary-color-20
+    border-color: $palette-tertiary-color-30
+
+
+@mixin ui-button-warning
+  color: $palette-warning-color-00
+  background-color: $palette-warning-color-40
+  border-color: $palette-warning-color-50
+
+  &:focus
+    border-color: $palette-warning-color-60
+
+  &:hover
+    background-color: $palette-warning-color-60
+    border-color: $palette-warning-color-70
+
+  &:active
+    background-color: $palette-warning-color-50
+    border-color: $palette-warning-color-60
+
+  &:disabled
+    background-color: $palette-warning-color-20
+    border-color: $palette-warning-color-30
+
+
 "
 `;
 

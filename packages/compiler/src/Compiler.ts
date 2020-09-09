@@ -297,6 +297,17 @@ export default class Compiler {
       'text-sm': mixins.text.sm,
       'text-df': mixins.text.df,
       'text-lg': mixins.text.lg,
+      'ui-button-brand': mixins.ui.button.brand,
+      'ui-button-danger': mixins.ui.button.danger,
+      'ui-button-failure': mixins.ui.button.failure,
+      'ui-button-info': mixins.ui.button.info,
+      'ui-button-muted': mixins.ui.button.muted,
+      'ui-button-neutral': mixins.ui.button.neutral,
+      'ui-button-primary': mixins.ui.button.primary,
+      'ui-button-secondary': mixins.ui.button.secondary,
+      'ui-button-success': mixins.ui.button.success,
+      'ui-button-tertiary': mixins.ui.button.tertiary,
+      'ui-button-warning': mixins.ui.button.warning,
     };
   }
 

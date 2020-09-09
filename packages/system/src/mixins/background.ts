@@ -1,8 +1,8 @@
 import { Rule } from '@aesthetic/types';
 import { VarUtil, PaletteType } from '../types';
 
-export function background(vars: VarUtil, palette: PaletteType): Rule {
+export function background(v: VarUtil, palette: PaletteType): Rule {
   return {
-    backgroundColor: vars(`palette-${palette}-bg-base` as 'palette-neutral-bg-base'),
+    backgroundColor: v(`palette-${palette}-bg-base` as 'palette-neutral-bg-base'),
   };
 }

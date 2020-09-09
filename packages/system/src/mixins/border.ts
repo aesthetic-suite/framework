@@ -1,11 +1,11 @@
 import { Rule } from '@aesthetic/types';
 import { BorderSize, VarUtil } from '../types';
 
-export function border(vars: VarUtil, size: BorderSize): Rule {
+export function border(v: VarUtil, size: BorderSize): Rule {
   return {
-    borderColor: vars('palette-neutral-color-40'),
-    borderRadius: vars(`border-${size}-radius` as 'border-df-radius'),
+    borderColor: v('palette-neutral-color-40'),
+    borderRadius: v(`border-${size}-radius` as 'border-df-radius'),
     borderStyle: 'solid',
-    borderWidth: vars(`border-${size}-width` as 'border-df-width'),
+    borderWidth: v(`border-${size}-width` as 'border-df-width'),
   };
 }

@@ -64,4 +64,12 @@ describe('Mixins', () => {
     expect(mixins.text(darkTheme.var, 'df')).toMatchSnapshot();
     expect(mixins.text(darkTheme.var, 'lg')).toMatchSnapshot();
   });
+
+  describe('ui', () => {
+    it('button', () => {
+      PALETTE_TYPES.forEach((palette) => {
+        expect(mixins.button(darkTheme.var, palette)).toMatchSnapshot();
+      });
+    });
+  });
 });

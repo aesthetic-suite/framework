@@ -106,7 +106,7 @@ export type TextTokens = Record<TextSize, TextToken>;
 export interface TypographyToken {
   font: {
     heading: string;
-    locale: { [locale: string]: string };
+    locale: Record<string, string>;
     monospace: string;
     text: string;
     system: string;
@@ -483,12 +483,10 @@ export interface Mixins {
     };
   };
   shadow: Record<ShadowSize, Rule>;
-  // state: {
-  //   disabled: Rule;
-  //   focused: Rule;
-  //   invalid: Rule;
-  // };
   text: Record<TextSize, Rule>;
+  ui: {
+    button: Record<PaletteType, Rule>;
+  };
 }
 
 export type MixinName =
@@ -545,7 +543,18 @@ export type MixinName =
   | 'shadow-xl'
   | 'text-sm'
   | 'text-df'
-  | 'text-lg';
+  | 'text-lg'
+  | 'ui-button-brand'
+  | 'ui-button-danger'
+  | 'ui-button-failure'
+  | 'ui-button-info'
+  | 'ui-button-muted'
+  | 'ui-button-neutral'
+  | 'ui-button-primary'
+  | 'ui-button-secondary'
+  | 'ui-button-success'
+  | 'ui-button-tertiary'
+  | 'ui-button-warning';
 
 export type MixinUtil<T extends object> = (name: MixinName | MixinName[], properties?: T) => T;
 

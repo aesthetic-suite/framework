@@ -152,7 +152,7 @@ Object {
     "neutral": Object {
       "bg": Object {
         "base": "#EE4",
-        "disabled": "#EE3",
+        "disabled": "#EE2",
         "focused": "#EE5",
         "hovered": "#EE6",
         "selected": "#EE5",
@@ -199,7 +199,7 @@ Object {
       },
       "fg": Object {
         "base": "#FF9",
-        "disabled": "#FF4",
+        "disabled": "#FF3",
         "focused": "#FF8",
         "hovered": "#FF7",
         "selected": "#FF7",
@@ -311,7 +311,7 @@ Object {
       },
       "fg": Object {
         "base": "#ED5",
-        "disabled": "#ED4",
+        "disabled": "#ED3",
         "focused": "#ED6",
         "hovered": "#ED7",
         "selected": "#ED6",
@@ -355,7 +355,7 @@ Object {
     "danger": Object {
       "bg": Object {
         "base": "#ED9",
-        "disabled": "#ED3",
+        "disabled": "#ED2",
         "focused": "#ED5",
         "hovered": "#ED6",
         "selected": "#ED5",
@@ -374,7 +374,7 @@ Object {
       },
       "fg": Object {
         "base": "#ED0",
-        "disabled": "#ED4",
+        "disabled": "#ED3",
         "focused": "#ED6",
         "hovered": "#ED7",
         "selected": "#ED6",
@@ -467,7 +467,7 @@ Object {
     "neutral": Object {
       "bg": Object {
         "base": "#EE4",
-        "disabled": "#EE3",
+        "disabled": "#EE2",
         "focused": "#EE5",
         "hovered": "#EE6",
         "selected": "#EE5",
@@ -514,7 +514,7 @@ Object {
       },
       "fg": Object {
         "base": "#ff9",
-        "disabled": "#ff4",
+        "disabled": "#ff3",
         "focused": "#ff8",
         "hovered": "#ff7",
         "selected": "#ff7",
@@ -626,7 +626,7 @@ Object {
       },
       "fg": Object {
         "base": "#ED5",
-        "disabled": "#ED4",
+        "disabled": "#ED3",
         "focused": "#ED6",
         "hovered": "#ED7",
         "selected": "#ED6",

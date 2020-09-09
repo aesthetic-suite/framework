@@ -38,5 +38,8 @@ export default function createMixins(
     },
     shadow: objectCreate(SHADOW_SIZES, (size) => mixins.shadow(vars, size)),
     text: objectCreate(TEXT_SIZES, (size) => mixins.text(vars, size)),
+    ui: {
+      button: objectCreate(PALETTE_TYPES, (palette) => mixins.button(vars, palette)),
+    },
   };
 }

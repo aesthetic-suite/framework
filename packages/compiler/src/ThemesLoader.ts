@@ -126,7 +126,7 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
       selected: this.colorShade(base + 10),
-      disabled: this.colorShade(base - 10),
+      disabled: this.colorShade(base - 20),
     }).exact();
   }
 

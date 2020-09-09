@@ -19,11 +19,13 @@ import {
 } from './pattern';
 import { shadow } from './shadow';
 import { text } from './text';
+import { button } from './ui';
 
 export default {
   background,
   border,
   box,
+  button,
   foreground,
   heading,
   hideCompletely,

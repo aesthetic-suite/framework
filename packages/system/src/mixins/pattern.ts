@@ -89,13 +89,13 @@ export function resetTypography(): Rule {
   };
 }
 
-export function root(vars: VarUtil, breakpoints: BreakpointTokens): Rule {
+export function root(v: VarUtil, breakpoints: BreakpointTokens): Rule {
   const declaration: Rule = {
-    backgroundColor: vars('palette-neutral-bg-base'),
-    color: vars('palette-neutral-fg-base'),
-    fontFamily: vars('typography-font-text'),
-    fontSize: vars('typography-root-text-size'),
-    lineHeight: vars('typography-root-line-height'),
+    backgroundColor: v('palette-neutral-bg-base'),
+    color: v('palette-neutral-fg-base'),
+    fontFamily: v('typography-font-text'),
+    fontSize: v('typography-root-text-size'),
+    lineHeight: v('typography-root-line-height'),
     textRendering: 'optimizeLegibility',
     textSizeAdjust: '100%',
     margin: 0,
@@ -107,8 +107,8 @@ export function root(vars: VarUtil, breakpoints: BreakpointTokens): Rule {
   // Fluid typography!
   BREAKPOINT_SIZES.forEach((size) => {
     declaration[`@media screen and ${breakpoints[size].query}`] = {
-      fontSize: vars(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
-      lineHeight: vars(`breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height'),
+      fontSize: v(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
+      lineHeight: v(`breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height'),
     };
   });
 
