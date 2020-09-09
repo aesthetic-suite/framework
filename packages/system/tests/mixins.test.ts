@@ -1,7 +1,14 @@
 import mixins from '../src/mixins';
 import { darkTheme } from '../src/testing';
+import { PALETTE_TYPES } from '../lib';
 
 describe('Mixins', () => {
+  it('background', () => {
+    PALETTE_TYPES.forEach((palette) => {
+      expect(mixins.background(darkTheme.var, palette)).toMatchSnapshot();
+    });
+  });
+
   it('border', () => {
     expect(mixins.border(darkTheme.var, 'sm')).toMatchSnapshot();
     expect(mixins.border(darkTheme.var, 'df')).toMatchSnapshot();
@@ -12,6 +19,12 @@ describe('Mixins', () => {
     expect(mixins.box(darkTheme.var, 'sm')).toMatchSnapshot();
     expect(mixins.box(darkTheme.var, 'df')).toMatchSnapshot();
     expect(mixins.box(darkTheme.var, 'lg')).toMatchSnapshot();
+  });
+
+  it('foreground', () => {
+    PALETTE_TYPES.forEach((palette) => {
+      expect(mixins.foreground(darkTheme.var, palette)).toMatchSnapshot();
+    });
   });
 
   it('heading', () => {

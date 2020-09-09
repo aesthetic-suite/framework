@@ -1,7 +1,7 @@
 import { objectCreate } from '@aesthetic/utils';
 import mixins from './mixins';
 import { Mixins, VarUtil, Tokens } from './types';
-import { BORDER_SIZES, HEADING_SIZES, SHADOW_SIZES, TEXT_SIZES } from './constants';
+import { BORDER_SIZES, HEADING_SIZES, SHADOW_SIZES, TEXT_SIZES, PALETTE_TYPES } from './constants';
 
 export default function createMixins(
   vars: VarUtil,
@@ -11,8 +11,10 @@ export default function createMixins(
   },
 ): Mixins {
   return {
+    background: objectCreate(PALETTE_TYPES, (palette) => mixins.background(vars, palette)),
     border: objectCreate(BORDER_SIZES, (size) => mixins.border(vars, size)),
     box: objectCreate(TEXT_SIZES, (size) => mixins.box(vars, size)),
+    foreground: objectCreate(PALETTE_TYPES, (palette) => mixins.foreground(vars, palette)),
     heading: objectCreate(HEADING_SIZES, (size) => mixins.heading(vars, size)),
     pattern: {
       hide: {

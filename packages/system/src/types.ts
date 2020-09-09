@@ -451,15 +451,11 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 // MIXINS
 
 export interface Mixins {
-  border: {
-    [K in BorderSize]: Rule;
-  };
-  box: {
-    [K in CommonSize]: Rule;
-  };
-  heading: {
-    [K in HeadingSize]: Rule;
-  };
+  background: Record<PaletteType, Rule>;
+  border: Record<BorderSize, Rule>;
+  box: Record<CommonSize, Rule>;
+  foreground: Record<PaletteType, Rule>;
+  heading: Record<HeadingSize, Rule>;
   // input: {
   //   default: Rule;
   //   disabled: Rule;
@@ -486,26 +482,44 @@ export interface Mixins {
       wrap: Rule;
     };
   };
-  shadow: {
-    [K in ShadowSize]: Rule;
-  };
+  shadow: Record<ShadowSize, Rule>;
   // state: {
   //   disabled: Rule;
   //   focused: Rule;
   //   invalid: Rule;
   // };
-  text: {
-    [K in TextSize]: Rule;
-  };
+  text: Record<TextSize, Rule>;
 }
 
 export type MixinName =
+  | 'background-brand'
+  | 'background-danger'
+  | 'background-failure'
+  | 'background-info'
+  | 'background-muted'
+  | 'background-neutral'
+  | 'background-primary'
+  | 'background-secondary'
+  | 'background-success'
+  | 'background-tertiary'
+  | 'background-warning'
   | 'border-sm'
   | 'border-df'
   | 'border-lg'
   | 'box-sm'
   | 'box-df'
   | 'box-lg'
+  | 'foreground-brand'
+  | 'foreground-danger'
+  | 'foreground-failure'
+  | 'foreground-info'
+  | 'foreground-muted'
+  | 'foreground-neutral'
+  | 'foreground-primary'
+  | 'foreground-secondary'
+  | 'foreground-success'
+  | 'foreground-tertiary'
+  | 'foreground-warning'
   | 'heading-l1'
   | 'heading-l2'
   | 'heading-l3'

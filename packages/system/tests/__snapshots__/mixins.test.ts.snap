@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Mixins background 1`] = `
+Object {
+  "backgroundColor": "var(--palette-brand-bg-base)",
+}
+`;
+
+exports[`Mixins background 2`] = `
+Object {
+  "backgroundColor": "var(--palette-primary-bg-base)",
+}
+`;
+
+exports[`Mixins background 3`] = `
+Object {
+  "backgroundColor": "var(--palette-secondary-bg-base)",
+}
+`;
+
+exports[`Mixins background 4`] = `
+Object {
+  "backgroundColor": "var(--palette-tertiary-bg-base)",
+}
+`;
+
+exports[`Mixins background 5`] = `
+Object {
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+}
+`;
+
+exports[`Mixins background 6`] = `
+Object {
+  "backgroundColor": "var(--palette-muted-bg-base)",
+}
+`;
+
+exports[`Mixins background 7`] = `
+Object {
+  "backgroundColor": "var(--palette-danger-bg-base)",
+}
+`;
+
+exports[`Mixins background 8`] = `
+Object {
+  "backgroundColor": "var(--palette-warning-bg-base)",
+}
+`;
+
+exports[`Mixins background 9`] = `
+Object {
+  "backgroundColor": "var(--palette-failure-bg-base)",
+}
+`;
+
+exports[`Mixins background 10`] = `
+Object {
+  "backgroundColor": "var(--palette-success-bg-base)",
+}
+`;
+
+exports[`Mixins background 11`] = `
+Object {
+  "backgroundColor": "var(--palette-info-bg-base)",
+}
+`;
+
 exports[`Mixins border 1`] = `
 Object {
   "borderColor": "var(--palette-neutral-color-40)",
@@ -54,6 +120,72 @@ Object {
   "borderRadius": "var(--border-lg-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-lg-width)",
+}
+`;
+
+exports[`Mixins foreground 1`] = `
+Object {
+  "color": "var(--palette-brand-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 2`] = `
+Object {
+  "color": "var(--palette-primary-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 3`] = `
+Object {
+  "color": "var(--palette-secondary-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 4`] = `
+Object {
+  "color": "var(--palette-tertiary-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 5`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 6`] = `
+Object {
+  "color": "var(--palette-muted-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 7`] = `
+Object {
+  "color": "var(--palette-danger-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 8`] = `
+Object {
+  "color": "var(--palette-warning-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 9`] = `
+Object {
+  "color": "var(--palette-failure-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 10`] = `
+Object {
+  "color": "var(--palette-success-fg-base)",
+}
+`;
+
+exports[`Mixins foreground 11`] = `
+Object {
+  "color": "var(--palette-info-fg-base)",
 }
 `;
 
