@@ -220,6 +220,26 @@ exports[`Mixins pattern 9`] = `
 Object {
   "-moz-osx-font-smoothing": "grayscale",
   "-webkit-font-smoothing": "antialiased",
+  "@media screen and (min-width: 114.29em) and (max-width: 137.07em)": Object {
+    "fontSize": "var(--breakpoint-lg-root-text-size)",
+    "lineHeight": "var(--breakpoint-lg-root-line-height)",
+  },
+  "@media screen and (min-width: 137.14em)": Object {
+    "fontSize": "var(--breakpoint-xl-root-text-size)",
+    "lineHeight": "var(--breakpoint-xl-root-line-height)",
+  },
+  "@media screen and (min-width: 45.71em) and (max-width: 68.50em)": Object {
+    "fontSize": "var(--breakpoint-xs-root-text-size)",
+    "lineHeight": "var(--breakpoint-xs-root-line-height)",
+  },
+  "@media screen and (min-width: 68.57em) and (max-width: 91.36em)": Object {
+    "fontSize": "var(--breakpoint-sm-root-text-size)",
+    "lineHeight": "var(--breakpoint-sm-root-line-height)",
+  },
+  "@media screen and (min-width: 91.43em) and (max-width: 114.21em)": Object {
+    "fontSize": "var(--breakpoint-md-root-text-size)",
+    "lineHeight": "var(--breakpoint-md-root-line-height)",
+  },
   "backgroundColor": "var(--palette-neutral-bg-base)",
   "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",

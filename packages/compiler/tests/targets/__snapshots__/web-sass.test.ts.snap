@@ -210,6 +210,26 @@ exports[`Format web-sass compiles and writes files 1`] = `
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
+  @media screen and (min-width: 45.71em)
+    font-size: $breakpoint-xs-root-text-size
+    line-height: $breakpoint-xs-root-line-height
+
+  @media screen and (min-width: 68.57em)
+    font-size: $breakpoint-sm-root-text-size
+    line-height: $breakpoint-sm-root-line-height
+
+  @media screen and (min-width: 91.43em)
+    font-size: $breakpoint-md-root-text-size
+    line-height: $breakpoint-md-root-line-height
+
+  @media screen and (min-width: 114.29em)
+    font-size: $breakpoint-lg-root-text-size
+    line-height: $breakpoint-lg-root-line-height
+
+  @media screen and (min-width: 137.14em)
+    font-size: $breakpoint-xl-root-text-size
+    line-height: $breakpoint-xl-root-line-height
+
 
 @mixin shadow-xs
   box-shadow: $shadow-xs-x $shadow-xs-y $shadow-xs-blur $shadow-xs-spread $palette-neutral-color-90
@@ -384,15 +404,15 @@ $palette-brand-color-70: #000 !default
 $palette-brand-color-80: #000 !default
 $palette-brand-color-90: #000 !default
 $palette-brand-bg-base: #000 !default
-$palette-brand-bg-disabled: #000 !default
 $palette-brand-bg-focused: #000 !default
 $palette-brand-bg-hovered: #000 !default
 $palette-brand-bg-selected: #000 !default
+$palette-brand-bg-disabled: #000 !default
 $palette-brand-fg-base: #000 !default
-$palette-brand-fg-disabled: #000 !default
 $palette-brand-fg-focused: #000 !default
 $palette-brand-fg-hovered: #000 !default
 $palette-brand-fg-selected: #000 !default
+$palette-brand-fg-disabled: #000 !default
 
 $palette-primary-color-00: #000 !default
 $palette-primary-color-10: #000 !default
@@ -405,15 +425,15 @@ $palette-primary-color-70: #000 !default
 $palette-primary-color-80: #000 !default
 $palette-primary-color-90: #000 !default
 $palette-primary-bg-base: #000 !default
-$palette-primary-bg-disabled: #000 !default
 $palette-primary-bg-focused: #000 !default
 $palette-primary-bg-hovered: #000 !default
 $palette-primary-bg-selected: #000 !default
+$palette-primary-bg-disabled: #000 !default
 $palette-primary-fg-base: #000 !default
-$palette-primary-fg-disabled: #000 !default
 $palette-primary-fg-focused: #000 !default
 $palette-primary-fg-hovered: #000 !default
 $palette-primary-fg-selected: #000 !default
+$palette-primary-fg-disabled: #000 !default
 
 $palette-secondary-color-00: #000 !default
 $palette-secondary-color-10: #000 !default
@@ -426,15 +446,15 @@ $palette-secondary-color-70: #000 !default
 $palette-secondary-color-80: #000 !default
 $palette-secondary-color-90: #000 !default
 $palette-secondary-bg-base: #000 !default
-$palette-secondary-bg-disabled: #000 !default
 $palette-secondary-bg-focused: #000 !default
 $palette-secondary-bg-hovered: #000 !default
 $palette-secondary-bg-selected: #000 !default
+$palette-secondary-bg-disabled: #000 !default
 $palette-secondary-fg-base: #000 !default
-$palette-secondary-fg-disabled: #000 !default
 $palette-secondary-fg-focused: #000 !default
 $palette-secondary-fg-hovered: #000 !default
 $palette-secondary-fg-selected: #000 !default
+$palette-secondary-fg-disabled: #000 !default
 
 $palette-tertiary-color-00: #000 !default
 $palette-tertiary-color-10: #000 !default
@@ -447,15 +467,15 @@ $palette-tertiary-color-70: #000 !default
 $palette-tertiary-color-80: #000 !default
 $palette-tertiary-color-90: #000 !default
 $palette-tertiary-bg-base: #000 !default
-$palette-tertiary-bg-disabled: #000 !default
 $palette-tertiary-bg-focused: #000 !default
 $palette-tertiary-bg-hovered: #000 !default
 $palette-tertiary-bg-selected: #000 !default
+$palette-tertiary-bg-disabled: #000 !default
 $palette-tertiary-fg-base: #000 !default
-$palette-tertiary-fg-disabled: #000 !default
 $palette-tertiary-fg-focused: #000 !default
 $palette-tertiary-fg-hovered: #000 !default
 $palette-tertiary-fg-selected: #000 !default
+$palette-tertiary-fg-disabled: #000 !default
 
 $palette-neutral-color-00: #000 !default
 $palette-neutral-color-10: #000 !default
@@ -468,15 +488,15 @@ $palette-neutral-color-70: #000 !default
 $palette-neutral-color-80: #000 !default
 $palette-neutral-color-90: #000 !default
 $palette-neutral-bg-base: #000 !default
-$palette-neutral-bg-disabled: #000 !default
 $palette-neutral-bg-focused: #000 !default
 $palette-neutral-bg-hovered: #000 !default
 $palette-neutral-bg-selected: #000 !default
+$palette-neutral-bg-disabled: #000 !default
 $palette-neutral-fg-base: #000 !default
-$palette-neutral-fg-disabled: #000 !default
 $palette-neutral-fg-focused: #000 !default
 $palette-neutral-fg-hovered: #000 !default
 $palette-neutral-fg-selected: #000 !default
+$palette-neutral-fg-disabled: #000 !default
 
 $palette-muted-color-00: #000 !default
 $palette-muted-color-10: #000 !default
@@ -489,15 +509,15 @@ $palette-muted-color-70: #000 !default
 $palette-muted-color-80: #000 !default
 $palette-muted-color-90: #000 !default
 $palette-muted-bg-base: #000 !default
-$palette-muted-bg-disabled: #000 !default
 $palette-muted-bg-focused: #000 !default
 $palette-muted-bg-hovered: #000 !default
 $palette-muted-bg-selected: #000 !default
+$palette-muted-bg-disabled: #000 !default
 $palette-muted-fg-base: #000 !default
-$palette-muted-fg-disabled: #000 !default
 $palette-muted-fg-focused: #000 !default
 $palette-muted-fg-hovered: #000 !default
 $palette-muted-fg-selected: #000 !default
+$palette-muted-fg-disabled: #000 !default
 
 $palette-danger-color-00: #000 !default
 $palette-danger-color-10: #000 !default
@@ -510,15 +530,15 @@ $palette-danger-color-70: #000 !default
 $palette-danger-color-80: #000 !default
 $palette-danger-color-90: #000 !default
 $palette-danger-bg-base: #000 !default
-$palette-danger-bg-disabled: #000 !default
 $palette-danger-bg-focused: #000 !default
 $palette-danger-bg-hovered: #000 !default
 $palette-danger-bg-selected: #000 !default
+$palette-danger-bg-disabled: #000 !default
 $palette-danger-fg-base: #000 !default
-$palette-danger-fg-disabled: #000 !default
 $palette-danger-fg-focused: #000 !default
 $palette-danger-fg-hovered: #000 !default
 $palette-danger-fg-selected: #000 !default
+$palette-danger-fg-disabled: #000 !default
 
 $palette-warning-color-00: #000 !default
 $palette-warning-color-10: #000 !default
@@ -531,15 +551,15 @@ $palette-warning-color-70: #000 !default
 $palette-warning-color-80: #000 !default
 $palette-warning-color-90: #000 !default
 $palette-warning-bg-base: #000 !default
-$palette-warning-bg-disabled: #000 !default
 $palette-warning-bg-focused: #000 !default
 $palette-warning-bg-hovered: #000 !default
 $palette-warning-bg-selected: #000 !default
+$palette-warning-bg-disabled: #000 !default
 $palette-warning-fg-base: #000 !default
-$palette-warning-fg-disabled: #000 !default
 $palette-warning-fg-focused: #000 !default
 $palette-warning-fg-hovered: #000 !default
 $palette-warning-fg-selected: #000 !default
+$palette-warning-fg-disabled: #000 !default
 
 $palette-failure-color-00: #000 !default
 $palette-failure-color-10: #000 !default
@@ -552,15 +572,15 @@ $palette-failure-color-70: #000 !default
 $palette-failure-color-80: #000 !default
 $palette-failure-color-90: #000 !default
 $palette-failure-bg-base: #000 !default
-$palette-failure-bg-disabled: #000 !default
 $palette-failure-bg-focused: #000 !default
 $palette-failure-bg-hovered: #000 !default
 $palette-failure-bg-selected: #000 !default
+$palette-failure-bg-disabled: #000 !default
 $palette-failure-fg-base: #000 !default
-$palette-failure-fg-disabled: #000 !default
 $palette-failure-fg-focused: #000 !default
 $palette-failure-fg-hovered: #000 !default
 $palette-failure-fg-selected: #000 !default
+$palette-failure-fg-disabled: #000 !default
 
 $palette-success-color-00: #000 !default
 $palette-success-color-10: #000 !default
@@ -573,15 +593,15 @@ $palette-success-color-70: #000 !default
 $palette-success-color-80: #000 !default
 $palette-success-color-90: #000 !default
 $palette-success-bg-base: #000 !default
-$palette-success-bg-disabled: #000 !default
 $palette-success-bg-focused: #000 !default
 $palette-success-bg-hovered: #000 !default
 $palette-success-bg-selected: #000 !default
+$palette-success-bg-disabled: #000 !default
 $palette-success-fg-base: #000 !default
-$palette-success-fg-disabled: #000 !default
 $palette-success-fg-focused: #000 !default
 $palette-success-fg-hovered: #000 !default
 $palette-success-fg-selected: #000 !default
+$palette-success-fg-disabled: #000 !default
 
 $palette-info-color-00: #000 !default
 $palette-info-color-10: #000 !default
@@ -594,14 +614,14 @@ $palette-info-color-70: #000 !default
 $palette-info-color-80: #000 !default
 $palette-info-color-90: #000 !default
 $palette-info-bg-base: #000 !default
-$palette-info-bg-disabled: #000 !default
 $palette-info-bg-focused: #000 !default
 $palette-info-bg-hovered: #000 !default
 $palette-info-bg-selected: #000 !default
+$palette-info-bg-disabled: #000 !default
 $palette-info-fg-base: #000 !default
-$palette-info-fg-disabled: #000 !default
 $palette-info-fg-focused: #000 !default
 $palette-info-fg-hovered: #000 !default
 $palette-info-fg-selected: #000 !default
+$palette-info-fg-disabled: #000 !default
 "
 `;

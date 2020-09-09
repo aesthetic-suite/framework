@@ -1,13 +1,14 @@
-import { Declarations } from '@aesthetic/types';
-import { VarUtil } from '../types';
+import { Rule } from '@aesthetic/types';
+import { BREAKPOINT_SIZES } from '../constants';
+import { VarUtil, BreakpointTokens } from '../types';
 
-export function hideCompletely(): Declarations {
+export function hideCompletely(): Rule {
   return {
     display: 'none',
   };
 }
 
-export function hideOffscreen(): Declarations {
+export function hideOffscreen(): Rule {
   return {
     clipPath: 'rect(1px, 1px, 1px, 1px)',
     height: 1,
@@ -18,7 +19,7 @@ export function hideOffscreen(): Declarations {
   };
 }
 
-export function hideVisually(): Declarations {
+export function hideVisually(): Rule {
   return {
     [':not(:focus):not(:active)' as ':focus']: {
       border: 0,
@@ -35,7 +36,7 @@ export function hideVisually(): Declarations {
   };
 }
 
-export function resetButton(): Declarations {
+export function resetButton(): Rule {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
@@ -51,21 +52,20 @@ export function resetButton(): Declarations {
   };
 }
 
-export function resetInput(): Declarations {
+export function resetInput(): Rule {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
     margin: 0,
     padding: 0,
     width: '100%',
-    // @ts-expect-error
     '::-moz-focus-outer': {
       border: 0,
     },
   };
 }
 
-export function resetList(): Declarations {
+export function resetList(): Rule {
   return {
     listStyle: 'none',
     margin: 0,
@@ -73,14 +73,14 @@ export function resetList(): Declarations {
   };
 }
 
-export function resetMedia(): Declarations {
+export function resetMedia(): Rule {
   return {
     display: 'block',
     verticalAlign: 'middle',
   };
 }
 
-export function resetTypography(): Declarations {
+export function resetTypography(): Rule {
   return {
     fontFamily: 'inherit',
     fontSize: 'inherit',
@@ -89,8 +89,8 @@ export function resetTypography(): Declarations {
   };
 }
 
-export function root(vars: VarUtil): Declarations {
-  return {
+export function root(vars: VarUtil, breakpoints: BreakpointTokens): Rule {
+  const declaration: Rule = {
     backgroundColor: vars('palette-neutral-bg-base'),
     color: vars('palette-neutral-fg-base'),
     fontFamily: vars('typography-font-text'),
@@ -103,9 +103,19 @@ export function root(vars: VarUtil): Declarations {
     '-webkit-font-smoothing': 'antialiased',
     '-moz-osx-font-smoothing': 'grayscale',
   };
+
+  // Fluid typography!
+  BREAKPOINT_SIZES.forEach((size) => {
+    declaration[`@media screen and ${breakpoints[size].query}`] = {
+      fontSize: vars(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
+      lineHeight: vars(`breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height'),
+    };
+  });
+
+  return declaration;
 }
 
-export function textBreak(): Declarations {
+export function textBreak(): Rule {
   return {
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
@@ -113,7 +123,7 @@ export function textBreak(): Declarations {
   };
 }
 
-export function textTruncate(): Declarations {
+export function textTruncate(): Rule {
   return {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -121,7 +131,7 @@ export function textTruncate(): Declarations {
   };
 }
 
-export function textWrap(): Declarations {
+export function textWrap(): Rule {
   return {
     overflowWrap: 'normal',
     wordWrap: 'normal',

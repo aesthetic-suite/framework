@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { Declarations } from '@aesthetic/types';
+import { Rule } from '@aesthetic/types';
 import { deepClone, deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import Design from './Design';
 import createMixins from './createMixins';
@@ -46,7 +46,7 @@ export default class Theme {
     this.scheme = options.scheme;
     this.design = design;
     this.tokens = tokens;
-    this.mixins = parentMixins ?? createMixins(this.var);
+    this.mixins = parentMixins ?? createMixins(this.var, this.toTokens());
   }
 
   /**
@@ -68,7 +68,7 @@ export default class Theme {
   /**
    * Extend a mixin with additional CSS properties, and return the new mixin.
    */
-  extendMixin(name: MixinName, properties?: Declarations, overwrite?: boolean): Declarations {
+  extendMixin(name: MixinName, properties?: Rule, overwrite?: boolean): Rule {
     const paths = name.split('-');
     let parent: AnyObject = this.mixins;
     let target: AnyObject = this.mixins;
@@ -97,7 +97,7 @@ export default class Theme {
 
   /**
    * Merge one or many mixins into the defined properties.
-   * Properties take the highest precendence and will override mixin declarations.
+   * Properties take the highest precendence and will override mixin properties.
    */
   mixin: MixinUtil<object> = (names, properties = {}) =>
     deepMerge(...toArray(names).map((name) => this.extendMixin(name)), properties);
@@ -105,7 +105,7 @@ export default class Theme {
   /**
    * Overwrite a mixin with a set of custom CSS properties, and return the new mixin.
    */
-  overwriteMixin(name: MixinName, properties: Declarations): Declarations {
+  overwriteMixin(name: MixinName, properties: Rule): Rule {
     return this.extendMixin(name, properties, true);
   }
 

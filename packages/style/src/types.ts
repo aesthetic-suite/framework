@@ -1,16 +1,4 @@
-import {
-  CSS,
-  Declarations,
-  Value,
-  ClassName,
-  Unit,
-  UnitFactory,
-  Variables,
-} from '@aesthetic/types';
-
-export interface Rule extends Declarations {
-  [key: string]: Rule | Value | unknown;
-}
+import { CSS, ClassName, Unit, UnitFactory, Variables } from '@aesthetic/types';
 
 export type SheetType = 'global' | 'standard' | 'conditions';
 

@@ -1,9 +1,15 @@
 import { objectCreate } from '@aesthetic/utils';
 import mixins from './mixins';
-import { Mixins, VarUtil } from './types';
+import { Mixins, VarUtil, Tokens } from './types';
 import { BORDER_SIZES, HEADING_SIZES, SHADOW_SIZES, TEXT_SIZES } from './constants';
 
-export default function createMixins(vars: VarUtil): Mixins {
+export default function createMixins(
+  vars: VarUtil,
+  // Only ask for what we need
+  tokens: {
+    breakpoint: Tokens['breakpoint'];
+  },
+): Mixins {
   return {
     border: objectCreate(BORDER_SIZES, (size) => mixins.border(vars, size)),
     box: objectCreate(TEXT_SIZES, (size) => mixins.box(vars, size)),
@@ -21,7 +27,7 @@ export default function createMixins(vars: VarUtil): Mixins {
         media: mixins.resetMedia(),
         typography: mixins.resetTypography(),
       },
-      root: mixins.root(vars),
+      root: mixins.root(vars, tokens.breakpoint),
       text: {
         break: mixins.textBreak(),
         truncate: mixins.textTruncate(),

@@ -196,17 +196,17 @@ export const brand = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -225,17 +225,17 @@ export const primary = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -254,17 +254,17 @@ export const secondary = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -283,17 +283,17 @@ export const tertiary = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -312,17 +312,17 @@ export const neutral = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -341,17 +341,17 @@ export const muted = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -370,17 +370,17 @@ export const info = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -399,17 +399,17 @@ export const warning = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -428,17 +428,17 @@ export const danger = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -457,17 +457,17 @@ export const failure = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -486,17 +486,17 @@ export const success = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 "

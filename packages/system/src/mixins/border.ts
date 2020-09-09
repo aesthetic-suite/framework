@@ -1,7 +1,7 @@
-import { Declarations } from '@aesthetic/types';
+import { Rule } from '@aesthetic/types';
 import { BorderSize, VarUtil } from '../types';
 
-export function border(vars: VarUtil, size: BorderSize): Declarations {
+export function border(vars: VarUtil, size: BorderSize): Rule {
   return {
     borderColor: vars('palette-neutral-color-40'),
     borderRadius: vars(`border-${size}-radius` as 'border-df-radius'),

@@ -1,4 +1,4 @@
-import { Declarations, Unit } from '@aesthetic/types';
+import { Rule, Unit } from '@aesthetic/types';
 
 export type Hexcode = string;
 
@@ -452,50 +452,50 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 export interface Mixins {
   border: {
-    [K in BorderSize]: Declarations;
+    [K in BorderSize]: Rule;
   };
   box: {
-    [K in CommonSize]: Declarations;
+    [K in CommonSize]: Rule;
   };
   heading: {
-    [K in HeadingSize]: Declarations;
+    [K in HeadingSize]: Rule;
   };
   // input: {
-  //   default: Declarations;
-  //   disabled: Declarations;
-  //   focused: Declarations;
-  //   invalid: Declarations;
+  //   default: Rule;
+  //   disabled: Rule;
+  //   focused: Rule;
+  //   invalid: Rule;
   // };
   pattern: {
     hide: {
-      completely: Declarations;
-      offscreen: Declarations;
-      visually: Declarations;
+      completely: Rule;
+      offscreen: Rule;
+      visually: Rule;
     };
     reset: {
-      button: Declarations;
-      input: Declarations;
-      list: Declarations;
-      media: Declarations;
-      typography: Declarations;
+      button: Rule;
+      input: Rule;
+      list: Rule;
+      media: Rule;
+      typography: Rule;
     };
-    root: Declarations;
+    root: Rule;
     text: {
-      break: Declarations;
-      truncate: Declarations;
-      wrap: Declarations;
+      break: Rule;
+      truncate: Rule;
+      wrap: Rule;
     };
   };
   shadow: {
-    [K in ShadowSize]: Declarations;
+    [K in ShadowSize]: Rule;
   };
   // state: {
-  //   disabled: Declarations;
-  //   focused: Declarations;
-  //   invalid: Declarations;
+  //   disabled: Rule;
+  //   focused: Rule;
+  //   invalid: Rule;
   // };
   text: {
-    [K in TextSize]: Declarations;
+    [K in TextSize]: Rule;
   };
 }
 

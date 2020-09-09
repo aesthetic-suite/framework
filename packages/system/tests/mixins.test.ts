@@ -32,7 +32,7 @@ describe('Mixins', () => {
     expect(mixins.resetList()).toMatchSnapshot();
     expect(mixins.resetMedia()).toMatchSnapshot();
     expect(mixins.resetTypography()).toMatchSnapshot();
-    expect(mixins.root(darkTheme.var)).toMatchSnapshot();
+    expect(mixins.root(darkTheme.var, darkTheme.toTokens().breakpoint)).toMatchSnapshot();
     expect(mixins.textBreak()).toMatchSnapshot();
     expect(mixins.textTruncate()).toMatchSnapshot();
     expect(mixins.textWrap()).toMatchSnapshot();

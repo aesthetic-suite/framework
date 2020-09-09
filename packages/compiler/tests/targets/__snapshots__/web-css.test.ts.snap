@@ -213,6 +213,41 @@ exports[`Format web-css compiles and writes files 1`] = `
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media screen and (min-width: 45.71em) {
+  .root {
+    font-size: var(--breakpoint-xs-root-text-size);
+    line-height: var(--breakpoint-xs-root-line-height);
+  }
+}
+
+@media screen and (min-width: 68.57em) {
+  .root {
+    font-size: var(--breakpoint-sm-root-text-size);
+    line-height: var(--breakpoint-sm-root-line-height);
+  }
+}
+
+@media screen and (min-width: 91.43em) {
+  .root {
+    font-size: var(--breakpoint-md-root-text-size);
+    line-height: var(--breakpoint-md-root-line-height);
+  }
+}
+
+@media screen and (min-width: 114.29em) {
+  .root {
+    font-size: var(--breakpoint-lg-root-text-size);
+    line-height: var(--breakpoint-lg-root-line-height);
+  }
+}
+
+@media screen and (min-width: 137.14em) {
+  .root {
+    font-size: var(--breakpoint-xl-root-text-size);
+    line-height: var(--breakpoint-xl-root-line-height);
+  }
+}
+
 .shadow-xs {
   box-shadow: var(--shadow-xs-x) var(--shadow-xs-y) var(--shadow-xs-blur) var(--shadow-xs-spread)
     var(--palette-neutral-color-90);
@@ -392,15 +427,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-brand-color-80: #000;
   --palette-brand-color-90: #000;
   --palette-brand-bg-base: #000;
-  --palette-brand-bg-disabled: #000;
   --palette-brand-bg-focused: #000;
   --palette-brand-bg-hovered: #000;
   --palette-brand-bg-selected: #000;
+  --palette-brand-bg-disabled: #000;
   --palette-brand-fg-base: #000;
-  --palette-brand-fg-disabled: #000;
   --palette-brand-fg-focused: #000;
   --palette-brand-fg-hovered: #000;
   --palette-brand-fg-selected: #000;
+  --palette-brand-fg-disabled: #000;
 
   --palette-primary-color-00: #000;
   --palette-primary-color-10: #000;
@@ -413,15 +448,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-primary-color-80: #000;
   --palette-primary-color-90: #000;
   --palette-primary-bg-base: #000;
-  --palette-primary-bg-disabled: #000;
   --palette-primary-bg-focused: #000;
   --palette-primary-bg-hovered: #000;
   --palette-primary-bg-selected: #000;
+  --palette-primary-bg-disabled: #000;
   --palette-primary-fg-base: #000;
-  --palette-primary-fg-disabled: #000;
   --palette-primary-fg-focused: #000;
   --palette-primary-fg-hovered: #000;
   --palette-primary-fg-selected: #000;
+  --palette-primary-fg-disabled: #000;
 
   --palette-secondary-color-00: #000;
   --palette-secondary-color-10: #000;
@@ -434,15 +469,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-secondary-color-80: #000;
   --palette-secondary-color-90: #000;
   --palette-secondary-bg-base: #000;
-  --palette-secondary-bg-disabled: #000;
   --palette-secondary-bg-focused: #000;
   --palette-secondary-bg-hovered: #000;
   --palette-secondary-bg-selected: #000;
+  --palette-secondary-bg-disabled: #000;
   --palette-secondary-fg-base: #000;
-  --palette-secondary-fg-disabled: #000;
   --palette-secondary-fg-focused: #000;
   --palette-secondary-fg-hovered: #000;
   --palette-secondary-fg-selected: #000;
+  --palette-secondary-fg-disabled: #000;
 
   --palette-tertiary-color-00: #000;
   --palette-tertiary-color-10: #000;
@@ -455,15 +490,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-tertiary-color-80: #000;
   --palette-tertiary-color-90: #000;
   --palette-tertiary-bg-base: #000;
-  --palette-tertiary-bg-disabled: #000;
   --palette-tertiary-bg-focused: #000;
   --palette-tertiary-bg-hovered: #000;
   --palette-tertiary-bg-selected: #000;
+  --palette-tertiary-bg-disabled: #000;
   --palette-tertiary-fg-base: #000;
-  --palette-tertiary-fg-disabled: #000;
   --palette-tertiary-fg-focused: #000;
   --palette-tertiary-fg-hovered: #000;
   --palette-tertiary-fg-selected: #000;
+  --palette-tertiary-fg-disabled: #000;
 
   --palette-neutral-color-00: #000;
   --palette-neutral-color-10: #000;
@@ -476,15 +511,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-neutral-color-80: #000;
   --palette-neutral-color-90: #000;
   --palette-neutral-bg-base: #000;
-  --palette-neutral-bg-disabled: #000;
   --palette-neutral-bg-focused: #000;
   --palette-neutral-bg-hovered: #000;
   --palette-neutral-bg-selected: #000;
+  --palette-neutral-bg-disabled: #000;
   --palette-neutral-fg-base: #000;
-  --palette-neutral-fg-disabled: #000;
   --palette-neutral-fg-focused: #000;
   --palette-neutral-fg-hovered: #000;
   --palette-neutral-fg-selected: #000;
+  --palette-neutral-fg-disabled: #000;
 
   --palette-muted-color-00: #000;
   --palette-muted-color-10: #000;
@@ -497,15 +532,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-muted-color-80: #000;
   --palette-muted-color-90: #000;
   --palette-muted-bg-base: #000;
-  --palette-muted-bg-disabled: #000;
   --palette-muted-bg-focused: #000;
   --palette-muted-bg-hovered: #000;
   --palette-muted-bg-selected: #000;
+  --palette-muted-bg-disabled: #000;
   --palette-muted-fg-base: #000;
-  --palette-muted-fg-disabled: #000;
   --palette-muted-fg-focused: #000;
   --palette-muted-fg-hovered: #000;
   --palette-muted-fg-selected: #000;
+  --palette-muted-fg-disabled: #000;
 
   --palette-danger-color-00: #000;
   --palette-danger-color-10: #000;
@@ -518,15 +553,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-danger-color-80: #000;
   --palette-danger-color-90: #000;
   --palette-danger-bg-base: #000;
-  --palette-danger-bg-disabled: #000;
   --palette-danger-bg-focused: #000;
   --palette-danger-bg-hovered: #000;
   --palette-danger-bg-selected: #000;
+  --palette-danger-bg-disabled: #000;
   --palette-danger-fg-base: #000;
-  --palette-danger-fg-disabled: #000;
   --palette-danger-fg-focused: #000;
   --palette-danger-fg-hovered: #000;
   --palette-danger-fg-selected: #000;
+  --palette-danger-fg-disabled: #000;
 
   --palette-warning-color-00: #000;
   --palette-warning-color-10: #000;
@@ -539,15 +574,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-warning-color-80: #000;
   --palette-warning-color-90: #000;
   --palette-warning-bg-base: #000;
-  --palette-warning-bg-disabled: #000;
   --palette-warning-bg-focused: #000;
   --palette-warning-bg-hovered: #000;
   --palette-warning-bg-selected: #000;
+  --palette-warning-bg-disabled: #000;
   --palette-warning-fg-base: #000;
-  --palette-warning-fg-disabled: #000;
   --palette-warning-fg-focused: #000;
   --palette-warning-fg-hovered: #000;
   --palette-warning-fg-selected: #000;
+  --palette-warning-fg-disabled: #000;
 
   --palette-failure-color-00: #000;
   --palette-failure-color-10: #000;
@@ -560,15 +595,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-failure-color-80: #000;
   --palette-failure-color-90: #000;
   --palette-failure-bg-base: #000;
-  --palette-failure-bg-disabled: #000;
   --palette-failure-bg-focused: #000;
   --palette-failure-bg-hovered: #000;
   --palette-failure-bg-selected: #000;
+  --palette-failure-bg-disabled: #000;
   --palette-failure-fg-base: #000;
-  --palette-failure-fg-disabled: #000;
   --palette-failure-fg-focused: #000;
   --palette-failure-fg-hovered: #000;
   --palette-failure-fg-selected: #000;
+  --palette-failure-fg-disabled: #000;
 
   --palette-success-color-00: #000;
   --palette-success-color-10: #000;
@@ -581,15 +616,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-success-color-80: #000;
   --palette-success-color-90: #000;
   --palette-success-bg-base: #000;
-  --palette-success-bg-disabled: #000;
   --palette-success-bg-focused: #000;
   --palette-success-bg-hovered: #000;
   --palette-success-bg-selected: #000;
+  --palette-success-bg-disabled: #000;
   --palette-success-fg-base: #000;
-  --palette-success-fg-disabled: #000;
   --palette-success-fg-focused: #000;
   --palette-success-fg-hovered: #000;
   --palette-success-fg-selected: #000;
+  --palette-success-fg-disabled: #000;
 
   --palette-info-color-00: #000;
   --palette-info-color-10: #000;
@@ -602,15 +637,15 @@ exports[`Format web-css compiles and writes files 3`] = `
   --palette-info-color-80: #000;
   --palette-info-color-90: #000;
   --palette-info-bg-base: #000;
-  --palette-info-bg-disabled: #000;
   --palette-info-bg-focused: #000;
   --palette-info-bg-hovered: #000;
   --palette-info-bg-selected: #000;
+  --palette-info-bg-disabled: #000;
   --palette-info-fg-base: #000;
-  --palette-info-fg-disabled: #000;
   --palette-info-fg-focused: #000;
   --palette-info-fg-hovered: #000;
   --palette-info-fg-selected: #000;
+  --palette-info-fg-disabled: #000;
 }
 "
 `;

@@ -1,7 +1,7 @@
-import { Declarations } from '@aesthetic/types';
+import { Rule } from '@aesthetic/types';
 import { ShadowSize, VarUtil } from '../types';
 
-export function shadow(vars: VarUtil, size: ShadowSize): Declarations {
+export function shadow(vars: VarUtil, size: ShadowSize): Rule {
   return {
     boxShadow: [
       vars(`shadow-${size}-x` as 'shadow-sm-x'),

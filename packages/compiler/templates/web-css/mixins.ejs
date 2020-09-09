@@ -15,10 +15,22 @@ Object.entries(block).forEach(([name, value]) => {
 .<%= mixin %> {
   <%- include('../partials/web/css', { props }) -%>
 }
-<% Object.entries(nested).forEach(([selector, value]) => { -%>
+<% Object.entries(nested).forEach(([selector, value]) => {
+  // At-rules
+  if (selector.startsWith('@')) { -%>
+
+<%= selector %> {
+  .<%= mixin %> {
+    <%- include('../partials/web/css', { props: value }) -%>
+  }
+}
+
+<% // Nested rules
+} else { -%>
 
 .<%= mixin %><%= selector %> {
   <%- include('../partials/web/css', { props: value }) -%>
 }
-<% });
+<% }
+});
 }) -%>

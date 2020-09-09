@@ -1,7 +1,7 @@
 import { GlobalParser } from '@aesthetic/sss';
-import { Renderer, Rule } from '@aesthetic/style';
+import { Renderer } from '@aesthetic/style';
 import { Theme } from '@aesthetic/system';
-import { ClassName } from '@aesthetic/types';
+import { ClassName, Rule } from '@aesthetic/types';
 import Sheet from './Sheet';
 import { GlobalSheetFactory, SheetParams } from './types';
 

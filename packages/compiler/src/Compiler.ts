@@ -17,6 +17,7 @@ import {
   TEXT_SIZES,
   STATE_ORDER,
 } from '@aesthetic/system';
+import { objectCreate } from '@aesthetic/utils';
 import BrandLoader from './BrandLoader';
 import LanguageLoader from './LanguageLoader';
 import ThemesLoader from './ThemesLoader';
@@ -95,7 +96,7 @@ export default class Compiler {
     const platform = this.loadPlatform(design);
 
     // Write the design system and mixin files
-    await this.writeMixinsFile(platform);
+    await this.writeMixinsFile(design, platform);
     await this.writeDesignFile(design, platform);
 
     // Write all theme files
@@ -172,7 +173,7 @@ export default class Compiler {
     );
   }
 
-  async writeMixinsFile(platform: Platform): Promise<void> {
+  async writeMixinsFile(design: SystemDesign, platform: Platform): Promise<void> {
     const template = await this.loadTemplate('mixins');
 
     if (!template) {
@@ -182,7 +183,7 @@ export default class Compiler {
     return this.writeFile(
       this.getTargetFilePath('mixins'),
       await template({
-        mixins: this.loadMixins(platform),
+        mixins: this.loadMixins(design, platform),
         platform,
       }),
     );
@@ -227,8 +228,19 @@ export default class Compiler {
     return path;
   }
 
-  protected loadMixins(platform: Platform): MixinsTemplate {
-    const mixins = createMixins(platform.var);
+  protected loadMixins(design: SystemDesign, platform: Platform): MixinsTemplate {
+    const mixins = createMixins(platform.var, {
+      breakpoint: objectCreate(BREAKPOINT_SIZES, (size) => {
+        const bp = design.template.breakpoint[size];
+
+        return {
+          query: platform.query(bp.queryConditions),
+          querySize: bp.querySize,
+          rootLineHeight: platform.number(bp.rootLineHeight),
+          rootTextSize: platform.px(bp.rootTextSize),
+        };
+      }),
+    });
 
     return {
       'border-sm': mixins.border.sm,

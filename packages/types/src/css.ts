@@ -39,6 +39,10 @@ export type Pseudos<T = Properties> = {
 
 export type Declarations<T = Properties> = T & Attributes<T> & Pseudos<T>;
 
+export interface Rule extends Declarations {
+  [key: string]: Rule | Value | unknown;
+}
+
 // AT-RULES
 
 export type FontFace = CSST.AtRule.FontFace;

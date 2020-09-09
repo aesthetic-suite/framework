@@ -2,7 +2,7 @@
 // Nested selectors
 if (typeof value === 'object') { -%>
 
-  &<%= name -%> {
+  <%- name.startsWith('@') ? '' : '&' -%><%= name -%> {
     <%- include('css', { props: value }) -%>
   }
 <% // Property value

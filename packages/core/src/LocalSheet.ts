@@ -1,7 +1,8 @@
 import { LocalParser } from '@aesthetic/sss';
-import { Renderer, Rule } from '@aesthetic/style';
+import { Renderer } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { Rule } from '@aesthetic/types';
 import Sheet from './Sheet';
 import { LocalSheetFactory, SheetParams, ClassNameSheet } from './types';
 
