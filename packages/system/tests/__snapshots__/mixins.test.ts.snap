@@ -68,7 +68,6 @@ Object {
 
 exports[`Mixins border 1`] = `
 Object {
-  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-sm-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-sm-width)",
@@ -77,7 +76,6 @@ Object {
 
 exports[`Mixins border 2`] = `
 Object {
-  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -86,37 +84,6 @@ Object {
 
 exports[`Mixins border 3`] = `
 Object {
-  "borderColor": "var(--palette-neutral-color-40)",
-  "borderRadius": "var(--border-lg-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-lg-width)",
-}
-`;
-
-exports[`Mixins box 1`] = `
-Object {
-  "backgroundColor": "var(--palette-neutral-bg-base)",
-  "borderColor": "var(--palette-neutral-color-40)",
-  "borderRadius": "var(--border-sm-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-sm-width)",
-}
-`;
-
-exports[`Mixins box 2`] = `
-Object {
-  "backgroundColor": "var(--palette-neutral-bg-base)",
-  "borderColor": "var(--palette-neutral-color-40)",
-  "borderRadius": "var(--border-df-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-df-width)",
-}
-`;
-
-exports[`Mixins box 3`] = `
-Object {
-  "backgroundColor": "var(--palette-neutral-bg-base)",
-  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-lg-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-lg-width)",
@@ -468,6 +435,116 @@ Object {
   "fontWeight": "normal",
   "lineHeight": "var(--text-lg-line-height)",
   "wordWrap": "break-word",
+}
+`;
+
+exports[`Mixins ui box 1`] = `
+Object {
+  "backgroundColor": "var(--palette-brand-bg-base)",
+  "borderColor": "var(--palette-brand-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 2`] = `
+Object {
+  "backgroundColor": "var(--palette-primary-bg-base)",
+  "borderColor": "var(--palette-primary-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 3`] = `
+Object {
+  "backgroundColor": "var(--palette-secondary-bg-base)",
+  "borderColor": "var(--palette-secondary-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 4`] = `
+Object {
+  "backgroundColor": "var(--palette-tertiary-bg-base)",
+  "borderColor": "var(--palette-tertiary-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 5`] = `
+Object {
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 6`] = `
+Object {
+  "backgroundColor": "var(--palette-muted-bg-base)",
+  "borderColor": "var(--palette-muted-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 7`] = `
+Object {
+  "backgroundColor": "var(--palette-danger-bg-base)",
+  "borderColor": "var(--palette-danger-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 8`] = `
+Object {
+  "backgroundColor": "var(--palette-warning-bg-base)",
+  "borderColor": "var(--palette-warning-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 9`] = `
+Object {
+  "backgroundColor": "var(--palette-failure-bg-base)",
+  "borderColor": "var(--palette-failure-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 10`] = `
+Object {
+  "backgroundColor": "var(--palette-success-bg-base)",
+  "borderColor": "var(--palette-success-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+}
+`;
+
+exports[`Mixins ui box 11`] = `
+Object {
+  "backgroundColor": "var(--palette-info-bg-base)",
+  "borderColor": "var(--palette-info-bg-focused)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
 }
 `;
 

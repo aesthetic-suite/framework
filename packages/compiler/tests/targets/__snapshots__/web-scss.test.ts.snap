@@ -48,45 +48,18 @@ exports[`Format web-scss compiles and writes files 1`] = `
 }
 
 @mixin border-sm {
-  border-color: $palette-neutral-color-40;
   border-radius: $border-sm-radius;
   border-style: solid;
   border-width: $border-sm-width;
 }
 
 @mixin border-df {
-  border-color: $palette-neutral-color-40;
   border-radius: $border-df-radius;
   border-style: solid;
   border-width: $border-df-width;
 }
 
 @mixin border-lg {
-  border-color: $palette-neutral-color-40;
-  border-radius: $border-lg-radius;
-  border-style: solid;
-  border-width: $border-lg-width;
-}
-
-@mixin box-sm {
-  background-color: $palette-neutral-bg-base;
-  border-color: $palette-neutral-color-40;
-  border-radius: $border-sm-radius;
-  border-style: solid;
-  border-width: $border-sm-width;
-}
-
-@mixin box-df {
-  background-color: $palette-neutral-bg-base;
-  border-color: $palette-neutral-color-40;
-  border-radius: $border-df-radius;
-  border-style: solid;
-  border-width: $border-df-width;
-}
-
-@mixin box-lg {
-  background-color: $palette-neutral-bg-base;
-  border-color: $palette-neutral-color-40;
   border-radius: $border-lg-radius;
   border-style: solid;
   border-width: $border-lg-width;
@@ -370,6 +343,94 @@ exports[`Format web-scss compiles and writes files 1`] = `
   word-wrap: break-word;
   color: $palette-neutral-fg-base;
   line-height: $text-lg-line-height;
+}
+
+@mixin ui-box-brand {
+  background-color: $palette-brand-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-brand-bg-focused;
+}
+
+@mixin ui-box-danger {
+  background-color: $palette-danger-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-danger-bg-focused;
+}
+
+@mixin ui-box-failure {
+  background-color: $palette-failure-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-failure-bg-focused;
+}
+
+@mixin ui-box-info {
+  background-color: $palette-info-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-info-bg-focused;
+}
+
+@mixin ui-box-muted {
+  background-color: $palette-muted-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-muted-bg-focused;
+}
+
+@mixin ui-box-neutral {
+  background-color: $palette-neutral-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-neutral-bg-focused;
+}
+
+@mixin ui-box-primary {
+  background-color: $palette-primary-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-primary-bg-focused;
+}
+
+@mixin ui-box-secondary {
+  background-color: $palette-secondary-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-secondary-bg-focused;
+}
+
+@mixin ui-box-success {
+  background-color: $palette-success-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-success-bg-focused;
+}
+
+@mixin ui-box-tertiary {
+  background-color: $palette-tertiary-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-tertiary-bg-focused;
+}
+
+@mixin ui-box-warning {
+  background-color: $palette-warning-bg-base;
+  border-radius: $border-df-radius;
+  border-style: solid;
+  border-width: $border-df-width;
+  border-color: $palette-warning-bg-focused;
 }
 
 @mixin ui-button-brand {

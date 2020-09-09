@@ -36,12 +36,12 @@ describe('Theme', () => {
 
   it('inherits the parents customized mixins', () => {
     testTheme.extendMixin('heading-l1', { background: 'red' });
-    testTheme.overwriteMixin('box-lg', { background: 'blue' });
+    testTheme.overwriteMixin('background-neutral', { background: 'blue' });
 
     const clonedTheme = testTheme.extend({});
 
     expect(clonedTheme.mixin('heading-l1')).toHaveProperty('background', 'red');
-    expect(clonedTheme.mixin('box-lg')).toEqual({ background: 'blue' });
+    expect(clonedTheme.mixin('background-neutral')).toEqual({ background: 'blue' });
   });
 
   describe('extendMixin()', () => {
@@ -90,7 +90,7 @@ describe('Theme', () => {
 
     it('can merge from multiple targets', () => {
       expect(
-        lightTheme.mixin(['heading-l3', 'text-df', 'box-sm'], {
+        lightTheme.mixin(['heading-l3', 'text-df', 'background-neutral'], {
           color: 'red',
         }),
       ).toMatchSnapshot();

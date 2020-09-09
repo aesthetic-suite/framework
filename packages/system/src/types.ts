@@ -453,7 +453,6 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 export interface Mixins {
   background: Record<PaletteType, Rule>;
   border: Record<BorderSize, Rule>;
-  box: Record<CommonSize, Rule>;
   foreground: Record<PaletteType, Rule>;
   heading: Record<HeadingSize, Rule>;
   // input: {
@@ -485,6 +484,7 @@ export interface Mixins {
   shadow: Record<ShadowSize, Rule>;
   text: Record<TextSize, Rule>;
   ui: {
+    box: Record<PaletteType, Rule>;
     button: Record<PaletteType, Rule>;
   };
 }
@@ -504,9 +504,6 @@ export type MixinName =
   | 'border-sm'
   | 'border-df'
   | 'border-lg'
-  | 'box-sm'
-  | 'box-df'
-  | 'box-lg'
   | 'foreground-brand'
   | 'foreground-danger'
   | 'foreground-failure'
@@ -544,6 +541,17 @@ export type MixinName =
   | 'text-sm'
   | 'text-df'
   | 'text-lg'
+  | 'ui-box-brand'
+  | 'ui-box-danger'
+  | 'ui-box-failure'
+  | 'ui-box-info'
+  | 'ui-box-muted'
+  | 'ui-box-neutral'
+  | 'ui-box-primary'
+  | 'ui-box-secondary'
+  | 'ui-box-success'
+  | 'ui-box-tertiary'
+  | 'ui-box-warning'
   | 'ui-button-brand'
   | 'ui-button-danger'
   | 'ui-button-failure'

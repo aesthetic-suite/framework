@@ -13,7 +13,6 @@ export default function createMixins(
   return {
     background: objectCreate(PALETTE_TYPES, (palette) => mixins.background(vars, palette)),
     border: objectCreate(BORDER_SIZES, (size) => mixins.border(vars, size)),
-    box: objectCreate(TEXT_SIZES, (size) => mixins.box(vars, size)),
     foreground: objectCreate(PALETTE_TYPES, (palette) => mixins.foreground(vars, palette)),
     heading: objectCreate(HEADING_SIZES, (size) => mixins.heading(vars, size)),
     pattern: {
@@ -39,6 +38,7 @@ export default function createMixins(
     shadow: objectCreate(SHADOW_SIZES, (size) => mixins.shadow(vars, size)),
     text: objectCreate(TEXT_SIZES, (size) => mixins.text(vars, size)),
     ui: {
+      box: objectCreate(PALETTE_TYPES, (palette) => mixins.box(vars, palette)),
       button: objectCreate(PALETTE_TYPES, (palette) => mixins.button(vars, palette)),
     },
   };

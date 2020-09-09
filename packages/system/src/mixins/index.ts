@@ -1,6 +1,5 @@
 import { background } from './background';
 import { border } from './border';
-import { box } from './box';
 import { foreground } from './foreground';
 import { heading } from './heading';
 import {
@@ -19,7 +18,7 @@ import {
 } from './pattern';
 import { shadow } from './shadow';
 import { text } from './text';
-import { button } from './ui';
+import { box, button } from './ui';
 
 export default {
   background,

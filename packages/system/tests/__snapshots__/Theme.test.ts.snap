@@ -26,7 +26,6 @@ Object {
 
 exports[`Theme extendMixin() will deep merge properties 1`] = `
 Object {
-  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -38,7 +37,6 @@ Object {
   ":focus": Object {
     "outline": "none",
   },
-  "borderColor": "var(--palette-neutral-color-40)",
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
@@ -48,10 +46,6 @@ Object {
 exports[`Theme mixin() can merge from multiple targets 1`] = `
 Object {
   "backgroundColor": "var(--palette-neutral-bg-base)",
-  "borderColor": "var(--palette-neutral-color-40)",
-  "borderRadius": "var(--border-sm-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-sm-width)",
   "color": "red",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",

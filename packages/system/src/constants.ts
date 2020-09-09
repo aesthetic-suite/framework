@@ -1,19 +1,22 @@
 import {
   BorderSize,
   BreakpointSize,
+  ColorShade,
+  CommonSize,
   ElevationType,
   HeadingSize,
+  PaletteType,
   ShadowSize,
   SpacingSize,
-  TextSize,
-  PaletteType,
-  ColorShade,
   StateType,
+  TextSize,
 } from './types';
 
 export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
 
 export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const COMMON_SIZES: CommonSize[] = ['sm', 'df', 'lg'];
 
 export const DEPTHS: Record<ElevationType, number> = {
   content: 100, // xs

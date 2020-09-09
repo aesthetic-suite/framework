@@ -15,12 +15,6 @@ describe('Mixins', () => {
     expect(mixins.border(darkTheme.var, 'lg')).toMatchSnapshot();
   });
 
-  it('box', () => {
-    expect(mixins.box(darkTheme.var, 'sm')).toMatchSnapshot();
-    expect(mixins.box(darkTheme.var, 'df')).toMatchSnapshot();
-    expect(mixins.box(darkTheme.var, 'lg')).toMatchSnapshot();
-  });
-
   it('foreground', () => {
     PALETTE_TYPES.forEach((palette) => {
       expect(mixins.foreground(darkTheme.var, palette)).toMatchSnapshot();
@@ -66,6 +60,12 @@ describe('Mixins', () => {
   });
 
   describe('ui', () => {
+    it('box', () => {
+      PALETTE_TYPES.forEach((palette) => {
+        expect(mixins.box(darkTheme.var, palette)).toMatchSnapshot();
+      });
+    });
+
     it('button', () => {
       PALETTE_TYPES.forEach((palette) => {
         expect(mixins.button(darkTheme.var, palette)).toMatchSnapshot();
