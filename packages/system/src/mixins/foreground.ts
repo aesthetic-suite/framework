@@ -1,8 +1,18 @@
 import { Rule } from '@aesthetic/types';
-import { VarUtil, PaletteType } from '../types';
+import { PaletteType, Utilities } from '../types';
+import { checkList } from './checks';
+import { PALETTE_TYPES } from '../constants';
 
-export function foreground(v: VarUtil, palette: PaletteType): Rule {
+export interface ForegroundOptions {
+  palette: PaletteType;
+}
+
+export function foreground(this: Utilities, { palette }: ForegroundOptions): Rule {
+  if (__DEV__) {
+    checkList('palette', palette, PALETTE_TYPES);
+  }
+
   return {
-    color: v(`palette-${palette}-fg-base` as 'palette-neutral-fg-base'),
+    color: this.var(`palette-${palette}-fg-base` as 'palette-neutral-fg-base'),
   };
 }

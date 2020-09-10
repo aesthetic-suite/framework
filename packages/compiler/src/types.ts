@@ -11,7 +11,7 @@ import {
   TextSize,
   ElevationType,
   ShadowSize,
-  MixinName,
+  MixinType,
   StateType,
 } from '@aesthetic/system';
 
@@ -321,5 +321,5 @@ export interface ThemeTemplate {
 }
 
 export type MixinsTemplate = {
-  [K in MixinName]: object;
+  [K in MixinType]: object;
 };

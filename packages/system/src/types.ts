@@ -1,4 +1,11 @@
 import { Rule, Unit } from '@aesthetic/types';
+import { BorderOptions } from './mixins/border';
+import { BackgroundOptions } from './mixins/background';
+import { ForegroundOptions } from './mixins/foreground';
+import { HeadingOptions } from './mixins/heading';
+import { ShadowOptions } from './mixins/shadow';
+import { TextOptions } from './mixins/text';
+import { ResetButtonOptions } from './mixins/reset';
 
 export type Hexcode = string;
 
@@ -444,132 +451,46 @@ export type Variables = DesignVariables & ThemeVariables;
 
 export type VariableName = keyof Variables;
 
+export type TokenUtil = (name: VariableName) => unknown;
+
 export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 
 export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export interface Mixins {
-  background: Record<PaletteType, Rule>;
-  border: Record<BorderSize, Rule>;
-  foreground: Record<PaletteType, Rule>;
-  heading: Record<HeadingSize, Rule>;
-  // input: {
-  //   default: Rule;
-  //   disabled: Rule;
-  //   focused: Rule;
-  //   invalid: Rule;
-  // };
-  pattern: {
-    hide: {
-      completely: Rule;
-      offscreen: Rule;
-      visually: Rule;
-    };
-    reset: {
-      button: Rule;
-      input: Rule;
-      list: Rule;
-      media: Rule;
-      typography: Rule;
-    };
-    root: Rule;
-    text: {
-      break: Rule;
-      truncate: Rule;
-      wrap: Rule;
-    };
-  };
-  shadow: Record<ShadowSize, Rule>;
-  text: Record<TextSize, Rule>;
-  ui: {
-    box: Record<PaletteType, Rule>;
-    button: Record<PaletteType, Rule>;
-  };
+export type MixinTemplate<T extends object> = (options: T) => Rule;
+
+export type MixinUtil<T extends object> = (options: T, properties?: Rule) => Rule;
+
+export type MixinUtilPure = (options?: object, properties?: Rule) => Rule;
+
+export interface MixinUtils {
+  background: MixinUtil<BackgroundOptions>;
+  border: MixinUtil<BorderOptions>;
+  foreground: MixinUtil<ForegroundOptions>;
+  heading: MixinUtil<HeadingOptions>;
+  hideCompletely: MixinUtilPure;
+  hideOffscreen: MixinUtilPure;
+  hideVisually: MixinUtilPure;
+  resetButton: MixinUtil<ResetButtonOptions>;
+  resetInput: MixinUtilPure;
+  resetList: MixinUtilPure;
+  resetMedia: MixinUtilPure;
+  resetTypography: MixinUtilPure;
+  root: MixinUtilPure;
+  shadow: MixinUtil<ShadowOptions>;
+  text: MixinUtil<TextOptions>;
+  textBreak: MixinUtilPure;
+  textTruncate: MixinUtilPure;
+  textWrap: MixinUtilPure;
 }
-
-export type MixinName =
-  | 'background-brand'
-  | 'background-danger'
-  | 'background-failure'
-  | 'background-info'
-  | 'background-muted'
-  | 'background-neutral'
-  | 'background-primary'
-  | 'background-secondary'
-  | 'background-success'
-  | 'background-tertiary'
-  | 'background-warning'
-  | 'border-sm'
-  | 'border-df'
-  | 'border-lg'
-  | 'foreground-brand'
-  | 'foreground-danger'
-  | 'foreground-failure'
-  | 'foreground-info'
-  | 'foreground-muted'
-  | 'foreground-neutral'
-  | 'foreground-primary'
-  | 'foreground-secondary'
-  | 'foreground-success'
-  | 'foreground-tertiary'
-  | 'foreground-warning'
-  | 'heading-l1'
-  | 'heading-l2'
-  | 'heading-l3'
-  | 'heading-l4'
-  | 'heading-l5'
-  | 'heading-l6'
-  | 'pattern-hide-completely'
-  | 'pattern-hide-offscreen'
-  | 'pattern-hide-visually'
-  | 'pattern-reset-button'
-  | 'pattern-reset-input'
-  | 'pattern-reset-list'
-  | 'pattern-reset-media'
-  | 'pattern-reset-typography'
-  | 'pattern-text-break'
-  | 'pattern-text-truncate'
-  | 'pattern-text-wrap'
-  | 'root'
-  | 'shadow-xs'
-  | 'shadow-sm'
-  | 'shadow-md'
-  | 'shadow-lg'
-  | 'shadow-xl'
-  | 'text-sm'
-  | 'text-df'
-  | 'text-lg'
-  | 'ui-box-brand'
-  | 'ui-box-danger'
-  | 'ui-box-failure'
-  | 'ui-box-info'
-  | 'ui-box-muted'
-  | 'ui-box-neutral'
-  | 'ui-box-primary'
-  | 'ui-box-secondary'
-  | 'ui-box-success'
-  | 'ui-box-tertiary'
-  | 'ui-box-warning'
-  | 'ui-button-brand'
-  | 'ui-button-danger'
-  | 'ui-button-failure'
-  | 'ui-button-info'
-  | 'ui-button-muted'
-  | 'ui-button-neutral'
-  | 'ui-button-primary'
-  | 'ui-button-secondary'
-  | 'ui-button-success'
-  | 'ui-button-tertiary'
-  | 'ui-button-warning';
-
-export type MixinUtil<T extends object> = (name: MixinName | MixinName[], properties?: T) => T;
 
 // OTHER
 
-export interface Utilities<T extends object = {}> {
-  mixin: MixinUtil<T>;
+export interface Utilities {
+  mixin: MixinUtils;
+  token: TokenUtil;
   unit: UnitUtil;
   var: VarUtil;
 }

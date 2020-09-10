@@ -1,14 +1,22 @@
 import { Rule } from '@aesthetic/types';
 import { deepMerge } from '@aesthetic/utils';
-import { HeadingSize, VarUtil } from '../types';
-import { resetTypography } from './pattern';
+import { Utilities } from '../types';
+import { checkList } from './checks';
 
-export function heading(v: VarUtil, level: HeadingSize): Rule {
-  return deepMerge(resetTypography(), {
-    color: v('palette-neutral-fg-base'),
-    letterSpacing: v(`heading-${level}-letter-spacing` as 'heading-l1-letter-spacing'),
-    lineHeight: v(`heading-${level}-line-height` as 'heading-l1-line-height'),
-    fontFamily: v('typography-font-heading'),
-    fontSize: v(`heading-${level}-size` as 'heading-l1-size'),
+export interface HeadingOptions {
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export function heading(this: Utilities, { level }: HeadingOptions): Rule {
+  if (__DEV__) {
+    checkList('level', level, [1, 2, 3, 4, 5, 6]);
+  }
+
+  return deepMerge(this.mixin.resetTypography(), {
+    color: this.var('palette-neutral-fg-base'),
+    letterSpacing: this.var(`heading-l${level}-letter-spacing` as 'heading-l1-letter-spacing'),
+    lineHeight: this.var(`heading-l${level}-line-height` as 'heading-l1-line-height'),
+    fontFamily: this.var('typography-font-heading'),
+    fontSize: this.var(`heading-l${level}-size` as 'heading-l1-size'),
   });
 }
