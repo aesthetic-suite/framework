@@ -4,7 +4,7 @@ export interface ResetButtonOptions {
   flex?: boolean;
 }
 
-export function resetButton({ flex }: ResetButtonOptions): Rule {
+export function resetButton({ flex = false }: ResetButtonOptions = {}): Rule {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',

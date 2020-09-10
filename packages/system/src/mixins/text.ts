@@ -5,10 +5,10 @@ import { checkList } from './checks';
 import { TEXT_SIZES } from '../constants';
 
 export interface TextOptions {
-  size: TextSize;
+  size?: TextSize;
 }
 
-export function text(this: Utilities, { size }: TextOptions): Rule {
+export function text(this: Utilities, { size = 'df' }: TextOptions = {}): Rule {
   if (__DEV__) {
     checkList('size', size, TEXT_SIZES);
   }

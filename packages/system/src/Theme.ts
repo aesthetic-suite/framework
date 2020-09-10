@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
 import { Rule } from '@aesthetic/types';
-import { deepClone, deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
+import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import Design from './Design';
 import {
   ColorScheme,
@@ -17,6 +17,8 @@ import {
   Utilities,
   MixinUtils,
   MixinTemplate,
+  TokenUtil,
+  MixinType,
 } from './types';
 import { background } from './mixins/background';
 import { border } from './mixins/border';
@@ -28,9 +30,8 @@ import { root } from './mixins/root';
 import { shadow } from './mixins/shadow';
 import { text, textWrap, textTruncate, textBreak } from './mixins/text';
 
-interface AnyObject {
-  [key: string]: any;
-}
+type AnyObject = Record<string, any>;
+type MixinTemplates = Partial<Record<MixinType, Set<MixinTemplate<AnyObject>>>>;
 
 export default class Theme {
   name: string = '';
@@ -41,7 +42,7 @@ export default class Theme {
 
   protected mixins: Record<string, MixinUtil<AnyObject>> = {};
 
-  protected mixinTemplates: Record<string, MixinTemplate<AnyObject>> = {};
+  protected mixinTemplates: MixinTemplates = {};
 
   protected tokens: ThemeTokens;
 
@@ -55,7 +56,7 @@ export default class Theme {
     options: ThemeOptions,
     tokens: ThemeTokens,
     design: Design,
-    parentTemplates: Record<string, MixinTemplate<AnyObject>> = {},
+    parentTemplates: MixinTemplates = {},
   ) {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
@@ -95,15 +96,21 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      deepClone(this.mixins),
+      { ...this.mixinTemplates },
     );
   }
 
   /**
    * Extend a mixin with additional CSS properties, and return the new mixin.
    */
-  extendMixin<K extends keyof MixinUtils>(type: K, properties: Rule): Rule {
-    return {};
+  extendMixin(type: MixinType, template: MixinTemplate<AnyObject>): this {
+    const set = this.mixinTemplates[type] || new Set();
+
+    set.add(template);
+
+    this.mixinTemplates[type] = set;
+
+    return this;
   }
 
   /**
@@ -124,11 +131,12 @@ export default class Theme {
    * Return a mapping of all theme specific utility methods.
    */
   toUtilities(): Utilities {
-    return ({
-      mixin: this.mixins,
+    return {
+      mixin: (this.mixins as unknown) as MixinUtils,
+      token: this.token,
       unit: this.unit,
       var: this.var,
-    } as unknown) as Utilities;
+    };
   }
 
   /**
@@ -160,6 +168,21 @@ export default class Theme {
   }
 
   /**
+   * Return a raw token value for the defined name.
+   */
+  token: TokenUtil = (name) => {
+    const value = this.toVariables()[name];
+
+    if (__DEV__) {
+      if (value === undefined) {
+        throw new Error(`Unknown token "${name}".`);
+      }
+    }
+
+    return value || null;
+  };
+
+  /**
    * Return a `rem` unit equivalent for the current spacing type and unit.
    */
   unit: UnitUtil = (...multipliers) =>
@@ -178,10 +201,34 @@ export default class Theme {
   var: VarUtil = (name, ...fallbacks) =>
     fallbacks.length > 0 ? `var(${[`--${name}`, ...fallbacks].join(', ')})` : `var(--${name})`;
 
+  /**
+   * Register an internal mixin with a handler. When the handler is called,
+   * it will create the mixin rule with the defined options, and rule for every
+   * custom/extended mixin template. Before returning, all rules, including custom
+   * user-land properties, will be deep merged.
+   */
   protected registerMixin<K extends keyof MixinUtils>(type: K, mixin: MixinUtils[K]): this {
-    this.mixins[type] = (options, properties) =>
-      deepMerge((mixin as Function).call(this.toUtilities(), options), properties);
+    this.mixins[type] = (options, properties) => {
+      const rules = [this.callMixinOrTemplate(mixin, options)];
+      const templates = this.mixinTemplates[hyphenate(type) as MixinType];
+
+      if (templates) {
+        templates.forEach((template) => {
+          rules.push(this.callMixinOrTemplate(template, options));
+        });
+      }
+
+      return deepMerge(...rules, properties);
+    };
 
     return this;
+  }
+
+  /**
+   * Call a mixin handler or template function with the defined options object.
+   * Will set the "this" context to the utilities object, so that mixins can utilize them.
+   */
+  protected callMixinOrTemplate(mixin: MixinTemplate<any>, options: object): Rule {
+    return mixin.call(this.toUtilities(), options);
   }
 }

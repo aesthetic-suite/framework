@@ -7,12 +7,12 @@ export interface BorderOptions {
   palette?: PaletteType;
   radius?: boolean;
   shade?: ColorShade;
-  size: BorderSize;
+  size?: BorderSize;
 }
 
 export function border(
   this: Utilities,
-  { palette = 'neutral', radius = true, shade = '40', size }: BorderOptions,
+  { palette = 'neutral', radius = true, shade = '40', size = 'df' }: BorderOptions = {},
 ): Rule {
   if (__DEV__) {
     checkList('palette', palette, PALETTE_TYPES);

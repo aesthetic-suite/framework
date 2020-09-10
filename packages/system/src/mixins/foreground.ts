@@ -4,10 +4,10 @@ import { checkList } from './checks';
 import { PALETTE_TYPES } from '../constants';
 
 export interface ForegroundOptions {
-  palette: PaletteType;
+  palette?: PaletteType;
 }
 
-export function foreground(this: Utilities, { palette }: ForegroundOptions): Rule {
+export function foreground(this: Utilities, { palette = 'neutral' }: ForegroundOptions = {}): Rule {
   if (__DEV__) {
     checkList('palette', palette, PALETTE_TYPES);
   }

@@ -461,30 +461,48 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 export type MixinTemplate<T extends object> = (options: T) => Rule;
 
-export type MixinUtil<T extends object> = (options: T, properties?: Rule) => Rule;
-
-export type MixinUtilPure = (options?: object, properties?: Rule) => Rule;
+export type MixinUtil<T extends object = object> = (options?: T, properties?: Rule) => Rule;
 
 export interface MixinUtils {
   background: MixinUtil<BackgroundOptions>;
   border: MixinUtil<BorderOptions>;
   foreground: MixinUtil<ForegroundOptions>;
   heading: MixinUtil<HeadingOptions>;
-  hideCompletely: MixinUtilPure;
-  hideOffscreen: MixinUtilPure;
-  hideVisually: MixinUtilPure;
+  hideCompletely: MixinUtil;
+  hideOffscreen: MixinUtil;
+  hideVisually: MixinUtil;
   resetButton: MixinUtil<ResetButtonOptions>;
-  resetInput: MixinUtilPure;
-  resetList: MixinUtilPure;
-  resetMedia: MixinUtilPure;
-  resetTypography: MixinUtilPure;
-  root: MixinUtilPure;
+  resetInput: MixinUtil;
+  resetList: MixinUtil;
+  resetMedia: MixinUtil;
+  resetTypography: MixinUtil;
+  root: MixinUtil;
   shadow: MixinUtil<ShadowOptions>;
   text: MixinUtil<TextOptions>;
-  textBreak: MixinUtilPure;
-  textTruncate: MixinUtilPure;
-  textWrap: MixinUtilPure;
+  textBreak: MixinUtil;
+  textTruncate: MixinUtil;
+  textWrap: MixinUtil;
 }
+
+export type MixinType =
+  | 'background'
+  | 'border'
+  | 'foreground'
+  | 'heading'
+  | 'hide-completely'
+  | 'hide-offscreen'
+  | 'hide-visually'
+  | 'reset-button'
+  | 'reset-input'
+  | 'reset-list'
+  | 'reset-media'
+  | 'reset-typography'
+  | 'root'
+  | 'shadow'
+  | 'text'
+  | 'text-break'
+  | 'text-truncate'
+  | 'text-wrap';
 
 // OTHER
 

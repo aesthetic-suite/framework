@@ -67,23 +67,6 @@ Object {
 }
 `;
 
-exports[`Theme overwriteMixin() can completely replace an existing mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": "normal",
-  "lineHeight": "var(--text-df-line-height)",
-  "wordWrap": "break-word",
-}
-`;
-
-exports[`Theme overwriteMixin() can completely replace an existing mixin 2`] = `
-Object {
-  "fontSize": "20px",
-}
-`;
-
 exports[`Theme toVariables() returns tokens as a flat object of CSS variables 1`] = `
 Object {
   "border-df-radius": "0.21rem",

@@ -6,12 +6,12 @@ import { PALETTE_TYPES, SHADE_RANGES, SHADOW_SIZES } from '../constants';
 export interface ShadowOptions {
   palette?: PaletteType;
   shade?: ColorShade;
-  size: ShadowSize;
+  size?: ShadowSize;
 }
 
 export function shadow(
   this: Utilities,
-  { palette = 'neutral', shade = '90', size }: ShadowOptions,
+  { palette = 'neutral', shade = '90', size = 'md' }: ShadowOptions = {},
 ): Rule {
   if (__DEV__) {
     checkList('palette', palette, PALETTE_TYPES);

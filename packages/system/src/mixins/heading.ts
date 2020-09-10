@@ -4,10 +4,10 @@ import { Utilities } from '../types';
 import { checkList } from './checks';
 
 export interface HeadingOptions {
-  level: 1 | 2 | 3 | 4 | 5 | 6;
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
-export function heading(this: Utilities, { level }: HeadingOptions): Rule {
+export function heading(this: Utilities, { level = 1 }: HeadingOptions = {}): Rule {
   if (__DEV__) {
     checkList('level', level, [1, 2, 3, 4, 5, 6]);
   }
