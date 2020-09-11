@@ -1,4 +1,5 @@
 import { Rule, Unit } from '@aesthetic/types';
+import { LiteralUnion } from '@aesthetic/utils';
 import { BorderOptions } from './mixins/border';
 import { BackgroundOptions } from './mixins/background';
 import { ForegroundOptions } from './mixins/foreground';
@@ -459,11 +460,11 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export type MixinTemplate<T extends object> = (options: T) => Rule;
+export type MixinTemplate<T extends object = object> = (options: T) => Rule;
 
 export type MixinUtil<T extends object = object> = (options?: T, properties?: Rule) => Rule;
 
-export interface MixinUtils {
+export interface MixinBuiltInUtils {
   background: MixinUtil<BackgroundOptions>;
   border: MixinUtil<BorderOptions>;
   foreground: MixinUtil<ForegroundOptions>;
@@ -484,7 +485,11 @@ export interface MixinUtils {
   textWrap: MixinUtil;
 }
 
-export type MixinType =
+export interface MixinUtils extends MixinBuiltInUtils {
+  (name: MixinType, options?: object, ...additionalRules: Rule[]): Rule;
+}
+
+export type MixinType = LiteralUnion<
   | 'background'
   | 'border'
   | 'foreground'
@@ -502,7 +507,8 @@ export type MixinType =
   | 'text'
   | 'text-break'
   | 'text-truncate'
-  | 'text-wrap';
+  | 'text-wrap'
+>;
 
 // OTHER
 

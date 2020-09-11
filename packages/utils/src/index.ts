@@ -16,6 +16,8 @@ import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
 import toArray from './toArray';
 
+export * from './types';
+
 export {
   arrayLoop,
   arrayReduce,
