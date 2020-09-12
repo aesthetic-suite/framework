@@ -1,30 +1,34 @@
-import { Declarations } from '@aesthetic/types';
-import { BorderSize, VarUtil } from '../types';
-import { LAYOUT_SHADES } from '../constants';
+import { Rule } from '@aesthetic/types';
+import { BorderSize, Utilities, PaletteType, ColorShade } from '../types';
+import { PALETTE_TYPES, SHADE_RANGES, BORDER_SIZES } from '../constants';
+import { checkList } from './checks';
 
-export function border(vars: VarUtil, size: BorderSize): Declarations {
-  return {
-    borderColor: vars(
-      `palette-neutral-color-${LAYOUT_SHADES.border}` as 'palette-neutral-color-30',
-    ),
-    borderRadius: vars(`border-${size}-radius` as 'border-df-radius'),
+export interface BorderOptions {
+  palette?: PaletteType;
+  radius?: boolean;
+  shade?: ColorShade;
+  size?: BorderSize;
+}
+
+export function border(
+  this: Utilities,
+  { palette = 'neutral', radius = true, shade = '40', size = 'df' }: BorderOptions = {},
+): Rule {
+  if (__DEV__) {
+    checkList('palette', palette, PALETTE_TYPES);
+    checkList('shade', shade, SHADE_RANGES);
+    checkList('size', size, BORDER_SIZES);
+  }
+
+  const rule: Rule = {
+    borderColor: this.var(`palette-${palette}-color-${shade}` as 'palette-neutral-color-00'),
     borderStyle: 'solid',
-    borderWidth: vars(`border-${size}-width` as 'border-df-width'),
-
-    ':focus': {
-      borderColor: vars('palette-primary-bg-focused'),
-    },
-
-    ':hover': {
-      borderColor: vars('palette-primary-bg-hovered'),
-    },
-
-    ':active': {
-      borderColor: vars('palette-primary-bg-selected'),
-    },
-
-    '[disabled]': {
-      borderColor: vars('palette-primary-bg-disabled'),
-    },
+    borderWidth: this.var(`border-${size}-width` as 'border-df-width'),
   };
+
+  if (radius) {
+    rule.borderRadius = this.var(`border-${size}-radius` as 'border-df-radius');
+  }
+
+  return rule;
 }

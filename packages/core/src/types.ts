@@ -35,12 +35,12 @@ export type SheetStructure<T extends string> = {
 };
 
 export type GlobalSheetFactory<T = unknown> = (
-  utils: Utilities<LocalBlock>,
+  utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type LocalSheetFactory<T = unknown> = (
-  utils: Utilities<LocalBlock>,
+  utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
@@ -55,3 +55,9 @@ export type EventType = 'change:direction' | 'change:theme';
 export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName) => void;
+
+// ALIASES
+
+export type CSSDeclaration = LocalBlock;
+
+export type DeclarationBlock = LocalBlock;

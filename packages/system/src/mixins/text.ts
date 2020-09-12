@@ -1,14 +1,48 @@
-import { Declarations } from '@aesthetic/types';
-import { deepMerge } from '@aesthetic/utils';
-import { TextSize, VarUtil } from '../types';
-import { resetTypography } from './pattern';
-import { LAYOUT_SHADES } from '../constants';
+import { Rule } from '@aesthetic/types';
+import { TextSize, Utilities } from '../types';
+import { checkList } from './checks';
+import { TEXT_SIZES } from '../constants';
 
-export function text(vars: VarUtil, level: TextSize): Declarations {
-  return deepMerge(resetTypography(), {
-    color: vars(`palette-neutral-color-${LAYOUT_SHADES.text}` as 'palette-neutral-color-80'),
-    fontFamily: vars('typography-font-text'),
-    fontSize: vars(`text-${level}-size` as 'text-df-size'),
-    lineHeight: vars(`text-${level}-line-height` as 'text-df-line-height'),
-  });
+export interface TextOptions {
+  size?: TextSize;
+}
+
+export function text(this: Utilities, { size = 'df' }: TextOptions = {}): Rule {
+  if (__DEV__) {
+    checkList('size', size, TEXT_SIZES);
+  }
+
+  return this.mixin.resetTypography(
+    {},
+    {
+      color: this.var('palette-neutral-fg-base'),
+      fontFamily: this.var('typography-font-text'),
+      fontSize: this.var(`text-${size}-size` as 'text-df-size'),
+      lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
+    },
+  );
+}
+
+export function textBreak(): Rule {
+  return {
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word',
+  };
+}
+
+export function textTruncate(): Rule {
+  return {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  };
+}
+
+export function textWrap(): Rule {
+  return {
+    overflowWrap: 'normal',
+    wordWrap: 'normal',
+    wordBreak: 'normal',
+  };
 }

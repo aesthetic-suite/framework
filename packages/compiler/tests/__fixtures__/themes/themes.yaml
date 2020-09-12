@@ -75,20 +75,20 @@ themes:
         color: green
         fg:
           base: 0
-          disabled: 10
           focused: 20
           hovered: 30
           selected: 40
+          disabled: 10
       muted: black
       info: white
       warning:
         color: red
         bg:
           base: 90
-          disabled: 90
           focused: 90
           hovered: 90
           selected: 90
+          disabled: 90
       danger: blue
       failure: blue
       success: green

@@ -1,4 +1,13 @@
-import { Declarations, Unit } from '@aesthetic/types';
+import { Rule, Unit } from '@aesthetic/types';
+import { LiteralUnion } from '@aesthetic/utils';
+import { BorderOptions } from './mixins/border';
+import { BackgroundOptions } from './mixins/background';
+import { ForegroundOptions } from './mixins/foreground';
+import { HeadingOptions } from './mixins/heading';
+import { ShadowOptions } from './mixins/shadow';
+import { TextOptions } from './mixins/text';
+import { ResetButtonOptions } from './mixins/reset';
+import { UIBoxOptions, UIInteractiveOptions } from './mixins/ui';
 
 export type Hexcode = string;
 
@@ -46,6 +55,8 @@ export type TextSize = CommonSize;
 
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
+export type StateType = 'focused' | 'hovered' | 'selected' | 'disabled';
+
 // TOKENS
 
 export interface BorderToken {
@@ -66,15 +77,11 @@ export type BreakpointTokens = Record<BreakpointSize, BreakpointToken>;
 
 export type DepthTokens = Record<ElevationType, number>;
 
-export type ColorRangeToken = { [K in ColorShade]: Hexcode };
+export type ColorRangeToken = Record<ColorShade, Hexcode>;
 
-export interface ColorStateToken {
+export type ColorStateToken = {
   base: Hexcode;
-  disabled: Hexcode;
-  focused: Hexcode;
-  hovered: Hexcode;
-  selected: Hexcode;
-}
+} & Record<StateType, Hexcode>;
 
 export interface ShadowToken {
   blur: Unit;
@@ -108,7 +115,7 @@ export type TextTokens = Record<TextSize, TextToken>;
 export interface TypographyToken {
   font: {
     heading: string;
-    locale: { [locale: string]: string };
+    locale: Record<string, string>;
     monospace: string;
     text: string;
     system: string;
@@ -249,15 +256,15 @@ export interface ThemeVariables {
   'palette-brand-color-80': Hexcode;
   'palette-brand-color-90': Hexcode;
   'palette-brand-bg-base': Hexcode;
-  'palette-brand-bg-disabled': Hexcode;
   'palette-brand-bg-focused': Hexcode;
   'palette-brand-bg-hovered': Hexcode;
   'palette-brand-bg-selected': Hexcode;
+  'palette-brand-bg-disabled': Hexcode;
   'palette-brand-fg-base': Hexcode;
-  'palette-brand-fg-disabled': Hexcode;
   'palette-brand-fg-focused': Hexcode;
   'palette-brand-fg-hovered': Hexcode;
   'palette-brand-fg-selected': Hexcode;
+  'palette-brand-fg-disabled': Hexcode;
   'palette-primary-color-00': Hexcode;
   'palette-primary-color-10': Hexcode;
   'palette-primary-color-20': Hexcode;
@@ -269,15 +276,15 @@ export interface ThemeVariables {
   'palette-primary-color-80': Hexcode;
   'palette-primary-color-90': Hexcode;
   'palette-primary-bg-base': Hexcode;
-  'palette-primary-bg-disabled': Hexcode;
   'palette-primary-bg-focused': Hexcode;
   'palette-primary-bg-hovered': Hexcode;
   'palette-primary-bg-selected': Hexcode;
+  'palette-primary-bg-disabled': Hexcode;
   'palette-primary-fg-base': Hexcode;
-  'palette-primary-fg-disabled': Hexcode;
   'palette-primary-fg-focused': Hexcode;
   'palette-primary-fg-hovered': Hexcode;
   'palette-primary-fg-selected': Hexcode;
+  'palette-primary-fg-disabled': Hexcode;
   'palette-secondary-color-00': Hexcode;
   'palette-secondary-color-10': Hexcode;
   'palette-secondary-color-20': Hexcode;
@@ -289,15 +296,15 @@ export interface ThemeVariables {
   'palette-secondary-color-80': Hexcode;
   'palette-secondary-color-90': Hexcode;
   'palette-secondary-bg-base': Hexcode;
-  'palette-secondary-bg-disabled': Hexcode;
   'palette-secondary-bg-focused': Hexcode;
   'palette-secondary-bg-hovered': Hexcode;
   'palette-secondary-bg-selected': Hexcode;
+  'palette-secondary-bg-disabled': Hexcode;
   'palette-secondary-fg-base': Hexcode;
-  'palette-secondary-fg-disabled': Hexcode;
   'palette-secondary-fg-focused': Hexcode;
   'palette-secondary-fg-hovered': Hexcode;
   'palette-secondary-fg-selected': Hexcode;
+  'palette-secondary-fg-disabled': Hexcode;
   'palette-tertiary-color-00': Hexcode;
   'palette-tertiary-color-10': Hexcode;
   'palette-tertiary-color-20': Hexcode;
@@ -309,15 +316,15 @@ export interface ThemeVariables {
   'palette-tertiary-color-80': Hexcode;
   'palette-tertiary-color-90': Hexcode;
   'palette-tertiary-bg-base': Hexcode;
-  'palette-tertiary-bg-disabled': Hexcode;
   'palette-tertiary-bg-focused': Hexcode;
   'palette-tertiary-bg-hovered': Hexcode;
   'palette-tertiary-bg-selected': Hexcode;
+  'palette-tertiary-bg-disabled': Hexcode;
   'palette-tertiary-fg-base': Hexcode;
-  'palette-tertiary-fg-disabled': Hexcode;
   'palette-tertiary-fg-focused': Hexcode;
   'palette-tertiary-fg-hovered': Hexcode;
   'palette-tertiary-fg-selected': Hexcode;
+  'palette-tertiary-fg-disabled': Hexcode;
   'palette-neutral-color-00': Hexcode;
   'palette-neutral-color-10': Hexcode;
   'palette-neutral-color-20': Hexcode;
@@ -329,15 +336,15 @@ export interface ThemeVariables {
   'palette-neutral-color-80': Hexcode;
   'palette-neutral-color-90': Hexcode;
   'palette-neutral-bg-base': Hexcode;
-  'palette-neutral-bg-disabled': Hexcode;
   'palette-neutral-bg-focused': Hexcode;
   'palette-neutral-bg-hovered': Hexcode;
   'palette-neutral-bg-selected': Hexcode;
+  'palette-neutral-bg-disabled': Hexcode;
   'palette-neutral-fg-base': Hexcode;
-  'palette-neutral-fg-disabled': Hexcode;
   'palette-neutral-fg-focused': Hexcode;
   'palette-neutral-fg-hovered': Hexcode;
   'palette-neutral-fg-selected': Hexcode;
+  'palette-neutral-fg-disabled': Hexcode;
   'palette-muted-color-00': Hexcode;
   'palette-muted-color-10': Hexcode;
   'palette-muted-color-20': Hexcode;
@@ -349,15 +356,15 @@ export interface ThemeVariables {
   'palette-muted-color-80': Hexcode;
   'palette-muted-color-90': Hexcode;
   'palette-muted-bg-base': Hexcode;
-  'palette-muted-bg-disabled': Hexcode;
   'palette-muted-bg-focused': Hexcode;
   'palette-muted-bg-hovered': Hexcode;
   'palette-muted-bg-selected': Hexcode;
+  'palette-muted-bg-disabled': Hexcode;
   'palette-muted-fg-base': Hexcode;
-  'palette-muted-fg-disabled': Hexcode;
   'palette-muted-fg-focused': Hexcode;
   'palette-muted-fg-hovered': Hexcode;
   'palette-muted-fg-selected': Hexcode;
+  'palette-muted-fg-disabled': Hexcode;
   'palette-info-color-00': Hexcode;
   'palette-info-color-10': Hexcode;
   'palette-info-color-20': Hexcode;
@@ -369,15 +376,15 @@ export interface ThemeVariables {
   'palette-info-color-80': Hexcode;
   'palette-info-color-90': Hexcode;
   'palette-info-bg-base': Hexcode;
-  'palette-info-bg-disabled': Hexcode;
   'palette-info-bg-focused': Hexcode;
   'palette-info-bg-hovered': Hexcode;
   'palette-info-bg-selected': Hexcode;
+  'palette-info-bg-disabled': Hexcode;
   'palette-info-fg-base': Hexcode;
-  'palette-info-fg-disabled': Hexcode;
   'palette-info-fg-focused': Hexcode;
   'palette-info-fg-hovered': Hexcode;
   'palette-info-fg-selected': Hexcode;
+  'palette-info-fg-disabled': Hexcode;
   'palette-warning-color-00': Hexcode;
   'palette-warning-color-10': Hexcode;
   'palette-warning-color-20': Hexcode;
@@ -389,15 +396,15 @@ export interface ThemeVariables {
   'palette-warning-color-80': Hexcode;
   'palette-warning-color-90': Hexcode;
   'palette-warning-bg-base': Hexcode;
-  'palette-warning-bg-disabled': Hexcode;
   'palette-warning-bg-focused': Hexcode;
   'palette-warning-bg-hovered': Hexcode;
   'palette-warning-bg-selected': Hexcode;
+  'palette-warning-bg-disabled': Hexcode;
   'palette-warning-fg-base': Hexcode;
-  'palette-warning-fg-disabled': Hexcode;
   'palette-warning-fg-focused': Hexcode;
   'palette-warning-fg-hovered': Hexcode;
   'palette-warning-fg-selected': Hexcode;
+  'palette-warning-fg-disabled': Hexcode;
   'palette-danger-color-00': Hexcode;
   'palette-danger-color-10': Hexcode;
   'palette-danger-color-20': Hexcode;
@@ -409,15 +416,15 @@ export interface ThemeVariables {
   'palette-danger-color-80': Hexcode;
   'palette-danger-color-90': Hexcode;
   'palette-danger-bg-base': Hexcode;
-  'palette-danger-bg-disabled': Hexcode;
   'palette-danger-bg-focused': Hexcode;
   'palette-danger-bg-hovered': Hexcode;
   'palette-danger-bg-selected': Hexcode;
+  'palette-danger-bg-disabled': Hexcode;
   'palette-danger-fg-base': Hexcode;
-  'palette-danger-fg-disabled': Hexcode;
   'palette-danger-fg-focused': Hexcode;
   'palette-danger-fg-hovered': Hexcode;
   'palette-danger-fg-selected': Hexcode;
+  'palette-danger-fg-disabled': Hexcode;
   'palette-success-color-00': Hexcode;
   'palette-success-color-10': Hexcode;
   'palette-success-color-20': Hexcode;
@@ -429,15 +436,15 @@ export interface ThemeVariables {
   'palette-success-color-80': Hexcode;
   'palette-success-color-90': Hexcode;
   'palette-success-bg-base': Hexcode;
-  'palette-success-bg-disabled': Hexcode;
   'palette-success-bg-focused': Hexcode;
   'palette-success-bg-hovered': Hexcode;
   'palette-success-bg-selected': Hexcode;
+  'palette-success-bg-disabled': Hexcode;
   'palette-success-fg-base': Hexcode;
-  'palette-success-fg-disabled': Hexcode;
   'palette-success-fg-focused': Hexcode;
   'palette-success-fg-hovered': Hexcode;
   'palette-success-fg-selected': Hexcode;
+  'palette-success-fg-disabled': Hexcode;
 }
 
 export type Tokens = DesignTokens & ThemeTokens;
@@ -446,95 +453,73 @@ export type Variables = DesignVariables & ThemeVariables;
 
 export type VariableName = keyof Variables;
 
+export type TokenUtil = (name: VariableName) => unknown;
+
 export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 
 export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export interface Mixins {
-  border: {
-    [K in BorderSize]: Declarations;
-  };
-  box: {
-    [K in CommonSize]: Declarations;
-  };
-  heading: {
-    [K in HeadingSize]: Declarations;
-  };
-  // input: {
-  //   default: Declarations;
-  //   disabled: Declarations;
-  //   focused: Declarations;
-  //   invalid: Declarations;
-  // };
-  pattern: {
-    hidden: Declarations;
-    offscreen: Declarations;
-    reset: {
-      button: Declarations;
-      input: Declarations;
-      list: Declarations;
-      typography: Declarations;
-    };
-    root: Declarations;
-    text: {
-      break: Declarations;
-      truncate: Declarations;
-      wrap: Declarations;
-    };
-  };
-  shadow: {
-    [K in ShadowSize]: Declarations;
-  };
-  // state: {
-  //   disabled: Declarations;
-  //   focused: Declarations;
-  //   invalid: Declarations;
-  // };
-  text: {
-    [K in TextSize]: Declarations;
-  };
+export type MixinTemplate<T extends object = object> = (options: T) => Rule;
+
+export type MixinUtil<T extends object = object> = (options?: T, properties?: Rule) => Rule;
+
+export interface MixinBuiltInUtils {
+  background: MixinUtil<BackgroundOptions>;
+  border: MixinUtil<BorderOptions>;
+  foreground: MixinUtil<ForegroundOptions>;
+  heading: MixinUtil<HeadingOptions>;
+  hideCompletely: MixinUtil;
+  hideOffscreen: MixinUtil;
+  hideVisually: MixinUtil;
+  resetButton: MixinUtil<ResetButtonOptions>;
+  resetInput: MixinUtil;
+  resetList: MixinUtil;
+  resetMedia: MixinUtil;
+  resetTypography: MixinUtil;
+  root: MixinUtil;
+  shadow: MixinUtil<ShadowOptions>;
+  text: MixinUtil<TextOptions>;
+  textBreak: MixinUtil;
+  textTruncate: MixinUtil;
+  textWrap: MixinUtil;
+  uiBox: MixinUtil<UIBoxOptions>;
+  uiInteractive: MixinUtil<UIInteractiveOptions>;
 }
 
-export type MixinName =
-  | 'border-sm'
-  | 'border-df'
-  | 'border-lg'
-  | 'box-sm'
-  | 'box-df'
-  | 'box-lg'
-  | 'heading-l1'
-  | 'heading-l2'
-  | 'heading-l3'
-  | 'heading-l4'
-  | 'heading-l5'
-  | 'heading-l6'
-  | 'pattern-hidden'
-  | 'pattern-offscreen'
-  | 'pattern-reset-button'
-  | 'pattern-reset-input'
-  | 'pattern-reset-list'
-  | 'pattern-reset-typography'
-  | 'pattern-text-break'
-  | 'pattern-text-truncate'
-  | 'pattern-text-wrap'
-  | 'root'
-  | 'shadow-xs'
-  | 'shadow-sm'
-  | 'shadow-md'
-  | 'shadow-lg'
-  | 'shadow-xl'
-  | 'text-sm'
-  | 'text-df'
-  | 'text-lg';
+export interface MixinUtils extends MixinBuiltInUtils {
+  (name: MixinType, options?: object, ...additionalRules: Rule[]): Rule;
+}
 
-export type MixinUtil<T extends object> = (name: MixinName | MixinName[], properties?: T) => T;
+export type MixinType = LiteralUnion<
+  | 'background'
+  | 'border'
+  | 'foreground'
+  | 'heading'
+  | 'hide-completely'
+  | 'hide-offscreen'
+  | 'hide-visually'
+  | 'reset-button'
+  | 'reset-input'
+  | 'reset-list'
+  | 'reset-media'
+  | 'reset-typography'
+  | 'root'
+  | 'shadow'
+  | 'text'
+  | 'text-break'
+  | 'text-truncate'
+  | 'text-wrap'
+  | 'ui-box'
+  | 'ui-interactive'
+>;
 
 // OTHER
 
-export interface Utilities<T extends object> {
-  mixin: MixinUtil<T>;
+export interface Utilities {
+  mixin: MixinUtils;
+  token: TokenUtil;
   unit: UnitUtil;
   var: VarUtil;
 }

@@ -1,0 +1,5 @@
+{
+  "rules": {
+    "babel/no-invalid-this": "off"
+  }
+}

@@ -6,16 +6,14 @@
   },
   bg: {
     base: '<%= palette.bg.base -%>',
-    disabled: '<%= palette.bg.disabled -%>',
-    focused: '<%= palette.bg.focused -%>',
-    hovered: '<%= palette.bg.hovered -%>',
-    selected: '<%= palette.bg.selected -%>',
+    <% stateOrder.forEach(state => { -%>
+    <%= state -%>: '<%= palette.bg[state] -%>',
+    <% }) -%>
   },
   fg: {
     base: '<%= palette.fg.base -%>',
-    disabled: '<%= palette.fg.disabled -%>',
-    focused: '<%= palette.fg.focused -%>',
-    hovered: '<%= palette.fg.hovered -%>',
-    selected: '<%= palette.fg.selected -%>',
+    <% stateOrder.forEach(state => { -%>
+    <%= state -%>: '<%= palette.fg[state] -%>',
+    <% }) -%>
   },
 }

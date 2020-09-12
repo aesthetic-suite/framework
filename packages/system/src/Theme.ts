@@ -1,28 +1,37 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { Declarations } from '@aesthetic/types';
-import { deepClone, deepMerge, hyphenate, isObject, objectLoop, toArray } from '@aesthetic/utils';
+import { Rule, Unit } from '@aesthetic/types';
+import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import Design from './Design';
-import createMixins from './createMixins';
 import {
   ColorScheme,
   ContrastLevel,
-  ThemeOptions,
-  Tokens,
   DeepPartial,
-  ThemeTokens,
-  Mixins,
-  MixinName,
-  Variables,
-  VarUtil,
-  UnitUtil,
+  MixinBuiltInUtils,
+  MixinTemplate,
+  MixinType,
   MixinUtil,
+  MixinUtils,
+  ThemeOptions,
+  ThemeTokens,
+  Tokens,
   Utilities,
+  VariableName,
+  Variables,
 } from './types';
+import { background } from './mixins/background';
+import { border } from './mixins/border';
+import { hideCompletely, hideOffscreen, hideVisually } from './mixins/display';
+import { foreground } from './mixins/foreground';
+import { heading } from './mixins/heading';
+import { resetButton, resetInput, resetList, resetMedia, resetTypography } from './mixins/reset';
+import { root } from './mixins/root';
+import { shadow } from './mixins/shadow';
+import { text, textWrap, textTruncate, textBreak } from './mixins/text';
+import { uiBox, uiInteractive } from './mixins/ui';
 
-interface AnyObject {
-  [key: string]: any;
-}
+type AnyObject = Record<string, any>;
+type MixinTemplates = Record<string, Set<MixinTemplate>>;
 
 export default class Theme {
   name: string = '';
@@ -31,7 +40,9 @@ export default class Theme {
 
   readonly scheme: ColorScheme;
 
-  protected mixins: Mixins;
+  protected mixins: Record<string, MixinTemplate> = {};
+
+  protected mixinTemplates: MixinTemplates = {};
 
   protected tokens: ThemeTokens;
 
@@ -41,12 +52,25 @@ export default class Theme {
 
   private design: Design;
 
-  constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design, parentMixins?: Mixins) {
+  constructor(
+    options: ThemeOptions,
+    tokens: ThemeTokens,
+    design: Design,
+    parentTemplates: MixinTemplates = {},
+  ) {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
     this.design = design;
     this.tokens = tokens;
-    this.mixins = parentMixins ?? createMixins(this.var);
+    this.mixinTemplates = parentTemplates;
+
+    // Bind instead of using anonymous functions since we need
+    // to pass these around and define properties on them!
+    this.mixin = this.mixin.bind(this);
+    this.token = this.token.bind(this);
+    this.unit = this.unit.bind(this);
+    this.var = this.var.bind(this);
+    this.prepareBuiltIns();
   }
 
   /**
@@ -61,52 +85,36 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      deepClone(this.mixins),
+      { ...this.mixinTemplates },
     );
   }
 
   /**
-   * Extend a mixin with additional CSS properties, and return the new mixin.
+   * Extend a registered mixin with additional CSS properties.
    */
-  extendMixin(name: MixinName, properties?: Declarations, overwrite?: boolean): Declarations {
-    const paths = name.split('-');
-    let parent: AnyObject = this.mixins;
-    let target: AnyObject = this.mixins;
-    let key = '';
+  extendMixin(name: MixinType, template: MixinTemplate): this {
+    const set = this.mixinTemplates[name] || new Set();
 
-    while (paths.length > 0) {
-      key = paths.shift()!;
-      parent = target;
-      target = parent[key];
+    set.add(template);
 
-      if (__DEV__) {
-        if (target === undefined || !isObject(target)) {
-          throw new Error(`Unknown mixin "${name}".`);
-        }
-      }
-    }
+    this.mixinTemplates[name] = set;
 
-    if (overwrite) {
-      parent[key] = { ...properties };
-    } else if (properties) {
-      parent[key] = deepMerge(target, properties);
-    }
-
-    return parent[key];
+    return this;
   }
 
   /**
-   * Merge one or many mixins into the defined properties.
-   * Properties take the highest precendence and will override mixin declarations.
+   * Register a mixin to provide reusable CSS properties.
    */
-  mixin: MixinUtil<object> = (names, properties = {}) =>
-    deepMerge(...toArray(names).map((name) => this.extendMixin(name)), properties);
+  registerMixin(name: MixinType, template: MixinTemplate): this {
+    if (__DEV__) {
+      if (this.mixins[name]) {
+        throw new Error(`A mixin already exists for "${name}". Cannot overwrite.`);
+      }
+    }
 
-  /**
-   * Overwrite a mixin with a set of custom CSS properties, and return the new mixin.
-   */
-  overwriteMixin(name: MixinName, properties: Declarations): Declarations {
-    return this.extendMixin(name, properties, true);
+    this.mixins[name] = template;
+
+    return this;
   }
 
   /**
@@ -126,12 +134,13 @@ export default class Theme {
   /**
    * Return a mapping of all theme specific utility methods.
    */
-  toUtilities<T extends object>(): Utilities<T> {
-    return ({
-      mixin: this.mixin,
+  toUtilities(): Utilities {
+    return {
+      mixin: this.mixin as MixinUtils,
+      token: this.token,
       unit: this.unit,
       var: this.var,
-    } as unknown) as Utilities<T>;
+    };
   }
 
   /**
@@ -163,10 +172,58 @@ export default class Theme {
   }
 
   /**
+   * Return merged CSS properties from the defined mixin, all template overrides,
+   * and the provided additional CSS properties.
+   */
+  mixin(name: MixinType, options?: object, ...additionalRules: Rule[]): Rule {
+    const rules: Rule[] = [];
+    const mixin = this.mixins[name];
+
+    if (mixin) {
+      rules.push(this.callMixinTemplate(mixin, options));
+    } else if (__DEV__) {
+      // Log instead of error since mixins are dynamic
+      // eslint-disable-next-line no-console
+      console.warn(`Unknown mixin "${name}".`);
+    }
+
+    const templates = this.mixinTemplates[name];
+
+    if (templates) {
+      templates.forEach((template) => {
+        rules.push(this.callMixinTemplate(template, options));
+      });
+    }
+
+    rules.push(...additionalRules);
+
+    if (rules.length === 0) {
+      return {};
+    }
+
+    return deepMerge(...rules);
+  }
+
+  /**
+   * Return a raw token value for the defined name.
+   */
+  token(name: VariableName): unknown {
+    const value = this.toVariables()[name];
+
+    if (__DEV__) {
+      if (value === undefined) {
+        throw new Error(`Unknown token "${name}".`);
+      }
+    }
+
+    return value || null;
+  }
+
+  /**
    * Return a `rem` unit equivalent for the current spacing type and unit.
    */
-  unit: UnitUtil = (...multipliers) =>
-    multipliers
+  unit(...multipliers: number[]): Unit {
+    return multipliers
       .map(
         (m) =>
           `${((this.design.spacingUnit * m) / this.design.rootTextSize)
@@ -174,10 +231,62 @@ export default class Theme {
             .replace('.00', '')}rem`,
       )
       .join(' ');
+  }
 
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var: VarUtil = (name, ...fallbacks) =>
-    fallbacks.length > 0 ? `var(${[`--${name}`, ...fallbacks].join(', ')})` : `var(--${name})`;
+  var(name: VariableName, ...fallbacks: (string | number)[]): string {
+    return fallbacks.length > 0
+      ? `var(${[`--${name}`, ...fallbacks].join(', ')})`
+      : `var(--${name})`;
+  }
+
+  /**
+   * Call a mixin template function with the defined options object.
+   * Will set the "this" context to the utilities object, so that mixins can utilize them.
+   */
+  protected callMixinTemplate(mixin: MixinTemplate, options: object = {}): Rule {
+    return mixin.call(this.toUtilities(), options);
+  }
+
+  /**
+   * Set the built-in mixin's as properties on the mixin method for easy access.
+   */
+  protected prepareBuiltIns() {
+    const builtIns: Record<keyof MixinBuiltInUtils, MixinTemplate> = {
+      background,
+      border,
+      foreground,
+      heading,
+      hideCompletely,
+      hideOffscreen,
+      hideVisually,
+      resetButton,
+      resetInput,
+      resetList,
+      resetMedia,
+      resetTypography,
+      root,
+      shadow,
+      text,
+      textBreak,
+      textTruncate,
+      textWrap,
+      uiBox,
+      uiInteractive,
+    };
+
+    objectLoop(builtIns, (mixin, name) => {
+      const type = hyphenate(name) as MixinType;
+
+      // Register the mixin
+      this.registerMixin(type, mixin);
+
+      // Provide a utility function
+      const util: MixinUtil = (options, properties) => this.mixin(type, options, properties!);
+
+      Object.defineProperty(this.mixin, name, { value: util });
+    });
+  }
 }

@@ -30,31 +30,31 @@ export const border: BorderTokens = {
 
 export const breakpoint: BreakpointTokens = {
   xs: {
-    query: '(min-width: 45.71em)',
+    query: 'screen and (min-width: 45.71em)',
     querySize: 640,
     rootLineHeight: 1.33,
     rootTextSize: '14.94px',
   },
   sm: {
-    query: '(min-width: 68.57em)',
+    query: 'screen and (min-width: 68.57em)',
     querySize: 960,
     rootLineHeight: 1.42,
     rootTextSize: '15.94px',
   },
   md: {
-    query: '(min-width: 91.43em)',
+    query: 'screen and (min-width: 91.43em)',
     querySize: 1280,
     rootLineHeight: 1.52,
     rootTextSize: '17.01px',
   },
   lg: {
-    query: '(min-width: 114.29em)',
+    query: 'screen and (min-width: 114.29em)',
     querySize: 1600,
     rootLineHeight: 1.62,
     rootTextSize: '18.15px',
   },
   xl: {
-    query: '(min-width: 137.14em)',
+    query: 'screen and (min-width: 137.14em)',
     querySize: 1920,
     rootLineHeight: 1.73,
     rootTextSize: '19.36px',
@@ -168,13 +168,14 @@ export const text: TextTokens = {
 export const typography: TypographyToken = {
   font: {
     heading:
-      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"',
+      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
     locale: {},
-    monospace: '\\"Lucida Console\\", Monaco, monospace',
+    monospace:
+      'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace',
     text:
-      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"',
+      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
     system:
-      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, Helvetica, Arial, sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\"',
+      'system-ui, -apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
   },
   rootLineHeight: 1.25,
   rootTextSize: '14px',
@@ -206,17 +207,17 @@ export const brand: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -235,17 +236,17 @@ export const primary: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -264,17 +265,17 @@ export const secondary: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -293,17 +294,17 @@ export const tertiary: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -322,17 +323,17 @@ export const neutral: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -351,17 +352,17 @@ export const muted: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -380,17 +381,17 @@ export const info: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -409,17 +410,17 @@ export const warning: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -438,17 +439,17 @@ export const danger: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -467,17 +468,17 @@ export const failure: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 
@@ -496,17 +497,17 @@ export const success: PaletteToken = {
   },
   bg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
   fg: {
     base: '#000',
-    disabled: '#000',
     focused: '#000',
     hovered: '#000',
     selected: '#000',
+    disabled: '#000',
   },
 };
 "

@@ -42,7 +42,7 @@ function scale(defaultValue: Scale) {
   );
 }
 
-function unit(defaultValue: number = 0) {
+function unit(defaultValue: number) {
   return number(defaultValue);
 }
 

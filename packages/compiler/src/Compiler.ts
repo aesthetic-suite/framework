@@ -4,15 +4,8 @@ import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import camelCase from 'lodash/camelCase';
 import { Path, PortablePath } from '@boost/common';
-import { createMixins, DEPTHS } from '@aesthetic/system';
-import BrandLoader from './BrandLoader';
-import LanguageLoader from './LanguageLoader';
-import ThemesLoader from './ThemesLoader';
-import SystemDesign from './SystemDesign';
-import SystemTheme from './SystemTheme';
-import WebPlatform from './platforms/Web';
-import { FormatType, SystemOptions, PlatformType, MixinsTemplate, ThemesConfigFile } from './types';
 import {
+  DEPTHS,
   BORDER_SIZES,
   BREAKPOINT_SIZES,
   HEADING_SIZES,
@@ -21,7 +14,15 @@ import {
   SHADOW_SIZES,
   SPACING_SIZES,
   TEXT_SIZES,
-} from './constants';
+  STATE_ORDER,
+} from '@aesthetic/system';
+import BrandLoader from './BrandLoader';
+import LanguageLoader from './LanguageLoader';
+import ThemesLoader from './ThemesLoader';
+import SystemDesign from './SystemDesign';
+import SystemTheme from './SystemTheme';
+import WebPlatform from './platforms/Web';
+import { FormatType, SystemOptions, PlatformType, ThemesConfigFile } from './types';
 
 type Platform = WebPlatform;
 
@@ -92,8 +93,7 @@ export default class Compiler {
     // Load the platform
     const platform = this.loadPlatform(design);
 
-    // Write the design system and mixin files
-    await this.writeMixinsFile(platform);
+    // Write the design system
     await this.writeDesignFile(design, platform);
 
     // Write all theme files
@@ -140,11 +140,6 @@ export default class Compiler {
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
     const templatePath = TEMPLATES_FOLDER.append(this.options.format, `${name}.ejs`);
 
-    // Not all targets use all templates
-    if (!templatePath.exists()) {
-      return null;
-    }
-
     return ejs.compile(await fs.readFile(templatePath.path(), 'utf8'), {
       filename: templatePath.path(),
     });
@@ -170,22 +165,6 @@ export default class Compiler {
     );
   }
 
-  async writeMixinsFile(platform: Platform): Promise<void> {
-    const template = await this.loadTemplate('mixins');
-
-    if (!template) {
-      return Promise.resolve();
-    }
-
-    return this.writeFile(
-      this.getTargetFilePath('mixins'),
-      await template({
-        mixins: this.loadMixins(platform),
-        platform,
-      }),
-    );
-  }
-
   async writeThemeFile(
     design: SystemDesign,
     theme: SystemTheme,
@@ -201,6 +180,7 @@ export default class Compiler {
         paletteTypes: PALETTE_TYPES,
         platform,
         shadeRanges: SHADE_RANGES,
+        stateOrder: STATE_ORDER,
         theme,
       }),
     );
@@ -222,43 +202,6 @@ export default class Compiler {
     }
 
     return path;
-  }
-
-  protected loadMixins(platform: Platform): MixinsTemplate {
-    const mixins = createMixins(platform.var);
-
-    return {
-      'border-sm': mixins.border.sm,
-      'border-df': mixins.border.df,
-      'border-lg': mixins.border.lg,
-      'box-sm': mixins.box.sm,
-      'box-df': mixins.box.df,
-      'box-lg': mixins.box.lg,
-      'heading-l1': mixins.heading.l1,
-      'heading-l2': mixins.heading.l2,
-      'heading-l3': mixins.heading.l3,
-      'heading-l4': mixins.heading.l4,
-      'heading-l5': mixins.heading.l5,
-      'heading-l6': mixins.heading.l6,
-      'pattern-hidden': mixins.pattern.hidden,
-      'pattern-offscreen': mixins.pattern.offscreen,
-      'pattern-reset-button': mixins.pattern.reset.button,
-      'pattern-reset-input': mixins.pattern.reset.input,
-      'pattern-reset-list': mixins.pattern.reset.list,
-      'pattern-reset-typography': mixins.pattern.reset.typography,
-      'pattern-text-break': mixins.pattern.text.break,
-      'pattern-text-truncate': mixins.pattern.text.truncate,
-      'pattern-text-wrap': mixins.pattern.text.wrap,
-      root: mixins.pattern.root,
-      'shadow-xs': mixins.shadow.xs,
-      'shadow-sm': mixins.shadow.sm,
-      'shadow-md': mixins.shadow.md,
-      'shadow-lg': mixins.shadow.lg,
-      'shadow-xl': mixins.shadow.xs,
-      'text-sm': mixins.text.sm,
-      'text-df': mixins.text.df,
-      'text-lg': mixins.text.lg,
-    };
   }
 
   protected loadPlatform(design: SystemDesign): Platform {

@@ -35,16 +35,7 @@ export default function runTargetTests(
 
       await compiler.compile();
 
-      if (
-        format === 'web-js' ||
-        format === 'web-jsx' ||
-        format === 'web-ts' ||
-        format === 'web-tsx'
-      ) {
-        expect(writeSpy).toHaveBeenCalledTimes(2);
-      } else {
-        expect(writeSpy).toHaveBeenCalledTimes(3);
-      }
+      expect(writeSpy).toHaveBeenCalledTimes(2);
 
       mkdirSpy.mockRestore();
       writeSpy.mockRestore();

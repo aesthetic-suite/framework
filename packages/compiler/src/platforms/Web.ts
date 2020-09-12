@@ -1,4 +1,4 @@
-import { hyphenate } from '@aesthetic/utils';
+// import { hyphenate } from '@aesthetic/utils';
 import { formatUnit } from '../helpers';
 import { BreakpointCondition, FormatType } from '../types';
 
@@ -20,9 +20,9 @@ export default class WebPlatform {
     return Number(formatUnit(value));
   }
 
-  property(value: string): string {
-    return hyphenate(value);
-  }
+  // property(value: string): string {
+  //   return hyphenate(value);
+  // }
 
   px(value: number): string {
     return `${formatUnit(value)}px`;
@@ -36,23 +36,13 @@ export default class WebPlatform {
     return `${formatUnit(value / this.rootTextSize)}rem`;
   }
 
-  unit(size: number, type: string = 'rem'): number {
+  unit(size: number): number {
     return size * this.spacingUnit;
   }
 
-  var = (value: string): string => {
-    if (this.format === 'web-sass' || this.format === 'web-scss') {
-      return `$${value}`;
-    }
-
-    if (this.format === 'web-less') {
-      return `@${value}`;
-    }
-
-    return `var(--${value})`;
-  };
-
   query(conditions: BreakpointCondition[]): string {
-    return conditions.map((cond) => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
+    const clause = conditions.map((cond) => `(${cond[0]}: ${this.em(cond[1])})`).join(' and ');
+
+    return `screen and ${clause}`;
   }
 }

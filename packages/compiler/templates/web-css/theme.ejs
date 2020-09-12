@@ -9,15 +9,13 @@
   --palette-<%= type -%>-color-<%= shade -%>: <%= data.palette[type].color[shade] -%>;
   <% }) -%>
   --palette-<%= type -%>-bg-base: <%= data.palette[type].bg.base -%>;
-  --palette-<%= type -%>-bg-disabled: <%= data.palette[type].bg.disabled -%>;
-  --palette-<%= type -%>-bg-focused: <%= data.palette[type].bg.focused -%>;
-  --palette-<%= type -%>-bg-hovered: <%= data.palette[type].bg.hovered -%>;
-  --palette-<%= type -%>-bg-selected: <%= data.palette[type].bg.selected -%>;
+  <% stateOrder.forEach(state => { -%>
+  --palette-<%= type -%>-bg-<%= state -%>: <%= data.palette[type].bg[state] -%>;
+  <% }) -%>
   --palette-<%= type -%>-fg-base: <%= data.palette[type].fg.base -%>;
-  --palette-<%= type -%>-fg-disabled: <%= data.palette[type].fg.disabled -%>;
-  --palette-<%= type -%>-fg-focused: <%= data.palette[type].fg.focused -%>;
-  --palette-<%= type -%>-fg-hovered: <%= data.palette[type].fg.hovered -%>;
-  --palette-<%= type -%>-fg-selected: <%= data.palette[type].fg.selected -%>;
+  <% stateOrder.forEach(state => { -%>
+  --palette-<%= type -%>-fg-<%= state -%>: <%= data.palette[type].fg[state] -%>;
+  <% }) -%>
 
   <% }) -%>
 }

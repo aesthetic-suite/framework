@@ -9,6 +9,7 @@ import {
   Properties,
   GenericProperties,
   Variables,
+  Rule,
 } from '@aesthetic/types';
 import {
   arrayReduce,
@@ -34,7 +35,7 @@ import GlobalStyleSheet from './GlobalStyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import { Condition, ProcessOptions, Rule, SheetType, RenderOptions, StyleRule } from './types';
+import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;

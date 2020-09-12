@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Theme extendMixin() can extend a mixing with additional properties 1`] = `
+exports[`Theme extendMixin() can extend a mixin with additional properties 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",
   "fontWeight": "normal",
@@ -11,7 +11,7 @@ Object {
 }
 `;
 
-exports[`Theme extendMixin() can extend a mixing with additional properties 2`] = `
+exports[`Theme extendMixin() can extend a mixin with additional properties 2`] = `
 Object {
   "color": "red",
   "display": "inline-block",
@@ -24,81 +24,93 @@ Object {
 }
 `;
 
+exports[`Theme extendMixin() can utilize the same options as the parent mixin 1`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-df-size)",
+  "fontWeight": "normal",
+  "lineHeight": "var(--text-df-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
+exports[`Theme extendMixin() can utilize the same options as the parent mixin 2`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-lg-size)",
+  "fontWeight": "bold",
+  "lineHeight": "var(--text-lg-line-height)",
+  "wordWrap": "break-word",
+}
+`;
+
 exports[`Theme extendMixin() will deep merge properties 1`] = `
 Object {
   ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
+    "backgroundColor": "var(--palette-neutral-color-50)",
+    "borderColor": "var(--palette-neutral-color-60)",
+  },
+  ":disabled": Object {
+    "backgroundColor": "var(--palette-neutral-color-20)",
+    "borderColor": "var(--palette-neutral-color-30)",
+    "cursor": "default",
   },
   ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
+    "borderColor": "var(--palette-neutral-color-60)",
   },
   ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
+    "backgroundColor": "var(--palette-neutral-color-60)",
+    "borderColor": "var(--palette-neutral-color-70)",
   },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
-  "borderRadius": "var(--border-df-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-df-width)",
+  "backgroundColor": "var(--palette-neutral-color-40)",
+  "borderColor": "var(--palette-neutral-color-50)",
+  "color": "var(--palette-neutral-color-00)",
+  "cursor": "pointer",
 }
 `;
 
 exports[`Theme extendMixin() will deep merge properties 2`] = `
 Object {
   ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
+    "backgroundColor": "var(--palette-neutral-color-50)",
+    "borderColor": "var(--palette-neutral-color-60)",
+  },
+  ":disabled": Object {
+    "backgroundColor": "var(--palette-neutral-color-20)",
+    "borderColor": "var(--palette-neutral-color-30)",
+    "cursor": "default",
   },
   ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
+    "borderColor": "var(--palette-neutral-color-60)",
     "outline": "none",
   },
   ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
+    "backgroundColor": "var(--palette-neutral-color-60)",
+    "borderColor": "var(--palette-neutral-color-70)",
   },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "borderColor": "var(--palette-neutral-color-30)",
-  "borderRadius": "var(--border-df-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-df-width)",
+  "backgroundColor": "var(--palette-neutral-color-40)",
+  "borderColor": "var(--palette-neutral-color-50)",
+  "color": "var(--palette-neutral-color-00)",
+  "cursor": "pointer",
 }
 `;
 
-exports[`Theme mixin() can merge from multiple targets 1`] = `
+exports[`Theme mixin() allows additional rules to overwrite templates and mixin 1`] = `
 Object {
-  ":active": Object {
-    "borderColor": "var(--palette-primary-bg-selected)",
-  },
-  ":focus": Object {
-    "borderColor": "var(--palette-primary-bg-focused)",
-  },
-  ":hover": Object {
-    "borderColor": "var(--palette-primary-bg-hovered)",
-  },
-  "[disabled]": Object {
-    "borderColor": "var(--palette-primary-bg-disabled)",
-  },
-  "backgroundColor": "var(--palette-neutral-color-10)",
-  "borderColor": "var(--palette-neutral-color-30)",
-  "borderRadius": "var(--border-sm-radius)",
-  "borderStyle": "solid",
-  "borderWidth": "var(--border-sm-width)",
-  "color": "red",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": "normal",
-  "letterSpacing": "var(--heading-l3-letter-spacing)",
+  "fontSize": "24px",
+  "fontWeight": 800,
   "lineHeight": "var(--text-df-line-height)",
   "wordWrap": "break-word",
 }
 `;
 
-exports[`Theme mixin() merges objects with mixin 1`] = `
+exports[`Theme mixin() merges additional rules with base mixin 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
@@ -107,20 +119,25 @@ Object {
 }
 `;
 
-exports[`Theme overwriteMixin() can completely replace an existing mixin 1`] = `
+exports[`Theme mixin() merges multiple templates with base mixin 1`] = `
 Object {
-  "color": "var(--palette-neutral-color-80)",
+  "color": "var(--palette-neutral-fg-base)",
   "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": "normal",
+  "fontSize": "24px",
+  "fontWeight": "bold",
   "lineHeight": "var(--text-df-line-height)",
   "wordWrap": "break-word",
 }
 `;
 
-exports[`Theme overwriteMixin() can completely replace an existing mixin 2`] = `
+exports[`Theme mixin() merges templates and rules with base mixin 1`] = `
 Object {
-  "fontSize": "20px",
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "24px",
+  "fontWeight": "bold",
+  "lineHeight": "var(--text-df-line-height)",
+  "wordWrap": "break-word",
 }
 `;
 

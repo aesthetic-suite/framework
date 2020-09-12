@@ -1,9 +1,9 @@
 import { deepMerge } from '@aesthetic/utils';
-import { DeepPartial, ContrastLevel, ColorScheme, Hexcode } from '@aesthetic/system';
+import { DeepPartial, ContrastLevel, ColorScheme, Hexcode, SHADE_RANGES } from '@aesthetic/system';
 import { Path } from '@boost/common';
 import optimal, { number, object, ObjectOf, Schema, shape, string, union } from 'optimal';
 import Loader from './Loader';
-import { SHADE_RANGES, THEMES_FILE } from './constants';
+import { THEMES_FILE } from './constants';
 import {
   ThemesConfigFile,
   ThemeConfig,
@@ -123,10 +123,10 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
   protected themePaletteState(base: number) {
     return shape<PaletteState>({
       base: this.colorShade(base),
-      disabled: this.colorShade(base - 10),
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
       selected: this.colorShade(base + 10),
+      disabled: this.colorShade(base - 20),
     }).exact();
   }
 
