@@ -35,12 +35,12 @@ export type SheetStructure<T extends string> = {
 };
 
 export type GlobalSheetFactory<T = unknown> = (
-  utils: Utilities<LocalBlock>,
+  utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type LocalSheetFactory<T = unknown> = (
-  utils: Utilities<LocalBlock>,
+  utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 

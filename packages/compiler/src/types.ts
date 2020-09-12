@@ -11,7 +11,6 @@ import {
   TextSize,
   ElevationType,
   ShadowSize,
-  MixinType,
   StateType,
 } from '@aesthetic/system';
 
@@ -319,7 +318,3 @@ export interface PaletteTemplate {
 export interface ThemeTemplate {
   palette: { [K in PaletteType]: PaletteTemplate };
 }
-
-export type MixinsTemplate = {
-  [K in MixinType]: object;
-};

@@ -5,7 +5,6 @@ import prettier, { BuiltInParserName } from 'prettier';
 import camelCase from 'lodash/camelCase';
 import { Path, PortablePath } from '@boost/common';
 import {
-  createMixins,
   DEPTHS,
   BORDER_SIZES,
   BREAKPOINT_SIZES,
@@ -17,14 +16,13 @@ import {
   TEXT_SIZES,
   STATE_ORDER,
 } from '@aesthetic/system';
-import { objectCreate } from '@aesthetic/utils';
 import BrandLoader from './BrandLoader';
 import LanguageLoader from './LanguageLoader';
 import ThemesLoader from './ThemesLoader';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import WebPlatform from './platforms/Web';
-import { FormatType, SystemOptions, PlatformType, MixinsTemplate, ThemesConfigFile } from './types';
+import { FormatType, SystemOptions, PlatformType, ThemesConfigFile } from './types';
 
 type Platform = WebPlatform;
 
@@ -95,8 +93,7 @@ export default class Compiler {
     // Load the platform
     const platform = this.loadPlatform(design);
 
-    // Write the design system and mixin files
-    await this.writeMixinsFile(design, platform);
+    // Write the design system
     await this.writeDesignFile(design, platform);
 
     // Write all theme files
@@ -173,22 +170,6 @@ export default class Compiler {
     );
   }
 
-  async writeMixinsFile(design: SystemDesign, platform: Platform): Promise<void> {
-    const template = await this.loadTemplate('mixins');
-
-    if (!template) {
-      return Promise.resolve();
-    }
-
-    return this.writeFile(
-      this.getTargetFilePath('mixins'),
-      await template({
-        mixins: this.loadMixins(design, platform),
-        platform,
-      }),
-    );
-  }
-
   async writeThemeFile(
     design: SystemDesign,
     theme: SystemTheme,
@@ -226,97 +207,6 @@ export default class Compiler {
     }
 
     return path;
-  }
-
-  protected loadMixins(design: SystemDesign, platform: Platform): MixinsTemplate {
-    const mixins = createMixins(platform.var, {
-      breakpoint: objectCreate(BREAKPOINT_SIZES, (size) => {
-        const bp = design.template.breakpoint[size];
-
-        return {
-          query: platform.query(bp.queryConditions),
-          querySize: bp.querySize,
-          rootLineHeight: platform.number(bp.rootLineHeight),
-          rootTextSize: platform.px(bp.rootTextSize),
-        };
-      }),
-    });
-
-    return {
-      'background-brand': mixins.background.brand,
-      'background-danger': mixins.background.danger,
-      'background-failure': mixins.background.failure,
-      'background-info': mixins.background.info,
-      'background-muted': mixins.background.muted,
-      'background-neutral': mixins.background.neutral,
-      'background-primary': mixins.background.primary,
-      'background-secondary': mixins.background.secondary,
-      'background-success': mixins.background.success,
-      'background-tertiary': mixins.background.tertiary,
-      'background-warning': mixins.background.warning,
-      'border-sm': mixins.border.sm,
-      'border-df': mixins.border.df,
-      'border-lg': mixins.border.lg,
-      'foreground-brand': mixins.foreground.brand,
-      'foreground-danger': mixins.foreground.danger,
-      'foreground-failure': mixins.foreground.failure,
-      'foreground-info': mixins.foreground.info,
-      'foreground-muted': mixins.foreground.muted,
-      'foreground-neutral': mixins.foreground.neutral,
-      'foreground-primary': mixins.foreground.primary,
-      'foreground-secondary': mixins.foreground.secondary,
-      'foreground-success': mixins.foreground.success,
-      'foreground-tertiary': mixins.foreground.tertiary,
-      'foreground-warning': mixins.foreground.warning,
-      'heading-l1': mixins.heading.l1,
-      'heading-l2': mixins.heading.l2,
-      'heading-l3': mixins.heading.l3,
-      'heading-l4': mixins.heading.l4,
-      'heading-l5': mixins.heading.l5,
-      'heading-l6': mixins.heading.l6,
-      'pattern-hide-completely': mixins.pattern.hide.completely,
-      'pattern-hide-offscreen': mixins.pattern.hide.offscreen,
-      'pattern-hide-visually': mixins.pattern.hide.visually,
-      'pattern-reset-button': mixins.pattern.reset.button,
-      'pattern-reset-input': mixins.pattern.reset.input,
-      'pattern-reset-list': mixins.pattern.reset.list,
-      'pattern-reset-media': mixins.pattern.reset.media,
-      'pattern-reset-typography': mixins.pattern.reset.typography,
-      'pattern-text-break': mixins.pattern.text.break,
-      'pattern-text-truncate': mixins.pattern.text.truncate,
-      'pattern-text-wrap': mixins.pattern.text.wrap,
-      root: mixins.pattern.root,
-      'shadow-xs': mixins.shadow.xs,
-      'shadow-sm': mixins.shadow.sm,
-      'shadow-md': mixins.shadow.md,
-      'shadow-lg': mixins.shadow.lg,
-      'shadow-xl': mixins.shadow.xs,
-      'text-sm': mixins.text.sm,
-      'text-df': mixins.text.df,
-      'text-lg': mixins.text.lg,
-      'ui-box-brand': mixins.ui.box.brand,
-      'ui-box-danger': mixins.ui.box.danger,
-      'ui-box-failure': mixins.ui.box.failure,
-      'ui-box-info': mixins.ui.box.info,
-      'ui-box-muted': mixins.ui.box.muted,
-      'ui-box-neutral': mixins.ui.box.neutral,
-      'ui-box-primary': mixins.ui.box.primary,
-      'ui-box-secondary': mixins.ui.box.secondary,
-      'ui-box-success': mixins.ui.box.success,
-      'ui-box-tertiary': mixins.ui.box.tertiary,
-      'ui-box-warning': mixins.ui.box.warning,
-      'ui-button-brand': mixins.ui.button.brand,
-      'ui-button-danger': mixins.ui.button.danger,
-      'ui-button-failure': mixins.ui.button.failure,
-      'ui-button-info': mixins.ui.button.info,
-      'ui-button-muted': mixins.ui.button.muted,
-      'ui-button-neutral': mixins.ui.button.neutral,
-      'ui-button-primary': mixins.ui.button.primary,
-      'ui-button-secondary': mixins.ui.button.secondary,
-      'ui-button-success': mixins.ui.button.success,
-      'ui-button-tertiary': mixins.ui.button.tertiary,
-      'ui-button-warning': mixins.ui.button.warning,
-    };
   }
 
   protected loadPlatform(design: SystemDesign): Platform {
