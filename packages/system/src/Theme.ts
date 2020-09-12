@@ -28,6 +28,7 @@ import { resetButton, resetInput, resetList, resetMedia, resetTypography } from 
 import { root } from './mixins/root';
 import { shadow } from './mixins/shadow';
 import { text, textWrap, textTruncate, textBreak } from './mixins/text';
+import { uiBox, uiInteractive } from './mixins/ui';
 
 type AnyObject = Record<string, any>;
 type MixinTemplates = Record<string, Set<MixinTemplate>>;
@@ -62,26 +63,6 @@ export default class Theme {
     this.design = design;
     this.tokens = tokens;
     this.mixinTemplates = parentTemplates;
-
-    // Register all built-in mixins
-    this.registerMixin('background', background)
-      .registerMixin('border', border)
-      .registerMixin('foreground', foreground)
-      .registerMixin('heading', heading)
-      .registerMixin('hide-completely', hideCompletely)
-      .registerMixin('hide-offscreen', hideOffscreen)
-      .registerMixin('hide-visually', hideVisually)
-      .registerMixin('reset-button', resetButton)
-      .registerMixin('reset-input', resetInput)
-      .registerMixin('reset-list', resetList)
-      .registerMixin('reset-media', resetMedia)
-      .registerMixin('reset-typography', resetTypography)
-      .registerMixin('root', root)
-      .registerMixin('shadow', shadow)
-      .registerMixin('text', text)
-      .registerMixin('text-break', textBreak)
-      .registerMixin('text-truncate', textTruncate)
-      .registerMixin('text-wrap', textWrap);
 
     // Bind instead of using anonymous functions since we need
     // to pass these around and define properties on them!
@@ -285,13 +266,20 @@ export default class Theme {
       textBreak,
       textTruncate,
       textWrap,
+      uiBox,
+      uiInteractive,
     };
 
-    Object.keys(builtIns).forEach((type) => {
-      const name = hyphenate(type);
-      const util: MixinUtil = (options, properties) => this.mixin(name, options, properties!);
+    objectLoop(builtIns, (mixin, name) => {
+      const type = hyphenate(name) as MixinType;
 
-      Object.defineProperty(this.mixin, type, { value: util });
+      // Register the mixin
+      this.registerMixin(type, mixin);
+
+      // Provide a utility function
+      const util: MixinUtil = (options, properties) => this.mixin(type, options, properties!);
+
+      Object.defineProperty(this.mixin, name, { value: util });
     });
   }
 }

@@ -1,39 +1,71 @@
 import { Rule } from '@aesthetic/types';
-import { deepMerge } from '@aesthetic/utils';
-import { border } from './border';
-import { VarUtil, PaletteType } from '../types';
-import { background } from './background';
+import { isObject } from '@aesthetic/utils';
+import { BorderOptions } from './border';
+import { PaletteType, Utilities } from '../types';
+import { ShadowOptions } from './shadow';
 
-export function box(v: VarUtil, palette: PaletteType): Rule {
-  return deepMerge(background(v, palette), border(v, 'df'), {
-    // Usually a step higher than base
-    borderColor: v(`palette-${palette}-bg-focused` as 'palette-neutral-bg-focused'),
-  });
+export interface UIBoxOptions {
+  border?: boolean | BorderOptions;
+  palette?: PaletteType;
+  shadow?: boolean | ShadowOptions;
 }
 
-export function button(v: VarUtil, palette: PaletteType): Rule {
+export function uiBox(
+  this: Utilities,
+  { border = true, palette = 'neutral', shadow = true }: UIBoxOptions,
+): Rule {
+  const rule: Rule = this.mixin.background({ palette });
+
+  if (border) {
+    Object.assign(
+      rule,
+      this.mixin.border({
+        // Inherit same color as box by default
+        palette,
+        ...(isObject(border) ? border : {}),
+      }),
+    );
+  }
+
+  if (shadow) {
+    Object.assign(rule, this.mixin.shadow(isObject(shadow) ? shadow : {}));
+  }
+
+  return rule;
+}
+
+export interface UIInteractiveOptions {
+  palette?: PaletteType;
+}
+
+export function uiInteractive(
+  this: Utilities,
+  { palette = 'neutral' }: UIInteractiveOptions,
+): Rule {
   return {
-    color: v(`palette-${palette}-color-00` as 'palette-neutral-color-00'),
-    backgroundColor: v(`palette-${palette}-color-40` as 'palette-neutral-color-40'),
-    borderColor: v(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
+    color: this.var(`palette-${palette}-color-00` as 'palette-neutral-color-00'),
+    backgroundColor: this.var(`palette-${palette}-color-40` as 'palette-neutral-color-40'),
+    borderColor: this.var(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
+    cursor: 'pointer',
 
     ':focus': {
-      borderColor: v(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
+      borderColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
     },
 
     ':hover': {
-      backgroundColor: v(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
-      borderColor: v(`palette-${palette}-color-70` as 'palette-neutral-color-70'),
+      backgroundColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
+      borderColor: this.var(`palette-${palette}-color-70` as 'palette-neutral-color-70'),
     },
 
     ':active': {
-      backgroundColor: v(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
-      borderColor: v(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
+      backgroundColor: this.var(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
+      borderColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
     },
 
     ':disabled': {
-      backgroundColor: v(`palette-${palette}-color-20` as 'palette-neutral-color-20'),
-      borderColor: v(`palette-${palette}-color-30` as 'palette-neutral-color-30'),
+      backgroundColor: this.var(`palette-${palette}-color-20` as 'palette-neutral-color-20'),
+      borderColor: this.var(`palette-${palette}-color-30` as 'palette-neutral-color-30'),
+      cursor: 'default',
     },
   };
 }

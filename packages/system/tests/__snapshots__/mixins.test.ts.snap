@@ -144,6 +144,56 @@ Object {
 }
 `;
 
+exports[`Mixins renders interactive 1`] = `
+Object {
+  ":active": Object {
+    "backgroundColor": "var(--palette-neutral-color-50)",
+    "borderColor": "var(--palette-neutral-color-60)",
+  },
+  ":disabled": Object {
+    "backgroundColor": "var(--palette-neutral-color-20)",
+    "borderColor": "var(--palette-neutral-color-30)",
+    "cursor": "default",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-neutral-color-60)",
+  },
+  ":hover": Object {
+    "backgroundColor": "var(--palette-neutral-color-60)",
+    "borderColor": "var(--palette-neutral-color-70)",
+  },
+  "backgroundColor": "var(--palette-neutral-color-40)",
+  "borderColor": "var(--palette-neutral-color-50)",
+  "color": "var(--palette-neutral-color-00)",
+  "cursor": "pointer",
+}
+`;
+
+exports[`Mixins renders interactive 2`] = `
+Object {
+  ":active": Object {
+    "backgroundColor": "var(--palette-primary-color-50)",
+    "borderColor": "var(--palette-primary-color-60)",
+  },
+  ":disabled": Object {
+    "backgroundColor": "var(--palette-primary-color-20)",
+    "borderColor": "var(--palette-primary-color-30)",
+    "cursor": "default",
+  },
+  ":focus": Object {
+    "borderColor": "var(--palette-primary-color-60)",
+  },
+  ":hover": Object {
+    "backgroundColor": "var(--palette-primary-color-60)",
+    "borderColor": "var(--palette-primary-color-70)",
+  },
+  "backgroundColor": "var(--palette-primary-color-40)",
+  "borderColor": "var(--palette-primary-color-50)",
+  "color": "var(--palette-primary-color-00)",
+  "cursor": "pointer",
+}
+`;
+
 exports[`Mixins reset renders reset button 1`] = `
 Object {
   "appearance": "none",
@@ -318,5 +368,66 @@ Object {
   "overflowWrap": "normal",
   "wordBreak": "normal",
   "wordWrap": "normal",
+}
+`;
+
+exports[`Mixins ui box renders box 1`] = `
+Object {
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "borderColor": "var(--palette-neutral-color-40)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins ui box renders box 2`] = `
+Object {
+  "backgroundColor": "var(--palette-brand-bg-base)",
+  "borderColor": "var(--palette-brand-color-40)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins ui box renders box with custom border options 1`] = `
+Object {
+  "backgroundColor": "var(--palette-danger-bg-base)",
+  "borderColor": "var(--palette-success-color-40)",
+  "borderRadius": "var(--border-lg-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-lg-width)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins ui box renders box with custom shadow options 1`] = `
+Object {
+  "backgroundColor": "var(--palette-brand-bg-base)",
+  "borderColor": "var(--palette-brand-color-40)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-info-color-00)",
+}
+`;
+
+exports[`Mixins ui box renders box without border 1`] = `
+Object {
+  "backgroundColor": "var(--palette-neutral-bg-base)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-neutral-color-90)",
+}
+`;
+
+exports[`Mixins ui box renders box without shadow 1`] = `
+Object {
+  "backgroundColor": "var(--palette-brand-bg-base)",
+  "borderColor": "var(--palette-brand-color-40)",
+  "borderRadius": "var(--border-df-radius)",
+  "borderStyle": "solid",
+  "borderWidth": "var(--border-df-width)",
 }
 `;

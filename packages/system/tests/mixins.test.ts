@@ -199,4 +199,38 @@ describe('Mixins', () => {
       expect(mixins.textWrap()).toMatchSnapshot();
     });
   });
+
+  describe('ui', () => {
+    describe('box', () => {
+      it('renders box', () => {
+        expect(mixins.uiBox()).toMatchSnapshot();
+        expect(mixins.uiBox({ palette: 'brand' })).toMatchSnapshot();
+      });
+
+      it('renders box without border', () => {
+        expect(mixins.uiBox({ border: false })).toMatchSnapshot();
+      });
+
+      it('renders box with custom border options', () => {
+        expect(
+          mixins.uiBox({ border: { palette: 'success', size: 'lg' }, palette: 'danger' }),
+        ).toMatchSnapshot();
+      });
+
+      it('renders box without shadow', () => {
+        expect(mixins.uiBox({ palette: 'brand', shadow: false })).toMatchSnapshot();
+      });
+
+      it('renders box with custom shadow options', () => {
+        expect(
+          mixins.uiBox({ palette: 'brand', shadow: { palette: 'info', shade: '00' } }),
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  it('renders interactive', () => {
+    expect(mixins.uiInteractive()).toMatchSnapshot();
+    expect(mixins.uiInteractive({ palette: 'primary' })).toMatchSnapshot();
+  });
 });

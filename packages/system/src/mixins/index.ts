@@ -7,3 +7,4 @@ export * from './reset';
 export * from './root';
 export * from './shadow';
 export * from './text';
+export * from './ui';

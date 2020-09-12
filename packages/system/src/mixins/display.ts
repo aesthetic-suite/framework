@@ -19,7 +19,7 @@ export function hideOffscreen(): Rule {
 
 export function hideVisually(): Rule {
   return {
-    [':not(:focus):not(:active)' as ':focus']: {
+    ':not(:focus):not(:active)': {
       border: 0,
       clip: 'rect(0, 0, 0, 0)',
       clipPath: 'inset(50%)',
@@ -30,6 +30,6 @@ export function hideVisually(): Rule {
       position: 'absolute',
       whiteSpace: 'nowrap',
       width: 1,
-    } as const,
+    },
   };
 }

@@ -7,6 +7,7 @@ import { HeadingOptions } from './mixins/heading';
 import { ShadowOptions } from './mixins/shadow';
 import { TextOptions } from './mixins/text';
 import { ResetButtonOptions } from './mixins/reset';
+import { UIBoxOptions, UIInteractiveOptions } from './mixins/ui';
 
 export type Hexcode = string;
 
@@ -483,6 +484,8 @@ export interface MixinBuiltInUtils {
   textBreak: MixinUtil;
   textTruncate: MixinUtil;
   textWrap: MixinUtil;
+  uiBox: MixinUtil<UIBoxOptions>;
+  uiInteractive: MixinUtil<UIInteractiveOptions>;
 }
 
 export interface MixinUtils extends MixinBuiltInUtils {
@@ -508,6 +511,8 @@ export type MixinType = LiteralUnion<
   | 'text-break'
   | 'text-truncate'
   | 'text-wrap'
+  | 'ui-box'
+  | 'ui-interactive'
 >;
 
 // OTHER
