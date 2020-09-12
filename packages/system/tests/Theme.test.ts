@@ -1,5 +1,7 @@
-import { Theme } from '../src';
+import { TextOptions } from '../src/mixins';
+import { MixinUtils, Theme } from '../src';
 import { lightTheme } from '../src/testing';
+import ts from 'typescript';
 
 describe('Theme', () => {
   let testTheme: Theme;
@@ -34,74 +36,139 @@ describe('Theme', () => {
     expect(newTheme.toTokens().palette.brand.color['00']).toBe('red');
   });
 
-  it.skip('inherits the parents customized mixins', () => {
-    testTheme.extendMixin('heading-l1', { background: 'red' });
-    testTheme.overwriteMixin('background-neutral', { background: 'blue' });
+  it('inherits the parents customized mixins', () => {
+    testTheme.extendMixin('heading', () => ({ background: 'red' }));
 
     const clonedTheme = testTheme.extend({});
 
-    expect(clonedTheme.mixin('heading-l1')).toHaveProperty('background', 'red');
-    expect(clonedTheme.mixin('background-neutral')).toEqual({ background: 'blue' });
+    expect(clonedTheme.mixin('heading')).toHaveProperty('background', 'red');
   });
 
-  describe.skip('extendMixin()', () => {
-    it('can extend a mixing with additional properties', () => {
-      expect(testTheme.mixin('text-df')).toMatchSnapshot();
+  describe('extendMixin()', () => {
+    it('creates a template set for the defined name', () => {
+      // @ts-expect-error Allow access
+      expect(testTheme.mixinTemplates.test).toBeUndefined();
 
-      testTheme.extendMixin('text-df', {
+      testTheme.extendMixin('test', () => ({}));
+
+      // @ts-expect-error Allow access
+      expect(testTheme.mixinTemplates.test).toBeInstanceOf(Set);
+    });
+
+    it('doesnt set the same template twice', () => {
+      const template = () => ({});
+
+      testTheme.extendMixin('test', template);
+      testTheme.extendMixin('test', template);
+      testTheme.extendMixin('test', template);
+
+      // @ts-expect-error Allow access
+      expect(testTheme.mixinTemplates.test.size).toBe(1);
+    });
+
+    it('can extend a mixin with additional properties', () => {
+      expect(testTheme.mixin('text')).toMatchSnapshot();
+
+      testTheme.extendMixin('text', () => ({
         fontWeight: 'bold',
         color: 'red',
         display: 'inline-block',
         opacity: 1,
-      });
+      }));
 
-      expect(testTheme.mixin('text-df')).toMatchSnapshot();
+      expect(testTheme.mixin('text')).toMatchSnapshot();
+    });
+
+    it('can utilize the same options as the parent mixin', () => {
+      testTheme.extendMixin('text', ({ size }: TextOptions) => ({
+        fontWeight: size === 'lg' ? 'bold' : 'normal',
+      }));
+
+      expect(testTheme.mixin('text')).toMatchSnapshot();
+      expect(testTheme.mixin('text', { size: 'lg' })).toMatchSnapshot();
     });
 
     it('will deep merge properties', () => {
-      expect(testTheme.mixin('border-df')).toMatchSnapshot();
+      expect((testTheme.mixin as MixinUtils).uiInteractive()).toMatchSnapshot();
 
-      testTheme.extendMixin('border-df', {
+      testTheme.extendMixin('ui-interactive', () => ({
         ':focus': {
           outline: 'none',
         },
-      });
+      }));
 
-      expect(testTheme.mixin('border-df')).toMatchSnapshot();
-    });
-
-    it('errors for unknown path', () => {
-      expect(() => {
-        // @ts-expect-error
-        testTheme.extendMixin('border-unknown');
-      }).toThrow('Unknown mixin "border-unknown".');
+      expect((testTheme.mixin as MixinUtils).uiInteractive()).toMatchSnapshot();
     });
   });
 
-  describe.skip('mixin()', () => {
-    it('merges objects with mixin', () => {
+  describe('mixin()', () => {
+    it('returns an empty object for an unknown mixin', () => {
+      const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+      expect(lightTheme.mixin('unknown-mixin')).toEqual({});
+      expect(spy).toHaveBeenCalledWith('Unknown mixin "unknown-mixin".');
+
+      spy.mockRestore();
+    });
+
+    it('merges multiple templates with base mixin', () => {
+      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+      lightTheme.extendMixin('text', () => ({ fontSize: '24px' }));
+
+      expect(lightTheme.mixin('text')).toMatchSnapshot();
+    });
+
+    it('merges additional rules with base mixin', () => {
       expect(
-        lightTheme.mixin('text-df', {
-          fontWeight: 'bold',
-          fontSize: '24px',
-        }),
+        lightTheme.mixin(
+          'text',
+          {},
+          {
+            fontWeight: 'bold',
+          },
+          {
+            fontSize: '24px',
+          },
+        ),
       ).toMatchSnapshot();
     });
 
-    it('can merge from multiple targets', () => {
-      expect(
-        lightTheme.mixin(['heading-l3', 'text-df', 'background-neutral'], {
-          color: 'red',
-        }),
-      ).toMatchSnapshot();
+    it('merges templates and rules with base mixin', () => {
+      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+
+      expect(lightTheme.mixin('text', {}, { fontSize: '24px' })).toMatchSnapshot();
+    });
+
+    it('allows additional rules to overwrite templates and mixin', () => {
+      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+
+      expect(lightTheme.mixin('text', {}, { fontWeight: 800 })).toMatchSnapshot();
+    });
+  });
+
+  describe('registerMixin()', () => {
+    it('errors if trying to overwrite an existing mixin', () => {
+      expect(() => {
+        lightTheme.registerMixin('text', () => ({}));
+      }).toThrow('A mixin already exists for "text". Cannot overwrite.');
+    });
+
+    it('registers a custom mixin', () => {
+      // @ts-expect-error Allow access
+      expect(testTheme.mixins.custom).toBeUndefined();
+
+      const template = () => ({});
+      testTheme.registerMixin('custom', template);
+
+      // @ts-expect-error Allow access
+      expect(testTheme.mixins.custom).toBe(template);
     });
   });
 
   describe('toUtilities()', () => {
     it('returns all factory methods', () => {
       expect(lightTheme.toUtilities()).toEqual({
-        // @ts-expect-error
-        mixin: lightTheme.mixins,
+        mixin: lightTheme.mixin,
         token: lightTheme.token,
         unit: lightTheme.unit,
         var: lightTheme.var,
@@ -131,7 +198,7 @@ describe('Theme', () => {
     });
   });
 
-  describe.only('token()', () => {
+  describe('token()', () => {
     it('returns a value', () => {
       expect(lightTheme.token('breakpoint-lg-root-line-height')).toBe(1.62);
       expect(lightTheme.token('palette-brand-color-20')).toBe('#fff');

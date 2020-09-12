@@ -194,7 +194,13 @@ export default class Theme {
       });
     }
 
-    return deepMerge(...rules, ...additionalRules);
+    rules.push(...additionalRules);
+
+    if (rules.length === 0) {
+      return {};
+    }
+
+    return deepMerge(...rules);
   }
 
   /**
