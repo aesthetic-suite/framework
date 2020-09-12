@@ -1,7 +1,6 @@
 import { TextOptions } from '../src/mixins';
 import { MixinUtils, Theme } from '../src';
 import { lightTheme } from '../src/testing';
-import ts from 'typescript';
 
 describe('Theme', () => {
   let testTheme: Theme;

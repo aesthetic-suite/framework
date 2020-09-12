@@ -183,6 +183,7 @@ export default class Theme {
       rules.push(this.callMixinTemplate(mixin, options));
     } else if (__DEV__) {
       // Log instead of error since mixins are dynamic
+      // eslint-disable-next-line no-console
       console.warn(`Unknown mixin "${name}".`);
     }
 

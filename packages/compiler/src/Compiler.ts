@@ -140,11 +140,6 @@ export default class Compiler {
   async loadTemplate(name: string): Promise<TemplateFunction | null> {
     const templatePath = TEMPLATES_FOLDER.append(this.options.format, `${name}.ejs`);
 
-    // Not all targets use all templates
-    if (!templatePath.exists()) {
-      return null;
-    }
-
     return ejs.compile(await fs.readFile(templatePath.path(), 'utf8'), {
       filename: templatePath.path(),
     });
