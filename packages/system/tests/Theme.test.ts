@@ -46,12 +46,12 @@ describe('Theme', () => {
   describe('extendMixin()', () => {
     it('creates a template set for the defined name', () => {
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test).toBeUndefined();
+      expect(testTheme.templates.test).toBeUndefined();
 
       testTheme.extendMixin('test', () => ({}));
 
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test).toBeInstanceOf(Set);
+      expect(testTheme.templates.test).toBeInstanceOf(Set);
     });
 
     it('doesnt set the same template twice', () => {
@@ -62,7 +62,7 @@ describe('Theme', () => {
       testTheme.extendMixin('test', template);
 
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test.size).toBe(1);
+      expect(testTheme.templates.test.size).toBe(1);
     });
 
     it('can extend a mixin with additional properties', () => {

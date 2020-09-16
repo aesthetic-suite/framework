@@ -3,26 +3,26 @@ import Theme from './Theme';
 import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
 
 export default class ThemeRegistry {
-  protected defaultDarkTheme: string = '';
-
-  protected defaultLightTheme: string = '';
+  protected darkTheme: string = '';
 
   protected defaultTheme: string = '';
 
-  protected themes: { [name: string]: Theme } = {};
+  protected lightTheme: string = '';
+
+  protected themes: Record<string, Theme> = {};
 
   /**
    * Return the default dark theme.
    */
   getDarkTheme(): Theme {
-    return this.getTheme(this.defaultDarkTheme);
+    return this.getTheme(this.darkTheme);
   }
 
   /**
    * Return the default light theme.
    */
   getLightTheme(): Theme {
-    return this.getTheme(this.defaultLightTheme);
+    return this.getTheme(this.lightTheme);
   }
 
   /**
@@ -83,11 +83,13 @@ export default class ThemeRegistry {
 
     const theme = this.themes[name];
 
-    if (theme) {
-      return theme;
+    if (__DEV__) {
+      if (!theme) {
+        throw new Error(`Theme "${name}" does not exist. Has it been registered?`);
+      }
     }
 
-    throw new Error(`Theme "${name}" does not exist. Has it been registered?`);
+    return theme;
   }
 
   /**
@@ -121,23 +123,19 @@ export default class ThemeRegistry {
       }
 
       if (isDefault) {
-        if (theme.scheme === 'dark' && this.defaultDarkTheme) {
-          throw new Error(
-            `"${this.defaultDarkTheme}" is already registered as the default dark theme.`,
-          );
-        } else if (theme.scheme === 'light' && this.defaultLightTheme) {
-          throw new Error(
-            `"${this.defaultLightTheme}" is already registered as the default light theme.`,
-          );
+        if (theme.scheme === 'dark' && this.darkTheme) {
+          throw new Error(`"${this.darkTheme}" is already registered as the default dark theme.`);
+        } else if (theme.scheme === 'light' && this.lightTheme) {
+          throw new Error(`"${this.lightTheme}" is already registered as the default light theme.`);
         }
       }
     }
 
     if (isDefault) {
       if (theme.scheme === 'dark') {
-        this.defaultDarkTheme = name;
+        this.darkTheme = name;
       } else {
-        this.defaultLightTheme = name;
+        this.lightTheme = name;
       }
     }
 
@@ -163,8 +161,8 @@ export default class ThemeRegistry {
    * Reset the registry to initial state.
    */
   reset() {
-    this.defaultDarkTheme = '';
-    this.defaultLightTheme = '';
+    this.darkTheme = '';
+    this.lightTheme = '';
     this.themes = {};
   }
 }

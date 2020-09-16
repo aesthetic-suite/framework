@@ -17,7 +17,6 @@ export default class Design {
   constructor(name: string, tokens: Omit<DesignTokens, 'depth'>) {
     this.name = name;
     this.tokens = { ...tokens, depth: DEPTHS };
-
     this.rootLineHeight = tokens.typography.rootLineHeight;
     this.rootTextSize = Number.parseFloat(tokens.typography.rootTextSize);
 

@@ -46,7 +46,7 @@ export default class Theme implements Utilities {
 
   protected mixins: Record<string, MixinTemplate> = {};
 
-  protected mixinTemplates: MixinTemplates = {};
+  protected templates: MixinTemplates = {};
 
   private cachedVariables?: Variables;
 
@@ -61,11 +61,8 @@ export default class Theme implements Utilities {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
     this.design = design;
-    this.tokens = {
-      ...design.tokens,
-      ...tokens,
-    };
-    this.mixinTemplates = parentTemplates;
+    this.tokens = { ...design.tokens, ...tokens };
+    this.templates = parentTemplates;
 
     // Bind instead of using anonymous functions since we need
     // to pass these around and define properties on them!
@@ -87,7 +84,7 @@ export default class Theme implements Utilities {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      { ...this.mixinTemplates },
+      { ...this.templates },
     );
   }
 
@@ -95,7 +92,7 @@ export default class Theme implements Utilities {
    * Extend a registered mixin with additional CSS properties.
    */
   extendMixin(name: MixinType, template: MixinTemplate): this {
-    this.mixinTemplates[name] = (this.mixinTemplates[name] || new Set()).add(template);
+    this.templates[name] = (this.templates[name] || new Set()).add(template);
 
     return this;
   }
@@ -159,7 +156,7 @@ export default class Theme implements Utilities {
       console.warn(`Unknown mixin "${name}".`);
     }
 
-    const templates = this.mixinTemplates[name];
+    const templates = this.templates[name];
 
     if (templates) {
       templates.forEach((template) => {
