@@ -12,12 +12,11 @@ export default class Design {
 
   readonly spacingUnit: number;
 
-  protected tokens: DesignTokens;
+  readonly tokens: DesignTokens;
 
   constructor(name: string, tokens: Omit<DesignTokens, 'depth'>) {
     this.name = name;
-    this.tokens = tokens as DesignTokens;
-    this.tokens.depth = DEPTHS;
+    this.tokens = { ...tokens, depth: DEPTHS };
 
     this.rootLineHeight = tokens.typography.rootLineHeight;
     this.rootTextSize = Number.parseFloat(tokens.typography.rootTextSize);
@@ -38,12 +37,5 @@ export default class Design {
    */
   extend(name: string, tokens: DeepPartial<DesignTokens>): Design {
     return new Design(name, deepMerge(this.tokens, tokens));
-  }
-
-  /**
-   * Return current design tokens.
-   */
-  getTokens(): DesignTokens {
-    return this.tokens;
   }
 }

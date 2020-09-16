@@ -32,7 +32,7 @@ describe('Theme', () => {
     expect(newTheme).toBeInstanceOf(Theme);
     expect(newTheme.contrast).toBe('high');
     expect(newTheme.scheme).toBe('light');
-    expect(newTheme.toTokens().palette.brand.color['00']).toBe('red');
+    expect(newTheme.tokens.palette.brand.color['00']).toBe('red');
   });
 
   it('inherits the parents customized mixins', () => {
@@ -161,26 +161,6 @@ describe('Theme', () => {
 
       // @ts-expect-error Allow access
       expect(testTheme.mixins.custom).toBe(template);
-    });
-  });
-
-  describe('toUtilities()', () => {
-    it('returns all factory methods', () => {
-      expect(lightTheme.toUtilities()).toEqual({
-        mixin: lightTheme.mixin,
-        token: lightTheme.token,
-        unit: lightTheme.unit,
-        var: lightTheme.var,
-      });
-    });
-  });
-
-  describe('toTokens()', () => {
-    it('returns design and theme tokens', () => {
-      const tokens = lightTheme.toTokens();
-
-      expect(tokens.spacing.lg).toBeDefined();
-      expect(tokens.palette.warning).toBeDefined();
     });
   });
 
