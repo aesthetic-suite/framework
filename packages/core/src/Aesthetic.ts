@@ -8,13 +8,12 @@ import {
   formatImport,
 } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
-import { arrayLoop, isObject, objectLoop, isSSR } from '@aesthetic/utils';
+import { arrayLoop, isSSR } from '@aesthetic/utils';
 import { ClassName, ThemeName, FontFace, Keyframes, Variables, Direction } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 import {
   AestheticOptions,
   ClassNameSheet,
-  ClassNameSheetVariants,
   EventType,
   GlobalSheet,
   GlobalSheetFactory,
@@ -111,23 +110,14 @@ export function createThemeStyles<T = unknown>(factory: GlobalSheetFactory<T>): 
  * If an object is provided, it will be used to check for variants.
  */
 export function generateClassName<T extends string>(
-  keys: (T | ClassNameSheetVariants)[],
+  keys: T[],
+  variants: string[],
   classNames: ClassNameSheet<string>,
 ): ClassName {
   const className: string[] = [];
-  const variants: ClassNameSheetVariants = {};
-  const selectors: T[] = [];
 
   arrayLoop(keys, (key) => {
-    if (isObject(key)) {
-      Object.assign(variants, key);
-    } else if (typeof key === 'string') {
-      selectors.push(key);
-    }
-  });
-
-  arrayLoop(selectors, (selector) => {
-    const hash = classNames[selector];
+    const hash = classNames[key];
 
     if (!hash) {
       return;
@@ -138,9 +128,7 @@ export function generateClassName<T extends string>(
     }
 
     if (hash.variants) {
-      objectLoop(variants, (value, type) => {
-        const variant = `${type}_${value}`;
-
+      arrayLoop(variants, (variant) => {
         if (hash.variants?.[variant]) {
           className.push(hash.variants[variant]);
         }
