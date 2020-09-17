@@ -217,32 +217,24 @@ describe('Aesthetic', () => {
     };
 
     it('returns class names', () => {
-      expect(generateClassName(['a', 'e'], classes)).toBe('a e');
+      expect(generateClassName(['a', 'e'], [], classes)).toBe('a e');
     });
 
     it('returns class names and their variants', () => {
-      expect(generateClassName(['a', { size: 'df' }], classes)).toBe('a a_size_df');
-      expect(generateClassName(['a', { size: 'df' }, 'f'], classes)).toBe(
-        'a a_size_df f f_size_df',
-      );
+      expect(generateClassName(['a'], ['size_df'], classes)).toBe('a a_size_df');
+      expect(generateClassName(['a', 'f'], ['size_df'], classes)).toBe('a a_size_df f f_size_df');
     });
 
     it('returns nothing for an invalid selector', () => {
-      expect(generateClassName(['z'], classes)).toBe('');
+      expect(generateClassName(['z'], [], classes)).toBe('');
     });
 
     it('returns nothing for a valid selector but no class name', () => {
-      expect(generateClassName(['d'], classes)).toBe('');
+      expect(generateClassName(['d'], [], classes)).toBe('');
     });
 
     it('returns variants even if theres no base class name', () => {
-      expect(generateClassName(['d', { size: 'df' }], classes)).toBe('d_size_df');
-    });
-
-    it('subsequent variants override each other', () => {
-      expect(generateClassName(['a', { size: 'df' }, 'f', 'b', { size: 'md' }, 'c'], classes)).toBe(
-        'a f f_size_md b c c_size_md',
-      );
+      expect(generateClassName(['d'], ['size_df'], classes)).toBe('d_size_df');
     });
   });
 
