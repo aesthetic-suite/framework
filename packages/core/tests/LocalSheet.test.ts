@@ -1,5 +1,5 @@
 import { ClientRenderer } from '@aesthetic/style';
-import { LocalSheet } from '../src';
+import { StyleSheet, LocalSheet } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('LocalSheet', () => {
@@ -8,7 +8,7 @@ describe('LocalSheet', () => {
 
   beforeEach(() => {
     renderer = new ClientRenderer();
-    sheet = new LocalSheet(() => ({
+    sheet = new StyleSheet('local', () => ({
       foo: {
         display: 'block',
         background: 'white',
@@ -38,7 +38,8 @@ describe('LocalSheet', () => {
   it('errors if a non-function factory is passed', () => {
     expect(
       () =>
-        new LocalSheet(
+        new StyleSheet(
+          'local',
           // @ts-expect-error
           123,
         ),

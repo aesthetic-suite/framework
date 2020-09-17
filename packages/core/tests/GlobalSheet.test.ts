@@ -1,5 +1,5 @@
 import { ClientRenderer } from '@aesthetic/style';
-import { GlobalSheet } from '../src';
+import { StyleSheet, GlobalSheet } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('GlobalSheet', () => {
@@ -8,7 +8,7 @@ describe('GlobalSheet', () => {
 
   beforeEach(() => {
     renderer = new ClientRenderer();
-    sheet = new GlobalSheet(() => ({
+    sheet = new StyleSheet('global', () => ({
       '@font-face': {
         Roboto: {
           fontStyle: 'normal',
@@ -44,7 +44,8 @@ describe('GlobalSheet', () => {
   it('errors if a non-function factory is passed', () => {
     expect(
       () =>
-        new GlobalSheet(
+        new StyleSheet(
+          'global',
           // @ts-expect-error
           123,
         ),

@@ -4,36 +4,12 @@
  */
 
 import { ClientRenderer } from '@aesthetic/style';
-import Aesthetic from './Aesthetic';
-import GlobalSheet from './GlobalSheet';
-import LocalSheet from './LocalSheet';
-import Sheet from './Sheet';
-
-export const aesthetic = new Aesthetic();
-export const {
-  changeDirection,
-  changeTheme,
-  configure,
-  createComponentStyles,
-  createThemeStyles,
-  generateClassName,
-  getActiveDirection,
-  getActiveTheme,
-  getTheme,
-  hydrate,
-  registerDefaultTheme,
-  registerTheme,
-  renderComponentStyles,
-  renderFontFace,
-  renderImport,
-  renderKeyframes,
-  renderThemeStyles,
-  subscribe,
-  unsubscribe,
-} = aesthetic;
+import StyleSheet from './StyleSheet';
 
 export * from '@aesthetic/sss';
 export * from '@aesthetic/system';
+
+export * from './Aesthetic';
 export * from './types';
 
-export { GlobalSheet, LocalSheet, Sheet, ClientRenderer };
+export { StyleSheet, ClientRenderer };
