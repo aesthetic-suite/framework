@@ -318,7 +318,7 @@ export type FontFaceListener<T extends object> = (
   fontFace: Block<T>,
   fontFamily: string,
   srcPaths: string[],
-) => void;
+) => string;
 
 export type ImportListener = (path: string) => void;
 
@@ -330,3 +330,27 @@ export type KeyframesListener<T extends object> = (
 export type RuleListener<T extends object> = (selector: string, block: Block<T>) => void;
 
 export type VariableListener = (name: string, value: Value) => void;
+
+export interface Events<T extends object> {
+  onBlock?: BlockListener<T>;
+  onBlockAttribute?: BlockNestedListener<T>;
+  onBlockFallback?: BlockPropertyListener<T>;
+  onBlockMedia?: BlockConditionListener<T>;
+  onBlockProperty?: BlockPropertyListener<T>;
+  onBlockPseudo?: BlockNestedListener<T>;
+  onBlockSelector?: BlockNestedListener<T>;
+  onBlockSupports?: BlockConditionListener<T>;
+  onBlockVariable?: BlockPropertyListener<T>;
+  onBlockVariant?: BlockNestedListener<T>;
+  onFontFace?: FontFaceListener<T>;
+  onKeyframes?: KeyframesListener<T>;
+  onVariable?: VariableListener;
+  // Local
+  onClass?: ClassNameListener;
+  onRule?: RuleListener<T>;
+  // Global
+  onImport?: ImportListener;
+  onPage?: BlockListener<T>;
+  onRoot?: BlockListener<T>;
+  onViewport?: BlockListener<T>;
+}
