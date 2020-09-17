@@ -163,6 +163,7 @@ export default class ThemeRegistry {
   reset() {
     this.darkTheme = '';
     this.lightTheme = '';
+    this.defaultTheme = '';
     this.themes = {};
   }
 }

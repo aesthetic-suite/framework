@@ -1,57 +1,74 @@
 import { ClientRenderer } from '@aesthetic/style';
 import { ServerRenderer } from '@aesthetic/style/server';
-import Aesthetic from '../src/Aesthetic';
-import { StyleSheet } from '../src';
+import {
+  changeDirection,
+  changeTheme,
+  configure,
+  createComponentStyles,
+  createThemeStyles,
+  generateClassName,
+  getActiveDirection,
+  getActiveTheme,
+  getInternalsForTesting,
+  getRenderer,
+  getTheme,
+  hydrate,
+  registerDefaultTheme,
+  registerTheme,
+  renderComponentStyles,
+  renderFontFace,
+  renderImport,
+  renderKeyframes,
+  renderThemeStyles,
+  StyleSheet,
+  subscribe,
+  unsubscribe,
+} from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
 
 describe('Aesthetic', () => {
-  let aesthetic: Aesthetic;
-
   beforeEach(() => {
-    aesthetic = new Aesthetic();
-
     // @ts-expect-error Only need to mock matches
     window.matchMedia = () => ({ matches: false });
   });
 
   afterEach(() => {
-    teardownAesthetic(aesthetic);
+    teardownAesthetic();
     document.documentElement.setAttribute('dir', 'ltr');
   });
 
   it('can subscribe and unsubscribe events', () => {
     const spy = jest.fn();
 
-    aesthetic.subscribe('change:theme', spy);
+    subscribe('change:theme', spy);
 
-    // @ts-expect-error
-    expect(aesthetic.listeners['change:theme'].has(spy)).toBe(true);
+    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(true);
 
-    aesthetic.unsubscribe('change:theme', spy);
+    unsubscribe('change:theme', spy);
 
-    // @ts-expect-error
-    expect(aesthetic.listeners['change:theme'].has(spy)).toBe(false);
+    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(false);
   });
 
   describe('changeDirection()', () => {
     beforeEach(() => {
-      setupAesthetic(aesthetic);
+      setupAesthetic();
     });
 
     it('sets active theme', () => {
-      expect(aesthetic.activeDirection).toBeUndefined();
+      expect(getInternalsForTesting().activeDirection).toBeUndefined();
 
-      aesthetic.changeDirection('rtl');
+      changeDirection('rtl');
 
-      expect(aesthetic.activeDirection).toBe('rtl');
+      expect(getInternalsForTesting().activeDirection).toBe('rtl');
     });
 
     it('doesnt run if changing to same name', () => {
-      // @ts-expect-error
-      const spy = jest.spyOn(aesthetic, 'emit');
+      const spy = jest.fn();
 
-      aesthetic.changeDirection('rtl');
-      aesthetic.changeDirection('rtl');
+      subscribe('change:direction', spy);
+
+      changeDirection('rtl');
+      changeDirection('rtl');
 
       expect(spy).toHaveBeenCalledTimes(1);
     });
@@ -61,7 +78,7 @@ describe('Aesthetic', () => {
 
       expect(document.documentElement.dir).toBe('ltr');
 
-      aesthetic.changeDirection('rtl');
+      changeDirection('rtl');
 
       expect(document.documentElement.dir).toBe('rtl');
     });
@@ -69,8 +86,9 @@ describe('Aesthetic', () => {
     it('emits `change:direction` event', () => {
       const spy = jest.fn();
 
-      aesthetic.subscribe('change:direction', spy);
-      aesthetic.changeDirection('rtl');
+      subscribe('change:direction', spy);
+
+      changeDirection('rtl');
 
       expect(spy).toHaveBeenCalledWith('rtl');
     });
@@ -78,62 +96,68 @@ describe('Aesthetic', () => {
     it('doesnt emit `change:direction` event if `propagate` is false', () => {
       const spy = jest.fn();
 
-      aesthetic.subscribe('change:direction', spy);
-      aesthetic.changeDirection('rtl', false);
+      subscribe('change:direction', spy);
+
+      changeDirection('rtl', false);
 
       expect(spy).not.toHaveBeenCalled();
     });
   });
 
   describe('changeTheme()', () => {
+    function createTempSheet() {
+      return createThemeStyles(() => ({
+        '@root': {
+          display: 'block',
+          color: 'black',
+        },
+      }));
+    }
+
     beforeEach(() => {
-      setupAesthetic(aesthetic);
+      setupAesthetic();
     });
 
     it('sets active theme', () => {
-      expect(aesthetic.activeTheme).toBeUndefined();
+      expect(getInternalsForTesting().activeTheme).toBeUndefined();
 
-      aesthetic.changeTheme('night');
+      changeTheme('night');
 
-      expect(aesthetic.activeTheme).toBe('night');
+      expect(getInternalsForTesting().activeTheme).toBe('night');
     });
 
     it('doesnt run if changing to same name', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'applyRootVariables');
+      const spy = jest.spyOn(getRenderer(), 'applyRootVariables');
 
-      aesthetic.changeTheme('night');
-      aesthetic.changeTheme('night');
+      changeTheme('night');
+      changeTheme('night');
 
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('applies root css variables', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'applyRootVariables');
+      const spy = jest.spyOn(getRenderer(), 'applyRootVariables');
 
-      aesthetic.changeTheme('night');
+      changeTheme('night');
 
       expect(spy).toHaveBeenCalledWith(darkTheme.toVariables());
     });
 
     it('renders theme sheet and sets body class name', () => {
-      const spy = jest
-        .spyOn(aesthetic, 'renderThemeStyles')
-        .mockImplementation((theme) => `theme-${theme.name}`);
-
       expect(document.body.className).toBe('');
 
-      aesthetic.changeTheme('night');
+      teardownAesthetic();
+      registerTheme('night', darkTheme, createTempSheet());
+      changeTheme('night');
 
-      expect(document.body.className).toBe('theme-night');
-
-      expect(spy).toHaveBeenCalledWith(darkTheme);
+      expect(document.body.className).toBe('cibrami');
     });
 
     it('emits `change:theme` event', () => {
       const spy = jest.fn();
 
-      aesthetic.subscribe('change:theme', spy);
-      aesthetic.changeTheme('night');
+      subscribe('change:theme', spy);
+      changeTheme('night');
 
       expect(spy).toHaveBeenCalledWith('night');
     });
@@ -141,8 +165,8 @@ describe('Aesthetic', () => {
     it('doesnt emit `change:theme` event if `propagate` is false', () => {
       const spy = jest.fn();
 
-      aesthetic.subscribe('change:theme', spy);
-      aesthetic.changeTheme('night', false);
+      subscribe('change:theme', spy);
+      changeTheme('night', false);
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -150,18 +174,18 @@ describe('Aesthetic', () => {
 
   describe('configure()', () => {
     it('sets options', () => {
-      expect(aesthetic.options).toEqual({
+      expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'px',
         deterministicClasses: false,
         vendorPrefixes: false,
       });
 
-      aesthetic.configure({
+      configure({
         defaultUnit: 'em',
         vendorPrefixes: true,
       });
 
-      expect(aesthetic.options).toEqual({
+      expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'em',
         deterministicClasses: false,
         vendorPrefixes: true,
@@ -171,13 +195,13 @@ describe('Aesthetic', () => {
 
   describe('createComponentStyles()', () => {
     it('returns a `LocalSheet` instance', () => {
-      expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(StyleSheet);
+      expect(createComponentStyles(() => ({}))).toBeInstanceOf(StyleSheet);
     });
   });
 
   describe('createThemeStyles()', () => {
     it('returns a `GlobalSheet` instance', () => {
-      expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(StyleSheet);
+      expect(createThemeStyles(() => ({}))).toBeInstanceOf(StyleSheet);
     });
   });
 
@@ -193,93 +217,97 @@ describe('Aesthetic', () => {
     };
 
     it('returns class names', () => {
-      expect(aesthetic.generateClassName(['a', 'e'], classes)).toBe('a e');
+      expect(generateClassName(['a', 'e'], classes)).toBe('a e');
     });
 
     it('returns class names and their variants', () => {
-      expect(aesthetic.generateClassName(['a', { size: 'df' }], classes)).toBe('a a_size_df');
-      expect(aesthetic.generateClassName(['a', { size: 'df' }, 'f'], classes)).toBe(
+      expect(generateClassName(['a', { size: 'df' }], classes)).toBe('a a_size_df');
+      expect(generateClassName(['a', { size: 'df' }, 'f'], classes)).toBe(
         'a a_size_df f f_size_df',
       );
     });
 
     it('returns nothing for an invalid selector', () => {
-      expect(aesthetic.generateClassName(['z'], classes)).toBe('');
+      expect(generateClassName(['z'], classes)).toBe('');
     });
 
     it('returns nothing for a valid selector but no class name', () => {
-      expect(aesthetic.generateClassName(['d'], classes)).toBe('');
+      expect(generateClassName(['d'], classes)).toBe('');
     });
 
     it('returns variants even if theres no base class name', () => {
-      expect(aesthetic.generateClassName(['d', { size: 'df' }], classes)).toBe('d_size_df');
+      expect(generateClassName(['d', { size: 'df' }], classes)).toBe('d_size_df');
     });
 
     it('subsequent variants override each other', () => {
-      expect(
-        aesthetic.generateClassName(['a', { size: 'df' }, 'f', 'b', { size: 'md' }, 'c'], classes),
-      ).toBe('a f f_size_md b c c_size_md');
+      expect(generateClassName(['a', { size: 'df' }, 'f', 'b', { size: 'md' }, 'c'], classes)).toBe(
+        'a f f_size_md b c c_size_md',
+      );
     });
   });
 
   describe('getActiveDirection()', () => {
     it('returns the direction defined on the html `dir` attribute', () => {
-      const changeSpy = jest.spyOn(aesthetic, 'changeDirection');
+      const changeSpy = jest.fn();
+
+      subscribe('change:direction', changeSpy);
 
       document.documentElement.setAttribute('dir', 'rtl');
       document.body.removeAttribute('dir');
 
-      expect(aesthetic.getActiveDirection()).toBe('rtl');
-      expect(changeSpy).toHaveBeenCalled();
+      expect(getActiveDirection()).toBe('rtl');
+      expect(changeSpy).toHaveBeenCalledWith('rtl');
     });
 
     it('returns the direction defined on the body `dir` attribute', () => {
       document.documentElement.removeAttribute('dir');
       document.body.setAttribute('dir', 'rtl');
 
-      expect(aesthetic.getActiveDirection()).toBe('rtl');
+      expect(getActiveDirection()).toBe('rtl');
     });
 
     it('returns ltr if no dir found', () => {
       document.documentElement.removeAttribute('dir');
       document.body.removeAttribute('dir');
 
-      expect(aesthetic.getActiveDirection()).toBe('ltr');
+      expect(getActiveDirection()).toBe('ltr');
     });
 
     it('caches result for subsequent lookups', () => {
-      expect(aesthetic.getActiveDirection()).toBe('ltr');
+      expect(getActiveDirection()).toBe('ltr');
 
       document.documentElement.setAttribute('dir', 'rtl');
 
-      expect(aesthetic.getActiveDirection()).toBe('ltr');
+      expect(getActiveDirection()).toBe('ltr');
     });
   });
 
   describe('getActiveTheme()', () => {
     it('errors if no themes registered', () => {
       expect(() => {
-        aesthetic.getActiveTheme();
+        getActiveTheme();
       }).toThrow('No themes have been registered.');
     });
 
     it('returns the active theme defined by property', () => {
-      const changeSpy = jest.spyOn(aesthetic, 'changeTheme');
+      const changeSpy = jest.fn();
 
-      aesthetic.registerTheme('day', lightTheme);
-      aesthetic.activeTheme = 'day';
+      subscribe('change:theme', changeSpy);
+      setupAesthetic();
+      changeTheme('night');
 
-      expect(aesthetic.getActiveTheme()).toBe(lightTheme);
-      expect(changeSpy).not.toHaveBeenCalled();
+      expect(getActiveTheme()).toBe(darkTheme);
+      expect(changeSpy).toHaveBeenCalledWith('night');
     });
 
     it('returns the preferred theme if no active defined', () => {
-      const getSpy = jest.spyOn(aesthetic.themeRegistry, 'getPreferredTheme');
-      const changeSpy = jest.spyOn(aesthetic, 'changeTheme');
+      const getSpy = jest.spyOn(getInternalsForTesting().themeRegistry, 'getPreferredTheme');
+      const changeSpy = jest.fn();
 
-      setupAesthetic(aesthetic);
+      subscribe('change:theme', changeSpy);
+      setupAesthetic();
 
-      expect(aesthetic.getActiveTheme()).toBe(lightTheme);
+      expect(getActiveTheme()).toBe(lightTheme);
       expect(getSpy).toHaveBeenCalledWith();
       expect(changeSpy).toHaveBeenCalledWith('day');
     });
@@ -288,22 +316,22 @@ describe('Aesthetic', () => {
   describe('getTheme()', () => {
     it('errors if not registered', () => {
       expect(() => {
-        aesthetic.getTheme('unknown');
+        getTheme('unknown');
       }).toThrow('Theme "unknown" does not exist. Has it been registered?');
     });
 
     it('returns the theme defined by name', () => {
-      aesthetic.registerTheme('day', lightTheme);
+      registerTheme('day', lightTheme);
 
-      expect(aesthetic.getTheme('day')).toBe(lightTheme);
+      expect(getTheme('day')).toBe(lightTheme);
     });
   });
 
   describe('hydrate()', () => {
     it('calls hydration on client renderer', () => {
-      const spy = jest.spyOn(aesthetic.renderer as ClientRenderer, 'hydrateStyles');
+      const spy = jest.spyOn(getRenderer() as ClientRenderer, 'hydrateStyles');
 
-      aesthetic.hydrate();
+      hydrate();
 
       expect(spy).toHaveBeenCalled();
     });
@@ -311,9 +339,9 @@ describe('Aesthetic', () => {
 
   describe('registerDefaultTheme()', () => {
     it('registers a default theme', () => {
-      const spy = jest.spyOn(aesthetic.themeRegistry, 'register');
+      const spy = jest.spyOn(getInternalsForTesting().themeRegistry, 'register');
 
-      aesthetic.registerDefaultTheme('day', lightTheme);
+      registerDefaultTheme('day', lightTheme);
 
       expect(spy).toHaveBeenCalledWith('day', lightTheme, true);
     });
@@ -321,24 +349,24 @@ describe('Aesthetic', () => {
 
   describe('registerTheme()', () => {
     it('registers a theme', () => {
-      const spy = jest.spyOn(aesthetic.themeRegistry, 'register');
+      const spy = jest.spyOn(getInternalsForTesting().themeRegistry, 'register');
 
-      aesthetic.registerTheme('day', lightTheme);
+      registerTheme('day', lightTheme);
 
       expect(spy).toHaveBeenCalledWith('day', lightTheme, false);
     });
 
     it('registers an optional sheet', () => {
-      const sheet = aesthetic.createThemeStyles(() => ({}));
+      const sheet = createThemeStyles(() => ({}));
 
-      aesthetic.registerTheme('day', lightTheme, sheet);
+      registerTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.globalSheetRegistry.get('day')).toBe(sheet);
+      expect(getInternalsForTesting().globalSheetRegistry.get('day')).toBe(sheet);
     });
 
     it('errors if sheet is not a `GlobalSheet` instance', () => {
       expect(() => {
-        aesthetic.registerTheme(
+        registerTheme(
           'day',
           lightTheme,
           // @ts-expect-error
@@ -350,7 +378,7 @@ describe('Aesthetic', () => {
 
   describe('renderer()', () => {
     it('returns a client renderer by default', () => {
-      expect(aesthetic.renderer).toBeInstanceOf(ClientRenderer);
+      expect(getRenderer()).toBeInstanceOf(ClientRenderer);
     });
 
     it('passes a server renderer when wrapping for SSR', () => {
@@ -358,13 +386,13 @@ describe('Aesthetic', () => {
 
       global.AESTHETIC_CUSTOM_RENDERER = sr;
 
-      expect(aesthetic.renderer).toBe(sr);
+      expect(getRenderer()).toBe(sr);
     });
   });
 
   describe('renderComponentStyles()', () => {
     function createTempSheet() {
-      return aesthetic.createComponentStyles(() => ({
+      return createComponentStyles(() => ({
         foo: {
           display: 'block',
         },
@@ -386,12 +414,12 @@ describe('Aesthetic', () => {
     }
 
     beforeEach(() => {
-      setupAesthetic(aesthetic);
+      setupAesthetic();
     });
 
     it('errors if sheet is not a `LocalSheet` instance', () => {
       expect(() => {
-        aesthetic.renderComponentStyles(
+        renderComponentStyles(
           // @ts-expect-error
           123,
         );
@@ -399,21 +427,19 @@ describe('Aesthetic', () => {
     });
 
     it('returns an empty object if no sheet selectors', () => {
-      expect(aesthetic.renderComponentStyles(aesthetic.createComponentStyles(() => ({})))).toEqual(
-        {},
-      );
+      expect(renderComponentStyles(createComponentStyles(() => ({})))).toEqual({});
     });
 
     it('renders a sheet and returns an object class name', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
-      expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+      expect(renderComponentStyles(sheet)).toEqual({
         foo: { class: 'a' },
         bar: { class: 'b', variants: { type_red: 'c' } },
         baz: { class: 'd' },
       });
-      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
         vendor: false,
@@ -424,14 +450,14 @@ describe('Aesthetic', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
-      aesthetic.configure({
+      configure({
         defaultUnit: 'em',
         vendorPrefixes: true,
       });
 
-      aesthetic.renderComponentStyles(sheet, { direction: 'rtl' });
+      renderComponentStyles(sheet, { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
         vendor: true,
@@ -442,9 +468,9 @@ describe('Aesthetic', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
-      aesthetic.renderComponentStyles(sheet, { theme: 'night' });
+      renderComponentStyles(sheet, { theme: 'night' });
 
-      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, darkTheme, {
+      expect(spy).toHaveBeenCalledWith(getRenderer(), darkTheme, {
         direction: expect.any(String),
         theme: 'night',
         unit: 'px',
@@ -455,13 +481,13 @@ describe('Aesthetic', () => {
 
   describe('renderFontFace()', () => {
     it('passes to renderer', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderFontFace');
+      const spy = jest.spyOn(getRenderer(), 'renderFontFace');
       const fontFace = {
         fontFamily: 'Roboto',
         src: "url('fonts/Roboto.woff2') format('woff2')",
       };
 
-      aesthetic.renderFontFace(fontFace);
+      renderFontFace(fontFace);
 
       expect(spy).toHaveBeenCalledWith(fontFace, undefined);
 
@@ -469,9 +495,9 @@ describe('Aesthetic', () => {
     });
 
     it('supports SSS format', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderFontFace');
+      const spy = jest.spyOn(getRenderer(), 'renderFontFace');
 
-      aesthetic.renderFontFace(
+      renderFontFace(
         {
           srcPaths: ['fonts/Roboto.woff2'],
         },
@@ -492,10 +518,10 @@ describe('Aesthetic', () => {
 
   describe('renderImport()', () => {
     it('passes to renderer', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderImport');
+      const spy = jest.spyOn(getRenderer(), 'renderImport');
       const path = 'url("test.css")';
 
-      aesthetic.renderImport(path);
+      renderImport(path);
 
       expect(spy).toHaveBeenCalledWith(path);
 
@@ -503,9 +529,9 @@ describe('Aesthetic', () => {
     });
 
     it('supports SSS format', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderImport');
+      const spy = jest.spyOn(getRenderer(), 'renderImport');
 
-      aesthetic.renderImport({
+      renderImport({
         path: 'test.css',
         url: true,
       });
@@ -518,25 +544,25 @@ describe('Aesthetic', () => {
 
   describe('renderKeyframes()', () => {
     it('passes to renderer', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderKeyframes');
+      const spy = jest.spyOn(getRenderer(), 'renderKeyframes');
       const keyframes = {
         from: { opacity: 0 },
         to: { opacity: 1 },
       };
 
-      aesthetic.renderKeyframes(keyframes);
+      renderKeyframes(keyframes);
 
       expect(spy).toHaveBeenCalledWith(keyframes, undefined, undefined);
     });
 
     it('can pass a name and params', () => {
-      const spy = jest.spyOn(aesthetic.renderer, 'renderKeyframes');
+      const spy = jest.spyOn(getRenderer(), 'renderKeyframes');
       const keyframes = {
         from: { opacity: 0 },
         to: { opacity: 1 },
       };
 
-      aesthetic.renderKeyframes(keyframes, 'fade', { rtl: true });
+      renderKeyframes(keyframes, 'fade', { rtl: true });
 
       expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { rtl: true });
     });
@@ -544,7 +570,7 @@ describe('Aesthetic', () => {
 
   describe('renderThemeStyles()', () => {
     function createTempSheet() {
-      return aesthetic.createThemeStyles(() => ({
+      return createThemeStyles(() => ({
         '@root': {
           display: 'block',
         },
@@ -552,19 +578,19 @@ describe('Aesthetic', () => {
     }
 
     it('returns an empty string if no theme sheet', () => {
-      aesthetic.registerDefaultTheme('day', lightTheme);
+      registerDefaultTheme('day', lightTheme);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('');
+      expect(renderThemeStyles(lightTheme)).toBe('');
     });
 
     it('renders a sheet and returns global class name', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
-      aesthetic.registerDefaultTheme('day', lightTheme, sheet);
+      registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cnneg4x');
-      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+      expect(renderThemeStyles(lightTheme)).toBe('cnneg4x');
+      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
         vendor: false,
@@ -575,14 +601,14 @@ describe('Aesthetic', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
-      aesthetic.configure({
+      configure({
         defaultUnit: 'em',
         vendorPrefixes: true,
       });
-      aesthetic.registerDefaultTheme('day', lightTheme, sheet);
-      aesthetic.renderThemeStyles(lightTheme, { direction: 'rtl' });
+      registerDefaultTheme('day', lightTheme, sheet);
+      renderThemeStyles(lightTheme, { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(aesthetic.renderer, lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
         vendor: true,
