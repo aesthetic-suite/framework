@@ -1,6 +1,6 @@
 const CAMEL_CASE_PATTERN = /[A-Z]/gu;
 const VENDOR_PREFIX_PATTERN = /^(ms|moz|webkit)/iu;
-const cache: { [key: string]: string } = {};
+const cache: Record<string, string> = {};
 
 function toLower(match: string): string {
   return `-${match.toLocaleLowerCase()}`;

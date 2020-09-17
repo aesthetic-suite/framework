@@ -1,6 +1,6 @@
 import hash from 'string-hash';
 
-const cache: { [key: string]: string } = {};
+const cache: Record<string, string> = {};
 
 export default function generateHash(value: string): string {
   if (!cache[value]) {

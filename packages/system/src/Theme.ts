@@ -33,20 +33,20 @@ import { uiBox, uiInteractive } from './mixins/ui';
 type AnyObject = Record<string, any>;
 type MixinTemplates = Record<string, Set<MixinTemplate>>;
 
-export default class Theme {
+export default class Theme implements Utilities {
   name: string = '';
 
   readonly contrast: ContrastLevel;
 
+  readonly mixin: MixinUtils;
+
   readonly scheme: ColorScheme;
+
+  readonly tokens: Tokens;
 
   protected mixins: Record<string, MixinTemplate> = {};
 
-  protected mixinTemplates: MixinTemplates = {};
-
-  protected tokens: ThemeTokens;
-
-  private cachedTokens?: Tokens;
+  protected templates: MixinTemplates = {};
 
   private cachedVariables?: Variables;
 
@@ -61,16 +61,15 @@ export default class Theme {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
     this.design = design;
-    this.tokens = tokens;
-    this.mixinTemplates = parentTemplates;
+    this.tokens = { ...design.tokens, ...tokens };
+    this.templates = parentTemplates;
 
     // Bind instead of using anonymous functions since we need
     // to pass these around and define properties on them!
-    this.mixin = this.mixin.bind(this);
+    this.mixin = this.prepareBuiltIns();
     this.token = this.token.bind(this);
     this.unit = this.unit.bind(this);
     this.var = this.var.bind(this);
-    this.prepareBuiltIns();
   }
 
   /**
@@ -85,7 +84,7 @@ export default class Theme {
       },
       deepMerge(this.tokens, tokens),
       this.design,
-      { ...this.mixinTemplates },
+      { ...this.templates },
     );
   }
 
@@ -93,11 +92,7 @@ export default class Theme {
    * Extend a registered mixin with additional CSS properties.
    */
   extendMixin(name: MixinType, template: MixinTemplate): this {
-    const set = this.mixinTemplates[name] || new Set();
-
-    set.add(template);
-
-    this.mixinTemplates[name] = set;
+    this.templates[name] = (this.templates[name] || new Set()).add(template);
 
     return this;
   }
@@ -115,32 +110,6 @@ export default class Theme {
     this.mixins[name] = template;
 
     return this;
-  }
-
-  /**
-   * Return both design and theme tokens.
-   */
-  toTokens(): Tokens {
-    if (!this.cachedTokens) {
-      this.cachedTokens = {
-        ...this.design.getTokens(),
-        ...this.tokens,
-      };
-    }
-
-    return this.cachedTokens;
-  }
-
-  /**
-   * Return a mapping of all theme specific utility methods.
-   */
-  toUtilities(): Utilities {
-    return {
-      mixin: this.mixin as MixinUtils,
-      token: this.token,
-      unit: this.unit,
-      var: this.var,
-    };
   }
 
   /**
@@ -164,7 +133,7 @@ export default class Theme {
       });
     };
 
-    collapseTree(this.toTokens(), []);
+    collapseTree(this.tokens, []);
 
     this.cachedVariables = (vars as unknown) as Variables;
 
@@ -175,33 +144,29 @@ export default class Theme {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixin(name: MixinType, options?: object, ...additionalRules: Rule[]): Rule {
+  mixinBase(name: MixinType, options: object = {}, ...additionalRules: Rule[]): Rule {
     const rules: Rule[] = [];
     const mixin = this.mixins[name];
 
     if (mixin) {
-      rules.push(this.callMixinTemplate(mixin, options));
+      rules.push(mixin.call(this, options));
     } else if (__DEV__) {
       // Log instead of error since mixins are dynamic
       // eslint-disable-next-line no-console
       console.warn(`Unknown mixin "${name}".`);
     }
 
-    const templates = this.mixinTemplates[name];
+    const templates = this.templates[name];
 
     if (templates) {
       templates.forEach((template) => {
-        rules.push(this.callMixinTemplate(template, options));
+        rules.push(template.call(this, options));
       });
     }
 
     rules.push(...additionalRules);
 
-    if (rules.length === 0) {
-      return {};
-    }
-
-    return deepMerge(...rules);
+    return rules.length === 0 ? {} : deepMerge(...rules);
   }
 
   /**
@@ -237,23 +202,14 @@ export default class Theme {
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
   var(name: VariableName, ...fallbacks: (string | number)[]): string {
-    return fallbacks.length > 0
-      ? `var(${[`--${name}`, ...fallbacks].join(', ')})`
-      : `var(--${name})`;
-  }
-
-  /**
-   * Call a mixin template function with the defined options object.
-   * Will set the "this" context to the utilities object, so that mixins can utilize them.
-   */
-  protected callMixinTemplate(mixin: MixinTemplate, options: object = {}): Rule {
-    return mixin.call(this.toUtilities(), options);
+    return `var(${[`--${name}`, ...fallbacks].join(', ')})`;
   }
 
   /**
    * Set the built-in mixin's as properties on the mixin method for easy access.
    */
-  protected prepareBuiltIns() {
+  protected prepareBuiltIns(): MixinUtils {
+    const mixin = this.mixinBase.bind(this);
     const builtIns: Record<keyof MixinBuiltInUtils, MixinTemplate> = {
       background,
       border,
@@ -277,16 +233,18 @@ export default class Theme {
       uiInteractive,
     };
 
-    objectLoop(builtIns, (mixin, name) => {
+    objectLoop(builtIns, (template, name) => {
       const type = hyphenate(name) as MixinType;
 
       // Register the mixin
-      this.registerMixin(type, mixin);
+      this.registerMixin(type, template);
 
       // Provide a utility function
-      const util: MixinUtil = (options, properties) => this.mixin(type, options, properties!);
+      const util: MixinUtil = (options, properties) => mixin(type, options, properties!);
 
-      Object.defineProperty(this.mixin, name, { value: util });
+      Object.defineProperty(mixin, name, { value: util });
     });
+
+    return mixin as MixinUtils;
   }
 }

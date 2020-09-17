@@ -2,7 +2,7 @@ import { darkTheme } from '../src/testing';
 import { MixinUtils } from '../src';
 
 describe('Mixins', () => {
-  const mixins: MixinUtils = darkTheme.toUtilities().mixin;
+  const mixins: MixinUtils = darkTheme.mixin;
 
   describe('background', () => {
     it('renders background', () => {

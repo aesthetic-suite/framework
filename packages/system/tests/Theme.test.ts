@@ -32,7 +32,7 @@ describe('Theme', () => {
     expect(newTheme).toBeInstanceOf(Theme);
     expect(newTheme.contrast).toBe('high');
     expect(newTheme.scheme).toBe('light');
-    expect(newTheme.toTokens().palette.brand.color['00']).toBe('red');
+    expect(newTheme.tokens.palette.brand.color['00']).toBe('red');
   });
 
   it('inherits the parents customized mixins', () => {
@@ -46,12 +46,12 @@ describe('Theme', () => {
   describe('extendMixin()', () => {
     it('creates a template set for the defined name', () => {
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test).toBeUndefined();
+      expect(testTheme.templates.test).toBeUndefined();
 
       testTheme.extendMixin('test', () => ({}));
 
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test).toBeInstanceOf(Set);
+      expect(testTheme.templates.test).toBeInstanceOf(Set);
     });
 
     it('doesnt set the same template twice', () => {
@@ -62,7 +62,7 @@ describe('Theme', () => {
       testTheme.extendMixin('test', template);
 
       // @ts-expect-error Allow access
-      expect(testTheme.mixinTemplates.test.size).toBe(1);
+      expect(testTheme.templates.test.size).toBe(1);
     });
 
     it('can extend a mixin with additional properties', () => {
@@ -161,26 +161,6 @@ describe('Theme', () => {
 
       // @ts-expect-error Allow access
       expect(testTheme.mixins.custom).toBe(template);
-    });
-  });
-
-  describe('toUtilities()', () => {
-    it('returns all factory methods', () => {
-      expect(lightTheme.toUtilities()).toEqual({
-        mixin: lightTheme.mixin,
-        token: lightTheme.token,
-        unit: lightTheme.unit,
-        var: lightTheme.var,
-      });
-    });
-  });
-
-  describe('toTokens()', () => {
-    it('returns design and theme tokens', () => {
-      const tokens = lightTheme.toTokens();
-
-      expect(tokens.spacing.lg).toBeDefined();
-      expect(tokens.palette.warning).toBeDefined();
     });
   });
 

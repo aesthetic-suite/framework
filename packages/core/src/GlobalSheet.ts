@@ -21,7 +21,7 @@ export default class GlobalSheet<T = unknown> extends Sheet<ClassName> {
   protected doRender(renderer: Renderer, theme: Theme, params: Required<SheetParams>): ClassName {
     let className = '';
     const composer = this.compose();
-    const styles = composer(theme.toUtilities(), theme.toTokens());
+    const styles = composer(theme, theme.tokens);
     const renderParams = {
       rtl: params.direction === 'rtl',
       unit: params.unit,
