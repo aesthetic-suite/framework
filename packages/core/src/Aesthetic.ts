@@ -10,14 +10,15 @@ import {
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import { arrayLoop, isObject, objectLoop, isSSR } from '@aesthetic/utils';
 import { ClassName, ThemeName, FontFace, Keyframes, Variables, Direction } from '@aesthetic/types';
-import GlobalSheet from './GlobalSheet';
-import LocalSheet from './LocalSheet';
+import StyleSheet from './StyleSheet';
 import {
   AestheticOptions,
   ClassNameSheet,
   ClassNameSheetVariants,
   EventType,
+  GlobalSheet,
   GlobalSheetFactory,
+  LocalSheet,
   LocalSheetFactory,
   OnChangeDirection,
   OnChangeTheme,
@@ -110,13 +111,14 @@ export default class Aesthetic {
   /**
    * Create a local style sheet for use within components.
    */
-  createComponentStyles = <T = unknown>(factory: LocalSheetFactory<T>) =>
-    new LocalSheet<T>(factory);
+  createComponentStyles = <T = unknown>(factory: LocalSheetFactory<T>): LocalSheet<T> =>
+    new StyleSheet('local', factory);
 
   /**
    * Create a global style sheet for root theme styles.
    */
-  createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>) => new GlobalSheet<T>(factory);
+  createThemeStyles = <T = unknown>(factory: GlobalSheetFactory<T>): GlobalSheet<T> =>
+    new StyleSheet('global', factory);
 
   /**
    * Generate a class name using the selectors of a style sheet.
@@ -236,7 +238,7 @@ export default class Aesthetic {
 
     if (sheet) {
       if (__DEV__) {
-        if (!(sheet instanceof GlobalSheet)) {
+        if (!(sheet instanceof StyleSheet) || sheet.type !== 'global') {
           throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
         }
       }
@@ -265,7 +267,7 @@ export default class Aesthetic {
    */
   renderComponentStyles = <T = unknown>(sheet: LocalSheet<T>, params: SheetParams = {}) => {
     if (__DEV__) {
-      if (!(sheet instanceof LocalSheet)) {
+      if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
         throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
       }
     }

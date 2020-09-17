@@ -5,9 +5,7 @@
 
 import { ClientRenderer } from '@aesthetic/style';
 import Aesthetic from './Aesthetic';
-import GlobalSheet from './GlobalSheet';
-import LocalSheet from './LocalSheet';
-import Sheet from './Sheet';
+import StyleSheet from './StyleSheet';
 
 export const aesthetic = new Aesthetic();
 export const {
@@ -36,4 +34,4 @@ export * from '@aesthetic/sss';
 export * from '@aesthetic/system';
 export * from './types';
 
-export { GlobalSheet, LocalSheet, Sheet, ClientRenderer };
+export { StyleSheet, ClientRenderer };

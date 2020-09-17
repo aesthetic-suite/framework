@@ -1,7 +1,7 @@
 import { ClientRenderer } from '@aesthetic/style';
 import { ServerRenderer } from '@aesthetic/style/server';
 import Aesthetic from '../src/Aesthetic';
-import { LocalSheet, GlobalSheet } from '../src';
+import { StyleSheet } from '../src';
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
 
 describe('Aesthetic', () => {
@@ -171,13 +171,13 @@ describe('Aesthetic', () => {
 
   describe('createComponentStyles()', () => {
     it('returns a `LocalSheet` instance', () => {
-      expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(LocalSheet);
+      expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(StyleSheet);
     });
   });
 
   describe('createThemeStyles()', () => {
     it('returns a `GlobalSheet` instance', () => {
-      expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(GlobalSheet);
+      expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(StyleSheet);
     });
   });
 

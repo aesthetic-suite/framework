@@ -7,6 +7,7 @@ import {
 } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
+import StyleSheet from './StyleSheet';
 
 export interface ClassNameSheetVariants {
   [value: string]: ClassName;
@@ -30,19 +31,30 @@ export interface SheetParams {
   vendor?: boolean;
 }
 
+export type SheetType = 'local' | 'global';
+
 export type SheetStructure<T extends string> = {
   [K in T]: string | object;
 };
+
+export type BaseSheetFactory = (utils: Utilities, tokens: Tokens) => object;
 
 export type GlobalSheetFactory<T = unknown> = (
   utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
+export type GlobalSheet<T = unknown> = Omit<
+  StyleSheet<GlobalSheetFactory<T>, ClassName>,
+  'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
+>;
+
 export type LocalSheetFactory<T = unknown> = (
   utils: Utilities,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
+
+export type LocalSheet<T = unknown> = StyleSheet<LocalSheetFactory<T>, ClassNameSheet<string>>;
 
 export interface AestheticOptions {
   defaultUnit?: Unit | UnitFactory;
