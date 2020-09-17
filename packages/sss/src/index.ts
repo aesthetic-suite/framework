@@ -6,8 +6,9 @@
 import Block from './Block';
 import formatFontFace from './helpers/formatFontFace';
 import formatImport from './helpers/formatImport';
+import parseGlobalStyleSheet from './parseGlobalStyleSheet';
 import parseLocalStyleSheet from './parseLocalStyleSheet';
 
 export * from './types';
 
-export { Block, formatFontFace, formatImport, parseLocalStyleSheet };
+export { Block, formatFontFace, formatImport, parseGlobalStyleSheet, parseLocalStyleSheet };

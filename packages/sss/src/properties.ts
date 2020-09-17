@@ -3,7 +3,7 @@
 import { ProcessorMap, PaddingProperty, MarginProperty, FontProperty } from './types';
 
 export const expandedProperties: ProcessorMap = {
-  font: (prop: FontProperty, onProcess) => {
+  font(prop: FontProperty, onProcess) {
     if (prop.lineHeight) {
       onProcess('lineHeight', prop.lineHeight);
 
@@ -12,7 +12,7 @@ export const expandedProperties: ProcessorMap = {
 
     return prop.system;
   },
-  margin: (prop: MarginProperty, onProcess) => {
+  margin(prop: MarginProperty, onProcess) {
     if (prop.topBottom) {
       onProcess('marginTop', prop.topBottom);
       onProcess('marginBottom', prop.topBottom);
@@ -27,7 +27,7 @@ export const expandedProperties: ProcessorMap = {
       delete prop.leftRight;
     }
   },
-  padding: (prop: PaddingProperty, onProcess) => {
+  padding(prop: PaddingProperty, onProcess) {
     if (prop.topBottom) {
       onProcess('paddingTop', prop.topBottom);
       onProcess('paddingBottom', prop.topBottom);

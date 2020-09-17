@@ -284,10 +284,8 @@ export type OnProcessProperty = (property: Property, value: Value) => void;
 
 export type Processor<T> = (value: T, onProcess: OnProcessProperty) => Value | undefined | void;
 
-export interface ProcessorMap {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: Processor<any>;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ProcessorMap = Record<string, Processor<any>>;
 
 // EVENTS
 

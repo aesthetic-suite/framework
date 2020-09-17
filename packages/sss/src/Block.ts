@@ -74,7 +74,7 @@ export default class Block<T extends object = object> {
   }
 
   toObject<O extends object = T>(): O {
-    const object: { [key: string]: unknown } = {};
+    const object: Record<string, unknown> = {};
 
     Object.assign(object, this.variables);
     Object.assign(object, this.properties);
