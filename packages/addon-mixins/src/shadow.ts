@@ -1,13 +1,7 @@
 import { Rule } from '@aesthetic/types';
-import { ShadowSize, Utilities, PaletteType, ColorShade } from '../types';
+import { Utilities, PALETTE_TYPES, SHADE_RANGES, SHADOW_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
-import { PALETTE_TYPES, SHADE_RANGES, SHADOW_SIZES } from '../constants';
-
-export interface ShadowOptions {
-  palette?: PaletteType;
-  shade?: ColorShade;
-  size?: ShadowSize;
-}
+import { ShadowOptions } from './types';
 
 export function shadow(
   this: Utilities,

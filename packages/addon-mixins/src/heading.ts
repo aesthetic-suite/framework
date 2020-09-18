@@ -1,10 +1,7 @@
 import { Rule } from '@aesthetic/types';
-import { Utilities } from '../types';
+import { Utilities } from '@aesthetic/system';
 import { checkList } from './checks';
-
-export interface HeadingOptions {
-  level?: 1 | 2 | 3 | 4 | 5 | 6;
-}
+import { HeadingOptions } from './types';
 
 export function heading(this: Utilities, { level = 1 }: HeadingOptions = {}): Rule {
   if (__DEV__) {

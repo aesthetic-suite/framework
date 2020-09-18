@@ -1,11 +1,7 @@
 import { Rule } from '@aesthetic/types';
-import { TextSize, Utilities } from '../types';
+import { Utilities, TEXT_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
-import { TEXT_SIZES } from '../constants';
-
-export interface TextOptions {
-  size?: TextSize;
-}
+import { TextOptions } from './types';
 
 export function text(this: Utilities, { size = 'df' }: TextOptions = {}): Rule {
   if (__DEV__) {

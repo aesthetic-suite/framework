@@ -1,0 +1,31 @@
+{
+  "name": "@aesthetic/addon-mixins",
+  "version": "0.0.0",
+  "description": "CSS-in-JS mixins for the Aesthetic design system.",
+  "keywords": [
+    "aesthetic",
+    "addon",
+    "mixins",
+    "css",
+    "design",
+    "system"
+  ],
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-mixins",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@aesthetic/system": "^0.3.0",
+    "@aesthetic/types": "^0.2.0",
+    "@aesthetic/utils": "^0.3.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}

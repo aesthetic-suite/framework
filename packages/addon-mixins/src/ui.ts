@@ -1,14 +1,7 @@
 import { Rule } from '@aesthetic/types';
 import { isObject } from '@aesthetic/utils';
-import { BorderOptions } from './border';
-import { PaletteType, Utilities } from '../types';
-import { ShadowOptions } from './shadow';
-
-export interface UIBoxOptions {
-  border?: boolean | BorderOptions;
-  palette?: PaletteType;
-  shadow?: boolean | ShadowOptions;
-}
+import { Utilities } from '@aesthetic/system';
+import { UIBoxOptions, UIInteractiveOptions } from './types';
 
 export function uiBox(
   this: Utilities,
@@ -32,10 +25,6 @@ export function uiBox(
   }
 
   return rule;
-}
-
-export interface UIInteractiveOptions {
-  palette?: PaletteType;
 }
 
 export function uiInteractive(

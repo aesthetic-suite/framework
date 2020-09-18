@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import optimal, { string } from 'optimal';
+import optimal, { bool, string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import camelCase from 'lodash/camelCase';
@@ -69,6 +69,7 @@ export default class Compiler {
         'web-ts',
         'web-tsx',
       ]),
+      mixins: bool(),
       platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
     });
   }
@@ -157,6 +158,7 @@ export default class Compiler {
         breakpointSizes: BREAKPOINT_SIZES,
         elevationDepths: Object.entries(DEPTHS),
         headingSizes: HEADING_SIZES,
+        includeMixins: this.options.mixins,
         platform,
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,

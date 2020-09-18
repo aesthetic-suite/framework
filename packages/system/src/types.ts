@@ -1,13 +1,4 @@
 import { Rule, Unit } from '@aesthetic/types';
-import { LiteralUnion } from '@aesthetic/utils';
-import { BorderOptions } from './mixins/border';
-import { BackgroundOptions } from './mixins/background';
-import { ForegroundOptions } from './mixins/foreground';
-import { HeadingOptions } from './mixins/heading';
-import { ShadowOptions } from './mixins/shadow';
-import { TextOptions } from './mixins/text';
-import { ResetButtonOptions } from './mixins/reset';
-import { UIBoxOptions, UIInteractiveOptions } from './mixins/ui';
 
 export type Hexcode = string;
 
@@ -463,57 +454,13 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 export type MixinTemplate<T extends object = object> = (options: T) => Rule;
 
+export type MixinTemplateMap = Record<string, MixinTemplate>;
+
 export type MixinUtil<T extends object = object> = (options?: T, properties?: Rule) => Rule;
 
-export interface MixinBuiltInUtils {
-  background: MixinUtil<BackgroundOptions>;
-  border: MixinUtil<BorderOptions>;
-  foreground: MixinUtil<ForegroundOptions>;
-  heading: MixinUtil<HeadingOptions>;
-  hideCompletely: MixinUtil;
-  hideOffscreen: MixinUtil;
-  hideVisually: MixinUtil;
-  resetButton: MixinUtil<ResetButtonOptions>;
-  resetInput: MixinUtil;
-  resetList: MixinUtil;
-  resetMedia: MixinUtil;
-  resetTypography: MixinUtil;
-  root: MixinUtil;
-  shadow: MixinUtil<ShadowOptions>;
-  text: MixinUtil<TextOptions>;
-  textBreak: MixinUtil;
-  textTruncate: MixinUtil;
-  textWrap: MixinUtil;
-  uiBox: MixinUtil<UIBoxOptions>;
-  uiInteractive: MixinUtil<UIInteractiveOptions>;
+export interface MixinUtils {
+  (name: string, options?: object, ...additionalRules: Rule[]): Rule;
 }
-
-export interface MixinUtils extends MixinBuiltInUtils {
-  (name: MixinType, options?: object, ...additionalRules: Rule[]): Rule;
-}
-
-export type MixinType = LiteralUnion<
-  | 'background'
-  | 'border'
-  | 'foreground'
-  | 'heading'
-  | 'hide-completely'
-  | 'hide-offscreen'
-  | 'hide-visually'
-  | 'reset-button'
-  | 'reset-input'
-  | 'reset-list'
-  | 'reset-media'
-  | 'reset-typography'
-  | 'root'
-  | 'shadow'
-  | 'text'
-  | 'text-break'
-  | 'text-truncate'
-  | 'text-wrap'
-  | 'ui-box'
-  | 'ui-interactive'
->;
 
 // OTHER
 

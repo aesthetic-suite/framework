@@ -1,11 +1,7 @@
 import { Rule } from '@aesthetic/types';
-import { PaletteType, Utilities } from '../types';
+import { Utilities, PALETTE_TYPES } from '@aesthetic/system';
 import { checkList } from './checks';
-import { PALETTE_TYPES } from '../constants';
-
-export interface BackgroundOptions {
-  palette?: PaletteType;
-}
+import { BackgroundOptions } from './types';
 
 export function background(this: Utilities, { palette = 'neutral' }: BackgroundOptions = {}): Rule {
   if (__DEV__) {

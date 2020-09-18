@@ -1,14 +1,7 @@
 import { Rule } from '@aesthetic/types';
-import { BorderSize, Utilities, PaletteType, ColorShade } from '../types';
-import { PALETTE_TYPES, SHADE_RANGES, BORDER_SIZES } from '../constants';
+import { Utilities, PALETTE_TYPES, SHADE_RANGES, BORDER_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
-
-export interface BorderOptions {
-  palette?: PaletteType;
-  radius?: boolean;
-  shade?: ColorShade;
-  size?: BorderSize;
-}
+import { BorderOptions } from './types';
 
 export function border(
   this: Utilities,

@@ -1,5 +1,7 @@
 {
   "rules": {
+    "no-magic-numbers": "off",
+    "sort-keys": "off",
     "babel/no-invalid-this": "off"
   }
 }
