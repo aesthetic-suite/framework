@@ -52,12 +52,12 @@ describe('Hydration', () => {
   it('adds standard and condition rules to the class name cache', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.classNameCache.cache).toEqual({});
+    expect(renderer.cache.cache).toEqual({});
     expect(renderer.ruleIndex).toBe(-1);
 
     renderer.hydrateStyles();
 
-    expect(renderer.classNameCache.cache).toEqual({
+    expect(renderer.cache.cache).toEqual({
       margin: {
         '0': [{ className: 'a', conditions: [], rank: 0, selector: '', type: 'standard' }],
         '10px': [
@@ -162,14 +162,14 @@ describe('Hydration', () => {
   it('sets correct indices', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.globalStyleSheet.lastIndex).toBe(-1);
-    expect(renderer.standardStyleSheet.lastIndex).toBe(-1);
-    expect(renderer.conditionsStyleSheet.lastIndex).toBe(-1);
+    expect(renderer.globals.lastIndex).toBe(-1);
+    expect(renderer.standards.lastIndex).toBe(-1);
+    expect(renderer.conditions.lastIndex).toBe(-1);
 
     renderer.hydrateStyles();
 
-    expect(renderer.globalStyleSheet.lastIndex).toBe(2);
-    expect(renderer.standardStyleSheet.lastIndex).toBe(16);
-    expect(renderer.conditionsStyleSheet.lastIndex).toBe(3);
+    expect(renderer.globals.lastIndex).toBe(2);
+    expect(renderer.standards.lastIndex).toBe(16);
+    expect(renderer.conditions.lastIndex).toBe(3);
   });
 });

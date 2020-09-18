@@ -3,40 +3,20 @@
 import getStyleElement from './getStyleElement';
 import { SheetType } from '../types';
 
-// Elements should be in the order of: global, standard, media
+// Elements should be in the order of: global, standard, conditions
 function insertInOrder(type: SheetType, style: HTMLStyleElement) {
-  if (type === 'global') {
-    const standard = getStyleElement('standard');
-    const conditions = getStyleElement('conditions');
+  const standard = getStyleElement('standard');
+  const conditions = getStyleElement('conditions');
 
-    if (standard || conditions) {
-      (standard || conditions)!.insertAdjacentElement('beforebegin', style);
-
-      return;
-    }
+  if (type === 'global' && (standard || conditions)) {
+    (standard || conditions)!.insertAdjacentElement('beforebegin', style);
+  } else if (type === 'standard' && conditions) {
+    conditions.insertAdjacentElement('beforebegin', style);
+  } else if (type === 'conditions' && standard) {
+    standard.insertAdjacentElement('afterend', style);
+  } else {
+    document.head.append(style);
   }
-
-  if (type === 'standard') {
-    const conditions = getStyleElement('conditions');
-
-    if (conditions) {
-      conditions.insertAdjacentElement('beforebegin', style);
-
-      return;
-    }
-  }
-
-  if (type === 'conditions') {
-    const standard = getStyleElement('standard');
-
-    if (standard) {
-      standard.insertAdjacentElement('afterend', style);
-
-      return;
-    }
-  }
-
-  document.head.append(style);
 }
 
 export default function getDocumentStyleSheet(type: SheetType): CSSStyleSheet {

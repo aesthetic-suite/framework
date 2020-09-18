@@ -15,7 +15,7 @@ const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]
 function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<CacheItem>) {
   const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
 
-  renderer.classNameCache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
+  renderer.cache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
     className,
     conditions: [],
     rank: 0,

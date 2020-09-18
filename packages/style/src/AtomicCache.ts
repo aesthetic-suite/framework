@@ -6,19 +6,12 @@ export default class AtomicCache {
   cache: Record<string, Record<string, CacheItem[]>> = {};
 
   match(item: CacheItem, options: RenderOptions, minimumRank?: number): boolean {
-    if (minimumRank !== undefined && item.rank < minimumRank) {
-      return false;
-    }
-
-    if (item.selector !== options.selector) {
-      return false;
-    }
-
-    if (item.type !== options.type) {
-      return false;
-    }
-
-    if (item.conditions.length !== options.conditions?.length) {
+    if (
+      (minimumRank !== undefined && item.rank < minimumRank) ||
+      item.selector !== options.selector ||
+      item.type !== options.type ||
+      item.conditions.length !== options.conditions?.length
+    ) {
       return false;
     }
 
@@ -45,7 +38,7 @@ export default class AtomicCache {
       return null;
     }
 
-    return valueCache.find((item) => this.match(item, options, minimumRank)) ?? null;
+    return valueCache.find((item) => this.match(item, options, minimumRank)) || null;
   }
 
   write(property: string, value: string, item: CacheItem): this {

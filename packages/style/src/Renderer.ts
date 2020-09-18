@@ -10,14 +10,7 @@ import {
   Variables,
   Rule,
 } from '@aesthetic/types';
-import {
-  arrayReduce,
-  hyphenate,
-  isObject,
-  objectLoop,
-  objectReduce,
-  generateHash,
-} from '@aesthetic/utils';
+import { hyphenate, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
 import AtomicCache from './AtomicCache';
 import formatConditions from './helpers/formatConditions';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
@@ -70,17 +63,17 @@ declare global {
 export default abstract class Renderer {
   apis: API;
 
-  classNameCache = new AtomicCache();
+  cache = new AtomicCache();
 
   ruleCache: Record<string, ClassName | boolean> = {};
 
   ruleIndex: number = -1;
 
-  abstract globalStyleSheet: StyleSheet;
+  abstract globals: StyleSheet;
 
-  abstract conditionsStyleSheet: ConditionsStyleSheet;
+  abstract conditions: ConditionsStyleSheet;
 
-  abstract standardStyleSheet: StyleSheet;
+  abstract standards: StyleSheet;
 
   constructor(api: Partial<API> = {}) {
     this.apis = {
@@ -134,7 +127,7 @@ export default abstract class Renderer {
     }
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(key, val, options, options.rankings[key]);
+    const cache = this.cache.read(key, val, options, options.rankings[key]);
 
     if (cache) {
       persistRank(options, key, cache.rank);
@@ -167,7 +160,7 @@ export default abstract class Renderer {
     persistRank(options, key, rank);
 
     // Write to cache
-    this.classNameCache.write(key, val, {
+    this.cache.write(key, val, {
       className,
       conditions: options.conditions,
       rank,
@@ -293,32 +286,18 @@ export default abstract class Renderer {
   };
 
   /**
-   * Render a mapping of multiple rules in the defined order.
-   * If no order is provided, they will be rendered sequentially.
-   */
-  renderRulesOrdered<T extends Record<string, Rule>>(
-    sets: T,
-    inOrder?: (keyof T)[],
-    options?: RenderOptions,
-  ) {
-    const order = inOrder ?? Object.keys(sets);
-
-    return arrayReduce(order, (key) => `${this.renderRule(sets[key], options)} `).trim();
-  }
-
-  /**
    * Return the root style rule for the defined style sheet.
    */
   protected getRootRule(type: SheetType): StyleRule {
     if (type === 'global') {
-      return this.globalStyleSheet.sheet;
+      return this.globals.sheet;
     }
 
     if (type === 'conditions') {
-      return this.conditionsStyleSheet.sheet;
+      return this.conditions.sheet;
     }
 
-    return this.standardStyleSheet.sheet;
+    return this.standards.sheet;
   }
 
   /**
@@ -353,16 +332,16 @@ export default abstract class Renderer {
     const { conditions = [], type = 'standard' } = options;
 
     if (type === 'global') {
-      return this.globalStyleSheet.insertRule(rule);
+      return this.globals.insertRule(rule);
     }
 
     // Insert into the conditional style sheet if conditions exist
     if (type === 'conditions' || conditions.length > 0) {
-      return this.conditionsStyleSheet.insertRule(rule, conditions);
+      return this.conditions.insertRule(rule, conditions);
     }
 
     // No media or feature queries so insert into the standard style sheet
-    return this.standardStyleSheet.insertRule(rule);
+    return this.standards.insertRule(rule);
   }
 
   /**

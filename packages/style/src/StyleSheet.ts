@@ -1,6 +1,6 @@
 import { CSS } from '@aesthetic/types';
 import { isSSR } from '@aesthetic/utils';
-import { isImportRule, isAtRule } from './helpers';
+import { isImportRule, isAtRule, getDocumentStyleSheet } from './helpers';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 import { SheetType, StyleRule } from './types';
 
@@ -15,9 +15,9 @@ export default class StyleSheet {
 
   protected ruleBuffer: { index: number; rule: string }[] = [];
 
-  constructor(type: SheetType, sheet: StyleRule) {
+  constructor(type: SheetType, sheet?: StyleRule) {
     this.type = type;
-    this.sheet = sheet;
+    this.sheet = sheet || ((getDocumentStyleSheet(type) as unknown) as StyleRule);
   }
 
   insertRule(rule: CSS, other?: unknown): number {
