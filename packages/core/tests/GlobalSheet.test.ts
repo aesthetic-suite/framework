@@ -102,10 +102,10 @@ describe('GlobalSheet', () => {
       },
       {
         deterministic: true,
-        rtl: false,
+        direction: 'ltr',
         type: 'global',
         unit: 'px',
-        vendor: null,
+        vendor: false,
       },
     );
   });
@@ -131,9 +131,9 @@ describe('GlobalSheet', () => {
       },
       'fade',
       {
-        rtl: false,
+        direction: 'ltr',
         unit: 'px',
-        vendor: null,
+        vendor: false,
       },
     );
   });

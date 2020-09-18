@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { GenericProperties, Value } from '@aesthetic/types';
 import { declarationMapping } from './data';
 import getPrefixesFromMask from './getPrefixesFromMask';
@@ -7,11 +5,12 @@ import isPrefixed from './isPrefixed';
 import prefixValue from './prefixValue';
 import prefixValueFunction from './prefixValueFunction';
 
-export default function prefixDeclaration(props: GenericProperties, key: string, value: Value) {
+export default function prefix(key: string, value: Value): GenericProperties {
   const map = declarationMapping[key];
+  const prefixed: GenericProperties = {};
 
   if (!map || isPrefixed(key)) {
-    return;
+    return prefixed;
   }
 
   const { prefixes: mask, functions, values } = map;
@@ -25,9 +24,11 @@ export default function prefixDeclaration(props: GenericProperties, key: string,
 
   // Prefixed properties come first
   getPrefixesFromMask(mask).forEach((affix) => {
-    props[affix + key] = nextValue;
+    prefixed[affix + key] = nextValue;
   });
 
   // Base property comes last
-  props[key] = nextValue;
+  prefixed[key] = nextValue;
+
+  return prefixed;
 }

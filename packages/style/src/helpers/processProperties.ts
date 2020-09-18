@@ -1,7 +1,6 @@
 import { Value, Properties, GenericProperties } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
-import { ProcessOptions } from '../types';
+import { API, ProcessOptions } from '../types';
 
 /**
  * Apply vendor prefixes and RTL conversions to a block of properties.
@@ -11,7 +10,8 @@ import { ProcessOptions } from '../types';
  */
 export default function processProperties(
   properties: Properties,
-  { vendor, rtl }: ProcessOptions = {},
+  { direction, vendor }: ProcessOptions,
+  { direction: baseDirection, converter, prefixer }: API,
 ): GenericProperties {
   const props: GenericProperties = {};
 
@@ -24,16 +24,17 @@ export default function processProperties(
     let value: Value = val;
 
     // Convert left to right
-    if (rtl) {
-      prop = getPropertyDoppelganger(prop);
-      value = getValueDoppelganger(prop, value);
+    if (direction && converter) {
+      ({ key: prop, value } = converter.convert(baseDirection, direction, prop, value));
     }
 
     // Set the value after direction change but before prefixing
     props[prop] = value;
 
     // Inject vendor prefixes
-    vendor?.prefixDeclaration(props, prop, value);
+    if (vendor && prefixer) {
+      Object.assign(props, prefixer.prefix(prop, value));
+    }
   });
 
   return props;

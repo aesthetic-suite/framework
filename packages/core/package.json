@@ -26,6 +26,7 @@
     "@aesthetic/utils": "^0.3.0"
   },
   "devDependencies": {
+    "@aesthetic/addon-direction": "^0.0.0",
     "@aesthetic/addon-vendor": "^0.0.0"
   },
   "funding": {

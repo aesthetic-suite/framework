@@ -91,10 +91,10 @@ describe('LocalSheet', () => {
         fontFamily: '"Open Sans", Roboto',
       },
       {
+        direction: 'ltr',
         rankings: expect.any(Object),
-        rtl: false,
         unit: 'px',
-        vendor: null,
+        vendor: false,
       },
     );
 
@@ -104,10 +104,10 @@ describe('LocalSheet', () => {
         animationName: 'kf1plt5bd',
       },
       {
+        direction: 'ltr',
         rankings: expect.any(Object),
-        rtl: false,
         unit: 'px',
-        vendor: null,
+        vendor: false,
       },
     );
   });
@@ -137,10 +137,10 @@ describe('LocalSheet', () => {
       },
       '',
       {
+        direction: 'ltr',
         rankings: expect.any(Object),
-        rtl: false,
         unit: 'px',
-        vendor: null,
+        vendor: false,
       },
     );
   });

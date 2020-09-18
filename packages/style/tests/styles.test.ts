@@ -1,4 +1,5 @@
-import vendorPrefixer from '@aesthetic/addon-vendor';
+import converter from '@aesthetic/addon-direction';
+import prefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
 import { MEDIA_RULE } from '../src/constants';
@@ -8,7 +9,10 @@ describe('Styles', () => {
   let spy: jest.SpyInstance;
 
   beforeEach(() => {
-    renderer = new Renderer();
+    renderer = new Renderer({
+      converter,
+      prefixer,
+    });
 
     // Avoid warnings
     spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -266,7 +270,7 @@ describe('Styles', () => {
 
   it('generates different declarations when RTL converting', () => {
     const a = renderer.renderDeclaration('margin-left', '10px');
-    const b = renderer.renderDeclaration('margin-left', '10px', { rtl: true });
+    const b = renderer.renderDeclaration('margin-left', '10px', { direction: 'rtl' });
 
     expect(a).toBe('a');
     expect(b).toBe('b');
@@ -276,18 +280,18 @@ describe('Styles', () => {
 
   it('applies vendor prefixes to a property under a single class name', () => {
     // Value prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('min-width', 'fit-content', { vendor: vendorPrefixer });
+    renderer.renderDeclaration('min-width', 'fit-content', { vendor: true });
 
     // Value function prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('background', 'image-set()', { vendor: vendorPrefixer });
+    renderer.renderDeclaration('background', 'image-set()', { vendor: true });
 
     // Property prefixing
-    renderer.renderDeclaration('appearance', 'none', { vendor: vendorPrefixer });
+    renderer.renderDeclaration('appearance', 'none', { vendor: true });
 
     // Selector prefixing
     renderer.renderDeclaration('display', 'none', {
       selector: ':fullscreen',
-      vendor: vendorPrefixer,
+      vendor: true,
     });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -303,8 +307,8 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        vendor: vendorPrefixer,
-        rtl: false,
+        direction: 'ltr',
+        vendor: true,
       },
     );
 
@@ -318,8 +322,8 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        vendor: vendorPrefixer,
-        rtl: true,
+        direction: 'rtl',
+        vendor: true,
       },
     );
 
@@ -370,7 +374,7 @@ describe('Styles', () => {
     });
 
     it('can vendor prefix applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { vendor: vendorPrefixer });
+      const className = renderer.renderRuleGrouped(rule, { vendor: true });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -378,7 +382,7 @@ describe('Styles', () => {
     });
 
     it('can RTL convert applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { rtl: true });
+      const className = renderer.renderRuleGrouped(rule, { direction: 'rtl' });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();

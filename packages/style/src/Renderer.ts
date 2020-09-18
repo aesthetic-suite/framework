@@ -1,6 +1,5 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 import {
   ClassName,
   FontFace,
@@ -33,7 +32,7 @@ import processValue from './helpers/processValue';
 import StyleSheet from './StyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule } from './types';
+import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule, API } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -43,12 +42,12 @@ function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
     className: '',
     conditions: [],
     deterministic: false,
+    direction: 'ltr',
     rankings: {},
-    rtl: false,
     selector: '',
     type: 'standard',
     unit: 'px',
-    vendor: null,
+    vendor: false,
     ...options,
   };
 }
@@ -69,9 +68,11 @@ declare global {
 }
 
 export default abstract class Renderer {
-  readonly classNameCache = new AtomicCache();
+  apis: API;
 
-  readonly ruleCache: Record<string, ClassName | boolean> = {};
+  classNameCache = new AtomicCache();
+
+  ruleCache: Record<string, ClassName | boolean> = {};
 
   ruleIndex: number = -1;
 
@@ -80,6 +81,13 @@ export default abstract class Renderer {
   abstract conditionsStyleSheet: ConditionsStyleSheet;
 
   abstract standardStyleSheet: StyleSheet;
+
+  constructor(api: Partial<API> = {}) {
+    this.apis = {
+      direction: 'ltr',
+      ...api,
+    };
+  }
 
   /**
    * Generate an incremental class name.
@@ -115,14 +123,14 @@ export default abstract class Renderer {
     opts: RenderOptions = {},
   ): ClassName {
     const options = createDefaultOptions(opts);
+    const { direction, converter, prefixer } = this.apis;
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
     let val = processValue(key, value, opts.unit);
 
-    if (options.rtl) {
-      key = getPropertyDoppelganger(key);
-      val = getValueDoppelganger(key, val);
+    if (converter) {
+      ({ key, value: val } = converter.convert(direction, options.direction, key, val));
     }
 
     // Check the cache immediately
@@ -137,7 +145,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       options.selector,
-      processProperties({ [key]: val }, { vendor: options.vendor }),
+      processProperties({ [key]: val }, { vendor: options.vendor }, this.apis),
     );
 
     const className =
@@ -150,8 +158,8 @@ export default abstract class Renderer {
 
     // Persist the max ranking
     const rank = this.insertRule(
-      options.selector && options.vendor
-        ? options.vendor.prefixSelector(options.selector, classRule)
+      options.selector && options.vendor && prefixer
+        ? prefixer.prefixSelector(options.selector, classRule)
         : classRule,
       options,
     );
@@ -186,6 +194,7 @@ export default abstract class Renderer {
           fontFamily,
         } as Properties,
         options,
+        this.apis,
       ),
     );
 
@@ -212,7 +221,7 @@ export default abstract class Renderer {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options))} } `,
+        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options, this.apis))} } `,
     );
 
     const animationName = customName || `kf${generateHash(rule)}`;
@@ -254,7 +263,7 @@ export default abstract class Renderer {
 
     const rule = formatRule(
       options.selector,
-      processProperties(nextProperties, options),
+      processProperties(nextProperties, options, this.apis),
       cssVariables,
     );
 
@@ -265,10 +274,11 @@ export default abstract class Renderer {
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
       const classRule = `.${className}${rule}`;
+      const { prefixer } = this.apis;
 
       this.insertRule(
-        options.selector && options.vendor
-          ? options.vendor.prefixSelector(options.selector, classRule)
+        options.selector && options.vendor && prefixer
+          ? prefixer.prefixSelector(options.selector, classRule)
           : classRule,
         options,
       );

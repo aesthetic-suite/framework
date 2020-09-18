@@ -27,10 +27,10 @@
   "dependencies": {
     "@aesthetic/types": "^0.2.0",
     "@aesthetic/utils": "^0.3.0",
-    "rtl-css-js": "^1.14.0",
     "sort-css-media-queries": "^1.5.0"
   },
   "devDependencies": {
+    "@aesthetic/addon-direction": "^0.0.0",
     "@aesthetic/addon-vendor": "^0.0.0"
   }
 }

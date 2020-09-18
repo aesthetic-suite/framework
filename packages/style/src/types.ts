@@ -1,11 +1,12 @@
 import {
-  CSS,
   ClassName,
+  CSS,
+  Direction,
+  GenericProperties,
   Unit,
   UnitFactory,
-  Variables,
-  GenericProperties,
   Value,
+  Variables,
 } from '@aesthetic/types';
 
 export type SheetType = 'global' | 'standard' | 'conditions';
@@ -15,16 +16,14 @@ export interface Condition {
   type: number;
 }
 
-export interface RankCache {
-  [property: string]: number;
-}
+export type RankCache = Record<string, number>;
 
 export interface ProcessOptions {
   deterministic?: boolean;
   rankings?: RankCache;
-  rtl?: boolean;
+  direction?: Direction;
   unit?: Unit | UnitFactory;
-  vendor?: VendorPrefixerAPI | null;
+  vendor?: boolean;
 }
 
 export interface RenderOptions extends ProcessOptions {
@@ -50,7 +49,22 @@ export interface StyleRule {
 
 // ADDONS
 
-export interface VendorPrefixerAPI {
-  prefixDeclaration: (props: GenericProperties, key: string, value: Value) => void;
+export interface DirectionConverter {
+  convert: <T extends Value>(
+    from: Direction,
+    to: Direction,
+    key: string,
+    value: T,
+  ) => { key: string; value: T };
+}
+
+export interface VendorPrefixer {
+  prefix: (key: string, value: Value) => GenericProperties;
   prefixSelector: (selector: string, rule: CSS) => CSS;
+}
+
+export interface API {
+  converter?: DirectionConverter | null;
+  direction: Direction;
+  prefixer?: VendorPrefixer | null;
 }

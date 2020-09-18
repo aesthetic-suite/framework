@@ -1,14 +1,17 @@
-import vendorPrefixer from '@aesthetic/addon-vendor';
+import converter from '@aesthetic/addon-direction';
+import prefixer from '@aesthetic/addon-vendor';
 import processProperties from '../../src/helpers/processProperties';
 
 describe('processProperties()', () => {
   it('removes undefined values', () => {
-    expect(processProperties({ background: undefined })).toEqual({});
+    expect(processProperties({ background: undefined }, {}, { direction: 'ltr' })).toEqual({});
   });
 
   describe('prefixes', () => {
     it('does nothing for an unsupported property', () => {
-      expect(processProperties({ background: 'none' }, { vendor: vendorPrefixer })).toEqual({
+      expect(
+        processProperties({ background: 'none' }, { vendor: true }, { direction: 'ltr', prefixer }),
+      ).toEqual({
         background: 'none',
       });
     });
@@ -17,7 +20,8 @@ describe('processProperties()', () => {
       expect(
         processProperties(
           { appearance: 'none', 'user-select': 'none' },
-          { vendor: vendorPrefixer },
+          { vendor: true },
+          { direction: 'ltr', prefixer },
         ),
       ).toEqual({
         '-moz-appearance': 'none',
@@ -29,9 +33,13 @@ describe('processProperties()', () => {
       });
     });
 
-    it('doesnt add vendor prefixed properties for those that need prefixing if `vendor` is null', () => {
+    it('doesnt add vendor prefixed properties for those that need prefixing if `vendor` is false', () => {
       expect(
-        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: null }),
+        processProperties(
+          { appearance: 'none', 'user-select': 'none' },
+          { vendor: false },
+          { direction: 'ltr', prefixer },
+        ),
       ).toEqual({
         appearance: 'none',
         'user-select': 'none',
@@ -42,7 +50,8 @@ describe('processProperties()', () => {
       expect(
         processProperties(
           { 'background-image': 'cross-fade(url(white.png) 0%, url(black.png) 100%);' },
-          { vendor: vendorPrefixer },
+          { vendor: true },
+          { direction: 'ltr', prefixer },
         ),
       ).toEqual({
         'background-image': [
@@ -53,23 +62,58 @@ describe('processProperties()', () => {
     });
 
     it('adds vendor prefixed properties for values', () => {
-      expect(processProperties({ 'unicode-bidi': 'isolate' }, { vendor: vendorPrefixer })).toEqual({
+      expect(
+        processProperties(
+          { 'unicode-bidi': 'isolate' },
+          { vendor: true },
+          { direction: 'ltr', prefixer },
+        ),
+      ).toEqual({
         'unicode-bidi': ['-webkit-isolate', 'isolate'],
       });
     });
   });
 
-  describe('rtl', () => {
-    it('converts left to right properties', () => {
+  describe('direction', () => {
+    it('doesnt convert if same direction', () => {
       expect(
         processProperties(
           { 'margin-top': 0, 'margin-left': '10px', 'text-align': 'left' },
-          { rtl: true },
+          { direction: 'ltr' },
+          { direction: 'ltr', converter },
+        ),
+      ).toEqual({
+        'margin-top': 0,
+        'margin-left': '10px',
+        'text-align': 'left',
+      });
+    });
+
+    it('converts LTR to RTL properties', () => {
+      expect(
+        processProperties(
+          { 'margin-top': 0, 'margin-left': '10px', 'text-align': 'left' },
+          { direction: 'rtl' },
+          { direction: 'ltr', converter },
         ),
       ).toEqual({
         'margin-top': 0,
         'margin-right': '10px',
         'text-align': 'right',
+      });
+    });
+
+    it('convert RTL to LTR properties', () => {
+      expect(
+        processProperties(
+          { 'margin-top': 0, 'margin-right': '10px', 'text-align': 'right' },
+          { direction: 'ltr' },
+          { direction: 'rtl', converter },
+        ),
+      ).toEqual({
+        'margin-top': 0,
+        'margin-left': '10px',
+        'text-align': 'left',
       });
     });
   });

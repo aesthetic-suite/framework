@@ -1,3 +1,4 @@
+import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
 import { ClientRenderer } from '@aesthetic/style';
 import { ServerRenderer } from '@aesthetic/style/server';
@@ -178,17 +179,20 @@ describe('Aesthetic', () => {
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'px',
         deterministicClasses: false,
+        directionConverter: null,
         vendorPrefixer: null,
       });
 
       configure({
         defaultUnit: 'em',
+        directionConverter,
         vendorPrefixer,
       });
 
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'em',
         deterministicClasses: false,
+        directionConverter,
         vendorPrefixer,
       });
     });
@@ -435,7 +439,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
-        vendor: null,
+        vendor: false,
       });
     });
 
@@ -453,7 +457,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: vendorPrefixer,
+        vendor: false,
       });
     });
 
@@ -467,7 +471,7 @@ describe('Aesthetic', () => {
         direction: expect.any(String),
         theme: 'night',
         unit: 'px',
-        vendor: null,
+        vendor: false,
       });
     });
   });
@@ -555,9 +559,9 @@ describe('Aesthetic', () => {
         to: { opacity: 1 },
       };
 
-      renderKeyframes(keyframes, 'fade', { rtl: true });
+      renderKeyframes(keyframes, 'fade', { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { rtl: true });
+      expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { direction: 'rtl' });
     });
   });
 
@@ -586,7 +590,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
-        vendor: null,
+        vendor: false,
       });
     });
 
@@ -604,7 +608,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: vendorPrefixer,
+        vendor: false,
       });
     });
   });

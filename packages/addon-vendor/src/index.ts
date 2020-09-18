@@ -3,10 +3,10 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import prefixDeclaration from './prefixDeclaration';
+import prefix from './prefix';
 import prefixSelector from './prefixSelector';
 
 export default {
-  prefixDeclaration,
+  prefix,
   prefixSelector,
 };
