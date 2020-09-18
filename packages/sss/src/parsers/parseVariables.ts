@@ -22,9 +22,9 @@ export default function parseVariables<T extends object>(
 
     if (parent) {
       parent.addVariable(name, value);
-      events.onBlockVariable?.(parent, name, value);
+      events.onVariable?.(parent, name, value);
     } else {
-      events.onVariable?.(name, value);
+      events.onRootVariable?.(name, value);
     }
   });
 }

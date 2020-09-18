@@ -88,7 +88,7 @@ describe('LocalParser', () => {
           props: SYNTAX_PROPERTIES,
         },
         {
-          onBlockProperty: spy,
+          onProperty: spy,
         },
       );
 
@@ -107,7 +107,7 @@ describe('LocalParser', () => {
           },
         },
         {
-          onBlockProperty: spy,
+          onProperty: spy,
         },
       );
 
@@ -122,7 +122,7 @@ describe('LocalParser', () => {
           attrs: SYNTAX_SELECTOR_ATTRIBUTES,
         },
         {
-          onBlockAttribute: spy,
+          onAttribute: spy,
         },
       );
 
@@ -151,7 +151,7 @@ describe('LocalParser', () => {
           attrs: SYNTAX_SELECTOR_PSEUDOS,
         },
         {
-          onBlockPseudo: spy,
+          onPseudo: spy,
         },
       );
 
@@ -224,7 +224,7 @@ describe('LocalParser', () => {
           fb: {},
         },
         {
-          onBlockFallback: spy,
+          onFallback: spy,
         },
       );
 
@@ -237,7 +237,7 @@ describe('LocalParser', () => {
           fb: SYNTAX_FALLBACKS,
         },
         {
-          onBlockFallback: spy,
+          onFallback: spy,
         },
       );
 
@@ -269,7 +269,7 @@ describe('LocalParser', () => {
           media: {},
         },
         {
-          onBlockMedia: spy,
+          onMedia: spy,
         },
       );
 
@@ -282,7 +282,7 @@ describe('LocalParser', () => {
           media: SYNTAX_MEDIA,
         },
         {
-          onBlockMedia: spy,
+          onMedia: spy,
         },
       );
 
@@ -313,7 +313,7 @@ describe('LocalParser', () => {
           media: SYNTAX_MEDIA_NESTED,
         },
         {
-          onBlockMedia: spy,
+          onMedia: spy,
         },
       );
 
@@ -361,7 +361,7 @@ describe('LocalParser', () => {
           selectors: {},
         },
         {
-          onBlockSelector: spy,
+          onSelector: spy,
         },
       );
 
@@ -377,8 +377,8 @@ describe('LocalParser', () => {
           selectors: SYNTAX_SELECTORS_SPECIFICITY,
         },
         {
-          onBlockAttribute: attrSpy,
-          onBlockPseudo: pseudoSpy,
+          onAttribute: attrSpy,
+          onPseudo: pseudoSpy,
         },
       );
 
@@ -414,7 +414,7 @@ describe('LocalParser', () => {
           selectors: SYNTAX_SELECTORS_COMBINATORS,
         },
         {
-          onBlockSelector: spy,
+          onSelector: spy,
         },
       );
 
@@ -458,9 +458,9 @@ describe('LocalParser', () => {
           selectors: SYNTAX_SELECTORS_MULTIPLE,
         },
         {
-          onBlockAttribute: attrSpy,
-          onBlockPseudo: pseudoSpy,
-          onBlockSelector: spy,
+          onAttribute: attrSpy,
+          onPseudo: pseudoSpy,
+          onSelector: spy,
         },
       );
 
@@ -508,7 +508,7 @@ describe('LocalParser', () => {
           supports: {},
         },
         {
-          onBlockSupports: spy,
+          onSupports: spy,
         },
       );
 
@@ -521,7 +521,7 @@ describe('LocalParser', () => {
           supports: SYNTAX_SUPPORTS,
         },
         {
-          onBlockSupports: spy,
+          onSupports: spy,
         },
       );
 
@@ -562,7 +562,7 @@ describe('LocalParser', () => {
           vars: {},
         },
         {
-          onBlockVariable: spy,
+          onVariable: spy,
         },
       );
 
@@ -575,7 +575,7 @@ describe('LocalParser', () => {
           vars: SYNTAX_VARIABLES,
         },
         {
-          onVariable: spy,
+          onRootVariable: spy,
         },
       );
 
@@ -588,7 +588,7 @@ describe('LocalParser', () => {
           vars: SYNTAX_VARIABLES,
         },
         {
-          onBlockVariable: spy,
+          onVariable: spy,
         },
       );
 
@@ -620,7 +620,7 @@ describe('LocalParser', () => {
           variants: {},
         },
         {
-          onBlockVariant: spy,
+          onVariant: spy,
         },
       );
 
@@ -633,7 +633,7 @@ describe('LocalParser', () => {
           variants: SYNTAX_VARIANTS,
         },
         {
-          onBlockVariant: spy,
+          onVariant: spy,
         },
       );
 

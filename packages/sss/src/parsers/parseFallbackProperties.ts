@@ -13,6 +13,6 @@ export default function parseFallbackProperties<T extends object>(
   }
 
   objectLoop(fallbacks, (value, prop) => {
-    events.onBlockFallback?.(parent, prop, toArray(value));
+    events.onFallback?.(parent, prop, toArray(value));
   });
 }

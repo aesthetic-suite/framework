@@ -19,7 +19,7 @@ export default function parseVariants<T extends object>(
       const block = parseLocalBlock(new Block(type), object, events);
 
       parent.addVariant(block);
-      events.onBlockVariant?.(parent, type, block, { specificity: 0 });
+      events.onVariant?.(parent, type, block, { specificity: 0 });
     });
   });
 }

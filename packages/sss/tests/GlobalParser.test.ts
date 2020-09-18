@@ -119,7 +119,7 @@ describe('GlobalParser', () => {
         },
         {
           onRoot: spy,
-          onBlockMedia(block, query, value) {
+          onMedia(block, query, value) {
             block.addNested(value);
           },
         },
@@ -283,7 +283,7 @@ describe('GlobalParser', () => {
           '@variables': {},
         },
         {
-          onVariable: spy,
+          onRootVariable: spy,
         },
       );
 
@@ -298,7 +298,7 @@ describe('GlobalParser', () => {
           },
         },
         {
-          onBlockVariable: spy,
+          onVariable: spy,
         },
       );
 
@@ -311,7 +311,7 @@ describe('GlobalParser', () => {
           '@variables': SYNTAX_VARIABLES['@variables'],
         },
         {
-          onVariable: spy,
+          onRootVariable: spy,
         },
       );
 

@@ -20,9 +20,9 @@ export default function parseConditionalBlock<T extends object>(
     parent.addNested(nestedBlock);
 
     if (type === 'media') {
-      events.onBlockMedia?.(parent, condition, nestedBlock);
+      events.onMedia?.(parent, condition, nestedBlock);
     } else {
-      events.onBlockSupports?.(parent, condition, nestedBlock);
+      events.onSupports?.(parent, condition, nestedBlock);
     }
   });
 }

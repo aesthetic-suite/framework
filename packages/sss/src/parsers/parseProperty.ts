@@ -17,7 +17,7 @@ export default function parseProperty<T extends object>(
 ) {
   const handler = (n: Property, v: Value) => {
     parent.addProperty(n, v);
-    events.onBlockProperty?.(parent, n, v);
+    events.onProperty?.(parent, n, v);
   };
 
   // Convert expanded properties to longhand

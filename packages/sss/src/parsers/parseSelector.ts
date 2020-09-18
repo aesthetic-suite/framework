@@ -1,7 +1,7 @@
 import { arrayLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { BlockNestedListener, Events, Rule } from '../types';
+import { NestedListener, Events, Rule } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
 const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
@@ -34,16 +34,16 @@ export default function parseSelector<T extends object>(
     }
 
     const nestedBlock = block.clone(name);
-    const args: Parameters<BlockNestedListener<T>> = [parent, name, nestedBlock, { specificity }];
+    const args: Parameters<NestedListener<T>> = [parent, name, nestedBlock, { specificity }];
 
     parent.addNested(nestedBlock);
 
     if (name[0] === ':') {
-      events.onBlockPseudo?.(...args);
+      events.onPseudo?.(...args);
     } else if (name[0] === '[') {
-      events.onBlockAttribute?.(...args);
+      events.onAttribute?.(...args);
     } else {
-      events.onBlockSelector?.(...args);
+      events.onSelector?.(...args);
     }
   });
 }

@@ -253,20 +253,20 @@ export type ProcessorMap = Record<string, Processor<any>>;
 
 // EVENTS
 
-export type BlockConditionListener<T extends object> = (
+export type ConditionListener<T extends object> = (
   parent: Block<T>,
   condition: string,
   value: Block<T>,
 ) => void;
 
-export type BlockNestedListener<T extends object> = (
+export type NestedListener<T extends object> = (
   parent: Block<T>,
   name: string,
   value: Block<T>,
   params: NestedBlockParams,
 ) => void;
 
-export type BlockPropertyListener<T extends object> = (
+export type PropertyListener<T extends object> = (
   parent: Block<T>,
   name: string,
   value: unknown,
@@ -294,23 +294,23 @@ export type RuleListener<T extends object> = (selector: string, block: Block<T>)
 export type VariableListener = (name: string, value: Value) => void;
 
 export interface Events<T extends object> {
+  onAttribute?: NestedListener<T>;
   onBlock?: BlockListener<T>;
-  onBlockAttribute?: BlockNestedListener<T>;
-  onBlockFallback?: BlockPropertyListener<T>;
-  onBlockMedia?: BlockConditionListener<T>;
-  onBlockProperty?: BlockPropertyListener<T>;
-  onBlockPseudo?: BlockNestedListener<T>;
-  onBlockSelector?: BlockNestedListener<T>;
-  onBlockSupports?: BlockConditionListener<T>;
-  onBlockVariable?: BlockPropertyListener<T>;
-  onBlockVariant?: BlockNestedListener<T>;
+  onFallback?: PropertyListener<T>;
   onFontFace?: FontFaceListener<T>;
   onKeyframes?: KeyframesListener<T>;
-  onVariable?: VariableListener;
+  onMedia?: ConditionListener<T>;
+  onProperty?: PropertyListener<T>;
+  onPseudo?: NestedListener<T>;
+  onSelector?: NestedListener<T>;
+  onSupports?: ConditionListener<T>;
+  onVariable?: PropertyListener<T>;
+  onVariant?: NestedListener<T>;
   // Local
   onClass?: ClassNameListener;
   onRule?: RuleListener<T>;
   // Global
   onImport?: ImportListener;
   onRoot?: BlockListener<T>;
+  onRootVariable?: VariableListener;
 }
