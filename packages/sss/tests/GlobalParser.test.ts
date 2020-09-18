@@ -1,5 +1,4 @@
-import GlobalParser from '../src/GlobalParser';
-import { Properties } from '../src/types';
+import parse from '../src/parseGlobalStyleSheet';
 import {
   FONT_ROBOTO,
   FONT_ROBOTO_FLAT_SRC,
@@ -13,40 +12,47 @@ import { createBlock } from './helpers';
 import { SYNTAX_VARIABLES } from './__mocks__/local';
 
 describe('GlobalParser', () => {
-  let parser: GlobalParser<Properties>;
   let spy: jest.Mock;
 
   beforeEach(() => {
-    parser = new GlobalParser();
     spy = jest.fn();
   });
 
   describe('@font-face', () => {
-    beforeEach(() => {
-      parser.on('font-face', spy);
-    });
-
     it('errors if font faces are not an object', () => {
       expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@font-face': 123,
-        });
+        parse(
+          {
+            // @ts-expect-error
+            '@font-face': 123,
+          },
+          {},
+        );
       }).toThrow('@font-face must be an object of font family names to font faces.');
     });
 
     it('does not emit if no font faces', () => {
-      parser.parse({});
+      parse(
+        {},
+        {
+          onFontFace: spy,
+        },
+      );
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits once for a single font face', () => {
-      parser.parse({
-        '@font-face': {
-          Roboto: FONT_ROBOTO,
+      parse(
+        {
+          '@font-face': {
+            Roboto: FONT_ROBOTO,
+          },
         },
-      });
+        {
+          onFontFace: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
@@ -57,11 +63,16 @@ describe('GlobalParser', () => {
     });
 
     it('emits each font face in a list of multiple', () => {
-      parser.parse({
-        '@font-face': {
-          Circular: FONTS_CIRCULAR,
+      parse(
+        {
+          '@font-face': {
+            Circular: FONTS_CIRCULAR,
+          },
         },
-      });
+        {
+          onFontFace: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith(
@@ -78,33 +89,41 @@ describe('GlobalParser', () => {
   });
 
   describe('@root', () => {
-    beforeEach(() => {
-      parser.on('root', spy);
-    });
-
     it('errors if root is not an object', () => {
       expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@root': 123,
-        });
+        parse(
+          {
+            // @ts-expect-error
+            '@root': 123,
+          },
+          {},
+        );
       }).toThrow('"@root" must be a declaration object of CSS properties.');
     });
 
     it('does not emit if no goot', () => {
-      parser.parse({});
+      parse(
+        {},
+        {
+          onRoot: spy,
+        },
+      );
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits a local block for root', () => {
-      parser.on('block:media', (block, query, value) => {
-        block.addNested(value);
-      });
-
-      parser.parse({
-        '@root': SYNTAX_ROOT,
-      });
+      parse(
+        {
+          '@root': SYNTAX_ROOT,
+        },
+        {
+          onRoot: spy,
+          onBlockMedia(block, query, value) {
+            block.addNested(value);
+          },
+        },
+      );
 
       expect(spy).toHaveBeenCalledWith(
         createBlock('@root', {
@@ -122,34 +141,43 @@ describe('GlobalParser', () => {
   });
 
   describe('@import', () => {
-    beforeEach(() => {
-      parser.on('import', spy);
-    });
-
     it('errors if import is not an array', () => {
       expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@import': 'test.css',
-        });
+        parse(
+          {
+            // @ts-expect-error
+            '@import': 'test.css',
+          },
+          {},
+        );
       }).toThrow('@import must be an array of strings or import objects.');
     });
 
     it('does not emit if no imports', () => {
-      parser.parse({});
+      parse(
+        {},
+        {
+          onImport: spy,
+        },
+      );
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits each import', () => {
-      parser.parse({
-        '@import': [
-          '"test.css"',
-          '"path/test.css" screen',
-          'url("test.css")',
-          'url("path/test.css") screen',
-        ],
-      });
+      parse(
+        {
+          '@import': [
+            '"test.css"',
+            '"path/test.css" screen',
+            'url("test.css")',
+            'url("path/test.css") screen',
+          ],
+        },
+        {
+          onImport: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith('"test.css"');
@@ -159,26 +187,31 @@ describe('GlobalParser', () => {
     });
 
     it('emits each import using objects', () => {
-      parser.parse({
-        '@import': [
-          {
-            path: 'test.css',
-          },
-          {
-            path: 'path/test.css',
-            media: 'screen',
-          },
-          {
-            path: 'test.css',
-            url: true,
-          },
-          {
-            path: 'path/test.css',
-            media: 'screen',
-            url: true,
-          },
-        ],
-      });
+      parse(
+        {
+          '@import': [
+            {
+              path: 'test.css',
+            },
+            {
+              path: 'path/test.css',
+              media: 'screen',
+            },
+            {
+              path: 'test.css',
+              url: true,
+            },
+            {
+              path: 'path/test.css',
+              media: 'screen',
+              url: true,
+            },
+          ],
+        },
+        {
+          onImport: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(4);
       expect(spy).toHaveBeenCalledWith('"test.css"');
@@ -189,32 +222,41 @@ describe('GlobalParser', () => {
   });
 
   describe('@keyframes', () => {
-    beforeEach(() => {
-      parser.on('keyframes', spy);
-    });
-
     it('errors if keyframes are not an object', () => {
       expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@keyframes': 123,
-        });
+        parse(
+          {
+            // @ts-expect-error
+            '@keyframes': 123,
+          },
+          {},
+        );
       }).toThrow('@keyframes must be an object of animation names to keyframes.');
     });
 
     it('does not emit if no keyframes', () => {
-      parser.parse({});
+      parse(
+        {},
+        {
+          onKeyframes: spy,
+        },
+      );
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits each keyframes', () => {
-      parser.parse({
-        '@keyframes': {
-          fade: KEYFRAMES_RANGE,
-          slide: KEYFRAMES_PERCENT,
+      parse(
+        {
+          '@keyframes': {
+            fade: KEYFRAMES_RANGE,
+            slide: KEYFRAMES_PERCENT,
+          },
         },
-      });
+        {
+          onKeyframes: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(2);
       expect(spy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_RANGE), 'fade');
@@ -222,170 +264,61 @@ describe('GlobalParser', () => {
     });
   });
 
-  describe('@page', () => {
-    beforeEach(() => {
-      parser.on('page', spy);
-    });
-
-    it('errors if page is not an object', () => {
-      expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@page': 123,
-        });
-      }).toThrow('"@page" must be a declaration object of CSS properties.');
-    });
-
-    it('does not emit if no page', () => {
-      parser.parse({});
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('emits root and pseudos separately', () => {
-      parser.parse({
-        '@page': {
-          margin: '1cm',
-          ':first': {
-            margin: '2cm',
-          },
-        },
-      });
-
-      expect(spy).toHaveBeenCalledTimes(2);
-      expect(spy).toHaveBeenCalledWith(createBlock('@page :first', { margin: '2cm' }));
-      expect(spy).toHaveBeenCalledWith(createBlock('@page', { margin: '1cm' }));
-    });
-
-    it('doesnt emit root if no properties', () => {
-      parser.parse({
-        '@page': {
-          ':first': {
-            margin: '2cm',
-          },
-        },
-      });
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(createBlock('@page :first', { margin: '2cm' }));
-    });
-
-    it('supports complex selectors', () => {
-      parser.parse({
-        '@page': {
-          size: '8.5in 11in',
-          '@top-right': {
-            content: '"Page" counter(page)',
-          },
-          ':blank': {
-            '@top-center': {
-              content: '"This page is intentionally left blank."',
-            },
-          },
-        },
-      });
-
-      expect(spy).toHaveBeenCalledTimes(2);
-      expect(spy).toHaveBeenCalledWith(
-        createBlock('@page :blank', {
-          '@top-center': {
-            content: '"This page is intentionally left blank."',
-          },
-        }),
-      );
-      expect(spy).toHaveBeenCalledWith(
-        createBlock('@page', {
-          size: '8.5in 11in',
-          '@top-right': {
-            content: '"Page" counter(page)',
-          },
-        }),
-      );
-    });
-  });
-
   describe('@variables', () => {
-    beforeEach(() => {
-      parser.on('variable', spy);
-    });
-
     it('errors if variables are not an object', () => {
       expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@variables': 123,
-        });
+        parse(
+          {
+            // @ts-expect-error
+            '@variables': 123,
+          },
+          {},
+        );
       }).toThrow('@variables must be a mapping of CSS variables.');
     });
 
     it('does not emit if no variables', () => {
-      parser.parse({
-        '@variables': {},
-      });
+      parse(
+        {
+          '@variables': {},
+        },
+        {
+          onVariable: spy,
+        },
+      );
 
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('does not emit `block:variable` listener', () => {
-      const varSpy = jest.fn();
-
-      parser.on('block:variable', varSpy);
-      parser.parse({
-        '@variables': {
-          color: 'red',
+      parse(
+        {
+          '@variables': {
+            color: 'red',
+          },
         },
-      });
+        {
+          onBlockVariable: spy,
+        },
+      );
 
-      expect(varSpy).not.toHaveBeenCalled();
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('emits for each variable', () => {
-      parser.parse({
-        '@variables': SYNTAX_VARIABLES['@variables'],
-      });
+      parse(
+        {
+          '@variables': SYNTAX_VARIABLES['@variables'],
+        },
+        {
+          onVariable: spy,
+        },
+      );
 
       expect(spy).toHaveBeenCalledTimes(3);
       expect(spy).toHaveBeenCalledWith('--font-size', '14px');
       expect(spy).toHaveBeenCalledWith('--color', 'red');
       expect(spy).toHaveBeenCalledWith('--line-height', 1.5);
-    });
-  });
-
-  describe('@viewport', () => {
-    beforeEach(() => {
-      parser.on('viewport', spy);
-    });
-
-    it('errors if viewport is not an object', () => {
-      expect(() => {
-        parser.parse({
-          // @ts-expect-error
-          '@viewport': 123,
-        });
-      }).toThrow('"@viewport" must be a declaration object of CSS properties.');
-    });
-
-    it('does not emit if no viewport', () => {
-      parser.parse({});
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('emits once for a viewport', () => {
-      parser.parse({
-        '@viewport': {
-          width: 'device-width',
-          orientation: 'landscape',
-        },
-      });
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(
-        createBlock('@viewport', {
-          width: 'device-width',
-          orientation: 'landscape',
-        }),
-      );
     });
   });
 });

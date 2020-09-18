@@ -28,7 +28,7 @@ export default function parseSelector<T extends object>(
     let specificity = 0;
 
     // Capture specificity
-    while (name.charAt(0) === '&') {
+    while (name[0] === '&') {
       specificity += 1;
       name = name.slice(1);
     }
@@ -38,9 +38,9 @@ export default function parseSelector<T extends object>(
 
     parent.addNested(nestedBlock);
 
-    if (name.charAt(0) === ':') {
+    if (name[0] === ':') {
       events.onBlockPseudo?.(...args);
-    } else if (name.charAt(0) === '[') {
+    } else if (name[0] === '[') {
       events.onBlockAttribute?.(...args);
     } else {
       events.onBlockSelector?.(...args);

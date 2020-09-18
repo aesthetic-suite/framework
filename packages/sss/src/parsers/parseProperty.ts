@@ -1,6 +1,7 @@
 import { Property, Value } from '@aesthetic/types';
 import { isObject } from '@aesthetic/utils';
 import processCompoundProperty from '../helpers/processCompoundProperty';
+import processExpandedProperty from '../helpers/processExpandedProperty';
 import { expandedProperties } from '../properties';
 import Block from '../Block';
 import { Events, FontFace, Keyframes, ProcessorMap } from '../types';
@@ -21,7 +22,7 @@ export default function parseProperty<T extends object>(
 
   // Convert expanded properties to longhand
   if (EXPANDED_PROPERTIES.has(name) && isObject(value)) {
-    processCompoundProperty(name, value, expandedProperties[name], handler);
+    processExpandedProperty(name, value, expandedProperties[name], handler);
 
     return;
   }

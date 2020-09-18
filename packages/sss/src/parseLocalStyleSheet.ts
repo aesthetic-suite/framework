@@ -11,7 +11,7 @@ export default function parseLocalStyleSheet<T extends object>(
 ) {
   objectLoop(styleSheet, (declaration, selector) => {
     // At-rule
-    if (selector.charAt(0) === '@') {
+    if (selector[0] === '@') {
       if (__DEV__) {
         throw new SyntaxError(
           `At-rules may not be defined at the root of a local block, found "${selector}".`,
@@ -24,7 +24,9 @@ export default function parseLocalStyleSheet<T extends object>(
 
       // Rule
     } else if (isObject(declaration)) {
-      events.onRule?.(selector, parseLocalBlock(new Block(selector), declaration, events));
+      const block = parseLocalBlock(new Block(selector), declaration, events);
+
+      events.onRule?.(selector, block);
 
       // Unknown
     } else if (__DEV__) {

@@ -1,5 +1,4 @@
-import LocalParser from '../src/LocalParser';
-import { Properties } from '../src/types';
+import parseBlock from '../src/parsers/parseBlock';
 import { createBlock } from './helpers';
 import {
   KEYFRAMES_PERCENT,
@@ -10,29 +9,31 @@ import {
 } from './__mocks__/global';
 
 describe('Special properties', () => {
-  let parser: LocalParser<Properties>;
   let spy: jest.Mock;
 
   beforeEach(() => {
     spy = jest.fn();
-    parser = new LocalParser({
-      onBlock: spy,
-    });
   });
 
   it('expands `animation`', () => {
-    parser.parseBlock(createBlock('animation'), {
-      animation: {
-        delay: '30ms',
-        direction: 'normal',
-        duration: '300ms',
-        fillMode: 'both',
-        iterationCount: 1,
-        name: 'fade',
-        playState: 'running',
-        timingFunction: 'linear',
+    parseBlock(
+      createBlock('animation'),
+      {
+        animation: {
+          delay: '30ms',
+          direction: 'normal',
+          duration: '300ms',
+          fillMode: 'both',
+          iterationCount: 1,
+          name: 'fade',
+          playState: 'running',
+          timingFunction: 'linear',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('animation', {
@@ -51,10 +52,16 @@ describe('Special properties', () => {
   it('parses `animationName` and renders keyframes', () => {
     const kfSpy = jest.fn(() => 'test1');
 
-    parser.on('keyframes', kfSpy);
-    parser.parseBlock(createBlock('animationName'), {
-      animationName: KEYFRAMES_PERCENT,
-    });
+    parseBlock(
+      createBlock('animationName'),
+      {
+        animationName: KEYFRAMES_PERCENT,
+      },
+      {
+        onBlock: spy,
+        onKeyframes: kfSpy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('animationName', {
@@ -62,22 +69,28 @@ describe('Special properties', () => {
       }),
     );
 
-    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), undefined);
+    expect(kfSpy).toHaveBeenCalledWith(createBlock('@keyframes', KEYFRAMES_PERCENT), '');
   });
 
   it('expands `background`', () => {
-    parser.parseBlock(createBlock('background'), {
-      background: {
-        attachment: 'fixed',
-        clip: 'border-box',
-        color: 'black',
-        image: 'none',
-        origin: 'content-box',
-        position: 'center',
-        repeat: 'no-repeat',
-        size: '50%',
+    parseBlock(
+      createBlock('background'),
+      {
+        background: {
+          attachment: 'fixed',
+          clip: 'border-box',
+          color: 'black',
+          image: 'none',
+          origin: 'content-box',
+          position: 'center',
+          repeat: 'no-repeat',
+          size: '50%',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('background', {
@@ -94,13 +107,19 @@ describe('Special properties', () => {
   });
 
   it('expands `border`', () => {
-    parser.parseBlock(createBlock('border'), {
-      border: {
-        color: 'red',
-        style: 'solid',
-        width: 1,
+    parseBlock(
+      createBlock('border'),
+      {
+        border: {
+          color: 'red',
+          style: 'solid',
+          width: 1,
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('border', {
@@ -112,13 +131,19 @@ describe('Special properties', () => {
   });
 
   it('expands `columnRule`', () => {
-    parser.parseBlock(createBlock('columnRule'), {
-      columnRule: {
-        color: 'blue',
-        style: 'dashed',
-        width: 2,
+    parseBlock(
+      createBlock('columnRule'),
+      {
+        columnRule: {
+          color: 'blue',
+          style: 'dashed',
+          width: 2,
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('columnRule', {
@@ -130,13 +155,19 @@ describe('Special properties', () => {
   });
 
   it('expands `flex`', () => {
-    parser.parseBlock(createBlock('flex'), {
-      flex: {
-        grow: 2,
-        shrink: 1,
-        basis: '50%',
+    parseBlock(
+      createBlock('flex'),
+      {
+        flex: {
+          grow: 2,
+          shrink: 1,
+          basis: '50%',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('flex', {
@@ -148,17 +179,23 @@ describe('Special properties', () => {
   });
 
   it('expands `font`', () => {
-    parser.parseBlock(createBlock('font'), {
-      font: {
-        family: '"Open Sans"',
-        lineHeight: 1.5,
-        size: 14,
-        stretch: 'expanded',
-        style: 'italic',
-        variant: 'contextual',
-        weight: 300,
+    parseBlock(
+      createBlock('font'),
+      {
+        font: {
+          family: '"Open Sans"',
+          lineHeight: 1.5,
+          size: 14,
+          stretch: 'expanded',
+          style: 'italic',
+          variant: 'contextual',
+          weight: 300,
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('font', {
@@ -174,14 +211,20 @@ describe('Special properties', () => {
   });
 
   it('expands `font` to system', () => {
-    parser.parseBlock(createBlock('font'), {
-      font: {
-        family: '"Open Sans"',
-        lineHeight: 1.5,
-        size: 14,
-        system: 'monospace',
+    parseBlock(
+      createBlock('font'),
+      {
+        font: {
+          family: '"Open Sans"',
+          lineHeight: 1.5,
+          size: 14,
+          system: 'monospace',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('font', {
@@ -194,10 +237,16 @@ describe('Special properties', () => {
   it('parses `fontFamily` and renders font faces', () => {
     const ffSpy = jest.fn((obj, fontFamily) => fontFamily || obj.fontFamily);
 
-    parser.on('font-face', ffSpy);
-    parser.parseBlock(createBlock('fontFamily'), {
-      fontFamily: FONT_ROBOTO,
-    });
+    parseBlock(
+      createBlock('fontFamily'),
+      {
+        fontFamily: FONT_ROBOTO,
+      },
+      {
+        onBlock: spy,
+        onFontFace: ffSpy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('fontFamily', {
@@ -215,10 +264,16 @@ describe('Special properties', () => {
   it('parses `fontFamily` as a list', () => {
     const ffSpy = jest.fn((obj, fontFamily) => fontFamily || obj.fontFamily);
 
-    parser.on('font-face', ffSpy);
-    parser.parseBlock(createBlock('fontFamily'), {
-      fontFamily: [FONT_ROBOTO, 'Arial', ...FONTS_CIRCULAR],
-    });
+    parseBlock(
+      createBlock('fontFamily'),
+      {
+        fontFamily: [FONT_ROBOTO, 'Arial', ...FONTS_CIRCULAR],
+      },
+      {
+        onBlock: spy,
+        onFontFace: ffSpy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('fontFamily', {
@@ -240,13 +295,19 @@ describe('Special properties', () => {
   });
 
   it('expands `listStyle`', () => {
-    parser.parseBlock(createBlock('listStyle'), {
-      listStyle: {
-        image: 'inherit',
-        position: 'outside',
-        type: 'none',
+    parseBlock(
+      createBlock('listStyle'),
+      {
+        listStyle: {
+          image: 'inherit',
+          position: 'outside',
+          type: 'none',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('listStyle', {
@@ -258,9 +319,15 @@ describe('Special properties', () => {
   });
 
   it('formats `margin`', () => {
-    parser.parseBlock(createBlock('margin'), {
-      margin: 5,
-    });
+    parseBlock(
+      createBlock('margin'),
+      {
+        margin: 5,
+      },
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('margin', {
@@ -270,12 +337,18 @@ describe('Special properties', () => {
   });
 
   it('expands `margin` (2-sided)', () => {
-    parser.parseBlock(createBlock('margin'), {
-      margin: {
-        topBottom: '1px',
-        leftRight: 2,
+    parseBlock(
+      createBlock('margin'),
+      {
+        margin: {
+          topBottom: '1px',
+          leftRight: 2,
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('margin', {
@@ -288,13 +361,19 @@ describe('Special properties', () => {
   });
 
   it('expands `margin` (3-sided)', () => {
-    parser.parseBlock(createBlock('margin'), {
-      margin: {
-        bottom: '1px',
-        leftRight: 3,
-        top: '2px',
+    parseBlock(
+      createBlock('margin'),
+      {
+        margin: {
+          bottom: '1px',
+          leftRight: 3,
+          top: '2px',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('margin', {
@@ -307,14 +386,20 @@ describe('Special properties', () => {
   });
 
   it('expands `margin` (4-sided)', () => {
-    parser.parseBlock(createBlock('margin'), {
-      margin: {
-        bottom: '1px',
-        left: '3px',
-        right: '4px',
-        top: 2,
+    parseBlock(
+      createBlock('margin'),
+      {
+        margin: {
+          bottom: '1px',
+          left: '3px',
+          right: '4px',
+          top: 2,
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('margin', {
@@ -327,14 +412,20 @@ describe('Special properties', () => {
   });
 
   it('expands `offset`', () => {
-    parser.parseBlock(createBlock('offset'), {
-      offset: {
-        anchor: 'left bottom',
-        distance: '40%',
-        path: 'url(arc.svg)',
-        position: 'top',
+    parseBlock(
+      createBlock('offset'),
+      {
+        offset: {
+          anchor: 'left bottom',
+          distance: '40%',
+          path: 'url(arc.svg)',
+          position: 'top',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('offset', {
@@ -347,13 +438,19 @@ describe('Special properties', () => {
   });
 
   it('expands `outline`', () => {
-    parser.parseBlock(createBlock('outline'), {
-      outline: {
-        color: 'green',
-        style: 'dotted',
-        width: '3px',
+    parseBlock(
+      createBlock('outline'),
+      {
+        outline: {
+          color: 'green',
+          style: 'dotted',
+          width: '3px',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('outline', {
@@ -365,9 +462,15 @@ describe('Special properties', () => {
   });
 
   it('skips `padding`', () => {
-    parser.parseBlock(createBlock('padding'), {
-      padding: '10px',
-    });
+    parseBlock(
+      createBlock('padding'),
+      {
+        padding: '10px',
+      },
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('padding', {
@@ -377,12 +480,18 @@ describe('Special properties', () => {
   });
 
   it('expands `padding` (2-sided)', () => {
-    parser.parseBlock(createBlock('padding'), {
-      padding: {
-        topBottom: 1,
-        leftRight: '2rem',
+    parseBlock(
+      createBlock('padding'),
+      {
+        padding: {
+          topBottom: 1,
+          leftRight: '2rem',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('padding', {
@@ -395,13 +504,19 @@ describe('Special properties', () => {
   });
 
   it('expands `padding` (3-sided)', () => {
-    parser.parseBlock(createBlock('padding'), {
-      padding: {
-        bottom: '1px',
-        leftRight: '3px',
-        top: '2px',
+    parseBlock(
+      createBlock('padding'),
+      {
+        padding: {
+          bottom: '1px',
+          leftRight: '3px',
+          top: '2px',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('padding', {
@@ -414,14 +529,20 @@ describe('Special properties', () => {
   });
 
   it('expands `padding` (4-sided)', () => {
-    parser.parseBlock(createBlock('padding'), {
-      padding: {
-        bottom: 1,
-        left: '3px',
-        right: '4em',
-        top: '2px',
+    parseBlock(
+      createBlock('padding'),
+      {
+        padding: {
+          bottom: 1,
+          left: '3px',
+          right: '4em',
+          top: '2px',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('padding', {
@@ -434,14 +555,20 @@ describe('Special properties', () => {
   });
 
   it('expands `textDecoration`', () => {
-    parser.parseBlock(createBlock('textDecoration'), {
-      textDecoration: {
-        color: 'black',
-        line: 'blink',
-        style: 'dashed',
-        thickness: 'from-font',
+    parseBlock(
+      createBlock('textDecoration'),
+      {
+        textDecoration: {
+          color: 'black',
+          line: 'blink',
+          style: 'dashed',
+          thickness: 'from-font',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('textDecoration', {
@@ -454,14 +581,20 @@ describe('Special properties', () => {
   });
 
   it('expands `transition`', () => {
-    parser.parseBlock(createBlock('transition'), {
-      transition: {
-        delay: '10ms',
-        duration: '200ms',
-        property: 'color',
-        timingFunction: 'ease-in',
+    parseBlock(
+      createBlock('transition'),
+      {
+        transition: {
+          delay: '10ms',
+          duration: '200ms',
+          property: 'color',
+          timingFunction: 'ease-in',
+        },
       },
-    });
+      {
+        onBlock: spy,
+      },
+    );
 
     expect(spy).toHaveBeenCalledWith(
       createBlock('transition', {

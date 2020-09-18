@@ -7,16 +7,11 @@ export default function createQueue(events: Events<object>) {
   const items: QueueItem[] = [];
 
   return {
-    add<T extends object, K extends keyof T>(
-      obj: T,
-      key: K,
-      callback: (...args: any[]) => void,
-      extraArgs: unknown[] = [],
-    ) {
+    add<T extends object, K extends keyof T>(obj: T, key: K, callback: (...args: any[]) => void) {
       const value = obj[key];
 
       if (value !== undefined) {
-        items.push(() => callback(value, ...extraArgs, events));
+        items.push(() => callback(value, events));
       }
 
       // eslint-disable-next-line no-param-reassign

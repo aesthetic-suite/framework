@@ -11,20 +11,6 @@ import parseSelector from './parseSelector';
 import parseVariables from './parseVariables';
 import parseVariants from './parseVariants';
 
-function parseSelectors<T extends object>(
-  selectors: LocalBlock['@selectors'],
-  parent: Block<T>,
-  events: Events<T>,
-) {
-  if (__DEV__) {
-    validateDeclarations(selectors, '@selectors');
-  }
-
-  objectLoop(selectors!, (value, key) => {
-    parseSelector(parent, key, value, true, events);
-  });
-}
-
 export default function parseLocalBlock<T extends object>(
   parent: Block<T>,
   object: LocalBlock,
@@ -37,12 +23,20 @@ export default function parseLocalBlock<T extends object>(
   const props = { ...object };
   const queue = createQueue(events);
 
-  queue.add(props, '@fallbacks', parseFallbackProperties);
-  queue.add(props, '@media', parseConditionalBlock, ['media']);
-  queue.add(props, '@selectors', parseSelectors, [parent]);
-  queue.add(props, '@supports', parseConditionalBlock, ['supports']);
-  queue.add(props, '@variables', parseVariables);
-  queue.add(props, '@variants', parseVariants);
+  queue.add(props, '@fallbacks', (data) => parseFallbackProperties(parent, data, events));
+  queue.add(props, '@media', (data) => parseConditionalBlock(parent, data, 'media', events));
+  queue.add(props, '@selectors', (data) => {
+    if (__DEV__) {
+      validateDeclarations(data, '@selectors');
+    }
+
+    objectLoop(data, (value, key) => {
+      parseSelector(parent, key, value, true, events);
+    });
+  });
+  queue.add(props, '@supports', (data) => parseConditionalBlock(parent, data, 'supports', events));
+  queue.add(props, '@variables', (data) => parseVariables(parent, data, events));
+  queue.add(props, '@variants', (data) => parseVariants(parent, data, events));
 
   // Standard properties must be parsed before all at-rules
   const block = parseBlock(parent, props, events);

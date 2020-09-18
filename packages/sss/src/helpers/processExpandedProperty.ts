@@ -19,7 +19,7 @@ export default function processExpandedProperty<T extends object>(
   }
 
   objectLoop(object, (value, key) => {
-    const longName = property + key.charAt(0).toUpperCase() + key.slice(1);
+    const longName = property + key[0].toUpperCase() + key.slice(1);
 
     onProcess(longName as Property, (value as unknown) as Value);
   });

@@ -20,15 +20,9 @@ export default function parseBlock<T extends object>(
       return;
     }
 
-    const char = key.charAt(0);
-
     // Pseudo and attribute selectors
-    if (char === ':' || char === '[') {
+    if (key[0] === ':' || key[0] === '[') {
       parseSelector(parent, key, value as Rule, false, events);
-
-      // Special case for unique at-rules (@page blocks)
-    } else if (char === '@') {
-      parent.addNested(parseBlock(new Block(key), value as Rule, events));
 
       // Run for each property so it can be customized
     } else {

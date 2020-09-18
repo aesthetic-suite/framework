@@ -187,39 +187,6 @@ export type Keyframes = BaseKeyframes<Rule>;
 
 export type KeyframesMap = Record<string, Keyframes>;
 
-export type Viewport = CSST.AtRule.Viewport<Value>;
-
-// TODO Add upstream to csstype
-export type PageMargins =
-  | '@top-left-corner'
-  | '@top-left'
-  | '@top-center'
-  | '@top-right'
-  | '@top-right-corner'
-  | '@bottom-left-corner'
-  | '@bottom-left'
-  | '@bottom-center'
-  | '@bottom-right'
-  | '@bottom-right-corner'
-  | '@left-top'
-  | '@left-middle'
-  | '@left-bottom'
-  | '@right-top'
-  | '@right-middle'
-  | '@right-bottom';
-
-export type PageBlock = Properties & {
-  bleed?: string;
-  marks?: string;
-  size?: string;
-} & {
-    [K in PageMargins]?: PageBlock;
-  };
-
-export type PagePseudos = ':blank' | ':first' | ':left' | ':right';
-
-export type Page = PageBlock & { [K in PagePseudos]?: PageBlock };
-
 // LOCAL STYLE SHEET
 
 export type LocalAtRule =
@@ -255,23 +222,14 @@ export type LocalStyleSheetNeverize<T> = {
 
 // GLOBAL STYLE SHEET
 
-export type GlobalAtRule =
-  | '@font-face'
-  | '@import'
-  | '@keyframes'
-  | '@page'
-  | '@root'
-  | '@variables'
-  | '@viewport';
+export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
 
 export interface GlobalStyleSheet {
   '@font-face'?: FontFaceMap;
   '@import'?: ImportList;
   '@keyframes'?: KeyframesMap;
-  '@page'?: Page;
   '@root'?: LocalBlock;
   '@variables'?: Variables;
-  '@viewport'?: Viewport;
 }
 
 export type GlobalStyleSheetNeverize<T> = {
@@ -354,7 +312,5 @@ export interface Events<T extends object> {
   onRule?: RuleListener<T>;
   // Global
   onImport?: ImportListener;
-  onPage?: BlockListener<T>;
   onRoot?: BlockListener<T>;
-  onViewport?: BlockListener<T>;
 }
