@@ -1,9 +1,8 @@
 import { Variables } from '@aesthetic/types';
 import { arrayLoop, objectLoop, isSSR } from '@aesthetic/utils';
 import Renderer from '../Renderer';
-import GlobalStyleSheet from '../GlobalStyleSheet';
+import StyleSheet from '../StyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
-import StandardStyleSheet from '../StandardStyleSheet';
 import formatVariableName from '../helpers/formatVariableName';
 import getDocumentStyleSheet from '../helpers/getDocumentStyleSheet';
 import { hydrateGlobals, hydrateRules, hydrateConditions } from './hydrateStyles';
@@ -14,11 +13,11 @@ function getSheet(type: SheetType): StyleRule {
 }
 
 export default class ClientRenderer extends Renderer {
-  conditionsStyleSheet = new ConditionsStyleSheet(getSheet('conditions'));
+  conditionsStyleSheet = new ConditionsStyleSheet('conditions', getSheet('conditions'));
 
-  globalStyleSheet = new GlobalStyleSheet(getSheet('global'));
+  globalStyleSheet = new StyleSheet('global', getSheet('global'));
 
-  standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
+  standardStyleSheet = new StyleSheet('standard', getSheet('standard'));
 
   applyRootVariables(vars: Variables) {
     // istanbul ignore next

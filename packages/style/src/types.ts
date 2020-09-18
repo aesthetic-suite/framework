@@ -24,7 +24,7 @@ export interface ProcessOptions {
   rankings?: RankCache;
   rtl?: boolean;
   unit?: Unit | UnitFactory;
-  vendor?: null | VendorPrefixAPI;
+  vendor?: VendorPrefixerAPI | null;
 }
 
 export interface RenderOptions extends ProcessOptions {
@@ -50,7 +50,7 @@ export interface StyleRule {
 
 // ADDONS
 
-export interface VendorPrefixAPI {
+export interface VendorPrefixerAPI {
   prefixDeclaration: (props: GenericProperties, key: string, value: Value) => void;
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }

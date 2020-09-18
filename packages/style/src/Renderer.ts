@@ -30,9 +30,8 @@ import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
-import GlobalStyleSheet from './GlobalStyleSheet';
+import StyleSheet from './StyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
-import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule } from './types';
 
@@ -72,15 +71,15 @@ declare global {
 export default abstract class Renderer {
   readonly classNameCache = new AtomicCache();
 
-  readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
+  readonly ruleCache: Record<string, ClassName | boolean> = {};
 
   ruleIndex: number = -1;
 
-  abstract globalStyleSheet: GlobalStyleSheet;
+  abstract globalStyleSheet: StyleSheet;
 
   abstract conditionsStyleSheet: ConditionsStyleSheet;
 
-  abstract standardStyleSheet: StandardStyleSheet;
+  abstract standardStyleSheet: StyleSheet;
 
   /**
    * Generate an incremental class name.
@@ -236,7 +235,7 @@ export default abstract class Renderer {
    * with all properties grouped within.
    */
   renderRuleGrouped = (properties: Rule, options: RenderOptions = {}): ClassName => {
-    const nestedRules: { [selector: string]: Rule } = {};
+    const nestedRules: Record<string, Rule> = {};
     const cssVariables: Variables = {};
     const nextProperties: GenericProperties = {};
 
@@ -287,7 +286,7 @@ export default abstract class Renderer {
    * Render a mapping of multiple rules in the defined order.
    * If no order is provided, they will be rendered sequentially.
    */
-  renderRulesOrdered<T extends { [set: string]: Rule }>(
+  renderRulesOrdered<T extends Record<string, Rule>>(
     sets: T,
     inOrder?: (keyof T)[],
     options?: RenderOptions,

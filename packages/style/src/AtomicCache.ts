@@ -3,7 +3,7 @@ import { CacheItem, RenderOptions } from './types';
 // https://jsperf.com/javascript-objects-vs-map-performance
 // https://jsperf.com/performance-of-map-vs-object
 export default class AtomicCache {
-  cache: { [property: string]: { [value: string]: CacheItem[] } } = {};
+  cache: Record<string, Record<string, CacheItem[]>> = {};
 
   match(item: CacheItem, options: RenderOptions, minimumRank?: number): boolean {
     if (minimumRank !== undefined && item.rank < minimumRank) {
