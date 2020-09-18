@@ -173,46 +173,19 @@ export interface FontFace extends BaseFontFace {
   srcPaths: string[];
 }
 
+export type FontFaceMap = Record<string, FontFace | FontFace[]>;
+
 export interface Import {
   path: string;
   media?: string;
   url?: boolean;
 }
 
+export type ImportList = (string | Import)[];
+
 export type Keyframes = BaseKeyframes<Rule>;
 
-export type Viewport = CSST.AtRule.Viewport<Value>;
-
-// TODO Add upstream to csstype
-export type PageMargins =
-  | '@top-left-corner'
-  | '@top-left'
-  | '@top-center'
-  | '@top-right'
-  | '@top-right-corner'
-  | '@bottom-left-corner'
-  | '@bottom-left'
-  | '@bottom-center'
-  | '@bottom-right'
-  | '@bottom-right-corner'
-  | '@left-top'
-  | '@left-middle'
-  | '@left-bottom'
-  | '@right-top'
-  | '@right-middle'
-  | '@right-bottom';
-
-export type PageBlock = Properties & {
-  bleed?: string;
-  marks?: string;
-  size?: string;
-} & {
-    [K in PageMargins]?: PageBlock;
-  };
-
-export type PagePseudos = ':blank' | ':first' | ':left' | ':right';
-
-export type Page = PageBlock & { [K in PagePseudos]?: PageBlock };
+export type KeyframesMap = Record<string, Keyframes>;
 
 // LOCAL STYLE SHEET
 
@@ -249,23 +222,14 @@ export type LocalStyleSheetNeverize<T> = {
 
 // GLOBAL STYLE SHEET
 
-export type GlobalAtRule =
-  | '@font-face'
-  | '@import'
-  | '@keyframes'
-  | '@page'
-  | '@root'
-  | '@variables'
-  | '@viewport';
+export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
 
 export interface GlobalStyleSheet {
-  '@font-face'?: Record<string, FontFace | FontFace[]>;
-  '@import'?: (string | Import)[];
-  '@keyframes'?: Record<string, Keyframes>;
-  '@page'?: Page;
+  '@font-face'?: FontFaceMap;
+  '@import'?: ImportList;
+  '@keyframes'?: KeyframesMap;
   '@root'?: LocalBlock;
   '@variables'?: Variables;
-  '@viewport'?: Viewport;
 }
 
 export type GlobalStyleSheetNeverize<T> = {
@@ -284,27 +248,25 @@ export type OnProcessProperty = (property: Property, value: Value) => void;
 
 export type Processor<T> = (value: T, onProcess: OnProcessProperty) => Value | undefined | void;
 
-export interface ProcessorMap {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: Processor<any>;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ProcessorMap = Record<string, Processor<any>>;
 
 // EVENTS
 
-export type BlockConditionListener<T extends object> = (
+export type ConditionListener<T extends object> = (
   parent: Block<T>,
   condition: string,
   value: Block<T>,
 ) => void;
 
-export type BlockNestedListener<T extends object> = (
+export type NestedListener<T extends object> = (
   parent: Block<T>,
   name: string,
   value: Block<T>,
   params: NestedBlockParams,
 ) => void;
 
-export type BlockPropertyListener<T extends object> = (
+export type PropertyListener<T extends object> = (
   parent: Block<T>,
   name: string,
   value: unknown,
@@ -318,7 +280,7 @@ export type FontFaceListener<T extends object> = (
   fontFace: Block<T>,
   fontFamily: string,
   srcPaths: string[],
-) => void;
+) => string;
 
 export type ImportListener = (path: string) => void;
 
@@ -330,3 +292,25 @@ export type KeyframesListener<T extends object> = (
 export type RuleListener<T extends object> = (selector: string, block: Block<T>) => void;
 
 export type VariableListener = (name: string, value: Value) => void;
+
+export interface Events<T extends object> {
+  onAttribute?: NestedListener<T>;
+  onBlock?: BlockListener<T>;
+  onFallback?: PropertyListener<T>;
+  onFontFace?: FontFaceListener<T>;
+  onKeyframes?: KeyframesListener<T>;
+  onMedia?: ConditionListener<T>;
+  onProperty?: PropertyListener<T>;
+  onPseudo?: NestedListener<T>;
+  onSelector?: NestedListener<T>;
+  onSupports?: ConditionListener<T>;
+  onVariable?: PropertyListener<T>;
+  onVariant?: NestedListener<T>;
+  // Local
+  onClass?: ClassNameListener;
+  onRule?: RuleListener<T>;
+  // Global
+  onImport?: ImportListener;
+  onRoot?: BlockListener<T>;
+  onRootVariable?: VariableListener;
+}

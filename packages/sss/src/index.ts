@@ -4,11 +4,11 @@
  */
 
 import Block from './Block';
-import GlobalParser from './GlobalParser';
-import LocalParser from './LocalParser';
 import formatFontFace from './helpers/formatFontFace';
 import formatImport from './helpers/formatImport';
+import parseGlobalStyleSheet from './parseGlobalStyleSheet';
+import parseLocalStyleSheet from './parseLocalStyleSheet';
 
 export * from './types';
 
-export { Block, GlobalParser, LocalParser, formatFontFace, formatImport };
+export { Block, formatFontFace, formatImport, parseGlobalStyleSheet, parseLocalStyleSheet };

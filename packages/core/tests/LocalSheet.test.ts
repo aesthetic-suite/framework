@@ -135,7 +135,7 @@ describe('LocalSheet', () => {
         from: { opacity: 0 },
         to: { opacity: 1 },
       },
-      undefined,
+      '',
       {
         rankings: expect.any(Object),
         rtl: false,
