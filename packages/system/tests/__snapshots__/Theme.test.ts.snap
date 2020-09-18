@@ -43,29 +43,41 @@ Object {
 
 exports[`Theme mixin() allows additional rules to overwrite templates and mixin 1`] = `
 Object {
-  "fontSize": "24px",
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-df-size)",
   "fontWeight": 800,
+  "lineHeight": "var(--text-df-line-height)",
 }
 `;
 
 exports[`Theme mixin() merges additional rules with base mixin 1`] = `
 Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
+  "lineHeight": "var(--text-df-line-height)",
 }
 `;
 
 exports[`Theme mixin() merges multiple templates with base mixin 1`] = `
 Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
+  "lineHeight": "var(--text-df-line-height)",
 }
 `;
 
 exports[`Theme mixin() merges templates and rules with base mixin 1`] = `
 Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
+  "lineHeight": "var(--text-df-line-height)",
 }
 `;
 

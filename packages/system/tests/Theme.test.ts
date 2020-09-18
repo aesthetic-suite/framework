@@ -9,15 +9,27 @@ describe('Theme', () => {
   beforeEach(() => {
     // Copy so we dont mutate the testing mock
     testTheme = lightTheme.extend({});
+
+    testTheme.registerMixin('text', function texts(
+      this: Utilities,
+      { size = 'df' }: { size?: string },
+    ) {
+      return {
+        color: this.var('palette-neutral-fg-base'),
+        fontFamily: this.var('typography-font-text'),
+        fontSize: this.var(`text-${size}-size` as 'text-df-size'),
+        lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
+      };
+    });
   });
 
   it('sets class properties', () => {
-    expect(lightTheme.contrast).toBe('normal');
-    expect(lightTheme.scheme).toBe('light');
+    expect(testTheme.contrast).toBe('normal');
+    expect(testTheme.scheme).toBe('light');
   });
 
   it('can extend and create a new theme', () => {
-    const newTheme = lightTheme.extend(
+    const newTheme = testTheme.extend(
       {
         palette: {
           brand: {
@@ -45,20 +57,6 @@ describe('Theme', () => {
   });
 
   describe('extendMixin()', () => {
-    beforeEach(() => {
-      testTheme.registerMixin('text', function texts(
-        this: Utilities,
-        { size = 'df' }: { size?: string },
-      ) {
-        return {
-          color: this.var('palette-neutral-fg-base'),
-          fontFamily: this.var('typography-font-text'),
-          fontSize: this.var(`text-${size}-size` as 'text-df-size'),
-          lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
-        };
-      });
-    });
-
     it('creates a template set for the defined name', () => {
       // @ts-expect-error Allow access
       expect(testTheme.templates.test).toBeUndefined();
@@ -127,22 +125,22 @@ describe('Theme', () => {
     it('returns an empty object for an unknown mixin', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
 
-      expect(lightTheme.mixin('unknown-mixin')).toEqual({});
+      expect(testTheme.mixin('unknown-mixin')).toEqual({});
       expect(spy).toHaveBeenCalledWith('Unknown mixin "unknown-mixin".');
 
       spy.mockRestore();
     });
 
     it('merges multiple templates with base mixin', () => {
-      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
-      lightTheme.extendMixin('text', () => ({ fontSize: '24px' }));
+      testTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+      testTheme.extendMixin('text', () => ({ fontSize: '24px' }));
 
-      expect(lightTheme.mixin('text')).toMatchSnapshot();
+      expect(testTheme.mixin('text')).toMatchSnapshot();
     });
 
     it('merges additional rules with base mixin', () => {
       expect(
-        lightTheme.mixin(
+        testTheme.mixin(
           'text',
           {},
           {
@@ -156,23 +154,23 @@ describe('Theme', () => {
     });
 
     it('merges templates and rules with base mixin', () => {
-      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+      testTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
 
-      expect(lightTheme.mixin('text', {}, { fontSize: '24px' })).toMatchSnapshot();
+      expect(testTheme.mixin('text', {}, { fontSize: '24px' })).toMatchSnapshot();
     });
 
     it('allows additional rules to overwrite templates and mixin', () => {
-      lightTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
+      testTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
 
-      expect(lightTheme.mixin('text', {}, { fontWeight: 800 })).toMatchSnapshot();
+      expect(testTheme.mixin('text', {}, { fontWeight: 800 })).toMatchSnapshot();
     });
   });
 
   describe('registerMixin()', () => {
     it('errors if trying to overwrite an existing mixin', () => {
       expect(() => {
-        lightTheme.registerMixin('text', () => ({}));
-        lightTheme.registerMixin('text', () => ({}));
+        testTheme.registerMixin('text', () => ({}));
+        testTheme.registerMixin('text', () => ({}));
       }).toThrow('A mixin already exists for "text". Cannot overwrite.');
     });
 
@@ -190,12 +188,12 @@ describe('Theme', () => {
 
   describe('toVariables()', () => {
     it('returns tokens as a flat object of CSS variables', () => {
-      expect(lightTheme.toVariables()).toMatchSnapshot();
+      expect(testTheme.toVariables()).toMatchSnapshot();
     });
 
     it('caches and returns same instance', () => {
-      const a = lightTheme.toVariables();
-      const b = lightTheme.toVariables();
+      const a = testTheme.toVariables();
+      const b = testTheme.toVariables();
 
       expect(a).toBe(b);
     });
@@ -203,13 +201,13 @@ describe('Theme', () => {
 
   describe('token()', () => {
     it('returns a value', () => {
-      expect(lightTheme.token('breakpoint-lg-root-line-height')).toBe(1.62);
-      expect(lightTheme.token('palette-brand-color-20')).toBe('#fff');
+      expect(testTheme.token('breakpoint-lg-root-line-height')).toBe(1.62);
+      expect(testTheme.token('palette-brand-color-20')).toBe('#fff');
     });
 
     it('errors for invalid token path', () => {
       expect(() => {
-        lightTheme.token(
+        testTheme.token(
           // @ts-expect-error
           'some-fake-value',
         );
@@ -219,25 +217,25 @@ describe('Theme', () => {
 
   describe('unit()', () => {
     it('generates a rem unit', () => {
-      expect(lightTheme.unit(-3.15)).toBe('-3.94rem');
-      expect(lightTheme.unit(1)).toBe('1.25rem');
-      expect(lightTheme.unit(6.25)).toBe('7.81rem');
+      expect(testTheme.unit(-3.15)).toBe('-3.94rem');
+      expect(testTheme.unit(1)).toBe('1.25rem');
+      expect(testTheme.unit(6.25)).toBe('7.81rem');
     });
 
     it('supports multiple values', () => {
-      expect(lightTheme.unit(1, 2, 3, 4)).toBe('1.25rem 2.50rem 3.75rem 5rem');
+      expect(testTheme.unit(1, 2, 3, 4)).toBe('1.25rem 2.50rem 3.75rem 5rem');
     });
   });
 
   describe('var()', () => {
     it('returns a CSS var', () => {
-      expect(lightTheme.var('breakpoint-lg-root-line-height')).toBe(
+      expect(testTheme.var('breakpoint-lg-root-line-height')).toBe(
         'var(--breakpoint-lg-root-line-height)',
       );
     });
 
     it('supports multiple fallbacks', () => {
-      expect(lightTheme.var('border-lg-radius', lightTheme.var('border-df-radius'), '10px')).toBe(
+      expect(testTheme.var('border-lg-radius', testTheme.var('border-df-radius'), '10px')).toBe(
         'var(--border-lg-radius, var(--border-df-radius), 10px)',
       );
     });
