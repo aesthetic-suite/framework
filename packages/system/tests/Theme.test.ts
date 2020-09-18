@@ -1,5 +1,6 @@
-import { TextOptions } from '../src/mixins';
-import { MixinUtils, Theme } from '../src';
+/* eslint-disable babel/no-invalid-this */
+
+import { Theme, Utilities } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('Theme', () => {
@@ -44,6 +45,20 @@ describe('Theme', () => {
   });
 
   describe('extendMixin()', () => {
+    beforeEach(() => {
+      testTheme.registerMixin('text', function texts(
+        this: Utilities,
+        { size = 'df' }: { size?: string },
+      ) {
+        return {
+          color: this.var('palette-neutral-fg-base'),
+          fontFamily: this.var('typography-font-text'),
+          fontSize: this.var(`text-${size}-size` as 'text-df-size'),
+          lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
+        };
+      });
+    });
+
     it('creates a template set for the defined name', () => {
       // @ts-expect-error Allow access
       expect(testTheme.templates.test).toBeUndefined();
@@ -79,7 +94,7 @@ describe('Theme', () => {
     });
 
     it('can utilize the same options as the parent mixin', () => {
-      testTheme.extendMixin('text', ({ size }: TextOptions) => ({
+      testTheme.extendMixin('text', ({ size }: { size?: string }) => ({
         fontWeight: size === 'lg' ? 'bold' : 'normal',
       }));
 
@@ -88,15 +103,23 @@ describe('Theme', () => {
     });
 
     it('will deep merge properties', () => {
-      expect((testTheme.mixin as MixinUtils).uiInteractive()).toMatchSnapshot();
+      testTheme.registerMixin('example', () => ({
+        display: 'block',
+        ':focus': {
+          color: 'red',
+        },
+      }));
 
-      testTheme.extendMixin('ui-interactive', () => ({
+      testTheme.extendMixin('example', () => ({
         ':focus': {
           outline: 'none',
         },
       }));
 
-      expect((testTheme.mixin as MixinUtils).uiInteractive()).toMatchSnapshot();
+      expect(testTheme.mixin('example')[':focus']).toEqual({
+        color: 'red',
+        outline: 'none',
+      });
     });
   });
 
@@ -148,6 +171,7 @@ describe('Theme', () => {
   describe('registerMixin()', () => {
     it('errors if trying to overwrite an existing mixin', () => {
       expect(() => {
+        lightTheme.registerMixin('text', () => ({}));
         lightTheme.registerMixin('text', () => ({}));
       }).toThrow('A mixin already exists for "text". Cannot overwrite.');
     });

@@ -1,6 +1,5 @@
 import { Rule } from '@aesthetic/types';
-import { Utilities } from '../types';
-import { BREAKPOINT_SIZES } from '../constants';
+import { Utilities, BREAKPOINT_SIZES } from '@aesthetic/system';
 
 export function root(this: Utilities): Rule {
   const declaration: Rule = {

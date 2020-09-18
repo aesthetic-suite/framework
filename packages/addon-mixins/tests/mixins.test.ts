@@ -1,8 +1,19 @@
-import { darkTheme } from '../src/testing';
-import { MixinUtils } from '../src';
+import { MixinUtils } from '@aesthetic/system';
+import { darkTheme } from '@aesthetic/system/lib/testing';
+import mixinTemplates from '../src';
 
 describe('Mixins', () => {
-  const mixins: MixinUtils = darkTheme.mixin;
+  let mixins: MixinUtils;
+
+  beforeEach(() => {
+    // Clone the theme so we dont clobber other tests
+    const theme = darkTheme.extend({});
+
+    // @ts-expect-error Private in source module
+    theme.registerBuiltIns(mixinTemplates);
+
+    mixins = theme.mixin;
+  });
 
   describe('background', () => {
     it('renders background', () => {

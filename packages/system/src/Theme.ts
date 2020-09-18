@@ -7,9 +7,8 @@ import {
   ColorScheme,
   ContrastLevel,
   DeepPartial,
-  MixinBuiltInUtils,
   MixinTemplate,
-  MixinType,
+  MixinTemplateMap,
   MixinUtil,
   MixinUtils,
   ThemeOptions,
@@ -19,16 +18,6 @@ import {
   VariableName,
   Variables,
 } from './types';
-import { background } from './mixins/background';
-import { border } from './mixins/border';
-import { hideCompletely, hideOffscreen, hideVisually } from './mixins/display';
-import { foreground } from './mixins/foreground';
-import { heading } from './mixins/heading';
-import { resetButton, resetInput, resetList, resetMedia, resetTypography } from './mixins/reset';
-import { root } from './mixins/root';
-import { shadow } from './mixins/shadow';
-import { text, textWrap, textTruncate, textBreak } from './mixins/text';
-import { uiBox, uiInteractive } from './mixins/ui';
 
 type AnyObject = Record<string, any>;
 type MixinTemplates = Record<string, Set<MixinTemplate>>;
@@ -66,10 +55,16 @@ export default class Theme implements Utilities {
 
     // Bind instead of using anonymous functions since we need
     // to pass these around and define properties on them!
-    this.mixin = this.prepareBuiltIns();
+    this.mixin = this.mixinBase.bind(this);
     this.token = this.token.bind(this);
     this.unit = this.unit.bind(this);
     this.var = this.var.bind(this);
+
+    // If the parent design has defined mixins,
+    // register them as special built-ins.
+    if (design.mixins) {
+      this.registerBuiltIns(design.mixins);
+    }
   }
 
   /**
@@ -91,7 +86,7 @@ export default class Theme implements Utilities {
   /**
    * Extend a registered mixin with additional CSS properties.
    */
-  extendMixin(name: MixinType, template: MixinTemplate): this {
+  extendMixin(name: string, template: MixinTemplate): this {
     this.templates[name] = (this.templates[name] || new Set()).add(template);
 
     return this;
@@ -100,7 +95,7 @@ export default class Theme implements Utilities {
   /**
    * Register a mixin to provide reusable CSS properties.
    */
-  registerMixin(name: MixinType, template: MixinTemplate): this {
+  registerMixin(name: string, template: MixinTemplate): this {
     if (__DEV__) {
       if (this.mixins[name]) {
         throw new Error(`A mixin already exists for "${name}". Cannot overwrite.`);
@@ -144,7 +139,7 @@ export default class Theme implements Utilities {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixinBase(name: MixinType, options: object = {}, ...additionalRules: Rule[]): Rule {
+  mixinBase(name: string, options: object = {}, ...additionalRules: Rule[]): Rule {
     const rules: Rule[] = [];
     const mixin = this.mixins[name];
 
@@ -206,45 +201,19 @@ export default class Theme implements Utilities {
   }
 
   /**
-   * Set the built-in mixin's as properties on the mixin method for easy access.
+   * Register the built-in mixin's as properties on the mixin method for easy access.
    */
-  protected prepareBuiltIns(): MixinUtils {
-    const mixin = this.mixinBase.bind(this);
-    const builtIns: Record<keyof MixinBuiltInUtils, MixinTemplate> = {
-      background,
-      border,
-      foreground,
-      heading,
-      hideCompletely,
-      hideOffscreen,
-      hideVisually,
-      resetButton,
-      resetInput,
-      resetList,
-      resetMedia,
-      resetTypography,
-      root,
-      shadow,
-      text,
-      textBreak,
-      textTruncate,
-      textWrap,
-      uiBox,
-      uiInteractive,
-    };
-
-    objectLoop(builtIns, (template, name) => {
-      const type = hyphenate(name) as MixinType;
+  protected registerBuiltIns(mixins: MixinTemplateMap) {
+    objectLoop(mixins, (template, name) => {
+      const type = hyphenate(name);
 
       // Register the mixin
       this.registerMixin(type, template);
 
       // Provide a utility function
-      const util: MixinUtil = (options, properties) => mixin(type, options, properties!);
+      const util: MixinUtil = (options, properties) => this.mixin(type, options, properties!);
 
-      Object.defineProperty(mixin, name, { value: util });
+      Object.defineProperty(this.mixin, name, { value: util });
     });
-
-    return mixin as MixinUtils;
   }
 }

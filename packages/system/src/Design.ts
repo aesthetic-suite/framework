@@ -1,9 +1,11 @@
 import { deepMerge } from '@aesthetic/utils';
 import Theme from './Theme';
 import { DEPTHS } from './constants';
-import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens } from './types';
+import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, MixinTemplateMap } from './types';
 
 export default class Design {
+  readonly mixins?: MixinTemplateMap;
+
   readonly name: string;
 
   readonly rootLineHeight: number;
@@ -14,8 +16,9 @@ export default class Design {
 
   readonly tokens: DesignTokens;
 
-  constructor(name: string, tokens: Omit<DesignTokens, 'depth'>) {
+  constructor(name: string, tokens: Omit<DesignTokens, 'depth'>, mixins?: MixinTemplateMap) {
     this.name = name;
+    this.mixins = mixins;
     this.tokens = { ...tokens, depth: DEPTHS };
     this.rootLineHeight = tokens.typography.rootLineHeight;
     this.rootTextSize = Number.parseFloat(tokens.typography.rootTextSize);

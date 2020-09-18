@@ -1,8 +1,5 @@
 import { Rule } from '@aesthetic/types';
-
-export interface ResetButtonOptions {
-  flex?: boolean;
-}
+import { ResetButtonOptions } from './types';
 
 export function resetButton({ flex = false }: ResetButtonOptions = {}): Rule {
   return {
