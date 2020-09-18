@@ -1,7 +1,16 @@
 /* eslint-disable babel/no-invalid-this */
 
 import { Theme, Utilities } from '../src';
-import { lightTheme } from '../src/testing';
+import { design, lightTheme } from '../src/testing';
+
+function text(this: Utilities, { size = 'df' }: { size?: string }) {
+  return {
+    color: this.var('palette-neutral-fg-base'),
+    fontFamily: this.var('typography-font-text'),
+    fontSize: this.var(`text-${size}-size` as 'text-df-size'),
+    lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
+  };
+}
 
 describe('Theme', () => {
   let testTheme: Theme;
@@ -10,17 +19,7 @@ describe('Theme', () => {
     // Copy so we dont mutate the testing mock
     testTheme = lightTheme.extend({});
 
-    testTheme.registerMixin('text', function texts(
-      this: Utilities,
-      { size = 'df' }: { size?: string },
-    ) {
-      return {
-        color: this.var('palette-neutral-fg-base'),
-        fontFamily: this.var('typography-font-text'),
-        fontSize: this.var(`text-${size}-size` as 'text-df-size'),
-        lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
-      };
-    });
+    testTheme.registerMixin('text', text);
   });
 
   it('sets class properties', () => {
@@ -48,12 +47,15 @@ describe('Theme', () => {
     expect(newTheme.tokens.palette.brand.color['00']).toBe('red');
   });
 
-  it('inherits the parents customized mixins', () => {
-    testTheme.extendMixin('heading', () => ({ background: 'red' }));
+  it('registers built-ins from parent design on instantiation', () => {
+    const theme = new Theme(
+      { contrast: 'normal', scheme: 'light' },
+      lightTheme.tokens,
+      design.extend('test', {}, { text }),
+    );
 
-    const clonedTheme = testTheme.extend({});
-
-    expect(clonedTheme.mixin('heading')).toHaveProperty('background', 'red');
+    expect(theme.mixin).toHaveProperty('text');
+    expect((theme.mixin as any).text()).toMatchSnapshot();
   });
 
   describe('extendMixin()', () => {

@@ -37,7 +37,7 @@ export default class Design {
   /**
    * Extend and instantiate a new design instance with customized design tokens.
    */
-  extend(name: string, tokens: DeepPartial<DesignTokens>): Design {
-    return new Design(name, deepMerge(this.tokens, tokens));
+  extend(name: string, tokens: DeepPartial<DesignTokens>, mixins?: MixinTemplateMap): Design {
+    return new Design(name, deepMerge(this.tokens, tokens), { ...this.mixins, ...mixins });
   }
 }

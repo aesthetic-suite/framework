@@ -81,6 +81,15 @@ Object {
 }
 `;
 
+exports[`Theme registers built-ins from parent design on instantiation 1`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-df-size)",
+  "lineHeight": "var(--text-df-line-height)",
+}
+`;
+
 exports[`Theme toVariables() returns tokens as a flat object of CSS variables 1`] = `
 Object {
   "border-df-radius": "0.21rem",
