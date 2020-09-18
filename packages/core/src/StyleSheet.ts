@@ -1,4 +1,9 @@
-import { GlobalParser, GlobalStyleSheet, LocalParser, LocalStyleSheet } from '@aesthetic/sss';
+import {
+  parseGlobalStyleSheet,
+  parseLocalStyleSheet,
+  GlobalStyleSheet,
+  LocalStyleSheet,
+} from '@aesthetic/sss';
 import { Renderer } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { ClassName, Rule } from '@aesthetic/types';
@@ -136,8 +141,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       vendor: params.vendor,
     };
 
-    // TODO @page, @viewport
-    new GlobalParser<Rule>({
+    parseGlobalStyleSheet<Rule>(styles, {
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject());
       },
@@ -154,7 +158,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
           type: 'global',
         });
       },
-    }).parse(styles);
+    });
 
     return className;
   }
@@ -175,7 +179,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       vendor: params.vendor,
     };
 
-    new LocalParser<Rule>({
+    parseLocalStyleSheet<Rule>(styles, {
       onClass(selector, className) {
         classNames[selector] = { class: className };
       },
@@ -202,7 +206,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
 
         classNames[selector] = cache;
       },
-    }).parse(styles);
+    });
 
     return classNames;
   }
