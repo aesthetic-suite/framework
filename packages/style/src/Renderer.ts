@@ -61,7 +61,7 @@ declare global {
 }
 
 export default abstract class Renderer {
-  apis: API;
+  api: API;
 
   cache = new AtomicCache();
 
@@ -76,7 +76,7 @@ export default abstract class Renderer {
   abstract standards: StyleSheet;
 
   constructor(api: Partial<API> = {}) {
-    this.apis = {
+    this.api = {
       direction: 'ltr',
       ...api,
     };
@@ -116,7 +116,7 @@ export default abstract class Renderer {
     opts: RenderOptions = {},
   ): ClassName {
     const options = createDefaultOptions(opts);
-    const { direction, converter, prefixer } = this.apis;
+    const { direction, converter, prefixer } = this.api;
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
@@ -138,7 +138,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       options.selector,
-      processProperties({ [key]: val }, { vendor: options.vendor }, this.apis),
+      processProperties({ [key]: val }, { vendor: options.vendor }, this.api),
     );
 
     const className =
@@ -187,7 +187,7 @@ export default abstract class Renderer {
           fontFamily,
         } as Properties,
         options,
-        this.apis,
+        this.api,
       ),
     );
 
@@ -214,7 +214,7 @@ export default abstract class Renderer {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options, this.apis))} } `,
+        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options, this.api))} } `,
     );
 
     const animationName = customName || `kf${generateHash(rule)}`;
@@ -256,7 +256,7 @@ export default abstract class Renderer {
 
     const rule = formatRule(
       options.selector,
-      processProperties(nextProperties, options, this.apis),
+      processProperties(nextProperties, options, this.api),
       cssVariables,
     );
 
@@ -267,7 +267,7 @@ export default abstract class Renderer {
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
       const classRule = `.${className}${rule}`;
-      const { prefixer } = this.apis;
+      const { prefixer } = this.api;
 
       this.insertRule(
         options.selector && options.vendor && prefixer

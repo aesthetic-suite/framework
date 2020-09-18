@@ -1,7 +1,7 @@
 {
   "name": "@aesthetic/addon-vendor",
   "version": "0.0.0",
-  "description": "Aesthetic addon to provide vendor prefixes.",
+  "description": "Aesthetic addon to provide vendor prefixes for properties, values, and selectors.",
   "keywords": [
     "aesthetic",
     "addon",

@@ -20,8 +20,8 @@ export type RankCache = Record<string, number>;
 
 export interface ProcessOptions {
   deterministic?: boolean;
-  rankings?: RankCache;
   direction?: Direction;
+  rankings?: RankCache;
   unit?: Unit | UnitFactory;
   vendor?: boolean;
 }

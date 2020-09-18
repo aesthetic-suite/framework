@@ -142,7 +142,7 @@ describe('At-rules', () => {
     });
 
     it('supports ltr and rtl', () => {
-      renderer.apis.converter = directionConverter;
+      renderer.api.converter = directionConverter;
 
       const ltr = renderer.renderKeyframes({
         from: {

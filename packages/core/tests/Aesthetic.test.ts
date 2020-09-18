@@ -457,7 +457,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: false,
+        vendor: true,
       });
     });
 
@@ -608,7 +608,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: false,
+        vendor: true,
       });
     });
   });

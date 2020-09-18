@@ -137,4 +137,27 @@ describe('GlobalSheet', () => {
       },
     );
   });
+
+  describe('variants', () => {
+    it('errors when adding color scheme variants', () => {
+      expect(() => {
+        // @ts-expect-error
+        sheet.addColorSchemeVariant('unknown', () => ({}));
+      }).toThrow('Color scheme variants are only supported by local style sheets.');
+    });
+
+    it('errors when adding contrast level variants', () => {
+      expect(() => {
+        // @ts-expect-error
+        sheet.addContrastVariant('unknown', () => ({}));
+      }).toThrow('Contrast level variants are only supported by local style sheets.');
+    });
+
+    it('errors when adding theme variants', () => {
+      expect(() => {
+        // @ts-expect-error
+        sheet.addThemeVariant('unknown', () => ({}));
+      }).toThrow('Theme variants are only supported by local style sheets.');
+    });
+  });
 });

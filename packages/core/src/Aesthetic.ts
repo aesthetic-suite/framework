@@ -194,17 +194,11 @@ export function getRenderer() {
     return styleRenderer;
   }
 
-  let renderer;
+  const renderer = global.AESTHETIC_CUSTOM_RENDERER || new ClientRenderer();
 
-  if (global.AESTHETIC_CUSTOM_RENDERER) {
-    renderer = global.AESTHETIC_CUSTOM_RENDERER;
-  } else {
-    renderer = new ClientRenderer();
-  }
-
-  renderer.apis.direction = getActiveDirection();
-  renderer.apis.converter = options.directionConverter;
-  renderer.apis.prefixer = options.vendorPrefixer;
+  renderer.api.direction = getActiveDirection();
+  renderer.api.converter = options.directionConverter;
+  renderer.api.prefixer = options.vendorPrefixer;
 
   styleRenderer = renderer;
 
@@ -270,7 +264,7 @@ export function renderComponentStyles<T = unknown>(sheet: LocalSheet<T>, params:
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: false,
+    vendor: !!options.vendorPrefixer,
     ...params,
   });
 }
@@ -323,7 +317,7 @@ export function renderThemeStyles(theme: Theme, params: SheetParams = {}): Class
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: false,
+    vendor: !!options.vendorPrefixer,
     ...params,
   });
 }
