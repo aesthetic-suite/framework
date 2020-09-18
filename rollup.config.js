@@ -9,7 +9,7 @@ import babel from '@rollup/plugin-babel';
 const babelConfig = require('./babel.config');
 
 // Order is imporant!
-const packages = ['types', 'utils', 'system', 'style', 'sss', 'core'];
+const packages = ['types', 'utils', 'addon-vendor', 'system', 'style', 'sss', 'core'];
 const targets = [];
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx'];
@@ -49,10 +49,12 @@ packages.forEach((pkg) => {
     input: `packages/${pkg}/src/index.ts`,
     output: [
       {
+        exports: 'auto',
         file: `packages/${pkg}/lib/index.js`,
         format: 'cjs',
       },
       {
+        exports: 'auto',
         file: `packages/${pkg}/esm/index.js`,
         format: 'esm',
       },

@@ -29,7 +29,7 @@ const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 const defaultOptions: Required<AestheticOptions> = {
   defaultUnit: 'px',
   deterministicClasses: false,
-  vendorPrefixes: false,
+  vendorPrefixer: null,
 };
 
 const themeRegistry = new ThemeRegistry();
@@ -259,7 +259,7 @@ export function renderComponentStyles<T = unknown>(sheet: LocalSheet<T>, params:
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: options.vendorPrefixes,
+    vendor: options.vendorPrefixer,
     ...params,
   });
 }
@@ -312,7 +312,7 @@ export function renderThemeStyles(theme: Theme, params: SheetParams = {}): Class
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: options.vendorPrefixes,
+    vendor: options.vendorPrefixer,
     ...params,
   });
 }

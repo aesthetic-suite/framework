@@ -108,7 +108,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       scheme: theme.scheme,
       theme: theme.name,
       unit: 'px',
-      vendor: false,
+      vendor: null,
       ...baseParams,
     };
     const key = JSON.stringify(params);

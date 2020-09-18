@@ -1,3 +1,4 @@
+import vendorPrefixer from '@aesthetic/addon-vendor';
 import { ClientRenderer } from '@aesthetic/style';
 import { ServerRenderer } from '@aesthetic/style/server';
 import {
@@ -177,18 +178,18 @@ describe('Aesthetic', () => {
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'px',
         deterministicClasses: false,
-        vendorPrefixes: false,
+        vendorPrefixer: null,
       });
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
 
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'em',
         deterministicClasses: false,
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
     });
   });
@@ -434,7 +435,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
-        vendor: false,
+        vendor: null,
       });
     });
 
@@ -444,7 +445,7 @@ describe('Aesthetic', () => {
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
 
       renderComponentStyles(sheet, { direction: 'rtl' });
@@ -452,7 +453,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: true,
+        vendor: vendorPrefixer,
       });
     });
 
@@ -466,7 +467,7 @@ describe('Aesthetic', () => {
         direction: expect.any(String),
         theme: 'night',
         unit: 'px',
-        vendor: false,
+        vendor: null,
       });
     });
   });
@@ -585,7 +586,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
-        vendor: false,
+        vendor: null,
       });
     });
 
@@ -595,7 +596,7 @@ describe('Aesthetic', () => {
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
       registerDefaultTheme('day', lightTheme, sheet);
       renderThemeStyles(lightTheme, { direction: 'rtl' });
@@ -603,7 +604,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: 'rtl',
         unit: 'em',
-        vendor: true,
+        vendor: vendorPrefixer,
       });
     });
   });

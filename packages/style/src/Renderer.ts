@@ -28,7 +28,6 @@ import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
-import prefixSelector from './helpers/prefixSelector';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
 import GlobalStyleSheet from './GlobalStyleSheet';
@@ -50,7 +49,7 @@ function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
     selector: '',
     type: 'standard',
     unit: 'px',
-    vendor: false,
+    vendor: null,
     ...options,
   };
 }
@@ -152,7 +151,9 @@ export default abstract class Renderer {
 
     // Persist the max ranking
     const rank = this.insertRule(
-      options.vendor && options.selector ? prefixSelector(options.selector, classRule) : classRule,
+      options.selector && options.vendor
+        ? options.vendor.prefixSelector(options.selector, classRule)
+        : classRule,
       options,
     );
 
@@ -267,8 +268,8 @@ export default abstract class Renderer {
       const classRule = `.${className}${rule}`;
 
       this.insertRule(
-        options.vendor && options.selector
-          ? prefixSelector(options.selector, classRule)
+        options.selector && options.vendor
+          ? options.vendor.prefixSelector(options.selector, classRule)
           : classRule,
         options,
       );

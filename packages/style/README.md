@@ -34,7 +34,6 @@ const className = renderer.renderRule(
     },
   },
   {
-    vendor: true,
     rtl: true,
   },
 ); // -> a b c d e f g h

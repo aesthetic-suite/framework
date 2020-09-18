@@ -1,11 +1,6 @@
 import { Value, Properties, GenericProperties } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
-import { declarationMapping } from '../data/prefixes';
-import getPrefixesFromMask from './getPrefixesFromMask';
-import isPrefixed from './isPrefixed';
-import prefixValueFunction from './prefixValueFunction';
-import prefixValue from './prefixValue';
 import { ProcessOptions } from '../types';
 
 /**
@@ -34,29 +29,11 @@ export default function processProperties(
       value = getValueDoppelganger(prop, value);
     }
 
-    // Inject vendor prefixed variants
-    const map = declarationMapping[prop];
+    // Set the value after direction change but before prefixing
+    props[prop] = value;
 
-    if (vendor && map && !isPrefixed(prop)) {
-      const { prefixes: mask, functions, values } = map;
-      let nextValue: Value | Value[] = value;
-
-      if (functions) {
-        nextValue = prefixValueFunction(nextValue, functions);
-      } else if (values) {
-        nextValue = prefixValue(nextValue, values);
-      }
-
-      // Prefixed properties come first
-      getPrefixesFromMask(mask).forEach((prefix) => {
-        props[prefix + prop] = nextValue;
-      });
-
-      // Base property comes last
-      props[prop] = nextValue;
-    } else {
-      props[prop] = value;
-    }
+    // Inject vendor prefixes
+    vendor?.prefixDeclaration(props, prop, value);
   });
 
   return props;

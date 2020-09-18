@@ -1,7 +1,7 @@
 import { Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import getPrefixesFromMask from './getPrefixesFromMask';
-import { PrefixMap } from '../types';
+import { PrefixMap } from './types';
 
 export default function prefixValueFunction(value: Value, functions: PrefixMap): Value | Value[] {
   if (typeof value === 'number') {

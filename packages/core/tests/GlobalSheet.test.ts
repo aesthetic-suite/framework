@@ -105,7 +105,7 @@ describe('GlobalSheet', () => {
         rtl: false,
         type: 'global',
         unit: 'px',
-        vendor: false,
+        vendor: null,
       },
     );
   });
@@ -133,7 +133,7 @@ describe('GlobalSheet', () => {
       {
         rtl: false,
         unit: 'px',
-        vendor: false,
+        vendor: null,
       },
     );
   });

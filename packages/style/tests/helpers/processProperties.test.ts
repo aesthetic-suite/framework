@@ -1,3 +1,4 @@
+import vendorPrefixer from '@aesthetic/addon-vendor';
 import processProperties from '../../src/helpers/processProperties';
 
 describe('processProperties()', () => {
@@ -7,16 +8,18 @@ describe('processProperties()', () => {
 
   describe('prefixes', () => {
     it('does nothing for an unsupported property', () => {
-      expect(processProperties({ background: 'none' }, { vendor: true })).toEqual({
+      expect(processProperties({ background: 'none' }, { vendor: vendorPrefixer })).toEqual({
         background: 'none',
       });
     });
 
     it('adds vendor prefixed properties for those that need prefixing', () => {
       expect(
-        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: true }),
+        processProperties(
+          { appearance: 'none', 'user-select': 'none' },
+          { vendor: vendorPrefixer },
+        ),
       ).toEqual({
-        '-ms-appearance': 'none',
         '-moz-appearance': 'none',
         '-webkit-appearance': 'none',
         appearance: 'none',
@@ -26,9 +29,9 @@ describe('processProperties()', () => {
       });
     });
 
-    it('doesnt add vendor prefixed properties for those that need prefixing if `prefix` is false', () => {
+    it('doesnt add vendor prefixed properties for those that need prefixing if `vendor` is null', () => {
       expect(
-        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: false }),
+        processProperties({ appearance: 'none', 'user-select': 'none' }, { vendor: null }),
       ).toEqual({
         appearance: 'none',
         'user-select': 'none',
@@ -39,11 +42,10 @@ describe('processProperties()', () => {
       expect(
         processProperties(
           { 'background-image': 'cross-fade(url(white.png) 0%, url(black.png) 100%);' },
-          { vendor: true },
+          { vendor: vendorPrefixer },
         ),
       ).toEqual({
         'background-image': [
-          '-ms-cross-fade(url(white.png) 0%, url(black.png) 100%);',
           '-webkit-cross-fade(url(white.png) 0%, url(black.png) 100%);',
           'cross-fade(url(white.png) 0%, url(black.png) 100%);',
         ],
@@ -51,7 +53,7 @@ describe('processProperties()', () => {
     });
 
     it('adds vendor prefixed properties for values', () => {
-      expect(processProperties({ 'unicode-bidi': 'isolate' }, { vendor: true })).toEqual({
+      expect(processProperties({ 'unicode-bidi': 'isolate' }, { vendor: vendorPrefixer })).toEqual({
         'unicode-bidi': ['-webkit-isolate', 'isolate'],
       });
     });

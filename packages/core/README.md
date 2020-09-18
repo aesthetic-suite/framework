@@ -23,7 +23,6 @@ import nightTheme from './design/system/nightTheme';
 configure({
   defaultUnit: 'px',
   deterministicClasses: false,
-  vendorPrefixes: false,
 });
 
 // Register a theme (provided by the design system)

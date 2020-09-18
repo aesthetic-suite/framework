@@ -1,4 +1,4 @@
-import prefixValueFunction from '../../src/helpers/prefixValueFunction';
+import prefixValueFunction from '../src/prefixValueFunction';
 
 describe('prefixValueFunction()', () => {
   it('doesnt prefix for unsupported value', () => {

@@ -1,3 +1,4 @@
+import vendorPrefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
 import { MEDIA_RULE } from '../src/constants';
@@ -275,16 +276,19 @@ describe('Styles', () => {
 
   it('applies vendor prefixes to a property under a single class name', () => {
     // Value prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('min-width', 'fit-content', { vendor: true });
+    renderer.renderDeclaration('min-width', 'fit-content', { vendor: vendorPrefixer });
 
     // Value function prefixing (wont show in snapshot because of DOM)
-    renderer.renderDeclaration('background', 'image-set()', { vendor: true });
+    renderer.renderDeclaration('background', 'image-set()', { vendor: vendorPrefixer });
 
     // Property prefixing
-    renderer.renderDeclaration('appearance', 'none', { vendor: true });
+    renderer.renderDeclaration('appearance', 'none', { vendor: vendorPrefixer });
 
     // Selector prefixing
-    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', vendor: true });
+    renderer.renderDeclaration('display', 'none', {
+      selector: ':fullscreen',
+      vendor: vendorPrefixer,
+    });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
@@ -299,7 +303,7 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        vendor: true,
+        vendor: vendorPrefixer,
         rtl: false,
       },
     );
@@ -314,13 +318,13 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
-        vendor: true,
+        vendor: vendorPrefixer,
         rtl: true,
       },
     );
 
-    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 c16p9s9v');
-    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc c16p9s9v');
+    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 c1qa0d3c');
+    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc c1qa0d3c');
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
@@ -366,7 +370,7 @@ describe('Styles', () => {
     });
 
     it('can vendor prefix applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { vendor: true });
+      const className = renderer.renderRuleGrouped(rule, { vendor: vendorPrefixer });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();

@@ -94,7 +94,7 @@ describe('LocalSheet', () => {
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',
-        vendor: false,
+        vendor: null,
       },
     );
 
@@ -107,7 +107,7 @@ describe('LocalSheet', () => {
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',
-        vendor: false,
+        vendor: null,
       },
     );
   });
@@ -140,7 +140,7 @@ describe('LocalSheet', () => {
         rankings: expect.any(Object),
         rtl: false,
         unit: 'px',
-        vendor: false,
+        vendor: null,
       },
     );
   });

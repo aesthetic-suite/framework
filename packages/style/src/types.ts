@@ -1,4 +1,12 @@
-import { CSS, ClassName, Unit, UnitFactory, Variables } from '@aesthetic/types';
+import {
+  CSS,
+  ClassName,
+  Unit,
+  UnitFactory,
+  Variables,
+  GenericProperties,
+  Value,
+} from '@aesthetic/types';
 
 export type SheetType = 'global' | 'standard' | 'conditions';
 
@@ -16,7 +24,7 @@ export interface ProcessOptions {
   rankings?: RankCache;
   rtl?: boolean;
   unit?: Unit | UnitFactory;
-  vendor?: boolean;
+  vendor?: null | VendorPrefixAPI;
 }
 
 export interface RenderOptions extends ProcessOptions {
@@ -40,16 +48,9 @@ export interface StyleRule {
   insertRule: (rule: CSS, index: number) => number;
 }
 
-// DATA
+// ADDONS
 
-export interface PrefixMap {
-  [value: string]: number;
-}
-
-export interface DeclarationPrefixMap {
-  [property: string]: {
-    prefixes?: number;
-    functions?: PrefixMap;
-    values?: PrefixMap;
-  };
+export interface VendorPrefixAPI {
+  prefixDeclaration: (props: GenericProperties, key: string, value: Value) => void;
+  prefixSelector: (selector: string, rule: CSS) => CSS;
 }
