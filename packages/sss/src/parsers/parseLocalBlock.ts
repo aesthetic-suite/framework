@@ -1,5 +1,6 @@
 import { objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
+import createQueue from '../helpers/createQueue';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
 import validateDeclarations from '../helpers/validateDeclarations';
 import { Events, LocalBlock } from '../types';
@@ -9,6 +10,20 @@ import parseFallbackProperties from './parseFallbackProperties';
 import parseSelector from './parseSelector';
 import parseVariables from './parseVariables';
 import parseVariants from './parseVariants';
+
+function parseSelectors<T extends object>(
+  selectors: LocalBlock['@selectors'],
+  parent: Block<T>,
+  events: Events<T>,
+) {
+  if (__DEV__) {
+    validateDeclarations(selectors, '@selectors');
+  }
+
+  objectLoop(selectors!, (value, key) => {
+    parseSelector(parent, key, value, true, events);
+  });
+}
 
 export default function parseLocalBlock<T extends object>(
   parent: Block<T>,
@@ -20,48 +35,19 @@ export default function parseLocalBlock<T extends object>(
   }
 
   const props = { ...object };
+  const queue = createQueue(events);
 
-  if (props['@fallbacks']) {
-    parseFallbackProperties(parent, props['@fallbacks'], events);
+  queue.add(props, '@fallbacks', parseFallbackProperties);
+  queue.add(props, '@media', parseConditionalBlock, ['media']);
+  queue.add(props, '@selectors', parseSelectors, [parent]);
+  queue.add(props, '@supports', parseConditionalBlock, ['supports']);
+  queue.add(props, '@variables', parseVariables);
+  queue.add(props, '@variants', parseVariants);
 
-    delete props['@fallbacks'];
-  }
+  // Standard properties must be parsed before all at-rules
+  const block = parseBlock(parent, props, events);
 
-  if (props['@media']) {
-    parseConditionalBlock(parent, props['@media'], 'media', events);
+  queue.process();
 
-    delete props['@media'];
-  }
-
-  if (props['@selectors']) {
-    if (__DEV__) {
-      validateDeclarations(props['@selectors'], '@selectors');
-    }
-
-    objectLoop(props['@selectors'], (value, key) => {
-      parseSelector(parent, key, value, true, events);
-    });
-
-    delete props['@selectors'];
-  }
-
-  if (props['@supports']) {
-    parseConditionalBlock(parent, props['@supports'], 'supports', events);
-
-    delete props['@supports'];
-  }
-
-  if (props['@variables']) {
-    parseVariables(parent, props['@variables'], events);
-
-    delete props['@variables'];
-  }
-
-  if (props['@variants']) {
-    parseVariants(parent, props['@variants'], events);
-
-    delete props['@variants'];
-  }
-
-  return parseBlock(parent, props, events);
+  return block;
 }

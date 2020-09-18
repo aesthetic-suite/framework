@@ -173,13 +173,19 @@ export interface FontFace extends BaseFontFace {
   srcPaths: string[];
 }
 
+export type FontFaceMap = Record<string, FontFace | FontFace[]>;
+
 export interface Import {
   path: string;
   media?: string;
   url?: boolean;
 }
 
+export type ImportList = (string | Import)[];
+
 export type Keyframes = BaseKeyframes<Rule>;
+
+export type KeyframesMap = Record<string, Keyframes>;
 
 export type Viewport = CSST.AtRule.Viewport<Value>;
 
@@ -259,9 +265,9 @@ export type GlobalAtRule =
   | '@viewport';
 
 export interface GlobalStyleSheet {
-  '@font-face'?: Record<string, FontFace | FontFace[]>;
-  '@import'?: (string | Import)[];
-  '@keyframes'?: Record<string, Keyframes>;
+  '@font-face'?: FontFaceMap;
+  '@import'?: ImportList;
+  '@keyframes'?: KeyframesMap;
   '@page'?: Page;
   '@root'?: LocalBlock;
   '@variables'?: Variables;

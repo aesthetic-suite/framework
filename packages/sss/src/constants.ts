@@ -1,3 +1,5 @@
+import { PagePseudos } from './types';
+
 export const COMPOUND_PROPERTIES: Set<string> = new Set(['animationName', 'fontFamily']);
 
 export const EXPANDED_PROPERTIES: Set<string> = new Set([
@@ -19,3 +21,5 @@ export const EXPANDED_PROPERTIES: Set<string> = new Set([
   'textDecoration',
   'transition',
 ]);
+
+export const PAGE_PSEUDOS: PagePseudos[] = [':blank', ':first', ':left', ':right'];

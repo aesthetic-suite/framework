@@ -15,9 +15,7 @@ export default function parseSelector<T extends object>(
 ) {
   if (__DEV__) {
     validateDeclarationBlock(object, selector);
-  }
 
-  if (__DEV__) {
     if ((selector.includes(',') || !selector.match(SELECTOR)) && !inAtRule) {
       throw new Error(`Advanced selector "${selector}" must be nested within a @selectors block.`);
     }
