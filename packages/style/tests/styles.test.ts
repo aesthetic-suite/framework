@@ -1,3 +1,5 @@
+import converter from '@aesthetic/addon-direction';
+import prefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
 import { MEDIA_RULE } from '../src/constants';
@@ -7,7 +9,10 @@ describe('Styles', () => {
   let spy: jest.SpyInstance;
 
   beforeEach(() => {
-    renderer = new Renderer();
+    renderer = new Renderer({
+      converter,
+      prefixer,
+    });
 
     // Avoid warnings
     spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -265,7 +270,7 @@ describe('Styles', () => {
 
   it('generates different declarations when RTL converting', () => {
     const a = renderer.renderDeclaration('margin-left', '10px');
-    const b = renderer.renderDeclaration('margin-left', '10px', { rtl: true });
+    const b = renderer.renderDeclaration('margin-left', '10px', { direction: 'rtl' });
 
     expect(a).toBe('a');
     expect(b).toBe('b');
@@ -284,7 +289,10 @@ describe('Styles', () => {
     renderer.renderDeclaration('appearance', 'none', { vendor: true });
 
     // Selector prefixing
-    renderer.renderDeclaration('display', 'none', { selector: ':fullscreen', vendor: true });
+    renderer.renderDeclaration('display', 'none', {
+      selector: ':fullscreen',
+      vendor: true,
+    });
 
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
@@ -299,8 +307,8 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
+        direction: 'ltr',
         vendor: true,
-        rtl: false,
       },
     );
 
@@ -314,13 +322,13 @@ describe('Styles', () => {
       },
       {
         deterministic: true,
+        direction: 'rtl',
         vendor: true,
-        rtl: true,
       },
     );
 
-    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 c16p9s9v');
-    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc c16p9s9v');
+    expect(a).toBe('cu4ygwf c8nj8ar c1u1u927 c1qa0d3c');
+    expect(b).toBe('cu4ygwf c1ryula0 cfi87yc c1qa0d3c');
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
@@ -374,7 +382,7 @@ describe('Styles', () => {
     });
 
     it('can RTL convert applicable properties', () => {
-      const className = renderer.renderRuleGrouped(rule, { rtl: true });
+      const className = renderer.renderRuleGrouped(rule, { direction: 'rtl' });
 
       expect(className).toBe('a');
       expect(getRenderedStyles('standard')).toMatchSnapshot();

@@ -1,9 +1,9 @@
-import BaseStyleSheet from '../src/BaseStyleSheet';
+import StyleSheet from '../src/StyleSheet';
 import TransientStyleRule from '../src/server/TransientStyleRule';
 import { STYLE_RULE } from '../src/constants';
 
-describe('Conditions', () => {
-  class BufferSheet extends BaseStyleSheet {
+describe('Buffering', () => {
+  class BufferSheet extends StyleSheet {
     buffer() {
       return this.ruleBuffer;
     }
@@ -23,7 +23,7 @@ describe('Conditions', () => {
 
   beforeEach(() => {
     nativeSheet = new TransientStyleRule(STYLE_RULE);
-    sheet = new BufferSheet(nativeSheet);
+    sheet = new BufferSheet('standard', nativeSheet);
     rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => 1);
 
     process.env.NODE_ENV = 'test-buffer';

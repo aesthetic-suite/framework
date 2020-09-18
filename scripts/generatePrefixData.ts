@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { getSupport, getBrowserScope, setBrowserScope } from 'caniuse-api';
-import { DeclarationPrefixMap, PrefixMap } from '../packages/style/src/types';
+import { DeclarationPrefixMap, PrefixMap } from '../packages/addon-vendor/src/types';
 import prefixFeatureMapping from './prefixes';
 
 enum Vendor {
@@ -170,10 +170,10 @@ featuresList.forEach((feature) => {
 });
 
 fs.writeFileSync(
-  path.join(__dirname, '../packages/style/src/data/prefixes.ts'),
+  path.join(__dirname, '../packages/addon-vendor/src/data.ts'),
   `/* eslint-disable sort-keys */
 
-import { DeclarationPrefixMap, PrefixMap } from '../types';
+import { DeclarationPrefixMap, PrefixMap } from './types';
 
 export const declarationMapping: DeclarationPrefixMap = ${JSON.stringify(declarationMapping)}
 

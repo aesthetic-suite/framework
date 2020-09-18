@@ -1,6 +1,6 @@
-const PATTERN = /^@media(\s+|\()/u;
+const MEDIA = /^@media(\s+|\()/u;
 
 export default function isMediaRule(value: string): boolean {
   // https://jsperf.com/string-startswith/66
-  return PATTERN.test(value);
+  return MEDIA.test(value);
 }

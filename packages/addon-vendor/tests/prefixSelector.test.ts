@@ -1,4 +1,4 @@
-import prefixSelector from '../../src/helpers/prefixSelector';
+import prefixSelector from '../src/prefixSelector';
 
 describe('prefixSelector()', () => {
   it('doesnt prefix for unsupported selector', () => {

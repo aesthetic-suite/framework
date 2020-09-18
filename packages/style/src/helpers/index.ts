@@ -11,13 +11,9 @@ import isImportRule from './isImportRule';
 import isInvalidValue from './isInvalidValue';
 import isMediaRule from './isMediaRule';
 import isNestedSelector from './isNestedSelector';
-import isPrefixed from './isPrefixed';
 import isSupportsRule from './isSupportsRule';
 import isUnitlessProperty from './isUnitlessProperty';
 import isVariable from './isVariable';
-import prefixSelector from './prefixSelector';
-import prefixValue from './prefixValue';
-import prefixValueFunction from './prefixValueFunction';
 import processProperties from './processProperties';
 import processValue from './processValue';
 
@@ -35,13 +31,9 @@ export {
   isInvalidValue,
   isMediaRule,
   isNestedSelector,
-  isPrefixed,
   isSupportsRule,
   isUnitlessProperty,
   isVariable,
-  prefixSelector,
-  prefixValue,
-  prefixValueFunction,
   processProperties,
   processValue,
 };

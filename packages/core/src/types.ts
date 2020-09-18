@@ -5,6 +5,7 @@ import {
   LocalStyleSheetNeverize,
   LocalBlock,
 } from '@aesthetic/sss';
+import { DirectionConverter, VendorPrefixer } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
@@ -59,7 +60,8 @@ export type LocalSheet<T = unknown> = StyleSheet<LocalSheetFactory<T>, ClassName
 export interface AestheticOptions {
   defaultUnit?: Unit | UnitFactory;
   deterministicClasses?: boolean;
-  vendorPrefixes?: boolean;
+  directionConverter?: DirectionConverter | null;
+  vendorPrefixer?: VendorPrefixer | null;
 }
 
 export type EventType = 'change:direction' | 'change:theme';

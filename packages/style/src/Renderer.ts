@@ -1,6 +1,5 @@
 /* eslint-disable no-console, no-magic-numbers */
 
-import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 import {
   ClassName,
   FontFace,
@@ -11,14 +10,7 @@ import {
   Variables,
   Rule,
 } from '@aesthetic/types';
-import {
-  arrayReduce,
-  hyphenate,
-  isObject,
-  objectLoop,
-  objectReduce,
-  generateHash,
-} from '@aesthetic/utils';
+import { hyphenate, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
 import AtomicCache from './AtomicCache';
 import formatConditions from './helpers/formatConditions';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
@@ -28,14 +20,12 @@ import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
-import prefixSelector from './helpers/prefixSelector';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
-import GlobalStyleSheet from './GlobalStyleSheet';
+import StyleSheet from './StyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
-import StandardStyleSheet from './StandardStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule } from './types';
+import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule, API } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -45,8 +35,8 @@ function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
     className: '',
     conditions: [],
     deterministic: false,
+    direction: 'ltr',
     rankings: {},
-    rtl: false,
     selector: '',
     type: 'standard',
     unit: 'px',
@@ -71,17 +61,26 @@ declare global {
 }
 
 export default abstract class Renderer {
-  readonly classNameCache = new AtomicCache();
+  api: API;
 
-  readonly ruleCache: { [hash: string]: ClassName | boolean } = {};
+  cache = new AtomicCache();
+
+  ruleCache: Record<string, ClassName | boolean> = {};
 
   ruleIndex: number = -1;
 
-  abstract globalStyleSheet: GlobalStyleSheet;
+  abstract globals: StyleSheet;
 
-  abstract conditionsStyleSheet: ConditionsStyleSheet;
+  abstract conditions: ConditionsStyleSheet;
 
-  abstract standardStyleSheet: StandardStyleSheet;
+  abstract standards: StyleSheet;
+
+  constructor(api: Partial<API> = {}) {
+    this.api = {
+      direction: 'ltr',
+      ...api,
+    };
+  }
 
   /**
    * Generate an incremental class name.
@@ -117,18 +116,18 @@ export default abstract class Renderer {
     opts: RenderOptions = {},
   ): ClassName {
     const options = createDefaultOptions(opts);
+    const { direction, converter, prefixer } = this.api;
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
     let val = processValue(key, value, opts.unit);
 
-    if (options.rtl) {
-      key = getPropertyDoppelganger(key);
-      val = getValueDoppelganger(key, val);
+    if (converter) {
+      ({ key, value: val } = converter.convert(direction, options.direction, key, val));
     }
 
     // Check the cache immediately
-    const cache = this.classNameCache.read(key, val, options, options.rankings[key]);
+    const cache = this.cache.read(key, val, options, options.rankings[key]);
 
     if (cache) {
       persistRank(options, key, cache.rank);
@@ -139,7 +138,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       options.selector,
-      processProperties({ [key]: val }, { vendor: options.vendor }),
+      processProperties({ [key]: val }, { vendor: options.vendor }, this.api),
     );
 
     const className =
@@ -152,14 +151,16 @@ export default abstract class Renderer {
 
     // Persist the max ranking
     const rank = this.insertRule(
-      options.vendor && options.selector ? prefixSelector(options.selector, classRule) : classRule,
+      options.selector && options.vendor && prefixer
+        ? prefixer.prefixSelector(options.selector, classRule)
+        : classRule,
       options,
     );
 
     persistRank(options, key, rank);
 
     // Write to cache
-    this.classNameCache.write(key, val, {
+    this.cache.write(key, val, {
       className,
       conditions: options.conditions,
       rank,
@@ -186,6 +187,7 @@ export default abstract class Renderer {
           fontFamily,
         } as Properties,
         options,
+        this.api,
       ),
     );
 
@@ -212,7 +214,7 @@ export default abstract class Renderer {
     const rule = objectReduce(
       keyframes,
       (keyframe, step) =>
-        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options))} } `,
+        `${step} { ${formatDeclarationBlock(processProperties(keyframe!, options, this.api))} } `,
     );
 
     const animationName = customName || `kf${generateHash(rule)}`;
@@ -235,7 +237,7 @@ export default abstract class Renderer {
    * with all properties grouped within.
    */
   renderRuleGrouped = (properties: Rule, options: RenderOptions = {}): ClassName => {
-    const nestedRules: { [selector: string]: Rule } = {};
+    const nestedRules: Record<string, Rule> = {};
     const cssVariables: Variables = {};
     const nextProperties: GenericProperties = {};
 
@@ -254,7 +256,7 @@ export default abstract class Renderer {
 
     const rule = formatRule(
       options.selector,
-      processProperties(nextProperties, options),
+      processProperties(nextProperties, options, this.api),
       cssVariables,
     );
 
@@ -265,10 +267,11 @@ export default abstract class Renderer {
     // Insert once and cache separately than atomic class names
     if (!this.ruleCache[hash]) {
       const classRule = `.${className}${rule}`;
+      const { prefixer } = this.api;
 
       this.insertRule(
-        options.vendor && options.selector
-          ? prefixSelector(options.selector, classRule)
+        options.selector && options.vendor && prefixer
+          ? prefixer.prefixSelector(options.selector, classRule)
           : classRule,
         options,
       );
@@ -283,32 +286,18 @@ export default abstract class Renderer {
   };
 
   /**
-   * Render a mapping of multiple rules in the defined order.
-   * If no order is provided, they will be rendered sequentially.
-   */
-  renderRulesOrdered<T extends { [set: string]: Rule }>(
-    sets: T,
-    inOrder?: (keyof T)[],
-    options?: RenderOptions,
-  ) {
-    const order = inOrder ?? Object.keys(sets);
-
-    return arrayReduce(order, (key) => `${this.renderRule(sets[key], options)} `).trim();
-  }
-
-  /**
    * Return the root style rule for the defined style sheet.
    */
   protected getRootRule(type: SheetType): StyleRule {
     if (type === 'global') {
-      return this.globalStyleSheet.sheet;
+      return this.globals.sheet;
     }
 
     if (type === 'conditions') {
-      return this.conditionsStyleSheet.sheet;
+      return this.conditions.sheet;
     }
 
-    return this.standardStyleSheet.sheet;
+    return this.standards.sheet;
   }
 
   /**
@@ -343,16 +332,16 @@ export default abstract class Renderer {
     const { conditions = [], type = 'standard' } = options;
 
     if (type === 'global') {
-      return this.globalStyleSheet.insertRule(rule);
+      return this.globals.insertRule(rule);
     }
 
     // Insert into the conditional style sheet if conditions exist
     if (type === 'conditions' || conditions.length > 0) {
-      return this.conditionsStyleSheet.insertRule(rule, conditions);
+      return this.conditions.insertRule(rule, conditions);
     }
 
     // No media or feature queries so insert into the standard style sheet
-    return this.standardStyleSheet.insertRule(rule);
+    return this.standards.insertRule(rule);
   }
 
   /**

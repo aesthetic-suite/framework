@@ -4,7 +4,7 @@ import {
   GlobalStyleSheet,
   LocalStyleSheet,
 } from '@aesthetic/sss';
-import { Renderer } from '@aesthetic/style';
+import { Renderer, RenderOptions } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { ClassName, Rule } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
@@ -135,8 +135,8 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     let className = '';
     const composer = this.compose(params);
     const styles = composer(theme, theme.tokens) as GlobalStyleSheet;
-    const renderParams = {
-      rtl: params.direction === 'rtl',
+    const renderParams: RenderOptions = {
+      direction: params.direction,
       unit: params.unit,
       vendor: params.vendor,
     };
@@ -172,9 +172,9 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     const composer = this.compose(params);
     const styles = composer(theme, theme.tokens) as LocalStyleSheet;
     const rankCache = {};
-    const renderParams = {
+    const renderParams: RenderOptions = {
+      direction: params.direction,
       rankings: rankCache,
-      rtl: params.direction === 'rtl',
       unit: params.unit,
       vendor: params.vendor,
     };

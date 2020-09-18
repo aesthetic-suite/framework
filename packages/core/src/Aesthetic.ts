@@ -29,7 +29,8 @@ const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 const defaultOptions: Required<AestheticOptions> = {
   defaultUnit: 'px',
   deterministicClasses: false,
-  vendorPrefixes: false,
+  directionConverter: null,
+  vendorPrefixer: null,
 };
 
 const themeRegistry = new ThemeRegistry();
@@ -151,8 +152,8 @@ export function getActiveDirection(): Direction {
   let direction: Direction = 'ltr';
 
   if (!isSSR()) {
-    direction = (document.documentElement?.getAttribute('dir') ||
-      document.body?.getAttribute('dir') ||
+    direction = (document.documentElement.getAttribute('dir') ||
+      document.body.getAttribute('dir') ||
       'ltr') as Direction;
   }
 
@@ -189,15 +190,19 @@ export function getActiveTheme(): Theme {
  * Return a style renderer. When SSR, use a server based renderer.
  */
 export function getRenderer() {
-  if (global.AESTHETIC_CUSTOM_RENDERER) {
-    return global.AESTHETIC_CUSTOM_RENDERER;
+  if (styleRenderer) {
+    return styleRenderer;
   }
 
-  if (!styleRenderer) {
-    styleRenderer = new ClientRenderer();
-  }
+  const renderer = global.AESTHETIC_CUSTOM_RENDERER || new ClientRenderer();
 
-  return styleRenderer;
+  renderer.api.direction = getActiveDirection();
+  renderer.api.converter = options.directionConverter;
+  renderer.api.prefixer = options.vendorPrefixer;
+
+  styleRenderer = renderer;
+
+  return renderer;
 }
 
 /**
@@ -259,7 +264,7 @@ export function renderComponentStyles<T = unknown>(sheet: LocalSheet<T>, params:
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: options.vendorPrefixes,
+    vendor: !!options.vendorPrefixer,
     ...params,
   });
 }
@@ -312,7 +317,7 @@ export function renderThemeStyles(theme: Theme, params: SheetParams = {}): Class
   return sheet.render(getRenderer(), theme, {
     direction: getActiveDirection(),
     unit: options.defaultUnit,
-    vendor: options.vendorPrefixes,
+    vendor: !!options.vendorPrefixer,
     ...params,
   });
 }

@@ -1,3 +1,4 @@
+import directionConverter from '@aesthetic/addon-direction';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
 
@@ -141,6 +142,8 @@ describe('At-rules', () => {
     });
 
     it('supports ltr and rtl', () => {
+      renderer.api.converter = directionConverter;
+
       const ltr = renderer.renderKeyframes({
         from: {
           left: '0',
@@ -161,7 +164,7 @@ describe('At-rules', () => {
         },
         '',
         {
-          rtl: true,
+          direction: 'rtl',
         },
       );
 

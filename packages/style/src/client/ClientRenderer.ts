@@ -1,24 +1,18 @@
 import { Variables } from '@aesthetic/types';
 import { arrayLoop, objectLoop, isSSR } from '@aesthetic/utils';
 import Renderer from '../Renderer';
-import GlobalStyleSheet from '../GlobalStyleSheet';
+import StyleSheet from '../StyleSheet';
 import ConditionsStyleSheet from '../ConditionsStyleSheet';
-import StandardStyleSheet from '../StandardStyleSheet';
 import formatVariableName from '../helpers/formatVariableName';
-import getDocumentStyleSheet from '../helpers/getDocumentStyleSheet';
 import { hydrateGlobals, hydrateRules, hydrateConditions } from './hydrateStyles';
-import { SheetType, StyleRule } from '../types';
-
-function getSheet(type: SheetType): StyleRule {
-  return (getDocumentStyleSheet(type) as unknown) as StyleRule;
-}
+import { SheetType } from '../types';
 
 export default class ClientRenderer extends Renderer {
-  conditionsStyleSheet = new ConditionsStyleSheet(getSheet('conditions'));
+  conditions = new ConditionsStyleSheet('conditions');
 
-  globalStyleSheet = new GlobalStyleSheet(getSheet('global'));
+  globals = new StyleSheet('global');
 
-  standardStyleSheet = new StandardStyleSheet(getSheet('standard'));
+  standards = new StyleSheet('standard');
 
   applyRootVariables(vars: Variables) {
     // istanbul ignore next
@@ -51,17 +45,17 @@ export default class ClientRenderer extends Renderer {
       switch (type) {
         case 'global':
           hydrateGlobals(this, sheet);
-          this.globalStyleSheet.lastIndex = lastIndex;
+          this.globals.lastIndex = lastIndex;
           break;
 
         case 'conditions':
           hydrateConditions(this, sheet);
-          this.conditionsStyleSheet.lastIndex = lastIndex;
+          this.conditions.lastIndex = lastIndex;
           break;
 
         default:
           hydrateRules(this, sheet);
-          this.standardStyleSheet.lastIndex = lastIndex;
+          this.standards.lastIndex = lastIndex;
           break;
       }
 

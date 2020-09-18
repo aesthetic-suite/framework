@@ -1,4 +1,13 @@
-import { CSS, ClassName, Unit, UnitFactory, Variables } from '@aesthetic/types';
+import {
+  ClassName,
+  CSS,
+  Direction,
+  GenericProperties,
+  Unit,
+  UnitFactory,
+  Value,
+  Variables,
+} from '@aesthetic/types';
 
 export type SheetType = 'global' | 'standard' | 'conditions';
 
@@ -7,14 +16,12 @@ export interface Condition {
   type: number;
 }
 
-export interface RankCache {
-  [property: string]: number;
-}
+export type RankCache = Record<string, number>;
 
 export interface ProcessOptions {
   deterministic?: boolean;
+  direction?: Direction;
   rankings?: RankCache;
-  rtl?: boolean;
   unit?: Unit | UnitFactory;
   vendor?: boolean;
 }
@@ -40,16 +47,24 @@ export interface StyleRule {
   insertRule: (rule: CSS, index: number) => number;
 }
 
-// DATA
+// ADDONS
 
-export interface PrefixMap {
-  [value: string]: number;
+export interface DirectionConverter {
+  convert: <T extends Value>(
+    from: Direction,
+    to: Direction,
+    key: string,
+    value: T,
+  ) => { key: string; value: T };
 }
 
-export interface DeclarationPrefixMap {
-  [property: string]: {
-    prefixes?: number;
-    functions?: PrefixMap;
-    values?: PrefixMap;
-  };
+export interface VendorPrefixer {
+  prefix: (key: string, value: Value) => GenericProperties;
+  prefixSelector: (selector: string, rule: CSS) => CSS;
+}
+
+export interface API {
+  converter?: DirectionConverter | null;
+  direction: Direction;
+  prefixer?: VendorPrefixer | null;
 }

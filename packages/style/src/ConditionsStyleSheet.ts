@@ -1,7 +1,7 @@
 import { CSS } from '@aesthetic/types';
 import { arrayLoop, isSSR } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
-import BaseStyleSheet from './BaseStyleSheet';
+import StyleSheet from './StyleSheet';
 import formatConditions from './helpers/formatConditions';
 import isSupportsRule from './helpers/isSupportsRule';
 import isMediaRule from './helpers/isMediaRule';
@@ -26,12 +26,12 @@ function canInsertNestedRules(): boolean {
   return canInsert;
 }
 
-export default class ConditionsStyleSheet extends BaseStyleSheet {
+export default class ConditionsStyleSheet extends StyleSheet {
   desktopFirst: boolean = false;
 
-  protected featureQueries: { [query: string]: StyleRule } = {};
+  protected featureQueries: Record<string, StyleRule> = {};
 
-  protected mediaQueries: { [query: string]: StyleRule } = {};
+  protected mediaQueries: Record<string, StyleRule> = {};
 
   /**
    * Attempt to find a child rule within the parent rule that matches the defined query and type.

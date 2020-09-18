@@ -1,0 +1,29 @@
+{
+  "name": "@aesthetic/addon-direction",
+  "version": "0.0.0",
+  "description": "Aesthetic addon to convert direction between LTR and RTL.",
+  "keywords": [
+    "aesthetic",
+    "addon",
+    "direction",
+    "ltr",
+    "rtl"
+  ],
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-direction",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@aesthetic/types": "^0.2.0",
+    "rtl-css-js": "^1.14.0"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}

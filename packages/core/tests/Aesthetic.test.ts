@@ -1,3 +1,5 @@
+import directionConverter from '@aesthetic/addon-direction';
+import vendorPrefixer from '@aesthetic/addon-vendor';
 import { ClientRenderer } from '@aesthetic/style';
 import { ServerRenderer } from '@aesthetic/style/server';
 import {
@@ -177,18 +179,21 @@ describe('Aesthetic', () => {
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'px',
         deterministicClasses: false,
-        vendorPrefixes: false,
+        directionConverter: null,
+        vendorPrefixer: null,
       });
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        directionConverter,
+        vendorPrefixer,
       });
 
       expect(getInternalsForTesting().options).toEqual({
         defaultUnit: 'em',
         deterministicClasses: false,
-        vendorPrefixes: true,
+        directionConverter,
+        vendorPrefixer,
       });
     });
   });
@@ -444,7 +449,7 @@ describe('Aesthetic', () => {
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
 
       renderComponentStyles(sheet, { direction: 'rtl' });
@@ -554,9 +559,9 @@ describe('Aesthetic', () => {
         to: { opacity: 1 },
       };
 
-      renderKeyframes(keyframes, 'fade', { rtl: true });
+      renderKeyframes(keyframes, 'fade', { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { rtl: true });
+      expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { direction: 'rtl' });
     });
   });
 
@@ -595,7 +600,7 @@ describe('Aesthetic', () => {
 
       configure({
         defaultUnit: 'em',
-        vendorPrefixes: true,
+        vendorPrefixer,
       });
       registerDefaultTheme('day', lightTheme, sheet);
       renderThemeStyles(lightTheme, { direction: 'rtl' });

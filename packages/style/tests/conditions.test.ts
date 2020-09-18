@@ -72,7 +72,7 @@ describe('Conditions', () => {
     it('sorts media queries using desktop-first', () => {
       const block = { padding: 0 };
 
-      renderer.conditionsStyleSheet.desktopFirst = true;
+      renderer.conditions.desktopFirst = true;
 
       renderer.renderRule({
         '@media screen and (min-width: 1024px)': block,

@@ -14,30 +14,24 @@ import { ClientRenderer } from '@aesthetic/style';
 const renderer = new ClientRenderer();
 
 // Render a style decleration into individual atomic class names
-const className = renderer.renderRule(
-  {
-    '--color': 'black',
+const className = renderer.renderRule({
+  '--color': 'black',
 
-    margin: 0,
-    padding: '6px 12px',
-    textAlign: 'center',
-    color: 'var(--color)',
-    backgroundColor: 'transparent',
-    border: '2px solid #eee',
+  margin: 0,
+  padding: '6px 12px',
+  textAlign: 'center',
+  color: 'var(--color)',
+  backgroundColor: 'transparent',
+  border: '2px solid #eee',
 
-    ':hover': {
-      borderColor: '#fff',
-    },
-
-    '@media (max-width: 600px)': {
-      display: 'block',
-    },
+  ':hover': {
+    borderColor: '#fff',
   },
-  {
-    vendor: true,
-    rtl: true,
+
+  '@media (max-width: 600px)': {
+    display: 'block',
   },
-); // -> a b c d e f g h
+}); // -> a b c d e f g h
 ```
 
 ## Features
@@ -51,8 +45,8 @@ const className = renderer.renderRule(
 - Injection buffering for increased performance and reduced paints.
 - Style declarations support pseudos, attributes, conditional at-rules, and nested declarations.
 - Deterministic or atomic incremental CSS class names.
-- Right-to-left (RTL) integration.
-- Vendor prefixing for browsers with >= 1% market share.
+- Right-to-left (RTL) integration (with addon).
+- Vendor prefixing for browsers with >= 1% market share (with addon).
 - Unit suffixing for numerical values.
 - First-class CSS variables support.
 - Server-side rendering _and_ client-side hydration.
