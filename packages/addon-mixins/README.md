@@ -7,7 +7,7 @@
 CSS-in-JS mixins for the Aesthetic design system.
 
 ```ts
-import * as mixins from '@aesthetic/addon-mixins';
+import mixins from '@aesthetic/addon-mixins';
 import { Design } from '@aesthetic/system';
 
 // Configure design system with mixins
@@ -27,9 +27,9 @@ const theme = design.createTheme(
   },
 );
 
-const css = theme.mixin('reset-button');
-// OR
-const css = theme.mixin.resetButton();
+const css = theme.mixin('background', { palette: 'success' });
+// OR with type safety
+const css = theme.mixin.background({ palette: 'success' });
 ```
 
 ## Installation

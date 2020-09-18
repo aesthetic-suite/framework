@@ -74,6 +74,7 @@ declare module '@aesthetic/system' {
     uiInteractive: MixinUtil<UIInteractiveOptions>;
   }
 }
+
 export type MixinType =
   | 'background'
   | 'border'
