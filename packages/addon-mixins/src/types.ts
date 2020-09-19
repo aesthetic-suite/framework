@@ -1,7 +1,7 @@
 import {
   BorderSize,
   ColorShade,
-  MixinUtil,
+  MixinBuiltIn,
   PaletteType,
   ShadowSize,
   TextSize,
@@ -51,27 +51,27 @@ export interface UIInteractiveOptions {
 }
 
 declare module '@aesthetic/system' {
-  export interface MixinUtils {
-    background: MixinUtil<BackgroundOptions>;
-    border: MixinUtil<BorderOptions>;
-    foreground: MixinUtil<ForegroundOptions>;
-    heading: MixinUtil<HeadingOptions>;
-    hideCompletely: MixinUtil;
-    hideOffscreen: MixinUtil;
-    hideVisually: MixinUtil;
-    resetButton: MixinUtil<ResetButtonOptions>;
-    resetInput: MixinUtil;
-    resetList: MixinUtil;
-    resetMedia: MixinUtil;
-    resetTypography: MixinUtil;
-    root: MixinUtil;
-    shadow: MixinUtil<ShadowOptions>;
-    text: MixinUtil<TextOptions>;
-    textBreak: MixinUtil;
-    textTruncate: MixinUtil;
-    textWrap: MixinUtil;
-    uiBox: MixinUtil<UIBoxOptions>;
-    uiInteractive: MixinUtil<UIInteractiveOptions>;
+  export interface MixinUtil {
+    background: MixinBuiltIn<BackgroundOptions>;
+    border: MixinBuiltIn<BorderOptions>;
+    foreground: MixinBuiltIn<ForegroundOptions>;
+    heading: MixinBuiltIn<HeadingOptions>;
+    hideCompletely: MixinBuiltIn;
+    hideOffscreen: MixinBuiltIn;
+    hideVisually: MixinBuiltIn;
+    resetButton: MixinBuiltIn<ResetButtonOptions>;
+    resetInput: MixinBuiltIn;
+    resetList: MixinBuiltIn;
+    resetMedia: MixinBuiltIn;
+    resetTypography: MixinBuiltIn;
+    root: MixinBuiltIn;
+    shadow: MixinBuiltIn<ShadowOptions>;
+    text: MixinBuiltIn<TextOptions>;
+    textBreak: MixinBuiltIn;
+    textTruncate: MixinBuiltIn;
+    textWrap: MixinBuiltIn;
+    uiBox: MixinBuiltIn<UIBoxOptions>;
+    uiInteractive: MixinBuiltIn<UIInteractiveOptions>;
   }
 }
 

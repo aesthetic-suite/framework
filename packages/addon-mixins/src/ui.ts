@@ -7,21 +7,24 @@ export function uiBox(
   this: Utilities,
   { border = true, palette = 'neutral', shadow = true }: UIBoxOptions,
 ): Rule {
-  const rule: Rule = this.mixin.background({ palette });
+  const rule: Rule = this.mixin.background({ palette }, {});
 
   if (border) {
     Object.assign(
       rule,
-      this.mixin.border({
-        // Inherit same color as box by default
-        palette,
-        ...(isObject(border) ? border : {}),
-      }),
+      this.mixin.border(
+        {
+          // Inherit same color as box by default
+          palette,
+          ...(isObject(border) ? border : {}),
+        },
+        {},
+      ),
     );
   }
 
   if (shadow) {
-    Object.assign(rule, this.mixin.shadow(isObject(shadow) ? shadow : {}));
+    Object.assign(rule, this.mixin.shadow(isObject(shadow) ? shadow : {}, {}));
   }
 
   return rule;

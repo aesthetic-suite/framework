@@ -51,16 +51,6 @@ Object {
 }
 `;
 
-exports[`Theme mixin() merges additional rules with base mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "24px",
-  "fontWeight": "bold",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
 exports[`Theme mixin() merges multiple templates with base mixin 1`] = `
 Object {
   "color": "var(--palette-neutral-fg-base)",
@@ -77,6 +67,33 @@ Object {
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "24px",
   "fontWeight": "bold",
+  "lineHeight": "var(--text-df-line-height)",
+}
+`;
+
+exports[`Theme mixin() returns base properties when no options or extra rule passed 1`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "var(--text-df-size)",
+  "lineHeight": "var(--text-df-line-height)",
+}
+`;
+
+exports[`Theme mixin() returns merged and customized properties when options and extra rule passed 1`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "60px",
+  "lineHeight": "var(--text-large-line-height)",
+}
+`;
+
+exports[`Theme mixin() returns merged properties when no options passed but an extra rule is passed 1`] = `
+Object {
+  "color": "var(--palette-neutral-fg-base)",
+  "fontFamily": "var(--typography-font-text)",
+  "fontSize": "60px",
   "lineHeight": "var(--text-df-line-height)",
 }
 `;

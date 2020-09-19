@@ -1,9 +1,9 @@
-import { MixinUtils } from '@aesthetic/system';
+import { MixinUtil } from '@aesthetic/system';
 import { darkTheme } from '@aesthetic/system/lib/testing';
 import mixinTemplates from '../src';
 
 describe('Mixins', () => {
-  let mixins: MixinUtils;
+  let mixins: MixinUtil;
 
   beforeEach(() => {
     // Clone the theme so we dont clobber other tests
@@ -18,16 +18,19 @@ describe('Mixins', () => {
   describe('background', () => {
     it('renders background', () => {
       expect(mixins.background()).toMatchSnapshot();
-      expect(mixins.background({ palette: 'brand' })).toMatchSnapshot();
-      expect(mixins.background({ palette: 'danger' })).toMatchSnapshot();
+      expect(mixins.background({ palette: 'brand' }, {})).toMatchSnapshot();
+      expect(mixins.background({ palette: 'danger' }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `palette`', () => {
       expect(() =>
-        mixins.background({
-          // @ts-expect-error
-          palette: 'unknown',
-        }),
+        mixins.background(
+          {
+            // @ts-expect-error
+            palette: 'unknown',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
   });
@@ -35,36 +38,45 @@ describe('Mixins', () => {
   describe('border', () => {
     it('renders border', () => {
       expect(mixins.border()).toMatchSnapshot();
-      expect(mixins.border({ size: 'sm', palette: 'info' })).toMatchSnapshot();
-      expect(mixins.border({ size: 'lg', shade: '50', radius: false })).toMatchSnapshot();
+      expect(mixins.border({ size: 'sm', palette: 'info' }, {})).toMatchSnapshot();
+      expect(mixins.border({ size: 'lg', shade: '50', radius: false }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `palette`', () => {
       expect(() =>
-        mixins.border({
-          size: 'sm',
-          // @ts-expect-error
-          palette: 'unknown',
-        }),
+        mixins.border(
+          {
+            size: 'sm',
+            // @ts-expect-error
+            palette: 'unknown',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors for invalid `shade`', () => {
       expect(() =>
-        mixins.border({
-          size: 'sm',
-          // @ts-expect-error
-          shade: '99',
-        }),
+        mixins.border(
+          {
+            size: 'sm',
+            // @ts-expect-error
+            shade: '99',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors for invalid `size`', () => {
       expect(() =>
-        mixins.border({
-          // @ts-expect-error
-          size: 'xl',
-        }),
+        mixins.border(
+          {
+            // @ts-expect-error
+            size: 'xl',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
   });
@@ -72,16 +84,19 @@ describe('Mixins', () => {
   describe('foreground', () => {
     it('renders foreground', () => {
       expect(mixins.foreground()).toMatchSnapshot();
-      expect(mixins.foreground({ palette: 'success' })).toMatchSnapshot();
-      expect(mixins.foreground({ palette: 'warning' })).toMatchSnapshot();
+      expect(mixins.foreground({ palette: 'success' }, {})).toMatchSnapshot();
+      expect(mixins.foreground({ palette: 'warning' }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `palette`', () => {
       expect(() =>
-        mixins.foreground({
-          // @ts-expect-error
-          palette: 'unknown',
-        }),
+        mixins.foreground(
+          {
+            // @ts-expect-error
+            palette: 'unknown',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
   });
@@ -103,16 +118,19 @@ describe('Mixins', () => {
   describe('heading', () => {
     it('renders heading', () => {
       expect(mixins.heading()).toMatchSnapshot();
-      expect(mixins.heading({ level: 3 })).toMatchSnapshot();
-      expect(mixins.heading({ level: 6 })).toMatchSnapshot();
+      expect(mixins.heading({ level: 3 }, {})).toMatchSnapshot();
+      expect(mixins.heading({ level: 6 }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `level`', () => {
       expect(() =>
-        mixins.heading({
-          // @ts-expect-error
-          level: 9,
-        }),
+        mixins.heading(
+          {
+            // @ts-expect-error
+            level: 9,
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
   });
@@ -120,7 +138,7 @@ describe('Mixins', () => {
   describe('reset', () => {
     it('renders reset button', () => {
       expect(mixins.resetButton()).toMatchSnapshot();
-      expect(mixins.resetButton({ flex: true })).toMatchSnapshot();
+      expect(mixins.resetButton({ flex: true }, {})).toMatchSnapshot();
     });
 
     it('renders reset input', () => {
@@ -149,36 +167,45 @@ describe('Mixins', () => {
   describe('shadow', () => {
     it('renders shadow', () => {
       expect(mixins.shadow()).toMatchSnapshot();
-      expect(mixins.shadow({ size: 'sm', palette: 'info' })).toMatchSnapshot();
-      expect(mixins.shadow({ size: 'lg', shade: '50' })).toMatchSnapshot();
+      expect(mixins.shadow({ size: 'sm', palette: 'info' }, {})).toMatchSnapshot();
+      expect(mixins.shadow({ size: 'lg', shade: '50' }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `palette`', () => {
       expect(() =>
-        mixins.shadow({
-          size: 'sm',
-          // @ts-expect-error
-          palette: 'unknown',
-        }),
+        mixins.shadow(
+          {
+            size: 'sm',
+            // @ts-expect-error
+            palette: 'unknown',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors for invalid `shade`', () => {
       expect(() =>
-        mixins.shadow({
-          size: 'sm',
-          // @ts-expect-error
-          shade: '99',
-        }),
+        mixins.shadow(
+          {
+            size: 'sm',
+            // @ts-expect-error
+            shade: '99',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors for invalid `size`', () => {
       expect(() =>
-        mixins.shadow({
-          // @ts-expect-error
-          size: 'xxl',
-        }),
+        mixins.shadow(
+          {
+            // @ts-expect-error
+            size: 'xxl',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
   });
@@ -186,15 +213,18 @@ describe('Mixins', () => {
   describe('text', () => {
     it('renders text', () => {
       expect(mixins.text()).toMatchSnapshot();
-      expect(mixins.text({ size: 'lg' })).toMatchSnapshot();
+      expect(mixins.text({ size: 'lg' }, {})).toMatchSnapshot();
     });
 
     it('errors for invalid `size`', () => {
       expect(() =>
-        mixins.text({
-          // @ts-expect-error
-          size: 'xl',
-        }),
+        mixins.text(
+          {
+            // @ts-expect-error
+            size: 'xl',
+          },
+          {},
+        ),
       ).toThrowErrorMatchingSnapshot();
     });
 
@@ -215,26 +245,26 @@ describe('Mixins', () => {
     describe('box', () => {
       it('renders box', () => {
         expect(mixins.uiBox()).toMatchSnapshot();
-        expect(mixins.uiBox({ palette: 'brand' })).toMatchSnapshot();
+        expect(mixins.uiBox({ palette: 'brand' }, {})).toMatchSnapshot();
       });
 
       it('renders box without border', () => {
-        expect(mixins.uiBox({ border: false })).toMatchSnapshot();
+        expect(mixins.uiBox({ border: false }, {})).toMatchSnapshot();
       });
 
       it('renders box with custom border options', () => {
         expect(
-          mixins.uiBox({ border: { palette: 'success', size: 'lg' }, palette: 'danger' }),
+          mixins.uiBox({ border: { palette: 'success', size: 'lg' }, palette: 'danger' }, {}),
         ).toMatchSnapshot();
       });
 
       it('renders box without shadow', () => {
-        expect(mixins.uiBox({ palette: 'brand', shadow: false })).toMatchSnapshot();
+        expect(mixins.uiBox({ palette: 'brand', shadow: false }, {})).toMatchSnapshot();
       });
 
       it('renders box with custom shadow options', () => {
         expect(
-          mixins.uiBox({ palette: 'brand', shadow: { palette: 'info', shade: '00' } }),
+          mixins.uiBox({ palette: 'brand', shadow: { palette: 'info', shade: '00' } }, {}),
         ).toMatchSnapshot();
       });
     });
@@ -242,6 +272,6 @@ describe('Mixins', () => {
 
   it('renders interactive', () => {
     expect(mixins.uiInteractive()).toMatchSnapshot();
-    expect(mixins.uiInteractive({ palette: 'primary' })).toMatchSnapshot();
+    expect(mixins.uiInteractive({ palette: 'primary' }, {})).toMatchSnapshot();
   });
 });
