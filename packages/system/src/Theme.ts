@@ -10,7 +10,6 @@ import {
   MixinTemplate,
   MixinTemplateMap,
   MixinUtil,
-  MixinUtils,
   ThemeOptions,
   ThemeTokens,
   Tokens,
@@ -27,7 +26,7 @@ export default class Theme implements Utilities {
 
   readonly contrast: ContrastLevel;
 
-  readonly mixin: MixinUtils;
+  readonly mixin: MixinUtil;
 
   readonly scheme: ColorScheme;
 
@@ -139,12 +138,22 @@ export default class Theme implements Utilities {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixinBase(name: string, options: object = {}, ...additionalRules: Rule[]): Rule {
-    const rules: Rule[] = [];
+  mixinBase(name: string, maybeOptions?: object | Rule, maybeRule?: Rule): Rule {
+    let options: object = {};
+    let rule: Rule | undefined;
+
+    if (maybeOptions && maybeRule) {
+      options = maybeOptions;
+      rule = maybeRule;
+    } else if (maybeOptions) {
+      rule = maybeOptions as Rule;
+    }
+
+    const properties: Rule = {};
     const mixin = this.mixins[name];
 
     if (mixin) {
-      rules.push(mixin.call(this, options));
+      Object.assign(properties, mixin.call(this, options));
     } else if (__DEV__) {
       // Log instead of error since mixins are dynamic
       // eslint-disable-next-line no-console
@@ -155,13 +164,15 @@ export default class Theme implements Utilities {
 
     if (templates) {
       templates.forEach((template) => {
-        rules.push(template.call(this, options));
+        Object.assign(properties, template.call(this, options));
       });
     }
 
-    rules.push(...additionalRules);
+    if (rule) {
+      Object.assign(properties, rule);
+    }
 
-    return rules.length === 0 ? {} : deepMerge(...rules);
+    return properties;
   }
 
   /**
@@ -211,9 +222,9 @@ export default class Theme implements Utilities {
       this.registerMixin(type, template);
 
       // Provide a utility function
-      const util: MixinUtil = (options, properties) => this.mixin(type, options, properties!);
-
-      Object.defineProperty(this.mixin, name, { value: util });
+      Object.defineProperty(this.mixin, name, {
+        value: (options?: object, rule?: Rule) => this.mixin(type, options!, rule!),
+      });
     });
   }
 }

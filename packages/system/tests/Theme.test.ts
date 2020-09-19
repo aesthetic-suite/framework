@@ -3,7 +3,11 @@
 import { Theme, Utilities } from '../src';
 import { design, lightTheme } from '../src/testing';
 
-function text(this: Utilities, { size = 'df' }: { size?: string }) {
+interface TextOptions {
+  size?: string;
+}
+
+function text(this: Utilities, { size = 'df' }: TextOptions) {
   return {
     color: this.var('palette-neutral-fg-base'),
     fontFamily: this.var('typography-font-text'),
@@ -18,7 +22,6 @@ describe('Theme', () => {
   beforeEach(() => {
     // Copy so we dont mutate the testing mock
     testTheme = lightTheme.extend({});
-
     testTheme.registerMixin('text', text);
   });
 
@@ -94,32 +97,12 @@ describe('Theme', () => {
     });
 
     it('can utilize the same options as the parent mixin', () => {
-      testTheme.extendMixin('text', ({ size }: { size?: string }) => ({
+      testTheme.extendMixin('text', ({ size }: TextOptions) => ({
         fontWeight: size === 'lg' ? 'bold' : 'normal',
       }));
 
       expect(testTheme.mixin('text')).toMatchSnapshot();
-      expect(testTheme.mixin('text', { size: 'lg' })).toMatchSnapshot();
-    });
-
-    it('will deep merge properties', () => {
-      testTheme.registerMixin('example', () => ({
-        display: 'block',
-        ':focus': {
-          color: 'red',
-        },
-      }));
-
-      testTheme.extendMixin('example', () => ({
-        ':focus': {
-          outline: 'none',
-        },
-      }));
-
-      expect(testTheme.mixin('example')[':focus']).toEqual({
-        color: 'red',
-        outline: 'none',
-      });
+      expect(testTheme.mixin('text', { size: 'lg' }, {})).toMatchSnapshot();
     });
   });
 
@@ -133,26 +116,35 @@ describe('Theme', () => {
       spy.mockRestore();
     });
 
+    it('returns base properties when no options or extra rule passed', () => {
+      expect(testTheme.mixin('text')).toMatchSnapshot();
+    });
+
+    it('returns merged properties when no options passed but an extra rule is passed', () => {
+      expect(
+        testTheme.mixin('text', {
+          fontSize: '60px',
+        }),
+      ).toMatchSnapshot();
+    });
+
+    it('returns merged and customized properties when options and extra rule passed', () => {
+      expect(
+        testTheme.mixin(
+          'text',
+          { size: 'large' },
+          {
+            fontSize: '60px',
+          },
+        ),
+      ).toMatchSnapshot();
+    });
+
     it('merges multiple templates with base mixin', () => {
       testTheme.extendMixin('text', () => ({ fontWeight: 'bold' }));
       testTheme.extendMixin('text', () => ({ fontSize: '24px' }));
 
       expect(testTheme.mixin('text')).toMatchSnapshot();
-    });
-
-    it('merges additional rules with base mixin', () => {
-      expect(
-        testTheme.mixin(
-          'text',
-          {},
-          {
-            fontWeight: 'bold',
-          },
-          {
-            fontSize: '24px',
-          },
-        ),
-      ).toMatchSnapshot();
     });
 
     it('merges templates and rules with base mixin', () => {

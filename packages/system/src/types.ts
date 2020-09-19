@@ -456,16 +456,20 @@ export type MixinTemplate<T extends object = object> = (options: T) => Rule;
 
 export type MixinTemplateMap = Record<string, MixinTemplate>;
 
-export type MixinUtil<T extends object = object> = (options?: T, properties?: Rule) => Rule;
+export interface MixinBuiltIn<T extends object = object> {
+  (options: T, rule: Rule): Rule;
+  (rule?: Rule): Rule;
+}
 
-export interface MixinUtils {
-  (name: string, options?: object, ...additionalRules: Rule[]): Rule;
+export interface MixinUtil<T extends object = object> {
+  (name: string, options: T, rule: Rule): Rule;
+  (name: string, rule?: Rule): Rule;
 }
 
 // OTHER
 
 export interface Utilities {
-  mixin: MixinUtils;
+  mixin: MixinUtil;
   token: TokenUtil;
   unit: UnitUtil;
   var: VarUtil;
