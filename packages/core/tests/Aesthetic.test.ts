@@ -51,6 +51,18 @@ describe('Aesthetic', () => {
     expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(false);
   });
 
+  it('can subscribe and unsubscribe events using the return value', () => {
+    const spy = jest.fn();
+
+    const unsub = subscribe('change:theme', spy);
+
+    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(true);
+
+    unsub();
+
+    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(false);
+  });
+
   describe('changeDirection()', () => {
     beforeEach(() => {
       setupAesthetic();

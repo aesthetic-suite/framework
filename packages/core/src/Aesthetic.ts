@@ -59,10 +59,14 @@ function getListeners<T extends Function>(type: EventType): Set<T> {
 /**
  * Subscribe and listen to an event by name.
  */
-export function subscribe(type: 'change:direction', listener: OnChangeDirection): void;
-export function subscribe(type: 'change:theme', listener: OnChangeTheme): void;
-export function subscribe(type: EventType, listener: Function) {
+export function subscribe(type: 'change:direction', listener: OnChangeDirection): () => void;
+export function subscribe(type: 'change:theme', listener: OnChangeTheme): () => void;
+export function subscribe(type: EventType, listener: Function): () => void {
   getListeners(type).add(listener);
+
+  return () => {
+    unsubscribe(type as 'change:theme', listener as OnChangeTheme);
+  };
 }
 
 /**
