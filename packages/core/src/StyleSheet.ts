@@ -10,6 +10,23 @@ import { ClassName, Rule } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import { BaseSheetFactory, ClassNameSheet, SheetParams, SheetType } from './types';
 
+function createCacheKey(params: Required<SheetParams>, type: string): string | null {
+  // Unit factories cannot be cached as they're dynamic!
+  if (typeof params.unit === 'function') {
+    return null;
+  }
+
+  let key = type;
+
+  // Since all other values are scalars, we can just join the values.
+  // This is 3x faster than JSON.stringify(), and 1.5x faster than Object.values()!
+  objectLoop(params, (value) => {
+    key += value;
+  });
+
+  return key;
+}
+
 export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
   readonly type: SheetType;
 
@@ -111,8 +128,8 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       vendor: false,
       ...baseParams,
     };
-    const key = JSON.stringify(params);
-    const cache = this.renderCache[key];
+    const key = createCacheKey(params, this.type);
+    const cache = key && this.renderCache[key];
 
     if (cache) {
       return cache;
@@ -122,7 +139,9 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       ? this.renderLocal(renderer, theme, params)
       : this.renderGlobal(renderer, theme, params)) as Classes;
 
-    this.renderCache[key] = result;
+    if (key) {
+      this.renderCache[key] = result;
+    }
 
     return result;
   }
