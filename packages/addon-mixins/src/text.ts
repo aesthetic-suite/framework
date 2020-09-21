@@ -1,9 +1,9 @@
-import { Rule } from '@aesthetic/sss';
+import { LocalBlock } from '@aesthetic/sss';
 import { Utilities, TEXT_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
 import { TextOptions } from './types';
 
-export function text(this: Utilities, { size = 'df' }: TextOptions = {}): Rule {
+export function text(this: Utilities<LocalBlock>, { size = 'df' }: TextOptions = {}): LocalBlock {
   if (__DEV__) {
     checkList('size', size, TEXT_SIZES);
   }
@@ -16,7 +16,7 @@ export function text(this: Utilities, { size = 'df' }: TextOptions = {}): Rule {
   });
 }
 
-export function textBreak(): Rule {
+export function textBreak(): LocalBlock {
   return {
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
@@ -24,7 +24,7 @@ export function textBreak(): Rule {
   };
 }
 
-export function textTruncate(): Rule {
+export function textTruncate(): LocalBlock {
   return {
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -32,7 +32,7 @@ export function textTruncate(): Rule {
   };
 }
 
-export function textWrap(): Rule {
+export function textWrap(): LocalBlock {
   return {
     overflowWrap: 'normal',
     wordWrap: 'normal',

@@ -38,24 +38,28 @@ export type SheetStructure<T extends string> = {
   [K in T]: string | object;
 };
 
-export type BaseSheetFactory = (utils: Utilities, tokens: Tokens) => object;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type BaseSheetFactory = (utils: Utilities<any>, tokens: Tokens) => object;
 
-export type GlobalSheetFactory<T = unknown> = (
-  utils: Utilities,
+export type GlobalSheetFactory<T = unknown, R extends object = LocalBlock> = (
+  utils: Utilities<R>,
   tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
-export type GlobalSheet<T = unknown> = Omit<
-  StyleSheet<GlobalSheetFactory<T>, ClassName>,
+export type GlobalSheet<T = unknown, R extends object = LocalBlock> = Omit<
+  StyleSheet<GlobalSheetFactory<T, R>, ClassName>,
   'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
 >;
 
-export type LocalSheetFactory<T = unknown> = (
-  utils: Utilities,
+export type LocalSheetFactory<T = unknown, R extends object = LocalBlock> = (
+  utils: Utilities<R>,
   tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
-export type LocalSheet<T = unknown> = StyleSheet<LocalSheetFactory<T>, ClassNameSheet<string>>;
+export type LocalSheet<T = unknown, R extends object = LocalBlock> = StyleSheet<
+  LocalSheetFactory<T, R>,
+  ClassNameSheet<string>
+>;
 
 export interface AestheticOptions {
   defaultUnit?: Unit | UnitFactory;
@@ -69,9 +73,3 @@ export type EventType = 'change:direction' | 'change:theme';
 export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName) => void;
-
-// ALIASES
-
-export type CSSDeclaration = LocalBlock;
-
-export type DeclarationBlock = LocalBlock;

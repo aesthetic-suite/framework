@@ -468,7 +468,7 @@ export interface MixinUtil<T extends object = Rule, O extends object = object> {
 
 // OTHER
 
-export interface Utilities<T extends object = Rule> {
+export interface Utilities<T extends object> {
   mixin: MixinUtil<T>;
   token: TokenUtil;
   unit: UnitUtil;

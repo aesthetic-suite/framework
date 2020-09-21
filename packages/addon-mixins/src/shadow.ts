@@ -1,12 +1,12 @@
-import { Rule } from '@aesthetic/sss';
+import { LocalBlock } from '@aesthetic/sss';
 import { Utilities, PALETTE_TYPES, SHADE_RANGES, SHADOW_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
 import { ShadowOptions } from './types';
 
 export function shadow(
-  this: Utilities,
+  this: Utilities<LocalBlock>,
   { palette = 'neutral', shade = '90', size = 'md' }: ShadowOptions = {},
-): Rule {
+): LocalBlock {
   if (__DEV__) {
     checkList('palette', palette, PALETTE_TYPES);
     checkList('shade', shade, SHADE_RANGES);

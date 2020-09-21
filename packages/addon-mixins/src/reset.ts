@@ -1,7 +1,7 @@
-import { LocalBlock, Rule } from '@aesthetic/sss';
+import { LocalBlock } from '@aesthetic/sss';
 import { ResetButtonOptions } from './types';
 
-export function resetButton({ flex = false }: ResetButtonOptions = {}): Rule {
+export function resetButton({ flex = false }: ResetButtonOptions = {}): LocalBlock {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
@@ -32,7 +32,7 @@ export function resetInput(): LocalBlock {
   };
 }
 
-export function resetList(): Rule {
+export function resetList(): LocalBlock {
   return {
     listStyle: 'none',
     margin: 0,
@@ -40,14 +40,14 @@ export function resetList(): Rule {
   };
 }
 
-export function resetMedia(): Rule {
+export function resetMedia(): LocalBlock {
   return {
     display: 'block',
     verticalAlign: 'middle',
   };
 }
 
-export function resetTypography(): Rule {
+export function resetTypography(): LocalBlock {
   return {
     fontFamily: 'inherit',
     fontSize: 'inherit',

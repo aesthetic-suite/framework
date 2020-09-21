@@ -1,5 +1,6 @@
 /* eslint-disable babel/no-invalid-this */
 
+import { Rule } from '@aesthetic/types';
 import { Theme, Utilities } from '../src';
 import { design, lightTheme } from '../src/testing';
 
@@ -7,7 +8,7 @@ interface TextOptions {
   size?: string;
 }
 
-function text(this: Utilities, { size = 'df' }: TextOptions) {
+function text(this: Utilities<Rule>, { size = 'df' }: TextOptions) {
   return {
     color: this.var('palette-neutral-fg-base'),
     fontFamily: this.var('typography-font-text'),

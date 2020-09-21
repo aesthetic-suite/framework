@@ -1,7 +1,7 @@
 import { LocalBlock } from '@aesthetic/sss';
 import { Utilities, BREAKPOINT_SIZES } from '@aesthetic/system';
 
-export function root(this: Utilities): LocalBlock {
+export function root(this: Utilities<LocalBlock>): LocalBlock {
   const declaration: LocalBlock = {
     backgroundColor: this.var('palette-neutral-color-00'),
     color: this.var('palette-neutral-fg-base'),

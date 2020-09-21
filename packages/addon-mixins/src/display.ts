@@ -1,12 +1,12 @@
-import { LocalBlock, Rule } from '@aesthetic/sss';
+import { LocalBlock } from '@aesthetic/sss';
 
-export function hideCompletely(): Rule {
+export function hideCompletely(): LocalBlock {
   return {
     display: 'none',
   };
 }
 
-export function hideOffscreen(): Rule {
+export function hideOffscreen(): LocalBlock {
   return {
     clipPath: 'rect(1px, 1px, 1px, 1px)',
     height: 1,

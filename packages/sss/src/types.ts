@@ -207,6 +207,8 @@ export type LocalBlock = Rule & {
   '@variants'?: LocalBlockVariants;
 };
 
+export type LocalCSS = LocalBlock; // Alias
+
 export type LocalBlockMap = Record<string, LocalBlock>;
 
 export type LocalBlockVariants = Record<string, LocalBlockMap>;

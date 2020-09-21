@@ -1,12 +1,12 @@
-import { Rule } from '@aesthetic/sss';
+import { LocalBlock } from '@aesthetic/sss';
 import { isObject } from '@aesthetic/utils';
 import { Utilities } from '@aesthetic/system';
 import { UIBoxOptions, UIInteractiveOptions } from './types';
 
 export function uiBox(
-  this: Utilities,
+  this: Utilities<LocalBlock>,
   { border = true, palette = 'neutral', shadow = true }: UIBoxOptions,
-): Rule {
+): LocalBlock {
   const rule = this.mixin.background({ palette }, {});
 
   if (border) {
@@ -31,9 +31,9 @@ export function uiBox(
 }
 
 export function uiInteractive(
-  this: Utilities,
+  this: Utilities<LocalBlock>,
   { palette = 'neutral' }: UIInteractiveOptions,
-): Rule {
+): LocalBlock {
   return {
     color: this.var(`palette-${palette}-color-00` as 'palette-neutral-color-00'),
     backgroundColor: this.var(`palette-${palette}-color-40` as 'palette-neutral-color-40'),

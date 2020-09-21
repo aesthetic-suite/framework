@@ -2,7 +2,7 @@
 
 import { Design } from './index';
 
-export const design = new Design('test-design', {
+export const design = new Design<any>('test-design', {
   border: {
     sm: {
       radius: '0.14rem',

@@ -6,6 +6,7 @@ import {
   Import as SSSImport,
   formatFontFace,
   formatImport,
+  LocalBlock,
 } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import { arrayLoop, isSSR } from '@aesthetic/utils';
@@ -99,14 +100,18 @@ export function configure(customOptions: AestheticOptions) {
 /**
  * Create a local style sheet for use within components.
  */
-export function createComponentStyles<T = unknown>(factory: LocalSheetFactory<T>): LocalSheet<T> {
+export function createComponentStyles<T = unknown>(
+  factory: LocalSheetFactory<T, LocalBlock>,
+): LocalSheet<T, LocalBlock> {
   return new StyleSheet('local', factory);
 }
 
 /**
  * Create a global style sheet for root theme styles.
  */
-export function createThemeStyles<T = unknown>(factory: GlobalSheetFactory<T>): GlobalSheet<T> {
+export function createThemeStyles<T = unknown>(
+  factory: GlobalSheetFactory<T, LocalBlock>,
+): GlobalSheet<T, LocalBlock> {
   return new StyleSheet('global', factory);
 }
 
@@ -256,7 +261,10 @@ export function registerDefaultTheme(
 /**
  * Render a component style sheet to the document with the defined style query parameters.
  */
-export function renderComponentStyles<T = unknown>(sheet: LocalSheet<T>, params: SheetParams = {}) {
+export function renderComponentStyles<T = unknown>(
+  sheet: LocalSheet<T, LocalBlock>,
+  params: SheetParams = {},
+) {
   if (__DEV__) {
     if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
       throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
