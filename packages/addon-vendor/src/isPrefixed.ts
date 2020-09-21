@@ -1,6 +1,6 @@
-const PATTERN = /^-(ms|moz|webkit)-/u;
-
 export default function isPrefixed(value: string): boolean {
-  // https://jsperf.com/string-startswith/66
-  return PATTERN.test(value);
+  return (
+    // eslint-disable-next-line no-magic-numbers
+    value.slice(0, 3) === '-ms' || value.slice(0, 4) === '-moz' || value.slice(0, 7) === '-webkit'
+  );
 }

@@ -1,6 +1,4 @@
-const MEDIA = /^@media(\s+|\()/u;
-
 export default function isMediaRule(value: string): boolean {
-  // https://jsperf.com/string-startswith/66
-  return MEDIA.test(value);
+  // eslint-disable-next-line no-magic-numbers
+  return value.slice(0, 6) === '@media' && (value[6] === ' ' || value[6] === '(');
 }

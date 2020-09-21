@@ -1,6 +1,4 @@
-const SUPPORTS = /^@supports(\s+|\()/u;
-
 export default function isSupportsRule(value: string): boolean {
-  // https://jsperf.com/string-startswith/66
-  return SUPPORTS.test(value);
+  // eslint-disable-next-line no-magic-numbers
+  return value.slice(0, 9) === '@supports' && (value[9] === ' ' || value[9] === '(');
 }

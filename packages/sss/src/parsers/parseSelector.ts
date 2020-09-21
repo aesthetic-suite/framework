@@ -4,7 +4,9 @@ import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
 import { NestedListener, Events, Rule } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
-const SELECTOR = /^((\[[a-z-]+\])|(::?[a-z-]+))$/iu;
+function isSelector(value: string): boolean {
+  return value[0] === ':' || value[0] === '[';
+}
 
 export default function parseSelector<T extends object>(
   parent: Block<T>,
@@ -16,7 +18,7 @@ export default function parseSelector<T extends object>(
   if (__DEV__) {
     validateDeclarationBlock(object, selector);
 
-    if ((selector.includes(',') || !selector.match(SELECTOR)) && !inAtRule) {
+    if ((selector.includes(',') || !isSelector(selector)) && !inAtRule) {
       throw new Error(`Advanced selector "${selector}" must be nested within a @selectors block.`);
     }
   }
