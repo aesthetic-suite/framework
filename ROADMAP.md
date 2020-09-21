@@ -6,6 +6,7 @@
 - Differentiate between `mobile-first` and `desktop-first` in the style engine.
 - Investigate React Native support.
 - Start scaffolding out React UI components.
+- Improve performance and reduce package sizes.
 
 # Backlog
 
