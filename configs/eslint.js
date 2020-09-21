@@ -11,4 +11,15 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-shadow': 'off',
   },
+  overrides: [
+    {
+      files: 'benchmarks/*.js',
+      rules: {
+        'no-console': 'off',
+        'sort-keys': 'off',
+        'babel/no-invalid-this': 'off',
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+  ],
 };

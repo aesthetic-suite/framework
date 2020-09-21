@@ -1,3 +1,4 @@
+import { arrayLoop } from '@aesthetic/utils';
 import CSS from 'csstype';
 import { FontFace } from '../types';
 
@@ -16,7 +17,7 @@ export default function formatFontFace(properties: Partial<FontFace>): CSS.AtRul
   const src: string[] = [];
 
   if (Array.isArray(fontFace.local)) {
-    fontFace.local.forEach((alias) => {
+    arrayLoop(fontFace.local, (alias) => {
       src.push(`local('${alias}')`);
     });
 
@@ -24,7 +25,7 @@ export default function formatFontFace(properties: Partial<FontFace>): CSS.AtRul
   }
 
   if (Array.isArray(fontFace.srcPaths)) {
-    fontFace.srcPaths.forEach((srcPath) => {
+    arrayLoop(fontFace.srcPaths, (srcPath) => {
       let ext = srcPath.slice(srcPath.lastIndexOf('.'));
 
       if (ext.includes('?')) {
