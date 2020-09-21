@@ -1,6 +1,4 @@
-const IMPORT = /^@import\s+/u;
-
 export default function isImportRule(value: string): boolean {
-  // https://jsperf.com/string-startswith/66
-  return IMPORT.test(value);
+  // eslint-disable-next-line no-magic-numbers
+  return value.slice(0, 7) === '@import' && value[7] === ' ';
 }

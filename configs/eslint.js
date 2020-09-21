@@ -16,6 +16,7 @@ module.exports = {
       files: 'benchmarks/*.js',
       rules: {
         'no-console': 'off',
+        'no-magic-numbers': 'off',
         'sort-keys': 'off',
         'babel/no-invalid-this': 'off',
         'import/no-extraneous-dependencies': 'off',
