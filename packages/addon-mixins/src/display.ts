@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { LocalBlock, Rule } from '@aesthetic/sss';
 
 export function hideCompletely(): Rule {
   return {
@@ -17,19 +17,21 @@ export function hideOffscreen(): Rule {
   };
 }
 
-export function hideVisually(): Rule {
+export function hideVisually(): LocalBlock {
   return {
-    ':not(:focus):not(:active)': {
-      border: 0,
-      clip: 'rect(0, 0, 0, 0)',
-      clipPath: 'inset(50%)',
-      height: 1,
-      margin: 0,
-      overflow: 'hidden',
-      padding: 0,
-      position: 'absolute',
-      whiteSpace: 'nowrap',
-      width: 1,
+    '@selectors': {
+      ':not(:focus):not(:active)': {
+        border: 0,
+        clip: 'rect(0, 0, 0, 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        margin: 0,
+        overflow: 'hidden',
+        padding: 0,
+        position: 'absolute',
+        whiteSpace: 'nowrap',
+        width: 1,
+      },
     },
   };
 }

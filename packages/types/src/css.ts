@@ -17,9 +17,7 @@ export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 // PROPERTIES
 
-export interface GenericProperties {
-  [property: string]: Value | Value[];
-}
+export type GenericProperties = Record<string, Value | Value[]>;
 
 export interface Properties extends CSST.Properties<Value>, CSST.PropertiesHyphen<Value> {}
 
@@ -55,6 +53,4 @@ export interface Keyframes<T = Properties> {
 
 // OTHER
 
-export interface Variables<T = Value> {
-  [variable: string]: T;
-}
+export type Variables<T = Value> = Record<string, T>;

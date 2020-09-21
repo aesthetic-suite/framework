@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { Rule } from '@aesthetic/sss';
 import { Utilities } from '@aesthetic/system';
 import { checkList } from './checks';
 import { HeadingOptions } from './types';

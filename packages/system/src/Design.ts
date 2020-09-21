@@ -1,10 +1,11 @@
+import { Rule } from '@aesthetic/types';
 import { deepMerge } from '@aesthetic/utils';
 import Theme from './Theme';
 import { DEPTHS } from './constants';
 import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, MixinTemplateMap } from './types';
 
-export default class Design {
-  readonly mixins?: MixinTemplateMap;
+export default class Design<T extends object = Rule> {
+  readonly mixins?: MixinTemplateMap<T>;
 
   readonly name: string;
 
@@ -16,7 +17,7 @@ export default class Design {
 
   readonly tokens: DesignTokens;
 
-  constructor(name: string, tokens: Omit<DesignTokens, 'depth'>, mixins?: MixinTemplateMap) {
+  constructor(name: string, tokens: Omit<DesignTokens, 'depth'>, mixins?: MixinTemplateMap<T>) {
     this.name = name;
     this.mixins = mixins;
     this.tokens = { ...tokens, depth: DEPTHS };
@@ -30,14 +31,14 @@ export default class Design {
   /**
    * Create a new theme with the defined theme tokens, while inheriting the shared design tokens.
    */
-  createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme {
+  createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme<T> {
     return new Theme(options, tokens, this);
   }
 
   /**
    * Extend and instantiate a new design instance with customized design tokens.
    */
-  extend(name: string, tokens: DeepPartial<DesignTokens>, mixins?: MixinTemplateMap): Design {
+  extend(name: string, tokens: DeepPartial<DesignTokens>, mixins?: MixinTemplateMap<T>): Design<T> {
     return new Design(name, deepMerge(this.tokens, tokens), { ...this.mixins, ...mixins });
   }
 }

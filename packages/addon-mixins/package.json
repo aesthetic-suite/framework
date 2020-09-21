@@ -20,10 +20,10 @@
     "access": "public"
   },
   "peerDependencies": {
+    "@aesthetic/sss": "^0.4.0",
     "@aesthetic/system": "^0.3.0"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.2.0",
     "@aesthetic/utils": "^0.4.0"
   },
   "funding": {

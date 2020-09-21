@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { Rule } from '@aesthetic/sss';
 import { Utilities, PALETTE_TYPES, SHADE_RANGES, SHADOW_SIZES } from '@aesthetic/system';
 import { checkList } from './checks';
 import { ShadowOptions } from './types';

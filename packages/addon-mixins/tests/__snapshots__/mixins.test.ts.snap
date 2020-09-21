@@ -71,17 +71,19 @@ Object {
 
 exports[`Mixins display renders hide visually 1`] = `
 Object {
-  ":not(:focus):not(:active)": Object {
-    "border": 0,
-    "clip": "rect(0, 0, 0, 0)",
-    "clipPath": "inset(50%)",
-    "height": 1,
-    "margin": 0,
-    "overflow": "hidden",
-    "padding": 0,
-    "position": "absolute",
-    "whiteSpace": "nowrap",
-    "width": 1,
+  "@selectors": Object {
+    ":not(:focus):not(:active)": Object {
+      "border": 0,
+      "clip": "rect(0, 0, 0, 0)",
+      "clipPath": "inset(50%)",
+      "height": 1,
+      "margin": 0,
+      "overflow": "hidden",
+      "padding": 0,
+      "position": "absolute",
+      "whiteSpace": "nowrap",
+      "width": 1,
+    },
   },
 }
 `;
@@ -228,8 +230,10 @@ Object {
 
 exports[`Mixins reset renders reset input 1`] = `
 Object {
-  "::-moz-focus-outer": Object {
-    "border": 0,
+  "@selectors": Object {
+    "::-moz-focus-outer": Object {
+      "border": 0,
+    },
   },
   "appearance": "none",
   "backgroundColor": "transparent",
@@ -267,25 +271,27 @@ exports[`Mixins root renders root 1`] = `
 Object {
   "-moz-osx-font-smoothing": "grayscale",
   "-webkit-font-smoothing": "antialiased",
-  "@media (min-width: 114.29em) and (max-width: 137.07em)": Object {
-    "fontSize": "var(--breakpoint-lg-root-text-size)",
-    "lineHeight": "var(--breakpoint-lg-root-line-height)",
-  },
-  "@media (min-width: 137.14em)": Object {
-    "fontSize": "var(--breakpoint-xl-root-text-size)",
-    "lineHeight": "var(--breakpoint-xl-root-line-height)",
-  },
-  "@media (min-width: 45.71em) and (max-width: 68.50em)": Object {
-    "fontSize": "var(--breakpoint-xs-root-text-size)",
-    "lineHeight": "var(--breakpoint-xs-root-line-height)",
-  },
-  "@media (min-width: 68.57em) and (max-width: 91.36em)": Object {
-    "fontSize": "var(--breakpoint-sm-root-text-size)",
-    "lineHeight": "var(--breakpoint-sm-root-line-height)",
-  },
-  "@media (min-width: 91.43em) and (max-width: 114.21em)": Object {
-    "fontSize": "var(--breakpoint-md-root-text-size)",
-    "lineHeight": "var(--breakpoint-md-root-line-height)",
+  "@media": Object {
+    "(min-width: 114.29em) and (max-width: 137.07em)": Object {
+      "fontSize": "var(--breakpoint-lg-root-text-size)",
+      "lineHeight": "var(--breakpoint-lg-root-line-height)",
+    },
+    "(min-width: 137.14em)": Object {
+      "fontSize": "var(--breakpoint-xl-root-text-size)",
+      "lineHeight": "var(--breakpoint-xl-root-line-height)",
+    },
+    "(min-width: 45.71em) and (max-width: 68.50em)": Object {
+      "fontSize": "var(--breakpoint-xs-root-text-size)",
+      "lineHeight": "var(--breakpoint-xs-root-line-height)",
+    },
+    "(min-width: 68.57em) and (max-width: 91.36em)": Object {
+      "fontSize": "var(--breakpoint-sm-root-text-size)",
+      "lineHeight": "var(--breakpoint-sm-root-line-height)",
+    },
+    "(min-width: 91.43em) and (max-width: 114.21em)": Object {
+      "fontSize": "var(--breakpoint-md-root-text-size)",
+      "lineHeight": "var(--breakpoint-md-root-line-height)",
+    },
   },
   "backgroundColor": "var(--palette-neutral-color-00)",
   "color": "var(--palette-neutral-fg-base)",

@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { Rule } from '@aesthetic/sss';
 import { Utilities, PALETTE_TYPES } from '@aesthetic/system';
 import { checkList } from './checks';
 import { ForegroundOptions } from './types';

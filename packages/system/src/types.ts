@@ -452,24 +452,24 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export type MixinTemplate<T extends object = object> = (options: T) => Rule;
+export type MixinTemplate<T extends object = Rule, O extends object = object> = (options: O) => T;
 
-export type MixinTemplateMap = Record<string, MixinTemplate>;
+export type MixinTemplateMap<T extends object = Rule> = Record<string, MixinTemplate<T>>;
 
-export interface MixinBuiltIn<T extends object = object> {
-  (options: T, rule: Rule): Rule;
-  (rule?: Rule): Rule;
+export interface MixinBuiltIn<T extends object = Rule, O extends object = object> {
+  (options: O, rule: T): T;
+  (rule?: T): T;
 }
 
-export interface MixinUtil<T extends object = object> {
-  (name: string, options: T, rule: Rule): Rule;
-  (name: string, rule?: Rule): Rule;
+export interface MixinUtil<T extends object = Rule, O extends object = object> {
+  (name: string, options: O, rule: T): T;
+  (name: string, rule?: T): T;
 }
 
 // OTHER
 
-export interface Utilities {
-  mixin: MixinUtil;
+export interface Utilities<T extends object = Rule> {
+  mixin: MixinUtil<T>;
   token: TokenUtil;
   unit: UnitUtil;
   var: VarUtil;

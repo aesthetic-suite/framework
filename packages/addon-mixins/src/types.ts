@@ -1,3 +1,6 @@
+// This is purely for compatibility with module augmentation
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Rule } from '@aesthetic/types';
 import {
   BorderSize,
   ColorShade,
@@ -51,27 +54,28 @@ export interface UIInteractiveOptions {
 }
 
 declare module '@aesthetic/system' {
-  export interface MixinUtil {
-    background: MixinBuiltIn<BackgroundOptions>;
-    border: MixinBuiltIn<BorderOptions>;
-    foreground: MixinBuiltIn<ForegroundOptions>;
-    heading: MixinBuiltIn<HeadingOptions>;
-    hideCompletely: MixinBuiltIn;
-    hideOffscreen: MixinBuiltIn;
-    hideVisually: MixinBuiltIn;
-    resetButton: MixinBuiltIn<ResetButtonOptions>;
-    resetInput: MixinBuiltIn;
-    resetList: MixinBuiltIn;
-    resetMedia: MixinBuiltIn;
-    resetTypography: MixinBuiltIn;
-    root: MixinBuiltIn;
-    shadow: MixinBuiltIn<ShadowOptions>;
-    text: MixinBuiltIn<TextOptions>;
-    textBreak: MixinBuiltIn;
-    textTruncate: MixinBuiltIn;
-    textWrap: MixinBuiltIn;
-    uiBox: MixinBuiltIn<UIBoxOptions>;
-    uiInteractive: MixinBuiltIn<UIInteractiveOptions>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export interface MixinUtil<T extends object = Rule, O extends object = object> {
+    background: MixinBuiltIn<T, BackgroundOptions>;
+    border: MixinBuiltIn<T, BorderOptions>;
+    foreground: MixinBuiltIn<T, ForegroundOptions>;
+    heading: MixinBuiltIn<T, HeadingOptions>;
+    hideCompletely: MixinBuiltIn<T>;
+    hideOffscreen: MixinBuiltIn<T>;
+    hideVisually: MixinBuiltIn<T>;
+    resetButton: MixinBuiltIn<T, ResetButtonOptions>;
+    resetInput: MixinBuiltIn<T>;
+    resetList: MixinBuiltIn<T>;
+    resetMedia: MixinBuiltIn<T>;
+    resetTypography: MixinBuiltIn<T>;
+    root: MixinBuiltIn<T>;
+    shadow: MixinBuiltIn<T, ShadowOptions>;
+    text: MixinBuiltIn<T, TextOptions>;
+    textBreak: MixinBuiltIn<T>;
+    textTruncate: MixinBuiltIn<T>;
+    textWrap: MixinBuiltIn<T>;
+    uiBox: MixinBuiltIn<T, UIBoxOptions>;
+    uiInteractive: MixinBuiltIn<T, UIInteractiveOptions>;
   }
 }
 

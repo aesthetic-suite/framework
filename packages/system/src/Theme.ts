@@ -19,32 +19,32 @@ import {
 } from './types';
 
 type AnyObject = Record<string, any>;
-type MixinTemplates = Record<string, Set<MixinTemplate>>;
+type MixinTemplates<T extends object> = Record<string, Set<MixinTemplate<T>>>;
 
-export default class Theme implements Utilities {
+export default class Theme<T extends object = Rule> implements Utilities<T> {
   name: string = '';
 
   readonly contrast: ContrastLevel;
 
-  readonly mixin: MixinUtil;
+  readonly mixin: MixinUtil<T>;
 
   readonly scheme: ColorScheme;
 
   readonly tokens: Tokens;
 
-  protected mixins: Record<string, MixinTemplate> = {};
+  protected mixins: Record<string, MixinTemplate<T>> = {};
 
-  protected templates: MixinTemplates = {};
+  protected templates: MixinTemplates<T> = {};
 
   private cachedVariables?: Variables;
 
-  private design: Design;
+  private design: Design<T>;
 
   constructor(
     options: ThemeOptions,
     tokens: ThemeTokens,
-    design: Design,
-    parentTemplates: MixinTemplates = {},
+    design: Design<T>,
+    parentTemplates: MixinTemplates<T> = {},
   ) {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
@@ -69,7 +69,7 @@ export default class Theme implements Utilities {
   /**
    * Extend and instantiate a new theme instance with customized tokens.
    */
-  extend(tokens: DeepPartial<ThemeTokens>, options: Partial<ThemeOptions> = {}): Theme {
+  extend(tokens: DeepPartial<ThemeTokens>, options: Partial<ThemeOptions> = {}): Theme<T> {
     return new Theme(
       {
         contrast: this.contrast,
@@ -85,7 +85,7 @@ export default class Theme implements Utilities {
   /**
    * Extend a registered mixin with additional CSS properties.
    */
-  extendMixin(name: string, template: MixinTemplate): this {
+  extendMixin(name: string, template: MixinTemplate<T>): this {
     this.templates[name] = (this.templates[name] || new Set()).add(template);
 
     return this;
@@ -94,7 +94,7 @@ export default class Theme implements Utilities {
   /**
    * Register a mixin to provide reusable CSS properties.
    */
-  registerMixin(name: string, template: MixinTemplate): this {
+  registerMixin(name: string, template: MixinTemplate<T>): this {
     if (__DEV__) {
       if (this.mixins[name]) {
         throw new Error(`A mixin already exists for "${name}". Cannot overwrite.`);
@@ -138,18 +138,18 @@ export default class Theme implements Utilities {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixinBase(name: string, maybeOptions?: object | Rule, maybeRule?: Rule): Rule {
+  mixinBase(name: string, maybeOptions?: object | T, maybeRule?: T): T {
     let options: object = {};
-    let rule: Rule | undefined;
+    let rule: T | undefined;
 
     if (maybeOptions && maybeRule) {
       options = maybeOptions;
       rule = maybeRule;
     } else if (maybeOptions) {
-      rule = maybeOptions as Rule;
+      rule = maybeOptions as T;
     }
 
-    const properties: Rule = {};
+    const properties: object = {};
     const mixin = this.mixins[name];
 
     if (mixin) {
@@ -172,7 +172,7 @@ export default class Theme implements Utilities {
       Object.assign(properties, rule);
     }
 
-    return properties;
+    return properties as T;
   }
 
   /**
@@ -214,7 +214,7 @@ export default class Theme implements Utilities {
   /**
    * Register the built-in mixin's as properties on the mixin method for easy access.
    */
-  protected registerBuiltIns(mixins: MixinTemplateMap) {
+  protected registerBuiltIns(mixins: MixinTemplateMap<T>) {
     objectLoop(mixins, (template, name) => {
       const type = hyphenate(name);
 
@@ -223,7 +223,7 @@ export default class Theme implements Utilities {
 
       // Provide a utility function
       Object.defineProperty(this.mixin, name, {
-        value: (options?: object, rule?: Rule) => this.mixin(type, options!, rule!),
+        value: (options?: object, rule?: T) => this.mixin(type, options!, rule!),
       });
     });
   }

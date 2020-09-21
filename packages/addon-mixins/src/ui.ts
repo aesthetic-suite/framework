@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { Rule } from '@aesthetic/sss';
 import { isObject } from '@aesthetic/utils';
 import { Utilities } from '@aesthetic/system';
 import { UIBoxOptions, UIInteractiveOptions } from './types';
@@ -7,7 +7,7 @@ export function uiBox(
   this: Utilities,
   { border = true, palette = 'neutral', shadow = true }: UIBoxOptions,
 ): Rule {
-  const rule: Rule = this.mixin.background({ palette }, {});
+  const rule = this.mixin.background({ palette }, {});
 
   if (border) {
     Object.assign(

@@ -1,4 +1,4 @@
-import { Rule } from '@aesthetic/types';
+import { LocalBlock, Rule } from '@aesthetic/sss';
 import { ResetButtonOptions } from './types';
 
 export function resetButton({ flex = false }: ResetButtonOptions = {}): Rule {
@@ -17,15 +17,17 @@ export function resetButton({ flex = false }: ResetButtonOptions = {}): Rule {
   };
 }
 
-export function resetInput(): Rule {
+export function resetInput(): LocalBlock {
   return {
     appearance: 'none',
     backgroundColor: 'transparent',
     margin: 0,
     padding: 0,
     width: '100%',
-    '::-moz-focus-outer': {
-      border: 0,
+    '@selectors': {
+      '::-moz-focus-outer': {
+        border: 0,
+      },
     },
   };
 }

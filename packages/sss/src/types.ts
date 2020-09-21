@@ -149,6 +149,7 @@ export interface Properties
   borderLeft?: CSST.Property.BorderLeft<Value> | BorderProperty;
   borderRight?: CSST.Property.BorderRight<Value> | BorderProperty;
   borderTop?: CSST.Property.BorderTop<Value> | BorderProperty;
+  clip?: string;
   columnRule?: CSST.Property.ColumnRule<Value> | ColumnRuleProperty;
   flex?: CSST.Property.Flex<Value> | FlexProperty;
   font?: CSST.Property.Font | FontProperty;
