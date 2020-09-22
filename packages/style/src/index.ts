@@ -6,6 +6,7 @@
 import Renderer from './Renderer';
 import ClientRenderer from './client/ClientRenderer';
 
+export * from './constants';
 export * from './helpers';
 export * from './types';
 

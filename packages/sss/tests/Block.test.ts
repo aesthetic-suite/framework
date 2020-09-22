@@ -33,22 +33,9 @@ describe('Block', () => {
         .addProperty('display', 'block')
         .addProperty('color', 'blue')
         .addProperty('background', 'white');
+      obj3.parent = instance;
 
       expect(instance.nested[':hover']).toEqual(obj3);
-    });
-
-    it('doesnt merge nested objects if flag is false', () => {
-      const obj1 = createBlock(':hover')
-        .addProperty('color', 'red')
-        .addProperty('display', 'block');
-      const obj2 = createBlock(':hover')
-        .addProperty('color', 'blue')
-        .addProperty('background', 'white');
-
-      instance.addNested(obj1);
-      instance.addNested(obj2, false);
-
-      expect(instance.nested[':hover']).toEqual(obj2);
     });
   });
 
@@ -64,20 +51,6 @@ describe('Block', () => {
       instance.addProperty('color', 'blue');
 
       expect(instance.properties.color).toBe('blue');
-    });
-  });
-
-  describe('addProperties()', () => {
-    it('sets multiple properties', () => {
-      instance.addProperties({
-        color: 'red',
-        display: 'block',
-      });
-
-      expect(instance.properties).toEqual({
-        color: 'red',
-        display: 'block',
-      });
     });
   });
 
@@ -124,17 +97,23 @@ describe('Block', () => {
       const hover2 = createBlock(':hover')
         .addProperty('color', 'black')
         .addProperty('position', 'relative');
-      const media2 = createBlock('@media (max-width: 100px)').addProperty('display', 'block');
+      const media2 = createBlock('@media (max-width: 100px)');
       const mediaHover2 = createBlock(':hover')
         .addProperty('display', 'inline-flex')
         .addProperty('background', 'transparent');
 
-      instance.addNested(hover).addNested(active).addNested(media);
+      instance.addNested(hover);
+      instance.addNested(active);
+      instance.addNested(media);
 
       media.addNested(mediaHover);
       media2.addNested(mediaHover2);
 
-      instance.merge(createBlock('new').addNested(hover2).addNested(media2));
+      const next = createBlock('new');
+      next.addNested(hover2);
+      next.addNested(media2);
+
+      instance.merge(next);
 
       expect(instance.toObject()).toEqual({
         ':hover': {

@@ -10,13 +10,17 @@ export default class AtomicCache {
       (minimumRank !== undefined && item.rank < minimumRank) ||
       item.selector !== options.selector ||
       item.type !== options.type ||
-      item.conditions.length !== options.conditions?.length
+      item.conditions?.length !== options.conditions?.length
     ) {
       return false;
     }
 
-    return (options.conditions || []).every(
-      (i) => !!item.conditions.find((p) => p.query === i.query && p.type === i.type),
+    if (options.conditions === undefined) {
+      return true;
+    }
+
+    return options.conditions.every(
+      (i) => !!item.conditions?.find((p) => p.query === i.query && p.type === i.type),
     );
   }
 
@@ -26,13 +30,7 @@ export default class AtomicCache {
     options: RenderOptions,
     minimumRank?: number,
   ): CacheItem | null {
-    const propertyCache = this.cache[property];
-
-    if (!propertyCache) {
-      return null;
-    }
-
-    const valueCache = propertyCache[value];
+    const valueCache = this.cache[property]?.[value];
 
     if (!valueCache || valueCache.length === 0) {
       return null;

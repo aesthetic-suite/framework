@@ -33,7 +33,7 @@ export interface RenderOptions extends ProcessOptions {
   type?: SheetType;
 }
 
-export interface CacheItem extends Required<Omit<RenderOptions, keyof ProcessOptions>> {
+export interface CacheItem extends Omit<RenderOptions, keyof ProcessOptions> {
   rank: number;
 }
 

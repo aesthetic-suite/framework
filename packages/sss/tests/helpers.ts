@@ -19,3 +19,12 @@ export function createBlock(selector: string, properties?: object): Block<Proper
 
   return block;
 }
+
+export function createExpectedBlock(selector: string, properties?: object): Block<Properties> {
+  const block = createBlock(selector, properties);
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  block.parent = expect.any(Block);
+
+  return block;
+}

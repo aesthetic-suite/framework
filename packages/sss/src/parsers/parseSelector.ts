@@ -35,10 +35,8 @@ export default function parseSelector<T extends object>(
       name = name.slice(1);
     }
 
-    const nestedBlock = block.clone(name);
+    const nestedBlock = parent.addNested(new Block<T>(name).merge(block));
     const args: Parameters<NestedListener<T>> = [parent, name, nestedBlock, { specificity }];
-
-    parent.addNested(nestedBlock);
 
     if (name[0] === ':') {
       events.onPseudo?.(...args);

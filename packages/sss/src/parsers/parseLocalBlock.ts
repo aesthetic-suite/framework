@@ -6,7 +6,7 @@ import validateDeclarations from '../helpers/validateDeclarations';
 import { Events, LocalBlock } from '../types';
 import parseBlock from './parseBlock';
 import parseConditionalBlock from './parseConditionalBlock';
-import parseFallbackProperties from './parseFallbackProperties';
+import parseFallbacks from './parseFallbacks';
 import parseSelector from './parseSelector';
 import parseVariables from './parseVariables';
 import parseVariants from './parseVariants';
@@ -23,7 +23,7 @@ export default function parseLocalBlock<T extends object>(
   const props = { ...object };
   const queue = createQueue(events);
 
-  queue.add(props, '@fallbacks', (data) => parseFallbackProperties(parent, data, events));
+  queue.add(props, '@fallbacks', (data) => parseFallbacks(parent, data, events));
   queue.add(props, '@media', (data) => parseConditionalBlock(parent, data, 'media', events));
   queue.add(props, '@selectors', (data) => {
     if (__DEV__) {

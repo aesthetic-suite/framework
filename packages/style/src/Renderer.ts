@@ -25,29 +25,22 @@ import processValue from './helpers/processValue';
 import StyleSheet from './StyleSheet';
 import ConditionsStyleSheet from './ConditionsStyleSheet';
 import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import { Condition, ProcessOptions, SheetType, RenderOptions, StyleRule, API } from './types';
+import {
+  Condition,
+  ProcessOptions,
+  SheetType,
+  RenderOptions,
+  StyleRule,
+  API,
+  RankCache,
+} from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-function createDefaultOptions(options: RenderOptions): Required<RenderOptions> {
-  return {
-    className: '',
-    conditions: [],
-    deterministic: false,
-    direction: 'ltr',
-    rankings: {},
-    selector: '',
-    type: 'standard',
-    unit: 'px',
-    vendor: false,
-    ...options,
-  };
-}
-
-function persistRank(options: Required<RenderOptions>, property: string, rank: number) {
-  if (options.rankings[property] === undefined || rank > options.rankings[property]) {
-    options.rankings[property] = rank;
+function persistRank(ranks: RankCache | undefined, property: string, rank: number) {
+  if (ranks && (ranks[property] === undefined || rank > ranks[property])) {
+    ranks[property] = rank;
   }
 }
 
@@ -113,26 +106,25 @@ export default abstract class Renderer {
   renderDeclaration<K extends Property>(
     property: K,
     value: Properties[K],
-    opts: RenderOptions = {},
+    options: RenderOptions = {},
   ): ClassName {
-    const options = createDefaultOptions(opts);
     const { direction, converter, prefixer } = this.api;
 
     // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
-    let val = processValue(key, value, opts.unit);
+    let val = processValue(key, value, options.unit);
 
     if (converter) {
-      ({ key, value: val } = converter.convert(direction, options.direction, key, val));
+      ({ key, value: val } = converter.convert(direction, options.direction || 'ltr', key, val));
     }
 
     // Check the cache immediately
-    const cache = this.cache.read(key, val, options, options.rankings[key]);
+    const cache = this.cache.read(key, val, options, options.rankings?.[key]);
 
     if (cache) {
-      persistRank(options, key, cache.rank);
+      persistRank(options.rankings, key, cache.rank);
 
-      return cache.className;
+      return cache.className!;
     }
 
     // Format and insert the rule
@@ -157,7 +149,7 @@ export default abstract class Renderer {
       options,
     );
 
-    persistRank(options, key, rank);
+    persistRank(options.rankings, key, rank);
 
     // Write to cache
     this.cache.write(key, val, {

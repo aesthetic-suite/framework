@@ -77,39 +77,16 @@ describe('LocalSheet', () => {
     });
   });
 
-  it('renders a rule for each set', () => {
-    const spy = jest.spyOn(renderer, 'renderRule');
+  it('renders a declaration for each rule property', () => {
+    const spy = jest.spyOn(renderer, 'renderDeclaration');
 
     sheet.render(renderer, lightTheme, {});
 
-    expect(spy).toHaveBeenCalledWith(
-      {
-        display: 'block',
-        background: 'white',
-        color: 'black',
-        fontSize: 12,
-        fontFamily: '"Open Sans", Roboto',
-      },
-      {
-        direction: 'ltr',
-        rankings: expect.any(Object),
-        unit: 'px',
-        vendor: false,
-      },
-    );
-
-    expect(spy).toHaveBeenCalledWith(
-      {
-        transition: '200ms all',
-        animationName: 'kf1plt5bd',
-      },
-      {
-        direction: 'ltr',
-        rankings: expect.any(Object),
-        unit: 'px',
-        vendor: false,
-      },
-    );
+    expect(spy).toHaveBeenCalledWith('display', 'block', expect.any(Object));
+    expect(spy).toHaveBeenCalledWith('background', 'white', expect.any(Object));
+    expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
+    expect(spy).toHaveBeenCalledWith('fontSize', 12, expect.any(Object));
+    expect(spy).toHaveBeenCalledWith('fontFamily', '"Open Sans", Roboto', expect.any(Object));
   });
 
   it('renders @font-face', () => {
@@ -117,12 +94,20 @@ describe('LocalSheet', () => {
 
     sheet.render(renderer, lightTheme, {});
 
-    expect(spy).toHaveBeenCalledWith({
-      fontFamily: 'Roboto',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      src: "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-    });
+    expect(spy).toHaveBeenCalledWith(
+      {
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        src:
+          "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+      },
+      {
+        direction: 'ltr',
+        unit: 'px',
+        vendor: false,
+      },
+    );
   });
 
   it('renders @keyframes', () => {
@@ -138,7 +123,7 @@ describe('LocalSheet', () => {
       '',
       {
         direction: 'ltr',
-        rankings: expect.any(Object),
+        // rankings: expect.any(Object),
         unit: 'px',
         vendor: false,
       },
@@ -195,88 +180,63 @@ describe('LocalSheet', () => {
     });
 
     it('inherits color scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         scheme: 'dark',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'black',
-          color: 'white',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'black', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'white', expect.any(Object));
     });
 
     it('inherits high contrast', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         contrast: 'high',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'pink',
-          color: 'black',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'pink', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
     });
 
     it('inherits low contrast', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         contrast: 'low',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'yellow',
-          color: 'black',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'yellow', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
     });
 
     it('inherits theme by name', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         theme: 'danger',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'red',
-          color: 'yellow',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'red', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'yellow', expect.any(Object));
     });
 
     it('contrast overrides scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         scheme: 'dark',
         contrast: 'low',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'yellow',
-          color: 'white',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'yellow', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'white', expect.any(Object));
     });
 
     it('theme overrides contrast and scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderRule');
+      const spy = jest.spyOn(renderer, 'renderDeclaration');
 
       sheet.render(renderer, lightTheme, {
         scheme: 'dark',
@@ -284,13 +244,8 @@ describe('LocalSheet', () => {
         theme: 'danger',
       });
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          background: 'red',
-          color: 'yellow',
-        }),
-        expect.anything(),
-      );
+      expect(spy).toHaveBeenCalledWith('background', 'red', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith('color', 'yellow', expect.any(Object));
     });
   });
 });

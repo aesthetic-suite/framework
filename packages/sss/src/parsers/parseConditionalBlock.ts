@@ -15,9 +15,11 @@ export default function parseConditionalBlock<T extends object>(
   }
 
   objectLoop(conditions, (object, condition) => {
-    const nestedBlock = parseLocalBlock(new Block(`@${type} ${condition}`), object, events);
-
-    parent.addNested(nestedBlock);
+    const nestedBlock = parseLocalBlock(
+      parent.addNested(new Block(`@${type} ${condition}`)),
+      object,
+      events,
+    );
 
     if (type === 'media') {
       events.onMedia?.(parent, condition, nestedBlock);
