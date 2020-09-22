@@ -1,6 +1,12 @@
 import { Variables } from '@aesthetic/types';
 import { arrayReduce } from '@aesthetic/utils';
-import { isImportRule, isMediaRule, isSupportsRule } from '../helpers';
+import {
+  isFontFaceFule,
+  isImportRule,
+  isKeyframesRule,
+  isMediaRule,
+  isSupportsRule,
+} from '../helpers';
 import {
   MEDIA_RULE,
   SUPPORTS_RULE,
@@ -62,9 +68,9 @@ export default class TransientStyleRule implements StyleRule {
       return MEDIA_RULE;
     } else if (isSupportsRule(rule)) {
       return SUPPORTS_RULE;
-    } else if (rule.startsWith('@font-face')) {
+    } else if (isFontFaceFule(rule)) {
       return FONT_FACE_RULE;
-    } else if (rule.startsWith('@keyframes')) {
+    } else if (isKeyframesRule(rule)) {
       return KEYFRAMES_RULE;
     } else if (isImportRule(rule)) {
       return IMPORT_RULE;

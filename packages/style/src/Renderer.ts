@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-magic-numbers */
+/* eslint-disable no-console */
 
 import {
   ClassName,
@@ -22,18 +22,8 @@ import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
-import StyleSheet from './StyleSheet';
-import ConditionsStyleSheet from './ConditionsStyleSheet';
-import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
-import {
-  Condition,
-  ProcessOptions,
-  SheetType,
-  RenderOptions,
-  StyleRule,
-  API,
-  RankCache,
-} from './types';
+import SheetManager from './SheetManager';
+import { Condition, ProcessOptions, RenderOptions, API, RankCache } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -62,11 +52,7 @@ export default abstract class Renderer {
 
   ruleIndex: number = -1;
 
-  abstract globals: StyleSheet;
-
-  abstract conditions: ConditionsStyleSheet;
-
-  abstract standards: StyleSheet;
+  abstract sheetManager: SheetManager;
 
   constructor(api: Partial<API> = {}) {
     this.api = {
@@ -157,7 +143,6 @@ export default abstract class Renderer {
       conditions: options.conditions,
       rank,
       selector: options.selector,
-      type: options.type,
     });
 
     return className;
@@ -278,21 +263,6 @@ export default abstract class Renderer {
   };
 
   /**
-   * Return the root style rule for the defined style sheet.
-   */
-  protected getRootRule(type: SheetType): StyleRule {
-    if (type === 'global') {
-      return this.globals.sheet;
-    }
-
-    if (type === 'conditions') {
-      return this.conditions.sheet;
-    }
-
-    return this.standards.sheet;
-  }
-
-  /**
    * Insert an at-rule into the global style sheet.
    */
   protected insertAtRule(selector: string, properties: string | Properties) {
@@ -312,7 +282,7 @@ export default abstract class Renderer {
 
     // Only insert it once
     if (!this.ruleCache[hash]) {
-      this.insertRule(rule, { type: 'global' });
+      this.sheetManager.insertRule('global', rule);
       this.ruleCache[hash] = true;
     }
   }
@@ -321,19 +291,7 @@ export default abstract class Renderer {
    * Insert a CSS rule into 1 of the 3 style sheets.
    */
   protected insertRule(rule: string, options: RenderOptions): number {
-    const { conditions = [], type = 'standard' } = options;
-
-    if (type === 'global') {
-      return this.globals.insertRule(rule);
-    }
-
-    // Insert into the conditional style sheet if conditions exist
-    if (type === 'conditions' || conditions.length > 0) {
-      return this.conditions.insertRule(rule, conditions);
-    }
-
-    // No media or feature queries so insert into the standard style sheet
-    return this.standards.insertRule(rule);
+    return this.sheetManager.insertRule(options.type || 'standard', rule, options.conditions);
   }
 
   /**
@@ -360,20 +318,12 @@ export default abstract class Renderer {
 
         // Media condition
         if (isMediaRule(prop)) {
-          conditions.push({
-            query: prop.slice(6).trim(),
-            type: MEDIA_RULE,
-          });
-
+          conditions.push(prop);
           classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Supports condition
         } else if (isSupportsRule(prop)) {
-          conditions.push({
-            query: prop.slice(9).trim(),
-            type: SUPPORTS_RULE,
-          });
-
+          conditions.push(prop);
           classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Selectors

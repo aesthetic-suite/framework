@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 
 const { parseLocalStyleSheet } = require('@aesthetic/sss');
-const { isMediaRule, isSupportsRule, MEDIA_RULE, SUPPORTS_RULE } = require('@aesthetic/style');
+const { isMediaRule, isSupportsRule } = require('@aesthetic/style');
 const { ServerRenderer } = require('@aesthetic/style/server');
 const { objectLoop, arrayLoop } = require('@aesthetic/utils');
 const Benchmark = require('benchmark');
@@ -92,16 +92,8 @@ function groupSelectorsAndConditions(selectors) {
   arrayLoop(selectors, (value) => {
     if (value === '@keyframes' || value === '@font-face') {
       valid = false;
-    } else if (isMediaRule(value)) {
-      conditions.push({
-        query: value.slice(6).trim(),
-        type: MEDIA_RULE,
-      });
-    } else if (isSupportsRule(value)) {
-      conditions.push({
-        query: value.slice(9).trim(),
-        type: SUPPORTS_RULE,
-      });
+    } else if (isMediaRule(value) || isSupportsRule(value)) {
+      conditions.push(value);
     } else {
       selector += value;
     }

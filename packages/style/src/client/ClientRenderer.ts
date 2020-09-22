@@ -1,18 +1,25 @@
+/* eslint-disable sort-keys */
+
 import { Variables } from '@aesthetic/types';
 import { arrayLoop, objectLoop, isSSR } from '@aesthetic/utils';
 import Renderer from '../Renderer';
-import StyleSheet from '../StyleSheet';
-import ConditionsStyleSheet from '../ConditionsStyleSheet';
+import SheetManager from '../SheetManager';
 import formatVariableName from '../helpers/formatVariableName';
 import { hydrateGlobals, hydrateRules, hydrateConditions } from './hydrateStyles';
-import { SheetType } from '../types';
+import { SheetType, StyleRule } from '../types';
+import { getDocumentStyleSheet } from '../helpers';
+
+function getSheet(type: SheetType): StyleRule {
+  return (getDocumentStyleSheet(type) as unknown) as StyleRule;
+}
 
 export default class ClientRenderer extends Renderer {
-  conditions = new ConditionsStyleSheet('conditions');
-
-  globals = new StyleSheet('global');
-
-  standards = new StyleSheet('standard');
+  sheetManager = new SheetManager({
+    // Order is important here!
+    global: getSheet('global'),
+    standard: getSheet('standard'),
+    conditions: getSheet('conditions'),
+  });
 
   applyRootVariables(vars: Variables) {
     // istanbul ignore next
@@ -33,6 +40,7 @@ export default class ClientRenderer extends Renderer {
       return false;
     }
 
+    const manager = this.sheetManager;
     const styles = document.querySelectorAll<HTMLStyleElement>(
       'style[data-aesthetic-hydrate-index]',
     );
@@ -42,24 +50,17 @@ export default class ClientRenderer extends Renderer {
       const type = style.getAttribute('data-aesthetic-type') as SheetType;
       const lastIndex = Number(style.getAttribute('data-aesthetic-hydrate-index'));
 
-      switch (type) {
-        case 'global':
-          hydrateGlobals(this, sheet);
-          this.globals.lastIndex = lastIndex;
-          break;
-
-        case 'conditions':
-          hydrateConditions(this, sheet);
-          this.conditions.lastIndex = lastIndex;
-          break;
-
-        default:
-          hydrateRules(this, sheet);
-          this.standards.lastIndex = lastIndex;
-          break;
+      if (type === 'global') {
+        hydrateGlobals(this, sheet);
+      } else if (type === 'conditions') {
+        hydrateConditions(this, sheet);
+      } else {
+        hydrateRules(this, sheet);
       }
 
-      // Persist the rule index
+      // Persist the indices
+      manager.getSheet(type).lastIndex = lastIndex;
+
       if (this.ruleIndex === -1) {
         this.ruleIndex = Number(style.getAttribute('data-aesthetic-rule-index'));
       }

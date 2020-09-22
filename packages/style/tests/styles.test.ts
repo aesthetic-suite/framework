@@ -2,7 +2,6 @@ import converter from '@aesthetic/addon-direction';
 import prefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
-import { MEDIA_RULE } from '../src/constants';
 
 describe('Styles', () => {
   let renderer: Renderer;
@@ -116,7 +115,7 @@ describe('Styles', () => {
 
   it('generates different class names between standard and condition rules, when condition is inserted first', () => {
     const a = renderer.renderDeclaration('width', '100em', {
-      conditions: [{ query: '(max-width: 100px)', type: MEDIA_RULE }],
+      conditions: ['@media (max-width: 100px)'],
     });
     const b = renderer.renderDeclaration('width', '100em');
 
@@ -254,17 +253,6 @@ describe('Styles', () => {
     // Should NOT render again
     renderer.renderRule({ color: 'red', display: 'inline' });
 
-    expect(getRenderedStyles('standard')).toMatchSnapshot();
-  });
-
-  it('generates the same declaration for each type (non-standard)', () => {
-    const a = renderer.renderDeclaration('color', 'red', { type: 'global' });
-    const b = renderer.renderDeclaration('color', 'red', { type: 'standard' });
-
-    expect(a).toBe('a');
-    expect(b).toBe('b');
-    expect(a).not.toBe(b);
-    expect(getRenderedStyles('global')).toMatchSnapshot();
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 

@@ -9,7 +9,6 @@ export default class AtomicCache {
     if (
       (minimumRank !== undefined && item.rank < minimumRank) ||
       item.selector !== options.selector ||
-      item.type !== options.type ||
       item.conditions?.length !== options.conditions?.length
     ) {
       return false;
@@ -19,9 +18,7 @@ export default class AtomicCache {
       return true;
     }
 
-    return options.conditions.every(
-      (i) => !!item.conditions?.find((p) => p.query === i.query && p.type === i.type),
-    );
+    return options.conditions.every((i) => !!item.conditions?.find((p) => p === i));
   }
 
   read(

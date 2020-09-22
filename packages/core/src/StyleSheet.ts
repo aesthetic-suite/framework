@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import {
   parseGlobalStyleSheet,
   parseLocalStyleSheet,
@@ -8,12 +6,12 @@ import {
 } from '@aesthetic/sss';
 import {
   Condition,
-  Renderer,
-  RenderOptions,
+  isFontFaceFule,
+  isKeyframesRule,
   isMediaRule,
   isSupportsRule,
-  MEDIA_RULE,
-  SUPPORTS_RULE,
+  Renderer,
+  RenderOptions,
 } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { ClassName, Property, Rule } from '@aesthetic/types';
@@ -43,18 +41,10 @@ function groupSelectorsAndConditions(selectors: string[]) {
   let valid = true;
 
   arrayLoop(selectors, (value) => {
-    if (value === '@keyframes' || value === '@font-face') {
+    if (isKeyframesRule(value) || isFontFaceFule(value)) {
       valid = false;
-    } else if (isMediaRule(value)) {
-      conditions.push({
-        query: value.slice(6).trim(),
-        type: MEDIA_RULE,
-      });
-    } else if (isSupportsRule(value)) {
-      conditions.push({
-        query: value.slice(9).trim(),
-        type: SUPPORTS_RULE,
-      });
+    } else if (isMediaRule(value) || isSupportsRule(value)) {
+      conditions.push(value);
     } else {
       selector += value;
     }

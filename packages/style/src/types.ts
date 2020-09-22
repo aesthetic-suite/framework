@@ -11,10 +11,7 @@ import {
 
 export type SheetType = 'global' | 'standard' | 'conditions';
 
-export interface Condition {
-  query: string;
-  type: number;
-}
+export type Condition = string;
 
 export type RankCache = Record<string, number>;
 
@@ -22,6 +19,7 @@ export interface ProcessOptions {
   deterministic?: boolean;
   direction?: Direction;
   rankings?: RankCache;
+  type?: SheetType;
   unit?: Unit | UnitFactory;
   vendor?: boolean;
 }
@@ -30,7 +28,6 @@ export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
   selector?: string;
-  type?: SheetType;
 }
 
 export interface CacheItem extends Omit<RenderOptions, keyof ProcessOptions> {
@@ -42,6 +39,7 @@ export interface StyleRule {
   cssRules: StyleRule[];
   cssText: CSS;
   cssVariables: Variables<string>;
+  lastIndex?: number;
   textContent: CSS;
   type: number;
   insertRule: (rule: CSS, index: number) => number;
