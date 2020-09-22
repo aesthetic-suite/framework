@@ -8,11 +8,13 @@ import {
 } from '@aesthetic/sss';
 import {
   Condition,
-  Renderer,
-  RenderOptions,
+  isFontFaceFule,
+  isKeyframesRule,
   isMediaRule,
   isSupportsRule,
   MEDIA_RULE,
+  Renderer,
+  RenderOptions,
   SUPPORTS_RULE,
 } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
@@ -43,7 +45,7 @@ function groupSelectorsAndConditions(selectors: string[]) {
   let valid = true;
 
   arrayLoop(selectors, (value) => {
-    if (value === '@keyframes' || value === '@font-face') {
+    if (isKeyframesRule(value) || isFontFaceFule(value)) {
       valid = false;
     } else if (isMediaRule(value)) {
       conditions.push({

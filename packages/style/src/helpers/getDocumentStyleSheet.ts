@@ -1,26 +1,12 @@
-/* eslint-disable unicorn/prefer-modern-dom-apis */
-
-import getStyleElement from './getStyleElement';
+import { isSSR } from '@aesthetic/utils';
 import { SheetType } from '../types';
 
-// Elements should be in the order of: global, standard, conditions
-function insertInOrder(type: SheetType, style: HTMLStyleElement) {
-  const standard = getStyleElement('standard');
-  const conditions = getStyleElement('conditions');
-
-  if (type === 'global' && (standard || conditions)) {
-    (standard || conditions)!.insertAdjacentElement('beforebegin', style);
-  } else if (type === 'standard' && conditions) {
-    conditions.insertAdjacentElement('beforebegin', style);
-  } else if (type === 'conditions' && standard) {
-    standard.insertAdjacentElement('afterend', style);
-  } else {
-    document.head.append(style);
-  }
-}
-
 export default function getDocumentStyleSheet(type: SheetType): CSSStyleSheet {
-  let element = getStyleElement(type);
+  // This is a little hacky, but hopefully this never gets interacted with
+  // istanbul ignore next
+  let element = (isSSR()
+    ? { sheet: { cssRules: [], insertRule() {} } }
+    : document.getElementById(`aesthetic-${type}`)) as HTMLStyleElement;
 
   if (!element) {
     const style = document.createElement('style');
@@ -29,7 +15,7 @@ export default function getDocumentStyleSheet(type: SheetType): CSSStyleSheet {
     style.setAttribute('media', 'screen');
     style.setAttribute('data-aesthetic-type', type);
 
-    insertInOrder(type, style);
+    document.head.append(style);
     element = style;
   }
 

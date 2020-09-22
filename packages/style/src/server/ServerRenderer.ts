@@ -1,23 +1,24 @@
 import { Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import Renderer from '../Renderer';
-import StyleSheet from '../StyleSheet';
-import ConditionsStyleSheet from '../ConditionsStyleSheet';
 import TransientStyleRule from './TransientStyleRule';
 import formatVariableName from '../helpers/formatVariableName';
 import createStyleElement from './createStyleElement';
+import ServerSheetManager from './ServerSheetManager';
 import { STYLE_RULE } from '../constants';
 
 export default class ServerRenderer extends Renderer {
-  conditions = new ConditionsStyleSheet('conditions', new TransientStyleRule(STYLE_RULE));
-
-  globals = new StyleSheet('global', new TransientStyleRule(STYLE_RULE));
-
-  standards = new StyleSheet('standard', new TransientStyleRule(STYLE_RULE));
+  sheetManager = new ServerSheetManager({
+    conditions: new TransientStyleRule(STYLE_RULE),
+    global: new TransientStyleRule(STYLE_RULE),
+    standard: new TransientStyleRule(STYLE_RULE),
+  });
 
   applyRootVariables(vars: Variables) {
+    const sheet = this.sheetManager.getSheet('global');
+
     objectLoop(vars, (value, key) => {
-      this.globals.sheet.cssVariables[formatVariableName(key)] = String(value);
+      sheet.cssVariables[formatVariableName(key)] = String(value);
     });
   }
 
@@ -29,9 +30,9 @@ export default class ServerRenderer extends Renderer {
 
   renderToStyleMarkup(): string {
     return (
-      createStyleElement('global', this.getRootRule('global'), this.ruleIndex) +
-      createStyleElement('standard', this.getRootRule('standard'), this.ruleIndex) +
-      createStyleElement('conditions', this.getRootRule('conditions'), this.ruleIndex)
+      createStyleElement('global', this.sheetManager.getSheet('global'), this.ruleIndex) +
+      createStyleElement('standard', this.sheetManager.getSheet('standard'), this.ruleIndex) +
+      createStyleElement('conditions', this.sheetManager.getSheet('conditions'), this.ruleIndex)
     );
   }
 }
