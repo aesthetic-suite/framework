@@ -2,7 +2,6 @@ import converter from '@aesthetic/addon-direction';
 import prefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
 import { getRenderedStyles, purgeStyles } from '../src/testing';
-import { MEDIA_RULE } from '../src/constants';
 
 describe('Styles', () => {
   let renderer: Renderer;
@@ -116,7 +115,7 @@ describe('Styles', () => {
 
   it('generates different class names between standard and condition rules, when condition is inserted first', () => {
     const a = renderer.renderDeclaration('width', '100em', {
-      conditions: [{ query: '(max-width: 100px)', type: MEDIA_RULE }],
+      conditions: ['@media (max-width: 100px)'],
     });
     const b = renderer.renderDeclaration('width', '100em');
 

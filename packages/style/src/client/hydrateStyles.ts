@@ -46,10 +46,11 @@ export function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet
   let rank = 0;
 
   const gatherStack = (rule: CSSConditionRule, conditions: Condition[] = []) => {
-    conditions.unshift({
-      query: rule.conditionText || (rule as CSSMediaRule).media.mediaText,
-      type: rule.type,
-    });
+    conditions.unshift(
+      `@${rule.type === MEDIA_RULE ? 'media' : 'supports'} ${
+        rule.conditionText || (rule as CSSMediaRule).media.mediaText
+      }`,
+    );
 
     arrayLoop(rule.cssRules, (child) => {
       if (child.type === STYLE_RULE) {

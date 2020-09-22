@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-magic-numbers */
+/* eslint-disable no-console */
 
 import {
   ClassName,
@@ -23,7 +23,6 @@ import isVariable from './helpers/isVariable';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
 import SheetManager from './SheetManager';
-import { MEDIA_RULE, SUPPORTS_RULE } from './constants';
 import { Condition, ProcessOptions, RenderOptions, API, RankCache } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -319,20 +318,12 @@ export default abstract class Renderer {
 
         // Media condition
         if (isMediaRule(prop)) {
-          conditions.push({
-            query: prop.slice(6).trim(),
-            type: MEDIA_RULE,
-          });
-
+          conditions.push(prop);
           classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Supports condition
         } else if (isSupportsRule(prop)) {
-          conditions.push({
-            query: prop.slice(9).trim(),
-            type: SUPPORTS_RULE,
-          });
-
+          conditions.push(prop);
           classNames.add(onNestedRule(value, { ...options, conditions }));
 
           // Selectors

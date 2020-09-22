@@ -63,7 +63,7 @@ describe('Hydration', () => {
         '10px': [
           {
             className: 'r',
-            conditions: [{ query: '(width: 500px)', type: 4 }],
+            conditions: ['@media (width: 500px)'],
             rank: 2,
             selector: '',
           },
@@ -114,9 +114,9 @@ describe('Hydration', () => {
           {
             className: 't',
             conditions: [
-              { query: '(color: blue)', type: 12 },
-              { query: '(width: 350px)', type: 4 },
-              { query: '(width: 500px)', type: 4 },
+              '@supports (color: blue)',
+              '@media (width: 350px)',
+              '@media (width: 500px)',
             ],
             rank: 0,
             selector: '',
@@ -125,7 +125,7 @@ describe('Hydration', () => {
         green: [
           {
             className: 'u',
-            conditions: [{ query: '(color: green)', type: 12 }],
+            conditions: ['@supports (color: green)'],
             rank: 3,
             selector: '',
           },
@@ -133,7 +133,7 @@ describe('Hydration', () => {
         red: [
           {
             className: 's',
-            conditions: [{ query: '(width: 500px)', type: 4 }],
+            conditions: ['@media (width: 500px)'],
             rank: 1,
             selector: ':hover',
           },

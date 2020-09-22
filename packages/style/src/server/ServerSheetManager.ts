@@ -1,10 +1,26 @@
+/* eslint-disable no-magic-numbers */
+
 import { CSS } from '@aesthetic/types';
 import { arrayLoop } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
-import { MEDIA_RULE } from '../constants';
+import { MEDIA_RULE, SUPPORTS_RULE } from '../constants';
 import { isMediaRule, isSupportsRule } from '../helpers';
 import SheetManager from '../SheetManager';
 import { Condition, StyleRule } from '../types';
+
+function extractQueryAndType(condition: Condition) {
+  if (isMediaRule(condition)) {
+    return {
+      query: condition.slice(6).trim(),
+      type: MEDIA_RULE,
+    };
+  }
+
+  return {
+    query: condition.slice(9).trim(),
+    type: SUPPORTS_RULE,
+  };
+}
 
 export default class ServerSheetManager extends SheetManager {
   protected featureQueries: Record<string, StyleRule> = {};
@@ -34,7 +50,8 @@ export default class ServerSheetManager extends SheetManager {
   insertConditionRule(rule: CSS, conditions: Condition[]): number {
     let parent: StyleRule = this.getSheet('conditions');
 
-    arrayLoop(conditions, ({ query, type }) => {
+    arrayLoop(conditions, (condition) => {
+      const { query, type } = extractQueryAndType(condition);
       const instance = this.findNestedRule(parent, query, type);
 
       // Nested found, so continue without inserting a new rule

@@ -18,7 +18,7 @@ export default class AtomicCache {
       return true;
     }
 
-    return options.conditions.every((i) => !!item.conditions?.find((p) => p.query === i.query));
+    return options.conditions.every((i) => !!item.conditions?.find((p) => p === i));
   }
 
   read(

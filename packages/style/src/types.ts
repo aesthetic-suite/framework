@@ -11,10 +11,7 @@ import {
 
 export type SheetType = 'global' | 'standard' | 'conditions';
 
-export interface Condition {
-  query: string;
-  type: number;
-}
+export type Condition = string;
 
 export type RankCache = Record<string, number>;
 
