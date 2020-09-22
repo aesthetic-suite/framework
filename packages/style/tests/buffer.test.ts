@@ -1,15 +1,15 @@
-import StyleSheet from '../src/StyleSheet';
+import SheetManager from '../src/SheetManager';
 import TransientStyleRule from '../src/server/TransientStyleRule';
 import { STYLE_RULE } from '../src/constants';
 
 describe('Buffering', () => {
-  class BufferSheet extends StyleSheet {
+  class BufferSheet extends SheetManager {
     buffer() {
       return this.ruleBuffer;
     }
 
     enqueue(rule: string, customIndex?: number): number {
-      return this.enqueueRule(rule, customIndex);
+      return this.enqueueRule('standard', rule, customIndex);
     }
 
     flush() {
@@ -23,7 +23,11 @@ describe('Buffering', () => {
 
   beforeEach(() => {
     nativeSheet = new TransientStyleRule(STYLE_RULE);
-    sheet = new BufferSheet('standard', nativeSheet);
+    sheet = new BufferSheet({
+      global: nativeSheet,
+      standard: nativeSheet,
+      conditions: nativeSheet,
+    });
     rafSpy = jest.spyOn(window, 'requestAnimationFrame').mockImplementation(() => 1);
 
     process.env.NODE_ENV = 'test-buffer';
@@ -40,8 +44,8 @@ describe('Buffering', () => {
     sheet.enqueue('.bar {}');
 
     expect(sheet.buffer()).toEqual([
-      { rule: '.foo {}', index: 0 },
-      { rule: '.bar {}', index: 1 },
+      { rule: '.foo {}', index: 0, type: 'standard' },
+      { rule: '.bar {}', index: 1, type: 'standard' },
     ]);
   });
 
@@ -50,8 +54,8 @@ describe('Buffering', () => {
     sheet.enqueue('.bar {}', 10);
 
     expect(sheet.buffer()).toEqual([
-      { rule: '.foo {}', index: 0 },
-      { rule: '.bar {}', index: 10 },
+      { rule: '.foo {}', index: 0, type: 'standard' },
+      { rule: '.bar {}', index: 10, type: 'standard' },
     ]);
   });
 
@@ -69,15 +73,15 @@ describe('Buffering', () => {
     sheet.enqueue('.baz {}');
 
     expect(sheet.buffer()).toEqual([
-      { rule: '.foo {}', index: 0 },
-      { rule: '.bar {}', index: 10 },
-      { rule: '.baz {}', index: 1 },
+      { rule: '.foo {}', index: 0, type: 'standard' },
+      { rule: '.bar {}', index: 10, type: 'standard' },
+      { rule: '.baz {}', index: 1, type: 'standard' },
     ]);
 
     sheet.flush();
 
     expect(sheet.buffer()).toEqual([]);
-    expect(sheet.lastIndex).toBe(2);
+    expect(sheet.getSheet('standard').lastIndex).toBe(2);
     // @ts-expect-error
     expect(sheet.rafHandle).toBe(0);
     expect(nativeSheet.cssRules).toHaveLength(3);

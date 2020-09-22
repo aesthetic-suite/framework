@@ -162,14 +162,14 @@ describe('Hydration', () => {
   it('sets correct indices', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.globals.lastIndex).toBe(-1);
-    expect(renderer.standards.lastIndex).toBe(-1);
-    expect(renderer.conditions.lastIndex).toBe(-1);
+    expect(renderer.sheetManager.getSheet('global').lastIndex).toBeUndefined();
+    expect(renderer.sheetManager.getSheet('standard').lastIndex).toBeUndefined();
+    expect(renderer.sheetManager.getSheet('conditions').lastIndex).toBeUndefined();
 
     renderer.hydrateStyles();
 
-    expect(renderer.globals.lastIndex).toBe(2);
-    expect(renderer.standards.lastIndex).toBe(16);
-    expect(renderer.conditions.lastIndex).toBe(3);
+    expect(renderer.sheetManager.getSheet('global').lastIndex).toBe(2);
+    expect(renderer.sheetManager.getSheet('standard').lastIndex).toBe(16);
+    expect(renderer.sheetManager.getSheet('conditions').lastIndex).toBe(3);
   });
 });

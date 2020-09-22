@@ -1,8 +1,8 @@
 import { CSS } from '@aesthetic/types';
-import { isSSR } from '@aesthetic/utils';
-import { isImportRule, isAtRule } from './helpers';
+import { arrayLoop, isSSR } from '@aesthetic/utils';
+import { isImportRule, isAtRule, formatConditions } from './helpers';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
-import { SheetType, StyleRule } from './types';
+import { Condition, SheetType, StyleRule } from './types';
 
 interface RuleBuffer {
   index: number;
@@ -25,22 +25,20 @@ export default class SheetManager {
     return this.sheets[type];
   }
 
-  insertRule(type: SheetType, rule: CSS, other?: unknown): number {
-    if (type === 'global') {
-      if (isImportRule(rule)) {
-        return this.insertImportRule(type, rule);
-      }
-
-      if (isAtRule(rule)) {
-        return this.insertAtRule(type, rule);
-      }
+  insertRule(type: SheetType, rule: CSS, conditions: Condition[] = []): number {
+    if (conditions.length > 0) {
+      return this.insertConditionRule(rule, conditions);
+    } else if (isImportRule(rule)) {
+      return this.insertImportRule(rule);
+    } else if (isAtRule(rule)) {
+      return this.insertAtRule(rule);
     }
 
     return this.enqueueRule(type, rule);
   }
 
-  insertAtRule(type: SheetType, rule: CSS): number {
-    const sheet = this.getSheet(type);
+  insertAtRule(rule: CSS): number {
+    const sheet = this.getSheet('global');
     const { length } = sheet.cssRules;
     let index = 0;
 
@@ -53,11 +51,15 @@ export default class SheetManager {
       }
     }
 
-    return this.enqueueRule(type, rule, index);
+    return this.enqueueRule('global', rule, index);
   }
 
-  insertImportRule(type: SheetType, rule: CSS): number {
-    const sheet = this.getSheet(type);
+  insertConditionRule(rule: CSS, conditions: Condition[]): number {
+    return this.enqueueRule('conditions', formatConditions(rule, conditions));
+  }
+
+  insertImportRule(rule: CSS): number {
+    const sheet = this.getSheet('global');
     const { length } = sheet.cssRules;
     let index = 0;
 
@@ -71,15 +73,15 @@ export default class SheetManager {
       }
     }
 
-    return this.enqueueRule(type, rule, index);
+    return this.enqueueRule('global', rule, index);
   }
 
   protected enqueueRule(type: SheetType, rule: string, customIndex?: number): number {
     const sheet = this.getSheet(type);
     let index = 0;
 
-    if (!sheet.lastIndex) {
-      sheet.lastIndex = 0;
+    if (sheet.lastIndex === undefined) {
+      sheet.lastIndex = -1;
     }
 
     // When testing or SSR, just insert the rule immediately
@@ -125,10 +127,10 @@ export default class SheetManager {
   protected flushRules = () => {
     this.rafHandle = 0;
 
-    this.ruleBuffer.filter((buffer) => {
+    arrayLoop(this.ruleBuffer, (buffer) => {
       this.injectRule(buffer.type, buffer.rule, buffer.index);
-
-      return false;
     });
+
+    this.ruleBuffer = [];
   };
 }

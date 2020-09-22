@@ -8,7 +8,7 @@ exports[`Styles can insert the same declaration if using a shared rankings cache
 
 exports[`Styles can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
-exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {.b {margin: 10px;}}"`;
+exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}"`;
 
 exports[`Styles css variables includes variables in rule when using a rule group 1`] = `".a {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
 
@@ -44,19 +44,19 @@ exports[`Styles logs a warning for unknown property values 1`] = `""`;
 
 exports[`Styles rule grouping can RTL convert applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}.a::backdrop {background: black;}"`;
 
-exports[`Styles rule grouping can RTL convert applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
+exports[`Styles rule grouping can RTL convert applicable properties 2`] = `"@media (width: 500px) {.a {margin: 10px; padding: 10px;}}@media (width: 500px) {.a:hover {color: darkblue;}}"`;
 
 exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.a:hover {display: flex; color: blue;}.a::backdrop {background: black;}"`;
 
-exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
+exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.a {margin: 10px; padding: 10px;}}@media (width: 500px) {.a:hover {color: darkblue;}}"`;
 
 exports[`Styles rule grouping can utilize deterministic class names 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
 
-exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}"`;
+exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
 
 exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.a:hover {display: flex; color: blue;}.a::-ms-backdrop {background: black;}"`;
 
-exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.a:hover {color: darkblue;}}@media (width: 500px) {.a {margin: 10px; padding: 10px;}}"`;
+exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.a {margin: 10px; padding: 10px;}}@media (width: 500px) {.a:hover {color: darkblue;}}"`;
 
 exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 

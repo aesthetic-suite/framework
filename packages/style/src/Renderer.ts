@@ -284,7 +284,7 @@ export default abstract class Renderer {
 
     // Only insert it once
     if (!this.ruleCache[hash]) {
-      this.insertRule(rule, { type: 'global' });
+      this.sheetManager.insertRule('global', rule);
       this.ruleCache[hash] = true;
     }
   }
