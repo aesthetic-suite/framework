@@ -97,9 +97,10 @@ export default class ServerSheetManager extends SheetManager {
    */
   insertMediaRule(query: string, rule: CSS, parentRule?: StyleRule): number {
     const formattedRule = isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`;
+    const sheet = this.getSheet('conditions');
 
-    // Already exists so append a new rule
-    if (parentRule) {
+    // Already exists so append a new rule (except for root sorting)
+    if (parentRule && parentRule !== sheet) {
       return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
     }
 
@@ -110,7 +111,7 @@ export default class ServerSheetManager extends SheetManager {
     // NOTE: We must inject instead of enqueue, otherwise the sort order is ruined!
     this.injectRule('conditions', formattedRule, index);
 
-    this.mediaQueries[query] = this.getSheet('conditions').cssRules[index];
+    this.mediaQueries[query] = sheet.cssRules[index];
 
     return index;
   }

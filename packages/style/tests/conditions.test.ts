@@ -68,7 +68,9 @@ describe('Conditions', () => {
         '@media screen and (max-width: 1023px)': block,
       });
 
-      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+      expect(
+        getRenderedStyles(serverRenderer.sheetManager.getSheet('conditions')),
+      ).toMatchSnapshot();
     });
   });
 

@@ -2,12 +2,12 @@
 
 import { CSS } from '@aesthetic/types';
 import { SheetType, getDocumentStyleSheet } from './index';
+import { StyleRule } from './types';
 
-export function getRenderedStyles(type: SheetType): CSS {
-  return Array.from(getDocumentStyleSheet(type).cssRules).reduce(
-    (css, rule) => css + rule.cssText,
-    '',
-  );
+export function getRenderedStyles(type: SheetType | StyleRule): CSS {
+  return Array.from(
+    ((typeof type === 'string' ? getDocumentStyleSheet(type) : type) as StyleRule).cssRules,
+  ).reduce((css, rule) => css + rule.cssText, '');
 }
 
 export function purgeStyles(type?: SheetType): void {
