@@ -17,6 +17,10 @@ export function merge(base: object, next: object): object {
 }
 
 export default function deepMerge<T = object>(...objects: unknown[]): T {
+  if (objects.length === 1) {
+    return objects[0] as T;
+  }
+
   const result: object = {};
 
   arrayLoop(objects, (object) => {

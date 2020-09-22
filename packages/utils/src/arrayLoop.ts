@@ -3,12 +3,15 @@
 export default function arrayLoop<T extends unknown>(
   array: ArrayLike<T>,
   callback: (item: T, index: number) => void,
+  reverse: boolean = false,
 ) {
   const { length } = array;
   let i = 0;
 
   while (i < length) {
-    callback(array[i], i);
+    const x = reverse ? length - i - 1 : i;
+
+    callback(array[x], x);
     i += 1;
   }
 }

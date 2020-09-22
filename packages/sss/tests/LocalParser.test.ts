@@ -1,6 +1,6 @@
 import Block from '../src/Block';
 import parse from '../src/parseLocalStyleSheet';
-import { createBlock } from './helpers';
+import { createBlock, createExpectedBlock } from './helpers';
 import {
   SYNTAX_FALLBACKS,
   SYNTAX_PROPERTIES,
@@ -59,7 +59,7 @@ describe('LocalParser', () => {
       },
     );
 
-    expect(spy).toHaveBeenCalledWith('selector', createBlock('selector', SYNTAX_LOCAL_BLOCK));
+    expect(spy).toHaveBeenCalledWith('selector', createBlock('', SYNTAX_LOCAL_BLOCK));
   });
 
   describe('class names', () => {
@@ -131,14 +131,14 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '[disabled]',
-        createBlock('[disabled]', SYNTAX_SELECTOR_ATTRIBUTES['[disabled]']),
+        createExpectedBlock('[disabled]', SYNTAX_SELECTOR_ATTRIBUTES['[disabled]']),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '[href]',
-        createBlock('[href]', SYNTAX_SELECTOR_ATTRIBUTES['[href]']),
+        createExpectedBlock('[href]', SYNTAX_SELECTOR_ATTRIBUTES['[href]']),
         { specificity: 0 },
       );
     });
@@ -160,14 +160,14 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         ':hover',
-        createBlock(':hover', SYNTAX_SELECTOR_PSEUDOS[':hover']),
+        createExpectedBlock(':hover', SYNTAX_SELECTOR_PSEUDOS[':hover']),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '::before',
-        createBlock('::before', SYNTAX_SELECTOR_PSEUDOS['::before']),
+        createExpectedBlock('::before', SYNTAX_SELECTOR_PSEUDOS['::before']),
         { specificity: 0 },
       );
     });
@@ -231,7 +231,7 @@ describe('LocalParser', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it('emits for each fallback declaration', () => {
+    it('emits for each fallback declaration that has a base property', () => {
       parse(
         {
           fb: SYNTAX_FALLBACKS,
@@ -241,10 +241,9 @@ describe('LocalParser', () => {
         },
       );
 
-      expect(spy).toHaveBeenCalledTimes(3);
+      expect(spy).toHaveBeenCalledTimes(2);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'background', ['red']);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', ['block', 'inline-block']);
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'color', ['blue']);
     });
   });
 
@@ -291,7 +290,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '(min-width: 300px)',
-        createBlock('@media (min-width: 300px)', {
+        createExpectedBlock('@media (min-width: 300px)', {
           color: 'blue',
           paddingLeft: 15,
         }),
@@ -300,7 +299,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '(max-width: 1000px)',
-        createBlock('@media (max-width: 1000px)', {
+        createExpectedBlock('@media (max-width: 1000px)', {
           color: 'green',
           paddingLeft: 20,
         }),
@@ -322,7 +321,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '(min-width: 300px)',
-        createBlock('@media (min-width: 300px)', {
+        createExpectedBlock('@media (min-width: 300px)', {
           color: 'blue',
           '@media (max-width: 1000px)': {
             color: 'green',
@@ -333,7 +332,7 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '(max-width: 1000px)',
-        createBlock('@media (max-width: 1000px)', {
+        createExpectedBlock('@media (max-width: 1000px)', {
           color: 'green',
         }),
       );
@@ -387,14 +386,14 @@ describe('LocalParser', () => {
       expect(pseudoSpy).toHaveBeenCalledWith(
         expect.any(Block),
         ':hover',
-        createBlock(':hover', { position: 'static' }),
+        createExpectedBlock(':hover', { position: 'static' }),
         { specificity: 2 },
       );
 
       expect(pseudoSpy).toHaveBeenCalledWith(
         expect.any(Block),
         ':active',
-        createBlock(':active', { position: 'absolute' }),
+        createExpectedBlock(':active', { position: 'absolute' }),
         { specificity: 1 },
       );
 
@@ -403,7 +402,7 @@ describe('LocalParser', () => {
       expect(attrSpy).toHaveBeenCalledWith(
         expect.any(Block),
         '[hidden]',
-        createBlock('[hidden]', { position: 'relative' }),
+        createExpectedBlock('[hidden]', { position: 'relative' }),
         { specificity: 3 },
       );
     });
@@ -423,28 +422,28 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '> li',
-        createBlock('> li', { listStyle: 'bullet' }),
+        createExpectedBlock('> li', { listStyle: 'bullet' }),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '+ div',
-        createBlock('+ div', { display: 'none' }),
+        createExpectedBlock('+ div', { display: 'none' }),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '~ span',
-        createBlock('~ span', { color: 'black' }),
+        createExpectedBlock('~ span', { color: 'black' }),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '*',
-        createBlock('*', { backgroundColor: 'inherit' }),
+        createExpectedBlock('*', { backgroundColor: 'inherit' }),
         { specificity: 0 },
       );
     });
@@ -467,21 +466,21 @@ describe('LocalParser', () => {
       expect(pseudoSpy).toHaveBeenCalledWith(
         expect.any(Block),
         ':disabled',
-        createBlock(':disabled', { cursor: 'default' }),
+        createExpectedBlock(':disabled', { cursor: 'default' }),
         { specificity: 0 },
       );
 
       expect(attrSpy).toHaveBeenCalledWith(
         expect.any(Block),
         '[disabled]',
-        createBlock('[disabled]', { cursor: 'default' }),
+        createExpectedBlock('[disabled]', { cursor: 'default' }),
         { specificity: 2 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '> span',
-        createBlock('> span', { cursor: 'default' }),
+        createExpectedBlock('> span', { cursor: 'default' }),
         { specificity: 0 },
       );
     });
@@ -530,13 +529,13 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         '(display: flex)',
-        createBlock('@supports (display: flex)', { display: 'flex' }),
+        createExpectedBlock('@supports (display: flex)', { display: 'flex' }),
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         'not (display: flex)',
-        createBlock('@supports not (display: flex)', { float: 'left' }),
+        createExpectedBlock('@supports not (display: flex)', { float: 'left' }),
       );
     });
   });
@@ -642,14 +641,14 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         'size_small',
-        createBlock('size_small', { fontSize: 14 }),
+        createBlock('', { fontSize: 14 }),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
         'size_large',
-        createBlock('size_large', { fontSize: 18 }),
+        createBlock('', { fontSize: 18 }),
         { specificity: 0 },
       );
     });

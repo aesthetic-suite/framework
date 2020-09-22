@@ -24,7 +24,7 @@ export default function parseLocalStyleSheet<T extends object>(
 
       // Rule
     } else if (isObject(declaration)) {
-      const block = parseLocalBlock(new Block(selector), declaration, events);
+      const block = parseLocalBlock(new Block(), declaration, events);
 
       events.onRule?.(selector, block);
 

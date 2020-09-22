@@ -1,13 +1,23 @@
+/* eslint-disable no-magic-numbers */
+
 import {
   parseGlobalStyleSheet,
   parseLocalStyleSheet,
   GlobalStyleSheet,
   LocalStyleSheet,
 } from '@aesthetic/sss';
-import { Renderer, RenderOptions } from '@aesthetic/style';
+import {
+  Condition,
+  Renderer,
+  RenderOptions,
+  isMediaRule,
+  isSupportsRule,
+  MEDIA_RULE,
+  SUPPORTS_RULE,
+} from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { ClassName, Rule } from '@aesthetic/types';
-import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { ClassName, Property, Rule } from '@aesthetic/types';
+import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
 import { BaseSheetFactory, ClassNameSheet, SheetParams, SheetType } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
@@ -25,6 +35,38 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
   });
 
   return key;
+}
+
+function groupSelectorsAndConditions(selectors: string[]) {
+  const conditions: Condition[] = [];
+  let selector = '';
+  let valid = true;
+
+  arrayLoop(selectors, (value) => {
+    if (value === '@keyframes' || value === '@font-face') {
+      valid = false;
+    } else if (isMediaRule(value)) {
+      conditions.push({
+        query: value.slice(6).trim(),
+        type: MEDIA_RULE,
+      });
+    } else if (isSupportsRule(value)) {
+      conditions.push({
+        query: value.slice(9).trim(),
+        type: SUPPORTS_RULE,
+      });
+    } else {
+      selector += value;
+    }
+  });
+
+  return {
+    // Passing undefined is at minimum 2x faster!
+    // It also doesn't bypass the cache with a "truthy" value.
+    conditions: conditions.length === 0 ? undefined : conditions,
+    selector: selector || undefined,
+    valid,
+  };
 }
 
 export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
@@ -162,7 +204,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
 
     parseGlobalStyleSheet<Rule>(styles, {
       onFontFace(fontFace) {
-        return renderer.renderFontFace(fontFace.toObject());
+        return renderer.renderFontFace(fontFace.toObject(), renderParams);
       },
       onImport(path) {
         renderer.renderImport(path);
@@ -190,10 +232,10 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
     const styles = composer(theme, theme.tokens) as LocalStyleSheet;
-    const rankCache = {};
+    // const rankCache = {};
     const renderParams: RenderOptions = {
       direction: params.direction,
-      rankings: rankCache,
+      // rankings: rankCache,
       unit: params.unit,
       vendor: params.vendor,
     };
@@ -203,25 +245,40 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         classNames[selector] = { class: className };
       },
       onFontFace(fontFace) {
-        return renderer.renderFontFace(fontFace.toObject());
+        return renderer.renderFontFace(fontFace.toObject(), renderParams);
       },
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
+      onProperty(block, key, value) {
+        const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
+
+        if (!valid) {
+          return;
+        }
+
+        block.addClassName(
+          renderer.renderDeclaration(key as Property, value as string, {
+            ...renderParams,
+            conditions,
+            selector,
+          }),
+        );
+      },
       onRule(selector, rule) {
         const cache = classNames[selector] || {};
 
-        cache.class = renderer.renderRule(rule.toObject(), renderParams);
+        if (!cache.class) {
+          cache.class = rule.className.trim();
+        }
 
-        if (rule.variants) {
+        objectLoop(rule.variants, (variant, type) => {
           if (!cache.variants) {
             cache.variants = {};
           }
 
-          objectLoop(rule.variants.toObject(), (variant, type) => {
-            cache.variants![type] = renderer.renderRule(variant as Rule, renderParams);
-          });
-        }
+          cache.variants[type] = variant.className.trim();
+        });
 
         classNames[selector] = cache;
       },

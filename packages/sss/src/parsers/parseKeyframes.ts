@@ -18,7 +18,7 @@ export default function parseKeyframes<T extends object>(
   // from, to, and percent keys aren't easily detectable
   objectLoop(object, (value, key) => {
     if (value !== undefined) {
-      keyframes.addNested(parseBlock(new Block(key), value, events));
+      parseBlock(keyframes.addNested(new Block(key)), value, events);
     }
   });
 

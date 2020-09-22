@@ -78,13 +78,20 @@ describe('GlobalSheet', () => {
 
     sheet.render(renderer, lightTheme, {});
 
-    expect(spy).toHaveBeenCalledWith({
-      fontFamily: 'Roboto',
-      fontStyle: 'normal',
-      fontWeight: 'normal',
-      src:
-        "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-    });
+    expect(spy).toHaveBeenCalledWith(
+      {
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        src:
+          "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+      },
+      {
+        direction: 'ltr',
+        unit: 'px',
+        vendor: false,
+      },
+    );
   });
 
   it('renders @root', () => {
