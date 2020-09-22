@@ -24,10 +24,6 @@ exports[`Styles generates a unique class name for each selector even if property
 
 exports[`Styles generates different declarations when RTL converting 1`] = `".a {margin-left: 10px;}.b {margin-right: 10px;}"`;
 
-exports[`Styles generates the same declaration for each type (non-standard) 1`] = `".a {color: red;}"`;
-
-exports[`Styles generates the same declaration for each type (non-standard) 2`] = `".b {color: red;}"`;
-
 exports[`Styles handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".cu4ygwf {display: flex;}.c8nj8ar {margin-left: 10px;}.c1u1u927 {text-align: right;}.c1qa0d3c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1ryula0 {margin-right: 10px;}.cfi87yc {text-align: left;}"`;
 
 exports[`Styles ignores invalid values 1`] = `""`;

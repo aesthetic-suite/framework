@@ -257,17 +257,6 @@ describe('Styles', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('generates the same declaration for each type (non-standard)', () => {
-    const a = renderer.renderDeclaration('color', 'red', { type: 'global' });
-    const b = renderer.renderDeclaration('color', 'red', { type: 'standard' });
-
-    expect(a).toBe('a');
-    expect(b).toBe('b');
-    expect(a).not.toBe(b);
-    expect(getRenderedStyles('global')).toMatchSnapshot();
-    expect(getRenderedStyles('standard')).toMatchSnapshot();
-  });
-
   it('generates different declarations when RTL converting', () => {
     const a = renderer.renderDeclaration('margin-left', '10px');
     const b = renderer.renderDeclaration('margin-left', '10px', { direction: 'rtl' });

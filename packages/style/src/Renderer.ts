@@ -144,7 +144,6 @@ export default abstract class Renderer {
       conditions: options.conditions,
       rank,
       selector: options.selector,
-      type: options.type,
     });
 
     return className;

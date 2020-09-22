@@ -31,14 +31,14 @@ export default class SheetManager {
     } else if (isImportRule(rule)) {
       return this.insertImportRule(rule);
     } else if (isAtRule(rule)) {
-      return this.insertAtRule(rule);
+      return this.insertAtRule(type, rule);
     }
 
     return this.enqueueRule(type, rule);
   }
 
-  insertAtRule(rule: CSS): number {
-    const sheet = this.getSheet('global');
+  insertAtRule(type: SheetType, rule: CSS): number {
+    const sheet = this.getSheet(type);
     const { length } = sheet.cssRules;
     let index = 0;
 
@@ -51,7 +51,7 @@ export default class SheetManager {
       }
     }
 
-    return this.enqueueRule('global', rule, index);
+    return this.enqueueRule(type, rule, index);
   }
 
   insertConditionRule(rule: CSS, conditions: Condition[]): number {

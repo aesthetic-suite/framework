@@ -59,64 +59,57 @@ describe('Hydration', () => {
 
     expect(renderer.cache.cache).toEqual({
       margin: {
-        '0': [{ className: 'a', conditions: [], rank: 0, selector: '', type: 'standard' }],
+        '0': [{ className: 'a', conditions: [], rank: 0, selector: '' }],
         '10px': [
           {
             className: 'r',
             conditions: [{ query: '(width: 500px)', type: 4 }],
             rank: 2,
             selector: '',
-            type: 'conditions',
           },
         ],
       },
       padding: {
-        '6px 12px': [{ className: 'b', conditions: [], rank: 1, selector: '', type: 'standard' }],
+        '6px 12px': [{ className: 'b', conditions: [], rank: 1, selector: '' }],
       },
       border: {
-        '1px solid #2e6da4': [
-          { className: 'c', conditions: [], rank: 2, selector: '', type: 'standard' },
-        ],
+        '1px solid #2e6da4': [{ className: 'c', conditions: [], rank: 2, selector: '' }],
       },
       'border-radius': {
-        '4px': [{ className: 'd', conditions: [], rank: 3, selector: '', type: 'standard' }],
+        '4px': [{ className: 'd', conditions: [], rank: 3, selector: '' }],
       },
       display: {
-        'inline-block': [
-          { className: 'e', conditions: [], rank: 4, selector: '', type: 'standard' },
-        ],
+        'inline-block': [{ className: 'e', conditions: [], rank: 4, selector: '' }],
       },
       cursor: {
-        pointer: [{ className: 'f', conditions: [], rank: 5, selector: '', type: 'standard' }],
+        pointer: [{ className: 'f', conditions: [], rank: 5, selector: '' }],
       },
       'font-family': {
-        Roboto: [{ className: 'g', conditions: [], rank: 6, selector: '', type: 'standard' }],
+        Roboto: [{ className: 'g', conditions: [], rank: 6, selector: '' }],
       },
       'font-weight': {
-        normal: [{ className: 'h', conditions: [], rank: 7, selector: '', type: 'standard' }],
+        normal: [{ className: 'h', conditions: [], rank: 7, selector: '' }],
       },
       'line-height': {
-        normal: [{ className: 'i', conditions: [], rank: 8, selector: '', type: 'standard' }],
+        normal: [{ className: 'i', conditions: [], rank: 8, selector: '' }],
       },
       'white-space': {
-        nowrap: [{ className: 'j', conditions: [], rank: 9, selector: '', type: 'standard' }],
+        nowrap: [{ className: 'j', conditions: [], rank: 9, selector: '' }],
       },
       'text-decoration': {
-        none: [{ className: 'k', conditions: [], rank: 10, selector: '', type: 'standard' }],
+        none: [{ className: 'k', conditions: [], rank: 10, selector: '' }],
       },
       'text-align': {
-        left: [{ className: 'l', conditions: [], rank: 11, selector: '', type: 'standard' }],
+        left: [{ className: 'l', conditions: [], rank: 11, selector: '' }],
       },
       'background-color': {
-        '#337ab7': [{ className: 'm', conditions: [], rank: 12, selector: '', type: 'standard' }],
+        '#337ab7': [{ className: 'm', conditions: [], rank: 12, selector: '' }],
       },
       'vertical-align': {
-        middle: [{ className: 'n', conditions: [], rank: 13, selector: '', type: 'standard' }],
+        middle: [{ className: 'n', conditions: [], rank: 13, selector: '' }],
       },
       color: {
-        'rgba(0, 0, 0, 0)': [
-          { className: 'o', conditions: [], rank: 14, selector: '', type: 'standard' },
-        ],
+        'rgba(0, 0, 0, 0)': [{ className: 'o', conditions: [], rank: 14, selector: '' }],
         blue: [
           {
             className: 't',
@@ -127,7 +120,6 @@ describe('Hydration', () => {
             ],
             rank: 0,
             selector: '',
-            type: 'conditions',
           },
         ],
         green: [
@@ -136,7 +128,6 @@ describe('Hydration', () => {
             conditions: [{ query: '(color: green)', type: 12 }],
             rank: 3,
             selector: '',
-            type: 'conditions',
           },
         ],
         red: [
@@ -145,15 +136,14 @@ describe('Hydration', () => {
             conditions: [{ query: '(width: 500px)', type: 4 }],
             rank: 1,
             selector: ':hover',
-            type: 'conditions',
           },
         ],
       },
       'animation-name': {
-        fade: [{ className: 'p', conditions: [], rank: 15, selector: '', type: 'standard' }],
+        fade: [{ className: 'p', conditions: [], rank: 15, selector: '' }],
       },
       'animation-duration': {
-        '.3s': [{ className: 'q', conditions: [], rank: 16, selector: '', type: 'standard' }],
+        '.3s': [{ className: 'q', conditions: [], rank: 16, selector: '' }],
       },
     });
     expect(renderer.ruleIndex).toBe(21);

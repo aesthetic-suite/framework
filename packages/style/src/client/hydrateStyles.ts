@@ -20,7 +20,6 @@ function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<C
     conditions: [],
     rank: 0,
     selector: selector.trim(),
-    type: 'standard',
     ...cache,
   });
 }
@@ -38,7 +37,6 @@ export function hydrateRules(renderer: ClientRenderer, sheet: CSSStyleSheet) {
     if (rule.type === STYLE_RULE) {
       addRuleToCache(renderer, rule.cssText, {
         rank,
-        type: 'standard',
       });
     }
   });
@@ -58,7 +56,6 @@ export function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet
         addRuleToCache(renderer, child.cssText, {
           conditions,
           rank,
-          type: 'conditions',
         });
       } else if (child.type === MEDIA_RULE || child.type === SUPPORTS_RULE) {
         gatherStack(child as CSSConditionRule, conditions);

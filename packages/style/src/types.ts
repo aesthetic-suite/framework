@@ -22,6 +22,7 @@ export interface ProcessOptions {
   deterministic?: boolean;
   direction?: Direction;
   rankings?: RankCache;
+  type?: SheetType;
   unit?: Unit | UnitFactory;
   vendor?: boolean;
 }
@@ -30,7 +31,6 @@ export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
   selector?: string;
-  type?: SheetType;
 }
 
 export interface CacheItem extends Omit<RenderOptions, keyof ProcessOptions> {
