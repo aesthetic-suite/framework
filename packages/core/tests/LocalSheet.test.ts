@@ -1,18 +1,20 @@
+import converter from '@aesthetic/addon-direction';
 import { ClientRenderer } from '@aesthetic/style';
-import { StyleSheet, LocalSheet } from '../src';
-import { lightTheme } from '../src/testing';
+import { StyleSheet, LocalSheet, createComponentStyles } from '../src';
+import { getRenderedStyles, lightTheme, purgeStyles } from '../src/testing';
 
 describe('LocalSheet', () => {
   let renderer: ClientRenderer;
   let sheet: LocalSheet;
 
   beforeEach(() => {
-    renderer = new ClientRenderer();
-    sheet = new StyleSheet('local', () => ({
+    renderer = new ClientRenderer({ converter });
+    sheet = createComponentStyles(() => ({
       foo: {
         display: 'block',
         background: 'white',
         color: 'black',
+        textAlign: 'left',
         fontSize: 12,
         fontFamily: [
           '"Open Sans"',
@@ -23,6 +25,20 @@ describe('LocalSheet', () => {
             srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
           },
         ],
+        ':hover': {
+          color: 'red',
+        },
+        '@selectors': {
+          ':focus': {
+            outline: 'red',
+          },
+        },
+        '@media': {
+          '(max-width: 1000px)': {
+            display: 'none',
+            borderWidth: 1,
+          },
+        },
       },
       bar: {
         transition: '200ms all',
@@ -33,6 +49,10 @@ describe('LocalSheet', () => {
       },
       baz: 'class-baz',
     }));
+  });
+
+  afterEach(() => {
+    purgeStyles();
   });
 
   it('errors if a non-function factory is passed', () => {
@@ -65,16 +85,18 @@ describe('LocalSheet', () => {
     sheet.render(renderer, lightTheme, { direction: 'rtl' });
 
     expect(spy).toHaveBeenCalledTimes(2);
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('renders and returns an object of class names', () => {
     const classes = sheet.render(renderer, lightTheme, {});
 
     expect(classes).toEqual({
-      foo: { class: 'a b c d e' },
-      bar: { class: 'f g' },
+      foo: { class: 'a b c d e f g h i j' },
+      bar: { class: 'k l' },
       baz: { class: 'class-baz' },
     });
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('renders a declaration for each rule property', () => {
@@ -109,6 +131,7 @@ describe('LocalSheet', () => {
         vendor: false,
       },
     );
+    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   it('renders @keyframes', () => {
@@ -129,6 +152,7 @@ describe('LocalSheet', () => {
         vendor: false,
       },
     );
+    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   describe('variants', () => {

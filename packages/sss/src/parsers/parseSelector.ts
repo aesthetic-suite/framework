@@ -23,8 +23,6 @@ export default function parseSelector<T extends object>(
     }
   }
 
-  const block = parseLocalBlock(new Block(selector), object, events);
-
   arrayLoop(selector.split(','), (k) => {
     let name = k.trim();
     let specificity = 0;
@@ -35,8 +33,8 @@ export default function parseSelector<T extends object>(
       name = name.slice(1);
     }
 
-    const nestedBlock = parent.addNested(new Block<T>(name).merge(block));
-    const args: Parameters<NestedListener<T>> = [parent, name, nestedBlock, { specificity }];
+    const block = parseLocalBlock(parent.addNested(new Block(name)), object, events);
+    const args: Parameters<NestedListener<T>> = [parent, name, block, { specificity }];
 
     if (name[0] === ':') {
       events.onPseudo?.(...args);
