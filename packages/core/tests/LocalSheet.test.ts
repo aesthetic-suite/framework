@@ -104,6 +104,7 @@ describe('LocalSheet', () => {
       },
       {
         direction: 'ltr',
+        rankings: expect.any(Object),
         unit: 'px',
         vendor: false,
       },
@@ -123,7 +124,7 @@ describe('LocalSheet', () => {
       '',
       {
         direction: 'ltr',
-        // rankings: expect.any(Object),
+        rankings: expect.any(Object),
         unit: 'px',
         vendor: false,
       },

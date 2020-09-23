@@ -30,8 +30,9 @@ export interface RenderOptions extends ProcessOptions {
   selector?: string;
 }
 
-export interface CacheItem extends Omit<RenderOptions, keyof ProcessOptions> {
-  rank: number;
+export interface CacheItem {
+  className: string;
+  rank?: number;
 }
 
 export interface StyleRule {
