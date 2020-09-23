@@ -1,4 +1,5 @@
 import { arrayLoop, generateHash } from '@aesthetic/utils';
+import createAtomicCacheKey from '../helpers/createAtomicCacheKey';
 import ClientRenderer from './ClientRenderer';
 import {
   FONT_FACE_RULE,
@@ -8,26 +9,38 @@ import {
   MEDIA_RULE,
   SUPPORTS_RULE,
 } from '../constants';
-import { Condition, CacheItem } from '../types';
+import { Condition } from '../types';
 
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
 
-function addRuleToCache(renderer: ClientRenderer, rule: string, cache: Partial<CacheItem>) {
+function addRuleToCache(
+  renderer: ClientRenderer,
+  rule: string,
+  rank: number,
+  conditions: Condition[] = [],
+) {
   const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
+  const cacheKey = createAtomicCacheKey(
+    {
+      conditions,
+      selector: selector.trim(),
+    },
+    property,
+    value,
+  );
 
-  renderer.cache.write(property, value.endsWith(';') ? value.slice(0, -1) : value, {
+  renderer.cache.write(cacheKey, {
     className,
-    conditions: [],
-    rank: 0,
-    selector: selector.trim(),
-    ...cache,
+    rank,
   });
 }
 
 export function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, (rule) => {
     if (rule.type === FONT_FACE_RULE || rule.type === KEYFRAMES_RULE || rule.type === IMPORT_RULE) {
-      renderer.ruleCache[generateHash(rule.cssText)] = true;
+      const hash = generateHash(rule.cssText);
+
+      renderer.cache.write(hash, { className: hash });
     }
   });
 }
@@ -35,9 +48,7 @@ export function hydrateGlobals(renderer: ClientRenderer, sheet: CSSStyleSheet) {
 export function hydrateRules(renderer: ClientRenderer, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, (rule, rank) => {
     if (rule.type === STYLE_RULE) {
-      addRuleToCache(renderer, rule.cssText, {
-        rank,
-      });
+      addRuleToCache(renderer, rule.cssText, rank);
     }
   });
 }
@@ -54,10 +65,7 @@ export function hydrateConditions(renderer: ClientRenderer, sheet: CSSStyleSheet
 
     arrayLoop(rule.cssRules, (child) => {
       if (child.type === STYLE_RULE) {
-        addRuleToCache(renderer, child.cssText, {
-          conditions,
-          rank,
-        });
+        addRuleToCache(renderer, child.cssText, rank, conditions);
       } else if (child.type === MEDIA_RULE || child.type === SUPPORTS_RULE) {
         gatherStack(child as CSSConditionRule, conditions);
       }

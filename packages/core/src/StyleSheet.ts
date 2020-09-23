@@ -51,10 +51,8 @@ function groupSelectorsAndConditions(selectors: string[]) {
   });
 
   return {
-    // Passing undefined is at minimum 2x faster!
-    // It also doesn't bypass the cache with a "truthy" value.
-    conditions: conditions.length === 0 ? undefined : conditions,
-    selector: selector || undefined,
+    conditions,
+    selector,
     valid,
   };
 }
@@ -222,10 +220,10 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
     const styles = composer(theme, theme.tokens) as LocalStyleSheet;
-    // const rankCache = {};
+    const rankCache = {};
     const renderParams: RenderOptions = {
       direction: params.direction,
-      // rankings: rankCache,
+      rankings: rankCache,
       unit: params.unit,
       vendor: params.vendor,
     };

@@ -100,9 +100,8 @@ function groupSelectorsAndConditions(selectors) {
   });
 
   return {
-    // Twice as fast to pass undefined instead of an empty array
-    conditions: conditions.length === 0 ? undefined : conditions,
-    selector: selector || undefined,
+    conditions,
+    selector,
     valid,
   };
 }
@@ -110,6 +109,7 @@ function groupSelectorsAndConditions(selectors) {
 // Test parsing the entire block before injection
 function parseAsBlock(styles) {
   const classNames = {};
+  const rankings = {};
 
   parseLocalStyleSheet(styles, {
     onClass(selector, className) {
@@ -124,7 +124,7 @@ function parseAsBlock(styles) {
     onRule(selector, rule) {
       const cache = classNames[selector] || {};
 
-      cache.class = renderer.renderRule(rule.toObject());
+      cache.class = renderer.renderRule(rule.toObject(), { rankings });
 
       if (rule.variants) {
         if (!cache.variants) {
@@ -132,7 +132,7 @@ function parseAsBlock(styles) {
         }
 
         objectLoop(rule.variants, (variant, type) => {
-          cache.variants[type] = renderer.renderRule(variant.toObject());
+          cache.variants[type] = renderer.renderRule(variant.toObject(), { rankings });
         });
       }
 
@@ -150,6 +150,7 @@ suite.add('parseAsBlock()', () => {
 // Test parsing and injecting per declaration
 function parseAsDeclaration(styles) {
   const classNames = {};
+  const rankings = {};
 
   parseLocalStyleSheet(styles, {
     onClass(selector, className) {
@@ -171,6 +172,7 @@ function parseAsDeclaration(styles) {
       block.addClassName(
         renderer2.renderDeclaration(key, value, {
           conditions,
+          rankings,
           selector,
         }),
       );

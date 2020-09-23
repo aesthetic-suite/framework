@@ -36,16 +36,18 @@ describe('Hydration', () => {
   it('adds at-rules to the global cache', () => {
     const renderer = new ClientRenderer();
 
-    expect(renderer.ruleCache).toEqual({});
+    expect(renderer.cache.cache).toEqual({});
     expect(renderer.ruleIndex).toBe(-1);
 
     renderer.hydrateStyles();
 
-    expect(renderer.ruleCache).toEqual({
-      '1p8yvkz': true,
-      '1xk69aq': true,
-      phgikz: true,
-    });
+    expect(renderer.cache.cache).toEqual(
+      expect.objectContaining({
+        '1xk69aq': [{ className: '1xk69aq' }],
+        '1p8yvkz': [{ className: '1p8yvkz' }],
+        phgikz: [{ className: 'phgikz' }],
+      }),
+    );
     expect(renderer.ruleIndex).toBe(21);
   });
 
@@ -57,95 +59,33 @@ describe('Hydration', () => {
 
     renderer.hydrateStyles();
 
-    expect(renderer.cache.cache).toEqual({
-      margin: {
-        '0': [{ className: 'a', conditions: [], rank: 0, selector: '' }],
-        '10px': [
-          {
-            className: 'r',
-            conditions: ['@media (width: 500px)'],
-            rank: 2,
-            selector: '',
-          },
+    expect(renderer.cache.cache).toEqual(
+      expect.objectContaining({
+        'margin:0;': [{ className: 'a', rank: 0 }],
+        'padding:6px 12px;': [{ className: 'b', rank: 1 }],
+        'border:1px solid #2e6da4;': [{ className: 'c', rank: 2 }],
+        'border-radius:4px;': [{ className: 'd', rank: 3 }],
+        'display:inline-block;': [{ className: 'e', rank: 4 }],
+        'cursor:pointer;': [{ className: 'f', rank: 5 }],
+        'font-family:Roboto;': [{ className: 'g', rank: 6 }],
+        'font-weight:normal;': [{ className: 'h', rank: 7 }],
+        'line-height:normal;': [{ className: 'i', rank: 8 }],
+        'white-space:nowrap;': [{ className: 'j', rank: 9 }],
+        'text-decoration:none;': [{ className: 'k', rank: 10 }],
+        'text-align:left;': [{ className: 'l', rank: 11 }],
+        'background-color:#337ab7;': [{ className: 'm', rank: 12 }],
+        'vertical-align:middle;': [{ className: 'n', rank: 13 }],
+        'color:rgba(0, 0, 0, 0);': [{ className: 'o', rank: 14 }],
+        'animation-name:fade;': [{ className: 'p', rank: 15 }],
+        'animation-duration:.3s;': [{ className: 'q', rank: 16 }],
+        'color:blue;@supports (color: blue)@media (width: 350px)@media (width: 500px)': [
+          { className: 't', rank: 0 },
         ],
-      },
-      padding: {
-        '6px 12px': [{ className: 'b', conditions: [], rank: 1, selector: '' }],
-      },
-      border: {
-        '1px solid #2e6da4': [{ className: 'c', conditions: [], rank: 2, selector: '' }],
-      },
-      'border-radius': {
-        '4px': [{ className: 'd', conditions: [], rank: 3, selector: '' }],
-      },
-      display: {
-        'inline-block': [{ className: 'e', conditions: [], rank: 4, selector: '' }],
-      },
-      cursor: {
-        pointer: [{ className: 'f', conditions: [], rank: 5, selector: '' }],
-      },
-      'font-family': {
-        Roboto: [{ className: 'g', conditions: [], rank: 6, selector: '' }],
-      },
-      'font-weight': {
-        normal: [{ className: 'h', conditions: [], rank: 7, selector: '' }],
-      },
-      'line-height': {
-        normal: [{ className: 'i', conditions: [], rank: 8, selector: '' }],
-      },
-      'white-space': {
-        nowrap: [{ className: 'j', conditions: [], rank: 9, selector: '' }],
-      },
-      'text-decoration': {
-        none: [{ className: 'k', conditions: [], rank: 10, selector: '' }],
-      },
-      'text-align': {
-        left: [{ className: 'l', conditions: [], rank: 11, selector: '' }],
-      },
-      'background-color': {
-        '#337ab7': [{ className: 'm', conditions: [], rank: 12, selector: '' }],
-      },
-      'vertical-align': {
-        middle: [{ className: 'n', conditions: [], rank: 13, selector: '' }],
-      },
-      color: {
-        'rgba(0, 0, 0, 0)': [{ className: 'o', conditions: [], rank: 14, selector: '' }],
-        blue: [
-          {
-            className: 't',
-            conditions: [
-              '@supports (color: blue)',
-              '@media (width: 350px)',
-              '@media (width: 500px)',
-            ],
-            rank: 0,
-            selector: '',
-          },
-        ],
-        green: [
-          {
-            className: 'u',
-            conditions: ['@supports (color: green)'],
-            rank: 3,
-            selector: '',
-          },
-        ],
-        red: [
-          {
-            className: 's',
-            conditions: ['@media (width: 500px)'],
-            rank: 1,
-            selector: ':hover',
-          },
-        ],
-      },
-      'animation-name': {
-        fade: [{ className: 'p', conditions: [], rank: 15, selector: '' }],
-      },
-      'animation-duration': {
-        '.3s': [{ className: 'q', conditions: [], rank: 16, selector: '' }],
-      },
-    });
+        'color:red;:hover@media (width: 500px)': [{ className: 's', rank: 1 }],
+        'margin:10px;@media (width: 500px)': [{ className: 'r', rank: 2 }],
+        'color:green;@supports (color: green)': [{ className: 'u', rank: 3 }],
+      }),
+    );
     expect(renderer.ruleIndex).toBe(21);
   });
 

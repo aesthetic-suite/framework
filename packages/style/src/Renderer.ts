@@ -11,7 +11,7 @@ import {
   Rule,
 } from '@aesthetic/types';
 import { hyphenate, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
-import AtomicCache from './AtomicCache';
+import Cache from './Cache';
 import formatConditions from './helpers/formatConditions';
 import formatDeclarationBlock from './helpers/formatDeclarationBlock';
 import formatRule from './helpers/formatRule';
@@ -24,13 +24,14 @@ import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
 import SheetManager from './SheetManager';
 import { Condition, ProcessOptions, RenderOptions, API, RankCache } from './types';
+import createAtomicCacheKey from './helpers/createAtomicCacheKey';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-function persistRank(ranks: RankCache | undefined, property: string, rank: number) {
-  if (ranks && (ranks[property] === undefined || rank > ranks[property])) {
-    ranks[property] = rank;
+function persistRank(rankings: RankCache | undefined, property: string, rank?: number) {
+  if (rankings && rank && (rankings[property] === undefined || rank > rankings[property])) {
+    rankings[property] = rank;
   }
 }
 
@@ -46,9 +47,7 @@ declare global {
 export default abstract class Renderer {
   api: API;
 
-  cache = new AtomicCache();
-
-  ruleCache: Record<string, ClassName | boolean> = {};
+  cache = new Cache();
 
   ruleIndex: number = -1;
 
@@ -79,7 +78,7 @@ export default abstract class Renderer {
   /**
    * Generate a deterministic class name based on the provided rule (without class name).
    */
-  generateDeterministicClassName(rule: string, conditions: Condition[] = []): ClassName {
+  generateDeterministicClassName(rule: string, conditions?: Condition[]): ClassName {
     const hash = generateHash(formatConditions(rule, conditions));
 
     // Avoid hashes that start with an invalid number
@@ -101,16 +100,22 @@ export default abstract class Renderer {
     let val = processValue(key, value, options.unit);
 
     if (converter) {
-      ({ key, value: val } = converter.convert(direction, options.direction || 'ltr', key, val));
+      ({ key, value: val } = converter.convert(
+        direction,
+        options.direction || direction,
+        key,
+        val,
+      ));
     }
 
     // Check the cache immediately
-    const cache = this.cache.read(key, val, options, options.rankings?.[key]);
+    const cacheKey = createAtomicCacheKey(options, key, val);
+    const cache = this.cache.read(cacheKey, options.rankings?.[key]);
 
     if (cache) {
       persistRank(options.rankings, key, cache.rank);
 
-      return cache.className!;
+      return cache.className;
     }
 
     // Format and insert the rule
@@ -138,11 +143,9 @@ export default abstract class Renderer {
     persistRank(options.rankings, key, rank);
 
     // Write to cache
-    this.cache.write(key, val, {
+    this.cache.write(cacheKey, {
       className,
-      conditions: options.conditions,
       rank,
-      selector: options.selector,
     });
 
     return className;
@@ -217,6 +220,7 @@ export default abstract class Renderer {
     const nestedRules: Record<string, Rule> = {};
     const cssVariables: Variables = {};
     const nextProperties: GenericProperties = {};
+    let className = '';
 
     // Extract all nested rules first as we need to process them *after* properties
     objectLoop<Rule, Property>(properties, (value, prop) => {
@@ -237,12 +241,15 @@ export default abstract class Renderer {
       cssVariables,
     );
 
+    // Insert only once
     const hash = this.generateDeterministicClassName(rule, options.conditions);
-    const className =
-      options.className || (options.deterministic ? hash : this.generateClassName());
+    const cache = this.cache.read(hash);
 
-    // Insert once and cache separately than atomic class names
-    if (!this.ruleCache[hash]) {
+    if (cache) {
+      className = cache.className;
+    } else {
+      className = options.className || (options.deterministic ? hash : this.generateClassName());
+
       const classRule = `.${className}${rule}`;
       const { prefixer } = this.api;
 
@@ -253,7 +260,7 @@ export default abstract class Renderer {
         options,
       );
 
-      this.ruleCache[hash] = className;
+      this.cache.write(hash, { className });
     }
 
     // Render all nested rules with the top-level class name
@@ -279,11 +286,12 @@ export default abstract class Renderer {
     }
 
     const hash = this.generateDeterministicClassName(rule);
+    const cache = this.cache.read(hash);
 
-    // Only insert it once
-    if (!this.ruleCache[hash]) {
+    // Insert only once
+    if (!cache) {
       this.sheetManager.insertRule('global', rule);
-      this.ruleCache[hash] = true;
+      this.cache.write(hash, { className: hash });
     }
   }
 
