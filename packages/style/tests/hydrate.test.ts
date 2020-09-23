@@ -59,8 +59,6 @@ describe('Hydration', () => {
 
     renderer.hydrateStyles();
 
-    console.log(JSON.stringify(renderer.cache.cache));
-
     expect(renderer.cache.cache).toEqual(
       expect.objectContaining({
         'margin:0;': [{ className: 'a', rank: 0 }],
