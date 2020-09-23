@@ -208,12 +208,14 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
-      onRoot(block) {
+      onRoot: (block) => {
         className = renderer.renderRuleGrouped(block.toObject(), {
           ...renderParams,
           deterministic: true,
           type: 'global',
         });
+
+        this.metadata['@root'] = { classNames: { class: className } };
       },
       onRootVariables(variables) {
         renderer.applyRootVariables(variables);
@@ -265,13 +267,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         );
       },
       onRule: (selector, rule) => {
-        if (!this.metadata[selector]) {
-          this.metadata[selector] = {
-            classNames: {},
-            variantTypes: new Set(),
-          };
-        }
-
+        const metadata = this.metadata[selector] || { classNames: {} };
         const cache = classNames[selector] || {};
 
         if (!cache.class) {
@@ -283,12 +279,17 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
             cache.variants = {};
           }
 
+          if (!metadata.variantTypes) {
+            metadata.variantTypes = new Set();
+          }
+
           cache.variants[type] = variant.className.trim();
-          this.metadata[selector].variantTypes.add(type.split('_')[0]);
+          metadata.variantTypes.add(type.split('_')[0]);
         });
 
+        metadata.classNames = cache;
         classNames[selector] = cache;
-        this.metadata[selector].classNames = cache;
+        this.metadata[selector] = metadata;
       },
     });
 

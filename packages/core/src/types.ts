@@ -42,7 +42,7 @@ export type SheetStructure<T extends string> = {
 
 export interface SheetElementMetadata {
   classNames: ClassNameResult;
-  variantTypes: Set<string>;
+  variantTypes?: Set<string>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
