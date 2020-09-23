@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/cli",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "CLI for the Aesthetic design and styling framework.",
   "keywords": [
     "aesthetic",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@aesthetic/compiler": "^0.4.3",
-    "@aesthetic/core": "^0.4.3",
+    "@aesthetic/core": "^0.4.4",
     "@boost/cli": "2.1.1",
     "@boost/common": "^2.2.1",
     "fs-extra": "^9.0.1",
