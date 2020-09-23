@@ -16,7 +16,13 @@ import {
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { ClassName, Property, Rule } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
-import { BaseSheetFactory, ClassNameSheet, SheetParams, SheetType } from './types';
+import {
+  BaseSheetFactory,
+  ClassNameSheet,
+  SheetParams,
+  SheetType,
+  SheetElementMetadata,
+} from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
   // Unit factories cannot be cached as they're dynamic!
@@ -58,6 +64,8 @@ function groupSelectorsAndConditions(selectors: string[]) {
 }
 
 export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
+  readonly metadata: Record<string, SheetElementMetadata> = {};
+
   readonly type: SheetType;
 
   protected contrastVariants: { [K in ContrastLevel]?: Factory } = {};
@@ -253,7 +261,14 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
           }),
         );
       },
-      onRule(selector, rule) {
+      onRule: (selector, rule) => {
+        if (!this.metadata[selector]) {
+          this.metadata[selector] = {
+            classNames: {},
+            variantTypes: new Set(),
+          };
+        }
+
         const cache = classNames[selector] || {};
 
         if (!cache.class) {
@@ -266,9 +281,11 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
           }
 
           cache.variants[type] = variant.className.trim();
+          this.metadata[selector].variantTypes.add(type.split('_')[0]);
         });
 
         classNames[selector] = cache;
+        this.metadata[selector].classNames = cache;
       },
     });
 

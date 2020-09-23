@@ -48,6 +48,15 @@ describe('LocalSheet', () => {
         },
       },
       baz: 'class-baz',
+      qux: {
+        '@variants': {
+          size: {
+            sm: { fontSize: 14 },
+            md: { fontSize: 16 },
+            lg: { fontSize: 18 },
+          },
+        },
+      },
     }));
   });
 
@@ -64,6 +73,32 @@ describe('LocalSheet', () => {
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');
+  });
+
+  it('sets metadata for each element', () => {
+    sheet.render(renderer, lightTheme, {});
+
+    expect(sheet.metadata).toEqual({
+      bar: {
+        classNames: { class: 'k l' },
+        variantTypes: new Set(),
+      },
+      foo: {
+        classNames: { class: 'a b c d e f g h i j' },
+        variantTypes: new Set(),
+      },
+      qux: {
+        classNames: {
+          class: '',
+          variants: {
+            size_lg: 'o',
+            size_md: 'n',
+            size_sm: 'm',
+          },
+        },
+        variantTypes: new Set(['size']),
+      },
+    });
   });
 
   it('only renders once when cached', () => {
@@ -95,6 +130,14 @@ describe('LocalSheet', () => {
       foo: { class: 'a b c d e f g h i j' },
       bar: { class: 'k l' },
       baz: { class: 'class-baz' },
+      qux: {
+        class: '',
+        variants: {
+          size_lg: 'o',
+          size_md: 'n',
+          size_sm: 'm',
+        },
+      },
     });
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });

@@ -14,11 +14,13 @@ export interface ClassNameSheetVariants {
   [value: string]: ClassName;
 }
 
+export interface ClassNameResult {
+  class?: ClassName;
+  variants?: ClassNameSheetVariants;
+}
+
 export type ClassNameSheet<T extends string> = {
-  [K in T]?: {
-    class?: ClassName;
-    variants?: ClassNameSheetVariants;
-  };
+  [K in T]?: ClassNameResult;
 };
 
 export type StringOnly<T> = T extends string ? string : never;
@@ -37,6 +39,11 @@ export type SheetType = 'local' | 'global';
 export type SheetStructure<T extends string> = {
   [K in T]: string | object;
 };
+
+export interface SheetElementMetadata {
+  classNames: ClassNameResult;
+  variantTypes: Set<string>;
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>, tokens: Tokens) => object;
