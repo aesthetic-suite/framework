@@ -277,19 +277,6 @@ describe('GlobalParser', () => {
       }).toThrow('@variables must be a mapping of CSS variables.');
     });
 
-    it('does not emit if no variables', () => {
-      parse(
-        {
-          '@variables': {},
-        },
-        {
-          onRootVariable: spy,
-        },
-      );
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
     it('does not emit `block:variable` listener', () => {
       parse(
         {
@@ -311,14 +298,16 @@ describe('GlobalParser', () => {
           '@variables': SYNTAX_VARIABLES['@variables'],
         },
         {
-          onRootVariable: spy,
+          onRootVariables: spy,
         },
       );
 
-      expect(spy).toHaveBeenCalledTimes(3);
-      expect(spy).toHaveBeenCalledWith('--font-size', '14px');
-      expect(spy).toHaveBeenCalledWith('--color', 'red');
-      expect(spy).toHaveBeenCalledWith('--line-height', 1.5);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith({
+        '--font-size': '14px',
+        '--color': 'red',
+        '--line-height': 1.5,
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
 import { ClientRenderer } from '@aesthetic/style';
-import { StyleSheet, GlobalSheet } from '../src';
+import { StyleSheet, GlobalSheet, createThemeStyles } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('GlobalSheet', () => {
@@ -8,7 +8,7 @@ describe('GlobalSheet', () => {
 
   beforeEach(() => {
     renderer = new ClientRenderer();
-    sheet = new StyleSheet('global', () => ({
+    sheet = createThemeStyles(() => ({
       '@font-face': {
         Roboto: {
           fontStyle: 'normal',
@@ -31,12 +31,9 @@ describe('GlobalSheet', () => {
           to: { opacity: 1 },
         },
       },
-      '@page': {
-        size: '8.5in 11in',
-      },
-      '@viewport': {
-        width: 'device-width',
-        orientation: 'landscape',
+      '@variables': {
+        '--standard-syntax': 'true',
+        customSyntax: 123,
       },
     }));
   });
@@ -143,6 +140,14 @@ describe('GlobalSheet', () => {
         vendor: false,
       },
     );
+  });
+
+  it('renders @variables', () => {
+    const spy = jest.spyOn(renderer, 'applyRootVariables');
+
+    sheet.render(renderer, lightTheme, {});
+
+    expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', '--custom-syntax': 123 });
   });
 
   describe('variants', () => {

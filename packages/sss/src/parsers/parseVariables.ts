@@ -13,6 +13,8 @@ export default function parseVariables<T extends object>(
     validateDeclarations(variables, '@variables');
   }
 
+  const object: Variables = {};
+
   objectLoop(variables, (value, prop) => {
     let name = hyphenate(prop);
 
@@ -24,7 +26,11 @@ export default function parseVariables<T extends object>(
       parent.addVariable(name, value);
       events.onVariable?.(parent, name, value);
     } else {
-      events.onRootVariable?.(name, value);
+      object[name] = value;
     }
   });
+
+  if (!parent) {
+    events.onRootVariables?.(object);
+  }
 }

@@ -574,7 +574,7 @@ describe('LocalParser', () => {
           vars: SYNTAX_VARIABLES,
         },
         {
-          onRootVariable: spy,
+          onRootVariables: spy,
         },
       );
 

@@ -215,6 +215,9 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
           type: 'global',
         });
       },
+      onRootVariables(variables) {
+        renderer.applyRootVariables(variables);
+      },
     });
 
     return className;

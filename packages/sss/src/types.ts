@@ -296,6 +296,8 @@ export type RuleListener<T extends object> = (selector: string, block: Block<T>)
 
 export type VariableListener = (name: string, value: Value) => void;
 
+export type VariablesListener = (variables: Variables) => void;
+
 export interface Events<T extends object> {
   onAttribute?: NestedListener<T>;
   onBlock?: BlockListener<T>;
@@ -315,5 +317,5 @@ export interface Events<T extends object> {
   // Global
   onImport?: ImportListener;
   onRoot?: BlockListener<T>;
-  onRootVariable?: VariableListener;
+  onRootVariables?: VariablesListener;
 }
