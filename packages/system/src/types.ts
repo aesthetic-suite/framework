@@ -436,6 +436,26 @@ export interface ThemeVariables {
   'palette-success-fg-hovered': Hexcode;
   'palette-success-fg-selected': Hexcode;
   'palette-success-fg-disabled': Hexcode;
+  'palette-failure-color-00': Hexcode;
+  'palette-failure-color-10': Hexcode;
+  'palette-failure-color-20': Hexcode;
+  'palette-failure-color-30': Hexcode;
+  'palette-failure-color-40': Hexcode;
+  'palette-failure-color-50': Hexcode;
+  'palette-failure-color-60': Hexcode;
+  'palette-failure-color-70': Hexcode;
+  'palette-failure-color-80': Hexcode;
+  'palette-failure-color-90': Hexcode;
+  'palette-failure-bg-base': Hexcode;
+  'palette-failure-bg-focused': Hexcode;
+  'palette-failure-bg-hovered': Hexcode;
+  'palette-failure-bg-selected': Hexcode;
+  'palette-failure-bg-disabled': Hexcode;
+  'palette-failure-fg-base': Hexcode;
+  'palette-failure-fg-focused': Hexcode;
+  'palette-failure-fg-hovered': Hexcode;
+  'palette-failure-fg-selected': Hexcode;
+  'palette-failure-fg-disabled': Hexcode;
 }
 
 export type Tokens = DesignTokens & ThemeTokens;
@@ -444,7 +464,7 @@ export type Variables = DesignVariables & ThemeVariables;
 
 export type VariableName = keyof Variables;
 
-export type TokenUtil = (name: VariableName) => unknown;
+export type TokenUtil = <K extends VariableName>(name: K) => Variables[K];
 
 export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
 

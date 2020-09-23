@@ -178,7 +178,7 @@ export default class Theme<T extends object = Rule> implements Utilities<T> {
   /**
    * Return a raw token value for the defined name.
    */
-  token(name: VariableName): unknown {
+  token<K extends VariableName>(name: K): Variables[K] {
     const value = this.toVariables()[name];
 
     if (__DEV__) {
@@ -187,7 +187,7 @@ export default class Theme<T extends object = Rule> implements Utilities<T> {
       }
     }
 
-    return value || null;
+    return value;
   }
 
   /**
