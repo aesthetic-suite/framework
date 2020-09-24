@@ -143,9 +143,9 @@ function parseAsBlock(styles) {
   return classNames;
 }
 
-suite.add('parseAsBlock()', () => {
-  parseAsBlock(createStyles());
-});
+// suite.add('parseAsBlock()', () => {
+//   parseAsBlock(createStyles());
+// });
 
 // Test parsing and injecting per declaration
 function parseAsDeclaration(styles) {

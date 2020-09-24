@@ -8,7 +8,7 @@ import formatVariable from './formatVariable';
  * into a CSS declaration block, without wrapping brackets.
  */
 export default function formatDeclarationBlock(
-  properties: GenericProperties,
+  properties?: GenericProperties,
   variables?: Variables,
 ): CSS {
   let css = '';
@@ -17,7 +17,9 @@ export default function formatDeclarationBlock(
     css += objectReduce(variables, (value, key) => formatVariable(key, value));
   }
 
-  css += objectReduce(properties, (value, key) => formatDeclaration(key, value));
+  if (properties) {
+    css += objectReduce(properties, (value, key) => formatDeclaration(key, value));
+  }
 
   return css;
 }

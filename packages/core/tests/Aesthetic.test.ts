@@ -582,6 +582,7 @@ describe('Aesthetic', () => {
       return createThemeStyles(() => ({
         '@root': {
           display: 'block',
+          width: '100%',
         },
       }));
     }
@@ -598,7 +599,7 @@ describe('Aesthetic', () => {
 
       registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(renderThemeStyles(lightTheme)).toBe('cnneg4x');
+      expect(renderThemeStyles(lightTheme)).toBe('cg87bvm');
       expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
         direction: expect.any(String),
         unit: 'px',
