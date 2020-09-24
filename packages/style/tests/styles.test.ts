@@ -355,7 +355,7 @@ describe('Styles', () => {
     it('can generate a non-atomic single class by grouping all properties', () => {
       const className = renderer.renderRuleGrouped(rule);
 
-      expect(className).toBe('a');
+      expect(className).toBe('c19x5a9t');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -371,7 +371,7 @@ describe('Styles', () => {
     it('can vendor prefix applicable properties', () => {
       const className = renderer.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('a');
+      expect(className).toBe('c1winuf3');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -379,7 +379,7 @@ describe('Styles', () => {
     it('can RTL convert applicable properties', () => {
       const className = renderer.renderRuleGrouped(rule, { direction: 'rtl' });
 
-      expect(className).toBe('a');
+      expect(className).toBe('c12ol95t');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -396,7 +396,7 @@ describe('Styles', () => {
     it('includes variables in rule when using a rule group', () => {
       const className = renderer.renderRuleGrouped(rule);
 
-      expect(className).toBe('a');
+      expect(className).toBe('cakyybw');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 

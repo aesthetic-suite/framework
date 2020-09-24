@@ -7,14 +7,14 @@ import { Direction } from '@aesthetic/types';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 
 export default {
-  convert<T extends string | number>(from: Direction, to: Direction, key: string, value: T) {
+  convert<T extends string | number>(from: Direction, to: Direction, property: string, value: T) {
     if (from === to) {
-      return { key, value };
+      return { property, value };
     }
 
     return {
-      key: getPropertyDoppelganger(key),
-      value: getValueDoppelganger(key, value),
+      property: getPropertyDoppelganger(property),
+      value: getValueDoppelganger(property, value),
     };
   },
 };

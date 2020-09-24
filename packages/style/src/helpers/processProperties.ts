@@ -24,13 +24,8 @@ export default function processProperties(
     let value: Value = val;
 
     // Convert left to right
-    if (converter) {
-      ({ key: prop, value } = converter.convert(
-        baseDirection,
-        direction || baseDirection,
-        prop,
-        value,
-      ));
+    if (direction && converter) {
+      ({ property: prop, value } = converter.convert(baseDirection, direction, prop, value));
     }
 
     // Set the value after direction change but before prefixing

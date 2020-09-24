@@ -24,18 +24,12 @@ import isVariable from './helpers/isVariable';
 import processProperties from './helpers/processProperties';
 import processValue from './helpers/processValue';
 import SheetManager from './SheetManager';
-import { Condition, ProcessOptions, RenderOptions, API, RankCache } from './types';
+import { ProcessOptions, RenderOptions, API, CacheItem } from './types';
 import createAtomicCacheKey from './helpers/createAtomicCacheKey';
-import { formatVariable, formatVariableName } from './helpers';
+import { formatVariableName } from './helpers';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
-
-function persistRank(rankings: RankCache | undefined, property: string, rank?: number) {
-  if (rankings && rank && (rankings[property] === undefined || rank > rankings[property])) {
-    rankings[property] = rank;
-  }
-}
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -63,9 +57,16 @@ export default abstract class Renderer {
   }
 
   /**
-   * Generate an incremental class name.
+   * Generate an incremental or deterministic class name.
    */
-  generateClassName(): ClassName {
+  generateClassName(rule: string, options: RenderOptions = {}): ClassName {
+    if (options.deterministic) {
+      const hash = generateHash(formatConditions(rule, options.conditions));
+
+      // Avoid hashes that start with an invalid number
+      return `c${hash}`;
+    }
+
     this.ruleIndex += 1;
 
     const index = this.ruleIndex;
@@ -78,16 +79,6 @@ export default abstract class Renderer {
   }
 
   /**
-   * Generate a deterministic class name based on the provided rule (without class name).
-   */
-  generateDeterministicClassName(rule: string, conditions?: Condition[]): ClassName {
-    const hash = generateHash(formatConditions(rule, conditions));
-
-    // Avoid hashes that start with an invalid number
-    return `c${hash}`;
-  }
-
-  /**
    * Render a property value pair into the defined style sheet as a single class name.
    */
   renderDeclaration<K extends Property>(
@@ -95,14 +86,14 @@ export default abstract class Renderer {
     value: Properties[K],
     options: RenderOptions = {},
   ): ClassName {
-    const { direction, converter, prefixer } = this.api;
+    const { direction, converter } = this.api;
+    const { rankings } = options;
 
-    // Hyphenate and cast values so they're deterministic
     let key = hyphenate(property);
     let val = processValue(key, value, options.unit);
 
     if (converter) {
-      ({ key, value: val } = converter.convert(
+      ({ property: key, value: val } = converter.convert(
         direction,
         options.direction || direction,
         key,
@@ -110,46 +101,20 @@ export default abstract class Renderer {
       ));
     }
 
-    // Check the cache immediately
-    const cacheKey = createAtomicCacheKey(options, key, val);
-    const cache = this.cache.read(cacheKey, options.rankings?.[key]);
+    // Weve converted above, so avoid converting again when rendering
+    options.direction = undefined;
 
-    if (cache) {
-      persistRank(options.rankings, key, cache.rank);
+    // Render and cache rule against the defined rank
+    const { className, rank } = this.doCache(
+      createAtomicCacheKey(options, key, val),
+      () => this.doRender({ [key]: val }, undefined, options),
+      rankings?.[key],
+    );
 
-      return cache.className;
+    // Persist the rank for each render
+    if (rankings && rank && (rankings[property] === undefined || rank > rankings[property])) {
+      rankings[property] = rank;
     }
-
-    // Format and insert the rule
-    const rule = formatRule(
-      options.selector,
-      // Converter applied above, so only pass the prefixer here
-      processProperties({ [key]: val }, { vendor: options.vendor }, this.api),
-    );
-
-    const className =
-      options.className ||
-      (options.deterministic
-        ? this.generateDeterministicClassName(rule, options.conditions)
-        : this.generateClassName());
-
-    const classRule = `.${className}${rule}`;
-
-    // Persist the max ranking
-    const rank = this.insertRule(
-      options.selector && options.vendor && prefixer
-        ? prefixer.prefixSelector(options.selector, classRule)
-        : classRule,
-      options,
-    );
-
-    persistRank(options.rankings, key, rank);
-
-    // Write to cache
-    this.cache.write(cacheKey, {
-      className,
-      rank,
-    });
 
     return className;
   }
@@ -158,32 +123,22 @@ export default abstract class Renderer {
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
   renderFontFace(fontFace: FontFace, options: ProcessOptions = {}): string {
-    const fontFamily =
-      fontFace.fontFamily ||
-      `ff${generateHash(formatDeclarationBlock(fontFace as GenericProperties))}`;
+    if (!fontFace.fontFamily) {
+      fontFace.fontFamily = `ff${generateHash(
+        formatDeclarationBlock(fontFace as GenericProperties),
+      )}`;
+    }
 
-    this.insertAtRule(
-      '@font-face',
-      processProperties(
-        {
-          ...fontFace,
-          fontFamily,
-        } as Properties,
-        options,
-        this.api,
-      ),
-    );
+    this.insertAtRule('@font-face', processProperties(fontFace as Properties, options, this.api));
 
-    return fontFamily;
+    return fontFace.fontFamily;
   }
 
   /**
    * Render an `@import` to the global style sheet.
    */
   renderImport(value: string) {
-    const path = value.slice(-1) === ';' ? value.slice(0, -1) : value;
-
-    this.insertAtRule('@import', path);
+    this.insertAtRule('@import', value.slice(-1) === ';' ? value.slice(0, -1) : value);
   }
 
   /**
@@ -223,7 +178,6 @@ export default abstract class Renderer {
     const nestedRules: Record<string, Rule> = {};
     const cssVariables: Variables = {};
     const nextProperties: GenericProperties = {};
-    let className = '';
 
     // Extract all nested rules first as we need to process them *after* properties
     objectLoop<Rule, Property>(properties, (value, prop) => {
@@ -238,35 +192,17 @@ export default abstract class Renderer {
       }
     });
 
-    const rule = formatRule(
-      options.selector,
-      processProperties(nextProperties, options, this.api),
-      cssVariables,
+    // Always use deterministic classes for grouped rules so we avoid subsequent renders
+    options.deterministic = true;
+
+    const hash = this.generateClassName(JSON.stringify(properties), options);
+
+    // Insert rule styles only once
+    const { className } = this.doCache(hash, () =>
+      this.doRender(nextProperties, cssVariables, options),
     );
 
-    // Insert only once
-    const hash = this.generateDeterministicClassName(rule, options.conditions);
-    const cache = this.cache.read(hash);
-
-    if (cache) {
-      className = cache.className;
-    } else {
-      className = options.className || (options.deterministic ? hash : this.generateClassName());
-
-      const classRule = `.${className}${rule}`;
-      const { prefixer } = this.api;
-
-      this.insertRule(
-        options.selector && options.vendor && prefixer
-          ? prefixer.prefixSelector(options.selector, classRule)
-          : classRule,
-        options,
-      );
-
-      this.cache.write(hash, { className });
-    }
-
-    // Render all nested rules with the top-level class name
+    // Render all nested rules with the parent class name
     this.processRule(nestedRules, { ...options, className }, this.renderRuleGrouped);
 
     return className;
@@ -279,30 +215,58 @@ export default abstract class Renderer {
     const key = formatVariableName(name);
     const val = processValue(key, value, options.unit);
 
-    // Check the cache immediately
-    const cacheKey = createAtomicCacheKey(options, key, val);
-    const cache = this.cache.read(cacheKey);
+    return this.doCache(createAtomicCacheKey(options, key, val), () =>
+      this.doRender(undefined, { [key]: value }, options),
+    ).className;
+  }
 
-    if (cache) {
-      return cache.className;
+  /**
+   * Utility method for handling the caching process.
+   */
+  protected doCache(key: string, run: () => CacheItem, minimumRank?: number): CacheItem {
+    let cache = this.cache.read(key, minimumRank);
+
+    if (!cache) {
+      cache = run();
+      this.cache.write(key, cache);
     }
 
-    // Format and insert the rule
-    const rule = ` { ${formatVariable(key, val)} }`;
-    const className =
-      options.className ||
-      (options.deterministic
-        ? this.generateDeterministicClassName(rule, options.conditions)
-        : this.generateClassName());
+    return cache;
+  }
 
-    this.insertRule(`.${className}${rule}`, options);
+  /**
+   * Utility method for rendering properties/variables into a CSS rule.
+   */
+  protected doRender(
+    properties: Properties | undefined,
+    variables: Variables | undefined,
+    options: RenderOptions,
+  ): CacheItem {
+    const { prefixer } = this.api;
 
-    // Write to cache
-    this.cache.write(cacheKey, {
-      className,
+    // Format objects into a CSS string (without class name)
+    const rule = formatRule({
+      properties: properties ? processProperties(properties, options, this.api) : undefined,
+      selector: options.selector,
+      variables,
     });
 
-    return className;
+    // Generate class name and format CSS rule (with class name)
+    const className = options.className || this.generateClassName(rule, options);
+    const css = `.${className}${rule}`;
+
+    // Insert rule and return a rank
+    const rank = this.insertRule(
+      options.selector && options.vendor && prefixer
+        ? prefixer.prefixSelector(options.selector, css)
+        : css,
+      options,
+    );
+
+    return {
+      className,
+      rank,
+    };
   }
 
   /**
@@ -321,14 +285,14 @@ export default abstract class Renderer {
       rule += ` { ${body} }`;
     }
 
-    const hash = this.generateDeterministicClassName(rule);
-    const cache = this.cache.read(hash);
+    const className = this.generateClassName(rule, { deterministic: true });
 
-    // Insert only once
-    if (!cache) {
+    // Insert at-rule only once
+    this.doCache(className, () => {
       this.sheetManager.insertRule('global', rule);
-      this.cache.write(hash, { className: hash });
-    }
+
+      return { className };
+    });
   }
 
   /**

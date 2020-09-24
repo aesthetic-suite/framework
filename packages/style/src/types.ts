@@ -52,9 +52,9 @@ export interface DirectionConverter {
   convert: <T extends Value>(
     from: Direction,
     to: Direction,
-    key: string,
+    property: string,
     value: T,
-  ) => { key: string; value: T };
+  ) => { property: string; value: T };
 }
 
 export interface VendorPrefixer {
