@@ -10,6 +10,7 @@ import {
   SUPPORTS_RULE,
 } from '../constants';
 import { Condition } from '../types';
+import { formatRule } from '../helpers';
 
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/iu;
 
@@ -21,12 +22,13 @@ function addRuleToCache(
 ) {
   const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
   const cacheKey = createAtomicCacheKey(
-    {
-      conditions,
+    formatRule({
+      // Has trailing semi-colon
+      properties: { [property]: value.slice(0, -1) },
+      // Has trailing spaces
       selector: selector.trim(),
-    },
-    property,
-    value,
+    }),
+    { conditions },
   );
 
   renderer.cache.write(cacheKey, {

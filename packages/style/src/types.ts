@@ -27,6 +27,7 @@ export interface ProcessOptions {
 export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
+  minimumRank?: number;
   selector?: string;
 }
 

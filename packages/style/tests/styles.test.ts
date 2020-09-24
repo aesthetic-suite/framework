@@ -360,10 +360,11 @@ describe('Styles', () => {
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
-    it('can utilize deterministic class names', () => {
-      const className = renderer.renderRuleGrouped(rule, { deterministic: true });
+    it('generates a consistent class name for same properties', () => {
+      const a = renderer.renderRuleGrouped(rule);
+      const b = renderer.renderRuleGrouped(rule);
 
-      expect(className).toBe('c19x5a9t');
+      expect(a).toBe(b);
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -382,6 +383,25 @@ describe('Styles', () => {
       expect(className).toBe('c12ol95t');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('handles right-to-left, vendor prefixes, and deterministic classes all at once', () => {
+      const a = renderer.renderRuleGrouped(rule, {
+        deterministic: true,
+        direction: 'ltr',
+        vendor: true,
+      });
+
+      // RTL
+      const b = renderer.renderRuleGrouped(rule, {
+        deterministic: true,
+        direction: 'rtl',
+        vendor: true,
+      });
+
+      expect(a).toBe('c1winuf3');
+      expect(b).toBe('cbk8r6n');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
 

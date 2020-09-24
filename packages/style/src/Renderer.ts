@@ -101,15 +101,14 @@ export default abstract class Renderer {
       ));
     }
 
-    // Weve converted above, so avoid converting again when rendering
-    options.direction = undefined;
-
     // Render and cache rule against the defined rank
-    const { className, rank } = this.doCache(
-      createAtomicCacheKey(options, key, val),
-      () => this.doRender({ [key]: val }, undefined, options),
-      rankings?.[key],
-    );
+    const { className, rank } = this.doRender({ [key]: val }, undefined, {
+      ...options,
+      // We've converted above, so avoid converting again
+      direction: undefined,
+      // Pass the latest rank for specificity guarding
+      minimumRank: rankings?.[key],
+    });
 
     // Persist the rank for each render
     if (rankings && rank && (rankings[property] === undefined || rank > rankings[property])) {
@@ -195,12 +194,8 @@ export default abstract class Renderer {
     // Always use deterministic classes for grouped rules so we avoid subsequent renders
     options.deterministic = true;
 
-    const hash = this.generateClassName(JSON.stringify(properties), options);
-
     // Insert rule styles only once
-    const { className } = this.doCache(hash, () =>
-      this.doRender(nextProperties, cssVariables, options),
-    );
+    const { className } = this.doRender(nextProperties, cssVariables, options);
 
     // Render all nested rules with the parent class name
     this.processRule(nestedRules, { ...options, className }, this.renderRuleGrouped);
@@ -215,9 +210,7 @@ export default abstract class Renderer {
     const key = formatVariableName(name);
     const val = processValue(key, value, options.unit);
 
-    return this.doCache(createAtomicCacheKey(options, key, val), () =>
-      this.doRender(undefined, { [key]: value }, options),
-    ).className;
+    return this.doRender(undefined, { [key]: val }, options).className;
   }
 
   /**
@@ -251,22 +244,28 @@ export default abstract class Renderer {
       variables,
     });
 
-    // Generate class name and format CSS rule (with class name)
-    const className = options.className || this.generateClassName(rule, options);
-    const css = `.${className}${rule}`;
+    return this.doCache(
+      createAtomicCacheKey(rule, options),
+      () => {
+        // Generate class name and format CSS rule (with class name)
+        const className = options.className || this.generateClassName(rule, options);
+        const css = `.${className}${rule}`;
 
-    // Insert rule and return a rank
-    const rank = this.insertRule(
-      options.selector && options.vendor && prefixer
-        ? prefixer.prefixSelector(options.selector, css)
-        : css,
-      options,
+        // Insert rule and return a rank
+        const rank = this.insertRule(
+          options.selector && options.vendor && prefixer
+            ? prefixer.prefixSelector(options.selector, css)
+            : css,
+          options,
+        );
+
+        return {
+          className,
+          rank,
+        };
+      },
+      options.minimumRank,
     );
-
-    return {
-      className,
-      rank,
-    };
   }
 
   /**

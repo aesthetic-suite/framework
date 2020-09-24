@@ -46,13 +46,15 @@ exports[`Styles rule grouping can generate a non-atomic single class by grouping
 
 exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
 
-exports[`Styles rule grouping can utilize deterministic class names 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
-
-exports[`Styles rule grouping can utilize deterministic class names 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
-
 exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".c1winuf3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1winuf3:hover {display: flex; color: blue;}.c1winuf3::-ms-backdrop {background: black;}"`;
 
 exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.c1winuf3 {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1winuf3:hover {color: darkblue;}}"`;
+
+exports[`Styles rule grouping generates a consistent class name for same properties 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
+
+exports[`Styles rule grouping generates a consistent class name for same properties 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
+
+exports[`Styles rule grouping handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".c1winuf3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1winuf3:hover {display: flex; color: blue;}.c1winuf3::-ms-backdrop {background: black;}.cbk8r6n {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.cbk8r6n:hover {display: flex; color: blue;}.cbk8r6n::-ms-backdrop {background: black;}"`;
 
 exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 
