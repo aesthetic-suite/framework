@@ -1,0 +1,7 @@
+extends: ../system-fixed/language.yaml
+colors:
+  - black
+  - white
+  - blue
+  - red
+  - green

@@ -9,6 +9,27 @@ describe('Block', () => {
     instance = new Block('test');
   });
 
+  describe('addClassName()', () => {
+    it('adds a class name to the current block if no parent', () => {
+      instance.addClassName('foo');
+
+      expect(instance.className).toBe(' foo');
+    });
+
+    it('adds a class name to the root parent', () => {
+      const child = createBlock('');
+      const grandchild = createBlock(':hover');
+
+      instance.addNested(child);
+      child.addNested(grandchild);
+
+      grandchild.addClassName('foo');
+
+      expect(instance.className).toBe(' foo');
+      expect(grandchild.className).toBe('');
+    });
+  });
+
   describe('addNested()', () => {
     it('adds a nested object', () => {
       const obj = createBlock(':hover').addProperty('color', 'red');
@@ -66,6 +87,31 @@ describe('Block', () => {
       instance.addVariable('--color', 'blue');
 
       expect(instance.variables['--color']).toBe('blue');
+    });
+  });
+
+  describe('getSelectors()', () => {
+    it('returns current selector if defined', () => {
+      expect(instance.getSelectors()).toEqual(['test']);
+    });
+
+    it('returns an empty array if not defined', () => {
+      instance = createBlock('');
+
+      expect(instance.getSelectors()).toEqual([]);
+    });
+
+    it('returns a list of all ancestry selectors, skipping over empty ones', () => {
+      const child = createBlock('');
+      const grandchild = createBlock(':hover');
+
+      instance.addNested(child);
+      child.addNested(grandchild);
+
+      grandchild.addClassName('foo');
+
+      expect(instance.getSelectors()).toEqual(['test']);
+      expect(grandchild.getSelectors()).toEqual(['test', ':hover']);
     });
   });
 

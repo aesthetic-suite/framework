@@ -4,8 +4,6 @@ exports[`Conditions media queries can be nested in @supports 1`] = `".a {padding
 
 exports[`Conditions media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.b {padding: 15px;}}}"`;
 
-exports[`Conditions media queries sorts media queries using mobile-first (when using SSR) 1`] = `"@media screen and (min-width: 320px) and (max-width: 767px) { .b { padding:0; } }@media screen and (min-height: 480px) { .d { padding:0; } }@media screen and (min-height: 480px) and (min-width: 320px) { .e { padding:0; } }@media screen and (min-width: 640px) { .g { padding:0; } }@media screen and (min-width: 1024px) { .a { padding:0; } }@media screen and (min-width: 1280px) { .c { padding:0; } }@media screen and (min-device-width: 320px) and (max-device-width: 767px) { .m { padding:0; } }@media screen and (max-width: 1023px) { .o { padding:0; } }@media screen and (max-height: 767px) and (min-height: 320px) { .k { padding:0; } }@media screen and (max-width: 767px) and (min-width: 320px) { .i { padding:0; } }@media screen and (max-width: 639px) { .n { padding:0; } }@media screen and (orientation: landscape) { .l { padding:0; } }@media screen and (orientation: portrait) { .f { padding:0; } }@media tv { .j { padding:0; } }@media print { .h { padding:0; } }"`;
-
 exports[`Conditions media queries supports @media conditions 1`] = `".a {background: #000;}.b {padding: 15px;}"`;
 
 exports[`Conditions media queries supports @media conditions 2`] = `"@media (max-width: 600px) {.c {padding: 15px;}}@media screen and (min-width: 900px) {.d {padding: 20px;}}"`;

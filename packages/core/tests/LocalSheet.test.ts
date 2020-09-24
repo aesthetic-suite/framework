@@ -124,6 +124,16 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
+  it('doesnt cache when using a dynamic unit function', () => {
+    const spy = jest.spyOn(sheet, 'compose');
+
+    sheet.render(renderer, lightTheme, { unit: () => 'px' });
+    sheet.render(renderer, lightTheme, { unit: () => 'em' });
+    sheet.render(renderer, lightTheme, { unit: () => 'rem' });
+
+    expect(spy).toHaveBeenCalledTimes(3);
+  });
+
   it('renders and returns an object of class names', () => {
     const classes = sheet.render(renderer, lightTheme, {});
 

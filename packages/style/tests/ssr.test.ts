@@ -1,25 +1,35 @@
 import ServerRenderer from '../src/server/ServerRenderer';
 
 describe('SSR', () => {
+  let renderer: ServerRenderer;
+
+  beforeEach(() => {
+    renderer = new ServerRenderer();
+
+    global.AESTHETIC_CUSTOM_RENDERER = renderer;
+  });
+
   afterEach(() => {
-    // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_RENDERER;
   });
 
   it('sets SSR global', () => {
-    expect(global.AESTHETIC_CUSTOM_RENDERER).toBeUndefined();
+    delete global.AESTHETIC_CUSTOM_RENDERER;
 
-    const renderer = new ServerRenderer();
     renderer.extractStyles(null);
 
     expect(global.AESTHETIC_CUSTOM_RENDERER).toBe(renderer);
   });
 
+  it('sets SSR env var', () => {
+    delete process.env.AESTHETIC_SSR;
+
+    renderer.extractStyles(null);
+
+    expect(process.env.AESTHETIC_SSR).toBe('true');
+  });
+
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
-    const renderer = new ServerRenderer();
-
-    global.AESTHETIC_CUSTOM_RENDERER = renderer;
-
     renderer.applyRootVariables({
       fontSize: '16px',
       bgColor: '#fff',
@@ -91,6 +101,53 @@ describe('SSR', () => {
       '@supports (color: green)': {
         color: 'black',
       },
+    });
+
+    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+  });
+
+  it('can render media and feature queries', () => {
+    renderer.renderRule({
+      '@media (max-width: 1000px)': { display: 'block' },
+      '@supports (display: flex)': { display: 'flex' },
+    });
+
+    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+  });
+
+  it('can render CSS variables', () => {
+    renderer.applyRootVariables({
+      '--root-level': 'true',
+    });
+
+    renderer.renderRule({
+      '--element-level': 123,
+    });
+
+    renderer.renderVariable('varLevel', '10px');
+
+    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+  });
+
+  it('sorts media queries using mobile-first', () => {
+    const block = { padding: 0 };
+
+    renderer.renderRule({
+      '@media screen and (min-width: 1024px)': block,
+      '@media screen and (min-width: 320px) and (max-width: 767px)': block,
+      '@media screen and (min-width: 1280px)': block,
+      '@media screen and (min-height: 480px)': block,
+      '@media screen and (min-height: 480px) and (min-width: 320px)': block,
+      '@media screen and (orientation: portrait)': block,
+      '@media screen and (min-width: 640px)': block,
+      '@media print': block,
+      '@media screen and (max-width: 767px) and (min-width: 320px)': block,
+      '@media tv': block,
+      '@media screen and (max-height: 767px) and (min-height: 320px)': block,
+      '@media screen and (orientation: landscape)': block,
+      '@media screen and (min-device-width: 320px) and (max-device-width: 767px)': block,
+      '@media screen and (max-width: 639px)': block,
+      '@media screen and (max-width: 1023px)': block,
     });
 
     expect(renderer.renderToStyleMarkup()).toMatchSnapshot();

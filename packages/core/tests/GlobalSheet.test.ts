@@ -70,6 +70,16 @@ describe('GlobalSheet', () => {
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
+  it('doesnt cache when using a dynamic unit function', () => {
+    const spy = jest.spyOn(sheet, 'compose');
+
+    sheet.render(renderer, lightTheme, { unit: () => 'px' });
+    sheet.render(renderer, lightTheme, { unit: () => 'em' });
+    sheet.render(renderer, lightTheme, { unit: () => 'rem' });
+
+    expect(spy).toHaveBeenCalledTimes(3);
+  });
+
   it('renders @font-face', () => {
     const spy = jest.spyOn(renderer, 'renderFontFace');
 

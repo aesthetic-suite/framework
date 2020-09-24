@@ -24,6 +24,7 @@ export default class ServerRenderer extends Renderer {
 
   extractStyles<T>(result: T): T {
     global.AESTHETIC_CUSTOM_RENDERER = this;
+    process.env.AESTHETIC_SSR = 'true';
 
     return result;
   }

@@ -35,7 +35,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace NodeJS {
     interface Global {
-      AESTHETIC_CUSTOM_RENDERER: Renderer;
+      AESTHETIC_CUSTOM_RENDERER?: Renderer;
     }
   }
 }
@@ -207,10 +207,7 @@ export default abstract class Renderer {
    * Render an element level CSS variable into the defined style sheet as a single class name.
    */
   renderVariable(name: string, value: Value, options: RenderOptions = {}): ClassName {
-    const key = formatVariableName(name);
-    const val = processValue(key, value, options.unit);
-
-    return this.doRender(undefined, { [key]: val }, options).className;
+    return this.doRender(undefined, { [formatVariableName(name)]: value }, options).className;
   }
 
   /**

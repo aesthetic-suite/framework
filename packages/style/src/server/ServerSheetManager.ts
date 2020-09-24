@@ -4,7 +4,7 @@ import { CSS } from '@aesthetic/types';
 import { arrayLoop } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 import { MEDIA_RULE, SUPPORTS_RULE } from '../constants';
-import { isMediaRule, isSupportsRule } from '../helpers';
+import { isMediaRule } from '../helpers';
 import SheetManager from '../SheetManager';
 import { Condition, StyleRule } from '../types';
 
@@ -76,10 +76,11 @@ export default class ServerSheetManager extends SheetManager {
    * Insert an `@supports` rule into the root for the defined query.
    */
   insertFeatureRule(query: string, rule: CSS, parentRule?: StyleRule): number {
-    const formattedRule = isSupportsRule(rule) ? rule : `@supports ${query} { ${rule} }`;
+    const formattedRule = `@supports ${query} { ${rule} }`;
+    const sheet = this.getSheet('conditions');
 
     // Already exists so append a new rule
-    if (parentRule) {
+    if (parentRule && parentRule !== sheet) {
       return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
     }
 
@@ -96,7 +97,7 @@ export default class ServerSheetManager extends SheetManager {
    * while keeping a mobile/desktop-first sort order.
    */
   insertMediaRule(query: string, rule: CSS, parentRule?: StyleRule): number {
-    const formattedRule = isMediaRule(rule) ? rule : `@media ${query} { ${rule} }`;
+    const formattedRule = `@media ${query} { ${rule} }`;
     const sheet = this.getSheet('conditions');
 
     // Already exists so append a new rule (except for root sorting)

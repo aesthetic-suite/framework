@@ -5,14 +5,22 @@ import { ConfigFile } from './types';
 
 export default abstract class Loader<T extends ConfigFile> {
   load(configDir: Path): T {
-    const filePath = configDir.path().endsWith('.yaml')
-      ? configDir
-      : configDir.append(this.getFileName());
+    let filePath: Path;
+    let parentDir: Path;
+
+    if (configDir.path().endsWith('.yaml')) {
+      filePath = configDir;
+      parentDir = configDir.parent();
+    } else {
+      filePath = configDir.append(this.getFileName());
+      parentDir = configDir;
+    }
+
     let config = parseFile<DeepPartial<T>>(filePath);
 
     // Extend from parent config
     if (config.extends && typeof config.extends === 'string') {
-      config = deepMerge(this.load(configDir.parent().append(config.extends)), config);
+      config = deepMerge(this.load(parentDir.append(config.extends)), config);
     }
 
     return this.validate(config, filePath);
