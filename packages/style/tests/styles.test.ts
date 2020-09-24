@@ -132,7 +132,14 @@ describe('Styles', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('can set CSS variables', () => {
+  it('supports rendering a single CSS variable', () => {
+    const className = renderer.renderVariable('--primary-color', 'black');
+
+    expect(className).toBe('a');
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('can apply CSS variables to the root', () => {
     renderer.applyRootVariables({
       someVar: '10px',
       '--already-formatted-var': '10em',
@@ -393,14 +400,11 @@ describe('Styles', () => {
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
-    it('warns about variables when using a non-grouped rule', () => {
+    it('generates separate classes when not using a group', () => {
       const className = renderer.renderRule(rule);
 
-      expect(className).toBe('a b');
+      expect(className).toBe('a b c d');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
-      expect(spy).toHaveBeenCalledWith(
-        'CSS variables are only accepted within rule groups. Found "--color" variable.',
-      );
     });
   });
 

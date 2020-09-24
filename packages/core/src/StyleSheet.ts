@@ -291,6 +291,9 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         classNames[selector] = cache;
         this.metadata[selector] = metadata;
       },
+      onVariable(block, key, value) {
+        block.addClassName(renderer.renderVariable(key, value));
+      },
     });
 
     return classNames;

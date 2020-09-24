@@ -9,6 +9,7 @@ import {
   GenericProperties,
   Variables,
   Rule,
+  Value,
 } from '@aesthetic/types';
 import { hyphenate, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
 import Cache from './Cache';
@@ -25,6 +26,7 @@ import processValue from './helpers/processValue';
 import SheetManager from './SheetManager';
 import { Condition, ProcessOptions, RenderOptions, API, RankCache } from './types';
 import createAtomicCacheKey from './helpers/createAtomicCacheKey';
+import { formatVariable, formatVariableName } from './helpers';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -121,6 +123,7 @@ export default abstract class Renderer {
     // Format and insert the rule
     const rule = formatRule(
       options.selector,
+      // Converter applied above, so only pass the prefixer here
       processProperties({ [key]: val }, { vendor: options.vendor }, this.api),
     );
 
@@ -270,6 +273,39 @@ export default abstract class Renderer {
   };
 
   /**
+   * Render an element level CSS variable into the defined style sheet as a single class name.
+   */
+  renderVariable(name: string, value: Value, options: RenderOptions = {}): ClassName {
+    const key = formatVariableName(name);
+    const val = processValue(key, value, options.unit);
+
+    // Check the cache immediately
+    const cacheKey = createAtomicCacheKey(options, key, val);
+    const cache = this.cache.read(cacheKey);
+
+    if (cache) {
+      return cache.className;
+    }
+
+    // Format and insert the rule
+    const rule = ` { ${formatVariable(key, val)} }`;
+    const className =
+      options.className ||
+      (options.deterministic
+        ? this.generateDeterministicClassName(rule, options.conditions)
+        : this.generateClassName());
+
+    this.insertRule(`.${className}${rule}`, options);
+
+    // Write to cache
+    this.cache.write(cacheKey, {
+      className,
+    });
+
+    return className;
+  }
+
+  /**
    * Insert an at-rule into the global style sheet.
    */
   protected insertAtRule(selector: string, properties: string | Properties) {
@@ -343,13 +379,9 @@ export default abstract class Renderer {
           console.warn(`Unknown property selector or nested block "${prop}".`);
         }
 
-        // Handle CSS variables
+        // CSS variables
       } else if (isVariable(prop)) {
-        if (__DEV__) {
-          console.warn(
-            `CSS variables are only accepted within rule groups. Found "${prop}" variable.`,
-          );
-        }
+        classNames.add(this.renderVariable(prop, value!, options));
 
         // Property value pair
       } else if (processProperty) {

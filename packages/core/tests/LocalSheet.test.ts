@@ -46,6 +46,9 @@ describe('LocalSheet', () => {
           from: { opacity: 0 },
           to: { opacity: 1 },
         },
+        '@variables': {
+          primaryColor: 'red',
+        },
       },
       baz: 'class-baz',
       qux: {
@@ -80,20 +83,18 @@ describe('LocalSheet', () => {
 
     expect(sheet.metadata).toEqual({
       bar: {
-        classNames: { class: 'k l' },
-        variantTypes: new Set(),
+        classNames: { class: 'k l m' },
       },
       foo: {
         classNames: { class: 'a b c d e f g h i j' },
-        variantTypes: new Set(),
       },
       qux: {
         classNames: {
           class: '',
           variants: {
-            size_lg: 'o',
-            size_md: 'n',
-            size_sm: 'm',
+            size_lg: 'p',
+            size_md: 'o',
+            size_sm: 'n',
           },
         },
         variantTypes: new Set(['size']),
@@ -128,14 +129,14 @@ describe('LocalSheet', () => {
 
     expect(classes).toEqual({
       foo: { class: 'a b c d e f g h i j' },
-      bar: { class: 'k l' },
+      bar: { class: 'k l m' },
       baz: { class: 'class-baz' },
       qux: {
         class: '',
         variants: {
-          size_lg: 'o',
-          size_md: 'n',
-          size_sm: 'm',
+          size_lg: 'p',
+          size_md: 'o',
+          size_sm: 'n',
         },
       },
     });

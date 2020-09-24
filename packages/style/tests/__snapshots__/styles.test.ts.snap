@@ -10,9 +10,9 @@ exports[`Styles can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
 exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}"`;
 
-exports[`Styles css variables includes variables in rule when using a rule group 1`] = `".a {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
+exports[`Styles css variables generates separate classes when not using a group 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}"`;
 
-exports[`Styles css variables warns about variables when using a non-grouped rule 1`] = `".a {display: block;}.b {color: var(--color);}"`;
+exports[`Styles css variables includes variables in rule when using a rule group 1`] = `".a {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
 
 exports[`Styles generates a deterministic class name for each property 1`] = `".c1cpw2zw {margin: 0;}.c1jzt5o3 {cursor: pointer;}"`;
 
@@ -55,6 +55,8 @@ exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".a
 exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.a {margin: 10px; padding: 10px;}}@media (width: 500px) {.a:hover {color: darkblue;}}"`;
 
 exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
+
+exports[`Styles supports rendering a single CSS variable 1`] = `".a {--primary-color: black;}"`;
 
 exports[`Styles unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
 

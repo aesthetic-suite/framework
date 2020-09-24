@@ -294,7 +294,11 @@ export type KeyframesListener<T extends object> = (
 
 export type RuleListener<T extends object> = (selector: string, block: Block<T>) => void;
 
-export type VariableListener = (name: string, value: Value) => void;
+export type VariableListener<T extends object> = (
+  blocck: Block<T>,
+  name: string,
+  value: Value,
+) => void;
 
 export type VariablesListener = (variables: Variables) => void;
 
@@ -309,7 +313,7 @@ export interface Events<T extends object> {
   onPseudo?: NestedListener<T>;
   onSelector?: NestedListener<T>;
   onSupports?: ConditionListener<T>;
-  onVariable?: PropertyListener<T>;
+  onVariable?: VariableListener<T>;
   onVariant?: NestedListener<T>;
   // Local
   onClass?: ClassNameListener;
