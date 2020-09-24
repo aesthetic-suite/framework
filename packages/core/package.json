@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/core",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components.",
   "keywords": [
     "aesthetic",
@@ -19,15 +19,15 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/sss": "^0.4.4",
-    "@aesthetic/style": "^0.4.3",
-    "@aesthetic/system": "^0.4.5",
+    "@aesthetic/sss": "^0.4.5",
+    "@aesthetic/style": "^0.4.4",
+    "@aesthetic/system": "^0.4.6",
     "@aesthetic/types": "^0.2.1",
-    "@aesthetic/utils": "^0.4.3"
+    "@aesthetic/utils": "^0.4.4"
   },
   "devDependencies": {
     "@aesthetic/addon-direction": "^0.2.0",
-    "@aesthetic/addon-vendor": "^0.1.3"
+    "@aesthetic/addon-vendor": "^0.1.4"
   },
   "funding": {
     "type": "ko-fi",

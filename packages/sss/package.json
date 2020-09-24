@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/sss",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "A strict, type-safe, and structure-safe component style sheet format.",
   "keywords": [
     "aesthetic",
@@ -26,6 +26,6 @@
   },
   "dependencies": {
     "@aesthetic/types": "^0.2.1",
-    "@aesthetic/utils": "^0.4.3"
+    "@aesthetic/utils": "^0.4.4"
   }
 }
