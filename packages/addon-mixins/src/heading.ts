@@ -8,7 +8,11 @@ export function heading(
   { level = 1 }: HeadingOptions = {},
 ): LocalBlock {
   if (__DEV__) {
-    checkList('level', level, [1, 2, 3, 4, 5, 6]);
+    checkList(
+      'level',
+      level,
+      Object.keys(this.tokens.heading).map((l) => Number(l.slice(1))),
+    );
   }
 
   return this.mixin.resetTypography({

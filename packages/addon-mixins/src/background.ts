@@ -1,5 +1,5 @@
 import { LocalBlock } from '@aesthetic/sss';
-import { Utilities, PALETTE_TYPES } from '@aesthetic/system';
+import { Utilities } from '@aesthetic/system';
 import { checkList } from './checks';
 import { BackgroundOptions } from './types';
 
@@ -8,7 +8,7 @@ export function background(
   { palette = 'neutral' }: BackgroundOptions = {},
 ): LocalBlock {
   if (__DEV__) {
-    checkList('palette', palette, PALETTE_TYPES);
+    checkList('palette', palette, Object.keys(this.tokens.palette));
   }
 
   return {

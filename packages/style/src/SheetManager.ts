@@ -76,6 +76,7 @@ export default class SheetManager {
       // `-moz` or `-ms` being inserted into WebKit.
       // There's no easy way around this, so let's just ignore the
       // error so that subsequent styles are inserted.
+      // istanbul ignore next
       return -1;
     }
   }

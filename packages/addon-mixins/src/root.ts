@@ -1,5 +1,6 @@
 import { LocalBlock } from '@aesthetic/sss';
-import { Utilities, BREAKPOINT_SIZES } from '@aesthetic/system';
+import { Utilities } from '@aesthetic/system';
+import { objectLoop } from '@aesthetic/utils';
 
 export function root(this: Utilities<LocalBlock>): LocalBlock {
   const declaration: LocalBlock = {
@@ -19,8 +20,8 @@ export function root(this: Utilities<LocalBlock>): LocalBlock {
   };
 
   // Fluid typography!
-  BREAKPOINT_SIZES.forEach((size) => {
-    declaration['@media']![this.tokens.breakpoint[size].query] = {
+  objectLoop(this.tokens.breakpoint, (bp, size) => {
+    declaration['@media']![bp.query] = {
       fontSize: this.var(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
       lineHeight: this.var(
         `breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height',

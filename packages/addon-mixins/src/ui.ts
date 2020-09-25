@@ -2,11 +2,16 @@ import { LocalBlock } from '@aesthetic/sss';
 import { isObject } from '@aesthetic/utils';
 import { Utilities } from '@aesthetic/system';
 import { UIBoxOptions, UIInteractiveOptions } from './types';
+import { checkList } from './checks';
 
 export function uiBox(
   this: Utilities<LocalBlock>,
   { border = true, palette = 'neutral', shadow = true }: UIBoxOptions,
 ): LocalBlock {
+  if (__DEV__) {
+    checkList('palette', palette, Object.keys(this.tokens.palette));
+  }
+
   const rule = this.mixin.background({ palette }, {});
 
   if (border) {
@@ -34,6 +39,10 @@ export function uiInteractive(
   this: Utilities<LocalBlock>,
   { palette = 'neutral' }: UIInteractiveOptions,
 ): LocalBlock {
+  if (__DEV__) {
+    checkList('palette', palette, Object.keys(this.tokens.palette));
+  }
+
   return {
     color: this.var(`palette-${palette}-color-00` as 'palette-neutral-color-00'),
     backgroundColor: this.var(`palette-${palette}-color-40` as 'palette-neutral-color-40'),

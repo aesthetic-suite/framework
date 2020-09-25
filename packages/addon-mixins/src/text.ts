@@ -1,11 +1,11 @@
 import { LocalBlock } from '@aesthetic/sss';
-import { Utilities, TEXT_SIZES } from '@aesthetic/system';
+import { Utilities } from '@aesthetic/system';
 import { checkList } from './checks';
 import { TextOptions } from './types';
 
 export function text(this: Utilities<LocalBlock>, { size = 'df' }: TextOptions = {}): LocalBlock {
   if (__DEV__) {
-    checkList('size', size, TEXT_SIZES);
+    checkList('size', size, Object.keys(this.tokens.text));
   }
 
   return this.mixin.resetTypography({

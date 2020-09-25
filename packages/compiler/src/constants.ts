@@ -1,3 +1,16 @@
+import {
+  BorderSize,
+  BreakpointSize,
+  CommonSize,
+  HeadingSize,
+  PaletteType,
+  ShadowSize,
+  SpacingSize,
+  StateType,
+  TextSize,
+  DEPTHS,
+  SHADE_RANGES,
+} from '@aesthetic/system';
 import { ScaleType, BreakpointListConfig } from './types';
 
 export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
@@ -65,3 +78,37 @@ export const SCALES: { [K in ScaleType]: number } = {
   'perfect-fifth': 1.5,
   'perfect-fourth': 1.333,
 };
+
+// SYSTEM
+
+export { DEPTHS, SHADE_RANGES };
+
+export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
+
+export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const COMMON_SIZES: CommonSize[] = ['sm', 'df', 'lg'];
+
+export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
+
+export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'md', 'lg', 'xl'];
+
+export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
+
+export const PALETTE_TYPES: PaletteType[] = [
+  'brand',
+  'primary',
+  'secondary',
+  'tertiary',
+  'neutral',
+  'muted',
+  'danger',
+  'warning',
+  'failure',
+  'success',
+  'info',
+];
+
+export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];

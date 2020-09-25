@@ -243,6 +243,18 @@ describe('Mixins', () => {
 
   describe('ui', () => {
     describe('box', () => {
+      it('errors for invalid `palette`', () => {
+        expect(() =>
+          mixins.uiBox(
+            {
+              // @ts-expect-error
+              palette: 'unknown',
+            },
+            {},
+          ),
+        ).toThrowErrorMatchingSnapshot();
+      });
+
       it('renders box', () => {
         expect(mixins.uiBox()).toMatchSnapshot();
         expect(mixins.uiBox({ palette: 'brand' }, {})).toMatchSnapshot();
@@ -270,8 +282,22 @@ describe('Mixins', () => {
     });
   });
 
-  it('renders interactive', () => {
-    expect(mixins.uiInteractive()).toMatchSnapshot();
-    expect(mixins.uiInteractive({ palette: 'primary' }, {})).toMatchSnapshot();
+  describe('interactive', () => {
+    it('errors for invalid `palette`', () => {
+      expect(() =>
+        mixins.uiInteractive(
+          {
+            // @ts-expect-error
+            palette: 'unknown',
+          },
+          {},
+        ),
+      ).toThrowErrorMatchingSnapshot();
+    });
+
+    it('renders interactive', () => {
+      expect(mixins.uiInteractive()).toMatchSnapshot();
+      expect(mixins.uiInteractive({ palette: 'primary' }, {})).toMatchSnapshot();
+    });
   });
 });

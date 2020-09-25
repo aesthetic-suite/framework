@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, danger, warning, failure, success, info"`;
+exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
 
 exports[`Mixins background renders background 1`] = `
 Object {
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, danger, warning, failure, success, info"`;
+exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
 
 exports[`Mixins border errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -88,7 +88,7 @@ Object {
 }
 `;
 
-exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, danger, warning, failure, success, info"`;
+exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
 
 exports[`Mixins foreground renders foreground 1`] = `
 Object {
@@ -146,7 +146,9 @@ Object {
 }
 `;
 
-exports[`Mixins renders interactive 1`] = `
+exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+
+exports[`Mixins interactive renders interactive 1`] = `
 Object {
   ":active": Object {
     "backgroundColor": "var(--palette-neutral-color-50)",
@@ -171,7 +173,7 @@ Object {
 }
 `;
 
-exports[`Mixins renders interactive 2`] = `
+exports[`Mixins interactive renders interactive 2`] = `
 Object {
   ":active": Object {
     "backgroundColor": "var(--palette-primary-color-50)",
@@ -305,7 +307,7 @@ Object {
 }
 `;
 
-exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, danger, warning, failure, success, info"`;
+exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
 
 exports[`Mixins shadow errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -376,6 +378,8 @@ Object {
   "wordWrap": "normal",
 }
 `;
+
+exports[`Mixins ui box errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
 
 exports[`Mixins ui box renders box 1`] = `
 Object {

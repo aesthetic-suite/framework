@@ -4,6 +4,13 @@ import ejs, { TemplateFunction } from 'ejs';
 import prettier, { BuiltInParserName } from 'prettier';
 import camelCase from 'lodash/camelCase';
 import { Path, PortablePath } from '@boost/common';
+import BrandLoader from './BrandLoader';
+import LanguageLoader from './LanguageLoader';
+import ThemesLoader from './ThemesLoader';
+import SystemDesign from './SystemDesign';
+import SystemTheme from './SystemTheme';
+import WebPlatform from './platforms/Web';
+import { FormatType, SystemOptions, PlatformType, ThemesConfigFile } from './types';
 import {
   DEPTHS,
   BORDER_SIZES,
@@ -15,14 +22,7 @@ import {
   SPACING_SIZES,
   TEXT_SIZES,
   STATE_ORDER,
-} from '@aesthetic/system';
-import BrandLoader from './BrandLoader';
-import LanguageLoader from './LanguageLoader';
-import ThemesLoader from './ThemesLoader';
-import SystemDesign from './SystemDesign';
-import SystemTheme from './SystemTheme';
-import WebPlatform from './platforms/Web';
-import { FormatType, SystemOptions, PlatformType, ThemesConfigFile } from './types';
+} from './constants';
 
 type Platform = WebPlatform;
 
