@@ -72,7 +72,6 @@ on the following goals for both designers _and_ engineers.
   - `Object.assign`
   - `Object.values`
   - `matchMedia`
-  - `requestAnimationFrame`
 
 ## Documentation
 

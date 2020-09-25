@@ -88,18 +88,4 @@ describe('Hydration', () => {
     );
     expect(renderer.ruleIndex).toBe(21);
   });
-
-  it('sets correct indices', () => {
-    const renderer = new ClientRenderer();
-
-    expect(renderer.sheetManager.getSheet('global').lastIndex).toBeUndefined();
-    expect(renderer.sheetManager.getSheet('standard').lastIndex).toBeUndefined();
-    expect(renderer.sheetManager.getSheet('conditions').lastIndex).toBeUndefined();
-
-    renderer.hydrateStyles();
-
-    expect(renderer.sheetManager.getSheet('global').lastIndex).toBe(2);
-    expect(renderer.sheetManager.getSheet('standard').lastIndex).toBe(16);
-    expect(renderer.sheetManager.getSheet('conditions').lastIndex).toBe(3);
-  });
 });

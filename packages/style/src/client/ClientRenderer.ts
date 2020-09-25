@@ -40,7 +40,6 @@ export default class ClientRenderer extends Renderer {
       return false;
     }
 
-    const manager = this.sheetManager;
     const styles = document.querySelectorAll<HTMLStyleElement>(
       'style[data-aesthetic-hydrate-index]',
     );
@@ -48,7 +47,6 @@ export default class ClientRenderer extends Renderer {
     arrayLoop(styles, (style) => {
       const sheet = style.sheet as CSSStyleSheet;
       const type = style.getAttribute('data-aesthetic-type') as SheetType;
-      const lastIndex = Number(style.getAttribute('data-aesthetic-hydrate-index'));
 
       if (type === 'global') {
         hydrateGlobals(this, sheet);
@@ -57,9 +55,6 @@ export default class ClientRenderer extends Renderer {
       } else {
         hydrateRules(this, sheet);
       }
-
-      // Persist the indices
-      manager.getSheet(type).lastIndex = lastIndex;
 
       if (this.ruleIndex === -1) {
         this.ruleIndex = Number(style.getAttribute('data-aesthetic-rule-index'));

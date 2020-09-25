@@ -85,9 +85,9 @@ export default class ServerSheetManager extends SheetManager {
     }
 
     // Insert the rule and capture the instance
-    const index = this.enqueueRule('conditions', formattedRule);
+    const index = this.injectRule('conditions', formattedRule);
 
-    this.featureQueries[query] = this.getSheet('conditions').cssRules[index];
+    this.featureQueries[query] = sheet.cssRules[index];
 
     return index;
   }
