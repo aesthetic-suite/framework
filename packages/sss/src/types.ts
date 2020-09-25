@@ -8,12 +8,14 @@ import {
 } from '@aesthetic/types';
 import Block from './Block';
 
-export type ListableProperty<B, T> = B | T | (B | T)[];
+export type ListableProperty<B, T> = T | (B | T)[];
 
 // SYNTAX
 
 export interface CustomProperties {
+  animationName?: ListableProperty<CSST.Property.AnimationName, Keyframes>;
   clip?: string;
+  fontFamily?: ListableProperty<CSST.Property.FontFamily, FontFace>;
 }
 
 export type ExtendCustomProperties<T extends object> = {
@@ -108,7 +110,7 @@ export interface NestedBlockParams {
 
 export type AddPropertyCallback = (property: string, value: Value | undefined) => void;
 
-export type PropertyHandler<V> = (value: V, add: AddPropertyCallback) => void;
+export type PropertyHandler<V> = (value: NonNullable<V>, add: AddPropertyCallback) => void;
 
 export type PropertyHandlerMapInternal<T extends object> = {
   [P in keyof T]?: PropertyHandler<T[P]>;
@@ -165,6 +167,7 @@ export type VariableListener<T extends object> = (
 export type VariablesListener = (variables: Variables) => void;
 
 export interface ParserOptions<T extends object> {
+  customProperties: PropertyHandlerMap;
   onAttribute?: NestedListener<T>;
   onBlock?: BlockListener<T>;
   onFallback?: PropertyListener<T>;

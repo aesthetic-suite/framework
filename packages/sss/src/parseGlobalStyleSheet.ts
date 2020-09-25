@@ -15,6 +15,7 @@ import parseLocalBlock from './parsers/parseLocalBlock';
 import parseKeyframes from './parsers/parseKeyframes';
 import parseFontFace from './parsers/parseFontFace';
 import createQueue from './helpers/createQueue';
+import setupDefaultOptions from './helpers/setupDefaultOptions';
 
 function parseFontFacesMap<T extends object>(fontFaces: FontFaceMap, options: ParserOptions<T>) {
   if (__DEV__) {
@@ -66,9 +67,9 @@ function parseRootVariables<T extends object>(variables: Variables, options: Par
 
 export default function parseGlobalStyleSheet<T extends object>(
   styleSheet: GlobalStyleSheet,
-  options: ParserOptions<T>,
+  options: Partial<ParserOptions<T>>,
 ) {
-  const queue = createQueue(options);
+  const queue = createQueue(setupDefaultOptions(options));
   queue.add(styleSheet, '@font-face', parseFontFacesMap);
   queue.add(styleSheet, '@import', parseImport);
   queue.add(styleSheet, '@keyframes', parseKeyframesMap);

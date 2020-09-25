@@ -1,45 +1,35 @@
-import { Property } from '@aesthetic/types';
-import { isObject } from '@aesthetic/utils';
-import processCompoundProperty from '../helpers/processCompoundProperty';
+import { Value } from '@aesthetic/types';
 import Block from '../Block';
-import { ParserOptions, FontFace, Keyframes, AddPropertyCallback } from '../types';
-import parseFontFace from './parseFontFace';
-import parseKeyframes from './parseKeyframes';
+import { ParserOptions, AddPropertyCallback, PropertyHandler, Properties } from '../types';
 
 export default function parseProperty<T extends object>(
   parent: Block<T>,
-  name: Property,
+  name: string,
   value: unknown,
   options: ParserOptions<T>,
 ) {
-  const handler: AddPropertyCallback = (p, v) => {
+  if (value === undefined) {
+    return;
+  }
+
+  const addHandler: AddPropertyCallback = (p, v) => {
     if (v !== undefined) {
       parent.addProperty(p, v);
       options.onProperty?.(parent, p, v);
     }
   };
 
-  // Convert expanded properties to longhand
-  if (EXPANDED_PROPERTIES.has(name) && isObject(value)) {
-    processExpandedProperty(name, value, expandedProperties[name], handler);
+  const { customProperties } = options;
 
-    return;
-  }
+  // Custom property
+  if (name in customProperties) {
+    (customProperties[name as keyof Properties] as PropertyHandler<Value>)(
+      value as Value,
+      addHandler,
+    );
 
-  // Convert compound properties
-  if (COMPOUND_PROPERTIES.has(name) && (isObject(value) || Array.isArray(value))) {
-    const compoundProperties: ProcessorMap = {
-      animationName: (prop: Keyframes) => parseKeyframes(prop, '', options),
-      fontFamily: (prop: FontFace) => parseFontFace(prop, '', options),
-    };
-
-    processCompoundProperty(name, value, compoundProperties[name], handler);
-
-    return;
-  }
-
-  // Normal property
-  if (typeof value === 'number' || typeof value === 'string') {
-    handler(name, value);
+    // Normal property
+  } else if (typeof value === 'number' || typeof value === 'string') {
+    addHandler(name, value);
   }
 }
