@@ -194,22 +194,6 @@ describe('Theme', () => {
     });
   });
 
-  describe('token()', () => {
-    it('returns a value', () => {
-      expect(testTheme.token('breakpoint-lg-root-line-height')).toBe(1.62);
-      expect(testTheme.token('palette-brand-color-20')).toBe('#fff');
-    });
-
-    it('errors for invalid token path', () => {
-      expect(() => {
-        testTheme.token(
-          // @ts-expect-error
-          'some-fake-value',
-        );
-      }).toThrow('Unknown token "some-fake-value".');
-    });
-  });
-
   describe('unit()', () => {
     it('generates a rem unit', () => {
       expect(testTheme.unit(-3.15)).toBe('-3.94rem');

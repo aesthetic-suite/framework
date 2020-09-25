@@ -55,7 +55,6 @@ export default class Theme<T extends object = Rule> implements Utilities<T> {
     // Bind instead of using anonymous functions since we need
     // to pass these around and define properties on them!
     this.mixin = this.mixinBase.bind(this);
-    this.token = this.token.bind(this);
     this.unit = this.unit.bind(this);
     this.var = this.var.bind(this);
 
@@ -173,21 +172,6 @@ export default class Theme<T extends object = Rule> implements Utilities<T> {
     }
 
     return properties as T;
-  }
-
-  /**
-   * Return a raw token value for the defined name.
-   */
-  token<K extends VariableName>(name: K): Variables[K] {
-    const value = this.toVariables()[name];
-
-    if (__DEV__) {
-      if (value === undefined) {
-        throw new Error(`Unknown token "${name}".`);
-      }
-    }
-
-    return value;
   }
 
   /**

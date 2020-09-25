@@ -150,8 +150,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       return factories[0];
     }
 
-    const composer: BaseSheetFactory = (p, tokens) =>
-      deepMerge(...factories.map((factory) => factory(p, tokens)));
+    const composer: BaseSheetFactory = (p) => deepMerge(...factories.map((factory) => factory(p)));
 
     return composer as Factory;
   }
@@ -191,7 +190,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
   ): ClassName {
     let className = '';
     const composer = this.compose(params);
-    const styles = composer(theme, theme.tokens) as GlobalStyleSheet;
+    const styles = composer(theme) as GlobalStyleSheet;
     const renderParams: RenderOptions = {
       direction: params.direction,
       unit: params.unit,
@@ -232,7 +231,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
   ): ClassNameSheet<string> {
     const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
-    const styles = composer(theme, theme.tokens) as LocalStyleSheet;
+    const styles = composer(theme) as LocalStyleSheet;
     const rankCache = {};
     const renderParams: RenderOptions = {
       direction: params.direction,

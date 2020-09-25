@@ -20,9 +20,7 @@ export function root(this: Utilities<LocalBlock>): LocalBlock {
 
   // Fluid typography!
   BREAKPOINT_SIZES.forEach((size) => {
-    declaration['@media']![
-      String(this.token(`breakpoint-${size}-query` as 'breakpoint-md-query'))
-    ] = {
+    declaration['@media']![this.tokens.breakpoint[size].query] = {
       fontSize: this.var(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
       lineHeight: this.var(
         `breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height',

@@ -6,7 +6,7 @@ import {
   LocalBlock,
 } from '@aesthetic/sss';
 import { DirectionConverter, VendorPrefixer } from '@aesthetic/style';
-import { ColorScheme, ContrastLevel, Tokens, Utilities } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
 import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 
@@ -46,11 +46,10 @@ export interface SheetElementMetadata {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type BaseSheetFactory = (utils: Utilities<any>, tokens: Tokens) => object;
+export type BaseSheetFactory = (utils: Utilities<any>) => object;
 
 export type GlobalSheetFactory<T = unknown, R extends object = LocalBlock> = (
   utils: Utilities<R>,
-  tokens: Tokens,
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type GlobalSheet<T = unknown, R extends object = LocalBlock> = Omit<
@@ -60,7 +59,6 @@ export type GlobalSheet<T = unknown, R extends object = LocalBlock> = Omit<
 
 export type LocalSheetFactory<T = unknown, R extends object = LocalBlock> = (
   utils: Utilities<R>,
-  tokens: Tokens,
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
 export type LocalSheet<T = unknown, R extends object = LocalBlock> = StyleSheet<

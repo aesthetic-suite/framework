@@ -489,8 +489,10 @@ export interface MixinUtil<T extends object = Rule, O extends object = object> {
 // OTHER
 
 export interface Utilities<T extends object> {
+  contrast: ContrastLevel;
   mixin: MixinUtil<T>;
-  token: TokenUtil;
+  scheme: ColorScheme;
+  tokens: Tokens;
   unit: UnitUtil;
   var: VarUtil;
 }
