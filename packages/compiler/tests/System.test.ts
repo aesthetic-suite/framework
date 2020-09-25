@@ -13,7 +13,7 @@ describe('System', () => {
   describe('breakpoints', () => {
     it('handles mobile first', () => {
       const config = new LanguageLoader('web').load(
-        new Path(__dirname, './__fixtures__/mobile-first.yaml'),
+        new Path(__dirname, './__fixtures__/system-fixed/language.yaml'),
       );
 
       const design = new SystemDesign('test', config, options);
@@ -48,47 +48,6 @@ describe('System', () => {
           querySize: 1920,
           rootLineHeight: 1.7287496696626334,
           rootTextSize: 19.361996300221495,
-        },
-      });
-    });
-
-    it('handles desktop first', () => {
-      const config = new LanguageLoader('web').load(
-        new Path(__dirname, './__fixtures__/desktop-first.yaml'),
-      );
-
-      const design = new SystemDesign('test', config, options);
-
-      expect(design.template.breakpoint).toEqual({
-        xs: {
-          queryConditions: [['max-width', 640]],
-          querySize: 640,
-          rootLineHeight: 0.9038324214430207,
-          rootTextSize: 10.122923120161829,
-        },
-        sm: {
-          queryConditions: [['max-width', 960]],
-          querySize: 960,
-          rootLineHeight: 0.964389193679703,
-          rootTextSize: 10.801158969212672,
-        },
-        md: {
-          queryConditions: [['max-width', 1280]],
-          querySize: 1280,
-          rootLineHeight: 1.029003269656243,
-          rootTextSize: 11.524836620149921,
-        },
-        lg: {
-          queryConditions: [['max-width', 1600]],
-          querySize: 1600,
-          rootLineHeight: 1.0979464887232113,
-          rootTextSize: 12.297000673699966,
-        },
-        xl: {
-          queryConditions: [['max-width', 1920]],
-          querySize: 1920,
-          rootLineHeight: 1.1715089034676665,
-          rootTextSize: 13.120899718837864,
         },
       });
     });

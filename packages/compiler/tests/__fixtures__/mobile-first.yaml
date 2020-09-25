@@ -1,3 +1,0 @@
-extends: ./desktop-first.yaml
-responsive:
-  strategy: mobile-first

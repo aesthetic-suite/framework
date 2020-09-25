@@ -41,7 +41,7 @@ const className = renderer.renderRule({
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
 - Media and support queries are grouped and rendered after normal declarations.
-- Media queries are sorted mobile-first or desktop-first.
+- Media queries are sorted mobile-first.
 - Injection buffering for increased performance and reduced paints.
 - Style declarations support pseudos, attributes, conditional at-rules, and nested declarations.
 - Deterministic or atomic incremental CSS class names.

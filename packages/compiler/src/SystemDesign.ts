@@ -103,7 +103,7 @@ export default class SystemDesign {
 
   protected compileBreakpoints(text: DesignTemplate['text']): DesignTemplate['breakpoint'] {
     const { responsive } = this.config;
-    const { breakpoints, lineHeightScale, textScale, strategy } = responsive;
+    const { breakpoints, lineHeightScale, textScale } = responsive;
     const points: number[] = [];
 
     if (Array.isArray(breakpoints)) {
@@ -112,8 +112,8 @@ export default class SystemDesign {
       points.push(...Object.values(breakpoints));
     }
 
-    // Sort mobile ASC, desktop DESC
-    points.sort((a, b) => (strategy === 'mobile-first' ? a - b : b - a));
+    // Sort mobile ASC
+    points.sort((a, b) => a - b);
 
     // Map a list of template objects
     let lastLineHeight = text.df.lineHeight;
@@ -123,15 +123,9 @@ export default class SystemDesign {
       const size = points[index];
       const conditions: BreakpointCondition[] = [];
 
-      if (strategy === 'mobile-first') {
-        conditions.push(['min-width', size]);
-        lastLineHeight = scaleUp(lastLineHeight, lineHeightScale);
-        lastTextSize = scaleUp(lastTextSize, textScale);
-      } else {
-        conditions.push(['max-width', size]);
-        lastLineHeight = scaleDown(lastLineHeight, lineHeightScale);
-        lastTextSize = scaleDown(lastTextSize, textScale);
-      }
+      conditions.push(['min-width', size]);
+      lastLineHeight = scaleUp(lastLineHeight, lineHeightScale);
+      lastTextSize = scaleUp(lastTextSize, textScale);
 
       return {
         queryConditions: conditions,
@@ -140,11 +134,6 @@ export default class SystemDesign {
         rootTextSize: lastTextSize,
       };
     });
-
-    // Reverse before destructuring
-    if (strategy === 'desktop-first') {
-      templates.reverse();
-    }
 
     // Destructure into the right sizes
     const [xs, sm, md, lg, xl] = templates;

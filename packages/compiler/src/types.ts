@@ -81,8 +81,6 @@ export type BorderConfig = BorderScaledConfig | BorderSizedConfig;
 
 // Responsive
 
-export type StrategyType = 'desktop-first' | 'mobile-first';
-
 export type BreakpointListConfig = [number, number, number, number, number];
 
 export type BreakpointSizedConfig = {
@@ -94,7 +92,6 @@ export type BreakpointConfig = BreakpointListConfig | BreakpointSizedConfig;
 export interface ResponsiveConfig {
   breakpoints: BreakpointConfig;
   lineHeightScale: Scale;
-  strategy: StrategyType;
   textScale: Scale;
 }
 

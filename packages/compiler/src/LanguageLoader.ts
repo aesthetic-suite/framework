@@ -29,7 +29,6 @@ import {
   ShadowSizedConfig,
   SpacingConfig,
   SpacingType,
-  StrategyType,
   TextScaledConfig,
   TextSizedConfig,
   TypographyConfig,
@@ -111,7 +110,6 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
 
     return shape<ResponsiveConfig>({
-      strategy: string('mobile-first').oneOf<StrategyType>(['desktop-first', 'mobile-first']),
       breakpoints: union<BreakpointConfig>(
         [
           tuple<BreakpointListConfig>([unit(xs), unit(sm), unit(md), unit(lg), unit(xl)]),

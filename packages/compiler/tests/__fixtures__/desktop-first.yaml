@@ -1,3 +1,0 @@
-extends: ./system-fixed/language.yaml
-responsive:
-  strategy: desktop-first

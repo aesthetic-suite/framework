@@ -4,10 +4,6 @@
 
 # RESPONSIVE
 responsive:
-  # Whether the system should target mobile or desktop devices as first priority.
-  # Accepts "mobile-first" or "desktop-first".
-  strategy: mobile-first
-
   # A list of 5 breakpoint units to target for device sizes.
   breakpoints:
     - 640
