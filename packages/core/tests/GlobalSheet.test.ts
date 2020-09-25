@@ -1,5 +1,5 @@
 import { ClientRenderer } from '@aesthetic/style';
-import { StyleSheet, GlobalSheet, createThemeStyles } from '../src';
+import { StyleSheet, GlobalSheet } from '../src';
 import { lightTheme } from '../src/testing';
 
 describe('GlobalSheet', () => {
@@ -8,7 +8,9 @@ describe('GlobalSheet', () => {
 
   beforeEach(() => {
     renderer = new ClientRenderer();
-    sheet = createThemeStyles(() => ({
+
+    // Dont use `createThemeStyles` since we need to pass a custom renderer
+    sheet = new StyleSheet('global', () => ({
       '@font-face': {
         Roboto: {
           fontStyle: 'normal',

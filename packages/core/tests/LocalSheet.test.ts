@@ -1,15 +1,25 @@
 import converter from '@aesthetic/addon-direction';
 import { ClientRenderer } from '@aesthetic/style';
-import { StyleSheet, LocalSheet, createComponentStyles } from '../src';
-import { getRenderedStyles, lightTheme, purgeStyles } from '../src/testing';
+import { StyleSheet, LocalSheet } from '../src';
+import {
+  getRenderedStyles,
+  lightTheme,
+  purgeStyles,
+  setupAesthetic,
+  teardownAesthetic,
+} from '../src/testing';
 
 describe('LocalSheet', () => {
   let renderer: ClientRenderer;
   let sheet: LocalSheet;
 
   beforeEach(() => {
+    setupAesthetic();
+
     renderer = new ClientRenderer({ converter });
-    sheet = createComponentStyles(() => ({
+
+    // Dont use `createComponentStyles` since we need to pass a custom renderer
+    sheet = new StyleSheet('local', () => ({
       foo: {
         display: 'block',
         background: 'white',
@@ -65,6 +75,7 @@ describe('LocalSheet', () => {
 
   afterEach(() => {
     purgeStyles();
+    teardownAesthetic();
   });
 
   it('errors if a non-function factory is passed', () => {

@@ -29,11 +29,6 @@ import {
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
 
 describe('Aesthetic', () => {
-  beforeEach(() => {
-    // @ts-expect-error Only need to mock matches
-    window.matchMedia = () => ({ matches: false });
-  });
-
   afterEach(() => {
     teardownAesthetic();
     document.documentElement.setAttribute('dir', 'ltr');
@@ -211,8 +206,25 @@ describe('Aesthetic', () => {
   });
 
   describe('createComponentStyles()', () => {
+    beforeEach(() => {
+      setupAesthetic();
+    });
+
     it('returns a `LocalSheet` instance', () => {
       expect(createComponentStyles(() => ({}))).toBeInstanceOf(StyleSheet);
+    });
+
+    it('renders styles immediately upon creation', () => {
+      const spy = jest.spyOn(getRenderer(), 'renderDeclaration');
+
+      createComponentStyles(() => ({
+        element: {
+          display: 'block',
+          width: '100%',
+        },
+      }));
+
+      expect(spy).toHaveBeenCalledTimes(2);
     });
   });
 

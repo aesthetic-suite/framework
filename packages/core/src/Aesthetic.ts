@@ -103,7 +103,12 @@ export function configure(customOptions: AestheticOptions) {
 export function createComponentStyles<T = unknown>(
   factory: LocalSheetFactory<T, LocalBlock>,
 ): LocalSheet<T, LocalBlock> {
-  return new StyleSheet('local', factory);
+  const sheet: LocalSheet<T, LocalBlock> = new StyleSheet('local', factory);
+
+  // Attempt to render styles immediately so they're available on mount
+  renderComponentStyles(sheet);
+
+  return sheet;
 }
 
 /**
