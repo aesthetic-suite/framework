@@ -164,7 +164,7 @@ export type VariableListener<T extends object> = (
 
 export type VariablesListener = (variables: Variables) => void;
 
-export interface Events<T extends object> {
+export interface ParserOptions<T extends object> {
   onAttribute?: NestedListener<T>;
   onBlock?: BlockListener<T>;
   onFallback?: PropertyListener<T>;

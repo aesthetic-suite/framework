@@ -1,11 +1,8 @@
-import { Property, Value } from '@aesthetic/types';
+import { Property } from '@aesthetic/types';
 import { isObject } from '@aesthetic/utils';
 import processCompoundProperty from '../helpers/processCompoundProperty';
-import processExpandedProperty from '../helpers/processExpandedProperty';
-import { expandedProperties } from '../properties';
 import Block from '../Block';
-import { Events, FontFace, Keyframes, ProcessorMap } from '../types';
-import { COMPOUND_PROPERTIES, EXPANDED_PROPERTIES } from '../constants';
+import { ParserOptions, FontFace, Keyframes, AddPropertyCallback } from '../types';
 import parseFontFace from './parseFontFace';
 import parseKeyframes from './parseKeyframes';
 
@@ -13,11 +10,13 @@ export default function parseProperty<T extends object>(
   parent: Block<T>,
   name: Property,
   value: unknown,
-  events: Events<T>,
+  options: ParserOptions<T>,
 ) {
-  const handler = (n: Property, v: Value) => {
-    parent.addProperty(n, v);
-    events.onProperty?.(parent, n, v);
+  const handler: AddPropertyCallback = (p, v) => {
+    if (v !== undefined) {
+      parent.addProperty(p, v);
+      options.onProperty?.(parent, p, v);
+    }
   };
 
   // Convert expanded properties to longhand
@@ -30,8 +29,8 @@ export default function parseProperty<T extends object>(
   // Convert compound properties
   if (COMPOUND_PROPERTIES.has(name) && (isObject(value) || Array.isArray(value))) {
     const compoundProperties: ProcessorMap = {
-      animationName: (prop: Keyframes) => parseKeyframes(prop, '', events),
-      fontFamily: (prop: FontFace) => parseFontFace(prop, '', events),
+      animationName: (prop: Keyframes) => parseKeyframes(prop, '', options),
+      fontFamily: (prop: FontFace) => parseFontFace(prop, '', options),
     };
 
     processCompoundProperty(name, value, compoundProperties[name], handler);

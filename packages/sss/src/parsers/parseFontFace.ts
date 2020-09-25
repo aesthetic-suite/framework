@@ -1,13 +1,13 @@
 import Block from '../Block';
 import formatFontFace from '../helpers/formatFontFace';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { Events, FontFace, Properties } from '../types';
+import { ParserOptions, FontFace, Properties } from '../types';
 import parseBlock from './parseBlock';
 
 export default function parseFontFace<T extends object>(
   object: FontFace,
   fontFamily: string,
-  events: Events<T>,
+  options: ParserOptions<T>,
 ): string {
   const name = object.fontFamily || fontFamily || '';
 
@@ -20,8 +20,8 @@ export default function parseFontFace<T extends object>(
     fontFamily: name,
   }) as Properties;
 
-  const block = parseBlock(new Block('@font-face'), fontFace, events);
+  const block = parseBlock(new Block('@font-face'), fontFace, options);
 
   // Inherit the name from the listener as it may be generated
-  return events.onFontFace?.(block, name, object.srcPaths) || name;
+  return options.onFontFace?.(block, name, object.srcPaths) || name;
 }

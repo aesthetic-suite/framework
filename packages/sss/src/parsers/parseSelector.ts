@@ -1,7 +1,7 @@
 import { arrayLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { NestedListener, Events, Rule } from '../types';
+import { NestedListener, ParserOptions, Rule } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
 function isSelector(value: string): boolean {
@@ -13,7 +13,7 @@ export default function parseSelector<T extends object>(
   selector: string,
   object: Rule,
   inAtRule: boolean,
-  events: Events<T>,
+  options: ParserOptions<T>,
 ) {
   if (__DEV__) {
     validateDeclarationBlock(object, selector);
@@ -33,15 +33,15 @@ export default function parseSelector<T extends object>(
       name = name.slice(1);
     }
 
-    const block = parseLocalBlock(parent.addNested(new Block(name)), object, events);
+    const block = parseLocalBlock(parent.addNested(new Block(name)), object, options);
     const args: Parameters<NestedListener<T>> = [parent, name, block, { specificity }];
 
     if (name[0] === ':') {
-      events.onPseudo?.(...args);
+      options.onPseudo?.(...args);
     } else if (name[0] === '[') {
-      events.onAttribute?.(...args);
+      options.onAttribute?.(...args);
     } else {
-      events.onSelector?.(...args);
+      options.onSelector?.(...args);
     }
   });
 }
