@@ -53,6 +53,28 @@ export interface UIInteractiveOptions {
   palette?: PaletteType;
 }
 
+export type MixinType =
+  | 'background'
+  | 'border'
+  | 'foreground'
+  | 'heading'
+  | 'hide-completely'
+  | 'hide-offscreen'
+  | 'hide-visually'
+  | 'reset-button'
+  | 'reset-input'
+  | 'reset-list'
+  | 'reset-media'
+  | 'reset-typography'
+  | 'root'
+  | 'shadow'
+  | 'text'
+  | 'text-break'
+  | 'text-truncate'
+  | 'text-wrap'
+  | 'ui-box'
+  | 'ui-interactive';
+
 declare module '@aesthetic/system' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   export interface MixinUtil<T extends object = Rule, O extends object = object> {
@@ -78,25 +100,3 @@ declare module '@aesthetic/system' {
     uiInteractive: MixinBuiltIn<T, UIInteractiveOptions>;
   }
 }
-
-export type MixinType =
-  | 'background'
-  | 'border'
-  | 'foreground'
-  | 'heading'
-  | 'hide-completely'
-  | 'hide-offscreen'
-  | 'hide-visually'
-  | 'reset-button'
-  | 'reset-input'
-  | 'reset-list'
-  | 'reset-media'
-  | 'reset-typography'
-  | 'root'
-  | 'shadow'
-  | 'text'
-  | 'text-break'
-  | 'text-truncate'
-  | 'text-wrap'
-  | 'ui-box'
-  | 'ui-interactive';
