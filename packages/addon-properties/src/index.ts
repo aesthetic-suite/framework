@@ -61,14 +61,14 @@ export const properties: PropertyHandlerMap = {
   flex: handleExpanded('flex'),
   font(value, add) {
     if (isObject<FontProperty>(value)) {
+      if (value.lineHeight) {
+        add('lineHeight', value.lineHeight);
+        delete value.lineHeight;
+      }
+
       if (value.system) {
         add('font', value.system);
       } else {
-        if (value.lineHeight) {
-          add('lineHeight', value.lineHeight);
-          delete value.lineHeight;
-        }
-
         collapse('font', value, add);
       }
     } else {

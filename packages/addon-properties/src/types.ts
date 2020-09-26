@@ -1,4 +1,5 @@
-import {} from '@aesthetic/sss';
+// Module augmentation
+import '@aesthetic/sss';
 import { CSST, Value } from '@aesthetic/types';
 
 // EXPANDED PROPERTIES

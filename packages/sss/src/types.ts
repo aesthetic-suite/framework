@@ -14,15 +14,14 @@ export type ListableProperty<B, T> = T | (B | T)[];
 
 export interface CustomProperties {
   animationName?: ListableProperty<CSST.Property.AnimationName, Keyframes>;
-  clip?: string;
   fontFamily?: ListableProperty<CSST.Property.FontFamily, FontFace>;
 }
 
 export type ExtendCustomProperties<T extends object> = {
-  [P in keyof T]?: P extends keyof CustomProperties ? T[P] | CustomProperties[P] : P;
+  [P in keyof T]?: P extends keyof CustomProperties ? T[P] | CustomProperties[P] : T[P];
 };
 
-export type Properties = ExtendCustomProperties<CSST.StandardProperties<Value>>;
+export type Properties = ExtendCustomProperties<CSST.StandardProperties<Value> & { clip?: string }>;
 
 export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
 
