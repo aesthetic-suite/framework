@@ -25,7 +25,7 @@ function handleExpanded(property: string) {
   };
 }
 
-function handleSpacing(property: string) {
+function handleExpandedSpacing(property: string) {
   return (value: unknown, add: AddPropertyCallback) => {
     if (!isObject<MarginProperty | PaddingProperty>(value)) {
       add(property, value as Value);
@@ -49,7 +49,7 @@ function handleSpacing(property: string) {
   };
 }
 
-export const properties: PropertyHandlerMap = {
+export const expandedProperties: PropertyHandlerMap = {
   animation: handleExpanded('animation'),
   background: handleExpanded('background'),
   border: handleExpanded('border'),
@@ -76,14 +76,12 @@ export const properties: PropertyHandlerMap = {
     }
   },
   listStyle: handleExpanded('listStyle'),
-  margin: handleSpacing('margin'),
+  margin: handleExpandedSpacing('margin'),
   offset: handleExpanded('offset'),
   outline: handleExpanded('outline'),
-  padding: handleSpacing('padding'),
+  padding: handleExpandedSpacing('padding'),
   textDecoration: handleExpanded('textDecoration'),
   transition: handleExpanded('transition'),
 };
 
 export * from './types';
-
-export default properties;

@@ -1,5 +1,5 @@
 import { parseLocalStyleSheet, Block, Properties } from '@aesthetic/sss';
-import customProperties from '../src';
+import { expandedProperties as customProperties } from '../src';
 // Import for module augmentation
 import '../src/types';
 
@@ -17,6 +17,26 @@ describe('Custom properties', () => {
 
   beforeEach(() => {
     spy = jest.fn();
+  });
+
+  it('handles normal `animation`', () => {
+    parseLocalStyleSheet(
+      {
+        element: {
+          animation: 'ease-in 200ms',
+        },
+      },
+      {
+        customProperties,
+        onBlock: spy,
+      },
+    );
+
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('animation', {
+        animation: 'ease-in 200ms',
+      }),
+    );
   });
 
   it('parses expanded `animation`', () => {
@@ -165,6 +185,26 @@ describe('Custom properties', () => {
         flexGrow: 2,
         flexShrink: 1,
         flexBasis: '50%',
+      }),
+    );
+  });
+
+  it('handles normal `font`', () => {
+    parseLocalStyleSheet(
+      {
+        element: {
+          font: '1.2em "Fira Sans", sans-serif',
+        },
+      },
+      {
+        customProperties,
+        onBlock: spy,
+      },
+    );
+
+    expect(spy).toHaveBeenCalledWith(
+      createBlock('font', {
+        font: '1.2em "Fira Sans", sans-serif',
       }),
     );
   });
