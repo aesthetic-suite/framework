@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/system",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Web based building blocks for the Aesthetic design system.",
   "keywords": [
     "aesthetic",
@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "@aesthetic/types": "^0.2.1",
-    "@aesthetic/utils": "^0.4.4"
+    "@aesthetic/utils": "^0.4.5"
   }
 }
