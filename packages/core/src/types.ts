@@ -4,6 +4,7 @@ import {
   LocalStyleSheet,
   LocalStyleSheetNeverize,
   LocalBlock,
+  PropertyHandlerMap,
 } from '@aesthetic/sss';
 import { DirectionConverter, VendorPrefixer } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
@@ -67,6 +68,7 @@ export type LocalSheet<T = unknown, R extends object = LocalBlock> = StyleSheet<
 >;
 
 export interface AestheticOptions {
+  customProperties?: PropertyHandlerMap;
   defaultUnit?: Unit | UnitFactory;
   deterministicClasses?: boolean;
   directionConverter?: DirectionConverter | null;

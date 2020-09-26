@@ -1,46 +1,31 @@
-import { Property, Value } from '@aesthetic/types';
-import { isObject } from '@aesthetic/utils';
-import processCompoundProperty from '../helpers/processCompoundProperty';
-import processExpandedProperty from '../helpers/processExpandedProperty';
-import { expandedProperties } from '../properties';
+import { Value } from '@aesthetic/types';
 import Block from '../Block';
-import { Events, FontFace, Keyframes, ProcessorMap } from '../types';
-import { COMPOUND_PROPERTIES, EXPANDED_PROPERTIES } from '../constants';
-import parseFontFace from './parseFontFace';
-import parseKeyframes from './parseKeyframes';
+import { ParserOptions, AddPropertyCallback, PropertyHandler, Properties } from '../types';
 
 export default function parseProperty<T extends object>(
   parent: Block<T>,
-  name: Property,
+  name: string,
   value: unknown,
-  events: Events<T>,
+  options: ParserOptions<T>,
 ) {
-  const handler = (n: Property, v: Value) => {
-    parent.addProperty(n, v);
-    events.onProperty?.(parent, n, v);
+  const addHandler: AddPropertyCallback = (p, v) => {
+    if (v !== undefined) {
+      parent.addProperty(p, v);
+      options.onProperty?.(parent, p, v);
+    }
   };
 
-  // Convert expanded properties to longhand
-  if (EXPANDED_PROPERTIES.has(name) && isObject(value)) {
-    processExpandedProperty(name, value, expandedProperties[name], handler);
+  const { customProperties } = options;
 
-    return;
-  }
+  // Custom property
+  if (name in customProperties) {
+    (customProperties[name as keyof Properties] as PropertyHandler<Value>)(
+      value as Value,
+      addHandler,
+    );
 
-  // Convert compound properties
-  if (COMPOUND_PROPERTIES.has(name) && (isObject(value) || Array.isArray(value))) {
-    const compoundProperties: ProcessorMap = {
-      animationName: (prop: Keyframes) => parseKeyframes(prop, '', events),
-      fontFamily: (prop: FontFace) => parseFontFace(prop, '', events),
-    };
-
-    processCompoundProperty(name, value, compoundProperties[name], handler);
-
-    return;
-  }
-
-  // Normal property
-  if (typeof value === 'number' || typeof value === 'string') {
-    handler(name, value);
+    // Normal property
+  } else if (typeof value === 'number' || typeof value === 'string') {
+    addHandler(name, value);
   }
 }

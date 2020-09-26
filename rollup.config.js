@@ -12,12 +12,13 @@ const babelConfig = require('./babel.config');
 const packages = [
   'types',
   'utils',
-  'addon-direction',
-  'addon-mixins',
-  'addon-vendor',
   'system',
   'style',
   'sss',
+  'addon-direction',
+  'addon-mixins',
+  'addon-properties',
+  'addon-vendor',
   'core',
 ];
 const targets = [];

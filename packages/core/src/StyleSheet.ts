@@ -16,6 +16,7 @@ import {
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { ClassName, Property, Rule } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
+import { options } from './options';
 import {
   BaseSheetFactory,
   ClassNameSheet,
@@ -198,6 +199,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     };
 
     parseGlobalStyleSheet<Rule>(styles, {
+      customProperties: options.customProperties,
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject(), renderParams);
       },
@@ -241,6 +243,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     };
 
     parseLocalStyleSheet<Rule>(styles, {
+      customProperties: options.customProperties,
       onClass(selector, className) {
         classNames[selector] = { class: className };
       },

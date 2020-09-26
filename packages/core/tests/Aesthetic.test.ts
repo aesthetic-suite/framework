@@ -184,6 +184,7 @@ describe('Aesthetic', () => {
   describe('configure()', () => {
     it('sets options', () => {
       expect(getInternalsForTesting().options).toEqual({
+        customProperties: {},
         defaultUnit: 'px',
         deterministicClasses: false,
         directionConverter: null,
@@ -197,6 +198,7 @@ describe('Aesthetic', () => {
       });
 
       expect(getInternalsForTesting().options).toEqual({
+        customProperties: {},
         defaultUnit: 'em',
         deterministicClasses: false,
         directionConverter,

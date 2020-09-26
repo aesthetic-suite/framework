@@ -3,165 +3,25 @@ import {
   FontFace as BaseFontFace,
   Keyframes as BaseKeyframes,
   Declarations,
-  Property,
   Value,
   Variables,
 } from '@aesthetic/types';
 import Block from './Block';
 
-// PROPERTIES
-
-export interface AnimationProperty {
-  delay?: CSST.Property.AnimationDelay;
-  direction?: CSST.Property.AnimationDirection;
-  duration?: CSST.Property.AnimationDuration;
-  fillMode?: CSST.Property.AnimationFillMode;
-  iterationCount?: CSST.Property.AnimationIterationCount;
-  name?: CSST.Property.AnimationName;
-  playState?: CSST.Property.AnimationPlayState;
-  timingFunction?: CSST.Property.AnimationTimingFunction;
-}
-
-export interface BackgroundProperty {
-  attachment?: CSST.Property.BackgroundAttachment;
-  clip?: CSST.Property.BackgroundClip;
-  color?: CSST.Property.BackgroundColor;
-  image?: CSST.Property.BackgroundImage;
-  origin?: CSST.Property.BackgroundOrigin;
-  position?: CSST.Property.BackgroundPosition<Value>;
-  repeat?: CSST.Property.BackgroundRepeat;
-  size?: CSST.Property.BackgroundSize<Value>;
-}
-
-export interface BorderProperty {
-  color?: CSST.Property.BorderColor;
-  style?: CSST.Property.BorderStyle;
-  width?: CSST.Property.BorderWidth<Value>;
-}
-
-export interface ColumnRuleProperty {
-  color?: CSST.Property.ColumnRuleColor;
-  style?: CSST.Property.ColumnRuleStyle;
-  width?: CSST.Property.ColumnRuleWidth<Value>;
-}
-
-export interface FlexProperty {
-  basis?: CSST.Property.FlexBasis<Value>;
-  grow?: CSST.Property.FlexGrow;
-  shrink?: CSST.Property.FlexShrink;
-}
-
-export interface FontProperty {
-  family?: CSST.Property.FontFamily;
-  lineHeight?: CSST.Property.LineHeight<Value>;
-  size?: CSST.Property.FontSize<Value>;
-  stretch?: CSST.Property.FontStretch;
-  style?: CSST.Property.FontStyle;
-  system?: string;
-  variant?: CSST.Property.FontVariant;
-  weight?: CSST.Property.FontWeight;
-}
-
-export interface ListStyleProperty {
-  image?: CSST.Property.ListStyleImage;
-  position?: CSST.Property.ListStylePosition;
-  type?: CSST.Property.ListStyleType;
-}
-
-export interface MarginProperty {
-  bottom?: CSST.Property.MarginBottom<Value>;
-  left?: CSST.Property.MarginLeft<Value>;
-  leftRight?: CSST.Property.MarginLeft<Value> | CSST.Property.MarginRight<Value>;
-  right?: CSST.Property.MarginRight<Value>;
-  top?: CSST.Property.MarginTop<Value>;
-  topBottom?: CSST.Property.MarginTop<Value> | CSST.Property.MarginBottom<Value>;
-}
-
-export interface OffsetProperty {
-  anchor?: CSST.Property.OffsetAnchor<string>;
-  distance?: CSST.Property.OffsetDistance<string>;
-  path?: CSST.Property.OffsetPath;
-  position?: string; // NOT UPSTREAM
-  rotate?: CSST.Property.OffsetRotate;
-}
-
-export interface OutlineProperty {
-  color?: CSST.Property.OutlineColor;
-  style?: CSST.Property.OutlineStyle;
-  width?: CSST.Property.OutlineWidth<Value>;
-}
-
-export interface PaddingProperty {
-  bottom?: CSST.Property.PaddingBottom<Value>;
-  left?: CSST.Property.PaddingLeft<Value>;
-  leftRight?: CSST.Property.PaddingLeft<Value> | CSST.Property.PaddingRight<Value>;
-  right?: CSST.Property.PaddingRight<Value>;
-  top?: CSST.Property.PaddingTop<Value>;
-  topBottom?: CSST.Property.PaddingTop<Value> | CSST.Property.PaddingBottom<Value>;
-}
-
-export interface TextDecorationProperty {
-  color?: CSST.Property.TextDecorationColor;
-  line?: CSST.Property.TextDecorationLine;
-  style?: CSST.Property.TextDecorationStyle;
-  thickness?: CSST.Property.TextDecorationThickness<Value>;
-}
-
-export interface TransitionProperty {
-  delay?: CSST.Property.TransitionDelay;
-  duration?: CSST.Property.TransitionDuration;
-  property?: CSST.Property.TransitionProperty;
-  timingFunction?: CSST.Property.TransitionTimingFunction;
-}
-
-export type ListableProperty<B, T> = B | T | (B | T)[];
+export type ListableProperty<B, T> = T | (B | T)[];
 
 // SYNTAX
 
-export type CompoundPropertyTypes = 'animationName' | 'fontFamily';
-
-export type ExpandedPropertyTypes =
-  | 'animation'
-  | 'background'
-  | 'border'
-  | 'borderBottom'
-  | 'borderLeft'
-  | 'borderRight'
-  | 'borderTop'
-  | 'columnRule'
-  | 'flex'
-  | 'font'
-  | 'listStyle'
-  | 'margin'
-  | 'offset'
-  | 'outline'
-  | 'padding'
-  | 'textDecoration'
-  | 'transition';
-
-export interface Properties
-  extends Omit<CSST.StandardProperties<Value>, CompoundPropertyTypes | ExpandedPropertyTypes> {
-  animation?: CSST.Property.Animation | AnimationProperty;
-  animationName?: CSST.Property.AnimationName | Keyframes;
-  background?: CSST.Property.Background<Value> | BackgroundProperty;
-  border?: CSST.Property.Border<Value> | BorderProperty;
-  borderBottom?: CSST.Property.BorderBottom<Value> | BorderProperty;
-  borderLeft?: CSST.Property.BorderLeft<Value> | BorderProperty;
-  borderRight?: CSST.Property.BorderRight<Value> | BorderProperty;
-  borderTop?: CSST.Property.BorderTop<Value> | BorderProperty;
-  clip?: string;
-  columnRule?: CSST.Property.ColumnRule<Value> | ColumnRuleProperty;
-  flex?: CSST.Property.Flex<Value> | FlexProperty;
-  font?: CSST.Property.Font | FontProperty;
+export interface CustomProperties {
+  animationName?: ListableProperty<CSST.Property.AnimationName, Keyframes>;
   fontFamily?: ListableProperty<CSST.Property.FontFamily, FontFace>;
-  listStyle?: CSST.Property.ListStyle | ListStyleProperty;
-  margin?: CSST.Property.Margin<Value> | MarginProperty;
-  offset?: CSST.Property.Offset<Value> | OffsetProperty;
-  outline?: CSST.Property.Outline<Value> | OutlineProperty;
-  padding?: CSST.Property.Padding<Value> | PaddingProperty;
-  textDecoration?: CSST.Property.TextDecoration<Value> | TextDecorationProperty;
-  transition?: CSST.Property.Transition | TransitionProperty;
 }
+
+export type ExtendCustomProperties<T extends object> = {
+  [P in keyof T]?: P extends keyof CustomProperties ? T[P] | CustomProperties[P] : T[P];
+};
+
+export type Properties = ExtendCustomProperties<CSST.StandardProperties<Value> & { clip?: string }>;
 
 export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
 
@@ -247,12 +107,15 @@ export interface NestedBlockParams {
   specificity: number;
 }
 
-export type OnProcessProperty = (property: Property, value: Value) => void;
+export type AddPropertyCallback = (property: string, value: Value | undefined) => void;
 
-export type Processor<T> = (value: T, onProcess: OnProcessProperty) => Value | undefined | void;
+export type PropertyHandler<V> = (value: NonNullable<V>, add: AddPropertyCallback) => void;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ProcessorMap = Record<string, Processor<any>>;
+export type PropertyHandlerMapInternal<T extends object> = {
+  [P in keyof T]?: PropertyHandler<T[P]>;
+};
+
+export type PropertyHandlerMap = PropertyHandlerMapInternal<Properties>;
 
 // EVENTS
 
@@ -302,7 +165,8 @@ export type VariableListener<T extends object> = (
 
 export type VariablesListener = (variables: Variables) => void;
 
-export interface Events<T extends object> {
+export interface ParserOptions<T extends object> {
+  customProperties: PropertyHandlerMap;
   onAttribute?: NestedListener<T>;
   onBlock?: BlockListener<T>;
   onFallback?: PropertyListener<T>;

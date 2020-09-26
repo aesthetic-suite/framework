@@ -1,14 +1,14 @@
 import { objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarations from '../helpers/validateDeclarations';
-import { Events, LocalBlockMap } from '../types';
+import { ParserOptions, LocalBlockMap } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
 export default function parseConditionalBlock<T extends object>(
   parent: Block<T>,
   conditions: LocalBlockMap,
   type: 'media' | 'supports',
-  events: Events<T>,
+  options: ParserOptions<T>,
 ) {
   if (__DEV__) {
     validateDeclarations(conditions, `@${type}`);
@@ -18,13 +18,13 @@ export default function parseConditionalBlock<T extends object>(
     const nestedBlock = parseLocalBlock(
       parent.addNested(new Block(`@${type} ${condition}`)),
       object,
-      events,
+      options,
     );
 
     if (type === 'media') {
-      events.onMedia?.(parent, condition, nestedBlock);
+      options.onMedia?.(parent, condition, nestedBlock);
     } else {
-      events.onSupports?.(parent, condition, nestedBlock);
+      options.onSupports?.(parent, condition, nestedBlock);
     }
   });
 }

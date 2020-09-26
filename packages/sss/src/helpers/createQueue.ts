@@ -1,9 +1,9 @@
 import { arrayLoop } from '@aesthetic/utils';
-import { Events } from '../types';
+import { ParserOptions } from '../types';
 
 export type QueueItem = (...args: unknown[]) => void;
 
-export default function createQueue(events: Events<object>) {
+export default function createQueue(options: ParserOptions<object>) {
   const items: QueueItem[] = [];
 
   return {
@@ -11,7 +11,7 @@ export default function createQueue(events: Events<object>) {
       const value = obj[key];
 
       if (value !== undefined) {
-        items.push(() => callback(value, events));
+        items.push(() => callback(value, options));
       }
 
       // eslint-disable-next-line no-param-reassign

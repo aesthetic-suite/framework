@@ -1,14 +1,17 @@
 import { isObject, objectLoop } from '@aesthetic/utils';
 import Block from './Block';
+import setupDefaultOptions from './helpers/setupDefaultOptions';
 import parseLocalBlock from './parsers/parseLocalBlock';
-import { LocalStyleSheet, Events } from './types';
+import { LocalStyleSheet, ParserOptions } from './types';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 export default function parseLocalStyleSheet<T extends object>(
   styleSheet: LocalStyleSheet,
-  events: Events<T>,
+  baseOptions: Partial<ParserOptions<T>>,
 ) {
+  const options = setupDefaultOptions(baseOptions);
+
   objectLoop(styleSheet, (declaration, selector) => {
     // At-rule
     if (selector[0] === '@') {
@@ -20,13 +23,13 @@ export default function parseLocalStyleSheet<T extends object>(
 
       // Class name
     } else if (typeof declaration === 'string' && declaration.match(CLASS_NAME)) {
-      events.onClass?.(selector, declaration);
+      options.onClass?.(selector, declaration);
 
       // Rule
     } else if (isObject(declaration)) {
-      const block = parseLocalBlock(new Block(), declaration, events);
+      const block = parseLocalBlock(new Block(), declaration, options);
 
-      events.onRule?.(selector, block);
+      options.onRule?.(selector, block);
 
       // Unknown
     } else if (__DEV__) {

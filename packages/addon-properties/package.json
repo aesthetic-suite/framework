@@ -1,0 +1,32 @@
+{
+  "name": "@aesthetic/addon-properties",
+  "version": "0.0.0",
+  "description": "Custom properties for the Aesthetic CSS-in-JS style sheet.",
+  "keywords": [
+    "aesthetic",
+    "addon",
+    "css",
+    "props",
+    "properties"
+  ],
+  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-properties",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@aesthetic/sss": "*"
+  },
+  "dependencies": {
+    "@aesthetic/types": "^0.2.1",
+    "@aesthetic/utils": "^0.4.4"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  }
+}
