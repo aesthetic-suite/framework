@@ -12,8 +12,8 @@ import { Theme, ThemeRegistry } from '@aesthetic/system';
 import { arrayLoop, isSSR } from '@aesthetic/utils';
 import { ClassName, ThemeName, FontFace, Keyframes, Variables, Direction } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
+import { configure, options } from './options';
 import {
-  AestheticOptions,
   ClassNameSheet,
   EventType,
   GlobalSheet,
@@ -25,14 +25,9 @@ import {
   SheetParams,
 } from './types';
 
-const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+export { configure };
 
-const defaultOptions: Required<AestheticOptions> = {
-  defaultUnit: 'px',
-  deterministicClasses: false,
-  directionConverter: null,
-  vendorPrefixer: null,
-};
+const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
 const themeRegistry = new ThemeRegistry();
 
@@ -41,8 +36,6 @@ let activeDirection: Direction | undefined;
 let activeTheme: ThemeName | undefined;
 
 let listeners: { [K in EventType]?: Set<(...args: unknown[]) => void> } = {};
-
-let options: Required<AestheticOptions> = { ...defaultOptions };
 
 let styleRenderer: Renderer | undefined;
 
@@ -88,13 +81,6 @@ function emit(type: EventType, args: unknown[]): void {
   getListeners(type).forEach((listener) => {
     listener(...args);
   });
-}
-
-/**
- * Configure Aesthetic and its styling engine.
- */
-export function configure(customOptions: AestheticOptions) {
-  Object.assign(options, customOptions);
 }
 
 /**
@@ -399,9 +385,16 @@ export function resetForTesting() {
     activeTheme = undefined;
     styleRenderer = undefined;
     listeners = {};
-    options = { ...defaultOptions };
     globalSheetRegistry.clear();
     themeRegistry.reset();
+
+    configure({
+      customProperties: {},
+      defaultUnit: 'px',
+      deterministicClasses: false,
+      directionConverter: null,
+      vendorPrefixer: null,
+    });
   }
 }
 
