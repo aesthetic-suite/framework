@@ -39,11 +39,11 @@ describe('Aesthetic', () => {
 
     subscribe('change:theme', spy);
 
-    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(true);
+    expect(getInternalsForTesting().listeners.get('change:theme')?.has(spy)).toBe(true);
 
     unsubscribe('change:theme', spy);
 
-    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(false);
+    expect(getInternalsForTesting().listeners.get('change:theme')?.has(spy)).toBe(false);
   });
 
   it('can subscribe and unsubscribe events using the return value', () => {
@@ -51,11 +51,11 @@ describe('Aesthetic', () => {
 
     const unsub = subscribe('change:theme', spy);
 
-    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(true);
+    expect(getInternalsForTesting().listeners.get('change:theme')?.has(spy)).toBe(true);
 
     unsub();
 
-    expect(getInternalsForTesting().listeners['change:theme']?.has(spy)).toBe(false);
+    expect(getInternalsForTesting().listeners.get('change:theme')?.has(spy)).toBe(false);
   });
 
   describe('changeDirection()', () => {
