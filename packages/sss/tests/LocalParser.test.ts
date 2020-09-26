@@ -1,5 +1,6 @@
+import { LocalStyleSheet, ParserOptions } from '../lib/types';
 import Block from '../src/Block';
-import parse from '../src/parseLocalStyleSheet';
+import doParse from '../src/parse';
 import { createBlock, createExpectedBlock } from './helpers';
 import {
   SYNTAX_FALLBACKS,
@@ -16,6 +17,10 @@ import {
   SYNTAX_VARIABLES,
   SYNTAX_VARIANTS,
 } from './__mocks__/local';
+
+function parse(styleSheet: LocalStyleSheet, options: Partial<ParserOptions<object>>) {
+  doParse('local', styleSheet, options);
+}
 
 describe('LocalParser', () => {
   let spy: jest.Mock;

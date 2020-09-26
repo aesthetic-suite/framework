@@ -1,4 +1,10 @@
-import { parseLocalStyleSheet, Block, Properties } from '@aesthetic/sss';
+import {
+  parse as doParse,
+  Block,
+  Properties,
+  LocalStyleSheet,
+  ParserOptions,
+} from '@aesthetic/sss';
 import { expandedProperties as customProperties } from '../src';
 // Import for module augmentation
 import '../src/types';
@@ -12,6 +18,10 @@ function createBlock(selector: string, properties: object): Block<Properties> {
   return block;
 }
 
+function parse(styleSheet: LocalStyleSheet, options: ParserOptions<object>) {
+  doParse('local', styleSheet, options);
+}
+
 describe('Custom properties', () => {
   let spy: jest.Mock;
 
@@ -20,7 +30,7 @@ describe('Custom properties', () => {
   });
 
   it('handles normal `animation`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           animation: 'ease-in 200ms',
@@ -40,7 +50,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `animation`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           animation: {
@@ -76,7 +86,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `background`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           background: {
@@ -112,7 +122,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `border`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           border: {
@@ -138,7 +148,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `columnRule`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           columnRule: {
@@ -164,7 +174,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `flex`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           flex: {
@@ -190,7 +200,7 @@ describe('Custom properties', () => {
   });
 
   it('handles normal `font`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           font: '1.2em "Fira Sans", sans-serif',
@@ -210,7 +220,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `font`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           font: {
@@ -244,7 +254,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `font` to system', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           font: {
@@ -270,7 +280,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `listStyle`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           listStyle: {
@@ -296,7 +306,7 @@ describe('Custom properties', () => {
   });
 
   it('handles normal `margin`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           margin: 5,
@@ -316,7 +326,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `margin` (2-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           margin: {
@@ -342,7 +352,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `margin` (3-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           margin: {
@@ -369,7 +379,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `margin` (4-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           margin: {
@@ -397,7 +407,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `offset`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           offset: {
@@ -425,7 +435,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `outline`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           outline: {
@@ -451,7 +461,7 @@ describe('Custom properties', () => {
   });
 
   it('handles normal `padding`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           padding: '10px',
@@ -470,7 +480,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `padding` (2-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           padding: {
@@ -496,7 +506,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `padding` (3-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           padding: {
@@ -523,7 +533,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `padding` (4-sided)', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           padding: {
@@ -551,7 +561,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `textDecoration`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           textDecoration: {
@@ -579,7 +589,7 @@ describe('Custom properties', () => {
   });
 
   it('parses expanded `transition`', () => {
-    parseLocalStyleSheet(
+    parse(
       {
         element: {
           transition: {

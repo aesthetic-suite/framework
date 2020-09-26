@@ -96,6 +96,9 @@ describe('LocalSheet', () => {
       bar: {
         classNames: { class: 'k l m' },
       },
+      baz: {
+        classNames: { class: 'class-baz' },
+      },
       foo: {
         classNames: { class: 'a b c d e f g h i j' },
       },

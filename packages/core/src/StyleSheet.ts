@@ -1,9 +1,4 @@
-import {
-  parseGlobalStyleSheet,
-  parseLocalStyleSheet,
-  GlobalStyleSheet,
-  LocalStyleSheet,
-} from '@aesthetic/sss';
+import { parse } from '@aesthetic/sss';
 import {
   Condition,
   isFontFaceFule,
@@ -14,7 +9,7 @@ import {
   RenderOptions,
 } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { ClassName, Property, Rule } from '@aesthetic/types';
+import { Property, Rule } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
 import { options } from './options';
 import {
@@ -173,82 +168,35 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       return cache;
     }
 
-    const result = (this.type === 'local'
-      ? this.renderLocal(renderer, theme, params)
-      : this.renderGlobal(renderer, theme, params)) as Classes;
-
-    if (key) {
-      this.renderCache[key] = result;
-    }
-
-    return result;
-  }
-
-  protected renderGlobal(
-    renderer: Renderer,
-    theme: Theme,
-    params: Required<SheetParams>,
-  ): ClassName {
-    let className = '';
+    const classNames: ClassNameSheet<string> = {};
     const composer = this.compose(params);
-    const styles = composer(theme) as GlobalStyleSheet;
+    const styles = composer(theme);
+    const rankings = {};
     const renderParams: RenderOptions = {
       direction: params.direction,
+      rankings: this.type === 'global' ? undefined : rankings,
       unit: params.unit,
       vendor: params.vendor,
     };
 
-    parseGlobalStyleSheet<Rule>(styles, {
+    const addClassToMap = (selector: string, className: string) => {
+      classNames[selector] = { class: className };
+
+      this.metadata[selector] = {
+        classNames: classNames[selector]!,
+      };
+
+      return this.metadata[selector];
+    };
+
+    parse<Rule>(this.type, styles, {
       customProperties: options.customProperties,
+      onClass: addClassToMap,
       onFontFace(fontFace) {
         return renderer.renderFontFace(fontFace.toObject(), renderParams);
       },
       onImport(path) {
         renderer.renderImport(path);
-      },
-      onKeyframes(keyframes, animationName) {
-        return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
-      },
-      onRoot: (block) => {
-        className = renderer.renderRuleGrouped(block.toObject(), {
-          ...renderParams,
-          deterministic: true,
-          type: 'global',
-        });
-
-        this.metadata['@root'] = { classNames: { class: className } };
-      },
-      onRootVariables(variables) {
-        renderer.applyRootVariables(variables);
-      },
-    });
-
-    return className;
-  }
-
-  protected renderLocal(
-    renderer: Renderer,
-    theme: Theme,
-    params: Required<SheetParams>,
-  ): ClassNameSheet<string> {
-    const classNames: ClassNameSheet<string> = {};
-    const composer = this.compose(params);
-    const styles = composer(theme) as LocalStyleSheet;
-    const rankCache = {};
-    const renderParams: RenderOptions = {
-      direction: params.direction,
-      rankings: rankCache,
-      unit: params.unit,
-      vendor: params.vendor,
-    };
-
-    parseLocalStyleSheet<Rule>(styles, {
-      customProperties: options.customProperties,
-      onClass(selector, className) {
-        classNames[selector] = { class: className };
-      },
-      onFontFace(fontFace) {
-        return renderer.renderFontFace(fontFace.toObject(), renderParams);
       },
       onKeyframes(keyframes, animationName) {
         return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
@@ -268,37 +216,47 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
           }),
         );
       },
+      onRoot: (block) => {
+        addClassToMap(
+          '@root',
+          renderer.renderRuleGrouped(block.toObject(), {
+            ...renderParams,
+            deterministic: true,
+            type: 'global',
+          }),
+        );
+      },
+      onRootVariables(variables) {
+        renderer.applyRootVariables(variables);
+      },
       onRule: (selector, rule) => {
-        const metadata = this.metadata[selector] || { classNames: {} };
-        const cache = classNames[selector] || {};
-
-        if (!cache.class) {
-          cache.class = rule.className.trim();
-        }
+        const meta = addClassToMap(selector, rule.className.trim());
 
         objectLoop(rule.variants, (variant, type) => {
-          if (!cache.variants) {
-            cache.variants = {};
+          if (!meta.classNames.variants) {
+            meta.classNames.variants = {};
           }
 
-          if (!metadata.variantTypes) {
-            metadata.variantTypes = new Set();
+          if (!meta.variantTypes) {
+            meta.variantTypes = new Set();
           }
 
-          cache.variants[type] = variant.className.trim();
-          metadata.variantTypes.add(type.split('_')[0]);
+          meta.classNames.variants[type] = variant.className.trim();
+          meta.variantTypes.add(type.split('_')[0]);
         });
-
-        metadata.classNames = cache;
-        classNames[selector] = cache;
-        this.metadata[selector] = metadata;
       },
       onVariable(block, key, value) {
         block.addClassName(renderer.renderVariable(key, value));
       },
     });
 
-    return classNames;
+    const result = (this.type === 'local' ? classNames : classNames['@root']?.class) as Classes;
+
+    if (key) {
+      this.renderCache[key] = result;
+    }
+
+    return result;
   }
 
   protected validateFactory(factory: Factory): Factory {
