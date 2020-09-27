@@ -3,6 +3,8 @@ import {
   CSS,
   Direction,
   GenericProperties,
+  Properties,
+  Property,
   Unit,
   UnitFactory,
   Value,
@@ -26,8 +28,8 @@ export interface ProcessOptions {
 
 export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
-  conditions?: Condition[];
-  minimumRank?: number;
+  conditions?: Condition[] | string;
+  // minimumRank?: number;
   selector?: string;
 }
 
@@ -48,6 +50,11 @@ export interface StyleRule {
 
 // ADDONS
 
+export interface CacheManager {
+  read: (key: string, minimumRank?: number) => CacheItem | null;
+  write: (key: string, item: CacheItem) => void;
+}
+
 export interface DirectionConverter {
   convert: <T extends Value>(
     from: Direction,
@@ -55,6 +62,10 @@ export interface DirectionConverter {
     property: string,
     value: T,
   ) => { property: string; value: T };
+}
+
+export interface SheetManager {
+  insertRule: (type: SheetType, rule: CSS, index?: number) => number;
 }
 
 export interface VendorPrefixer {
@@ -66,4 +77,20 @@ export interface API {
   converter?: DirectionConverter | null;
   direction: Direction;
   prefixer?: VendorPrefixer | null;
+}
+
+export interface EngineOptions {
+  cacheManager: CacheManager;
+  direction: Direction;
+  directionConverter?: DirectionConverter | null;
+  sheetManager: SheetManager;
+  vendorPrefixer?: VendorPrefixer | null;
+}
+
+export interface Engine {
+  renderDeclaration: <K extends Property>(
+    property: K,
+    value: Properties[K],
+    options?: RenderOptions,
+  ) => ClassName;
 }

@@ -86,20 +86,10 @@ export default abstract class Renderer {
     value: Properties[K],
     options: RenderOptions = {},
   ): ClassName {
-    const { direction, converter } = this.api;
     const { rankings } = options;
 
-    let key = hyphenate(property);
-    let val = processValue(key, value, options.unit);
-
-    if (converter) {
-      ({ property: key, value: val } = converter.convert(
-        direction,
-        options.direction || direction,
-        key,
-        val,
-      ));
-    }
+    const key = hyphenate(property);
+    const val = processValue(key, value, options.unit);
 
     // Render and cache rule against the defined rank
     const { className, rank } = this.doRender({ [key]: val }, undefined, {

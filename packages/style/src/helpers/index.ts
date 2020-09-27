@@ -1,3 +1,4 @@
+import createAtomicCacheKey from './createAtomicCacheKey';
 import formatConditions from './formatConditions';
 import formatDeclaration from './formatDeclaration';
 import formatDeclarationBlock from './formatDeclarationBlock';
@@ -19,6 +20,7 @@ import processProperties from './processProperties';
 import processValue from './processValue';
 
 export {
+  createAtomicCacheKey,
   formatConditions,
   formatDeclaration,
   formatDeclarationBlock,
