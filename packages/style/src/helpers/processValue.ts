@@ -2,11 +2,11 @@ import { NativeProperty } from '@aesthetic/types';
 import isUnitlessProperty from './isUnitlessProperty';
 import { ProcessOptions } from '../types';
 
-export default function processValue(
+export default function processValue<T extends unknown>(
   property: string,
-  value: unknown,
+  value: T,
   unit: ProcessOptions['unit'],
-): string {
+): T extends unknown[] ? string[] : string {
   if (typeof value === 'string') {
     return value;
   }

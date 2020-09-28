@@ -9,6 +9,8 @@ export type CSS = string;
 
 export type Value = string | number;
 
+export type ValueWithFallbacks = string[];
+
 export type MaybeValue = Value | undefined;
 
 export type Unit = string;
@@ -17,7 +19,7 @@ export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 // PROPERTIES
 
-export type GenericProperties = Record<string, Value | Value[]>;
+export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
 
 export interface Properties extends CSST.Properties<Value>, CSST.PropertiesHyphen<Value> {}
 

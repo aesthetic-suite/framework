@@ -8,6 +8,7 @@ import {
   Property,
   Rule,
   Value,
+  ValueWithFallbacks,
 } from '@aesthetic/types';
 import {
   arrayLoop,
@@ -17,13 +18,7 @@ import {
   objectLoop,
   objectReduce,
 } from '@aesthetic/utils';
-import {
-  createAtomicCacheKey,
-  formatDeclaration,
-  formatVariableName,
-  isVariable,
-  processValue,
-} from '../helpers';
+import { createAtomicCacheKey, formatVariableName, isVariable, processValue } from '../helpers';
 import { CacheItem, Engine, EngineOptions, RenderOptions } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -98,15 +93,23 @@ function cacheAndInsertStyles(
   return item;
 }
 
+function formatDeclaration(property: string, value: Value): CSS {
+  return `${hyphenate(property)}:${value};`;
+}
+
 function createDeclaration(
   rule: CSS,
   property: string,
-  value: Value,
+  value: Value | ValueWithFallbacks,
   options: RenderOptions,
   engine: EngineOptions,
 ): CSS {
-  let key = property;
-  let val = value;
+  if (Array.isArray(value)) {
+    return value.reduce((css, val) => createDeclaration(css, property, val, options, engine), rule);
+  }
+
+  let key = hyphenate(property);
+  let val = String(value);
 
   // Convert between LTR and RTL
   if (options.direction && engine.directionConverter) {
@@ -139,7 +142,7 @@ function createDeclarationBlock(
   let css = '';
 
   objectLoop(properties, (value, key) => {
-    css = createDeclaration(css, key, value as Value, options, engine);
+    css = createDeclaration(css, key, value, options, engine);
   });
 
   return css;
@@ -167,7 +170,7 @@ function formatRuleWithoutClassName(block: CSS, { conditions, selector = '' }: R
 
 export function renderDeclaration<K extends Property>(
   property: K,
-  value: Properties[K],
+  value: Properties[K] | ValueWithFallbacks,
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
@@ -264,6 +267,7 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
 
 export default function createEngine(options: EngineOptions): Engine {
   const engine: EngineOptions = {
+    direction: 'ltr',
     ruleIndex: 0,
     ...options,
   };

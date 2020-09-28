@@ -72,7 +72,7 @@ export interface SheetManager {
 }
 
 export interface VendorPrefixer {
-  prefix: (key: string, value: Value) => GenericProperties;
+  prefix: (key: string, value: Value) => Record<string, Value>;
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 
@@ -84,7 +84,7 @@ export interface API {
 
 export interface EngineOptions {
   cacheManager: CacheManager;
-  direction: Direction;
+  direction?: Direction;
   directionConverter?: DirectionConverter | null;
   ruleIndex?: number;
   sheetManager: SheetManager;
@@ -94,7 +94,7 @@ export interface EngineOptions {
 export interface Engine {
   renderDeclaration: <K extends Property>(
     property: K,
-    value: Properties[K],
+    value: Properties[K] | string[],
     options?: RenderOptions,
   ) => ClassName;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
