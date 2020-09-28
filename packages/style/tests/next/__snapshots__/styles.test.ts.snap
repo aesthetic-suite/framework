@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Engine renderDeclaration() converts directional properties 1`] = `".a {margin-left: 0;}.b {margin-right: 0;}"`;
+
+exports[`Engine renderDeclaration() converts directional values 1`] = `".a {text-align: left;}.b {text-align: right;}"`;
+
+exports[`Engine renderDeclaration() generates a unique class name for a large number of properties 1`] = `".a {padding: 0px;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
+
+exports[`Engine renderDeclaration() prefixes properties, values, value functions, and selectors 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.d:-ms-fullscreen {display: none;}"`;
+
+exports[`Engine renderDeclaration() supports CSS variables 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
+
+exports[`Engine renderDeclaration() supports conditionals 1`] = `"@media (max-size: 100px) {.a {color: green;}}@supports (color: red) {.b {color: red;}}@media (max-width: 100px) {@supports (color: red) {@media (min-width: 200px) {.c {color: blue;}}}}"`;
+
+exports[`Engine renderDeclaration() supports conditionals using strings 1`] = `"@media (max-size: 100px) {.a {color: green;}}@supports (color: red) {.b {color: red;}}@media (max-width: 100px) {@supports (color: red) {@media (min-width: 200px) {.c {color: blue;}}}}"`;
+
+exports[`Engine renderDeclaration() supports conditionals with selectors 1`] = `"@media (max-size: 100px) {.a:focus {color: green;}}"`;
+
+exports[`Engine renderDeclaration() supports fallback values by using an array 1`] = `".a {display: flex;}"`;
+
+exports[`Engine renderDeclaration() supports selectors 1`] = `".a:hover {color: green;}.b[disabled] {color: red;}.c:nth-child(2) {color: blue;}"`;
+
+exports[`Engine renderDeclaration() uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
+
+exports[`Engine renderDeclaration() uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
+
+exports[`Engine renderDeclaration() uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;

@@ -1,11 +1,12 @@
 /* eslint-disable unicorn/import-index */
 
 import { CSS } from '@aesthetic/types';
-import { SheetType, getDocumentStyleSheet } from './index';
+import { getDocumentStyleSheet } from './helpers';
+// import { SheetType, getDocumentStyleSheet } from './index';
 import createCacheManager from './next/cache';
 import createEngine from './next/engine';
 import createSheetManager, { createStyleElements } from './next/sheet';
-import { CacheManager, Engine, SheetManager, StyleRule } from './types';
+import { CacheManager, Engine, EngineOptions, SheetManager, SheetType, StyleRule } from './types';
 
 export function createTestCacheManager(): CacheManager {
   return createCacheManager();
@@ -15,10 +16,11 @@ export function createTestSheetManager(): SheetManager {
   return createSheetManager(createStyleElements());
 }
 
-export function createTestStyleEngine(): Engine {
+export function createTestStyleEngine(options: Partial<EngineOptions>): Engine {
   return createEngine({
     cacheManager: createTestCacheManager(),
     sheetManager: createTestSheetManager(),
+    ...options,
   });
 }
 

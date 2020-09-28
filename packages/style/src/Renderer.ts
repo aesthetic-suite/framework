@@ -1,35 +1,12 @@
 /* eslint-disable no-console */
 
-import {
-  ClassName,
-  FontFace,
-  Keyframes,
-  Property,
-  Properties,
-  GenericProperties,
-  Variables,
-  Rule,
-  Value,
-} from '@aesthetic/types';
-import { hyphenate, isObject, objectLoop, objectReduce, generateHash } from '@aesthetic/utils';
-import Cache from './Cache';
-import formatConditions from './helpers/formatConditions';
-import formatDeclarationBlock from './helpers/formatDeclarationBlock';
-import formatRule from './helpers/formatRule';
+import { ClassName, Property, GenericProperties, Variables, Rule } from '@aesthetic/types';
+import { isObject, objectLoop } from '@aesthetic/utils';
 import isMediaRule from './helpers/isMediaRule';
 import isSupportsRule from './helpers/isSupportsRule';
 import isNestedSelector from './helpers/isNestedSelector';
 import isInvalidValue from './helpers/isInvalidValue';
 import isVariable from './helpers/isVariable';
-import processProperties from './helpers/processProperties';
-import processValue from './helpers/processValue';
-import SheetManager from './SheetManager';
-import { ProcessOptions, RenderOptions, API, CacheItem } from './types';
-import createAtomicCacheKey from './helpers/createAtomicCacheKey';
-import { formatVariableName } from './helpers';
-
-const CHARS = 'abcdefghijklmnopqrstuvwxyz';
-const CHARS_LENGTH = CHARS.length;
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -41,21 +18,6 @@ declare global {
 }
 
 export default abstract class Renderer {
-  api: API;
-
-  cache = new Cache();
-
-  ruleIndex: number = -1;
-
-  abstract sheetManager: SheetManager;
-
-  constructor(api: Partial<API> = {}) {
-    this.api = {
-      direction: 'ltr',
-      ...api,
-    };
-  }
-
   /**
    * Render an object of property value pairs into the defined style sheet as multiple class names,
    * with each declaration resulting in a unique class name.

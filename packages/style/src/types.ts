@@ -84,7 +84,7 @@ export interface SheetManager {
 // VENDOR PREFIXES
 
 export interface VendorPrefixer {
-  prefix: (key: string, value: Value) => Record<string, Value>;
+  prefix: (property: string, value: string) => Record<string, string>;
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 

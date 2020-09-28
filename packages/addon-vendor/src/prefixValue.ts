@@ -1,12 +1,11 @@
-import { Value } from '@aesthetic/types';
 import getPrefixesFromMask from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
-export default function prefixValue(value: Value, values: PrefixMap): Value | Value[] {
+export default function prefixValue(value: string, values: PrefixMap): string[] {
   const mask = values[value];
 
-  if (typeof value === 'number' || !mask) {
-    return value;
+  if (!mask) {
+    return [value];
   }
 
   return [

@@ -1,14 +1,9 @@
-import { Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import getPrefixesFromMask from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
-export default function prefixValueFunction(value: Value, functions: PrefixMap): Value | Value[] {
-  if (typeof value === 'number') {
-    return value;
-  }
-
-  const nextValue: Value[] = [];
+export default function prefixValueFunction(value: string, functions: PrefixMap): string[] {
+  const nextValue: string[] = [];
 
   objectLoop(functions, (mask, func) => {
     const regex = new RegExp(`${func}\\(`, 'gu');
@@ -23,5 +18,5 @@ export default function prefixValueFunction(value: Value, functions: PrefixMap):
   // Modern value must be last
   nextValue.push(value);
 
-  return nextValue.length === 1 ? nextValue[0] : nextValue;
+  return nextValue;
 }

@@ -109,7 +109,7 @@ function createDeclaration(
   }
 
   let key = hyphenate(property);
-  let val = String(value);
+  let val = processValue(property, value, options.unit);
 
   // Convert between LTR and RTL
   if (options.direction && engine.directionConverter) {
@@ -149,7 +149,7 @@ function createDeclarationBlock(
 }
 
 function formatRuleWithoutClassName(block: CSS, { conditions, selector = '' }: RenderOptions): CSS {
-  let rule = `#className#${selector} { ${block} }`;
+  let rule = `.#className#${selector} { ${block} }`;
 
   if (conditions) {
     if (Array.isArray(conditions)) {
@@ -175,9 +175,10 @@ export function renderDeclaration<K extends Property>(
   engine: EngineOptions,
 ): ClassName {
   const key = hyphenate(property);
-  const val = processValue(key, value, options.unit);
-  const block = createDeclaration('', key, val, options, engine);
-  const rule = formatRuleWithoutClassName(block, options);
+  const rule = formatRuleWithoutClassName(
+    createDeclaration('', key, value!, options, engine),
+    options,
+  );
 
   const { rankings } = options;
   const { className, rank } = cacheAndInsertStyles(rule, options, engine, rankings?.[key]);
@@ -268,7 +269,7 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
 export default function createEngine(options: EngineOptions): Engine {
   const engine: EngineOptions = {
     direction: 'ltr',
-    ruleIndex: 0,
+    ruleIndex: -1,
     ...options,
   };
   const renderOptions = {};
