@@ -2,9 +2,12 @@ import {
   ClassName,
   CSS,
   Direction,
+  FontFace,
   GenericProperties,
+  Keyframes,
   Properties,
   Property,
+  Rule,
   Unit,
   UnitFactory,
   Value,
@@ -83,6 +86,7 @@ export interface EngineOptions {
   cacheManager: CacheManager;
   direction: Direction;
   directionConverter?: DirectionConverter | null;
+  ruleIndex?: number;
   sheetManager: SheetManager;
   vendorPrefixer?: VendorPrefixer | null;
 }
@@ -93,4 +97,9 @@ export interface Engine {
     value: Properties[K],
     options?: RenderOptions,
   ) => ClassName;
+  renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
+  renderImport: (path: string, options?: RenderOptions) => void;
+  renderKeyframes: (keyframes: Keyframes, animationName: string, options?: RenderOptions) => string;
+  renderRule: (rule: Rule, options?: RenderOptions) => ClassName;
+  renderVariable: (name: string, value: Value, options?: RenderOptions) => ClassName;
 }
