@@ -2,7 +2,25 @@
 
 import { CSS } from '@aesthetic/types';
 import { SheetType, getDocumentStyleSheet } from './index';
-import { StyleRule } from './types';
+import createCacheManager from './next/cache';
+import createEngine from './next/engine';
+import createSheetManager, { createStyleElements } from './next/sheet';
+import { CacheManager, Engine, SheetManager, StyleRule } from './types';
+
+export function createTestCacheManager(): CacheManager {
+  return createCacheManager();
+}
+
+export function createTestSheetManager(): SheetManager {
+  return createSheetManager(createStyleElements());
+}
+
+export function createTestStyleEngine(): Engine {
+  return createEngine({
+    cacheManager: createTestCacheManager(),
+    sheetManager: createTestSheetManager(),
+  });
+}
 
 export function getRenderedStyles(type: SheetType | StyleRule): CSS {
   return Array.from(

@@ -3,7 +3,6 @@ import {
   CSS,
   Direction,
   FontFace,
-  GenericProperties,
   Keyframes,
   Properties,
   Property,
@@ -13,8 +12,6 @@ import {
   Value,
   Variables,
 } from '@aesthetic/types';
-
-export type SheetType = 'global' | 'standard' | 'conditions';
 
 export type Condition = string;
 
@@ -36,10 +33,34 @@ export interface RenderOptions extends ProcessOptions {
   selector?: string;
 }
 
+// ADDONS
+
+// CACHE
+
 export interface CacheItem {
   className: string;
   rank?: number;
 }
+
+export type CacheStorage = Record<string, CacheItem[]>;
+
+export interface CacheManager {
+  read: (key: string, minimumRank?: number) => CacheItem | null;
+  write: (key: string, item: CacheItem) => void;
+}
+
+// DIRECTION
+
+export interface DirectionConverter {
+  convert: <T extends Value>(
+    from: Direction,
+    to: Direction,
+    property: string,
+    value: T,
+  ) => { property: string; value: T };
+}
+
+// STYLE SHEETS
 
 export interface StyleRule {
   conditionText?: string;
@@ -51,25 +72,16 @@ export interface StyleRule {
   insertRule: (rule: CSS, index: number) => number;
 }
 
-// ADDONS
+export type SheetType = 'global' | 'standard' | 'conditions';
 
-export interface CacheManager {
-  read: (key: string, minimumRank?: number) => CacheItem | null;
-  write: (key: string, item: CacheItem) => void;
-}
-
-export interface DirectionConverter {
-  convert: <T extends Value>(
-    from: Direction,
-    to: Direction,
-    property: string,
-    value: T,
-  ) => { property: string; value: T };
-}
+export type SheetMap = Record<SheetType, StyleRule>;
 
 export interface SheetManager {
+  sheets: SheetMap;
   insertRule: (type: SheetType, rule: CSS, index?: number) => number;
 }
+
+// VENDOR PREFIXES
 
 export interface VendorPrefixer {
   prefix: (key: string, value: Value) => Record<string, Value>;

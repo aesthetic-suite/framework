@@ -114,7 +114,7 @@ function createDeclaration(
   // Convert between LTR and RTL
   if (options.direction && engine.directionConverter) {
     ({ property: key, value: val } = engine.directionConverter.convert(
-      engine.direction,
+      engine.direction!,
       options.direction,
       key,
       val,
