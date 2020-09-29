@@ -1,9 +1,7 @@
-/* eslint-disable sort-keys */
-
 import { CSS } from '@aesthetic/types';
 import { IMPORT_RULE, STYLE_RULE } from '../constants';
-import { getDocumentStyleSheet, isAtRule, isImportRule } from '../helpers';
-import { SheetMap, SheetManager, StyleRule, SheetType } from '../types';
+import { isAtRule, isImportRule } from '../helpers';
+import { SheetMap, SheetManager, StyleRule } from '../types';
 
 function insertRule(sheet: StyleRule, rule: CSS, index?: number): number {
   try {
@@ -52,22 +50,8 @@ function insertImportRule(sheet: StyleRule, rule: CSS): number {
   return insertRule(sheet, rule, index);
 }
 
-function getSheet(type: SheetType): StyleRule {
-  return (getDocumentStyleSheet(type) as unknown) as StyleRule;
-}
-
-export function createStyleElements(): SheetMap {
-  return {
-    // Order is important here!
-    global: getSheet('global'),
-    standard: getSheet('standard'),
-    conditions: getSheet('conditions'),
-  };
-}
-
 export default function createSheetManager(sheets: SheetMap): SheetManager {
   return {
-    sheets,
     insertRule(type, rule, index) {
       const sheet = sheets[type];
 
@@ -79,5 +63,6 @@ export default function createSheetManager(sheets: SheetMap): SheetManager {
 
       return insertRule(sheet, rule, index);
     },
+    sheets,
   };
 }

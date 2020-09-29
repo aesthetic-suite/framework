@@ -4,8 +4,9 @@ import { CSS } from '@aesthetic/types';
 import { getDocumentStyleSheet } from './helpers';
 // import { SheetType, getDocumentStyleSheet } from './index';
 import createCacheManager from './next/cache';
+import { createStyleElements } from './next/client';
 import createEngine from './next/engine';
-import createSheetManager, { createStyleElements } from './next/sheet';
+import createSheetManager from './next/sheet';
 import { CacheManager, Engine, EngineOptions, SheetManager, SheetType, StyleRule } from './types';
 
 export function createTestCacheManager(): CacheManager {

@@ -4,30 +4,27 @@ import {
   FontFace,
   GenericProperties,
   Keyframes,
-  NativeProperty,
   Properties,
   Property,
   Rule,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import {
-  arrayLoop,
-  generateHash,
-  hyphenate,
-  isObject,
-  objectLoop,
-  objectReduce,
-  toArray,
-} from '@aesthetic/utils';
+import { generateHash, isObject, objectLoop, objectReduce, toArray } from '@aesthetic/utils';
 import {
   createAtomicCacheKey,
+  formatDeclaration,
   formatVariableName,
   isAtRule,
   isNestedSelector,
-  isUnitlessProperty,
   isVariable,
 } from '../helpers';
+import {
+  createDeclaration,
+  createDeclarationBlock,
+  formatProperty,
+  formatTokenizedRule,
+} from './syntax';
 import { CacheItem, Engine, EngineOptions, RenderOptions } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -102,105 +99,13 @@ function cacheAndInsertStyles(
   return item;
 }
 
-function formatDeclaration(property: string, value: Value): CSS {
-  return `${hyphenate(property)}:${value};`;
-}
-
-function formatValue(
-  property: string,
-  value: Value,
-  options: RenderOptions,
-  engine: EngineOptions,
-): string {
-  if (typeof value === 'string' || isUnitlessProperty(property) || value === 0) {
-    return String(value);
-  }
-
-  const suffix = engine.unitSuffixer
-    ? engine.unitSuffixer(property as NativeProperty)
-    : options.unit;
-
-  return value + (suffix || 'px');
-}
-
-function createDeclaration(
-  rule: CSS,
-  property: string,
-  value: Value | ValueWithFallbacks,
-  options: RenderOptions,
-  engine: EngineOptions,
-): CSS {
-  if (Array.isArray(value)) {
-    return value.reduce((css, val) => createDeclaration(css, property, val, options, engine), rule);
-  }
-
-  let key = hyphenate(property);
-  let val = formatValue(property, value, options, engine);
-
-  // Convert between LTR and RTL
-  if (options.direction && engine.directionConverter) {
-    ({ property: key, value: val } = engine.directionConverter.convert(
-      engine.direction!,
-      options.direction,
-      key,
-      val,
-    ));
-  }
-
-  // Set the declaration after direction change but before prefixing
-  rule += formatDeclaration(key, val);
-
-  // Inject vendor prefixes into the parent rule
-  if (options.vendor && engine.vendorPrefixer) {
-    objectLoop(engine.vendorPrefixer.prefix(key, val), (v, k) => {
-      rule += formatDeclaration(k, v);
-    });
-  }
-
-  return rule;
-}
-
-function createDeclarationBlock(
-  properties: GenericProperties,
-  options: RenderOptions,
-  engine: EngineOptions,
-): CSS {
-  let css = '';
-
-  objectLoop(properties, (value, key) => {
-    css = createDeclaration(css, key, value, options, engine);
-  });
-
-  return css;
-}
-
-function formatTokenizedRule(block: CSS, { conditions, selector = '' }: RenderOptions): CSS {
-  let rule = `.#className#${selector} { ${block} }`;
-
-  if (conditions) {
-    if (Array.isArray(conditions)) {
-      arrayLoop(
-        conditions,
-        (condition) => {
-          rule = `${condition} { ${rule} }`;
-        },
-        true,
-      );
-    } else {
-      rule = conditions.replace('#rule#', rule);
-    }
-  }
-
-  return rule;
-}
-
 export function renderDeclaration<K extends Property>(
   property: K,
   value: Properties[K] | ValueWithFallbacks,
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
-  const key = hyphenate(property);
+  const key = formatProperty(property);
   const rule = formatTokenizedRule(createDeclaration('', key, value!, options, engine), options);
 
   const { rankings } = options;
