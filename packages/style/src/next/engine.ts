@@ -4,6 +4,7 @@ import {
   FontFace,
   GenericProperties,
   Keyframes,
+  NativeProperty,
   Properties,
   Property,
   Rule,
@@ -17,8 +18,16 @@ import {
   isObject,
   objectLoop,
   objectReduce,
+  toArray,
 } from '@aesthetic/utils';
-import { createAtomicCacheKey, formatVariableName, isVariable, processValue } from '../helpers';
+import {
+  createAtomicCacheKey,
+  formatVariableName,
+  isAtRule,
+  isNestedSelector,
+  isUnitlessProperty,
+  isVariable,
+} from '../helpers';
 import { CacheItem, Engine, EngineOptions, RenderOptions } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
@@ -97,6 +106,23 @@ function formatDeclaration(property: string, value: Value): CSS {
   return `${hyphenate(property)}:${value};`;
 }
 
+function formatValue(
+  property: string,
+  value: Value,
+  options: RenderOptions,
+  engine: EngineOptions,
+): string {
+  if (typeof value === 'string' || isUnitlessProperty(property) || value === 0) {
+    return String(value);
+  }
+
+  const suffix = engine.unitSuffixer
+    ? engine.unitSuffixer(property as NativeProperty)
+    : options.unit;
+
+  return value + (suffix || 'px');
+}
+
 function createDeclaration(
   rule: CSS,
   property: string,
@@ -109,7 +135,7 @@ function createDeclaration(
   }
 
   let key = hyphenate(property);
-  let val = processValue(property, value, options.unit);
+  let val = formatValue(property, value, options, engine);
 
   // Convert between LTR and RTL
   if (options.direction && engine.directionConverter) {
@@ -148,7 +174,7 @@ function createDeclarationBlock(
   return css;
 }
 
-function formatRuleWithoutClassName(block: CSS, { conditions, selector = '' }: RenderOptions): CSS {
+function formatTokenizedRule(block: CSS, { conditions, selector = '' }: RenderOptions): CSS {
   let rule = `.#className#${selector} { ${block} }`;
 
   if (conditions) {
@@ -175,16 +201,13 @@ export function renderDeclaration<K extends Property>(
   engine: EngineOptions,
 ): ClassName {
   const key = hyphenate(property);
-  const rule = formatRuleWithoutClassName(
-    createDeclaration('', key, value!, options, engine),
-    options,
-  );
+  const rule = formatTokenizedRule(createDeclaration('', key, value!, options, engine), options);
 
   const { rankings } = options;
   const { className, rank } = cacheAndInsertStyles(rule, options, engine, rankings?.[key]);
 
   // Persist the rank for specificity guarantees
-  if (rankings && rank && (rankings[key] === undefined || rank > rankings[key])) {
+  if (rankings && rank !== undefined && (rankings[key] === undefined || rank > rankings[key])) {
     rankings[key] = rank;
   }
 
@@ -238,10 +261,7 @@ export function renderVariable(
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
-  const rule = formatRuleWithoutClassName(
-    formatDeclaration(formatVariableName(name), value),
-    options,
-  );
+  const rule = formatTokenizedRule(formatDeclaration(formatVariableName(name), value), options);
 
   return cacheAndInsertStyles(rule, options, engine).className;
 }
@@ -254,8 +274,18 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
       if (__DEV__) {
         console.warn(`Invalid value "${value}" for "${property}".`);
       }
-    } else if (isObject(value)) {
-      classNames.push('');
+    } else if (isObject<Rule>(value)) {
+      if (isAtRule(property)) {
+        const { conditions = [] } = options;
+
+        classNames.push(
+          renderRule(value, { ...options, conditions: [...toArray(conditions), property] }, engine),
+        );
+      } else if (isNestedSelector(property)) {
+        classNames.push(renderRule(value, { ...options, selector: property }, engine));
+      } else if (__DEV__) {
+        console.warn(`Unknown property selector or nested block "${property}".`);
+      }
     } else if (isVariable(property)) {
       classNames.push(renderVariable(property, value, options, engine));
     } else {
@@ -281,7 +311,7 @@ export default function createEngine(options: EngineOptions): Engine {
       renderFontFace(fontFace, options || renderOptions, engine),
     renderImport: (path, options) => renderImport(path, options || renderOptions, engine),
     renderKeyframes: (keyframes, animationName, options) =>
-      renderKeyframes(keyframes, animationName, options || renderOptions, engine),
+      renderKeyframes(keyframes, animationName || '', options || renderOptions, engine),
     renderRule: (rule, options) => renderRule(rule, options || renderOptions, engine),
     renderVariable: (name, value, options) =>
       renderVariable(name, value, options || renderOptions, engine),

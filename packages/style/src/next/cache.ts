@@ -9,11 +9,11 @@ export default function createCacheManager(defaultItems: CacheStorage = {}): Cac
 
       if (!items) {
         return null;
-      } else if (items.length === 1 || minimumRank === undefined) {
+      } else if (minimumRank === undefined) {
         return items[0];
       }
 
-      return items.find((item) => item.rank && item.rank > minimumRank) || null;
+      return items.find((item) => item.rank! >= minimumRank) || null;
     },
 
     write(key: string, item: CacheItem) {

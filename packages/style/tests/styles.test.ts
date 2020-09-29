@@ -23,31 +23,6 @@ describe('Styles', () => {
     purgeStyles();
   });
 
-  it('generates a unique class name for each property', () => {
-    const className = renderer.renderRule({
-      margin: 0,
-      padding: '6px 12px',
-      border: '1px solid #2e6da4',
-      borderRadius: '4px',
-      display: 'inline-block',
-      cursor: 'pointer',
-      fontFamily: 'Roboto',
-      fontWeight: 'normal',
-      lineHeight: 'normal',
-      whiteSpace: 'nowrap',
-      textDecoration: 'none',
-      textAlign: 'left',
-      backgroundColor: '#337ab7',
-      verticalAlign: 'middle',
-      color: 'rgba(0, 0, 0, 0)',
-      animationName: 'fade',
-      animationDuration: '.3s',
-    });
-
-    expect(className).toBe('a b c d e f g h i j k l m n o p q');
-    expect(getRenderedStyles('standard')).toMatchSnapshot();
-  });
-
   it('generates a deterministic class name for each property', () => {
     const className = renderer.renderRule(
       {

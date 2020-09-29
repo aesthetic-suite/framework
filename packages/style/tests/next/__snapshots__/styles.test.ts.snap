@@ -1,10 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Engine inserts at-rules before standard rules 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}.a {display: block;}"`;
+
+exports[`Engine inserts imports before at-rules 1`] = `"@import url(custom.css);@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
+
 exports[`Engine renderDeclaration() converts directional properties 1`] = `".a {margin-left: 0;}.b {margin-right: 0;}"`;
 
 exports[`Engine renderDeclaration() converts directional values 1`] = `".a {text-align: left;}.b {text-align: right;}"`;
 
+exports[`Engine renderDeclaration() generates a ranking (insertion order) 1`] = `".a {text-align: center;}"`;
+
 exports[`Engine renderDeclaration() generates a unique class name for a large number of properties 1`] = `".a {padding: 0px;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
+
+exports[`Engine renderDeclaration() inserts the same declaration if the minimum rank is not met (specificity guarantee) 1`] = `".a {text-align: center;}.b {text-align: center;}.c {text-align: center;}"`;
 
 exports[`Engine renderDeclaration() prefixes properties, values, value functions, and selectors 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.d:-ms-fullscreen {display: none;}"`;
 
@@ -25,3 +33,61 @@ exports[`Engine renderDeclaration() uses the same class name for dashed and came
 exports[`Engine renderDeclaration() uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
 
 exports[`Engine renderDeclaration() uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
+
+exports[`Engine renderFontFace() doesnt insert the same at-rule more than once 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
+
+exports[`Engine renderFontFace() generates a hashed family name if none provided 1`] = `"@font-face {font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\"); font-family: ffweix7s;}"`;
+
+exports[`Engine renderFontFace() renders and returns family name 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
+
+exports[`Engine renderImport() doesnt insert the same at-rule more than once 1`] = `"@import url(custom.css);"`;
+
+exports[`Engine renderImport() renders all variants 1`] = `"@import url(print.css) print;@import url(a11y.css) speech;@import url(custom.css);@import url(common.css) screen;@import url(chrome://communicator/skin);@import url(landscape.css) screen and (orientation: landscape);"`;
+
+exports[`Engine renderKeyframes() can provide a custom animation name 1`] = `
+"@keyframes fade { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}"
+`;
+
+exports[`Engine renderKeyframes() converts between LTR and RTL 1`] = `
+"@keyframes kf1lt4056 { 
+  from {left: 0;} 
+  to {right: 100px;} 
+}@keyframes kf944ipm { 
+  from {right: 0;} 
+  to {left: 100px;} 
+}"
+`;
+
+exports[`Engine renderKeyframes() doesnt insert the same at-rule more than once 1`] = `
+"@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`Engine renderKeyframes() renders percentage based and returns animation name 1`] = `
+"@keyframes kf22exw8 { 
+  0% {top: 0; left: 0;} 
+  30% {top: 50px;} 
+  68%,72% {left: 50px;} 
+  100% {top: 100px; left: 100%;} 
+}"
+`;
+
+exports[`Engine renderKeyframes() renders range based and returns animation name 1`] = `
+"@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`Engine renderRule() generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
+
+exports[`Engine renderVariable() generates a unique class name for a large number of variables 1`] = `".a {--font-size: 0px;}.b {--font-size: 1px;}.c {--font-size: 2px;}.d {--font-size: 3px;}.e {--font-size: 4px;}.f {--font-size: 5px;}.g {--font-size: 6px;}.h {--font-size: 7px;}.i {--font-size: 8px;}.j {--font-size: 9px;}.k {--font-size: 10px;}.l {--font-size: 11px;}.m {--font-size: 12px;}.n {--font-size: 13px;}.o {--font-size: 14px;}.p {--font-size: 15px;}.q {--font-size: 16px;}.r {--font-size: 17px;}.s {--font-size: 18px;}.t {--font-size: 19px;}.u {--font-size: 20px;}.v {--font-size: 21px;}.w {--font-size: 22px;}.x {--font-size: 23px;}.y {--font-size: 24px;}.z {--font-size: 25px;}.a1 {--font-size: 26px;}.b1 {--font-size: 27px;}.c1 {--font-size: 28px;}.d1 {--font-size: 29px;}.e1 {--font-size: 30px;}.f1 {--font-size: 31px;}.g1 {--font-size: 32px;}.h1 {--font-size: 33px;}.i1 {--font-size: 34px;}.j1 {--font-size: 35px;}.k1 {--font-size: 36px;}.l1 {--font-size: 37px;}.m1 {--font-size: 38px;}.n1 {--font-size: 39px;}.o1 {--font-size: 40px;}.p1 {--font-size: 41px;}.q1 {--font-size: 42px;}.r1 {--font-size: 43px;}.s1 {--font-size: 44px;}.t1 {--font-size: 45px;}.u1 {--font-size: 46px;}.v1 {--font-size: 47px;}.w1 {--font-size: 48px;}.x1 {--font-size: 49px;}.y1 {--font-size: 50px;}.z1 {--font-size: 51px;}.a2 {--font-size: 52px;}.b2 {--font-size: 53px;}.c2 {--font-size: 54px;}.d2 {--font-size: 55px;}.e2 {--font-size: 56px;}.f2 {--font-size: 57px;}.g2 {--font-size: 58px;}.h2 {--font-size: 59px;}.i2 {--font-size: 60px;}.j2 {--font-size: 61px;}.k2 {--font-size: 62px;}.l2 {--font-size: 63px;}.m2 {--font-size: 64px;}.n2 {--font-size: 65px;}.o2 {--font-size: 66px;}.p2 {--font-size: 67px;}.q2 {--font-size: 68px;}.r2 {--font-size: 69px;}.s2 {--font-size: 70px;}.t2 {--font-size: 71px;}.u2 {--font-size: 72px;}.v2 {--font-size: 73px;}.w2 {--font-size: 74px;}.x2 {--font-size: 75px;}.y2 {--font-size: 76px;}.z2 {--font-size: 77px;}.a3 {--font-size: 78px;}.b3 {--font-size: 79px;}.c3 {--font-size: 80px;}.d3 {--font-size: 81px;}.e3 {--font-size: 82px;}.f3 {--font-size: 83px;}.g3 {--font-size: 84px;}.h3 {--font-size: 85px;}.i3 {--font-size: 86px;}.j3 {--font-size: 87px;}.k3 {--font-size: 88px;}.l3 {--font-size: 89px;}.m3 {--font-size: 90px;}.n3 {--font-size: 91px;}.o3 {--font-size: 92px;}.p3 {--font-size: 93px;}.q3 {--font-size: 94px;}.r3 {--font-size: 95px;}.s3 {--font-size: 96px;}.t3 {--font-size: 97px;}.u3 {--font-size: 98px;}.v3 {--font-size: 99px;}"`;
+
+exports[`Engine renderVariable() uses the same class name for dashed and camel cased properties 1`] = `".a {--font-size: 16px;}"`;
+
+exports[`Engine renderVariable() uses the same class name for the same property value pair 1`] = `".a {--font-size: 16px;}"`;

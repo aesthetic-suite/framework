@@ -22,7 +22,7 @@ export interface ProcessOptions {
   direction?: Direction;
   rankings?: RankCache;
   type?: SheetType;
-  unit?: Unit | UnitFactory;
+  unit?: Unit;
   vendor?: boolean;
 }
 
@@ -100,6 +100,7 @@ export interface EngineOptions {
   directionConverter?: DirectionConverter | null;
   ruleIndex?: number;
   sheetManager: SheetManager;
+  unitSuffixer?: UnitFactory;
   vendorPrefixer?: VendorPrefixer | null;
 }
 
@@ -111,7 +112,11 @@ export interface Engine {
   ) => ClassName;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
   renderImport: (path: string, options?: RenderOptions) => void;
-  renderKeyframes: (keyframes: Keyframes, animationName: string, options?: RenderOptions) => string;
+  renderKeyframes: (
+    keyframes: Keyframes,
+    animationName?: string,
+    options?: RenderOptions,
+  ) => string;
   renderRule: (rule: Rule, options?: RenderOptions) => ClassName;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => ClassName;
 }
