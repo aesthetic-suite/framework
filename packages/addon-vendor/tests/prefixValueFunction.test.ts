@@ -2,12 +2,8 @@ import prefixValueFunction from '../src/prefixValueFunction';
 
 describe('prefixValueFunction()', () => {
   it('doesnt prefix for unsupported value', () => {
-    expect(prefixValueFunction('image-set()', {})).toBe('image-set()');
-    expect(prefixValueFunction('image-set()', { 'image-set': 0 })).toBe('image-set()');
-  });
-
-  it('doesnt prefix for number values', () => {
-    expect(prefixValueFunction(123, {})).toBe(123);
+    expect(prefixValueFunction('image-set()', {})).toEqual(['image-set()']);
+    expect(prefixValueFunction('image-set()', { 'image-set': 0 })).toEqual(['image-set()']);
   });
 
   it('prefixes for values that have a mapping', () => {

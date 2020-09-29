@@ -27,9 +27,12 @@ export function formatValue(
     return String(value);
   }
 
-  const suffix = engine.unitSuffixer
-    ? engine.unitSuffixer(property as NativeProperty)
-    : options.unit;
+  let suffix = engine.unitSuffixer ? engine.unitSuffixer(property as NativeProperty) : options.unit;
+
+  // TODO TEMP
+  if (typeof suffix === 'function') {
+    suffix = suffix(property as NativeProperty);
+  }
 
   return value + (suffix || 'px');
 }
@@ -38,17 +41,17 @@ export function formatTokenizedRule(block: CSS, { conditions, selector = '' }: R
   let rule = `.#className#${selector} { ${block} }`;
 
   if (conditions) {
-    if (Array.isArray(conditions)) {
-      arrayLoop(
-        conditions,
-        (condition) => {
-          rule = `${condition} { ${rule} }`;
-        },
-        true,
-      );
-    } else {
-      rule = conditions.replace('#rule#', rule);
-    }
+    // if (Array.isArray(conditions)) {
+    arrayLoop(
+      conditions,
+      (condition) => {
+        rule = `${condition} { ${rule} }`;
+      },
+      true,
+    );
+    // } else if (typeof conditions === 'string') {
+    //   rule = conditions.replace('#rule#', rule);
+    // }
   }
 
   return rule;

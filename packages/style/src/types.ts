@@ -22,14 +22,14 @@ export interface ProcessOptions {
   direction?: Direction;
   rankings?: RankCache;
   type?: SheetType;
-  unit?: Unit;
+  unit?: Unit | UnitFactory;
   vendor?: boolean;
 }
 
 export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
-  conditions?: Condition[] | string;
-  // minimumRank?: number;
+  conditions?: Condition[];
+  minimumRank?: number;
   selector?: string;
 }
 

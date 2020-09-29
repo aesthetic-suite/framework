@@ -23,6 +23,39 @@ describe('Styles', () => {
     purgeStyles();
   });
 
+  it('generates a unique class name for a large number of properties', () => {
+    for (let i = 0; i < 100; i += 1) {
+      renderer.renderDeclaration('padding', `${i}px`);
+    }
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('generates a unique class name for each property', () => {
+    const className = renderer.renderRule({
+      margin: 0,
+      padding: '6px 12px',
+      border: '1px solid #2e6da4',
+      borderRadius: '4px',
+      display: 'inline-block',
+      cursor: 'pointer',
+      fontFamily: 'Roboto',
+      fontWeight: 'normal',
+      lineHeight: 'normal',
+      whiteSpace: 'nowrap',
+      textDecoration: 'none',
+      textAlign: 'left',
+      backgroundColor: '#337ab7',
+      verticalAlign: 'middle',
+      color: 'rgba(0, 0, 0, 0)',
+      animationName: 'fade',
+      animationDuration: '.3s',
+    });
+
+    expect(className).toBe('a b c d e f g h i j k l m n o p q');
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
   it('generates a deterministic class name for each property', () => {
     const className = renderer.renderRule(
       {
@@ -54,6 +87,32 @@ describe('Styles', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
+  it('uses the same class name for the same property value pair', () => {
+    renderer.renderDeclaration('display', 'block');
+    renderer.renderDeclaration('display', 'flex');
+    renderer.renderDeclaration('display', 'block');
+    renderer.renderDeclaration('display', 'flex');
+    renderer.renderDeclaration('display', 'inline');
+    renderer.renderDeclaration('display', 'block');
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('uses the same class name for dashed and camel cased properties', () => {
+    renderer.renderDeclaration('textDecoration', 'none');
+    renderer.renderDeclaration('text-decoration', 'none');
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('uses the same class name for numeric and string values', () => {
+    renderer.renderDeclaration('width', 0);
+    renderer.renderDeclaration('width', '0');
+    renderer.renderDeclaration('width', '100em');
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
   it('generates different class names between standard and condition rules, when condition is inserted first', () => {
     const a = renderer.renderDeclaration('width', '100em', {
       conditions: ['@media (max-width: 100px)'],
@@ -63,6 +122,14 @@ describe('Styles', () => {
     expect(a).toBe('a');
     expect(b).toBe('b');
     expect(a).not.toBe(b);
+  });
+
+  it('supports CSS variables within values', () => {
+    renderer.renderDeclaration('color', 'var(--primary-color)');
+    renderer.renderDeclaration('border', '1px solid var(--border-color)');
+    renderer.renderDeclaration('display', 'var(--display, var(--fallback), flex)');
+
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('supports rendering a single CSS variable', () => {
@@ -203,6 +270,25 @@ describe('Styles', () => {
     expect(a).toBe('a');
     expect(b).toBe('b');
     expect(a).not.toBe(b);
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
+  });
+
+  it('applies vendor prefixes to a property under a single class name', () => {
+    // Value prefixing (wont show in snapshot because of DOM)
+    renderer.renderDeclaration('min-width', 'fit-content', { vendor: true });
+
+    // Value function prefixing (wont show in snapshot because of DOM)
+    renderer.renderDeclaration('background', 'image-set()', { vendor: true });
+
+    // Property prefixing
+    renderer.renderDeclaration('appearance', 'none', { vendor: true });
+
+    // Selector prefixing
+    renderer.renderDeclaration('display', 'none', {
+      selector: ':fullscreen',
+      vendor: true,
+    });
+
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 

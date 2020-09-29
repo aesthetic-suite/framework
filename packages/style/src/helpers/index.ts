@@ -16,6 +16,8 @@ import isNestedSelector from './isNestedSelector';
 import isSupportsRule from './isSupportsRule';
 import isUnitlessProperty from './isUnitlessProperty';
 import isVariable from './isVariable';
+import processProperties from './processProperties';
+import processValue from './processValue';
 
 export {
   createAtomicCacheKey,
@@ -36,4 +38,6 @@ export {
   isSupportsRule,
   isUnitlessProperty,
   isVariable,
+  processProperties,
+  processValue,
 };

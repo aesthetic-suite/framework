@@ -10,7 +10,7 @@ import {
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { generateHash, isObject, objectLoop, objectReduce, toArray } from '@aesthetic/utils';
+import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
 import {
   createAtomicCacheKey,
   formatDeclaration,
@@ -180,19 +180,27 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
         console.warn(`Invalid value "${value}" for "${property}".`);
       }
     } else if (isObject<Rule>(value)) {
+      // At-rules
       if (isAtRule(property)) {
         const { conditions = [] } = options;
 
-        classNames.push(
-          renderRule(value, { ...options, conditions: [...toArray(conditions), property] }, engine),
-        );
+        conditions.push(property);
+        classNames.push(renderRule(value, { ...options, conditions }, engine));
+
+        // Selectors
       } else if (isNestedSelector(property)) {
         classNames.push(renderRule(value, { ...options, selector: property }, engine));
+
+        // Unknown
       } else if (__DEV__) {
         console.warn(`Unknown property selector or nested block "${property}".`);
       }
+
+      // Variables
     } else if (isVariable(property)) {
       classNames.push(renderVariable(property, value, options, engine));
+
+      // Properties
     } else {
       classNames.push(renderDeclaration(property, value, options, engine));
     }

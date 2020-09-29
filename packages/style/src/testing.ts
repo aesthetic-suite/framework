@@ -1,13 +1,16 @@
 /* eslint-disable unicorn/import-index */
 
 import { CSS } from '@aesthetic/types';
-import { getDocumentStyleSheet } from './helpers';
-// import { SheetType, getDocumentStyleSheet } from './index';
-import createCacheManager from './next/cache';
-import { createStyleElements } from './next/client';
-import createEngine from './next/engine';
-import createSheetManager from './next/sheet';
-import { CacheManager, Engine, EngineOptions, SheetManager, SheetType, StyleRule } from './types';
+import {
+  CacheManager,
+  Engine,
+  EngineOptions,
+  SheetManager,
+  SheetType,
+  StyleRule,
+  getDocumentStyleSheet,
+} from './index';
+import { createCacheManager, createStyleElements, createEngine, createSheetManager } from './next';
 
 export function createTestCacheManager(): CacheManager {
   return createCacheManager();
