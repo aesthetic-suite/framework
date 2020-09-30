@@ -11,29 +11,24 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
-import {
-  createAtomicCacheKey,
-  formatDeclaration,
-  formatVariableName,
-  isAtRule,
-  isNestedSelector,
-  isVariable,
-} from '../helpers';
+import { createCacheKey } from './cache';
+import { formatVariableName, isAtRule, isNestedSelector, isVariable } from '../helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
   formatProperty,
-  formatTokenizedRule,
+  formatDeclaration,
+  formatRule,
 } from './syntax';
 import { CacheItem, Engine, EngineOptions, RenderOptions } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-function generateClassName(rule: string, options: RenderOptions, engine: EngineOptions): ClassName {
-  // Avoid hashes that start with an invalid number
+function generateClassName(key: string, options: RenderOptions, engine: EngineOptions): ClassName {
   if (options.deterministic) {
-    return `c${generateHash(rule)}`;
+    // Avoid hashes that start with an invalid number
+    return `c${generateHash(key)}`;
   }
 
   if (engine.ruleIndex === undefined) {
@@ -51,7 +46,7 @@ function generateClassName(rule: string, options: RenderOptions, engine: EngineO
   return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
 }
 
-function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineOptions) {
+function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineOptions): CacheItem {
   const { cacheManager, sheetManager } = engine;
   let item = cacheManager.read(rule);
 
@@ -60,7 +55,6 @@ function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineO
 
     // Generate a unique hash to use as the class name
     item = { className: generateClassName(rule, { deterministic: true }, engine) };
-
     cacheManager.write(rule, item);
   }
 
@@ -68,19 +62,19 @@ function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineO
 }
 
 function cacheAndInsertStyles(
-  rule: CSS,
+  cacheKey: string,
+  render: (className: ClassName) => CSS,
   options: RenderOptions,
   engine: EngineOptions,
   minimumRank?: number,
 ): CacheItem {
   const { cacheManager, sheetManager, vendorPrefixer } = engine;
-  const cacheKey = createAtomicCacheKey(rule, options);
   let item = cacheManager.read(cacheKey, minimumRank);
 
   if (!item) {
     // Generate class name and format CSS rule with class name
-    const className = options.className || generateClassName(rule, options, engine);
-    const css = rule.replace('#className#', className);
+    const className = options.className || generateClassName(cacheKey, options, engine);
+    const css = render(className);
 
     // Insert rule and return a rank (insert index)
     const rank = sheetManager.insertRule(
@@ -92,7 +86,6 @@ function cacheAndInsertStyles(
 
     // Cache the results for subsequent performance
     item = { className, rank };
-
     cacheManager.write(cacheKey, item);
   }
 
@@ -106,10 +99,14 @@ export function renderDeclaration<K extends Property>(
   engine: EngineOptions,
 ): ClassName {
   const key = formatProperty(property);
-  const rule = formatTokenizedRule(createDeclaration('', key, value!, options, engine), options);
-
   const { rankings } = options;
-  const { className, rank } = cacheAndInsertStyles(rule, options, engine, rankings?.[key]);
+  const { className, rank } = cacheAndInsertStyles(
+    createCacheKey(key, value!, options),
+    (className) => formatRule(className, createDeclaration(key, value!, options, engine), options),
+    options,
+    engine,
+    rankings?.[key],
+  );
 
   // Persist the rank for specificity guarantees
   if (rankings && rank !== undefined && (rankings[key] === undefined || rank > rankings[key])) {
@@ -150,7 +147,7 @@ export function renderKeyframes(
   const block = objectReduce(
     keyframes,
     (keyframe, step) =>
-      `${step} { ${createDeclarationBlock(keyframe as GenericProperties, options, engine)} } `,
+      `${step} { ${createDeclarationBlock(keyframe as GenericProperties, options, engine)} }`,
   );
 
   const name = animationName || `kf${generateHash(block)}`;
@@ -166,12 +163,19 @@ export function renderVariable(
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
-  const rule = formatTokenizedRule(formatDeclaration(formatVariableName(name), value), options);
+  const key = formatVariableName(name);
 
-  return cacheAndInsertStyles(rule, options, engine).className;
+  return cacheAndInsertStyles(
+    createCacheKey(key, value, options),
+    (className) => formatRule(className, formatDeclaration(key, value), options),
+    options,
+    engine,
+  ).className;
 }
 
-export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOptions) {
+// It's much faster to set and unset options (conditions and selector) than it is
+// to spread and clone the options object. Since rendering is synchronous, it just works!
+export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOptions): ClassName {
   const classNames: string[] = [];
 
   objectLoop<Rule, Property>(rule, (value, property) => {
@@ -182,14 +186,19 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
     } else if (isObject<Rule>(value)) {
       // At-rules
       if (isAtRule(property)) {
-        const { conditions = [] } = options;
+        if (!options.conditions) {
+          options.conditions = [];
+        }
 
-        conditions.push(property);
-        classNames.push(renderRule(value, { ...options, conditions }, engine));
+        options.conditions.push(property);
+        classNames.push(renderRule(value, options, engine));
+        options.conditions.pop();
 
         // Selectors
       } else if (isNestedSelector(property)) {
-        classNames.push(renderRule(value, { ...options, selector: property }, engine));
+        options.selector = property;
+        classNames.push(renderRule(value, options, engine));
+        options.selector = undefined;
 
         // Unknown
       } else if (__DEV__) {
@@ -207,6 +216,53 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
   });
 
   return classNames.join(' ');
+}
+
+export function renderRuleGrouped(
+  rule: Rule,
+  options: RenderOptions,
+  engine: EngineOptions,
+): ClassName {
+  const nestedRules: Record<string, Rule> = {};
+  let variables: CSS = '';
+  let properties: CSS = '';
+
+  // Extract all nested rules first as we need to process them *after* properties
+  objectLoop<Rule, Property>(rule, (value, property) => {
+    if (value === null || value === undefined) {
+      if (__DEV__) {
+        console.warn(`Invalid value "${value}" for "${property}".`);
+      }
+    } else if (isObject<Rule>(value)) {
+      nestedRules[property] = value;
+    } else if (isVariable(property)) {
+      variables += formatDeclaration(property, value);
+    } else {
+      properties += createDeclaration(property, value, options, engine);
+    }
+  });
+
+  // Always use deterministic classes for grouped rules
+  options.deterministic = true;
+
+  // Insert rule styles only once
+  const block = variables + properties;
+  let { className } = cacheAndInsertStyles(
+    createCacheKey(block, '', options),
+    (className) => formatRule(className, block, options),
+    options,
+    engine,
+  );
+
+  // Render all nested rules and append class names
+  objectLoop(nestedRules, (nestedRule, selector) => {
+    options.selector = selector;
+
+    className += ' ';
+    className += renderRuleGrouped(nestedRule, options, engine);
+  });
+
+  return className;
 }
 
 export default function createEngine(options: EngineOptions): Engine {

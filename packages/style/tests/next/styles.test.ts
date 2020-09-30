@@ -118,20 +118,6 @@ describe('Engine', () => {
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
-    // TODO
-    // it('supports conditionals using strings', () => {
-    //   engine.renderDeclaration('color', 'green', {
-    //     conditions: '@media (max-size: 100px) { #rule# }',
-    //   });
-    //   engine.renderDeclaration('color', 'red', { conditions: '@supports (color: red) { #rule# }' });
-    //   engine.renderDeclaration('color', 'blue', {
-    //     conditions:
-    //       '@media (max-width: 100px) { @supports (color: red) { @media (min-width: 200px) { #rule# } } }',
-    //   });
-
-    //   expect(getRenderedStyles('conditions')).toMatchSnapshot();
-    // });
-
     it('supports conditionals with selectors', () => {
       engine.renderDeclaration('color', 'green', {
         conditions: ['@media (max-size: 100px)'],
@@ -185,7 +171,7 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderDeclaration('margin', 0, { deterministic: true });
 
-      expect(className).toBe('coewy6j');
+      expect(className).toBe('c13kbekr');
     });
 
     it('generates a ranking (insertion order)', () => {
@@ -296,7 +282,7 @@ describe('Engine', () => {
         },
       });
 
-      expect(name).toBe('kf103rcyx');
+      expect(name).toBe('kf1c8v9l5');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
@@ -308,7 +294,7 @@ describe('Engine', () => {
         '100%': { top: '100px', left: '100%' },
       });
 
-      expect(name).toBe('kf22exw8');
+      expect(name).toBe('kf1a0qg2g');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
@@ -358,8 +344,8 @@ describe('Engine', () => {
         },
       );
 
-      expect(ltr).toBe('kf1lt4056');
-      expect(rtl).toBe('kf944ipm');
+      expect(ltr).toBe('kf1el0aai');
+      expect(rtl).toBe('kf7uqsfu');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
@@ -419,7 +405,7 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderVariable('--font-size', '16px', { deterministic: true });
 
-      expect(className).toBe('cdw0k8h');
+      expect(className).toBe('ca1tahd');
     });
   });
 });

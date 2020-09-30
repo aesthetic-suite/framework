@@ -1,17 +1,14 @@
 import {
+  ClassName,
   CSS,
   GenericProperties,
   NativeProperty,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { arrayLoop, hyphenate, objectLoop } from '@aesthetic/utils';
+import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { isUnitlessProperty } from '../helpers';
 import { EngineOptions, RenderOptions } from '../types';
-
-export function formatDeclaration(key: string, value: Value): CSS {
-  return `${key}:${value};`;
-}
 
 export function formatProperty(property: string): string {
   return hyphenate(property);
@@ -37,11 +34,18 @@ export function formatValue(
   return value + (suffix || 'px');
 }
 
-export function formatTokenizedRule(block: CSS, { conditions, selector = '' }: RenderOptions): CSS {
-  let rule = `.#className#${selector} { ${block} }`;
+export function formatDeclaration(key: string, value: Value): CSS {
+  return `${key}:${value};`;
+}
+
+export function formatRule(
+  className: ClassName,
+  block: CSS,
+  { conditions, selector = '' }: RenderOptions,
+): CSS {
+  let rule = `.${className}${selector} { ${block} }`;
 
   if (conditions) {
-    // if (Array.isArray(conditions)) {
     arrayLoop(
       conditions,
       (condition) => {
@@ -49,23 +53,21 @@ export function formatTokenizedRule(block: CSS, { conditions, selector = '' }: R
       },
       true,
     );
-    // } else if (typeof conditions === 'string') {
-    //   rule = conditions.replace('#rule#', rule);
-    // }
   }
 
   return rule;
 }
 
 export function createDeclaration(
-  rule: CSS,
   property: string,
   value: Value | ValueWithFallbacks,
   options: RenderOptions,
   engine: EngineOptions,
 ): CSS {
+  let rule = '';
+
   if (Array.isArray(value)) {
-    return value.reduce((css, val) => createDeclaration(css, property, val, options, engine), rule);
+    return arrayReduce(value, (val) => createDeclaration(property, val, options, engine), rule);
   }
 
   let key = formatProperty(property);
@@ -99,11 +101,5 @@ export function createDeclarationBlock(
   options: RenderOptions,
   engine: EngineOptions,
 ): CSS {
-  let css = '';
-
-  objectLoop(properties, (value, key) => {
-    css = createDeclaration(css, key, value, options, engine);
-  });
-
-  return css;
+  return objectReduce(properties, (value, key) => createDeclaration(key, value, options, engine));
 }

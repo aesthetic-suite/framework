@@ -1,4 +1,23 @@
-import { CacheManager, CacheItem, CacheStorage } from '../types';
+import { Value, ValueWithFallbacks } from '@aesthetic/types';
+import { CacheManager, CacheItem, CacheStorage, RenderOptions } from '../types';
+
+export function createCacheKey(
+  property: string,
+  value: Value | ValueWithFallbacks,
+  { selector, conditions }: RenderOptions,
+): string {
+  let key = property + value;
+
+  if (selector) {
+    key += selector;
+  }
+
+  if (conditions && conditions.length > 0) {
+    key += conditions.join('');
+  }
+
+  return key;
+}
 
 export default function createCacheManager(defaultItems: CacheStorage = {}): CacheManager {
   const cache: CacheStorage = defaultItems;

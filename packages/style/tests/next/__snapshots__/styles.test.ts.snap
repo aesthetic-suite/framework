@@ -20,8 +20,6 @@ exports[`Engine renderDeclaration() supports CSS variables 1`] = `".a {color: va
 
 exports[`Engine renderDeclaration() supports conditionals 1`] = `"@media (max-size: 100px) {.a {color: green;}}@supports (color: red) {.b {color: red;}}@media (max-width: 100px) {@supports (color: red) {@media (min-width: 200px) {.c {color: blue;}}}}"`;
 
-exports[`Engine renderDeclaration() supports conditionals using strings 1`] = `"@media (max-size: 100px) {.a {color: green;}}@supports (color: red) {.b {color: red;}}@media (max-width: 100px) {@supports (color: red) {@media (min-width: 200px) {.c {color: blue;}}}}"`;
-
 exports[`Engine renderDeclaration() supports conditionals with selectors 1`] = `"@media (max-size: 100px) {.a:focus {color: green;}}"`;
 
 exports[`Engine renderDeclaration() supports fallback values by using an array 1`] = `".a {display: flex;}"`;
@@ -52,24 +50,24 @@ exports[`Engine renderKeyframes() can provide a custom animation name 1`] = `
 `;
 
 exports[`Engine renderKeyframes() converts between LTR and RTL 1`] = `
-"@keyframes kf1lt4056 { 
+"@keyframes kf1el0aai { 
   from {left: 0;} 
   to {right: 100px;} 
-}@keyframes kf944ipm { 
+}@keyframes kf7uqsfu { 
   from {right: 0;} 
   to {left: 100px;} 
 }"
 `;
 
 exports[`Engine renderKeyframes() doesnt insert the same at-rule more than once 1`] = `
-"@keyframes kf103rcyx { 
+"@keyframes kf1c8v9l5 { 
   from {transform: translateX(0%);} 
   to {transform: translateX(100%);} 
 }"
 `;
 
 exports[`Engine renderKeyframes() renders percentage based and returns animation name 1`] = `
-"@keyframes kf22exw8 { 
+"@keyframes kf1a0qg2g { 
   0% {top: 0; left: 0;} 
   30% {top: 50px;} 
   68%,72% {left: 50px;} 
@@ -78,7 +76,7 @@ exports[`Engine renderKeyframes() renders percentage based and returns animation
 `;
 
 exports[`Engine renderKeyframes() renders range based and returns animation name 1`] = `
-"@keyframes kf103rcyx { 
+"@keyframes kf1c8v9l5 { 
   from {transform: translateX(0%);} 
   to {transform: translateX(100%);} 
 }"
