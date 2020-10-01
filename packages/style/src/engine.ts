@@ -12,7 +12,7 @@ import {
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
 import createCacheManager, { createCacheKey } from './cache';
-import { isAtRule, isNestedSelector, isVariable } from './helpers';
+import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
@@ -180,11 +180,11 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngi
   const classNames: string[] = [];
 
   objectLoop<Rule, Property>(rule, (value, property) => {
-    if (value === null || value === undefined) {
-      if (__DEV__) {
-        console.warn(`Invalid value "${value}" for "${property}".`);
-      }
-    } else if (isObject<Rule>(value)) {
+    if (!isValidValue(property, value)) {
+      return;
+    }
+
+    if (isObject<Rule>(value)) {
       // At-rules
       if (isAtRule(property)) {
         if (!options.conditions) {
@@ -230,11 +230,11 @@ export function renderRuleGrouped(
 
   // Extract all nested rules first as we need to process them *after* properties
   objectLoop<Rule, Property>(rule, (value, property) => {
-    if (value === null || value === undefined) {
-      if (__DEV__) {
-        console.warn(`Invalid value "${value}" for "${property}".`);
-      }
-    } else if (isObject<Rule>(value)) {
+    if (!isValidValue(property, value)) {
+      return;
+    }
+
+    if (isObject<Rule>(value)) {
       nestedRules[property] = value;
     } else if (isVariable(property)) {
       variables += formatDeclaration(property, value);

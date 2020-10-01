@@ -1,6 +1,6 @@
 import { Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import createStyleElements from './dom';
+import createStyleElements, { getStyleElement } from './dom';
 import hydrateStyles from './hydration';
 import {
   createCacheManager,
@@ -10,6 +10,8 @@ import {
   EngineOptions,
   StyleEngine,
 } from '../index';
+
+export { createStyleElements, getStyleElement };
 
 function setRootVariables(vars: Variables) {
   const root = document.documentElement;

@@ -1,79 +1,169 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Styles applies vendor prefixes to a property under a single class name 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.d:-ms-fullscreen {display: none;}"`;
+exports[`Engine inserts at-rules before standard rules 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}.a {display: block;}"`;
 
-exports[`Styles can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
+exports[`Engine inserts imports before at-rules 1`] = `"@import url(custom.css);@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
-exports[`Styles can insert the same declaration if using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}.f {color: red;}.g {display: inline;}"`;
+exports[`Engine renderDeclaration() conditions supports conditionals 1`] = `"@media (max-size: 100px) {.a {color: green;}}@supports (color: red) {.b {color: red;}}@media (max-width: 100px) {@supports (color: red) {@media (min-width: 200px) {.c {color: blue;}}}}"`;
 
-exports[`Styles can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
+exports[`Engine renderDeclaration() conditions supports conditionals with selectors 1`] = `"@media (max-size: 100px) {.a:focus {color: green;}}"`;
 
-exports[`Styles can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}"`;
+exports[`Engine renderDeclaration() directionality converts directional properties 1`] = `".a {margin-left: 0;}.b {margin-right: 0;}"`;
 
-exports[`Styles css variables generates separate classes when not using a group 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}"`;
+exports[`Engine renderDeclaration() directionality converts directional values 1`] = `".a {text-align: left;}.b {text-align: right;}"`;
 
-exports[`Styles css variables includes variables in rule when using a rule group 1`] = `".cakyybw {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
+exports[`Engine renderDeclaration() generates a unique class name for a large number of properties 1`] = `".a {padding: 0px;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
 
-exports[`Styles generates a deterministic class name for each property 1`] = `".c1cpw2zw {margin: 0;}.c1jzt5o3 {cursor: pointer;}"`;
+exports[`Engine renderDeclaration() prefixes properties, values, value functions, and selectors 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.d:-ms-fullscreen {display: none;}"`;
 
-exports[`Styles generates a unique class name for a large number of properties 1`] = `".a {padding: 0px;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
+exports[`Engine renderDeclaration() rankings can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
 
-exports[`Styles generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
+exports[`Engine renderDeclaration() rankings can insert the same declaration if using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}.f {color: red;}.g {display: inline;}"`;
 
-exports[`Styles generates a unique class name for each selector even if property value pair is the same 1`] = `".a {background: #000;}.b:hover {background: #000;}.c[disabled] {background: #000;}"`;
+exports[`Engine renderDeclaration() rankings generates a ranking (insertion order) 1`] = `".a {text-align: center;}"`;
 
-exports[`Styles generates different declarations when RTL converting 1`] = `".a {margin-left: 10px;}.b {margin-right: 10px;}"`;
+exports[`Engine renderDeclaration() rankings inserts the same declaration if the minimum rank is not met (specificity guarantee) 1`] = `".a {text-align: center;}.b {text-align: center;}.c {text-align: center;}"`;
 
-exports[`Styles handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".cu4ygwf {display: flex;}.c8nj8ar {margin-left: 10px;}.c1u1u927 {text-align: right;}.c1qa0d3c {appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1ryula0 {margin-right: 10px;}.cfi87yc {text-align: left;}"`;
+exports[`Engine renderDeclaration() rankings wont insert the same declaration if not using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}"`;
 
-exports[`Styles ignores invalid values 1`] = `""`;
+exports[`Engine renderDeclaration() selectors supports selectors 1`] = `".a:hover {color: green;}.b[disabled] {color: red;}.c:nth-child(2) {color: blue;}"`;
 
-exports[`Styles inserts into the appropriate style sheets 1`] = `"@import url(test.css);"`;
+exports[`Engine renderDeclaration() supports CSS variables 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 
-exports[`Styles inserts into the appropriate style sheets 2`] = `".a {background: white;}"`;
+exports[`Engine renderDeclaration() supports fallback values by using an array 1`] = `".a {display: flex;}"`;
 
-exports[`Styles inserts into the appropriate style sheets 3`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
+exports[`Engine renderDeclaration() uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
 
-exports[`Styles logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
+exports[`Engine renderDeclaration() uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
 
-exports[`Styles logs a warning for unknown property values 1`] = `""`;
+exports[`Engine renderDeclaration() uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
 
-exports[`Styles rule grouping can RTL convert applicable properties 1`] = `".c12ol95t {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.c12ol95t:hover {display: flex; color: blue;}.c12ol95t::backdrop {background: black;}"`;
+exports[`Engine renderFontFace() doesnt insert the same at-rule more than once 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
-exports[`Styles rule grouping can RTL convert applicable properties 2`] = `"@media (width: 500px) {.c12ol95t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c12ol95t:hover {color: darkblue;}}"`;
+exports[`Engine renderFontFace() generates a hashed family name if none provided 1`] = `"@font-face {font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\"); font-family: ffweix7s;}"`;
 
-exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
+exports[`Engine renderFontFace() renders and returns family name 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
-exports[`Styles rule grouping can generate a non-atomic single class by grouping all properties 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
+exports[`Engine renderImport() doesnt insert the same at-rule more than once 1`] = `"@import url(custom.css);"`;
 
-exports[`Styles rule grouping can vendor prefix applicable properties 1`] = `".c1winuf3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1winuf3:hover {display: flex; color: blue;}.c1winuf3::-ms-backdrop {background: black;}"`;
+exports[`Engine renderImport() renders all variants 1`] = `"@import url(print.css) print;@import url(a11y.css) speech;@import url(custom.css);@import url(common.css) screen;@import url(chrome://communicator/skin);@import url(landscape.css) screen and (orientation: landscape);"`;
 
-exports[`Styles rule grouping can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.c1winuf3 {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1winuf3:hover {color: darkblue;}}"`;
+exports[`Engine renderKeyframes() can provide a custom animation name 1`] = `
+"@keyframes fade { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}"
+`;
 
-exports[`Styles rule grouping generates a consistent class name for same properties 1`] = `".c19x5a9t {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c19x5a9t:hover {display: flex; color: blue;}.c19x5a9t::backdrop {background: black;}"`;
+exports[`Engine renderKeyframes() converts between LTR and RTL 1`] = `
+"@keyframes kf1el0aai { 
+  from {left: 0;} 
+  to {right: 100px;} 
+}@keyframes kf7uqsfu { 
+  from {right: 0;} 
+  to {left: 100px;} 
+}"
+`;
 
-exports[`Styles rule grouping generates a consistent class name for same properties 2`] = `"@media (width: 500px) {.c19x5a9t {margin: 10px; padding: 10px;}}@media (width: 500px) {.c19x5a9t:hover {color: darkblue;}}"`;
+exports[`Engine renderKeyframes() doesnt insert the same at-rule more than once 1`] = `
+"@keyframes kf1c8v9l5 { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
 
-exports[`Styles rule grouping handles right-to-left, vendor prefixes, and deterministic classes all at once 1`] = `".c1winuf3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1winuf3:hover {display: flex; color: blue;}.c1winuf3::-ms-backdrop {background: black;}.cbk8r6n {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.cbk8r6n:hover {display: flex; color: blue;}.cbk8r6n::-ms-backdrop {background: black;}"`;
+exports[`Engine renderKeyframes() renders percentage based and returns animation name 1`] = `
+"@keyframes kf1a0qg2g { 
+  0% {top: 0; left: 0;} 
+  30% {top: 50px;} 
+  68%,72% {left: 50px;} 
+  100% {top: 100px; left: 100%;} 
+}"
+`;
 
-exports[`Styles supports CSS variables within values 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
+exports[`Engine renderKeyframes() renders range based and returns animation name 1`] = `
+"@keyframes kf1c8v9l5 { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
 
-exports[`Styles supports rendering a single CSS variable 1`] = `".a {--primary-color: black;}"`;
+exports[`Engine renderRule() attributes generates the correct class names with attribute selector 1`] = `".a {background: #000;}.b[disabled] {background-color: #286090;}.c[disabled] {border-color: #204d74;}"`;
 
-exports[`Styles unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
+exports[`Engine renderRule() attributes supports complex attribute selectors 1`] = `".a[href*=\\"example\\"] {background-color: #286090;}"`;
 
-exports[`Styles unit suffixes can customize with a function \`unit\` option 1`] = `".a {margin: 10%;}.b {padding: 20rem;}.c {font-size: 16pt;}.d {width: 100px;}"`;
+exports[`Engine renderRule() attributes uses same class name between both APIs 1`] = `".a[disabled] {background-color: #000;}"`;
 
-exports[`Styles unit suffixes can customize with a string \`unit\` option 1`] = `".a {margin-left: 10px;}.b {margin-right: 20rem;}"`;
+exports[`Engine renderRule() can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
-exports[`Styles unit suffixes doesnt suffix 0 values 1`] = `".a {margin: 0;}"`;
+exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.e:focus {color: darkblue;}}}}"`;
 
-exports[`Styles unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
+exports[`Engine renderRule() generates a deterministic class name for each property 1`] = `".c13kbekr {margin: 0;}.c16r1ggk {cursor: pointer;}"`;
 
-exports[`Styles uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
+exports[`Engine renderRule() generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
 
-exports[`Styles uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
+exports[`Engine renderRule() generates a unique class name for each selector even if property value pair is the same 1`] = `".a {background: #000;}.b:hover {background: #000;}.c[disabled] {background: #000;}"`;
 
-exports[`Styles uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
+exports[`Engine renderRule() hierarchy generates the correct class names with hierarchy selector 1`] = `".a {padding: 10px;}.b+ div {padding: 10px;}.c~ SPAN {padding: 10px;}.d>li {padding: 10px;}.e* {padding: 10px;}"`;
 
-exports[`Styles wont insert the same declaration if not using a shared rankings cache 1`] = `".a {color: red;}.b {display: inline;}.c {color: blue;}.d {color: green;}.e {display: block;}"`;
+exports[`Engine renderRule() hierarchy supports complex attribute selectors 1`] = `".a:first-of-type + li {color: white;}"`;
+
+exports[`Engine renderRule() hierarchy uses same class name between both APIs 1`] = `".a+ div {background-color: #000;}"`;
+
+exports[`Engine renderRule() ignores invalid values 1`] = `""`;
+
+exports[`Engine renderRule() inserts into the appropriate style sheets 1`] = `".a {background: white;}"`;
+
+exports[`Engine renderRule() inserts into the appropriate style sheets 2`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
+
+exports[`Engine renderRule() logs a warning for invalid values 1`] = `""`;
+
+exports[`Engine renderRule() logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
+
+exports[`Engine renderRule() media queries can be nested in @supports 1`] = `".a {padding: 15px;}"`;
+
+exports[`Engine renderRule() media queries can be nested in @supports 2`] = `"@supports (display: flex) {@media (max-width: 600px) {.b {padding: 15px;}}}"`;
+
+exports[`Engine renderRule() media queries supports @media conditions 1`] = `".a {background: #000;}.b {padding: 15px;}"`;
+
+exports[`Engine renderRule() media queries supports @media conditions 2`] = `"@media (max-width: 600px) {.c {padding: 15px;}}@media screen and (min-width: 900px) {.d {padding: 20px;}}"`;
+
+exports[`Engine renderRule() pseudos generates the correct class names with pseudo selector 1`] = `".a {padding: 5px;}.b:hover {padding: 10px;}.c::before {content: \\"★\\";}.d::before {display: inline-block;}"`;
+
+exports[`Engine renderRule() pseudos supports complex attribute selectors 1`] = `".a:nth-last-of-type(4n) {color: white;}"`;
+
+exports[`Engine renderRule() pseudos uses same class name between both APIs 1`] = `".a:focus {background-color: #000;}"`;
+
+exports[`Engine renderRule() specificity inserts declarations in the order they are defined (reversed) 1`] = `".a {width: 50px;}.b {padding: 1px;}.c {margin: 0;}"`;
+
+exports[`Engine renderRule() specificity inserts declarations in the order they are defined 1`] = `".a {margin: 0;}.b {padding: 1px;}.c {width: 50px;}"`;
+
+exports[`Engine renderRule() specificity inserts selectors in the order they are defined (reversed) 1`] = `".a {color: white;}.b:hover {color: blue;}.c:active {color: red;}"`;
+
+exports[`Engine renderRule() specificity inserts selectors in the order they are defined 1`] = `".a {color: white;}.b:active {color: red;}.c:hover {color: blue;}"`;
+
+exports[`Engine renderRule() support queries can be nested in @media 1`] = `".a {display: block;}"`;
+
+exports[`Engine renderRule() support queries can be nested in @media 2`] = `"@media screen and (min-width: 900px) {@supports (display: flex) {.b {display: flex;}}}"`;
+
+exports[`Engine renderRule() support queries supports @supports conditions 1`] = `".a {display: block;}"`;
+
+exports[`Engine renderRule() support queries supports @supports conditions 2`] = `"@supports (display: flex) {.b {display: flex;}}"`;
+
+exports[`Engine renderRule() supports CSS variables 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}"`;
+
+exports[`Engine renderRule() unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
+
+exports[`Engine renderRule() unit suffixes can customize with a function \`unit\` option 1`] = `".a {margin: 10%;}.b {padding: 20rem;}.c {font-size: 16pt;}.d {width: 100px;}"`;
+
+exports[`Engine renderRule() unit suffixes can customize with a string \`unit\` option 1`] = `".a {margin-left: 10px;}.b {margin-right: 20rem;}"`;
+
+exports[`Engine renderRule() unit suffixes doesnt suffix 0 values 1`] = `".a {margin: 0;}"`;
+
+exports[`Engine renderRule() unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
+
+exports[`Engine renderVariable() generates a unique class name for a large number of variables 1`] = `".a {--font-size: 0px;}.b {--font-size: 1px;}.c {--font-size: 2px;}.d {--font-size: 3px;}.e {--font-size: 4px;}.f {--font-size: 5px;}.g {--font-size: 6px;}.h {--font-size: 7px;}.i {--font-size: 8px;}.j {--font-size: 9px;}.k {--font-size: 10px;}.l {--font-size: 11px;}.m {--font-size: 12px;}.n {--font-size: 13px;}.o {--font-size: 14px;}.p {--font-size: 15px;}.q {--font-size: 16px;}.r {--font-size: 17px;}.s {--font-size: 18px;}.t {--font-size: 19px;}.u {--font-size: 20px;}.v {--font-size: 21px;}.w {--font-size: 22px;}.x {--font-size: 23px;}.y {--font-size: 24px;}.z {--font-size: 25px;}.a1 {--font-size: 26px;}.b1 {--font-size: 27px;}.c1 {--font-size: 28px;}.d1 {--font-size: 29px;}.e1 {--font-size: 30px;}.f1 {--font-size: 31px;}.g1 {--font-size: 32px;}.h1 {--font-size: 33px;}.i1 {--font-size: 34px;}.j1 {--font-size: 35px;}.k1 {--font-size: 36px;}.l1 {--font-size: 37px;}.m1 {--font-size: 38px;}.n1 {--font-size: 39px;}.o1 {--font-size: 40px;}.p1 {--font-size: 41px;}.q1 {--font-size: 42px;}.r1 {--font-size: 43px;}.s1 {--font-size: 44px;}.t1 {--font-size: 45px;}.u1 {--font-size: 46px;}.v1 {--font-size: 47px;}.w1 {--font-size: 48px;}.x1 {--font-size: 49px;}.y1 {--font-size: 50px;}.z1 {--font-size: 51px;}.a2 {--font-size: 52px;}.b2 {--font-size: 53px;}.c2 {--font-size: 54px;}.d2 {--font-size: 55px;}.e2 {--font-size: 56px;}.f2 {--font-size: 57px;}.g2 {--font-size: 58px;}.h2 {--font-size: 59px;}.i2 {--font-size: 60px;}.j2 {--font-size: 61px;}.k2 {--font-size: 62px;}.l2 {--font-size: 63px;}.m2 {--font-size: 64px;}.n2 {--font-size: 65px;}.o2 {--font-size: 66px;}.p2 {--font-size: 67px;}.q2 {--font-size: 68px;}.r2 {--font-size: 69px;}.s2 {--font-size: 70px;}.t2 {--font-size: 71px;}.u2 {--font-size: 72px;}.v2 {--font-size: 73px;}.w2 {--font-size: 74px;}.x2 {--font-size: 75px;}.y2 {--font-size: 76px;}.z2 {--font-size: 77px;}.a3 {--font-size: 78px;}.b3 {--font-size: 79px;}.c3 {--font-size: 80px;}.d3 {--font-size: 81px;}.e3 {--font-size: 82px;}.f3 {--font-size: 83px;}.g3 {--font-size: 84px;}.h3 {--font-size: 85px;}.i3 {--font-size: 86px;}.j3 {--font-size: 87px;}.k3 {--font-size: 88px;}.l3 {--font-size: 89px;}.m3 {--font-size: 90px;}.n3 {--font-size: 91px;}.o3 {--font-size: 92px;}.p3 {--font-size: 93px;}.q3 {--font-size: 94px;}.r3 {--font-size: 95px;}.s3 {--font-size: 96px;}.t3 {--font-size: 97px;}.u3 {--font-size: 98px;}.v3 {--font-size: 99px;}"`;
+
+exports[`Engine renderVariable() uses the same class name for dashed and camel cased properties 1`] = `".a {--font-size: 16px;}"`;
+
+exports[`Engine renderVariable() uses the same class name for the same property value pair 1`] = `".a {--font-size: 16px;}"`;

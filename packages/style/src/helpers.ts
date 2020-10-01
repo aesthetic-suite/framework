@@ -1,5 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
+import { Value, MaybeValue } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 
 export function isAtRule(value: string): boolean {
@@ -79,6 +80,18 @@ const unitlessProperties = new Set<string>();
 
 export function isUnitlessProperty(property: string): boolean {
   return unitlessProperties.has(property);
+}
+
+export function isValidValue(property: string, value: MaybeValue | boolean): value is Value {
+  if (value === null || value === undefined || value === true || value === false || value === '') {
+    if (__DEV__) {
+      console.warn(`Invalid value "${value}" for "${property}".`);
+    }
+
+    return false;
+  }
+
+  return true;
 }
 
 export function isVariable(value: string): boolean {

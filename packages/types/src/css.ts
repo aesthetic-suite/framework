@@ -11,7 +11,7 @@ export type Value = string | number;
 
 export type ValueWithFallbacks = string[];
 
-export type MaybeValue = Value | undefined;
+export type MaybeValue = Value | undefined | null;
 
 export type Unit = string;
 
