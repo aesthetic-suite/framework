@@ -19,7 +19,7 @@ export function createCacheKey(
   return key;
 }
 
-export default function createCacheManager(defaultItems: CacheStorage = {}): CacheManager {
+export function createCacheManager(defaultItems: CacheStorage = {}): CacheManager {
   const cache: CacheStorage = defaultItems;
 
   return {

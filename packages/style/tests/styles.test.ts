@@ -864,6 +864,111 @@ describe('Engine', () => {
     });
   });
 
+  describe('renderRuleGrouped()', () => {
+    const rule = {
+      display: 'block',
+      background: 'transparent',
+      color: 'black',
+      paddingRight: 0,
+      marginLeft: 0,
+      transition: '200ms all',
+      appearance: 'none',
+      ':hover': {
+        display: 'flex',
+        color: 'blue',
+      },
+      '::backdrop': {
+        background: 'black',
+      },
+      '@media (width: 500px)': {
+        margin: '10px',
+        padding: '10px',
+        ':hover': {
+          color: 'darkblue',
+        },
+      },
+    } as const;
+
+    it('generates a single class name for all properties', () => {
+      const className = engine.renderRuleGrouped({
+        margin: 0,
+        padding: '6px 12px',
+        border: '1px solid #2e6da4',
+        borderRadius: '4px',
+        display: 'inline-block',
+        cursor: 'pointer',
+        fontFamily: 'Roboto',
+        fontWeight: 'normal',
+        lineHeight: 'normal',
+        whiteSpace: 'nowrap',
+        textDecoration: 'none',
+        textAlign: 'left',
+        backgroundColor: '#337ab7',
+        verticalAlign: 'middle',
+        color: 'rgba(0, 0, 0, 0)',
+        animationName: 'fade',
+        animationDuration: '.3s',
+      });
+
+      expect(className).toBe('cj1oomc');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('generates a consistent class name for same properties', () => {
+      const a = engine.renderRuleGrouped(rule);
+      const b = engine.renderRuleGrouped(rule);
+
+      expect(a).toBe(b);
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can vendor prefix applicable properties', () => {
+      const className = engine.renderRuleGrouped(rule, { vendor: true });
+
+      expect(className).toBe('c1cxiopx');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('can convert direction applicable properties', () => {
+      const className = engine.renderRuleGrouped(rule, { direction: 'rtl' });
+
+      expect(className).toBe('cnaaqpz');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('handles direction and vendor prefixes at once', () => {
+      const a = engine.renderRuleGrouped(rule, {
+        direction: 'ltr',
+        vendor: true,
+      });
+
+      // RTL
+      const b = engine.renderRuleGrouped(rule, {
+        direction: 'rtl',
+        vendor: true,
+      });
+
+      expect(a).toBe('c1cxiopx');
+      expect(b).toBe('c1hem03p');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('supports CSS variables', () => {
+      const className = engine.renderRuleGrouped({
+        display: 'block',
+        color: 'var(--color)',
+        '--color': 'red',
+        '--font-size': '14px',
+      });
+
+      expect(className).toBe('c1lbtkju');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+  });
+
   describe('renderVariable()', () => {
     it('generates a unique class name for a large number of variables', () => {
       for (let i = 0; i < 100; i += 1) {

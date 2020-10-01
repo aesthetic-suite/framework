@@ -3,13 +3,10 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import createCacheManager, { createCacheKey } from './cache';
-import createStyleEngine from './engine';
-import createSheetManager from './sheet';
-
+export * from './cache';
 export * from './constants';
+export * from './engine';
 export * from './helpers';
+export * from './sheet';
 export * from './syntax';
 export * from './types';
-
-export { createCacheManager, createCacheKey, createStyleEngine, createSheetManager };

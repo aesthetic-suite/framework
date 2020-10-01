@@ -50,7 +50,7 @@ function insertImportRule(sheet: StyleRule, rule: CSS): number {
   return insertRule(sheet, rule, index);
 }
 
-export default function createSheetManager(sheets: SheetMap): SheetManager {
+export function createSheetManager(sheets: SheetMap): SheetManager {
   return {
     insertRule(type, rule, index) {
       const sheet = sheets[type];

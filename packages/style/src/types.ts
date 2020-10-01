@@ -119,6 +119,7 @@ export interface StyleEngine {
     options?: RenderOptions,
   ) => string;
   renderRule: (rule: Rule, options?: RenderOptions) => ClassName;
+  renderRuleGrouped: (rule: Rule, options?: RenderOptions) => ClassName;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => ClassName;
   setRootVariables: (variables: Variables) => void;
 }

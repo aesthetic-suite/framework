@@ -11,7 +11,7 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
-import createCacheManager, { createCacheKey } from './cache';
+import { createCacheKey, createCacheManager } from './cache';
 import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
 import {
   createDeclaration,
@@ -93,7 +93,40 @@ function cacheAndInsertStyles(
   return item;
 }
 
-export function renderDeclaration<K extends Property>(
+// It's much faster to set and unset options (conditions and selector) than it is
+// to spread and clone the options object. Since rendering is synchronous, it just works!
+function procesNested(
+  property: string,
+  render: () => ClassName,
+  options: RenderOptions,
+): ClassName {
+  let className = '';
+
+  // At-rules
+  if (isAtRule(property)) {
+    if (!options.conditions) {
+      options.conditions = [];
+    }
+
+    options.conditions.push(property);
+    className = render();
+    options.conditions.pop();
+
+    // Selectors
+  } else if (isNestedSelector(property)) {
+    options.selector = property;
+    className = render();
+    options.selector = undefined;
+
+    // Unknown
+  } else if (__DEV__) {
+    console.warn(`Unknown property selector or nested block "${property}".`);
+  }
+
+  return className;
+}
+
+function renderDeclaration<K extends Property>(
   property: K,
   value: NonNullable<Properties[K]> | ValueWithFallbacks,
   options: RenderOptions,
@@ -117,11 +150,7 @@ export function renderDeclaration<K extends Property>(
   return className;
 }
 
-export function renderFontFace(
-  fontFace: FontFace,
-  options: RenderOptions,
-  engine: StyleEngine,
-): string {
+function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: StyleEngine): string {
   let name = fontFace.fontFamily;
   let block = createDeclarationBlock(fontFace as GenericProperties, options, engine);
 
@@ -135,11 +164,11 @@ export function renderFontFace(
   return name;
 }
 
-export function renderImport(path: string, options: RenderOptions, engine: StyleEngine) {
+function renderImport(path: string, options: RenderOptions, engine: StyleEngine) {
   cacheAndInsertAtRule(`@import ${path};`, options, engine);
 }
 
-export function renderKeyframes(
+function renderKeyframes(
   keyframes: Keyframes,
   animationName: string,
   options: RenderOptions,
@@ -158,7 +187,7 @@ export function renderKeyframes(
   return name;
 }
 
-export function renderVariable(
+function renderVariable(
   name: string,
   value: Value,
   options: RenderOptions,
@@ -174,9 +203,7 @@ export function renderVariable(
   ).className;
 }
 
-// It's much faster to set and unset options (conditions and selector) than it is
-// to spread and clone the options object. Since rendering is synchronous, it just works!
-export function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
+function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
   const classNames: string[] = [];
 
   objectLoop<Rule, Property>(rule, (value, property) => {
@@ -184,27 +211,9 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngi
       return;
     }
 
+    // Nested
     if (isObject<Rule>(value)) {
-      // At-rules
-      if (isAtRule(property)) {
-        if (!options.conditions) {
-          options.conditions = [];
-        }
-
-        options.conditions.push(property);
-        classNames.push(renderRule(value, options, engine));
-        options.conditions.pop();
-
-        // Selectors
-      } else if (isNestedSelector(property)) {
-        options.selector = property;
-        classNames.push(renderRule(value, options, engine));
-        options.selector = undefined;
-
-        // Unknown
-      } else if (__DEV__) {
-        console.warn(`Unknown property selector or nested block "${property}".`);
-      }
+      classNames.push(procesNested(property, () => renderRule(value, options, engine), options));
 
       // Variables
     } else if (isVariable(property)) {
@@ -219,11 +228,7 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngi
   return classNames.join(' ');
 }
 
-export function renderRuleGrouped(
-  rule: Rule,
-  options: RenderOptions,
-  engine: StyleEngine,
-): ClassName {
+function renderRuleGrouped(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
   const nestedRules: Record<string, Rule> = {};
   let variables: CSS = '';
   let properties: CSS = '';
@@ -248,25 +253,24 @@ export function renderRuleGrouped(
 
   // Insert rule styles only once
   const block = variables + properties;
-  let { className } = cacheAndInsertStyles(
+  const { className } = cacheAndInsertStyles(
     createCacheKey(block, '', options),
     (className) => formatRule(className, block, options),
     options,
     engine,
   );
 
-  // Render all nested rules and append class names
-  objectLoop(nestedRules, (nestedRule, selector) => {
-    options.selector = selector;
+  // Render all nested rules with the parent class name
+  options.className = className;
 
-    className += ' ';
-    className += renderRuleGrouped(nestedRule, options, engine);
+  objectLoop(nestedRules, (nestedRule, key) => {
+    procesNested(key, () => renderRuleGrouped(nestedRule, options, engine), options);
   });
 
   return className;
 }
 
-export default function createStyleEngine(options: EngineOptions): StyleEngine {
+export function createStyleEngine(options: EngineOptions): StyleEngine {
   const renderOptions = {};
   const engine: StyleEngine = {
     cacheManager: createCacheManager(),
@@ -281,6 +285,7 @@ export default function createStyleEngine(options: EngineOptions): StyleEngine {
     renderKeyframes: (keyframes, animationName, options) =>
       renderKeyframes(keyframes, animationName || '', options || renderOptions, engine),
     renderRule: (rule, options) => renderRule(rule, options || renderOptions, engine),
+    renderRuleGrouped: (rule, options) => renderRuleGrouped(rule, options || renderOptions, engine),
     renderVariable: (name, value, options) =>
       renderVariable(name, value, options || renderOptions, engine),
     setRootVariables() {},

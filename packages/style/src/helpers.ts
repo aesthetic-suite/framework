@@ -8,7 +8,7 @@ export function isAtRule(value: string): boolean {
 }
 
 export function isImportRule(value: string): boolean {
-  return value.slice(0, 7) === '@import' && value[7] === ' ';
+  return value.slice(0, 7) === '@import';
 }
 
 export function isNestedSelector(value: string): boolean {
