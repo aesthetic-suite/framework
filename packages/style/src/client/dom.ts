@@ -1,14 +1,9 @@
 /* eslint-disable sort-keys */
 
-import { isSSR } from '@aesthetic/utils';
 import { SheetType, StyleRule, SheetMap } from '../index';
 
 export function getStyleElement(type: SheetType): StyleRule {
-  // This is a little hacky, but hopefully this never gets interacted with
-  // istanbul ignore next
-  let element = (isSSR()
-    ? { sheet: { cssRules: [], insertRule() {} } }
-    : document.getElementById(`aesthetic-${type}`)) as HTMLStyleElement;
+  let element = document.getElementById(`aesthetic-${type}`) as HTMLStyleElement;
 
   if (!element) {
     const style = document.createElement('style');

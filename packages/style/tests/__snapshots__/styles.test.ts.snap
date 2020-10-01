@@ -56,24 +56,24 @@ exports[`Engine renderKeyframes() can provide a custom animation name 1`] = `
 `;
 
 exports[`Engine renderKeyframes() converts between LTR and RTL 1`] = `
-"@keyframes kf1el0aai { 
+"@keyframes kf1lt4056 { 
   from {left: 0;} 
   to {right: 100px;} 
-}@keyframes kf7uqsfu { 
+}@keyframes kf944ipm { 
   from {right: 0;} 
   to {left: 100px;} 
 }"
 `;
 
 exports[`Engine renderKeyframes() doesnt insert the same at-rule more than once 1`] = `
-"@keyframes kf1c8v9l5 { 
+"@keyframes kf103rcyx { 
   from {transform: translateX(0%);} 
   to {transform: translateX(100%);} 
 }"
 `;
 
 exports[`Engine renderKeyframes() renders percentage based and returns animation name 1`] = `
-"@keyframes kf1a0qg2g { 
+"@keyframes kf22exw8 { 
   0% {top: 0; left: 0;} 
   30% {top: 50px;} 
   68%,72% {left: 50px;} 
@@ -82,7 +82,7 @@ exports[`Engine renderKeyframes() renders percentage based and returns animation
 `;
 
 exports[`Engine renderKeyframes() renders range based and returns animation name 1`] = `
-"@keyframes kf1c8v9l5 { 
+"@keyframes kf103rcyx { 
   from {transform: translateX(0%);} 
   to {transform: translateX(100%);} 
 }"
@@ -98,7 +98,7 @@ exports[`Engine renderRule() can nest conditionals infinitely 1`] = `".a {margin
 
 exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.e:focus {color: darkblue;}}}}"`;
 
-exports[`Engine renderRule() generates a deterministic class name for each property 1`] = `".c13kbekr {margin: 0;}.c16r1ggk {cursor: pointer;}"`;
+exports[`Engine renderRule() generates a deterministic class name for each property 1`] = `".cl8qkup {margin: 0;}.c1hykqr2 {cursor: pointer;}"`;
 
 exports[`Engine renderRule() generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
 
@@ -162,23 +162,23 @@ exports[`Engine renderRule() unit suffixes doesnt suffix 0 values 1`] = `".a {ma
 
 exports[`Engine renderRule() unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
 
-exports[`Engine renderRuleGrouped() can convert direction applicable properties 1`] = `".cnaaqpz {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.cnaaqpz:hover {display: flex; color: blue;}.cnaaqpz::backdrop {background: black;}"`;
+exports[`Engine renderRuleGrouped() can convert direction applicable properties 1`] = `".cnb0yxp {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.cnb0yxp:hover {display: flex; color: blue;}.cnb0yxp::backdrop {background: black;}"`;
 
-exports[`Engine renderRuleGrouped() can convert direction applicable properties 2`] = `"@media (width: 500px) {.cnaaqpz {margin: 10px; padding: 10px;}}@media (width: 500px) {.cnaaqpz:hover {color: darkblue;}}"`;
+exports[`Engine renderRuleGrouped() can convert direction applicable properties 2`] = `"@media (width: 500px) {.cnb0yxp {margin: 10px; padding: 10px;}}@media (width: 500px) {.cnb0yxp:hover {color: darkblue;}}"`;
 
-exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 1`] = `".c1cxiopx {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1cxiopx:hover {display: flex; color: blue;}.c1cxiopx::-ms-backdrop {background: black;}"`;
+exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 1`] = `".c1tpzznj {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1tpzznj:hover {display: flex; color: blue;}.c1tpzznj::-ms-backdrop {background: black;}"`;
 
-exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.c1cxiopx {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1cxiopx:hover {color: darkblue;}}"`;
+exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.c1tpzznj {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1tpzznj:hover {color: darkblue;}}"`;
 
-exports[`Engine renderRuleGrouped() generates a consistent class name for same properties 1`] = `".c1vxm4x3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c1vxm4x3:hover {display: flex; color: blue;}.c1vxm4x3::backdrop {background: black;}"`;
+exports[`Engine renderRuleGrouped() generates a consistent class name for same properties 1`] = `".casc3ul {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.casc3ul:hover {display: flex; color: blue;}.casc3ul::backdrop {background: black;}"`;
 
-exports[`Engine renderRuleGrouped() generates a consistent class name for same properties 2`] = `"@media (width: 500px) {.c1vxm4x3 {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1vxm4x3:hover {color: darkblue;}}"`;
+exports[`Engine renderRuleGrouped() generates a consistent class name for same properties 2`] = `"@media (width: 500px) {.casc3ul {margin: 10px; padding: 10px;}}@media (width: 500px) {.casc3ul:hover {color: darkblue;}}"`;
 
-exports[`Engine renderRuleGrouped() generates a single class name for all properties 1`] = `".cj1oomc {margin: 0; padding: 6px 12px; border: 1px solid #2e6da4; border-radius: 4px; display: inline-block; cursor: pointer; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; text-decoration: none; text-align: left; background-color: #337ab7; vertical-align: middle; color: rgba(0, 0, 0, 0); animation-name: fade; animation-duration: .3s;}"`;
+exports[`Engine renderRuleGrouped() generates a single class name for all properties 1`] = `".cxez4hq {margin: 0; padding: 6px 12px; border: 1px solid #2e6da4; border-radius: 4px; display: inline-block; cursor: pointer; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; text-decoration: none; text-align: left; background-color: #337ab7; vertical-align: middle; color: rgba(0, 0, 0, 0); animation-name: fade; animation-duration: .3s;}"`;
 
-exports[`Engine renderRuleGrouped() handles direction and vendor prefixes at once 1`] = `".c1cxiopx {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1cxiopx:hover {display: flex; color: blue;}.c1cxiopx::-ms-backdrop {background: black;}.c1hem03p {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}"`;
+exports[`Engine renderRuleGrouped() handles direction and vendor prefixes at once 1`] = `".c1tpzznj {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1tpzznj:hover {display: flex; color: blue;}.c1tpzznj::-ms-backdrop {background: black;}.c1ykka73 {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -moz-appearance: none; -webkit-appearance: none;}"`;
 
-exports[`Engine renderRuleGrouped() supports CSS variables 1`] = `".c1lbtkju {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
+exports[`Engine renderRuleGrouped() supports CSS variables 1`] = `".c1p18x1s {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
 
 exports[`Engine renderVariable() generates a unique class name for a large number of variables 1`] = `".a {--font-size: 0px;}.b {--font-size: 1px;}.c {--font-size: 2px;}.d {--font-size: 3px;}.e {--font-size: 4px;}.f {--font-size: 5px;}.g {--font-size: 6px;}.h {--font-size: 7px;}.i {--font-size: 8px;}.j {--font-size: 9px;}.k {--font-size: 10px;}.l {--font-size: 11px;}.m {--font-size: 12px;}.n {--font-size: 13px;}.o {--font-size: 14px;}.p {--font-size: 15px;}.q {--font-size: 16px;}.r {--font-size: 17px;}.s {--font-size: 18px;}.t {--font-size: 19px;}.u {--font-size: 20px;}.v {--font-size: 21px;}.w {--font-size: 22px;}.x {--font-size: 23px;}.y {--font-size: 24px;}.z {--font-size: 25px;}.a1 {--font-size: 26px;}.b1 {--font-size: 27px;}.c1 {--font-size: 28px;}.d1 {--font-size: 29px;}.e1 {--font-size: 30px;}.f1 {--font-size: 31px;}.g1 {--font-size: 32px;}.h1 {--font-size: 33px;}.i1 {--font-size: 34px;}.j1 {--font-size: 35px;}.k1 {--font-size: 36px;}.l1 {--font-size: 37px;}.m1 {--font-size: 38px;}.n1 {--font-size: 39px;}.o1 {--font-size: 40px;}.p1 {--font-size: 41px;}.q1 {--font-size: 42px;}.r1 {--font-size: 43px;}.s1 {--font-size: 44px;}.t1 {--font-size: 45px;}.u1 {--font-size: 46px;}.v1 {--font-size: 47px;}.w1 {--font-size: 48px;}.x1 {--font-size: 49px;}.y1 {--font-size: 50px;}.z1 {--font-size: 51px;}.a2 {--font-size: 52px;}.b2 {--font-size: 53px;}.c2 {--font-size: 54px;}.d2 {--font-size: 55px;}.e2 {--font-size: 56px;}.f2 {--font-size: 57px;}.g2 {--font-size: 58px;}.h2 {--font-size: 59px;}.i2 {--font-size: 60px;}.j2 {--font-size: 61px;}.k2 {--font-size: 62px;}.l2 {--font-size: 63px;}.m2 {--font-size: 64px;}.n2 {--font-size: 65px;}.o2 {--font-size: 66px;}.p2 {--font-size: 67px;}.q2 {--font-size: 68px;}.r2 {--font-size: 69px;}.s2 {--font-size: 70px;}.t2 {--font-size: 71px;}.u2 {--font-size: 72px;}.v2 {--font-size: 73px;}.w2 {--font-size: 74px;}.x2 {--font-size: 75px;}.y2 {--font-size: 76px;}.z2 {--font-size: 77px;}.a3 {--font-size: 78px;}.b3 {--font-size: 79px;}.c3 {--font-size: 80px;}.d3 {--font-size: 81px;}.e3 {--font-size: 82px;}.f3 {--font-size: 83px;}.g3 {--font-size: 84px;}.h3 {--font-size: 85px;}.i3 {--font-size: 86px;}.j3 {--font-size: 87px;}.k3 {--font-size: 88px;}.l3 {--font-size: 89px;}.m3 {--font-size: 90px;}.n3 {--font-size: 91px;}.o3 {--font-size: 92px;}.p3 {--font-size: 93px;}.q3 {--font-size: 94px;}.r3 {--font-size: 95px;}.s3 {--font-size: 96px;}.t3 {--font-size: 97px;}.u3 {--font-size: 98px;}.v3 {--font-size: 99px;}"`;
 

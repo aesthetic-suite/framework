@@ -6,14 +6,14 @@ export function createCacheKey(
   value: Value | ValueWithFallbacks,
   { selector, conditions }: RenderOptions,
 ): string {
-  let key = property + value;
+  let key = `${property}:${value}`;
 
   if (selector) {
-    key += selector;
+    key += `:${selector}`;
   }
 
   if (conditions && conditions.length > 0) {
-    key += conditions.join('');
+    key += `:${conditions.join(':')}`;
   }
 
   return key;

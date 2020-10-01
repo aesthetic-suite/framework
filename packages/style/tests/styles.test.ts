@@ -118,7 +118,7 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderDeclaration('margin', 0, { deterministic: true });
 
-      expect(className).toBe('c13kbekr');
+      expect(className).toBe('cl8qkup');
     });
 
     describe('selectors', () => {
@@ -339,7 +339,7 @@ describe('Engine', () => {
         },
       });
 
-      expect(name).toBe('kf1c8v9l5');
+      expect(name).toBe('kf103rcyx');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
@@ -351,7 +351,7 @@ describe('Engine', () => {
         '100%': { top: '100px', left: '100%' },
       });
 
-      expect(name).toBe('kf1a0qg2g');
+      expect(name).toBe('kf22exw8');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
@@ -401,8 +401,8 @@ describe('Engine', () => {
         },
       );
 
-      expect(ltr).toBe('kf1el0aai');
-      expect(rtl).toBe('kf7uqsfu');
+      expect(ltr).toBe('kf1lt4056');
+      expect(rtl).toBe('kf944ipm');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
   });
@@ -443,9 +443,9 @@ describe('Engine', () => {
       );
       const cursor = engine.renderDeclaration('cursor', 'pointer', { deterministic: true });
 
-      expect(className).toBe('c13kbekr c16r1ggk');
+      expect(className).toBe('cl8qkup c1hykqr2');
       expect(className).toContain(cursor);
-      expect(cursor).toBe('c16r1ggk');
+      expect(cursor).toBe('c1hykqr2');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -910,7 +910,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('cj1oomc');
+      expect(className).toBe('cxez4hq');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -926,7 +926,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('c1cxiopx');
+      expect(className).toBe('c1tpzznj');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -934,7 +934,7 @@ describe('Engine', () => {
     it('can convert direction applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { direction: 'rtl' });
 
-      expect(className).toBe('cnaaqpz');
+      expect(className).toBe('cnb0yxp');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -951,8 +951,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a).toBe('c1cxiopx');
-      expect(b).toBe('c1hem03p');
+      expect(a).toBe('c1tpzznj');
+      expect(b).toBe('c1ykka73');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -964,7 +964,7 @@ describe('Engine', () => {
         '--font-size': '14px',
       });
 
-      expect(className).toBe('c1lbtkju');
+      expect(className).toBe('c1p18x1s');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
@@ -997,7 +997,7 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderVariable('--font-size', '16px', { deterministic: true });
 
-      expect(className).toBe('ca1tahd');
+      expect(className).toBe('c1a0aje3');
     });
   });
 });

@@ -82,15 +82,15 @@ packages.forEach((pkg) => {
   if (pkg === 'style') {
     targets.push(
       {
-        external: ['../index'],
-        input: `packages/${pkg}/src/client/index.ts`,
+        external: ['./index'],
+        input: `packages/${pkg}/src/client.ts`,
         output: [
           {
-            file: `packages/${pkg}/lib/client/index.js`,
+            file: `packages/${pkg}/lib/client.js`,
             format: 'cjs',
           },
           {
-            file: `packages/${pkg}/esm/client/index.js`,
+            file: `packages/${pkg}/esm/client.js`,
             format: 'esm',
           },
         ],

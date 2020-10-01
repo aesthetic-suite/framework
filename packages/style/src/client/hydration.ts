@@ -1,4 +1,6 @@
-import { arrayLoop, generateHash } from '@aesthetic/utils';
+/* eslint-disable require-unicode-regexp */
+
+import { arrayLoop } from '@aesthetic/utils';
 import {
   createCacheKey,
   FONT_FACE_RULE,
@@ -41,8 +43,23 @@ function addRuleToCache(
 
 function hydrateGlobals(engine: StyleEngine, sheet: CSSStyleSheet) {
   arrayLoop(sheet.cssRules, (rule) => {
-    if (rule.type === FONT_FACE_RULE || rule.type === KEYFRAMES_RULE || rule.type === IMPORT_RULE) {
-      engine.cacheManager.write(rule.cssText, { className: generateHash(rule.cssText) });
+    const css = rule.cssText;
+    let cacheKey = '';
+
+    if (rule.type === FONT_FACE_RULE) {
+      const fontFamilyName = css.match(/font-family:([^;]+)/);
+
+      if (fontFamilyName) {
+        cacheKey = `@font-face:${fontFamilyName[1].trim()}`;
+      }
+    } else if (rule.type === KEYFRAMES_RULE) {
+      cacheKey = css.slice(0, css.indexOf('{')).replace(' ', ':').trim();
+    } else if (rule.type === IMPORT_RULE) {
+      cacheKey = css.slice(0, -1).split(' ', 2).join(':');
+    }
+
+    if (cacheKey) {
+      engine.cacheManager.write(cacheKey, { className: '' });
     }
   });
 }
@@ -59,7 +76,7 @@ function hydrateConditions(engine: StyleEngine, sheet: CSSStyleSheet) {
   let rank = 0;
 
   const gatherStack = (rule: CSSConditionRule, conditions: Condition[] = []) => {
-    conditions.unshift(
+    conditions.push(
       `@${rule.type === MEDIA_RULE ? 'media' : 'supports'} ${
         rule.conditionText || (rule as CSSMediaRule).media.mediaText
       }`,

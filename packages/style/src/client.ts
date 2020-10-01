@@ -1,7 +1,8 @@
 import { Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import createStyleElements, { getStyleElement } from './dom';
-import hydrateStyles from './hydration';
+import createStyleElements, { getStyleElement } from './client/dom';
+import hydrateStyles from './client/hydration';
+// Rollup compatibility
 import {
   createCacheManager,
   createStyleEngine,
@@ -9,7 +10,7 @@ import {
   formatVariable,
   EngineOptions,
   StyleEngine,
-} from '../index';
+} from './index';
 
 export { createStyleElements, getStyleElement };
 
@@ -21,7 +22,7 @@ function setRootVariables(vars: Variables) {
   });
 }
 
-export function createClientEngine(options: Partial<EngineOptions>): StyleEngine {
+export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
   const engine: StyleEngine = {
     ...createStyleEngine({
       cacheManager: createCacheManager(),

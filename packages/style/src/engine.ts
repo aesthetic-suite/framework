@@ -47,16 +47,19 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
   return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
 }
 
-function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: StyleEngine): CacheItem {
+function cacheAndInsertAtRule(
+  cacheKey: string,
+  rule: CSS,
+  options: RenderOptions,
+  engine: StyleEngine,
+): CacheItem {
   const { cacheManager, sheetManager } = engine;
-  let item = cacheManager.read(rule);
+  let item = cacheManager.read(cacheKey);
 
   if (!item) {
+    item = { className: '' };
     sheetManager.insertRule(options.type || 'global', rule);
-
-    // Generate a unique hash to use as the class name
-    item = { className: generateHash(rule) };
-    cacheManager.write(rule, item);
+    cacheManager.write(cacheKey, item);
   }
 
   return item;
@@ -159,13 +162,13 @@ function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: Styl
     block += formatDeclaration('font-family', name);
   }
 
-  cacheAndInsertAtRule(`@font-face { ${block} }`, options, engine);
+  cacheAndInsertAtRule(`@font-face:${name}`, `@font-face { ${block} }`, options, engine);
 
   return name;
 }
 
 function renderImport(path: string, options: RenderOptions, engine: StyleEngine) {
-  cacheAndInsertAtRule(`@import ${path};`, options, engine);
+  cacheAndInsertAtRule(`@import:${path}`, `@import ${path};`, options, engine);
 }
 
 function renderKeyframes(
@@ -177,12 +180,12 @@ function renderKeyframes(
   const block = objectReduce(
     keyframes,
     (keyframe, step) =>
-      `${step} { ${createDeclarationBlock(keyframe as GenericProperties, options, engine)} }`,
+      `${step} { ${createDeclarationBlock(keyframe as GenericProperties, options, engine)} } `,
   );
 
   const name = animationName || `kf${generateHash(block)}`;
 
-  cacheAndInsertAtRule(`@keyframes ${name} { ${block} }`, options, engine);
+  cacheAndInsertAtRule(`@keyframes:${name}`, `@keyframes ${name} { ${block} }`, options, engine);
 
   return name;
 }
