@@ -12,15 +12,16 @@ import {
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
 import { createCacheKey } from './cache';
-import { formatVariableName, isAtRule, isNestedSelector, isVariable } from '../helpers';
+import { isAtRule, isNestedSelector, isVariable } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
   formatProperty,
   formatDeclaration,
   formatRule,
+  formatVariable,
 } from './syntax';
-import { CacheItem, Engine, EngineOptions, RenderOptions } from '../types';
+import { CacheItem, Engine, EngineOptions, RenderOptions } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -94,15 +95,15 @@ function cacheAndInsertStyles(
 
 export function renderDeclaration<K extends Property>(
   property: K,
-  value: Properties[K] | ValueWithFallbacks,
+  value: NonNullable<Properties[K]> | ValueWithFallbacks,
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
   const key = formatProperty(property);
   const { rankings } = options;
   const { className, rank } = cacheAndInsertStyles(
-    createCacheKey(key, value!, options),
-    (className) => formatRule(className, createDeclaration(key, value!, options, engine), options),
+    createCacheKey(key, value, options),
+    (className) => formatRule(className, createDeclaration(key, value, options, engine), options),
     options,
     engine,
     rankings?.[key],
@@ -163,7 +164,7 @@ export function renderVariable(
   options: RenderOptions,
   engine: EngineOptions,
 ): ClassName {
-  const key = formatVariableName(name);
+  const key = formatVariable(name);
 
   return cacheAndInsertStyles(
     createCacheKey(key, value, options),

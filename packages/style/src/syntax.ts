@@ -7,8 +7,18 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
-import { isUnitlessProperty } from '../helpers';
-import { EngineOptions, RenderOptions } from '../types';
+import { isUnitlessProperty, isVariable } from './helpers';
+import { EngineOptions, RenderOptions } from './types';
+
+export function formatVariable(name: string): string {
+  let varName = hyphenate(name);
+
+  if (!isVariable(varName)) {
+    varName = `--${varName}`;
+  }
+
+  return varName;
+}
 
 export function formatProperty(property: string): string {
   return hyphenate(property);

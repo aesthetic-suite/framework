@@ -1,23 +1,46 @@
-import { CacheItem } from './types';
+import { Value, ValueWithFallbacks } from '@aesthetic/types';
+import { CacheManager, CacheItem, CacheStorage, RenderOptions } from './types';
 
-export default class Cache {
-  cache: Record<string, CacheItem[]> = {};
+export function createCacheKey(
+  property: string,
+  value: Value | ValueWithFallbacks,
+  { selector, conditions }: RenderOptions,
+): string {
+  let key = property + value;
 
-  match(item: CacheItem, minimumRank?: number): boolean {
-    return minimumRank === undefined || item.rank! > minimumRank;
+  if (selector) {
+    key += selector;
   }
 
-  read(key: string, minimumRank?: number): CacheItem | null {
-    return this.cache[key]?.find((item) => this.match(item, minimumRank)) || null;
+  if (conditions && conditions.length > 0) {
+    key += conditions.join('');
   }
 
-  write(key: string, item: CacheItem): this {
-    const cache = this.cache[key] || [];
+  return key;
+}
 
-    cache.push(item);
+export default function createCacheManager(defaultItems: CacheStorage = {}): CacheManager {
+  const cache: CacheStorage = defaultItems;
 
-    this.cache[key] = cache;
+  return {
+    read(key, minimumRank) {
+      const items = cache[key];
 
-    return this;
-  }
+      if (!items) {
+        return null;
+      } else if (minimumRank === undefined) {
+        return items[0];
+      }
+
+      return items.find((item) => item.rank! >= minimumRank) || null;
+    },
+
+    write(key: string, item: CacheItem) {
+      const result = cache[key] || [];
+
+      result.push(item);
+
+      cache[key] = result;
+    },
+  };
 }

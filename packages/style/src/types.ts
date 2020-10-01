@@ -10,6 +10,7 @@ import {
   Unit,
   UnitFactory,
   Value,
+  ValueWithFallbacks,
   Variables,
 } from '@aesthetic/types';
 
@@ -29,11 +30,8 @@ export interface ProcessOptions {
 export interface RenderOptions extends ProcessOptions {
   className?: ClassName;
   conditions?: Condition[];
-  minimumRank?: number;
   selector?: string;
 }
-
-// ADDONS
 
 // CACHE
 
@@ -88,11 +86,7 @@ export interface VendorPrefixer {
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 
-export interface API {
-  converter?: DirectionConverter | null;
-  direction: Direction;
-  prefixer?: VendorPrefixer | null;
-}
+// STYLE ENGINE
 
 export interface EngineOptions {
   cacheManager: CacheManager;
@@ -107,7 +101,7 @@ export interface EngineOptions {
 export interface Engine {
   renderDeclaration: <K extends Property>(
     property: K,
-    value: Properties[K] | string[],
+    value: NonNullable<Properties[K]> | ValueWithFallbacks,
     options?: RenderOptions,
   ) => ClassName;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;

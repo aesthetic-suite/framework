@@ -1,7 +1,7 @@
 import { CSS } from '@aesthetic/types';
-import { IMPORT_RULE, STYLE_RULE } from '../constants';
-import { isAtRule, isImportRule } from '../helpers';
-import { SheetMap, SheetManager, StyleRule } from '../types';
+import { IMPORT_RULE, STYLE_RULE } from './constants';
+import { isAtRule, isImportRule } from './helpers';
+import { SheetMap, SheetManager, StyleRule } from './types';
 
 function insertRule(sheet: StyleRule, rule: CSS, index?: number): number {
   try {

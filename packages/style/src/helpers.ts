@@ -1,4 +1,28 @@
+/* eslint-disable no-magic-numbers */
+
 import { hyphenate } from '@aesthetic/utils';
+
+export function isAtRule(value: string): boolean {
+  return value[0] === '@';
+}
+
+export function isImportRule(value: string): boolean {
+  return value.slice(0, 7) === '@import' && value[7] === ' ';
+}
+
+export function isNestedSelector(value: string): boolean {
+  const char = value[0];
+
+  return (
+    char === ':' ||
+    char === '[' ||
+    char === '>' ||
+    char === '~' ||
+    char === '+' ||
+    char === '*' ||
+    char === '|'
+  );
+}
 
 const unitlessProperties = new Set<string>();
 
@@ -53,6 +77,10 @@ const unitlessProperties = new Set<string>();
   unitlessProperties.add(hyphenate(property));
 });
 
-export default function isUnitlessProperty(property: string): boolean {
+export function isUnitlessProperty(property: string): boolean {
   return unitlessProperties.has(property);
+}
+
+export function isVariable(value: string): boolean {
+  return value.slice(0, 2) === '--';
 }

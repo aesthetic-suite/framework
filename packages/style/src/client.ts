@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 
 import { isSSR } from '@aesthetic/utils';
-import { SheetType, StyleRule, SheetMap } from '../types';
+import { SheetType, StyleRule, SheetMap } from './types';
 
 function getStyleElement(type: SheetType): StyleRule {
   // This is a little hacky, but hopefully this never gets interacted with
