@@ -11,7 +11,7 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
-import { createCacheKey } from './cache';
+import createCacheManager, { createCacheKey } from './cache';
 import { isAtRule, isNestedSelector, isVariable } from './helpers';
 import {
   createDeclaration,
@@ -26,7 +26,7 @@ import { CacheItem, StyleEngine, EngineOptions, RenderOptions } from './types';
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
-function generateClassName(key: string, options: RenderOptions, engine: EngineOptions): ClassName {
+function generateClassName(key: string, options: RenderOptions, engine: StyleEngine): ClassName {
   if (options.deterministic) {
     // Avoid hashes that start with an invalid number
     return `c${generateHash(key)}`;
@@ -47,7 +47,7 @@ function generateClassName(key: string, options: RenderOptions, engine: EngineOp
   return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
 }
 
-function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineOptions): CacheItem {
+function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: StyleEngine): CacheItem {
   const { cacheManager, sheetManager } = engine;
   let item = cacheManager.read(rule);
 
@@ -55,7 +55,7 @@ function cacheAndInsertAtRule(rule: CSS, options: RenderOptions, engine: EngineO
     sheetManager.insertRule(options.type || 'global', rule);
 
     // Generate a unique hash to use as the class name
-    item = { className: generateClassName(rule, { deterministic: true }, engine) };
+    item = { className: generateHash(rule) };
     cacheManager.write(rule, item);
   }
 
@@ -66,7 +66,7 @@ function cacheAndInsertStyles(
   cacheKey: string,
   render: (className: ClassName) => CSS,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
   minimumRank?: number,
 ): CacheItem {
   const { cacheManager, sheetManager, vendorPrefixer } = engine;
@@ -97,7 +97,7 @@ export function renderDeclaration<K extends Property>(
   property: K,
   value: NonNullable<Properties[K]> | ValueWithFallbacks,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): ClassName {
   const key = formatProperty(property);
   const { rankings } = options;
@@ -120,7 +120,7 @@ export function renderDeclaration<K extends Property>(
 export function renderFontFace(
   fontFace: FontFace,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): string {
   let name = fontFace.fontFamily;
   let block = createDeclarationBlock(fontFace as GenericProperties, options, engine);
@@ -135,7 +135,7 @@ export function renderFontFace(
   return name;
 }
 
-export function renderImport(path: string, options: RenderOptions, engine: EngineOptions) {
+export function renderImport(path: string, options: RenderOptions, engine: StyleEngine) {
   cacheAndInsertAtRule(`@import ${path};`, options, engine);
 }
 
@@ -143,7 +143,7 @@ export function renderKeyframes(
   keyframes: Keyframes,
   animationName: string,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): string {
   const block = objectReduce(
     keyframes,
@@ -162,7 +162,7 @@ export function renderVariable(
   name: string,
   value: Value,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): ClassName {
   const key = formatVariable(name);
 
@@ -176,7 +176,7 @@ export function renderVariable(
 
 // It's much faster to set and unset options (conditions and selector) than it is
 // to spread and clone the options object. Since rendering is synchronous, it just works!
-export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOptions): ClassName {
+export function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
   const classNames: string[] = [];
 
   objectLoop<Rule, Property>(rule, (value, property) => {
@@ -222,7 +222,7 @@ export function renderRule(rule: Rule, options: RenderOptions, engine: EngineOpt
 export function renderRuleGrouped(
   rule: Rule,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): ClassName {
   const nestedRules: Record<string, Rule> = {};
   let variables: CSS = '';
@@ -266,15 +266,13 @@ export function renderRuleGrouped(
   return className;
 }
 
-export default function createEngine(options: EngineOptions): StyleEngine {
-  const engine: EngineOptions = {
+export default function createStyleEngine(options: EngineOptions): StyleEngine {
+  const renderOptions = {};
+  const engine: StyleEngine = {
+    cacheManager: createCacheManager(),
     direction: 'ltr',
     ruleIndex: -1,
     ...options,
-  };
-  const renderOptions = {};
-
-  return {
     renderDeclaration: (property, value, options) =>
       renderDeclaration(property, value, options || renderOptions, engine),
     renderFontFace: (fontFace, options) =>
@@ -285,5 +283,8 @@ export default function createEngine(options: EngineOptions): StyleEngine {
     renderRule: (rule, options) => renderRule(rule, options || renderOptions, engine),
     renderVariable: (name, value, options) =>
       renderVariable(name, value, options || renderOptions, engine),
+    setRootVariables() {},
   };
+
+  return engine;
 }

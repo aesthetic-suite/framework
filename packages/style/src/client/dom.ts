@@ -1,9 +1,9 @@
 /* eslint-disable sort-keys */
 
 import { isSSR } from '@aesthetic/utils';
-import { SheetType, StyleRule, SheetMap } from './types';
+import { SheetType, StyleRule, SheetMap } from '../index';
 
-function getStyleElement(type: SheetType): StyleRule {
+export function getStyleElement(type: SheetType): StyleRule {
   // This is a little hacky, but hopefully this never gets interacted with
   // istanbul ignore next
   let element = (isSSR()
@@ -24,7 +24,7 @@ function getStyleElement(type: SheetType): StyleRule {
   return ((element as HTMLStyleElement).sheet as unknown) as StyleRule;
 }
 
-export function createStyleElements(): SheetMap {
+export default function createStyleElements(): SheetMap {
   return {
     // Order is important here!
     global: getStyleElement('global'),

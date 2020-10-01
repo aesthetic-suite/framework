@@ -89,16 +89,23 @@ export interface VendorPrefixer {
 // STYLE ENGINE
 
 export interface EngineOptions {
-  cacheManager: CacheManager;
+  cacheManager?: CacheManager;
   direction?: Direction;
-  directionConverter?: DirectionConverter | null;
-  ruleIndex?: number;
+  directionConverter?: DirectionConverter;
   sheetManager: SheetManager;
   unitSuffixer?: UnitFactory;
-  vendorPrefixer?: VendorPrefixer | null;
+  vendorPrefixer?: VendorPrefixer;
 }
 
 export interface StyleEngine {
+  cacheManager: CacheManager;
+  direction: Direction;
+  directionConverter?: DirectionConverter;
+  ruleIndex: number;
+  sheetManager: SheetManager;
+  unitSuffixer?: UnitFactory;
+  vendorPrefixer?: VendorPrefixer;
+
   renderDeclaration: <K extends Property>(
     property: K,
     value: NonNullable<Properties[K]> | ValueWithFallbacks,
@@ -113,4 +120,5 @@ export interface StyleEngine {
   ) => string;
   renderRule: (rule: Rule, options?: RenderOptions) => ClassName;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => ClassName;
+  setRootVariables: (variables: Variables) => void;
 }

@@ -1,12 +1,6 @@
 import { Variables } from '@aesthetic/types';
 import { arrayReduce } from '@aesthetic/utils';
-import {
-  isFontFaceFule,
-  isImportRule,
-  isKeyframesRule,
-  isMediaRule,
-  isSupportsRule,
-} from '../helpers';
+import sortMediaQueries from 'sort-css-media-queries';
 import {
   MEDIA_RULE,
   SUPPORTS_RULE,
@@ -14,10 +8,16 @@ import {
   KEYFRAMES_RULE,
   IMPORT_RULE,
   STYLE_RULE,
-} from '../constants';
-import { StyleRule } from '../types';
+  StyleRule,
+} from '../index';
 
-export default class TransientStyleRule implements StyleRule {
+export function sortConditionalRules(sheet: StyleRule) {
+  sheet.cssRules = sheet.cssRules.sort((a, b) =>
+    sortMediaQueries(a.conditionText, b.conditionText),
+  );
+}
+
+export class TransientSheet implements StyleRule {
   conditionText: string = '';
 
   cssRules: StyleRule[] = [];
@@ -30,7 +30,7 @@ export default class TransientStyleRule implements StyleRule {
 
   protected rule: string;
 
-  constructor(type: number, rule: string = '') {
+  constructor(type: number = STYLE_RULE, rule: string = '') {
     this.rule = rule;
     this.type = type;
 
@@ -54,7 +54,7 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   insertRule(rule: string, index: number): number {
-    this.cssRules.splice(index, 0, new TransientStyleRule(this.determineType(rule), rule));
+    this.cssRules.splice(index, 0, new TransientSheet(this.determineType(rule), rule));
 
     return index;
   }
@@ -64,15 +64,19 @@ export default class TransientStyleRule implements StyleRule {
   }
 
   protected determineType(rule: string): number {
-    if (isMediaRule(rule)) {
+    if (rule[0] !== '@') {
+      return STYLE_RULE;
+    }
+
+    if (rule.startsWith('@media')) {
       return MEDIA_RULE;
-    } else if (isSupportsRule(rule)) {
+    } else if (rule.startsWith('@supports')) {
       return SUPPORTS_RULE;
-    } else if (isFontFaceFule(rule)) {
+    } else if (rule.startsWith('@font-face')) {
       return FONT_FACE_RULE;
-    } else if (isKeyframesRule(rule)) {
+    } else if (rule.startsWith('@keyframes')) {
       return KEYFRAMES_RULE;
-    } else if (isImportRule(rule)) {
+    } else if (rule.startsWith('@import')) {
       return IMPORT_RULE;
     }
 

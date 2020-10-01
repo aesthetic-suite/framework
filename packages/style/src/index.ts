@@ -3,11 +3,13 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Renderer from './Renderer';
-import ClientRenderer from './client/ClientRenderer';
+import createCacheManager, { createCacheKey } from './cache';
+import createStyleEngine from './engine';
+import createSheetManager from './sheet';
 
 export * from './constants';
 export * from './helpers';
+export * from './syntax';
 export * from './types';
 
-export { Renderer, ClientRenderer };
+export { createCacheManager, createCacheKey, createStyleEngine, createSheetManager };

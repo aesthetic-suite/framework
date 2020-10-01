@@ -82,14 +82,15 @@ packages.forEach((pkg) => {
   if (pkg === 'style') {
     targets.push(
       {
-        input: `packages/${pkg}/src/next.ts`,
+        external: ['../index'],
+        input: `packages/${pkg}/src/client/index.ts`,
         output: [
           {
-            file: `packages/${pkg}/lib/next.js`,
+            file: `packages/${pkg}/lib/client/index.js`,
             format: 'cjs',
           },
           {
-            file: `packages/${pkg}/esm/next.js`,
+            file: `packages/${pkg}/esm/client/index.js`,
             format: 'esm',
           },
         ],
@@ -102,14 +103,15 @@ packages.forEach((pkg) => {
         ],
       },
       {
-        input: `packages/${pkg}/src/server.ts`,
+        external: ['../index'],
+        input: `packages/${pkg}/src/server/index.ts`,
         output: [
           {
-            file: `packages/${pkg}/lib/server.js`,
+            file: `packages/${pkg}/lib/server/index.js`,
             format: 'cjs',
           },
           {
-            file: `packages/${pkg}/esm/server.js`,
+            file: `packages/${pkg}/esm/server/index.js`,
             format: 'esm',
           },
         ],
@@ -125,26 +127,26 @@ packages.forEach((pkg) => {
   }
 
   if (fs.existsSync(`packages/${pkg}/src/testing.ts`)) {
-    targets.push({
-      external: [
-        '@aesthetic/style/lib/testing',
-        '@aesthetic/system/lib/testing',
-        './index',
-        './next',
-      ],
-      input: `packages/${pkg}/src/testing.ts`,
-      output: [
-        {
-          file: `packages/${pkg}/lib/testing.js`,
-          format: 'cjs',
-        },
-        {
-          file: `packages/${pkg}/esm/testing.js`,
-          format: 'esm',
-        },
-      ],
-      plugins: webPlugins,
-    });
+    // targets.push({
+    //   external: [
+    //     '@aesthetic/style/lib/testing',
+    //     '@aesthetic/system/lib/testing',
+    //     './index',
+    //     './next',
+    //   ],
+    //   input: `packages/${pkg}/src/testing.ts`,
+    //   output: [
+    //     {
+    //       file: `packages/${pkg}/lib/testing.js`,
+    //       format: 'cjs',
+    //     },
+    //     {
+    //       file: `packages/${pkg}/esm/testing.js`,
+    //       format: 'esm',
+    //     },
+    //   ],
+    //   plugins: webPlugins,
+    // });
   }
 });
 

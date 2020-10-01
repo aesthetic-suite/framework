@@ -48,6 +48,10 @@ export function formatDeclaration(key: string, value: Value): CSS {
   return `${key}:${value};`;
 }
 
+export function formatDeclarationBlock(properties: Record<string, Value>): CSS {
+  return objectReduce(properties, (value, key) => formatDeclaration(key, value));
+}
+
 export function formatRule(
   className: ClassName,
   block: CSS,

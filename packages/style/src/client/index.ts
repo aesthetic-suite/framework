@@ -1,0 +1,36 @@
+import { Variables } from '@aesthetic/types';
+import { objectLoop } from '@aesthetic/utils';
+import createStyleElements from './dom';
+import hydrateStyles from './hydration';
+import {
+  createCacheManager,
+  createStyleEngine,
+  createSheetManager,
+  formatVariable,
+  EngineOptions,
+  StyleEngine,
+} from '../index';
+
+function setRootVariables(vars: Variables) {
+  const root = document.documentElement;
+
+  objectLoop(vars, (value, key) => {
+    root.style.setProperty(formatVariable(key), String(value));
+  });
+}
+
+export function createClientEngine(options: Partial<EngineOptions>): StyleEngine {
+  const engine: StyleEngine = {
+    ...createStyleEngine({
+      cacheManager: createCacheManager(),
+      sheetManager: createSheetManager(createStyleElements()),
+      ...options,
+    }),
+    setRootVariables,
+  };
+
+  // Attempt to hydrate styles immediately
+  hydrateStyles(engine);
+
+  return engine;
+}

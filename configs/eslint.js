@@ -10,6 +10,9 @@ module.exports = {
     'no-redeclare': 'off',
     'no-use-before-define': 'off',
     'no-shadow': 'off',
+
+    // We disable this for rollup
+    'unicorn/import-index': 'off',
   },
   overrides: [
     {

@@ -8,9 +8,11 @@ import {
   SheetManager,
   SheetType,
   StyleRule,
-  getDocumentStyleSheet,
+  createCacheManager,
+  createStyleEngine,
+  createSheetManager,
 } from './index';
-import { createCacheManager, createStyleElements, createEngine, createSheetManager } from './next';
+import { createStyleElements, getStyleElement } from './client';
 
 export function createTestCacheManager(): CacheManager {
   return createCacheManager();
@@ -21,7 +23,7 @@ export function createTestSheetManager(): SheetManager {
 }
 
 export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEngine {
-  return createEngine({
+  return createStyleEngine({
     cacheManager: createTestCacheManager(),
     sheetManager: createTestSheetManager(),
     ...options,
@@ -30,7 +32,7 @@ export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEng
 
 export function getRenderedStyles(type: SheetType | StyleRule): CSS {
   return Array.from(
-    ((typeof type === 'string' ? getDocumentStyleSheet(type) : type) as StyleRule).cssRules,
+    ((typeof type === 'string' ? getStyleElement(type) : type) as StyleRule).cssRules,
   ).reduce((css, rule) => css + rule.cssText, '');
 }
 
