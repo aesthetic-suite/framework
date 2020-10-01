@@ -3,7 +3,7 @@
 import { CSS } from '@aesthetic/types';
 import {
   CacheManager,
-  Engine,
+  StyleEngine,
   EngineOptions,
   SheetManager,
   SheetType,
@@ -20,7 +20,7 @@ export function createTestSheetManager(): SheetManager {
   return createSheetManager(createStyleElements());
 }
 
-export function createTestStyleEngine(options: Partial<EngineOptions>): Engine {
+export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEngine {
   return createEngine({
     cacheManager: createTestCacheManager(),
     sheetManager: createTestSheetManager(),

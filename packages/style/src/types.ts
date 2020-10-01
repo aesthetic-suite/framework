@@ -98,7 +98,7 @@ export interface EngineOptions {
   vendorPrefixer?: VendorPrefixer | null;
 }
 
-export interface Engine {
+export interface StyleEngine {
   renderDeclaration: <K extends Property>(
     property: K,
     value: NonNullable<Properties[K]> | ValueWithFallbacks,

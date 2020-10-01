@@ -6,7 +6,7 @@ import {
   getRenderedStyles,
   purgeStyles,
 } from '../../src/testing';
-import { Engine, RankCache, SheetManager } from '../../src/types';
+import { StyleEngine, RankCache, SheetManager } from '../../src/types';
 
 const fontFace = {
   fontFamily: '"Open Sans"',
@@ -17,7 +17,7 @@ const fontFace = {
 
 describe('Engine', () => {
   let sheetManager: SheetManager;
-  let engine: Engine;
+  let engine: StyleEngine;
 
   beforeEach(() => {
     sheetManager = createTestSheetManager();

@@ -21,7 +21,7 @@ import {
   formatRule,
   formatVariable,
 } from './syntax';
-import { CacheItem, Engine, EngineOptions, RenderOptions } from './types';
+import { CacheItem, StyleEngine, EngineOptions, RenderOptions } from './types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -266,7 +266,7 @@ export function renderRuleGrouped(
   return className;
 }
 
-export default function createEngine(options: EngineOptions): Engine {
+export default function createEngine(options: EngineOptions): StyleEngine {
   const engine: EngineOptions = {
     direction: 'ltr',
     ruleIndex: -1,
