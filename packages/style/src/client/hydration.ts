@@ -1,6 +1,7 @@
 /* eslint-disable require-unicode-regexp */
 
 import { arrayLoop } from '@aesthetic/utils';
+// Rollup compatibility
 import {
   createCacheKey,
   FONT_FACE_RULE,

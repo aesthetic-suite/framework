@@ -1,19 +1,19 @@
 /* eslint-disable sort-keys */
 
+// Rollup compatibility
 import { SheetType, StyleRule, SheetMap } from '../index';
 
 export function getStyleElement(type: SheetType): StyleRule {
   let element = document.getElementById(`aesthetic-${type}`) as HTMLStyleElement;
 
   if (!element) {
-    const style = document.createElement('style');
-    style.setAttribute('id', `aesthetic-${type}`);
-    style.setAttribute('type', 'text/css');
-    style.setAttribute('media', 'screen');
-    style.setAttribute('data-aesthetic-type', type);
+    element = document.createElement('style');
+    element.setAttribute('id', `aesthetic-${type}`);
+    element.setAttribute('type', 'text/css');
+    element.setAttribute('media', 'screen');
+    element.setAttribute('data-aesthetic-type', type);
 
-    document.head.append(style);
-    element = style;
+    document.head.append(element);
   }
 
   return ((element as HTMLStyleElement).sheet as unknown) as StyleRule;

@@ -23,14 +23,14 @@ function setRootVariables(vars: Variables) {
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  const engine: StyleEngine = {
-    ...createStyleEngine({
-      cacheManager: createCacheManager(),
-      sheetManager: createSheetManager(createStyleElements()),
-      ...options,
-    }),
-    setRootVariables,
-  };
+  const engine: StyleEngine = createStyleEngine({
+    cacheManager: createCacheManager(),
+    sheetManager: createSheetManager(createStyleElements()),
+    ...options,
+  });
+
+  // Will set variables to :root
+  engine.setRootVariables = setRootVariables;
 
   // Attempt to hydrate styles immediately
   hydrateStyles(engine);
