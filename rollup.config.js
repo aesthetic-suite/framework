@@ -126,22 +126,22 @@ packages.forEach((pkg) => {
     );
   }
 
-  if (fs.existsSync(`packages/${pkg}/src/testing.ts`)) {
+  if (fs.existsSync(`packages/${pkg}/src/test.ts`)) {
     // targets.push({
     //   external: [
-    //     '@aesthetic/style/lib/testing',
-    //     '@aesthetic/system/lib/testing',
+    //     '@aesthetic/style/lib/test',
+    //     '@aesthetic/system/lib/test',
     //     './index',
     //     './next',
     //   ],
-    //   input: `packages/${pkg}/src/testing.ts`,
+    //   input: `packages/${pkg}/src/test.ts`,
     //   output: [
     //     {
-    //       file: `packages/${pkg}/lib/testing.js`,
+    //       file: `packages/${pkg}/lib/test.js`,
     //       format: 'cjs',
     //     },
     //     {
-    //       file: `packages/${pkg}/esm/testing.js`,
+    //       file: `packages/${pkg}/esm/test.js`,
     //       format: 'esm',
     //     },
     //   ],

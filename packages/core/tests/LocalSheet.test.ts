@@ -7,7 +7,7 @@ import {
   purgeStyles,
   setupAesthetic,
   teardownAesthetic,
-} from '../src/testing';
+} from '../src/test';
 
 describe('LocalSheet', () => {
   let renderer: ClientRenderer;

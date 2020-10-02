@@ -26,7 +26,7 @@ import {
   subscribe,
   unsubscribe,
 } from '../src';
-import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/testing';
+import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('Aesthetic', () => {
   afterEach(() => {

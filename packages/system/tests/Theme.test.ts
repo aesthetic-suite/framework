@@ -2,7 +2,7 @@
 
 import { Rule } from '@aesthetic/types';
 import { Theme, Utilities } from '../src';
-import { design, lightTheme } from '../src/testing';
+import { design, lightTheme } from '../src/test';
 
 interface TextOptions {
   size?: string;

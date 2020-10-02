@@ -1,7 +1,7 @@
 import converter from '@aesthetic/addon-direction';
 import prefixer from '@aesthetic/addon-vendor';
 import Renderer from '../src/client/ClientRenderer';
-import { getRenderedStyles, purgeStyles } from '../src/testing';
+import { getRenderedStyles, purgeStyles } from '../src/test';
 
 describe('Styles', () => {
   let renderer: Renderer;

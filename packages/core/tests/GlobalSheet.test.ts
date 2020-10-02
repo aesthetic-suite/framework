@@ -1,6 +1,6 @@
 import { ClientRenderer } from '@aesthetic/style';
 import { StyleSheet, GlobalSheet } from '../src';
-import { lightTheme } from '../src/testing';
+import { lightTheme } from '../src/test';
 
 describe('GlobalSheet', () => {
   let renderer: ClientRenderer;

@@ -5,7 +5,7 @@ import {
   createTestStyleEngine,
   getRenderedStyles,
   purgeStyles,
-} from '../src/testing';
+} from '../src/test';
 import { StyleEngine, RankCache, SheetManager } from '../src/types';
 
 const fontFace = {

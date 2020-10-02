@@ -1,7 +1,7 @@
 import { createCacheManager } from '../src';
 import { createClientEngine } from '../src/client';
 import { CacheStorage, SheetType, StyleEngine } from '../src/types';
-import { getRenderedStyles, purgeStyles } from '../src/testing';
+import { getRenderedStyles, purgeStyles } from '../src/test';
 
 function createStyle(type: SheetType, lastIndex: number) {
   const style = document.createElement('style');

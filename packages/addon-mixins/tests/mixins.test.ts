@@ -1,5 +1,5 @@
 import { MixinUtil } from '@aesthetic/system';
-import { darkTheme } from '@aesthetic/system/lib/testing';
+import { darkTheme } from '@aesthetic/system/lib/test';
 import mixinTemplates from '../src';
 
 describe('Mixins', () => {
