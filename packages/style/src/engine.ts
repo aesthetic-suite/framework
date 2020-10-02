@@ -47,7 +47,7 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
   return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
 }
 
-function cacheAndInsertAtRule(
+function insertAtRule(
   cacheKey: string,
   rule: CSS,
   options: RenderOptions,
@@ -65,7 +65,7 @@ function cacheAndInsertAtRule(
   return item;
 }
 
-function cacheAndInsertStyles(
+function insertStyles(
   cacheKey: string,
   render: (className: ClassName) => CSS,
   options: RenderOptions,
@@ -131,14 +131,14 @@ function procesNested(
 }
 
 function renderDeclaration<K extends Property>(
+  engine: StyleEngine,
   property: K,
   value: NonNullable<Properties[K]> | ValueWithFallbacks,
   options: RenderOptions,
-  engine: StyleEngine,
 ): ClassName {
   const key = formatProperty(property);
   const { rankings } = options;
-  const { className, rank } = cacheAndInsertStyles(
+  const { className, rank } = insertStyles(
     createCacheKey(key, value, options),
     (className) => formatRule(className, createDeclaration(key, value, options, engine), options),
     options,
@@ -154,7 +154,7 @@ function renderDeclaration<K extends Property>(
   return className;
 }
 
-function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: StyleEngine): string {
+function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: RenderOptions): string {
   let name = fontFace.fontFamily;
   let block = createDeclarationBlock(fontFace as GenericProperties, options, engine);
 
@@ -163,7 +163,7 @@ function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: Styl
     block += formatDeclaration('font-family', name);
   }
 
-  cacheAndInsertAtRule(
+  insertAtRule(
     createCacheKey('@font-face', name, options),
     `@font-face { ${block} }`,
     options,
@@ -173,28 +173,23 @@ function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: Styl
   return name;
 }
 
-function renderImport(url: string, options: RenderOptions, engine: StyleEngine): string {
+function renderImport(engine: StyleEngine, url: string, options: RenderOptions): string {
   let path = `url("${url}")`;
 
   if (options.conditions) {
     path += ` ${options.conditions.join(', ')}`;
   }
 
-  cacheAndInsertAtRule(
-    createCacheKey('@import', url, options),
-    `@import ${path};`,
-    options,
-    engine,
-  );
+  insertAtRule(createCacheKey('@import', url, options), `@import ${path};`, options, engine);
 
   return path;
 }
 
 function renderKeyframes(
+  engine: StyleEngine,
   keyframes: Keyframes,
   animationName: string,
   options: RenderOptions,
-  engine: StyleEngine,
 ): string {
   const block = objectReduce(
     keyframes,
@@ -204,7 +199,7 @@ function renderKeyframes(
 
   const name = animationName || `kf${generateHash(block)}`;
 
-  cacheAndInsertAtRule(
+  insertAtRule(
     createCacheKey('@keyframes', name, options),
     `@keyframes ${name} { ${block} }`,
     options,
@@ -215,14 +210,14 @@ function renderKeyframes(
 }
 
 function renderVariable(
+  engine: StyleEngine,
   name: string,
   value: Value,
   options: RenderOptions,
-  engine: StyleEngine,
 ): ClassName {
   const key = formatVariable(name);
 
-  return cacheAndInsertStyles(
+  return insertStyles(
     createCacheKey(key, value, options),
     (className) => formatRule(className, formatDeclaration(key, value), options),
     options,
@@ -230,7 +225,7 @@ function renderVariable(
   ).className;
 }
 
-function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
+function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
   const classNames: string[] = [];
 
   objectLoop<Rule, Property>(rule, (value, property) => {
@@ -240,22 +235,22 @@ function renderRule(rule: Rule, options: RenderOptions, engine: StyleEngine): Cl
 
     // Nested
     if (isObject<Rule>(value)) {
-      classNames.push(procesNested(property, () => renderRule(value, options, engine), options));
+      classNames.push(procesNested(property, () => renderRule(engine, value, options), options));
 
       // Variables
     } else if (isVariable(property)) {
-      classNames.push(renderVariable(property, value, options, engine));
+      classNames.push(renderVariable(engine, property, value, options));
 
       // Properties
     } else {
-      classNames.push(renderDeclaration(property, value, options, engine));
+      classNames.push(renderDeclaration(engine, property, value, options));
     }
   });
 
   return classNames.join(' ');
 }
 
-function renderRuleGrouped(rule: Rule, options: RenderOptions, engine: StyleEngine): ClassName {
+function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
   const nestedRules: Record<string, Rule> = {};
   let variables: CSS = '';
   let properties: CSS = '';
@@ -280,7 +275,7 @@ function renderRuleGrouped(rule: Rule, options: RenderOptions, engine: StyleEngi
 
   // Insert rule styles only once
   const block = variables + properties;
-  const { className } = cacheAndInsertStyles(
+  const { className } = insertStyles(
     createCacheKey(block, '', options),
     (className) => formatRule(className, block, options),
     options,
@@ -291,7 +286,7 @@ function renderRuleGrouped(rule: Rule, options: RenderOptions, engine: StyleEngi
   options.className = className;
 
   objectLoop(nestedRules, (nestedRule, key) => {
-    procesNested(key, () => renderRuleGrouped(nestedRule, options, engine), options);
+    procesNested(key, () => renderRuleGrouped(engine, nestedRule, options), options);
   });
 
   return className;
@@ -305,16 +300,16 @@ export function createStyleEngine(options: EngineOptions): StyleEngine {
     ruleIndex: -1,
     ...options,
     renderDeclaration: (property, value, options) =>
-      renderDeclaration(property, value, options || renderOptions, engine),
+      renderDeclaration(engine, property, value, options || renderOptions),
     renderFontFace: (fontFace, options) =>
-      renderFontFace(fontFace, options || renderOptions, engine),
-    renderImport: (path, options) => renderImport(path, options || renderOptions, engine),
+      renderFontFace(engine, fontFace, options || renderOptions),
+    renderImport: (path, options) => renderImport(engine, path, options || renderOptions),
     renderKeyframes: (keyframes, animationName, options) =>
-      renderKeyframes(keyframes, animationName || '', options || renderOptions, engine),
-    renderRule: (rule, options) => renderRule(rule, options || renderOptions, engine),
-    renderRuleGrouped: (rule, options) => renderRuleGrouped(rule, options || renderOptions, engine),
+      renderKeyframes(engine, keyframes, animationName || '', options || renderOptions),
+    renderRule: (rule, options) => renderRule(engine, rule, options || renderOptions),
+    renderRuleGrouped: (rule, options) => renderRuleGrouped(engine, rule, options || renderOptions),
     renderVariable: (name, value, options) =>
-      renderVariable(name, value, options || renderOptions, engine),
+      renderVariable(engine, name, value, options || renderOptions),
     setRootVariables() {},
   };
 
