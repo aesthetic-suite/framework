@@ -45,7 +45,7 @@ describe('Hydration', () => {
   it('adds at-rules to the global cache', () => {
     expect(cache).toEqual(
       expect.objectContaining({
-        '@import:url(test.css)': [{ className: '' }],
+        '@import:test.css': [{ className: '' }],
         '@font-face:"Open Sans"': [{ className: '' }],
         '@keyframes:kf103rcyx': [{ className: '' }],
       }),
@@ -95,11 +95,11 @@ describe('Hydration', () => {
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
-  // it('doesnt re-insert hydrated import', () => {
-  //   engine.renderImport('url("test.css")');
+  it('doesnt re-insert hydrated import', () => {
+    engine.renderImport('test.css');
 
-  //   expect(getRenderedStyles('global')).toMatchSnapshot();
-  // });
+    expect(getRenderedStyles('global')).toMatchSnapshot();
+  });
 
   it('doesnt re-insert hydrated keyframes', () => {
     engine.renderKeyframes({

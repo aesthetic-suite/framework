@@ -41,7 +41,7 @@ describe('Engine', () => {
 
   it('inserts imports before at-rules', () => {
     engine.renderFontFace(fontFace);
-    engine.renderImport('"custom.css"');
+    engine.renderImport('custom.css');
 
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
@@ -289,19 +289,25 @@ describe('Engine', () => {
 
   describe('renderImport()', () => {
     it('doesnt insert the same at-rule more than once', () => {
-      engine.renderImport("'custom.css'");
-      engine.renderImport("'custom.css'");
+      engine.renderImport('custom.css');
+      engine.renderImport('custom.css');
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('renders all variants', () => {
-      engine.renderImport('url("print.css") print');
-      engine.renderImport('url("a11y.css") speech');
-      engine.renderImport("'custom.css'");
-      engine.renderImport('"common.css" screen');
-      engine.renderImport('url("chrome://communicator/skin")');
-      engine.renderImport("url('landscape.css') screen and (orientation: landscape)");
+      engine.renderImport('custom.css');
+      engine.renderImport('common.css', { conditions: ['screen'] });
+      engine.renderImport('print.css', { conditions: ['print'] });
+      engine.renderImport('chrome://communicator/skin');
+      engine.renderImport('landscape.css');
+      engine.renderImport('a11y.css', { conditions: ['speech'] });
+      engine.renderImport('responsive.css', {
+        conditions: ['screen and (orientation: landscape)'],
+      });
+      engine.renderImport('fallback-layout.css', {
+        conditions: ['supports(not (display: flex))'],
+      });
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });

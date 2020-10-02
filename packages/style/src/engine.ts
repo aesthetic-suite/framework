@@ -123,6 +123,7 @@ function procesNested(
 
     // Unknown
   } else if (__DEV__) {
+    // eslint-disable-next-line no-console
     console.warn(`Unknown property selector or nested block "${property}".`);
   }
 
@@ -162,13 +163,31 @@ function renderFontFace(fontFace: FontFace, options: RenderOptions, engine: Styl
     block += formatDeclaration('font-family', name);
   }
 
-  cacheAndInsertAtRule(`@font-face:${name}`, `@font-face { ${block} }`, options, engine);
+  cacheAndInsertAtRule(
+    createCacheKey('@font-face', name, options),
+    `@font-face { ${block} }`,
+    options,
+    engine,
+  );
 
   return name;
 }
 
-function renderImport(path: string, options: RenderOptions, engine: StyleEngine) {
-  cacheAndInsertAtRule(`@import:${path}`, `@import ${path};`, options, engine);
+function renderImport(url: string, options: RenderOptions, engine: StyleEngine): string {
+  let path = `url("${url}")`;
+
+  if (options.conditions) {
+    path += ` ${options.conditions.join(', ')}`;
+  }
+
+  cacheAndInsertAtRule(
+    createCacheKey('@import', url, options),
+    `@import ${path};`,
+    options,
+    engine,
+  );
+
+  return path;
 }
 
 function renderKeyframes(
@@ -185,7 +204,12 @@ function renderKeyframes(
 
   const name = animationName || `kf${generateHash(block)}`;
 
-  cacheAndInsertAtRule(`@keyframes:${name}`, `@keyframes ${name} { ${block} }`, options, engine);
+  cacheAndInsertAtRule(
+    createCacheKey('@keyframes', name, options),
+    `@keyframes ${name} { ${block} }`,
+    options,
+    engine,
+  );
 
   return name;
 }

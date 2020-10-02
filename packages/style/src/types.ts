@@ -112,7 +112,7 @@ export interface StyleEngine {
     options?: RenderOptions,
   ) => ClassName;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
-  renderImport: (path: string, options?: RenderOptions) => void;
+  renderImport: (path: string, options?: RenderOptions) => string;
   renderKeyframes: (
     keyframes: Keyframes,
     animationName?: string,
