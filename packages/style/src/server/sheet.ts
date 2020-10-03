@@ -10,6 +10,7 @@ import {
   STYLE_RULE,
   StyleRule,
 } from '../index';
+import { SheetManager, SheetMap } from '../types';
 
 export function sortConditionalRules(sheet: StyleRule) {
   sheet.cssRules = sheet.cssRules.sort((a, b) =>
@@ -82,4 +83,33 @@ export class TransientSheet implements StyleRule {
 
     return STYLE_RULE;
   }
+}
+
+function findNestedRule(sheet: StyleRule, query: string, type: number) {
+  for (let i = 0; i < sheet.cssRules.length; i += 1) {
+    const child = sheet.cssRules[i];
+
+    if (child && child.type === type && child.conditionText === query) {
+      return child;
+    }
+  }
+
+  return null;
+}
+
+export function createSheetManager(sheets: SheetMap): SheetManager {
+  return {
+    insertRule(type, rule, index) {
+      const sheet = sheets[type];
+
+      if (isImportRule(rule)) {
+        return insertImportRule(sheet, rule);
+      } else if (isAtRule(rule)) {
+        return insertAtRule(sheet, rule);
+      }
+
+      return insertRule(sheet, rule, index);
+    },
+    sheets,
+  };
 }
