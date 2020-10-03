@@ -1,5 +1,5 @@
 import { Value, ValueWithFallbacks } from '@aesthetic/types';
-import { CacheManager, CacheItem, CacheStorage, RenderOptions } from './types';
+import { CacheManager, CacheItem, CacheStorage, RenderOptions } from '../types';
 
 export function createCacheKey(
   property: string,

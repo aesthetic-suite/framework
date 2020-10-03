@@ -3,7 +3,7 @@
 import { Value, MaybeValue, CSS } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
-import { StyleRule } from './types';
+import { StyleRule } from '../types';
 
 export function insertRule(sheet: StyleRule, rule: CSS, index?: number): number {
   try {

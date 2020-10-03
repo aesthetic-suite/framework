@@ -21,7 +21,7 @@ import {
   formatRule,
   formatVariable,
 } from './syntax';
-import { CacheItem, StyleEngine, EngineOptions, RenderOptions } from './types';
+import { CacheItem, StyleEngine, EngineOptions, RenderOptions } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
