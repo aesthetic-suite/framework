@@ -103,15 +103,15 @@ packages.forEach((pkg) => {
         ],
       },
       {
-        external: ['../index'],
-        input: `packages/${pkg}/src/server/index.ts`,
+        external: ['./index', '../index'],
+        input: `packages/${pkg}/src/server.ts`,
         output: [
           {
-            file: `packages/${pkg}/lib/server/index.js`,
+            file: `packages/${pkg}/lib/server.js`,
             format: 'cjs',
           },
           {
-            file: `packages/${pkg}/esm/server/index.js`,
+            file: `packages/${pkg}/esm/server.js`,
             format: 'esm',
           },
         ],
@@ -127,26 +127,27 @@ packages.forEach((pkg) => {
   }
 
   if (fs.existsSync(`packages/${pkg}/src/test.ts`)) {
-    // targets.push({
-    //   external: [
-    //     '@aesthetic/style/lib/test',
-    //     '@aesthetic/system/lib/test',
-    //     './index',
-    //     './next',
-    //   ],
-    //   input: `packages/${pkg}/src/test.ts`,
-    //   output: [
-    //     {
-    //       file: `packages/${pkg}/lib/test.js`,
-    //       format: 'cjs',
-    //     },
-    //     {
-    //       file: `packages/${pkg}/esm/test.js`,
-    //       format: 'esm',
-    //     },
-    //   ],
-    //   plugins: webPlugins,
-    // });
+    targets.push({
+      external: [
+        '@aesthetic/style/lib/test',
+        '@aesthetic/system/lib/test',
+        './index',
+        './client',
+        './server',
+      ],
+      input: `packages/${pkg}/src/test.ts`,
+      output: [
+        {
+          file: `packages/${pkg}/lib/test.js`,
+          format: 'cjs',
+        },
+        {
+          file: `packages/${pkg}/esm/test.js`,
+          format: 'esm',
+        },
+      ],
+      plugins: webPlugins,
+    });
   }
 });
 

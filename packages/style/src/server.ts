@@ -1,14 +1,13 @@
 import { Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import { TransientSheet, sortConditionalRules } from './sheet';
+import { TransientSheet, createSheetManager } from './server/sheet';
 import {
   createCacheManager,
   createStyleEngine,
-  createSheetManager,
   formatVariable,
   EngineOptions,
   StyleEngine,
-} from '../index';
+} from './index';
 
 function setRootVariables(vars: Variables, engine: StyleEngine) {
   const sheet = engine.sheetManager.sheets.global;
@@ -19,27 +18,14 @@ function setRootVariables(vars: Variables, engine: StyleEngine) {
 }
 
 export function createServerEngine(options: Partial<EngineOptions>): StyleEngine {
-  const sheetManager = createSheetManager({
-    conditions: new TransientSheet(),
-    global: new TransientSheet(),
-    standard: new TransientSheet(),
-  });
-
   const engine: StyleEngine = {
     ...createStyleEngine({
       cacheManager: createCacheManager(),
-      sheetManager: {
-        ...sheetManager,
-        insertRule(type, rule, index) {
-          const rank = sheetManager.insertRule(type, rule, index);
-
-          if (type === 'conditions') {
-            sortConditionalRules(sheetManager.sheets.conditions);
-          }
-
-          return rank;
-        },
-      },
+      sheetManager: createSheetManager({
+        conditions: new TransientSheet(),
+        global: new TransientSheet(),
+        standard: new TransientSheet(),
+      }),
       ...options,
     }),
     setRootVariables: (vars) => setRootVariables(vars, engine),

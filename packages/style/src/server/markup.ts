@@ -1,3 +1,4 @@
+// Rollup compatibility
 import { formatDeclarationBlock, SheetType, StyleEngine, StyleRule } from '../index';
 
 function createStyleElement(type: SheetType, rule: StyleRule, ruleIndex: number): string {

@@ -60,6 +60,10 @@ export function isImportRule(value: string): boolean {
   return value.slice(0, 7) === '@import';
 }
 
+export function isMediaRule(value: string): boolean {
+  return value.slice(0, 6) === '@media';
+}
+
 export function isNestedSelector(value: string): boolean {
   const char = value[0];
 
@@ -72,6 +76,10 @@ export function isNestedSelector(value: string): boolean {
     char === '*' ||
     char === '|'
   );
+}
+
+export function isSupportsRule(value: string): boolean {
+  return value.slice(0, 9) === '@supports';
 }
 
 const unitlessProperties = new Set<string>();

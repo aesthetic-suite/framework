@@ -32,11 +32,7 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
     return `c${generateHash(key)}`;
   }
 
-  if (engine.ruleIndex === undefined) {
-    engine.ruleIndex = 0;
-  } else {
-    engine.ruleIndex += 1;
-  }
+  engine.ruleIndex += 1;
 
   const index = engine.ruleIndex;
 
@@ -57,8 +53,12 @@ function insertAtRule(
   let item = cacheManager.read(cacheKey);
 
   if (!item) {
+    if (!options.type) {
+      options.type = 'global';
+    }
+
     item = { className: '' };
-    sheetManager.insertRule(options.type || 'global', rule);
+    sheetManager.insertRule(rule, options);
     cacheManager.write(cacheKey, item);
   }
 
@@ -82,10 +82,10 @@ function insertStyles(
 
     // Insert rule and return a rank (insert index)
     const rank = sheetManager.insertRule(
-      options.type || (options.conditions ? 'conditions' : 'standard'),
       options.selector && options.vendor && vendorPrefixer
         ? vendorPrefixer.prefixSelector(options.selector, css)
         : css,
+      options,
     );
 
     // Cache the results for subsequent performance

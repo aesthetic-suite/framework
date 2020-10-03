@@ -1,21 +1,30 @@
-import { Variables } from '@aesthetic/types';
-import { arrayReduce } from '@aesthetic/utils';
+/* eslint-disable no-magic-numbers */
+
+import { CSS, Variables } from '@aesthetic/types';
+import { arrayLoop, arrayReduce } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
+// Rollup compatibility
 import {
-  MEDIA_RULE,
-  SUPPORTS_RULE,
+  Condition,
   FONT_FACE_RULE,
-  KEYFRAMES_RULE,
   IMPORT_RULE,
+  insertImportRule,
+  insertRule,
+  isAtRule,
+  isImportRule,
+  isMediaRule,
+  KEYFRAMES_RULE,
+  MEDIA_RULE,
+  SheetManager,
+  SheetMap,
   STYLE_RULE,
   StyleRule,
+  SUPPORTS_RULE,
 } from '../index';
-import { SheetManager, SheetMap } from '../types';
 
-export function sortConditionalRules(sheet: StyleRule) {
-  sheet.cssRules = sheet.cssRules.sort((a, b) =>
-    sortMediaQueries(a.conditionText, b.conditionText),
-  );
+export interface ServerSheetManager extends SheetManager {
+  featureQueries: Record<string, StyleRule>;
+  mediaQueries: Record<string, StyleRule>;
 }
 
 export class TransientSheet implements StyleRule {
@@ -85,7 +94,21 @@ export class TransientSheet implements StyleRule {
   }
 }
 
-function findNestedRule(sheet: StyleRule, query: string, type: number) {
+function extractQueryAndType(condition: Condition) {
+  if (isMediaRule(condition)) {
+    return {
+      query: condition.slice(6).trim(),
+      type: MEDIA_RULE,
+    };
+  }
+
+  return {
+    query: condition.slice(9).trim(),
+    type: SUPPORTS_RULE,
+  };
+}
+
+function findNestedRule(sheet: StyleRule, query: string, type: number): StyleRule | null {
   for (let i = 0; i < sheet.cssRules.length; i += 1) {
     const child = sheet.cssRules[i];
 
@@ -97,19 +120,100 @@ function findNestedRule(sheet: StyleRule, query: string, type: number) {
   return null;
 }
 
-export function createSheetManager(sheets: SheetMap): SheetManager {
-  return {
-    insertRule(type, rule, index) {
-      const sheet = sheets[type];
+function insertFeatureRule(
+  sheet: StyleRule,
+  query: string,
+  rule: CSS,
+  manager: ServerSheetManager,
+  parentRule?: StyleRule,
+): number {
+  const formattedRule = `@supports ${query} { ${rule} }`;
+
+  // Already exists so append a new rule
+  if (parentRule && parentRule !== sheet) {
+    return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
+  }
+
+  // Insert the rule and capture the instance
+  const index = insertRule(sheet, formattedRule);
+
+  manager.featureQueries[query] = sheet.cssRules[index];
+
+  return index;
+}
+
+function insertMediaRule(
+  sheet: StyleRule,
+  query: string,
+  rule: CSS,
+  manager: ServerSheetManager,
+  parentRule?: StyleRule,
+): number {
+  const formattedRule = `@media ${query} { ${rule} }`;
+
+  // Already exists so append a new rule (except for root sorting)
+  if (parentRule && parentRule !== sheet) {
+    return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
+  }
+
+  // Sort and determine the index in which to insert a new query
+  const sortedQueries = Object.keys(manager.mediaQueries).concat(query).sort(sortMediaQueries);
+  const index = sortedQueries.indexOf(query);
+
+  insertRule(sheet, formattedRule, index);
+
+  manager.mediaQueries[query] = sheet.cssRules[index];
+
+  return index;
+}
+
+function insertConditionRule(
+  sheet: StyleRule,
+  rule: CSS,
+  conditions: Condition[],
+  manager: ServerSheetManager,
+): number {
+  let parent = sheet;
+
+  arrayLoop(conditions, (condition) => {
+    const { query, type } = extractQueryAndType(condition);
+    const instance = findNestedRule(parent, query, type);
+
+    // Nested found, so continue without inserting a new rule
+    if (instance) {
+      parent = instance;
+
+      return;
+    }
+
+    const index =
+      type === MEDIA_RULE
+        ? insertMediaRule(sheet, query, '', manager, parent)
+        : insertFeatureRule(sheet, query, '', manager, parent);
+
+    parent = parent.cssRules[index];
+  });
+
+  return parent.insertRule(rule, parent.cssRules.length);
+}
+
+export function createSheetManager(sheets: SheetMap): ServerSheetManager {
+  const manager: ServerSheetManager = {
+    featureQueries: {},
+    insertRule(rule, options, index) {
+      const sheet = sheets[options.type || (options.conditions ? 'conditions' : 'standard')];
 
       if (isImportRule(rule)) {
         return insertImportRule(sheet, rule);
       } else if (isAtRule(rule)) {
-        return insertAtRule(sheet, rule);
+        return insertConditionRule(sheet, rule, options.conditions || [], manager);
       }
 
       return insertRule(sheet, rule, index);
     },
+    mediaQueries: {},
     sheets,
   };
+
+  return manager;
 }

@@ -3,8 +3,8 @@ import { SheetMap, SheetManager } from './types';
 
 export function createSheetManager(sheets: SheetMap): SheetManager {
   return {
-    insertRule(type, rule, index) {
-      const sheet = sheets[type];
+    insertRule(rule, options, index) {
+      const sheet = sheets[options.type || (options.conditions ? 'conditions' : 'standard')];
 
       if (isImportRule(rule)) {
         return insertImportRule(sheet, rule);

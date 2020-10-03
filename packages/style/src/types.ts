@@ -76,7 +76,7 @@ export type SheetMap = Record<SheetType, StyleRule>;
 
 export interface SheetManager {
   sheets: SheetMap;
-  insertRule: (type: SheetType, rule: CSS, index?: number) => number;
+  insertRule: (rule: CSS, options: RenderOptions, index?: number) => number;
 }
 
 // VENDOR PREFIXES
