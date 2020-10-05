@@ -7,6 +7,7 @@ import sortMediaQueries from 'sort-css-media-queries';
 import {
   FONT_FACE_RULE,
   IMPORT_RULE,
+  insertAtRule,
   insertImportRule,
   insertRule,
   isAtRule,
@@ -117,10 +118,10 @@ function findNestedRule(sheet: Sheet, query: string, type: number): Sheet | null
 }
 
 function insertFeatureRule(
+  manager: ServerSheetManager,
   sheet: Sheet,
   query: string,
   rule: CSS,
-  manager: ServerSheetManager,
   parentSheet?: Sheet,
 ): number {
   const formattedRule = `@supports ${query} { ${rule} }`;
@@ -139,10 +140,10 @@ function insertFeatureRule(
 }
 
 function insertMediaRule(
+  manager: ServerSheetManager,
   sheet: Sheet,
   query: string,
   rule: CSS,
-  manager: ServerSheetManager,
   parentSheet?: Sheet,
 ): number {
   const formattedRule = `@media ${query} { ${rule} }`;
@@ -164,10 +165,10 @@ function insertMediaRule(
 }
 
 function insertConditionRule(
+  manager: ServerSheetManager,
   sheet: Sheet,
   rule: CSS,
   conditions: string[],
-  manager: ServerSheetManager,
 ): number {
   let parent = sheet;
 
@@ -184,8 +185,8 @@ function insertConditionRule(
 
     const index =
       type === MEDIA_RULE
-        ? insertMediaRule(sheet, query, '', manager, parent)
-        : insertFeatureRule(sheet, query, '', manager, parent);
+        ? insertMediaRule(manager, sheet, query, '', parent)
+        : insertFeatureRule(manager, sheet, query, '', parent);
 
     parent = parent.cssRules[index];
   });
@@ -199,10 +200,17 @@ export function createSheetManager(sheets: SheetMap): ServerSheetManager {
     insertRule(rule, options, index) {
       const sheet = sheets[options.type || (options.conditions ? 'conditions' : 'standard')];
 
+      // Imports highest precedence
       if (isImportRule(rule)) {
         return insertImportRule(sheet, rule);
+
+        // Media and feature queries require special treatment
+      } else if (options.conditions) {
+        return insertConditionRule(manager, sheet, rule, options.conditions);
+
+        // Font faces and keyframes lowest precedence
       } else if (isAtRule(rule)) {
-        return insertConditionRule(sheet, rule, options.conditions || [], manager);
+        return insertAtRule(sheet, rule);
       }
 
       return insertRule(sheet, rule, index);

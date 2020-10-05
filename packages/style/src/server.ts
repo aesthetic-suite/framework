@@ -1,7 +1,10 @@
 import { EngineOptions, Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
+import { renderToStyleMarkup } from './server/markup';
 import { TransientSheet, createSheetManager } from './server/sheet';
 import { createCacheManager, createStyleEngine, formatVariable, StyleEngine } from './index';
+
+export { renderToStyleMarkup };
 
 function setRootVariables(vars: Variables, engine: StyleEngine) {
   const sheet = engine.sheetManager.sheets.global;
@@ -11,7 +14,7 @@ function setRootVariables(vars: Variables, engine: StyleEngine) {
   });
 }
 
-export function createServerEngine(options: Partial<EngineOptions>): StyleEngine {
+export function createServerEngine(options: Partial<EngineOptions> = {}): StyleEngine {
   const engine: StyleEngine = {
     ...createStyleEngine({
       cacheManager: createCacheManager(),

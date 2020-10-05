@@ -18,7 +18,7 @@ export function getStyleElement(type: SheetType): Sheet {
   return ((element as HTMLStyleElement).sheet as unknown) as Sheet;
 }
 
-export default function createStyleElements(): SheetMap {
+export function createStyleElements(): SheetMap {
   return {
     // Order is important here!
     global: getStyleElement('global'),

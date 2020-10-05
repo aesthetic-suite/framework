@@ -1,42 +1,49 @@
-import ServerRenderer from '../src/server/ServerRenderer';
+import { createServerEngine, extractStyles, renderToStyleMarkup } from '../src/server';
+import { purgeStyles } from '../src/test';
+import { StyleEngine } from '../src';
 
-describe('SSR', () => {
-  let renderer: ServerRenderer;
+describe('Server', () => {
+  let engine: StyleEngine;
 
   beforeEach(() => {
-    renderer = new ServerRenderer();
+    engine = createServerEngine();
 
-    global.AESTHETIC_CUSTOM_ENGINE = renderer;
+    global.AESTHETIC_CUSTOM_ENGINE = engine;
+    process.env.AESTHETIC_SSR = 'true';
   });
 
   afterEach(() => {
+    purgeStyles();
+
+    // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_ENGINE;
   });
 
   it('sets SSR global', () => {
+    // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_ENGINE;
 
-    renderer.extractStyles(null);
+    extractStyles(null, engine);
 
-    expect(global.AESTHETIC_CUSTOM_ENGINE).toBe(renderer);
+    expect(global.AESTHETIC_CUSTOM_ENGINE).toBe(engine);
   });
 
   it('sets SSR env var', () => {
     delete process.env.AESTHETIC_SSR;
 
-    renderer.extractStyles(null);
+    extractStyles(null, engine);
 
     expect(process.env.AESTHETIC_SSR).toBe('true');
   });
 
   it('writes to a temporary style sheet implementation and generates accurate markup', () => {
-    renderer.applyRootVariables({
+    engine.setRootVariables({
       fontSize: '16px',
       bgColor: '#fff',
       fbColor: 'black',
     });
 
-    renderer.renderRule({
+    engine.renderRule({
       margin: 0,
       padding: '6px 12px',
       border: '1px solid #2e6da4',
@@ -56,14 +63,14 @@ describe('SSR', () => {
       animationDuration: '.3s',
     });
 
-    renderer.renderFontFace({
+    engine.renderFontFace({
       fontFamily: '"Open Sans"',
       fontStyle: 'normal',
       fontWeight: 800,
       src: 'url("fonts/OpenSans-Bold.woff2")',
     });
 
-    renderer.renderRule({
+    engine.renderRule({
       margin: 0,
       '@media (width: 500px)': {
         margin: '10px',
@@ -81,7 +88,7 @@ describe('SSR', () => {
       },
     });
 
-    renderer.renderKeyframes({
+    engine.renderKeyframes({
       from: {
         transform: 'translateX(0%)',
       },
@@ -90,10 +97,10 @@ describe('SSR', () => {
       },
     });
 
-    renderer.renderImport('url("test.css")');
+    engine.renderImport('test.css');
 
     // Test that conditions are merged
-    renderer.renderRule({
+    engine.renderRule({
       margin: 0,
       '@media (width: 500px)': {
         margin: '5px',
@@ -103,36 +110,50 @@ describe('SSR', () => {
       },
     });
 
-    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+    expect(renderToStyleMarkup(engine)).toMatchSnapshot();
   });
 
   it('can render media and feature queries', () => {
-    renderer.renderRule({
+    engine.renderRule({
       '@media (max-width: 1000px)': { display: 'block' },
       '@supports (display: flex)': { display: 'flex' },
     });
 
-    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+    expect(renderToStyleMarkup(engine)).toMatchSnapshot();
+  });
+
+  it('merges conditionals instead of appending', () => {
+    engine.renderRule({
+      '@media (max-width: 1000px)': { display: 'block' },
+    });
+    engine.renderRule({
+      '@media (max-width: 1000px)': { display: 'inline-block' },
+    });
+    engine.renderRule({
+      '@media (max-width: 1000px)': { display: 'flex' },
+    });
+
+    expect(renderToStyleMarkup(engine)).toMatchSnapshot();
   });
 
   it('can render CSS variables', () => {
-    renderer.applyRootVariables({
+    engine.setRootVariables({
       '--root-level': 'true',
     });
 
-    renderer.renderRule({
+    engine.renderRule({
       '--element-level': 123,
     });
 
-    renderer.renderVariable('varLevel', '10px');
+    engine.renderVariable('varLevel', '10px');
 
-    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+    expect(renderToStyleMarkup(engine)).toMatchSnapshot();
   });
 
   it('sorts media queries using mobile-first', () => {
     const block = { padding: 0 };
 
-    renderer.renderRule({
+    engine.renderRule({
       '@media screen and (min-width: 1024px)': block,
       '@media screen and (min-width: 320px) and (max-width: 767px)': block,
       '@media screen and (min-width: 1280px)': block,
@@ -150,6 +171,6 @@ describe('SSR', () => {
       '@media screen and (max-width: 1023px)': block,
     });
 
-    expect(renderer.renderToStyleMarkup()).toMatchSnapshot();
+    expect(renderToStyleMarkup(engine)).toMatchSnapshot();
   });
 });

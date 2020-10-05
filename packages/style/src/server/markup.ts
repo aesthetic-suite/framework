@@ -15,7 +15,7 @@ function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): s
   return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate-index="${lastIndex}" data-aesthetic-rule-index="${ruleIndex}">${css}</style>`;
 }
 
-export default function renderToStyleMarkup(engine: StyleEngine): string {
+export function renderToStyleMarkup(engine: StyleEngine): string {
   return (
     createStyleElement('global', engine.sheetManager.sheets.global, engine.ruleIndex) +
     createStyleElement('standard', engine.sheetManager.sheets.standard, engine.ruleIndex) +

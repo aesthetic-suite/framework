@@ -56,12 +56,8 @@ function insertAtRule(
   let item = cacheManager.read(cacheKey);
 
   if (!item) {
-    if (!options.type) {
-      options.type = 'global';
-    }
-
     item = { className: '' };
-    sheetManager.insertRule(rule, options);
+    sheetManager.insertRule(rule, { ...options, type: 'global' });
     cacheManager.write(cacheKey, item);
   }
 

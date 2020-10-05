@@ -1,7 +1,7 @@
 import { EngineOptions, Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
-import createStyleElements, { getStyleElement } from './client/dom';
-import hydrateStyles from './client/hydration';
+import { createStyleElements, getStyleElement } from './client/dom';
+import { hydrateStyles } from './client/hydration';
 // Rollup compatibility
 import {
   createCacheManager,

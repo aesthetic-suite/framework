@@ -105,7 +105,7 @@ function hydrate(engine: StyleEngine, sheet: CSSStyleSheet) {
   });
 }
 
-export default function hydrateStyles(engine: StyleEngine): boolean {
+export function hydrateStyles(engine: StyleEngine): boolean {
   const styles = document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate-index]');
 
   arrayLoop(styles, (style) => {
