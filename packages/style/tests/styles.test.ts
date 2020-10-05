@@ -1,12 +1,13 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
+import { RankCache, SheetManager } from '@aesthetic/types';
 import {
   createTestSheetManager,
   createTestStyleEngine,
   getRenderedStyles,
   purgeStyles,
 } from '../src/test';
-import { StyleEngine, RankCache, SheetManager } from '../src/types';
+import { StyleEngine } from '../src/types';
 
 const fontFace = {
   fontFamily: '"Open Sans"',
@@ -796,24 +797,21 @@ describe('Engine', () => {
       });
 
       it('can customize with a function `unit` option', () => {
-        engine.renderRule(
-          {
-            margin: 10,
-            padding: 20,
-            fontSize: 16,
-            width: 100,
-          },
-          {
-            unit(prop) {
-              /* eslint-disable jest/no-if */
-              if (prop.includes('margin')) return '%';
-              if (prop.includes('padding')) return 'rem';
-              if (prop === 'font-size') return 'pt';
+        engine.unitSuffixer = (prop) => {
+          /* eslint-disable jest/no-if */
+          if (prop.includes('margin')) return '%';
+          if (prop.includes('padding')) return 'rem';
+          if (prop === 'font-size') return 'pt';
 
-              return 'px';
-            },
-          },
-        );
+          return 'px';
+        };
+
+        engine.renderRule({
+          margin: 10,
+          padding: 20,
+          fontSize: 16,
+          width: 100,
+        });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });

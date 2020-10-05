@@ -1,4 +1,4 @@
-import { Variables } from '@aesthetic/types';
+import { EngineOptions, Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import createStyleElements, { getStyleElement } from './client/dom';
 import hydrateStyles from './client/hydration';
@@ -8,7 +8,6 @@ import {
   createStyleEngine,
   createSheetManager,
   formatVariable,
-  EngineOptions,
   StyleEngine,
 } from './index';
 

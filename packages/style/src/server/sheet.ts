@@ -1,11 +1,10 @@
 /* eslint-disable no-magic-numbers */
 
-import { CSS, Variables } from '@aesthetic/types';
+import { CSS, Sheet, SheetManager, SheetMap, Variables } from '@aesthetic/types';
 import { arrayLoop, arrayReduce } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 // Rollup compatibility
 import {
-  Condition,
   FONT_FACE_RULE,
   IMPORT_RULE,
   insertImportRule,
@@ -15,22 +14,19 @@ import {
   isMediaRule,
   KEYFRAMES_RULE,
   MEDIA_RULE,
-  SheetManager,
-  SheetMap,
   STYLE_RULE,
-  StyleRule,
   SUPPORTS_RULE,
 } from '../index';
 
 export interface ServerSheetManager extends SheetManager {
-  featureQueries: Record<string, StyleRule>;
-  mediaQueries: Record<string, StyleRule>;
+  featureQueries: Record<string, Sheet>;
+  mediaQueries: Record<string, Sheet>;
 }
 
-export class TransientSheet implements StyleRule {
+export class TransientSheet implements Sheet {
   conditionText: string = '';
 
-  cssRules: StyleRule[] = [];
+  cssRules: Sheet[] = [];
 
   cssVariables: Variables<string> = {};
 
@@ -94,7 +90,7 @@ export class TransientSheet implements StyleRule {
   }
 }
 
-function extractQueryAndType(condition: Condition) {
+function extractQueryAndType(condition: string) {
   if (isMediaRule(condition)) {
     return {
       query: condition.slice(6).trim(),
@@ -108,7 +104,7 @@ function extractQueryAndType(condition: Condition) {
   };
 }
 
-function findNestedRule(sheet: StyleRule, query: string, type: number): StyleRule | null {
+function findNestedRule(sheet: Sheet, query: string, type: number): Sheet | null {
   for (let i = 0; i < sheet.cssRules.length; i += 1) {
     const child = sheet.cssRules[i];
 
@@ -121,17 +117,17 @@ function findNestedRule(sheet: StyleRule, query: string, type: number): StyleRul
 }
 
 function insertFeatureRule(
-  sheet: StyleRule,
+  sheet: Sheet,
   query: string,
   rule: CSS,
   manager: ServerSheetManager,
-  parentRule?: StyleRule,
+  parentSheet?: Sheet,
 ): number {
   const formattedRule = `@supports ${query} { ${rule} }`;
 
   // Already exists so append a new rule
-  if (parentRule && parentRule !== sheet) {
-    return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
+  if (parentSheet && parentSheet !== sheet) {
+    return parentSheet.insertRule(formattedRule, parentSheet.cssRules.length);
   }
 
   // Insert the rule and capture the instance
@@ -143,17 +139,17 @@ function insertFeatureRule(
 }
 
 function insertMediaRule(
-  sheet: StyleRule,
+  sheet: Sheet,
   query: string,
   rule: CSS,
   manager: ServerSheetManager,
-  parentRule?: StyleRule,
+  parentSheet?: Sheet,
 ): number {
   const formattedRule = `@media ${query} { ${rule} }`;
 
   // Already exists so append a new rule (except for root sorting)
-  if (parentRule && parentRule !== sheet) {
-    return parentRule.insertRule(formattedRule, parentRule.cssRules.length);
+  if (parentSheet && parentSheet !== sheet) {
+    return parentSheet.insertRule(formattedRule, parentSheet.cssRules.length);
   }
 
   // Sort and determine the index in which to insert a new query
@@ -168,9 +164,9 @@ function insertMediaRule(
 }
 
 function insertConditionRule(
-  sheet: StyleRule,
+  sheet: Sheet,
   rule: CSS,
-  conditions: Condition[],
+  conditions: string[],
   manager: ServerSheetManager,
 ): number {
   let parent = sheet;

@@ -6,9 +6,16 @@ import {
   LocalBlock,
   PropertyHandlerMap,
 } from '@aesthetic/sss';
-import { DirectionConverter, VendorPrefixer } from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
-import { ClassName, ThemeName, Direction, Unit, UnitFactory } from '@aesthetic/types';
+import {
+  ClassName,
+  Direction,
+  DirectionConverter,
+  ThemeName,
+  Unit,
+  UnitFactory,
+  VendorPrefixer,
+} from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 
 export interface ClassNameSheetVariants {
@@ -24,14 +31,12 @@ export type ClassNameSheet<T extends string> = {
   [K in T]?: ClassNameResult;
 };
 
-export type StringOnly<T> = T extends string ? string : never;
-
 export interface SheetParams {
   contrast?: ContrastLevel;
   direction?: Direction;
   scheme?: ColorScheme;
   theme?: ThemeName;
-  unit?: Unit | UnitFactory;
+  unit?: Unit;
   vendor?: boolean;
 }
 

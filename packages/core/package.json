@@ -20,7 +20,6 @@
   },
   "dependencies": {
     "@aesthetic/sss": "^0.4.6",
-    "@aesthetic/style": "^0.4.5",
     "@aesthetic/system": "^0.4.7",
     "@aesthetic/types": "^0.2.1",
     "@aesthetic/utils": "^0.4.5"

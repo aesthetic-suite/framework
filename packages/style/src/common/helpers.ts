@@ -1,11 +1,10 @@
 /* eslint-disable no-magic-numbers */
 
-import { Value, MaybeValue, CSS } from '@aesthetic/types';
+import { Value, MaybeValue, CSS, Sheet } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
-import { StyleRule } from '../types';
 
-export function insertRule(sheet: StyleRule, rule: CSS, index?: number): number {
+export function insertRule(sheet: Sheet, rule: CSS, index?: number): number {
   try {
     return sheet.insertRule(rule, index ?? sheet.cssRules.length);
   } catch {
@@ -19,7 +18,7 @@ export function insertRule(sheet: StyleRule, rule: CSS, index?: number): number 
   }
 }
 
-export function insertAtRule(sheet: StyleRule, rule: CSS): number {
+export function insertAtRule(sheet: Sheet, rule: CSS): number {
   const { length } = sheet.cssRules;
   let index = 0;
 
@@ -35,7 +34,7 @@ export function insertAtRule(sheet: StyleRule, rule: CSS): number {
   return insertRule(sheet, rule, index);
 }
 
-export function insertImportRule(sheet: StyleRule, rule: CSS): number {
+export function insertImportRule(sheet: Sheet, rule: CSS): number {
   const { length } = sheet.cssRules;
   let index = 0;
 
@@ -142,6 +141,7 @@ export function isUnitlessProperty(property: string): boolean {
 export function isValidValue(property: string, value: MaybeValue | boolean): value is Value {
   if (value === null || value === undefined || value === true || value === false || value === '') {
     if (__DEV__) {
+      // eslint-disable-next-line no-console
       console.warn(`Invalid value "${value}" for "${property}".`);
     }
 

@@ -1,11 +1,14 @@
 import {
+  CacheItem,
   ClassName,
   CSS,
+  EngineOptions,
   FontFace,
   GenericProperties,
   Keyframes,
   Properties,
   Property,
+  RenderOptions,
   Rule,
   Value,
   ValueWithFallbacks,
@@ -21,7 +24,7 @@ import {
   formatRule,
   formatVariable,
 } from './syntax';
-import { CacheItem, StyleEngine, EngineOptions, RenderOptions } from '../types';
+import { StyleEngine } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;

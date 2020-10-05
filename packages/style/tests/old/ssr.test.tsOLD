@@ -6,19 +6,19 @@ describe('SSR', () => {
   beforeEach(() => {
     renderer = new ServerRenderer();
 
-    global.AESTHETIC_CUSTOM_RENDERER = renderer;
+    global.AESTHETIC_CUSTOM_ENGINE = renderer;
   });
 
   afterEach(() => {
-    delete global.AESTHETIC_CUSTOM_RENDERER;
+    delete global.AESTHETIC_CUSTOM_ENGINE;
   });
 
   it('sets SSR global', () => {
-    delete global.AESTHETIC_CUSTOM_RENDERER;
+    delete global.AESTHETIC_CUSTOM_ENGINE;
 
     renderer.extractStyles(null);
 
-    expect(global.AESTHETIC_CUSTOM_RENDERER).toBe(renderer);
+    expect(global.AESTHETIC_CUSTOM_ENGINE).toBe(renderer);
   });
 
   it('sets SSR env var', () => {

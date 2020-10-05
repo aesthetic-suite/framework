@@ -1,5 +1,11 @@
-import { Value, ValueWithFallbacks } from '@aesthetic/types';
-import { CacheManager, CacheItem, CacheStorage, RenderOptions } from '../types';
+import {
+  CacheItem,
+  CacheManager,
+  CacheState,
+  RenderOptions,
+  Value,
+  ValueWithFallbacks,
+} from '@aesthetic/types';
 
 export function createCacheKey(
   property: string,
@@ -19,8 +25,8 @@ export function createCacheKey(
   return key;
 }
 
-export function createCacheManager(defaultItems: CacheStorage = {}): CacheManager {
-  const cache: CacheStorage = defaultItems;
+export function createCacheManager(defaultItems: CacheState = {}): CacheManager {
+  const cache: CacheState = defaultItems;
 
   return {
     read(key, minimumRank) {

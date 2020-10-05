@@ -3,7 +3,7 @@ import { arrayLoop } from '@aesthetic/utils';
 import { ClassName } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 import { ClassNameSheet, LocalSheet, LocalSheetFactory, SheetParams } from './types';
-import { getRenderer } from './render';
+import { getEngine } from './render';
 import { getActiveDirection } from './direction';
 import { getActiveTheme, getTheme } from './themes';
 import { options } from './options';
@@ -71,9 +71,8 @@ export function renderComponentStyles<T = unknown>(
 
   const theme = params.theme ? getTheme(params.theme) : getActiveTheme();
 
-  return sheet.render(getRenderer(), theme, {
+  return sheet.render(getEngine(), theme, {
     direction: getActiveDirection(),
-    unit: options.defaultUnit,
     vendor: !!options.vendorPrefixer,
     ...params,
   });

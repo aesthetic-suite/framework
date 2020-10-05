@@ -1,17 +1,5 @@
-/* eslint-disable unicorn/import-index */
-
-import { CSS } from '@aesthetic/types';
-import {
-  CacheManager,
-  StyleEngine,
-  EngineOptions,
-  SheetManager,
-  SheetType,
-  StyleRule,
-  createCacheManager,
-  createStyleEngine,
-  createSheetManager,
-} from './index';
+import { CSS, CacheManager, EngineOptions, SheetManager, SheetType, Sheet } from '@aesthetic/types';
+import { StyleEngine, createCacheManager, createStyleEngine, createSheetManager } from './index';
 import { createStyleElements, getStyleElement } from './client';
 
 export function createTestCacheManager(): CacheManager {
@@ -30,9 +18,9 @@ export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEng
   });
 }
 
-export function getRenderedStyles(type: SheetType | StyleRule): CSS {
+export function getRenderedStyles(type: SheetType | Sheet): CSS {
   return Array.from(
-    ((typeof type === 'string' ? getStyleElement(type) : type) as StyleRule).cssRules,
+    ((typeof type === 'string' ? getStyleElement(type) : type) as Sheet).cssRules,
   ).reduce((css, rule) => css + rule.cssText, '');
 }
 

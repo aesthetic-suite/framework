@@ -1,9 +1,8 @@
 /* eslint-disable sort-keys */
 
-// Rollup compatibility
-import { SheetType, StyleRule, SheetMap } from '../index';
+import { Sheet, SheetType, SheetMap } from '@aesthetic/types';
 
-export function getStyleElement(type: SheetType): StyleRule {
+export function getStyleElement(type: SheetType): Sheet {
   let element = document.getElementById(`aesthetic-${type}`) as HTMLStyleElement;
 
   if (!element) {
@@ -16,7 +15,7 @@ export function getStyleElement(type: SheetType): StyleRule {
     document.head.append(element);
   }
 
-  return ((element as HTMLStyleElement).sheet as unknown) as StyleRule;
+  return ((element as HTMLStyleElement).sheet as unknown) as Sheet;
 }
 
 export default function createStyleElements(): SheetMap {

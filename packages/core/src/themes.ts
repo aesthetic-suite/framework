@@ -4,10 +4,10 @@ import { ClassName, ThemeName, Variables } from '@aesthetic/types';
 import { createState, isSSR } from '@aesthetic/utils';
 import { getActiveDirection } from './direction';
 import { emit } from './events';
-import { getRenderer } from './render';
+import { getEngine } from './render';
 import { options } from './options';
-import { GlobalSheet, GlobalSheetFactory, SheetParams } from './types';
 import StyleSheet from './StyleSheet';
+import { GlobalSheet, GlobalSheetFactory, SheetParams } from './types';
 
 export const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
@@ -97,7 +97,7 @@ export function changeTheme(name: ThemeName, propagate: boolean = true) {
   activeTheme.set(name);
 
   // Apply theme variables to `:root`
-  getRenderer().applyRootVariables((theme.toVariables() as unknown) as Variables);
+  getEngine().setRootVariables((theme.toVariables() as unknown) as Variables);
 
   // Render theme styles and append a `body` class name
   const themeClassName = renderThemeStyles(theme);
@@ -122,9 +122,8 @@ export function renderThemeStyles(theme: Theme, params: SheetParams = {}): Class
     return '';
   }
 
-  return sheet.render(getRenderer(), theme, {
+  return sheet.render(getEngine(), theme, {
     direction: getActiveDirection(),
-    unit: options.defaultUnit,
     vendor: !!options.vendorPrefixer,
     ...params,
   });

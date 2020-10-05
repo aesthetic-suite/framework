@@ -3,18 +3,10 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { ClientRenderer } from '@aesthetic/style';
 import { activeDirection, changeDirection, getActiveDirection } from './direction';
 import { listeners, subscribe, unsubscribe } from './events';
 import { configure, options } from './options';
-import {
-  getRenderer,
-  hydrate,
-  renderFontFace,
-  renderImport,
-  renderKeyframes,
-  styleRenderer,
-} from './render';
+import { getEngine, renderFontFace, renderImport, renderKeyframes, styleEngine } from './render';
 import { createComponentStyles, generateClassName, renderComponentStyles } from './styles';
 import {
   activeTheme,
@@ -43,9 +35,8 @@ export {
   generateClassName,
   getActiveDirection,
   getActiveTheme,
-  getRenderer,
+  getEngine,
   getTheme,
-  hydrate,
   registerDefaultTheme,
   registerTheme,
   renderComponentStyles,
@@ -55,7 +46,6 @@ export {
   renderThemeStyles,
   subscribe,
   unsubscribe,
-  ClientRenderer,
   StyleSheet,
 };
 
@@ -63,7 +53,7 @@ export function resetForTesting() {
   if (process.env.NODE_ENV === 'test') {
     activeDirection.reset();
     activeTheme.reset();
-    styleRenderer.reset();
+    styleEngine.reset();
     listeners.clear();
     globalSheetRegistry.clear();
     themeRegistry.reset();

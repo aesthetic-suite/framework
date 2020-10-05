@@ -1,47 +1,47 @@
+/* eslint-disable no-param-reassign */
+
 import {
   FontFace as SSSFontFace,
   Import as SSSImport,
   formatFontFace,
   formatImport,
 } from '@aesthetic/sss';
-import { Renderer, ClientRenderer, ProcessOptions } from '@aesthetic/style';
-import { FontFace, Keyframes } from '@aesthetic/types';
+import { ClassName, Engine, FontFace, Keyframes, RenderOptions } from '@aesthetic/types';
 import { createState } from '@aesthetic/utils';
 import { getActiveDirection } from './direction';
 import { options } from './options';
 
-export const styleRenderer = createState<Renderer>();
+export const styleEngine = createState<Engine<ClassName>>();
+
+export function configureEngine(engine: Engine<ClassName>) {
+  engine.direction = getActiveDirection();
+
+  if (!engine.directionConverter && options.directionConverter) {
+    engine.directionConverter = options.directionConverter;
+  }
+
+  if (!engine.unitSuffixer && options.defaultUnit) {
+    engine.unitSuffixer = options.defaultUnit;
+  }
+
+  if (!engine.vendorPrefixer && options.vendorPrefixer) {
+    engine.vendorPrefixer = options.vendorPrefixer;
+  }
+
+  styleEngine.set(engine);
+}
 
 /**
- * Return a style renderer. When SSR, use a server based renderer.
+ * Return a style engine.
  */
-export function getRenderer() {
-  const current = styleRenderer.get();
+export function getEngine(): Engine<ClassName> {
+  const current = global.AESTHETIC_CUSTOM_ENGINE || styleEngine.get();
 
   if (current) {
     return current;
   }
 
-  const renderer = global.AESTHETIC_CUSTOM_RENDERER || new ClientRenderer();
-
-  renderer.api.direction = getActiveDirection();
-  renderer.api.converter = options.directionConverter;
-  renderer.api.prefixer = options.vendorPrefixer;
-
-  styleRenderer.set(renderer);
-
-  return renderer;
-}
-
-/**
- * Hydrate styles from the document if they have been pre-compiled during a server-side render.
- */
-export function hydrate() {
-  const renderer = getRenderer();
-
-  if (renderer instanceof ClientRenderer) {
-    renderer.hydrateStyles();
-  }
+  throw new Error('No style engine defined. Have you configured one with `configureEngine()`?');
 }
 
 /**
@@ -50,9 +50,9 @@ export function hydrate() {
 export function renderFontFace(
   fontFace: FontFace | SSSFontFace,
   fontFamily?: string,
-  params?: ProcessOptions,
+  params?: RenderOptions,
 ) {
-  return getRenderer().renderFontFace(
+  return getEngine().renderFontFace(
     formatFontFace({
       fontFamily,
       ...fontFace,
@@ -65,7 +65,7 @@ export function renderFontFace(
  * Render an `@import` to the global style sheet.
  */
 export function renderImport(path: string | SSSImport) {
-  return getRenderer().renderImport(formatImport(path));
+  return getEngine().renderImport(formatImport(path));
 }
 
 /**
@@ -74,7 +74,7 @@ export function renderImport(path: string | SSSImport) {
 export function renderKeyframes(
   keyframes: Keyframes,
   animationName?: string,
-  params?: ProcessOptions,
+  params?: RenderOptions,
 ) {
-  return getRenderer().renderKeyframes(keyframes, animationName, params);
+  return getEngine().renderKeyframes(keyframes, animationName, params);
 }

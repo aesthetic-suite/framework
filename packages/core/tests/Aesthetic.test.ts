@@ -407,7 +407,7 @@ describe('Aesthetic', () => {
     it('passes a server renderer when wrapping for SSR', () => {
       const sr = new ServerRenderer();
 
-      global.AESTHETIC_CUSTOM_RENDERER = sr;
+      global.AESTHETIC_CUSTOM_ENGINE = sr;
 
       expect(getRenderer()).toBe(sr);
     });

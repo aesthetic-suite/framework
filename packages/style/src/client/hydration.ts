@@ -10,7 +10,6 @@ import {
   STYLE_RULE,
   MEDIA_RULE,
   SUPPORTS_RULE,
-  Condition,
   StyleEngine,
 } from '../index';
 
@@ -23,7 +22,7 @@ function addRuleToCache(
   engine: StyleEngine,
   rule: string,
   rank: number,
-  conditions: Condition[] = [],
+  conditions: string[] = [],
 ) {
   const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
   const cacheKey = createCacheKey(
@@ -46,7 +45,7 @@ function addRuleToCache(
 function hydrate(engine: StyleEngine, sheet: CSSStyleSheet) {
   let rank = 0;
 
-  const gatherStack = (rule: CSSConditionRule, conditions: Condition[] = []) => {
+  const gatherStack = (rule: CSSConditionRule, conditions: string[] = []) => {
     conditions.push(
       `@${rule.type === MEDIA_RULE ? 'media' : 'supports'} ${
         rule.conditionText || (rule as CSSMediaRule).media.mediaText

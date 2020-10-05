@@ -1,6 +1,7 @@
+import { CacheState, SheetType } from '@aesthetic/types';
 import { createCacheManager } from '../src';
 import { createClientEngine } from '../src/client';
-import { CacheStorage, SheetType, StyleEngine } from '../src/types';
+import { StyleEngine } from '../src/types';
 import { getRenderedStyles, purgeStyles } from '../src/test';
 
 function createStyle(type: SheetType, lastIndex: number) {
@@ -19,7 +20,7 @@ function createStyle(type: SheetType, lastIndex: number) {
 }
 
 describe('Hydration', () => {
-  let cache: CacheStorage;
+  let cache: CacheState;
   let engine: StyleEngine;
 
   beforeEach(() => {

@@ -1,15 +1,8 @@
+/* eslint-disable no-magic-numbers */
+
 import { parse } from '@aesthetic/sss';
-import {
-  Condition,
-  isFontFaceFule,
-  isKeyframesRule,
-  isMediaRule,
-  isSupportsRule,
-  Renderer,
-  RenderOptions,
-} from '@aesthetic/style';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Property, Rule } from '@aesthetic/types';
+import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
 import { options } from './options';
 import {
@@ -38,14 +31,16 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 }
 
 function groupSelectorsAndConditions(selectors: string[]) {
-  const conditions: Condition[] = [];
+  const conditions: string[] = [];
   let selector = '';
   let valid = true;
 
   arrayLoop(selectors, (value) => {
-    if (isKeyframesRule(value) || isFontFaceFule(value)) {
+    const part = value.slice(0, 10);
+
+    if (part === '@keyframes' || part === '@font-face') {
       valid = false;
-    } else if (isMediaRule(value) || isSupportsRule(value)) {
+    } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
       conditions.push(value);
     } else {
       selector += value;
@@ -151,7 +146,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     return composer as Factory;
   }
 
-  render(renderer: Renderer, theme: Theme, baseParams: SheetParams): Classes {
+  render(engine: Engine<ClassName>, theme: Theme, baseParams: SheetParams): Classes {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
@@ -193,13 +188,13 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       customProperties: options.customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
-        return renderer.renderFontFace(fontFace.toObject(), renderParams);
+        return engine.renderFontFace(fontFace.toObject(), renderParams);
       },
       onImport(path) {
-        renderer.renderImport(path);
+        engine.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
-        return renderer.renderKeyframes(keyframes.toObject(), animationName, renderParams);
+        return engine.renderKeyframes(keyframes.toObject(), animationName, renderParams);
       },
       onProperty(block, key, value) {
         const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
@@ -209,7 +204,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         }
 
         block.addClassName(
-          renderer.renderDeclaration(key as Property, value as string, {
+          engine.renderDeclaration(key as Property, value as string, {
             ...renderParams,
             conditions,
             selector,
@@ -219,7 +214,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       onRoot: (block) => {
         addClassToMap(
           '@root',
-          renderer.renderRuleGrouped(block.toObject(), {
+          engine.renderRuleGrouped(block.toObject(), {
             ...renderParams,
             deterministic: true,
             type: 'global',
@@ -227,7 +222,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         );
       },
       onRootVariables(variables) {
-        renderer.applyRootVariables(variables);
+        engine.setRootVariables(variables);
       },
       onRule: (selector, rule) => {
         const meta = addClassToMap(selector, rule.className.trim());
@@ -246,7 +241,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         });
       },
       onVariable(block, key, value) {
-        block.addClassName(renderer.renderVariable(key, value));
+        block.addClassName(engine.renderVariable(key, value));
       },
     });
 

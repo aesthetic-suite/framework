@@ -3,12 +3,13 @@ import {
   CSS,
   GenericProperties,
   NativeProperty,
+  RenderOptions,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { isUnitlessProperty, isVariable } from './helpers';
-import { EngineOptions, RenderOptions } from './types';
+import { StyleEngine } from '../types';
 
 export function formatVariable(name: string): string {
   let varName = hyphenate(name);
@@ -28,17 +29,22 @@ export function formatValue(
   property: string,
   value: Value,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): string {
   if (typeof value === 'string' || isUnitlessProperty(property) || value === 0) {
     return String(value);
   }
 
-  let suffix = engine.unitSuffixer ? engine.unitSuffixer(property as NativeProperty) : options.unit;
+  let suffix = options.unit;
 
-  // TODO TEMP
-  if (typeof suffix === 'function') {
-    suffix = suffix(property as NativeProperty);
+  if (!suffix) {
+    const { unitSuffixer } = engine;
+
+    if (typeof unitSuffixer === 'function') {
+      suffix = unitSuffixer(property as NativeProperty);
+    } else {
+      suffix = unitSuffixer;
+    }
   }
 
   return value + (suffix || 'px');
@@ -76,7 +82,7 @@ export function createDeclaration(
   property: string,
   value: Value | ValueWithFallbacks,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): CSS {
   let rule = '';
 
@@ -90,7 +96,7 @@ export function createDeclaration(
   // Convert between LTR and RTL
   if (options.direction && engine.directionConverter) {
     ({ property: key, value: val } = engine.directionConverter.convert(
-      engine.direction!,
+      engine.direction,
       options.direction,
       key,
       val,
@@ -113,7 +119,7 @@ export function createDeclaration(
 export function createDeclarationBlock(
   properties: GenericProperties,
   options: RenderOptions,
-  engine: EngineOptions,
+  engine: StyleEngine,
 ): CSS {
   return objectReduce(properties, (value, key) => createDeclaration(key, value, options, engine));
 }
