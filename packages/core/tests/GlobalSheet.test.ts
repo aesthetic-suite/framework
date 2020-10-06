@@ -1,13 +1,14 @@
-import { ClientRenderer } from '@aesthetic/style';
+import { createTestStyleEngine } from '@aesthetic/style/lib/test';
+import { Engine } from '@aesthetic/types';
 import { StyleSheet, GlobalSheet } from '../src';
-import { lightTheme } from '../src/testing';
+import { lightTheme } from '../src/test';
 
 describe('GlobalSheet', () => {
-  let renderer: ClientRenderer;
+  let engine: Engine<string>;
   let sheet: GlobalSheet;
 
   beforeEach(() => {
-    renderer = new ClientRenderer();
+    engine = createTestStyleEngine({});
 
     // Dont use `createThemeStyles` since we need to pass a custom renderer
     sheet = new StyleSheet('global', () => ({
@@ -54,9 +55,9 @@ describe('GlobalSheet', () => {
   it('only renders once when cached', () => {
     const spy = jest.spyOn(sheet, 'compose');
 
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -64,28 +65,18 @@ describe('GlobalSheet', () => {
   it('re-renders when params change', () => {
     const spy = jest.spyOn(sheet, 'compose');
 
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, { direction: 'rtl' });
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, { direction: 'rtl' });
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, { direction: 'rtl' });
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, { direction: 'rtl' });
 
     expect(spy).toHaveBeenCalledTimes(2);
   });
 
-  it('doesnt cache when using a dynamic unit function', () => {
-    const spy = jest.spyOn(sheet, 'compose');
-
-    sheet.render(renderer, lightTheme, { unit: () => 'px' });
-    sheet.render(renderer, lightTheme, { unit: () => 'em' });
-    sheet.render(renderer, lightTheme, { unit: () => 'rem' });
-
-    expect(spy).toHaveBeenCalledTimes(3);
-  });
-
   it('renders @font-face', () => {
-    const spy = jest.spyOn(renderer, 'renderFontFace');
+    const spy = jest.spyOn(engine, 'renderFontFace');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -104,10 +95,10 @@ describe('GlobalSheet', () => {
   });
 
   it('renders @root', () => {
-    const spy = jest.spyOn(renderer, 'renderRuleGrouped');
-    const className = sheet.render(renderer, lightTheme, {});
+    const spy = jest.spyOn(engine, 'renderRuleGrouped');
+    const result = sheet.render(engine, lightTheme, {});
 
-    expect(className).toBe('c954zw4');
+    expect(result).toEqual({ '@root': { class: 'cdha18g' } });
     expect(spy).toHaveBeenCalledWith(
       {
         height: '100%',
@@ -117,8 +108,10 @@ describe('GlobalSheet', () => {
         backgroundColor: 'white',
       },
       {
+        className: 'cdha18g',
         deterministic: true,
         direction: 'ltr',
+        rankings: undefined,
         type: 'global',
         unit: 'px',
         vendor: false,
@@ -127,18 +120,18 @@ describe('GlobalSheet', () => {
   });
 
   it('renders @import', () => {
-    const spy = jest.spyOn(renderer, 'renderImport');
+    const spy = jest.spyOn(engine, 'renderImport');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith('url("reset.css")');
     expect(spy).toHaveBeenCalledWith('url("normalize.css")');
   });
 
   it('renders @keyframes', () => {
-    const spy = jest.spyOn(renderer, 'renderKeyframes');
+    const spy = jest.spyOn(engine, 'renderKeyframes');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -155,9 +148,9 @@ describe('GlobalSheet', () => {
   });
 
   it('renders @variables', () => {
-    const spy = jest.spyOn(renderer, 'applyRootVariables');
+    const spy = jest.spyOn(engine, 'setRootVariables');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', '--custom-syntax': 123 });
   });

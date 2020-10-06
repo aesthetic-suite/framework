@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Client hydration doesnt re-insert hydrated font-face 1`] = `
+":root {--font-size: 16px; --bg-color: #fff; --fb-color: black;}@import url(test.css);@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`Client hydration doesnt re-insert hydrated import 1`] = `
+":root {--font-size: 16px; --bg-color: #fff; --fb-color: black;}@import url(test.css);@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;
+
+exports[`Client hydration doesnt re-insert hydrated keyframes 1`] = `
+":root {--font-size: 16px; --bg-color: #fff; --fb-color: black;}@import url(test.css);@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}@keyframes kf103rcyx { 
+  from {transform: translateX(0%);} 
+  to {transform: translateX(100%);} 
+}"
+`;

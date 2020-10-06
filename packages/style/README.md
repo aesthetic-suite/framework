@@ -8,13 +8,13 @@ A low-level, high-performance, atomic-based CSS-in-JS solution. Can be used stan
 designed to power additional abstractions or APIs.
 
 ```ts
-import { ClientRenderer } from '@aesthetic/style';
+import { createClientEngine } from '@aesthetic/style/client';
 
-// Instantiate a client side renderer
-const renderer = new ClientRenderer();
+// Instantiate a client side (DOM) engine
+const engine = createClientEngine();
 
 // Render a style decleration into individual atomic class names
-const className = renderer.renderRule({
+const className = engine.renderRule({
   '--color': 'black',
 
   margin: 0,

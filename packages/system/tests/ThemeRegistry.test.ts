@@ -1,5 +1,5 @@
 import { ThemeRegistry, Theme } from '../src';
-import { lightTheme, darkTheme } from '../src/testing';
+import { lightTheme, darkTheme } from '../src/test';
 
 describe('ThemeRegistry', () => {
   let registry: ThemeRegistry;

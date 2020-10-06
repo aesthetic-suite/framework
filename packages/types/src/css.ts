@@ -9,15 +9,13 @@ export type CSS = string;
 
 export type Value = string | number;
 
-export type MaybeValue = Value | undefined;
+export type ValueWithFallbacks = string[];
 
-export type Unit = string;
-
-export type UnitFactory = (property: NativeProperty) => Unit | undefined;
+export type MaybeValue = Value | undefined | null;
 
 // PROPERTIES
 
-export type GenericProperties = Record<string, Value | Value[]>;
+export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
 
 export interface Properties extends CSST.Properties<Value>, CSST.PropertiesHyphen<Value> {}
 
@@ -52,5 +50,9 @@ export interface Keyframes<T = Properties> {
 }
 
 // OTHER
+
+export type Unit = string;
+
+export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 export type Variables<T = Value> = Record<string, T>;

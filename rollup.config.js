@@ -80,39 +80,69 @@ packages.forEach((pkg) => {
   });
 
   if (pkg === 'style') {
-    targets.push({
-      input: `packages/${pkg}/src/server.ts`,
-      output: [
-        {
-          file: `packages/${pkg}/lib/server.js`,
-          format: 'cjs',
-        },
-        {
-          file: `packages/${pkg}/esm/server.js`,
-          format: 'esm',
-        },
-      ],
-      plugins: [
-        externals({
-          deps: true,
-          packagePath: path.resolve(`packages/${pkg}/package.json`),
-        }),
-        ...webPlugins,
-      ],
-    });
+    targets.push(
+      {
+        external: ['./index', '../index'],
+        input: `packages/${pkg}/src/client.ts`,
+        output: [
+          {
+            file: `packages/${pkg}/lib/client.js`,
+            format: 'cjs',
+          },
+          {
+            file: `packages/${pkg}/esm/client.js`,
+            format: 'esm',
+          },
+        ],
+        plugins: [
+          externals({
+            deps: true,
+            packagePath: path.resolve(`packages/${pkg}/package.json`),
+          }),
+          ...webPlugins,
+        ],
+      },
+      {
+        external: ['./index', '../index'],
+        input: `packages/${pkg}/src/server.ts`,
+        output: [
+          {
+            file: `packages/${pkg}/lib/server.js`,
+            format: 'cjs',
+          },
+          {
+            file: `packages/${pkg}/esm/server.js`,
+            format: 'esm',
+          },
+        ],
+        plugins: [
+          externals({
+            deps: true,
+            packagePath: path.resolve(`packages/${pkg}/package.json`),
+          }),
+          ...webPlugins,
+        ],
+      },
+    );
   }
 
-  if (fs.existsSync(`packages/${pkg}/src/testing.ts`)) {
+  if (fs.existsSync(`packages/${pkg}/src/test.ts`)) {
     targets.push({
-      external: ['@aesthetic/style/lib/testing', '@aesthetic/system/lib/testing', './index'],
-      input: `packages/${pkg}/src/testing.ts`,
+      external: [
+        '@aesthetic/style/lib/test',
+        '@aesthetic/system/lib/test',
+        './index',
+        './client',
+        './server',
+      ],
+      input: `packages/${pkg}/src/test.ts`,
       output: [
         {
-          file: `packages/${pkg}/lib/testing.js`,
+          file: `packages/${pkg}/lib/test.js`,
           format: 'cjs',
         },
         {
-          file: `packages/${pkg}/esm/testing.js`,
+          file: `packages/${pkg}/esm/test.js`,
           format: 'esm',
         },
       ],

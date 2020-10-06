@@ -1,3 +1,5 @@
+/* eslint-disable no-redeclare */
+
 import { EventType, OnChangeDirection, OnChangeTheme } from './types';
 
 export const listeners = new Map<EventType, Set<(...args: unknown[]) => void>>();
@@ -22,6 +24,7 @@ export function subscribe(type: EventType, listener: Function): () => void {
   getListeners(type).add(listener);
 
   return () => {
+    // eslint-disable-next-line no-use-before-define
     unsubscribe(type as 'change:theme', listener as OnChangeTheme);
   };
 }

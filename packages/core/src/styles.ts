@@ -3,10 +3,32 @@ import { arrayLoop } from '@aesthetic/utils';
 import { ClassName } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 import { ClassNameSheet, LocalSheet, LocalSheetFactory, SheetParams } from './types';
-import { getRenderer } from './render';
+import { getEngine } from './render';
 import { getActiveDirection } from './direction';
 import { getActiveTheme, getTheme } from './themes';
 import { options } from './options';
+
+/**
+ * Render a component style sheet to the document with the defined style query parameters.
+ */
+export function renderComponentStyles<T = unknown>(
+  sheet: LocalSheet<T, LocalBlock>,
+  params: SheetParams = {},
+) {
+  if (__DEV__) {
+    if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
+      throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
+    }
+  }
+
+  const theme = params.theme ? getTheme(params.theme) : getActiveTheme();
+
+  return sheet.render(getEngine(), theme, {
+    direction: getActiveDirection(),
+    vendor: !!options.vendorPrefixer,
+    ...params,
+  });
+}
 
 /**
  * Create a local style sheet for use within components.
@@ -54,27 +76,4 @@ export function generateClassName<T extends string>(
   });
 
   return className.join(' ');
-}
-
-/**
- * Render a component style sheet to the document with the defined style query parameters.
- */
-export function renderComponentStyles<T = unknown>(
-  sheet: LocalSheet<T, LocalBlock>,
-  params: SheetParams = {},
-) {
-  if (__DEV__) {
-    if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
-      throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
-    }
-  }
-
-  const theme = params.theme ? getTheme(params.theme) : getActiveTheme();
-
-  return sheet.render(getRenderer(), theme, {
-    direction: getActiveDirection(),
-    unit: options.defaultUnit,
-    vendor: !!options.vendorPrefixer,
-    ...params,
-  });
 }

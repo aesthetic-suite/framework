@@ -7,19 +7,19 @@
 Aesthetic addon to convert direction between LTR and RTL.
 
 ```ts
-import converter from '@aesthetic/addon-direction';
+import directionConverter from '@aesthetic/addon-direction';
 import { configure } from '@aesthetic/core';
-import { ClientRenderer } from '@aesthetic/style';
+import { createClientEngine } from '@aesthetic/style/client';
 
 // When using entire Aesthetic framework
 configure({
-  directionConverter: converter,
+  directionConverter,
 });
 
 // When using CSS-in-JS engine directly
-const renderer = new ClientRenderer({
+const engine = createClientEngine({
   direction: 'ltr', // Base
-  converter,
+  directionConverter,
 });
 ```
 

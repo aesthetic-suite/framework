@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "@aesthetic/system",
   "version": "0.4.7",
   "description": "Web based building blocks for the Aesthetic design system.",
@@ -13,6 +14,16 @@
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./lib/index.js"
+    },
+    "./test": {
+      "import": "./esm/test.js",
+      "require": "./lib/test.js"
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

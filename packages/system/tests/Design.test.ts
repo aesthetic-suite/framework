@@ -1,5 +1,5 @@
 import { Design, Theme } from '../src';
-import { design, lightTheme } from '../src/testing';
+import { design, lightTheme } from '../src/test';
 
 describe('Design', () => {
   it('sets class properties', () => {

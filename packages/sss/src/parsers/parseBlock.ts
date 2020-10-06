@@ -10,6 +10,7 @@ export default function parseBlock<T extends object>(
   parent: Block<T>,
   object: Rule,
   options: ParserOptions<T>,
+  emit: boolean = true,
 ): Block<T> {
   if (__DEV__) {
     validateDeclarationBlock(object, parent.selector);
@@ -26,7 +27,7 @@ export default function parseBlock<T extends object>(
 
       // Run for each property so it can be customized
     } else {
-      parseProperty(parent, key as Property, value, options);
+      parseProperty(parent, key as Property, value, options, emit);
     }
   });
 

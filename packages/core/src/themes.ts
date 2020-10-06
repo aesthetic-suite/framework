@@ -4,10 +4,10 @@ import { ClassName, ThemeName, Variables } from '@aesthetic/types';
 import { createState, isSSR } from '@aesthetic/utils';
 import { getActiveDirection } from './direction';
 import { emit } from './events';
-import { getRenderer } from './render';
+import { getEngine } from './render';
 import { options } from './options';
-import { GlobalSheet, GlobalSheetFactory, SheetParams } from './types';
 import StyleSheet from './StyleSheet';
+import { GlobalSheet, GlobalSheetFactory, SheetParams } from './types';
 
 export const globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
 
@@ -25,10 +25,57 @@ export function createThemeStyles<T = unknown>(
 }
 
 /**
+ * Render a global theme style sheet and return a class name, if one was generated.
+ */
+export function renderThemeStyles(theme: Theme, params: SheetParams = {}): ClassName {
+  const sheet = globalSheetRegistry.get(theme.name);
+
+  if (!sheet) {
+    return '';
+  }
+
+  const result = sheet.render(getEngine(), theme, {
+    direction: getActiveDirection(),
+    vendor: !!options.vendorPrefixer,
+    ...params,
+  });
+
+  return result['@root']?.class || '';
+}
+/**
  * Return a theme instance by name.
  */
 export function getTheme(name: ThemeName) {
   return themeRegistry.getTheme(name);
+}
+
+/**
+ * Change the active theme.
+ */
+export function changeTheme(name: ThemeName, propagate: boolean = true) {
+  if (name === activeTheme.get()) {
+    return;
+  }
+
+  const theme = getTheme(name);
+
+  // Set the active theme
+  activeTheme.set(name);
+
+  // Apply theme variables to `:root`
+  getEngine().setRootVariables((theme.toVariables() as unknown) as Variables);
+
+  // Render theme styles and append a `body` class name
+  const themeClassName = renderThemeStyles(theme);
+
+  if (!isSSR()) {
+    document.body.className = themeClassName;
+  }
+
+  // Let consumers know about the change
+  if (propagate) {
+    emit('change:theme', [name]);
+  }
 }
 
 /**
@@ -81,51 +128,4 @@ export function registerDefaultTheme(
   sheet: GlobalSheet | null = null,
 ) {
   registerTheme(name, theme, sheet, true);
-}
-
-/**
- * Change the active theme.
- */
-export function changeTheme(name: ThemeName, propagate: boolean = true) {
-  if (name === activeTheme.get()) {
-    return;
-  }
-
-  const theme = getTheme(name);
-
-  // Set the active theme
-  activeTheme.set(name);
-
-  // Apply theme variables to `:root`
-  getRenderer().applyRootVariables((theme.toVariables() as unknown) as Variables);
-
-  // Render theme styles and append a `body` class name
-  const themeClassName = renderThemeStyles(theme);
-
-  if (!isSSR()) {
-    document.body.className = themeClassName;
-  }
-
-  // Let consumers know about the change
-  if (propagate) {
-    emit('change:theme', [name]);
-  }
-}
-
-/**
- * Render a global theme style sheet and return a class name, if one was generated.
- */
-export function renderThemeStyles(theme: Theme, params: SheetParams = {}): ClassName {
-  const sheet = globalSheetRegistry.get(theme.name);
-
-  if (!sheet) {
-    return '';
-  }
-
-  return sheet.render(getRenderer(), theme, {
-    direction: getActiveDirection(),
-    unit: options.defaultUnit,
-    vendor: !!options.vendorPrefixer,
-    ...params,
-  });
 }

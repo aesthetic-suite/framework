@@ -8,7 +8,7 @@ import { AddPropertyCallback, ParserOptions } from '../types';
 function handleCompound(
   property: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parser: (value: any, name: string, options: any) => void,
+  parser: (value: any, name: string, opts: any) => void,
   options: object,
 ) {
   return (value: string | object, add: AddPropertyCallback) => {
