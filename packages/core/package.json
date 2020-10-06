@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "name": "@aesthetic/core",
   "version": "0.5.0",
   "description": "Aesthetic is a powerful type-safe, framework agnostic, CSS-in-JS library for styling components.",
@@ -15,16 +14,6 @@
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./esm/index.js",
-      "require": "./lib/index.js"
-    },
-    "./test": {
-      "import": "./esm/test.js",
-      "require": "./lib/test.js"
-    }
-  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
