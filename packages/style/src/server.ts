@@ -2,6 +2,7 @@ import { EngineOptions, Variables } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { renderToStyleMarkup } from './server/markup';
 import { TransientSheet, createSheetManager } from './server/sheet';
+// Rollup compatibility
 import { createCacheManager, createStyleEngine, formatVariable, StyleEngine } from './index';
 
 export { renderToStyleMarkup };

@@ -1,1 +1,2 @@
-module.exports = require('./lib/client.js');
+// Temporary!
+module.exports = require('./lib/index.js');

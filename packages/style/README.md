@@ -8,7 +8,7 @@ A low-level, high-performance, atomic-based CSS-in-JS solution. Can be used stan
 designed to power additional abstractions or APIs.
 
 ```ts
-import { createClientEngine } from '@aesthetic/style/client';
+import { createClientEngine } from '@aesthetic/style';
 
 // Instantiate a client side (DOM) engine
 const engine = createClientEngine();

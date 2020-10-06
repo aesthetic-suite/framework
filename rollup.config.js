@@ -81,27 +81,27 @@ packages.forEach((pkg) => {
 
   if (pkg === 'style') {
     targets.push(
-      {
-        external: ['./index', '../index'],
-        input: `packages/${pkg}/src/client.ts`,
-        output: [
-          {
-            file: `packages/${pkg}/lib/client.js`,
-            format: 'cjs',
-          },
-          {
-            file: `packages/${pkg}/esm/client.js`,
-            format: 'esm',
-          },
-        ],
-        plugins: [
-          externals({
-            deps: true,
-            packagePath: path.resolve(`packages/${pkg}/package.json`),
-          }),
-          ...webPlugins,
-        ],
-      },
+      // {
+      //   external: ['./index', '../index'],
+      //   input: `packages/${pkg}/src/client.ts`,
+      //   output: [
+      //     {
+      //       file: `packages/${pkg}/lib/client.js`,
+      //       format: 'cjs',
+      //     },
+      //     {
+      //       file: `packages/${pkg}/esm/client.js`,
+      //       format: 'esm',
+      //     },
+      //   ],
+      //   plugins: [
+      //     externals({
+      //       deps: true,
+      //       packagePath: path.resolve(`packages/${pkg}/package.json`),
+      //     }),
+      //     ...webPlugins,
+      //   ],
+      // },
       {
         external: ['./index', '../index'],
         input: `packages/${pkg}/src/server.ts`,

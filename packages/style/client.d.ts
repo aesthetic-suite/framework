@@ -1,1 +1,2 @@
-export * from './lib/client';
+// Temporary!
+export * from './lib/index';

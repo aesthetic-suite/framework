@@ -10,3 +10,6 @@ export * from './common/helpers';
 export * from './common/sheet';
 export * from './common/syntax';
 export * from './types';
+
+// Temporary until Node and tooling all support package.json "exports"
+export * from './client';
