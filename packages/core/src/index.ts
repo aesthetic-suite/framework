@@ -5,7 +5,7 @@
 
 import { activeDirection, changeDirection, getActiveDirection } from './direction';
 import { listeners, subscribe, unsubscribe } from './events';
-import { configure, configureEngine, options, styleEngine } from './options';
+import { configure, configureEngine, options } from './options';
 import { getEngine, renderFontFace, renderImport, renderKeyframes } from './render';
 import { createComponentStyles, generateClassName, renderComponentStyles } from './styles';
 import {
@@ -54,7 +54,6 @@ export function resetForTesting() {
   if (process.env.NODE_ENV === 'test') {
     activeDirection.reset();
     activeTheme.reset();
-    styleEngine.reset();
     listeners.clear();
     globalSheetRegistry.clear();
     themeRegistry.reset();
