@@ -27,7 +27,7 @@
   "dependencies": {
     "@aesthetic/types": "^0.2.1",
     "@aesthetic/utils": "^0.4.5",
-    "sort-css-media-queries": "^1.5.0"
+    "sort-css-media-queries": "^1.5.2"
   },
   "devDependencies": {
     "@aesthetic/addon-direction": "^0.2.0",

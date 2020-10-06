@@ -7,18 +7,18 @@
 Aesthetic addon to provide vendor prefixes for properties, values, and selectors.
 
 ```ts
-import prefixer from '@aesthetic/addon-vendor';
+import vendorPrefixer from '@aesthetic/addon-vendor';
 import { configure } from '@aesthetic/core';
-import { ClientRenderer } from '@aesthetic/style';
+import { createClientEngine } from '@aesthetic/style/client';
 
 // When using entire Aesthetic framework
 configure({
-  vendorPrefixer: prefixer,
+  vendorPrefixer,
 });
 
 // When using CSS-in-JS engine directly
-const renderer = new ClientRenderer({
-  prefixer,
+const engine = createClientEngine({
+  vendorPrefixer,
 });
 ```
 

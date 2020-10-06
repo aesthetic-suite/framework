@@ -6,11 +6,6 @@ module.exports = {
     'node/no-missing-import': 'off',
     'prefer-object-spread': 'off',
 
-    // Broken
-    'no-redeclare': 'off',
-    'no-use-before-define': 'off',
-    'no-shadow': 'off',
-
     // We disable this for rollup
     'unicorn/import-index': 'off',
   },

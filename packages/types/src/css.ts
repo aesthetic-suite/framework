@@ -13,10 +13,6 @@ export type ValueWithFallbacks = string[];
 
 export type MaybeValue = Value | undefined | null;
 
-export type Unit = string;
-
-export type UnitFactory = (property: NativeProperty) => Unit | undefined;
-
 // PROPERTIES
 
 export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
@@ -54,5 +50,9 @@ export interface Keyframes<T = Properties> {
 }
 
 // OTHER
+
+export type Unit = string;
+
+export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 export type Variables<T = Value> = Record<string, T>;

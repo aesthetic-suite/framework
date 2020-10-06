@@ -1,14 +1,14 @@
 /* eslint-disable sort-keys */
 
-const { parseLocalStyleSheet } = require('@aesthetic/sss');
+const { parse } = require('@aesthetic/sss');
 const { isMediaRule, isSupportsRule } = require('@aesthetic/style');
-const { ServerRenderer } = require('@aesthetic/style/server');
+const { createServerEngine } = require('@aesthetic/style/server');
 const { objectLoop, arrayLoop } = require('@aesthetic/utils');
 const Benchmark = require('benchmark');
 
 const suite = new Benchmark.Suite();
-const renderer = new ServerRenderer();
-const renderer2 = new ServerRenderer();
+const engine = createServerEngine();
+const engine2 = createServerEngine();
 
 let padding = 0;
 let margin = 0;
@@ -90,9 +90,11 @@ function groupSelectorsAndConditions(selectors) {
   let valid = true;
 
   arrayLoop(selectors, (value) => {
-    if (value === '@keyframes' || value === '@font-face') {
+    const part = value.slice(0, 10);
+
+    if (part === '@keyframes' || part === '@font-face') {
       valid = false;
-    } else if (isMediaRule(value) || isSupportsRule(value)) {
+    } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
       conditions.push(value);
     } else {
       selector += value;
@@ -100,7 +102,7 @@ function groupSelectorsAndConditions(selectors) {
   });
 
   return {
-    conditions,
+    conditions: conditions.length === 0 ? undefined : [],
     selector,
     valid,
   };
@@ -111,20 +113,20 @@ function parseAsBlock(styles) {
   const classNames = {};
   const rankings = {};
 
-  parseLocalStyleSheet(styles, {
+  parse('local', styles, {
     onClass(selector, className) {
       classNames[selector] = { class: className };
     },
     onFontFace(fontFace) {
-      return renderer.renderFontFace(fontFace.toObject());
+      return engine.renderFontFace(fontFace.toObject());
     },
     onKeyframes(keyframes, animationName) {
-      return renderer.renderKeyframes(keyframes.toObject(), animationName);
+      return engine.renderKeyframes(keyframes.toObject(), animationName);
     },
     onRule(selector, rule) {
       const cache = classNames[selector] || {};
 
-      cache.class = renderer.renderRule(rule.toObject(), { rankings });
+      cache.class = engine.renderRule(rule.toObject(), { rankings });
 
       if (rule.variants) {
         if (!cache.variants) {
@@ -132,7 +134,7 @@ function parseAsBlock(styles) {
         }
 
         objectLoop(rule.variants, (variant, type) => {
-          cache.variants[type] = renderer.renderRule(variant.toObject(), { rankings });
+          cache.variants[type] = engine.renderRule(variant.toObject(), { rankings });
         });
       }
 
@@ -143,24 +145,24 @@ function parseAsBlock(styles) {
   return classNames;
 }
 
-// suite.add('parseAsBlock()', () => {
-//   parseAsBlock(createStyles());
-// });
+suite.add('parseAsBlock()', () => {
+  parseAsBlock(createStyles());
+});
 
 // Test parsing and injecting per declaration
 function parseAsDeclaration(styles) {
   const classNames = {};
   const rankings = {};
 
-  parseLocalStyleSheet(styles, {
+  parse('local', styles, {
     onClass(selector, className) {
       classNames[selector] = { class: className };
     },
     onFontFace(fontFace) {
-      return renderer2.renderFontFace(fontFace.toObject());
+      return engine2.renderFontFace(fontFace.toObject());
     },
     onKeyframes(keyframes, animationName) {
-      return renderer2.renderKeyframes(keyframes.toObject(), animationName);
+      return engine2.renderKeyframes(keyframes.toObject(), animationName);
     },
     onProperty(block, key, value) {
       const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
@@ -170,7 +172,7 @@ function parseAsDeclaration(styles) {
       }
 
       block.addClassName(
-        renderer2.renderDeclaration(key, value, {
+        engine2.renderDeclaration(key, value, {
           conditions,
           rankings,
           selector,

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-fn-reference-in-iterator */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-restricted-syntax */
 

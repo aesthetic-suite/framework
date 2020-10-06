@@ -1,13 +1,13 @@
 const Benchmark = require('benchmark');
-const { ServerRenderer } = require('../lib/server');
+const { createServerEngine } = require('../lib/server');
 
 const suite = new Benchmark.Suite();
-const renderer = new ServerRenderer();
-const rendererNoCache = new ServerRenderer();
 
 // Test with the cache
+const engine = createServerEngine();
+
 function renderWithCache() {
-  renderer.renderDeclaration('display', 'block', { selector: ':hover' });
+  engine.renderDeclaration('display', 'block', { selector: ':hover' });
 }
 
 suite.add('renderWithCache()', () => {
@@ -15,9 +15,11 @@ suite.add('renderWithCache()', () => {
 });
 
 // Test with no cache
+const engineNoCache = createServerEngine();
+engineNoCache.cacheManager.read = () => null;
+
 function renderNoCache() {
-  rendererNoCache.cache.cache = {};
-  rendererNoCache.renderDeclaration('display', 'block', { selector: ':hover' });
+  engineNoCache.renderDeclaration('display', 'block', { selector: ':hover' });
 }
 
 suite.add('renderNoCache()', () => {

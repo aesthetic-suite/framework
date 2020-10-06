@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/import-index */
-
 import { Design } from './index';
 
 export const design = new Design<any>('test-design', {

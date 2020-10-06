@@ -163,12 +163,12 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     const styles = composer(theme);
     const rankings = {};
 
-    const getRenderOptions = (options?: RenderOptions): RenderOptions => ({
+    const getRenderOptions = (opts?: RenderOptions): RenderOptions => ({
       direction: params.direction,
       rankings: this.type === 'global' ? undefined : rankings,
       unit: params.unit,
       vendor: params.vendor,
-      ...options,
+      ...opts,
     });
 
     const addClassToMap = (selector: string, className: string) => {
@@ -193,7 +193,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
       onKeyframes(keyframes, animationName) {
         return engine.renderKeyframes(keyframes.toObject(), animationName, getRenderOptions());
       },
-      onProperty(block, key, value) {
+      onProperty(block, property, value) {
         const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
 
         if (!valid) {
@@ -202,7 +202,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
 
         block.addClassName(
           engine.renderDeclaration(
-            key as Property,
+            property as Property,
             value as string,
             getRenderOptions({
               conditions,
@@ -242,8 +242,8 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
           meta.variantTypes.add(type.split('_')[0]);
         });
       },
-      onVariable(block, key, value) {
-        block.addClassName(engine.renderVariable(key, value));
+      onVariable(block, name, value) {
+        block.addClassName(engine.renderVariable(name, value));
       },
     });
 

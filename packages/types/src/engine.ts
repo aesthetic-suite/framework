@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 import {
   CSS,
   FontFace,
@@ -12,20 +14,6 @@ import {
   Variables,
 } from './css';
 import { ClassName, Direction } from './ui';
-
-export type RankCache = Record<string, number>;
-
-export interface RenderOptions {
-  deterministic?: boolean;
-  direction?: Direction;
-  className?: ClassName;
-  conditions?: string[];
-  rankings?: RankCache;
-  type?: SheetType;
-  unit?: Unit;
-  vendor?: boolean;
-  selector?: string;
-}
 
 // CACHE
 
@@ -81,6 +69,20 @@ export interface VendorPrefixer {
 }
 
 // STYLE ENGINE
+
+export type RankCache = Record<string, number>;
+
+export interface RenderOptions {
+  deterministic?: boolean;
+  direction?: Direction;
+  className?: ClassName;
+  conditions?: string[];
+  rankings?: RankCache;
+  type?: SheetType;
+  unit?: Unit;
+  vendor?: boolean;
+  selector?: string;
+}
 
 export interface EngineOptions {
   cacheManager?: CacheManager;

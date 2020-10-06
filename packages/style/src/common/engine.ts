@@ -139,7 +139,7 @@ function renderDeclaration<K extends Property>(
   const { rankings } = options;
   const { className, rank } = insertStyles(
     createCacheKey(key, value, options),
-    (className) => formatRule(className, createDeclaration(key, value, options, engine), options),
+    (name) => formatRule(name, createDeclaration(key, value, options, engine), options),
     options,
     engine,
     rankings?.[key],
@@ -276,7 +276,7 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
   const block = variables + properties;
   const { className } = insertStyles(
     createCacheKey(block, '', options),
-    (className) => formatRule(className, block, options),
+    (name) => formatRule(name, block, options),
     options,
     engine,
   );
@@ -291,13 +291,13 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
   return className;
 }
 
-export function createStyleEngine(options: EngineOptions): StyleEngine {
+export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
   const renderOptions = {};
   const engine: StyleEngine = {
     cacheManager: createCacheManager(),
     direction: 'ltr',
     ruleIndex: -1,
-    ...options,
+    ...engineOptions,
     renderDeclaration: (property, value, options) =>
       renderDeclaration(engine, property, value, options || renderOptions),
     renderFontFace: (fontFace, options) =>

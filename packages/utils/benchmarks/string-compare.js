@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prefer-string-slice */
+
 const Benchmark = require('benchmark');
 
 const suite = new Benchmark.Suite();
@@ -9,6 +11,14 @@ suite.add('startsWith()', () => {
 
 suite.add('slice()', () => {
   return value.slice(0, 7) === '@import';
+});
+
+suite.add('substr()', () => {
+  return value.substr(0, 7) === '@import';
+});
+
+suite.add('substring()', () => {
+  return value.substring(0, 7) === '@import';
 });
 
 const regex = /^@import/u;
