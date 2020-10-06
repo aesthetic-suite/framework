@@ -7,11 +7,15 @@ export default function parseProperty<T extends object>(
   name: string,
   value: unknown,
   options: ParserOptions<T>,
+  emit: boolean = true,
 ) {
   const addHandler: AddPropertyCallback = (p, v) => {
     if (v !== undefined) {
       parent.addProperty(p, v);
-      options.onProperty?.(parent, p, v);
+
+      if (emit) {
+        options.onProperty?.(parent, p, v);
+      }
     }
   };
 

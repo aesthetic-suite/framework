@@ -122,9 +122,11 @@ export function renderThemeStyles(theme: Theme, params: SheetParams = {}): Class
     return '';
   }
 
-  return sheet.render(getEngine(), theme, {
+  const result = sheet.render(getEngine(), theme, {
     direction: getActiveDirection(),
     vendor: !!options.vendorPrefixer,
     ...params,
   });
+
+  return result['@root']?.class || '';
 }

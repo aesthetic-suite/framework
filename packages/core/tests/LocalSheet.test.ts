@@ -1,24 +1,19 @@
-import converter from '@aesthetic/addon-direction';
-import { ClientRenderer } from '@aesthetic/style';
+import directionConverter from '@aesthetic/addon-direction';
+import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/lib/test';
+import { Engine } from '@aesthetic/types';
 import { StyleSheet, LocalSheet } from '../src';
-import {
-  getRenderedStyles,
-  lightTheme,
-  purgeStyles,
-  setupAesthetic,
-  teardownAesthetic,
-} from '../src/test';
+import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('LocalSheet', () => {
-  let renderer: ClientRenderer;
+  let engine: Engine<string>;
   let sheet: LocalSheet;
 
   beforeEach(() => {
     setupAesthetic();
 
-    renderer = new ClientRenderer({ converter });
+    engine = createTestStyleEngine({ directionConverter });
 
-    // Dont use `createComponentStyles` since we need to pass a custom renderer
+    // Dont use `createComponentStyles` since we need to pass a custom engine
     sheet = new StyleSheet('local', () => ({
       foo: {
         display: 'block',
@@ -90,7 +85,7 @@ describe('LocalSheet', () => {
   });
 
   it('sets metadata for each element', () => {
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(sheet.metadata).toEqual({
       bar: {
@@ -119,37 +114,28 @@ describe('LocalSheet', () => {
   it('only renders once when cached', () => {
     const spy = jest.spyOn(sheet, 'compose');
 
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
   it('re-renders when params change', () => {
     const spy = jest.spyOn(sheet, 'compose');
 
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, { direction: 'rtl' });
-    sheet.render(renderer, lightTheme, {});
-    sheet.render(renderer, lightTheme, { direction: 'rtl' });
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, { direction: 'rtl' });
+    sheet.render(engine, lightTheme, {});
+    sheet.render(engine, lightTheme, { direction: 'rtl' });
 
     expect(spy).toHaveBeenCalledTimes(2);
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('doesnt cache when using a dynamic unit function', () => {
-    const spy = jest.spyOn(sheet, 'compose');
-
-    sheet.render(renderer, lightTheme, { unit: () => 'px' });
-    sheet.render(renderer, lightTheme, { unit: () => 'em' });
-    sheet.render(renderer, lightTheme, { unit: () => 'rem' });
-
-    expect(spy).toHaveBeenCalledTimes(3);
-  });
-
   it('renders and returns an object of class names', () => {
-    const classes = sheet.render(renderer, lightTheme, {});
+    const classes = sheet.render(engine, lightTheme, {});
 
     expect(classes).toEqual({
       foo: { class: 'a b c d e f g h i j' },
@@ -168,9 +154,9 @@ describe('LocalSheet', () => {
   });
 
   it('renders a declaration for each rule property', () => {
-    const spy = jest.spyOn(renderer, 'renderDeclaration');
+    const spy = jest.spyOn(engine, 'renderDeclaration');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith('display', 'block', expect.any(Object));
     expect(spy).toHaveBeenCalledWith('background', 'white', expect.any(Object));
@@ -180,9 +166,9 @@ describe('LocalSheet', () => {
   });
 
   it('renders @font-face', () => {
-    const spy = jest.spyOn(renderer, 'renderFontFace');
+    const spy = jest.spyOn(engine, 'renderFontFace');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -203,9 +189,9 @@ describe('LocalSheet', () => {
   });
 
   it('renders @keyframes', () => {
-    const spy = jest.spyOn(renderer, 'renderKeyframes');
+    const spy = jest.spyOn(engine, 'renderKeyframes');
 
-    sheet.render(renderer, lightTheme, {});
+    sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -273,9 +259,9 @@ describe('LocalSheet', () => {
     });
 
     it('inherits color scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         scheme: 'dark',
       });
 
@@ -284,9 +270,9 @@ describe('LocalSheet', () => {
     });
 
     it('inherits high contrast', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         contrast: 'high',
       });
 
@@ -295,9 +281,9 @@ describe('LocalSheet', () => {
     });
 
     it('inherits low contrast', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         contrast: 'low',
       });
 
@@ -306,9 +292,9 @@ describe('LocalSheet', () => {
     });
 
     it('inherits theme by name', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         theme: 'danger',
       });
 
@@ -317,9 +303,9 @@ describe('LocalSheet', () => {
     });
 
     it('contrast overrides scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         scheme: 'dark',
         contrast: 'low',
       });
@@ -329,9 +315,9 @@ describe('LocalSheet', () => {
     });
 
     it('theme overrides contrast and scheme', () => {
-      const spy = jest.spyOn(renderer, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderDeclaration');
 
-      sheet.render(renderer, lightTheme, {
+      sheet.render(engine, lightTheme, {
         scheme: 'dark',
         contrast: 'high',
         theme: 'danger',

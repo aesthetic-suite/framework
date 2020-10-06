@@ -1,20 +1,20 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
-import { ClientRenderer } from '@aesthetic/style';
-import { ServerRenderer } from '@aesthetic/style/server';
+import { createServerEngine } from '@aesthetic/style/lib/server';
+import { activeDirection } from '../src/direction';
 import {
   changeDirection,
   changeTheme,
   configure,
+  configureEngine,
   createComponentStyles,
   createThemeStyles,
   generateClassName,
   getActiveDirection,
   getActiveTheme,
   getInternalsForTesting,
-  getRenderer,
+  getEngine,
   getTheme,
-  hydrate,
   registerDefaultTheme,
   registerTheme,
   renderComponentStyles,
@@ -29,6 +29,10 @@ import {
 import { lightTheme, darkTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('Aesthetic', () => {
+  beforeEach(() => {
+    configureEngine(createServerEngine());
+  });
+
   afterEach(() => {
     teardownAesthetic();
     document.documentElement.setAttribute('dir', 'ltr');
@@ -61,9 +65,10 @@ describe('Aesthetic', () => {
   describe('changeDirection()', () => {
     beforeEach(() => {
       setupAesthetic();
+      activeDirection.reset();
     });
 
-    it('sets active theme', () => {
+    it('sets active direction', () => {
       expect(getInternalsForTesting().activeDirection).toBeUndefined();
 
       changeDirection('rtl');
@@ -136,7 +141,7 @@ describe('Aesthetic', () => {
     });
 
     it('doesnt run if changing to same name', () => {
-      const spy = jest.spyOn(getRenderer(), 'applyRootVariables');
+      const spy = jest.spyOn(getEngine(), 'setRootVariables');
 
       changeTheme('night');
       changeTheme('night');
@@ -145,7 +150,7 @@ describe('Aesthetic', () => {
     });
 
     it('applies root css variables', () => {
-      const spy = jest.spyOn(getRenderer(), 'applyRootVariables');
+      const spy = jest.spyOn(getEngine(), 'setRootVariables');
 
       changeTheme('night');
 
@@ -156,10 +161,13 @@ describe('Aesthetic', () => {
       expect(document.body.className).toBe('');
 
       teardownAesthetic();
+
+      configureEngine(createServerEngine());
       registerTheme('night', darkTheme, createTempSheet());
+
       changeTheme('night');
 
-      expect(document.body.className).toBe('cibrami');
+      expect(document.body.className).toBe('c1a6vqom');
     });
 
     it('emits `change:theme` event', () => {
@@ -217,7 +225,7 @@ describe('Aesthetic', () => {
     });
 
     it('renders styles immediately upon creation', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderDeclaration');
+      const spy = jest.spyOn(getEngine(), 'renderDeclaration');
 
       createComponentStyles(() => ({
         element: {
@@ -270,6 +278,10 @@ describe('Aesthetic', () => {
   });
 
   describe('getActiveDirection()', () => {
+    beforeEach(() => {
+      activeDirection.reset();
+    });
+
     it('returns the direction defined on the html `dir` attribute', () => {
       const changeSpy = jest.fn();
 
@@ -350,16 +362,6 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('hydrate()', () => {
-    it('calls hydration on client renderer', () => {
-      const spy = jest.spyOn(getRenderer() as ClientRenderer, 'hydrateStyles');
-
-      hydrate();
-
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
   describe('registerDefaultTheme()', () => {
     it('registers a default theme', () => {
       const spy = jest.spyOn(getInternalsForTesting().themeRegistry, 'register');
@@ -399,17 +401,17 @@ describe('Aesthetic', () => {
     });
   });
 
-  describe('renderer()', () => {
-    it('returns a client renderer by default', () => {
-      expect(getRenderer()).toBeInstanceOf(ClientRenderer);
+  describe('getEngine()', () => {
+    it('returns a client engine by default', () => {
+      expect(getEngine()).toBeDefined();
     });
 
-    it('passes a server renderer when wrapping for SSR', () => {
-      const sr = new ServerRenderer();
+    it('can define a custom engine by using a global variable', () => {
+      const customEngine = createServerEngine();
 
-      global.AESTHETIC_CUSTOM_ENGINE = sr;
+      global.AESTHETIC_CUSTOM_ENGINE = customEngine;
 
-      expect(getRenderer()).toBe(sr);
+      expect(getEngine()).toBe(customEngine);
     });
   });
 
@@ -462,9 +464,8 @@ describe('Aesthetic', () => {
         bar: { class: 'b', variants: { type_red: 'c' } },
         baz: { class: 'd' },
       });
-      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getEngine(), lightTheme, {
         direction: expect.any(String),
-        unit: 'px',
         vendor: false,
       });
     });
@@ -480,9 +481,8 @@ describe('Aesthetic', () => {
 
       renderComponentStyles(sheet, { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getEngine(), lightTheme, {
         direction: 'rtl',
-        unit: 'em',
         vendor: true,
       });
     });
@@ -493,18 +493,17 @@ describe('Aesthetic', () => {
 
       renderComponentStyles(sheet, { theme: 'night' });
 
-      expect(spy).toHaveBeenCalledWith(getRenderer(), darkTheme, {
+      expect(spy).toHaveBeenCalledWith(getEngine(), darkTheme, {
         direction: expect.any(String),
         theme: 'night',
-        unit: 'px',
         vendor: false,
       });
     });
   });
 
   describe('renderFontFace()', () => {
-    it('passes to renderer', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderFontFace');
+    it('passes to engine', () => {
+      const spy = jest.spyOn(getEngine(), 'renderFontFace');
       const fontFace = {
         fontFamily: 'Roboto',
         src: "url('fonts/Roboto.woff2') format('woff2')",
@@ -518,7 +517,7 @@ describe('Aesthetic', () => {
     });
 
     it('supports SSS format', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderFontFace');
+      const spy = jest.spyOn(getEngine(), 'renderFontFace');
 
       renderFontFace(
         {
@@ -540,34 +539,21 @@ describe('Aesthetic', () => {
   });
 
   describe('renderImport()', () => {
-    it('passes to renderer', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderImport');
-      const path = 'url("test.css")';
+    it('passes to engine', () => {
+      const spy = jest.spyOn(getEngine(), 'renderImport');
+      const path = 'test.css';
 
       renderImport(path);
 
-      expect(spy).toHaveBeenCalledWith(path);
-
-      spy.mockRestore();
-    });
-
-    it('supports SSS format', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderImport');
-
-      renderImport({
-        path: 'test.css',
-        url: true,
-      });
-
-      expect(spy).toHaveBeenCalledWith('url("test.css")');
+      expect(spy).toHaveBeenCalledWith(path, undefined);
 
       spy.mockRestore();
     });
   });
 
   describe('renderKeyframes()', () => {
-    it('passes to renderer', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderKeyframes');
+    it('passes to engine', () => {
+      const spy = jest.spyOn(getEngine(), 'renderKeyframes');
       const keyframes = {
         from: { opacity: 0 },
         to: { opacity: 1 },
@@ -579,7 +565,7 @@ describe('Aesthetic', () => {
     });
 
     it('can pass a name and params', () => {
-      const spy = jest.spyOn(getRenderer(), 'renderKeyframes');
+      const spy = jest.spyOn(getEngine(), 'renderKeyframes');
       const keyframes = {
         from: { opacity: 0 },
         to: { opacity: 1 },
@@ -613,10 +599,9 @@ describe('Aesthetic', () => {
 
       registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(renderThemeStyles(lightTheme)).toBe('cg87bvm');
-      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
+      expect(renderThemeStyles(lightTheme)).toBe('csw78m6');
+      expect(spy).toHaveBeenCalledWith(getEngine(), lightTheme, {
         direction: expect.any(String),
-        unit: 'px',
         vendor: false,
       });
     });
@@ -632,9 +617,8 @@ describe('Aesthetic', () => {
       registerDefaultTheme('day', lightTheme, sheet);
       renderThemeStyles(lightTheme, { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(getRenderer(), lightTheme, {
+      expect(spy).toHaveBeenCalledWith(getEngine(), lightTheme, {
         direction: 'rtl',
-        unit: 'em',
         vendor: true,
       });
     });

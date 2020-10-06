@@ -14,11 +14,6 @@ import {
 } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
-  // Unit factories cannot be cached as they're dynamic!
-  if (typeof params.unit === 'function') {
-    return null;
-  }
-
   let key = type;
 
   // Since all other values are scalars, we can just join the values.
@@ -48,13 +43,13 @@ function groupSelectorsAndConditions(selectors: string[]) {
   });
 
   return {
-    conditions,
+    conditions: conditions.length === 0 ? undefined : [],
     selector,
     valid,
   };
 }
 
-export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
+export default class StyleSheet<Factory extends BaseSheetFactory> {
   readonly metadata: Record<string, SheetElementMetadata> = {};
 
   readonly type: SheetType;
@@ -63,7 +58,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
 
   protected factory: Factory;
 
-  protected renderCache: Record<string, Classes> = {};
+  protected renderCache: Record<string, ClassNameSheet<string>> = {};
 
   protected schemeVariants: { [K in ColorScheme]?: Factory } = {};
 
@@ -146,7 +141,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     return composer as Factory;
   }
 
-  render(engine: Engine<ClassName>, theme: Theme, baseParams: SheetParams): Classes {
+  render(engine: Engine<ClassName>, theme: Theme, baseParams: SheetParams): ClassNameSheet<string> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
@@ -167,12 +162,14 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
-    const renderParams: RenderOptions = {
+
+    const getRenderOptions = (options?: RenderOptions): RenderOptions => ({
       direction: params.direction,
       rankings: this.type === 'global' ? undefined : rankings,
       unit: params.unit,
       vendor: params.vendor,
-    };
+      ...options,
+    });
 
     const addClassToMap = (selector: string, className: string) => {
       classNames[selector] = { class: className };
@@ -188,13 +185,13 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       customProperties: options.customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
-        return engine.renderFontFace(fontFace.toObject(), renderParams);
+        return engine.renderFontFace(fontFace.toObject(), getRenderOptions());
       },
       onImport(path) {
         engine.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
-        return engine.renderKeyframes(keyframes.toObject(), animationName, renderParams);
+        return engine.renderKeyframes(keyframes.toObject(), animationName, getRenderOptions());
       },
       onProperty(block, key, value) {
         const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
@@ -204,21 +201,26 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
         }
 
         block.addClassName(
-          engine.renderDeclaration(key as Property, value as string, {
-            ...renderParams,
-            conditions,
-            selector,
-          }),
+          engine.renderDeclaration(
+            key as Property,
+            value as string,
+            getRenderOptions({
+              conditions,
+              selector,
+            }),
+          ),
         );
       },
       onRoot: (block) => {
         addClassToMap(
           '@root',
-          engine.renderRuleGrouped(block.toObject(), {
-            ...renderParams,
-            deterministic: true,
-            type: 'global',
-          }),
+          engine.renderRuleGrouped(
+            block.toObject(),
+            getRenderOptions({
+              deterministic: true,
+              type: 'global',
+            }),
+          ),
         );
       },
       onRootVariables(variables) {
@@ -245,13 +247,11 @@ export default class StyleSheet<Factory extends BaseSheetFactory, Classes> {
       },
     });
 
-    const result = (this.type === 'local' ? classNames : classNames['@root']?.class) as Classes;
-
     if (key) {
-      this.renderCache[key] = result;
+      this.renderCache[key] = classNames;
     }
 
-    return result;
+    return classNames;
   }
 
   protected validateFactory(factory: Factory): Factory {

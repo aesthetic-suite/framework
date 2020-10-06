@@ -5,8 +5,8 @@
 
 import { activeDirection, changeDirection, getActiveDirection } from './direction';
 import { listeners, subscribe, unsubscribe } from './events';
-import { configure, options } from './options';
-import { getEngine, renderFontFace, renderImport, renderKeyframes, styleEngine } from './render';
+import { configure, configureEngine, options, styleEngine } from './options';
+import { getEngine, renderFontFace, renderImport, renderKeyframes } from './render';
 import { createComponentStyles, generateClassName, renderComponentStyles } from './styles';
 import {
   activeTheme,
@@ -30,6 +30,7 @@ export {
   changeDirection,
   changeTheme,
   configure,
+  configureEngine,
   createComponentStyles,
   createThemeStyles,
   generateClassName,

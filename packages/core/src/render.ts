@@ -1,39 +1,7 @@
-/* eslint-disable no-param-reassign */
-
-import {
-  FontFace as SSSFontFace,
-  Import as SSSImport,
-  formatFontFace,
-  formatImport,
-} from '@aesthetic/sss';
+import { FontFace as SSSFontFace, formatFontFace } from '@aesthetic/sss';
 import { ClassName, Engine, FontFace, Keyframes, RenderOptions } from '@aesthetic/types';
-import { createState } from '@aesthetic/utils';
-import { getActiveDirection } from './direction';
-import { options } from './options';
+import { styleEngine } from './options';
 
-export const styleEngine = createState<Engine<ClassName>>();
-
-export function configureEngine(engine: Engine<ClassName>) {
-  engine.direction = getActiveDirection();
-
-  if (!engine.directionConverter && options.directionConverter) {
-    engine.directionConverter = options.directionConverter;
-  }
-
-  if (!engine.unitSuffixer && options.defaultUnit) {
-    engine.unitSuffixer = options.defaultUnit;
-  }
-
-  if (!engine.vendorPrefixer && options.vendorPrefixer) {
-    engine.vendorPrefixer = options.vendorPrefixer;
-  }
-
-  styleEngine.set(engine);
-}
-
-/**
- * Return a style engine.
- */
 export function getEngine(): Engine<ClassName> {
   const current = global.AESTHETIC_CUSTOM_ENGINE || styleEngine.get();
 
@@ -64,8 +32,8 @@ export function renderFontFace(
 /**
  * Render an `@import` to the global style sheet.
  */
-export function renderImport(path: string | SSSImport) {
-  return getEngine().renderImport(formatImport(path));
+export function renderImport(path: string, params?: RenderOptions) {
+  return getEngine().renderImport(path, params);
 }
 
 /**

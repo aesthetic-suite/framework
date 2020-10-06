@@ -18,12 +18,7 @@ const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]
 const FONT_FAMILY = /font-family:([^;]+)/;
 const IMPORT_URL = /url\(["']?([^)]+)["']?\)/;
 
-function addRuleToCache(
-  engine: StyleEngine,
-  rule: string,
-  rank: number,
-  conditions: string[] = [],
-) {
+function addRuleToCache(engine: StyleEngine, rule: string, rank: number, conditions?: string[]) {
   const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
   const cacheKey = createCacheKey(
     property,

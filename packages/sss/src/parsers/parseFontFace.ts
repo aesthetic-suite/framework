@@ -20,7 +20,7 @@ export default function parseFontFace<T extends object>(
     fontFamily: name,
   }) as Properties;
 
-  const block = parseBlock(new Block('@font-face'), fontFace, options);
+  const block = parseBlock(new Block('@font-face'), fontFace, options, false);
 
   // Inherit the name from the listener as it may be generated
   return options.onFontFace?.(block, name, object.srcPaths) || name;

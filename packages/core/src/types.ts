@@ -59,7 +59,7 @@ export type GlobalSheetFactory<T = unknown, R extends object = LocalBlock> = (
 ) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
 
 export type GlobalSheet<T = unknown, R extends object = LocalBlock> = Omit<
-  StyleSheet<GlobalSheetFactory<T, R>, ClassName>,
+  StyleSheet<GlobalSheetFactory<T, R>>,
   'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
 >;
 
@@ -68,8 +68,7 @@ export type LocalSheetFactory<T = unknown, R extends object = LocalBlock> = (
 ) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
 
 export type LocalSheet<T = unknown, R extends object = LocalBlock> = StyleSheet<
-  LocalSheetFactory<T, R>,
-  ClassNameSheet<string>
+  LocalSheetFactory<T, R>
 >;
 
 export interface AestheticOptions {

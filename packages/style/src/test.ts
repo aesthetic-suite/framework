@@ -10,7 +10,7 @@ export function createTestSheetManager(): SheetManager {
   return createSheetManager(createStyleElements());
 }
 
-export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEngine {
+export function createTestStyleEngine(options: Partial<EngineOptions> = {}): StyleEngine {
   return createStyleEngine({
     cacheManager: createTestCacheManager(),
     sheetManager: createTestSheetManager(),
@@ -19,9 +19,10 @@ export function createTestStyleEngine(options: Partial<EngineOptions>): StyleEng
 }
 
 export function getRenderedStyles(type: SheetType | Sheet): CSS {
-  return Array.from(
-    ((typeof type === 'string' ? getStyleElement(type) : type) as Sheet).cssRules,
-  ).reduce((css, rule) => css + rule.cssText, '');
+  return Array.from((typeof type === 'string' ? getStyleElement(type) : type).cssRules).reduce(
+    (css, rule) => css + rule.cssText,
+    '',
+  );
 }
 
 export function purgeStyles(type?: SheetType): void {

@@ -26,7 +26,8 @@
   },
   "devDependencies": {
     "@aesthetic/addon-direction": "^0.2.0",
-    "@aesthetic/addon-vendor": "^0.1.5"
+    "@aesthetic/addon-vendor": "^0.1.5",
+    "@aesthetic/style": "^0.4.5"
   },
   "funding": {
     "type": "ko-fi",
