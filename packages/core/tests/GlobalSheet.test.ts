@@ -1,4 +1,4 @@
-import { createTestStyleEngine } from '@aesthetic/style/test';
+import { createTestStyleEngine } from '@aesthetic/style/lib/test';
 import { Engine } from '@aesthetic/types';
 import { StyleSheet, GlobalSheet } from '../src';
 import { lightTheme } from '../src/test';

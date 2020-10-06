@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "@aesthetic/style",
   "version": "0.4.5",
   "description": "A low-level, high-performance, atomic-based CSS-in-JS style engine.",
@@ -16,6 +17,24 @@
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./esm/index.js",
+      "require": "./lib/index.js"
+    },
+    "./client": {
+      "import": "./esm/client.js",
+      "require": "./lib/client.js"
+    },
+    "./server": {
+      "import": "./esm/server.js",
+      "require": "./lib/server.js"
+    },
+    "./test": {
+      "import": "./esm/test.js",
+      "require": "./lib/test.js"
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "access": "public"

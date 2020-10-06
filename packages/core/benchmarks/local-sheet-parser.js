@@ -2,7 +2,7 @@
 
 const { parse } = require('@aesthetic/sss');
 const { isMediaRule, isSupportsRule } = require('@aesthetic/style');
-const { createServerEngine } = require('@aesthetic/style/server');
+const { createServerEngine } = require('@aesthetic/style/lib/server');
 const { objectLoop, arrayLoop } = require('@aesthetic/utils');
 const Benchmark = require('benchmark');
 
