@@ -1,4 +1,4 @@
-import { Design } from './index';
+import { Design, Theme } from './index';
 
 export const design = new Design<any>('test-design', {
   border: {
@@ -151,7 +151,7 @@ export const design = new Design<any>('test-design', {
   },
 });
 
-export const lightTheme = design.createTheme(
+export const lightTheme: Theme = design.createTheme(
   {
     contrast: 'normal',
     scheme: 'light',
@@ -338,7 +338,7 @@ export const lightTheme = design.createTheme(
   },
 );
 
-export const darkTheme = design.createTheme(
+export const darkTheme: Theme = design.createTheme(
   {
     contrast: 'normal',
     scheme: 'dark',

@@ -3,11 +3,11 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { Direction } from '@aesthetic/types';
+import { Direction, Value } from '@aesthetic/types';
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
 
 export default {
-  convert<T extends string | number>(from: Direction, to: Direction, property: string, value: T) {
+  convert<T extends Value>(from: Direction, to: Direction, property: string, value: T) {
     if (from === to) {
       return { property, value };
     }

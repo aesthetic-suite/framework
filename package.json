@@ -5,8 +5,8 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "packemon build --checkLicenses --addEngines && yarn run type",
-    "clean": "packemon clean && rm -rf packages/*/*.tsbuildinfo",
+    "build": "packemon build --checkLicenses --addEngines --generateDeclaration",
+    "clean": "packemon clean",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
     "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
