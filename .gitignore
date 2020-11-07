@@ -30,7 +30,6 @@ scripts/attrs.ts
 .eslintrc.js
 .flowconfig
 .prettierignore
-babel.config.js
 jest.config.js
 prettier.config.js
 tsconfig.json

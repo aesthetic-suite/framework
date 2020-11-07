@@ -5,7 +5,7 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "yarn run type && packemon build --checkLicenses",
+    "build": "packemon build --checkLicenses && yarn run type",
     "clean": "rm -rf packages/*/dts && packemon clean",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
@@ -42,7 +42,10 @@
   "beemo": {
     "module": "@milesj/build-tools",
     "drivers": [
-      "babel",
+      {
+        "driver": "babel",
+        "strategy": "none"
+      },
       "eslint",
       "jest",
       "prettier",
