@@ -6,7 +6,7 @@
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
     "build": "packemon build --checkLicenses && yarn run type",
-    "clean": "rm -rf packages/*/dts && packemon clean",
+    "clean": "packemon clean && rm -rf packages/*/*.tsbuildinfo",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
     "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
