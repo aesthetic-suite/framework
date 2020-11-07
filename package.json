@@ -36,6 +36,7 @@
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.0.0",
     "lerna": "^3.22.1",
+    "packemon": "^0.3.4",
     "ts-node": "^9.1.1"
   },
   "beemo": {

@@ -32,5 +32,8 @@
     "lodash": "^4.17.20",
     "optimal": "^4.2.0",
     "prettier": "^2.2.1"
+  },
+  "packemon": {
+    "platform": "node"
   }
 }

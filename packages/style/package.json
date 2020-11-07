@@ -32,5 +32,8 @@
   "devDependencies": {
     "@aesthetic/addon-direction": "^0.3.1",
     "@aesthetic/addon-vendor": "^0.2.1"
+  },
+  "packemon": {
+    "platform": "browser"
   }
 }
