@@ -1,2 +1,2 @@
 // Temporary!
-export * from './lib/index';
+export * from './dts/index';

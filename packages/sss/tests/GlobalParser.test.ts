@@ -10,7 +10,7 @@ import {
 } from './__mocks__/global';
 import { createBlock } from './helpers';
 import { SYNTAX_VARIABLES } from './__mocks__/local';
-import { GlobalStyleSheet, ParserOptions } from '../lib/types';
+import { GlobalStyleSheet, ParserOptions } from '../src/types';
 
 function parse(styleSheet: GlobalStyleSheet, options: Partial<ParserOptions<object>>) {
   doParse('global', styleSheet, options);

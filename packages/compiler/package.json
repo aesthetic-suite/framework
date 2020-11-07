@@ -11,7 +11,7 @@
   "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/compiler",
   "license": "MIT",
   "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./dts/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
