@@ -1,3 +1,1 @@
-const { config } = require('packemon/lib/babel');
-
-module.exports = config;
+module.exports = require('packemon/babel');
