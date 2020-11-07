@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./dts/index.d.ts",
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
@@ -34,6 +34,12 @@
     "@aesthetic/addon-vendor": "^0.2.1"
   },
   "packemon": {
+    "inputs": {
+      "client": "src/client.ts",
+      "index": "src/index.ts",
+      "server": "src/server.ts",
+      "test": "src/test.ts"
+    },
     "platform": "browser"
   }
 }

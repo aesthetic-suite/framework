@@ -5,8 +5,8 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "beemo create-config babel --esm --silent && rollup --config",
-    "clean": "rm -rf ./packages/*/{lib,esm,*.tsbuildinfo}",
+    "build": "yarn run type && packemon build --checkLicenses",
+    "clean": "rm -rf packages/*/dts && packemon clean",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
     "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
@@ -48,17 +48,13 @@
       "prettier",
       {
         "driver": "typescript",
+        "buildFolder": "dts",
         "declarationOnly": true
       }
     ],
     "settings": {
       "decorators": true,
       "react": true
-    },
-    "eslint": {
-      "ignore": [
-        "scripts/"
-      ]
     },
     "jest": {
       "testEnvironment": "jsdom"

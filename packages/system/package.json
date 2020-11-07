@@ -26,6 +26,10 @@
     "@aesthetic/utils": "^0.5.1"
   },
   "packemon": {
+    "inputs": {
+      "index": "src/index.ts",
+      "test": "src/test.ts"
+    },
     "platform": "browser"
   }
 }

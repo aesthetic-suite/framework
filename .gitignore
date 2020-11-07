@@ -13,10 +13,11 @@ logs/
 # Directories
 _book/
 coverage/
+dist/
+dts/
 esm/
 lib/
 node_modules/
-dist/
 
 # Custom
 *.min.js
