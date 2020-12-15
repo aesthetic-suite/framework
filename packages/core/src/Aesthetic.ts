@@ -47,12 +47,17 @@ export default class Aesthetic {
     if (options) {
       this.configure(options);
     }
+
+    // Must be bound manually because of method overloading
+    this.emit = this.emit.bind(this);
+    this.subscribe = this.subscribe.bind(this);
+    this.unsubscribe = this.unsubscribe.bind(this);
   }
 
   /**
    * Change the active direction.
    */
-  changeDirection(direction: Direction, propagate: boolean = true) {
+  changeDirection = (direction: Direction, propagate: boolean = true) => {
     if (direction === this.activeDirection.get()) {
       return;
     }
@@ -69,12 +74,12 @@ export default class Aesthetic {
     if (propagate) {
       this.emit('change:direction', [direction]);
     }
-  }
+  };
 
   /**
    * Change the active theme.
    */
-  changeTheme(name: ThemeName, propagate: boolean = true) {
+  changeTheme = (name: ThemeName, propagate: boolean = true) => {
     if (name === this.activeTheme.get()) {
       return;
     }
@@ -98,12 +103,12 @@ export default class Aesthetic {
     if (propagate) {
       this.emit('change:theme', [name]);
     }
-  }
+  };
 
   /**
    * Configure options unique to this instance.
    */
-  configure(customOptions: AestheticOptions) {
+  configure = (customOptions: AestheticOptions) => {
     Object.assign(this.options, customOptions);
 
     // Configure the engine with itself to reapply options
@@ -112,12 +117,12 @@ export default class Aesthetic {
     if (engine) {
       this.configureEngine(engine);
     }
-  }
+  };
 
   /**
    * Configuring which styling engine to use.
    */
-  configureEngine(engine: Engine<ClassName>) {
+  configureEngine = (engine: Engine<ClassName>) => {
     const { options } = this;
 
     engine.direction = this.getActiveDirection();
@@ -135,30 +140,30 @@ export default class Aesthetic {
     }
 
     this.styleEngine.set(engine);
-  }
+  };
 
   /**
    * Create a local style sheet for use within components.
    */
-  createComponentStyles<T = unknown>(
+  createComponentStyles = <T = unknown>(
     factory: LocalSheetFactory<T, LocalBlock>,
-  ): LocalSheet<T, LocalBlock> {
+  ): LocalSheet<T, LocalBlock> => {
     const sheet: LocalSheet<T, LocalBlock> = new StyleSheet('local', factory);
 
     // Attempt to render styles immediately so they're available on mount
     this.renderComponentStyles(sheet);
 
     return sheet;
-  }
+  };
 
   /**
    * Create a global style sheet for root theme styles.
    */
-  createThemeStyles<T = unknown>(
+  createThemeStyles = <T = unknown>(
     factory: GlobalSheetFactory<T, LocalBlock>,
-  ): GlobalSheet<T, LocalBlock> {
+  ): GlobalSheet<T, LocalBlock> => {
     return new StyleSheet('global', factory);
-  }
+  };
 
   /**
    * Emit all listeners by type, with the defined arguments.
@@ -175,11 +180,11 @@ export default class Aesthetic {
    * Generate a class name using the selectors of a style sheet.
    * If an object is provided, it will be used to check for variants.
    */
-  generateClassName<T extends string>(
+  generateClassName = <T extends string>(
     keys: T[],
     variants: string[],
     classNames: ClassNameSheet<string>,
-  ): ClassName {
+  ): ClassName => {
     const className: string[] = [];
 
     arrayLoop(keys, (key) => {
@@ -203,13 +208,13 @@ export default class Aesthetic {
     });
 
     return className.join(' ');
-  }
+  };
 
   /**
    * Return the active direction for the entire document. If an active direction is undefined,
    * it will be detected from the browser's `dir` attribute.
    */
-  getActiveDirection(): Direction {
+  getActiveDirection = (): Direction => {
     const active = this.activeDirection.get();
 
     if (active) {
@@ -227,13 +232,13 @@ export default class Aesthetic {
     this.changeDirection(direction);
 
     return direction;
-  }
+  };
 
   /**
    * Return the currently active theme instance. If an active instance has not been defined,
    * one will be detected from the client's browser preferences.
    */
-  getActiveTheme(): Theme {
+  getActiveTheme = (): Theme => {
     const active = this.activeTheme.get();
 
     if (active) {
@@ -246,12 +251,12 @@ export default class Aesthetic {
     this.changeTheme(theme.name);
 
     return theme;
-  }
+  };
 
   /**
    * Return the current style engine.
    */
-  getEngine(): Engine<ClassName> {
+  getEngine = (): Engine<ClassName> => {
     const current = global.AESTHETIC_CUSTOM_ENGINE || this.styleEngine.get();
 
     if (current) {
@@ -259,35 +264,35 @@ export default class Aesthetic {
     }
 
     throw new Error('No style engine defined. Have you configured one with `configureEngine()`?');
-  }
+  };
 
   /**
    * Return a set of listeners, or create it if it does not exist.
    */
-  getListeners<T extends Function>(type: EventType): Set<T> {
+  getListeners = <T extends Function>(type: EventType): Set<T> => {
     const set = this.listeners.get(type) || new Set();
 
     this.listeners.set(type, set);
 
     return (set as unknown) as Set<T>;
-  }
+  };
 
   /**
    * Return a theme instance by name.
    */
-  getTheme(name: ThemeName) {
+  getTheme = (name: ThemeName) => {
     return this.themeRegistry.getTheme(name);
-  }
+  };
 
   /**
    * Register a theme, with optional global theme styles.
    */
-  registerTheme(
+  registerTheme = (
     name: ThemeName,
     theme: Theme,
     sheet: GlobalSheet | null = null,
     isDefault: boolean = false,
-  ) {
+  ) => {
     this.themeRegistry.register(name, theme, isDefault);
 
     if (sheet) {
@@ -299,19 +304,22 @@ export default class Aesthetic {
 
       this.globalSheetRegistry.set(name, sheet);
     }
-  }
+  };
 
   /**
    * Register a default light or dark theme, with optional global theme styles.
    */
-  registerDefaultTheme(name: ThemeName, theme: Theme, sheet: GlobalSheet | null = null) {
+  registerDefaultTheme = (name: ThemeName, theme: Theme, sheet: GlobalSheet | null = null) => {
     this.registerTheme(name, theme, sheet, true);
-  }
+  };
 
   /**
    * Render a component style sheet to the document with the defined style query parameters.
    */
-  renderComponentStyles<T = unknown>(sheet: LocalSheet<T, LocalBlock>, params: SheetParams = {}) {
+  renderComponentStyles = <T = unknown>(
+    sheet: LocalSheet<T, LocalBlock>,
+    params: SheetParams = {},
+  ) => {
     if (__DEV__) {
       if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
         throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
@@ -326,12 +334,16 @@ export default class Aesthetic {
       vendor: !!this.options.vendorPrefixer,
       ...params,
     });
-  }
+  };
 
   /**
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
-  renderFontFace(fontFace: FontFace | SSSFontFace, fontFamily?: string, params?: RenderOptions) {
+  renderFontFace = (
+    fontFace: FontFace | SSSFontFace,
+    fontFamily?: string,
+    params?: RenderOptions,
+  ) => {
     return this.getEngine().renderFontFace(
       formatFontFace({
         fontFamily,
@@ -339,26 +351,26 @@ export default class Aesthetic {
       }) as FontFace,
       params,
     );
-  }
+  };
 
   /**
    * Render an `@import` to the global style sheet.
    */
-  renderImport(path: string, params?: RenderOptions) {
+  renderImport = (path: string, params?: RenderOptions) => {
     return this.getEngine().renderImport(path, params);
-  }
+  };
 
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes(keyframes: Keyframes, animationName?: string, params?: RenderOptions) {
+  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: RenderOptions) => {
     return this.getEngine().renderKeyframes(keyframes, animationName, params);
-  }
+  };
 
   /**
    * Render a global theme style sheet and return a class name, if one was generated.
    */
-  renderThemeStyles(theme: Theme, params: SheetParams = {}): ClassName {
+  renderThemeStyles = (theme: Theme, params: SheetParams = {}): ClassName => {
     const sheet = this.globalSheetRegistry.get(theme.name);
 
     if (!sheet) {
@@ -373,7 +385,7 @@ export default class Aesthetic {
     });
 
     return result['@root']?.class || '';
-  }
+  };
 
   /**
    * Subscribe and listen to an event by name.
