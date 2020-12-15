@@ -43,6 +43,12 @@ export default class Aesthetic {
 
   protected themeRegistry = new ThemeRegistry();
 
+  constructor(options?: AestheticOptions) {
+    if (options) {
+      this.configure(options);
+    }
+  }
+
   /**
    * Change the active direction.
    */
@@ -389,48 +395,5 @@ export default class Aesthetic {
   unsubscribe(type: 'change:theme', listener: OnChangeTheme): void;
   unsubscribe(type: EventType, listener: Function) {
     this.getListeners(type).delete(listener);
-  }
-
-  resetForTesting() {
-    if (process.env.NODE_ENV === 'test') {
-      this.activeDirection.reset();
-      this.activeTheme.reset();
-      this.listeners.clear();
-      this.globalSheetRegistry.clear();
-      this.themeRegistry.reset();
-
-      this.configure({
-        customProperties: {},
-        defaultUnit: 'px',
-        deterministicClasses: false,
-        directionConverter: null,
-        vendorPrefixer: null,
-      });
-    }
-  }
-
-  getInternalsForTesting(): {
-    activeDirection: string | undefined;
-    activeTheme: string | undefined;
-    globalSheetRegistry: Map<ThemeName, GlobalSheet>;
-    listeners: Map<EventType, Set<EventListener>>;
-    options: AestheticOptions;
-    themeRegistry: ThemeRegistry;
-  } {
-    if (process.env.NODE_ENV === 'test') {
-      return {
-        activeDirection: this.activeDirection.get(),
-        activeTheme: this.activeTheme.get(),
-        globalSheetRegistry: this.globalSheetRegistry,
-        listeners: this.listeners,
-        options: this.options,
-        themeRegistry: this.themeRegistry,
-      };
-    }
-
-    // We purposefully silence since this is only for testing,
-    // and we want a smaller bundle in production!
-    // @ts-expect-error
-    return {};
   }
 }
