@@ -53,8 +53,8 @@ export function getAestheticState(
 }
 
 export function setupAesthetic(aesthetic: Aesthetic) {
-  aesthetic.registerDefaultTheme('day', lightTheme);
-  aesthetic.registerDefaultTheme('night', darkTheme);
+  aesthetic.registerTheme('day', lightTheme);
+  aesthetic.registerTheme('night', darkTheme);
 }
 
 export function teardownAesthetic(aesthetic: Aesthetic) {
