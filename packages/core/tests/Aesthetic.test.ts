@@ -192,6 +192,20 @@ describe('Aesthetic', () => {
         vendorPrefixer,
       });
     });
+
+    it('can customize through constructor', () => {
+      aesthetic = new Aesthetic({
+        defaultUnit: 'em',
+        directionConverter,
+        vendorPrefixer,
+      });
+
+      expect(getAestheticState(aesthetic).options).toEqual({
+        defaultUnit: 'em',
+        directionConverter,
+        vendorPrefixer,
+      });
+    });
   });
 
   describe('createComponentStyles()', () => {
@@ -384,6 +398,14 @@ describe('Aesthetic', () => {
   });
 
   describe('getEngine()', () => {
+    it('errors if not defined', () => {
+      expect(() => {
+        // @ts-expect-error
+        aesthetic.styleEngine.reset();
+        aesthetic.getEngine();
+      }).toThrow('No style engine defined. Have you configured one with `configureEngine()`?');
+    });
+
     it('returns a client engine by default', () => {
       expect(aesthetic.getEngine()).toBeDefined();
     });

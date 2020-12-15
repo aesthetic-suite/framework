@@ -34,6 +34,7 @@ function groupSelectorsAndConditions(selectors: string[]) {
     const part = value.slice(0, 10);
 
     if (part === '@keyframes' || part === '@font-face') {
+      // istanbul ignore next
       valid = false;
     } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
       conditions.push(value);
@@ -200,20 +201,18 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
       onProperty(block, property, value) {
         const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
 
-        if (!valid) {
-          return;
+        if (valid) {
+          block.addClassName(
+            engine.renderDeclaration(
+              property as Property,
+              value as string,
+              getRenderOptions({
+                conditions,
+                selector,
+              }),
+            ),
+          );
         }
-
-        block.addClassName(
-          engine.renderDeclaration(
-            property as Property,
-            value as string,
-            getRenderOptions({
-              conditions,
-              selector,
-            }),
-          ),
-        );
       },
       onRoot: (block) => {
         addClassToMap(
