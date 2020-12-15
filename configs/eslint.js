@@ -11,6 +11,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: '*.ts',
+      rules: {
+        '@typescript-eslint/no-confusing-void-expression': 'off',
+      },
+    },
+    {
       files: 'benchmarks/*.js',
       rules: {
         'no-console': 'off',

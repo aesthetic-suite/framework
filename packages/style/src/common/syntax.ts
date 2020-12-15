@@ -40,11 +40,8 @@ export function formatValue(
   if (!suffix) {
     const { unitSuffixer } = engine;
 
-    if (typeof unitSuffixer === 'function') {
-      suffix = unitSuffixer(property as NativeProperty);
-    } else {
-      suffix = unitSuffixer;
-    }
+    suffix =
+      typeof unitSuffixer === 'function' ? unitSuffixer(property as NativeProperty) : unitSuffixer;
   }
 
   return value + (suffix || 'px');
