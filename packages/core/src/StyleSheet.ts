@@ -4,11 +4,11 @@ import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
-import { options } from './options';
 import {
   BaseSheetFactory,
   ClassNameSheet,
   SheetParams,
+  SheetParamsExtended,
   SheetType,
   SheetElementMetadata,
 } from './types';
@@ -141,7 +141,11 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     return composer as Factory;
   }
 
-  render(engine: Engine<ClassName>, theme: Theme, baseParams: SheetParams): ClassNameSheet<string> {
+  render(
+    engine: Engine<ClassName>,
+    theme: Theme,
+    { customProperties, ...baseParams }: SheetParamsExtended,
+  ): ClassNameSheet<string> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
@@ -182,7 +186,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     };
 
     parse<Rule>(this.type, styles, {
-      customProperties: options.customProperties,
+      customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
         return engine.renderFontFace(fontFace.toObject(), getRenderOptions());

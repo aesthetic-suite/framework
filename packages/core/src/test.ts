@@ -1,15 +1,15 @@
 import { design, lightTheme, darkTheme } from '@aesthetic/system/lib/test';
-import { registerDefaultTheme, resetForTesting } from './index';
+import { Aesthetic } from './index';
 
 export { design, lightTheme, darkTheme };
 
-export function setupAesthetic() {
-  registerDefaultTheme('day', lightTheme);
-  registerDefaultTheme('night', darkTheme);
+export function setupAesthetic(aesthetic: Aesthetic) {
+  aesthetic.registerDefaultTheme('day', lightTheme);
+  aesthetic.registerDefaultTheme('night', darkTheme);
 }
 
-export function teardownAesthetic() {
+export function teardownAesthetic(aesthetic: Aesthetic) {
   lightTheme.name = '';
   darkTheme.name = '';
-  resetForTesting();
+  aesthetic.resetForTesting();
 }

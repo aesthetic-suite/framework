@@ -40,6 +40,10 @@ export interface SheetParams {
   vendor?: boolean;
 }
 
+export interface SheetParamsExtended extends SheetParams {
+  customProperties?: PropertyHandlerMap;
+}
+
 export type SheetType = 'local' | 'global';
 
 export type SheetStructure<T extends string> = {
@@ -80,6 +84,8 @@ export interface AestheticOptions {
 }
 
 export type EventType = 'change:direction' | 'change:theme';
+
+export type EventListener = (...args: unknown[]) => void;
 
 export type OnChangeDirection = (newDir: Direction) => void;
 
