@@ -160,7 +160,7 @@ export type KeyframesListener<T extends object> = (
 export type RuleListener<T extends object> = (selector: string, block: Block<T>) => void;
 
 export type VariableListener<T extends object> = (
-  blocck: Block<T>,
+  block: Block<T>,
   name: string,
   value: Value,
 ) => void;

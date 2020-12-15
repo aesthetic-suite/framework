@@ -10,26 +10,20 @@ Unifies a [design system](https://www.npmjs.com/package/@aesthetic/system), a
 agnostic API.
 
 ```ts
-import {
-  configure,
-  registerDefaultTheme,
-  registerTheme,
-  createComponentStyles,
-} from '@aesthetic/core';
+import { Aesthetic } from '@aesthetic/core';
 import dayTheme from './design/system/dayTheme';
 import nightTheme from './design/system/nightTheme';
 
-// Define global options (defaults below)
-configure({
+const aesthetic = new Aesthetic({
   defaultUnit: 'px',
   deterministicClasses: false,
 });
 
 // Register a theme (provided by the design system)
-registerDefaultTheme('day', dayTheme);
+aesthetic.registerDefaultTheme('day', dayTheme);
 
 // Register a theme that has global styles
-registerTheme('night', nightTheme, (css) => ({
+aesthetic.registerTheme('night', nightTheme, (css) => ({
   '@root': css.mixin('root', {
     backgroundColor: css.var('palette-neutral-bg-base'),
     height: '100%',
@@ -37,7 +31,7 @@ registerTheme('night', nightTheme, (css) => ({
 }));
 
 // Create a component style sheet
-const styleSheet = createComponentStyles((css) => ({
+const styleSheet = aesthetic.createComponentStyles((css) => ({
   button: {
     textAlign: 'center',
     display: 'inline-block',
@@ -46,7 +40,7 @@ const styleSheet = createComponentStyles((css) => ({
 }));
 
 // Render the style sheet into the document
-const classNames = renderComponentStyles(styleSheet);
+const classNames = aesthetic.renderComponentStyles(styleSheet);
 ```
 
 > Though the core API is framework agnostic and can be used stand-alone, it's encouraged to use a

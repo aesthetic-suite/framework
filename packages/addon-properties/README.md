@@ -9,9 +9,16 @@ form object values.
 
 ```ts
 import { expandedProperties } from '@aesthetic/addon-properties';
-import { configure } from '@aesthetic/core';
+import { configure } from '@aesthetic/<integration>';
+import { parse } from '@aesthetic/sss';
 
+// When using entire Aesthetic framework
 configure({
+  customProperties: expandedProperties,
+});
+
+// When using SSS directly
+parse('local', styles, {
   customProperties: expandedProperties,
 });
 ```

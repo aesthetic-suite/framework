@@ -1,6 +1,6 @@
 # Roadmap
 
-## September 2020
+## 2021
 
 - Design and launch a new website.
 - Investigate React Native support.
@@ -29,5 +29,5 @@ In no particular order.
 
 ## Integrations
 
-- Add Vue integration for web.
-- Add Svelte integration for web.
+- Add Vue integration for web?
+- Add Svelte integration for web?

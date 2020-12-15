@@ -8,7 +8,7 @@ Aesthetic addon to provide vendor prefixes for properties, values, and selectors
 
 ```ts
 import vendorPrefixer from '@aesthetic/addon-vendor';
-import { configure } from '@aesthetic/core';
+import { configure } from '@aesthetic/<integration>';
 import { createClientEngine } from '@aesthetic/style';
 
 // When using entire Aesthetic framework
