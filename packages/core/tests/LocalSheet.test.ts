@@ -1,15 +1,18 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/lib/test';
 import { Engine } from '@aesthetic/types';
-import { StyleSheet, LocalSheet } from '../src';
+import { Aesthetic, StyleSheet, LocalSheet } from '../src';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('LocalSheet', () => {
+  let aesthetic: Aesthetic;
   let engine: Engine<string>;
   let sheet: LocalSheet;
 
   beforeEach(() => {
-    setupAesthetic();
+    aesthetic = new Aesthetic();
+
+    setupAesthetic(aesthetic);
 
     engine = createTestStyleEngine({ directionConverter });
 
@@ -70,7 +73,7 @@ describe('LocalSheet', () => {
 
   afterEach(() => {
     purgeStyles();
-    teardownAesthetic();
+    teardownAesthetic(aesthetic);
   });
 
   it('errors if a non-function factory is passed', () => {

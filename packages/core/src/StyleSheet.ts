@@ -4,11 +4,11 @@ import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
-import { options } from './options';
 import {
   BaseSheetFactory,
   ClassNameSheet,
   SheetParams,
+  SheetParamsExtended,
   SheetType,
   SheetElementMetadata,
 } from './types';
@@ -34,6 +34,7 @@ function groupSelectorsAndConditions(selectors: string[]) {
     const part = value.slice(0, 10);
 
     if (part === '@keyframes' || part === '@font-face') {
+      // istanbul ignore next
       valid = false;
     } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
       conditions.push(value);
@@ -141,7 +142,11 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     return composer as Factory;
   }
 
-  render(engine: Engine<ClassName>, theme: Theme, baseParams: SheetParams): ClassNameSheet<string> {
+  render(
+    engine: Engine<ClassName>,
+    theme: Theme,
+    { customProperties, ...baseParams }: SheetParamsExtended,
+  ): ClassNameSheet<string> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
@@ -182,7 +187,7 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     };
 
     parse<Rule>(this.type, styles, {
-      customProperties: options.customProperties,
+      customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
         return engine.renderFontFace(fontFace.toObject(), getRenderOptions());
@@ -196,20 +201,18 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
       onProperty(block, property, value) {
         const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
 
-        if (!valid) {
-          return;
+        if (valid) {
+          block.addClassName(
+            engine.renderDeclaration(
+              property as Property,
+              value as string,
+              getRenderOptions({
+                conditions,
+                selector,
+              }),
+            ),
+          );
         }
-
-        block.addClassName(
-          engine.renderDeclaration(
-            property as Property,
-            value as string,
-            getRenderOptions({
-              conditions,
-              selector,
-            }),
-          ),
-        );
       },
       onRoot: (block) => {
         addClassToMap(
