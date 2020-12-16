@@ -31,7 +31,7 @@ export function getAestheticState(
 ): {
   activeDirection: string | undefined;
   activeTheme: string | undefined;
-  globalSheetRegistry: Map<ThemeName, GlobalSheet>;
+  globalSheetRegistry: Map<ThemeName, GlobalSheet<any, any, any>>;
   listeners: Map<EventType, Set<EventListener>>;
   options: AestheticOptions;
   themeRegistry: ThemeRegistry;
