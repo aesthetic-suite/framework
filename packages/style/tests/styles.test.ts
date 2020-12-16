@@ -930,7 +930,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('c1tpzznj');
+      expect(className).toBe('cbh3gac');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -955,8 +955,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a).toBe('c1tpzznj');
-      expect(b).toBe('c1ykka73');
+      expect(a).toBe('cbh3gac');
+      expect(b).toBe('c1iygfo4');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
