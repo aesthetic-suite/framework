@@ -41,7 +41,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
   protected styleEngine = createState<Engine<Result>>();
 
-  protected themeRegistry = new ThemeRegistry();
+  protected themeRegistry = new ThemeRegistry<Block>();
 
   constructor(options?: AestheticOptions) {
     if (options) {
@@ -238,7 +238,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    * Return the currently active theme instance. If an active instance has not been defined,
    * one will be detected from the client's browser preferences.
    */
-  getActiveTheme = (): Theme => {
+  getActiveTheme = (): Theme<Block> => {
     const active = this.activeTheme.get();
 
     if (active) {
@@ -280,7 +280,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   /**
    * Return a theme instance by name.
    */
-  getTheme = (name: ThemeName): Theme => {
+  getTheme = (name: ThemeName): Theme<Block> => {
     return this.themeRegistry.getTheme(name);
   };
 
@@ -289,7 +289,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   registerTheme = (
     name: ThemeName,
-    theme: Theme,
+    theme: Theme<Block>,
     sheet: GlobalSheet<unknown, Block, Result> | null = null,
     isDefault: boolean = false,
   ): void => {
@@ -311,7 +311,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   registerDefaultTheme = (
     name: ThemeName,
-    theme: Theme,
+    theme: Theme<Block>,
     sheet: GlobalSheet<unknown, Block, Result> | null = null,
   ): void => {
     this.registerTheme(name, theme, sheet, true);
@@ -378,7 +378,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   /**
    * Render a global theme style sheet and return a class name, if one was generated.
    */
-  renderThemeStyles = (theme: Theme, params: SheetParams = {}): ClassName => {
+  renderThemeStyles = (theme: Theme<Block>, params: SheetParams = {}): ClassName => {
     const sheet = this.globalSheetRegistry.get(theme.name);
 
     if (!sheet) {

@@ -1,4 +1,4 @@
-import { Rule, Unit } from '@aesthetic/types';
+import { Unit } from '@aesthetic/types';
 
 export type Hexcode = string;
 
@@ -472,16 +472,16 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export type MixinTemplate<T extends object = Rule, O extends object = object> = (options: O) => T;
+export type MixinTemplate<T extends object, O extends object = object> = (options: O) => T;
 
-export type MixinTemplateMap<T extends object = Rule> = Record<string, MixinTemplate<T>>;
+export type MixinTemplateMap<T extends object> = Record<string, MixinTemplate<T>>;
 
-export interface MixinBuiltIn<T extends object = Rule, O extends object = object> {
+export interface MixinBuiltIn<T extends object, O extends object = object> {
   (options: O, rule: T): T;
   (rule?: T): T;
 }
 
-export interface MixinUtil<T extends object = Rule, O extends object = object> {
+export interface MixinUtil<T extends object, O extends object = object> {
   (name: string, options: O, rule: T): T;
   (name: string, rule?: T): T;
 }

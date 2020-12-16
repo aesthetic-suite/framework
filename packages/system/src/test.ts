@@ -151,7 +151,7 @@ export const design = new Design<any>('test-design', {
   },
 });
 
-export const lightTheme: Theme = design.createTheme(
+export const lightTheme: Theme<any> = design.createTheme(
   {
     contrast: 'normal',
     scheme: 'light',
@@ -338,7 +338,7 @@ export const lightTheme: Theme = design.createTheme(
   },
 );
 
-export const darkTheme: Theme = design.createTheme(
+export const darkTheme: Theme<any> = design.createTheme(
   {
     contrast: 'normal',
     scheme: 'dark',

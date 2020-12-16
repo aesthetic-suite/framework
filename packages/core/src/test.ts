@@ -34,7 +34,7 @@ export function getAestheticState(
   globalSheetRegistry: Map<ThemeName, GlobalSheet<any, any, any>>;
   listeners: Map<EventType, Set<EventListener>>;
   options: AestheticOptions;
-  themeRegistry: ThemeRegistry;
+  themeRegistry: ThemeRegistry<any>;
 } {
   return {
     // @ts-expect-error

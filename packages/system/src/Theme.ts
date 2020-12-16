@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { Rule, Unit } from '@aesthetic/types';
+import { Unit } from '@aesthetic/types';
 import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import Design from './Design';
 import {
@@ -21,7 +21,7 @@ import {
 type AnyObject = Record<string, any>;
 type MixinTemplates<T extends object> = Record<string, Set<MixinTemplate<T>>>;
 
-export default class Theme<T extends object = Rule> implements Utilities<T> {
+export default class Theme<T extends object> implements Utilities<T> {
   name: string = '';
 
   readonly contrast: ContrastLevel;

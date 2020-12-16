@@ -1,6 +1,3 @@
-// This is purely for compatibility with module augmentation
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Rule } from '@aesthetic/types';
 import {
   BorderSize,
   ColorShade,
@@ -77,7 +74,7 @@ export type MixinType =
 
 declare module '@aesthetic/system' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export interface MixinUtil<T extends object = Rule, O extends object = object> {
+  export interface MixinUtil<T extends object, O extends object = object> {
     background: MixinBuiltIn<T, BackgroundOptions>;
     border: MixinBuiltIn<T, BorderOptions>;
     foreground: MixinBuiltIn<T, ForegroundOptions>;

@@ -1,10 +1,9 @@
-import { Rule } from '@aesthetic/types';
 import { deepMerge } from '@aesthetic/utils';
 import Theme from './Theme';
 import { DEPTHS } from './constants';
 import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, MixinTemplateMap } from './types';
 
-export default class Design<T extends object = Rule> {
+export default class Design<T extends object> {
   readonly mixins?: MixinTemplateMap<T>;
 
   readonly name: string;

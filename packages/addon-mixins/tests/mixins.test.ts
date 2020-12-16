@@ -1,9 +1,10 @@
 import { MixinUtil } from '@aesthetic/system';
 import { darkTheme } from '@aesthetic/system/test';
+import { Rule } from '@aesthetic/types';
 import mixinTemplates from '../src';
 
 describe('Mixins', () => {
-  let mixins: MixinUtil;
+  let mixins: MixinUtil<Rule>;
 
   beforeEach(() => {
     // Clone the theme so we dont clobber other tests

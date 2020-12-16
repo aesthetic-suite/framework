@@ -1,8 +1,9 @@
+import { Rule } from '@aesthetic/types';
 import { ThemeRegistry, Theme } from '../src';
 import { lightTheme, darkTheme } from '../src/test';
 
 describe('ThemeRegistry', () => {
-  let registry: ThemeRegistry;
+  let registry: ThemeRegistry<Rule>;
   let mediaMocks: { [query: string]: boolean } = {};
 
   beforeEach(() => {
@@ -35,8 +36,8 @@ describe('ThemeRegistry', () => {
   });
 
   describe('getPreferredTheme()', () => {
-    let highTheme: Theme;
-    let lowTheme: Theme;
+    let highTheme: Theme<Rule>;
+    let lowTheme: Theme<Rule>;
 
     beforeEach(() => {
       highTheme = darkTheme.extend({}, { contrast: 'high' });

@@ -144,7 +144,9 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
   render(
     engine: Engine<Result>,
-    theme: Theme,
+    // This is hidden behind abstractions, so is ok
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    theme: Theme<any>,
     { customProperties, ...baseParams }: SheetParamsExtended,
   ): RenderResultSheet<Result> {
     const params: Required<SheetParams> = {

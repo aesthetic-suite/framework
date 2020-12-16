@@ -18,7 +18,7 @@ function text(this: Utilities<Rule>, { size = 'df' }: TextOptions) {
 }
 
 describe('Theme', () => {
-  let testTheme: Theme;
+  let testTheme: Theme<Rule>;
 
   beforeEach(() => {
     // Copy so we dont mutate the testing mock

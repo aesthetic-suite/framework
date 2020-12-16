@@ -2,26 +2,26 @@ import { ThemeName } from '@aesthetic/types';
 import Theme from './Theme';
 import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
 
-export default class ThemeRegistry {
+export default class ThemeRegistry<T extends object> {
   protected darkTheme: string = '';
 
   protected defaultTheme: string = '';
 
   protected lightTheme: string = '';
 
-  protected themes: Record<string, Theme> = {};
+  protected themes: Record<string, Theme<T>> = {};
 
   /**
    * Return the default dark theme.
    */
-  getDarkTheme(): Theme {
+  getDarkTheme(): Theme<T> {
     return this.getTheme(this.darkTheme);
   }
 
   /**
    * Return the default light theme.
    */
-  getLightTheme(): Theme {
+  getLightTheme(): Theme<T> {
     return this.getTheme(this.lightTheme);
   }
 
@@ -29,7 +29,7 @@ export default class ThemeRegistry {
    * Find an approprite theme based on the user's or device's preferences.
    * Will check for preferred color schemes and contrast levels.
    */
-  getPreferredTheme(): Theme {
+  getPreferredTheme(): Theme<T> {
     // Dont prepend `window.` to support React Native
     const prefersDarkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
     const prefersLightScheme = matchMedia('(prefers-color-scheme: light)').matches;
@@ -43,7 +43,7 @@ export default class ThemeRegistry {
       schemeCheckOrder.push('light');
     }
 
-    let possibleTheme: Theme | undefined;
+    let possibleTheme: Theme<T> | undefined;
 
     // Find a theme based on device preferences
     schemeCheckOrder.some((scheme) => {
@@ -74,7 +74,7 @@ export default class ThemeRegistry {
   /**
    * Return a theme by name or throw an error if not found.
    */
-  getTheme(name: ThemeName): Theme {
+  getTheme(name: ThemeName): Theme<T> {
     if (__DEV__) {
       if (!name) {
         throw new Error('Cannot find a theme without a name.');
@@ -95,7 +95,7 @@ export default class ThemeRegistry {
   /**
    * Query for a theme that matches the defined parameters.
    */
-  query(params: Partial<ThemeOptions>): Theme | undefined {
+  query(params: Partial<ThemeOptions>): Theme<T> | undefined {
     return Object.values(this.themes).find((theme) => {
       const conditions: boolean[] = [];
 
@@ -116,7 +116,7 @@ export default class ThemeRegistry {
    * as default for their defined color scheme.
    */
   // eslint-disable-next-line complexity
-  register(name: string, theme: Theme, isDefault: boolean = false): this {
+  register(name: string, theme: Theme<T>, isDefault: boolean = false): this {
     if (__DEV__) {
       if (!(theme instanceof Theme)) {
         throw new TypeError('Only a `Theme` object can be registered.');
