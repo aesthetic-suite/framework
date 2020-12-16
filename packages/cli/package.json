@@ -12,7 +12,7 @@
   "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/cli",
   "license": "MIT",
   "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./dts/index.d.ts",
   "bin": {
     "aesthetic": "./bin/aesthetic.js"
   },
@@ -21,7 +21,8 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=10.3.0",
+    "npm": ">=6.1.0"
   },
   "dependencies": {
     "@aesthetic/compiler": "^0.5.2",
@@ -35,5 +36,8 @@
   "funding": {
     "type": "ko-fi",
     "url": "https://ko-fi.com/milesjohnson"
+  },
+  "packemon": {
+    "platform": "node"
   }
 }

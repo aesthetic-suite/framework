@@ -1,6 +1,17 @@
 import { Path } from '@boost/common';
 import { DeepPartial } from '@aesthetic/system';
-import optimal, { array, number, object, shape, string, tuple, union } from 'optimal';
+import optimal, {
+  array,
+  ArrayPredicate,
+  number,
+  object,
+  shape,
+  ShapePredicate,
+  string,
+  tuple,
+  union,
+  UnionPredicate,
+} from 'optimal';
 import Loader from './Loader';
 import {
   SCALES,
@@ -76,7 +87,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     );
   }
 
-  protected borders() {
+  protected borders(): UnionPredicate<BorderConfig> {
     const borderScaled = shape<BorderScaledConfig>({
       radius: unit(3),
       radiusScale: scale('perfect-fourth'),
@@ -102,11 +113,11 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     return union<BorderConfig>([borderScaled, borderSizes], borderScaled.default());
   }
 
-  protected colors() {
+  protected colors(): ArrayPredicate<string> {
     return array(string().notEmpty().camelCase()).notEmpty().required();
   }
 
-  protected responsive() {
+  protected responsive(): ShapePredicate<ResponsiveConfig> {
     const [xs, sm, md, lg, xl] = DEFAULT_BREAKPOINTS;
 
     return shape<ResponsiveConfig>({
@@ -128,7 +139,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     }).exact();
   }
 
-  protected shadows() {
+  protected shadows(): UnionPredicate<ShadowConfig> {
     const shadowScaled = shape<ShadowScaledConfig>({
       blur: unit(2),
       blurScale: scale(1.75),
@@ -176,7 +187,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     return union<ShadowConfig>([shadowScaled, shadowSizes], shadowScaled.default());
   }
 
-  protected spacing() {
+  protected spacing(): ShapePredicate<SpacingConfig> {
     return shape<SpacingConfig>({
       multipliers: shape<SpacingConfig['multipliers']>({
         xs: number(0.25),
@@ -191,7 +202,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     }).exact();
   }
 
-  protected typography() {
+  protected typography(): ShapePredicate<TypographyConfig> {
     return shape<TypographyConfig>({
       font: union<TypographyConfig['font']>(
         [
@@ -211,7 +222,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
     }).exact();
   }
 
-  protected typographyHeading() {
+  protected typographyHeading(): UnionPredicate<TypographyConfig['heading']> {
     const headingScaled = shape<HeadingScaledConfig>({
       letterSpacing: unit(0.25),
       letterSpacingScale: scale('perfect-fourth'),
@@ -254,13 +265,10 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
       }).exact(),
     }).exact();
 
-    return union<TypographyConfig['heading']>(
-      [headingScaled, headingSizes],
-      headingScaled.default(),
-    );
+    return union([headingScaled, headingSizes], headingScaled.default());
   }
 
-  protected typographyText() {
+  protected typographyText(): UnionPredicate<TypographyConfig['text']> {
     const defaultSize = PLATFORM_CONFIGS[this.platform].baseFontSize;
 
     const textScaled = shape<TextScaledConfig>({
@@ -285,6 +293,6 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
       }).exact(),
     }).exact();
 
-    return union<TypographyConfig['text']>([textScaled, textSizes], textScaled.default());
+    return union([textScaled, textSizes], textScaled.default());
   }
 }

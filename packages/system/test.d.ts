@@ -1,1 +1,1 @@
-export * from './lib/test';
+export * from './dts/test';

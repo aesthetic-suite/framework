@@ -1,5 +1,5 @@
 import directionConverter from '@aesthetic/addon-direction';
-import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/lib/test';
+import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { Engine } from '@aesthetic/types';
 import { Aesthetic, StyleSheet, LocalSheet } from '../src';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';

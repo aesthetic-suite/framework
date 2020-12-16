@@ -1,5 +1,5 @@
 import { ThemeRegistry } from '@aesthetic/system';
-import { design, lightTheme, darkTheme } from '@aesthetic/system/lib/test';
+import { design, lightTheme, darkTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
 import { Aesthetic, AestheticOptions, EventType, GlobalSheet } from './index';
 

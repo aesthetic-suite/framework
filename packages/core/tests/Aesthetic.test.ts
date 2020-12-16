@@ -1,6 +1,6 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
-import { createServerEngine } from '@aesthetic/style/lib/server';
+import { createServerEngine } from '@aesthetic/style/server';
 import { Aesthetic, StyleSheet } from '../src';
 import {
   lightTheme,

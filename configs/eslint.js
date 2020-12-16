@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 
 module.exports = {
+  ignore: ['scripts/'],
   rules: {
     'import/export': 'off',
     'node/no-missing-import': 'off',

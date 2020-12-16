@@ -1,4 +1,4 @@
-import { LocalStyleSheet, ParserOptions } from '../lib/types';
+import { LocalStyleSheet, ParserOptions } from '../src/types';
 import Block from '../src/Block';
 import doParse from '../src/parse';
 import { createBlock, createExpectedBlock } from './helpers';

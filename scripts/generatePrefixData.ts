@@ -23,6 +23,7 @@ const browserSupport: { [browser: string]: { type: number; version: number } } =
   firefox: { type: Vendor.MOZ, version: 70 },
   ie: { type: Vendor.MS, version: 11 },
   ios_saf: { type: Vendor.WEBKIT, version: 12.4 },
+  op_mini: { type: Vendor.WEBKIT, version: 59 },
   safari: { type: Vendor.WEBKIT, version: 13 },
   samsung: { type: Vendor.WEBKIT, version: 10.1 },
 };
@@ -144,6 +145,11 @@ featuresList.forEach((feature) => {
 
   for (const browser of browsers) {
     const versions = support[browser] || {};
+
+    if (!browserSupport[browser]) {
+      throw new Error(`No mapping for browser "${browser}".`);
+    }
+
     const { type, version } = browserSupport[browser];
 
     // @ts-ignore Thinks object is undefined

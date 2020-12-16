@@ -1,7 +1,18 @@
 import { deepMerge } from '@aesthetic/utils';
-import { DeepPartial, ContrastLevel, ColorScheme, Hexcode } from '@aesthetic/system';
+import { DeepPartial, ContrastLevel, ColorScheme, Hexcode, ColorShade } from '@aesthetic/system';
 import { Path } from '@boost/common';
-import optimal, { number, object, ObjectOf, Schema, shape, string, union } from 'optimal';
+import optimal, {
+  number,
+  object,
+  ObjectOf,
+  ObjectPredicate,
+  Schema,
+  shape,
+  ShapePredicate,
+  string,
+  union,
+  UnionPredicate,
+} from 'optimal';
 import Loader from './Loader';
 import { THEMES_FILE, SHADE_RANGES } from './constants';
 import {
@@ -68,14 +79,14 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
     );
   }
 
-  protected colorShade(defaultValue: number) {
-    return union<number | string>(
+  protected colorShade(defaultValue: number): UnionPredicate<number | string> {
+    return union(
       [number().oneOf(SHADE_RANGES.map(Number)), string().oneOf(SHADE_RANGES)],
       defaultValue,
     );
   }
 
-  protected themes() {
+  protected themes(): ObjectPredicate<ThemeConfig, string> {
     return object(
       shape<ThemeConfig>({
         colors: this.themeColors(),
@@ -101,7 +112,7 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
     );
   }
 
-  protected themeColors() {
+  protected themeColors(): ObjectPredicate<Record<ColorShade, string>> {
     return object(
       shape<ColorConfig>({
         '00': hexcode(),
@@ -120,8 +131,8 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
       .required();
   }
 
-  protected themePaletteState(base: number) {
-    return shape<PaletteState>({
+  protected themePaletteState(base: number): ShapePredicate<PaletteState> {
+    return shape({
       base: this.colorShade(base),
       focused: this.colorShade(base + 10),
       hovered: this.colorShade(base + 20),
@@ -130,10 +141,10 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
     }).exact();
   }
 
-  protected themePalette() {
+  protected themePalette(): UnionPredicate<string | PaletteConfig> {
     const color = string().required().notEmpty().custom(this.validatePaletteColorReference);
 
-    return union<string | PaletteConfig>(
+    return union(
       [
         color,
         shape<PaletteConfig>({
