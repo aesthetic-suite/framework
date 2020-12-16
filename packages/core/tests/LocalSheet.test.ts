@@ -1,13 +1,13 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
-import { Engine } from '@aesthetic/types';
+import { ClassName, Engine } from '@aesthetic/types';
 import { Aesthetic, StyleSheet, LocalSheet } from '../src';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('LocalSheet', () => {
   let aesthetic: Aesthetic;
   let engine: Engine<string>;
-  let sheet: LocalSheet;
+  let sheet: LocalSheet<unknown, object, ClassName>;
 
   beforeEach(() => {
     aesthetic = new Aesthetic();
@@ -92,17 +92,17 @@ describe('LocalSheet', () => {
 
     expect(sheet.metadata).toEqual({
       bar: {
-        classNames: { class: 'k l m' },
+        renderResult: { result: 'k l m' },
       },
       baz: {
-        classNames: { class: 'class-baz' },
+        renderResult: { result: 'class-baz' },
       },
       foo: {
-        classNames: { class: 'a b c d e f g h i j' },
+        renderResult: { result: 'a b c d e f g h i j' },
       },
       qux: {
-        classNames: {
-          class: '',
+        renderResult: {
+          result: '',
           variants: {
             size_lg: 'p',
             size_md: 'o',
@@ -141,11 +141,11 @@ describe('LocalSheet', () => {
     const classes = sheet.render(engine, lightTheme, {});
 
     expect(classes).toEqual({
-      foo: { class: 'a b c d e f g h i j' },
-      bar: { class: 'k l m' },
-      baz: { class: 'class-baz' },
+      foo: { result: 'a b c d e f g h i j' },
+      bar: { result: 'k l m' },
+      baz: { result: 'class-baz' },
       qux: {
-        class: '',
+        result: '',
         variants: {
           size_lg: 'p',
           size_md: 'o',

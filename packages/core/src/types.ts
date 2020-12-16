@@ -8,7 +8,6 @@ import {
 } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
 import {
-  ClassName,
   Direction,
   DirectionConverter,
   ThemeName,
@@ -18,17 +17,13 @@ import {
 } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 
-export interface ClassNameSheetVariants {
-  [value: string]: ClassName;
+export interface RenderResult<T> {
+  result?: T;
+  variants?: Record<string, T>;
 }
 
-export interface ClassNameResult {
-  class?: ClassName;
-  variants?: ClassNameSheetVariants;
-}
-
-export type ClassNameSheet<T extends string> = {
-  [K in T]?: ClassNameResult;
+export type RenderResultSheet<Result, Keys extends string = string> = {
+  [K in Keys]?: RenderResult<Result>;
 };
 
 export interface SheetParams {
@@ -44,35 +39,30 @@ export interface SheetParamsExtended extends SheetParams {
   customProperties?: PropertyHandlerMap;
 }
 
-export type SheetType = 'local' | 'global';
-
-export type SheetStructure<T extends string> = {
-  [K in T]: string | object;
-};
-
-export interface SheetElementMetadata {
-  classNames: ClassNameResult;
+export interface SheetElementMetadata<T> {
+  renderResult: RenderResult<T>;
   variantTypes?: Set<string>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;
 
-export type GlobalSheetFactory<T = unknown, R extends object = LocalBlock> = (
-  utils: Utilities<R>,
-) => T extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<T>;
+export type GlobalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
+  utils: Utilities<Block>,
+) => Shape extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<Shape>;
 
-export type GlobalSheet<T = unknown, R extends object = LocalBlock> = Omit<
-  StyleSheet<GlobalSheetFactory<T, R>>,
+export type GlobalSheet<Shape, Block extends object, Result> = Omit<
+  StyleSheet<Result, GlobalSheetFactory<Shape, Block>>,
   'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
 >;
 
-export type LocalSheetFactory<T = unknown, R extends object = LocalBlock> = (
-  utils: Utilities<R>,
-) => T extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<T>;
+export type LocalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
+  utils: Utilities<Block>,
+) => Shape extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<Shape>;
 
-export type LocalSheet<T = unknown, R extends object = LocalBlock> = StyleSheet<
-  LocalSheetFactory<T, R>
+export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
+  Result,
+  LocalSheetFactory<Shape, Block>
 >;
 
 export interface AestheticOptions {

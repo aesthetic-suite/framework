@@ -11,8 +11,8 @@ import deepClone from './deepClone';
 import deepMerge from './deepMerge';
 import generateHash from './generateHash';
 import hyphenate from './hyphenate';
+import isDOM from './isDOM';
 import isObject from './isObject';
-import isSSR from './isSSR';
 import objectCreate from './objectCreate';
 import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
@@ -29,8 +29,8 @@ export {
   deepMerge,
   generateHash,
   hyphenate,
+  isDOM,
   isObject,
-  isSSR,
   objectCreate,
   objectLoop,
   objectReduce,

@@ -6,10 +6,10 @@ import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/typ
 import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
-  ClassNameSheet,
+  RenderResult,
+  RenderResultSheet,
   SheetParams,
   SheetParamsExtended,
-  SheetType,
   SheetElementMetadata,
 } from './types';
 
@@ -50,22 +50,22 @@ function groupSelectorsAndConditions(selectors: string[]) {
   };
 }
 
-export default class StyleSheet<Factory extends BaseSheetFactory> {
-  readonly metadata: Record<string, SheetElementMetadata> = {};
+export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
+  readonly metadata: Record<string, SheetElementMetadata<Result>> = {};
 
-  readonly type: SheetType;
+  readonly type: 'local' | 'global';
 
   protected contrastVariants: { [K in ContrastLevel]?: Factory } = {};
 
   protected factory: Factory;
 
-  protected renderCache: Record<string, ClassNameSheet<string>> = {};
+  protected renderCache: Record<string, RenderResultSheet<Result>> = {};
 
   protected schemeVariants: { [K in ColorScheme]?: Factory } = {};
 
   protected themeVariants: Record<string, Factory> = {};
 
-  constructor(type: SheetType, factory: Factory) {
+  constructor(type: 'local' | 'global', factory: Factory) {
     this.type = type;
     this.factory = this.validateFactory(factory);
   }
@@ -143,10 +143,10 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
   }
 
   render(
-    engine: Engine<ClassName>,
+    engine: Engine<Result>,
     theme: Theme,
     { customProperties, ...baseParams }: SheetParamsExtended,
-  ): ClassNameSheet<string> {
+  ): RenderResultSheet<Result> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
       direction: 'ltr',
@@ -163,7 +163,10 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
       return cache;
     }
 
-    const classNames: ClassNameSheet<string> = {};
+    // Even though this class uses generics, the majority use case will be using
+    // class name based results, so we're hard coding that logic here. Consumers
+    // that require a different type should extend and override this method.
+    const classNames: RenderResultSheet<ClassName> = {};
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
@@ -177,10 +180,10 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
     });
 
     const addClassToMap = (selector: string, className: string) => {
-      classNames[selector] = { class: className };
+      classNames[selector] = { result: className };
 
       this.metadata[selector] = {
-        classNames: classNames[selector]!,
+        renderResult: (classNames[selector] as unknown) as RenderResult<Result>,
       };
 
       return this.metadata[selector];
@@ -203,13 +206,15 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
 
         if (valid) {
           block.addClassName(
-            engine.renderDeclaration(
-              property as Property,
-              value as string,
-              getRenderOptions({
-                conditions,
-                selector,
-              }),
+            String(
+              engine.renderDeclaration(
+                property as Property,
+                value as string,
+                getRenderOptions({
+                  conditions,
+                  selector,
+                }),
+              ),
             ),
           );
         }
@@ -217,12 +222,14 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
       onRoot: (block) => {
         addClassToMap(
           '@root',
-          engine.renderRuleGrouped(
-            block.toObject(),
-            getRenderOptions({
-              deterministic: true,
-              type: 'global',
-            }),
+          String(
+            engine.renderRuleGrouped(
+              block.toObject(),
+              getRenderOptions({
+                deterministic: true,
+                type: 'global',
+              }),
+            ),
           ),
         );
       },
@@ -233,28 +240,30 @@ export default class StyleSheet<Factory extends BaseSheetFactory> {
         const meta = addClassToMap(selector, rule.className.trim());
 
         objectLoop(rule.variants, (variant, type) => {
-          if (!meta.classNames.variants) {
-            meta.classNames.variants = {};
+          if (!meta.renderResult.variants) {
+            meta.renderResult.variants = {};
           }
 
           if (!meta.variantTypes) {
             meta.variantTypes = new Set();
           }
 
-          meta.classNames.variants[type] = variant.className.trim();
+          meta.renderResult.variants[type] = (variant.className.trim() as unknown) as Result;
           meta.variantTypes.add(type.split('_')[0]);
         });
       },
       onVariable(block, name, value) {
-        block.addClassName(engine.renderVariable(name, value));
+        block.addClassName(String(engine.renderVariable(name, value)));
       },
     });
 
+    const resultSheet = classNames as RenderResultSheet<Result>;
+
     if (key) {
-      this.renderCache[key] = classNames;
+      this.renderCache[key] = resultSheet;
     }
 
-    return classNames;
+    return resultSheet;
   }
 
   protected validateFactory(factory: Factory): Factory {

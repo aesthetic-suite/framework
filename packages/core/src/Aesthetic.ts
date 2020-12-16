@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, lines-between-class-members, no-dupe-class-members */
 
-import { arrayLoop, createState, isSSR } from '@aesthetic/utils';
+import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
 import {
   ClassName,
   Direction,
@@ -16,30 +16,30 @@ import { Theme, ThemeRegistry } from '@aesthetic/system';
 import StyleSheet from './StyleSheet';
 import {
   AestheticOptions,
-  ClassNameSheet,
   EventListener,
   EventType,
-  LocalSheet,
-  LocalSheetFactory,
   GlobalSheet,
   GlobalSheetFactory,
+  LocalSheet,
+  LocalSheetFactory,
   OnChangeDirection,
   OnChangeTheme,
+  RenderResultSheet,
   SheetParams,
 } from './types';
 
-export default class Aesthetic {
+export default class Aesthetic<Result = ClassName, Block extends object = LocalBlock> {
   protected activeDirection = createState<Direction>();
 
   protected activeTheme = createState<ThemeName>();
 
-  protected globalSheetRegistry = new Map<ThemeName, GlobalSheet>();
+  protected globalSheetRegistry = new Map<ThemeName, GlobalSheet<unknown, Block, Result>>();
 
   protected listeners = new Map<EventType, Set<EventListener>>();
 
   protected options: AestheticOptions = {};
 
-  protected styleEngine = createState<Engine<ClassName>>();
+  protected styleEngine = createState<Engine<Result>>();
 
   protected themeRegistry = new ThemeRegistry();
 
@@ -57,7 +57,7 @@ export default class Aesthetic {
   /**
    * Change the active direction.
    */
-  changeDirection = (direction: Direction, propagate: boolean = true) => {
+  changeDirection = (direction: Direction, propagate: boolean = true): void => {
     if (direction === this.activeDirection.get()) {
       return;
     }
@@ -66,7 +66,7 @@ export default class Aesthetic {
     this.activeDirection.set(direction);
 
     // Update document attribute
-    if (!isSSR()) {
+    if (isDOM()) {
       document.documentElement.setAttribute('dir', direction);
     }
 
@@ -79,7 +79,7 @@ export default class Aesthetic {
   /**
    * Change the active theme.
    */
-  changeTheme = (name: ThemeName, propagate: boolean = true) => {
+  changeTheme = (name: ThemeName, propagate: boolean = true): void => {
     if (name === this.activeTheme.get()) {
       return;
     }
@@ -95,7 +95,7 @@ export default class Aesthetic {
     // Render theme styles and append a `body` class name
     const themeClassName = this.renderThemeStyles(theme);
 
-    if (!isSSR()) {
+    if (isDOM()) {
       document.body.className = themeClassName;
     }
 
@@ -108,7 +108,7 @@ export default class Aesthetic {
   /**
    * Configure options unique to this instance.
    */
-  configure = (customOptions: AestheticOptions) => {
+  configure = (customOptions: AestheticOptions): void => {
     Object.assign(this.options, customOptions);
 
     // Configure the engine with itself to reapply options
@@ -122,7 +122,7 @@ export default class Aesthetic {
   /**
    * Configuring which styling engine to use.
    */
-  configureEngine = (engine: Engine<ClassName>) => {
+  configureEngine = (engine: Engine<Result>): void => {
     const { options } = this;
 
     engine.direction = this.getActiveDirection();
@@ -146,9 +146,9 @@ export default class Aesthetic {
    * Create a local style sheet for use within components.
    */
   createComponentStyles = <T = unknown>(
-    factory: LocalSheetFactory<T, LocalBlock>,
-  ): LocalSheet<T, LocalBlock> => {
-    const sheet: LocalSheet<T, LocalBlock> = new StyleSheet('local', factory);
+    factory: LocalSheetFactory<T, Block>,
+  ): LocalSheet<T, Block, Result> => {
+    const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', factory);
 
     // Attempt to render styles immediately so they're available on mount
     this.renderComponentStyles(sheet);
@@ -160,8 +160,8 @@ export default class Aesthetic {
    * Create a global style sheet for root theme styles.
    */
   createThemeStyles = <T = unknown>(
-    factory: GlobalSheetFactory<T, LocalBlock>,
-  ): GlobalSheet<T, LocalBlock> => {
+    factory: GlobalSheetFactory<T, Block>,
+  ): GlobalSheet<T, Block, Result> => {
     return new StyleSheet('global', factory);
   };
 
@@ -183,7 +183,7 @@ export default class Aesthetic {
   generateClassName = <T extends string>(
     keys: T[],
     variants: string[],
-    classNames: ClassNameSheet<string>,
+    classNames: RenderResultSheet<ClassName>,
   ): ClassName => {
     const className: string[] = [];
 
@@ -194,8 +194,8 @@ export default class Aesthetic {
         return;
       }
 
-      if (hash.class) {
-        className.push(hash.class);
+      if (hash.result) {
+        className.push(hash.result);
       }
 
       if (hash.variants) {
@@ -223,7 +223,7 @@ export default class Aesthetic {
 
     let direction: Direction = 'ltr';
 
-    if (!isSSR()) {
+    if (isDOM()) {
       direction = (document.documentElement.getAttribute('dir') ||
         document.body.getAttribute('dir') ||
         'ltr') as Direction;
@@ -256,7 +256,7 @@ export default class Aesthetic {
   /**
    * Return the current style engine.
    */
-  getEngine = (): Engine<ClassName> => {
+  getEngine = (): Engine<Result> => {
     const current = global.AESTHETIC_CUSTOM_ENGINE || this.styleEngine.get();
 
     if (current) {
@@ -280,7 +280,7 @@ export default class Aesthetic {
   /**
    * Return a theme instance by name.
    */
-  getTheme = (name: ThemeName) => {
+  getTheme = (name: ThemeName): Theme => {
     return this.themeRegistry.getTheme(name);
   };
 
@@ -290,9 +290,9 @@ export default class Aesthetic {
   registerTheme = (
     name: ThemeName,
     theme: Theme,
-    sheet: GlobalSheet | null = null,
+    sheet: GlobalSheet<unknown, Block, Result> | null = null,
     isDefault: boolean = false,
-  ) => {
+  ): void => {
     this.themeRegistry.register(name, theme, isDefault);
 
     if (sheet) {
@@ -309,7 +309,11 @@ export default class Aesthetic {
   /**
    * Register a default light or dark theme, with optional global theme styles.
    */
-  registerDefaultTheme = (name: ThemeName, theme: Theme, sheet: GlobalSheet | null = null) => {
+  registerDefaultTheme = (
+    name: ThemeName,
+    theme: Theme,
+    sheet: GlobalSheet<unknown, Block, Result> | null = null,
+  ): void => {
     this.registerTheme(name, theme, sheet, true);
   };
 
@@ -317,7 +321,7 @@ export default class Aesthetic {
    * Render a component style sheet to the document with the defined style query parameters.
    */
   renderComponentStyles = <T = unknown>(
-    sheet: LocalSheet<T, LocalBlock>,
+    sheet: LocalSheet<T, Block, Result>,
     params: SheetParams = {},
   ) => {
     if (__DEV__) {
@@ -343,7 +347,7 @@ export default class Aesthetic {
     fontFace: FontFace | SSSFontFace,
     fontFamily?: string,
     params?: RenderOptions,
-  ) => {
+  ): string => {
     return this.getEngine().renderFontFace(
       formatFontFace({
         fontFamily,
@@ -354,16 +358,20 @@ export default class Aesthetic {
   };
 
   /**
-   * Render an `@import` to the global style sheet.
+   * Render an `@import` to the global style sheet and return the import path.
    */
-  renderImport = (path: string, params?: RenderOptions) => {
+  renderImport = (path: string, params?: RenderOptions): string => {
     return this.getEngine().renderImport(path, params);
   };
 
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
    */
-  renderKeyframes = (keyframes: Keyframes, animationName?: string, params?: RenderOptions) => {
+  renderKeyframes = (
+    keyframes: Keyframes,
+    animationName?: string,
+    params?: RenderOptions,
+  ): string => {
     return this.getEngine().renderKeyframes(keyframes, animationName, params);
   };
 
@@ -384,7 +392,7 @@ export default class Aesthetic {
       ...params,
     });
 
-    return result['@root']?.class || '';
+    return String(result['@root']?.result || '');
   };
 
   /**
@@ -405,7 +413,7 @@ export default class Aesthetic {
    */
   unsubscribe(type: 'change:direction', listener: OnChangeDirection): void;
   unsubscribe(type: 'change:theme', listener: OnChangeTheme): void;
-  unsubscribe(type: EventType, listener: Function) {
+  unsubscribe(type: EventType, listener: Function): void {
     this.getListeners(type).delete(listener);
   }
 }
