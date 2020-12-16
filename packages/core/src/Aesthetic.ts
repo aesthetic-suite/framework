@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign, lines-between-class-members, no-dupe-class-members */
 
-import { arrayLoop, createState, isSSR } from '@aesthetic/utils';
+import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
 import {
   ClassName,
   Direction,
@@ -66,7 +66,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     this.activeDirection.set(direction);
 
     // Update document attribute
-    if (!isSSR()) {
+    if (isDOM()) {
       document.documentElement.setAttribute('dir', direction);
     }
 
@@ -95,7 +95,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     // Render theme styles and append a `body` class name
     const themeClassName = this.renderThemeStyles(theme);
 
-    if (!isSSR()) {
+    if (isDOM()) {
       document.body.className = themeClassName;
     }
 
@@ -223,7 +223,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
     let direction: Direction = 'ltr';
 
-    if (!isSSR()) {
+    if (isDOM()) {
       direction = (document.documentElement.getAttribute('dir') ||
         document.body.getAttribute('dir') ||
         'ltr') as Direction;
