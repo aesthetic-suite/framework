@@ -1,11 +1,11 @@
 import { createTestStyleEngine } from '@aesthetic/style/test';
-import { Engine } from '@aesthetic/types';
+import { ClassName, Engine } from '@aesthetic/types';
 import { StyleSheet, GlobalSheet } from '../src';
 import { lightTheme } from '../src/test';
 
 describe('GlobalSheet', () => {
   let engine: Engine<string>;
-  let sheet: GlobalSheet;
+  let sheet: GlobalSheet<unknown, object, ClassName>;
 
   beforeEach(() => {
     engine = createTestStyleEngine({});
@@ -98,7 +98,7 @@ describe('GlobalSheet', () => {
     const spy = jest.spyOn(engine, 'renderRuleGrouped');
     const result = sheet.render(engine, lightTheme, {});
 
-    expect(result).toEqual({ '@root': { class: 'cdha18g' } });
+    expect(result).toEqual({ '@root': { result: 'cdha18g' } });
     expect(spy).toHaveBeenCalledWith(
       {
         height: '100%',

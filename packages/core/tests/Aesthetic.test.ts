@@ -1,7 +1,8 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
 import { createServerEngine } from '@aesthetic/style/server';
-import { Aesthetic, StyleSheet } from '../src';
+import { ClassName } from '@aesthetic/types';
+import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
 import {
   lightTheme,
   darkTheme,
@@ -238,14 +239,14 @@ describe('Aesthetic', () => {
   });
 
   describe('generateClassName()', () => {
-    const classes = {
-      a: { class: 'a', variants: { size_df: 'a_size_df' } },
-      b: { class: 'b' },
-      c: { class: 'c', variants: { size_md: 'c_size_md', type_red: 'c_size_red' } },
+    const classes: RenderResultSheet<ClassName> = {
+      a: { result: 'a', variants: { size_df: 'a_size_df' } },
+      b: { result: 'b' },
+      c: { result: 'c', variants: { size_md: 'c_size_md', type_red: 'c_size_red' } },
       d: { variants: { size_df: 'd_size_df' } },
-      e: { class: 'e' },
-      f: { class: 'f', variants: { size_df: 'f_size_df', size_md: 'f_size_md' } },
-      g: { class: 'g', variants: { type_red: 'c_size_red' } },
+      e: { result: 'e' },
+      f: { result: 'f', variants: { size_df: 'f_size_df', size_md: 'f_size_md' } },
+      g: { result: 'g', variants: { type_red: 'c_size_red' } },
     };
 
     it('returns class names', () => {
@@ -466,9 +467,9 @@ describe('Aesthetic', () => {
       const spy = jest.spyOn(sheet, 'render');
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
-        foo: { class: 'a' },
-        bar: { class: 'b', variants: { type_red: 'c' } },
-        baz: { class: 'd' },
+        foo: { result: 'a' },
+        bar: { result: 'b', variants: { type_red: 'c' } },
+        baz: { result: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
