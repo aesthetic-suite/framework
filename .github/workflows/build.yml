@@ -33,4 +33,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --ignore-engines --frozen-lockfile
       - run: yarn run prepare
+      - run: yarn run type
       - run: yarn run pack
