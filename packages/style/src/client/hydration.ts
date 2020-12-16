@@ -1,17 +1,16 @@
 /* eslint-disable require-unicode-regexp */
 
 import { arrayLoop } from '@aesthetic/utils';
-// Rollup compatibility
+import { createCacheKey } from '../common/cache';
 import {
-  createCacheKey,
   FONT_FACE_RULE,
   KEYFRAMES_RULE,
   IMPORT_RULE,
   STYLE_RULE,
   MEDIA_RULE,
   SUPPORTS_RULE,
-  StyleEngine,
-} from '../index';
+} from '../common/constants';
+import { StyleEngine } from '../types';
 
 // eslint-disable-next-line
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/i;

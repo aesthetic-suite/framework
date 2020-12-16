@@ -23,3 +23,14 @@ jobs:
       - run: yarn run type
       - run: yarn run coverage
       - run: yarn run lint
+  pack:
+    name: Pack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --ignore-engines --frozen-lockfile
+      - run: yarn run prepare
+      - run: yarn run pack

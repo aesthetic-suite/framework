@@ -5,7 +5,8 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "packemon build --checkLicenses --addEngines --generateDeclaration",
+    "build": "packemon build",
+    "pack": "NODE_ENV=production packemon pack --addEngines --generateDeclaration=standard",
     "clean": "packemon clean",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
@@ -15,7 +16,7 @@
     "prettier": "beemo prettier",
     "release": "lerna publish",
     "type": "beemo typescript --build --reference-workspaces",
-    "prerelease": "yarn run clean && yarn run build && yarn test",
+    "prerelease": "yarn run pack && yarn test",
     "pretest": "yarn run type",
     "test": "yarn run coverage",
     "posttest": "yarn run lint"

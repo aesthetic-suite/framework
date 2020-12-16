@@ -35,7 +35,6 @@
   },
   "packemon": {
     "inputs": {
-      "client": "src/client.ts",
       "index": "src/index.ts",
       "server": "src/server.ts",
       "test": "src/test.ts"

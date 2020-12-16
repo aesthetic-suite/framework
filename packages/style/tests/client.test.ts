@@ -1,6 +1,5 @@
 import { CacheState, SheetType } from '@aesthetic/types';
-import { createCacheManager } from '../src';
-import { createClientEngine } from '../src/client';
+import { createCacheManager, createClientEngine } from '../src';
 import { StyleEngine } from '../src/types';
 import { getRenderedStyles, purgeStyles } from '../src/test';
 
