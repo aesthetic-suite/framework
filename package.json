@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "aesthetic": "aesthetic",
+    "aesthetic": "node ./packages/cli/lib/bin.js",
     "prepare": "beemo create-config --silent",
     "build": "packemon build --addEngines",
     "pack": "NODE_ENV=production packemon pack --addEngines --generateDeclaration=standard",

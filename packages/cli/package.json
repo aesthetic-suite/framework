@@ -16,10 +16,9 @@
   },
   "author": "Miles Johnson",
   "license": "MIT",
-  "main": "./lib/index.js",
   "types": "./dts/index.d.ts",
   "bin": {
-    "aesthetic": "./bin/aesthetic.js"
+    "aesthetic": "./lib/bin.js"
   },
   "sideEffects": false,
   "publishConfig": {
@@ -43,6 +42,9 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "packemon": {
+    "inputs": {
+      "bin": "src/bin.ts"
+    },
     "platform": "node"
   }
 }
