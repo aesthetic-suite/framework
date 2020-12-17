@@ -9,7 +9,12 @@
     "props",
     "properties"
   ],
-  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-properties",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/addon-properties"
+  },
+  "author": "Miles Johnson",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
@@ -24,6 +29,9 @@
   "dependencies": {
     "@aesthetic/types": "^0.3.2",
     "@aesthetic/utils": "^0.5.2"
+  },
+  "devDependencies": {
+    "@aesthetic/sss": "^0.5.0"
   },
   "funding": {
     "type": "ko-fi",

@@ -5,7 +5,7 @@
   "scripts": {
     "aesthetic": "aesthetic",
     "prepare": "beemo create-config --silent",
-    "build": "packemon build",
+    "build": "packemon build --addEngines",
     "pack": "NODE_ENV=production packemon pack --addEngines --generateDeclaration=standard",
     "clean": "packemon clean",
     "coverage": "yarn run jest --coverage",
@@ -37,7 +37,7 @@
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.0.0",
     "lerna": "^3.22.1",
-    "packemon": "^0.6.1",
+    "packemon": "^0.6.2",
     "ts-node": "^9.1.1"
   },
   "beemo": {

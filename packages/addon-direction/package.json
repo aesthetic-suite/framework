@@ -9,7 +9,12 @@
     "ltr",
     "rtl"
   ],
-  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-direction",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/addon-direction"
+  },
+  "author": "Miles Johnson",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

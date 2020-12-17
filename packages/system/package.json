@@ -8,7 +8,12 @@
     "system",
     "language"
   ],
-  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/system",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/system"
+  },
+  "author": "Miles Johnson",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

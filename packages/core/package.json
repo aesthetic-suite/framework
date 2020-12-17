@@ -9,7 +9,12 @@
     "css",
     "css-in-js"
   ],
-  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/core",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/core"
+  },
+  "author": "Miles Johnson",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",

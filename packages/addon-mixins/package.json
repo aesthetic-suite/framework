@@ -10,7 +10,12 @@
     "design",
     "system"
   ],
-  "repository": "https://github.com/aesthetic-suite/framework/tree/master/packages/addon-mixins",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/addon-mixins"
+  },
+  "author": "Miles Johnson",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./esm/index.js",
@@ -25,6 +30,10 @@
   },
   "dependencies": {
     "@aesthetic/utils": "^0.5.2"
+  },
+  "devDependencies": {
+    "@aesthetic/sss": "^0.5.0",
+    "@aesthetic/system": "^0.5.1"
   },
   "funding": {
     "type": "ko-fi",

@@ -8159,10 +8159,10 @@ p-waterfall@^1.0.0:
   dependencies:
     p-reduce "^1.0.0"
 
-packemon@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/packemon/-/packemon-0.6.1.tgz#d29688a0d8966b50b0de313e0ab8418716139dc1"
-  integrity sha512-tAdMSWp0NQIZCSg2Ukw8mA/eXmEIqetsKtZ/KDLgS9eEOZ40mUv3vt77+WPyl68VVznli3JNHdNeDtYeQRHe9g==
+packemon@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/packemon/-/packemon-0.6.2.tgz#e02f8fbcad4570121c96e1ca126611913047ee0c"
+  integrity sha512-NhKkcIAOuLiTBhMv1kD1d0701z3R94tl9MQMPt/DnNaVVaPZA3ln01d4PmJzdSvCbz3Yf3dQ+LsqLEdTAj2KkA==
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/preset-env" "^7.12.10"
