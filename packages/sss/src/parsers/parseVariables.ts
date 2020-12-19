@@ -1,4 +1,4 @@
-import { Variables } from '@aesthetic/types';
+import { VariablesMap } from '@aesthetic/types';
 import { hyphenate, objectLoop } from '@aesthetic/utils';
 import validateDeclarations from '../helpers/validateDeclarations';
 import Block from '../Block';
@@ -6,14 +6,14 @@ import { ParserOptions } from '../types';
 
 export default function parseVariables<T extends object>(
   parent: Block<T> | null,
-  variables: Variables,
+  variables: VariablesMap,
   options: ParserOptions<T>,
 ) {
   if (__DEV__) {
     validateDeclarations(variables, '@variables');
   }
 
-  const object: Variables = {};
+  const object: VariablesMap = {};
 
   objectLoop(variables, (value, prop) => {
     let name = hyphenate(prop);

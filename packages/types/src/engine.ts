@@ -11,7 +11,7 @@ import {
   UnitFactory,
   Value,
   ValueWithFallbacks,
-  Variables,
+  VariablesMap,
 } from './css';
 import { ClassName, Direction } from './ui';
 
@@ -46,7 +46,7 @@ export interface Sheet {
   conditionText?: string;
   cssRules: Sheet[];
   cssText: CSS;
-  cssVariables: Variables<string>;
+  cssVariables: VariablesMap<string>;
   textContent: CSS;
   type: number;
   insertRule: (rule: CSS, index: number) => number;
@@ -117,7 +117,7 @@ export interface Engine<T> {
   renderRule: (rule: Rule, options?: RenderOptions) => T;
   renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
-  setRootVariables: (variables: Variables) => void;
+  setRootVariables: (variables: VariablesMap) => void;
 }
 
 declare global {

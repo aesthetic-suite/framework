@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { CSS, Sheet, SheetManager, SheetMap, Variables } from '@aesthetic/types';
+import { CSS, Sheet, SheetManager, SheetMap, VariablesMap } from '@aesthetic/types';
 import { arrayLoop, arrayReduce } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
 // Rollup compatibility
@@ -29,7 +29,7 @@ export class TransientSheet implements Sheet {
 
   cssRules: Sheet[] = [];
 
-  cssVariables: Variables<string> = {};
+  cssVariables: VariablesMap<string> = {};
 
   textContent: string = '';
 

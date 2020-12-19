@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "@aesthetic/types": "^0.3.2",
-    "@aesthetic/utils": "^0.5.2"
+    "@aesthetic/utils": "^0.5.2",
+    "csstype": "^3.0.5"
   },
   "devDependencies": {
     "@aesthetic/sss": "^0.5.0"

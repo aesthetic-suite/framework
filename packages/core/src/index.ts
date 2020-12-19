@@ -6,8 +6,8 @@
 import Aesthetic from './Aesthetic';
 import StyleSheet from './StyleSheet';
 
-export * from '@aesthetic/sss';
 export * from '@aesthetic/system';
+export * from '@aesthetic/types';
 export * from './types';
 
 export { Aesthetic, StyleSheet };

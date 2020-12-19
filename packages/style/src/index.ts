@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { EngineOptions, Variables } from '@aesthetic/types';
+import { EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { createStyleElements, getStyleElement } from './client/dom';
 import { hydrateStyles } from './client/hydration';
@@ -23,7 +23,7 @@ export * from './types';
 
 export { createStyleElements, getStyleElement };
 
-function setRootVariables(vars: Variables) {
+function setRootVariables(vars: VariablesMap) {
   const root = document.documentElement;
 
   objectLoop(vars, (value, key) => {

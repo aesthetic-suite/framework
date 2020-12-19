@@ -1,12 +1,12 @@
 /* eslint-disable no-use-before-define */
 
+import CSSType from 'csstype';
 import {
-  CSST,
   FontFace as BaseFontFace,
   Keyframes as BaseKeyframes,
   Declarations,
   Value,
-  Variables,
+  VariablesMap,
 } from '@aesthetic/types';
 import Block from './Block';
 
@@ -15,17 +15,19 @@ export type ListableProperty<B, T> = T | (B | T)[];
 // SYNTAX
 
 export interface CustomProperties {
-  animationName?: ListableProperty<CSST.Property.AnimationName, Keyframes>;
-  fontFamily?: ListableProperty<CSST.Property.FontFamily, FontFace>;
+  animationName?: ListableProperty<CSSType.Property.AnimationName, Keyframes>;
+  fontFamily?: ListableProperty<CSSType.Property.FontFamily, FontFace>;
 }
 
 export type ExtendCustomProperties<T extends object> = {
   [P in keyof T]?: P extends keyof CustomProperties ? T[P] | CustomProperties[P] : T[P];
 };
 
-export type Properties = ExtendCustomProperties<CSST.StandardProperties<Value> & { clip?: string }>;
+export type Properties = ExtendCustomProperties<
+  CSSType.StandardProperties<Value> & { clip?: string }
+>;
 
-export type FallbackProperties = CSST.StandardPropertiesFallback<Value>;
+export type FallbackProperties = CSSType.StandardPropertiesFallback<Value>;
 
 export type Rule = Declarations<Properties>;
 
@@ -65,11 +67,9 @@ export type LocalBlock = Rule & {
   '@media'?: LocalBlockMap;
   '@selectors'?: LocalBlockMap;
   '@supports'?: LocalBlockMap;
-  '@variables'?: Variables;
+  '@variables'?: VariablesMap;
   '@variants'?: LocalBlockVariants;
 };
-
-export type LocalCSS = LocalBlock; // Alias
 
 export type LocalBlockMap = Record<string, LocalBlock>;
 
@@ -94,7 +94,7 @@ export interface GlobalStyleSheet {
   '@import'?: ImportList;
   '@keyframes'?: KeyframesMap;
   '@root'?: LocalBlock;
-  '@variables'?: Variables;
+  '@variables'?: VariablesMap;
 }
 
 export type GlobalStyleSheetNeverize<T> = {
@@ -165,7 +165,7 @@ export type VariableListener<T extends object> = (
   value: Value,
 ) => void;
 
-export type VariablesListener = (variables: Variables) => void;
+export type VariablesListener = (variables: VariablesMap) => void;
 
 export interface ParserOptions<T extends object> {
   customProperties: PropertyHandlerMap;

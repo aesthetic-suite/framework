@@ -5,6 +5,7 @@ import {
   LocalStyleSheetNeverize,
   LocalBlock,
   PropertyHandlerMap,
+  CustomProperties,
 } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
 import {
@@ -16,6 +17,14 @@ import {
   VendorPrefixer,
 } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
+
+// Re-export for convenience
+export { GlobalStyleSheet, LocalStyleSheet, LocalBlock, CustomProperties };
+
+// And add aliases too
+export type GlobalStyles = GlobalStyleSheet;
+export type ComponentStyles = LocalStyleSheet;
+export type ElementStyles = LocalBlock;
 
 export interface RenderResult<T> {
   result?: T;

@@ -1,110 +1,112 @@
+// eslint-disable-next-line import/no-unresolved
+import CSSType from 'csstype';
 // Module augmentation
 import '@aesthetic/sss';
-import { CSST, Value } from '@aesthetic/types';
+import { Value } from '@aesthetic/types';
 
 // EXPANDED PROPERTIES
 
 export interface AnimationProperty {
-  delay?: CSST.Property.AnimationDelay;
-  direction?: CSST.Property.AnimationDirection;
-  duration?: CSST.Property.AnimationDuration;
-  fillMode?: CSST.Property.AnimationFillMode;
-  iterationCount?: CSST.Property.AnimationIterationCount;
-  name?: CSST.Property.AnimationName;
-  playState?: CSST.Property.AnimationPlayState;
-  timingFunction?: CSST.Property.AnimationTimingFunction;
+  delay?: CSSType.Property.AnimationDelay;
+  direction?: CSSType.Property.AnimationDirection;
+  duration?: CSSType.Property.AnimationDuration;
+  fillMode?: CSSType.Property.AnimationFillMode;
+  iterationCount?: CSSType.Property.AnimationIterationCount;
+  name?: CSSType.Property.AnimationName;
+  playState?: CSSType.Property.AnimationPlayState;
+  timingFunction?: CSSType.Property.AnimationTimingFunction;
 }
 
 export interface BackgroundProperty {
-  attachment?: CSST.Property.BackgroundAttachment;
-  clip?: CSST.Property.BackgroundClip;
-  color?: CSST.Property.BackgroundColor;
-  image?: CSST.Property.BackgroundImage;
-  origin?: CSST.Property.BackgroundOrigin;
-  position?: CSST.Property.BackgroundPosition<Value>;
-  repeat?: CSST.Property.BackgroundRepeat;
-  size?: CSST.Property.BackgroundSize<Value>;
+  attachment?: CSSType.Property.BackgroundAttachment;
+  clip?: CSSType.Property.BackgroundClip;
+  color?: CSSType.Property.BackgroundColor;
+  image?: CSSType.Property.BackgroundImage;
+  origin?: CSSType.Property.BackgroundOrigin;
+  position?: CSSType.Property.BackgroundPosition<Value>;
+  repeat?: CSSType.Property.BackgroundRepeat;
+  size?: CSSType.Property.BackgroundSize<Value>;
 }
 
 export interface BorderProperty {
-  color?: CSST.Property.BorderColor;
-  style?: CSST.Property.BorderStyle;
-  width?: CSST.Property.BorderWidth<Value>;
+  color?: CSSType.Property.BorderColor;
+  style?: CSSType.Property.BorderStyle;
+  width?: CSSType.Property.BorderWidth<Value>;
 }
 
 export interface ColumnRuleProperty {
-  color?: CSST.Property.ColumnRuleColor;
-  style?: CSST.Property.ColumnRuleStyle;
-  width?: CSST.Property.ColumnRuleWidth<Value>;
+  color?: CSSType.Property.ColumnRuleColor;
+  style?: CSSType.Property.ColumnRuleStyle;
+  width?: CSSType.Property.ColumnRuleWidth<Value>;
 }
 
 export interface FlexProperty {
-  basis?: CSST.Property.FlexBasis<Value>;
-  grow?: CSST.Property.FlexGrow;
-  shrink?: CSST.Property.FlexShrink;
+  basis?: CSSType.Property.FlexBasis<Value>;
+  grow?: CSSType.Property.FlexGrow;
+  shrink?: CSSType.Property.FlexShrink;
 }
 
 export interface FontProperty {
-  family?: CSST.Property.FontFamily;
-  lineHeight?: CSST.Property.LineHeight<Value>;
-  size?: CSST.Property.FontSize<Value>;
-  stretch?: CSST.Property.FontStretch;
-  style?: CSST.Property.FontStyle;
+  family?: CSSType.Property.FontFamily;
+  lineHeight?: CSSType.Property.LineHeight<Value>;
+  size?: CSSType.Property.FontSize<Value>;
+  stretch?: CSSType.Property.FontStretch;
+  style?: CSSType.Property.FontStyle;
   system?: string;
-  variant?: CSST.Property.FontVariant;
-  weight?: CSST.Property.FontWeight;
+  variant?: CSSType.Property.FontVariant;
+  weight?: CSSType.Property.FontWeight;
 }
 
 export interface ListStyleProperty {
-  image?: CSST.Property.ListStyleImage;
-  position?: CSST.Property.ListStylePosition;
-  type?: CSST.Property.ListStyleType;
+  image?: CSSType.Property.ListStyleImage;
+  position?: CSSType.Property.ListStylePosition;
+  type?: CSSType.Property.ListStyleType;
 }
 
 export interface MarginProperty {
-  bottom?: CSST.Property.MarginBottom<Value>;
-  left?: CSST.Property.MarginLeft<Value>;
-  leftRight?: CSST.Property.MarginLeft<Value> | CSST.Property.MarginRight<Value>;
-  right?: CSST.Property.MarginRight<Value>;
-  top?: CSST.Property.MarginTop<Value>;
-  topBottom?: CSST.Property.MarginTop<Value> | CSST.Property.MarginBottom<Value>;
+  bottom?: CSSType.Property.MarginBottom<Value>;
+  left?: CSSType.Property.MarginLeft<Value>;
+  leftRight?: CSSType.Property.MarginLeft<Value> | CSSType.Property.MarginRight<Value>;
+  right?: CSSType.Property.MarginRight<Value>;
+  top?: CSSType.Property.MarginTop<Value>;
+  topBottom?: CSSType.Property.MarginTop<Value> | CSSType.Property.MarginBottom<Value>;
 }
 
 export interface OffsetProperty {
-  anchor?: CSST.Property.OffsetAnchor<string>;
-  distance?: CSST.Property.OffsetDistance<string>;
-  path?: CSST.Property.OffsetPath;
+  anchor?: CSSType.Property.OffsetAnchor<string>;
+  distance?: CSSType.Property.OffsetDistance<string>;
+  path?: CSSType.Property.OffsetPath;
   position?: string; // NOT UPSTREAM
-  rotate?: CSST.Property.OffsetRotate;
+  rotate?: CSSType.Property.OffsetRotate;
 }
 
 export interface OutlineProperty {
-  color?: CSST.Property.OutlineColor;
-  style?: CSST.Property.OutlineStyle;
-  width?: CSST.Property.OutlineWidth<Value>;
+  color?: CSSType.Property.OutlineColor;
+  style?: CSSType.Property.OutlineStyle;
+  width?: CSSType.Property.OutlineWidth<Value>;
 }
 
 export interface PaddingProperty {
-  bottom?: CSST.Property.PaddingBottom<Value>;
-  left?: CSST.Property.PaddingLeft<Value>;
-  leftRight?: CSST.Property.PaddingLeft<Value> | CSST.Property.PaddingRight<Value>;
-  right?: CSST.Property.PaddingRight<Value>;
-  top?: CSST.Property.PaddingTop<Value>;
-  topBottom?: CSST.Property.PaddingTop<Value> | CSST.Property.PaddingBottom<Value>;
+  bottom?: CSSType.Property.PaddingBottom<Value>;
+  left?: CSSType.Property.PaddingLeft<Value>;
+  leftRight?: CSSType.Property.PaddingLeft<Value> | CSSType.Property.PaddingRight<Value>;
+  right?: CSSType.Property.PaddingRight<Value>;
+  top?: CSSType.Property.PaddingTop<Value>;
+  topBottom?: CSSType.Property.PaddingTop<Value> | CSSType.Property.PaddingBottom<Value>;
 }
 
 export interface TextDecorationProperty {
-  color?: CSST.Property.TextDecorationColor;
-  line?: CSST.Property.TextDecorationLine;
-  style?: CSST.Property.TextDecorationStyle;
-  thickness?: CSST.Property.TextDecorationThickness<Value>;
+  color?: CSSType.Property.TextDecorationColor;
+  line?: CSSType.Property.TextDecorationLine;
+  style?: CSSType.Property.TextDecorationStyle;
+  thickness?: CSSType.Property.TextDecorationThickness<Value>;
 }
 
 export interface TransitionProperty {
-  delay?: CSST.Property.TransitionDelay;
-  duration?: CSST.Property.TransitionDuration;
-  property?: CSST.Property.TransitionProperty;
-  timingFunction?: CSST.Property.TransitionTimingFunction;
+  delay?: CSSType.Property.TransitionDelay;
+  duration?: CSSType.Property.TransitionDuration;
+  property?: CSSType.Property.TransitionProperty;
+  timingFunction?: CSSType.Property.TransitionTimingFunction;
 }
 
 declare module '@aesthetic/sss' {

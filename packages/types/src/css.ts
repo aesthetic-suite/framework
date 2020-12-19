@@ -1,7 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import CSST from 'csstype';
-
-export { CSST };
+import CSSType from 'csstype';
 
 export type CSS = string;
 
@@ -17,20 +15,20 @@ export type MaybeValue = Value | undefined | null;
 
 export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
 
-export interface Properties extends CSST.Properties<Value>, CSST.PropertiesHyphen<Value> {}
+export interface Properties extends CSSType.Properties<Value>, CSSType.PropertiesHyphen<Value> {}
 
-export type NativeProperty = keyof CSST.PropertiesHyphen;
+export type NativeProperty = keyof CSSType.PropertiesHyphen;
 
 export type Property = keyof Properties;
 
 // RULES
 
 export type Attributes<T = Properties> = {
-  [K in CSST.HtmlAttributes]?: T;
+  [K in CSSType.HtmlAttributes]?: T;
 };
 
 export type Pseudos<T = Properties> = {
-  [K in CSST.SimplePseudos]?: T;
+  [K in CSSType.SimplePseudos]?: T;
 };
 
 export type Declarations<T = Properties> = T & Attributes<T> & Pseudos<T>;
@@ -41,7 +39,7 @@ export interface Rule extends Declarations {
 
 // AT-RULES
 
-export type FontFace = CSST.AtRule.FontFace;
+export type FontFace = CSSType.AtRule.FontFace;
 
 export interface Keyframes<T = Properties> {
   [percent: string]: T | undefined;
@@ -55,4 +53,4 @@ export type Unit = string;
 
 export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
-export type Variables<T = Value> = Record<string, T>;
+export type VariablesMap<T = Value> = Record<string, T>;
