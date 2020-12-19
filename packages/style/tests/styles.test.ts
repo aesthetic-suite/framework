@@ -109,7 +109,7 @@ describe('Engine', () => {
 
       // Selector prefixing
       engine.renderDeclaration('display', 'none', {
-        selector: ':fullscreen',
+        selectors: [':fullscreen'],
         vendor: true,
       });
 
@@ -124,9 +124,9 @@ describe('Engine', () => {
 
     describe('selectors', () => {
       it('supports selectors', () => {
-        engine.renderDeclaration('color', 'green', { selector: ':hover' });
-        engine.renderDeclaration('color', 'red', { selector: '[disabled]' });
-        engine.renderDeclaration('color', 'blue', { selector: ':nth-child(2)' });
+        engine.renderDeclaration('color', 'green', { selectors: [':hover'] });
+        engine.renderDeclaration('color', 'red', { selectors: ['[disabled]'] });
+        engine.renderDeclaration('color', 'blue', { selectors: [':nth-child(2)'] });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
@@ -150,7 +150,7 @@ describe('Engine', () => {
       it('supports conditionals with selectors', () => {
         engine.renderDeclaration('color', 'green', {
           conditions: ['@media (max-size: 100px)'],
-          selector: ':focus',
+          selectors: [':focus'],
         });
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
@@ -652,7 +652,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: '[disabled]',
+          selectors: ['[disabled]'],
         });
 
         expect(classNameA).toBe('a');
@@ -662,7 +662,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('backgroundColor', '#286090', {
-          selector: '[href*="example"]',
+          selectors: ['[href*="example"]'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -693,7 +693,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: ':focus',
+          selectors: [':focus'],
         });
 
         expect(classNameA).toBe('a');
@@ -703,7 +703,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selector: ':nth-last-of-type(4n)',
+          selectors: [':nth-last-of-type(4n)'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -739,7 +739,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: '+ div',
+          selectors: ['+ div'],
         });
 
         expect(classNameA).toBe('a');
@@ -749,7 +749,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selector: ':first-of-type + li',
+          selectors: [':first-of-type + li'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();

@@ -27,7 +27,6 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 
 function groupSelectorsAndConditions(selectors: string[]) {
   const conditions: string[] = [];
-  let selector = '';
   let valid = true;
 
   arrayLoop(selectors, (value) => {
@@ -38,14 +37,11 @@ function groupSelectorsAndConditions(selectors: string[]) {
       valid = false;
     } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
       conditions.push(value);
-    } else {
-      selector += value;
     }
   });
 
   return {
     conditions: conditions.length === 0 ? undefined : [],
-    selector,
     valid,
   };
 }
@@ -204,7 +200,8 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         return engine.renderKeyframes(keyframes.toObject(), animationName, getRenderOptions());
       },
       onProperty(block, property, value) {
-        const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
+        const selectors = block.getSelectors();
+        const { conditions, valid } = groupSelectorsAndConditions(block.getSelectors());
 
         if (valid) {
           block.addClassName(
@@ -214,7 +211,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
                 value as string,
                 getRenderOptions({
                   conditions,
-                  selector,
+                  selectors,
                 }),
               ),
             ),

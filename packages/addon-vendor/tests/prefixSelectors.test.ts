@@ -1,4 +1,4 @@
-import prefixSelector from '../src/prefixSelector';
+import prefixSelectors, { prefixSelector } from '../src/prefixSelectors';
 
 describe('prefixSelector()', () => {
   it('doesnt prefix for unsupported selector', () => {
@@ -22,6 +22,16 @@ describe('prefixSelector()', () => {
   it('prefixes a supported pseudo element', () => {
     expect(prefixSelector('::backdrop', '.a::backdrop { background:black; }')).toBe(
       '.a::-ms-backdrop { background:black; }.a::-webkit-backdrop { background:black; }.a::backdrop { background:black; }',
+    );
+  });
+});
+
+describe('prefixSelectors()', () => {
+  it('prefixes multiple selectors', () => {
+    expect(
+      prefixSelectors([':fullscreen', '::backdrop'], '.d:fullscreen::backdrop { display:none; }'),
+    ).toBe(
+      '.d:-ms-fullscreen::-ms-backdrop { display:none; }.d:-webkit-fullscreen::backdrop { display:none; }.d:fullscreen::backdrop { display:none; }.d:-ms-fullscreen::-webkit-backdrop { display:none; }.d:-webkit-fullscreen::backdrop { display:none; }.d:fullscreen::backdrop { display:none; }.d:-ms-fullscreen::backdrop { display:none; }.d:-webkit-fullscreen::backdrop { display:none; }.d:fullscreen::backdrop { display:none; }',
     );
   });
 });

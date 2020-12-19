@@ -10,12 +10,12 @@ import {
 export function createCacheKey(
   property: string,
   value: Value | ValueWithFallbacks,
-  { selector, conditions }: RenderOptions,
+  { selectors, conditions }: RenderOptions,
 ): string {
   let key = `${property}:${value}`;
 
-  if (selector) {
-    key += `:${selector}`;
+  if (selectors && selectors.length > 0) {
+    key += `:${selectors.join(':')}`;
   }
 
   if (conditions && conditions.length > 0) {
