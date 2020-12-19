@@ -494,6 +494,63 @@ describe('Engine', () => {
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
+    it('can nest selectors infinitely', () => {
+      engine.renderRule({
+        width: '100%',
+        maxWidth: '100%',
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        borderCollapse: 'collapse',
+        borderSpacing: 0,
+        '> thead': {
+          display: 'table-head',
+          '> tr': {
+            backgroundColor: '#eee',
+            '> th': {
+              border: '1px solid #ccc',
+              padding: 8,
+              textAlign: 'center',
+              '> span': {
+                fontWeight: 'bold',
+              },
+              '> a': {
+                textDecoration: 'underline',
+              },
+            },
+            '> td': {
+              border: '1px solid #ccc',
+              padding: 8,
+              textAlign: 'left',
+            },
+          },
+        },
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('logs a warning for multiple selectors', () => {
+      const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+      engine.renderRule({
+        display: 'table',
+        '> td, > th': {
+          padding: 0,
+        },
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        'Multiple selectors separated by a comma are not supported, found "> td, > th".',
+      );
+
+      // Should not render!
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+
+      spy.mockRestore();
+    });
+
     it('ignores invalid values', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
 

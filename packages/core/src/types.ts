@@ -22,7 +22,7 @@ import StyleSheet from './StyleSheet';
 export { GlobalStyleSheet, LocalStyleSheet, LocalBlock, CustomProperties };
 
 // And add aliases too
-export type GlobalStyles = GlobalStyleSheet;
+export type ThemeStyles = GlobalStyleSheet;
 export type ComponentStyles = LocalStyleSheet;
 export type ElementStyles = LocalBlock;
 

@@ -120,6 +120,17 @@ function procesNested(
       options.selectors = [];
     }
 
+    if (__DEV__) {
+      if (property.includes(', ')) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Multiple selectors separated by a comma are not supported, found "${property}".`,
+        );
+
+        return className;
+      }
+    }
+
     options.selectors.push(property);
     className = render();
     options.selectors.pop();
