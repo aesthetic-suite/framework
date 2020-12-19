@@ -1,5 +1,4 @@
 import { CSS } from '@aesthetic/types';
-import { arrayReduce } from '@aesthetic/utils';
 import getPrefixesFromMask from './getPrefixesFromMask';
 import { selectorMapping } from './data';
 
