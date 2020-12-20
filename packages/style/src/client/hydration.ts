@@ -18,17 +18,16 @@ const FONT_FAMILY = /font-family:([^;]+)/;
 const IMPORT_URL = /url\(["']?([^)]+)["']?\)/;
 
 function addRuleToCache(engine: StyleEngine, rule: string, rank: number, conditions?: string[]) {
-  const [, className, selector = '', property, value] = rule.match(RULE_PATTERN)!;
-  const cacheKey = createCacheKey(
-    property,
-    // Has trailing semi-colon
-    value.slice(0, -1),
-    {
-      conditions,
-      // Has trailing spaces
-      selector: selector.trim(),
-    },
-  );
+  const [, className, rawSelector = '', property, rawValue] = rule.match(RULE_PATTERN)!;
+  // Has trailing spaces
+  const selector = rawSelector.trim();
+  // Has trailing semi-colon
+  const value = rawValue.slice(0, -1);
+
+  const cacheKey = createCacheKey(property, value, {
+    conditions,
+    selectors: selector ? [selector] : undefined,
+  });
 
   engine.cacheManager.write(cacheKey, {
     className,

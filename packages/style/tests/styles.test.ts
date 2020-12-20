@@ -109,7 +109,7 @@ describe('Engine', () => {
 
       // Selector prefixing
       engine.renderDeclaration('display', 'none', {
-        selector: ':fullscreen',
+        selectors: [':fullscreen'],
         vendor: true,
       });
 
@@ -124,9 +124,9 @@ describe('Engine', () => {
 
     describe('selectors', () => {
       it('supports selectors', () => {
-        engine.renderDeclaration('color', 'green', { selector: ':hover' });
-        engine.renderDeclaration('color', 'red', { selector: '[disabled]' });
-        engine.renderDeclaration('color', 'blue', { selector: ':nth-child(2)' });
+        engine.renderDeclaration('color', 'green', { selectors: [':hover'] });
+        engine.renderDeclaration('color', 'red', { selectors: ['[disabled]'] });
+        engine.renderDeclaration('color', 'blue', { selectors: [':nth-child(2)'] });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
@@ -150,7 +150,7 @@ describe('Engine', () => {
       it('supports conditionals with selectors', () => {
         engine.renderDeclaration('color', 'green', {
           conditions: ['@media (max-size: 100px)'],
-          selector: ':focus',
+          selectors: [':focus'],
         });
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
@@ -494,6 +494,63 @@ describe('Engine', () => {
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
+    it('can nest selectors infinitely', () => {
+      engine.renderRule({
+        width: '100%',
+        maxWidth: '100%',
+        margin: 0,
+        padding: 0,
+        backgroundColor: '#fff',
+        border: '1px solid #ccc',
+        borderCollapse: 'collapse',
+        borderSpacing: 0,
+        '> thead': {
+          display: 'table-head',
+          '> tr': {
+            backgroundColor: '#eee',
+            '> th': {
+              border: '1px solid #ccc',
+              padding: 8,
+              textAlign: 'center',
+              '> span': {
+                fontWeight: 'bold',
+              },
+              '> a': {
+                textDecoration: 'underline',
+              },
+            },
+            '> td': {
+              border: '1px solid #ccc',
+              padding: 8,
+              textAlign: 'left',
+            },
+          },
+        },
+      });
+
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('logs a warning for multiple selectors', () => {
+      const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+      engine.renderRule({
+        display: 'table',
+        '> td, > th': {
+          padding: 0,
+        },
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        'Multiple selectors separated by a comma are not supported, found "> td, > th".',
+      );
+
+      // Should not render!
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+
+      spy.mockRestore();
+    });
+
     it('ignores invalid values', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
 
@@ -652,7 +709,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: '[disabled]',
+          selectors: ['[disabled]'],
         });
 
         expect(classNameA).toBe('a');
@@ -662,7 +719,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('backgroundColor', '#286090', {
-          selector: '[href*="example"]',
+          selectors: ['[href*="example"]'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -693,7 +750,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: ':focus',
+          selectors: [':focus'],
         });
 
         expect(classNameA).toBe('a');
@@ -703,7 +760,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selector: ':nth-last-of-type(4n)',
+          selectors: [':nth-last-of-type(4n)'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -739,7 +796,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selector: '+ div',
+          selectors: ['+ div'],
         });
 
         expect(classNameA).toBe('a');
@@ -749,7 +806,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selector: ':first-of-type + li',
+          selectors: [':first-of-type + li'],
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();

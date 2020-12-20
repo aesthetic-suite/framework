@@ -58,9 +58,9 @@ export function formatDeclarationBlock(properties: Record<string, Value>): CSS {
 export function formatRule(
   className: ClassName,
   block: CSS,
-  { conditions, selector = '' }: RenderOptions,
+  { conditions, selectors }: RenderOptions,
 ): CSS {
-  let rule = `.${className}${selector} { ${block} }`;
+  let rule = `.${className}${selectors ? selectors.join('') : ''} { ${block} }`;
 
   // Server-side rendering recursively creates CSS rules to collapse
   // conditionals to their smallest representation, so we need to avoid

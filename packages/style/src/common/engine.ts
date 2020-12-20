@@ -81,8 +81,8 @@ function insertStyles(
 
     // Insert rule and return a rank (insert index)
     const rank = sheetManager.insertRule(
-      options.selector && options.vendor && vendorPrefixer
-        ? vendorPrefixer.prefixSelector(options.selector, css)
+      options.selectors && options.vendor && vendorPrefixer
+        ? vendorPrefixer.prefixSelectors(options.selectors, css)
         : css,
       options,
     );
@@ -116,9 +116,24 @@ function procesNested(
 
     // Selectors
   } else if (isNestedSelector(property)) {
-    options.selector = property;
+    if (!options.selectors) {
+      options.selectors = [];
+    }
+
+    if (__DEV__) {
+      if (property.includes(', ')) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Multiple selectors separated by a comma are not supported, found "${property}".`,
+        );
+
+        return className;
+      }
+    }
+
+    options.selectors.push(property);
     className = render();
-    options.selector = undefined;
+    options.selectors.pop();
 
     // Unknown
   } else if (__DEV__) {

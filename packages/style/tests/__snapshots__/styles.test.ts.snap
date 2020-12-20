@@ -98,6 +98,8 @@ exports[`Engine renderRule() can nest conditionals infinitely 1`] = `".a {margin
 
 exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.d {color: blue;}}}}@media (width: 500px) {@media (width: 350px) {@supports (color: blue) {.e:focus {color: darkblue;}}}}"`;
 
+exports[`Engine renderRule() can nest selectors infinitely 1`] = `".a {width: 100%;}.b {max-width: 100%;}.c {margin: 0;}.d {padding: 0;}.e {background-color: #fff;}.f {border: 1px solid #ccc;}.g {border-collapse: collapse;}.h {border-spacing: 0;}.i> thead {display: table-head;}.j> thead> tr {background-color: #eee;}.k> thead> tr> th {border: 1px solid #ccc;}.l> thead> tr> th {padding: 8px;}.m> thead> tr> th {text-align: center;}.n> thead> tr> th> span {font-weight: bold;}.o> thead> tr> th> a {text-decoration: underline;}.p> thead> tr> td {border: 1px solid #ccc;}.q> thead> tr> td {padding: 8px;}.r> thead> tr> td {text-align: left;}"`;
+
 exports[`Engine renderRule() generates a deterministic class name for each property 1`] = `".cl8qkup {margin: 0;}.c1hykqr2 {cursor: pointer;}"`;
 
 exports[`Engine renderRule() generates a unique class name for each property 1`] = `".a {margin: 0;}.b {padding: 6px 12px;}.c {border: 1px solid #2e6da4;}.d {border-radius: 4px;}.e {display: inline-block;}.f {cursor: pointer;}.g {font-family: Roboto;}.h {font-weight: normal;}.i {line-height: normal;}.j {white-space: nowrap;}.k {text-decoration: none;}.l {text-align: left;}.m {background-color: #337ab7;}.n {vertical-align: middle;}.o {color: rgba(0, 0, 0, 0);}.p {animation-name: fade;}.q {animation-duration: .3s;}"`;
@@ -117,6 +119,8 @@ exports[`Engine renderRule() inserts into the appropriate style sheets 1`] = `".
 exports[`Engine renderRule() inserts into the appropriate style sheets 2`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
 
 exports[`Engine renderRule() logs a warning for invalid values 1`] = `""`;
+
+exports[`Engine renderRule() logs a warning for multiple selectors 1`] = `".a {display: table;}"`;
 
 exports[`Engine renderRule() logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
 

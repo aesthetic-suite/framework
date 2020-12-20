@@ -4,9 +4,9 @@
  */
 
 import prefix from './prefix';
-import prefixSelector from './prefixSelector';
+import prefixSelectors from './prefixSelectors';
 
 export default {
   prefix,
-  prefixSelector,
+  prefixSelectors,
 };
