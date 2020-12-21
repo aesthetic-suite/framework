@@ -128,6 +128,21 @@ describe('System', () => {
       expect(other.template).toMatchSnapshot();
     });
 
+    it('supports palettes with different combinations of color and shade settings', () => {
+      const config = new LanguageLoader('web').load(
+        new Path(__dirname, './__fixtures__/colors.yaml'),
+      );
+
+      const themes = new ThemesLoader(config.colors).load(
+        new Path(__dirname, './__fixtures__/themes/theme-palette-settings.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+      const theme = design.createTheme('default', themes.themes.default);
+
+      expect(theme.template).toMatchSnapshot();
+    });
+
     it('errors when theme doesnt implement the defined colors', () => {
       expect(() =>
         new ThemesLoader(['black', 'white']).load(

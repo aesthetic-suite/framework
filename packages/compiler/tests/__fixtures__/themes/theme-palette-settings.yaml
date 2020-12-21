@@ -1,0 +1,125 @@
+themes:
+  default:
+    scheme: light
+    colors:
+      black:
+        '00': '#000'
+        '10': '#001'
+        '20': '#002'
+        '30': '#003'
+        '40': '#004'
+        '50': '#005'
+        '60': '#006'
+        '70': '#007'
+        '80': '#008'
+        '90': '#009'
+      white:
+        '00': '#FF0'
+        '10': '#FF1'
+        '20': '#FF2'
+        '30': '#FF3'
+        '40': '#FF4'
+        '50': '#FF5'
+        '60': '#FF6'
+        '70': '#FF7'
+        '80': '#FF8'
+        '90': '#FF9'
+      blue:
+        '00': '#BE0'
+        '10': '#BE1'
+        '20': '#BE2'
+        '30': '#BE3'
+        '40': '#BE4'
+        '50': '#BE5'
+        '60': '#BE6'
+        '70': '#BE7'
+        '80': '#BE8'
+        '90': '#BE9'
+      red:
+        '00': '#ED0'
+        '10': '#ED1'
+        '20': '#ED2'
+        '30': '#ED3'
+        '40': '#ED4'
+        '50': '#ED5'
+        '60': '#ED6'
+        '70': '#ED7'
+        '80': '#ED8'
+        '90': '#ED9'
+      green:
+        '00': '#EE0'
+        '10': '#EE1'
+        '20': '#EE2'
+        '30': '#EE3'
+        '40': '#EE4'
+        '50': '#EE5'
+        '60': '#EE6'
+        '70': '#EE7'
+        '80': '#EE8'
+        '90': '#EE9'
+    palettes:
+      # Shorthand
+      brand: black
+      # Color only
+      primary:
+        color: blue
+      # Color + bg
+      secondary:
+        color: blue
+        bg: red
+      # Color + fg
+      tertiary:
+        color: blue
+        fg: green
+      # Color + text
+      neutral:
+        color: white
+        text: black
+      # Color + text + shade
+      muted:
+        color: black
+        text: white.90
+      # Custom bg
+      info:
+        color: white
+        bg:
+          base: white.90
+          focused: white.80
+          hovered: white.70
+          selected: white.60
+          disabled: white.00
+      # Custom fg
+      warning:
+        color: red
+        fg:
+          base: red.90
+          focused: red.80
+          hovered: red.70
+          selected: red.60
+          disabled: red.00
+      # Custom with partials
+      danger:
+        color: black
+        text: red.50
+        bg:
+          base: blue.30
+        fg:
+          base: green.40
+      # Custom all different colors
+      failure:
+        color: black
+        text: white.00
+        fg:
+          base: red.90
+          focused: blue.80
+          hovered: green.70
+          selected: white.60
+          disabled: black.50
+        bg:
+          base: green.40
+          focused: red.30
+          hovered: blue.20
+          selected: black.10
+          disabled: white.00
+      # Shorthand
+      success: white
