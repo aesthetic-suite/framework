@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/addon-mixins",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "CSS-in-JS mixins for the Aesthetic design system.",
   "keywords": [
     "aesthetic",
@@ -29,11 +29,11 @@
     "@aesthetic/system": "*"
   },
   "dependencies": {
-    "@aesthetic/utils": "^0.5.2"
+    "@aesthetic/utils": "^0.6.0"
   },
   "devDependencies": {
-    "@aesthetic/sss": "^0.5.0",
-    "@aesthetic/system": "^0.5.1"
+    "@aesthetic/sss": "^0.6.0",
+    "@aesthetic/system": "^0.6.0"
   },
   "funding": {
     "type": "ko-fi",
