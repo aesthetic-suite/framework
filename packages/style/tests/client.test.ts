@@ -63,9 +63,9 @@ describe('Client', () => {
     it('adds at-rules to the global cache', () => {
       expect(cache).toEqual(
         expect.objectContaining({
-          '@import:test.css': [{ className: '' }],
-          '@font-face:"Open Sans"': [{ className: '' }],
-          '@keyframes:kf103rcyx': [{ className: '' }],
+          'url(test.css)': [{ className: '' }],
+          '"Open Sans"': [{ className: '' }],
+          kf103rcyx: [{ className: '' }],
         }),
       );
       expect(engine.ruleIndex).toBe(21);
@@ -74,29 +74,27 @@ describe('Client', () => {
     it('adds standard and condition rules to the class name cache', () => {
       expect(cache).toEqual(
         expect.objectContaining({
-          'margin:0': [{ className: 'a', rank: 0 }],
-          'padding:6px 12px': [{ className: 'b', rank: 1 }],
-          'border:1px solid #2e6da4': [{ className: 'c', rank: 2 }],
-          'border-radius:4px': [{ className: 'd', rank: 3 }],
-          'display:inline-block': [{ className: 'e', rank: 4 }],
-          'cursor:pointer': [{ className: 'f', rank: 5 }],
-          'font-family:Roboto': [{ className: 'g', rank: 6 }],
-          'font-weight:normal': [{ className: 'h', rank: 7 }],
-          'line-height:normal': [{ className: 'i', rank: 8 }],
-          'white-space:nowrap': [{ className: 'j', rank: 9 }],
-          'text-decoration:none': [{ className: 'k', rank: 10 }],
-          'text-align:left': [{ className: 'l', rank: 11 }],
-          'background-color:#337ab7': [{ className: 'm', rank: 12 }],
-          'vertical-align:middle': [{ className: 'n', rank: 13 }],
-          'color:rgba(0, 0, 0, 0)': [{ className: 'o', rank: 14 }],
-          'animation-name:fade': [{ className: 'p', rank: 15 }],
-          'animation-duration:.3s': [{ className: 'q', rank: 16 }],
-          'color:blue:@media (width: 500px):@media (width: 350px):@supports (color: blue)': [
-            { className: 't', rank: 0 },
-          ],
-          'color:red::hover:@media (width: 500px)': [{ className: 's', rank: 1 }],
-          'margin:10px:@media (width: 500px)': [{ className: 'r', rank: 2 }],
-          'color:green:@supports (color: green)': [{ className: 'u', rank: 3 }],
+          margin0: [{ className: 'a', rank: 0 }],
+          'padding6px 12px': [{ className: 'b', rank: 1 }],
+          'border1px solid #2e6da4': [{ className: 'c', rank: 2 }],
+          'border-radius4px': [{ className: 'd', rank: 3 }],
+          'displayinline-block': [{ className: 'e', rank: 4 }],
+          cursorpointer: [{ className: 'f', rank: 5 }],
+          'font-familyRoboto': [{ className: 'g', rank: 6 }],
+          'font-weightnormal': [{ className: 'h', rank: 7 }],
+          'line-heightnormal': [{ className: 'i', rank: 8 }],
+          'white-spacenowrap': [{ className: 'j', rank: 9 }],
+          'text-decorationnone': [{ className: 'k', rank: 10 }],
+          'text-alignleft': [{ className: 'l', rank: 11 }],
+          'background-color#337ab7': [{ className: 'm', rank: 12 }],
+          'vertical-alignmiddle': [{ className: 'n', rank: 13 }],
+          'colorrgba(0, 0, 0, 0)': [{ className: 'o', rank: 14 }],
+          'animation-namefade': [{ className: 'p', rank: 15 }],
+          'animation-duration.3s': [{ className: 'q', rank: 16 }],
+          '(color: blue)(width: 500px) and (width: 350px)colorblue': [{ className: 't', rank: 0 }],
+          '(width: 500px):hovercolorred': [{ className: 's', rank: 1 }],
+          '(width: 500px)margin10px': [{ className: 'r', rank: 2 }],
+          '(color: green)colorgreen': [{ className: 'u', rank: 3 }],
         }),
       );
       expect(engine.ruleIndex).toBe(21);
