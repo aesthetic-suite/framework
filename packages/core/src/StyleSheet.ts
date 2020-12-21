@@ -1,9 +1,7 @@
-/* eslint-disable no-magic-numbers */
-
 import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
-import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
+import { Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
+import { deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
   RenderResult,
@@ -23,27 +21,6 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
   });
 
   return key;
-}
-
-function groupSelectorsAndConditions(selectors: string[]) {
-  const conditions: string[] = [];
-  let valid = true;
-
-  arrayLoop(selectors, (value) => {
-    const part = value.slice(0, 10);
-
-    if (part === '@keyframes' || part === '@font-face') {
-      // istanbul ignore next
-      valid = false;
-    } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
-      conditions.push(value);
-    }
-  });
-
-  return {
-    conditions: conditions.length === 0 ? undefined : [],
-    valid,
-  };
 }
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
@@ -168,14 +145,11 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
-
-    const getRenderOptions = (opts?: RenderOptions): RenderOptions => ({
+    const renderOptions: RenderOptions = {
       direction: params.direction,
-      rankings: this.type === 'global' ? undefined : rankings,
       unit: params.unit,
       vendor: params.vendor,
-      ...opts,
-    });
+    };
 
     const addClassToMap = (selector: string, className: string) => {
       classNames[selector] = { result: className };
@@ -191,54 +165,42 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
-        return engine.renderFontFace(fontFace.toObject(), getRenderOptions());
+        return engine.renderFontFace(fontFace.toObject(), renderOptions);
       },
       onImport(path) {
         engine.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
-        return engine.renderKeyframes(keyframes.toObject(), animationName, getRenderOptions());
-      },
-      onProperty(block, property, value) {
-        const selectors = block.getSelectors();
-        const { conditions, valid } = groupSelectorsAndConditions(block.getSelectors());
-
-        if (valid) {
-          block.addClassName(
-            String(
-              engine.renderDeclaration(
-                property as Property,
-                value as string,
-                getRenderOptions({
-                  conditions,
-                  selectors,
-                }),
-              ),
-            ),
-          );
-        }
+        return engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions);
       },
       onRoot: (block) => {
         addClassToMap(
           '@root',
           String(
-            engine.renderRuleGrouped(
-              block.toObject(),
-              getRenderOptions({
-                deterministic: true,
-                type: 'global',
-              }),
-            ),
+            engine.renderRuleGrouped(block.toObject(), {
+              ...renderOptions,
+              deterministic: true,
+              type: 'global',
+            }),
           ),
         );
       },
       onRootVariables(variables) {
         engine.setRootVariables(variables);
       },
-      onRule: (selector, rule) => {
-        const meta = addClassToMap(selector, rule.className.trim());
+      onRule: (selector, block) => {
+        block.addClassName(
+          String(
+            engine.renderRule(block.toObject(), {
+              ...renderOptions,
+              rankings,
+            }),
+          ),
+        );
 
-        objectLoop(rule.variants, (variant, type) => {
+        const meta = addClassToMap(selector, block.className.trim());
+
+        objectLoop(block.variants, (variant, type) => {
           if (!meta.renderResult.variants) {
             meta.renderResult.variants = {};
           }

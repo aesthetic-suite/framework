@@ -1,6 +1,6 @@
 /* eslint-disable require-unicode-regexp */
 
-import { arrayLoop } from '@aesthetic/utils';
+import { arrayLoop, joinQueries } from '@aesthetic/utils';
 import { createCacheKey } from '../common/cache';
 import {
   FONT_FACE_RULE,
@@ -10,7 +10,6 @@ import {
   MEDIA_RULE,
   SUPPORTS_RULE,
 } from '../common/constants';
-import { joinQueries } from '../common/helpers';
 import { StyleEngine } from '../types';
 
 // eslint-disable-next-line

@@ -13,6 +13,7 @@ import generateHash from './generateHash';
 import hyphenate from './hyphenate';
 import isDOM from './isDOM';
 import isObject from './isObject';
+import joinQueries from './joinQueries';
 import objectCreate from './objectCreate';
 import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
@@ -31,6 +32,7 @@ export {
   hyphenate,
   isDOM,
   isObject,
+  joinQueries,
   objectCreate,
   objectLoop,
   objectReduce,

@@ -15,16 +15,9 @@ import {
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
+import { generateHash, isObject, joinQueries, objectLoop, objectReduce } from '@aesthetic/utils';
 import { createCacheKey, createCacheManager } from './cache';
-import {
-  isMediaRule,
-  isNestedSelector,
-  isSupportsRule,
-  isValidValue,
-  isVariable,
-  joinQueries,
-} from './helpers';
+import { isMediaRule, isNestedSelector, isSupportsRule, isValidValue, isVariable } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
