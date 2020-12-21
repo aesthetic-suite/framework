@@ -207,13 +207,14 @@ export type PaletteState<T> = {
 } & Record<StateType, T>;
 
 export interface PaletteConfig {
+  color: ColorName;
   text: ColorName | ColorShadeRef;
   bg: ColorName | PaletteState<ColorShadeRef>;
   fg: ColorName | PaletteState<ColorShadeRef>;
 }
 
 export type PalettesConfig = {
-  [K in PaletteType]: PaletteConfig;
+  [K in PaletteType]: ColorName | PaletteConfig;
 };
 
 // Themes
@@ -312,6 +313,7 @@ export interface DesignTemplate {
 }
 
 export interface PaletteTemplate {
+  color: ColorConfig;
   text: Hexcode;
   bg: PaletteState<Hexcode>;
   fg: PaletteState<Hexcode>;

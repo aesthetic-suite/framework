@@ -15,4 +15,4 @@ themes:
         '90': '#000'
     palettes:
       brand:
-        text: white
+        color: red

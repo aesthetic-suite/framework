@@ -11,6 +11,7 @@ import optimal, {
   string,
   StringPredicate,
   union,
+  UnionPredicate,
 } from 'optimal';
 import Loader from './Loader';
 import {
@@ -22,6 +23,7 @@ import {
   SHADE_HOVERED,
   SHADE_SELECTED,
   SHADE_DISABLED,
+  INHERIT_SETTING,
 } from './constants';
 import {
   ThemesConfigFile,
@@ -31,9 +33,10 @@ import {
   PaletteState,
   PaletteConfig,
   ColorShadeRef,
+  ColorName,
 } from './types';
 
-const COLOR_SHADE_REF_PATTERN = new RegExp(`^[a-z0-9]+(.${SHADE_RANGES.join('|')})?$`, 'iu');
+const COLOR_SHADE_REF_PATTERN = new RegExp(`^[a-z0-9]+(.(${SHADE_RANGES.join('|')}))?$`, 'iu');
 
 function hexcode() {
   return string()
@@ -91,7 +94,7 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
   }
 
   protected colorName(): StringPredicate {
-    return string().required().notEmpty().custom(this.validatePaletteColorReference);
+    return string().notEmpty().custom(this.validatePaletteColorReference);
   }
 
   protected colorShadeRef(defaultValue: number): StringPredicate {
@@ -159,17 +162,28 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
     }).exact();
   }
 
-  protected themePalette(): ShapePredicate<PaletteConfig> {
-    return shape<PaletteConfig>({
-      text: union([this.colorName(), this.colorShadeRef(SHADE_TEXT)], ''),
-      bg: union([this.colorName(), this.themePaletteState()], ''),
-      fg: union([this.colorName(), this.themePaletteState()], ''),
-    })
-      .exact()
-      .required();
+  protected themePalette(): UnionPredicate<ColorName | PaletteConfig> {
+    return union(
+      [
+        this.colorName(),
+        shape<PaletteConfig>({
+          color: this.colorName().required().notEmpty(),
+          text: union([this.colorName(), this.colorShadeRef(SHADE_TEXT)], INHERIT_SETTING),
+          bg: union([this.colorName(), this.themePaletteState()], INHERIT_SETTING),
+          fg: union([this.colorName(), this.themePaletteState()], INHERIT_SETTING),
+        })
+          .exact()
+          .required(),
+      ],
+      '',
+    );
   }
 
   protected validatePaletteColorReference = (name: string) => {
+    if (name === INHERIT_SETTING) {
+      return;
+    }
+
     const names = new Set<string>(this.colorNames);
 
     if (!names.has(name)) {

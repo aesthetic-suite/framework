@@ -15,6 +15,7 @@ themes:
         '90': '#000'
     palettes:
       brand:
+        color: black
         text: black
         bg:
           base: black.100

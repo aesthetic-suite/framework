@@ -27,47 +27,14 @@ themes:
         '80': '#fff'
         '90': '#fff'
     palettes:
-      brand:
-        text: black
-        bg: white
-        fg: black
-      primary:
-        text: black
-        bg: white
-        fg: black
-      secondary:
-        text: black
-        bg: white
-        fg: black
-      tertiary:
-        text: black
-        bg: white
-        fg: black
-      neutral:
-        text: black
-        bg: white
-        fg: black
-      muted:
-        text: black
-        bg: white
-        fg: black
-      info:
-        text: black
-        bg: white
-        fg: black
-      warning:
-        text: black
-        bg: white
-        fg: black
-      danger:
-        text: black
-        bg: white
-        fg: black
-      failure:
-        text: black
-        bg: white
-        fg: black
-      success:
-        text: black
-        bg: white
-        fg: black
+      brand: black
+      primary: black
+      secondary: black
+      tertiary: black
+      neutral: black
+      muted: black
+      info: black
+      warning: black
+      danger: black
+      failure: black
+      success: black

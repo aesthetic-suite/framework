@@ -58,11 +58,9 @@ themes:
         '80': '#EE8'
         '90': '#EE9'
     palettes:
-      brand:
-        text: black
-        bg: black
-        fg: white
+      brand: black
       primary:
+        color: blue
         text: blue
         fg:
           base: white.90
@@ -73,48 +71,48 @@ themes:
           disabled: blue.10
           hovered: blue.20
       secondary:
-        text: red
-        bg: red
+        color: red
         fg: white
-      tertiary:
-        text: blue
-        bg: blue
-        fg: white
+      tertiary: blue
       neutral:
+        color: green
         text: green
         bg: green
         fg:
-          base: white.0
+          base: white.00
           focused: white.20
           hovered: white.30
           selected: white.40
           disabled: white.10
       muted:
-        text: black
+        color: black
         bg: black
         fg: white
       info:
-        text: white
+        color: white
         bg: white
         fg: black
       warning:
-        text: red
+        color: red
         bg: red
-        bg:
+        fg:
           base: white.90
           focused: white.90
           hovered: white.90
           selected: white.90
           disabled: white.90
       danger:
+        color: blue
         text: blue.40
         bg: blue
         fg: white
       failure:
+        color: blue
         text: blue.00
         bg: blue
         fg: white
       success:
+        color: green
         text: green.90
         bg: green
         fg: white
@@ -135,18 +133,17 @@ themes:
         '80': '#ff8'
         '90': '#ff9'
     palettes:
-      brand:
-        text: blue
-        bg: blue
-        fg: white
+      brand: blue
       neutral:
+        color: green
         text: green
-        bg: blue
+        bg: green
         fg:
-          base: red.0
-          focused: red.40
-          selected: red.80
+          base: white.00
+          focused: white.40
+          selected: white.80
       danger:
+        color: red
         text: red
         bg:
           base: red.90

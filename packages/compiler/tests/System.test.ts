@@ -159,9 +159,7 @@ describe('System', () => {
         new ThemesLoader(['black']).load(
           new Path(__dirname, './__fixtures__/themes/invalid-palette-color.yaml'),
         ),
-      )
-        .toThrow(`Invalid field "themes.default.palettes.brand". Type must be one of: string, shape. Received string with the following invalidations:
- - Invalid color "white".`);
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors when theme palette references an invalid color shade', () => {

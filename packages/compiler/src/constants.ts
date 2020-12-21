@@ -119,3 +119,5 @@ export const SHADE_FOCUSED = 50;
 export const SHADE_HOVERED = 60;
 export const SHADE_SELECTED = 50;
 export const SHADE_DISABLED = 30;
+
+export const INHERIT_SETTING = 'INHERIT';
