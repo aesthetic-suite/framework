@@ -226,6 +226,7 @@ export interface PaletteToken {
   color: ColorRangeToken;
   bg: ColorStateToken;
   fg: ColorStateToken;
+  text: Hexcode;
 }
 
 export type PaletteTokens = Record<PaletteType, PaletteToken>;
@@ -246,6 +247,7 @@ export interface ThemeVariables {
   'palette-brand-color-70': Hexcode;
   'palette-brand-color-80': Hexcode;
   'palette-brand-color-90': Hexcode;
+  'palette-brand-text': Hexcode;
   'palette-brand-bg-base': Hexcode;
   'palette-brand-bg-focused': Hexcode;
   'palette-brand-bg-hovered': Hexcode;
@@ -266,6 +268,7 @@ export interface ThemeVariables {
   'palette-primary-color-70': Hexcode;
   'palette-primary-color-80': Hexcode;
   'palette-primary-color-90': Hexcode;
+  'palette-primary-text': Hexcode;
   'palette-primary-bg-base': Hexcode;
   'palette-primary-bg-focused': Hexcode;
   'palette-primary-bg-hovered': Hexcode;
@@ -286,6 +289,7 @@ export interface ThemeVariables {
   'palette-secondary-color-70': Hexcode;
   'palette-secondary-color-80': Hexcode;
   'palette-secondary-color-90': Hexcode;
+  'palette-secondary-text': Hexcode;
   'palette-secondary-bg-base': Hexcode;
   'palette-secondary-bg-focused': Hexcode;
   'palette-secondary-bg-hovered': Hexcode;
@@ -306,6 +310,7 @@ export interface ThemeVariables {
   'palette-tertiary-color-70': Hexcode;
   'palette-tertiary-color-80': Hexcode;
   'palette-tertiary-color-90': Hexcode;
+  'palette-tertiary-text': Hexcode;
   'palette-tertiary-bg-base': Hexcode;
   'palette-tertiary-bg-focused': Hexcode;
   'palette-tertiary-bg-hovered': Hexcode;
@@ -326,6 +331,7 @@ export interface ThemeVariables {
   'palette-neutral-color-70': Hexcode;
   'palette-neutral-color-80': Hexcode;
   'palette-neutral-color-90': Hexcode;
+  'palette-neutral-text': Hexcode;
   'palette-neutral-bg-base': Hexcode;
   'palette-neutral-bg-focused': Hexcode;
   'palette-neutral-bg-hovered': Hexcode;
@@ -346,6 +352,7 @@ export interface ThemeVariables {
   'palette-muted-color-70': Hexcode;
   'palette-muted-color-80': Hexcode;
   'palette-muted-color-90': Hexcode;
+  'palette-muted-text': Hexcode;
   'palette-muted-bg-base': Hexcode;
   'palette-muted-bg-focused': Hexcode;
   'palette-muted-bg-hovered': Hexcode;
@@ -366,6 +373,7 @@ export interface ThemeVariables {
   'palette-info-color-70': Hexcode;
   'palette-info-color-80': Hexcode;
   'palette-info-color-90': Hexcode;
+  'palette-info-text': Hexcode;
   'palette-info-bg-base': Hexcode;
   'palette-info-bg-focused': Hexcode;
   'palette-info-bg-hovered': Hexcode;
@@ -386,6 +394,7 @@ export interface ThemeVariables {
   'palette-warning-color-70': Hexcode;
   'palette-warning-color-80': Hexcode;
   'palette-warning-color-90': Hexcode;
+  'palette-warning-text': Hexcode;
   'palette-warning-bg-base': Hexcode;
   'palette-warning-bg-focused': Hexcode;
   'palette-warning-bg-hovered': Hexcode;
@@ -406,6 +415,7 @@ export interface ThemeVariables {
   'palette-danger-color-70': Hexcode;
   'palette-danger-color-80': Hexcode;
   'palette-danger-color-90': Hexcode;
+  'palette-danger-text': Hexcode;
   'palette-danger-bg-base': Hexcode;
   'palette-danger-bg-focused': Hexcode;
   'palette-danger-bg-hovered': Hexcode;
@@ -426,6 +436,7 @@ export interface ThemeVariables {
   'palette-success-color-70': Hexcode;
   'palette-success-color-80': Hexcode;
   'palette-success-color-90': Hexcode;
+  'palette-success-text': Hexcode;
   'palette-success-bg-base': Hexcode;
   'palette-success-bg-focused': Hexcode;
   'palette-success-bg-hovered': Hexcode;
@@ -446,6 +457,7 @@ export interface ThemeVariables {
   'palette-failure-color-70': Hexcode;
   'palette-failure-color-80': Hexcode;
   'palette-failure-color-90': Hexcode;
+  'palette-failure-text': Hexcode;
   'palette-failure-bg-base': Hexcode;
   'palette-failure-bg-focused': Hexcode;
   'palette-failure-bg-hovered': Hexcode;

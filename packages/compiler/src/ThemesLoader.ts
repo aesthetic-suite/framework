@@ -2,7 +2,6 @@ import { deepMerge } from '@aesthetic/utils';
 import { DeepPartial, ContrastLevel, ColorScheme, Hexcode, ColorShade } from '@aesthetic/system';
 import { Path } from '@boost/common';
 import optimal, {
-  number,
   object,
   ObjectOf,
   ObjectPredicate,
@@ -10,11 +9,20 @@ import optimal, {
   shape,
   ShapePredicate,
   string,
+  StringPredicate,
   union,
-  UnionPredicate,
 } from 'optimal';
 import Loader from './Loader';
-import { THEMES_FILE, SHADE_RANGES } from './constants';
+import {
+  THEMES_FILE,
+  SHADE_RANGES,
+  SHADE_TEXT,
+  SHADE_BASE,
+  SHADE_FOCUSED,
+  SHADE_HOVERED,
+  SHADE_SELECTED,
+  SHADE_DISABLED,
+} from './constants';
 import {
   ThemesConfigFile,
   ThemeConfig,
@@ -22,7 +30,10 @@ import {
   ColorConfig,
   PaletteState,
   PaletteConfig,
+  ColorShadeRef,
 } from './types';
+
+const COLOR_SHADE_REF_PATTERN = new RegExp(`^[a-z0-9]+(.${SHADE_RANGES.join('|')})?$`, 'iu');
 
 function hexcode() {
   return string()
@@ -79,11 +90,18 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
     );
   }
 
-  protected colorShade(defaultValue: number): UnionPredicate<number | string> {
-    return union(
-      [number().oneOf(SHADE_RANGES.map(Number)), string().oneOf(SHADE_RANGES)],
-      defaultValue,
-    );
+  protected colorName(): StringPredicate {
+    return string().required().notEmpty().custom(this.validatePaletteColorReference);
+  }
+
+  protected colorShadeRef(defaultValue: number): StringPredicate {
+    return string(`${this.colorNames[0] || 'unknown'}.${defaultValue}`)
+      .match(COLOR_SHADE_REF_PATTERN)
+      .custom((ref) => {
+        const [color] = ref.split('.');
+
+        this.validatePaletteColorReference(color);
+      });
   }
 
   protected themes(): ObjectPredicate<ThemeConfig, string> {
@@ -131,32 +149,24 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
       .required();
   }
 
-  protected themePaletteState(base: number): ShapePredicate<PaletteState> {
+  protected themePaletteState(): ShapePredicate<PaletteState<ColorShadeRef>> {
     return shape({
-      base: this.colorShade(base),
-      focused: this.colorShade(base + 10),
-      hovered: this.colorShade(base + 20),
-      selected: this.colorShade(base + 10),
-      disabled: this.colorShade(base - 20),
+      base: this.colorShadeRef(SHADE_BASE),
+      focused: this.colorShadeRef(SHADE_FOCUSED),
+      hovered: this.colorShadeRef(SHADE_HOVERED),
+      selected: this.colorShadeRef(SHADE_SELECTED),
+      disabled: this.colorShadeRef(SHADE_DISABLED),
     }).exact();
   }
 
-  protected themePalette(): UnionPredicate<string | PaletteConfig> {
-    const color = string().required().notEmpty().custom(this.validatePaletteColorReference);
-
-    return union(
-      [
-        color,
-        shape<PaletteConfig>({
-          color,
-          bg: this.themePaletteState(40),
-          fg: this.themePaletteState(50),
-        })
-          .exact()
-          .required(),
-      ],
-      '',
-    );
+  protected themePalette(): ShapePredicate<PaletteConfig> {
+    return shape<PaletteConfig>({
+      text: union([this.colorName(), this.colorShadeRef(SHADE_TEXT)], ''),
+      bg: union([this.colorName(), this.themePaletteState()], ''),
+      fg: union([this.colorName(), this.themePaletteState()], ''),
+    })
+      .exact()
+      .required();
   }
 
   protected validatePaletteColorReference = (name: string) => {
