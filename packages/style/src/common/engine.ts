@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 import {
   CacheItem,
   ClassName,
@@ -15,7 +17,14 @@ import {
 } from '@aesthetic/types';
 import { generateHash, isObject, objectLoop, objectReduce } from '@aesthetic/utils';
 import { createCacheKey, createCacheManager } from './cache';
-import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
+import {
+  isMediaRule,
+  isNestedSelector,
+  isSupportsRule,
+  isValidValue,
+  isVariable,
+  joinQueries,
+} from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
@@ -81,8 +90,8 @@ function insertStyles(
 
     // Insert rule and return a rank (insert index)
     const rank = sheetManager.insertRule(
-      options.selectors && options.vendor && vendorPrefixer
-        ? vendorPrefixer.prefixSelectors(options.selectors, css)
+      options.selector && options.vendor && vendorPrefixer
+        ? vendorPrefixer.prefixSelector(options.selector, css)
         : css,
       options,
     );
@@ -97,29 +106,25 @@ function insertStyles(
 
 // It's much faster to set and unset options (conditions and selector) than it is
 // to spread and clone the options object. Since rendering is synchronous, it just works!
-function procesNested(
+function renderNestedRule(
+  engine: StyleEngine,
   property: string,
-  render: () => ClassName,
+  value: Rule,
   options: RenderOptions,
+  render: (styleEngine: StyleEngine, rule: Rule, opts: RenderOptions) => ClassName,
 ): ClassName {
-  let className = '';
+  const { media, selector, supports } = options;
 
-  // At-rules
-  if (isAtRule(property)) {
-    if (!options.conditions) {
-      options.conditions = [];
-    }
+  // Media queries
+  if (isMediaRule(property)) {
+    options.media = joinQueries(options.media, property.slice(6).trim());
 
-    options.conditions.push(property);
-    className = render();
-    options.conditions.pop();
+    // Feature queries
+  } else if (isSupportsRule(property)) {
+    options.supports = joinQueries(options.supports, property.slice(9).trim());
 
     // Selectors
   } else if (isNestedSelector(property)) {
-    if (!options.selectors) {
-      options.selectors = [];
-    }
-
     if (__DEV__) {
       if (property.includes(', ')) {
         // eslint-disable-next-line no-console
@@ -127,19 +132,30 @@ function procesNested(
           `Multiple selectors separated by a comma are not supported, found "${property}".`,
         );
 
-        return className;
+        return '';
       }
     }
 
-    options.selectors.push(property);
-    className = render();
-    options.selectors.pop();
+    if (options.selector) {
+      options.selector += property;
+    } else {
+      options.selector = property;
+    }
 
     // Unknown
   } else if (__DEV__) {
     // eslint-disable-next-line no-console
     console.warn(`Unknown property selector or nested block "${property}".`);
+
+    return '';
   }
+
+  const className = render(engine, value, options);
+
+  // Reset values between each iteration
+  options.media = media;
+  options.selector = selector;
+  options.supports = supports;
 
   return className;
 }
@@ -190,8 +206,8 @@ function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: Render
 function renderImport(engine: StyleEngine, url: string, options: RenderOptions): string {
   let path = `url("${url}")`;
 
-  if (options.conditions) {
-    path += ` ${options.conditions.join(', ')}`;
+  if (options.media) {
+    path += ` ${options.media}`;
   }
 
   insertAtRule(createCacheKey('@import', url, options), `@import ${path};`, options, engine);
@@ -240,28 +256,30 @@ function renderVariable(
 }
 
 function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
-  const classNames: string[] = [];
+  let className = '';
 
   objectLoop<Rule, Property>(rule, (value, property) => {
     if (!isValidValue(property, value)) {
       return;
     }
 
+    className += ' ';
+
     // Nested
     if (isObject<Rule>(value)) {
-      classNames.push(procesNested(property, () => renderRule(engine, value, options), options));
+      className += renderNestedRule(engine, property, value, options, renderRule);
 
       // Variables
     } else if (isVariable(property)) {
-      classNames.push(renderVariable(engine, property, value, options));
+      className += renderVariable(engine, property, value, options);
 
       // Properties
     } else {
-      classNames.push(renderDeclaration(engine, property, value, options));
+      className += renderDeclaration(engine, property, value, options);
     }
   });
 
-  return classNames.join(' ');
+  return className.trim();
 }
 
 function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
@@ -300,7 +318,7 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
   options.className = className;
 
   objectLoop(nestedRules, (nestedRule, key) => {
-    procesNested(key, () => renderRuleGrouped(engine, nestedRule, options), options);
+    renderNestedRule(engine, key, nestedRule, options, renderRuleGrouped);
   });
 
   return className;

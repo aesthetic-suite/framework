@@ -10,19 +10,9 @@ import {
 export function createCacheKey(
   property: string,
   value: Value | ValueWithFallbacks,
-  { selectors, conditions }: RenderOptions,
+  { media = '', selector = '', supports = '' }: RenderOptions,
 ): string {
-  let key = `${property}:${value}`;
-
-  if (selectors && selectors.length > 0) {
-    key += `:${selectors.join(':')}`;
-  }
-
-  if (conditions && conditions.length > 0) {
-    key += `:${conditions.join(':')}`;
-  }
-
-  return key;
+  return supports + media + selector + property + value;
 }
 
 export function createCacheManager(defaultItems: CacheState = {}): CacheManager {

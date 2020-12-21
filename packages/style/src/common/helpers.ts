@@ -154,3 +154,11 @@ export function isValidValue(property: string, value: MaybeValue | boolean): val
 export function isVariable(value: string): boolean {
   return value.slice(0, 2) === '--';
 }
+
+export function joinQueries(prev: string | undefined, next: string): string {
+  if (prev) {
+    return `${prev} and ${next}`;
+  }
+
+  return next;
+}

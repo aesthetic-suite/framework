@@ -65,7 +65,7 @@ export interface SheetManager {
 
 export interface VendorPrefixer {
   prefix: (property: string, value: string) => Record<string, string>;
-  prefixSelectors: (selectors: string[], rule: CSS) => CSS;
+  prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 
 // STYLE ENGINE
@@ -74,11 +74,12 @@ export type RankCache = Record<string, number>;
 
 export interface RenderOptions {
   className?: ClassName;
-  conditions?: string[];
   deterministic?: boolean;
   direction?: Direction;
+  media?: string;
   rankings?: RankCache;
-  selectors?: string[];
+  selector?: string;
+  supports?: string;
   type?: SheetType;
   unit?: Unit;
   vendor?: boolean;

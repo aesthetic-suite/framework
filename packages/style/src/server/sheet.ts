@@ -198,7 +198,8 @@ export function createSheetManager(sheets: SheetMap): ServerSheetManager {
   const manager: ServerSheetManager = {
     featureQueries: {},
     insertRule(rule, options, index) {
-      const sheet = sheets[options.type || (options.conditions ? 'conditions' : 'standard')];
+      const sheet =
+        sheets[options.type || (options.media || options.supports ? 'conditions' : 'standard')];
 
       // Imports highest precedence
       if (isImportRule(rule)) {
