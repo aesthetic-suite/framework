@@ -134,6 +134,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-brand-fg-hovered: #000;
   --palette-brand-fg-selected: #000;
   --palette-brand-fg-disabled: #000;
+  --palette-brand-text: #000;
 
   --palette-primary-color-00: #000;
   --palette-primary-color-10: #000;
@@ -155,6 +156,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-primary-fg-hovered: #000;
   --palette-primary-fg-selected: #000;
   --palette-primary-fg-disabled: #000;
+  --palette-primary-text: #000;
 
   --palette-secondary-color-00: #000;
   --palette-secondary-color-10: #000;
@@ -176,6 +178,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-secondary-fg-hovered: #000;
   --palette-secondary-fg-selected: #000;
   --palette-secondary-fg-disabled: #000;
+  --palette-secondary-text: #000;
 
   --palette-tertiary-color-00: #000;
   --palette-tertiary-color-10: #000;
@@ -197,6 +200,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-tertiary-fg-hovered: #000;
   --palette-tertiary-fg-selected: #000;
   --palette-tertiary-fg-disabled: #000;
+  --palette-tertiary-text: #000;
 
   --palette-neutral-color-00: #000;
   --palette-neutral-color-10: #000;
@@ -218,6 +222,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-neutral-fg-hovered: #000;
   --palette-neutral-fg-selected: #000;
   --palette-neutral-fg-disabled: #000;
+  --palette-neutral-text: #000;
 
   --palette-muted-color-00: #000;
   --palette-muted-color-10: #000;
@@ -239,6 +244,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-muted-fg-hovered: #000;
   --palette-muted-fg-selected: #000;
   --palette-muted-fg-disabled: #000;
+  --palette-muted-text: #000;
 
   --palette-danger-color-00: #000;
   --palette-danger-color-10: #000;
@@ -260,6 +266,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-danger-fg-hovered: #000;
   --palette-danger-fg-selected: #000;
   --palette-danger-fg-disabled: #000;
+  --palette-danger-text: #000;
 
   --palette-warning-color-00: #000;
   --palette-warning-color-10: #000;
@@ -281,6 +288,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-warning-fg-hovered: #000;
   --palette-warning-fg-selected: #000;
   --palette-warning-fg-disabled: #000;
+  --palette-warning-text: #000;
 
   --palette-failure-color-00: #000;
   --palette-failure-color-10: #000;
@@ -302,6 +310,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-failure-fg-hovered: #000;
   --palette-failure-fg-selected: #000;
   --palette-failure-fg-disabled: #000;
+  --palette-failure-text: #000;
 
   --palette-success-color-00: #000;
   --palette-success-color-10: #000;
@@ -323,6 +332,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-success-fg-hovered: #000;
   --palette-success-fg-selected: #000;
   --palette-success-fg-disabled: #000;
+  --palette-success-text: #000;
 
   --palette-info-color-00: #000;
   --palette-info-color-10: #000;
@@ -344,6 +354,7 @@ exports[`Format web-css compiles and writes files 2`] = `
   --palette-info-fg-hovered: #000;
   --palette-info-fg-selected: #000;
   --palette-info-fg-disabled: #000;
+  --palette-info-text: #000;
 }
 "
 `;

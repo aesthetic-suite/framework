@@ -132,6 +132,7 @@ $palette-brand-fg-focused: #000 !default;
 $palette-brand-fg-hovered: #000 !default;
 $palette-brand-fg-selected: #000 !default;
 $palette-brand-fg-disabled: #000 !default;
+$palette-brand-text: #000 !default;
 
 $palette-primary-color-00: #000 !default;
 $palette-primary-color-10: #000 !default;
@@ -153,6 +154,7 @@ $palette-primary-fg-focused: #000 !default;
 $palette-primary-fg-hovered: #000 !default;
 $palette-primary-fg-selected: #000 !default;
 $palette-primary-fg-disabled: #000 !default;
+$palette-primary-text: #000 !default;
 
 $palette-secondary-color-00: #000 !default;
 $palette-secondary-color-10: #000 !default;
@@ -174,6 +176,7 @@ $palette-secondary-fg-focused: #000 !default;
 $palette-secondary-fg-hovered: #000 !default;
 $palette-secondary-fg-selected: #000 !default;
 $palette-secondary-fg-disabled: #000 !default;
+$palette-secondary-text: #000 !default;
 
 $palette-tertiary-color-00: #000 !default;
 $palette-tertiary-color-10: #000 !default;
@@ -195,6 +198,7 @@ $palette-tertiary-fg-focused: #000 !default;
 $palette-tertiary-fg-hovered: #000 !default;
 $palette-tertiary-fg-selected: #000 !default;
 $palette-tertiary-fg-disabled: #000 !default;
+$palette-tertiary-text: #000 !default;
 
 $palette-neutral-color-00: #000 !default;
 $palette-neutral-color-10: #000 !default;
@@ -216,6 +220,7 @@ $palette-neutral-fg-focused: #000 !default;
 $palette-neutral-fg-hovered: #000 !default;
 $palette-neutral-fg-selected: #000 !default;
 $palette-neutral-fg-disabled: #000 !default;
+$palette-neutral-text: #000 !default;
 
 $palette-muted-color-00: #000 !default;
 $palette-muted-color-10: #000 !default;
@@ -237,6 +242,7 @@ $palette-muted-fg-focused: #000 !default;
 $palette-muted-fg-hovered: #000 !default;
 $palette-muted-fg-selected: #000 !default;
 $palette-muted-fg-disabled: #000 !default;
+$palette-muted-text: #000 !default;
 
 $palette-danger-color-00: #000 !default;
 $palette-danger-color-10: #000 !default;
@@ -258,6 +264,7 @@ $palette-danger-fg-focused: #000 !default;
 $palette-danger-fg-hovered: #000 !default;
 $palette-danger-fg-selected: #000 !default;
 $palette-danger-fg-disabled: #000 !default;
+$palette-danger-text: #000 !default;
 
 $palette-warning-color-00: #000 !default;
 $palette-warning-color-10: #000 !default;
@@ -279,6 +286,7 @@ $palette-warning-fg-focused: #000 !default;
 $palette-warning-fg-hovered: #000 !default;
 $palette-warning-fg-selected: #000 !default;
 $palette-warning-fg-disabled: #000 !default;
+$palette-warning-text: #000 !default;
 
 $palette-failure-color-00: #000 !default;
 $palette-failure-color-10: #000 !default;
@@ -300,6 +308,7 @@ $palette-failure-fg-focused: #000 !default;
 $palette-failure-fg-hovered: #000 !default;
 $palette-failure-fg-selected: #000 !default;
 $palette-failure-fg-disabled: #000 !default;
+$palette-failure-text: #000 !default;
 
 $palette-success-color-00: #000 !default;
 $palette-success-color-10: #000 !default;
@@ -321,6 +330,7 @@ $palette-success-fg-focused: #000 !default;
 $palette-success-fg-hovered: #000 !default;
 $palette-success-fg-selected: #000 !default;
 $palette-success-fg-disabled: #000 !default;
+$palette-success-text: #000 !default;
 
 $palette-info-color-00: #000 !default;
 $palette-info-color-10: #000 !default;
@@ -342,5 +352,6 @@ $palette-info-fg-focused: #000 !default;
 $palette-info-fg-hovered: #000 !default;
 $palette-info-fg-selected: #000 !default;
 $palette-info-fg-disabled: #000 !default;
+$palette-info-text: #000 !default;
 "
 `;

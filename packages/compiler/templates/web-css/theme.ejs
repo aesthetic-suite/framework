@@ -16,6 +16,7 @@
   <% stateOrder.forEach(state => { -%>
   --palette-<%= type -%>-fg-<%= state -%>: <%= data.palette[type].fg[state] -%>;
   <% }) -%>
+  --palette-<%= type -%>-text: <%= data.palette[type].text -%>;
 
   <% }) -%>
 }

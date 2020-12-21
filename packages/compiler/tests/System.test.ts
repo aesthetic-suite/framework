@@ -128,6 +128,21 @@ describe('System', () => {
       expect(other.template).toMatchSnapshot();
     });
 
+    it('supports palettes with different combinations of color and shade settings', () => {
+      const config = new LanguageLoader('web').load(
+        new Path(__dirname, './__fixtures__/colors.yaml'),
+      );
+
+      const themes = new ThemesLoader(config.colors).load(
+        new Path(__dirname, './__fixtures__/themes/theme-palette-settings.yaml'),
+      );
+
+      const design = new SystemDesign('test', config, options);
+      const theme = design.createTheme('default', themes.themes.default);
+
+      expect(theme.template).toMatchSnapshot();
+    });
+
     it('errors when theme doesnt implement the defined colors', () => {
       expect(() =>
         new ThemesLoader(['black', 'white']).load(
@@ -159,9 +174,7 @@ describe('System', () => {
         new ThemesLoader(['black']).load(
           new Path(__dirname, './__fixtures__/themes/invalid-palette-color.yaml'),
         ),
-      )
-        .toThrow(`Invalid field "themes.default.palettes.brand". Type must be one of: string, shape. Received string with the following invalidations:
- - Invalid color "white".`);
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('errors when theme palette references an invalid color shade', () => {

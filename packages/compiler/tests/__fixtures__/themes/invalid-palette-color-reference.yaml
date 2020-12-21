@@ -16,5 +16,6 @@ themes:
     palettes:
       brand:
         color: black
+        text: black
         bg:
-          base: 100
+          base: black.100

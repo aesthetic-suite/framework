@@ -112,7 +112,7 @@ exports[`Mixins heading errors for invalid \`level\` 1`] = `"Invalid \\"level\\"
 
 exports[`Mixins heading renders heading 1`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l1-size)",
   "fontWeight": "normal",
@@ -124,7 +124,7 @@ Object {
 
 exports[`Mixins heading renders heading 2`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l3-size)",
   "fontWeight": "normal",
@@ -136,7 +136,7 @@ Object {
 
 exports[`Mixins heading renders heading 3`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-heading)",
   "fontSize": "var(--heading-l6-size)",
   "fontWeight": "normal",
@@ -151,24 +151,29 @@ exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"pa
 exports[`Mixins interactive renders interactive 1`] = `
 Object {
   ":active": Object {
-    "backgroundColor": "var(--palette-neutral-color-50)",
+    "backgroundColor": "var(--palette-neutral-bg-selected)",
     "borderColor": "var(--palette-neutral-color-60)",
+    "color": "var(--palette-neutral-fg-selected)",
   },
   ":disabled": Object {
-    "backgroundColor": "var(--palette-neutral-color-20)",
+    "backgroundColor": "var(--palette-neutral-bg-disabled)",
     "borderColor": "var(--palette-neutral-color-30)",
+    "color": "var(--palette-neutral-fg-disabled)",
     "cursor": "default",
   },
   ":focus": Object {
+    "backgroundColor": "var(--palette-neutral-bg-focused)",
     "borderColor": "var(--palette-neutral-color-60)",
+    "color": "var(--palette-neutral-fg-focused)",
   },
   ":hover": Object {
-    "backgroundColor": "var(--palette-neutral-color-60)",
+    "backgroundColor": "var(--palette-neutral-bg-hovered)",
     "borderColor": "var(--palette-neutral-color-70)",
+    "color": "var(--palette-neutral-fg-hovered)",
   },
-  "backgroundColor": "var(--palette-neutral-color-40)",
+  "backgroundColor": "var(--palette-neutral-bg-base)",
   "borderColor": "var(--palette-neutral-color-50)",
-  "color": "var(--palette-neutral-color-00)",
+  "color": "var(--palette-neutral-fg-base)",
   "cursor": "pointer",
 }
 `;
@@ -176,24 +181,29 @@ Object {
 exports[`Mixins interactive renders interactive 2`] = `
 Object {
   ":active": Object {
-    "backgroundColor": "var(--palette-primary-color-50)",
+    "backgroundColor": "var(--palette-primary-bg-selected)",
     "borderColor": "var(--palette-primary-color-60)",
+    "color": "var(--palette-primary-fg-selected)",
   },
   ":disabled": Object {
-    "backgroundColor": "var(--palette-primary-color-20)",
+    "backgroundColor": "var(--palette-primary-bg-disabled)",
     "borderColor": "var(--palette-primary-color-30)",
+    "color": "var(--palette-primary-fg-disabled)",
     "cursor": "default",
   },
   ":focus": Object {
+    "backgroundColor": "var(--palette-primary-bg-focused)",
     "borderColor": "var(--palette-primary-color-60)",
+    "color": "var(--palette-primary-fg-focused)",
   },
   ":hover": Object {
-    "backgroundColor": "var(--palette-primary-color-60)",
+    "backgroundColor": "var(--palette-primary-bg-hovered)",
     "borderColor": "var(--palette-primary-color-70)",
+    "color": "var(--palette-primary-fg-hovered)",
   },
-  "backgroundColor": "var(--palette-primary-color-40)",
+  "backgroundColor": "var(--palette-primary-bg-base)",
   "borderColor": "var(--palette-primary-color-50)",
-  "color": "var(--palette-primary-color-00)",
+  "color": "var(--palette-primary-fg-base)",
   "cursor": "pointer",
 }
 `;
@@ -296,7 +306,7 @@ Object {
     },
   },
   "backgroundColor": "var(--palette-neutral-color-00)",
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--typography-root-text-size)",
   "lineHeight": "var(--typography-root-line-height)",
@@ -335,7 +345,7 @@ exports[`Mixins text errors for invalid \`size\` 1`] = `"Invalid \\"size\\" valu
 
 exports[`Mixins text renders text 1`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-df-size)",
   "fontWeight": "normal",
@@ -346,7 +356,7 @@ Object {
 
 exports[`Mixins text renders text 2`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
+  "color": "var(--palette-neutral-text)",
   "fontFamily": "var(--typography-font-text)",
   "fontSize": "var(--text-lg-size)",
   "fontWeight": "normal",

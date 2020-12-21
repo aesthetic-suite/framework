@@ -194,22 +194,27 @@ export interface DesignConfig {
 
 // Colors
 
+export type ColorName = string;
+
+export type ColorShadeRef = ColorName | string;
+
 export type ColorConfig = Record<ColorShade, Hexcode>;
 
 export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig>;
 
-export type PaletteState<T = number | string> = {
+export type PaletteState<T> = {
   base: T;
 } & Record<StateType, T>;
 
 export interface PaletteConfig {
-  color: string;
-  bg: PaletteState;
-  fg: PaletteState;
+  color: ColorName;
+  text: ColorName | ColorShadeRef;
+  bg: ColorName | PaletteState<ColorShadeRef>;
+  fg: ColorName | PaletteState<ColorShadeRef>;
 }
 
 export type PalettesConfig = {
-  [K in PaletteType]: string | PaletteConfig;
+  [K in PaletteType]: ColorName | PaletteConfig;
 };
 
 // Themes
@@ -309,6 +314,7 @@ export interface DesignTemplate {
 
 export interface PaletteTemplate {
   color: ColorConfig;
+  text: Hexcode;
   bg: PaletteState<Hexcode>;
   fg: PaletteState<Hexcode>;
 }

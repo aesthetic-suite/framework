@@ -197,6 +197,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       primary: {
         color: {
@@ -225,6 +226,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       secondary: {
         color: {
@@ -253,6 +255,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       tertiary: {
         color: {
@@ -281,6 +284,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       neutral: {
         color: {
@@ -309,6 +313,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       muted: {
         color: {
@@ -337,6 +342,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       danger: {
         color: {
@@ -365,6 +371,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       warning: {
         color: {
@@ -393,6 +400,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       failure: {
         color: {
@@ -421,6 +429,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       success: {
         color: {
@@ -449,6 +458,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       info: {
         color: {
@@ -477,6 +487,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
     },
   },
@@ -681,34 +692,36 @@ export default design.createTheme(
           selected: '#005',
           disabled: '#003',
         },
+        text: '#008',
       },
       primary: {
         color: {
-          '00': '#FF0',
-          '10': '#FF1',
-          '20': '#FF2',
-          '30': '#FF3',
-          '40': '#FF4',
-          '50': '#FF5',
-          '60': '#FF6',
-          '70': '#FF7',
-          '80': '#FF8',
-          '90': '#FF9',
+          '00': '#BE0',
+          '10': '#BE1',
+          '20': '#BE2',
+          '30': '#BE3',
+          '40': '#BE4',
+          '50': '#BE5',
+          '60': '#BE6',
+          '70': '#BE7',
+          '80': '#BE8',
+          '90': '#BE9',
         },
         bg: {
-          base: '#FF0',
-          focused: '#FF5',
-          hovered: '#FF2',
-          selected: '#FF5',
-          disabled: '#FF1',
+          base: '#BE0',
+          focused: '#005',
+          hovered: '#BE2',
+          selected: '#005',
+          disabled: '#BE1',
         },
         fg: {
           base: '#FF9',
           focused: '#FF8',
-          hovered: '#FF7',
+          hovered: '#006',
           selected: '#FF7',
-          disabled: '#FF3',
+          disabled: '#003',
         },
+        text: '#BE8',
       },
       secondary: {
         color: {
@@ -731,12 +744,13 @@ export default design.createTheme(
           disabled: '#ED3',
         },
         fg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
+          base: '#FF4',
+          focused: '#FF5',
+          hovered: '#FF6',
+          selected: '#FF5',
+          disabled: '#FF3',
         },
+        text: '#ED8',
       },
       tertiary: {
         color: {
@@ -765,6 +779,7 @@ export default design.createTheme(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       neutral: {
         color: {
@@ -784,15 +799,16 @@ export default design.createTheme(
           focused: '#EE5',
           hovered: '#EE6',
           selected: '#EE5',
-          disabled: '#EE2',
+          disabled: '#EE3',
         },
         fg: {
-          base: '#EE0',
-          focused: '#EE2',
-          hovered: '#EE3',
-          selected: '#EE4',
-          disabled: '#EE1',
+          base: '#FF0',
+          focused: '#FF2',
+          hovered: '#FF3',
+          selected: '#FF4',
+          disabled: '#FF1',
         },
+        text: '#EE8',
       },
       muted: {
         color: {
@@ -815,12 +831,13 @@ export default design.createTheme(
           disabled: '#003',
         },
         fg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
+          base: '#FF4',
+          focused: '#FF5',
+          hovered: '#FF6',
+          selected: '#FF5',
+          disabled: '#FF3',
         },
+        text: '#008',
       },
       danger: {
         color: {
@@ -843,12 +860,13 @@ export default design.createTheme(
           disabled: '#BE3',
         },
         fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
+          base: '#FF4',
+          focused: '#FF5',
+          hovered: '#FF6',
+          selected: '#FF5',
+          disabled: '#FF3',
         },
+        text: '#BE4',
       },
       warning: {
         color: {
@@ -864,19 +882,20 @@ export default design.createTheme(
           '90': '#ED9',
         },
         bg: {
-          base: '#ED9',
-          focused: '#ED9',
-          hovered: '#ED9',
-          selected: '#ED9',
-          disabled: '#ED9',
-        },
-        fg: {
-          base: '#ED5',
-          focused: '#ED6',
-          hovered: '#ED7',
-          selected: '#ED6',
+          base: '#ED4',
+          focused: '#ED5',
+          hovered: '#ED6',
+          selected: '#ED5',
           disabled: '#ED3',
         },
+        fg: {
+          base: '#FF9',
+          focused: '#FF9',
+          hovered: '#FF9',
+          selected: '#FF9',
+          disabled: '#FF9',
+        },
+        text: '#ED8',
       },
       failure: {
         color: {
@@ -899,12 +918,13 @@ export default design.createTheme(
           disabled: '#BE3',
         },
         fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
+          base: '#FF4',
+          focused: '#FF5',
+          hovered: '#FF6',
+          selected: '#FF5',
+          disabled: '#FF3',
         },
+        text: '#BE0',
       },
       success: {
         color: {
@@ -927,12 +947,13 @@ export default design.createTheme(
           disabled: '#EE3',
         },
         fg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
+          base: '#FF4',
+          focused: '#FF5',
+          hovered: '#FF6',
+          selected: '#FF5',
+          disabled: '#FF3',
         },
+        text: '#EE9',
       },
       info: {
         color: {
@@ -955,12 +976,13 @@ export default design.createTheme(
           disabled: '#FF3',
         },
         fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
+          base: '#004',
+          focused: '#005',
+          hovered: '#006',
+          selected: '#005',
+          disabled: '#003',
         },
+        text: '#FF8',
       },
     },
   },
@@ -1002,34 +1024,36 @@ export default parentTheme.extend(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       primary: {
         color: {
-          '00': '#ff0',
-          '10': '#ff1',
-          '20': '#ff2',
-          '30': '#ff3',
-          '40': '#ff4',
-          '50': '#ff5',
-          '60': '#ff6',
-          '70': '#ff7',
-          '80': '#ff8',
-          '90': '#ff9',
+          '00': '#BE0',
+          '10': '#BE1',
+          '20': '#BE2',
+          '30': '#BE3',
+          '40': '#BE4',
+          '50': '#BE5',
+          '60': '#BE6',
+          '70': '#BE7',
+          '80': '#BE8',
+          '90': '#BE9',
         },
         bg: {
-          base: '#ff0',
-          focused: '#ff5',
-          hovered: '#ff2',
-          selected: '#ff5',
-          disabled: '#ff1',
+          base: '#BE0',
+          focused: '#005',
+          hovered: '#BE2',
+          selected: '#005',
+          disabled: '#BE1',
         },
         fg: {
           base: '#ff9',
           focused: '#ff8',
-          hovered: '#ff7',
+          hovered: '#006',
           selected: '#ff7',
-          disabled: '#ff3',
+          disabled: '#003',
         },
+        text: '#BE8',
       },
       secondary: {
         color: {
@@ -1052,12 +1076,13 @@ export default parentTheme.extend(
           disabled: '#ED3',
         },
         fg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
+          base: '#ff4',
+          focused: '#ff5',
+          hovered: '#ff6',
+          selected: '#ff5',
+          disabled: '#ff3',
         },
+        text: '#ED8',
       },
       tertiary: {
         color: {
@@ -1086,6 +1111,7 @@ export default parentTheme.extend(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       neutral: {
         color: {
@@ -1105,15 +1131,16 @@ export default parentTheme.extend(
           focused: '#EE5',
           hovered: '#EE6',
           selected: '#EE5',
-          disabled: '#EE2',
+          disabled: '#EE3',
         },
         fg: {
-          base: '#EE0',
-          focused: '#EE4',
-          hovered: '#EE3',
-          selected: '#EE8',
-          disabled: '#EE1',
+          base: '#ff0',
+          focused: '#ff4',
+          hovered: '#ff3',
+          selected: '#ff8',
+          disabled: '#ff1',
         },
+        text: '#EE8',
       },
       muted: {
         color: {
@@ -1136,12 +1163,13 @@ export default parentTheme.extend(
           disabled: '#003',
         },
         fg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
+          base: '#ff4',
+          focused: '#ff5',
+          hovered: '#ff6',
+          selected: '#ff5',
+          disabled: '#ff3',
         },
+        text: '#008',
       },
       danger: {
         color: {
@@ -1158,18 +1186,19 @@ export default parentTheme.extend(
         },
         bg: {
           base: '#ED9',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED2',
+          focused: '#005',
+          hovered: '#006',
+          selected: '#005',
+          disabled: '#003',
         },
         fg: {
           base: '#ED0',
-          focused: '#ED6',
-          hovered: '#ED7',
-          selected: '#ED6',
-          disabled: '#ED3',
+          focused: '#005',
+          hovered: '#006',
+          selected: '#005',
+          disabled: '#003',
         },
+        text: '#ED8',
       },
       warning: {
         color: {
@@ -1185,19 +1214,20 @@ export default parentTheme.extend(
           '90': '#ED9',
         },
         bg: {
-          base: '#ED9',
-          focused: '#ED9',
-          hovered: '#ED9',
-          selected: '#ED9',
-          disabled: '#ED9',
-        },
-        fg: {
-          base: '#ED5',
-          focused: '#ED6',
-          hovered: '#ED7',
-          selected: '#ED6',
+          base: '#ED4',
+          focused: '#ED5',
+          hovered: '#ED6',
+          selected: '#ED5',
           disabled: '#ED3',
         },
+        fg: {
+          base: '#ff9',
+          focused: '#ff9',
+          hovered: '#ff9',
+          selected: '#ff9',
+          disabled: '#ff9',
+        },
+        text: '#ED8',
       },
       failure: {
         color: {
@@ -1220,12 +1250,13 @@ export default parentTheme.extend(
           disabled: '#BE3',
         },
         fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
+          base: '#ff4',
+          focused: '#ff5',
+          hovered: '#ff6',
+          selected: '#ff5',
+          disabled: '#ff3',
         },
+        text: '#BE0',
       },
       success: {
         color: {
@@ -1248,12 +1279,13 @@ export default parentTheme.extend(
           disabled: '#EE3',
         },
         fg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
+          base: '#ff4',
+          focused: '#ff5',
+          hovered: '#ff6',
+          selected: '#ff5',
+          disabled: '#ff3',
         },
+        text: '#EE9',
       },
       info: {
         color: {
@@ -1276,12 +1308,13 @@ export default parentTheme.extend(
           disabled: '#ff3',
         },
         fg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
+          base: '#004',
+          focused: '#005',
+          hovered: '#006',
+          selected: '#005',
+          disabled: '#003',
         },
+        text: '#ff8',
       },
     },
   },

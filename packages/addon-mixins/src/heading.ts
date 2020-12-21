@@ -16,7 +16,7 @@ export function heading(
   }
 
   return this.mixin.resetTypography({
-    color: this.var('palette-neutral-fg-base'),
+    color: this.var('palette-neutral-text'),
     letterSpacing: this.var(`heading-l${level}-letter-spacing` as 'heading-l1-letter-spacing'),
     lineHeight: this.var(`heading-l${level}-line-height` as 'heading-l1-line-height'),
     fontFamily: this.var('typography-font-heading'),

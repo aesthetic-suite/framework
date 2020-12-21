@@ -20,4 +20,5 @@ $palette-<%= type -%>-fg-base: <%= data.palette[type].fg.base -%> !default
 <% stateOrder.forEach(state => { -%>
 $palette-<%= type -%>-fg-<%= state -%>: <%= data.palette[type].fg[state] -%> !default
 <% }) -%>
+$palette-<%= type -%>-text: <%= data.palette[type].text -%> !default;
 <% }) -%>

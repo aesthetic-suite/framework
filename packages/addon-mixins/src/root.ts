@@ -5,7 +5,7 @@ import { objectLoop } from '@aesthetic/utils';
 export function root(this: Utilities<LocalBlock>): LocalBlock {
   const declaration: LocalBlock = {
     backgroundColor: this.var('palette-neutral-color-00'),
-    color: this.var('palette-neutral-fg-base'),
+    color: this.var('palette-neutral-text'),
     fontFamily: this.var('typography-font-text'),
     fontSize: this.var('typography-root-text-size'),
     lineHeight: this.var('typography-root-line-height'),

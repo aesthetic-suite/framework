@@ -9,7 +9,7 @@ export function text(this: Utilities<LocalBlock>, { size = 'df' }: TextOptions =
   }
 
   return this.mixin.resetTypography({
-    color: this.var('palette-neutral-fg-base'),
+    color: this.var('palette-neutral-text'),
     fontFamily: this.var('typography-font-text'),
     fontSize: this.var(`text-${size}-size` as 'text-df-size'),
     lineHeight: this.var(`text-${size}-line-height` as 'text-df-line-height'),
