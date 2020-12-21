@@ -1,7 +1,9 @@
+/* eslint-disable no-magic-numbers */
+
 import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
-import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
+import { arrayLoop, deepMerge, joinQueries, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
   RenderResult,
@@ -21,6 +23,35 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
   });
 
   return key;
+}
+
+function groupSelectorsAndConditions(selectors: string[]) {
+  let media = '';
+  let selector = '';
+  let supports = '';
+  let valid = true;
+
+  arrayLoop(selectors, (value) => {
+    const part = value.slice(0, 10);
+
+    if (part === '@keyframes' || part === '@font-face') {
+      // istanbul ignore next
+      valid = false;
+    } else if (value.slice(0, 6) === '@media') {
+      media = joinQueries(media, value.slice(6).trim());
+    } else if (value.slice(0, 9) === '@supports') {
+      supports = joinQueries(supports, value.slice(9).trim());
+    } else {
+      selector += value;
+    }
+  });
+
+  return {
+    media,
+    selector,
+    supports,
+    valid,
+  };
 }
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
@@ -173,6 +204,25 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       onKeyframes(keyframes, animationName) {
         return engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions);
       },
+      onProperty(block, property, value) {
+        const { media, selector, supports, valid } = groupSelectorsAndConditions(
+          block.getSelectors(),
+        );
+
+        if (valid) {
+          block.addClassName(
+            String(
+              engine.renderDeclaration(property as Property, value as string, {
+                ...renderOptions,
+                media,
+                rankings,
+                selector,
+                supports,
+              }),
+            ),
+          );
+        }
+      },
       onRoot: (block) => {
         addClassToMap(
           '@root',
@@ -189,15 +239,6 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         engine.setRootVariables(variables);
       },
       onRule: (selector, block) => {
-        block.addClassName(
-          String(
-            engine.renderRule(block.toObject(), {
-              ...renderOptions,
-              rankings,
-            }),
-          ),
-        );
-
         const meta = addClassToMap(selector, block.className.trim());
 
         objectLoop(block.variants, (variant, type) => {

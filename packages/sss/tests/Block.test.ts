@@ -90,6 +90,31 @@ describe('Block', () => {
     });
   });
 
+  describe('getSelectors()', () => {
+    it('returns current selector if defined', () => {
+      expect(instance.getSelectors()).toEqual(['test']);
+    });
+
+    it('returns an empty array if not defined', () => {
+      instance = createBlock('');
+
+      expect(instance.getSelectors()).toEqual([]);
+    });
+
+    it('returns a list of all ancestry selectors, skipping over empty ones', () => {
+      const child = createBlock('');
+      const grandchild = createBlock(':hover');
+
+      instance.addNested(child);
+      child.addNested(grandchild);
+
+      grandchild.addClassName('foo');
+
+      expect(instance.getSelectors()).toEqual(['test']);
+      expect(grandchild.getSelectors()).toEqual(['test', ':hover']);
+    });
+  });
+
   describe('merge()', () => {
     it('inherits properties from rule', () => {
       instance.addProperty('color', 'red').addProperty('display', 'block');

@@ -155,7 +155,7 @@ describe('Aesthetic', () => {
 
       aesthetic.changeTheme('night');
 
-      expect(document.body.className).toBe('c1a6vqom');
+      expect(document.body.className).toBe('c560r0');
     });
 
     it('emits `change:theme` event', () => {
@@ -606,7 +606,7 @@ describe('Aesthetic', () => {
 
       aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('csw78m6');
+      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cemumis');
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
         vendor: false,

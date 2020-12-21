@@ -63,6 +63,21 @@ export default class Block<T extends object = object> {
     return block;
   }
 
+  getSelectors(): string[] {
+    const selectors: string[] = [];
+    let block: Block<T> | undefined = this;
+
+    while (block) {
+      if (block.selector) {
+        selectors.unshift(block.selector);
+      }
+
+      block = block.parent;
+    }
+
+    return selectors;
+  }
+
   merge(block: Block<T>): this {
     Object.assign(this.properties, block.properties);
 

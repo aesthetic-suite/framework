@@ -98,7 +98,7 @@ describe('GlobalSheet', () => {
     const spy = jest.spyOn(engine, 'renderRuleGrouped');
     const result = sheet.render(engine, lightTheme, {});
 
-    expect(result).toEqual({ '@root': { result: 'cdha18g' } });
+    expect(result).toEqual({ '@root': { result: 'c1fv9z16' } });
     expect(spy).toHaveBeenCalledWith(
       {
         height: '100%',
@@ -108,7 +108,7 @@ describe('GlobalSheet', () => {
         backgroundColor: 'white',
       },
       {
-        className: 'cdha18g',
+        className: 'c1fv9z16',
         deterministic: true,
         direction: 'ltr',
         rankings: undefined,
