@@ -196,6 +196,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       primary: {
         color: {
@@ -224,6 +225,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       secondary: {
         color: {
@@ -252,6 +254,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       tertiary: {
         color: {
@@ -280,6 +283,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       neutral: {
         color: {
@@ -308,6 +312,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       muted: {
         color: {
@@ -336,6 +341,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       danger: {
         color: {
@@ -364,6 +370,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       warning: {
         color: {
@@ -392,6 +399,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       failure: {
         color: {
@@ -420,6 +428,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       success: {
         color: {
@@ -448,6 +457,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       info: {
         color: {
@@ -476,6 +486,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
     },
   },

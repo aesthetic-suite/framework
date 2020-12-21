@@ -208,6 +208,7 @@ export const brand = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const primary = {
@@ -237,6 +238,7 @@ export const primary = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const secondary = {
@@ -266,6 +268,7 @@ export const secondary = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const tertiary = {
@@ -295,6 +298,7 @@ export const tertiary = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const neutral = {
@@ -324,6 +328,7 @@ export const neutral = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const muted = {
@@ -353,6 +358,7 @@ export const muted = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const info = {
@@ -382,6 +388,7 @@ export const info = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const warning = {
@@ -411,6 +418,7 @@ export const warning = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const danger = {
@@ -440,6 +448,7 @@ export const danger = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const failure = {
@@ -469,6 +478,7 @@ export const failure = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 
 export const success = {
@@ -498,6 +508,7 @@ export const success = {
     selected: '#000',
     disabled: '#000',
   },
+  text: '#000',
 };
 "
 `;

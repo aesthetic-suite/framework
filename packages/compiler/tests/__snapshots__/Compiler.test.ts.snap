@@ -197,6 +197,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       primary: {
         color: {
@@ -225,6 +226,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       secondary: {
         color: {
@@ -253,6 +255,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       tertiary: {
         color: {
@@ -281,6 +284,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       neutral: {
         color: {
@@ -309,6 +313,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       muted: {
         color: {
@@ -337,6 +342,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       danger: {
         color: {
@@ -365,6 +371,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       warning: {
         color: {
@@ -393,6 +400,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       failure: {
         color: {
@@ -421,6 +429,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       success: {
         color: {
@@ -449,6 +458,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
       info: {
         color: {
@@ -477,6 +487,7 @@ export default design.createTheme(
           selected: '#000',
           disabled: '#000',
         },
+        text: '#000',
       },
     },
   },
@@ -681,6 +692,7 @@ export default design.createTheme(
           selected: '#005',
           disabled: '#003',
         },
+        text: '#008',
       },
       primary: {
         color: {
@@ -709,6 +721,7 @@ export default design.createTheme(
           selected: '#FF7',
           disabled: '#003',
         },
+        text: '#BE8',
       },
       secondary: {
         color: {
@@ -737,6 +750,7 @@ export default design.createTheme(
           selected: '#FF5',
           disabled: '#FF3',
         },
+        text: '#ED8',
       },
       tertiary: {
         color: {
@@ -765,6 +779,7 @@ export default design.createTheme(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       neutral: {
         color: {
@@ -793,6 +808,7 @@ export default design.createTheme(
           selected: '#FF4',
           disabled: '#FF1',
         },
+        text: '#EE8',
       },
       muted: {
         color: {
@@ -821,6 +837,7 @@ export default design.createTheme(
           selected: '#FF5',
           disabled: '#FF3',
         },
+        text: '#008',
       },
       danger: {
         color: {
@@ -849,6 +866,7 @@ export default design.createTheme(
           selected: '#FF5',
           disabled: '#FF3',
         },
+        text: '#BE4',
       },
       warning: {
         color: {
@@ -877,6 +895,7 @@ export default design.createTheme(
           selected: '#FF9',
           disabled: '#FF9',
         },
+        text: '#ED8',
       },
       failure: {
         color: {
@@ -905,6 +924,7 @@ export default design.createTheme(
           selected: '#FF5',
           disabled: '#FF3',
         },
+        text: '#BE0',
       },
       success: {
         color: {
@@ -933,6 +953,7 @@ export default design.createTheme(
           selected: '#FF5',
           disabled: '#FF3',
         },
+        text: '#EE9',
       },
       info: {
         color: {
@@ -961,6 +982,7 @@ export default design.createTheme(
           selected: '#005',
           disabled: '#003',
         },
+        text: '#FF8',
       },
     },
   },
@@ -1002,6 +1024,7 @@ export default parentTheme.extend(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       primary: {
         color: {
@@ -1030,6 +1053,7 @@ export default parentTheme.extend(
           selected: '#ff7',
           disabled: '#003',
         },
+        text: '#BE8',
       },
       secondary: {
         color: {
@@ -1058,6 +1082,7 @@ export default parentTheme.extend(
           selected: '#ff5',
           disabled: '#ff3',
         },
+        text: '#ED8',
       },
       tertiary: {
         color: {
@@ -1086,6 +1111,7 @@ export default parentTheme.extend(
           selected: '#BE5',
           disabled: '#BE3',
         },
+        text: '#BE8',
       },
       neutral: {
         color: {
@@ -1114,6 +1140,7 @@ export default parentTheme.extend(
           selected: '#ff8',
           disabled: '#ff1',
         },
+        text: '#EE8',
       },
       muted: {
         color: {
@@ -1142,6 +1169,7 @@ export default parentTheme.extend(
           selected: '#ff5',
           disabled: '#ff3',
         },
+        text: '#008',
       },
       danger: {
         color: {
@@ -1170,6 +1198,7 @@ export default parentTheme.extend(
           selected: '#005',
           disabled: '#003',
         },
+        text: '#ED8',
       },
       warning: {
         color: {
@@ -1198,6 +1227,7 @@ export default parentTheme.extend(
           selected: '#ff9',
           disabled: '#ff9',
         },
+        text: '#ED8',
       },
       failure: {
         color: {
@@ -1226,6 +1256,7 @@ export default parentTheme.extend(
           selected: '#ff5',
           disabled: '#ff3',
         },
+        text: '#BE0',
       },
       success: {
         color: {
@@ -1254,6 +1285,7 @@ export default parentTheme.extend(
           selected: '#ff5',
           disabled: '#ff3',
         },
+        text: '#EE9',
       },
       info: {
         color: {
@@ -1282,6 +1314,7 @@ export default parentTheme.extend(
           selected: '#005',
           disabled: '#003',
         },
+        text: '#ff8',
       },
     },
   },
