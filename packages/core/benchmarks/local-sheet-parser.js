@@ -1,9 +1,8 @@
-/* eslint-disable sort-keys */
+/* eslint-disable sort-keys, no-magic-numbers */
 
 const { parse } = require('@aesthetic/sss');
-const { isMediaRule, isSupportsRule } = require('@aesthetic/style');
-const { createServerEngine } = require('@aesthetic/style/lib/server');
-const { objectLoop, arrayLoop } = require('@aesthetic/utils');
+const { createServerEngine } = require('@aesthetic/style/server');
+const { objectLoop, arrayLoop, joinQueries } = require('@aesthetic/utils');
 const Benchmark = require('benchmark');
 
 const suite = new Benchmark.Suite();
@@ -85,25 +84,30 @@ function createStyles() {
 }
 
 function groupSelectorsAndConditions(selectors) {
-  const conditions = [];
+  let media = '';
   let selector = '';
+  let supports = '';
   let valid = true;
 
   arrayLoop(selectors, (value) => {
     const part = value.slice(0, 10);
 
     if (part === '@keyframes' || part === '@font-face') {
+      // istanbul ignore next
       valid = false;
-    } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
-      conditions.push(value);
+    } else if (value.slice(0, 6) === '@media') {
+      media = joinQueries(media, value.slice(6).trim());
+    } else if (value.slice(0, 9) === '@supports') {
+      supports = joinQueries(supports, value.slice(9).trim());
     } else {
       selector += value;
     }
   });
 
   return {
-    conditions: conditions.length === 0 ? undefined : [],
+    media,
     selector,
+    supports,
     valid,
   };
 }
@@ -165,7 +169,9 @@ function parseAsDeclaration(styles) {
       return engine2.renderKeyframes(keyframes.toObject(), animationName);
     },
     onProperty(block, key, value) {
-      const { conditions, selector, valid } = groupSelectorsAndConditions(block.getSelectors());
+      const { media, selector, supports, valid } = groupSelectorsAndConditions(
+        block.getSelectors(),
+      );
 
       if (!valid) {
         return;
@@ -173,9 +179,10 @@ function parseAsDeclaration(styles) {
 
       block.addClassName(
         engine2.renderDeclaration(key, value, {
-          conditions,
+          media,
           rankings,
           selector,
+          supports,
         }),
       );
     },
