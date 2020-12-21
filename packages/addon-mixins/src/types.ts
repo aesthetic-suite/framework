@@ -1,7 +1,7 @@
 import {
   BorderSize,
   ColorShade,
-  MixinBuiltIn,
+  Mixin,
   PaletteType,
   ShadowSize,
   TextSize,
@@ -73,27 +73,26 @@ export type MixinType =
   | 'ui-interactive';
 
 declare module '@aesthetic/system' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  export interface MixinUtil<T extends object, O extends object = object> {
-    background: MixinBuiltIn<T, BackgroundOptions>;
-    border: MixinBuiltIn<T, BorderOptions>;
-    foreground: MixinBuiltIn<T, ForegroundOptions>;
-    heading: MixinBuiltIn<T, HeadingOptions>;
-    hideCompletely: MixinBuiltIn<T>;
-    hideOffscreen: MixinBuiltIn<T>;
-    hideVisually: MixinBuiltIn<T>;
-    resetButton: MixinBuiltIn<T, ResetButtonOptions>;
-    resetInput: MixinBuiltIn<T>;
-    resetList: MixinBuiltIn<T>;
-    resetMedia: MixinBuiltIn<T>;
-    resetTypography: MixinBuiltIn<T>;
-    root: MixinBuiltIn<T>;
-    shadow: MixinBuiltIn<T, ShadowOptions>;
-    text: MixinBuiltIn<T, TextOptions>;
-    textBreak: MixinBuiltIn<T>;
-    textTruncate: MixinBuiltIn<T>;
-    textWrap: MixinBuiltIn<T>;
-    uiBox: MixinBuiltIn<T, UIBoxOptions>;
-    uiInteractive: MixinBuiltIn<T, UIInteractiveOptions>;
+  export interface Mixins<T extends object> {
+    background: Mixin<T, BackgroundOptions>;
+    border: Mixin<T, BorderOptions>;
+    foreground: Mixin<T, ForegroundOptions>;
+    heading: Mixin<T, HeadingOptions>;
+    hideCompletely: Mixin<T>;
+    hideOffscreen: Mixin<T>;
+    hideVisually: Mixin<T>;
+    resetButton: Mixin<T, ResetButtonOptions>;
+    resetInput: Mixin<T>;
+    resetList: Mixin<T>;
+    resetMedia: Mixin<T>;
+    resetTypography: Mixin<T>;
+    root: Mixin<T>;
+    shadow: Mixin<T, ShadowOptions>;
+    text: Mixin<T, TextOptions>;
+    textBreak: Mixin<T>;
+    textTruncate: Mixin<T>;
+    textWrap: Mixin<T>;
+    uiBox: Mixin<T, UIBoxOptions>;
+    uiInteractive: Mixin<T, UIInteractiveOptions>;
   }
 }

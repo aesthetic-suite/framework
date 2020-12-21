@@ -488,12 +488,16 @@ export type MixinTemplate<T extends object, O extends object = object> = (option
 
 export type MixinTemplateMap<T extends object> = Record<string, MixinTemplate<T>>;
 
-export interface MixinBuiltIn<T extends object, O extends object = object> {
+export interface Mixin<T extends object, O extends object = object> {
   (options: O, rule: T): T;
   (rule?: T): T;
 }
 
-export interface MixinUtil<T extends object, O extends object = object> {
+// Used for augmentation downstream
+// eslint-disable-next-line
+export interface Mixins<T extends object> {}
+
+export interface MixinUtil<T extends object, O extends object = object> extends Mixins<T> {
   (name: string, options: O, rule: T): T;
   (name: string, rule?: T): T;
 }

@@ -44,27 +44,32 @@ export function uiInteractive(
   }
 
   return {
-    color: this.var(`palette-${palette}-color-00` as 'palette-neutral-color-00'),
-    backgroundColor: this.var(`palette-${palette}-color-40` as 'palette-neutral-color-40'),
+    color: this.var(`palette-${palette}-fg-base` as 'palette-neutral-fg-base'),
+    backgroundColor: this.var(`palette-${palette}-bg-base` as 'palette-neutral-bg-base'),
     borderColor: this.var(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
     cursor: 'pointer',
 
     ':focus': {
+      color: this.var(`palette-${palette}-fg-focused` as 'palette-neutral-fg-focused'),
+      backgroundColor: this.var(`palette-${palette}-bg-focused` as 'palette-neutral-bg-focused'),
       borderColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
     },
 
     ':hover': {
-      backgroundColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
+      color: this.var(`palette-${palette}-fg-hovered` as 'palette-neutral-fg-hovered'),
+      backgroundColor: this.var(`palette-${palette}-bg-hovered` as 'palette-neutral-bg-hovered'),
       borderColor: this.var(`palette-${palette}-color-70` as 'palette-neutral-color-70'),
     },
 
     ':active': {
-      backgroundColor: this.var(`palette-${palette}-color-50` as 'palette-neutral-color-50'),
+      color: this.var(`palette-${palette}-fg-selected` as 'palette-neutral-fg-selected'),
+      backgroundColor: this.var(`palette-${palette}-bg-selected` as 'palette-neutral-bg-selected'),
       borderColor: this.var(`palette-${palette}-color-60` as 'palette-neutral-color-60'),
     },
 
     ':disabled': {
-      backgroundColor: this.var(`palette-${palette}-color-20` as 'palette-neutral-color-20'),
+      color: this.var(`palette-${palette}-fg-disabled` as 'palette-neutral-fg-disabled'),
+      backgroundColor: this.var(`palette-${palette}-bg-disabled` as 'palette-neutral-bg-disabled'),
       borderColor: this.var(`palette-${palette}-color-30` as 'palette-neutral-color-30'),
       cursor: 'default',
     },

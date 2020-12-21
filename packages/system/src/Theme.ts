@@ -19,7 +19,7 @@ import {
 } from './types';
 
 type AnyObject = Record<string, any>;
-type MixinTemplates<T extends object> = Record<string, Set<MixinTemplate<T>>>;
+type MixinTemplateCache<T extends object> = Record<string, Set<MixinTemplate<T>>>;
 
 export default class Theme<T extends object> implements Utilities<T> {
   name: string = '';
@@ -34,7 +34,7 @@ export default class Theme<T extends object> implements Utilities<T> {
 
   protected mixins: Record<string, MixinTemplate<T>> = {};
 
-  protected templates: MixinTemplates<T> = {};
+  protected templates: MixinTemplateCache<T> = {};
 
   private cachedVariables?: Variables;
 
@@ -44,7 +44,7 @@ export default class Theme<T extends object> implements Utilities<T> {
     options: ThemeOptions,
     tokens: ThemeTokens,
     design: Design<T>,
-    parentTemplates: MixinTemplates<T> = {},
+    parentTemplates: MixinTemplateCache<T> = {},
   ) {
     this.contrast = options.contrast;
     this.scheme = options.scheme;
