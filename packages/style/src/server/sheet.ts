@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import { CSS, Sheet, SheetManager, SheetMap, VariablesMap } from '@aesthetic/types';
 import { arrayLoop, arrayReduce } from '@aesthetic/utils';
 import sortMediaQueries from 'sort-css-media-queries';
@@ -12,7 +10,6 @@ import {
   insertRule,
   isAtRule,
   isImportRule,
-  isMediaRule,
   KEYFRAMES_RULE,
   MEDIA_RULE,
   STYLE_RULE,
@@ -91,20 +88,6 @@ export class TransientSheet implements Sheet {
   }
 }
 
-function extractQueryAndType(condition: string) {
-  if (isMediaRule(condition)) {
-    return {
-      query: condition.slice(6).trim(),
-      type: MEDIA_RULE,
-    };
-  }
-
-  return {
-    query: condition.slice(9).trim(),
-    type: SUPPORTS_RULE,
-  };
-}
-
 function findNestedRule(sheet: Sheet, query: string, type: number): Sheet | null {
   for (let i = 0; i < sheet.cssRules.length; i += 1) {
     const child = sheet.cssRules[i];
@@ -164,16 +147,20 @@ function insertMediaRule(
   return index;
 }
 
+interface Condition {
+  query: string;
+  type: number;
+}
+
 function insertConditionRule(
   manager: ServerSheetManager,
   sheet: Sheet,
   rule: CSS,
-  conditions: string[],
+  conditions: Condition[],
 ): number {
   let parent = sheet;
 
-  arrayLoop(conditions, (condition) => {
-    const { query, type } = extractQueryAndType(condition);
+  arrayLoop(conditions, ({ query, type }) => {
     const instance = findNestedRule(parent, query, type);
 
     // Nested found, so continue without inserting a new rule
@@ -206,8 +193,18 @@ export function createSheetManager(sheets: SheetMap): ServerSheetManager {
         return insertImportRule(sheet, rule);
 
         // Media and feature queries require special treatment
-      } else if (options.conditions) {
-        return insertConditionRule(manager, sheet, rule, options.conditions);
+      } else if (options.media || options.supports) {
+        const conditions: Condition[] = [];
+
+        if (options.supports) {
+          conditions.push({ query: options.supports, type: SUPPORTS_RULE });
+        }
+
+        if (options.media) {
+          conditions.push({ query: options.media, type: MEDIA_RULE });
+        }
+
+        return insertConditionRule(manager, sheet, rule, conditions);
 
         // Font faces and keyframes lowest precedence
       } else if (isAtRule(rule)) {
