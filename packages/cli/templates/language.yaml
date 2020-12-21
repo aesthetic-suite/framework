@@ -131,3 +131,4 @@ shadows:
 # List of color names that each theme must implement.
 colors:
   - black
+  - white

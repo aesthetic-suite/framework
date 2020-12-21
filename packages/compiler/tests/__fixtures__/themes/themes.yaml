@@ -58,40 +58,66 @@ themes:
         '80': '#EE8'
         '90': '#EE9'
     palettes:
-      brand: black
+      brand:
+        text: black
+        bg: black
+        fg: white
       primary:
-        color: white
+        text: blue
         fg:
-          base: 90
-          focused: 80
-          selected: 70
+          base: white.90
+          focused: white.80
+          selected: white.70
         bg:
-          base: '00'
-          disabled: '10'
-          hovered: '20'
-      secondary: red
-      tertiary: blue
+          base: blue.00
+          disabled: blue.10
+          hovered: blue.20
+      secondary:
+        text: red
+        bg: red
+        fg: white
+      tertiary:
+        text: blue
+        bg: blue
+        fg: white
       neutral:
-        color: green
+        text: green
+        bg: green
         fg:
-          base: 0
-          focused: 20
-          hovered: 30
-          selected: 40
-          disabled: 10
-      muted: black
-      info: white
+          base: white.0
+          focused: white.20
+          hovered: white.30
+          selected: white.40
+          disabled: white.10
+      muted:
+        text: black
+        bg: black
+        fg: white
+      info:
+        text: white
+        bg: white
+        fg: black
       warning:
-        color: red
+        text: red
+        bg: red
         bg:
-          base: 90
-          focused: 90
-          hovered: 90
-          selected: 90
-          disabled: 90
-      danger: blue
-      failure: blue
-      success: green
+          base: white.90
+          focused: white.90
+          hovered: white.90
+          selected: white.90
+          disabled: white.90
+      danger:
+        text: blue.40
+        bg: blue
+        fg: white
+      failure:
+        text: blue.00
+        bg: blue
+        fg: white
+      success:
+        text: green.90
+        bg: green
+        fg: white
   other:
     scheme: light
     extends: default
@@ -109,16 +135,20 @@ themes:
         '80': '#ff8'
         '90': '#ff9'
     palettes:
-      brand: blue
+      brand:
+        text: blue
+        bg: blue
+        fg: white
       neutral:
-        color: green
+        text: green
+        bg: blue
         fg:
-          base: 0
-          focused: 40
-          selected: 80
+          base: red.0
+          focused: red.40
+          selected: red.80
       danger:
-        color: red
+        text: red
         bg:
-          base: 90
+          base: red.90
         fg:
-          base: '00'
+          base: red.00
