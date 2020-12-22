@@ -1,5 +1,5 @@
 import { ClassName, Value } from '@aesthetic/types';
-import { objectLoop } from '@aesthetic/utils';
+import { joinQueries, objectLoop } from '@aesthetic/utils';
 
 export default class Block<T extends object = object> {
   className: string = '';
@@ -34,16 +34,19 @@ export default class Block<T extends object = object> {
     }
   }
 
-  nest(block: Block<T>): Block<T> {
-    if (this.nested[block.id]) {
-      this.nested[block.id].merge(block);
+  nest(child: Block<T>): Block<T> {
+    if (this.nested[child.id]) {
+      this.nested[child.id].merge(child);
     } else {
-      this.nested[block.id] = block;
+      this.nested[child.id] = child;
     }
 
-    block.parent = this;
+    child.parent = this;
+    child.media = joinQueries(this.media, child.media);
+    child.selector = this.selector + child.selector;
+    child.supports = joinQueries(this.supports, child.supports);
 
-    return block;
+    return child;
   }
 
   merge(block: Block<T>): this {

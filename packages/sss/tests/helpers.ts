@@ -11,7 +11,7 @@ export function createBlock(id: string, properties?: object): Block<Properties> 
     block.media = id.slice(6).trim();
   } else if (id.startsWith('@supports')) {
     block.supports = id.slice(9).trim();
-  } else if (id.match(/^[^a-z0-9@]/iu)) {
+  } else if (id.match(/^(:|\[|>|\*|~|\+)/iu)) {
     block.selector = id;
   }
 
@@ -33,9 +33,18 @@ export function createBlock(id: string, properties?: object): Block<Properties> 
 export function createExpectedBlock(
   id: string,
   properties?: object,
-  { media, selector, supports }: Partial<Pick<Block, 'media' | 'selector' | 'supports'>> = {},
+  {
+    media,
+    parent,
+    selector,
+    supports,
+  }: Partial<Pick<Block, 'media' | 'parent' | 'selector' | 'supports'>> = {},
 ): Block<Properties> {
   const block = createBlock(id, properties);
+
+  if (parent) {
+    parent.nest(block);
+  }
 
   if (media) {
     block.media = media;

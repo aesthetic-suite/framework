@@ -34,7 +34,7 @@ export default function parseSelector<T extends object>(
     }
 
     const block = new Block(name);
-    block.selector = parent.selector + name;
+    block.selector = name;
 
     const args: Parameters<NestedListener<T>> = [
       parent,
