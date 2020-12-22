@@ -14,7 +14,6 @@ export default function createQueue(options: ParserOptions<object>) {
         items.push(() => callback(value, options));
       }
 
-      // eslint-disable-next-line no-param-reassign
       delete obj[key];
     },
     process() {

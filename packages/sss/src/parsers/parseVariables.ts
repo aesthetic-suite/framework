@@ -23,7 +23,8 @@ export default function parseVariables<T extends object>(
     }
 
     if (parent) {
-      parent.addVariable(name, value);
+      parent.variables[name] = value;
+
       options.onVariable?.(parent, name, value);
     } else {
       object[name] = value;

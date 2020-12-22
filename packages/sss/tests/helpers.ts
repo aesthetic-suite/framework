@@ -23,7 +23,7 @@ export function createBlock(id: string, properties?: object): Block<Properties> 
     if (isObject(value)) {
       block.addNested(createBlock(key, value));
     } else {
-      block.addProperty(key, value);
+      block.properties[key] = value;
     }
   });
 

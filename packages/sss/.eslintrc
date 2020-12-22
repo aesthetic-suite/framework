@@ -1,5 +1,6 @@
 {
   "rules": {
+    "no-param-reassign": "off",
     "compat/compat": "off",
     "import/no-unresolved": "off"
   }

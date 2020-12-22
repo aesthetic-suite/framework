@@ -1,5 +1,3 @@
-/* eslint-disable no-dupe-class-members, lines-between-class-members */
-
 import { ClassName, Value } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 
@@ -43,28 +41,7 @@ export default class Block<T extends object = object> {
       this.nested[block.id] = block;
     }
 
-    // eslint-disable-next-line no-param-reassign
     block.parent = this;
-
-    return block;
-  }
-
-  addProperty<K extends keyof T>(key: K, value: T[K]): this;
-  addProperty(key: string, value: Value): this;
-  addProperty(key: string, value: unknown): this {
-    this.properties[key] = value as string;
-
-    return this;
-  }
-
-  addVariable(key: string, value: Value): this {
-    this.variables[key] = value;
-
-    return this;
-  }
-
-  addVariant(type: string, block: Block<T>): Block<T> {
-    this.variants[type] = block;
 
     return block;
   }
