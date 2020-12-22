@@ -21,7 +21,7 @@ export function createBlock(id: string, properties?: object): Block<Properties> 
 
   objectLoop(properties, (value, key) => {
     if (isObject(value)) {
-      block.addNested(createBlock(key, value));
+      block.nest(createBlock(key, value));
     } else {
       block.properties[key] = value;
     }

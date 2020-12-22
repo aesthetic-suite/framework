@@ -34,7 +34,7 @@ export default class Block<T extends object = object> {
     }
   }
 
-  addNested(block: Block<T>): Block<T> {
+  nest(block: Block<T>): Block<T> {
     if (this.nested[block.id]) {
       this.nested[block.id].merge(block);
     } else {
@@ -50,7 +50,7 @@ export default class Block<T extends object = object> {
     Object.assign(this.properties, block.properties);
 
     objectLoop(block.nested, (nested) => {
-      this.addNested(nested);
+      this.nest(nested);
     });
 
     return this;

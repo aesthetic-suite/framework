@@ -125,7 +125,7 @@ describe('GlobalParser', () => {
         {
           onRoot: spy,
           onMedia(block, query, value) {
-            block.addNested(value);
+            block.nest(value);
           },
         },
       );

@@ -20,8 +20,8 @@ describe('Block', () => {
       const child = createBlock('');
       const grandchild = createBlock(':hover');
 
-      instance.addNested(child);
-      child.addNested(grandchild);
+      instance.nest(child);
+      child.nest(grandchild);
 
       grandchild.addClassName('foo');
 
@@ -30,12 +30,12 @@ describe('Block', () => {
     });
   });
 
-  describe('addNested()', () => {
+  describe('nest()', () => {
     it('adds a nested object', () => {
       const obj = createBlock(':hover');
       obj.properties.color = 'red';
 
-      instance.addNested(obj);
+      instance.nest(obj);
 
       expect(instance.nested[':hover']).toEqual(obj);
     });
@@ -49,8 +49,8 @@ describe('Block', () => {
       obj2.properties.color = 'blue';
       obj2.properties.background = 'white';
 
-      instance.addNested(obj1);
-      instance.addNested(obj2);
+      instance.nest(obj1);
+      instance.nest(obj2);
 
       const obj3 = createBlock(':hover');
       obj3.properties.color = 'blue';
@@ -104,16 +104,16 @@ describe('Block', () => {
       mediaHover2.properties.display = 'inline-flex';
       mediaHover2.properties.background = 'transparent';
 
-      instance.addNested(hover);
-      instance.addNested(active);
-      instance.addNested(media);
+      instance.nest(hover);
+      instance.nest(active);
+      instance.nest(media);
 
-      media.addNested(mediaHover);
-      media2.addNested(mediaHover2);
+      media.nest(mediaHover);
+      media2.nest(mediaHover2);
 
       const next = createBlock('new');
-      next.addNested(hover2);
-      next.addNested(media2);
+      next.nest(hover2);
+      next.nest(media2);
 
       instance.merge(next);
 

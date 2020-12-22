@@ -39,7 +39,7 @@ export default function parseSelector<T extends object>(
     const args: Parameters<NestedListener<T>> = [
       parent,
       name,
-      parseLocalBlock(parent.addNested(block), object, options),
+      parseLocalBlock(parent.nest(block), object, options),
       { specificity },
     ];
 

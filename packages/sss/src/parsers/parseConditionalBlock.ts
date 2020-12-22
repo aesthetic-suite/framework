@@ -19,7 +19,7 @@ export default function parseConditionalBlock<T extends object>(
 
     block[type] = joinQueries(parent[type], condition);
 
-    const nestedBlock = parseLocalBlock(parent.addNested(block), object, options);
+    const nestedBlock = parseLocalBlock(parent.nest(block), object, options);
 
     if (type === 'media') {
       options.onMedia?.(parent, condition, nestedBlock);

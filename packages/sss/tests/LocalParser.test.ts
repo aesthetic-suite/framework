@@ -332,7 +332,7 @@ describe('LocalParser', () => {
         { media: '(min-width: 300px) and (max-width: 1000px)' },
       );
 
-      parent.addNested(child);
+      parent.nest(child);
       child.parent = parent;
 
       expect(spy).toHaveBeenCalledWith(expect.any(Block), '(min-width: 300px)', parent);
