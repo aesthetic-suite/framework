@@ -83,35 +83,6 @@ function createStyles() {
   };
 }
 
-function groupSelectorsAndConditions(selectors) {
-  let media = '';
-  let selector = '';
-  let supports = '';
-  let valid = true;
-
-  arrayLoop(selectors, (value) => {
-    const part = value.slice(0, 10);
-
-    if (part === '@keyframes' || part === '@font-face') {
-      // istanbul ignore next
-      valid = false;
-    } else if (value.slice(0, 6) === '@media') {
-      media = joinQueries(media, value.slice(6).trim());
-    } else if (value.slice(0, 9) === '@supports') {
-      supports = joinQueries(supports, value.slice(9).trim());
-    } else {
-      selector += value;
-    }
-  });
-
-  return {
-    media,
-    selector,
-    supports,
-    valid,
-  };
-}
-
 // Test parsing the entire block before injection
 function parseAsBlock(styles) {
   const classNames = {};
@@ -169,20 +140,12 @@ function parseAsDeclaration(styles) {
       return engine2.renderKeyframes(keyframes.toObject(), animationName);
     },
     onProperty(block, key, value) {
-      const { media, selector, supports, valid } = groupSelectorsAndConditions(
-        block.getSelectors(),
-      );
-
-      if (!valid) {
-        return;
-      }
-
       block.addClassName(
         engine2.renderDeclaration(key, value, {
-          media,
+          media: block.media,
           rankings,
-          selector,
-          supports,
+          selector: block.selector,
+          supports: block.supports,
         }),
       );
     },

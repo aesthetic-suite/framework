@@ -1,5 +1,3 @@
-/* eslint-disable no-magic-numbers */
-
 import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
