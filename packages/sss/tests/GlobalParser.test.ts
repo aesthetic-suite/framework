@@ -131,16 +131,20 @@ describe('GlobalParser', () => {
       );
 
       expect(spy).toHaveBeenCalledWith(
-        createBlock('@root', {
-          height: '100%',
-          margin: 0,
-          fontSize: 16,
-          lineHeight: 1.5,
-          backgroundColor: 'white',
-          '@media (prefers-color-scheme: dark)': {
-            backgroundColor: 'black',
+        createBlock(
+          '@root',
+          {
+            height: '100%',
+            margin: 0,
+            fontSize: 16,
+            lineHeight: 1.5,
+            backgroundColor: 'white',
+            '@media (prefers-color-scheme: dark)': {
+              backgroundColor: 'black',
+            },
           },
-        }),
+          { media: '(prefers-color-scheme: dark)' },
+        ),
       );
     });
   });

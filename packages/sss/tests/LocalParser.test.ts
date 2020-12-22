@@ -323,24 +323,20 @@ describe('LocalParser', () => {
 
       expect(spy).toHaveBeenCalledTimes(2);
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.any(Block),
-        '(min-width: 300px)',
-        createExpectedBlock('@media (min-width: 300px)', {
-          color: 'blue',
-          '@media (max-width: 1000px)': {
-            color: 'green',
-          },
-        }),
+      const parent = createExpectedBlock('@media (min-width: 300px)', {
+        color: 'blue',
+      });
+      const child = createExpectedBlock(
+        '@media (max-width: 1000px)',
+        { color: 'green' },
+        { media: '(min-width: 300px) and (max-width: 1000px)' },
       );
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.any(Block),
-        '(max-width: 1000px)',
-        createExpectedBlock('@media (max-width: 1000px)', {
-          color: 'green',
-        }),
-      );
+      parent.addNested(child);
+      child.parent = parent;
+
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '(min-width: 300px)', parent);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '(max-width: 1000px)', child);
     });
   });
 

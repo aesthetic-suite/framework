@@ -1,4 +1,4 @@
-import { objectLoop } from '@aesthetic/utils';
+import { joinQueries, objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarations from '../helpers/validateDeclarations';
 import { ParserOptions, LocalBlockMap } from '../types';
@@ -15,11 +15,11 @@ export default function parseConditionalBlock<T extends object>(
   }
 
   objectLoop(conditions, (object, condition) => {
-    const nestedBlock = parseLocalBlock(
-      parent.addNested(new Block(`@${type} ${condition}`)),
-      object,
-      options,
-    );
+    const block = new Block(`@${type} ${condition}`);
+
+    block[type] = joinQueries(parent[type], condition);
+
+    const nestedBlock = parseLocalBlock(parent.addNested(block), object, options);
 
     if (type === 'media') {
       options.onMedia?.(parent, condition, nestedBlock);

@@ -6,20 +6,26 @@ import { objectLoop } from '@aesthetic/utils';
 export default class Block<T extends object = object> {
   className: string = '';
 
+  media: string = '';
+
   readonly nested: Record<string, Block<T>> = {};
 
   parent?: Block<T>;
 
   readonly properties: Record<string, Value> = {};
 
-  readonly selector: string;
+  readonly id: string;
+
+  selector: string = '';
+
+  supports: string = '';
 
   readonly variables: Record<string, Value> = {};
 
   readonly variants: Record<string, Block<T>> = {};
 
-  constructor(selector: string = '') {
-    this.selector = selector;
+  constructor(id: string = '') {
+    this.id = id;
   }
 
   addClassName(name: ClassName) {
@@ -31,10 +37,10 @@ export default class Block<T extends object = object> {
   }
 
   addNested(block: Block<T>): Block<T> {
-    if (this.nested[block.selector]) {
-      this.nested[block.selector].merge(block);
+    if (this.nested[block.id]) {
+      this.nested[block.id].merge(block);
     } else {
-      this.nested[block.selector] = block;
+      this.nested[block.id] = block;
     }
 
     // eslint-disable-next-line no-param-reassign
@@ -61,21 +67,6 @@ export default class Block<T extends object = object> {
     this.variants[type] = block;
 
     return block;
-  }
-
-  getSelectors(): string[] {
-    const selectors: string[] = [];
-    let block: Block<T> | undefined = this;
-
-    while (block) {
-      if (block.selector) {
-        selectors.unshift(block.selector);
-      }
-
-      block = block.parent;
-    }
-
-    return selectors;
   }
 
   merge(block: Block<T>): this {

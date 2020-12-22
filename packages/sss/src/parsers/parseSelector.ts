@@ -33,8 +33,15 @@ export default function parseSelector<T extends object>(
       name = name.slice(1);
     }
 
-    const block = parseLocalBlock(parent.addNested(new Block(name)), object, options);
-    const args: Parameters<NestedListener<T>> = [parent, name, block, { specificity }];
+    const block = new Block(name);
+    block.selector = parent.selector + name;
+
+    const args: Parameters<NestedListener<T>> = [
+      parent,
+      name,
+      parseLocalBlock(parent.addNested(block), object, options),
+      { specificity },
+    ];
 
     if (name[0] === ':') {
       options.onPseudo?.(...args);
