@@ -9,16 +9,16 @@ export default function parseKeyframes<T extends object>(
   animationName: string,
   options: ParserOptions<T>,
 ): string {
-  const keyframes = new Block<T>(`@keyframes`);
+  const keyframes = new Block<T>('@keyframes');
 
   if (__DEV__) {
-    validateDeclarationBlock(object, keyframes.selector);
+    validateDeclarationBlock(object, keyframes.id);
   }
 
   // from, to, and percent keys aren't easily detectable
   objectLoop(object, (value, key) => {
     if (value !== undefined) {
-      parseBlock(keyframes.addNested(new Block(key)), value, options, false);
+      parseBlock(keyframes.nest(new Block(key)), value, options, false);
     }
   });
 

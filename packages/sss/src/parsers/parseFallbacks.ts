@@ -21,7 +21,7 @@ export default function parseFallbacks<T extends object>(
       // but the style renderer does. This is the only use case for arrays,
       // so let's just ignore it here for type safety everywhere else.
       // @ts-expect-error
-      parent.addProperty(prop, [...values, current]);
+      parent.properties[prop] = [...values, current];
 
       options.onFallback?.(parent, prop, values);
     }

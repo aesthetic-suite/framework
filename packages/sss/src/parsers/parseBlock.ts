@@ -13,7 +13,7 @@ export default function parseBlock<T extends object>(
   emit: boolean = true,
 ): Block<T> {
   if (__DEV__) {
-    validateDeclarationBlock(object, parent.selector);
+    validateDeclarationBlock(object, parent.id);
   }
 
   objectLoop(object, (value, key) => {

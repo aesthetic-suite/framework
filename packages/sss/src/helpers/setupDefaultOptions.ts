@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { toArray } from '@aesthetic/utils';
 import parseFontFace from '../parsers/parseFontFace';
 import parseKeyframes from '../parsers/parseKeyframes';

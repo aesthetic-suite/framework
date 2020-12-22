@@ -20,8 +20,8 @@ describe('Block', () => {
       const child = createBlock('');
       const grandchild = createBlock(':hover');
 
-      instance.addNested(child);
-      child.addNested(grandchild);
+      instance.nest(child);
+      child.nest(grandchild);
 
       grandchild.addClassName('foo');
 
@@ -30,98 +30,46 @@ describe('Block', () => {
     });
   });
 
-  describe('addNested()', () => {
+  describe('nest()', () => {
     it('adds a nested object', () => {
-      const obj = createBlock(':hover').addProperty('color', 'red');
+      const obj = createBlock(':hover');
+      obj.properties.color = 'red';
 
-      instance.addNested(obj);
+      instance.nest(obj);
 
       expect(instance.nested[':hover']).toEqual(obj);
     });
 
     it('merges nested objects if selectors are the same', () => {
-      const obj1 = createBlock(':hover')
-        .addProperty('color', 'red')
-        .addProperty('display', 'block');
-      const obj2 = createBlock(':hover')
-        .addProperty('color', 'blue')
-        .addProperty('background', 'white');
+      const obj1 = createBlock(':hover');
+      obj1.properties.color = 'red';
+      obj1.properties.display = 'block';
 
-      instance.addNested(obj1);
-      instance.addNested(obj2);
+      const obj2 = createBlock(':hover');
+      obj2.properties.color = 'blue';
+      obj2.properties.background = 'white';
 
-      const obj3 = createBlock(':hover')
-        .addProperty('display', 'block')
-        .addProperty('color', 'blue')
-        .addProperty('background', 'white');
+      instance.nest(obj1);
+      instance.nest(obj2);
+
+      const obj3 = createBlock(':hover');
+      obj3.properties.color = 'blue';
+      obj3.properties.display = 'block';
+      obj3.properties.background = 'white';
       obj3.parent = instance;
 
       expect(instance.nested[':hover']).toEqual(obj3);
     });
   });
 
-  describe('addProperty()', () => {
-    it('sets a property', () => {
-      instance.addProperty('color', 'red');
-
-      expect(instance.properties.color).toBe('red');
-    });
-
-    it('overwrites a property of the same name', () => {
-      instance.addProperty('color', 'red');
-      instance.addProperty('color', 'blue');
-
-      expect(instance.properties.color).toBe('blue');
-    });
-  });
-
-  describe('addVariable()', () => {
-    it('sets a variable', () => {
-      instance.addVariable('--color', 'red');
-
-      expect(instance.variables['--color']).toBe('red');
-    });
-
-    it('overwrites a variable of the same name', () => {
-      instance.addVariable('--color', 'red');
-      instance.addVariable('--color', 'blue');
-
-      expect(instance.variables['--color']).toBe('blue');
-    });
-  });
-
-  describe('getSelectors()', () => {
-    it('returns current selector if defined', () => {
-      expect(instance.getSelectors()).toEqual(['test']);
-    });
-
-    it('returns an empty array if not defined', () => {
-      instance = createBlock('');
-
-      expect(instance.getSelectors()).toEqual([]);
-    });
-
-    it('returns a list of all ancestry selectors, skipping over empty ones', () => {
-      const child = createBlock('');
-      const grandchild = createBlock(':hover');
-
-      instance.addNested(child);
-      child.addNested(grandchild);
-
-      grandchild.addClassName('foo');
-
-      expect(instance.getSelectors()).toEqual(['test']);
-      expect(grandchild.getSelectors()).toEqual(['test', ':hover']);
-    });
-  });
-
   describe('merge()', () => {
     it('inherits properties from rule', () => {
-      instance.addProperty('color', 'red').addProperty('display', 'block');
+      instance.properties.color = 'red';
+      instance.properties.display = 'block';
 
-      const rule = createBlock('nested')
-        .addProperty('color', 'blue')
-        .addProperty('background', 'white');
+      const rule = createBlock('nested');
+      rule.properties.color = 'blue';
+      rule.properties.background = 'white';
 
       instance.merge(rule);
 
@@ -134,30 +82,38 @@ describe('Block', () => {
 
     it('inherits nested from rule', () => {
       // Base
-      const hover = createBlock(':hover').addProperty('color', 'black');
-      const active = createBlock(':active').addProperty('color', 'blue');
-      const media = createBlock('@media (max-width: 100px)').addProperty('display', 'block');
-      const mediaHover = createBlock(':hover').addProperty('display', 'inline');
+      const hover = createBlock(':hover');
+      hover.properties.color = 'black';
+
+      const active = createBlock(':active');
+      active.properties.color = 'blue';
+
+      const media = createBlock('@media (max-width: 100px)');
+      media.properties.display = 'block';
+
+      const mediaHover = createBlock(':hover');
+      mediaHover.properties.display = 'inline';
 
       // New
-      const hover2 = createBlock(':hover')
-        .addProperty('color', 'black')
-        .addProperty('position', 'relative');
+      const hover2 = createBlock(':hover');
+      hover2.properties.color = 'black';
+      hover2.properties.position = 'relative';
+
       const media2 = createBlock('@media (max-width: 100px)');
-      const mediaHover2 = createBlock(':hover')
-        .addProperty('display', 'inline-flex')
-        .addProperty('background', 'transparent');
+      const mediaHover2 = createBlock(':hover');
+      mediaHover2.properties.display = 'inline-flex';
+      mediaHover2.properties.background = 'transparent';
 
-      instance.addNested(hover);
-      instance.addNested(active);
-      instance.addNested(media);
+      instance.nest(hover);
+      instance.nest(active);
+      instance.nest(media);
 
-      media.addNested(mediaHover);
-      media2.addNested(mediaHover2);
+      media.nest(mediaHover);
+      media2.nest(mediaHover2);
 
       const next = createBlock('new');
-      next.addNested(hover2);
-      next.addNested(media2);
+      next.nest(hover2);
+      next.nest(media2);
 
       instance.merge(next);
 
@@ -183,10 +139,9 @@ describe('Block', () => {
 
   describe('toObject()', () => {
     it('returns a plain object', () => {
-      instance
-        .addProperty('color', 'red')
-        .addProperty('display', 'block')
-        .addVariable('--font-size', '14px');
+      instance.properties.color = 'red';
+      instance.properties.display = 'block';
+      instance.variables['--font-size'] = '14px';
 
       expect(instance.toObject()).toEqual({
         '--font-size': '14px',

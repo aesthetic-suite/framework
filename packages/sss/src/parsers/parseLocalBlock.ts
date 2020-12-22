@@ -17,7 +17,7 @@ export default function parseLocalBlock<T extends object>(
   options: ParserOptions<T>,
 ): Block<T> {
   if (__DEV__) {
-    validateDeclarationBlock(object, parent.selector);
+    validateDeclarationBlock(object, parent.id);
   }
 
   const props = { ...object };

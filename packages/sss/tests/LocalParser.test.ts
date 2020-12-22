@@ -67,6 +67,116 @@ describe('LocalParser', () => {
     expect(spy).toHaveBeenCalledWith('selector', createBlock('', SYNTAX_LOCAL_BLOCK));
   });
 
+  it('applies nested conditionals and selectors correctly', () => {
+    parse(
+      {
+        element: {
+          '@media': {
+            '(max-width: 1000px)': {
+              ':hover': {},
+              '@supports': {
+                '(display: flex)': {
+                  '[disabled]': {},
+                  '@media': {
+                    '(min-width: 500px)': {
+                      '@media': {
+                        '(prefers-contrast: low)': {
+                          '@supports': {
+                            '(color: red)': {
+                              color: 'red',
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '@selectors': {
+            ':not([disabled])': {
+              ':focus': {},
+            },
+          },
+        },
+      },
+      { onRule: spy },
+    );
+
+    const block = createExpectedBlock('');
+    block.parent = undefined;
+
+    const media1000 = createExpectedBlock(
+      '@media (max-width: 1000px)',
+      {},
+      { parent: block, media: '(max-width: 1000px)' },
+    );
+
+    createExpectedBlock(
+      ':hover',
+      {},
+      { parent: media1000, media: '(max-width: 1000px)', selector: ':hover' },
+    );
+
+    const supportsFlex = createExpectedBlock(
+      '@supports (display: flex)',
+      {},
+      { parent: media1000, media: '(max-width: 1000px)', supports: '(display: flex)' },
+    );
+
+    createExpectedBlock(
+      '[disabled]',
+      {},
+      {
+        parent: supportsFlex,
+        media: '(max-width: 1000px)',
+        selector: '[disabled]',
+        supports: '(display: flex)',
+      },
+    );
+
+    const media500 = createExpectedBlock(
+      '@media (min-width: 500px)',
+      {},
+      {
+        parent: supportsFlex,
+        media: '(max-width: 1000px) and (min-width: 500px)',
+        supports: '(display: flex)',
+      },
+    );
+
+    const mediaLow = createExpectedBlock(
+      '@media (prefers-contrast: low)',
+      {},
+      {
+        parent: media500,
+        media: '(max-width: 1000px) and (min-width: 500px) and (prefers-contrast: low)',
+        supports: '(display: flex)',
+      },
+    );
+
+    createExpectedBlock(
+      '@supports (color: red)',
+      { color: 'red' },
+      {
+        parent: mediaLow,
+        media: '(max-width: 1000px) and (min-width: 500px) and (prefers-contrast: low)',
+        supports: '(display: flex) and (color: red)',
+      },
+    );
+
+    const notDisabled = createExpectedBlock(
+      ':not([disabled])',
+      {},
+      { parent: block, selector: ':not([disabled])' },
+    );
+
+    createExpectedBlock(':focus', {}, { parent: notDisabled, selector: ':not([disabled]):focus' });
+
+    expect(spy).toHaveBeenCalledWith('element', block);
+  });
+
   describe('class names', () => {
     it('emits for each class name', () => {
       parse(
@@ -323,24 +433,18 @@ describe('LocalParser', () => {
 
       expect(spy).toHaveBeenCalledTimes(2);
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.any(Block),
-        '(min-width: 300px)',
-        createExpectedBlock('@media (min-width: 300px)', {
-          color: 'blue',
-          '@media (max-width: 1000px)': {
-            color: 'green',
-          },
-        }),
+      const parent = createExpectedBlock('@media (min-width: 300px)', {
+        color: 'blue',
+      });
+
+      const child = createExpectedBlock(
+        '@media (max-width: 1000px)',
+        { color: 'green' },
+        { parent, media: '(min-width: 300px) and (max-width: 1000px)' },
       );
 
-      expect(spy).toHaveBeenCalledWith(
-        expect.any(Block),
-        '(max-width: 1000px)',
-        createExpectedBlock('@media (max-width: 1000px)', {
-          color: 'green',
-        }),
-      );
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '(min-width: 300px)', parent);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), '(max-width: 1000px)', child);
     });
   });
 
