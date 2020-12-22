@@ -109,7 +109,7 @@ describe('Engine', () => {
 
       // Selector prefixing
       engine.renderDeclaration('display', 'none', {
-        selectors: [':fullscreen'],
+        selector: ':fullscreen',
         vendor: true,
       });
 
@@ -119,14 +119,14 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderDeclaration('margin', 0, { deterministic: true });
 
-      expect(className).toBe('cl8qkup');
+      expect(className).toBe('c13kbekr');
     });
 
     describe('selectors', () => {
       it('supports selectors', () => {
-        engine.renderDeclaration('color', 'green', { selectors: [':hover'] });
-        engine.renderDeclaration('color', 'red', { selectors: ['[disabled]'] });
-        engine.renderDeclaration('color', 'blue', { selectors: [':nth-child(2)'] });
+        engine.renderDeclaration('color', 'green', { selector: ':hover' });
+        engine.renderDeclaration('color', 'red', { selector: '[disabled]' });
+        engine.renderDeclaration('color', 'blue', { selector: ':nth-child(2)' });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
@@ -134,14 +134,11 @@ describe('Engine', () => {
 
     describe('conditions', () => {
       it('supports conditionals', () => {
-        engine.renderDeclaration('color', 'green', { conditions: ['@media (max-size: 100px)'] });
-        engine.renderDeclaration('color', 'red', { conditions: ['@supports (color: red)'] });
+        engine.renderDeclaration('color', 'green', { media: '(max-size: 100px)' });
+        engine.renderDeclaration('color', 'red', { supports: '(color: red)' });
         engine.renderDeclaration('color', 'blue', {
-          conditions: [
-            '@media (max-width: 100px)',
-            '@supports (color: red)',
-            '@media (min-width: 200px)',
-          ],
+          media: '(max-width: 100px) and (min-width: 200px)',
+          supports: '(color: red)',
         });
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
@@ -149,8 +146,8 @@ describe('Engine', () => {
 
       it('supports conditionals with selectors', () => {
         engine.renderDeclaration('color', 'green', {
-          conditions: ['@media (max-size: 100px)'],
-          selectors: [':focus'],
+          media: '(max-size: 100px)',
+          selector: ':focus',
         });
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
@@ -251,7 +248,7 @@ describe('Engine', () => {
 
     it('generates different class names between standard and condition rules, when condition is inserted first', () => {
       const a = engine.renderDeclaration('width', '100em', {
-        conditions: ['@media (max-width: 100px)'],
+        media: '(max-width: 100px)',
       });
       const b = engine.renderDeclaration('width', '100em');
 
@@ -298,16 +295,16 @@ describe('Engine', () => {
 
     it('renders all variants', () => {
       engine.renderImport('custom.css');
-      engine.renderImport('common.css', { conditions: ['screen'] });
-      engine.renderImport('print.css', { conditions: ['print'] });
+      engine.renderImport('common.css', { media: 'screen' });
+      engine.renderImport('print.css', { media: 'print' });
       engine.renderImport('chrome://communicator/skin');
       engine.renderImport('landscape.css');
-      engine.renderImport('a11y.css', { conditions: ['speech'] });
+      engine.renderImport('a11y.css', { media: 'speech' });
       engine.renderImport('responsive.css', {
-        conditions: ['screen and (orientation: landscape)'],
+        media: 'screen and (orientation: landscape)',
       });
       engine.renderImport('fallback-layout.css', {
-        conditions: ['supports(not (display: flex))'],
+        media: 'supports(not (display: flex))',
       });
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
@@ -450,9 +447,9 @@ describe('Engine', () => {
       );
       const cursor = engine.renderDeclaration('cursor', 'pointer', { deterministic: true });
 
-      expect(className).toBe('cl8qkup c1hykqr2');
+      expect(className).toBe('c13kbekr c16r1ggk');
       expect(className).toContain(cursor);
-      expect(cursor).toBe('c1hykqr2');
+      expect(cursor).toBe('c16r1ggk');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -709,7 +706,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selectors: ['[disabled]'],
+          selector: '[disabled]',
         });
 
         expect(classNameA).toBe('a');
@@ -719,7 +716,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('backgroundColor', '#286090', {
-          selectors: ['[href*="example"]'],
+          selector: '[href*="example"]',
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -750,7 +747,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selectors: [':focus'],
+          selector: ':focus',
         });
 
         expect(classNameA).toBe('a');
@@ -760,7 +757,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selectors: [':nth-last-of-type(4n)'],
+          selector: ':nth-last-of-type(4n)',
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -796,7 +793,7 @@ describe('Engine', () => {
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
-          selectors: ['+ div'],
+          selector: '+ div',
         });
 
         expect(classNameA).toBe('a');
@@ -806,7 +803,7 @@ describe('Engine', () => {
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
-          selectors: [':first-of-type + li'],
+          selector: ':first-of-type + li',
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -971,7 +968,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('cxez4hq');
+      expect(className).toBe('cj1oomc');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -987,7 +984,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('cbh3gac');
+      expect(className).toBe('c1mjtlm6');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -995,7 +992,7 @@ describe('Engine', () => {
     it('can convert direction applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { direction: 'rtl' });
 
-      expect(className).toBe('cnb0yxp');
+      expect(className).toBe('cnaaqpz');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1012,8 +1009,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a).toBe('cbh3gac');
-      expect(b).toBe('c1iygfo4');
+      expect(a).toBe('c1mjtlm6');
+      expect(b).toBe('cfapcjy');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -1025,7 +1022,7 @@ describe('Engine', () => {
         '--font-size': '14px',
       });
 
-      expect(className).toBe('c1p18x1s');
+      expect(className).toBe('c1lbtkju');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });
@@ -1058,7 +1055,7 @@ describe('Engine', () => {
     it('generates a deterministic class name', () => {
       const className = engine.renderVariable('--font-size', '16px', { deterministic: true });
 
-      expect(className).toBe('c1a0aje3');
+      expect(className).toBe('ca1tahd');
     });
   });
 });

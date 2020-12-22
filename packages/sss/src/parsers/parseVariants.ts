@@ -14,8 +14,8 @@ export default function parseVariants<T extends object>(
   }
 
   objectLoop(variants, (variant, parentType) => {
-    objectLoop(variant, (object, subType) => {
-      const type = `${parentType}_${subType}`;
+    objectLoop(variant, (object, childType) => {
+      const type = `${parentType}_${childType}`;
       const block = parseLocalBlock(parent.addVariant(type, new Block()), object, options);
 
       options.onVariant?.(parent, type, block, { specificity: 0 });

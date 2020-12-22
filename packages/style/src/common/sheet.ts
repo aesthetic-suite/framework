@@ -4,7 +4,8 @@ import { isAtRule, isImportRule, insertAtRule, insertImportRule, insertRule } fr
 export function createSheetManager(sheets: SheetMap): SheetManager {
   return {
     insertRule(rule, options, index) {
-      const sheet = sheets[options.type || (options.conditions ? 'conditions' : 'standard')];
+      const sheet =
+        sheets[options.type || (options.media || options.supports ? 'conditions' : 'standard')];
 
       if (isImportRule(rule)) {
         return insertImportRule(sheet, rule);

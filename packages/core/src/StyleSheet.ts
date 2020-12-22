@@ -3,7 +3,7 @@
 import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
 import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
-import { arrayLoop, deepMerge, objectLoop } from '@aesthetic/utils';
+import { arrayLoop, deepMerge, joinQueries, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
   RenderResult,
@@ -26,7 +26,9 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 }
 
 function groupSelectorsAndConditions(selectors: string[]) {
-  const conditions: string[] = [];
+  let media = '';
+  let selector = '';
+  let supports = '';
   let valid = true;
 
   arrayLoop(selectors, (value) => {
@@ -35,13 +37,19 @@ function groupSelectorsAndConditions(selectors: string[]) {
     if (part === '@keyframes' || part === '@font-face') {
       // istanbul ignore next
       valid = false;
-    } else if (value.slice(0, 6) === '@media' || value.slice(0, 9) === '@supports') {
-      conditions.push(value);
+    } else if (value.slice(0, 6) === '@media') {
+      media = joinQueries(media, value.slice(6).trim());
+    } else if (value.slice(0, 9) === '@supports') {
+      supports = joinQueries(supports, value.slice(9).trim());
+    } else {
+      selector += value;
     }
   });
 
   return {
-    conditions: conditions.length === 0 ? undefined : [],
+    media,
+    selector,
+    supports,
     valid,
   };
 }
@@ -168,14 +176,11 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
-
-    const getRenderOptions = (opts?: RenderOptions): RenderOptions => ({
+    const renderOptions: RenderOptions = {
       direction: params.direction,
-      rankings: this.type === 'global' ? undefined : rankings,
       unit: params.unit,
       vendor: params.vendor,
-      ...opts,
-    });
+    };
 
     const addClassToMap = (selector: string, className: string) => {
       classNames[selector] = { result: className };
@@ -191,29 +196,29 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       customProperties,
       onClass: addClassToMap,
       onFontFace(fontFace) {
-        return engine.renderFontFace(fontFace.toObject(), getRenderOptions());
+        return engine.renderFontFace(fontFace.toObject(), renderOptions);
       },
       onImport(path) {
         engine.renderImport(path);
       },
       onKeyframes(keyframes, animationName) {
-        return engine.renderKeyframes(keyframes.toObject(), animationName, getRenderOptions());
+        return engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions);
       },
       onProperty(block, property, value) {
-        const selectors = block.getSelectors();
-        const { conditions, valid } = groupSelectorsAndConditions(block.getSelectors());
+        const { media, selector, supports, valid } = groupSelectorsAndConditions(
+          block.getSelectors(),
+        );
 
         if (valid) {
           block.addClassName(
             String(
-              engine.renderDeclaration(
-                property as Property,
-                value as string,
-                getRenderOptions({
-                  conditions,
-                  selectors,
-                }),
-              ),
+              engine.renderDeclaration(property as Property, value as string, {
+                ...renderOptions,
+                media,
+                rankings,
+                selector,
+                supports,
+              }),
             ),
           );
         }
@@ -222,23 +227,21 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         addClassToMap(
           '@root',
           String(
-            engine.renderRuleGrouped(
-              block.toObject(),
-              getRenderOptions({
-                deterministic: true,
-                type: 'global',
-              }),
-            ),
+            engine.renderRuleGrouped(block.toObject(), {
+              ...renderOptions,
+              deterministic: true,
+              type: 'global',
+            }),
           ),
         );
       },
       onRootVariables(variables) {
         engine.setRootVariables(variables);
       },
-      onRule: (selector, rule) => {
-        const meta = addClassToMap(selector, rule.className.trim());
+      onRule: (selector, block) => {
+        const meta = addClassToMap(selector, block.className.trim());
 
-        objectLoop(rule.variants, (variant, type) => {
+        objectLoop(block.variants, (variant, type) => {
           if (!meta.renderResult.variants) {
             meta.renderResult.variants = {};
           }

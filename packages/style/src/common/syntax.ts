@@ -7,7 +7,7 @@ import {
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
+import { arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { isUnitlessProperty, isVariable } from './helpers';
 import { StyleEngine } from '../types';
 
@@ -58,21 +58,21 @@ export function formatDeclarationBlock(properties: Record<string, Value>): CSS {
 export function formatRule(
   className: ClassName,
   block: CSS,
-  { conditions, selectors }: RenderOptions,
+  { media, selector = '', supports }: RenderOptions,
 ): CSS {
-  let rule = `.${className}${selectors ? selectors.join('') : ''} { ${block} }`;
+  let rule = `.${className}${selector} { ${block} }`;
 
   // Server-side rendering recursively creates CSS rules to collapse
   // conditionals to their smallest representation, so we need to avoid
   // wrapping with the outer conditional for this to work correctly.
-  if (conditions && !process.env.AESTHETIC_SSR) {
-    arrayLoop(
-      conditions,
-      (condition) => {
-        rule = `${condition} { ${rule} }`;
-      },
-      true,
-    );
+  if (!process.env.AESTHETIC_SSR) {
+    if (media) {
+      rule = `@media ${media} { ${rule} }`;
+    }
+
+    if (supports) {
+      rule = `@supports ${supports} { ${rule} }`;
+    }
   }
 
   return rule;
