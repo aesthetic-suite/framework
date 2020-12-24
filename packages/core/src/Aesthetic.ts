@@ -90,7 +90,9 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     this.activeTheme.set(name);
 
     // Apply theme variables to `:root`
-    this.getEngine().setRootVariables((theme.toVariables() as unknown) as VariablesMap);
+    if (this.options.rootVariables) {
+      this.getEngine().setRootVariables((theme.toVariables() as unknown) as VariablesMap);
+    }
 
     // Render theme styles and append a `body` class name
     const themeClassName = this.renderThemeStyles(theme);

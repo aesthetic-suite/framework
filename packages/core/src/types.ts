@@ -79,6 +79,7 @@ export interface AestheticOptions {
   defaultUnit?: Unit | UnitFactory;
   deterministicClasses?: boolean;
   directionConverter?: DirectionConverter | null;
+  rootVariables?: boolean;
   vendorPrefixer?: VendorPrefixer | null;
 }
 

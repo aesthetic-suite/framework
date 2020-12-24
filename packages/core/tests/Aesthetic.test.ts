@@ -129,7 +129,7 @@ describe('Aesthetic', () => {
     });
 
     it('doesnt run if changing to same name', () => {
-      const spy = jest.spyOn(aesthetic.getEngine(), 'setRootVariables');
+      const spy = jest.spyOn(aesthetic, 'renderThemeStyles');
 
       aesthetic.changeTheme('night');
       aesthetic.changeTheme('night');
@@ -137,12 +137,22 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
-    it('applies root css variables', () => {
+    it('applies root css variables if `rootVariables` is true', () => {
+      const spy = jest.spyOn(aesthetic.getEngine(), 'setRootVariables');
+
+      // @ts-expect-error
+      aesthetic.options.rootVariables = true;
+      aesthetic.changeTheme('night');
+
+      expect(spy).toHaveBeenCalledWith(darkTheme.toVariables());
+    });
+
+    it('doesnt apply root css variables if `rootVariables` is false', () => {
       const spy = jest.spyOn(aesthetic.getEngine(), 'setRootVariables');
 
       aesthetic.changeTheme('night');
 
-      expect(spy).toHaveBeenCalledWith(darkTheme.toVariables());
+      expect(spy).not.toHaveBeenCalled();
     });
 
     it('renders theme sheet and sets body class name', () => {
