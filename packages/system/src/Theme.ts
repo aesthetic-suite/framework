@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { Unit } from '@aesthetic/types';
+import { Unit, VariablesMap } from '@aesthetic/types';
 import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import Design from './Design';
 import {
@@ -15,7 +15,6 @@ import {
   Tokens,
   Utilities,
   VariableName,
-  Variables,
 } from './types';
 
 type AnyObject = Record<string, any>;
@@ -36,7 +35,7 @@ export default class Theme<T extends object> implements Utilities<T> {
 
   protected templates: MixinTemplateCache<T> = {};
 
-  private cachedVariables?: Variables;
+  private cssVariables?: VariablesMap;
 
   private design: Design<T>;
 
@@ -108,12 +107,12 @@ export default class Theme<T extends object> implements Utilities<T> {
   /**
    * Return both design and theme tokens as a mapping of CSS variables.
    */
-  toVariables(): Variables {
-    if (this.cachedVariables) {
-      return this.cachedVariables;
+  toVariables(): VariablesMap {
+    if (this.cssVariables) {
+      return this.cssVariables;
     }
 
-    const vars: AnyObject = {};
+    const vars: VariablesMap = {};
     const collapseTree = (data: AnyObject, path: string[]) => {
       objectLoop(data, (value, key) => {
         const nextPath = [...path, hyphenate(key)];
@@ -121,16 +120,16 @@ export default class Theme<T extends object> implements Utilities<T> {
         if (isObject(value)) {
           collapseTree(value, nextPath);
         } else {
-          vars[nextPath.join('-')] = value;
+          vars[`--${nextPath.join('-')}`] = value;
         }
       });
     };
 
     collapseTree(this.tokens, []);
 
-    this.cachedVariables = (vars as unknown) as Variables;
+    this.cssVariables = vars;
 
-    return this.cachedVariables;
+    return this.cssVariables;
   }
 
   /**

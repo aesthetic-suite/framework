@@ -1,6 +1,6 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
-import { createServerEngine } from '@aesthetic/style/server';
+import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
 import {
@@ -16,10 +16,11 @@ describe('Aesthetic', () => {
 
   beforeEach(() => {
     aesthetic = new Aesthetic();
-    aesthetic.configureEngine(createServerEngine());
+    aesthetic.configureEngine(createTestStyleEngine());
   });
 
   afterEach(() => {
+    purgeStyles();
     teardownAesthetic(aesthetic);
     document.documentElement.setAttribute('dir', 'ltr');
   });
@@ -135,6 +136,8 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(spy).toHaveBeenCalledTimes(1);
+
+      spy.mockRestore();
     });
 
     it('applies root css variables if `rootVariables` is true', () => {
@@ -145,6 +148,8 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(spy).toHaveBeenCalledWith(darkTheme.toVariables());
+
+      spy.mockRestore();
     });
 
     it('doesnt apply root css variables if `rootVariables` is false', () => {
@@ -153,19 +158,19 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(spy).not.toHaveBeenCalled();
+
+      spy.mockRestore();
     });
 
     it('renders theme sheet and sets body class name', () => {
-      expect(document.body.className).toBe('');
-
       teardownAesthetic(aesthetic);
 
-      aesthetic.configureEngine(createServerEngine());
+      aesthetic.configureEngine(createTestStyleEngine());
       aesthetic.registerTheme('night', darkTheme, createTempSheet());
 
       aesthetic.changeTheme('night');
 
-      expect(document.body.className).toBe('c560r0');
+      expect(document.body.className).toBe('csehgq8 c560r0');
     });
 
     it('emits `change:theme` event', () => {
@@ -239,6 +244,8 @@ describe('Aesthetic', () => {
       }));
 
       expect(spy).toHaveBeenCalledTimes(2);
+
+      spy.mockRestore();
     });
   });
 
@@ -422,7 +429,7 @@ describe('Aesthetic', () => {
     });
 
     it('can define a custom engine by using a global variable', () => {
-      const customEngine = createServerEngine();
+      const customEngine = createTestStyleEngine();
 
       global.AESTHETIC_CUSTOM_ENGINE = customEngine;
 
@@ -579,6 +586,8 @@ describe('Aesthetic', () => {
       aesthetic.renderKeyframes(keyframes);
 
       expect(spy).toHaveBeenCalledWith(keyframes, undefined, undefined);
+
+      spy.mockRestore();
     });
 
     it('can pass a name and params', () => {
@@ -591,6 +600,8 @@ describe('Aesthetic', () => {
       aesthetic.renderKeyframes(keyframes, 'fade', { direction: 'rtl' });
 
       expect(spy).toHaveBeenCalledWith(keyframes, 'fade', { direction: 'rtl' });
+
+      spy.mockRestore();
     });
   });
 
@@ -604,23 +615,30 @@ describe('Aesthetic', () => {
       }));
     }
 
-    it('returns an empty string if no theme sheet', () => {
-      aesthetic.registerDefaultTheme('day', lightTheme);
-
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('');
-    });
-
-    it('renders a sheet and returns global class name', () => {
+    it('renders a sheet and returns global class names', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
       aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('cemumis');
+      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('c1mbmoiu cemumis');
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
         vendor: false,
       });
+    });
+
+    it('renders theme CSS variables as a rule group', () => {
+      const sheet = createTempSheet();
+      const spy = jest.spyOn(aesthetic.getEngine(), 'renderRuleGrouped');
+
+      aesthetic.registerDefaultTheme('day', lightTheme, sheet);
+      aesthetic.renderThemeStyles(lightTheme);
+
+      expect(spy).toHaveBeenCalledWith(
+        lightTheme.toVariables(),
+        expect.objectContaining({ type: 'global' }),
+      );
     });
 
     it('can customize params with options', () => {

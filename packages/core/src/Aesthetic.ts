@@ -9,7 +9,6 @@ import {
   Keyframes,
   RenderOptions,
   ThemeName,
-  VariablesMap,
 } from '@aesthetic/types';
 import { FontFace as SSSFontFace, formatFontFace, LocalBlock } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
@@ -91,7 +90,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
     // Apply theme variables to `:root`
     if (this.options.rootVariables) {
-      this.getEngine().setRootVariables((theme.toVariables() as unknown) as VariablesMap);
+      this.getEngine().setRootVariables(theme.toVariables());
     }
 
     // Render theme styles and append a `body` class name
@@ -382,19 +381,29 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   renderThemeStyles = (theme: Theme<Block>, params: SheetParams = {}): ClassName => {
     const sheet = this.globalSheetRegistry.get(theme.name);
+    let className = '';
 
-    if (!sheet) {
-      return '';
+    // Render theme CSS variables
+    if (isDOM()) {
+      className += String(
+        this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }),
+      );
     }
 
-    const result = sheet.render(this.getEngine(), theme, {
-      customProperties: this.options.customProperties,
-      direction: this.getActiveDirection(),
-      vendor: !!this.options.vendorPrefixer,
-      ...params,
-    });
+    // Render theme styles
+    if (sheet) {
+      const result = sheet.render(this.getEngine(), theme, {
+        customProperties: this.options.customProperties,
+        direction: this.getActiveDirection(),
+        vendor: !!this.options.vendorPrefixer,
+        ...params,
+      });
 
-    return String(result['@root']?.result || '');
+      className += ' ';
+      className += String(result['@root']?.result || '');
+    }
+
+    return className.trim();
   };
 
   /**

@@ -192,7 +192,6 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
           String(
             engine.renderRuleGrouped(block.toObject(), {
               ...renderOptions,
-              deterministic: true,
               type: 'global',
             }),
           ),
