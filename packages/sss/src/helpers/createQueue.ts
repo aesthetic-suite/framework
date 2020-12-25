@@ -11,10 +11,10 @@ export default function createQueue(options: ParserOptions<object>) {
 
       if (value !== undefined) {
         items.push(() => callback(value, options));
-      }
 
-      // @ts-expect-error
-      obj[key] = undefined;
+        // @ts-expect-error
+        obj[key] = undefined;
+      }
     },
     process() {
       // eslint-disable-next-line unicorn/no-for-loop
