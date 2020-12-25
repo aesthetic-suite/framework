@@ -625,13 +625,13 @@ describe('Aesthetic', () => {
       }));
     }
 
-    it('renders a sheet and returns global class names', () => {
+    it('renders a sheet and returns class names', () => {
       const sheet = createTempSheet();
       const spy = jest.spyOn(sheet, 'render');
 
       aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toBe('c1mbmoiu cemumis');
+      expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1mbmoiu', 'cemumis']);
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
         vendor: false,

@@ -92,10 +92,10 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     }
 
     // Render theme styles and append a `body` class name
-    const themeClassName = this.renderThemeStyles(theme);
+    const themeResults = this.renderThemeStyles(theme);
 
     if (isDOM()) {
-      document.body.className = themeClassName;
+      document.body.className = themeResults.join(' ');
     }
 
     // Let consumers know about the change
@@ -370,17 +370,15 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   };
 
   /**
-   * Render a global theme style sheet and return a class name, if one was generated.
+   * Render a global theme style sheet and return a result, if one was generated.
    */
-  renderThemeStyles = (theme: Theme<Block>, params: SheetParams = {}): ClassName => {
+  renderThemeStyles = (theme: Theme<Block>, params: SheetParams = {}): Result[] => {
     const sheet = this.globalSheetRegistry.get(theme.name);
-    let className = '';
+    const results: Result[] = [];
 
     // Render theme CSS variables
     if (isDOM()) {
-      className += String(
-        this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }),
-      );
+      results.push(this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }));
     }
 
     // Render theme styles
@@ -390,13 +388,14 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
         direction: this.getActiveDirection(),
         vendor: !!this.options.vendorPrefixer,
         ...params,
-      });
+      })['@root']?.result;
 
-      className += ' ';
-      className += String(result['@root']?.result || '');
+      if (result) {
+        results.push(result);
+      }
     }
 
-    return className.trim();
+    return results;
   };
 
   /**
