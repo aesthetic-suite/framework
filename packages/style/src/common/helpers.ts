@@ -139,7 +139,11 @@ export function isUnitlessProperty(property: string): boolean {
 }
 
 export function isValidValue(property: string, value: MaybeValue | boolean): value is Value {
-  if (value === null || value === undefined || value === true || value === false || value === '') {
+  if (value === undefined) {
+    return false;
+  }
+
+  if (value === null || value === true || value === false || value === '') {
     if (__DEV__) {
       // eslint-disable-next-line no-console
       console.warn(`Invalid value "${value}" for "${property}".`);

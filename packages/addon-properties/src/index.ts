@@ -36,13 +36,13 @@ function handleExpandedSpacing(property: string) {
     if (value.topBottom) {
       add(`${property}Top`, value.topBottom);
       add(`${property}Bottom`, value.topBottom);
-      delete value.topBottom;
+      value.topBottom = undefined;
     }
 
     if (value.leftRight) {
       add(`${property}Left`, value.leftRight);
       add(`${property}Right`, value.leftRight);
-      delete value.leftRight;
+      value.leftRight = undefined;
     }
 
     collapse(property, value, add);
@@ -63,7 +63,7 @@ export const expandedProperties: PropertyHandlerMap = {
     if (isObject<FontProperty>(value)) {
       if (value.lineHeight) {
         add('lineHeight', value.lineHeight);
-        delete value.lineHeight;
+        value.lineHeight = undefined;
       }
 
       if (value.system) {

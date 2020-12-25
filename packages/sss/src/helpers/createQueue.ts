@@ -1,4 +1,3 @@
-import { arrayLoop } from '@aesthetic/utils';
 import { ParserOptions } from '../types';
 
 export type QueueItem = (...args: unknown[]) => void;
@@ -14,10 +13,14 @@ export default function createQueue(options: ParserOptions<object>) {
         items.push(() => callback(value, options));
       }
 
-      delete obj[key];
+      // @ts-expect-error
+      obj[key] = undefined;
     },
     process() {
-      arrayLoop(items, (cb) => cb());
+      // eslint-disable-next-line unicorn/no-for-loop
+      for (let i = 0; i < items.length; i += 1) {
+        items[i]();
+      }
     },
   };
 }
