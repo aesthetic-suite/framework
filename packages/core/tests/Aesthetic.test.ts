@@ -1,5 +1,6 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
+import { createClientEngine } from '@aesthetic/style';
 import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
@@ -16,7 +17,7 @@ describe('Aesthetic', () => {
 
   beforeEach(() => {
     aesthetic = new Aesthetic();
-    aesthetic.configureEngine(createTestStyleEngine());
+    aesthetic.configureEngine(createClientEngine());
   });
 
   afterEach(() => {
@@ -304,6 +305,9 @@ describe('Aesthetic', () => {
       document.documentElement.setAttribute('dir', 'rtl');
       document.body.removeAttribute('dir');
 
+      // Reset engine to detect attribute
+      aesthetic.configureEngine(createClientEngine());
+
       expect(aesthetic.getActiveDirection()).toBe('rtl');
       expect(changeSpy).toHaveBeenCalledWith('rtl');
     });
@@ -312,12 +316,18 @@ describe('Aesthetic', () => {
       document.documentElement.removeAttribute('dir');
       document.body.setAttribute('dir', 'rtl');
 
+      // Reset engine to detect attribute
+      aesthetic.configureEngine(createClientEngine());
+
       expect(aesthetic.getActiveDirection()).toBe('rtl');
     });
 
     it('returns ltr if no dir found', () => {
       document.documentElement.removeAttribute('dir');
       document.body.removeAttribute('dir');
+
+      // Reset engine to detect attribute
+      aesthetic.configureEngine(createClientEngine());
 
       expect(aesthetic.getActiveDirection()).toBe('ltr');
     });

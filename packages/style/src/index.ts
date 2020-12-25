@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { EngineOptions, VariablesMap } from '@aesthetic/types';
+import { Direction, EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { createStyleElements, getStyleElement } from './client/dom';
 import { hydrateStyles } from './client/hydration';
@@ -34,9 +34,18 @@ function setRootVariables(vars: VariablesMap) {
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
   const engine: StyleEngine = createStyleEngine({
     cacheManager: createCacheManager(),
+    direction: (document.documentElement.getAttribute('dir') ||
+      document.body.getAttribute('dir') ||
+      'ltr') as Direction,
     sheetManager: createSheetManager(createStyleElements()),
     ...options,
   });
+
+  // Will override engine direction
+  engine.setDirection = (direction) => {
+    engine.direction = direction;
+    document.documentElement.setAttribute('dir', direction);
+  };
 
   // Will set variables to :root
   engine.setRootVariables = setRootVariables;

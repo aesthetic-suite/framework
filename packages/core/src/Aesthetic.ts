@@ -64,10 +64,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     // Set the active direction
     this.activeDirection.set(direction);
 
-    // Update document attribute
-    if (isDOM()) {
-      document.documentElement.setAttribute('dir', direction);
-    }
+    // Update engine direction
+    this.getEngine().setDirection(direction);
 
     // Let consumers know about the change
     if (propagate) {
@@ -125,8 +123,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   configureEngine = (engine: Engine<Result>): void => {
     const { options } = this;
-
-    engine.direction = this.getActiveDirection();
 
     if (!engine.directionConverter && options.directionConverter) {
       engine.directionConverter = options.directionConverter;
@@ -186,7 +182,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     variants: string[],
     classNames: RenderResultSheet<ClassName>,
   ): ClassName => {
-    const className: string[] = [];
+    let className = '';
 
     arrayLoop(keys, (key) => {
       const hash = classNames[key];
@@ -196,19 +192,21 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       }
 
       if (hash.result) {
-        className.push(hash.result);
+        className += ' ';
+        className += hash.result;
       }
 
       if (hash.variants) {
         arrayLoop(variants, (variant) => {
           if (hash.variants?.[variant]) {
-            className.push(hash.variants[variant]);
+            className += ' ';
+            className += hash.variants[variant];
           }
         });
       }
     });
 
-    return className.join(' ');
+    return className.trim();
   };
 
   /**
@@ -222,13 +220,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       return active;
     }
 
-    let direction: Direction = 'ltr';
-
-    if (isDOM()) {
-      direction = (document.documentElement.getAttribute('dir') ||
-        document.body.getAttribute('dir') ||
-        'ltr') as Direction;
-    }
+    // Detect theme from engine
+    const direction: Direction = this.getEngine().direction || 'ltr';
 
     this.changeDirection(direction);
 

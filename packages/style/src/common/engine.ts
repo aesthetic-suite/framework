@@ -335,6 +335,9 @@ export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
     renderRuleGrouped: (rule, options) => renderRuleGrouped(engine, rule, options || renderOptions),
     renderVariable: (name, value, options) =>
       renderVariable(engine, name, value, options || renderOptions),
+    setDirection(direction) {
+      engine.direction = direction;
+    },
     setRootVariables() {},
   };
 

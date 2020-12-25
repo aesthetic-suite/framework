@@ -118,6 +118,7 @@ export interface Engine<T> {
   renderRule: (rule: Rule, options?: RenderOptions) => T;
   renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
+  setDirection: (direction: Direction) => void;
   setRootVariables: (variables: VariablesMap) => void;
 }
 
