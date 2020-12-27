@@ -9,24 +9,47 @@ describe('Block', () => {
     instance = new Block('test');
   });
 
-  describe('addClassName()', () => {
-    it('adds a class name to the current block if no parent', () => {
-      instance.addClassName('foo');
+  describe('addResult()', () => {
+    describe('class name', () => {
+      it('adds a class name to the current block if no parent', () => {
+        instance.addResult('foo');
 
-      expect(instance.className).toBe(' foo');
+        expect(instance.result).toBe('foo');
+      });
+
+      it('adds a class name to the root parent', () => {
+        const child = createBlock('');
+        const grandchild = createBlock(':hover');
+
+        instance.nest(child);
+        child.nest(grandchild);
+
+        grandchild.addResult('foo');
+
+        expect(instance.result).toBe('foo');
+        expect(grandchild.result).toBeUndefined();
+      });
     });
 
-    it('adds a class name to the root parent', () => {
-      const child = createBlock('');
-      const grandchild = createBlock(':hover');
+    describe('style object', () => {
+      it('adds a style object to the current block if no parent', () => {
+        instance.addResult({ color: 'red' });
 
-      instance.nest(child);
-      child.nest(grandchild);
+        expect(instance.result).toEqual({ color: 'red' });
+      });
 
-      grandchild.addClassName('foo');
+      it('adds a style object to the root parent', () => {
+        const child = createBlock('');
+        const grandchild = createBlock(':hover');
 
-      expect(instance.className).toBe(' foo');
-      expect(grandchild.className).toBe('');
+        instance.nest(child);
+        child.nest(grandchild);
+
+        grandchild.addResult({ color: 'red' });
+
+        expect(instance.result).toEqual({ color: 'red' });
+        expect(grandchild.result).toBeUndefined();
+      });
     });
   });
 

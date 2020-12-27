@@ -11,7 +11,7 @@ describe('GlobalSheet', () => {
     engine = createTestStyleEngine({});
 
     // Dont use `createThemeStyles` since we need to pass a custom renderer
-    sheet = new StyleSheet('global', () => ({
+    sheet = new StyleSheet('global', true, () => ({
       '@font-face': {
         Roboto: {
           fontStyle: 'normal',
@@ -46,6 +46,7 @@ describe('GlobalSheet', () => {
       () =>
         new StyleSheet(
           'global',
+          true,
           // @ts-expect-error
           123,
         ),

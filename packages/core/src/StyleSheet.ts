@@ -1,10 +1,9 @@
 import { parse } from '@aesthetic/sss';
 import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Property, Rule, RenderOptions, Engine, ClassName } from '@aesthetic/types';
+import { Property, RenderOptions, Engine } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
-  RenderResult,
   RenderResultSheet,
   SheetParams,
   SheetParamsExtended,
@@ -24,6 +23,8 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 }
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
+  readonly atomic: boolean = true;
+
   readonly metadata: Record<string, SheetElementMetadata<Result>> = {};
 
   readonly type: 'local' | 'global';
@@ -38,8 +39,9 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
   protected themeVariants: Record<string, Factory> = {};
 
-  constructor(type: 'local' | 'global', factory: Factory) {
+  constructor(type: 'local' | 'global', atomic: boolean, factory: Factory) {
     this.type = type;
+    this.atomic = atomic;
     this.factory = this.validateFactory(factory);
   }
 
@@ -138,10 +140,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       return cache;
     }
 
-    // Even though this class uses generics, the majority use case will be using
-    // class name based results, so we're hard coding that logic here. Consumers
-    // that require a different type should extend and override this method.
-    const classNames: RenderResultSheet<ClassName> = {};
+    const resultSheet: RenderResultSheet<Result> = {};
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
@@ -151,31 +150,30 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       vendor: params.vendor,
     };
 
-    const addClassToMap = (selector: string, className: string) => {
-      classNames[selector] = { result: className };
+    const addResultToMap = (selector: string, result: Result) => {
+      resultSheet[selector] = { result };
 
       this.metadata[selector] = {
-        renderResult: (classNames[selector] as unknown) as RenderResult<Result>,
+        renderResult: resultSheet[selector]!,
       };
 
       return this.metadata[selector];
     };
 
-    parse<Rule>(this.type, styles, {
+    parse(this.type, styles, {
       customProperties,
-      onClass: addClassToMap,
-      onFontFace(fontFace) {
-        return engine.renderFontFace(fontFace.toObject(), renderOptions);
+      onClass: (selector, className) => {
+        addResultToMap(selector, (className as unknown) as Result);
       },
-      onImport(path) {
+      onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
+      onImport: (path) => {
         engine.renderImport(path);
       },
-      onKeyframes(keyframes, animationName) {
-        return engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions);
-      },
-      onProperty(block, property, value) {
-        block.addClassName(
-          String(
+      onKeyframes: (keyframes, animationName) =>
+        engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions),
+      onProperty: (block, property, value) => {
+        if (this.atomic) {
+          block.addResult(
             engine.renderDeclaration(property as Property, value as string, {
               ...renderOptions,
               media: block.media,
@@ -183,25 +181,27 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
               selector: block.selector,
               supports: block.supports,
             }),
-          ),
-        );
+          );
+        }
       },
       onRoot: (block) => {
-        addClassToMap(
+        addResultToMap(
           '@root',
-          String(
-            engine.renderRuleGrouped(block.toObject(), {
-              ...renderOptions,
-              type: 'global',
-            }),
-          ),
+          engine.renderRuleGrouped(block.toObject(), {
+            ...renderOptions,
+            type: 'global',
+          }),
         );
       },
-      onRootVariables(variables) {
+      onRootVariables: (variables) => {
         engine.setRootVariables(variables);
       },
       onRule: (selector, block) => {
-        const meta = addClassToMap(selector, block.className.trim());
+        if (!this.atomic) {
+          block.addResult(engine.renderRule(block.toObject(), renderOptions));
+        }
+
+        const meta = addResultToMap(selector, block.result as Result);
 
         objectLoop(block.variants, (variant, type) => {
           if (!meta.renderResult.variants) {
@@ -212,16 +212,14 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
             meta.variantTypes = new Set();
           }
 
-          meta.renderResult.variants[type] = (variant.className.trim() as unknown) as Result;
+          meta.renderResult.variants[type] = variant.result as Result;
           meta.variantTypes.add(type.split('_')[0]);
         });
       },
-      onVariable(block, name, value) {
-        block.addClassName(String(engine.renderVariable(name, value)));
+      onVariable: (block, name, value) => {
+        block.addResult(engine.renderVariable(name, value));
       },
     });
-
-    const resultSheet = classNames as RenderResultSheet<Result>;
 
     if (key) {
       this.renderCache[key] = resultSheet;

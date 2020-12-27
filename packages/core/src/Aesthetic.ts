@@ -28,6 +28,8 @@ import {
 } from './types';
 
 export default class Aesthetic<Result = ClassName, Block extends object = LocalBlock> {
+  atomic: boolean = true;
+
   protected activeDirection = createState<Direction>();
 
   protected activeTheme = createState<ThemeName>();
@@ -145,7 +147,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   createComponentStyles = <T = unknown>(
     factory: LocalSheetFactory<T, Block>,
   ): LocalSheet<T, Block, Result> => {
-    const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', factory);
+    const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', this.atomic, factory);
 
     // Attempt to render styles immediately so they're available on mount
     this.renderComponentStyles(sheet);
@@ -159,7 +161,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   createThemeStyles = <T = unknown>(
     factory: GlobalSheetFactory<T, Block>,
   ): GlobalSheet<T, Block, Result> => {
-    return new StyleSheet('global', factory);
+    return new StyleSheet('global', this.atomic, factory);
   };
 
   /**
