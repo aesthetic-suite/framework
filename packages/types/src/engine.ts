@@ -95,11 +95,11 @@ export interface EngineOptions {
 }
 
 export interface Engine<T> {
-  cacheManager: CacheManager;
+  cacheManager?: CacheManager;
   direction: Direction;
   directionConverter?: DirectionConverter;
   ruleIndex: number;
-  sheetManager: SheetManager;
+  sheetManager?: SheetManager;
   unitSuffixer?: Unit | UnitFactory;
   vendorPrefixer?: VendorPrefixer;
 
