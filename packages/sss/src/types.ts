@@ -75,30 +75,30 @@ export type LocalBlockMap = Record<string, LocalBlock>;
 
 export type LocalBlockVariants = Record<string, LocalBlockMap>;
 
-export type LocalBlockNeverize<T> = {
-  [K in keyof T]: K extends keyof LocalBlock ? T[K] : never;
+export type LocalStyleSheet<B = LocalBlock> = RuleMap<string | B>;
+
+export type LocalStyleSheetNeverize<T, B> = {
+  [K in keyof T]: T[K] extends string ? string : LocalStyleSheetElementNeverize<T[K], B>;
 };
 
-export type LocalStyleSheet = RuleMap<string | LocalBlock>;
-
-export type LocalStyleSheetNeverize<T> = {
-  [K in keyof T]: T[K] extends string ? string : LocalBlockNeverize<T[K]>;
+export type LocalStyleSheetElementNeverize<T, B> = {
+  [K in keyof T]: K extends keyof B ? T[K] : never;
 };
 
 // GLOBAL STYLE SHEET
 
 export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
 
-export interface GlobalStyleSheet {
+export interface GlobalStyleSheet<B = LocalBlock> {
   '@font-face'?: FontFaceMap;
   '@import'?: ImportList;
   '@keyframes'?: KeyframesMap;
-  '@root'?: LocalBlock;
+  '@root'?: B;
   '@variables'?: VariablesMap;
 }
 
-export type GlobalStyleSheetNeverize<T> = {
-  [K in keyof T]: K extends keyof GlobalStyleSheet ? GlobalStyleSheet[K] : never;
+export type GlobalStyleSheetNeverize<T, B> = {
+  [K in keyof T]: K extends keyof GlobalStyleSheet<B> ? GlobalStyleSheet<B>[K] : never;
 };
 
 // MISC

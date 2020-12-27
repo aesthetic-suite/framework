@@ -12,7 +12,7 @@ import Block from './Block';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
-function parseGlobal<T extends object>(styleSheet: GlobalStyleSheet, options: ParserOptions<T>) {
+function parseGlobal<T extends object>(styleSheet: GlobalStyleSheet<T>, options: ParserOptions<T>) {
   const queue = createQueue(options);
   queue.add(styleSheet, '@font-face', parseFontFaceMap);
   queue.add(styleSheet, '@import', parseImport);
@@ -22,7 +22,7 @@ function parseGlobal<T extends object>(styleSheet: GlobalStyleSheet, options: Pa
   queue.process();
 }
 
-function parseLocal<T extends object>(styleSheet: LocalStyleSheet, options: ParserOptions<T>) {
+function parseLocal<T extends object>(styleSheet: LocalStyleSheet<T>, options: ParserOptions<T>) {
   objectLoop(styleSheet, (declaration, selector) => {
     // At-rule
     if (selector[0] === '@') {
@@ -53,14 +53,14 @@ function parseLocal<T extends object>(styleSheet: LocalStyleSheet, options: Pars
 
 export default function parse<T extends object>(
   type: 'local' | 'global',
-  styleSheet: LocalStyleSheet | GlobalStyleSheet,
+  styleSheet: LocalStyleSheet<T> | GlobalStyleSheet<T>,
   baseOptions: Partial<ParserOptions<T>>,
 ) {
   const options = setupDefaultOptions(baseOptions);
 
   if (type === 'local') {
-    parseLocal(styleSheet as LocalStyleSheet, options);
+    parseLocal(styleSheet as LocalStyleSheet<T>, options);
   } else {
-    parseGlobal(styleSheet as GlobalStyleSheet, options);
+    parseGlobal(styleSheet as GlobalStyleSheet<T>, options);
   }
 }

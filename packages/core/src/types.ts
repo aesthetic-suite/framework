@@ -22,9 +22,9 @@ import StyleSheet from './StyleSheet';
 export { GlobalStyleSheet, LocalStyleSheet, LocalBlock, CustomProperties };
 
 // And add aliases too
-export type ThemeStyles = GlobalStyleSheet;
-export type ComponentStyles = LocalStyleSheet;
 export type ElementStyles = LocalBlock;
+export type ComponentStyles = LocalStyleSheet<ElementStyles>;
+export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
 export interface RenderResult<T> {
   result?: T;
@@ -58,7 +58,9 @@ export type BaseSheetFactory = (utils: Utilities<any>) => object;
 
 export type GlobalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
   utils: Utilities<Block>,
-) => Shape extends unknown ? GlobalStyleSheet : GlobalStyleSheet & GlobalStyleSheetNeverize<Shape>;
+) => Shape extends unknown
+  ? GlobalStyleSheet<Block>
+  : GlobalStyleSheet<Block> & GlobalStyleSheetNeverize<Shape, Block>;
 
 export type GlobalSheet<Shape, Block extends object, Result> = Omit<
   StyleSheet<Result, GlobalSheetFactory<Shape, Block>>,
@@ -67,7 +69,9 @@ export type GlobalSheet<Shape, Block extends object, Result> = Omit<
 
 export type LocalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
   utils: Utilities<Block>,
-) => Shape extends unknown ? LocalStyleSheet : LocalStyleSheet & LocalStyleSheetNeverize<Shape>;
+) => Shape extends unknown
+  ? LocalStyleSheet<Block>
+  : LocalStyleSheet<Block> & LocalStyleSheetNeverize<Shape, Block>;
 
 export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
   Result,
