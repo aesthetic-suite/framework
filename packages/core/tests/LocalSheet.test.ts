@@ -17,7 +17,7 @@ describe('LocalSheet', () => {
     engine = createTestStyleEngine({ directionConverter });
 
     // Dont use `createComponentStyles` since we need to pass a custom engine
-    sheet = new StyleSheet('local', () => ({
+    sheet = new StyleSheet('local', true, () => ({
       foo: {
         display: 'block',
         background: 'white',
@@ -81,6 +81,7 @@ describe('LocalSheet', () => {
       () =>
         new StyleSheet(
           'local',
+          true,
           // @ts-expect-error
           123,
         ),
@@ -102,7 +103,7 @@ describe('LocalSheet', () => {
       },
       qux: {
         renderResult: {
-          result: '',
+          result: undefined,
           variants: {
             size_lg: 'p',
             size_md: 'o',
@@ -145,7 +146,7 @@ describe('LocalSheet', () => {
       bar: { result: 'k l m' },
       baz: { result: 'class-baz' },
       qux: {
-        result: '',
+        result: undefined,
         variants: {
           size_lg: 'p',
           size_md: 'o',

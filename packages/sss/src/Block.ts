@@ -1,8 +1,8 @@
-import { ClassName, Value } from '@aesthetic/types';
+import { Value } from '@aesthetic/types';
 import { joinQueries, objectLoop } from '@aesthetic/utils';
 
 export default class Block<T extends object = object> {
-  className: string = '';
+  result?: unknown;
 
   media: string = '';
 
@@ -26,11 +26,27 @@ export default class Block<T extends object = object> {
     this.id = id;
   }
 
-  addClassName(name: ClassName) {
+  addResult(result: unknown) {
     if (this.parent) {
-      this.parent.addClassName(name);
-    } else {
-      this.className += ` ${name}`;
+      this.parent.addResult(result);
+
+      return;
+    }
+
+    const type = typeof result;
+
+    if (type === 'string') {
+      if (this.result === undefined) {
+        this.result = result;
+      } else {
+        this.result += ` ${result}`;
+      }
+    } else if (type === 'object' && result) {
+      if (this.result === undefined) {
+        this.result = result;
+      } else {
+        Object.assign(this.result, result);
+      }
     }
   }
 
