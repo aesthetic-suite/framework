@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/addon-properties",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Custom properties for the Aesthetic CSS-in-JS style sheet.",
   "keywords": [
     "aesthetic",
@@ -27,12 +27,12 @@
     "@aesthetic/sss": "*"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.4.4",
+    "@aesthetic/types": "^0.4.5",
     "@aesthetic/utils": "^0.6.2",
     "csstype": "^3.0.5"
   },
   "devDependencies": {
-    "@aesthetic/sss": "^0.6.4"
+    "@aesthetic/sss": "^0.6.5"
   },
   "funding": {
     "type": "ko-fi",
