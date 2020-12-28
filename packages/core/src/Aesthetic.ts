@@ -28,8 +28,6 @@ import {
 } from './types';
 
 export default class Aesthetic<Result = ClassName, Block extends object = LocalBlock> {
-  atomic: boolean = true;
-
   protected activeDirection = createState<Direction>();
 
   protected activeTheme = createState<ThemeName>();
@@ -93,16 +91,12 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       this.getEngine().setRootVariables(theme.toVariables());
     }
 
-    // Render theme styles and append a `body` class name
+    // Render theme styles
     const themeResults = this.renderThemeStyles(theme);
-
-    if (isDOM()) {
-      document.body.className = themeResults.join(' ');
-    }
 
     // Let consumers know about the change
     if (propagate) {
-      this.emit('change:theme', [name]);
+      this.emit('change:theme', [name, themeResults]);
     }
   };
 
@@ -147,7 +141,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   createComponentStyles = <T = unknown>(
     factory: LocalSheetFactory<T, Block>,
   ): LocalSheet<T, Block, Result> => {
-    const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', this.atomic, factory);
+    const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', factory);
 
     // Attempt to render styles immediately so they're available on mount
     this.renderComponentStyles(sheet);
@@ -161,7 +155,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   createThemeStyles = <T = unknown>(
     factory: GlobalSheetFactory<T, Block>,
   ): GlobalSheet<T, Block, Result> => {
-    return new StyleSheet('global', this.atomic, factory);
+    return new StyleSheet('global', factory);
   };
 
   /**
@@ -212,7 +206,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   };
 
   /**
-   * Return the active direction for the entire document. If an active direction is undefined,
+   * Return the active direction for the entire application. If an active direction is undefined,
    * it will be detected from the browser's `dir` attribute.
    */
   getActiveDirection = (): Direction => {

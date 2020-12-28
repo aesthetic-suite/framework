@@ -95,4 +95,4 @@ export type EventListener = (...args: unknown[]) => void;
 
 export type OnChangeDirection = (newDir: Direction) => void;
 
-export type OnChangeTheme = (newTheme: ThemeName) => void;
+export type OnChangeTheme = (newTheme: ThemeName, results: unknown[]) => void;

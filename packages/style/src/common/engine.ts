@@ -320,6 +320,7 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
 export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
   const renderOptions = {};
   const engine: StyleEngine = {
+    atomic: true,
     cacheManager: createCacheManager(),
     direction: 'ltr',
     ruleIndex: -1,

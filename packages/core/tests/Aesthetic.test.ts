@@ -109,15 +109,6 @@ describe('Aesthetic', () => {
   });
 
   describe('changeTheme()', () => {
-    function createTempSheet() {
-      return aesthetic.createThemeStyles(() => ({
-        '@root': {
-          display: 'block',
-          color: 'black',
-        },
-      }));
-    }
-
     beforeEach(() => {
       setupAesthetic(aesthetic);
     });
@@ -169,7 +160,7 @@ describe('Aesthetic', () => {
       aesthetic.subscribe('change:theme', spy);
       aesthetic.changeTheme('night');
 
-      expect(spy).toHaveBeenCalledWith('night');
+      expect(spy).toHaveBeenCalledWith('night', ['csehgq8']);
     });
 
     it('doesnt emit `change:theme` event if `propagate` is false', () => {
@@ -345,7 +336,7 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(aesthetic.getActiveTheme()).toBe(darkTheme);
-      expect(changeSpy).toHaveBeenCalledWith('night');
+      expect(changeSpy).toHaveBeenCalledWith('night', ['csehgq8']);
     });
 
     it('returns the preferred theme if no active defined', () => {
@@ -357,7 +348,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.getActiveTheme()).toBe(lightTheme);
       expect(getSpy).toHaveBeenCalled();
-      expect(changeSpy).toHaveBeenCalledWith('day');
+      expect(changeSpy).toHaveBeenCalledWith('day', ['c1mbmoiu']);
     });
   });
 

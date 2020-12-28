@@ -95,6 +95,7 @@ export interface EngineOptions {
 }
 
 export interface Engine<T> {
+  readonly atomic: boolean;
   cacheManager?: CacheManager;
   direction: Direction;
   directionConverter?: DirectionConverter;
@@ -105,6 +106,7 @@ export interface Engine<T> {
 
   prefersColorScheme: (scheme: ColorScheme) => boolean;
   prefersContrastLevel: (level: ContrastLevel) => boolean;
+
   renderDeclaration: <K extends Property>(
     property: K,
     value: NonNullable<Properties[K]> | ValueWithFallbacks,
@@ -120,6 +122,7 @@ export interface Engine<T> {
   renderRule: (rule: Rule, options?: RenderOptions) => T;
   renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
+
   setDirection: (direction: Direction) => void;
   setRootVariables: (variables: VariablesMap) => void;
 }
