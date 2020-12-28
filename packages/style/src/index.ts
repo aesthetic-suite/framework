@@ -32,19 +32,25 @@ function setRootVariables(vars: VariablesMap) {
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
+  const direction = (document.documentElement.getAttribute('dir') ||
+    document.body.getAttribute('dir') ||
+    'ltr') as Direction;
+
   const engine: StyleEngine = createStyleEngine({
     cacheManager: createCacheManager(),
-    direction: (document.documentElement.getAttribute('dir') ||
-      document.body.getAttribute('dir') ||
-      'ltr') as Direction,
+    direction,
     sheetManager: createSheetManager(createStyleElements()),
     ...options,
   });
 
+  // Match against browser preferences
+  engine.prefersColorScheme = (scheme) => matchMedia(`(prefers-color-scheme: ${scheme})`).matches;
+  engine.prefersContrastLevel = (level) => matchMedia(`(prefers-contrast: ${level})`).matches;
+
   // Will override engine direction
-  engine.setDirection = (direction) => {
-    engine.direction = direction;
-    document.documentElement.setAttribute('dir', direction);
+  engine.setDirection = (dir) => {
+    engine.direction = dir;
+    document.documentElement.setAttribute('dir', dir);
   };
 
   // Will set variables to :root

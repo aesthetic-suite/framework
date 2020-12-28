@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { Unit, VariablesMap } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, Unit, VariablesMap } from '@aesthetic/types';
 import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import Design from './Design';
 import {
-  ColorScheme,
-  ContrastLevel,
   DeepPartial,
   MixinTemplate,
   MixinTemplateMap,

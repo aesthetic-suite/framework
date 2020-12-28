@@ -13,7 +13,7 @@ import {
   ValueWithFallbacks,
   VariablesMap,
 } from './css';
-import { ClassName, Direction } from './ui';
+import { ClassName, Direction, ColorScheme, ContrastLevel } from './ui';
 
 // CACHE
 
@@ -95,6 +95,7 @@ export interface EngineOptions {
 }
 
 export interface Engine<T> {
+  readonly atomic: boolean;
   cacheManager?: CacheManager;
   direction: Direction;
   directionConverter?: DirectionConverter;
@@ -102,6 +103,9 @@ export interface Engine<T> {
   sheetManager?: SheetManager;
   unitSuffixer?: Unit | UnitFactory;
   vendorPrefixer?: VendorPrefixer;
+
+  prefersColorScheme: (scheme: ColorScheme) => boolean;
+  prefersContrastLevel: (level: ContrastLevel) => boolean;
 
   renderDeclaration: <K extends Property>(
     property: K,
@@ -118,6 +122,7 @@ export interface Engine<T> {
   renderRule: (rule: Rule, options?: RenderOptions) => T;
   renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
+
   setDirection: (direction: Direction) => void;
   setRootVariables: (variables: VariablesMap) => void;
 }

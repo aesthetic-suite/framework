@@ -1,5 +1,6 @@
 import { deepMerge } from '@aesthetic/utils';
-import { DeepPartial, ContrastLevel, ColorScheme, Hexcode, ColorShade } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { DeepPartial, Hexcode, ColorShade } from '@aesthetic/system';
 import { Path } from '@boost/common';
 import optimal, {
   object,

@@ -17,7 +17,7 @@ describe('LocalSheet', () => {
     engine = createTestStyleEngine({ directionConverter });
 
     // Dont use `createComponentStyles` since we need to pass a custom engine
-    sheet = new StyleSheet('local', true, () => ({
+    sheet = new StyleSheet('local', () => ({
       foo: {
         display: 'block',
         background: 'white',
@@ -81,7 +81,6 @@ describe('LocalSheet', () => {
       () =>
         new StyleSheet(
           'local',
-          true,
           // @ts-expect-error
           123,
         ),

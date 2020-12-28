@@ -1,6 +1,7 @@
 import { camelCase, kebabCase } from 'lodash';
 import { deepMerge } from '@aesthetic/utils';
-import { ColorScheme, ContrastLevel, DeepPartial, Hexcode } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { DeepPartial, Hexcode } from '@aesthetic/system';
 import {
   ThemeConfig,
   ThemeTemplate,

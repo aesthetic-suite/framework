@@ -1,6 +1,6 @@
 import { parse } from '@aesthetic/sss';
-import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Property, RenderOptions, Engine } from '@aesthetic/types';
+import { Theme } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel, Property, RenderOptions, Engine } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
@@ -23,8 +23,6 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 }
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
-  readonly atomic: boolean = true;
-
   readonly metadata: Record<string, SheetElementMetadata<Result>> = {};
 
   readonly type: 'local' | 'global';
@@ -39,9 +37,8 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
   protected themeVariants: Record<string, Factory> = {};
 
-  constructor(type: 'local' | 'global', atomic: boolean, factory: Factory) {
+  constructor(type: 'local' | 'global', factory: Factory) {
     this.type = type;
-    this.atomic = atomic;
     this.factory = this.validateFactory(factory);
   }
 
@@ -172,7 +169,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       onKeyframes: (keyframes, animationName) =>
         engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions),
       onProperty: (block, property, value) => {
-        if (this.atomic) {
+        if (engine.atomic) {
           block.addResult(
             engine.renderDeclaration(property as Property, value as string, {
               ...renderOptions,
@@ -197,7 +194,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         engine.setRootVariables(variables);
       },
       onRule: (selector, block) => {
-        if (!this.atomic) {
+        if (!engine.atomic) {
           block.addResult(engine.renderRule(block.toObject(), renderOptions));
         }
 

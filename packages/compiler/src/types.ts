@@ -1,9 +1,8 @@
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 import {
   BorderSize,
   BreakpointSize,
-  ColorScheme,
   ColorShade,
-  ContrastLevel,
   HeadingSize,
   Hexcode,
   PaletteType,

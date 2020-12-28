@@ -6,15 +6,15 @@ describe('ThemeRegistry', () => {
   let registry: ThemeRegistry<Rule>;
   let mediaMocks: { [query: string]: boolean } = {};
 
+  const matchColorScheme = (query: string) =>
+    mediaMocks[`(prefers-color-scheme: ${query})`] || false;
+
+  const matchContrastLevel = (query: string) => mediaMocks[`(prefers-contrast: ${query})`] || false;
+
   beforeEach(() => {
     registry = new ThemeRegistry();
     registry.register('day', lightTheme, true);
     registry.register('night', darkTheme, true);
-
-    // @ts-expect-error Omit other properties
-    window.matchMedia = (query) => ({
-      matches: mediaMocks[query] || false,
-    });
   });
 
   afterEach(() => {
@@ -51,46 +51,79 @@ describe('ThemeRegistry', () => {
       registry = new ThemeRegistry();
 
       expect(() => {
-        registry.getPreferredTheme();
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        });
       }).toThrow('No themes have been registered.');
     });
 
     it('returns 1st registered default theme if no media matches', () => {
-      expect(registry.getPreferredTheme()).toBe(lightTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(lightTheme);
     });
 
     it('returns dark theme if media matches', () => {
       mediaMocks['(prefers-color-scheme: dark)'] = true;
       mediaMocks['(prefers-color-scheme: light)'] = false;
 
-      expect(registry.getPreferredTheme()).toBe(darkTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(darkTheme);
     });
 
     it('returns light theme if media matches', () => {
       mediaMocks['(prefers-color-scheme: light)'] = true;
       mediaMocks['(prefers-color-scheme: dark)'] = false;
 
-      expect(registry.getPreferredTheme()).toBe(lightTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(lightTheme);
     });
 
     it('returns a dark high contrast theme if media matches', () => {
       mediaMocks['(prefers-color-scheme: dark)'] = true;
       mediaMocks['(prefers-contrast: high)'] = true;
 
-      expect(registry.getPreferredTheme()).toBe(highTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(highTheme);
     });
 
     it('returns a dark low contrast theme if media matches', () => {
       mediaMocks['(prefers-color-scheme: dark)'] = true;
       mediaMocks['(prefers-contrast: low)'] = true;
 
-      expect(registry.getPreferredTheme()).toBe(lowTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(lowTheme);
     });
 
     it('returns a light theme if media doesnt match', () => {
       mediaMocks['(prefers-contrast: low)'] = true;
 
-      expect(registry.getPreferredTheme()).toBe(lightTheme);
+      expect(
+        registry.getPreferredTheme({
+          matchColorScheme,
+          matchContrastLevel,
+        }),
+      ).toBe(lightTheme);
     });
   });
 
