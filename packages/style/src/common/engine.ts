@@ -324,6 +324,8 @@ export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
     direction: 'ltr',
     ruleIndex: -1,
     ...engineOptions,
+    prefersColorScheme: () => false,
+    prefersContrastLevel: () => false,
     renderDeclaration: (property, value, options) =>
       renderDeclaration(engine, property, value, options || renderOptions),
     renderFontFace: (fontFace, options) =>
@@ -335,10 +337,10 @@ export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
     renderRuleGrouped: (rule, options) => renderRuleGrouped(engine, rule, options || renderOptions),
     renderVariable: (name, value, options) =>
       renderVariable(engine, name, value, options || renderOptions),
-    setDirection(direction) {
+    setDirection: (direction) => {
       engine.direction = direction;
     },
-    setRootVariables() {},
+    setRootVariables: () => {},
   };
 
   return engine;

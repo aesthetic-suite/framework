@@ -13,7 +13,7 @@ import {
   ValueWithFallbacks,
   VariablesMap,
 } from './css';
-import { ClassName, Direction } from './ui';
+import { ClassName, Direction, ColorScheme, ContrastLevel } from './ui';
 
 // CACHE
 
@@ -103,6 +103,8 @@ export interface Engine<T> {
   unitSuffixer?: Unit | UnitFactory;
   vendorPrefixer?: VendorPrefixer;
 
+  prefersColorScheme: (scheme: ColorScheme) => boolean;
+  prefersContrastLevel: (level: ContrastLevel) => boolean;
   renderDeclaration: <K extends Property>(
     property: K,
     value: NonNullable<Properties[K]> | ValueWithFallbacks,

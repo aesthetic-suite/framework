@@ -1,6 +1,6 @@
-import { ThemeName } from '@aesthetic/types';
+import { ThemeName, ColorScheme, ContrastLevel } from '@aesthetic/types';
 import Theme from './Theme';
-import { ColorScheme, ContrastLevel, ThemeOptions } from './types';
+import { ThemeOptions } from './types';
 
 export default class ThemeRegistry<T extends object> {
   protected darkTheme: string = '';
@@ -29,12 +29,17 @@ export default class ThemeRegistry<T extends object> {
    * Find an approprite theme based on the user's or device's preferences.
    * Will check for preferred color schemes and contrast levels.
    */
-  getPreferredTheme(): Theme<T> {
-    // Dont prepend `window.` to support React Native
-    const prefersDarkScheme = matchMedia('(prefers-color-scheme: dark)').matches;
-    const prefersLightScheme = matchMedia('(prefers-color-scheme: light)').matches;
-    const prefersHighContrast = matchMedia('(prefers-contrast: high)').matches;
-    const prefersLowContrast = matchMedia('(prefers-contrast: low)').matches;
+  getPreferredTheme({
+    matchColorScheme,
+    matchContrastLevel,
+  }: {
+    matchColorScheme?: (scheme: ColorScheme) => boolean;
+    matchContrastLevel?: (level: ContrastLevel) => boolean;
+  } = {}): Theme<T> {
+    const prefersDarkScheme = matchColorScheme?.('dark');
+    const prefersLightScheme = matchColorScheme?.('light');
+    const prefersHighContrast = matchContrastLevel?.('high');
+    const prefersLowContrast = matchContrastLevel?.('low');
     const schemeCheckOrder: ColorScheme[] = [];
 
     if (prefersDarkScheme) {

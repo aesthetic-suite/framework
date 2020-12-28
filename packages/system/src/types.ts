@@ -1,4 +1,4 @@
-import { Unit } from '@aesthetic/types';
+import { Unit, ColorScheme, ContrastLevel } from '@aesthetic/types';
 
 export type Hexcode = string;
 
@@ -7,10 +7,6 @@ export type CommonSize = 'sm' | 'df' | 'lg';
 export type BorderSize = CommonSize;
 
 export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-
-export type ColorScheme = 'dark' | 'light';
-
-export type ContrastLevel = 'normal' | 'high' | 'low';
 
 export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
