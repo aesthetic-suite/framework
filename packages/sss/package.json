@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/sss",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "A strict, type-safe, and structure-safe component style sheet format.",
   "keywords": [
     "aesthetic",
@@ -30,8 +30,8 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.4.3",
-    "@aesthetic/utils": "^0.6.1",
+    "@aesthetic/types": "^0.4.4",
+    "@aesthetic/utils": "^0.6.2",
     "csstype": "^3.0.5"
   },
   "packemon": {
