@@ -7,10 +7,12 @@ import {
   PropertyHandlerMap,
   CustomProperties,
 } from '@aesthetic/sss';
-import { ColorScheme, ContrastLevel, Utilities } from '@aesthetic/system';
+import { Utilities } from '@aesthetic/system';
 import {
   Direction,
   DirectionConverter,
+  ColorScheme,
+  ContrastLevel,
   ThemeName,
   Unit,
   UnitFactory,

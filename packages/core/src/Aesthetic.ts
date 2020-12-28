@@ -242,7 +242,11 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     }
 
     // Detect theme from browser preferences
-    const theme = this.themeRegistry.getPreferredTheme();
+    const engine = this.getEngine();
+    const theme = this.themeRegistry.getPreferredTheme({
+      matchColorScheme: engine.prefersColorScheme,
+      matchContrastLevel: engine.prefersContrastLevel,
+    });
 
     this.changeTheme(theme.name);
 

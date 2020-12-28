@@ -1,6 +1,6 @@
 import { parse } from '@aesthetic/sss';
-import { ColorScheme, ContrastLevel, Theme } from '@aesthetic/system';
-import { Property, RenderOptions, Engine } from '@aesthetic/types';
+import { Theme } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel, Property, RenderOptions, Engine } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,

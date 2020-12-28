@@ -163,17 +163,6 @@ describe('Aesthetic', () => {
       spy.mockRestore();
     });
 
-    it('renders theme sheet and sets body class name', () => {
-      teardownAesthetic(aesthetic);
-
-      aesthetic.configureEngine(createTestStyleEngine());
-      aesthetic.registerTheme('night', darkTheme, createTempSheet());
-
-      aesthetic.changeTheme('night');
-
-      expect(document.body.className).toBe('csehgq8 c560r0');
-    });
-
     it('emits `change:theme` event', () => {
       const spy = jest.fn();
 
@@ -367,7 +356,7 @@ describe('Aesthetic', () => {
       setupAesthetic(aesthetic);
 
       expect(aesthetic.getActiveTheme()).toBe(lightTheme);
-      expect(getSpy).toHaveBeenCalledWith();
+      expect(getSpy).toHaveBeenCalled();
       expect(changeSpy).toHaveBeenCalledWith('day');
     });
   });
