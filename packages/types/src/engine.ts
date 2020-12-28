@@ -125,6 +125,7 @@ export interface Engine<T> {
 
   setDirection: (direction: Direction) => void;
   setRootVariables: (variables: VariablesMap) => void;
+  setTheme: (results: T[]) => void;
 }
 
 declare global {

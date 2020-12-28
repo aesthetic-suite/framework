@@ -61,11 +61,14 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       return;
     }
 
+    const engine = this.getEngine();
+
     // Set the active direction
     this.activeDirection.set(direction);
 
     // Update engine direction
-    this.getEngine().setDirection(direction);
+    engine.direction = direction;
+    engine.setDirection(direction);
 
     // Let consumers know about the change
     if (propagate) {
@@ -82,21 +85,25 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     }
 
     const theme = this.getTheme(name);
+    const engine = this.getEngine();
 
     // Set the active theme
     this.activeTheme.set(name);
 
-    // Apply theme variables to `:root`
+    // Set root variables
     if (this.options.rootVariables) {
-      this.getEngine().setRootVariables(theme.toVariables());
+      engine.setRootVariables(theme.toVariables());
     }
 
     // Render theme styles
-    const themeResults = this.renderThemeStyles(theme);
+    const results = this.renderThemeStyles(theme);
+
+    // Update engine theme
+    engine.setTheme(results);
 
     // Let consumers know about the change
     if (propagate) {
-      this.emit('change:theme', [name, themeResults]);
+      this.emit('change:theme', [name, results]);
     }
   };
 

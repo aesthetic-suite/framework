@@ -317,6 +317,8 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
   return className;
 }
 
+const noop = () => {};
+
 export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
   const renderOptions = {};
   const engine: StyleEngine = {
@@ -338,10 +340,9 @@ export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
     renderRuleGrouped: (rule, options) => renderRuleGrouped(engine, rule, options || renderOptions),
     renderVariable: (name, value, options) =>
       renderVariable(engine, name, value, options || renderOptions),
-    setDirection: (direction) => {
-      engine.direction = direction;
-    },
-    setRootVariables: () => {},
+    setDirection: noop,
+    setRootVariables: noop,
+    setTheme: noop,
   };
 
   return engine;

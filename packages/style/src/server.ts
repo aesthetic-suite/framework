@@ -16,18 +16,17 @@ function setRootVariables(vars: VariablesMap, engine: StyleEngine) {
 }
 
 export function createServerEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  const engine: StyleEngine = {
-    ...createStyleEngine({
-      cacheManager: createCacheManager(),
-      sheetManager: createSheetManager({
-        conditions: new TransientSheet(),
-        global: new TransientSheet(),
-        standard: new TransientSheet(),
-      }),
-      ...options,
+  const engine: StyleEngine = createStyleEngine({
+    cacheManager: createCacheManager(),
+    sheetManager: createSheetManager({
+      conditions: new TransientSheet(),
+      global: new TransientSheet(),
+      standard: new TransientSheet(),
     }),
-    setRootVariables: (vars) => setRootVariables(vars, engine),
-  };
+    ...options,
+  });
+
+  engine.setRootVariables = (vars) => setRootVariables(vars, engine);
 
   return engine;
 }

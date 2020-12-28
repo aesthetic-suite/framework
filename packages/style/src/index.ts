@@ -23,18 +23,27 @@ export * from './types';
 
 export { createStyleElements, getStyleElement };
 
-function setRootVariables(vars: VariablesMap) {
-  const root = document.documentElement;
+const { body, documentElement: root } = document;
 
+// Set active direction on the document `dir` attribute
+function setDirection(direction: Direction) {
+  root.setAttribute('dir', direction);
+}
+
+// Set CSS variables to :root
+function setRootVariables(vars: VariablesMap) {
   objectLoop(vars, (value, key) => {
     root.style.setProperty(formatVariable(key), String(value));
   });
 }
 
+// Set active theme class names on the `body`
+function setTheme(classNames: string[]) {
+  body.className = classNames.join(' ');
+}
+
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  const direction = (document.documentElement.getAttribute('dir') ||
-    document.body.getAttribute('dir') ||
-    'ltr') as Direction;
+  const direction = (root.getAttribute('dir') || body.getAttribute('dir') || 'ltr') as Direction;
 
   const engine: StyleEngine = createStyleEngine({
     cacheManager: createCacheManager(),
@@ -47,14 +56,10 @@ export function createClientEngine(options: Partial<EngineOptions> = {}): StyleE
   engine.prefersColorScheme = (scheme) => matchMedia(`(prefers-color-scheme: ${scheme})`).matches;
   engine.prefersContrastLevel = (level) => matchMedia(`(prefers-contrast: ${level})`).matches;
 
-  // Will override engine direction
-  engine.setDirection = (dir) => {
-    engine.direction = dir;
-    document.documentElement.setAttribute('dir', dir);
-  };
-
-  // Will set variables to :root
+  // Handle DOM specific logic
+  engine.setDirection = setDirection;
   engine.setRootVariables = setRootVariables;
+  engine.setTheme = setTheme;
 
   // Attempt to hydrate styles immediately
   hydrateStyles(engine);

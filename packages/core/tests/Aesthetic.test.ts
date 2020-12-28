@@ -66,6 +66,14 @@ describe('Aesthetic', () => {
       expect(getAestheticState(aesthetic).activeDirection).toBe('rtl');
     });
 
+    it('sets direction on engine', () => {
+      expect(aesthetic.getEngine().direction).toBe('ltr');
+
+      aesthetic.changeDirection('rtl');
+
+      expect(aesthetic.getEngine().direction).toBe('rtl');
+    });
+
     it('doesnt run if changing to same name', () => {
       const spy = jest.fn();
 
@@ -109,6 +117,15 @@ describe('Aesthetic', () => {
   });
 
   describe('changeTheme()', () => {
+    function createTempSheet() {
+      return aesthetic.createThemeStyles(() => ({
+        '@root': {
+          display: 'block',
+          color: 'black',
+        },
+      }));
+    }
+
     beforeEach(() => {
       setupAesthetic(aesthetic);
     });
@@ -152,6 +169,17 @@ describe('Aesthetic', () => {
       expect(spy).not.toHaveBeenCalled();
 
       spy.mockRestore();
+    });
+
+    it('renders theme sheet and sets body class name', () => {
+      teardownAesthetic(aesthetic);
+
+      aesthetic.configureEngine(createTestStyleEngine());
+      aesthetic.registerTheme('night', darkTheme, createTempSheet());
+
+      aesthetic.changeTheme('night');
+
+      expect(document.body.className).toBe('csehgq8');
     });
 
     it('emits `change:theme` event', () => {
