@@ -1,11 +1,11 @@
 import { ThemeRegistry } from '@aesthetic/system';
 import { design, lightTheme, darkTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
-import { Aesthetic, AestheticOptions, EventType, GlobalSheet } from './index';
+import { Aesthetic, AestheticOptions, EventType, GlobalSheet, EventListener } from './index';
 
 export { design, lightTheme, darkTheme };
 
-export function resetAestheticState(aesthetic: Aesthetic) {
+export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
   // @ts-expect-error
   aesthetic.activeDirection.reset();
   // @ts-expect-error
@@ -27,7 +27,7 @@ export function resetAestheticState(aesthetic: Aesthetic) {
 }
 
 export function getAestheticState(
-  aesthetic: Aesthetic,
+  aesthetic: Aesthetic<any, any>,
 ): {
   activeDirection: string | undefined;
   activeTheme: string | undefined;
@@ -52,12 +52,12 @@ export function getAestheticState(
   };
 }
 
-export function setupAesthetic(aesthetic: Aesthetic) {
+export function setupAesthetic(aesthetic: Aesthetic<any, any>) {
   aesthetic.registerTheme('day', lightTheme);
   aesthetic.registerTheme('night', darkTheme);
 }
 
-export function teardownAesthetic(aesthetic: Aesthetic) {
+export function teardownAesthetic(aesthetic: Aesthetic<any, any>) {
   lightTheme.name = '';
   darkTheme.name = '';
   resetAestheticState(aesthetic);
