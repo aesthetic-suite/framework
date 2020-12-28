@@ -6,7 +6,7 @@ export default function isDOM(): boolean {
   }
 
   if (cache === null) {
-    cache = typeof window !== 'undefined' || typeof document !== 'undefined';
+    cache = typeof window !== 'undefined' && typeof document !== 'undefined';
   }
 
   return cache;
