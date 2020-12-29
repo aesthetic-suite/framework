@@ -64,7 +64,7 @@ describe('LocalParser', () => {
       },
     );
 
-    expect(spy).toHaveBeenCalledWith('selector', createBlock('', SYNTAX_LOCAL_BLOCK));
+    expect(spy).toHaveBeenCalledWith('selector', createBlock('selector', SYNTAX_LOCAL_BLOCK));
   });
 
   it('applies nested conditionals and selectors correctly', () => {
@@ -104,7 +104,7 @@ describe('LocalParser', () => {
       { onRule: spy },
     );
 
-    const block = createExpectedBlock('');
+    const block = createExpectedBlock('element');
     block.parent = undefined;
 
     const media1000 = createExpectedBlock(

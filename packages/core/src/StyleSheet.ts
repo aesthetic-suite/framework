@@ -147,12 +147,14 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       vendor: params.vendor,
     };
 
-    const addResultToMap = (selector: string, result: Result) => {
-      resultSheet[selector] = { result };
+    const createResultMetadata = (selector: string) => {
+      if (!this.metadata[selector]) {
+        resultSheet[selector] = {};
 
-      this.metadata[selector] = {
-        renderResult: resultSheet[selector]!,
-      };
+        this.metadata[selector] = {
+          renderResult: resultSheet[selector]!,
+        };
+      }
 
       return this.metadata[selector];
     };
@@ -160,7 +162,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     parse(this.type, styles, {
       customProperties,
       onClass: (selector, className) => {
-        addResultToMap(selector, (className as unknown) as Result);
+        createResultMetadata(selector).renderResult.result = (className as unknown) as Result;
       },
       onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
       onImport: (path) => {
@@ -182,12 +184,12 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         }
       },
       onRoot: (block) => {
-        addResultToMap(
-          '@root',
-          engine.renderRuleGrouped(block.toObject(), {
+        createResultMetadata('@root').renderResult.result = engine.renderRuleGrouped(
+          block.toObject(),
+          {
             ...renderOptions,
             type: 'global',
-          }),
+          },
         );
       },
       onRootVariables: (variables) => {
@@ -198,23 +200,30 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
           block.addResult(engine.renderRule(block.toObject(), renderOptions));
         }
 
-        const meta = addResultToMap(selector, block.result as Result);
-
-        objectLoop(block.variants, (variant, type) => {
-          if (!meta.renderResult.variants) {
-            meta.renderResult.variants = {};
-          }
-
-          if (!meta.variantTypes) {
-            meta.variantTypes = new Set();
-          }
-
-          meta.renderResult.variants[type] = variant.result as Result;
-          meta.variantTypes.add(type.split('_')[0]);
-        });
+        createResultMetadata(selector).renderResult.result = block.result as Result;
       },
       onVariable: (block, name, value) => {
-        block.addResult(engine.renderVariable(name, value));
+        if (engine.atomic) {
+          block.addResult(engine.renderVariable(name, value));
+        }
+      },
+      onVariant: (parent, type, block) => {
+        if (!engine.atomic) {
+          block.addResult(engine.renderRule(block.toObject(), renderOptions));
+        }
+
+        const meta = createResultMetadata(parent.id);
+
+        if (!meta.renderResult.variants) {
+          meta.renderResult.variants = {};
+        }
+
+        if (!meta.variantTypes) {
+          meta.variantTypes = new Set();
+        }
+
+        meta.renderResult.variants[type] = block.result as Result;
+        meta.variantTypes.add(type.split('_')[0]);
       },
     });
 

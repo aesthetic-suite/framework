@@ -38,7 +38,7 @@ function parseLocal<T extends object>(styleSheet: LocalStyleSheet<T>, options: P
 
       // Rule
     } else if (isObject(declaration)) {
-      const block = parseLocalBlock(new Block(), declaration, options);
+      const block = parseLocalBlock(new Block(selector), declaration, options);
 
       options.onRule?.(selector, block);
 

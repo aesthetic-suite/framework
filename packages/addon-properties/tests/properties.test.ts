@@ -10,7 +10,7 @@ import { expandedProperties as customProperties } from '../src';
 import '../src/types';
 
 function createBlock(selector: string, properties: object): Block<Properties> {
-  const block = new Block();
+  const block = new Block('element');
 
   // @ts-expect-error
   block.properties = properties;
