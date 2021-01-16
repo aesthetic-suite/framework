@@ -1,4 +1,4 @@
-import { ThemeName, ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, ThemeName } from '@aesthetic/types';
 import Theme from './Theme';
 import { ThemeOptions } from './types';
 

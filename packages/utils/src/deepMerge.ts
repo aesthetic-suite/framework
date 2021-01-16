@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign, no-use-before-define, @typescript-eslint/no-use-before-define */
 
 import arrayLoop from './arrayLoop';
-import objectLoop from './objectLoop';
 import isObject from './isObject';
+import objectLoop from './objectLoop';
 
 export function merge(base: object, next: object): object {
   objectLoop(next, (right, key) => {

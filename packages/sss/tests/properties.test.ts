@@ -1,14 +1,14 @@
 import setupDefaultOptions from '../src/helpers/setupDefaultOptions';
 import parseBlock from '../src/parsers/parseBlock';
-import { createBlock } from './helpers';
 import {
+  FONT_ROBOTO,
+  FONT_ROBOTO_FLAT_SRC,
+  FONTS_CIRCULAR,
+  FONTS_CIRCULAR_FLAT_SRC,
   KEYFRAMES_PERCENT,
   KEYFRAMES_RANGE,
-  FONT_ROBOTO,
-  FONTS_CIRCULAR,
-  FONT_ROBOTO_FLAT_SRC,
-  FONTS_CIRCULAR_FLAT_SRC,
 } from './__mocks__/global';
+import { createBlock } from './helpers';
 
 describe('Custom properties', () => {
   let spy: jest.Mock;

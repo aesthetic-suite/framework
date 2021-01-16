@@ -4,8 +4,8 @@ import {
   CSS,
   FontFace,
   Keyframes,
-  Property,
   Properties,
+  Property,
   Rule,
   Unit,
   UnitFactory,
@@ -13,7 +13,7 @@ import {
   ValueWithFallbacks,
   VariablesMap,
 } from './css';
-import { ClassName, Direction, ColorScheme, ContrastLevel } from './ui';
+import { ClassName, ColorScheme, ContrastLevel, Direction } from './ui';
 
 // CACHE
 

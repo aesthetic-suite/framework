@@ -1,9 +1,9 @@
 import { ThemeRegistry } from '@aesthetic/system';
-import { design, lightTheme, darkTheme } from '@aesthetic/system/test';
+import { darkTheme, design, lightTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
-import { Aesthetic, AestheticOptions, EventType, GlobalSheet, EventListener } from './index';
+import { Aesthetic, AestheticOptions, EventListener, EventType, GlobalSheet } from './index';
 
-export { design, lightTheme, darkTheme };
+export { darkTheme, design, lightTheme };
 
 export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
   // @ts-expect-error

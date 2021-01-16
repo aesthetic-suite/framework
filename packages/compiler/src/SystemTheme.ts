@@ -1,26 +1,26 @@
 import { camelCase, kebabCase } from 'lodash';
-import { deepMerge } from '@aesthetic/utils';
-import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 import { DeepPartial, Hexcode } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { deepMerge } from '@aesthetic/utils';
 import {
-  ThemeConfig,
-  ThemeTemplate,
-  PaletteConfig,
-  PaletteTemplate,
-  PaletteState,
-  ColorName,
-  ColorShadeRef,
-} from './types';
-import {
-  SHADE_TEXT,
+  INHERIT_SETTING,
   SHADE_BASE,
+  SHADE_DISABLED,
   SHADE_FOCUSED,
   SHADE_HOVERED,
   SHADE_SELECTED,
-  SHADE_DISABLED,
-  INHERIT_SETTING,
+  SHADE_TEXT,
 } from './constants';
 import { formatShade } from './helpers';
+import {
+  ColorName,
+  ColorShadeRef,
+  PaletteConfig,
+  PaletteState,
+  PaletteTemplate,
+  ThemeConfig,
+  ThemeTemplate,
+} from './types';
 
 export default class SystemTheme<ColorNames extends string = string> {
   contrast: ContrastLevel;

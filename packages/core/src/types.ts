@@ -1,18 +1,18 @@
 import {
+  CustomProperties,
   GlobalStyleSheet,
   GlobalStyleSheetNeverize,
+  LocalBlock,
   LocalStyleSheet,
   LocalStyleSheetNeverize,
-  LocalBlock,
   PropertyHandlerMap,
-  CustomProperties,
 } from '@aesthetic/sss';
 import { Utilities } from '@aesthetic/system';
 import {
-  Direction,
-  DirectionConverter,
   ColorScheme,
   ContrastLevel,
+  Direction,
+  DirectionConverter,
   ThemeName,
   Unit,
   UnitFactory,
@@ -21,7 +21,7 @@ import {
 import StyleSheet from './StyleSheet';
 
 // Re-export for convenience
-export { GlobalStyleSheet, LocalStyleSheet, LocalBlock, CustomProperties };
+export { CustomProperties, GlobalStyleSheet, LocalBlock, LocalStyleSheet };
 
 // And add aliases too
 export type ElementStyles = LocalBlock;

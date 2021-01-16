@@ -1,11 +1,12 @@
 /* eslint-disable no-magic-numbers */
 
-import { Value, MaybeValue, CSS, Sheet } from '@aesthetic/types';
+import { CSS, MaybeValue, Sheet, Value } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 
 export function insertRule(sheet: Sheet, rule: CSS, index?: number): number {
   try {
+    // eslint-disable-next-line unicorn/explicit-length-check
     return sheet.insertRule(rule, index ?? sheet.cssRules.length);
   } catch {
     // Vendor prefixed properties, pseudos, etc, that are inserted

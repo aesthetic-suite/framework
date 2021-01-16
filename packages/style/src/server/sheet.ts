@@ -1,6 +1,6 @@
+import sortMediaQueries from 'sort-css-media-queries';
 import { CSS, Sheet, SheetManager, SheetMap, VariablesMap } from '@aesthetic/types';
 import { arrayLoop, arrayReduce } from '@aesthetic/utils';
-import sortMediaQueries from 'sort-css-media-queries';
 // Rollup compatibility
 import {
   FONT_FACE_RULE,

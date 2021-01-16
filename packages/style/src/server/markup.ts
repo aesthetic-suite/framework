@@ -1,4 +1,4 @@
-import { SheetType, Sheet } from '@aesthetic/types';
+import { Sheet, SheetType } from '@aesthetic/types';
 // Rollup compatibility
 import { formatDeclarationBlock, StyleEngine } from '../index';
 

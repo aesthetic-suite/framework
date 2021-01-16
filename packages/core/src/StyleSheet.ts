@@ -1,13 +1,13 @@
 import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
-import { ColorScheme, ContrastLevel, Property, RenderOptions, Engine } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import {
   BaseSheetFactory,
   RenderResultSheet,
+  SheetElementMetadata,
   SheetParams,
   SheetParamsExtended,
-  SheetElementMetadata,
 } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {

@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 
-import { Sheet, SheetType, SheetMap } from '@aesthetic/types';
+import { Sheet, SheetMap, SheetType } from '@aesthetic/types';
 
 export function getStyleElement(type: SheetType): Sheet {
   let element = document.getElementById(`aesthetic-${type}`) as HTMLStyleElement;
@@ -15,7 +15,7 @@ export function getStyleElement(type: SheetType): Sheet {
     document.head.append(element);
   }
 
-  return ((element as HTMLStyleElement).sheet as unknown) as Sheet;
+  return (element!.sheet as unknown) as Sheet;
 }
 
 export function createStyleElements(): SheetMap {

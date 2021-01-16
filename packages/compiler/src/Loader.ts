@@ -1,6 +1,6 @@
-import { Path, parseFile } from '@boost/common';
 import { DeepPartial } from '@aesthetic/system';
 import { deepMerge } from '@aesthetic/utils';
+import { parseFile, Path } from '@boost/common';
 import { ConfigFile } from './types';
 
 export default abstract class Loader<T extends ConfigFile> {

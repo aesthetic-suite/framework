@@ -1,16 +1,16 @@
 import doParse from '../src/parse';
+import { GlobalStyleSheet, ParserOptions } from '../src/types';
 import {
   FONT_ROBOTO,
   FONT_ROBOTO_FLAT_SRC,
   FONTS_CIRCULAR,
   FONTS_CIRCULAR_FLAT_SRC,
-  KEYFRAMES_RANGE,
   KEYFRAMES_PERCENT,
+  KEYFRAMES_RANGE,
   SYNTAX_ROOT,
 } from './__mocks__/global';
-import { createBlock } from './helpers';
 import { SYNTAX_VARIABLES } from './__mocks__/local';
-import { GlobalStyleSheet, ParserOptions } from '../src/types';
+import { createBlock } from './helpers';
 
 function parse(styleSheet: GlobalStyleSheet, options: Partial<ParserOptions<object>>) {
   doParse('global', styleSheet, options);

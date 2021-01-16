@@ -1,7 +1,3 @@
-import { deepMerge } from '@aesthetic/utils';
-import { ColorScheme, ContrastLevel } from '@aesthetic/types';
-import { DeepPartial, Hexcode, ColorShade } from '@aesthetic/system';
-import { Path } from '@boost/common';
 import optimal, {
   object,
   ObjectOf,
@@ -14,27 +10,31 @@ import optimal, {
   union,
   UnionPredicate,
 } from 'optimal';
-import Loader from './Loader';
+import { ColorShade, DeepPartial, Hexcode } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { deepMerge } from '@aesthetic/utils';
+import { Path } from '@boost/common';
 import {
-  THEMES_FILE,
-  SHADE_RANGES,
-  SHADE_TEXT,
+  INHERIT_SETTING,
   SHADE_BASE,
+  SHADE_DISABLED,
   SHADE_FOCUSED,
   SHADE_HOVERED,
+  SHADE_RANGES,
   SHADE_SELECTED,
-  SHADE_DISABLED,
-  INHERIT_SETTING,
+  SHADE_TEXT,
+  THEMES_FILE,
 } from './constants';
+import Loader from './Loader';
 import {
-  ThemesConfigFile,
-  ThemeConfig,
-  PalettesConfig,
   ColorConfig,
-  PaletteState,
-  PaletteConfig,
-  ColorShadeRef,
   ColorName,
+  ColorShadeRef,
+  PaletteConfig,
+  PalettesConfig,
+  PaletteState,
+  ThemeConfig,
+  ThemesConfigFile,
 } from './types';
 
 const COLOR_SHADE_REF_PATTERN = new RegExp(`^[a-z0-9]+(.(${SHADE_RANGES.join('|')}))?$`, 'iu');

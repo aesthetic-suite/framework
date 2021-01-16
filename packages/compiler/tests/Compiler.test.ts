@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises, jest/expect-expect */
 
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import { Compiler } from '../src';
 
 const CONFIG_PATH = path.join(__dirname, './__fixtures__/system-scaled');

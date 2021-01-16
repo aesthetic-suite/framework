@@ -1,16 +1,16 @@
-import { parseFile } from '@boost/common';
-import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import {
-  BrandLoader,
-  LanguageLoader,
-  ThemesLoader,
   BRAND_FILE,
-  LANGUAGE_FILE,
+  BrandLoader,
   CONFIG_FOLDER,
-  THEMES_FILE,
+  LANGUAGE_FILE,
   LanguageConfigFile,
+  LanguageLoader,
+  THEMES_FILE,
+  ThemesLoader,
 } from '@aesthetic/compiler';
-import { validateSystemName, getConfigFolderDir } from '../helpers';
+import { Arg, Command, Config, GlobalOptions } from '@boost/cli';
+import { parseFile } from '@boost/common';
+import { getConfigFolderDir, validateSystemName } from '../helpers';
 
 export type ValidateParams = [string];
 

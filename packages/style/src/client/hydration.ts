@@ -4,10 +4,10 @@ import { arrayLoop, joinQueries } from '@aesthetic/utils';
 import { createCacheKey } from '../common/cache';
 import {
   FONT_FACE_RULE,
-  KEYFRAMES_RULE,
   IMPORT_RULE,
-  STYLE_RULE,
+  KEYFRAMES_RULE,
   MEDIA_RULE,
+  STYLE_RULE,
   SUPPORTS_RULE,
 } from '../common/constants';
 import { StyleEngine } from '../types';
@@ -118,7 +118,7 @@ export function hydrateStyles(engine: StyleEngine): boolean {
   const styles = document.querySelectorAll<HTMLStyleElement>('style[data-aesthetic-hydrate-index]');
 
   arrayLoop(styles, (style) => {
-    hydrate(engine, style.sheet as CSSStyleSheet);
+    hydrate(engine, style.sheet!);
 
     if (engine.ruleIndex === -1) {
       engine.ruleIndex = Number(style.getAttribute('data-aesthetic-rule-index'));

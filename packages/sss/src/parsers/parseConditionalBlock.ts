@@ -1,7 +1,7 @@
 import { objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarations from '../helpers/validateDeclarations';
-import { ParserOptions, LocalBlockMap } from '../types';
+import { LocalBlockMap, ParserOptions } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
 export default function parseConditionalBlock<T extends object>(

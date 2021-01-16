@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { objectLoop, isObject } from '@aesthetic/utils';
+import { isObject, objectLoop } from '@aesthetic/utils';
 import Block from '../src/Block';
 import { Properties } from '../src/types';
 

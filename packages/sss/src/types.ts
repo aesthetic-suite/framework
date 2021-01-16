@@ -2,9 +2,9 @@
 
 import CSSType from 'csstype';
 import {
+  Declarations,
   FontFace as BaseFontFace,
   Keyframes as BaseKeyframes,
-  Declarations,
   Value,
   VariablesMap,
 } from '@aesthetic/types';

@@ -1,7 +1,7 @@
 import { objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarations from '../helpers/validateDeclarations';
-import { ParserOptions, LocalBlockVariants } from '../types';
+import { LocalBlockVariants, ParserOptions } from '../types';
 import parseLocalBlock from './parseLocalBlock';
 
 export default function parseVariants<T extends object>(

@@ -1,12 +1,12 @@
-import { CSS, CacheManager, EngineOptions, SheetManager, SheetType, Sheet } from '@aesthetic/types';
+import { CacheManager, CSS, EngineOptions, Sheet, SheetManager, SheetType } from '@aesthetic/types';
 // Rollup compatibility
 import {
-  StyleEngine,
   createCacheManager,
-  createStyleEngine,
   createSheetManager,
   createStyleElements,
+  createStyleEngine,
   getStyleElement,
+  StyleEngine,
 } from './index';
 
 export function createTestCacheManager(): CacheManager {

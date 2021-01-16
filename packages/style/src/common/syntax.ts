@@ -8,8 +8,8 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
-import { isUnitlessProperty, isVariable } from './helpers';
 import { StyleEngine } from '../types';
+import { isUnitlessProperty, isVariable } from './helpers';
 
 export function formatVariable(name: string): string {
   let varName = hyphenate(name);

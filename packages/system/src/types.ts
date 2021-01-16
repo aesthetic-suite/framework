@@ -1,4 +1,4 @@
-import { Unit, ColorScheme, ContrastLevel } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, Unit } from '@aesthetic/types';
 
 export type Hexcode = string;
 

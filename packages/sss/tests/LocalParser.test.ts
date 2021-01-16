@@ -1,22 +1,22 @@
-import { LocalStyleSheet, ParserOptions } from '../src/types';
 import Block from '../src/Block';
 import doParse from '../src/parse';
-import { createBlock, createExpectedBlock } from './helpers';
+import { LocalStyleSheet, ParserOptions } from '../src/types';
 import {
   SYNTAX_FALLBACKS,
+  SYNTAX_LOCAL_BLOCK,
+  SYNTAX_MEDIA,
+  SYNTAX_MEDIA_NESTED,
   SYNTAX_PROPERTIES,
   SYNTAX_SELECTOR_ATTRIBUTES,
   SYNTAX_SELECTOR_PSEUDOS,
-  SYNTAX_SELECTORS_SPECIFICITY,
   SYNTAX_SELECTORS_COMBINATORS,
   SYNTAX_SELECTORS_MULTIPLE,
+  SYNTAX_SELECTORS_SPECIFICITY,
   SYNTAX_SUPPORTS,
-  SYNTAX_MEDIA,
-  SYNTAX_MEDIA_NESTED,
-  SYNTAX_LOCAL_BLOCK,
   SYNTAX_VARIABLES,
   SYNTAX_VARIANTS,
 } from './__mocks__/local';
+import { createBlock, createExpectedBlock } from './helpers';
 
 function parse(styleSheet: LocalStyleSheet, options: Partial<ParserOptions<object>>) {
   doParse('local', styleSheet, options);

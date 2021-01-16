@@ -1,8 +1,8 @@
-import { Path } from '@boost/common';
-import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
 import { Compiler, FormatType, PlatformType } from '@aesthetic/compiler';
-import { validateSystemName, getConfigFolderDir } from '../helpers';
-import { FORMAT_LIST, CWD } from '../constants';
+import { Arg, Command, Config, GlobalOptions } from '@boost/cli';
+import { Path } from '@boost/common';
+import { CWD, FORMAT_LIST } from '../constants';
+import { getConfigFolderDir, validateSystemName } from '../helpers';
 
 export interface CompileOptions extends GlobalOptions {
   format: FormatType;

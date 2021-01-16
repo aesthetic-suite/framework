@@ -29,10 +29,7 @@
   "dependencies": {
     "@aesthetic/types": "^0.4.5",
     "@aesthetic/utils": "^0.6.2",
-    "csstype": "^3.0.5"
-  },
-  "devDependencies": {
-    "@aesthetic/sss": "^0.6.5"
+    "csstype": "^3.0.6"
   },
   "funding": {
     "type": "ko-fi",

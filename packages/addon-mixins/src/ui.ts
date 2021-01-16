@@ -1,8 +1,8 @@
 import { LocalBlock } from '@aesthetic/sss';
-import { isObject } from '@aesthetic/utils';
 import { Utilities } from '@aesthetic/system';
-import { UIBoxOptions, UIInteractiveOptions } from './types';
+import { isObject } from '@aesthetic/utils';
 import { checkList } from './checks';
+import { UIBoxOptions, UIInteractiveOptions } from './types';
 
 export function uiBox(
   this: Utilities<LocalBlock>,

@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 
 import CSS from 'csstype';
-import { FontFace, Keyframes, GlobalStyleSheet } from '../../src/types';
+import { FontFace, GlobalStyleSheet, Keyframes } from '../../src/types';
 
 export const FONT_ROBOTO: FontFace = {
   fontFamily: 'Roboto',

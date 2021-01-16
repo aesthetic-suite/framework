@@ -1,14 +1,14 @@
 import { isObject, objectLoop } from '@aesthetic/utils';
-import { LocalStyleSheet, GlobalStyleSheet, ParserOptions } from './types';
+import Block from './Block';
 import createQueue from './helpers/createQueue';
 import setupDefaultOptions from './helpers/setupDefaultOptions';
 import parseFontFaceMap from './parsers/parseFontFaceMap';
 import parseImport from './parsers/parseImport';
 import parseKeyframesMap from './parsers/parseKeyframesMap';
+import parseLocalBlock from './parsers/parseLocalBlock';
 import parseRoot from './parsers/parseRoot';
 import parseRootVariables from './parsers/parseRootVariables';
-import parseLocalBlock from './parsers/parseLocalBlock';
-import Block from './Block';
+import { GlobalStyleSheet, LocalStyleSheet, ParserOptions } from './types';
 
 export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 

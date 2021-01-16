@@ -1,7 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-import CSSType from 'csstype';
 // Module augmentation
 import '@aesthetic/sss';
+// eslint-disable-next-line import/no-unresolved
+import CSSType from 'csstype';
 import { Value } from '@aesthetic/types';
 
 // EXPANDED PROPERTIES

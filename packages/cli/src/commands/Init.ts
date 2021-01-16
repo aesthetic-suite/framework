@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
+import { BRAND_FILE, CONFIG_FOLDER, LANGUAGE_FILE, THEMES_FILE } from '@aesthetic/compiler';
+import { Arg, Command, Config, GlobalOptions } from '@boost/cli';
 import { Path } from '@boost/common';
-import { Arg, Config, Command, GlobalOptions } from '@boost/cli';
-import { CONFIG_FOLDER, BRAND_FILE, LANGUAGE_FILE, THEMES_FILE } from '@aesthetic/compiler';
 import { getConfigFolderDir, validateSystemName } from '../helpers';
 
 export interface InitOptions extends GlobalOptions {

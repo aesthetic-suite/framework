@@ -1,6 +1,6 @@
 import { Value } from '@aesthetic/types';
 import Block from '../Block';
-import { ParserOptions, AddPropertyCallback, PropertyHandler, Properties } from '../types';
+import { AddPropertyCallback, ParserOptions, Properties, PropertyHandler } from '../types';
 
 export default function parseProperty<T extends object>(
   parent: Block<T>,

@@ -1,5 +1,5 @@
-import { arrayLoop } from '@aesthetic/utils';
 import CSS from 'csstype';
+import { arrayLoop } from '@aesthetic/utils';
 import { FontFace } from '../types';
 
 const FORMATS: Record<string, string> = {

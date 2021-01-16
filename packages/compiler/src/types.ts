@@ -1,17 +1,17 @@
-import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 import {
   BorderSize,
   BreakpointSize,
   ColorShade,
+  ElevationType,
   HeadingSize,
   Hexcode,
   PaletteType,
-  SpacingSize,
-  TextSize,
-  ElevationType,
   ShadowSize,
+  SpacingSize,
   StateType,
+  TextSize,
 } from '@aesthetic/system';
+import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 
 export type PlatformType = 'android' | 'ios' | 'web';
 

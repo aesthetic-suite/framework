@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign, lines-between-class-members, no-dupe-class-members */
 
-import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
+import { FontFace as SSSFontFace, formatFontFace, LocalBlock } from '@aesthetic/sss';
+import { Theme, ThemeRegistry } from '@aesthetic/system';
 import {
   ClassName,
   Direction,
@@ -10,8 +11,7 @@ import {
   RenderOptions,
   ThemeName,
 } from '@aesthetic/types';
-import { FontFace as SSSFontFace, formatFontFace, LocalBlock } from '@aesthetic/sss';
-import { Theme, ThemeRegistry } from '@aesthetic/system';
+import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
 import StyleSheet from './StyleSheet';
 import {
   AestheticOptions,
@@ -161,9 +161,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   createThemeStyles = <T = unknown>(
     factory: GlobalSheetFactory<T, Block>,
-  ): GlobalSheet<T, Block, Result> => {
-    return new StyleSheet('global', factory);
-  };
+  ): GlobalSheet<T, Block, Result> => new StyleSheet('global', factory);
 
   /**
    * Emit all listeners by type, with the defined arguments.
@@ -281,9 +279,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   /**
    * Return a theme instance by name.
    */
-  getTheme = (name: ThemeName): Theme<Block> => {
-    return this.themeRegistry.getTheme(name);
-  };
+  getTheme = (name: ThemeName): Theme<Block> => this.themeRegistry.getTheme(name);
 
   /**
    * Register a theme, with optional global theme styles.
@@ -348,22 +344,20 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     fontFace: FontFace | SSSFontFace,
     fontFamily?: string,
     params?: RenderOptions,
-  ): string => {
-    return this.getEngine().renderFontFace(
+  ): string =>
+    this.getEngine().renderFontFace(
       formatFontFace({
         fontFamily,
         ...fontFace,
       }) as FontFace,
       params,
     );
-  };
 
   /**
    * Render an `@import` to the global style sheet and return the import path.
    */
-  renderImport = (path: string, params?: RenderOptions): string => {
-    return this.getEngine().renderImport(path, params);
-  };
+  renderImport = (path: string, params?: RenderOptions): string =>
+    this.getEngine().renderImport(path, params);
 
   /**
    * Render a `@keyframes` to the global style sheet and return the animation name.
@@ -372,9 +366,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     keyframes: Keyframes,
     animationName?: string,
     params?: RenderOptions,
-  ): string => {
-    return this.getEngine().renderKeyframes(keyframes, animationName, params);
-  };
+  ): string => this.getEngine().renderKeyframes(keyframes, animationName, params);
 
   /**
    * Render a global theme style sheet and return a result, if one was generated.

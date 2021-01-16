@@ -1,13 +1,13 @@
-import {
-  parse as doParse,
-  Block,
-  Properties,
-  LocalStyleSheet,
-  ParserOptions,
-} from '@aesthetic/sss';
-import { expandedProperties as customProperties } from '../src';
 // Import for module augmentation
 import '../src/types';
+import {
+  Block,
+  LocalStyleSheet,
+  parse as doParse,
+  ParserOptions,
+  Properties,
+} from '@aesthetic/sss';
+import { expandedProperties as customProperties } from '../src';
 
 function createBlock(selector: string, properties: object): Block<Properties> {
   const block = new Block('element');

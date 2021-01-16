@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 
-import fs from 'fs-extra';
 import path from 'path';
-import { Compiler, PlatformType, FormatType } from '../../src';
+import fs from 'fs-extra';
+import { Compiler, FormatType, PlatformType } from '../../src';
 
 export default function runTargetTests(
   platform: PlatformType,

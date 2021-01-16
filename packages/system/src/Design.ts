@@ -1,7 +1,7 @@
 import { deepMerge } from '@aesthetic/utils';
-import Theme from './Theme';
 import { DEPTHS } from './constants';
-import { DesignTokens, DeepPartial, ThemeOptions, ThemeTokens, MixinTemplateMap } from './types';
+import Theme from './Theme';
+import { DeepPartial, DesignTokens, MixinTemplateMap, ThemeOptions, ThemeTokens } from './types';
 
 export default class Design<T extends object> {
   readonly mixins?: MixinTemplateMap<T>;

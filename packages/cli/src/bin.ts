@@ -1,6 +1,6 @@
 import { Program } from '@boost/cli';
-import Init from './commands/Init';
 import Compile from './commands/Compile';
+import Init from './commands/Init';
 import Validate from './commands/Validate';
 
 const banner = `  ¸ ¸__ __¸__¸  ¸¸__¸__¸ __

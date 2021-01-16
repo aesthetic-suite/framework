@@ -2,16 +2,16 @@ import {
   BorderSize,
   BreakpointSize,
   CommonSize,
+  DEPTHS,
   HeadingSize,
   PaletteType,
+  SHADE_RANGES,
   ShadowSize,
   SpacingSize,
   StateType,
   TextSize,
-  DEPTHS,
-  SHADE_RANGES,
 } from '@aesthetic/system';
-import { ScaleType, BreakpointListConfig } from './types';
+import { BreakpointListConfig, ScaleType } from './types';
 
 export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
 

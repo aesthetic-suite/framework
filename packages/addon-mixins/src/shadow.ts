@@ -1,5 +1,5 @@
 import { LocalBlock } from '@aesthetic/sss';
-import { Utilities, SHADE_RANGES } from '@aesthetic/system';
+import { SHADE_RANGES, Utilities } from '@aesthetic/system';
 import { checkList } from './checks';
 import { ShadowOptions } from './types';
 

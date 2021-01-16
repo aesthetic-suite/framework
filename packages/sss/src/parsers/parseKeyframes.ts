@@ -1,7 +1,7 @@
 import { objectLoop } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { ParserOptions, Keyframes } from '../types';
+import { Keyframes, ParserOptions } from '../types';
 import parseBlock from './parseBlock';
 
 export default function parseKeyframes<T extends object>(

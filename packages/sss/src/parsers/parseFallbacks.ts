@@ -1,7 +1,7 @@
 import { objectLoop, toArray } from '@aesthetic/utils';
 import Block from '../Block';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { ParserOptions, FallbackProperties } from '../types';
+import { FallbackProperties, ParserOptions } from '../types';
 
 export default function parseFallbacks<T extends object>(
   parent: Block<T>,

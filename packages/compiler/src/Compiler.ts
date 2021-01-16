@@ -1,28 +1,28 @@
-import fs from 'fs-extra';
-import optimal, { bool, string } from 'optimal';
 import ejs, { TemplateFunction } from 'ejs';
-import prettier, { BuiltInParserName } from 'prettier';
+import fs from 'fs-extra';
 import camelCase from 'lodash/camelCase';
+import optimal, { bool, string } from 'optimal';
+import prettier, { BuiltInParserName } from 'prettier';
 import { Path, PortablePath } from '@boost/common';
 import BrandLoader from './BrandLoader';
-import LanguageLoader from './LanguageLoader';
-import ThemesLoader from './ThemesLoader';
-import SystemDesign from './SystemDesign';
-import SystemTheme from './SystemTheme';
-import WebPlatform from './platforms/Web';
-import { FormatType, SystemOptions, PlatformType, ThemesConfigFile } from './types';
 import {
-  DEPTHS,
   BORDER_SIZES,
   BREAKPOINT_SIZES,
+  DEPTHS,
   HEADING_SIZES,
   PALETTE_TYPES,
   SHADE_RANGES,
   SHADOW_SIZES,
   SPACING_SIZES,
-  TEXT_SIZES,
   STATE_ORDER,
+  TEXT_SIZES,
 } from './constants';
+import LanguageLoader from './LanguageLoader';
+import WebPlatform from './platforms/Web';
+import SystemDesign from './SystemDesign';
+import SystemTheme from './SystemTheme';
+import ThemesLoader from './ThemesLoader';
+import { FormatType, PlatformType, SystemOptions, ThemesConfigFile } from './types';
 
 type Platform = WebPlatform;
 

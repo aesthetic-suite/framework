@@ -1,6 +1,6 @@
 import { createTestStyleEngine } from '@aesthetic/style/test';
 import { ClassName, Engine } from '@aesthetic/types';
-import { StyleSheet, GlobalSheet } from '../src';
+import { GlobalSheet, StyleSheet } from '../src';
 import { lightTheme } from '../src/test';
 
 describe('GlobalSheet', () => {

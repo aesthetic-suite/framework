@@ -1,5 +1,5 @@
-import { SheetMap, SheetManager } from '@aesthetic/types';
-import { isAtRule, isImportRule, insertAtRule, insertImportRule, insertRule } from './helpers';
+import { SheetManager, SheetMap } from '@aesthetic/types';
+import { insertAtRule, insertImportRule, insertRule, isAtRule, isImportRule } from './helpers';
 
 export function createSheetManager(sheets: SheetMap): SheetManager {
   return {

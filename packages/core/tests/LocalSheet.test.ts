@@ -1,7 +1,7 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName, Engine } from '@aesthetic/types';
-import { Aesthetic, StyleSheet, LocalSheet } from '../src';
+import { Aesthetic, LocalSheet, StyleSheet } from '../src';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('LocalSheet', () => {

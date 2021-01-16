@@ -16,17 +16,17 @@ import {
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { generateHash, isObject, joinQueries, objectLoop, objectReduce } from '@aesthetic/utils';
+import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
 import { isMediaRule, isNestedSelector, isSupportsRule, isValidValue, isVariable } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
-  formatProperty,
   formatDeclaration,
+  formatProperty,
   formatRule,
   formatVariable,
 } from './syntax';
-import { StyleEngine } from '../types';
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;

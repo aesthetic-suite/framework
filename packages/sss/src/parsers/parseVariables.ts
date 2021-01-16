@@ -1,7 +1,7 @@
 import { VariablesMap } from '@aesthetic/types';
 import { hyphenate, objectLoop } from '@aesthetic/utils';
-import validateDeclarations from '../helpers/validateDeclarations';
 import Block from '../Block';
+import validateDeclarations from '../helpers/validateDeclarations';
 import { ParserOptions } from '../types';
 
 export default function parseVariables<T extends object>(

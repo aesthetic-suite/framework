@@ -3,7 +3,7 @@ import Block from '../Block';
 import createQueue from '../helpers/createQueue';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
 import validateDeclarations from '../helpers/validateDeclarations';
-import { ParserOptions, LocalBlock } from '../types';
+import { LocalBlock, ParserOptions } from '../types';
 import parseBlock from './parseBlock';
 import parseConditionalBlock from './parseConditionalBlock';
 import parseFallbacks from './parseFallbacks';

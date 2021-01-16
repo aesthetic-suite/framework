@@ -25,7 +25,7 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "csstype": "^3.0.5"
+    "csstype": "^3.0.6"
   },
   "packemon": {
     "platform": "browser"

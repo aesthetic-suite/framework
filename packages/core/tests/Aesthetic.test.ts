@@ -5,11 +5,11 @@ import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
 import {
-  lightTheme,
   darkTheme,
+  getAestheticState,
+  lightTheme,
   setupAesthetic,
   teardownAesthetic,
-  getAestheticState,
 } from '../src/test';
 
 describe('Aesthetic', () => {

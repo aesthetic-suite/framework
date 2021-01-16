@@ -1,7 +1,7 @@
 import Block from '../Block';
 import formatFontFace from '../helpers/formatFontFace';
 import validateDeclarationBlock from '../helpers/validateDeclarationBlock';
-import { ParserOptions, FontFace, Properties } from '../types';
+import { FontFace, ParserOptions, Properties } from '../types';
 import parseBlock from './parseBlock';
 
 export default function parseFontFace<T extends object>(

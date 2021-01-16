@@ -31,10 +31,6 @@
   "dependencies": {
     "@aesthetic/utils": "^0.6.2"
   },
-  "devDependencies": {
-    "@aesthetic/sss": "^0.6.5",
-    "@aesthetic/system": "^0.6.5"
-  },
   "funding": {
     "type": "ko-fi",
     "url": "https://ko-fi.com/milesjohnson"

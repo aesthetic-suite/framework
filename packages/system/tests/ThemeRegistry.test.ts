@@ -1,6 +1,6 @@
 import { Rule } from '@aesthetic/types';
-import { ThemeRegistry, Theme } from '../src';
-import { lightTheme, darkTheme } from '../src/test';
+import { Theme, ThemeRegistry } from '../src';
+import { darkTheme, lightTheme } from '../src/test';
 
 describe('ThemeRegistry', () => {
   let registry: ThemeRegistry<Rule>;

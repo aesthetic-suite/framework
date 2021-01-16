@@ -1,7 +1,7 @@
 import { camelCase, kebabCase } from 'lodash';
-import SystemTheme from './SystemTheme';
+import { BREAKPOINT_SIZES, DEPTHS, SCALES, SHADOW_SIZES } from './constants';
 import { getPlatformFont as getFont } from './helpers';
-import { SCALES, DEPTHS, BREAKPOINT_SIZES, SHADOW_SIZES } from './constants';
+import SystemTheme from './SystemTheme';
 import {
   BorderTemplate,
   BreakpointCondition,

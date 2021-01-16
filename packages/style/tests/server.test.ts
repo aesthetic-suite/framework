@@ -1,6 +1,6 @@
+import { StyleEngine } from '../src';
 import { createServerEngine, extractStyles, renderToStyleMarkup } from '../src/server';
 import { purgeStyles } from '../src/test';
-import { StyleEngine } from '../src';
 
 describe('Server', () => {
   let engine: StyleEngine;

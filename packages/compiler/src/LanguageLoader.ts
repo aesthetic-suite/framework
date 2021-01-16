@@ -1,5 +1,3 @@
-import { Path } from '@boost/common';
-import { DeepPartial } from '@aesthetic/system';
 import optimal, {
   array,
   ArrayPredicate,
@@ -12,15 +10,17 @@ import optimal, {
   union,
   UnionPredicate,
 } from 'optimal';
-import Loader from './Loader';
+import { DeepPartial } from '@aesthetic/system';
+import { Path } from '@boost/common';
 import {
-  SCALES,
   DEFAULT_BREAKPOINTS,
   DEFAULT_UNIT,
-  PLATFORM_CONFIGS,
   LANGUAGE_FILE,
+  PLATFORM_CONFIGS,
+  SCALES,
 } from './constants';
 import { getPlatformFont } from './helpers';
+import Loader from './Loader';
 import {
   BorderConfig,
   BorderScaledConfig,
