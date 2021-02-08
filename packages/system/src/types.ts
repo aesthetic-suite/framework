@@ -2,11 +2,11 @@ import { ColorScheme, ContrastLevel, Unit } from '@aesthetic/types';
 
 export type Hexcode = string;
 
-export type CommonSize = 'sm' | 'df' | 'lg';
+export type CommonSize = 'df' | 'lg' | 'sm';
 
 export type BorderSize = CommonSize;
 
-export type BreakpointSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type BreakpointSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
 export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
@@ -23,26 +23,26 @@ export type ElevationType =
 
 export type PaletteType =
   | 'brand'
+  | 'danger'
+  | 'failure'
+  | 'info'
+  | 'muted'
+  | 'neutral'
   | 'primary'
   | 'secondary'
-  | 'tertiary'
-  | 'neutral'
-  | 'muted'
-  | 'danger'
-  | 'warning'
-  | 'failure'
   | 'success'
-  | 'info';
+  | 'tertiary'
+  | 'warning';
 
-export type ShadowSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ShadowSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
-export type SpacingSize = 'xs' | CommonSize | 'md' | 'xl';
+export type SpacingSize = CommonSize | 'md' | 'xl' | 'xs';
 
 export type TextSize = CommonSize;
 
 export type ColorShade = '00' | '10' | '20' | '30' | '40' | '50' | '60' | '70' | '80' | '90';
 
-export type StateType = 'focused' | 'hovered' | 'selected' | 'disabled';
+export type StateType = 'disabled' | 'focused' | 'hovered' | 'selected';
 
 // TOKENS
 
@@ -66,9 +66,9 @@ export type DepthTokens = Record<ElevationType, number>;
 
 export type ColorRangeToken = Record<ColorShade, Hexcode>;
 
-export type ColorStateToken = {
+export type ColorStateToken = Record<StateType, Hexcode> & {
   base: Hexcode;
-} & Record<StateType, Hexcode>;
+};
 
 export interface ShadowToken {
   blur: Unit;
@@ -474,7 +474,7 @@ export type VariableName = keyof Variables;
 
 export type TokenUtil = <K extends VariableName>(name: K) => Variables[K];
 
-export type VarUtil = (name: VariableName, ...fallbacks: (string | number)[]) => string;
+export type VarUtil = (name: VariableName, ...fallbacks: (number | string)[]) => string;
 
 export type UnitUtil = (...sizes: number[]) => Unit;
 

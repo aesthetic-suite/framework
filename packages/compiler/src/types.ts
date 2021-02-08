@@ -37,26 +37,26 @@ export interface SystemOptions {
 // Structure of the YAML config file. Assumes all properties are defined because of optimal.
 
 export type ScaleType =
-  | 'minor-second'
-  | 'major-second'
-  | 'minor-third'
-  | 'major-third'
-  | 'perfect-fourth'
   | 'augmented-fourth'
-  | 'perfect-fifth'
-  | 'minor-sixth'
-  | 'major-sixth'
-  | 'minor-seventh'
-  | 'major-seventh'
-  | 'major-tenth'
-  | 'major-eleventh'
-  | 'major-twelfth'
-  | 'octave'
   | 'double-octave'
   | 'golden-ratio'
-  | 'golden-section';
+  | 'golden-section'
+  | 'major-eleventh'
+  | 'major-second'
+  | 'major-seventh'
+  | 'major-sixth'
+  | 'major-tenth'
+  | 'major-third'
+  | 'major-twelfth'
+  | 'minor-second'
+  | 'minor-seventh'
+  | 'minor-sixth'
+  | 'minor-third'
+  | 'octave'
+  | 'perfect-fifth'
+  | 'perfect-fourth';
 
-export type Scale = number | ScaleType;
+export type Scale = ScaleType | number;
 
 // Borders
 
@@ -177,7 +177,7 @@ export interface HeadingSizedConfig {
 }
 
 export interface TypographyConfig {
-  font: string | 'system' | FontConfig;
+  font: FontConfig | string | 'system';
   text: TextScaledConfig | TextSizedConfig;
   heading: HeadingScaledConfig | HeadingSizedConfig;
 }
@@ -201,9 +201,9 @@ export type ColorConfig = Record<ColorShade, Hexcode>;
 
 export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig>;
 
-export type PaletteState<T> = {
+export type PaletteState<T> = Record<StateType, T> & {
   base: T;
-} & Record<StateType, T>;
+};
 
 export interface PaletteConfig {
   color: ColorName;

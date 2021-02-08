@@ -25,7 +25,7 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
   readonly metadata: Record<string, SheetElementMetadata<Result>> = {};
 
-  readonly type: 'local' | 'global';
+  readonly type: 'global' | 'local';
 
   protected contrastVariants: { [K in ContrastLevel]?: Factory } = {};
 
@@ -37,7 +37,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
   protected themeVariants: Record<string, Factory> = {};
 
-  constructor(type: 'local' | 'global', factory: Factory) {
+  constructor(type: 'global' | 'local', factory: Factory) {
     this.type = type;
     this.factory = this.validateFactory(factory);
   }

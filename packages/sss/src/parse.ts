@@ -52,8 +52,8 @@ function parseLocal<T extends object>(styleSheet: LocalStyleSheet<T>, options: P
 }
 
 export default function parse<T extends object>(
-  type: 'local' | 'global',
-  styleSheet: LocalStyleSheet<T> | GlobalStyleSheet<T>,
+  type: 'global' | 'local',
+  styleSheet: GlobalStyleSheet<T> | LocalStyleSheet<T>,
   baseOptions: Partial<ParserOptions<T>>,
 ) {
   const options = setupDefaultOptions(baseOptions);

@@ -25,7 +25,7 @@ export function createTestStyleEngine(options: Partial<EngineOptions> = {}): Sty
   });
 }
 
-export function getRenderedStyles(type: SheetType | Sheet): CSS {
+export function getRenderedStyles(type: Sheet | SheetType): CSS {
   return Array.from((typeof type === 'string' ? getStyleElement(type) : type).cssRules).reduce(
     (css, rule) => css + rule.cssText,
     '',

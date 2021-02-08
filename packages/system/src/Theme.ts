@@ -134,7 +134,7 @@ export default class Theme<T extends object> implements Utilities<T> {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixinBase(name: string, maybeOptions?: object | T, maybeRule?: T): T {
+  mixinBase(name: string, maybeOptions?: T | object, maybeRule?: T): T {
     let options: object = {};
     let rule: T | undefined;
 
@@ -188,7 +188,7 @@ export default class Theme<T extends object> implements Utilities<T> {
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var(name: VariableName, ...fallbacks: (string | number)[]): string {
+  var(name: VariableName, ...fallbacks: (number | string)[]): string {
     return `var(${[`--${name}`, ...fallbacks].join(', ')})`;
   }
 

@@ -1,1 +1,3 @@
-module.exports = require('packemon/babel');
+const { createRootConfig } = require('packemon/babel');
+
+module.exports = createRootConfig();

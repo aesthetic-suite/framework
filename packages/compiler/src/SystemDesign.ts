@@ -14,7 +14,7 @@ import {
   TypographyTemplate,
 } from './types';
 
-function scale(accumulator: number, scaling: Scale, type: 'up' | 'down'): number {
+function scale(accumulator: number, scaling: Scale, type: 'down' | 'up'): number {
   const factor = (typeof scaling === 'number' ? scaling : SCALES[scaling]) ?? 0;
 
   if (factor === 0) {

@@ -57,7 +57,7 @@ export default class SystemTheme<ColorNames extends string = string> {
     return new SystemTheme(name, deepMerge(this.config, config), extendedFrom);
   }
 
-  protected getHexcode(color: string, shade: string | number): Hexcode {
+  protected getHexcode(color: string, shade: number | string): Hexcode {
     return this.config.colors[color as ColorNames][formatShade(shade)];
   }
 

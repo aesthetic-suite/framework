@@ -1,6 +1,6 @@
 import { Import } from '../types';
 
-export default function formatImport(value: string | Import): string {
+export default function formatImport(value: Import | string): string {
   if (typeof value === 'string') {
     return value;
   }

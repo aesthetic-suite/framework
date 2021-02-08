@@ -69,7 +69,7 @@ export interface MarginProperty {
   leftRight?: CSSType.Property.MarginLeft<Value> | CSSType.Property.MarginRight<Value>;
   right?: CSSType.Property.MarginRight<Value>;
   top?: CSSType.Property.MarginTop<Value>;
-  topBottom?: CSSType.Property.MarginTop<Value> | CSSType.Property.MarginBottom<Value>;
+  topBottom?: CSSType.Property.MarginBottom<Value> | CSSType.Property.MarginTop<Value>;
 }
 
 export interface OffsetProperty {
@@ -92,7 +92,7 @@ export interface PaddingProperty {
   leftRight?: CSSType.Property.PaddingLeft<Value> | CSSType.Property.PaddingRight<Value>;
   right?: CSSType.Property.PaddingRight<Value>;
   top?: CSSType.Property.PaddingTop<Value>;
-  topBottom?: CSSType.Property.PaddingTop<Value> | CSSType.Property.PaddingBottom<Value>;
+  topBottom?: CSSType.Property.PaddingBottom<Value> | CSSType.Property.PaddingTop<Value>;
 }
 
 export interface TextDecorationProperty {

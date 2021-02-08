@@ -10,7 +10,7 @@ import {
 } from '@aesthetic/types';
 import Block from './Block';
 
-export type ListableProperty<B, T> = T | (B | T)[];
+export type ListableProperty<B, T> = (B | T)[] | T;
 
 // SYNTAX
 
@@ -20,7 +20,7 @@ export interface CustomProperties {
 }
 
 export type ExtendCustomProperties<T extends object> = {
-  [P in keyof T]?: P extends keyof CustomProperties ? T[P] | CustomProperties[P] : T[P];
+  [P in keyof T]?: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
 };
 
 export type Properties = ExtendCustomProperties<
@@ -46,7 +46,7 @@ export interface Import {
   url?: boolean;
 }
 
-export type ImportList = (string | Import)[];
+export type ImportList = (Import | string)[];
 
 export type Keyframes = BaseKeyframes<Rule>;
 
@@ -75,7 +75,7 @@ export type LocalBlockMap = Record<string, LocalBlock>;
 
 export type LocalBlockVariants = Record<string, LocalBlockMap>;
 
-export type LocalStyleSheet<B = LocalBlock> = RuleMap<string | B>;
+export type LocalStyleSheet<B = LocalBlock> = RuleMap<B | string>;
 
 export type LocalStyleSheetNeverize<T, B> = {
   [K in keyof T]: T[K] extends string ? string : LocalStyleSheetElementNeverize<T[K], B>;
@@ -103,7 +103,7 @@ export type GlobalStyleSheetNeverize<T, B> = {
 
 // MISC
 
-export type AtRule = LocalAtRule | GlobalAtRule;
+export type AtRule = GlobalAtRule | LocalAtRule;
 
 export interface NestedBlockParams {
   specificity: number;

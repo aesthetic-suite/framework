@@ -25,19 +25,19 @@
     "node": ">=10.10.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.16.1",
+    "@milesj/build-tools": "^2.17.0",
     "@types/ejs": "^3.0.5",
     "@types/fs-extra": "^9.0.6",
-    "@types/lodash": "^4.14.167",
-    "@types/prettier": "^2.1.6",
+    "@types/lodash": "^4.14.168",
+    "@types/prettier": "^2.2.0",
     "@types/react": "^16.9.56",
     "@types/string-hash": "^1.1.1",
     "benchmark": "^2.1.4",
     "builtin-modules": "^3.2.0",
     "caniuse-api": "^3.0.0",
-    "conventional-changelog-beemo": "^2.0.0",
+    "conventional-changelog-beemo": "^2.1.0",
     "lerna": "^3.22.1",
-    "packemon": "^0.10.1",
+    "packemon": "^0.11.1",
     "ts-node": "^9.1.1"
   },
   "beemo": {

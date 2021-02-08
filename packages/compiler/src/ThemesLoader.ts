@@ -193,7 +193,7 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
   };
 
   protected validateThemeImplementsColors = (
-    colors: ObjectOf<Hexcode | ColorConfig>,
+    colors: ObjectOf<ColorConfig | Hexcode>,
     schema: Schema<ThemesConfigFile>,
   ) => {
     const theme = schema.currentPath.split('.')[1];

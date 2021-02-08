@@ -41,9 +41,9 @@ export interface TextOptions {
 }
 
 export interface UIBoxOptions {
-  border?: boolean | BorderOptions;
+  border?: BorderOptions | boolean;
   palette?: PaletteType;
-  shadow?: boolean | ShadowOptions;
+  shadow?: ShadowOptions | boolean;
 }
 
 export interface UIInteractiveOptions {
@@ -65,10 +65,10 @@ export type MixinType =
   | 'reset-typography'
   | 'root'
   | 'shadow'
-  | 'text'
   | 'text-break'
   | 'text-truncate'
   | 'text-wrap'
+  | 'text'
   | 'ui-box'
   | 'ui-interactive';
 

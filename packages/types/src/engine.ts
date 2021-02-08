@@ -52,7 +52,7 @@ export interface Sheet {
   insertRule: (rule: CSS, index: number) => number;
 }
 
-export type SheetType = 'global' | 'standard' | 'conditions';
+export type SheetType = 'conditions' | 'global' | 'standard';
 
 export type SheetMap = Record<SheetType, Sheet>;
 

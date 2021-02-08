@@ -5,11 +5,11 @@ export type CSS = string;
 
 // VALUES
 
-export type Value = string | number;
+export type Value = number | string;
 
 export type ValueWithFallbacks = string[];
 
-export type MaybeValue = Value | undefined | null;
+export type MaybeValue = Value | null | undefined;
 
 // PROPERTIES
 
@@ -31,7 +31,7 @@ export type Pseudos<T = Properties> = {
   [K in CSSType.SimplePseudos]?: T;
 };
 
-export type Declarations<T = Properties> = T & Attributes<T> & Pseudos<T>;
+export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
 
 export interface Rule extends Declarations {
   [key: string]: Rule | Value | unknown;

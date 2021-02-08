@@ -9,7 +9,7 @@ function handleCompound(
   parser: (value: any, name: string, opts: any) => void,
   options: object,
 ) {
-  return (value: string | object, add: AddPropertyCallback) => {
+  return (value: object | string, add: AddPropertyCallback) => {
     let name = '';
 
     if (typeof value === 'string') {
