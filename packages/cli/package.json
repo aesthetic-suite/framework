@@ -17,6 +17,7 @@
   "author": "Miles Johnson",
   "license": "MIT",
   "types": "./dts/index.d.ts",
+  "main": "./lib/bin.js",
   "bin": {
     "aesthetic": "./lib/bin.js"
   },
