@@ -1,7 +1,0 @@
-src/
-tests/
-types/
-.eslintrc
-*.log
-*.tsbuildinfo
-tsconfig.json
