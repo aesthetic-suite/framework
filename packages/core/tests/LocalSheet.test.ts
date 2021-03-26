@@ -88,26 +88,24 @@ describe('LocalSheet', () => {
   });
 
   it('sets metadata for each element', () => {
-    sheet.render(engine, lightTheme, {});
+    const result = sheet.render(engine, lightTheme, {});
 
-    expect(sheet.metadata).toEqual({
+    expect(result).toEqual({
       bar: {
-        renderResult: { result: 'k l m' },
+        result: 'k l m',
       },
       baz: {
-        renderResult: { result: 'class-baz' },
+        result: 'class-baz',
       },
       foo: {
-        renderResult: { result: 'a b c d e f g h i j' },
+        result: 'a b c d e f g h i j',
       },
       qux: {
-        renderResult: {
-          result: undefined,
-          variants: {
-            size_lg: 'p',
-            size_md: 'o',
-            size_sm: 'n',
-          },
+        result: undefined,
+        variants: {
+          size_lg: 'p',
+          size_md: 'o',
+          size_sm: 'n',
         },
         variantTypes: new Set(['size']),
       },
@@ -151,6 +149,7 @@ describe('LocalSheet', () => {
           size_md: 'o',
           size_sm: 'n',
         },
+        variantTypes: new Set(['size']),
       },
     });
     expect(getRenderedStyles('standard')).toMatchSnapshot();

@@ -31,6 +31,7 @@ export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 export interface RenderResult<T> {
   result?: T;
   variants?: Record<string, T>;
+  variantTypes?: Set<string>;
 }
 
 export type RenderResultSheet<Result, Keys extends string = string> = {
@@ -48,11 +49,6 @@ export interface SheetParams {
 
 export interface SheetParamsExtended extends SheetParams {
   customProperties?: PropertyHandlerMap;
-}
-
-export interface SheetElementMetadata<T> {
-  renderResult: RenderResult<T>;
-  variantTypes?: Set<string>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

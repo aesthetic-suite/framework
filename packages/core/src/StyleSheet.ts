@@ -2,13 +2,7 @@ import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
-import {
-  BaseSheetFactory,
-  RenderResultSheet,
-  SheetElementMetadata,
-  SheetParams,
-  SheetParamsExtended,
-} from './types';
+import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
   let key = type;
@@ -23,8 +17,6 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 }
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
-  readonly metadata: Record<string, SheetElementMetadata<Result>> = {};
-
   readonly type: 'global' | 'local';
 
   protected contrastVariants: { [K in ContrastLevel]?: Factory } = {};
@@ -148,21 +140,17 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     };
 
     const createResultMetadata = (selector: string) => {
-      if (!this.metadata[selector]) {
+      if (!resultSheet[selector]) {
         resultSheet[selector] = {};
-
-        this.metadata[selector] = {
-          renderResult: resultSheet[selector]!,
-        };
       }
 
-      return this.metadata[selector];
+      return resultSheet[selector]!;
     };
 
     parse(this.type, styles, {
       customProperties,
       onClass: (selector, className) => {
-        createResultMetadata(selector).renderResult.result = (className as unknown) as Result;
+        createResultMetadata(selector).result = (className as unknown) as Result;
       },
       onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
       onImport: (path) => {
@@ -184,13 +172,10 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         }
       },
       onRoot: (block) => {
-        createResultMetadata('@root').renderResult.result = engine.renderRuleGrouped(
-          block.toObject(),
-          {
-            ...renderOptions,
-            type: 'global',
-          },
-        );
+        createResultMetadata('@root').result = engine.renderRuleGrouped(block.toObject(), {
+          ...renderOptions,
+          type: 'global',
+        });
       },
       onRootVariables: (variables) => {
         engine.setRootVariables(variables);
@@ -200,7 +185,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
           block.addResult(engine.renderRule(block.toObject(), renderOptions));
         }
 
-        createResultMetadata(selector).renderResult.result = block.result as Result;
+        createResultMetadata(selector).result = block.result as Result;
       },
       onVariable: (block, name, value) => {
         if (engine.atomic) {
@@ -214,15 +199,15 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
         const meta = createResultMetadata(parent.id);
 
-        if (!meta.renderResult.variants) {
-          meta.renderResult.variants = {};
+        if (!meta.variants) {
+          meta.variants = {};
         }
 
         if (!meta.variantTypes) {
           meta.variantTypes = new Set();
         }
 
-        meta.renderResult.variants[type] = block.result as Result;
+        meta.variants[type] = block.result as Result;
         meta.variantTypes.add(type.split('_')[0]);
       },
     });

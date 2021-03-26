@@ -503,7 +503,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
         foo: { result: 'a' },
-        bar: { result: 'b', variants: { type_red: 'c' } },
+        bar: { result: 'b', variants: { type_red: 'c' }, variantTypes: new Set(['type']) },
         baz: { result: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
