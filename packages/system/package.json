@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/system",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "Web based building blocks for the Aesthetic design system.",
   "keywords": [
     "aesthetic",
@@ -35,8 +35,8 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.4.5",
-    "@aesthetic/utils": "^0.6.2"
+    "@aesthetic/types": "^0.4.6",
+    "@aesthetic/utils": "^0.6.3"
   },
   "packemon": {
     "inputs": {
