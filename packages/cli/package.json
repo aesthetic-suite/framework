@@ -19,6 +19,7 @@
   "types": "./dts/index.d.ts",
   "main": "./lib/bin.js",
   "files": [
+    "dts/**/*.d.ts",
     "lib/**/*.{js,map}",
     "src/**/*.{ts,tsx,json}",
     "templates/"
