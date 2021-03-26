@@ -18,6 +18,11 @@
   "license": "MIT",
   "types": "./dts/index.d.ts",
   "main": "./lib/bin.js",
+  "files": [
+    "lib/**/*.{js,map}",
+    "src/**/*.{ts,tsx,json}",
+    "templates/"
+  ],
   "bin": {
     "aesthetic": "./lib/bin.js"
   },

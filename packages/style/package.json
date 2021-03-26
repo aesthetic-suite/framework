@@ -21,6 +21,15 @@
   "main": "./lib/index.js",
   "module": "./esm/index.js",
   "types": "./dts/index.d.ts",
+  "files": [
+    "esm/**/*.{js,map}",
+    "lib/**/*.{js,map}",
+    "src/**/*.{ts,tsx,json}",
+    "server.d.ts",
+    "server.js",
+    "test.d.ts",
+    "test.js"
+  ],
   "sideEffects": false,
   "publishConfig": {
     "access": "public"
