@@ -36,7 +36,7 @@
     "builtin-modules": "^3.2.0",
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.1.0",
-    "lerna": "^3.22.1",
+    "lerna": "^4.0.0",
     "packemon": "^0.14.3",
     "ts-node": "^9.1.1"
   },
