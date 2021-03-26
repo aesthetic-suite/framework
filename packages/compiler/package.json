@@ -42,7 +42,7 @@
     "@boost/common": "^2.5.1",
     "ejs": "^3.1.6",
     "fs-extra": "^9.1.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "optimal": "^4.2.0",
     "prettier": "^2.2.1"
   },
