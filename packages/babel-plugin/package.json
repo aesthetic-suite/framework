@@ -1,0 +1,42 @@
+{
+  "name": "@aesthetic/babel-plugin",
+  "version": "0.0.0",
+  "description": "Babel plugin to convert Aesthetic styles into class names during compile-time.",
+  "keywords": [
+    "aesthetic",
+    "babel",
+    "plugin",
+    "low-runtime"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aesthetic-suite/framework.git",
+    "directory": "packages/babel-plugin"
+  },
+  "author": "Miles Johnson",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "types": "./dts/index.d.ts",
+  "files": [
+    "dts/**/*.d.ts",
+    "lib/**/*.{js,map}",
+    "src/**/*.{ts,tsx,json}"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.0.0"
+  },
+  "dependencies": {
+    "@babel/types": "^7.13.12"
+  },
+  "funding": {
+    "type": "ko-fi",
+    "url": "https://ko-fi.com/milesjohnson"
+  },
+  "packemon": {
+    "platform": "node"
+  }
+}
