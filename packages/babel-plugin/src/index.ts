@@ -30,6 +30,9 @@ export default function babelPlugin(
     visitor: {
       Program: {
         enter(path: NodePath<t.Program>, state: State) {
+          console.log(state);
+
+          state.filePath = new Path(state.filename);
           state.integrationModule = '';
           state.styleFactories = {};
 
@@ -62,6 +65,8 @@ export default function babelPlugin(
             }
           });
 
+          console.log('INTEGRATION', state.integrationModule, state.styleFactories);
+
           if (!state.integrationModule) {
             return;
           }
@@ -71,6 +76,8 @@ export default function babelPlugin(
             Path.resolve(options.setupPath, root),
             state.integrationModule,
           );
+
+          console.log('AESTHETIC', state.aesthetic);
 
           path.traverse(
             {

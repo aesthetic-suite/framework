@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable no-underscore-dangle */
+
 import Module from 'module';
 import { LocalStyleSheet } from '@aesthetic/core';
+import { generateHash } from '@aesthetic/utils';
 import { types as t } from '@babel/core';
 import generate from '@babel/generator';
 import { State } from '../types';
@@ -9,6 +13,8 @@ export function evaluateComponentStyles(
   factoryName: string,
   styleSheetNode: t.CallExpression,
 ): LocalStyleSheet {
+  console.log('evaluateComponentStyles');
+
   // Node `require()` instead of import
   const requireNode = t.variableDeclaration('const', [
     t.variableDeclarator(
@@ -31,12 +37,22 @@ export function evaluateComponentStyles(
   // Convert the AST into code
   const { code } = generate(t.program([requireNode, moduleExports], []));
 
+  console.log(code);
+
   // Evaluate the code in the current module scope
-  const id = '';
-  const module = new Module(id);
+  const id = state.filePath
+    .parent()
+    .append(`${generateHash(code)}.js`)
+    .path();
 
-  // eslint-disable-next-line no-underscore-dangle
-  module._compile(code, id);
+  const mod = new Module(id, module);
+  mod.filename = id;
+  // @ts-expect-error Not typed
+  mod.paths = Module._nodeModulePaths(mod.path);
 
-  return module.exports;
+  console.log(mod, global.AESTHETIC_CUSTOM_ENGINE);
+  mod.exports = { AESTHETIC_CUSTOM_ENGINE: global.AESTHETIC_CUSTOM_ENGINE };
+  mod._compile(code, id);
+
+  return mod.exports;
 }

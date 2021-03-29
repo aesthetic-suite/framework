@@ -7,6 +7,8 @@ export default function callExpression(path: NodePath<t.CallExpression>, state: 
   const { node } = path;
   const { styleFactories } = state;
 
+  console.log('callExpression');
+
   if (!t.isIdentifier(node.callee) || !(node.callee.name in styleFactories)) {
     return;
   }
