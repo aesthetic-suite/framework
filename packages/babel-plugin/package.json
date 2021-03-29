@@ -27,10 +27,13 @@
     "access": "public"
   },
   "peerDependencies": {
+    "@aesthetic/core": "^0.7.7",
+    "@aesthetic/style": "^0.6.6",
     "@babel/core": "^7.0.0"
   },
   "dependencies": {
-    "@babel/types": "^7.13.12"
+    "@babel/generator": "^7.13.9",
+    "@boost/common": "^2.7.2"
   },
   "funding": {
     "type": "ko-fi",

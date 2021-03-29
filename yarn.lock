@@ -1144,6 +1144,19 @@
   optionalDependencies:
     typescript "^4.0.0"
 
+"@boost/common@^2.7.2":
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/@boost/common/-/common-2.7.2.tgz#cc38f1dc0fd6d49738f3468b961d08e789f672fa"
+  integrity sha512-HlWs91P/8n9ShNkLocpIhvOzFELkWArc+/jgdDlpIGlwy2ZUMDIxUuzMJDltzJXN5SR+w7MD9y9G/TaecGpFvg==
+  dependencies:
+    "@boost/decorators" "^2.1.2"
+    "@boost/internal" "^2.2.2"
+    fast-glob "^3.2.4"
+    json5 "^2.2.0"
+    optimal "^4.3.0"
+    pretty-ms "^7.0.1"
+    yaml "^1.10.2"
+
 "@boost/core@^1.18.6":
   version "1.18.6"
   resolved "https://registry.npmjs.org/@boost/core/-/core-1.18.6.tgz#2fd8ac16b05e2a92e2c0b92be9fd2ca704307630"
@@ -1201,6 +1214,11 @@
   resolved "https://registry.yarnpkg.com/@boost/decorators/-/decorators-2.1.1.tgz#2a6f2fb74bf4db7bb64fc00f0eb05ef02e947eb3"
   integrity sha512-RacAODPQoyRkkvlhWmGteO6UzDYI9mFEst44EB+Nae3DiW+3gPmv5Pq6LfsReyT0X+j+Xqa/De6oQbblman+Sw==
 
+"@boost/decorators@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@boost/decorators/-/decorators-2.1.2.tgz#060813e1e8c1a4a5bba622e5f9e33fe067193e8c"
+  integrity sha512-XHUYInAFHeHZg9576vprRp8zYp58hPCFUEqh+WiWfyXi7UB3EFEzz6Cr0geB/c4FJzic3gvU8pqBx0VrULY3VA==
+
 "@boost/event@^1.3.1":
   version "1.3.1"
   resolved "https://registry.npmjs.org/@boost/event/-/event-1.3.1.tgz#0f12d7a6accd06531c56faaf5580e3e6cb57d529"
@@ -1227,6 +1245,13 @@
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@boost/internal/-/internal-2.2.1.tgz#73f83edf06c57790cfa2df9a0da176220ed6e447"
   integrity sha512-5EdmMMRoZAA7cDXMHQ8S0w1sU7+0HdUemnRhFy+jJbJOtwKlU2HXdLFQKphNX3f/NFKHt14Xtt4oIDRBTMXT0g==
+  dependencies:
+    debug "^4.3.1"
+
+"@boost/internal@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@boost/internal/-/internal-2.2.2.tgz#e1b02f45da6bbae9781c9ab9e95fece88f679b4a"
+  integrity sha512-9Uw1L/tuVtNvqQUboqAhhAHxeFU5XEIQMa5CvrV6q6irePFhsreyreldV0lFiOLpJcPnh7woynKkrgpJxt4O8w==
   dependencies:
     debug "^4.3.1"
 
@@ -10386,6 +10411,11 @@ yaml@^1.10.0, yaml@^1.9.2:
   version "1.10.0"
   resolved "https://registry.npmjs.org/yaml/-/yaml-1.10.0.tgz#3b593add944876077d4d683fee01081bd9fff31e"
   integrity sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
+
+yaml@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
+  integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
 yargs-parser@10.x:
   version "10.1.0"
