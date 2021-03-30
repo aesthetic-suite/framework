@@ -41,8 +41,6 @@ function setTheme(classNames: string[]) {
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  console.log('createClientEngine');
-
   if (global.AESTHETIC_CUSTOM_ENGINE) {
     return global.AESTHETIC_CUSTOM_ENGINE as StyleEngine;
   }

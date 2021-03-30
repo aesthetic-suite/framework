@@ -34,7 +34,11 @@
   "dependencies": {
     "@aesthetic/utils": "^0.6.3",
     "@babel/generator": "^7.13.9",
-    "@boost/common": "^2.7.2"
+    "@boost/common": "^2.7.2",
+    "@boost/debug": "^2.2.5"
+  },
+  "devDependencies": {
+    "@aesthetic/local": "*"
   },
   "funding": {
     "type": "ko-fi",

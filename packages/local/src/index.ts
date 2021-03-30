@@ -8,8 +8,6 @@ import { createClientEngine } from '@aesthetic/style';
 
 export const internalAestheticRuntime = new Aesthetic<ClassName, ElementStyles>();
 
-console.log('LOCAL RUNTIME');
-
 internalAestheticRuntime.configureEngine(createClientEngine());
 
 export const {

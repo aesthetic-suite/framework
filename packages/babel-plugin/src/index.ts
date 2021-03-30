@@ -8,6 +8,7 @@
 import { ConfigAPI, NodePath, PluginObj, types as t } from '@babel/core';
 import {} from '@babel/generator';
 import { Path } from '@boost/common';
+import { debug } from './helpers';
 import { loadAesthetic } from './loadAesthetic';
 import { Options, State } from './types';
 import CallExpression from './visitors/callExpression';
@@ -24,13 +25,17 @@ export default function babelPlugin(
   options: Options,
   root: string,
 ): PluginObj<State> {
+  debug('Instantiating plugin with options');
+  debug('%O', options);
+
   return {
     name: '@aesthetic/babel-plugin',
 
     visitor: {
       Program: {
         enter(path: NodePath<t.Program>, state: State) {
-          console.log(state);
+          debug('\n\n-----> %s', state.filename);
+          debug('Initializing program state');
 
           state.filePath = new Path(state.filename);
           state.integrationModule = '';
@@ -65,7 +70,12 @@ export default function babelPlugin(
             }
           });
 
-          console.log('INTEGRATION', state.integrationModule, state.styleFactories);
+          debug.invariant(
+            !!state.integrationModule,
+            'Finding @aesthetic integration and imports',
+            `${state.integrationModule} -> ${Object.keys(state.styleFactories).join(', ')}`,
+            'None found, aborting plugin',
+          );
 
           if (!state.integrationModule) {
             return;
@@ -77,7 +87,9 @@ export default function babelPlugin(
             state.integrationModule,
           );
 
-          console.log('AESTHETIC', state.aesthetic);
+          if (!state.aesthetic) {
+            return;
+          }
 
           path.traverse(
             {

@@ -1,3 +1,4 @@
+import { renderToStyleMarkup } from '@aesthetic/style/server';
 import { NodePath, types as t } from '@babel/core';
 import { evaluateComponentStyles } from '../eval/evaluateComponentStyles';
 import { isFunction } from '../helpers';
@@ -6,8 +7,6 @@ import { State } from '../types';
 export default function callExpression(path: NodePath<t.CallExpression>, state: State) {
   const { node } = path;
   const { styleFactories } = state;
-
-  console.log('callExpression');
 
   if (!t.isIdentifier(node.callee) || !(node.callee.name in styleFactories)) {
     return;
@@ -42,5 +41,13 @@ export default function callExpression(path: NodePath<t.CallExpression>, state: 
     (parent.node as t.VariableDeclarator).init as t.CallExpression,
   );
 
-  console.log(styleSheet);
+  // Render every theme permutation
+  // @ts-expect-error Allow access
+  const { themes } = state.aesthetic.themeRegistry;
+
+  Object.keys(themes).forEach((themeName) => {
+    state.aesthetic.renderComponentStyles(styleSheet, { theme: themeName });
+  });
+
+  console.log(styleSheet.renderCache);
 }

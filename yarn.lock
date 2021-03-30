@@ -1209,6 +1209,18 @@
     execa "^5.0.0"
     fast-glob "^3.2.4"
 
+"@boost/debug@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@boost/debug/-/debug-2.2.5.tgz#9b036236d966c5e97375f3e5356991fa5a351959"
+  integrity sha512-WSxgWWu+eFfSKrTfgSVC+/XuY/HP39Yh5yrgbsKlikQwFKXy6wdFcPCgjX/An8TEvcViy6Zc6fI9MFMCgIaHPg==
+  dependencies:
+    "@boost/common" "^2.7.2"
+    "@boost/internal" "^2.2.2"
+    "@types/debug" "^4.1.5"
+    debug "^4.3.1"
+    execa "^5.0.0"
+    fast-glob "^3.2.4"
+
 "@boost/decorators@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@boost/decorators/-/decorators-2.1.1.tgz#2a6f2fb74bf4db7bb64fc00f0eb05ef02e947eb3"
