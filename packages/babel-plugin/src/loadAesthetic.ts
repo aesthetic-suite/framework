@@ -3,15 +3,18 @@ import { createServerEngine, extractStyles } from '@aesthetic/style/server';
 import { Path, requireModule } from '@boost/common';
 import { debug } from './helpers';
 
-const instances: Record<string, Aesthetic<unknown>> = {};
+const instances: Record<string, Aesthetic<unknown, {}>> = {};
 const serverEngine = createServerEngine();
 
 extractStyles(null, serverEngine);
 
-export function loadAesthetic(setupFilePath: Path, integrationModule: string): Aesthetic<unknown> {
+export function loadAesthetic(
+  setupFilePath: Path,
+  integrationModule: string,
+): Aesthetic<unknown, {}> {
   const instance = instances[integrationModule];
 
-  debug.invariant(!instance, `Loading ${integrationModule} instance`, 'Not cached', 'Cached');
+  debug.invariant(!!instance, `Loading ${integrationModule} instance`, 'Cached', 'Not cached');
 
   if (instance) {
     return instance;

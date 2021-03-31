@@ -2,7 +2,7 @@
   "private": true,
   "name": "@aesthetic/local",
   "version": "0.0.0",
-  "description": "Local integration for testing purposes.",
+  "description": "Local integration package for testing purposes.",
   "keywords": [
     "aesthetic",
     "local"

@@ -12,19 +12,55 @@ function transpile(code: string) {
 }
 
 describe('Babel', () => {
-  it('transpiles', async () => {
+  it('transforms a single property', async () => {
     const result = await transpile(`
 import { createComponentStyles } from '@aesthetic/local';
 
 const styleSheet = createComponentStyles(() => ({
-  button: {
+  element: {
     display: 'inline-block',
-  }
-})).addThemeVariant('dark', () => ({
-  button: {
-    color: 'black',
   }
 }));
 `);
+
+    expect(result?.code).toMatchInlineSnapshot(`
+      "import { createComponentStyles } from '@aesthetic/local';
+      const styleSheet = createComponentStyles(() => ({
+        element: {
+          display: 'inline-block'
+        }
+      }), {
+        element: {
+          result: \\"a\\"
+        }
+      });"
+    `);
+  });
+
+  it('transforms multiple properties', async () => {
+    const result = await transpile(`
+import { createComponentStyles } from '@aesthetic/local';
+
+const styleSheet = createComponentStyles(() => ({
+  element: {
+    display: 'inline-block',
+    position: 'relative',
+  }
+}));
+`);
+
+    expect(result?.code).toMatchInlineSnapshot(`
+      "import { createComponentStyles } from '@aesthetic/local';
+      const styleSheet = createComponentStyles(() => ({
+        element: {
+          display: 'inline-block',
+          position: 'relative'
+        }
+      }), {
+        element: {
+          result: \\"a b\\"
+        }
+      });"
+    `);
   });
 });

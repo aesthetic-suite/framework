@@ -4,7 +4,7 @@ import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@ae
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
-function createCacheKey(params: Required<SheetParams>, type: string): string | null {
+function createCacheKey(params: Required<SheetParams>, type: string): string {
   let key = type;
 
   // Since all other values are scalars, we can just join the values.
@@ -112,6 +112,8 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
     { customProperties, ...baseParams }: SheetParamsExtended,
+    // @private
+    preRenderedResult?: RenderResultSheet<Result>,
   ): RenderResultSheet<Result> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
@@ -123,10 +125,18 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       ...baseParams,
     };
     const key = createCacheKey(params, this.type);
-    const cache = key && this.renderCache[key];
+    const cache = this.renderCache[key];
 
     if (cache) {
       return cache;
+    }
+
+    // If a pre-rendered result is passed, cache and return it.
+    // This should never be used manually and is injected by the Babel plugin.
+    if (preRenderedResult) {
+      this.renderCache[key] = preRenderedResult;
+
+      return preRenderedResult;
     }
 
     const resultSheet: RenderResultSheet<Result> = {};

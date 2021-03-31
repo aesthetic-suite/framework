@@ -11,7 +11,7 @@ function findParentVariable(path: NodePath<t.CallExpression>, localName: string)
     throw new Error(`"${localName}" must be assigned to a variable.`);
   }
 
-  return parent.node as t.VariableDeclarator;
+  return parent as NodePath<t.VariableDeclarator>;
 }
 
 export default function callExpression(path: NodePath<t.CallExpression>, state: State) {
@@ -34,7 +34,7 @@ export default function callExpression(path: NodePath<t.CallExpression>, state: 
       compileComponentStyles(
         state,
         localName,
-        findParentVariable(path, localName).init as t.CallExpression,
+        findParentVariable(path, localName).get('init') as NodePath<t.CallExpression>,
       );
       break;
     }

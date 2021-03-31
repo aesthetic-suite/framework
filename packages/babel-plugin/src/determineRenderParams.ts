@@ -18,7 +18,7 @@ export function determineRenderParams({ aesthetic }: State) {
     directions.push(aesthetic.getActiveDirection() === 'ltr' ? 'rtl' : 'ltr');
   }
 
-  debug.invariant(true, 'Using directionality', directions.join(', '), 'N/A');
+  debug.invariant(true, 'Using directionality', directions.join(', '), 'No');
 
   // Should we apply vendor prefixes?
   const vendor = !!options.vendorPrefixer;
