@@ -8,6 +8,7 @@
 import { ConfigAPI, NodePath, PluginObj, types as t } from '@babel/core';
 import {} from '@babel/generator';
 import { Path } from '@boost/common';
+import { determineRenderParams } from './determineRenderParams';
 import { debug } from './helpers';
 import { loadAesthetic } from './loadAesthetic';
 import { Options, State } from './types';
@@ -90,6 +91,8 @@ export default function babelPlugin(
           if (!state.aesthetic) {
             return;
           }
+
+          state.renderParamsList = determineRenderParams(state);
 
           path.traverse(
             {

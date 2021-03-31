@@ -1,8 +1,18 @@
-import { renderToStyleMarkup } from '@aesthetic/style/server';
 import { NodePath, types as t } from '@babel/core';
-import { evaluateComponentStyles } from '../eval/evaluateComponentStyles';
 import { isFunction } from '../helpers';
+import { compileComponentStyles } from '../process/compileComponentStyles';
 import { State } from '../types';
+
+// Find the parent variable declarator so that we include any chained methods
+function findParentVariable(path: NodePath<t.CallExpression>, localName: string) {
+  const parent = path.findParent((p) => t.isVariableDeclarator(p));
+
+  if (!parent) {
+    throw new Error(`"${localName}" must be assigned to a variable.`);
+  }
+
+  return parent.node as t.VariableDeclarator;
+}
 
 export default function callExpression(path: NodePath<t.CallExpression>, state: State) {
   const { node } = path;
@@ -21,33 +31,15 @@ export default function callExpression(path: NodePath<t.CallExpression>, state: 
         throw new Error(`Expected a factory function for ${localName} in ${state.filename}.`);
       }
 
+      compileComponentStyles(
+        state,
+        localName,
+        findParentVariable(path, localName).init as t.CallExpression,
+      );
       break;
     }
 
     default:
       throw new Error(`Unknown style factory "${localName}".`);
   }
-
-  // Find the parent variable declarator so that we include any chained methods
-  const parent = path.findParent((p) => t.isVariableDeclarator(p));
-
-  if (!parent) {
-    throw new Error(`"${localName}" must be assigned to a variable.`);
-  }
-
-  const styleSheet = evaluateComponentStyles(
-    state,
-    localName,
-    (parent.node as t.VariableDeclarator).init as t.CallExpression,
-  );
-
-  // Render every theme permutation
-  // @ts-expect-error Allow access
-  const { themes } = state.aesthetic.themeRegistry;
-
-  Object.keys(themes).forEach((themeName) => {
-    state.aesthetic.renderComponentStyles(styleSheet, { theme: themeName });
-  });
-
-  console.log(styleSheet.renderCache);
 }
