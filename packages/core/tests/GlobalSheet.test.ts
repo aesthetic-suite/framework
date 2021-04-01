@@ -86,7 +86,14 @@ describe('GlobalSheet', () => {
         src:
           "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
       },
-      {},
+      {
+        contrast: 'normal',
+        direction: 'ltr',
+        scheme: 'light',
+        theme: '',
+        unit: 'px',
+        vendor: false,
+      },
     );
   });
 
@@ -105,8 +112,14 @@ describe('GlobalSheet', () => {
       },
       {
         className: 'c1fv9z16',
+        contrast: 'normal',
         deterministic: true,
+        direction: 'ltr',
+        scheme: 'light',
+        theme: '',
         type: 'global',
+        unit: 'px',
+        vendor: false,
       },
     );
   });
@@ -131,7 +144,14 @@ describe('GlobalSheet', () => {
         to: { opacity: 1 },
       },
       'fade',
-      {},
+      {
+        contrast: 'normal',
+        direction: 'ltr',
+        scheme: 'light',
+        theme: '',
+        unit: 'px',
+        vendor: false,
+      },
     );
   });
 

@@ -5,18 +5,20 @@ import { evaluateAestheticStyleFactory } from './evaluateAestheticStyleFactory';
 export function compileComponentStyles(
   state: State,
   factoryName: string,
-  factoryPath: NodePath<t.CallExpression>,
-) {
+  varPath: NodePath<t.VariableDeclarator>,
+): [string, t.ObjectExpression] {
+  const varName = (varPath.node.id as t.Identifier).name;
+
   // Render with Aesthetic
   const resultSheet = state.aesthetic.renderComponentStyles(
-    evaluateAestheticStyleFactory(state, factoryName, factoryPath.node),
+    evaluateAestheticStyleFactory(state, factoryName, varPath.node.init as t.CallExpression),
   );
 
   // eslint-disable-next-line no-param-reassign
-  state.file.aesthetic = { renderResult: resultSheet };
+  state.file.metadata.aesthetic = { renderResult: resultSheet };
 
   // Convert rendered result to AST
-  const ast = t.objectExpression([]);
+  const cache = t.objectExpression([]);
 
   Object.entries(resultSheet).forEach(([selector, result]) => {
     if (!result) {
@@ -36,7 +38,7 @@ export function compileComponentStyles(
     if (result.variants) {
       const variants = t.objectExpression([]);
 
-      Object.entries(variants).forEach(([type, variant]) => {
+      Object.entries(result.variants).forEach(([type, variant]) => {
         variants.properties.push(
           t.objectProperty(t.identifier(type), t.stringLiteral(String(variant))),
         );
@@ -54,19 +56,8 @@ export function compileComponentStyles(
       value.properties.push(t.objectProperty(t.identifier('variantTypes'), types));
     }
 
-    ast.properties.push(t.objectProperty(t.identifier(selector), value));
+    cache.properties.push(t.objectProperty(t.identifier(selector), value));
   });
 
-  // Inject result into the `createComponentStyles` call
-  if (t.isIdentifier(factoryPath.node.callee, { name: factoryName })) {
-    factoryPath.node.arguments.push(ast);
-  } else {
-    factoryPath.traverse({
-      CallExpression({ node }) {
-        if (t.isIdentifier(node.callee, { name: factoryName })) {
-          node.arguments.push(ast);
-        }
-      },
-    });
-  }
+  return [varName, cache];
 }

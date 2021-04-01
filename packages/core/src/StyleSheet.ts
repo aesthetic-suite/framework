@@ -111,10 +111,19 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // This is hidden behind abstractions, so is ok
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
-    { customProperties, ...params }: SheetParamsExtended,
+    { customProperties, ...baseParams }: SheetParamsExtended,
     // @private
     preRenderedResult?: RenderResultSheet<Result>,
   ): RenderResultSheet<Result> {
+    const params: SheetParams = {
+      contrast: theme.contrast,
+      direction: 'ltr',
+      scheme: theme.scheme,
+      theme: theme.name,
+      unit: 'px',
+      vendor: false,
+      ...baseParams,
+    };
     const key = createCacheKey(params, this.type);
     const cache = this.renderCache[key];
 

@@ -8,11 +8,10 @@
 import { ConfigAPI, NodePath, PluginObj, types as t } from '@babel/core';
 import {} from '@babel/generator';
 import { Path } from '@boost/common';
-import { determineRenderParams } from './determineRenderParams';
 import { debug } from './helpers';
 import { loadAesthetic } from './loadAesthetic';
-import { Options, State } from './types';
-import CallExpression from './visitors/callExpression';
+import { Options, RenderRuntimeCallback, State } from './types';
+import callExpression from './visitors/callExpression';
 
 const STYLE_FACTORIES = new Set([
   'createComponentStyles',
@@ -44,6 +43,8 @@ export default function babelPlugin(
 
           // Determine if a style factory exists within the current file,
           // and if so, extract its imported name in case its been reassigned.
+          let importDecl: t.ImportDeclaration;
+
           path.node.body.forEach((node) => {
             if (
               !t.isImportDeclaration(node) ||
@@ -67,6 +68,7 @@ export default function babelPlugin(
             });
 
             if (hasFactory) {
+              importDecl = node;
               state.integrationModule = node.source.value;
             }
           });
@@ -92,11 +94,36 @@ export default function babelPlugin(
             return;
           }
 
-          state.renderParamsList = determineRenderParams(state);
+          // Traverse the file and transform
+          const insertRenderRuntime: RenderRuntimeCallback = (varPath, varName, renderResult) => {
+            const hasImport = importDecl.specifiers.find((spec) =>
+              t.isImportSpecifier(spec, { imported: { name: 'renderComponentStyles' } }),
+            );
+
+            if (!hasImport) {
+              importDecl.specifiers.push(
+                t.importSpecifier(
+                  t.identifier('renderComponentStyles'),
+                  t.identifier('renderComponentStyles'),
+                ),
+              );
+            }
+
+            varPath.insertAfter(
+              t.expressionStatement(
+                t.callExpression(t.identifier('renderComponentStyles'), [
+                  t.identifier(varName),
+                  renderResult,
+                ]),
+              ),
+            );
+          };
 
           path.traverse(
             {
-              CallExpression,
+              CallExpression(node) {
+                callExpression(node, state, insertRenderRuntime);
+              },
             },
             state,
           );
