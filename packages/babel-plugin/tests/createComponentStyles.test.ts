@@ -5,9 +5,7 @@ function transpile(code: string) {
     babelrc: false,
     configFile: false,
     filename: __filename,
-    plugins: [
-      [require.resolve('../src'), { setupPath: 'packages/babel-plugin/tests/setupAesthetic.ts' }],
-    ],
+    plugins: [[require.resolve('../src'), { setupPath: 'tests/setupAesthetic.ts' }]],
   });
 }
 
@@ -31,7 +29,7 @@ const styleSheet = createComponentStyles(() => ({
         }
       }), {
         element: {
-          result: \\"a\\"
+          result: \\"c169hbqq\\"
         }
       });"
     `);
@@ -58,7 +56,7 @@ const styleSheet = createComponentStyles(() => ({
         }
       }), {
         element: {
-          result: \\"a b\\"
+          result: \\"c169hbqq c1et6jhk\\"
         }
       });"
     `);

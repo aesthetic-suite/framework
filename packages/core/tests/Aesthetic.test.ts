@@ -506,10 +506,15 @@ describe('Aesthetic', () => {
         bar: { result: 'b', variants: { type_red: 'c' }, variantTypes: new Set(['type']) },
         baz: { result: 'd' },
       });
-      expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
-        direction: expect.any(String),
-        vendor: false,
-      });
+      expect(spy).toHaveBeenCalledWith(
+        aesthetic.getEngine(),
+        lightTheme,
+        {
+          direction: expect.any(String),
+          vendor: false,
+        },
+        undefined,
+      );
     });
 
     it('can customize params with options', () => {
@@ -523,10 +528,15 @@ describe('Aesthetic', () => {
 
       aesthetic.renderComponentStyles(sheet, { direction: 'rtl' });
 
-      expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
-        direction: 'rtl',
-        vendor: true,
-      });
+      expect(spy).toHaveBeenCalledWith(
+        aesthetic.getEngine(),
+        lightTheme,
+        {
+          direction: 'rtl',
+          vendor: true,
+        },
+        undefined,
+      );
     });
 
     it('can customize theme with options', () => {
@@ -535,11 +545,16 @@ describe('Aesthetic', () => {
 
       aesthetic.renderComponentStyles(sheet, { theme: 'night' });
 
-      expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), darkTheme, {
-        direction: expect.any(String),
-        theme: 'night',
-        vendor: false,
-      });
+      expect(spy).toHaveBeenCalledWith(
+        aesthetic.getEngine(),
+        darkTheme,
+        {
+          direction: expect.any(String),
+          theme: 'night',
+          vendor: false,
+        },
+        undefined,
+      );
     });
   });
 

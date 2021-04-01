@@ -12,6 +12,9 @@ export function compileComponentStyles(
     evaluateAestheticStyleFactory(state, factoryName, factoryPath.node),
   );
 
+  // eslint-disable-next-line no-param-reassign
+  state.file.aesthetic = { renderResult: resultSheet };
+
   // Convert rendered result to AST
   const ast = t.objectExpression([]);
 

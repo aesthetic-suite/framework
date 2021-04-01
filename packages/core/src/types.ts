@@ -40,6 +40,7 @@ export type RenderResultSheet<Result, Keys extends string = string> = {
 
 export interface SheetParams {
   contrast?: ContrastLevel;
+  deterministic?: boolean;
   direction?: Direction;
   scheme?: ColorScheme;
   theme?: ThemeName;

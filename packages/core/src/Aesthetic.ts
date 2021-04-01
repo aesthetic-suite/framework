@@ -338,6 +338,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       theme,
       {
         customProperties: this.options.customProperties,
+        deterministic: this.options.deterministicClasses,
         direction: this.getActiveDirection(),
         vendor: !!this.options.vendorPrefixer,
         ...params,

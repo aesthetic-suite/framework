@@ -180,11 +180,7 @@ describe('LocalSheet', () => {
         src:
           "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
       },
-      {
-        direction: 'ltr',
-        unit: 'px',
-        vendor: false,
-      },
+      {},
     );
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
@@ -200,11 +196,7 @@ describe('LocalSheet', () => {
         to: { opacity: 1 },
       },
       '',
-      {
-        direction: 'ltr',
-        unit: 'px',
-        vendor: false,
-      },
+      {},
     );
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });

@@ -1,10 +1,10 @@
 import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
-import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, Engine, Property } from '@aesthetic/types';
 import { deepMerge, objectLoop } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
-function createCacheKey(params: Required<SheetParams>, type: string): string {
+function createCacheKey(params: SheetParams, type: string): string {
   let key = type;
 
   // Since all other values are scalars, we can just join the values.
@@ -111,19 +111,10 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // This is hidden behind abstractions, so is ok
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
-    { customProperties, ...baseParams }: SheetParamsExtended,
+    { customProperties, ...params }: SheetParamsExtended,
     // @private
     preRenderedResult?: RenderResultSheet<Result>,
   ): RenderResultSheet<Result> {
-    const params: Required<SheetParams> = {
-      contrast: theme.contrast,
-      direction: 'ltr',
-      scheme: theme.scheme,
-      theme: theme.name,
-      unit: 'px',
-      vendor: false,
-      ...baseParams,
-    };
     const key = createCacheKey(params, this.type);
     const cache = this.renderCache[key];
 
@@ -143,11 +134,6 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
-    const renderOptions: RenderOptions = {
-      direction: params.direction,
-      unit: params.unit,
-      vendor: params.vendor,
-    };
 
     const createResultMetadata = (selector: string) => {
       if (!resultSheet[selector]) {
@@ -162,17 +148,17 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       onClass: (selector, className) => {
         createResultMetadata(selector).result = (className as unknown) as Result;
       },
-      onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
+      onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), params),
       onImport: (path) => {
         engine.renderImport(path);
       },
       onKeyframes: (keyframes, animationName) =>
-        engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions),
+        engine.renderKeyframes(keyframes.toObject(), animationName, params),
       onProperty: (block, property, value) => {
         if (engine.atomic) {
           block.addResult(
             engine.renderDeclaration(property as Property, value as string, {
-              ...renderOptions,
+              ...params,
               media: block.media,
               rankings,
               selector: block.selector,
@@ -183,7 +169,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       },
       onRoot: (block) => {
         createResultMetadata('@root').result = engine.renderRuleGrouped(block.toObject(), {
-          ...renderOptions,
+          ...params,
           type: 'global',
         });
       },
@@ -192,7 +178,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       },
       onRule: (selector, block) => {
         if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
+          block.addResult(engine.renderRule(block.toObject(), params));
         }
 
         createResultMetadata(selector).result = block.result as Result;
@@ -204,7 +190,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       },
       onVariant: (parent, type, block) => {
         if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
+          block.addResult(engine.renderRule(block.toObject(), params));
         }
 
         const meta = createResultMetadata(parent.id);
