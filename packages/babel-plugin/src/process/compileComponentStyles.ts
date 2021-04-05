@@ -1,4 +1,7 @@
+import intersection from 'lodash/intersection';
+import { LocalSheet, RenderResultSheet } from '@aesthetic/core';
 import { NodePath, types as t } from '@babel/core';
+import { convertResultSheetToAST } from '../ast/convertResultSheetToAST';
 import { State } from '../types';
 import { evaluateAestheticStyleFactory } from './evaluateAestheticStyleFactory';
 
@@ -7,57 +10,94 @@ export function compileComponentStyles(
   factoryName: string,
   varPath: NodePath<t.VariableDeclarator>,
 ): [string, t.ObjectExpression] {
+  const { aesthetic } = state;
   const varName = (varPath.node.id as t.Identifier).name;
-
-  // Render with Aesthetic
-  const resultSheet = state.aesthetic.renderComponentStyles(
-    evaluateAestheticStyleFactory(state, factoryName, varPath.node.init as t.CallExpression),
+  const styleSheet: LocalSheet<unknown, {}, unknown> = evaluateAestheticStyleFactory(
+    state,
+    factoryName,
+    varPath.node.init as t.CallExpression,
   );
 
-  // eslint-disable-next-line no-param-reassign
-  state.file.metadata.aesthetic = { renderResult: resultSheet };
+  // Render the stylesheet with every theme
+  const themeResultSheets: Record<string, RenderResultSheet<unknown>> = {};
 
-  // Convert rendered result to AST
-  const cache = t.objectExpression([]);
-
-  Object.entries(resultSheet).forEach(([selector, result]) => {
-    if (!result) {
-      return;
-    }
-
-    const value = t.objectExpression([]);
-
-    // Class name
-    if (result.result) {
-      value.properties.push(
-        t.objectProperty(t.identifier('result'), t.stringLiteral(String(result.result))),
-      );
-    }
-
-    // Variant class names
-    if (result.variants) {
-      const variants = t.objectExpression([]);
-
-      Object.entries(result.variants).forEach(([type, variant]) => {
-        variants.properties.push(
-          t.objectProperty(t.identifier(type), t.stringLiteral(String(variant))),
-        );
-      });
-
-      value.properties.push(t.objectProperty(t.identifier('variants'), variants));
-    }
-
-    // Variant types
-    if (result.variantTypes) {
-      const types = t.newExpression(t.identifier('Set'), [
-        t.arrayExpression(Array.from(result.variantTypes).map((type) => t.stringLiteral(type))),
-      ]);
-
-      value.properties.push(t.objectProperty(t.identifier('variantTypes'), types));
-    }
-
-    cache.properties.push(t.objectProperty(t.identifier(selector), value));
+  // @ts-expect-error Allow access
+  Object.keys(aesthetic.themeRegistry.themes).forEach((themeName) => {
+    themeResultSheets[themeName] = aesthetic.renderComponentStyles(styleSheet, themeName);
   });
 
-  return [varName, cache];
+  const themeCount = Object.keys(themeResultSheets).length;
+
+  // Create a result that is shared amongst all themes
+  const sharedResultSheet: RenderResultSheet<unknown> = {};
+
+  Object.values(themeResultSheets).forEach((resultSheet) => {
+    Object.entries(resultSheet).forEach(([selector, result]) => {
+      if (!result) {
+        return;
+      }
+
+      let sharedResult = sharedResultSheet[selector];
+
+      if (!sharedResult) {
+        sharedResult = {};
+        sharedResultSheet[selector] = sharedResult;
+      }
+
+      if (result.variants) {
+        if (!sharedResult.variants) {
+          sharedResult.variants = {};
+        }
+
+        Object.assign(sharedResult.variants, result.variants);
+      }
+
+      if (result.variantTypes) {
+        if (sharedResult.variantTypes) {
+          sharedResult.variantTypes = new Set([
+            ...Array.from(sharedResult.variantTypes),
+            ...Array.from(result.variantTypes),
+          ]);
+        } else {
+          sharedResult.variantTypes = result.variantTypes;
+        }
+      }
+    });
+  });
+
+  // Determine the intersection of theme results so that we can optimize
+  if (themeCount > 1) {
+    Object.keys(sharedResultSheet).forEach((selector) => {
+      const sharedResult = sharedResultSheet[selector]!;
+      const themeClassNames = Object.values(themeResultSheets)
+        .map((resultSheet) => resultSheet[selector]?.result)
+        .filter(Boolean)
+        .map((result) => String(result).split(' '));
+      const intersectedClassNames = intersection(...themeClassNames);
+
+      sharedResult.result = intersectedClassNames.join(' ');
+
+      // Add theme results that are unique and not part of the intersection
+      Object.entries(themeResultSheets).forEach(([themeName, resultSheet]) => {
+        let className = resultSheet[selector]?.result;
+
+        if (className) {
+          intersectedClassNames.forEach((classToRemove) => {
+            className = String(className).replace(classToRemove, '').trim();
+          });
+
+          if (!sharedResult.themes) {
+            sharedResult.themes = {};
+          }
+
+          sharedResult.themes[themeName] = className;
+        }
+      });
+    });
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  state.file.metadata.aesthetic = { renderResult: sharedResultSheet };
+
+  return [varName, convertResultSheetToAST(sharedResultSheet)];
 }

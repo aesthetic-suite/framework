@@ -314,6 +314,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   renderComponentStyles = <T = unknown>(
     sheet: LocalSheet<T, Block, Result>,
+    themeName?: ThemeName,
     // @private
     preRenderedResult?: RenderResultSheet<Result>,
   ) => {
@@ -323,9 +324,11 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       }
     }
 
+    const theme = themeName ? this.getTheme(themeName) : this.getActiveTheme();
+
     return sheet.render(
       this.getEngine(),
-      this.getActiveTheme(),
+      theme,
       {
         customProperties: this.options.customProperties,
         deterministic: this.options.deterministicClasses,

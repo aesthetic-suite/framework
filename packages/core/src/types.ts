@@ -30,6 +30,7 @@ export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
 export interface RenderResult<T> {
   result?: T;
+  themes?: Record<ThemeName, T>;
   variants?: Record<string, T>;
   variantTypes?: Set<string>;
 }

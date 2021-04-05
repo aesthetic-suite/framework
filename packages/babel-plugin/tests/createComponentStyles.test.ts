@@ -490,7 +490,11 @@ const styleSheet = createComponentStyles(() => ({
         }));
         renderComponentStyles(styleSheet, {
           element: {
-            result: \\"c1s7hmty cddrzz3 c13fy9i4\\"
+            result: \\"c1s7hmty\\",
+            themes: {
+              light: \\"cddrzz3 c13fy9i4\\",
+              dark: \\"c1r72mm7 c18rzwak\\"
+            }
           }
         });"
       `);
@@ -616,7 +620,46 @@ const styleSheet = createComponentStyles(() => ({
         }));
         renderComponentStyles(styleSheet, {
           element: {
-            result: \\"c1s7hmty ct2jx0m\\"
+            result: \\"c1s7hmty\\",
+            themes: {
+              light: \\"ct2jx0m\\",
+              dark: \\"cmqamj9\\"
+            }
+          }
+        });"
+      `);
+    });
+  });
+
+  describe('interpolations', () => {
+    it('supports token variables', async () => {
+      const result = await transpile(`
+import { createComponentStyles } from '@aesthetic/local';
+
+const styleSheet = createComponentStyles((css) => ({
+  element: {
+    display: 'block',
+    padding: css.unit(1, 2, 3),
+    color: css.tokens.palette.danger.bg.base,
+  },
+}));`);
+
+      expect(result?.code).toMatchInlineSnapshot(`
+        "import { createComponentStyles, renderComponentStyles } from '@aesthetic/local';
+        const styleSheet = createComponentStyles(css => ({
+          element: {
+            display: 'block',
+            padding: css.unit(1, 2, 3),
+            color: css.tokens.palette.danger.bg.base
+          }
+        }));
+        renderComponentStyles(styleSheet, {
+          element: {
+            result: \\"c1s7hmty c1w1f7yo\\",
+            themes: {
+              light: \\"cczrxkt\\",
+              dark: \\"cih57e3\\"
+            }
           }
         });"
       `);
