@@ -1,7 +1,7 @@
 import intersection from 'lodash/intersection';
-import { LocalSheet, RenderResultSheet } from '@aesthetic/core';
+import { CompiledRenderResultSheet, LocalSheet, RenderResultSheet } from '@aesthetic/core';
 import { NodePath, types as t } from '@babel/core';
-import { convertResultSheetToAST } from '../ast/convertResultSheetToAST';
+import { convertCompiledResultSheetToAST } from '../ast/convertCompiledResultSheetToAST';
 import { State } from '../types';
 import { evaluateAestheticStyleFactory } from './evaluateAestheticStyleFactory';
 
@@ -29,7 +29,7 @@ export function compileComponentStyles(
   const themeCount = Object.keys(themeResultSheets).length;
 
   // Create a result that is shared amongst all themes
-  const sharedResultSheet: RenderResultSheet<unknown> = {};
+  const sharedResultSheet: CompiledRenderResultSheet = {};
 
   Object.values(themeResultSheets).forEach((resultSheet) => {
     Object.entries(resultSheet).forEach(([selector, result]) => {
@@ -68,7 +68,7 @@ export function compileComponentStyles(
   // Determine the intersection of theme results so that we can optimize
   if (themeCount > 1) {
     Object.keys(sharedResultSheet).forEach((selector) => {
-      const sharedResult = sharedResultSheet[selector]!;
+      const sharedResult = sharedResultSheet[selector];
       const themeClassNames = Object.values(themeResultSheets)
         .map((resultSheet) => resultSheet[selector]?.result)
         .filter(Boolean)
@@ -90,7 +90,7 @@ export function compileComponentStyles(
             sharedResult.themes = {};
           }
 
-          sharedResult.themes[themeName] = className;
+          sharedResult.themes[themeName] = String(className);
         }
       });
     });
@@ -99,5 +99,5 @@ export function compileComponentStyles(
   // eslint-disable-next-line no-param-reassign
   state.file.metadata.aesthetic = { renderResult: sharedResultSheet };
 
-  return [varName, convertResultSheetToAST(sharedResultSheet)];
+  return [varName, convertCompiledResultSheetToAST(sharedResultSheet)];
 }

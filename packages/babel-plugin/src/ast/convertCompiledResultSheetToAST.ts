@@ -1,8 +1,8 @@
-import { RenderResultSheet } from '@aesthetic/core';
+import { CompiledRenderResultSheet } from '@aesthetic/core';
 import { types as t } from '@babel/core';
 
-export function convertResultSheetToAST(
-  resultSheet: RenderResultSheet<unknown>,
+export function convertCompiledResultSheetToAST(
+  resultSheet: CompiledRenderResultSheet,
 ): t.ObjectExpression {
   const object = t.objectExpression([]);
 
