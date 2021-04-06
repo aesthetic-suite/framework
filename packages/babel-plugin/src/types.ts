@@ -9,6 +9,10 @@ import type {
 import { BabelFile, NodePath, types as t } from '@babel/core';
 import { Path } from '@boost/common';
 
+export type UnknownAesthetic = Aesthetic<ClassName, {}>;
+
+export type UnknownLocalSheet = LocalSheet<unknown, {}, ClassName>;
+
 // STYLE SHEET
 
 export interface RenderResultInput {
@@ -24,7 +28,7 @@ export type RenderResultOutput = CompiledRenderResult;
 // PLUGIN
 
 export interface State {
-  aesthetic: Aesthetic<ClassName, {}>;
+  aesthetic: UnknownAesthetic;
   filePath: Path;
   integrationModule: string;
   renderParamsList: SheetParams[];
@@ -50,5 +54,3 @@ export type RenderRuntimeCallback = (
   varName: string,
   renderResult: t.ObjectExpression,
 ) => void;
-
-export type UnknownLocalSheet = LocalSheet<unknown, {}, ClassName>;

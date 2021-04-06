@@ -156,7 +156,11 @@ function mergeResults(
   ltrResult: RenderResultInput | undefined,
   rtlResult: RenderResultInput | undefined,
 ): RenderResultInput {
-  const result: RenderResultInput = {};
+  const result: RenderResultInput = {
+    result: {},
+    variants: {},
+    variantTypes: new Set(),
+  };
 
   return result;
 }

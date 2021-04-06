@@ -147,8 +147,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   createComponentStyles = <T = unknown>(
     factory: LocalSheetFactory<T, Block>,
-    // @private
-    preRenderedResult?: RenderResultSheet<Result>,
   ): LocalSheet<T, Block, Result> => new StyleSheet('local', factory);
 
   /**
@@ -315,8 +313,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   renderComponentStyles = <T = unknown>(
     sheet: LocalSheet<T, Block, Result>,
     themeName?: ThemeName,
-    // @private
-    preRenderedResult?: RenderResultSheet<Result>,
   ) => {
     if (__DEV__) {
       if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
@@ -326,17 +322,12 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
     const theme = themeName ? this.getTheme(themeName) : this.getActiveTheme();
 
-    return sheet.render(
-      this.getEngine(),
-      theme,
-      {
-        customProperties: this.options.customProperties,
-        deterministic: this.options.deterministicClasses,
-        direction: this.getActiveDirection(),
-        vendor: !!this.options.vendorPrefixer,
-      },
-      preRenderedResult,
-    );
+    return sheet.render(this.getEngine(), theme, {
+      customProperties: this.options.customProperties,
+      deterministic: this.options.deterministicClasses,
+      direction: this.getActiveDirection(),
+      vendor: !!this.options.vendorPrefixer,
+    });
   };
 
   /**

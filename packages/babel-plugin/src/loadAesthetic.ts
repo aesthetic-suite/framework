@@ -1,17 +1,14 @@
-import type { Aesthetic, Engine } from '@aesthetic/core';
 import { createServerEngine, extractStyles } from '@aesthetic/style/server';
 import { Path, requireModule } from '@boost/common';
 import { debug } from './helpers';
+import { UnknownAesthetic } from './types';
 
-const instances: Record<string, Aesthetic<unknown, {}>> = {};
+const instances: Record<string, UnknownAesthetic> = {};
 const serverEngine = createServerEngine();
 
 extractStyles(null, serverEngine);
 
-export function loadAesthetic(
-  setupFilePath: Path,
-  integrationModule: string,
-): Aesthetic<unknown, {}> {
+export function loadAesthetic(setupFilePath: Path, integrationModule: string): UnknownAesthetic {
   const instance = instances[integrationModule];
 
   debug.invariant(!!instance, `Loading ${integrationModule} instance`, 'Cached', 'Not cached');
@@ -33,13 +30,13 @@ export function loadAesthetic(
   debug('Importing %s into the plugin scope', integrationModule);
 
   const { internalAestheticRuntime } = requireModule<{
-    internalAestheticRuntime: Aesthetic<unknown>;
+    internalAestheticRuntime: UnknownAesthetic;
   }>(integrationModule);
 
   // Store the instance so we can avoid consecutive overhead
   instances[integrationModule] = internalAestheticRuntime;
 
-  internalAestheticRuntime.configureEngine(serverEngine as Engine<unknown>);
+  internalAestheticRuntime.configureEngine(serverEngine);
 
   debug('Configuring the instance for SSR and caching it');
   debug.verbose('Aesthetic: %O', internalAestheticRuntime);

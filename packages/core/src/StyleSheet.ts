@@ -1,20 +1,9 @@
 import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel, Engine, Property } from '@aesthetic/types';
-import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { deepMerge } from '@aesthetic/utils';
+import { createCacheKey, createDefaultParams } from './helpers';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
-
-function createCacheKey(params: SheetParams, type: string): string {
-  let key = type;
-
-  // Since all other values are scalars, we can just join the values.
-  // This is 3x faster than JSON.stringify(), and 1.5x faster than Object.values()!
-  objectLoop(params, (value) => {
-    key += value;
-  });
-
-  return key;
-}
 
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
   readonly type: 'global' | 'local';
@@ -112,31 +101,13 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
     { customProperties, ...baseParams }: SheetParamsExtended,
-    // @private
-    preRenderedResult?: RenderResultSheet<Result>,
   ): RenderResultSheet<Result> {
-    const params: SheetParams = {
-      contrast: theme.contrast,
-      direction: 'ltr',
-      scheme: theme.scheme,
-      theme: theme.name,
-      unit: 'px',
-      vendor: false,
-      ...baseParams,
-    };
+    const params = createDefaultParams(theme, baseParams);
     const key = createCacheKey(params, this.type);
     const cache = this.renderCache[key];
 
     if (cache) {
       return cache;
-    }
-
-    // If a pre-rendered result is passed, cache and return it.
-    // This should never be used manually and is injected by the Babel plugin.
-    if (preRenderedResult) {
-      this.renderCache[key] = preRenderedResult;
-
-      return preRenderedResult;
     }
 
     const resultSheet: RenderResultSheet<Result> = {};
@@ -217,9 +188,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       },
     });
 
-    if (key) {
-      this.renderCache[key] = resultSheet;
-    }
+    this.renderCache[key] = resultSheet;
 
     return resultSheet;
   }
