@@ -1,13 +1,12 @@
-import intersection from 'lodash/intersection';
-import {
-  ClassName,
-  CompiledRenderResult,
-  CompiledRenderResultSheet,
-  RenderResultSheet,
-} from '@aesthetic/core';
-import { State, UnknownLocalSheet } from '../types';
+/* eslint-disable no-param-reassign */
 
-function removeClassesFromClassName(name: string, names: string[]): string {
+import intersection from 'lodash/intersection';
+import { ClassName, CompiledClassMap, RenderResultSheet } from '@aesthetic/core';
+import { RenderResultInput, RenderResultInputSheet, State, UnknownLocalSheet } from '../types';
+
+type ThemeResultSheets = Record<string, RenderResultSheet<ClassName>>;
+
+function removeFromClassName(name: ClassName, names: ClassName[]): ClassName {
   let className = name;
 
   names.forEach((classToRemove) => {
@@ -17,86 +16,89 @@ function removeClassesFromClassName(name: string, names: string[]): string {
   return className;
 }
 
+function intersectAndOptimizeClassMap(map: CompiledClassMap): CompiledClassMap {
+  const themeClassNames = Object.values(map)
+    .filter(Boolean)
+    .map((value) => String(value).split(' '));
+  const intersectedClassNames = intersection(...themeClassNames);
+
+  const next: CompiledClassMap = {
+    _: intersectedClassNames.join(' '),
+  };
+
+  Object.entries(map).forEach(([themeName, className]) => {
+    const nextClassName = removeFromClassName(String(className), intersectedClassNames);
+
+    if (nextClassName !== '') {
+      next[themeName] = nextClassName;
+    }
+  });
+
+  return next;
+}
+
+function combineResultClassNames(themeResultSheets: ThemeResultSheets) {}
+
 function renderAndCombineResultSheets(
   aesthetic: State['aesthetic'],
   styleSheet: UnknownLocalSheet,
-): CompiledRenderResultSheet {
-  // Render the stylesheet with every theme
-  const themeResultSheets: Record<string, RenderResultSheet<unknown>> = {};
-
+): RenderResultInputSheet {
   // @ts-expect-error Allow access
-  Object.keys(aesthetic.themeRegistry.themes).forEach((themeName) => {
+  const themeNames = Object.keys(aesthetic.themeRegistry.themes);
+  const themeResultSheets: ThemeResultSheets = {};
+  const sharedResultSheet: RenderResultInputSheet = {};
+
+  // Render the stylesheet with every theme
+  themeNames.forEach((themeName) => {
     themeResultSheets[themeName] = aesthetic.renderComponentStyles(styleSheet, themeName);
   });
 
-  const themeCount = Object.keys(themeResultSheets).length;
-
   // Create a result that is shared amongst all themes
-  const sharedResultSheet: CompiledRenderResultSheet = {};
-
-  Object.values(themeResultSheets).forEach((resultSheet) => {
+  Object.entries(themeResultSheets).forEach(([themeName, resultSheet]) => {
     Object.entries(resultSheet).forEach(([selector, result]) => {
       if (!result) {
         return;
       }
 
-      let sharedResult = sharedResultSheet[selector];
+      const sharedResult = sharedResultSheet[selector] || {
+        result: {},
+        variants: {},
+        variantTypes: new Set(),
+      };
 
-      if (!sharedResult) {
-        sharedResult = {};
-        sharedResultSheet[selector] = sharedResult;
+      if (result.result) {
+        sharedResult.result[themeName] = result.result;
       }
 
       if (result.variants) {
-        if (!sharedResult.variants) {
-          sharedResult.variants = {};
-        }
+        Object.entries(result.variants).forEach(([type, variant]) => {
+          if (!sharedResult.variants[type]) {
+            sharedResult.variants[type] = {};
+          }
 
-        Object.assign(sharedResult.variants, result.variants);
+          sharedResult.variants[type][themeName] = variant;
+        });
       }
 
       if (result.variantTypes) {
-        if (sharedResult.variantTypes) {
-          sharedResult.variantTypes = new Set([
-            ...Array.from(sharedResult.variantTypes),
-            ...Array.from(result.variantTypes),
-          ]);
-        } else {
-          sharedResult.variantTypes = result.variantTypes;
-        }
+        sharedResult.variantTypes = new Set([
+          ...Array.from(sharedResult.variantTypes),
+          ...Array.from(result.variantTypes),
+        ]);
       }
+
+      sharedResultSheet[selector] = sharedResult;
     });
   });
 
   // Determine the intersection of theme results so that we can optimize
-  if (themeCount > 1) {
-    Object.keys(sharedResultSheet).forEach((selector) => {
-      const sharedResult = sharedResultSheet[selector];
-      const themeClassNames = Object.values(themeResultSheets)
-        .map((resultSheet) => resultSheet[selector]?.result)
-        .filter(Boolean)
-        .map((result) => String(result).split(' '));
-      const intersectedClassNames = intersection(...themeClassNames);
+  Object.values(sharedResultSheet).forEach((result) => {
+    result.result = intersectAndOptimizeClassMap(result.result);
 
-      sharedResult.result = intersectedClassNames.join(' ');
-
-      // Add theme results that are unique and not part of the intersection
-      Object.entries(themeResultSheets).forEach(([themeName, resultSheet]) => {
-        const className = resultSheet[selector]?.result;
-
-        if (className) {
-          if (!sharedResult.themes) {
-            sharedResult.themes = {};
-          }
-
-          sharedResult.themes[themeName] = removeClassesFromClassName(
-            String(className),
-            intersectedClassNames,
-          );
-        }
-      });
+    Object.entries(result.variants).forEach(([type, variant]) => {
+      result.variants[type] = intersectAndOptimizeClassMap(variant);
     });
-  }
+  });
 
   return sharedResultSheet;
 }
@@ -104,7 +106,7 @@ function renderAndCombineResultSheets(
 function renderWithOppositeDirection(
   aesthetic: State['aesthetic'],
   styleSheet: UnknownLocalSheet,
-): CompiledRenderResultSheet {
+): RenderResultInputSheet {
   const activeDirection = aesthetic.getActiveDirection();
   const otherDirection = activeDirection === 'ltr' ? 'rtl' : 'ltr';
 
@@ -122,9 +124,13 @@ function renderWithOppositeDirection(
 function determineIntersectedDirectionClassNames(
   ltrClass: ClassName | undefined,
   rtlClass: ClassName | undefined,
-): ClassName[] {
+): ClassName | ClassName[] {
+  if (ltrClass === rtlClass) {
+    return ltrClass || '';
+  }
+
   if (!ltrClass && !rtlClass) {
-    return [];
+    return '';
   }
 
   if (!ltrClass) {
@@ -136,28 +142,30 @@ function determineIntersectedDirectionClassNames(
   }
 
   const intersectedClasses = intersection(ltrClass.split(' '), rtlClass.split(' '));
+  const ltr = removeFromClassName(ltrClass, intersectedClasses);
+  const rtl = removeFromClassName(rtlClass, intersectedClasses);
 
-  return [
-    intersectedClasses.join(' '),
-    removeClassesFromClassName(ltrClass, intersectedClasses),
-    removeClassesFromClassName(rtlClass, intersectedClasses),
-  ];
+  if (ltr === rtl) {
+    return ltr;
+  }
+
+  return [intersectedClasses.join(' '), ltr, rtl];
 }
 
 function mergeResults(
-  ltrResult: CompiledRenderResult | undefined,
-  rtlResult: CompiledRenderResult | undefined,
-): CompiledRenderResult {
-  const result: CompiledRenderResult = {};
+  ltrResult: RenderResultInput | undefined,
+  rtlResult: RenderResultInput | undefined,
+): RenderResultInput {
+  const result: RenderResultInput = {};
 
   return result;
 }
 
 function mergeResultSheets(
-  ltrSheet: CompiledRenderResultSheet,
-  rtlSheet: CompiledRenderResultSheet,
-): CompiledRenderResultSheet {
-  const result: CompiledRenderResultSheet = {};
+  ltrSheet: RenderResultInputSheet,
+  rtlSheet: RenderResultInputSheet,
+): RenderResultInputSheet {
+  const result: RenderResultInputSheet = {};
   const keys = new Set([...Object.keys(ltrSheet), ...Object.keys(rtlSheet)]);
 
   keys.forEach((key) => {
@@ -167,7 +175,10 @@ function mergeResultSheets(
   return result;
 }
 
-export function compileStyleSheet(state: State, styleSheet: UnknownLocalSheet) {
+export function compileStyleSheet(
+  state: State,
+  styleSheet: UnknownLocalSheet,
+): RenderResultInputSheet {
   const { aesthetic } = state;
   let resultSheet = renderAndCombineResultSheets(aesthetic, styleSheet);
 

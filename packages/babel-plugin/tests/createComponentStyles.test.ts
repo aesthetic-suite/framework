@@ -440,7 +440,7 @@ const styleSheet = createComponentStyles((css) => ({
             palette_success: \\"czb93oc\\",
             palette_warning: \\"c3x9w2d\\"
           },
-          variantTypes: new Set([\\"size\\", \\"palette\\"])
+          variantTypes: [\\"size\\", \\"palette\\"]
         }
       });"
     `);
@@ -490,8 +490,8 @@ const styleSheet = createComponentStyles(() => ({
         }));
         renderComponentStyles(styleSheet, {
           element: {
-            result: \\"c1s7hmty\\",
-            themes: {
+            result: {
+              _: \\"c1s7hmty\\",
               light: \\"cddrzz3 c13fy9i4\\",
               dark: \\"c1r72mm7 c18rzwak\\"
             }
@@ -620,8 +620,8 @@ const styleSheet = createComponentStyles(() => ({
         }));
         renderComponentStyles(styleSheet, {
           element: {
-            result: \\"c1s7hmty\\",
-            themes: {
+            result: {
+              _: \\"c1s7hmty\\",
               light: \\"ct2jx0m\\",
               dark: \\"cmqamj9\\"
             }
@@ -641,6 +641,13 @@ const styleSheet = createComponentStyles((css) => ({
     display: 'block',
     padding: css.unit(1, 2, 3),
     color: css.tokens.palette.danger.bg.base,
+    '@variants': {
+      size: {
+        sm: { fontSize: css.var('text-sm-size') },
+        df: { fontSize: css.var('text-df-size') },
+        lg: { fontSize: css.var('text-lg-size') },
+      },
+    },
   },
 }));`);
 
@@ -650,16 +657,35 @@ const styleSheet = createComponentStyles((css) => ({
           element: {
             display: 'block',
             padding: css.unit(1, 2, 3),
-            color: css.tokens.palette.danger.bg.base
+            color: css.tokens.palette.danger.bg.base,
+            '@variants': {
+              size: {
+                sm: {
+                  fontSize: css.var('text-sm-size')
+                },
+                df: {
+                  fontSize: css.var('text-df-size')
+                },
+                lg: {
+                  fontSize: css.var('text-lg-size')
+                }
+              }
+            }
           }
         }));
         renderComponentStyles(styleSheet, {
           element: {
-            result: \\"c1s7hmty c1w1f7yo\\",
-            themes: {
+            result: {
+              _: \\"c1s7hmty c1w1f7yo\\",
               light: \\"cczrxkt\\",
               dark: \\"cih57e3\\"
-            }
+            },
+            variants: {
+              size_sm: \\"c1qx7d18\\",
+              size_df: \\"cpfxegw\\",
+              size_lg: \\"ckfuq95\\"
+            },
+            variantTypes: [\\"size\\"]
           }
         });"
       `);

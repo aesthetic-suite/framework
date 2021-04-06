@@ -29,11 +29,12 @@ export type ElementStyles = LocalBlock;
 export type ComponentStyles = LocalStyleSheet<ElementStyles>;
 export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
+export type CompiledClassMap = Record<string, ClassName | ClassName[]>;
+
 export interface CompiledRenderResult {
-  result?: ClassName | ClassName[];
-  themes?: Record<ThemeName, ClassName | ClassName[]>;
-  variants?: Record<string, ClassName>;
-  variantTypes?: Set<string>;
+  result?: ClassName | CompiledClassMap;
+  variants?: Record<string, ClassName | CompiledClassMap>;
+  variantTypes?: string[];
 }
 
 export type CompiledRenderResultSheet = Record<string, CompiledRenderResult>;

@@ -1,14 +1,30 @@
 import type {
   Aesthetic,
-  CompiledRenderResultSheet,
+  ClassName,
+  CompiledClassMap,
+  CompiledRenderResult,
   LocalSheet,
   SheetParams,
 } from '@aesthetic/core';
 import { BabelFile, NodePath, types as t } from '@babel/core';
 import { Path } from '@boost/common';
 
+// STYLE SHEET
+
+export interface RenderResultInput {
+  result: CompiledClassMap;
+  variants: Record<string, CompiledClassMap>;
+  variantTypes: Set<string>;
+}
+
+export type RenderResultInputSheet = Record<string, RenderResultInput>;
+
+export type RenderResultOutput = CompiledRenderResult;
+
+// PLUGIN
+
 export interface State {
-  aesthetic: Aesthetic<unknown, {}>;
+  aesthetic: Aesthetic<ClassName, {}>;
   filePath: Path;
   integrationModule: string;
   renderParamsList: SheetParams[];
@@ -19,7 +35,7 @@ export interface State {
   file: Omit<BabelFile, 'metadata'> & {
     metadata: {
       aesthetic?: {
-        renderResult: CompiledRenderResultSheet;
+        renderResult: RenderResultInputSheet;
       };
     };
   };
@@ -35,4 +51,4 @@ export type RenderRuntimeCallback = (
   renderResult: t.ObjectExpression,
 ) => void;
 
-export type UnknownLocalSheet = LocalSheet<unknown, {}, unknown>;
+export type UnknownLocalSheet = LocalSheet<unknown, {}, ClassName>;
