@@ -1,4 +1,4 @@
-import { NodePath, types as t } from '@babel/core';
+import { types as t } from '@babel/core';
 import { convertResultInputSheetToAST } from '../ast/convertResultInputSheet';
 import { State } from '../types';
 import { compileStyleSheet } from './compileStyleSheet';
@@ -7,15 +7,15 @@ import { evaluateAestheticStyleFactory } from './evaluateAestheticStyleFactory';
 export function compileComponentStyles(
   state: State,
   factoryName: string,
-  varPath: NodePath<t.VariableDeclarator>,
-): [string, t.ObjectExpression] {
+  factoryCall: t.CallExpression,
+): t.ObjectExpression {
   const resultSheet = compileStyleSheet(
     state,
-    evaluateAestheticStyleFactory(state, factoryName, varPath.node.init as t.CallExpression),
+    evaluateAestheticStyleFactory(state, factoryName, factoryCall),
   );
 
   // eslint-disable-next-line no-param-reassign
   state.file.metadata.aesthetic = { renderResult: resultSheet };
 
-  return [(varPath.node.id as t.Identifier).name, convertResultInputSheetToAST(resultSheet)];
+  return convertResultInputSheetToAST(resultSheet);
 }

@@ -88,6 +88,7 @@ describe('GlobalSheet', () => {
       },
       {
         contrast: 'normal',
+        deterministic: false,
         direction: 'ltr',
         scheme: 'light',
         theme: '',
@@ -146,6 +147,7 @@ describe('GlobalSheet', () => {
       'fade',
       {
         contrast: 'normal',
+        deterministic: false,
         direction: 'ltr',
         scheme: 'light',
         theme: '',

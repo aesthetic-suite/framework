@@ -491,15 +491,10 @@ describe('Aesthetic', () => {
         bar: { result: 'b', variants: { type_red: 'c' }, variantTypes: new Set(['type']) },
         baz: { result: 'd' },
       });
-      expect(spy).toHaveBeenCalledWith(
-        aesthetic.getEngine(),
-        lightTheme,
-        {
-          direction: expect.any(String),
-          vendor: false,
-        },
-        undefined,
-      );
+      expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
+        direction: expect.any(String),
+        vendor: false,
+      });
     });
   });
 

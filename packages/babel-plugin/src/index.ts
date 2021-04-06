@@ -10,7 +10,7 @@ import {} from '@babel/generator';
 import { Path } from '@boost/common';
 import { debug } from './helpers';
 import { loadAesthetic } from './loadAesthetic';
-import { Options, RenderRuntimeCallback, State } from './types';
+import { Options, State } from './types';
 import callExpression from './visitors/callExpression';
 
 const STYLE_FACTORIES = new Set([
@@ -43,9 +43,9 @@ export default function babelPlugin(
 
           // Determine if a style factory exists within the current file,
           // and if so, extract its imported name in case its been reassigned.
-          let importDecl: t.ImportDeclaration;
+          let importPath: NodePath<t.ImportDeclaration>;
 
-          path.node.body.forEach((node) => {
+          path.node.body.forEach((node, index) => {
             if (
               !t.isImportDeclaration(node) ||
               !node.source.value.startsWith('@aesthetic') ||
@@ -68,7 +68,7 @@ export default function babelPlugin(
             });
 
             if (hasFactory) {
-              importDecl = node;
+              importPath = path.get(`body.${index}`) as NodePath<t.ImportDeclaration>;
               state.integrationModule = node.source.value;
             }
           });
@@ -95,34 +95,10 @@ export default function babelPlugin(
           }
 
           // Traverse the file and transform
-          const insertRenderRuntime: RenderRuntimeCallback = (varPath, varName, renderResult) => {
-            const hasImport = importDecl.specifiers.find((spec) =>
-              t.isImportSpecifier(spec, { imported: { name: 'renderComponentStyles' } }),
-            );
-
-            if (!hasImport) {
-              importDecl.specifiers.push(
-                t.importSpecifier(
-                  t.identifier('renderComponentStyles'),
-                  t.identifier('renderComponentStyles'),
-                ),
-              );
-            }
-
-            varPath.insertAfter(
-              t.expressionStatement(
-                t.callExpression(t.identifier('renderComponentStyles'), [
-                  t.identifier(varName),
-                  renderResult,
-                ]),
-              ),
-            );
-          };
-
           path.traverse(
             {
               CallExpression(node) {
-                callExpression(node, state, insertRenderRuntime);
+                callExpression(node, state, importPath);
               },
             },
             state,

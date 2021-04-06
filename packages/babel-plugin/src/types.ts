@@ -6,7 +6,7 @@ import type {
   LocalSheet,
   SheetParams,
 } from '@aesthetic/core';
-import { BabelFile, NodePath, types as t } from '@babel/core';
+import { BabelFile } from '@babel/core';
 import { Path } from '@boost/common';
 
 export type UnknownAesthetic = Aesthetic<ClassName, {}>;
@@ -31,6 +31,8 @@ export interface State {
   aesthetic: UnknownAesthetic;
   filePath: Path;
   integrationModule: string;
+  hasRemovedIntegration?: boolean;
+  hasRuntimeImport?: boolean;
   renderParamsList: SheetParams[];
   styleFactories: Record<string, string>;
   // Babel
@@ -48,9 +50,3 @@ export interface State {
 export interface Options {
   setupPath: string;
 }
-
-export type RenderRuntimeCallback = (
-  varPath: NodePath<t.VariableDeclaration>,
-  varName: string,
-  renderResult: t.ObjectExpression,
-) => void;

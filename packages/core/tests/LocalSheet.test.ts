@@ -182,6 +182,7 @@ describe('LocalSheet', () => {
       },
       {
         contrast: 'normal',
+        deterministic: false,
         direction: 'ltr',
         scheme: 'light',
         theme: 'day',
@@ -205,6 +206,7 @@ describe('LocalSheet', () => {
       '',
       {
         contrast: 'normal',
+        deterministic: false,
         direction: 'ltr',
         scheme: 'light',
         theme: 'day',
