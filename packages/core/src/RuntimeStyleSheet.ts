@@ -1,5 +1,5 @@
 import { Theme } from '@aesthetic/system';
-import { ClassName, Direction, Engine, ThemeName } from '@aesthetic/types';
+import { ClassName, Direction, Engine } from '@aesthetic/types';
 import { createCacheKey, createDefaultParams } from './helpers';
 import StyleSheet from './StyleSheet';
 import {
@@ -42,6 +42,12 @@ export default class RuntimeStyleSheet extends StyleSheet<ClassName, BaseSheetFa
     Object.entries(this.compiled).forEach(([selector, compiledResult]) => {
       const result: RenderResult<ClassName> = {};
 
+      if (typeof compiledResult === 'string' || Array.isArray(compiledResult)) {
+        result.result = this.determineClassName(compiledResult, params.direction);
+
+        return;
+      }
+
       if (compiledResult.result) {
         result.result = this.extractClassName(compiledResult.result, params);
       }
@@ -66,13 +72,11 @@ export default class RuntimeStyleSheet extends StyleSheet<ClassName, BaseSheetFa
     return resultSheet;
   }
 
-  protected extractFromClassMap(map: CompiledClassMap, themeName: ThemeName, direction: Direction) {
-    let className = map[themeName] || '';
-
+  protected determineClassName(className: ClassName | ClassName[], direction: Direction) {
     if (Array.isArray(className)) {
       const [neutral, ltr = '', rtl = ''] = className;
 
-      className = `${neutral} ${direction === 'rtl' ? rtl : ltr}`;
+      return `${neutral} ${direction === 'rtl' ? rtl : ltr}`;
     }
 
     return className.trim();
@@ -86,9 +90,9 @@ export default class RuntimeStyleSheet extends StyleSheet<ClassName, BaseSheetFa
       return map;
     }
 
-    let className = this.extractFromClassMap(map, '_', params.direction);
+    let className = this.determineClassName(map._, params.direction);
     className += ' ';
-    className += this.extractFromClassMap(map, params.theme, params.direction);
+    className += this.determineClassName(map[params.theme], params.direction);
 
     return className.trim();
   }

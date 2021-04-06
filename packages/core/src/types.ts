@@ -37,7 +37,10 @@ export interface CompiledRenderResult {
   variantTypes?: string[];
 }
 
-export type CompiledRenderResultSheet = Record<string, CompiledRenderResult>;
+export type CompiledRenderResultSheet = Record<
+  string,
+  ClassName | ClassName[] | CompiledRenderResult
+>;
 
 export interface RenderResult<T> {
   result?: T;

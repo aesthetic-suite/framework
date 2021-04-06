@@ -1,10 +1,16 @@
-import { CompiledClassMap } from '@aesthetic/core';
+import { ClassName, CompiledClassMap } from '@aesthetic/core';
 import { types as t } from '@babel/core';
 import { RenderResultInputSheet } from '../types';
 
+function convertClassName(className: ClassName | ClassName[]) {
+  return Array.isArray(className)
+    ? t.arrayExpression(className.map((c) => t.stringLiteral(String(c))))
+    : t.stringLiteral(String(className));
+}
+
 function convertCompiledClassMap(
   map: CompiledClassMap,
-): t.ObjectExpression | t.StringLiteral | null {
+): t.ArrayExpression | t.ObjectExpression | t.StringLiteral | null {
   const keys = Object.keys(map);
 
   if (keys.length === 1 && keys[0] === '_') {
@@ -12,18 +18,16 @@ function convertCompiledClassMap(
       return null;
     }
 
-    return t.stringLiteral(String(map._));
+    return convertClassName(map._);
   }
 
   const object = t.objectExpression([]);
 
   Object.entries(map).forEach(([themeName, className]) => {
     if (className) {
-      const value = Array.isArray(className)
-        ? t.arrayExpression(className.map((c) => t.stringLiteral(String(c))))
-        : t.stringLiteral(String(className));
-
-      object.properties.push(t.objectProperty(t.identifier(themeName), value));
+      object.properties.push(
+        t.objectProperty(t.identifier(themeName), convertClassName(className)),
+      );
     }
   });
 
@@ -42,6 +46,21 @@ export function convertResultInputSheetToAST(
   Object.entries(resultSheet).forEach(([selector, result]) => {
     if (!result) {
       return;
+    }
+
+    // When only a single class name, avoid all the complexity below
+    if (
+      Object.keys(result.result).length === 1 &&
+      Object.keys(result.variants).length === 0 &&
+      result.variantTypes.size === 0
+    ) {
+      const value = convertCompiledClassMap(result.result);
+
+      if (value) {
+        object.properties.push(t.objectProperty(t.identifier(selector), value));
+
+        return;
+      }
     }
 
     const value = t.objectExpression([]);

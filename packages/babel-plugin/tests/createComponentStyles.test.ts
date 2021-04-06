@@ -27,9 +27,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c169hbqq\\"
-        }
+        element: \\"c169hbqq\\"
       });"
     `);
   });
@@ -48,9 +46,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c169hbqq c1et6jhk\\"
-        }
+        element: \\"c169hbqq c1et6jhk\\"
       });"
     `);
   });
@@ -71,12 +67,8 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c169hbqq\\"
-        },
-        sibling: {
-          result: \\"chj83d7\\"
-        }
+        element: \\"c169hbqq\\",
+        sibling: \\"chj83d7\\"
       });"
     `);
   });
@@ -97,12 +89,8 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c169hbqq\\"
-        },
-        sibling: {
-          result: \\"c169hbqq\\"
-        }
+        element: \\"c169hbqq\\",
+        sibling: \\"c169hbqq\\"
       });"
     `);
   });
@@ -129,9 +117,7 @@ const styleSheet = createComponentStyles((css) => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"csk11b8 c35023u caksy0n c184s1x2\\"
-        }
+        element: \\"csk11b8 c35023u caksy0n c184s1x2\\"
       });"
     `);
   });
@@ -162,9 +148,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c18e5758 cwctczp c1dh84j0 cgfq97u c184s1x2\\"
-        }
+        element: \\"c18e5758 cwctczp c1dh84j0 cgfq97u c184s1x2\\"
       });"
     `);
   });
@@ -195,9 +179,7 @@ const styleSheet = createComponentStyles((css) => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"czviw19 c1caoji8 cm8buhq\\"
-        }
+        element: \\"czviw19 c1caoji8 cm8buhq\\"
       });"
     `);
   });
@@ -220,9 +202,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"c113ikk6\\"
-        }
+        element: \\"c113ikk6\\"
       });"
     `);
   });
@@ -245,9 +225,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"cgfm18 cqdzva8 c128h89l\\"
-        }
+        element: \\"cgfm18 cqdzva8 c128h89l\\"
       });"
     `);
   });
@@ -269,9 +247,7 @@ const styleSheet = createComponentStyles(() => ({
     expect(result?.code).toMatchInlineSnapshot(`
       "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
       const styleSheet = compileComponentStyles({
-        element: {
-          result: \\"ceq1ljg\\"
-        }
+        element: \\"ceq1ljg\\"
       });"
     `);
   });
@@ -378,9 +354,7 @@ const styleSheet = createComponentStyles(() => ({
       expect(result?.code).toMatchInlineSnapshot(`
         "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
         const styleSheet = compileComponentStyles({
-          element: {
-            result: \\"c1s7hmty c3s35ig\\"
-          }
+          element: \\"c1s7hmty c3s35ig\\"
         });"
       `);
     });
@@ -409,9 +383,7 @@ const styleSheet = createComponentStyles(() => ({
       expect(result?.code).toMatchInlineSnapshot(`
         "import { compileComponentStyles } from \\"@aesthetic/core/runtime\\";
         const styleSheet = compileComponentStyles({
-          element: {
-            result: \\"c1s7hmty cmqamj9\\"
-          }
+          element: \\"c1s7hmty cmqamj9\\"
         });"
       `);
     });
