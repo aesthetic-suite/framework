@@ -1,4 +1,9 @@
-import type { Aesthetic, CompiledRenderResultSheet, SheetParams } from '@aesthetic/core';
+import type {
+  Aesthetic,
+  CompiledRenderResultSheet,
+  LocalSheet,
+  SheetParams,
+} from '@aesthetic/core';
 import { BabelFile, NodePath, types as t } from '@babel/core';
 import { Path } from '@boost/common';
 
@@ -29,3 +34,5 @@ export type RenderRuntimeCallback = (
   varName: string,
   renderResult: t.ObjectExpression,
 ) => void;
+
+export type UnknownLocalSheet = LocalSheet<unknown, {}, unknown>;
