@@ -2,8 +2,7 @@ import { Sheet, SheetType } from '@aesthetic/types';
 // Rollup compatibility
 import { formatDeclarationBlock, StyleEngine } from '../index';
 
-function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): string {
-  const lastIndex = sheet.cssRules.length - 1;
+export function extractCssFromSheet(sheet: Sheet): string {
   let css = '';
 
   if (Object.keys(sheet.cssVariables).length > 0) {
@@ -11,6 +10,13 @@ function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): s
   }
 
   css += sheet.cssText;
+
+  return css;
+}
+
+function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): string {
+  const lastIndex = sheet.cssRules.length - 1;
+  const css = extractCssFromSheet(sheet);
 
   return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate-index="${lastIndex}" data-aesthetic-rule-index="${ruleIndex}">${css}</style>`;
 }

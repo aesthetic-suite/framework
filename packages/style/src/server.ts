@@ -2,10 +2,9 @@ import { EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 // Rollup compatibility
 import { createCacheManager, createStyleEngine, formatVariable, StyleEngine } from './index';
-import { renderToStyleMarkup } from './server/markup';
 import { createSheetManager, TransientSheet } from './server/sheet';
 
-export { renderToStyleMarkup };
+export * from './server/markup';
 
 function setRootVariables(vars: VariablesMap, engine: StyleEngine) {
   const sheet = engine.sheetManager.sheets.global;
