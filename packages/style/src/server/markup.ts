@@ -1,4 +1,5 @@
 import { Sheet, SheetType } from '@aesthetic/types';
+import { nonce, objectReduce } from '@aesthetic/utils';
 // Rollup compatibility
 import { formatDeclarationBlock, StyleEngine } from '../index';
 
@@ -14,11 +15,29 @@ export function extractCssFromSheet(sheet: Sheet): string {
   return css;
 }
 
-function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): string {
-  const lastIndex = sheet.cssRules.length - 1;
-  const css = extractCssFromSheet(sheet);
+export function getStyleElementAttributes(
+  type: SheetType,
+  sheet: Sheet,
+  ruleIndex: number,
+): Record<string, number | string | undefined> {
+  return {
+    'data-aesthetic-hydrate-index': sheet.cssRules.length - 1,
+    'data-aesthetic-rule-index': ruleIndex,
+    'data-aesthetic-type': type,
+    id: `aesthetic-${type}`,
+    media: 'screen',
+    nonce: nonce(),
+    type: 'text/css',
+  };
+}
 
-  return `<style id="aesthetic-${type}" type="text/css" media="screen" data-aesthetic-type="${type}" data-aesthetic-hydrate-index="${lastIndex}" data-aesthetic-rule-index="${ruleIndex}">${css}</style>`;
+function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): string {
+  const css = extractCssFromSheet(sheet);
+  const attrs = objectReduce(getStyleElementAttributes(type, sheet, ruleIndex), (value, key) =>
+    value === undefined ? '' : ` ${key}="${value}"`,
+  );
+
+  return `<style ${attrs}>${css}</style>`;
 }
 
 export function renderToStyleMarkup(engine: StyleEngine): string {

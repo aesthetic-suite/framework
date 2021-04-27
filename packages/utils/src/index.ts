@@ -14,6 +14,7 @@ import hyphenate from './hyphenate';
 import isDOM from './isDOM';
 import isObject from './isObject';
 import joinQueries from './joinQueries';
+import nonce from './nonce';
 import objectCreate from './objectCreate';
 import objectLoop from './objectLoop';
 import objectReduce from './objectReduce';
@@ -33,6 +34,7 @@ export {
   isDOM,
   isObject,
   joinQueries,
+  nonce,
   objectCreate,
   objectLoop,
   objectReduce,
