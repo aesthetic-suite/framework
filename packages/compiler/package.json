@@ -39,7 +39,7 @@
     "@aesthetic/system": "^0.6.6",
     "@aesthetic/types": "^0.4.6",
     "@aesthetic/utils": "^0.6.3",
-    "@boost/common": "^2.5.1",
+    "@boost/common": "^2.7.2",
     "ejs": "^3.1.6",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",

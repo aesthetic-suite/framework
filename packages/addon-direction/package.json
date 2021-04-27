@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@aesthetic/types": "^0.4.6",
-    "rtl-css-js": "^1.14.0"
+    "rtl-css-js": "^1.14.1"
   },
   "funding": {
     "type": "ko-fi",

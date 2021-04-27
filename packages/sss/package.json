@@ -38,7 +38,7 @@
   "dependencies": {
     "@aesthetic/types": "^0.4.6",
     "@aesthetic/utils": "^0.6.3",
-    "csstype": "^3.0.7"
+    "csstype": "^3.0.8"
   },
   "packemon": {
     "platform": "browser"
