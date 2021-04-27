@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/addon-direction",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Aesthetic addon to convert direction between LTR and RTL.",
   "keywords": [
     "aesthetic",
@@ -30,7 +30,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.4.6",
+    "@aesthetic/types": "^0.5.0",
     "rtl-css-js": "^1.14.1"
   },
   "funding": {
