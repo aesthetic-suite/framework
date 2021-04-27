@@ -256,7 +256,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    * Return the current style engine.
    */
   getEngine = (): Engine<Result> => {
-    const current = global.AESTHETIC_CUSTOM_ENGINE || this.styleEngine.get();
+    const current =
+      (typeof global !== 'undefined' && global.AESTHETIC_CUSTOM_ENGINE) || this.styleEngine.get();
 
     if (current) {
       return current;

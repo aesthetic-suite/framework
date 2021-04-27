@@ -41,11 +41,6 @@ function setTheme(classNames: string[]) {
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  // Avoid touching the DOM for SSR
-  if (global.AESTHETIC_CUSTOM_ENGINE) {
-    return global.AESTHETIC_CUSTOM_ENGINE as StyleEngine;
-  }
-
   const direction = (document.documentElement.getAttribute('dir') ||
     document.body.getAttribute('dir') ||
     'ltr') as Direction;
