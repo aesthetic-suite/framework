@@ -120,19 +120,10 @@ export default class ThemeRegistry<T extends object> {
    * Register a theme with a unique name. Can optionally mark a theme
    * as default for their defined color scheme.
    */
-  // eslint-disable-next-line complexity
   register(name: string, theme: Theme<T>, isDefault: boolean = false): this {
     if (__DEV__) {
       if (!(theme instanceof Theme)) {
         throw new TypeError('Only a `Theme` object can be registered.');
-      }
-
-      if (isDefault) {
-        if (theme.scheme === 'dark' && this.darkTheme) {
-          throw new Error(`"${this.darkTheme}" is already registered as the default dark theme.`);
-        } else if (theme.scheme === 'light' && this.lightTheme) {
-          throw new Error(`"${this.lightTheme}" is already registered as the default light theme.`);
-        }
       }
     }
 
@@ -144,7 +135,7 @@ export default class ThemeRegistry<T extends object> {
       }
     }
 
-    if (theme.name) {
+    if (theme.name && theme.name !== name) {
       if (__DEV__) {
         throw new Error(`Theme "${name}" has already been registered under "${theme.name}".`);
       }

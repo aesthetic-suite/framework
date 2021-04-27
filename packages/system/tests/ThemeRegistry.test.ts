@@ -156,18 +156,6 @@ describe('ThemeRegistry', () => {
       }).toThrow('Only a `Theme` object can be registered.');
     });
 
-    it('errors if trying to set another default dark theme', () => {
-      expect(() => {
-        registry.register('nighter', darkTheme, true);
-      }).toThrow('"night" is already registered as the default dark theme.');
-    });
-
-    it('errors if trying to set another light dark theme', () => {
-      expect(() => {
-        registry.register('dayer', lightTheme, true);
-      }).toThrow('"day" is already registered as the default light theme.');
-    });
-
     it('errors if trying to register an already registered theme', () => {
       expect(() => {
         registry.register('dayer', lightTheme);
