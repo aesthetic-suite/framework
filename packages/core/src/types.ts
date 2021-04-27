@@ -21,7 +21,7 @@ import {
 import StyleSheet from './StyleSheet';
 
 // Re-export for convenience
-export { CustomProperties, GlobalStyleSheet, LocalBlock, LocalStyleSheet };
+export type { CustomProperties, GlobalStyleSheet, LocalBlock, LocalStyleSheet };
 
 // And add aliases too
 export type ElementStyles = LocalBlock;
