@@ -30,9 +30,9 @@ export function createServerEngine(options: Partial<EngineOptions> = {}): StyleE
   return engine;
 }
 
-export function extractStyles<T>(result: T, engine: StyleEngine): T {
+export function extractStyles<T>(engine: StyleEngine, result?: T): T {
   global.AESTHETIC_CUSTOM_ENGINE = engine;
   process.env.AESTHETIC_SSR = 'true';
 
-  return result;
+  return result!;
 }

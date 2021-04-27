@@ -23,7 +23,7 @@ describe('Server', () => {
     // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_ENGINE;
 
-    extractStyles(null, engine);
+    extractStyles(engine);
 
     expect(global.AESTHETIC_CUSTOM_ENGINE).toBe(engine);
   });
@@ -31,7 +31,7 @@ describe('Server', () => {
   it('sets SSR env var', () => {
     delete process.env.AESTHETIC_SSR;
 
-    extractStyles(null, engine);
+    extractStyles(engine);
 
     expect(process.env.AESTHETIC_SSR).toBe('true');
   });
