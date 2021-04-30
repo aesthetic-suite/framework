@@ -1,5 +1,3 @@
-/* eslint-disable babel/no-invalid-this */
-
 import { objectLoop } from '@aesthetic/utils';
 import { MixinTemplate, MixinType, Utilities } from './types';
 
@@ -88,13 +86,13 @@ export function resetTypography() {
   };
 }
 
-export function root(this: Utilities<object>) {
+export function root(css: Utilities<object>) {
   const declaration = {
-    backgroundColor: this.var('palette-neutral-color-00'),
-    color: this.var('palette-neutral-text'),
-    fontFamily: this.var('typography-font-text'),
-    fontSize: this.var('typography-root-text-size'),
-    lineHeight: this.var('typography-root-line-height'),
+    backgroundColor: css.var('palette-neutral-color-00'),
+    color: css.var('palette-neutral-text'),
+    fontFamily: css.var('typography-font-text'),
+    fontSize: css.var('typography-root-text-size'),
+    lineHeight: css.var('typography-root-line-height'),
     textRendering: 'optimizeLegibility',
     textSizeAdjust: '100%',
     margin: 0,
@@ -105,10 +103,10 @@ export function root(this: Utilities<object>) {
   };
 
   // Fluid typography!
-  objectLoop(this.tokens.breakpoint, (bp, size) => {
+  objectLoop(css.tokens.breakpoint, (bp, size) => {
     (declaration['@media'] as Record<string, object>)[bp.query] = {
-      fontSize: this.var(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
-      lineHeight: this.var(
+      fontSize: css.var(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
+      lineHeight: css.var(
         `breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height',
       ),
     };

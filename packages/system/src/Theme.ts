@@ -14,8 +14,6 @@ import {
   VariableName,
 } from './types';
 
-type AnyObject = Record<string, any>;
-
 export default class Theme<T extends object> implements Utilities<T> {
   name: string = '';
 
@@ -34,12 +32,6 @@ export default class Theme<T extends object> implements Utilities<T> {
     this.scheme = options.scheme;
     this.design = design;
     this.tokens = { ...design.tokens, ...tokens };
-
-    // Bind instead of using anonymous functions since we need
-    // to pass these around and define properties on them!
-    this.mixin = this.mixin.bind(this);
-    this.unit = this.unit.bind(this);
-    this.var = this.var.bind(this);
   }
 
   /**
@@ -66,7 +58,7 @@ export default class Theme<T extends object> implements Utilities<T> {
     }
 
     const vars: VariablesMap = {};
-    const collapseTree = (data: AnyObject, path: string[]) => {
+    const collapseTree = (data: Record<string, any>, path: string[]) => {
       objectLoop(data, (value, key) => {
         const nextPath = [...path, hyphenate(key)];
 
@@ -89,12 +81,12 @@ export default class Theme<T extends object> implements Utilities<T> {
    * Return merged CSS properties from the defined mixin, all template overrides,
    * and the provided additional CSS properties.
    */
-  mixin(name: MixinType, rule?: T): T {
+  mixin = (name: MixinType, rule?: T): T => {
     const properties: object = {};
     const mixin = MIXIN_MAP[name];
 
     if (mixin) {
-      Object.assign(properties, mixin.call(this));
+      Object.assign(properties, mixin(this));
     } else if (__DEV__) {
       throw new Error(`Unknown mixin "${name}".`);
     }
@@ -104,13 +96,13 @@ export default class Theme<T extends object> implements Utilities<T> {
     }
 
     return properties as T;
-  }
+  };
 
   /**
    * Return a `rem` unit equivalent for the current spacing type and unit.
    */
-  unit(...multipliers: number[]): Unit {
-    return multipliers
+  unit = (...multipliers: number[]): Unit =>
+    multipliers
       .map(
         (m) =>
           `${((this.design.spacingUnit * m) / this.design.rootTextSize)
@@ -118,12 +110,10 @@ export default class Theme<T extends object> implements Utilities<T> {
             .replace('.00', '')}rem`,
       )
       .join(' ');
-  }
 
   /**
    * Return a CSS variable declaration with the defined name and fallbacks.
    */
-  var(name: VariableName, ...fallbacks: (number | string)[]): string {
-    return `var(${[`--${name}`, ...fallbacks].join(', ')})`;
-  }
+  var = (name: VariableName, ...fallbacks: (number | string)[]): string =>
+    `var(${[`--${name}`, ...fallbacks].join(', ')})`;
 }
