@@ -106,7 +106,7 @@ themes:
         fg:
           base: green.40
       # Custom all different colors
-      failure:
+      negative:
         color: black
         text: white.00
         fg:

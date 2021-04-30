@@ -22,7 +22,17 @@ export type ElevationType =
   | 'tooltip';
 
 export type PaletteType =
-  'brand' | 'danger' | 'failure' | 'info' | 'muted' | 'neutral' | 'positive' | 'primary' | 'secondary' | 'tertiary' | 'warning';
+  | 'brand'
+  | 'danger'
+  | 'info'
+  | 'muted'
+  | 'negative'
+  | 'neutral'
+  | 'positive'
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'warning';
 
 export type ShadowSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
@@ -265,27 +275,6 @@ export interface ThemeVariables {
   'palette-danger-fg-hovered': Hexcode;
   'palette-danger-fg-selected': Hexcode;
   'palette-danger-text': Hexcode;
-  'palette-failure-bg-base': Hexcode;
-  'palette-failure-bg-disabled': Hexcode;
-  'palette-failure-bg-focused': Hexcode;
-  'palette-failure-bg-hovered': Hexcode;
-  'palette-failure-bg-selected': Hexcode;
-  'palette-failure-color-00': Hexcode;
-  'palette-failure-color-10': Hexcode;
-  'palette-failure-color-20': Hexcode;
-  'palette-failure-color-30': Hexcode;
-  'palette-failure-color-40': Hexcode;
-  'palette-failure-color-50': Hexcode;
-  'palette-failure-color-60': Hexcode;
-  'palette-failure-color-70': Hexcode;
-  'palette-failure-color-80': Hexcode;
-  'palette-failure-color-90': Hexcode;
-  'palette-failure-fg-base': Hexcode;
-  'palette-failure-fg-disabled': Hexcode;
-  'palette-failure-fg-focused': Hexcode;
-  'palette-failure-fg-hovered': Hexcode;
-  'palette-failure-fg-selected': Hexcode;
-  'palette-failure-text': Hexcode;
   'palette-info-bg-base': Hexcode;
   'palette-info-bg-disabled': Hexcode;
   'palette-info-bg-focused': Hexcode;
@@ -328,6 +317,27 @@ export interface ThemeVariables {
   'palette-muted-fg-hovered': Hexcode;
   'palette-muted-fg-selected': Hexcode;
   'palette-muted-text': Hexcode;
+  'palette-negative-bg-base': Hexcode;
+  'palette-negative-bg-disabled': Hexcode;
+  'palette-negative-bg-focused': Hexcode;
+  'palette-negative-bg-hovered': Hexcode;
+  'palette-negative-bg-selected': Hexcode;
+  'palette-negative-color-00': Hexcode;
+  'palette-negative-color-10': Hexcode;
+  'palette-negative-color-20': Hexcode;
+  'palette-negative-color-30': Hexcode;
+  'palette-negative-color-40': Hexcode;
+  'palette-negative-color-50': Hexcode;
+  'palette-negative-color-60': Hexcode;
+  'palette-negative-color-70': Hexcode;
+  'palette-negative-color-80': Hexcode;
+  'palette-negative-color-90': Hexcode;
+  'palette-negative-fg-base': Hexcode;
+  'palette-negative-fg-disabled': Hexcode;
+  'palette-negative-fg-focused': Hexcode;
+  'palette-negative-fg-hovered': Hexcode;
+  'palette-negative-fg-selected': Hexcode;
+  'palette-negative-text': Hexcode;
   'palette-neutral-bg-base': Hexcode;
   'palette-neutral-bg-disabled': Hexcode;
   'palette-neutral-bg-focused': Hexcode;
@@ -349,6 +359,27 @@ export interface ThemeVariables {
   'palette-neutral-fg-hovered': Hexcode;
   'palette-neutral-fg-selected': Hexcode;
   'palette-neutral-text': Hexcode;
+  'palette-positive-bg-base': Hexcode;
+  'palette-positive-bg-disabled': Hexcode;
+  'palette-positive-bg-focused': Hexcode;
+  'palette-positive-bg-hovered': Hexcode;
+  'palette-positive-bg-selected': Hexcode;
+  'palette-positive-color-00': Hexcode;
+  'palette-positive-color-10': Hexcode;
+  'palette-positive-color-20': Hexcode;
+  'palette-positive-color-30': Hexcode;
+  'palette-positive-color-40': Hexcode;
+  'palette-positive-color-50': Hexcode;
+  'palette-positive-color-60': Hexcode;
+  'palette-positive-color-70': Hexcode;
+  'palette-positive-color-80': Hexcode;
+  'palette-positive-color-90': Hexcode;
+  'palette-positive-fg-base': Hexcode;
+  'palette-positive-fg-disabled': Hexcode;
+  'palette-positive-fg-focused': Hexcode;
+  'palette-positive-fg-hovered': Hexcode;
+  'palette-positive-fg-selected': Hexcode;
+  'palette-positive-text': Hexcode;
   'palette-primary-bg-base': Hexcode;
   'palette-primary-bg-disabled': Hexcode;
   'palette-primary-bg-focused': Hexcode;
@@ -391,27 +422,6 @@ export interface ThemeVariables {
   'palette-secondary-fg-hovered': Hexcode;
   'palette-secondary-fg-selected': Hexcode;
   'palette-secondary-text': Hexcode;
-  'palette-positive-bg-base': Hexcode;
-  'palette-positive-bg-disabled': Hexcode;
-  'palette-positive-bg-focused': Hexcode;
-  'palette-positive-bg-hovered': Hexcode;
-  'palette-positive-bg-selected': Hexcode;
-  'palette-positive-color-00': Hexcode;
-  'palette-positive-color-10': Hexcode;
-  'palette-positive-color-20': Hexcode;
-  'palette-positive-color-30': Hexcode;
-  'palette-positive-color-40': Hexcode;
-  'palette-positive-color-50': Hexcode;
-  'palette-positive-color-60': Hexcode;
-  'palette-positive-color-70': Hexcode;
-  'palette-positive-color-80': Hexcode;
-  'palette-positive-color-90': Hexcode;
-  'palette-positive-fg-base': Hexcode;
-  'palette-positive-fg-disabled': Hexcode;
-  'palette-positive-fg-focused': Hexcode;
-  'palette-positive-fg-hovered': Hexcode;
-  'palette-positive-fg-selected': Hexcode;
-  'palette-positive-text': Hexcode;
   'palette-tertiary-bg-base': Hexcode;
   'palette-tertiary-bg-disabled': Hexcode;
   'palette-tertiary-bg-focused': Hexcode;

@@ -406,7 +406,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#000',
           '10': '#000',
@@ -905,7 +905,7 @@ export default design.createTheme(
         },
         text: '#ED8',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#BE0',
           '10': '#BE1',
@@ -1239,7 +1239,7 @@ export default parentTheme.extend(
         },
         text: '#ED8',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#BE0',
           '10': '#BE1',

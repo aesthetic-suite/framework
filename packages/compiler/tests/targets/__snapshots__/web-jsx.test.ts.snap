@@ -405,7 +405,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#000',
           10: '#000',

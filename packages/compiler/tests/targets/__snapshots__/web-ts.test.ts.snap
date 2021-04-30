@@ -466,7 +466,7 @@ export const danger: PaletteToken = {
   text: '#000',
 };
 
-export const failure: PaletteToken = {
+export const negative: PaletteToken = {
   color: {
     '00': '#000',
     '10': '#000',

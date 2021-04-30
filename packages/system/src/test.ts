@@ -311,7 +311,7 @@ export const lightTheme: Theme<any> = design.createTheme(
         bg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
         fg: { base: '#fff', disabled: '#fff', focused: '#fff', hovered: '#fff', selected: '#fff' },
       },
-      failure: {
+      negative: {
         color: {
           '10': '#fff',
           '20': '#fff',
@@ -509,7 +509,7 @@ export const darkTheme: Theme<any> = design.createTheme(
         bg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
         fg: { base: '#000', disabled: '#000', focused: '#000', hovered: '#000', selected: '#000' },
       },
-      failure: {
+      negative: {
         color: {
           '10': '#000',
           '20': '#000',

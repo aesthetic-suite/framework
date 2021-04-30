@@ -106,7 +106,7 @@ themes:
         text: blue.40
         bg: blue
         fg: white
-      failure:
+      negative:
         color: blue
         text: blue.00
         bg: blue

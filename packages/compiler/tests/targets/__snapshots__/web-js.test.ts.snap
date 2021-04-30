@@ -453,7 +453,7 @@ export const danger = {
   text: '#000',
 };
 
-export const failure = {
+export const negative = {
   color: {
     '00': '#000',
     10: '#000',

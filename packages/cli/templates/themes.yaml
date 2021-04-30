@@ -36,5 +36,5 @@ themes:
       info: black
       warning: black
       danger: black
-      failure: black
+      negative: black
       positive: black

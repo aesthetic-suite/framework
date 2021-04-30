@@ -106,7 +106,7 @@ export const PALETTE_TYPES: PaletteType[] = [
   'muted',
   'danger',
   'warning',
-  'failure',
+  'negative',
   'positive',
   'info',
 ];
