@@ -406,7 +406,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#000',
           '10': '#000',
@@ -435,36 +435,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      success: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      info: {
+      positive: {
         color: {
           '00': '#000',
           '10': '#000',

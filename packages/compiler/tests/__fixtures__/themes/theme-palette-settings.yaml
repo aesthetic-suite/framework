@@ -75,12 +75,8 @@ themes:
       neutral:
         color: white
         text: black
-      # Color + text + shade
-      muted:
-        color: black
-        text: white.90
       # Custom bg
-      info:
+      muted:
         color: white
         bg:
           base: white.90
@@ -106,7 +102,7 @@ themes:
         fg:
           base: green.40
       # Custom all different colors
-      failure:
+      negative:
         color: black
         text: white.00
         fg:
@@ -122,4 +118,4 @@ themes:
           selected: black.10
           disabled: white.00
       # Shorthand
-      success: white
+      positive: white

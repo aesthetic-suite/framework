@@ -179,7 +179,7 @@ describe('Aesthetic', () => {
 
       aesthetic.changeTheme('night');
 
-      expect(document.body.className).toBe('csehgq8');
+      expect(document.body.className).toBe('cnelcsi');
     });
 
     it('emits `change:theme` event', () => {
@@ -188,7 +188,7 @@ describe('Aesthetic', () => {
       aesthetic.subscribe('change:theme', spy);
       aesthetic.changeTheme('night');
 
-      expect(spy).toHaveBeenCalledWith('night', ['csehgq8']);
+      expect(spy).toHaveBeenCalledWith('night', ['cnelcsi']);
     });
 
     it('doesnt emit `change:theme` event if `propagate` is false', () => {
@@ -364,7 +364,7 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(aesthetic.getActiveTheme()).toBe(darkTheme);
-      expect(changeSpy).toHaveBeenCalledWith('night', ['csehgq8']);
+      expect(changeSpy).toHaveBeenCalledWith('night', ['cnelcsi']);
     });
 
     it('returns the preferred theme if no active defined', () => {
@@ -376,7 +376,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.getActiveTheme()).toBe(lightTheme);
       expect(getSpy).toHaveBeenCalled();
-      expect(changeSpy).toHaveBeenCalledWith('day', ['c1mbmoiu']);
+      expect(changeSpy).toHaveBeenCalledWith('day', ['c1e98oxu']);
     });
   });
 
@@ -639,7 +639,7 @@ describe('Aesthetic', () => {
 
       aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1mbmoiu', 'cemumis']);
+      expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1e98oxu', 'cemumis']);
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
         vendor: false,

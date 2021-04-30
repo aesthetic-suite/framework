@@ -88,10 +88,6 @@ themes:
         color: black
         bg: black
         fg: white
-      info:
-        color: white
-        bg: white
-        fg: black
       warning:
         color: red
         bg: red
@@ -106,12 +102,12 @@ themes:
         text: blue.40
         bg: blue
         fg: white
-      failure:
+      negative:
         color: blue
         text: blue.00
         bg: blue
         fg: white
-      success:
+      positive:
         color: green
         text: green.90
         bg: green

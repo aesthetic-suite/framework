@@ -117,13 +117,12 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
         palettes: shape<PalettesConfig>({
           brand: this.themePalette(),
           danger: this.themePalette(),
-          failure: this.themePalette(),
-          info: this.themePalette(),
           muted: this.themePalette(),
+          negative: this.themePalette(),
           neutral: this.themePalette(),
+          positive: this.themePalette(),
           primary: this.themePalette(),
           secondary: this.themePalette(),
-          success: this.themePalette(),
           tertiary: this.themePalette(),
           warning: this.themePalette(),
         })

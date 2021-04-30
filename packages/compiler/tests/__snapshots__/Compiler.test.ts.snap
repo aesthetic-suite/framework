@@ -406,7 +406,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#000',
           '10': '#000',
@@ -435,36 +435,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      success: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      info: {
+      positive: {
         color: {
           '00': '#000',
           '10': '#000',
@@ -905,7 +876,7 @@ export default design.createTheme(
         },
         text: '#ED8',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#BE0',
           '10': '#BE1',
@@ -934,7 +905,7 @@ export default design.createTheme(
         },
         text: '#BE0',
       },
-      success: {
+      positive: {
         color: {
           '00': '#EE0',
           '10': '#EE1',
@@ -962,35 +933,6 @@ export default design.createTheme(
           disabled: '#FF3',
         },
         text: '#EE9',
-      },
-      info: {
-        color: {
-          '00': '#FF0',
-          '10': '#FF1',
-          '20': '#FF2',
-          '30': '#FF3',
-          '40': '#FF4',
-          '50': '#FF5',
-          '60': '#FF6',
-          '70': '#FF7',
-          '80': '#FF8',
-          '90': '#FF9',
-        },
-        bg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        fg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        text: '#FF8',
       },
     },
   },
@@ -1239,7 +1181,7 @@ export default parentTheme.extend(
         },
         text: '#ED8',
       },
-      failure: {
+      negative: {
         color: {
           '00': '#BE0',
           '10': '#BE1',
@@ -1268,7 +1210,7 @@ export default parentTheme.extend(
         },
         text: '#BE0',
       },
-      success: {
+      positive: {
         color: {
           '00': '#EE0',
           '10': '#EE1',
@@ -1296,35 +1238,6 @@ export default parentTheme.extend(
           disabled: '#ff3',
         },
         text: '#EE9',
-      },
-      info: {
-        color: {
-          '00': '#ff0',
-          '10': '#ff1',
-          '20': '#ff2',
-          '30': '#ff3',
-          '40': '#ff4',
-          '50': '#ff5',
-          '60': '#ff6',
-          '70': '#ff7',
-          '80': '#ff8',
-          '90': '#ff9',
-        },
-        bg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
-        },
-        fg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        text: '#ff8',
       },
     },
   },

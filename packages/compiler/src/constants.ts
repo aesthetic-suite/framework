@@ -106,9 +106,8 @@ export const PALETTE_TYPES: PaletteType[] = [
   'muted',
   'danger',
   'warning',
-  'failure',
-  'success',
-  'info',
+  'negative',
+  'positive',
 ];
 
 export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];
