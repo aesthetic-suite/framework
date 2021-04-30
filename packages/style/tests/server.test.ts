@@ -1,9 +1,9 @@
-import { StyleEngine } from '../src';
-import { createServerEngine, extractStyles, renderToStyleMarkup } from '../src/server';
+import { ServerStyleEngine } from '../src';
+import { createServerEngine, renderToStyleMarkup } from '../src/server';
 import { purgeStyles } from '../src/test';
 
 describe('Server', () => {
-  let engine: StyleEngine;
+  let engine: ServerStyleEngine;
 
   beforeEach(() => {
     engine = createServerEngine();
@@ -23,7 +23,7 @@ describe('Server', () => {
     // @ts-expect-error
     delete global.AESTHETIC_CUSTOM_ENGINE;
 
-    extractStyles(engine);
+    engine.extractStyles();
 
     expect(global.AESTHETIC_CUSTOM_ENGINE).toBe(engine);
   });
@@ -31,7 +31,7 @@ describe('Server', () => {
   it('sets SSR env var', () => {
     delete process.env.AESTHETIC_SSR;
 
-    extractStyles(engine);
+    engine.extractStyles();
 
     expect(process.env.AESTHETIC_SSR).toBe('true');
   });
