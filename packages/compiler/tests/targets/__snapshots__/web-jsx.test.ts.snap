@@ -434,7 +434,7 @@ export default design.createTheme(
         },
         text: '#000',
       },
-      success: {
+      positive: {
         color: {
           '00': '#000',
           10: '#000',

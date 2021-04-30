@@ -123,7 +123,7 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
           neutral: this.themePalette(),
           primary: this.themePalette(),
           secondary: this.themePalette(),
-          success: this.themePalette(),
+          positive: this.themePalette(),
           tertiary: this.themePalette(),
           warning: this.themePalette(),
         })

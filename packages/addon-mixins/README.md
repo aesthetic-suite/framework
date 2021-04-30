@@ -27,10 +27,10 @@ const theme = design.createTheme(
   },
 );
 
-const css = theme.mixin('background', { palette: 'success' }, { borderWidth: 1 });
+const css = theme.mixin('background', { palette: 'positive' }, { borderWidth: 1 });
 
 // OR with type safety
-const css = theme.mixin.background({ palette: 'success' }, { borderWidth: 1 });
+const css = theme.mixin.background({ palette: 'positive' }, { borderWidth: 1 });
 ```
 
 ## Installation

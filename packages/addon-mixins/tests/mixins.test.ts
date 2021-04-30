@@ -85,7 +85,7 @@ describe('Mixins', () => {
   describe('foreground', () => {
     it('renders foreground', () => {
       expect(mixins.foreground()).toMatchSnapshot();
-      expect(mixins.foreground({ palette: 'success' }, {})).toMatchSnapshot();
+      expect(mixins.foreground({ palette: 'positive' }, {})).toMatchSnapshot();
       expect(mixins.foreground({ palette: 'warning' }, {})).toMatchSnapshot();
     });
 
@@ -267,7 +267,7 @@ describe('Mixins', () => {
 
       it('renders box with custom border options', () => {
         expect(
-          mixins.uiBox({ border: { palette: 'success', size: 'lg' }, palette: 'danger' }, {}),
+          mixins.uiBox({ border: { palette: 'positive', size: 'lg' }, palette: 'danger' }, {}),
         ).toMatchSnapshot();
       });
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins background renders background 1`] = `
 Object {
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins border errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -88,7 +88,7 @@ Object {
 }
 `;
 
-exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins foreground renders foreground 1`] = `
 Object {
@@ -98,7 +98,7 @@ Object {
 
 exports[`Mixins foreground renders foreground 2`] = `
 Object {
-  "color": "var(--palette-success-fg-base)",
+  "color": "var(--palette-positive-fg-base)",
 }
 `;
 
@@ -146,7 +146,7 @@ Object {
 }
 `;
 
-exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins interactive renders interactive 1`] = `
 Object {
@@ -317,7 +317,7 @@ Object {
 }
 `;
 
-exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins shadow errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -389,7 +389,7 @@ Object {
 }
 `;
 
-exports[`Mixins ui box errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, success"`;
+exports[`Mixins ui box errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
 
 exports[`Mixins ui box renders box 1`] = `
 Object {
@@ -416,7 +416,7 @@ Object {
 exports[`Mixins ui box renders box with custom border options 1`] = `
 Object {
   "backgroundColor": "var(--palette-danger-bg-base)",
-  "borderColor": "var(--palette-success-color-40)",
+  "borderColor": "var(--palette-positive-color-40)",
   "borderRadius": "var(--border-lg-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-lg-width)",

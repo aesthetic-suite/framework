@@ -122,4 +122,4 @@ themes:
           selected: black.10
           disabled: white.00
       # Shorthand
-      success: white
+      positive: white

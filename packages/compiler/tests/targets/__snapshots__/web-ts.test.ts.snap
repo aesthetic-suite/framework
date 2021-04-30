@@ -496,7 +496,7 @@ export const failure: PaletteToken = {
   text: '#000',
 };
 
-export const success: PaletteToken = {
+export const positive: PaletteToken = {
   color: {
     '00': '#000',
     '10': '#000',

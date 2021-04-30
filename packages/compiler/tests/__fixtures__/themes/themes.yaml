@@ -111,7 +111,7 @@ themes:
         text: blue.00
         bg: blue
         fg: white
-      success:
+      positive:
         color: green
         text: green.90
         bg: green

@@ -37,4 +37,4 @@ themes:
       warning: black
       danger: black
       failure: black
-      success: black
+      positive: black

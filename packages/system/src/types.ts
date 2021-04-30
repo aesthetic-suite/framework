@@ -22,17 +22,7 @@ export type ElevationType =
   | 'tooltip';
 
 export type PaletteType =
-  | 'brand'
-  | 'danger'
-  | 'failure'
-  | 'info'
-  | 'muted'
-  | 'neutral'
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'tertiary'
-  | 'warning';
+  'brand' | 'danger' | 'failure' | 'info' | 'muted' | 'neutral' | 'positive' | 'primary' | 'secondary' | 'tertiary' | 'warning';
 
 export type ShadowSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
@@ -401,27 +391,27 @@ export interface ThemeVariables {
   'palette-secondary-fg-hovered': Hexcode;
   'palette-secondary-fg-selected': Hexcode;
   'palette-secondary-text': Hexcode;
-  'palette-success-bg-base': Hexcode;
-  'palette-success-bg-disabled': Hexcode;
-  'palette-success-bg-focused': Hexcode;
-  'palette-success-bg-hovered': Hexcode;
-  'palette-success-bg-selected': Hexcode;
-  'palette-success-color-00': Hexcode;
-  'palette-success-color-10': Hexcode;
-  'palette-success-color-20': Hexcode;
-  'palette-success-color-30': Hexcode;
-  'palette-success-color-40': Hexcode;
-  'palette-success-color-50': Hexcode;
-  'palette-success-color-60': Hexcode;
-  'palette-success-color-70': Hexcode;
-  'palette-success-color-80': Hexcode;
-  'palette-success-color-90': Hexcode;
-  'palette-success-fg-base': Hexcode;
-  'palette-success-fg-disabled': Hexcode;
-  'palette-success-fg-focused': Hexcode;
-  'palette-success-fg-hovered': Hexcode;
-  'palette-success-fg-selected': Hexcode;
-  'palette-success-text': Hexcode;
+  'palette-positive-bg-base': Hexcode;
+  'palette-positive-bg-disabled': Hexcode;
+  'palette-positive-bg-focused': Hexcode;
+  'palette-positive-bg-hovered': Hexcode;
+  'palette-positive-bg-selected': Hexcode;
+  'palette-positive-color-00': Hexcode;
+  'palette-positive-color-10': Hexcode;
+  'palette-positive-color-20': Hexcode;
+  'palette-positive-color-30': Hexcode;
+  'palette-positive-color-40': Hexcode;
+  'palette-positive-color-50': Hexcode;
+  'palette-positive-color-60': Hexcode;
+  'palette-positive-color-70': Hexcode;
+  'palette-positive-color-80': Hexcode;
+  'palette-positive-color-90': Hexcode;
+  'palette-positive-fg-base': Hexcode;
+  'palette-positive-fg-disabled': Hexcode;
+  'palette-positive-fg-focused': Hexcode;
+  'palette-positive-fg-hovered': Hexcode;
+  'palette-positive-fg-selected': Hexcode;
+  'palette-positive-text': Hexcode;
   'palette-tertiary-bg-base': Hexcode;
   'palette-tertiary-bg-disabled': Hexcode;
   'palette-tertiary-bg-focused': Hexcode;
