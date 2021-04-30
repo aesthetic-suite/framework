@@ -88,10 +88,6 @@ themes:
         color: black
         bg: black
         fg: white
-      info:
-        color: white
-        bg: white
-        fg: black
       warning:
         color: red
         bg: red

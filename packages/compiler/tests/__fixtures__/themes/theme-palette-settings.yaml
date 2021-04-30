@@ -75,12 +75,8 @@ themes:
       neutral:
         color: white
         text: black
-      # Color + text + shade
-      muted:
-        color: black
-        text: white.90
       # Custom bg
-      info:
+      muted:
         color: white
         bg:
           base: white.90

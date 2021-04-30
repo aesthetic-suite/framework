@@ -72,35 +72,6 @@ Object {
       },
       "text": "#BE4",
     },
-    "info": Object {
-      "bg": Object {
-        "base": "#FF4",
-        "disabled": "#FF3",
-        "focused": "#FF5",
-        "hovered": "#FF6",
-        "selected": "#FF5",
-      },
-      "color": Object {
-        "00": "#FF0",
-        "10": "#FF1",
-        "20": "#FF2",
-        "30": "#FF3",
-        "40": "#FF4",
-        "50": "#FF5",
-        "60": "#FF6",
-        "70": "#FF7",
-        "80": "#FF8",
-        "90": "#FF9",
-      },
-      "fg": Object {
-        "base": "#004",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
-      },
-      "text": "#FF8",
-    },
     "muted": Object {
       "bg": Object {
         "base": "#004",
@@ -398,7 +369,7 @@ Object {
       },
       "text": "#ED5",
     },
-    "info": Object {
+    "muted": Object {
       "bg": Object {
         "base": "#FF9",
         "disabled": "#FF0",
@@ -426,35 +397,6 @@ Object {
         "selected": "#FF5",
       },
       "text": "#FF8",
-    },
-    "muted": Object {
-      "bg": Object {
-        "base": "#004",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
-      },
-      "color": Object {
-        "00": "#000",
-        "10": "#001",
-        "20": "#002",
-        "30": "#003",
-        "40": "#004",
-        "50": "#005",
-        "60": "#006",
-        "70": "#007",
-        "80": "#008",
-        "90": "#009",
-      },
-      "fg": Object {
-        "base": "#FF4",
-        "disabled": "#FF3",
-        "focused": "#FF5",
-        "hovered": "#FF6",
-        "selected": "#FF5",
-      },
-      "text": "#FF9",
     },
     "negative": Object {
       "bg": Object {
@@ -723,35 +665,6 @@ Object {
         "selected": "#005",
       },
       "text": "#ED8",
-    },
-    "info": Object {
-      "bg": Object {
-        "base": "#ff4",
-        "disabled": "#ff3",
-        "focused": "#ff5",
-        "hovered": "#ff6",
-        "selected": "#ff5",
-      },
-      "color": Object {
-        "00": "#ff0",
-        "10": "#ff1",
-        "20": "#ff2",
-        "30": "#ff3",
-        "40": "#ff4",
-        "50": "#ff5",
-        "60": "#ff6",
-        "70": "#ff7",
-        "80": "#ff8",
-        "90": "#ff9",
-      },
-      "fg": Object {
-        "base": "#004",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
-      },
-      "text": "#ff8",
     },
     "muted": Object {
       "bg": Object {

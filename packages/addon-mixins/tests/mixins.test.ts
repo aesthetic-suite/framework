@@ -39,7 +39,7 @@ describe('Mixins', () => {
   describe('border', () => {
     it('renders border', () => {
       expect(mixins.border()).toMatchSnapshot();
-      expect(mixins.border({ size: 'sm', palette: 'info' }, {})).toMatchSnapshot();
+      expect(mixins.border({ size: 'sm', palette: 'warning' }, {})).toMatchSnapshot();
       expect(mixins.border({ size: 'lg', shade: '50', radius: false }, {})).toMatchSnapshot();
     });
 
@@ -168,7 +168,7 @@ describe('Mixins', () => {
   describe('shadow', () => {
     it('renders shadow', () => {
       expect(mixins.shadow()).toMatchSnapshot();
-      expect(mixins.shadow({ size: 'sm', palette: 'info' }, {})).toMatchSnapshot();
+      expect(mixins.shadow({ size: 'sm', palette: 'warning' }, {})).toMatchSnapshot();
       expect(mixins.shadow({ size: 'lg', shade: '50' }, {})).toMatchSnapshot();
     });
 
@@ -277,7 +277,7 @@ describe('Mixins', () => {
 
       it('renders box with custom shadow options', () => {
         expect(
-          mixins.uiBox({ palette: 'brand', shadow: { palette: 'info', shade: '00' } }, {}),
+          mixins.uiBox({ palette: 'brand', shadow: { palette: 'warning', shade: '00' } }, {}),
         ).toMatchSnapshot();
       });
     });

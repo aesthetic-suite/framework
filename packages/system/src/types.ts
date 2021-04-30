@@ -24,7 +24,6 @@ export type ElevationType =
 export type PaletteType =
   | 'brand'
   | 'danger'
-  | 'info'
   | 'muted'
   | 'negative'
   | 'neutral'
@@ -275,27 +274,6 @@ export interface ThemeVariables {
   'palette-danger-fg-hovered': Hexcode;
   'palette-danger-fg-selected': Hexcode;
   'palette-danger-text': Hexcode;
-  'palette-info-bg-base': Hexcode;
-  'palette-info-bg-disabled': Hexcode;
-  'palette-info-bg-focused': Hexcode;
-  'palette-info-bg-hovered': Hexcode;
-  'palette-info-bg-selected': Hexcode;
-  'palette-info-color-00': Hexcode;
-  'palette-info-color-10': Hexcode;
-  'palette-info-color-20': Hexcode;
-  'palette-info-color-30': Hexcode;
-  'palette-info-color-40': Hexcode;
-  'palette-info-color-50': Hexcode;
-  'palette-info-color-60': Hexcode;
-  'palette-info-color-70': Hexcode;
-  'palette-info-color-80': Hexcode;
-  'palette-info-color-90': Hexcode;
-  'palette-info-fg-base': Hexcode;
-  'palette-info-fg-disabled': Hexcode;
-  'palette-info-fg-focused': Hexcode;
-  'palette-info-fg-hovered': Hexcode;
-  'palette-info-fg-selected': Hexcode;
-  'palette-info-text': Hexcode;
   'palette-muted-bg-base': Hexcode;
   'palette-muted-bg-disabled': Hexcode;
   'palette-muted-bg-focused': Hexcode;

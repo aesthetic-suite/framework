@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins background errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins background renders background 1`] = `
 Object {
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins border errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins border errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -37,7 +37,7 @@ Object {
 
 exports[`Mixins border renders border 2`] = `
 Object {
-  "borderColor": "var(--palette-info-color-40)",
+  "borderColor": "var(--palette-warning-color-40)",
   "borderRadius": "var(--border-sm-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-sm-width)",
@@ -88,7 +88,7 @@ Object {
 }
 `;
 
-exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins foreground errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins foreground renders foreground 1`] = `
 Object {
@@ -146,7 +146,7 @@ Object {
 }
 `;
 
-exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins interactive errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins interactive renders interactive 1`] = `
 Object {
@@ -317,7 +317,7 @@ Object {
 }
 `;
 
-exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins shadow errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins shadow errors for invalid \`shade\` 1`] = `"Invalid \\"shade\\" value. Must be one of 00, 10, 20, 30, 40, 50, 60, 70, 80, 90"`;
 
@@ -331,7 +331,7 @@ Object {
 
 exports[`Mixins shadow renders shadow 2`] = `
 Object {
-  "boxShadow": "var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--palette-info-color-90)",
+  "boxShadow": "var(--shadow-sm-x) var(--shadow-sm-y) var(--shadow-sm-blur) var(--shadow-sm-spread) var(--palette-warning-color-90)",
 }
 `;
 
@@ -389,7 +389,7 @@ Object {
 }
 `;
 
-exports[`Mixins ui box errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, info, warning, danger, failure, positive"`;
+exports[`Mixins ui box errors for invalid \`palette\` 1`] = `"Invalid \\"palette\\" value. Must be one of brand, primary, secondary, tertiary, neutral, muted, warning, danger, negative, positive"`;
 
 exports[`Mixins ui box renders box 1`] = `
 Object {
@@ -431,7 +431,7 @@ Object {
   "borderRadius": "var(--border-df-radius)",
   "borderStyle": "solid",
   "borderWidth": "var(--border-df-width)",
-  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-info-color-00)",
+  "boxShadow": "var(--shadow-md-x) var(--shadow-md-y) var(--shadow-md-blur) var(--shadow-md-spread) var(--palette-warning-color-00)",
 }
 `;
 

@@ -33,7 +33,6 @@ themes:
       tertiary: black
       neutral: black
       muted: black
-      info: black
       warning: black
       danger: black
       negative: black

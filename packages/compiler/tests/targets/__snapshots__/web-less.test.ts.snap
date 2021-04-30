@@ -334,27 +334,5 @@ exports[`Format web-less compiles and writes files 2`] = `
 @palette-positive-fg-selected: #000;
 @palette-positive-fg-disabled: #000;
 @palette-positive-text: #000;
-
-@palette-info-color-00: #000;
-@palette-info-color-10: #000;
-@palette-info-color-20: #000;
-@palette-info-color-30: #000;
-@palette-info-color-40: #000;
-@palette-info-color-50: #000;
-@palette-info-color-60: #000;
-@palette-info-color-70: #000;
-@palette-info-color-80: #000;
-@palette-info-color-90: #000;
-@palette-info-bg-base: #000;
-@palette-info-bg-focused: #000;
-@palette-info-bg-hovered: #000;
-@palette-info-bg-selected: #000;
-@palette-info-bg-disabled: #000;
-@palette-info-fg-base: #000;
-@palette-info-fg-focused: #000;
-@palette-info-fg-hovered: #000;
-@palette-info-fg-selected: #000;
-@palette-info-fg-disabled: #000;
-@palette-info-text: #000;
 "
 `;
