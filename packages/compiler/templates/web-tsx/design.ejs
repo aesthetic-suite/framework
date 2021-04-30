@@ -1,8 +1,5 @@
 import { LocalBlock } from '@aesthetic/sss';
 import { Design } from '@aesthetic/system';
-<% if (includeMixins) { -%>
-import mixins from '@aesthetic/addon-mixins';
-<% } -%>
 
 export default new Design<LocalBlock>('<%= design.dashedName -%>', {
   border: <%- include('../partials/web/border') -%>,
@@ -12,7 +9,4 @@ export default new Design<LocalBlock>('<%= design.dashedName -%>', {
   spacing: <%- include('../partials/web/spacing') -%>,
   text: <%- include('../partials/web/text') -%>,
   typography: <%- include('../partials/web/typography') -%>,
-}
-<% if (includeMixins) { -%>
-, mixins
-<% } -%>);
+});

@@ -29,7 +29,6 @@ export type FormatType =
 
 export interface SystemOptions {
   format: FormatType;
-  mixins?: boolean;
   platform: PlatformType;
 }
 

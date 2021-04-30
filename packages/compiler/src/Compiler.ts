@@ -165,7 +165,6 @@ export default class Compiler {
         breakpointSizes: BREAKPOINT_SIZES,
         elevationDepths: Object.entries(DEPTHS),
         headingSizes: HEADING_SIZES,
-        includeMixins: this.options.mixins,
         platform,
         shadowSizes: SHADOW_SIZES,
         spacingSizes: SPACING_SIZES,

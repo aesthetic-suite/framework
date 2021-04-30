@@ -18,9 +18,6 @@ export default class Compile extends Command<CompileOptions, CompileParams> {
   @Arg.String('Target platform and format', { choices: FORMAT_LIST })
   format: FormatType = 'web-tsx';
 
-  @Arg.Flag('Include mixins addon (jsx/tsx only)')
-  mixins: boolean = false;
-
   @Arg.Params<CompileParams>(
     {
       description: 'Name of the design system',
@@ -41,7 +38,6 @@ export default class Compile extends Command<CompileOptions, CompileParams> {
     const targetPath = Path.resolve(target, this.cwd);
     const compiler = new Compiler(configDir, targetPath, {
       format: this.format,
-      mixins: this.mixins,
       platform: this.format.split('-')[0] as PlatformType,
     });
 

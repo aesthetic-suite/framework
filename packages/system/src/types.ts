@@ -458,23 +458,23 @@ export type UnitUtil = (...sizes: number[]) => Unit;
 
 // MIXINS
 
-export type MixinTemplate<T extends object, O extends object = object> = (options: O) => T;
+export type MixinType =
+  | 'hide-offscreen'
+  | 'hide-visually'
+  | 'reset-button'
+  | 'reset-input'
+  | 'reset-list'
+  | 'reset-media'
+  | 'reset-typography'
+  | 'root'
+  | 'text-break'
+  | 'text-truncate'
+  | 'text-wrap';
 
-export type MixinTemplateMap<T extends object> = Record<string, MixinTemplate<T>>;
+// eslint-disable-next-line no-use-before-define
+export type MixinTemplate<T extends object> = (utils: Utilities<T>) => T;
 
-export interface Mixin<T extends object, O extends object = object> {
-  (options: O, rule: T): T;
-  (rule?: T): T;
-}
-
-// Used for augmentation downstream
-// eslint-disable-next-line
-export interface Mixins<T extends object> {}
-
-export interface MixinUtil<T extends object, O extends object = object> extends Mixins<T> {
-  (name: string, options: O, rule: T): T;
-  (name: string, rule?: T): T;
-}
+export type MixinUtil<T extends object> = (name: MixinType, rule?: T) => T;
 
 // OTHER
 

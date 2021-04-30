@@ -1,109 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Theme extendMixin() can extend a mixin with additional properties 1`] = `
+exports[`Theme mixin() deep merges correctly 1`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme extendMixin() can extend a mixin with additional properties 2`] = `
-Object {
-  "color": "red",
-  "display": "inline-block",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": "bold",
-  "lineHeight": "var(--text-df-line-height)",
-  "opacity": 1,
-}
-`;
-
-exports[`Theme extendMixin() can utilize the same options as the parent mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": "normal",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme extendMixin() can utilize the same options as the parent mixin 2`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-lg-size)",
-  "fontWeight": "bold",
-  "lineHeight": "var(--text-lg-line-height)",
-}
-`;
-
-exports[`Theme mixin() allows additional rules to overwrite templates and mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "fontWeight": 800,
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme mixin() merges multiple templates with base mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "24px",
-  "fontWeight": "bold",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme mixin() merges templates and rules with base mixin 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "24px",
-  "fontWeight": "bold",
-  "lineHeight": "var(--text-df-line-height)",
+  "@selectors": Object {
+    ":hover": Object {
+      "color": "red",
+    },
+    ":not(:focus):not(:active)": Object {
+      "border": 0,
+      "clip": "rect(0, 0, 0, 0)",
+      "clipPath": "inset(50%)",
+      "height": 1,
+      "margin": 0,
+      "overflow": "hidden",
+      "padding": 0,
+      "position": "absolute",
+      "whiteSpace": "nowrap",
+      "width": 1,
+    },
+  },
 }
 `;
 
 exports[`Theme mixin() returns base properties when no options or extra rule passed 1`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme mixin() returns merged and customized properties when options and extra rule passed 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "60px",
-  "lineHeight": "var(--text-large-line-height)",
+  "fontFamily": "inherit",
+  "fontSize": "inherit",
+  "fontWeight": "normal",
+  "wordWrap": "break-word",
 }
 `;
 
 exports[`Theme mixin() returns merged properties when no options passed but an extra rule is passed 1`] = `
 Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
+  "fontFamily": "inherit",
   "fontSize": "60px",
-  "lineHeight": "var(--text-df-line-height)",
-}
-`;
-
-exports[`Theme registers built-ins from parent design on instantiation 1`] = `
-Object {
-  "color": "var(--palette-neutral-fg-base)",
-  "fontFamily": "var(--typography-font-text)",
-  "fontSize": "var(--text-df-size)",
-  "lineHeight": "var(--text-df-line-height)",
+  "fontWeight": "normal",
+  "wordWrap": "break-word",
 }
 `;
 
