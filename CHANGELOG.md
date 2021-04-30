@@ -12,7 +12,6 @@
 ## Addons
 
 - [@aesthetic/addon-direction](./packages/addon-direction/CHANGELOG.md)
-- [@aesthetic/addon-mixins](./packages/addon-mixins/CHANGELOG.md)
 - [@aesthetic/addon-properties](./packages/properties/CHANGELOG.md)
 - [@aesthetic/addon-vendor](./packages/vendor/CHANGELOG.md)
 
