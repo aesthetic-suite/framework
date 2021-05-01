@@ -2,6 +2,7 @@ import Block from '../src/Block';
 import doParse from '../src/parse';
 import { LocalStyleSheet, ParserOptions } from '../src/types';
 import {
+  SYNTAX_COMPOUND_VARIANTS,
   SYNTAX_FALLBACKS,
   SYNTAX_LOCAL_BLOCK,
   SYNTAX_MEDIA,
@@ -712,7 +713,7 @@ describe('LocalParser', () => {
       expect(() => {
         parse(
           {
-            fb: {
+            element: {
               // @ts-expect-error
               '@variants': 123,
             },
@@ -720,6 +721,112 @@ describe('LocalParser', () => {
           {},
         );
       }).toThrow('@variants must be a mapping of CSS declarations.');
+    });
+
+    it('errors if missing a colon', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                foo: {},
+              },
+            },
+          },
+          {},
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('errors if starts with a number', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                '9a:value': {},
+              },
+            },
+          },
+          {},
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('errors if enum is empty', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                'type:': {},
+              },
+            },
+          },
+          {},
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('errors if contains a space', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                'type:va lue': {},
+              },
+            },
+          },
+          {},
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('errors for invalid compound name', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                'type:value + broken': {},
+              },
+            },
+          },
+          {},
+        );
+      }).toThrowErrorMatchingSnapshot();
+    });
+
+    it('doesnt error for valid variant type', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                'type:value': {},
+              },
+            },
+          },
+          {},
+        );
+      }).not.toThrow();
+    });
+
+    it('doesnt error for valid compound variant', () => {
+      expect(() => {
+        parse(
+          {
+            element: {
+              '@variants': {
+                'a:value + b:value': {},
+                'b:value + c:value + d:value': {},
+              },
+            },
+          },
+          {},
+        );
+      }).not.toThrow();
     });
 
     it('does not emit if no variants', () => {
@@ -735,7 +842,7 @@ describe('LocalParser', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
-    it('emits for each condition', () => {
+    it('emits for each variant', () => {
       parse(
         {
           variants: SYNTAX_VARIANTS,
@@ -758,6 +865,26 @@ describe('LocalParser', () => {
         expect.any(Block),
         'size:large',
         createBlock('', { fontSize: 18 }),
+        { specificity: 0 },
+      );
+    });
+
+    it('emits for each compound variant', () => {
+      parse(
+        {
+          variants: SYNTAX_COMPOUND_VARIANTS,
+        },
+        {
+          onVariant: spy,
+        },
+      );
+
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      expect(spy).toHaveBeenCalledWith(
+        expect.any(Block),
+        ['size:large', 'palette:negative'],
+        createBlock('', { fontWeight: 'bold' }),
         { specificity: 0 },
       );
     });

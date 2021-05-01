@@ -179,3 +179,11 @@ export const SYNTAX_VARIANTS: LocalBlock = {
     },
   },
 };
+
+export const SYNTAX_COMPOUND_VARIANTS: LocalBlock = {
+  '@variants': {
+    'size:large + palette:negative': {
+      fontWeight: 'bold',
+    },
+  },
+};
