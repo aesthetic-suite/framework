@@ -5,7 +5,7 @@
 - Design and launch a new website.
 - Investigate React Native support.
 - Start scaffolding out React UI components.
-- Improve performance and reduce package sizes.
+- Add Webpack plugin to pre-build CSS files and reduce runtime cost.
 
 # Backlog
 
@@ -25,7 +25,6 @@ In no particular order.
 
 - Research possible Android formats.
 - Research possible iOS formats.
-- Add Webpack plugin to pre-build CSS files and reduce runtime cost.
 
 ## Integrations
 
