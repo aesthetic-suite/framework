@@ -1,7 +1,7 @@
 import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
-import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { deepMerge, objectLoop, toArray } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
@@ -192,23 +192,30 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
           block.addResult(engine.renderVariable(name, value));
         }
       },
-      onVariant: (parent, type, block) => {
+      onVariant: (parent, variant, block) => {
         if (!engine.atomic) {
           block.addResult(engine.renderRule(block.toObject(), renderOptions));
         }
 
         const meta = createResultMetadata(parent.id);
+        const list = toArray(variant);
 
         if (!meta.variants) {
-          meta.variants = {};
+          meta.variants = [];
         }
 
         if (!meta.variantTypes) {
           meta.variantTypes = new Set();
         }
 
-        meta.variants[type] = block.result as Result;
-        meta.variantTypes.add(type.split(':')[0]);
+        meta.variants.push({
+          match: list,
+          result: block.result as Result,
+        });
+
+        list.forEach((type) => {
+          meta.variantTypes!.add(type.split(':')[0]);
+        });
       },
     });
 

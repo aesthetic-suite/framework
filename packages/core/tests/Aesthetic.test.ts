@@ -3,6 +3,7 @@ import vendorPrefixer from '@aesthetic/addon-vendor';
 import { createClientEngine } from '@aesthetic/style';
 import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
+import { toArray } from '@aesthetic/utils';
 import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
 import {
   darkTheme,
@@ -11,6 +12,10 @@ import {
   setupAesthetic,
   teardownAesthetic,
 } from '../src/test';
+
+function createVariant(type: string[] | string, result: string) {
+  return { match: toArray(type), result };
+}
 
 describe('Aesthetic', () => {
   let aesthetic: Aesthetic;
@@ -266,36 +271,42 @@ describe('Aesthetic', () => {
 
   describe('generateClassName()', () => {
     const classes: RenderResultSheet<ClassName> = {
-      a: { result: 'a', variants: { 'size:df': 'a_size_df' } },
+      a: { result: 'a', variants: [createVariant('size:df', 'a_size_df')] },
       b: { result: 'b' },
-      c: { result: 'c', variants: { 'size:md': 'c_size_md', 'type:red': 'c_size_red' } },
-      d: { variants: { 'size:df': 'd_size_df' } },
+      c: {
+        result: 'c',
+        variants: [createVariant('size:md', 'c_size_md'), createVariant('type:red', 'c_size_red')],
+      },
+      d: { variants: [createVariant('size:df', 'd_size_df')] },
       e: { result: 'e' },
-      f: { result: 'f', variants: { 'size:df': 'f_size_df', 'size:md': 'f_size_md' } },
-      g: { result: 'g', variants: { 'type:red': 'c_size_red' } },
+      f: {
+        result: 'f',
+        variants: [createVariant('size:df', 'f_size_df'), createVariant('size:md', 'f_size_md')],
+      },
+      g: { result: 'g', variants: [createVariant('type:red', 'c_size_red')] },
     };
 
     it('returns class names', () => {
-      expect(aesthetic.generateClassName(['a', 'e'], [], classes)).toBe('a e');
+      expect(aesthetic.generateClassName(['a', 'e'], new Set(), classes)).toBe('a e');
     });
 
     it('returns class names and their variants', () => {
-      expect(aesthetic.generateClassName(['a'], ['size:df'], classes)).toBe('a a_size_df');
-      expect(aesthetic.generateClassName(['a', 'f'], ['size:df'], classes)).toBe(
+      expect(aesthetic.generateClassName(['a'], new Set(['size:df']), classes)).toBe('a a_size_df');
+      expect(aesthetic.generateClassName(['a', 'f'], new Set(['size:df']), classes)).toBe(
         'a a_size_df f f_size_df',
       );
     });
 
     it('returns nothing for an invalid selector', () => {
-      expect(aesthetic.generateClassName(['z'], [], classes)).toBe('');
+      expect(aesthetic.generateClassName(['z'], new Set(), classes)).toBe('');
     });
 
     it('returns nothing for a valid selector but no class name', () => {
-      expect(aesthetic.generateClassName(['d'], [], classes)).toBe('');
+      expect(aesthetic.generateClassName(['d'], new Set(), classes)).toBe('');
     });
 
     it('returns variants even if theres no base class name', () => {
-      expect(aesthetic.generateClassName(['d'], ['size:df'], classes)).toBe('d_size_df');
+      expect(aesthetic.generateClassName(['d'], new Set(['size:df']), classes)).toBe('d_size_df');
     });
   });
 
@@ -501,7 +512,11 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
         foo: { result: 'a' },
-        bar: { result: 'b', variants: { 'type:red': 'c' }, variantTypes: new Set(['type']) },
+        bar: {
+          result: 'b',
+          variants: [createVariant('type:red', 'c')],
+          variantTypes: new Set(['type']),
+        },
         baz: { result: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {

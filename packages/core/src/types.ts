@@ -28,9 +28,14 @@ export type ElementStyles = LocalBlock;
 export type ComponentStyles = LocalStyleSheet<ElementStyles>;
 export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
+export interface RenderResultVariant<T> {
+  match: string[];
+  result: T;
+}
+
 export interface RenderResult<T> {
   result?: T;
-  variants?: Record<string, T>;
+  variants?: RenderResultVariant<T>[];
   variantTypes?: Set<string>;
 }
 

@@ -100,11 +100,11 @@ describe('LocalSheet', () => {
       },
       qux: {
         result: undefined,
-        variants: {
-          'size:lg': 'p',
-          'size:md': 'o',
-          'size:sm': 'n',
-        },
+        variants: [
+          { match: ['size:sm'], result: 'n' },
+          { match: ['size:md'], result: 'o' },
+          { match: ['size:lg'], result: 'p' },
+        ],
         variantTypes: new Set(['size']),
       },
     });
@@ -142,11 +142,11 @@ describe('LocalSheet', () => {
       baz: { result: 'class-baz' },
       qux: {
         result: undefined,
-        variants: {
-          'size:lg': 'p',
-          'size:md': 'o',
-          'size:sm': 'n',
-        },
+        variants: [
+          { match: ['size:sm'], result: 'n' },
+          { match: ['size:md'], result: 'o' },
+          { match: ['size:lg'], result: 'p' },
+        ],
         variantTypes: new Set(['size']),
       },
     });

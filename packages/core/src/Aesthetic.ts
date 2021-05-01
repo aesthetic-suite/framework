@@ -180,7 +180,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    */
   generateClassName = <T extends string>(
     keys: T[],
-    variants: string[],
+    variants: Set<string>,
     classNames: RenderResultSheet<ClassName>,
   ): ClassName => {
     let className = '';
@@ -198,10 +198,10 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       }
 
       if (hash.variants) {
-        arrayLoop(variants, (variant) => {
-          if (hash.variants?.[variant]) {
+        arrayLoop(hash.variants, ({ match, result }) => {
+          if (match.every((type) => variants.has(type))) {
             className += ' ';
-            className += hash.variants[variant];
+            className += result;
           }
         });
       }
