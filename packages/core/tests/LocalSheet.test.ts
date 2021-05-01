@@ -61,11 +61,22 @@ describe('LocalSheet', () => {
       baz: 'class-baz',
       qux: {
         '@variants': {
-          size: {
-            sm: { fontSize: 14 },
-            md: { fontSize: 16 },
-            lg: { fontSize: 18 },
-          },
+          'size:sm': { fontSize: 14 },
+          'size:md': { fontSize: 16 },
+          'size:lg': { fontSize: 18 },
+        },
+      },
+      quxCompound: {
+        '@variants': {
+          'size:sm': { fontSize: 14 },
+          'size:md': { fontSize: 16 },
+          'size:lg': { fontSize: 18 },
+
+          'color:red': { color: 'red' },
+          'color:green': { color: 'green' },
+          'color:blue': { color: 'blue' },
+
+          'size:sm + color:green': { color: 'forestgreen' },
         },
       },
     }));
@@ -85,31 +96,6 @@ describe('LocalSheet', () => {
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');
-  });
-
-  it('sets metadata for each element', () => {
-    const result = sheet.render(engine, lightTheme, {});
-
-    expect(result).toEqual({
-      bar: {
-        result: 'k l m',
-      },
-      baz: {
-        result: 'class-baz',
-      },
-      foo: {
-        result: 'a b c d e f g h i j',
-      },
-      qux: {
-        result: undefined,
-        variants: {
-          size_lg: 'p',
-          size_md: 'o',
-          size_sm: 'n',
-        },
-        variantTypes: new Set(['size']),
-      },
-    });
   });
 
   it('only renders once when cached', () => {
@@ -135,7 +121,7 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('renders and returns an object of class names', () => {
+  it('renders and returns an object of class names and variants', () => {
     const classes = sheet.render(engine, lightTheme, {});
 
     expect(classes).toEqual({
@@ -144,12 +130,25 @@ describe('LocalSheet', () => {
       baz: { result: 'class-baz' },
       qux: {
         result: undefined,
-        variants: {
-          size_lg: 'p',
-          size_md: 'o',
-          size_sm: 'n',
-        },
+        variants: [
+          { match: ['size:sm'], result: 'n' },
+          { match: ['size:md'], result: 'o' },
+          { match: ['size:lg'], result: 'p' },
+        ],
         variantTypes: new Set(['size']),
+      },
+      quxCompound: {
+        result: undefined,
+        variants: [
+          { match: ['size:sm'], result: 'q' },
+          { match: ['size:md'], result: 'r' },
+          { match: ['size:lg'], result: 's' },
+          { match: ['color:red'], result: 't' },
+          { match: ['color:green'], result: 'u' },
+          { match: ['color:blue'], result: 'v' },
+          { match: ['size:sm', 'color:green'], result: 'w' },
+        ],
+        variantTypes: new Set(['size', 'color']),
       },
     });
     expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -209,28 +208,28 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
-  describe('variants', () => {
+  describe('overrides', () => {
     beforeEach(() => {
-      sheet.addColorSchemeVariant('dark', () => ({
+      sheet.addColorSchemeOverride('dark', () => ({
         foo: {
           background: 'black',
           color: 'white',
         },
       }));
 
-      sheet.addContrastVariant('high', () => ({
+      sheet.addContrastOverride('high', () => ({
         foo: {
           background: 'pink',
         },
       }));
 
-      sheet.addContrastVariant('low', () => ({
+      sheet.addContrastOverride('low', () => ({
         foo: {
           background: 'yellow',
         },
       }));
 
-      sheet.addThemeVariant('danger', () => ({
+      sheet.addThemeOverride('danger', () => ({
         foo: {
           background: 'red',
           color: 'yellow',
@@ -240,22 +239,22 @@ describe('LocalSheet', () => {
 
     it('errors for invalid color scheme name', () => {
       expect(() => {
-        sheet.addColorSchemeVariant(
+        sheet.addColorSchemeOverride(
           // @ts-expect-error
           'unknown',
           () => ({}),
         );
-      }).toThrow('Color scheme variant must be one of "light" or "dark".');
+      }).toThrow('Color scheme override must be one of "light" or "dark".');
     });
 
     it('errors for invalid contrast name', () => {
       expect(() => {
-        sheet.addContrastVariant(
+        sheet.addContrastOverride(
           // @ts-expect-error
           'unknown',
           () => ({}),
         );
-      }).toThrow('Contrast level variant must be one of "high", "low", or "normal".');
+      }).toThrow('Contrast level override must be one of "high", "low", or "normal".');
     });
 
     it('inherits color scheme', () => {

@@ -68,12 +68,10 @@ export type LocalBlock = Rule & {
   '@selectors'?: LocalBlockMap;
   '@supports'?: LocalBlockMap;
   '@variables'?: VariablesMap;
-  '@variants'?: LocalBlockVariants;
+  '@variants'?: LocalBlockMap;
 };
 
 export type LocalBlockMap = Record<string, LocalBlock>;
-
-export type LocalBlockVariants = Record<string, LocalBlockMap>;
 
 export type LocalStyleSheet<B = LocalBlock> = RuleMap<B | string>;
 
@@ -167,6 +165,13 @@ export type VariableListener<T extends object> = (
 
 export type VariablesListener = (variables: VariablesMap) => void;
 
+export type VariantListener<T extends object> = (
+  parent: Block<T>,
+  variant: string[] | string,
+  value: Block<T>,
+  params: NestedBlockParams,
+) => void;
+
 export interface ParserOptions<T extends object> {
   customProperties: PropertyHandlerMap;
   onAttribute?: NestedListener<T>;
@@ -180,7 +185,7 @@ export interface ParserOptions<T extends object> {
   onSelector?: NestedListener<T>;
   onSupports?: ConditionListener<T>;
   onVariable?: VariableListener<T>;
-  onVariant?: NestedListener<T>;
+  onVariant?: VariantListener<T>;
   // Local
   onClass?: ClassNameListener;
   onRule?: RuleListener<T>;

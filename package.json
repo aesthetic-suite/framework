@@ -59,9 +59,6 @@
     "settings": {
       "decorators": true,
       "react": true
-    },
-    "jest": {
-      "testEnvironment": "jsdom"
     }
   },
   "workspaces": [

@@ -1,7 +1,7 @@
 import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
-import { deepMerge, objectLoop } from '@aesthetic/utils';
+import { deepMerge, objectLoop, toArray } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
@@ -19,61 +19,61 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
   readonly type: 'global' | 'local';
 
-  protected contrastVariants: { [K in ContrastLevel]?: Factory } = {};
+  protected contrastOverrides: { [K in ContrastLevel]?: Factory } = {};
 
   protected factory: Factory;
 
   protected renderCache: Record<string, RenderResultSheet<Result>> = {};
 
-  protected schemeVariants: { [K in ColorScheme]?: Factory } = {};
+  protected schemeOverrides: { [K in ColorScheme]?: Factory } = {};
 
-  protected themeVariants: Record<string, Factory> = {};
+  protected themeOverrides: Record<string, Factory> = {};
 
   constructor(type: 'global' | 'local', factory: Factory) {
     this.type = type;
     this.factory = this.validateFactory(factory);
   }
 
-  addColorSchemeVariant(scheme: ColorScheme, factory: Factory): this {
+  addColorSchemeOverride(scheme: ColorScheme, factory: Factory): this {
     if (__DEV__) {
       if (this.type !== 'local') {
-        throw new Error('Color scheme variants are only supported by local style sheets.');
+        throw new Error('Color scheme overrides are only supported by local style sheets.');
       }
 
       if (scheme !== 'light' && scheme !== 'dark') {
-        throw new Error('Color scheme variant must be one of "light" or "dark".');
+        throw new Error('Color scheme override must be one of "light" or "dark".');
       }
     }
 
-    this.schemeVariants[scheme] = this.validateFactory(factory);
+    this.schemeOverrides[scheme] = this.validateFactory(factory);
 
     return this;
   }
 
-  addContrastVariant(contrast: ContrastLevel, factory: Factory): this {
+  addContrastOverride(contrast: ContrastLevel, factory: Factory): this {
     if (__DEV__) {
       if (this.type !== 'local') {
-        throw new Error('Contrast level variants are only supported by local style sheets.');
+        throw new Error('Contrast level overrides are only supported by local style sheets.');
       }
 
       if (contrast !== 'normal' && contrast !== 'high' && contrast !== 'low') {
-        throw new Error('Contrast level variant must be one of "high", "low", or "normal".');
+        throw new Error('Contrast level override must be one of "high", "low", or "normal".');
       }
     }
 
-    this.contrastVariants[contrast] = this.validateFactory(factory);
+    this.contrastOverrides[contrast] = this.validateFactory(factory);
 
     return this;
   }
 
-  addThemeVariant(theme: string, factory: Factory): this {
+  addThemeOverride(theme: string, factory: Factory): this {
     if (__DEV__) {
       if (this.type !== 'local') {
-        throw new Error('Theme variants are only supported by local style sheets.');
+        throw new Error('Theme overrides are only supported by local style sheets.');
       }
     }
 
-    this.themeVariants[theme] = this.validateFactory(factory);
+    this.themeOverrides[theme] = this.validateFactory(factory);
 
     return this;
   }
@@ -85,16 +85,16 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
     const factories = [this.factory];
 
-    if (params.scheme && this.schemeVariants[params.scheme]) {
-      factories.push(this.schemeVariants[params.scheme]!);
+    if (params.scheme && this.schemeOverrides[params.scheme]) {
+      factories.push(this.schemeOverrides[params.scheme]!);
     }
 
-    if (params.contrast && this.contrastVariants[params.contrast]) {
-      factories.push(this.contrastVariants[params.contrast]!);
+    if (params.contrast && this.contrastOverrides[params.contrast]) {
+      factories.push(this.contrastOverrides[params.contrast]!);
     }
 
-    if (params.theme && this.themeVariants[params.theme]) {
-      factories.push(this.themeVariants[params.theme]!);
+    if (params.theme && this.themeOverrides[params.theme]) {
+      factories.push(this.themeOverrides[params.theme]!);
     }
 
     if (factories.length === 1) {
@@ -192,23 +192,30 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
           block.addResult(engine.renderVariable(name, value));
         }
       },
-      onVariant: (parent, type, block) => {
+      onVariant: (parent, variant, block) => {
         if (!engine.atomic) {
           block.addResult(engine.renderRule(block.toObject(), renderOptions));
         }
 
         const meta = createResultMetadata(parent.id);
+        const list = toArray(variant);
 
         if (!meta.variants) {
-          meta.variants = {};
+          meta.variants = [];
         }
 
         if (!meta.variantTypes) {
           meta.variantTypes = new Set();
         }
 
-        meta.variants[type] = block.result as Result;
-        meta.variantTypes.add(type.split('_')[0]);
+        meta.variants.push({
+          match: list,
+          result: block.result as Result,
+        });
+
+        list.forEach((type) => {
+          meta.variantTypes!.add(type.split(':')[0]);
+        });
       },
     });
 

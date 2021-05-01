@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LocalParser @variants errors for invalid compound name 1`] = `"Invalid variant \\"type:value + broken\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`LocalParser @variants errors if contains a space 1`] = `"Invalid variant \\"type:va lue\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`LocalParser @variants errors if enum is empty 1`] = `"Invalid variant \\"type:\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`LocalParser @variants errors if missing a colon 1`] = `"Invalid variant \\"foo\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`LocalParser @variants errors if starts with a number 1`] = `"Invalid variant \\"9a:value\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;

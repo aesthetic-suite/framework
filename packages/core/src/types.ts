@@ -28,9 +28,14 @@ export type ElementStyles = LocalBlock;
 export type ComponentStyles = LocalStyleSheet<ElementStyles>;
 export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
+export interface RenderResultVariant<T> {
+  match: string[];
+  result: T;
+}
+
 export interface RenderResult<T> {
   result?: T;
-  variants?: Record<string, T>;
+  variants?: RenderResultVariant<T>[];
   variantTypes?: Set<string>;
 }
 
@@ -62,7 +67,7 @@ export type GlobalSheetFactory<Shape = unknown, Block extends object = LocalBloc
 
 export type GlobalSheet<Shape, Block extends object, Result> = Omit<
   StyleSheet<Result, GlobalSheetFactory<Shape, Block>>,
-  'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
+  'addColorSchemeOverride' | 'addContrastOverride' | 'addThemeOverride'
 >;
 
 export type LocalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (

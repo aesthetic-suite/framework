@@ -155,26 +155,26 @@ describe('GlobalSheet', () => {
     expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', '--custom-syntax': 123 });
   });
 
-  describe('variants', () => {
-    it('errors when adding color scheme variants', () => {
+  describe('overrides', () => {
+    it('errors when adding color scheme overrides', () => {
       expect(() => {
         // @ts-expect-error
-        sheet.addColorSchemeVariant('unknown', () => ({}));
-      }).toThrow('Color scheme variants are only supported by local style sheets.');
+        sheet.addColorSchemeOverride('unknown', () => ({}));
+      }).toThrow('Color scheme overrides are only supported by local style sheets.');
     });
 
-    it('errors when adding contrast level variants', () => {
+    it('errors when adding contrast level overrides', () => {
       expect(() => {
         // @ts-expect-error
-        sheet.addContrastVariant('unknown', () => ({}));
-      }).toThrow('Contrast level variants are only supported by local style sheets.');
+        sheet.addContrastOverride('unknown', () => ({}));
+      }).toThrow('Contrast level overrides are only supported by local style sheets.');
     });
 
-    it('errors when adding theme variants', () => {
+    it('errors when adding theme overrides', () => {
       expect(() => {
         // @ts-expect-error
-        sheet.addThemeVariant('unknown', () => ({}));
-      }).toThrow('Theme variants are only supported by local style sheets.');
+        sheet.addThemeOverride('unknown', () => ({}));
+      }).toThrow('Theme overrides are only supported by local style sheets.');
     });
   });
 });

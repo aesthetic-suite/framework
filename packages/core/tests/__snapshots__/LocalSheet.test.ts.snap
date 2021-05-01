@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LocalSheet only renders once when cached 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}"`;
+exports[`LocalSheet only renders once when cached 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}.q {font-size: 14px;}.r {font-size: 16px;}.s {font-size: 18px;}.t {color: red;}.u {color: green;}.v {color: blue;}.w {color: forestgreen;}"`;
 
-exports[`LocalSheet re-renders when params change 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}"`;
+exports[`LocalSheet re-renders when params change 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}.q {font-size: 14px;}.r {font-size: 16px;}.s {font-size: 18px;}.t {color: red;}.u {color: green;}.v {color: blue;}.w {color: forestgreen;}"`;
 
 exports[`LocalSheet renders @font-face 1`] = `
 "@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}@keyframes kf1plt5bd { 
@@ -18,4 +18,4 @@ exports[`LocalSheet renders @keyframes 1`] = `
 }"
 `;
 
-exports[`LocalSheet renders and returns an object of class names 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}"`;
+exports[`LocalSheet renders and returns an object of class names and variants 1`] = `".a {display: block;}.b {background: white;}.c {color: black;}.d {text-align: left;}.e {font-size: 12px;}.f {font-family: \\"Open Sans\\", Roboto;}.g:hover {color: red;}.j:focus {outline: red;}.k {transition: 200ms all;}.l {animation-name: kf1plt5bd;}.m {--primary-color: red;}.n {font-size: 14px;}.o {font-size: 16px;}.p {font-size: 18px;}.q {font-size: 14px;}.r {font-size: 16px;}.s {font-size: 18px;}.t {color: red;}.u {color: green;}.v {color: blue;}.w {color: forestgreen;}"`;
