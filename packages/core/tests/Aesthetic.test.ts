@@ -275,7 +275,7 @@ describe('Aesthetic', () => {
       b: { result: 'b' },
       c: {
         result: 'c',
-        variants: [createVariant('size:md', 'c_size_md'), createVariant('type:red', 'c_size_red')],
+        variants: [createVariant('size:md', 'c_size_md'), createVariant('type:red', 'c_type_red')],
       },
       d: { variants: [createVariant('size:df', 'd_size_df')] },
       e: { result: 'e' },
@@ -283,18 +283,12 @@ describe('Aesthetic', () => {
         result: 'f',
         variants: [createVariant('size:df', 'f_size_df'), createVariant('size:md', 'f_size_md')],
       },
-      g: { result: 'g', variants: [createVariant('type:red', 'c_size_red')] },
+      g: { result: 'g', variants: [createVariant('type:red', 'g_type_red')] },
+      h: { result: 'h', variants: [createVariant(['type:red', 'size:df'], 'h_type_red__size_df')] },
     };
 
     it('returns class names', () => {
       expect(aesthetic.generateClassName(['a', 'e'], new Set(), classes)).toBe('a e');
-    });
-
-    it('returns class names and their variants', () => {
-      expect(aesthetic.generateClassName(['a'], new Set(['size:df']), classes)).toBe('a a_size_df');
-      expect(aesthetic.generateClassName(['a', 'f'], new Set(['size:df']), classes)).toBe(
-        'a a_size_df f f_size_df',
-      );
     });
 
     it('returns nothing for an invalid selector', () => {
@@ -305,8 +299,36 @@ describe('Aesthetic', () => {
       expect(aesthetic.generateClassName(['d'], new Set(), classes)).toBe('');
     });
 
-    it('returns variants even if theres no base class name', () => {
-      expect(aesthetic.generateClassName(['d'], new Set(['size:df']), classes)).toBe('d_size_df');
+    describe('variants', () => {
+      it('returns class names and matching variants', () => {
+        expect(aesthetic.generateClassName(['a'], new Set(['size:df']), classes)).toBe(
+          'a a_size_df',
+        );
+        expect(aesthetic.generateClassName(['a', 'f'], new Set(['size:df']), classes)).toBe(
+          'a f a_size_df f_size_df',
+        );
+      });
+
+      it('returns variants even if theres no base class name', () => {
+        expect(aesthetic.generateClassName(['d'], new Set(['size:df']), classes)).toBe('d_size_df');
+      });
+
+      it('only returns compound variant result if all names match', () => {
+        expect(aesthetic.generateClassName(['h'], new Set(), classes)).toBe('h');
+        expect(aesthetic.generateClassName(['h'], new Set(['type:red']), classes)).toBe('h');
+        expect(aesthetic.generateClassName(['h'], new Set(['size:df']), classes)).toBe('h');
+        expect(aesthetic.generateClassName(['h'], new Set(['type:red', 'size:df']), classes)).toBe(
+          'h h_type_red__size_df',
+        );
+
+        // Different enums
+        expect(aesthetic.generateClassName(['h'], new Set(['type:red', 'size:md']), classes)).toBe(
+          'h',
+        );
+        expect(aesthetic.generateClassName(['h'], new Set(['type:blue', 'size:md']), classes)).toBe(
+          'h',
+        );
+      });
     });
   });
 
@@ -479,6 +501,11 @@ describe('Aesthetic', () => {
             'type:red': {
               color: 'red',
             },
+
+            // Compounds
+            'border:thick + size:small': {
+              border: '3px solid blue',
+            },
           },
         },
         baz: {
@@ -514,10 +541,13 @@ describe('Aesthetic', () => {
         foo: { result: 'a' },
         bar: {
           result: 'b',
-          variants: [createVariant('type:red', 'c')],
-          variantTypes: new Set(['type']),
+          variants: [
+            createVariant('type:red', 'c'),
+            createVariant(['border:thick', 'size:small'], 'd'),
+          ],
+          variantTypes: new Set(['border', 'type', 'size']),
         },
-        baz: { result: 'd' },
+        baz: { result: 'e' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),

@@ -176,7 +176,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
   /**
    * Generate a class name using the selectors of a style sheet.
-   * If an object is provided, it will be used to check for variants.
+   * If a set is provided, it will be used to check for variants.
    */
   generateClassName = <T extends string>(
     keys: T[],
@@ -184,6 +184,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     classNames: RenderResultSheet<ClassName>,
   ): ClassName => {
     let className = '';
+    let variantClassName = '';
 
     arrayLoop(keys, (key) => {
       const hash = classNames[key];
@@ -200,14 +201,14 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
       if (hash.variants) {
         arrayLoop(hash.variants, ({ match, result }) => {
           if (match.every((type) => variants.has(type))) {
-            className += ' ';
-            className += result;
+            variantClassName += ' ';
+            variantClassName += result;
           }
         });
       }
     });
 
-    return className.trim();
+    return (className + variantClassName).trim();
   };
 
   /**

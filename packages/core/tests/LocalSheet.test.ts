@@ -66,6 +66,19 @@ describe('LocalSheet', () => {
           'size:lg': { fontSize: 18 },
         },
       },
+      quxCompound: {
+        '@variants': {
+          'size:sm': { fontSize: 14 },
+          'size:md': { fontSize: 16 },
+          'size:lg': { fontSize: 18 },
+
+          'color:red': { color: 'red' },
+          'color:green': { color: 'green' },
+          'color:blue': { color: 'blue' },
+
+          'size:sm + color:green': { color: 'forestgreen' },
+        },
+      },
     }));
   });
 
@@ -83,31 +96,6 @@ describe('LocalSheet', () => {
           123,
         ),
     ).toThrow('A style sheet factory function is required, found "number".');
-  });
-
-  it('sets metadata for each element', () => {
-    const result = sheet.render(engine, lightTheme, {});
-
-    expect(result).toEqual({
-      bar: {
-        result: 'k l m',
-      },
-      baz: {
-        result: 'class-baz',
-      },
-      foo: {
-        result: 'a b c d e f g h i j',
-      },
-      qux: {
-        result: undefined,
-        variants: [
-          { match: ['size:sm'], result: 'n' },
-          { match: ['size:md'], result: 'o' },
-          { match: ['size:lg'], result: 'p' },
-        ],
-        variantTypes: new Set(['size']),
-      },
-    });
   });
 
   it('only renders once when cached', () => {
@@ -133,7 +121,7 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('renders and returns an object of class names', () => {
+  it('renders and returns an object of class names and variants', () => {
     const classes = sheet.render(engine, lightTheme, {});
 
     expect(classes).toEqual({
@@ -148,6 +136,19 @@ describe('LocalSheet', () => {
           { match: ['size:lg'], result: 'p' },
         ],
         variantTypes: new Set(['size']),
+      },
+      quxCompound: {
+        result: undefined,
+        variants: [
+          { match: ['size:sm'], result: 'q' },
+          { match: ['size:md'], result: 'r' },
+          { match: ['size:lg'], result: 's' },
+          { match: ['color:red'], result: 't' },
+          { match: ['color:green'], result: 'u' },
+          { match: ['color:blue'], result: 'v' },
+          { match: ['size:sm', 'color:green'], result: 'w' },
+        ],
+        variantTypes: new Set(['size', 'color']),
       },
     });
     expect(getRenderedStyles('standard')).toMatchSnapshot();
