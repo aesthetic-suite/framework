@@ -67,7 +67,7 @@ export type GlobalSheetFactory<Shape = unknown, Block extends object = LocalBloc
 
 export type GlobalSheet<Shape, Block extends object, Result> = Omit<
   StyleSheet<Result, GlobalSheetFactory<Shape, Block>>,
-  'addColorSchemeVariant' | 'addContrastVariant' | 'addThemeVariant'
+  'addColorSchemeOverride' | 'addContrastOverride' | 'addThemeOverride'
 >;
 
 export type LocalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (

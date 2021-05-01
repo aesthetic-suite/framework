@@ -207,28 +207,28 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
-  describe('variants', () => {
+  describe('overrides', () => {
     beforeEach(() => {
-      sheet.addColorSchemeVariant('dark', () => ({
+      sheet.addColorSchemeOverride('dark', () => ({
         foo: {
           background: 'black',
           color: 'white',
         },
       }));
 
-      sheet.addContrastVariant('high', () => ({
+      sheet.addContrastOverride('high', () => ({
         foo: {
           background: 'pink',
         },
       }));
 
-      sheet.addContrastVariant('low', () => ({
+      sheet.addContrastOverride('low', () => ({
         foo: {
           background: 'yellow',
         },
       }));
 
-      sheet.addThemeVariant('danger', () => ({
+      sheet.addThemeOverride('danger', () => ({
         foo: {
           background: 'red',
           color: 'yellow',
@@ -238,22 +238,22 @@ describe('LocalSheet', () => {
 
     it('errors for invalid color scheme name', () => {
       expect(() => {
-        sheet.addColorSchemeVariant(
+        sheet.addColorSchemeOverride(
           // @ts-expect-error
           'unknown',
           () => ({}),
         );
-      }).toThrow('Color scheme variant must be one of "light" or "dark".');
+      }).toThrow('Color scheme override must be one of "light" or "dark".');
     });
 
     it('errors for invalid contrast name', () => {
       expect(() => {
-        sheet.addContrastVariant(
+        sheet.addContrastOverride(
           // @ts-expect-error
           'unknown',
           () => ({}),
         );
-      }).toThrow('Contrast level variant must be one of "high", "low", or "normal".');
+      }).toThrow('Contrast level override must be one of "high", "low", or "normal".');
     });
 
     it('inherits color scheme', () => {
