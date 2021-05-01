@@ -266,13 +266,13 @@ describe('Aesthetic', () => {
 
   describe('generateClassName()', () => {
     const classes: RenderResultSheet<ClassName> = {
-      a: { result: 'a', variants: { size_df: 'a_size_df' } },
+      a: { result: 'a', variants: { 'size:df': 'a_size_df' } },
       b: { result: 'b' },
-      c: { result: 'c', variants: { size_md: 'c_size_md', type_red: 'c_size_red' } },
-      d: { variants: { size_df: 'd_size_df' } },
+      c: { result: 'c', variants: { 'size:md': 'c_size_md', 'type:red': 'c_size_red' } },
+      d: { variants: { 'size:df': 'd_size_df' } },
       e: { result: 'e' },
-      f: { result: 'f', variants: { size_df: 'f_size_df', size_md: 'f_size_md' } },
-      g: { result: 'g', variants: { type_red: 'c_size_red' } },
+      f: { result: 'f', variants: { 'size:df': 'f_size_df', 'size:md': 'f_size_md' } },
+      g: { result: 'g', variants: { 'type:red': 'c_size_red' } },
     };
 
     it('returns class names', () => {
@@ -280,8 +280,8 @@ describe('Aesthetic', () => {
     });
 
     it('returns class names and their variants', () => {
-      expect(aesthetic.generateClassName(['a'], ['size_df'], classes)).toBe('a a_size_df');
-      expect(aesthetic.generateClassName(['a', 'f'], ['size_df'], classes)).toBe(
+      expect(aesthetic.generateClassName(['a'], ['size:df'], classes)).toBe('a a_size_df');
+      expect(aesthetic.generateClassName(['a', 'f'], ['size:df'], classes)).toBe(
         'a a_size_df f f_size_df',
       );
     });
@@ -295,7 +295,7 @@ describe('Aesthetic', () => {
     });
 
     it('returns variants even if theres no base class name', () => {
-      expect(aesthetic.generateClassName(['d'], ['size_df'], classes)).toBe('d_size_df');
+      expect(aesthetic.generateClassName(['d'], ['size:df'], classes)).toBe('d_size_df');
     });
   });
 
@@ -465,10 +465,8 @@ describe('Aesthetic', () => {
           color: 'black',
 
           '@variants': {
-            type: {
-              red: {
-                color: 'red',
-              },
+            'type:red': {
+              color: 'red',
             },
           },
         },
@@ -503,7 +501,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.renderComponentStyles(sheet)).toEqual({
         foo: { result: 'a' },
-        bar: { result: 'b', variants: { type_red: 'c' }, variantTypes: new Set(['type']) },
+        bar: { result: 'b', variants: { 'type:red': 'c' }, variantTypes: new Set(['type']) },
         baz: { result: 'd' },
       });
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {

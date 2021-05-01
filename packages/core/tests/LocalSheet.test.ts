@@ -61,11 +61,9 @@ describe('LocalSheet', () => {
       baz: 'class-baz',
       qux: {
         '@variants': {
-          size: {
-            sm: { fontSize: 14 },
-            md: { fontSize: 16 },
-            lg: { fontSize: 18 },
-          },
+          'size:sm': { fontSize: 14 },
+          'size:md': { fontSize: 16 },
+          'size:lg': { fontSize: 18 },
         },
       },
     }));
@@ -103,9 +101,9 @@ describe('LocalSheet', () => {
       qux: {
         result: undefined,
         variants: {
-          size_lg: 'p',
-          size_md: 'o',
-          size_sm: 'n',
+          'size:lg': 'p',
+          'size:md': 'o',
+          'size:sm': 'n',
         },
         variantTypes: new Set(['size']),
       },
@@ -145,9 +143,9 @@ describe('LocalSheet', () => {
       qux: {
         result: undefined,
         variants: {
-          size_lg: 'p',
-          size_md: 'o',
-          size_sm: 'n',
+          'size:lg': 'p',
+          'size:md': 'o',
+          'size:sm': 'n',
         },
         variantTypes: new Set(['size']),
       },

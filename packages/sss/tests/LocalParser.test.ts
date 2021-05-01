@@ -749,14 +749,14 @@ describe('LocalParser', () => {
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
-        'size_small',
+        'size:small',
         createBlock('', { fontSize: 14 }),
         { specificity: 0 },
       );
 
       expect(spy).toHaveBeenCalledWith(
         expect.any(Block),
-        'size_large',
+        'size:large',
         createBlock('', { fontSize: 18 }),
         { specificity: 0 },
       );

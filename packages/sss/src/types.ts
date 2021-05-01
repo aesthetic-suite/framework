@@ -68,12 +68,10 @@ export type LocalBlock = Rule & {
   '@selectors'?: LocalBlockMap;
   '@supports'?: LocalBlockMap;
   '@variables'?: VariablesMap;
-  '@variants'?: LocalBlockVariants;
+  '@variants'?: LocalBlockMap;
 };
 
 export type LocalBlockMap = Record<string, LocalBlock>;
-
-export type LocalBlockVariants = Record<string, LocalBlockMap>;
 
 export type LocalStyleSheet<B = LocalBlock> = RuleMap<B | string>;
 

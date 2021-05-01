@@ -208,7 +208,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         }
 
         meta.variants[type] = block.result as Result;
-        meta.variantTypes.add(type.split('_')[0]);
+        meta.variantTypes.add(type.split(':')[0]);
       },
     });
 
