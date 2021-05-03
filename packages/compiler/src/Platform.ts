@@ -1,5 +1,6 @@
+import { FONT_FAMILIES } from './constants';
 import { formatUnit } from './helpers';
-import { FormatType } from './types';
+import { FormatType, PlatformType } from './types';
 
 // All input values are assumed to be px
 export default abstract class Platform {
@@ -13,6 +14,11 @@ export default abstract class Platform {
     this.format = format;
     this.rootTextSize = rootTextSize;
     this.spacingUnit = spacingUnit;
+  }
+
+  font(type: 'monospace' | 'system', platform?: PlatformType) {
+    console.log(type, platform, this.format.split('-')[0]);
+    return FONT_FAMILIES[`${platform || this.format.split('-')[0]}-${type}` as 'web-system'];
   }
 
   number(value: number): number {

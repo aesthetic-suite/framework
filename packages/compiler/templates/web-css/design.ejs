@@ -39,9 +39,9 @@
   <% }) -%>
 
   --typography-font-heading: '<%- data.typography.font.heading -%>';
-  --typography-font-monospace: '<%- data.typography.font.monospace -%>';
+  --typography-font-monospace: '<%- data.typography.font.monospace || platform.font('monospace') %>';
   --typography-font-text: '<%- data.typography.font.text -%>';
-  --typography-font-system: '<%- data.typography.font.system -%>';
+  --typography-font-system: '<%- data.typography.font.system || platform.font('system') %>';
   --typography-root-line-height: <%= platform.number(data.text.df.lineHeight) -%>;
   --typography-root-text-size: <%= platform.px(data.text.df.size) -%>;
 }

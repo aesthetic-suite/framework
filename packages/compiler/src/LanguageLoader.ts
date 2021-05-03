@@ -19,7 +19,6 @@ import {
   PLATFORM_CONFIGS,
   SCALES,
 } from './constants';
-import { getPlatformFont } from './helpers';
 import Loader from './Loader';
 import {
   BorderConfig,
@@ -210,7 +209,7 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
           shape({
             text: string('system'),
             heading: string('system'),
-            monospace: string(() => getPlatformFont(this.platform, 'monospace')),
+            monospace: string(),
             // eslint-disable-next-line react/forbid-prop-types
             locale: object(string()),
           }).exact(),

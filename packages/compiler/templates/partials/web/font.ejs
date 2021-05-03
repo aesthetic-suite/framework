@@ -1,0 +1,7 @@
+{
+  heading: '<%- data.typography.font.heading %>',
+  locale: <%- JSON.stringify(data.typography.locale) || '{}' -%>,
+  monospace: '<%- data.typography.font.monospace || platform.font('monospace') %>',
+  text: '<%- data.typography.font.text %>',
+  system: '<%- data.typography.font.system || platform.font('system') %>',
+}

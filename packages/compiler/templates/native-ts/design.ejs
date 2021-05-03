@@ -1,4 +1,5 @@
 import { BorderTokens, BreakpointTokens, DepthTokens, HeadingTokens, ShadowTokens, SpacingTokens, TextTokens, TypographyToken } from '@aesthetic/system';
+import { Platform } from 'react-native';
 
 export const border: BorderTokens = <%- include('../partials/native/border') -%>;
 
@@ -13,5 +14,7 @@ export const shadow: ShadowTokens = <%- include('../partials/native/shadow') -%>
 export const spacing: SpacingTokens = <%- include('../partials/native/spacing') -%>;
 
 export const text: TextTokens = <%- include('../partials/native/text') -%>;
+
+<%- include('../partials/native/fontVars') -%>
 
 export const typography: TypographyToken = <%- include('../partials/native/typography') -%>;

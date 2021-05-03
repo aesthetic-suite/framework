@@ -1,5 +1,8 @@
 import { LocalBlock } from '@aesthetic/sss';
 import { Design } from '@aesthetic/system';
+import { Platform } from 'react-native';
+
+<%- include('../partials/native/fontVars') -%>
 
 export default new Design<LocalBlock>('<%= design.dashedName -%>', {
   border: <%- include('../partials/native/border') -%>,

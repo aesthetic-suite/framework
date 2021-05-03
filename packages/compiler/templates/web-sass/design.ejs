@@ -38,8 +38,8 @@ $text-<%= size -%>-size: <%= platform.unit(data.text[size].size) -%> !default //
 <% }) -%>
 
 $typography-font-heading: '<%- data.typography.font.heading -%>' !default
-$typography-font-monospace: '<%- data.typography.font.monospace -%>' !default
+$typography-font-monospace: '<%- data.typography.font.monospace || platform.font('monospace') %>' !default
 $typography-font-text: '<%- data.typography.font.text -%>' !default
-$typography-font-system: '<%- data.typography.font.system -%>' !default
+$typography-font-system: '<%- data.typography.font.system || platform.font('system') %>' !default
 $typography-root-line-height: <%= platform.number(data.text.df.lineHeight) -%> !default
 $typography-root-text-size: <%= platform.px(data.text.df.size) -%> !default
