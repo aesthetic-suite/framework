@@ -7,6 +7,7 @@ import {
   SYNTAX_LOCAL_BLOCK,
   SYNTAX_MEDIA,
   SYNTAX_MEDIA_NESTED,
+  SYNTAX_NATIVE_PROPERTIES,
   SYNTAX_PROPERTIES,
   SYNTAX_SELECTOR_ATTRIBUTES,
   SYNTAX_SELECTOR_PSEUDOS,
@@ -213,6 +214,20 @@ describe('LocalParser', () => {
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'display', 'inline');
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'marginRight', 10);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'padding', 0);
+    });
+
+    it('emits for non-primitive property values (react native)', () => {
+      parse(
+        {
+          props: SYNTAX_NATIVE_PROPERTIES,
+        },
+        {
+          onProperty: spy,
+        },
+      );
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'transform', [{ scale: 2 }]);
     });
 
     it('doesnt emit for undefined values', () => {
