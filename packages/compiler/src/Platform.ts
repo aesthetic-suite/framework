@@ -2,7 +2,6 @@ import { FONT_FAMILIES } from './constants';
 import { formatUnit } from './helpers';
 import { FormatType, PlatformType } from './types';
 
-// All input values are assumed to be px
 export default abstract class Platform {
   readonly rootTextSize: number;
 
@@ -17,7 +16,6 @@ export default abstract class Platform {
   }
 
   font(type: 'monospace' | 'system', platform?: PlatformType) {
-    console.log(type, platform, this.format.split('-')[0]);
     return FONT_FAMILIES[`${platform || this.format.split('-')[0]}-${type}` as 'web-system'];
   }
 

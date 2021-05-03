@@ -2,6 +2,7 @@ import { formatUnit } from '../helpers';
 import Platform from '../Platform';
 import { BreakpointCondition } from '../types';
 
+// All input values are assumed to be px
 export default class WebPlatform extends Platform {
   em(value: number): string {
     return `${formatUnit(value / this.rootTextSize)}em`;
