@@ -148,6 +148,7 @@ export const SYNTAX_PROPERTIES: LocalBlock = {
 export const SYNTAX_NATIVE_PROPERTIES: LocalBlock = {
   // @ts-expect-error Allow for testing React Native
   transform: [{ scale: 2 }],
+  shadowOffset: { width: 10, height: 10 },
 };
 
 export const SYNTAX_SUPPORTS: LocalBlock = {

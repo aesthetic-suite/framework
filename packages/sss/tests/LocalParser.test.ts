@@ -226,8 +226,12 @@ describe('LocalParser', () => {
         },
       );
 
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(2);
       expect(spy).toHaveBeenCalledWith(expect.any(Block), 'transform', [{ scale: 2 }]);
+      expect(spy).toHaveBeenCalledWith(expect.any(Block), 'shadowOffset', {
+        width: 10,
+        height: 10,
+      });
     });
 
     it('doesnt emit for undefined values', () => {
