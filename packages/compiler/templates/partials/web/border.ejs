@@ -1,8 +1,8 @@
 {
   <% borderSizes.forEach(size => { -%>
   <%= size -%>: {
-    radius: '<%= platform.rem(data.border[size].radius) -%>', // <%= platform.px(data.border[size].radius) %>
-    width: '<%= platform.rem(data.border[size].width) -%>', // <%= platform.px(data.border[size].width) %>
+    radius: '<%= platform.unit(data.border[size].radius) -%>', // <%= platform.px(data.border[size].radius) %>
+    width: '<%= platform.unit(data.border[size].width) -%>', // <%= platform.px(data.border[size].width) %>
   },
   <% }) -%>
 }

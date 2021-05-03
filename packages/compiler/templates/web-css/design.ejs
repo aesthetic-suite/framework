@@ -1,7 +1,7 @@
 :root {
   <% borderSizes.forEach(size => { -%>
-  --border-<%= size -%>-radius: <%= platform.rem(data.border[size].radius) -%>; /* <%= platform.px(data.border[size].radius) %> */
-  --border-<%= size -%>-width: <%= platform.rem(data.border[size].width) -%>; /* <%= platform.px(data.border[size].width) %> */
+  --border-<%= size -%>-radius: <%= platform.unit(data.border[size].radius) -%>; /* <%= platform.px(data.border[size].radius) %> */
+  --border-<%= size -%>-width: <%= platform.unit(data.border[size].width) -%>; /* <%= platform.px(data.border[size].width) %> */
   <% }) -%>
 
   <% breakpointSizes.forEach(size => { -%>
@@ -18,24 +18,24 @@
   <% headingSizes.forEach(size => { -%>
   --heading-<%= size -%>-letter-spacing: <%= platform.px(data.heading[size].letterSpacing) -%>;
   --heading-<%= size -%>-line-height: <%= platform.number(data.heading[size].lineHeight) -%>;
-  --heading-<%= size -%>-size: <%= platform.rem(data.heading[size].size) -%>; /* <%= platform.px(data.heading[size].size) %> */
+  --heading-<%= size -%>-size: <%= platform.unit(data.heading[size].size) -%>; /* <%= platform.px(data.heading[size].size) %> */
   <% }) -%>
 
   <% shadowSizes.forEach(size => { -%>
-  --shadow-<%= size -%>-x: <%= platform.rem(data.shadow[size].x) -%>; /* <%= platform.px(data.shadow[size].x) %> */
-  --shadow-<%= size -%>-y: <%= platform.rem(data.shadow[size].y) -%>; /* <%= platform.px(data.shadow[size].y) %> */
-  --shadow-<%= size -%>-blur: <%= platform.rem(data.shadow[size].blur) -%>; /* <%= platform.px(data.shadow[size].blur) %> */
-  --shadow-<%= size -%>-spread: <%= platform.rem(data.shadow[size].spread) -%>; /* <%= platform.px(data.shadow[size].spread) %> */
+  --shadow-<%= size -%>-x: <%= platform.unit(data.shadow[size].x) -%>; /* <%= platform.px(data.shadow[size].x) %> */
+  --shadow-<%= size -%>-y: <%= platform.unit(data.shadow[size].y) -%>; /* <%= platform.px(data.shadow[size].y) %> */
+  --shadow-<%= size -%>-blur: <%= platform.unit(data.shadow[size].blur) -%>; /* <%= platform.px(data.shadow[size].blur) %> */
+  --shadow-<%= size -%>-spread: <%= platform.unit(data.shadow[size].spread) -%>; /* <%= platform.px(data.shadow[size].spread) %> */
   <% }) -%>
 
   <% spacingSizes.forEach(size => { -%>
-  --spacing-<%= size -%>: <%= platform.rem(platform.unit(data.spacing[size])) -%>; /* <%= platform.px(platform.unit(data.spacing[size])) %> */
+  --spacing-<%= size -%>: <%= platform.unit(platform.spacing(data.spacing[size])) -%>; /* <%= platform.px(platform.spacing(data.spacing[size])) %> */
   <% }) -%>
   --spacing-unit: <%= data.spacing.unit -%>;
 
   <% textSizes.forEach(size => { -%>
   --text-<%= size -%>-line-height: <%= platform.number(data.text[size].lineHeight) -%>;
-  --text-<%= size -%>-size: <%= platform.rem(data.text[size].size) -%>; /* <%= platform.px(data.text[size].size) %> */
+  --text-<%= size -%>-size: <%= platform.unit(data.text[size].size) -%>; /* <%= platform.px(data.text[size].size) %> */
   <% }) -%>
 
   --typography-font-heading: '<%- data.typography.font.heading -%>';

@@ -50,6 +50,11 @@ export const PLATFORM_CONFIGS = {
     fontUnit: 'pt',
     spacingUnit: 'pt', // ???
   },
+  native: {
+    baseFontSize: 16,
+    fontUnit: 'px',
+    spacingUnit: 'px',
+  },
   web: {
     baseFontSize: 16,
     fontUnit: 'px',

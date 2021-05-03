@@ -1,6 +1,6 @@
 {
   <% spacingSizes.forEach(size => { -%>
-  <%= size -%>: '<%= platform.rem(platform.unit(data.spacing[size])) -%>', // <%= platform.px(platform.unit(data.spacing[size])) %>
+  <%= size -%>: '<%= platform.unit(platform.spacing(data.spacing[size])) -%>', // <%= platform.px(platform.spacing(data.spacing[size])) %>
   <% }) -%>
   type: '<%= data.spacing.type -%>',
   unit: <%= data.spacing.unit -%>,

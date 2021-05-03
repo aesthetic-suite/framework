@@ -3,7 +3,7 @@
   <%= size -%>: {
     letterSpacing: '<%= platform.px(data.heading[size].letterSpacing) -%>',
     lineHeight: <%= platform.number(data.heading[size].lineHeight) -%>,
-    size: '<%= platform.rem(data.heading[size].size) -%>', // <%= platform.px(data.heading[size].size) %>
+    size: '<%= platform.unit(data.heading[size].size) -%>', // <%= platform.px(data.heading[size].size) %>
   },
   <% }) -%>
 }

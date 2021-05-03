@@ -1249,4 +1249,4 @@ export default parentTheme.extend(
 "
 `;
 
-exports[`Compiler constructor() errors for unknown target 1`] = `"Invalid field \\"format\\". String must be one of: android, ios, web-css, web-js, web-jsx, web-less, web-sass, web-scss, web-ts, web-tsx"`;
+exports[`Compiler constructor() errors for unknown target 1`] = `"Invalid field \\"format\\". String must be one of: android, ios, native-js, native-jsx, native-ts, native-tsx, web-css, web-js, web-jsx, web-less, web-sass, web-scss, web-ts, web-tsx"`;
