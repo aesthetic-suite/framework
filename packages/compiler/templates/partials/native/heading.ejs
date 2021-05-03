@@ -1,0 +1,9 @@
+{
+  <% headingSizes.forEach(size => { -%>
+  <%= size -%>: {
+    letterSpacing: <%= platform.unit(data.heading[size].letterSpacing) -%>,
+    lineHeight: <%= platform.number(data.heading[size].lineHeight) -%>,
+    size: <%= platform.unit(data.heading[size].size) -%>, // <%= platform.px(data.heading[size].size) %>
+  },
+  <% }) -%>
+}

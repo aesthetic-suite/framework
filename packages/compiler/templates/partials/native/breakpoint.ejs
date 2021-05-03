@@ -1,0 +1,10 @@
+{
+  <% breakpointSizes.forEach(size => { -%>
+  <%= size -%>: {
+    query: '',
+    querySize: <%= data.breakpoint[size].querySize -%>,
+    rootLineHeight: <%= platform.number(data.breakpoint[size].rootLineHeight) -%>,
+    rootTextSize: <%= platform.unit(data.breakpoint[size].rootTextSize) -%>,
+  },
+  <% }) -%>
+}
