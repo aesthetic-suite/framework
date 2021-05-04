@@ -1,0 +1,128 @@
+# THEMES
+themes:
+  default:
+    scheme: light
+    contrast: normal
+    colors:
+      # Material UI
+      gray:
+        '00': '#FAFAFA'
+        '10': '#F5F5F5'
+        '20': '#EEEEEE'
+        '30': '#E0E0E0'
+        '40': '#BDBDBD'
+        '50': '#9E9E9E'
+        '60': '#757575'
+        '70': '#616161'
+        '80': '#424242'
+        '90': '#212121'
+
+      # https://themecolorshades.com/components/?color=9e6aa8
+      # Hue 3, Sat 5
+      purple:
+        '00': '#f7edf8'
+        '10': '#e5cbe7'
+        '20': '#cfabd3'
+        '30': '#b591bb'
+        '40': '#9c75a3'
+        '50': '#835b8a'
+        '60': '#65446e'
+        '70': '#492c54'
+        '80': '#2b1834'
+        '90': '#0e0712'
+
+      # https://themecolorshades.com/components/?color=71c6ed
+      # Hue 0, Sat 16
+      blue:
+        '00': '#e5f7ff'
+        '10': '#b3e7ff'
+        '20': '#84d5fb'
+        '30': '#69bce2'
+        '40': '#49a5cf'
+        '50': '#308cb6'
+        '60': '#1d7096'
+        '70': '#04567b'
+        '80': '#00344d'
+        '90': '#00111a'
+
+      # https://themecolorshades.com/components?color=45b649
+      # Hue 9, Sat 11
+      green:
+        '00': '#e8fce9'
+        '10': '#bff2c1'
+        '20': '#9ce39e'
+        '30': '#83c886'
+        '40': '#68b16a'
+        '50': '#4e9751'
+        '60': '#377c39'
+        '70': '#1c631f'
+        '80': '#0d400e'
+        '90': '#031704'
+
+      # https://themecolorshades.com/components/?color=a77a50
+      # Hue 2, Sat 7
+      brown:
+        '00': '#f9f4eb'
+        '10': '#ecdcc6'
+        '20': '#dac2a4'
+        '30': '#c1a78a'
+        '40': '#ab8b6d'
+        '50': '#927254'
+        '60': '#75563e'
+        '70': '#5b3b25'
+        '80': '#392213'
+        '90': '#140b06'
+
+      # https://themecolorshades.com/components/?color=f8a73b
+      # Hue 1, Sat 7
+      yellow:
+        '00': '#fff6e5'
+        '10': '#ffe2b3'
+        '20': '#ffcd80'
+        '30': '#f5b456'
+        '40': '#ed9a2b'
+        '50': '#d48112'
+        '60': '#a9620a'
+        '70': '#804500'
+        '80': '#4d2800'
+        '90': '#1a0d00'
+
+      # https://themecolorshades.com/components/?color=c93827
+      # Hue 2, Sat 10
+      red:
+        '00': '#ffece6'
+        '10': '#fac5b7'
+        '20': '#f19f8e'
+        '30': '#dd7e6f'
+        '40': '#cc5a4d'
+        '50': '#b24033'
+        '60': '#902c22'
+        '70': '#71150e'
+        '80': '#480805'
+        '90': '#190100'
+
+      # https://themecolorshades.com/components/?color=ff9cbf
+      # Hue 0, Sat 24
+      pink:
+        '00': '#ffe5ef'
+        '10': '#ffb3ce'
+        '20': '#ff80ad'
+        '30': '#f2598f'
+        '40': '#de3b74'
+        '50': '#c4215b'
+        '60': '#a60d43'
+        '70': '#80002d'
+        '80': '#4d001b'
+        '90': '#1a0009'
+
+    palettes:
+      brand: purple
+      primary: purple
+      secondary: pink
+      tertiary: brown
+      neutral: gray
+      muted: gray
+      warning: yellow
+      danger: red
+      negative: red
+      positive: green

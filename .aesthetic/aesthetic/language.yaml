@@ -1,0 +1,105 @@
+# Guidelines
+#   - All unit based settings should be defined as unitless numbers.
+#     Assume "px" for web, "sp" or "dp" for Android, and "pt" for iOS.
+
+# RESPONSIVE
+responsive:
+  # A list of 5 breakpoint units to target for device sizes.
+  breakpoints:
+    - 640
+    - 960
+    - 1280
+    - 1600
+    - 1920
+
+  # Scaling factor to modify the text and line height for each breakpoint.
+  textScale: minor-second
+  lineHeightScale: minor-second
+
+# SPACING
+spacing:
+  # The type of algorithm to use when calculating spacing and measurement tokens.
+  # Accepts "vertical-rhythm" or "unit".
+  type: vertical-rhythm
+
+  # The base unit size when type is "unit".
+  unit: 8
+
+  # Multipliers for each spacing size.
+  multipliers:
+    xs: 0.25
+    sm: 0.5
+    df: 1 # Default
+    md: 2
+    lg: 3
+    xl: 4
+
+# TYPOGRAPHY
+typography:
+  # Font family for all body text and headings. Defaults to the platform "system" font.
+  # Can customize text, heading, monospace, and locale fonts individually by using a map.
+  font: system
+
+  # Default text sizes and line heights, with "small" and "large" sizes being automatically
+  # calculated using modular scale. The default text size is used as the "root font size".
+  # Can customize default, small, and large sizes individually by using a map.
+  text:
+    size: 14
+    sizeScale: major-second
+    lineHeight: 1.25
+    lineHeightScale: 0
+
+  # Level 6 heading size, line height, and letter spacing. Levels 5-1 are automatically
+  # calculated by incrementing upwards using module scale.
+  # Can customize each level individually by using a map.
+  heading:
+    size: 16
+    sizeScale: major-third
+    lineHeight: 1.5
+    lineHeightScale: major-second
+    letterSpacing: 0.25
+    letterSpacingScale: perfect-fourth
+
+# BORDERS
+# Scales from the inside (default) out (small, large). Configure for default.
+# Can customize small, default, and large sizes individually by using a map.
+borders:
+  # Controls the rounding of corners.
+  radius: 3
+  radiusScale: 1.5
+
+  # Controls the width or thickness of the border.
+  width: 1
+  widthScale: 2
+
+# SHADOWS
+# Scales from extra small to extra large. Configure for extra small.
+# Can customize all sizes individually by using a map.
+shadows:
+  # Offset the shadow on the X-axis (horizontally).
+  x: 0
+  xScale: 0
+
+  # Offset the shadow on the Y-axis (vertically).
+  y: 2
+  yScale: golden-ratio
+
+  # Controls blur and reduces sharpness, which causes it to be bigger and lighter.
+  blur: 2
+  blurScale: 1.75
+
+  # Controls spread, which causes it to expand, grow, and get thicker.
+  spread: 0
+  spreadScale: 0
+
+# COLORS
+# List of color names that each theme must implement.
+colors:
+  - blue
+  - brown
+  - gray
+  - green
+  - pink
+  - purple
+  - red
+  - yellow
