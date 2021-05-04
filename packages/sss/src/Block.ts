@@ -35,18 +35,12 @@ export default class Block<T extends object = object> {
 
     const type = typeof result;
 
-    if (type === 'string') {
-      if (this.result === undefined) {
-        this.result = result;
-      } else {
-        this.result += ` ${result}`;
-      }
+    if (this.result === undefined) {
+      this.result = result;
+    } else if (type === 'string') {
+      this.result += ` ${result}`;
     } else if (type === 'object' && result) {
-      if (this.result === undefined) {
-        this.result = result;
-      } else {
-        Object.assign(this.result, result);
-      }
+      Object.assign(this.result, result);
     }
   }
 

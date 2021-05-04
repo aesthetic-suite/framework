@@ -13,11 +13,15 @@ import {
 } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 
-export type PlatformType = 'android' | 'ios' | 'web';
+export type PlatformType = 'android' | 'ios' | 'native' | 'web';
 
 export type FormatType =
   | 'android'
   | 'ios'
+  | 'native-js'
+  | 'native-jsx'
+  | 'native-ts'
+  | 'native-tsx'
   | 'web-css'
   | 'web-js'
   | 'web-jsx'

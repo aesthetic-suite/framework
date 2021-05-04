@@ -18,13 +18,13 @@ import {
   TEXT_SIZES,
 } from './constants';
 import LanguageLoader from './LanguageLoader';
+import Platform from './Platform';
+import NativePlatform from './platforms/Native';
 import WebPlatform from './platforms/Web';
 import SystemDesign from './SystemDesign';
 import SystemTheme from './SystemTheme';
 import ThemesLoader from './ThemesLoader';
 import { FormatType, PlatformType, SystemOptions, ThemesConfigFile } from './types';
-
-type Platform = WebPlatform;
 
 const TEMPLATES_FOLDER = Path.resolve('../templates', __dirname);
 
@@ -60,6 +60,10 @@ export default class Compiler {
       format: string().oneOf<FormatType>([
         'android',
         'ios',
+        'native-js',
+        'native-jsx',
+        'native-ts',
+        'native-tsx',
         'web-css',
         'web-js',
         'web-jsx',
@@ -70,7 +74,7 @@ export default class Compiler {
         'web-tsx',
       ]),
       mixins: bool(),
-      platform: string().oneOf<PlatformType>(['android', 'ios', 'web']),
+      platform: string().oneOf<PlatformType>(['android', 'ios', 'native', 'web']),
     });
   }
 
@@ -117,6 +121,8 @@ export default class Compiler {
         return 'sass';
       case 'web-scss':
         return 'scss';
+      case 'native-ts':
+      case 'native-tsx':
       case 'web-ts':
       case 'web-tsx':
         return 'ts';
@@ -213,11 +219,17 @@ export default class Compiler {
   }
 
   protected loadPlatform(design: SystemDesign): Platform {
-    return new WebPlatform(
+    const args = [
       this.options.format,
       design.template.text.df.size,
       design.template.spacing.unit,
-    );
+    ] as const;
+
+    if (this.options.format.startsWith('native')) {
+      return new NativePlatform(...args);
+    }
+
+    return new WebPlatform(...args);
   }
 
   protected loadThemes(

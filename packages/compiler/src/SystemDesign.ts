@@ -1,6 +1,5 @@
 import { camelCase, kebabCase } from 'lodash';
-import { BREAKPOINT_SIZES, DEPTHS, SCALES, SHADOW_SIZES } from './constants';
-import { getPlatformFont as getFont } from './helpers';
+import { BREAKPOINT_SIZES, DEPTHS, FONT_FAMILIES, SCALES, SHADOW_SIZES } from './constants';
 import SystemTheme from './SystemTheme';
 import {
   BorderTemplate,
@@ -33,7 +32,7 @@ export function scaleUp(accumulator: number, scaling: Scale): number {
 }
 
 export function quote(value: string): string {
-  return value.replace(/'/gu, '"');
+  return (value || '').replace(/'/gu, '"');
 }
 
 export default class SystemDesign {
@@ -280,7 +279,7 @@ export default class SystemDesign {
 
   protected compileTypography(text: DesignTemplate['text']): DesignTemplate['typography'] {
     const { font } = this.config.typography;
-    const systemFont = getFont(this.options.platform, 'system');
+    const systemFont = FONT_FAMILIES[`${this.options.platform}-system` as 'web-system'];
     let textFont = '';
     let headingFont = '';
     let monospaceFont = '';
@@ -303,7 +302,7 @@ export default class SystemDesign {
       font: {
         heading: quote(headingFont || systemFont),
         locale: localeFonts,
-        monospace: quote(monospaceFont || getFont(this.options.platform, 'monospace')),
+        monospace: quote(monospaceFont),
         text: quote(textFont || systemFont),
         system: quote(systemFont),
       },

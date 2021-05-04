@@ -1,5 +1,5 @@
 {
   font: <%- include('font') -%>,
   rootLineHeight: <%= platform.number(data.text.df.lineHeight) -%>,
-  rootTextSize: '<%= platform.px(data.text.df.size) -%>',
+  rootTextSize: <%= platform.unit(data.text.df.size) -%>,
 }

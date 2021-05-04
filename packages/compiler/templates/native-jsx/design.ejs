@@ -1,0 +1,14 @@
+import { Design } from '@aesthetic/system';
+import { Platform } from 'react-native';
+
+<%- include('../partials/native/fontVars') -%>
+
+export default new Design('<%= design.dashedName -%>', {
+  border: <%- include('../partials/native/border') -%>,
+  breakpoint: <%- include('../partials/native/breakpoint') -%>,
+  heading: <%- include('../partials/native/heading') -%>,
+  shadow: <%- include('../partials/native/shadow') -%>,
+  spacing: <%- include('../partials/native/spacing') -%>,
+  text: <%- include('../partials/native/text') -%>,
+  typography: <%- include('../partials/native/typography') -%>,
+});

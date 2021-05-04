@@ -29,7 +29,7 @@ export default function parseProperty<T extends object>(
     );
 
     // Normal property
-  } else if (typeof value === 'number' || typeof value === 'string') {
-    addHandler(name, value);
+  } else if (value !== undefined) {
+    addHandler(name, value as Value);
   }
 }

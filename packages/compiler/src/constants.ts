@@ -48,7 +48,12 @@ export const PLATFORM_CONFIGS = {
   ios: {
     baseFontSize: 17,
     fontUnit: 'pt',
-    spacingUnit: 'pt', // ???
+    spacingUnit: 'pt',
+  },
+  native: {
+    baseFontSize: 16,
+    fontUnit: 'px',
+    spacingUnit: 'px',
   },
   web: {
     baseFontSize: 16,

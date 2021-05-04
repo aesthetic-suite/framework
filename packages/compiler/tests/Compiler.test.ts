@@ -76,7 +76,7 @@ describe('Compiler', () => {
             platform: 'osx',
             format: 'web-jsx',
           }),
-      ).toThrow('Invalid field "platform". String must be one of: android, ios, web');
+      ).toThrow('Invalid field "platform". String must be one of: android, ios, native, web');
     });
 
     it('errors for unknown target', () => {
