@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import camelCase from 'lodash/camelCase';
 import optimal, { bool, string } from 'optimal';
 import prettier, { BuiltInParserName } from 'prettier';
+import { PALETTE_TYPES } from '@aesthetic/system';
 import { Path, PortablePath } from '@boost/common';
 import BrandLoader from './BrandLoader';
 import {
@@ -10,7 +11,6 @@ import {
   BREAKPOINT_SIZES,
   DEPTHS,
   HEADING_SIZES,
-  PALETTE_TYPES,
   SHADE_RANGES,
   SHADOW_SIZES,
   SPACING_SIZES,

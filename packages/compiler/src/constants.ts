@@ -4,7 +4,6 @@ import {
   CommonSize,
   DEPTHS,
   HeadingSize,
-  PaletteType,
   SHADE_RANGES,
   ShadowSize,
   SpacingSize,
@@ -101,19 +100,6 @@ export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'lg', 'xl'];
 
 export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
-
-export const PALETTE_TYPES: PaletteType[] = [
-  'brand',
-  'primary',
-  'secondary',
-  'tertiary',
-  'neutral',
-  'muted',
-  'danger',
-  'warning',
-  'negative',
-  'positive',
-];
 
 export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];
 

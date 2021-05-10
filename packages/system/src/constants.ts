@@ -1,4 +1,4 @@
-import { ColorShade, ElevationType } from './types';
+import { ColorShade, ElevationType, PaletteType } from './types';
 
 export const DEPTHS: Record<ElevationType, number> = {
   content: 100, // xs
@@ -23,4 +23,17 @@ export const SHADE_RANGES: ColorShade[] = [
   '70',
   '80',
   '90',
+];
+
+export const PALETTE_TYPES: PaletteType[] = [
+  'brand',
+  'primary',
+  'secondary',
+  'tertiary',
+  'neutral',
+  'muted',
+  'danger',
+  'warning',
+  'negative',
+  'positive',
 ];
