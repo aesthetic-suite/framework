@@ -121,9 +121,8 @@ export default new Design<ElementStyles>('test', {
     xs: '0.31rem', // 4.38px
     sm: '0.63rem', // 8.75px
     df: '1.25rem', // 17.50px
-    md: '2.50rem', // 35px
-    lg: '3.75rem', // 52.50px
-    xl: '5rem', // 70px
+    lg: '2.50rem', // 35px
+    xl: '3.75rem', // 52.50px
     type: 'vertical-rhythm',
     unit: 17.5,
   },

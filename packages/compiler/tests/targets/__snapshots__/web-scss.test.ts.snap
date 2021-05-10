@@ -85,9 +85,8 @@ $shadow-xl-spread: 0rem !default; // 0px
 $spacing-xs: 0.31rem !default; // 4.38px
 $spacing-sm: 0.63rem !default; // 8.75px
 $spacing-df: 1.25rem !default; // 17.50px
-$spacing-md: 2.5rem !default; // 35px
-$spacing-lg: 3.75rem !default; // 52.50px
-$spacing-xl: 5rem !default; // 70px
+$spacing-lg: 2.5rem !default; // 35px
+$spacing-xl: 3.75rem !default; // 52.50px
 $spacing-unit: 17.5 !default;
 
 $text-sm-line-height: 1.25 !default;

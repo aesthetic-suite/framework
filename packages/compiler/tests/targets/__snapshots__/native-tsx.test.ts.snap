@@ -127,9 +127,8 @@ export default new Design<NativeStyles>('test', {
     xs: 4.38, // 4.38px
     sm: 8.75, // 8.75px
     df: 17.5, // 17.50px
-    md: 35, // 35px
-    lg: 52.5, // 52.50px
-    xl: 70, // 70px
+    lg: 35, // 35px
+    xl: 52.5, // 52.50px
     type: 'vertical-rhythm',
     unit: 17.5,
   },

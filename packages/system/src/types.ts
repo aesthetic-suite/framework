@@ -35,7 +35,7 @@ export type PaletteType =
 
 export type ShadowSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
-export type SpacingSize = CommonSize | 'md' | 'xl' | 'xs';
+export type SpacingSize = CommonSize | 'xl' | 'xs';
 
 export type TextSize = CommonSize;
 
@@ -199,7 +199,6 @@ export interface DesignVariables {
   'spacing-xs': Unit;
   'spacing-sm': Unit;
   'spacing-df': Unit;
-  'spacing-md': Unit;
   'spacing-lg': Unit;
   'spacing-xl': Unit;
   'spacing-unit': number;

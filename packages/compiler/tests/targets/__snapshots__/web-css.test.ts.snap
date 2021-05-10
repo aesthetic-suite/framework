@@ -86,9 +86,8 @@ exports[`Format web-css compiles and writes files 1`] = `
   --spacing-xs: 0.31rem; /* 4.38px */
   --spacing-sm: 0.63rem; /* 8.75px */
   --spacing-df: 1.25rem; /* 17.50px */
-  --spacing-md: 2.5rem; /* 35px */
-  --spacing-lg: 3.75rem; /* 52.50px */
-  --spacing-xl: 5rem; /* 70px */
+  --spacing-lg: 2.5rem; /* 35px */
+  --spacing-xl: 3.75rem; /* 52.50px */
   --spacing-unit: 17.5;
 
   --text-sm-line-height: 1.25;
