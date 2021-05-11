@@ -23,7 +23,7 @@ import {
   LocalSheetFactory,
   OnChangeDirection,
   OnChangeTheme,
-  RenderResultSheet,
+  ResultGenerator,
   SheetParams,
 } from './types';
 
@@ -178,28 +178,31 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    * Generate a class name using the selectors of a style sheet.
    * If a set is provided, it will be used to check for variants.
    */
-  generateClassName = <T extends string>(
-    keys: T[],
-    variants: Set<string>,
-    classNames: RenderResultSheet<ClassName>,
-  ): ClassName => {
+  generateClassName: ResultGenerator<string, ClassName> = (args, variants, classNames) => {
     let className = '';
     let variantClassName = '';
 
-    arrayLoop(keys, (key) => {
-      const hash = classNames[key];
-
-      if (!hash) {
+    arrayLoop(args, (arg) => {
+      if (!arg) {
         return;
       }
 
-      if (hash.result) {
+      if (Array.isArray(arg)) {
         className += ' ';
-        className += hash.result;
+        className += arg.filter(Boolean).join(' ');
+
+        return;
       }
 
-      if (hash.variants) {
-        arrayLoop(hash.variants, ({ match, result }) => {
+      const unit = classNames[arg];
+
+      if (unit?.result) {
+        className += ' ';
+        className += unit.result;
+      }
+
+      if (unit?.variants) {
+        arrayLoop(unit.variants, ({ match, result }) => {
           if (match.every((type) => variants.has(type))) {
             variantClassName += ' ';
             variantClassName += result;

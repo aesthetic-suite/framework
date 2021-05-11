@@ -299,6 +299,16 @@ describe('Aesthetic', () => {
       expect(aesthetic.generateClassName(['d'], new Set(), classes)).toBe('');
     });
 
+    it('can append custom class names using an array', () => {
+      expect(
+        aesthetic.generateClassName(
+          ['a', ['qux'], 'e', ['foo', false && 'bar', true && 'baz']],
+          new Set(),
+          classes,
+        ),
+      ).toBe('a qux e foo baz');
+    });
+
     describe('variants', () => {
       it('returns class names and matching variants', () => {
         expect(aesthetic.generateClassName(['a'], new Set(['size:df']), classes)).toBe(
@@ -328,6 +338,16 @@ describe('Aesthetic', () => {
         expect(aesthetic.generateClassName(['h'], new Set(['type:blue', 'size:md']), classes)).toBe(
           'h',
         );
+      });
+
+      it('can append custom class names', () => {
+        expect(
+          aesthetic.generateClassName(
+            ['a', ['foo', false && 'bar']],
+            new Set(['size:df']),
+            classes,
+          ),
+        ).toBe('a foo a_size_df');
       });
     });
   });

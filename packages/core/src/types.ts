@@ -28,6 +28,8 @@ export type ElementStyles = LocalBlock;
 export type ComponentStyles = LocalStyleSheet<ElementStyles>;
 export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
 
+// RENDER RESULT
+
 export interface RenderResultVariant<T> {
   match: string[];
   result: T;
@@ -42,6 +44,28 @@ export interface RenderResult<T> {
 export type RenderResultSheet<Result, Keys extends string = string> = {
   [K in Keys]?: RenderResult<Result>;
 };
+
+export type WrapFalsy<T> = T | false | null | undefined;
+
+export type WrapArray<T> = T extends (infer I)[] ? WrapFalsy<I>[] : WrapFalsy<T>[];
+
+export type ResultComposerArgs<K, R> = (WrapArray<R> | WrapFalsy<K>)[];
+
+export type ResultComposerVariants = Record<string, string | undefined>;
+
+export interface ResultComposer<K, R> {
+  result: RenderResultSheet<R>;
+  (variants: ResultComposerVariants, ...args: ResultComposerArgs<K, R>): R;
+  (...args: ResultComposerArgs<K, R>): R;
+}
+
+export type ResultGenerator<K, R, GR = R> = (
+  args: ResultComposerArgs<K, R>,
+  variants: Set<string>,
+  classNames: RenderResultSheet<R>,
+) => GR;
+
+// STYLE SHEETS
 
 export interface SheetParams {
   contrast?: ContrastLevel;
@@ -80,6 +104,8 @@ export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
   Result,
   LocalSheetFactory<Shape, Block>
 >;
+
+// OTHER
 
 export interface AestheticOptions {
   customProperties?: PropertyHandlerMap;
