@@ -49,21 +49,23 @@ export type WrapFalsy<T> = T | false | null | undefined;
 
 export type WrapArray<T> = T extends (infer I)[] ? WrapFalsy<I>[] : WrapFalsy<T>[];
 
-export type ResultComposerArgs<K, R> = (WrapArray<R> | WrapFalsy<K>)[];
+export type ResultComposerArgs<Keys, Result> = (WrapArray<Result> | WrapFalsy<Keys>)[];
 
 export type ResultComposerVariants = Record<string, string | undefined>;
 
-export interface ResultComposer<K, R> {
-  result: RenderResultSheet<R>;
-  (variants: ResultComposerVariants, ...args: ResultComposerArgs<K, R>): R;
-  (...args: ResultComposerArgs<K, R>): R;
+// API consumers interact with (cx, etc)
+export interface ResultComposer<Keys, Result, GeneratedResult = Result> {
+  result: RenderResultSheet<Result>;
+  (variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
+  (...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
 }
 
-export type ResultGenerator<K, R, GR = R> = (
-  args: ResultComposerArgs<K, R>,
+// Called from the composer to generate a final result
+export type ResultGenerator<Keys, Result, GeneratedResult = Result> = (
+  args: ResultComposerArgs<Keys, Result>,
   variants: Set<string>,
-  classNames: RenderResultSheet<R>,
-) => GR;
+  results: RenderResultSheet<Result>,
+) => GeneratedResult;
 
 // STYLE SHEETS
 
