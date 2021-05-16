@@ -51,7 +51,7 @@ export type WrapArray<T> = T extends (infer I)[] ? WrapFalsy<I>[] : WrapFalsy<T>
 
 export type ResultComposerArgs<Keys, Result> = (WrapArray<Result> | WrapFalsy<Keys>)[];
 
-export type ResultComposerVariants = Record<string, string | undefined>;
+export type ResultComposerVariants = Record<string, number | string | undefined>;
 
 // API consumers interact with (cx, etc)
 export interface ResultComposer<Keys, Result, GeneratedResult = Result> {
