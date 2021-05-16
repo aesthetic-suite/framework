@@ -43,24 +43,24 @@ exports[`Format web-css compiles and writes files 1`] = `
   --depth-menu: 1600;
   --depth-tooltip: 1700;
 
-  --heading-l1-letter-spacing: 0.25px;
-  --heading-l1-line-height: 1.5;
-  --heading-l1-size: 1.14rem; /* 16px */
-  --heading-l2-letter-spacing: 0.33px;
-  --heading-l2-line-height: 1.69;
-  --heading-l2-size: 1.43rem; /* 20px */
-  --heading-l3-letter-spacing: 0.44px;
-  --heading-l3-line-height: 1.9;
-  --heading-l3-size: 1.79rem; /* 25px */
-  --heading-l4-letter-spacing: 0.59px;
-  --heading-l4-line-height: 2.14;
-  --heading-l4-size: 2.23rem; /* 31.25px */
-  --heading-l5-letter-spacing: 0.79px;
-  --heading-l5-line-height: 2.4;
-  --heading-l5-size: 2.79rem; /* 39.06px */
-  --heading-l6-letter-spacing: 1.05px;
-  --heading-l6-line-height: 2.7;
-  --heading-l6-size: 3.49rem; /* 48.83px */
+  --heading-l1-letter-spacing: 1.05px;
+  --heading-l1-line-height: 2.7;
+  --heading-l1-size: 3.49rem; /* 48.83px */
+  --heading-l2-letter-spacing: 0.79px;
+  --heading-l2-line-height: 2.4;
+  --heading-l2-size: 2.79rem; /* 39.06px */
+  --heading-l3-letter-spacing: 0.59px;
+  --heading-l3-line-height: 2.14;
+  --heading-l3-size: 2.23rem; /* 31.25px */
+  --heading-l4-letter-spacing: 0.44px;
+  --heading-l4-line-height: 1.9;
+  --heading-l4-size: 1.79rem; /* 25px */
+  --heading-l5-letter-spacing: 0.33px;
+  --heading-l5-line-height: 1.69;
+  --heading-l5-size: 1.43rem; /* 20px */
+  --heading-l6-letter-spacing: 0.25px;
+  --heading-l6-line-height: 1.5;
+  --heading-l6-size: 1.14rem; /* 16px */
 
   --shadow-xs-x: 0rem; /* 0px */
   --shadow-xs-y: 0.14rem; /* 2px */

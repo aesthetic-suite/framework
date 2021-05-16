@@ -164,26 +164,26 @@ export default class SystemDesign {
         sizeScale,
       } = heading;
 
-      l1.letterSpacing = letterSpacing;
-      l2.letterSpacing = scaleUp(l1.letterSpacing, letterSpacingScale);
-      l3.letterSpacing = scaleUp(l2.letterSpacing, letterSpacingScale);
-      l4.letterSpacing = scaleUp(l3.letterSpacing, letterSpacingScale);
-      l5.letterSpacing = scaleUp(l4.letterSpacing, letterSpacingScale);
-      l6.letterSpacing = scaleUp(l5.letterSpacing, letterSpacingScale);
+      l6.letterSpacing = letterSpacing;
+      l5.letterSpacing = scaleUp(l6.letterSpacing, letterSpacingScale);
+      l4.letterSpacing = scaleUp(l5.letterSpacing, letterSpacingScale);
+      l3.letterSpacing = scaleUp(l4.letterSpacing, letterSpacingScale);
+      l2.letterSpacing = scaleUp(l3.letterSpacing, letterSpacingScale);
+      l1.letterSpacing = scaleUp(l2.letterSpacing, letterSpacingScale);
 
-      l1.lineHeight = lineHeight;
-      l2.lineHeight = scaleUp(l1.lineHeight, lineHeightScale);
-      l3.lineHeight = scaleUp(l2.lineHeight, lineHeightScale);
-      l4.lineHeight = scaleUp(l3.lineHeight, lineHeightScale);
-      l5.lineHeight = scaleUp(l4.lineHeight, lineHeightScale);
-      l6.lineHeight = scaleUp(l5.lineHeight, lineHeightScale);
+      l6.lineHeight = lineHeight;
+      l5.lineHeight = scaleUp(l6.lineHeight, lineHeightScale);
+      l4.lineHeight = scaleUp(l5.lineHeight, lineHeightScale);
+      l3.lineHeight = scaleUp(l4.lineHeight, lineHeightScale);
+      l2.lineHeight = scaleUp(l3.lineHeight, lineHeightScale);
+      l1.lineHeight = scaleUp(l2.lineHeight, lineHeightScale);
 
-      l1.size = size;
-      l2.size = scaleUp(l1.size, sizeScale);
-      l3.size = scaleUp(l2.size, sizeScale);
-      l4.size = scaleUp(l3.size, sizeScale);
-      l5.size = scaleUp(l4.size, sizeScale);
-      l6.size = scaleUp(l5.size, sizeScale);
+      l6.size = size;
+      l5.size = scaleUp(l6.size, sizeScale);
+      l4.size = scaleUp(l5.size, sizeScale);
+      l3.size = scaleUp(l4.size, sizeScale);
+      l2.size = scaleUp(l3.size, sizeScale);
+      l1.size = scaleUp(l2.size, sizeScale);
     }
 
     return { l1, l2, l3, l4, l5, l6 };

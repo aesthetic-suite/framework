@@ -78,34 +78,34 @@ export const depth: DepthTokens = {
 
 export const heading: HeadingTokens = {
   l1: {
-    letterSpacing: 0.25,
-    lineHeight: 1.5,
-    size: 16, // 16px
+    letterSpacing: 1.05,
+    lineHeight: 2.7,
+    size: 48.83, // 48.83px
   },
   l2: {
-    letterSpacing: 0.33,
-    lineHeight: 1.69,
-    size: 20, // 20px
-  },
-  l3: {
-    letterSpacing: 0.44,
-    lineHeight: 1.9,
-    size: 25, // 25px
-  },
-  l4: {
-    letterSpacing: 0.59,
-    lineHeight: 2.14,
-    size: 31.25, // 31.25px
-  },
-  l5: {
     letterSpacing: 0.79,
     lineHeight: 2.4,
     size: 39.06, // 39.06px
   },
+  l3: {
+    letterSpacing: 0.59,
+    lineHeight: 2.14,
+    size: 31.25, // 31.25px
+  },
+  l4: {
+    letterSpacing: 0.44,
+    lineHeight: 1.9,
+    size: 25, // 25px
+  },
+  l5: {
+    letterSpacing: 0.33,
+    lineHeight: 1.69,
+    size: 20, // 20px
+  },
   l6: {
-    letterSpacing: 1.05,
-    lineHeight: 2.7,
-    size: 48.83, // 48.83px
+    letterSpacing: 0.25,
+    lineHeight: 1.5,
+    size: 16, // 16px
   },
 };
 

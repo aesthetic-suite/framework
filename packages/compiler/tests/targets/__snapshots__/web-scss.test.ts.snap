@@ -42,24 +42,24 @@ $depth-dialog: 1500 !default;
 $depth-menu: 1600 !default;
 $depth-tooltip: 1700 !default;
 
-$heading-l1-letter-spacing: 0.25px !default;
-$heading-l1-line-height: 1.5 !default;
-$heading-l1-size: 1.14rem !default; // 16px
-$heading-l2-letter-spacing: 0.33px !default;
-$heading-l2-line-height: 1.69 !default;
-$heading-l2-size: 1.43rem !default; // 20px
-$heading-l3-letter-spacing: 0.44px !default;
-$heading-l3-line-height: 1.9 !default;
-$heading-l3-size: 1.79rem !default; // 25px
-$heading-l4-letter-spacing: 0.59px !default;
-$heading-l4-line-height: 2.14 !default;
-$heading-l4-size: 2.23rem !default; // 31.25px
-$heading-l5-letter-spacing: 0.79px !default;
-$heading-l5-line-height: 2.4 !default;
-$heading-l5-size: 2.79rem !default; // 39.06px
-$heading-l6-letter-spacing: 1.05px !default;
-$heading-l6-line-height: 2.7 !default;
-$heading-l6-size: 3.49rem !default; // 48.83px
+$heading-l1-letter-spacing: 1.05px !default;
+$heading-l1-line-height: 2.7 !default;
+$heading-l1-size: 3.49rem !default; // 48.83px
+$heading-l2-letter-spacing: 0.79px !default;
+$heading-l2-line-height: 2.4 !default;
+$heading-l2-size: 2.79rem !default; // 39.06px
+$heading-l3-letter-spacing: 0.59px !default;
+$heading-l3-line-height: 2.14 !default;
+$heading-l3-size: 2.23rem !default; // 31.25px
+$heading-l4-letter-spacing: 0.44px !default;
+$heading-l4-line-height: 1.9 !default;
+$heading-l4-size: 1.79rem !default; // 25px
+$heading-l5-letter-spacing: 0.33px !default;
+$heading-l5-line-height: 1.69 !default;
+$heading-l5-size: 1.43rem !default; // 20px
+$heading-l6-letter-spacing: 0.25px !default;
+$heading-l6-line-height: 1.5 !default;
+$heading-l6-size: 1.14rem !default; // 16px
 
 $shadow-xs-x: 0rem !default; // 0px
 $shadow-xs-y: 0.14rem !default; // 2px
