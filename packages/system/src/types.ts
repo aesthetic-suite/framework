@@ -10,6 +10,8 @@ export type BreakpointSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
 export type HeadingSize = 'l1' | 'l2' | 'l3' | 'l4' | 'l5' | 'l6';
 
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
 export type ElevationType =
   | 'content'
   | 'dialog'
