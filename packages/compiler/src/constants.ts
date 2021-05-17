@@ -1,16 +1,30 @@
 import {
-  BorderSize,
-  BreakpointSize,
-  CommonSize,
+  BORDER_SIZES,
+  BREAKPOINT_SIZES,
   DEPTHS,
-  HeadingSize,
+  HEADING_LEVELS,
+  HEADING_SIZES,
   SHADE_RANGES,
-  ShadowSize,
-  SpacingSize,
+  SHADOW_SIZES,
+  SIZES,
+  SPACING_SIZES,
   StateType,
-  TextSize,
+  TEXT_SIZES,
 } from '@aesthetic/system';
 import { BreakpointListConfig, ScaleType } from './types';
+
+export {
+  BORDER_SIZES,
+  BREAKPOINT_SIZES,
+  DEPTHS,
+  HEADING_LEVELS,
+  HEADING_SIZES,
+  SHADE_RANGES,
+  SHADOW_SIZES,
+  SIZES,
+  SPACING_SIZES,
+  TEXT_SIZES,
+};
 
 export const NAME_PATTERN = /^[-a-z0-9]+$/giu;
 
@@ -84,22 +98,6 @@ export const SCALES: { [K in ScaleType]: number } = {
 };
 
 // SYSTEM
-
-export { DEPTHS, SHADE_RANGES };
-
-export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
-
-export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-
-export const COMMON_SIZES: CommonSize[] = ['sm', 'df', 'lg'];
-
-export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
-
-export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
-
-export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'lg', 'xl'];
-
-export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
 
 export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];
 

@@ -1,4 +1,20 @@
-import { ColorShade, ElevationType, PaletteType } from './types';
+import {
+  BorderSize,
+  BreakpointSize,
+  ColorShade,
+  CommonSize,
+  ElevationType,
+  HeadingLevel,
+  HeadingSize,
+  PaletteType,
+  ShadowSize,
+  SpacingSize,
+  TextSize,
+} from './types';
+
+export const BORDER_SIZES: BorderSize[] = ['sm', 'df', 'lg'];
+
+export const BREAKPOINT_SIZES: BreakpointSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export const DEPTHS: Record<ElevationType, number> = {
   content: 100, // xs
@@ -11,6 +27,25 @@ export const DEPTHS: Record<ElevationType, number> = {
   menu: 1600, // md
   tooltip: 1700, // sm
 };
+
+export const SIZES: CommonSize[] = ['sm', 'df', 'lg'];
+
+export const HEADING_LEVELS: HeadingLevel[] = [1, 2, 3, 4, 5, 6];
+
+export const HEADING_SIZES: HeadingSize[] = ['l1', 'l2', 'l3', 'l4', 'l5', 'l6'];
+
+export const PALETTE_TYPES: PaletteType[] = [
+  'brand',
+  'primary',
+  'secondary',
+  'tertiary',
+  'neutral',
+  'muted',
+  'danger',
+  'warning',
+  'negative',
+  'positive',
+];
 
 export const SHADE_RANGES: ColorShade[] = [
   '00',
@@ -25,15 +60,8 @@ export const SHADE_RANGES: ColorShade[] = [
   '90',
 ];
 
-export const PALETTE_TYPES: PaletteType[] = [
-  'brand',
-  'primary',
-  'secondary',
-  'tertiary',
-  'neutral',
-  'muted',
-  'danger',
-  'warning',
-  'negative',
-  'positive',
-];
+export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'lg', 'xl'];
+
+export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];
