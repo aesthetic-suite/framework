@@ -279,15 +279,16 @@ export default class SystemDesign {
 
   protected compileTypography(text: DesignTemplate['text']): DesignTemplate['typography'] {
     const { font } = this.config.typography;
-    const systemFont = FONT_FAMILIES[`${this.options.platform}-system` as 'web-system'];
+    const systemToken = '<system>';
+    const systemFont = FONT_FAMILIES[`${this.options.platform}-system` as 'web-system'] || '';
     let textFont = '';
     let headingFont = '';
     let monospaceFont = '';
     let localeFonts = {};
 
-    if (font === 'system') {
-      textFont = systemFont;
-      headingFont = systemFont;
+    if (font === systemToken || font === 'system') {
+      textFont = systemToken;
+      headingFont = systemToken;
     } else if (typeof font === 'string') {
       textFont = font;
       headingFont = font;
@@ -300,10 +301,10 @@ export default class SystemDesign {
 
     return {
       font: {
-        heading: quote(headingFont || systemFont),
+        heading: quote(headingFont || systemToken).replace(systemToken, systemFont),
         locale: localeFonts,
         monospace: quote(monospaceFont),
-        text: quote(textFont || systemFont),
+        text: quote(textFont || systemToken).replace(systemToken, systemFont),
         system: quote(systemFont),
       },
       rootLineHeight: text.df.lineHeight,

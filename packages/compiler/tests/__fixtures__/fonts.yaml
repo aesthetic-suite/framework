@@ -4,7 +4,7 @@ colors:
 typography:
   font:
     text: 'Roboto, sans-serif'
-    heading: 'Droid, sans-serif'
+    heading: 'Droid, <system>'
     monospace: '"Lucida Console", Monaco, monospace'
     locale:
       # Japanese

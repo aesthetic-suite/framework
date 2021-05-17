@@ -63,7 +63,7 @@ describe('System', () => {
 
       expect(design.template.typography.font).toEqual({
         text: 'Roboto, sans-serif',
-        heading: 'Droid, sans-serif',
+        heading: `Droid, ${FONT_FAMILIES['web-system']}`,
         monospace: '"Lucida Console", Monaco, monospace',
         system: FONT_FAMILIES['web-system'],
         locale: {
