@@ -48,7 +48,7 @@ export const FONT_FAMILIES = {
   'web-monospace':
     'Menlo, Monaco, Consolas, "Lucida Console", "Liberation Mono", "Courier New", monospace',
   'web-system':
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
 };
 
 // https://learnui.design/blog/ultimate-guide-font-sizes-ui-design.html
