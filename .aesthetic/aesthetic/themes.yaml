@@ -114,10 +114,9 @@ themes:
         '70': '#80002d'
         '80': '#4d001b'
         '90': '#1a0009'
-
     palettes:
       brand: purple
-      primary: purple
+      primary: blue
       secondary: pink
       tertiary: brown
       neutral: gray

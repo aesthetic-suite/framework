@@ -30,15 +30,16 @@ spacing:
     xs: 0.25
     sm: 0.5
     df: 1 # Default
-    md: 2
-    lg: 3
-    xl: 4
+    lg: 2
+    xl: 3
 
 # TYPOGRAPHY
 typography:
   # Font family for all body text and headings. Defaults to the platform "system" font.
   # Can customize text, heading, monospace, and locale fonts individually by using a map.
-  font: system
+  font:
+    text: 'Karla, <system>'
+    heading: 'Lato, <system>'
 
   # Default text sizes and line heights, with "small" and "large" sizes being automatically
   # calculated using modular scale. The default text size is used as the "root font size".

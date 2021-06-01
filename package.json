@@ -10,6 +10,7 @@
     "clean": "packemon clean",
     "coverage": "yarn run jest --coverage",
     "format": "beemo prettier",
+    "generate:ds": "yarn run aesthetic compile aesthetic ./packages/design-systems/src/aesthetic --format web-tsx",
     "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
     "lint": "beemo eslint",
     "jest": "beemo jest",
@@ -28,7 +29,7 @@
     "@milesj/build-tools": "^2.17.0",
     "@types/ejs": "^3.0.6",
     "@types/fs-extra": "^9.0.11",
-    "@types/lodash": "^4.14.169",
+    "@types/lodash": "^4.14.170",
     "@types/prettier": "^2.2.3",
     "@types/react": "^16.9.56",
     "@types/string-hash": "^1.1.1",
@@ -37,7 +38,7 @@
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.1.0",
     "lerna": "^4.0.0",
-    "packemon": "^0.16.3",
+    "packemon": "^0.16.4",
     "ts-node": "^9.1.1"
   },
   "beemo": {
