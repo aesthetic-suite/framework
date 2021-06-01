@@ -263,6 +263,38 @@ describe('Aesthetic', () => {
     });
   });
 
+  describe('createElementStyles()', () => {
+    beforeEach(() => {
+      setupAesthetic(aesthetic);
+    });
+
+    it('returns a `LocalSheet` instance using an object', () => {
+      const sheet = aesthetic.createElementStyles({
+        display: 'block',
+        color: 'red',
+        ':hover': {
+          color: 'darkred',
+        },
+      });
+
+      expect(sheet).toBeInstanceOf(StyleSheet);
+      expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
+    });
+
+    it('returns a `LocalSheet` instance using a function', () => {
+      const sheet = aesthetic.createElementStyles((css) => ({
+        display: 'block',
+        color: css.var('palette-brand-fg-base'),
+        ':hover': {
+          color: css.var('palette-brand-fg-hovered'),
+        },
+      }));
+
+      expect(sheet).toBeInstanceOf(StyleSheet);
+      expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
+    });
+  });
+
   describe('createThemeStyles()', () => {
     it('returns a `GlobalSheet` instance', () => {
       expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(StyleSheet);

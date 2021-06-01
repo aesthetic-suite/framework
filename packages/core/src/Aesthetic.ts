@@ -19,6 +19,7 @@ import {
   EventType,
   GlobalSheet,
   GlobalSheetFactory,
+  LocalElementSheetFactory,
   LocalSheet,
   LocalSheetFactory,
   OnChangeDirection,
@@ -143,7 +144,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   };
 
   /**
-   * Create a local style sheet for use within components.
+   * Create a local style sheet that supports multiple elements,
+   * for use within components.
    */
   createComponentStyles = <T = unknown>(
     factory: LocalSheetFactory<T, Block>,
@@ -155,6 +157,18 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
     return sheet;
   };
+
+  /**
+   * Create a local style sheet for a single element.
+   * Returns a style sheet instance with a "element" selector.
+   */
+  createElementStyles = (factory: Block | LocalElementSheetFactory<Block>) =>
+    this.createComponentStyles((utils) => ({
+      element:
+        typeof factory === 'function'
+          ? (factory as LocalElementSheetFactory<Block>)(utils)
+          : factory,
+    }));
 
   /**
    * Create a global style sheet for root theme styles.

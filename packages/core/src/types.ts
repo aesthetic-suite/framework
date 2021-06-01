@@ -107,6 +107,8 @@ export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
   LocalSheetFactory<Shape, Block>
 >;
 
+export type LocalElementSheetFactory<Block extends object> = (utils: Utilities<Block>) => Block;
+
 // OTHER
 
 export interface AestheticOptions {
