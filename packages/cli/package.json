@@ -17,7 +17,7 @@
   "author": "Miles Johnson",
   "license": "MIT",
   "types": "./dts/index.d.ts",
-  "main": "./lib/bin.js",
+  "main": "./lib/index.js",
   "files": [
     "dts/**/*.d.ts",
     "lib/**/*.{js,map}",
@@ -50,6 +50,7 @@
   },
   "packemon": {
     "inputs": {
+      "index": "src/index.ts",
       "bin": "src/bin.ts"
     },
     "platform": "node"
