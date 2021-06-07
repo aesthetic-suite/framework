@@ -1,13 +1,16 @@
 import {
   ClassName,
   CSS,
+  CSSType,
+  FontFace,
   GenericProperties,
+  Import,
   NativeProperty,
   RenderOptions,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
+import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { isUnitlessProperty, isVariable } from './helpers';
 
@@ -53,6 +56,71 @@ export function formatDeclaration(key: string, value: Value): CSS {
 
 export function formatDeclarationBlock(properties: Record<string, Value>): CSS {
   return objectReduce(properties, (value, key) => formatDeclaration(key, value));
+}
+
+const FORMATS: Record<string, string> = {
+  '.eot': 'embedded-opentype',
+  '.otf': 'opentype',
+  '.svg': 'svg',
+  '.svgz': 'svg',
+  '.ttf': 'truetype',
+  '.woff': 'woff',
+  '.woff2': 'woff2',
+};
+
+export function formatFontFace(properties: Partial<FontFace>): CSSType.AtRule.FontFace {
+  const fontFace = { ...properties };
+  const src: string[] = [];
+
+  if (Array.isArray(fontFace.local)) {
+    arrayLoop(fontFace.local, (alias) => {
+      src.push(`local('${alias}')`);
+    });
+
+    delete fontFace.local;
+  }
+
+  if (Array.isArray(fontFace.srcPaths)) {
+    arrayLoop(fontFace.srcPaths, (srcPath) => {
+      let ext = srcPath.slice(srcPath.lastIndexOf('.'));
+
+      if (ext.includes('?')) {
+        [ext] = ext.split('?');
+      }
+
+      if (FORMATS[ext]) {
+        src.push(`url('${srcPath}') format('${FORMATS[ext]}')`);
+      } else if (__DEV__) {
+        throw new Error(`Unsupported font format "${ext}".`);
+      }
+    });
+
+    delete fontFace.srcPaths;
+  } else {
+    return fontFace;
+  }
+
+  fontFace.src = src.join(', ');
+
+  return fontFace;
+}
+
+export function formatImport(value: Import | string): string {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  let path = `"${value.path}"`;
+
+  if (value.url) {
+    path = `url(${path})`;
+  }
+
+  if (value.media) {
+    path += ` ${value.media}`;
+  }
+
+  return path;
 }
 
 export function formatRule(

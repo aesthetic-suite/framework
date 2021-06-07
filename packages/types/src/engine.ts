@@ -3,6 +3,7 @@
 import {
   CSS,
   FontFace,
+  Import,
   Keyframes,
   Properties,
   Property,
@@ -113,7 +114,7 @@ export interface Engine<T> {
     options?: RenderOptions,
   ) => T;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
-  renderImport: (path: string, options?: RenderOptions) => string;
+  renderImport: (path: Import | string, options?: RenderOptions) => string;
   renderKeyframes: (
     keyframes: Keyframes,
     animationName?: string,

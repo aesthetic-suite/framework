@@ -112,7 +112,7 @@ describe('Client', () => {
     });
 
     it('doesnt re-insert hydrated import', () => {
-      engine.renderImport('test.css');
+      engine.renderImport({ path: 'test.css' });
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });

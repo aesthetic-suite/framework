@@ -7,6 +7,7 @@ import {
   EngineOptions,
   FontFace,
   GenericProperties,
+  Import,
   Keyframes,
   Properties,
   Property,
@@ -23,6 +24,8 @@ import {
   createDeclaration,
   createDeclarationBlock,
   formatDeclaration,
+  formatFontFace,
+  formatImport,
   formatProperty,
   formatRule,
   formatVariable,
@@ -179,7 +182,11 @@ function renderDeclaration<K extends Property>(
 
 function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: RenderOptions): string {
   let name = fontFace.fontFamily;
-  let block = createDeclarationBlock(fontFace as GenericProperties, options, engine);
+  let block = createDeclarationBlock(
+    formatFontFace(fontFace) as GenericProperties,
+    options,
+    engine,
+  );
 
   if (!name) {
     name = `ff${generateHash(block)}`;
@@ -196,14 +203,10 @@ function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: Render
   return name;
 }
 
-function renderImport(engine: StyleEngine, url: string, options: RenderOptions): string {
-  let path = `url("${url}")`;
+function renderImport(engine: StyleEngine, value: Import | string, options: RenderOptions): string {
+  const path = formatImport(value);
 
-  if (options.media) {
-    path += ` ${options.media}`;
-  }
-
-  insertAtRule(createCacheKey('@import', url, options), `@import ${path};`, options, engine);
+  insertAtRule(createCacheKey('@import', path, options), `@import ${path};`, options, engine);
 
   return path;
 }

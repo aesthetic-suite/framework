@@ -1,5 +1,5 @@
-import formatFontFace from '../src/helpers/formatFontFace';
-import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__mocks__/global';
+import { formatFontFace, formatImport } from '../src';
+import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__fixtures__/globals';
 
 describe('formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {
@@ -51,5 +51,31 @@ describe('formatFontFace()', () => {
       ...FONT_ROBOTO_FLAT_SRC,
       src: "local('Robo'), url('Roboto.woff2?abc') format('woff2')",
     });
+  });
+});
+
+describe('formatImport()', () => {
+  it('returns strings as is', () => {
+    expect(formatImport('"test.css"')).toBe('"test.css"');
+    expect(formatImport('"test.css" screen')).toBe('"test.css" screen');
+    expect(formatImport('url("test.css") screen')).toBe('url("test.css") screen');
+  });
+
+  it('formats path', () => {
+    expect(formatImport({ path: 'test.css' })).toBe('"test.css"');
+  });
+
+  it('formats path wrapped in url()', () => {
+    expect(formatImport({ path: 'test.css', url: true })).toBe('url("test.css")');
+  });
+
+  it('formats path and media', () => {
+    expect(formatImport({ path: 'test.css', media: 'screen' })).toBe('"test.css" screen');
+  });
+
+  it('formats everything', () => {
+    expect(formatImport({ path: 'test.css', media: 'screen', url: true })).toBe(
+      'url("test.css") screen',
+    );
   });
 });

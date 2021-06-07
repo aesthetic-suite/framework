@@ -97,7 +97,7 @@ describe('Server', () => {
       },
     });
 
-    engine.renderImport('test.css');
+    engine.renderImport({ path: 'test.css', url: true });
 
     // Test that conditions are merged
     engine.renderRule({

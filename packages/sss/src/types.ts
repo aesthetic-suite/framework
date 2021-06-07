@@ -1,56 +1,7 @@
 /* eslint-disable no-use-before-define */
 
-import CSSType from 'csstype';
-import {
-  Declarations,
-  FontFace as BaseFontFace,
-  Keyframes as BaseKeyframes,
-  Value,
-  VariablesMap,
-} from '@aesthetic/types';
+import { Value, VariablesMap } from '@aesthetic/types';
 import Block from './Block';
-
-export type ListableProperty<B, T> = (B | T)[] | T;
-
-// SYNTAX
-
-export interface CustomProperties {
-  animationName?: ListableProperty<CSSType.Property.AnimationName, Keyframes>;
-  fontFamily?: ListableProperty<CSSType.Property.FontFamily, FontFace>;
-}
-
-export type ExtendCustomProperties<T extends object> = {
-  [P in keyof T]?: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
-};
-
-export type Properties = ExtendCustomProperties<
-  CSSType.StandardProperties<Value> & { clip?: string }
->;
-
-export type FallbackProperties = CSSType.StandardPropertiesFallback<Value>;
-
-export type Rule = Declarations<Properties>;
-
-export type RuleMap<T> = Record<string, T>;
-
-export interface FontFace extends BaseFontFace {
-  local?: string[];
-  srcPaths: string[];
-}
-
-export type FontFaceMap = Record<string, FontFace | FontFace[]>;
-
-export interface Import {
-  path: string;
-  media?: string;
-  url?: boolean;
-}
-
-export type ImportList = (Import | string)[];
-
-export type Keyframes = BaseKeyframes<Rule>;
-
-export type KeyframesMap = Record<string, Keyframes>;
 
 // LOCAL STYLE SHEET
 
