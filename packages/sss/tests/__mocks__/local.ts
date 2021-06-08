@@ -151,18 +151,6 @@ export const SYNTAX_NATIVE_PROPERTIES: LocalBlock = {
   shadowOffset: { width: 10, height: 10 },
 };
 
-export const SYNTAX_SUPPORTS: LocalBlock = {
-  display: 'block',
-  '@supports': {
-    '(display: flex)': {
-      display: 'flex',
-    },
-    'not (display: flex)': {
-      float: 'left',
-    },
-  },
-};
-
 export const SYNTAX_VARIABLES: LocalBlock = {
   display: 'block',
   '@variables': {

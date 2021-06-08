@@ -7,11 +7,7 @@ import { Properties } from '../src/types';
 export function createBlock(id: string, properties?: object): Block<Properties> {
   const block = new Block(id);
 
-  if (id.startsWith('@media')) {
-    block.media = id.slice(6).trim();
-  } else if (id.startsWith('@supports')) {
-    block.supports = id.slice(9).trim();
-  } else if (id.match(/^(:|\[|>|\*|~|\+)/iu)) {
+  if (id.match(/^(:|\[|>|\*|~|\+)/iu)) {
     block.selector = id;
   }
 

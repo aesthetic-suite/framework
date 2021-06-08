@@ -15,9 +15,7 @@ export type LocalAtRule =
 
 export type LocalBlock = Rule & {
   '@fallbacks'?: FallbackProperties;
-  '@media'?: LocalBlockMap;
   '@selectors'?: LocalBlockMap;
-  '@supports'?: LocalBlockMap;
   '@variables'?: VariablesMap;
   '@variants'?: LocalBlockMap;
 };

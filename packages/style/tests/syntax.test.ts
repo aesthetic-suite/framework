@@ -1,5 +1,5 @@
 import { formatFontFace, formatImport } from '../src';
-import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__fixtures__/globals';
+import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__fixtures__/global';
 
 describe('formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {

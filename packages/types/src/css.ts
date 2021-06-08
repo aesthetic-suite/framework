@@ -69,6 +69,14 @@ export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
 
 // RULES
 
+export type LocalAtRule =
+  | '@fallbacks'
+  | '@media'
+  | '@selectors'
+  | '@supports'
+  | '@variables'
+  | '@variants';
+
 export type Attributes<T = Properties> = {
   [K in CSSType.HtmlAttributes]?: T;
 };
@@ -81,9 +89,11 @@ export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
 
 export type Rule = Declarations<Properties> & {
   [key: string]: Rule | Value | unknown;
+  '@media'?: RuleMap;
+  '@supports'?: RuleMap;
 };
 
-export type RuleMap<T> = Record<string, T>;
+export type RuleMap<T = Rule> = Record<string, T>;
 
 // OTHER
 

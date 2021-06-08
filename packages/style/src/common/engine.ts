@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable prefer-template, no-magic-numbers, no-use-before-define, @typescript-eslint/no-use-before-define */
 
 import {
   CacheItem,
@@ -13,13 +13,14 @@ import {
   Property,
   RenderOptions,
   Rule,
+  RuleMap,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
 import { generateHash, isObject, joinQueries, objectLoop, objectReduce } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
-import { isMediaRule, isNestedSelector, isSupportsRule, isValidValue, isVariable } from './helpers';
+import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
@@ -30,6 +31,8 @@ import {
   formatRule,
   formatVariable,
 } from './syntax';
+
+type RenderCallback = (styleEngine: StyleEngine, rule: Rule, opts: RenderOptions) => ClassName;
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -107,20 +110,12 @@ function renderNestedRule(
   property: string,
   value: Rule,
   options: RenderOptions,
-  render: (styleEngine: StyleEngine, rule: Rule, opts: RenderOptions) => ClassName,
+  render: RenderCallback,
 ): ClassName {
-  const { media, selector, supports } = options;
+  const { selector } = options;
 
-  // Media queries
-  if (isMediaRule(property)) {
-    options.media = joinQueries(options.media, property.slice(6).trim());
-
-    // Feature queries
-  } else if (isSupportsRule(property)) {
-    options.supports = joinQueries(options.supports, property.slice(9).trim());
-
-    // Selectors
-  } else if (isNestedSelector(property)) {
+  // Selectors
+  if (isNestedSelector(property)) {
     if (__DEV__) {
       if (property.includes(', ')) {
         // eslint-disable-next-line no-console
@@ -149,9 +144,7 @@ function renderNestedRule(
   const className = render(engine, value, options);
 
   // Reset values between each iteration
-  options.media = media;
   options.selector = selector;
-  options.supports = supports;
 
   return className;
 }
@@ -251,6 +244,34 @@ function renderVariable(
   ).className;
 }
 
+function renderAtRules(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+  render: RenderCallback,
+): ClassName {
+  const { media, supports } = options;
+  let className = '';
+
+  if (rule['@media']) {
+    objectLoop(rule['@media'], (condition, query) => {
+      options.media = joinQueries(options.media, query);
+      className += render(engine, condition, options) + ' ';
+      options.media = media;
+    });
+  }
+
+  if (rule['@supports']) {
+    objectLoop(rule['@supports'], (condition, query) => {
+      options.supports = joinQueries(options.supports, query);
+      className += render(engine, condition, options) + ' ';
+      options.supports = supports;
+    });
+  }
+
+  return className.trim();
+}
+
 function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
   let className = '';
 
@@ -259,27 +280,32 @@ function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): Cl
       return;
     }
 
-    className += ' ';
-
     // Nested
     if (isObject<Rule>(value)) {
-      className += renderNestedRule(engine, property, value, options, renderRule);
+      // Render selectors inline but defer at-rules
+      if (isNestedSelector(property)) {
+        className += renderNestedRule(engine, property, value, options, renderRule) + ' ';
+      }
 
       // Variables
     } else if (isVariable(property)) {
-      className += renderVariable(engine, property, value, options);
+      className += renderVariable(engine, property, value, options) + ' ';
 
       // Properties
     } else {
-      className += renderDeclaration(engine, property, value, options);
+      className += renderDeclaration(engine, property, value, options) + ' ';
     }
   });
+
+  // Render at-rules last to somewhat ensure specificity
+  className += renderAtRules(engine, rule, options, renderRule) + ' ';
 
   return className.trim();
 }
 
 function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
-  const nestedRules: Record<string, Rule> = {};
+  const atRules: RuleMap = {};
+  const nestedRules: RuleMap = {};
   let variables: CSS = '';
   let properties: CSS = '';
 
@@ -290,7 +316,11 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
     }
 
     if (isObject<Rule>(value)) {
-      nestedRules[property] = value;
+      if (isAtRule(property)) {
+        atRules[property] = value;
+      } else {
+        nestedRules[property] = value;
+      }
     } else if (isVariable(property)) {
       variables += formatDeclaration(property, value);
     } else {
@@ -310,12 +340,14 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
     engine,
   );
 
-  // Render all nested rules with the parent class name
+  // Render all at/nested rules with the parent class name
   options.className = className;
 
   objectLoop(nestedRules, (nestedRule, key) => {
     renderNestedRule(engine, key, nestedRule, options, renderRuleGrouped);
   });
+
+  renderAtRules(engine, atRules, options, renderRuleGrouped);
 
   return className;
 }

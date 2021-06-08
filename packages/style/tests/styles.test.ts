@@ -8,7 +8,7 @@ import {
   purgeStyles,
 } from '../src/test';
 import { StyleEngine } from '../src/types';
-import { FONT_ROBOTO } from './__fixtures__/globals';
+import { FONT_ROBOTO } from './__fixtures__/global';
 
 const fontFace = {
   fontFamily: '"Open Sans"',
@@ -475,16 +475,22 @@ describe('Engine', () => {
     it('can nest conditionals infinitely', () => {
       engine.renderRule({
         margin: 0,
-        '@media (width: 500px)': {
-          margin: '10px',
-          ':hover': {
-            color: 'red',
-          },
-          '@media (width: 350px)': {
-            '@supports (color: blue)': {
-              color: 'blue',
-              ':focus': {
-                color: 'darkblue',
+        '@media': {
+          '(width: 500px)': {
+            margin: '10px',
+            ':hover': {
+              color: 'red',
+            },
+            '@media': {
+              '(width: 350px)': {
+                '@supports': {
+                  '(color: blue)': {
+                    color: 'blue',
+                    ':focus': {
+                      color: 'darkblue',
+                    },
+                  },
+                },
               },
             },
           },
@@ -492,6 +498,36 @@ describe('Engine', () => {
       });
 
       expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('applies nested conditionals and selectors correctly', () => {
+      engine.renderRule({
+        '@media': {
+          '(max-width: 1000px)': {
+            ':hover': {},
+            '@supports': {
+              '(display: flex)': {
+                '[disabled]': {},
+                '@media': {
+                  '(min-width: 500px)': {
+                    '@media': {
+                      '(prefers-contrast: low)': {
+                        '@supports': {
+                          '(color: red)': {
+                            color: 'red',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
@@ -604,8 +640,10 @@ describe('Engine', () => {
     it('inserts into the appropriate style sheets', () => {
       engine.renderRule({
         background: 'white',
-        '@media (prefers-color-scheme: dark)': {
-          background: 'black',
+        '@media': {
+          '(prefers-color-scheme: dark)': {
+            background: 'black',
+          },
         },
       });
 
@@ -630,11 +668,13 @@ describe('Engine', () => {
         const className = engine.renderRule({
           background: '#000',
           padding: '15px',
-          '@media (max-width: 600px)': {
-            padding: '15px',
-          },
-          '@media screen and (min-width: 900px)': {
-            padding: '20px',
+          '@media': {
+            '(max-width: 600px)': {
+              padding: '15px',
+            },
+            'screen and (min-width: 900px)': {
+              padding: '20px',
+            },
           },
         });
 
@@ -646,9 +686,13 @@ describe('Engine', () => {
       it('can be nested in @supports', () => {
         const className = engine.renderRule({
           padding: '15px',
-          '@supports (display: flex)': {
-            '@media (max-width: 600px)': {
-              padding: '15px',
+          '@supports': {
+            '(display: flex)': {
+              '@media': {
+                '(max-width: 600px)': {
+                  padding: '15px',
+                },
+              },
             },
           },
         });
@@ -663,8 +707,10 @@ describe('Engine', () => {
       it('supports @supports conditions', () => {
         const className = engine.renderRule({
           display: 'block',
-          '@supports (display: flex)': {
-            display: 'flex',
+          '@supports': {
+            '(display: flex)': {
+              display: 'flex',
+            },
           },
         });
 
@@ -676,9 +722,13 @@ describe('Engine', () => {
       it('can be nested in @media', () => {
         const className = engine.renderRule({
           display: 'block',
-          '@media screen and (min-width: 900px)': {
-            '@supports (display: flex)': {
-              display: 'flex',
+          '@media': {
+            'screen and (min-width: 900px)': {
+              '@supports': {
+                '(display: flex)': {
+                  display: 'flex',
+                },
+              },
             },
           },
         });
@@ -942,11 +992,13 @@ describe('Engine', () => {
       '::backdrop': {
         background: 'black',
       },
-      '@media (width: 500px)': {
-        margin: '10px',
-        padding: '10px',
-        ':hover': {
-          color: 'darkblue',
+      '@media': {
+        '(width: 500px)': {
+          margin: '10px',
+          padding: '10px',
+          ':hover': {
+            color: 'darkblue',
+          },
         },
       },
     } as const;

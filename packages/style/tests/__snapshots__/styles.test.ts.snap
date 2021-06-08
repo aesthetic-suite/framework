@@ -90,6 +90,8 @@ exports[`Engine renderKeyframes() renders range based and returns animation name
 }"
 `;
 
+exports[`Engine renderRule() applies nested conditionals and selectors correctly 1`] = `"@supports (display: flex) and (color: red) {@media (max-width: 1000px) and (min-width: 500px) and (prefers-contrast: low) {.a {color: red;}}}"`;
+
 exports[`Engine renderRule() attributes generates the correct class names with attribute selector 1`] = `".a {background: #000;}.b[disabled] {background-color: #286090;}.c[disabled] {border-color: #204d74;}"`;
 
 exports[`Engine renderRule() attributes supports complex attribute selectors 1`] = `".a[href*=\\"example\\"] {background-color: #286090;}"`;
