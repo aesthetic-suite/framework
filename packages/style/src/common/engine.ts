@@ -13,6 +13,7 @@ import {
   Property,
   RenderOptions,
   Rule,
+  RuleMap,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
@@ -245,36 +246,34 @@ function renderAtRules(
     });
   }
 
+  if (rule['@variables']) {
+    objectLoop(rule['@variables'], (value, name) => {
+      className += renderVariable(engine, formatVariable(name), value, options) + ' ';
+    });
+  }
+
   return className.trim();
 }
 
 function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
   let className = '';
 
-  objectLoop<Rule, Property>(rule, (value, property) => {
+  objectLoop(rule, (value, property) => {
     if (!isValidValue(property, value)) {
       return;
     }
 
-    // Nested
     if (isObject<Rule>(value)) {
-      // Selectors
       if (isNestedSelector(property)) {
         (rule['@selectors'] ||= {})[property] = value;
-
-        // Unknown
-      } else if (!isAtRule(property) && __DEV__) {
+      } else if (isAtRule(property)) {
+        // Run later
+      } else if (__DEV__) {
         // eslint-disable-next-line no-console
         console.warn(`Unknown property selector or nested block "${property}".`);
       }
-
-      // Variables
-    } else if (isVariable(property)) {
-      className += renderVariable(engine, property, value, options) + ' ';
-
-      // Properties
     } else {
-      className += renderDeclaration(engine, property, value, options) + ' ';
+      className += renderDeclaration(engine, property as Property, value, options) + ' ';
     }
   });
 
@@ -290,19 +289,19 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
   let properties: CSS = '';
 
   // Extract all nested rules first as we need to process them *after* properties
-  objectLoop<Rule, Property>(rule, (value, property) => {
+  objectLoop(rule, (value, property) => {
     if (!isValidValue(property, value)) {
       return;
     }
 
     if (isObject<Rule>(value)) {
-      if (isAtRule(property)) {
-        atRules[property] = value;
+      if (property === '@variables') {
+        variables += formatDeclaration(property, value);
+      } else if (isAtRule(property)) {
+        atRules[property] = value as RuleMap;
       } else {
         (atRules['@selectors'] ||= {})[property] = value;
       }
-    } else if (isVariable(property)) {
-      variables += formatDeclaration(property, value);
     } else {
       properties += createDeclaration(property, value, options, engine);
     }

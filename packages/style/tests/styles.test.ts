@@ -541,25 +541,33 @@ describe('Engine', () => {
         border: '1px solid #ccc',
         borderCollapse: 'collapse',
         borderSpacing: 0,
-        '> thead': {
-          display: 'table-head',
-          '> tr': {
-            backgroundColor: '#eee',
-            '> th': {
-              border: '1px solid #ccc',
-              padding: 8,
-              textAlign: 'center',
-              '> span': {
-                fontWeight: 'bold',
+        '@selectors': {
+          '> thead': {
+            display: 'table-head',
+            '@selectors': {
+              '> tr': {
+                backgroundColor: '#eee',
+                '@selectors': {
+                  '> th': {
+                    border: '1px solid #ccc',
+                    padding: 8,
+                    textAlign: 'center',
+                    '@selectors': {
+                      '> span': {
+                        fontWeight: 'bold',
+                      },
+                      '> a': {
+                        textDecoration: 'underline',
+                      },
+                    },
+                  },
+                  '> td': {
+                    border: '1px solid #ccc',
+                    padding: 8,
+                    textAlign: 'left',
+                  },
+                },
               },
-              '> a': {
-                textDecoration: 'underline',
-              },
-            },
-            '> td': {
-              border: '1px solid #ccc',
-              padding: 8,
-              textAlign: 'left',
             },
           },
         },
@@ -604,6 +612,7 @@ describe('Engine', () => {
 
       engine.renderRule({
         background: 'white',
+        // @ts-expect-error
         '$ what is this': {
           background: 'black',
         },
@@ -635,11 +644,14 @@ describe('Engine', () => {
       const className = engine.renderRule({
         display: 'block',
         color: 'var(--color)',
-        '--color': 'red',
-        '--font-size': '14px',
+        '@variables': {
+          '--color': 'red',
+          fontSize: '14px',
+          'line-height': 1,
+        },
       });
 
-      expect(className).toBe('a b c d');
+      expect(className).toBe('a b c d e');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -832,17 +844,19 @@ describe('Engine', () => {
       it('generates the correct class names with hierarchy selector', () => {
         const className = engine.renderRule({
           padding: '10px',
-          '+ div': {
-            padding: '10px',
-          },
-          '~ SPAN': {
-            padding: '10px',
-          },
-          '>li': {
-            padding: '10px',
-          },
-          '*': {
-            padding: '10px',
+          '@selectors': {
+            '+ div': {
+              padding: '10px',
+            },
+            '~ SPAN': {
+              padding: '10px',
+            },
+            '>li': {
+              padding: '10px',
+            },
+            '*': {
+              padding: '10px',
+            },
           },
         });
 
@@ -852,8 +866,10 @@ describe('Engine', () => {
 
       it('uses same class name between both APIs', () => {
         const classNameA = engine.renderRule({
-          '+ div': {
-            backgroundColor: '#000',
+          '@selectors': {
+            '+ div': {
+              backgroundColor: '#000',
+            },
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
@@ -896,7 +912,7 @@ describe('Engine', () => {
 
       it('supports multiple selectors separated by a comma', () => {
         engine.renderRule({
-          ':active, .is-active': {
+          ':active': {
             cursor: 'pointer',
           },
           '@selectors': {
@@ -1022,7 +1038,7 @@ describe('Engine', () => {
     });
   });
 
-  describe('renderRuleGrouped()', () => {
+  describe.skip('renderRuleGrouped()', () => {
     const rule = {
       display: 'block',
       background: 'transparent',
@@ -1120,8 +1136,11 @@ describe('Engine', () => {
       const className = engine.renderRuleGrouped({
         display: 'block',
         color: 'var(--color)',
-        '--color': 'red',
-        '--font-size': '14px',
+        '@variables': {
+          '--color': 'red',
+          fontSize: '14px',
+          'line-height': 1,
+        },
       });
 
       expect(className).toBe('c1lbtkju');

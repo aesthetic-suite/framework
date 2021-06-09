@@ -118,7 +118,7 @@ exports[`Engine renderRule() hierarchy supports combinators in @selectors 1`] = 
 
 exports[`Engine renderRule() hierarchy supports complex attribute selectors 1`] = `".a:first-of-type + li {color: white;}"`;
 
-exports[`Engine renderRule() hierarchy supports multiple selectors separated by a comma 1`] = `".a:disabled {cursor: default;}.b[disabled] {cursor: default;}.c> span {cursor: default;}.d:active {cursor: pointer;}.e.is-active {cursor: pointer;}"`;
+exports[`Engine renderRule() hierarchy supports multiple selectors separated by a comma 1`] = `".a:disabled {cursor: default;}.b[disabled] {cursor: default;}.c> span {cursor: default;}.d:active {cursor: pointer;}"`;
 
 exports[`Engine renderRule() hierarchy uses same class name between both APIs 1`] = `".a+ div {background-color: #000;}"`;
 
@@ -164,7 +164,7 @@ exports[`Engine renderRule() support queries supports @supports conditions 1`] =
 
 exports[`Engine renderRule() support queries supports @supports conditions 2`] = `"@supports (display: flex) {.b {display: flex;}}"`;
 
-exports[`Engine renderRule() supports CSS variables 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}"`;
+exports[`Engine renderRule() supports CSS variables 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}.e {--line-height: 1;}"`;
 
 exports[`Engine renderRule() unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
 

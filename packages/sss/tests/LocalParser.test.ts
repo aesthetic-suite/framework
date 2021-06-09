@@ -331,64 +331,6 @@ describe('LocalParser', () => {
     });
   });
 
-  describe('@variables', () => {
-    it('errors if variables are not an object', () => {
-      expect(() => {
-        parse(
-          {
-            vars: {
-              // @ts-expect-error
-              '@variables': 123,
-            },
-          },
-          {},
-        );
-      }).toThrow('@variables must be a mapping of CSS variables.');
-    });
-
-    it('does not emit if no variables', () => {
-      parse(
-        {
-          vars: {},
-        },
-        {
-          onVariable: spy,
-        },
-      );
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('does not emit `variable` listener', () => {
-      parse(
-        {
-          vars: SYNTAX_VARIABLES,
-        },
-        {
-          onRootVariables: spy,
-        },
-      );
-
-      expect(spy).not.toHaveBeenCalled();
-    });
-
-    it('emits for each variable', () => {
-      parse(
-        {
-          vars: SYNTAX_VARIABLES,
-        },
-        {
-          onVariable: spy,
-        },
-      );
-
-      expect(spy).toHaveBeenCalledTimes(3);
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--font-size', '14px');
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--color', 'red');
-      expect(spy).toHaveBeenCalledWith(expect.any(Block), '--line-height', 1.5);
-    });
-  });
-
   describe('@variants', () => {
     it('errors if variants are not an object', () => {
       expect(() => {

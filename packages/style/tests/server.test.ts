@@ -158,7 +158,9 @@ describe('Server', () => {
     });
 
     engine.renderRule({
-      '--element-level': 123,
+      '@variables': {
+        '--element-level': 123,
+      },
     });
 
     engine.renderVariable('varLevel', '10px');

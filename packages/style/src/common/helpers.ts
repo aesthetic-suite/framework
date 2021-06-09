@@ -138,7 +138,7 @@ export function isUnitlessProperty(property: string): boolean {
   return unitlessProperties.has(property);
 }
 
-export function isValidValue(property: string, value: MaybeValue | boolean): value is Value {
+export function isValidValue(property: string, value: unknown): value is Value {
   if (value === undefined) {
     return false;
   }

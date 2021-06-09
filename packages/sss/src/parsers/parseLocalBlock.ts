@@ -24,7 +24,6 @@ export default function parseLocalBlock<T extends object>(
   const queue = createQueue(options);
 
   queue.add(props, '@fallbacks', (data) => parseFallbacks(parent, data, options));
-  queue.add(props, '@variables', (data) => parseVariables(parent, data, options));
   queue.add(props, '@variants', (data) => parseVariants(parent, data, options));
 
   // Standard properties must be parsed before all at-rules

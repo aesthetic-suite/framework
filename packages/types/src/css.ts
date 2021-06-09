@@ -87,12 +87,12 @@ export type Pseudos<T = Properties> = {
 
 export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
 
-export type Rule = Declarations<Properties> & {
-  [key: string]: Rule | Value | unknown;
+export interface Rule extends Declarations<Properties> {
   '@media'?: RuleMap;
   '@selectors'?: RuleMap;
   '@supports'?: RuleMap;
-};
+  '@variables'?: VariablesMap;
+}
 
 export type RuleMap<T = Rule> = Record<string, T>;
 
