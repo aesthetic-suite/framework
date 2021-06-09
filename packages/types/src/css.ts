@@ -90,6 +90,7 @@ export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
 export type Rule = Declarations<Properties> & {
   [key: string]: Rule | Value | unknown;
   '@media'?: RuleMap;
+  '@selectors'?: RuleMap;
   '@supports'?: RuleMap;
 };
 

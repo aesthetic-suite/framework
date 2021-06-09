@@ -13,11 +13,17 @@ import {
   Property,
   RenderOptions,
   Rule,
-  RuleMap,
   Value,
   ValueWithFallbacks,
 } from '@aesthetic/types';
-import { generateHash, isObject, joinQueries, objectLoop, objectReduce } from '@aesthetic/utils';
+import {
+  arrayLoop,
+  generateHash,
+  isObject,
+  joinQueries,
+  objectLoop,
+  objectReduce,
+} from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
 import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
@@ -101,52 +107,6 @@ function insertStyles(
   }
 
   return item;
-}
-
-// It's much faster to set and unset options (conditions and selector) than it is
-// to spread and clone the options object. Since rendering is synchronous, it just works!
-function renderNestedRule(
-  engine: StyleEngine,
-  property: string,
-  value: Rule,
-  options: RenderOptions,
-  render: RenderCallback,
-): ClassName {
-  const { selector } = options;
-
-  // Selectors
-  if (isNestedSelector(property)) {
-    if (__DEV__) {
-      if (property.includes(', ')) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `Multiple selectors separated by a comma are not supported, found "${property}".`,
-        );
-
-        return '';
-      }
-    }
-
-    if (options.selector) {
-      options.selector += property;
-    } else {
-      options.selector = property;
-    }
-
-    // Unknown
-  } else if (__DEV__) {
-    // eslint-disable-next-line no-console
-    console.warn(`Unknown property selector or nested block "${property}".`);
-
-    return '';
-  }
-
-  const className = render(engine, value, options);
-
-  // Reset values between each iteration
-  options.selector = selector;
-
-  return className;
 }
 
 function renderDeclaration<K extends Property>(
@@ -244,20 +204,36 @@ function renderVariable(
   ).className;
 }
 
+// It's much faster to set and unset options (conditions and selector) than it is
+// to spread and clone the options object. Since rendering is synchronous, it just works!
 function renderAtRules(
   engine: StyleEngine,
   rule: Rule,
   options: RenderOptions,
   render: RenderCallback,
 ): ClassName {
-  const { media, supports } = options;
+  const { media: originalMedia, selector: originalSelector, supports: originalSupports } = options;
   let className = '';
 
   if (rule['@media']) {
     objectLoop(rule['@media'], (condition, query) => {
       options.media = joinQueries(options.media, query);
       className += render(engine, condition, options) + ' ';
-      options.media = media;
+      options.media = originalMedia;
+    });
+  }
+
+  if (rule['@selectors']) {
+    objectLoop(rule['@selectors'], (nestedRule, selectorGroup) => {
+      arrayLoop(selectorGroup.split(','), (selector) => {
+        if (originalSelector === undefined) {
+          options.selector = '';
+        }
+
+        options.selector += selector.trim();
+        className += render(engine, nestedRule, options) + ' ';
+        options.selector = originalSelector;
+      });
     });
   }
 
@@ -265,7 +241,7 @@ function renderAtRules(
     objectLoop(rule['@supports'], (condition, query) => {
       options.supports = joinQueries(options.supports, query);
       className += render(engine, condition, options) + ' ';
-      options.supports = supports;
+      options.supports = originalSupports;
     });
   }
 
@@ -282,9 +258,14 @@ function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): Cl
 
     // Nested
     if (isObject<Rule>(value)) {
-      // Render selectors inline but defer at-rules
+      // Selectors
       if (isNestedSelector(property)) {
-        className += renderNestedRule(engine, property, value, options, renderRule) + ' ';
+        (rule['@selectors'] ||= {})[property] = value;
+
+        // Unknown
+      } else if (!isAtRule(property) && __DEV__) {
+        // eslint-disable-next-line no-console
+        console.warn(`Unknown property selector or nested block "${property}".`);
       }
 
       // Variables
@@ -304,8 +285,7 @@ function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): Cl
 }
 
 function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
-  const atRules: RuleMap = {};
-  const nestedRules: RuleMap = {};
+  const atRules: Rule = {};
   let variables: CSS = '';
   let properties: CSS = '';
 
@@ -319,7 +299,7 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
       if (isAtRule(property)) {
         atRules[property] = value;
       } else {
-        nestedRules[property] = value;
+        (atRules['@selectors'] ||= {})[property] = value;
       }
     } else if (isVariable(property)) {
       variables += formatDeclaration(property, value);
@@ -342,10 +322,6 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
 
   // Render all at/nested rules with the parent class name
   options.className = className;
-
-  objectLoop(nestedRules, (nestedRule, key) => {
-    renderNestedRule(engine, key, nestedRule, options, renderRuleGrouped);
-  });
 
   renderAtRules(engine, atRules, options, renderRuleGrouped);
 

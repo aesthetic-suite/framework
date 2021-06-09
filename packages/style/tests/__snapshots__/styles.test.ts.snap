@@ -94,13 +94,15 @@ exports[`Engine renderRule() applies nested conditionals and selectors correctly
 
 exports[`Engine renderRule() attributes generates the correct class names with attribute selector 1`] = `".a {background: #000;}.b[disabled] {background-color: #286090;}.c[disabled] {border-color: #204d74;}"`;
 
+exports[`Engine renderRule() attributes supports attributes in @selectors 1`] = `".a[disabled] {opacity: 0.5;}.b[href] {cursor: pointer;}"`;
+
 exports[`Engine renderRule() attributes supports complex attribute selectors 1`] = `".a[href*=\\"example\\"] {background-color: #286090;}"`;
 
 exports[`Engine renderRule() attributes uses same class name between both APIs 1`] = `".a[disabled] {background-color: #000;}"`;
 
 exports[`Engine renderRule() can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
-exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.d {color: blue;}}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.e:focus {color: darkblue;}}}"`;
+exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.c {color: blue;}}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.d:focus {color: darkblue;}}}@media (width: 500px) {.e:hover {color: red;}}"`;
 
 exports[`Engine renderRule() can nest selectors infinitely 1`] = `".a {width: 100%;}.b {max-width: 100%;}.c {margin: 0;}.d {padding: 0;}.e {background-color: #fff;}.f {border: 1px solid #ccc;}.g {border-collapse: collapse;}.h {border-spacing: 0;}.i> thead {display: table-head;}.j> thead> tr {background-color: #eee;}.k> thead> tr> th {border: 1px solid #ccc;}.l> thead> tr> th {padding: 8px;}.m> thead> tr> th {text-align: center;}.n> thead> tr> th> span {font-weight: bold;}.o> thead> tr> th> a {text-decoration: underline;}.p> thead> tr> td {border: 1px solid #ccc;}.q> thead> tr> td {padding: 8px;}.r> thead> tr> td {text-align: left;}"`;
 
@@ -112,7 +114,11 @@ exports[`Engine renderRule() generates a unique class name for each selector eve
 
 exports[`Engine renderRule() hierarchy generates the correct class names with hierarchy selector 1`] = `".a {padding: 10px;}.b+ div {padding: 10px;}.c~ SPAN {padding: 10px;}.d>li {padding: 10px;}.e* {padding: 10px;}"`;
 
+exports[`Engine renderRule() hierarchy supports combinators in @selectors 1`] = `".a> li {list-style: bullet;}.b+ div {display: none;}.c~ span {color: black;}.d* {background-color: inherit;}"`;
+
 exports[`Engine renderRule() hierarchy supports complex attribute selectors 1`] = `".a:first-of-type + li {color: white;}"`;
+
+exports[`Engine renderRule() hierarchy supports multiple selectors separated by a comma 1`] = `".a:disabled {cursor: default;}.b[disabled] {cursor: default;}.c> span {cursor: default;}.d:active {cursor: pointer;}.e.is-active {cursor: pointer;}"`;
 
 exports[`Engine renderRule() hierarchy uses same class name between both APIs 1`] = `".a+ div {background-color: #000;}"`;
 
@@ -123,8 +129,6 @@ exports[`Engine renderRule() inserts into the appropriate style sheets 1`] = `".
 exports[`Engine renderRule() inserts into the appropriate style sheets 2`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
 
 exports[`Engine renderRule() logs a warning for invalid values 1`] = `""`;
-
-exports[`Engine renderRule() logs a warning for multiple selectors 1`] = `".a {display: table;}"`;
 
 exports[`Engine renderRule() logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
 
@@ -139,6 +143,8 @@ exports[`Engine renderRule() media queries supports @media conditions 2`] = `"@m
 exports[`Engine renderRule() pseudos generates the correct class names with pseudo selector 1`] = `".a {padding: 5px;}.b:hover {padding: 10px;}.c::before {content: \\"★\\";}.d::before {display: inline-block;}"`;
 
 exports[`Engine renderRule() pseudos supports complex attribute selectors 1`] = `".a:nth-last-of-type(4n) {color: white;}"`;
+
+exports[`Engine renderRule() pseudos supports pseudos in @selectors 1`] = `".a:hover {position: static;}.b::before {position: absolute;}"`;
 
 exports[`Engine renderRule() pseudos uses same class name between both APIs 1`] = `".a:focus {background-color: #000;}"`;
 

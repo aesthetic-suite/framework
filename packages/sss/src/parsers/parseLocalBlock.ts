@@ -24,17 +24,6 @@ export default function parseLocalBlock<T extends object>(
   const queue = createQueue(options);
 
   queue.add(props, '@fallbacks', (data) => parseFallbacks(parent, data, options));
-  queue.add(props, '@media', (data) => parseConditionalBlock(parent, data, 'media', options));
-  queue.add(props, '@selectors', (data) => {
-    if (__DEV__) {
-      validateDeclarations(data, '@selectors');
-    }
-
-    objectLoop(data, (value, key) => {
-      parseSelector(parent, key, value, true, options);
-    });
-  });
-  queue.add(props, '@supports', (data) => parseConditionalBlock(parent, data, 'supports', options));
   queue.add(props, '@variables', (data) => parseVariables(parent, data, options));
   queue.add(props, '@variants', (data) => parseVariants(parent, data, options));
 

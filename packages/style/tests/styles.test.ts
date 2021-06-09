@@ -568,26 +568,6 @@ describe('Engine', () => {
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
-    it('logs a warning for multiple selectors', () => {
-      const spy = jest.spyOn(console, 'warn').mockImplementation();
-
-      engine.renderRule({
-        display: 'table',
-        '> td, > th': {
-          padding: 0,
-        },
-      });
-
-      expect(spy).toHaveBeenCalledWith(
-        'Multiple selectors separated by a comma are not supported, found "> td, > th".',
-      );
-
-      // Should not render!
-      expect(getRenderedStyles('standard')).toMatchSnapshot();
-
-      spy.mockRestore();
-    });
-
     it('ignores invalid values', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
 
@@ -775,6 +755,21 @@ describe('Engine', () => {
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
+
+      it('supports attributes in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            '[disabled]': {
+              opacity: 0.5,
+            },
+            '[href]': {
+              cursor: 'pointer',
+            },
+          },
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
     });
 
     describe('pseudos', () => {
@@ -812,6 +807,21 @@ describe('Engine', () => {
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
           selector: ':nth-last-of-type(4n)',
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports pseudos in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            ':hover': {
+              position: 'static',
+            },
+            '::before': {
+              position: 'absolute',
+            },
+          },
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -858,6 +868,42 @@ describe('Engine', () => {
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
           selector: ':first-of-type + li',
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports combinators in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            '> li': {
+              listStyle: 'bullet',
+            },
+            '+ div': {
+              display: 'none',
+            },
+            '~ span': {
+              color: 'black',
+            },
+            '*': {
+              backgroundColor: 'inherit',
+            },
+          },
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports multiple selectors separated by a comma', () => {
+        engine.renderRule({
+          ':active, .is-active': {
+            cursor: 'pointer',
+          },
+          '@selectors': {
+            ':disabled, [disabled], > span': {
+              cursor: 'default',
+            },
+          },
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();

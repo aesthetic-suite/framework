@@ -75,69 +75,6 @@ export const SYNTAX_MEDIA_NESTED: LocalBlock = {
   },
 };
 
-export const SYNTAX_SELECTOR_ATTRIBUTES: LocalBlock = {
-  display: 'block',
-  '[disabled]': {
-    opacity: 0.5,
-  },
-  '[href]': {
-    cursor: 'pointer',
-  },
-};
-
-export const SYNTAX_SELECTOR_PSEUDOS: LocalBlock = {
-  position: 'fixed',
-  ':hover': {
-    position: 'static',
-  },
-  '::before': {
-    position: 'absolute',
-  },
-};
-
-export const SYNTAX_SELECTORS_SPECIFICITY: LocalBlock = {
-  position: 'fixed',
-  '@selectors': {
-    '&&:hover': {
-      position: 'static',
-    },
-    '&:active': {
-      position: 'absolute',
-    },
-    '&&&[hidden]': {
-      position: 'relative',
-    },
-  },
-};
-
-export const SYNTAX_SELECTORS_COMBINATORS: LocalBlock = {
-  margin: 0,
-  padding: 0,
-  '@selectors': {
-    '> li': {
-      listStyle: 'bullet',
-    },
-    '+ div': {
-      display: 'none',
-    },
-    '~ span': {
-      color: 'black',
-    },
-    '*': {
-      backgroundColor: 'inherit',
-    },
-  },
-};
-
-export const SYNTAX_SELECTORS_MULTIPLE: LocalBlock = {
-  cursor: 'pointer',
-  '@selectors': {
-    ':disabled, &&[disabled], > span': {
-      cursor: 'default',
-    },
-  },
-};
-
 export const SYNTAX_PROPERTIES: LocalBlock = {
   color: 'black',
   display: 'inline',

@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { CSS, MaybeValue, Sheet, Value } from '@aesthetic/types';
+import { CSS, LocalAtRule, MaybeValue, Sheet, Value } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 
@@ -51,7 +51,7 @@ export function insertImportRule(sheet: Sheet, rule: CSS): number {
   return insertRule(sheet, rule, index);
 }
 
-export function isAtRule(value: string): boolean {
+export function isAtRule(value: string): value is LocalAtRule {
   return value[0] === '@';
 }
 
