@@ -16,7 +16,6 @@ const engine = createClientEngine();
 // Render a style decleration into individual atomic class names
 const className = engine.renderRule({
   margin: 0,
-  padding: '6px 12px',
   textAlign: 'center',
   color: 'var(--color)',
   backgroundColor: 'transparent',
@@ -32,12 +31,24 @@ const className = engine.renderRule({
     },
   },
 
-  '@variables': {
-    '--color': 'black',
+  '@variants': {
+    'size:small': {
+      fontSize: 14,
+      padding: '4px 10px',
+    },
+    'size:default': {
+      fontSize: 16,
+      padding: '6px 12px',
+    },
+    'size:large': {
+      fontSize: 18,
+      padding: '8px 14px',
+    },
   },
 });
 
-className.result; // -> a b c d e f g h
+className.result; // -> a b c d e f g
+className.variants; // -> [h i, j k, l m]
 ```
 
 ## Features

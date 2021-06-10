@@ -1173,7 +1173,7 @@ describe('Engine', () => {
     });
   });
 
-  describe.skip('renderRuleGrouped()', () => {
+  describe('renderRuleGrouped()', () => {
     const rule = {
       display: 'block',
       background: 'transparent',
@@ -1221,7 +1221,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('cj1oomc');
+      expect(className.result).toBe('cj1oomc');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -1229,7 +1229,7 @@ describe('Engine', () => {
       const a = engine.renderRuleGrouped(rule);
       const b = engine.renderRuleGrouped(rule);
 
-      expect(a).toBe(b);
+      expect(a.result).toBe(b.result);
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1237,7 +1237,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('c1mjtlm6');
+      expect(className.result).toBe('c1mjtlm6');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1245,7 +1245,7 @@ describe('Engine', () => {
     it('can convert direction applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { direction: 'rtl' });
 
-      expect(className).toBe('cnaaqpz');
+      expect(className.result).toBe('cnaaqpz');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1262,8 +1262,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a).toBe('c1mjtlm6');
-      expect(b).toBe('cfapcjy');
+      expect(a.result).toBe('c1mjtlm6');
+      expect(b.result).toBe('cfapcjy');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -1278,7 +1278,46 @@ describe('Engine', () => {
         },
       });
 
-      expect(className).toBe('c1lbtkju');
+      expect(className.result).toBe('cng2wkm');
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('generates unique class names for each variant', () => {
+      const className = engine.renderRuleGrouped({
+        display: 'block',
+        '@variants': {
+          'size:small': {
+            fontSize: 14,
+            padding: 2,
+          },
+          'size:default': {
+            fontSize: 16,
+            padding: 3,
+          },
+          'size:large': {
+            fontSize: 18,
+            padding: 4,
+          },
+        },
+      });
+
+      expect(className).toEqual({
+        result: 'csfd7x3',
+        variants: [
+          {
+            result: 'c1taja0',
+            types: ['size:small'],
+          },
+          {
+            result: 'c146gq7v',
+            types: ['size:default'],
+          },
+          {
+            result: 'czmqclu',
+            types: ['size:large'],
+          },
+        ],
+      });
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
   });

@@ -1,5 +1,6 @@
 import { Sheet, SheetType } from '@aesthetic/types';
 import { nonce, objectReduce } from '@aesthetic/utils';
+import { formatVariable } from '../common/syntax';
 // Rollup compatibility
 import { formatDeclarationBlock, StyleEngine } from '../index';
 
@@ -7,7 +8,7 @@ export function extractCssFromSheet(sheet: Sheet): string {
   let css = '';
 
   if (Object.keys(sheet.cssVariables).length > 0) {
-    css += `:root { ${formatDeclarationBlock(sheet.cssVariables)} }`;
+    css += `:root { ${formatDeclarationBlock(sheet.cssVariables, formatVariable)} }`;
   }
 
   css += sheet.cssText;

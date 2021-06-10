@@ -184,7 +184,7 @@ describe('Aesthetic', () => {
 
       aesthetic.changeTheme('night');
 
-      expect(document.body.className).toBe('c1b733rl');
+      expect(document.body.className).toBe('cmaohch');
     });
 
     it('emits `change:theme` event', () => {
@@ -193,7 +193,7 @@ describe('Aesthetic', () => {
       aesthetic.subscribe('change:theme', spy);
       aesthetic.changeTheme('night');
 
-      expect(spy).toHaveBeenCalledWith('night', ['c1b733rl']);
+      expect(spy).toHaveBeenCalledWith('night', ['cmaohch']);
     });
 
     it('doesnt emit `change:theme` event if `propagate` is false', () => {
@@ -248,7 +248,7 @@ describe('Aesthetic', () => {
     });
 
     it('renders styles immediately upon creation', () => {
-      const spy = jest.spyOn(aesthetic.getEngine(), 'renderDeclaration');
+      const spy = jest.spyOn(aesthetic.getEngine(), 'renderRule');
 
       aesthetic.createComponentStyles(() => ({
         element: {
@@ -257,7 +257,7 @@ describe('Aesthetic', () => {
         },
       }));
 
-      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(1);
 
       spy.mockRestore();
     });
@@ -449,7 +449,7 @@ describe('Aesthetic', () => {
       aesthetic.changeTheme('night');
 
       expect(aesthetic.getActiveTheme()).toBe(darkTheme);
-      expect(changeSpy).toHaveBeenCalledWith('night', ['c1b733rl']);
+      expect(changeSpy).toHaveBeenCalledWith('night', ['cmaohch']);
     });
 
     it('returns the preferred theme if no active defined', () => {
@@ -461,7 +461,7 @@ describe('Aesthetic', () => {
 
       expect(aesthetic.getActiveTheme()).toBe(lightTheme);
       expect(getSpy).toHaveBeenCalled();
-      expect(changeSpy).toHaveBeenCalledWith('day', ['c1e66cy9']);
+      expect(changeSpy).toHaveBeenCalledWith('day', ['c1rhiz2p']);
     });
   });
 
@@ -653,7 +653,7 @@ describe('Aesthetic', () => {
       spy.mockRestore();
     });
 
-    it('supports SSS format', () => {
+    it('supports source paths', () => {
       const spy = jest.spyOn(aesthetic.getEngine(), 'renderFontFace');
 
       aesthetic.renderFontFace(
@@ -666,7 +666,7 @@ describe('Aesthetic', () => {
       expect(spy).toHaveBeenCalledWith(
         {
           fontFamily: 'Roboto',
-          src: "url('fonts/Roboto.woff2') format('woff2')",
+          srcPaths: ['fonts/Roboto.woff2'],
         },
         undefined,
       );
@@ -734,7 +734,7 @@ describe('Aesthetic', () => {
 
       aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-      expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1e66cy9', 'cemumis']);
+      expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1rhiz2p', 'cemumis']);
       expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
         direction: expect.any(String),
         vendor: false,

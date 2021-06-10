@@ -15,7 +15,10 @@ import {
   RenderResult,
   RenderResultVariant,
   Rule,
+  RuleMap,
+  RuleWithoutVariants,
   Value,
+  VariablesMap,
 } from '@aesthetic/types';
 import {
   arrayLoop,
@@ -33,6 +36,7 @@ import {
   createDeclaration,
   createDeclarationBlock,
   formatDeclaration,
+  formatDeclarationBlock,
   formatFontFace,
   formatImport,
   formatProperty,
@@ -218,7 +222,12 @@ function renderAtRules(
   options: RenderOptions,
   render: RenderCallback,
 ): RenderResult<ClassName> {
-  const { media: originalMedia, selector: originalSelector, supports: originalSupports } = options;
+  const {
+    className: originalClassName,
+    media: originalMedia,
+    selector: originalSelector,
+    supports: originalSupports,
+  } = options;
   const variants: RenderResultVariant<ClassName>[] = [];
   let className = '';
 
@@ -259,10 +268,12 @@ function renderAtRules(
       }
     }
 
+    options.className = undefined;
     variants.push({
       result: render(engine, nestedRule, options).result,
       types: variant.split('+').map((v) => v.trim()),
     });
+    options.className = originalClassName;
   });
 
   return {
@@ -310,22 +321,22 @@ function renderRuleGrouped(
   let variables: CSS = '';
   let properties: CSS = '';
 
-  // Extract all nested rules first as we need to process them *after* properties
   objectLoop(rule, (value, property) => {
-    if (!isValidValue(property, value)) {
-      return;
-    }
-
-    if (isObject<Rule>(value)) {
+    // Extract all nested rules first as we need to process them *after* properties
+    if (isObject(value)) {
+      // Extract and include variables in the top level class
       if (property === '@variables') {
-        variables += formatDeclaration(property, value);
+        variables += formatDeclarationBlock(value as VariablesMap, formatVariable);
+
+        // Extract all other at-rules
       } else if (isAtRule(property)) {
-        // @ts-expect-error
-        atRules[property] = value;
+        atRules[property] = value as RuleMap;
+
+        // Merge local selectors into the selectors at-rule
       } else {
-        (atRules['@selectors'] ||= {})[property] = value;
+        (atRules['@selectors'] ||= {})[property] = value as RuleWithoutVariants;
       }
-    } else {
+    } else if (isValidValue(property, value)) {
       properties += createDeclaration(property, value, options, engine);
     }
   });
@@ -345,9 +356,12 @@ function renderRuleGrouped(
   // Render all at/nested rules with the parent class name
   options.className = className;
 
-  renderAtRules(engine, atRules, options, renderRuleGrouped);
+  const { variants } = renderAtRules(engine, atRules, options, renderRuleGrouped);
 
-  return { result: className, variants: [] };
+  return {
+    result: className.trim(),
+    variants,
+  };
 }
 
 const noop = () => {};

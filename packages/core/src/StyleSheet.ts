@@ -221,16 +221,21 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
         // Rule
       } else if (isObject(style)) {
-        Object.assign(meta, engine.renderRule(style, { ...options, rankings }));
+        const result = engine.renderRule(style, { ...options, rankings });
 
-        if (meta.variants && meta.variants.length > 0) {
-          meta.variantTypes = new Set();
+        meta.result = result.result;
 
-          meta.variants.forEach((variant) => {
+        if (result.variants.length > 0) {
+          const types = new Set<string>();
+
+          result.variants.forEach((variant) => {
             variant.types.forEach((type) => {
-              meta.variantTypes!.add(type.split(':')[0]);
+              types.add(type.split(':')[0]);
             });
           });
+
+          meta.variants = result.variants;
+          meta.variantTypes = types;
         }
 
         // Unknown
