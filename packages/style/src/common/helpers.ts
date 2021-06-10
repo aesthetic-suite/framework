@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { CSS, LocalAtRule, MaybeValue, Sheet, Value } from '@aesthetic/types';
+import { CSS, LocalAtRule, Sheet, Value } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 

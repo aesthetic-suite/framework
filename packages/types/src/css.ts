@@ -7,13 +7,7 @@ export type { CSSType };
 
 export type CSS = string;
 
-// VALUES
-
 export type Value = number | string;
-
-export type ValueWithFallbacks = string[];
-
-export type MaybeValue = Value | null | undefined;
 
 // AT-RULES
 
@@ -53,29 +47,26 @@ export type ExtendCustomProperties<T extends object> = {
   [P in keyof T]?: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
 };
 
-export type FallbackProperties = CSSType.StandardPropertiesFallback<Value> &
-  CSSType.StandardPropertiesHyphenFallback;
+export type WithFallbacks<T> = {
+  [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
+};
 
-export type Properties = CSSType.StandardPropertiesHyphen &
-  ExtendCustomProperties<CSSType.StandardProperties<Value>> & {
-    clip?: string;
-  };
+export type Properties = WithFallbacks<
+  CSSType.StandardProperties<Value> &
+    CSSType.StandardPropertiesHyphen<Value> & {
+      clip?: string;
+    }
+>;
 
 export type Property = keyof Properties;
 
 export type NativeProperty = keyof CSSType.PropertiesHyphen;
 
-export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
+export type GenericProperties = Record<string, Value | Value[]>;
 
 // RULES
 
-export type LocalAtRule =
-  | '@fallbacks'
-  | '@media'
-  | '@selectors'
-  | '@supports'
-  | '@variables'
-  | '@variants';
+export type LocalAtRule = '@media' | '@selectors' | '@supports' | '@variables' | '@variants';
 
 export type Attributes<T = Properties> = {
   [K in CSSType.HtmlAttributes]?: T;

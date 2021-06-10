@@ -11,7 +11,6 @@ import {
   Unit,
   UnitFactory,
   Value,
-  ValueWithFallbacks,
   VariablesMap,
 } from './css';
 import { ClassName, ColorScheme, ContrastLevel, Direction } from './ui';
@@ -110,7 +109,7 @@ export interface Engine<T> {
 
   renderDeclaration: <K extends Property>(
     property: K,
-    value: NonNullable<Properties[K]> | ValueWithFallbacks,
+    value: Properties[K],
     options?: RenderOptions,
   ) => T;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;

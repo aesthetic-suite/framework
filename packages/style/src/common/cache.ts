@@ -1,15 +1,8 @@
-import {
-  CacheItem,
-  CacheManager,
-  CacheState,
-  RenderOptions,
-  Value,
-  ValueWithFallbacks,
-} from '@aesthetic/types';
+import { CacheItem, CacheManager, CacheState, RenderOptions } from '@aesthetic/types';
 
 export function createCacheKey(
   property: string,
-  value: Value | ValueWithFallbacks,
+  value: unknown,
   { media = '', selector = '', supports = '' }: RenderOptions,
 ): string {
   return supports + media + selector + property + value;

@@ -8,7 +8,6 @@ import {
   NativeProperty,
   RenderOptions,
   Value,
-  ValueWithFallbacks,
 } from '@aesthetic/types';
 import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
@@ -30,7 +29,7 @@ export function formatProperty(property: string): string {
 
 export function formatValue(
   property: string,
-  value: Value,
+  value: unknown,
   options: RenderOptions,
   engine: StyleEngine,
 ): string {
@@ -47,7 +46,7 @@ export function formatValue(
       typeof unitSuffixer === 'function' ? unitSuffixer(property as NativeProperty) : unitSuffixer;
   }
 
-  return value + (suffix || 'px');
+  return String(value) + (suffix || 'px');
 }
 
 export function formatDeclaration(key: string, value: Value): CSS {
@@ -148,7 +147,7 @@ export function formatRule(
 
 export function createDeclaration(
   property: string,
-  value: Value | ValueWithFallbacks,
+  value: unknown,
   options: RenderOptions,
   engine: StyleEngine,
 ): CSS {

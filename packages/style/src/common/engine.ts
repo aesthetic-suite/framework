@@ -1,4 +1,4 @@
-/* eslint-disable prefer-template, no-magic-numbers, no-use-before-define, @typescript-eslint/no-use-before-define */
+/* eslint-disable prefer-template, no-console */
 
 import {
   CacheItem,
@@ -15,7 +15,6 @@ import {
   Rule,
   RuleMap,
   Value,
-  ValueWithFallbacks,
 } from '@aesthetic/types';
 import {
   arrayLoop,
@@ -27,7 +26,7 @@ import {
 } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
-import { isAtRule, isNestedSelector, isValidValue, isVariable } from './helpers';
+import { isAtRule, isNestedSelector, isValidValue } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
@@ -113,7 +112,7 @@ function insertStyles(
 function renderDeclaration<K extends Property>(
   engine: StyleEngine,
   property: K,
-  value: NonNullable<Properties[K]> | ValueWithFallbacks,
+  value: Properties[K],
   options: RenderOptions,
 ): ClassName {
   const key = formatProperty(property);
@@ -216,41 +215,33 @@ function renderAtRules(
   const { media: originalMedia, selector: originalSelector, supports: originalSupports } = options;
   let className = '';
 
-  if (rule['@media']) {
-    objectLoop(rule['@media'], (condition, query) => {
-      options.media = joinQueries(options.media, query);
-      className += render(engine, condition, options) + ' ';
-      options.media = originalMedia;
-    });
-  }
+  objectLoop(rule['@media'], (condition, query) => {
+    options.media = joinQueries(options.media, query);
+    className += render(engine, condition, options) + ' ';
+    options.media = originalMedia;
+  });
 
-  if (rule['@selectors']) {
-    objectLoop(rule['@selectors'], (nestedRule, selectorGroup) => {
-      arrayLoop(selectorGroup.split(','), (selector) => {
-        if (originalSelector === undefined) {
-          options.selector = '';
-        }
+  objectLoop(rule['@selectors'], (nestedRule, selectorGroup) => {
+    arrayLoop(selectorGroup.split(','), (selector) => {
+      if (originalSelector === undefined) {
+        options.selector = '';
+      }
 
-        options.selector += selector.trim();
-        className += render(engine, nestedRule, options) + ' ';
-        options.selector = originalSelector;
-      });
+      options.selector += selector.trim();
+      className += render(engine, nestedRule, options) + ' ';
+      options.selector = originalSelector;
     });
-  }
+  });
 
-  if (rule['@supports']) {
-    objectLoop(rule['@supports'], (condition, query) => {
-      options.supports = joinQueries(options.supports, query);
-      className += render(engine, condition, options) + ' ';
-      options.supports = originalSupports;
-    });
-  }
+  objectLoop(rule['@supports'], (condition, query) => {
+    options.supports = joinQueries(options.supports, query);
+    className += render(engine, condition, options) + ' ';
+    options.supports = originalSupports;
+  });
 
-  if (rule['@variables']) {
-    objectLoop(rule['@variables'], (value, name) => {
-      className += renderVariable(engine, formatVariable(name), value, options) + ' ';
-    });
-  }
+  objectLoop(rule['@variables'], (value, name) => {
+    className += renderVariable(engine, formatVariable(name), value, options) + ' ';
+  });
 
   return className.trim();
 }
@@ -259,20 +250,15 @@ function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): Cl
   let className = '';
 
   objectLoop(rule, (value, property) => {
-    if (!isValidValue(property, value)) {
-      return;
-    }
-
     if (isObject<Rule>(value)) {
       if (isNestedSelector(property)) {
         (rule['@selectors'] ||= {})[property] = value;
       } else if (isAtRule(property)) {
         // Run later
       } else if (__DEV__) {
-        // eslint-disable-next-line no-console
         console.warn(`Unknown property selector or nested block "${property}".`);
       }
-    } else {
+    } else if (isValidValue(property, value)) {
       className += renderDeclaration(engine, property as Property, value, options) + ' ';
     }
   });
