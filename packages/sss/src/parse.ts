@@ -10,8 +10,6 @@ import parseRoot from './parsers/parseRoot';
 import parseRootVariables from './parsers/parseRootVariables';
 import { GlobalStyleSheet, LocalStyleSheet, ParserOptions } from './types';
 
-export const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
-
 function parseGlobal<T extends object>(styleSheet: GlobalStyleSheet<T>, options: ParserOptions<T>) {
   const queue = createQueue(options);
   queue.add(styleSheet, '@font-face', parseFontFaceMap);

@@ -1,8 +1,9 @@
-import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
-import { deepMerge, objectLoop, toArray } from '@aesthetic/utils';
+import { deepMerge, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
+
+const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
   let key = type;
@@ -129,7 +130,6 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       return cache;
     }
 
-    const resultSheet: RenderResultSheet<Result> = {};
     const composer = this.compose(params);
     const styles = composer(theme);
     const rankings = {};
@@ -139,19 +139,9 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       vendor: params.vendor,
     };
 
-    const createResultMetadata = (selector: string) => {
-      if (!resultSheet[selector]) {
-        resultSheet[selector] = {};
-      }
-
-      return resultSheet[selector]!;
-    };
-
     parse(this.type, styles, {
       customProperties,
-      onClass: (selector, className) => {
-        createResultMetadata(selector).result = (className as unknown) as Result;
-      },
+
       onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
       onImport: (path) => {
         engine.renderImport(path);
@@ -180,48 +170,64 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       onRootVariables: (variables) => {
         engine.setRootVariables(variables);
       },
-      onRule: (selector, block) => {
-        if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
-        }
-
-        createResultMetadata(selector).result = block.result as Result;
-      },
       onVariable: (block, name, value) => {
         if (engine.atomic) {
           block.addResult(engine.renderVariable(name, value));
         }
-      },
-      onVariant: (parent, variant, block) => {
-        if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
-        }
-
-        const meta = createResultMetadata(parent.id);
-        const list = toArray(variant);
-
-        if (!meta.variants) {
-          meta.variants = [];
-        }
-
-        if (!meta.variantTypes) {
-          meta.variantTypes = new Set();
-        }
-
-        meta.variants.push({
-          match: list,
-          result: block.result as Result,
-        });
-
-        list.forEach((type) => {
-          meta.variantTypes!.add(type.split(':')[0]);
-        });
       },
     });
 
     if (key) {
       this.renderCache[key] = resultSheet;
     }
+
+    return resultSheet;
+  }
+
+  protected parseLocal(
+    engine: Engine<Result>,
+    styles: Record<string, object | string>,
+    options: RenderOptions,
+  ): RenderResultSheet<Result> {
+    const resultSheet: RenderResultSheet<Result> = {};
+
+    objectLoop(styles, (style, selector) => {
+      // eslint-disable-next-line no-multi-assign
+      const meta = (resultSheet[selector] ||= {});
+
+      // At-rule
+      if (selector[0] === '@') {
+        if (__DEV__) {
+          throw new SyntaxError(
+            `At-rules may not be defined at the root of a style sheet, found "${selector}".`,
+          );
+        }
+
+        // Class name
+      } else if (typeof style === 'string' && style.match(CLASS_NAME)) {
+        meta.result = (style as unknown) as Result;
+
+        // Rule
+      } else if (isObject(style)) {
+        Object.assign(meta, engine.renderRule(style, options));
+
+        if (meta.variants && meta.variants.length > 0) {
+          meta.variantTypes = new Set();
+
+          meta.variants.forEach((variant) => {
+            variant.types.forEach((type) => {
+              meta.variantTypes!.add(type.split(':')[0]);
+            });
+          });
+        }
+
+        // Unknown
+      } else if (__DEV__) {
+        throw new Error(
+          `Invalid rule for "${selector}". Must be an object (style declaration) or string (class name).`,
+        );
+      }
+    });
 
     return resultSheet;
   }

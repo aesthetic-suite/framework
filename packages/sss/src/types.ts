@@ -3,32 +3,6 @@
 import { Value, VariablesMap } from '@aesthetic/types';
 import Block from './Block';
 
-// LOCAL STYLE SHEET
-
-export type LocalAtRule =
-  | '@fallbacks'
-  | '@media'
-  | '@selectors'
-  | '@supports'
-  | '@variables'
-  | '@variants';
-
-export type LocalBlock = Rule & {
-  '@variants'?: LocalBlockMap;
-};
-
-export type LocalBlockMap = Record<string, LocalBlock>;
-
-export type LocalStyleSheet<B = LocalBlock> = RuleMap<B | string>;
-
-export type LocalStyleSheetNeverize<T, B> = {
-  [K in keyof T]: T[K] extends string ? string : LocalStyleSheetElementNeverize<T[K], B>;
-};
-
-export type LocalStyleSheetElementNeverize<T, B> = {
-  [K in keyof T]: K extends keyof B ? T[K] : never;
-};
-
 // GLOBAL STYLE SHEET
 
 export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';

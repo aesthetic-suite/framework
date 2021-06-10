@@ -32,7 +32,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/sss": "^0.8.2",
     "@aesthetic/system": "^0.8.3",
     "@aesthetic/types": "^0.5.1",
     "@aesthetic/utils": "^0.7.0"
