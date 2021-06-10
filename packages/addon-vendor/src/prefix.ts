@@ -25,7 +25,7 @@ export default function prefix(key: string, value: string): Record<string, strin
   }
 
   // Prefixed properties come first
-  getPrefixesFromMask(mask).forEach((affix) => {
+  arrayLoop(getPrefixesFromMask(mask), (affix) => {
     arrayLoop(nextValue, (val) => {
       prefixed[affix + key] = val;
     });

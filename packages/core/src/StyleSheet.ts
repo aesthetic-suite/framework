@@ -8,7 +8,7 @@ import {
   ThemeRule,
 } from '@aesthetic/types';
 import { arrayLoop, deepMerge, isObject, objectLoop, toArray } from '@aesthetic/utils';
-import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
+import { BaseSheetFactory, RenderResultSheet, SheetParams } from './types';
 
 const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
@@ -119,7 +119,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // This is hidden behind abstractions, so is ok
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
-    { customProperties, ...baseParams }: SheetParamsExtended,
+    baseParams: SheetParams,
   ): RenderResultSheet<Result> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
@@ -228,8 +228,8 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
         if (result.variants.length > 0) {
           const types = new Set<string>();
 
-          result.variants.forEach((variant) => {
-            variant.types.forEach((type) => {
+          arrayLoop(result.variants, (variant) => {
+            arrayLoop(variant.types, (type) => {
               types.add(type.split(':')[0]);
             });
           });

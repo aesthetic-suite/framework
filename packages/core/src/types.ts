@@ -58,10 +58,6 @@ export interface SheetParams {
   vendor?: boolean;
 }
 
-export interface SheetParamsExtended extends SheetParams {
-  customProperties?: PropertyHandlerMap;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;
 

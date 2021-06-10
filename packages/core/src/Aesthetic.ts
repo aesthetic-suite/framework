@@ -129,6 +129,10 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
   configureEngine = (engine: Engine<Result>): void => {
     const { options } = this;
 
+    if (!engine.customProperties && options.customProperties) {
+      engine.customProperties = options.customProperties;
+    }
+
     if (!engine.directionConverter && options.directionConverter) {
       engine.directionConverter = options.directionConverter;
     }
@@ -216,14 +220,12 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
         className += unit.result;
       }
 
-      if (unit?.variants) {
-        arrayLoop(unit.variants, ({ types, result }) => {
-          if (types.every((type) => variants.has(type))) {
-            variantClassName += ' ';
-            variantClassName += result;
-          }
-        });
-      }
+      arrayLoop(unit?.variants, ({ types, result }) => {
+        if (types.every((type) => variants.has(type))) {
+          variantClassName += ' ';
+          variantClassName += result;
+        }
+      });
     });
 
     return (className + variantClassName).trim();
@@ -350,7 +352,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
 
     return sheet.render(this.getEngine(), theme, {
-      customProperties: this.options.customProperties,
       direction: this.getActiveDirection(),
       vendor: !!this.options.vendorPrefixer,
       ...params,
@@ -401,7 +402,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
     // Render theme styles
     if (sheet) {
       const result = sheet.render(this.getEngine(), theme, {
-        customProperties: this.options.customProperties,
         direction: this.getActiveDirection(),
         vendor: !!this.options.vendorPrefixer,
         ...params,

@@ -5,9 +5,30 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { AddPropertyCallback, PropertyHandlerMap, Value } from '@aesthetic/types';
-import { isObject, objectLoop } from '@aesthetic/utils';
-import { FontProperty, MarginProperty, PaddingProperty } from './types';
+import {
+  AddPropertyCallback,
+  Engine,
+  FontFace,
+  Keyframes,
+  PropertyHandlerMap,
+  Value,
+} from '@aesthetic/types';
+import { isObject, objectLoop, toArray } from '@aesthetic/utils';
+import {
+  AnimationProperty,
+  BackgroundProperty,
+  BorderProperty,
+  ColumnRuleProperty,
+  FlexProperty,
+  FontProperty,
+  ListStyleProperty,
+  MarginProperty,
+  OffsetProperty,
+  OutlineProperty,
+  PaddingProperty,
+  TextDecorationProperty,
+  TransitionProperty,
+} from './types';
 
 function collapse(property: string, object: object, add: AddPropertyCallback) {
   objectLoop(object, (value: Value, key: string) => {
@@ -15,7 +36,37 @@ function collapse(property: string, object: object, add: AddPropertyCallback) {
   });
 }
 
-function handleExpanded(
+function handleCompound(property: 'animationName' | 'fontFamily') {
+  return (
+    value: FontFace | FontFace[] | Keyframes | Keyframes[] | string,
+    add: AddPropertyCallback,
+    engine: Engine<unknown>,
+  ) => {
+    const items = toArray(value).map((item) => {
+      if (typeof item === 'string') {
+        return item;
+      }
+
+      if (property === 'animationName') {
+        return engine.renderKeyframes(item as Keyframes);
+      }
+
+      if (property === 'fontFamily') {
+        return engine.renderFontFace(item as FontFace);
+      }
+
+      return '';
+    });
+
+    const name = Array.from(new Set(items)).filter(Boolean).join(', ');
+
+    if (name) {
+      add(property, name);
+    }
+  };
+}
+
+function handleExpanded<T extends object>(
   property:
     | 'animation'
     | 'background'
@@ -32,19 +83,19 @@ function handleExpanded(
     | 'textDecoration'
     | 'transition',
 ) {
-  return (value: unknown, add: AddPropertyCallback) => {
+  return (value: T | Value, add: AddPropertyCallback) => {
     if (isObject(value)) {
       collapse(property, value, add);
     } else {
-      add(property, value as Value);
+      add(property, value);
     }
   };
 }
 
 function handleExpandedSpacing(property: 'margin' | 'padding') {
-  return (value: unknown, add: AddPropertyCallback) => {
-    if (!isObject<MarginProperty | PaddingProperty>(value)) {
-      add(property, value as Value);
+  return (value: MarginProperty | PaddingProperty | Value, add: AddPropertyCallback) => {
+    if (!isObject(value)) {
+      add(property, value);
 
       return;
     }
@@ -66,15 +117,16 @@ function handleExpandedSpacing(property: 'margin' | 'padding') {
 }
 
 export const expandedProperties: PropertyHandlerMap = {
-  animation: handleExpanded('animation'),
-  background: handleExpanded('background'),
-  border: handleExpanded('border'),
-  borderBottom: handleExpanded('borderBottom'),
-  borderLeft: handleExpanded('borderLeft'),
-  borderRight: handleExpanded('borderRight'),
-  borderTop: handleExpanded('borderTop'),
-  columnRule: handleExpanded('columnRule'),
-  flex: handleExpanded('flex'),
+  animation: handleExpanded<AnimationProperty>('animation'),
+  animationName: handleCompound('animationName'),
+  background: handleExpanded<BackgroundProperty>('background'),
+  border: handleExpanded<BorderProperty>('border'),
+  borderBottom: handleExpanded<BorderProperty>('borderBottom'),
+  borderLeft: handleExpanded<BorderProperty>('borderLeft'),
+  borderRight: handleExpanded<BorderProperty>('borderRight'),
+  borderTop: handleExpanded<BorderProperty>('borderTop'),
+  columnRule: handleExpanded<ColumnRuleProperty>('columnRule'),
+  flex: handleExpanded<FlexProperty>('flex'),
   font(value, add) {
     if (isObject<FontProperty>(value)) {
       if (value.lineHeight) {
@@ -91,13 +143,14 @@ export const expandedProperties: PropertyHandlerMap = {
       add('font', value);
     }
   },
-  listStyle: handleExpanded('listStyle'),
+  fontFamily: handleCompound('fontFamily'),
+  listStyle: handleExpanded<ListStyleProperty>('listStyle'),
   margin: handleExpandedSpacing('margin'),
-  offset: handleExpanded('offset'),
-  outline: handleExpanded('outline'),
+  offset: handleExpanded<OffsetProperty>('offset'),
+  outline: handleExpanded<OutlineProperty>('outline'),
   padding: handleExpandedSpacing('padding'),
-  textDecoration: handleExpanded('textDecoration'),
-  transition: handleExpanded('transition'),
+  textDecoration: handleExpanded<TextDecorationProperty>('textDecoration'),
+  transition: handleExpanded<TransitionProperty>('transition'),
 };
 
 export * from './types';

@@ -83,8 +83,8 @@ describe('GlobalSheet', () => {
         fontFamily: 'Roboto',
         fontStyle: 'normal',
         fontWeight: 'normal',
-        src:
-          "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+        local: ['Robo'],
+        srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
       },
       {
         direction: 'ltr',
@@ -98,7 +98,7 @@ describe('GlobalSheet', () => {
     const spy = jest.spyOn(engine, 'renderRuleGrouped');
     const result = sheet.render(engine, lightTheme, {});
 
-    expect(result).toEqual({ '@root': { result: 'c1fv9z16' } });
+    expect(result).toEqual({ root: { result: 'c1fv9z16' } });
     expect(spy).toHaveBeenCalledWith(
       {
         height: '100%',
@@ -124,8 +124,8 @@ describe('GlobalSheet', () => {
 
     sheet.render(engine, lightTheme, {});
 
-    expect(spy).toHaveBeenCalledWith('url("reset.css")');
-    expect(spy).toHaveBeenCalledWith('url("normalize.css")');
+    expect(spy).toHaveBeenCalledWith('url("reset.css")', expect.any(Object));
+    expect(spy).toHaveBeenCalledWith({ path: 'normalize.css', url: true }, expect.any(Object));
   });
 
   it('renders @keyframes', () => {
@@ -152,7 +152,7 @@ describe('GlobalSheet', () => {
 
     sheet.render(engine, lightTheme, {});
 
-    expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', '--custom-syntax': 123 });
+    expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', customSyntax: 123 });
   });
 
   describe('overrides', () => {

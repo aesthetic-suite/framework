@@ -44,10 +44,8 @@ export type WithCustomProperties<T extends object> = {
 //   [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
 // };
 
-export interface CustomProperties {
-  animationName?: Keyframes | Keyframes[];
-  fontFamily?: FontFace | FontFace[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomProperties {}
 
 export interface MissingProperties {
   clip?: string;
@@ -109,14 +107,3 @@ export type Unit = string;
 export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 export type VariablesMap<T = Value> = Record<string, T>;
-
-export type AddPropertyCallback = <K extends Property>(
-  property: K,
-  value: NonNullable<Properties[K]>,
-) => void;
-
-export type PropertyHandler<V> = (value: V, add: AddPropertyCallback) => void;
-
-export type PropertyHandlerMap = {
-  [P in Property]?: PropertyHandler<NonNullable<Properties[P]>>;
-};

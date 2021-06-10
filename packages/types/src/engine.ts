@@ -7,7 +7,6 @@ import {
   Keyframes,
   Properties,
   Property,
-  PropertyHandlerMap,
   Rule,
   Unit,
   UnitFactory,
@@ -29,6 +28,23 @@ export interface CacheManager {
   read: (key: string, minimumRank?: number) => CacheItem | null;
   write: (key: string, item: CacheItem) => void;
 }
+
+// CUSTOM PROPERTIES
+
+export type AddPropertyCallback = <K extends Property>(
+  property: K,
+  value: NonNullable<Properties[K]>,
+) => void;
+
+export type PropertyHandler<V> = (
+  value: NonNullable<V>,
+  add: AddPropertyCallback,
+  engine: Engine<unknown>,
+) => void;
+
+export type PropertyHandlerMap = {
+  [P in Property]?: PropertyHandler<NonNullable<Properties[P]>>;
+};
 
 // DIRECTION
 

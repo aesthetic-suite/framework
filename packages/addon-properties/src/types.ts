@@ -1,6 +1,6 @@
 // Module augmentation
 import '@aesthetic/style';
-import { CSSType, Value } from '@aesthetic/types';
+import { CSSType, FontFace, Keyframes, Value } from '@aesthetic/types';
 
 // EXPANDED PROPERTIES
 
@@ -110,6 +110,7 @@ export interface TransitionProperty {
 declare module '@aesthetic/style' {
   export interface CustomProperties {
     animation?: AnimationProperty;
+    animationName?: Keyframes | Keyframes[];
     background?: BackgroundProperty;
     border?: BorderProperty;
     borderBottom?: BorderProperty;
@@ -119,6 +120,7 @@ declare module '@aesthetic/style' {
     columnRule?: ColumnRuleProperty;
     flex?: FlexProperty;
     font?: FontProperty;
+    fontFamily?: FontFace | FontFace[];
     listStyle?: ListStyleProperty;
     margin?: MarginProperty;
     offset?: OffsetProperty;
