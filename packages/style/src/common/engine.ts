@@ -12,6 +12,8 @@ import {
   Properties,
   Property,
   RenderOptions,
+  RenderResult,
+  RenderResultVariant,
   Rule,
   RuleMap,
   Value,
@@ -26,6 +28,7 @@ import {
 } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
+import { VARIANT_COMBO_PATTERN } from './constants';
 import { isAtRule, isNestedSelector, isValidValue } from './helpers';
 import {
   createDeclaration,
@@ -38,7 +41,11 @@ import {
   formatVariable,
 } from './syntax';
 
-type RenderCallback = (styleEngine: StyleEngine, rule: Rule, opts: RenderOptions) => ClassName;
+type RenderCallback = (
+  styleEngine: StyleEngine,
+  rule: Rule,
+  opts: RenderOptions,
+) => RenderResult<ClassName>;
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -211,13 +218,14 @@ function renderAtRules(
   rule: Rule,
   options: RenderOptions,
   render: RenderCallback,
-): ClassName {
+): RenderResult<ClassName> {
   const { media: originalMedia, selector: originalSelector, supports: originalSupports } = options;
+  const variants: RenderResultVariant<ClassName>[] = [];
   let className = '';
 
   objectLoop(rule['@media'], (condition, query) => {
     options.media = joinQueries(options.media, query);
-    className += render(engine, condition, options) + ' ';
+    className += render(engine, condition, options).result + ' ';
     options.media = originalMedia;
   });
 
@@ -228,14 +236,14 @@ function renderAtRules(
       }
 
       options.selector += selector.trim();
-      className += render(engine, nestedRule, options) + ' ';
+      className += render(engine, nestedRule, options).result + ' ';
       options.selector = originalSelector;
     });
   });
 
   objectLoop(rule['@supports'], (condition, query) => {
     options.supports = joinQueries(options.supports, query);
-    className += render(engine, condition, options) + ' ';
+    className += render(engine, condition, options).result + ' ';
     options.supports = originalSupports;
   });
 
@@ -243,10 +251,32 @@ function renderAtRules(
     className += renderVariable(engine, formatVariable(name), value, options) + ' ';
   });
 
-  return className.trim();
+  objectLoop(rule['@variants'], (nestedRule, variant) => {
+    if (__DEV__) {
+      if (!VARIANT_COMBO_PATTERN.test(variant)) {
+        throw new Error(
+          `Invalid variant "${variant}". Type and enumeration must be separated with a ":", and each part may only contain a-z, 0-9, -, _.`,
+        );
+      }
+    }
+
+    variants.push({
+      result: render(engine, nestedRule, options).result,
+      types: variant.split('+').map((v) => v.trim()),
+    });
+  });
+
+  return {
+    result: className.trim(),
+    variants,
+  };
 }
 
-function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
+function renderRule(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+): RenderResult<ClassName> {
   let className = '';
 
   objectLoop(rule, (value, property) => {
@@ -264,12 +294,21 @@ function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): Cl
   });
 
   // Render at-rules last to somewhat ensure specificity
-  className += renderAtRules(engine, rule, options, renderRule) + ' ';
+  const atResult = renderAtRules(engine, rule, options, renderRule);
 
-  return className.trim();
+  className += atResult.result + ' ';
+
+  return {
+    result: className.trim(),
+    variants: atResult.variants,
+  };
 }
 
-function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
+function renderRuleGrouped(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+): RenderResult<ClassName> {
   const atRules: Rule = {};
   let variables: CSS = '';
   let properties: CSS = '';

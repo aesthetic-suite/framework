@@ -176,6 +176,20 @@ exports[`Engine renderRule() unit suffixes doesnt suffix 0 values 1`] = `".a {ma
 
 exports[`Engine renderRule() unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
 
+exports[`Engine renderRule() variants errors for invalid compound name 1`] = `"Invalid variant \\"type:value + broken\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if contains a space 1`] = `"Invalid variant \\"type:va lue\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if enum is empty 1`] = `"Invalid variant \\"type:\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if missing a colon 1`] = `"Invalid variant \\"foo\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if starts with a number 1`] = `"Invalid variant \\"9a:value\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants returns a result for each compound variant 1`] = `".a {font-weight: bold;}"`;
+
+exports[`Engine renderRule() variants returns a result for each variant 1`] = `".a {display: block;}.b {font-size: 14px;}.c {padding: 2px;}.d {font-size: 16px;}.e {padding: 3px;}.f {font-size: 18px;}.g {padding: 4px;}"`;
+
 exports[`Engine renderRuleGrouped() can convert direction applicable properties 1`] = `".cnaaqpz {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.cnaaqpz:hover {display: flex; color: blue;}.cnaaqpz::backdrop {background: black;}"`;
 
 exports[`Engine renderRuleGrouped() can convert direction applicable properties 2`] = `"@media (width: 500px) {.cnaaqpz {margin: 10px; padding: 10px;}}@media (width: 500px) {.cnaaqpz:hover {color: darkblue;}}"`;

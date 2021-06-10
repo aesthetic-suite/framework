@@ -437,7 +437,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('a b c d e f g h i j k l m n o p q');
+      expect(className.result).toBe('a b c d e f g h i j k l m n o p q');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -451,8 +451,8 @@ describe('Engine', () => {
       );
       const cursor = engine.renderDeclaration('cursor', 'pointer', { deterministic: true });
 
-      expect(className).toBe('c13kbekr c16r1ggk');
-      expect(className).toContain(cursor);
+      expect(className.result).toBe('c13kbekr c16r1ggk');
+      expect(className.result).toContain(cursor);
       expect(cursor).toBe('c16r1ggk');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
@@ -468,7 +468,7 @@ describe('Engine', () => {
         },
       });
 
-      expect(className).toBe('a b c');
+      expect(className.result).toBe('a b c');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -587,7 +587,7 @@ describe('Engine', () => {
         color: undefined,
       });
 
-      expect(className).toBe('');
+      expect(className.result).toBe('');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
 
       spy.mockRestore();
@@ -651,7 +651,7 @@ describe('Engine', () => {
         },
       });
 
-      expect(className).toBe('a b c d e');
+      expect(className.result).toBe('a b c d e');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -670,7 +670,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c d');
+        expect(className.result).toBe('a b c d');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -689,7 +689,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -706,7 +706,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -725,7 +725,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -741,7 +741,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c');
+        expect(className.result).toBe('a b c');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -755,8 +755,8 @@ describe('Engine', () => {
           selector: '[disabled]',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -797,7 +797,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c d');
+        expect(className.result).toBe('a b c d');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -811,8 +811,8 @@ describe('Engine', () => {
           selector: ':focus',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -860,7 +860,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c d e');
+        expect(className.result).toBe('a b c d e');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -876,8 +876,8 @@ describe('Engine', () => {
           selector: '+ div',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -1033,6 +1033,141 @@ describe('Engine', () => {
           },
         });
 
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+    });
+
+    describe('variants', () => {
+      it('errors if missing a colon', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              foo: {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if starts with a number', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              '9a:value': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if enum is empty', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if contains a space', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:va lue': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors for invalid compound name', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:value + broken': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('doesnt error for valid variant type', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:value': {},
+            },
+          });
+        }).not.toThrow();
+      });
+
+      it('doesnt error for valid compound variant', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'a:value + b:value': {},
+              'b:value + c:value + d:value': {},
+            },
+          });
+        }).not.toThrow();
+      });
+
+      it('returns an empty array if no variants', () => {
+        const result = engine.renderRule({ '@variants': {} });
+
+        expect(result).toEqual({ result: '', variants: [] });
+      });
+
+      it('returns a result for each variant', () => {
+        const result = engine.renderRule({
+          display: 'block',
+
+          '@variants': {
+            'size:small': {
+              fontSize: 14,
+              padding: 2,
+            },
+            'size:default': {
+              fontSize: 16,
+              padding: 3,
+            },
+            'size:large': {
+              fontSize: 18,
+              padding: 4,
+            },
+          },
+        });
+
+        expect(result).toEqual({
+          result: 'a',
+          variants: [
+            {
+              result: 'b c',
+              types: ['size:small'],
+            },
+            {
+              result: 'd e',
+              types: ['size:default'],
+            },
+            {
+              result: 'f g',
+              types: ['size:large'],
+            },
+          ],
+        });
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('returns a result for each compound variant', () => {
+        const result = engine.renderRule({
+          '@variants': {
+            'size:large + palette:negative': {
+              fontWeight: 'bold',
+            },
+          },
+        });
+
+        expect(result).toEqual({
+          result: '',
+          variants: [{ result: 'a', types: ['size:large', 'palette:negative'] }],
+        });
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
     });

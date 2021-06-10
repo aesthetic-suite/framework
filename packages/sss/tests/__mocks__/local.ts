@@ -87,34 +87,3 @@ export const SYNTAX_NATIVE_PROPERTIES: LocalBlock = {
   transform: [{ scale: 2 }],
   shadowOffset: { width: 10, height: 10 },
 };
-
-export const SYNTAX_VARIABLES: LocalBlock = {
-  display: 'block',
-  '@variables': {
-    fontSize: '14px',
-    color: 'red',
-    '--line-height': 1.5,
-  },
-};
-
-export const SYNTAX_VARIANTS: LocalBlock = {
-  '@variants': {
-    'size:small': {
-      fontSize: 14,
-    },
-    'size:default': {
-      fontSize: 16,
-    },
-    'size:large': {
-      fontSize: 18,
-    },
-  },
-};
-
-export const SYNTAX_COMPOUND_VARIANTS: LocalBlock = {
-  '@variants': {
-    'size:large + palette:negative': {
-      fontWeight: 'bold',
-    },
-  },
-};

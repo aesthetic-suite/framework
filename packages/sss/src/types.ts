@@ -14,7 +14,6 @@ export type LocalAtRule =
   | '@variants';
 
 export type LocalBlock = Rule & {
-  '@fallbacks'?: FallbackProperties;
   '@variants'?: LocalBlockMap;
 };
 

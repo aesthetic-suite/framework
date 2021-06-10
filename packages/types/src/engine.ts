@@ -85,6 +85,16 @@ export interface RenderOptions {
   vendor?: boolean;
 }
 
+export interface RenderResultVariant<T> {
+  types: string[];
+  result: T;
+}
+
+export interface RenderResult<T> {
+  result: T;
+  variants: RenderResultVariant<T>[];
+}
+
 export interface EngineOptions {
   cacheManager?: CacheManager;
   direction?: Direction;
@@ -119,8 +129,8 @@ export interface Engine<T> {
     animationName?: string,
     options?: RenderOptions,
   ) => string;
-  renderRule: (rule: Rule, options?: RenderOptions) => T;
-  renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
+  renderRule: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
+  renderRuleGrouped: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
 
   setDirection: (direction: Direction) => void;

@@ -15,8 +15,6 @@ const engine = createClientEngine();
 
 // Render a style decleration into individual atomic class names
 const className = engine.renderRule({
-  '--color': 'black',
-
   margin: 0,
   padding: '6px 12px',
   textAlign: 'center',
@@ -28,16 +26,25 @@ const className = engine.renderRule({
     borderColor: '#fff',
   },
 
-  '@media (max-width: 600px)': {
-    display: 'block',
+  '@media': {
+    '(max-width: 600px)': {
+      display: 'block',
+    },
   },
-}); // -> a b c d e f g h
+
+  '@variables': {
+    '--color': 'black',
+  },
+});
+
+className.result; // -> a b c d e f g h
 ```
 
 ## Features
 
 - 5.8kb minified and gzipped (35.4kb original).
 - Atomic based CSS. One declaration per class name.
+- Variants and compound variants for complex styling.
 - Specificity ranking so the intended property is always rendered.
 - Font faces, keyframes, imports, and other globals are rendered before normal declarations.
 - Media and support queries are grouped and rendered after normal declarations.

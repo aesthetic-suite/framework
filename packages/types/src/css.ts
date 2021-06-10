@@ -36,13 +36,6 @@ export type KeyframesMap = Record<string, Keyframes>;
 
 // PROPERTIES
 
-export type ListableProperty<B, T> = (B | T)[] | T;
-
-export interface CustomProperties {
-  animationName?: ListableProperty<CSSType.Property.AnimationName, Keyframes>;
-  fontFamily?: ListableProperty<CSSType.Property.FontFamily, FontFace>;
-}
-
 export type ExtendCustomProperties<T extends object> = {
   [P in keyof T]?: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
 };
@@ -50,6 +43,11 @@ export type ExtendCustomProperties<T extends object> = {
 export type WithFallbacks<T> = {
   [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
 };
+
+export interface CustomProperties {
+  animationName?: CSSType.Property.AnimationName | Keyframes;
+  fontFamily?: CSSType.Property.FontFamily | FontFace;
+}
 
 export type Properties = WithFallbacks<
   CSSType.StandardProperties<Value> &
@@ -68,21 +66,25 @@ export type GenericProperties = Record<string, Value | Value[]>;
 
 export type LocalAtRule = '@media' | '@selectors' | '@supports' | '@variables' | '@variants';
 
-export type Attributes<T = Properties> = {
+export type Attributes<T> = {
   [K in CSSType.HtmlAttributes]?: T;
 };
 
-export type Pseudos<T = Properties> = {
+export type Pseudos<T> = {
   [K in CSSType.SimplePseudos]?: T;
 };
 
-export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
+export type Declarations<T> = Attributes<T> & Pseudos<T> & T;
 
-export interface Rule extends Declarations<Properties> {
-  '@media'?: RuleMap;
-  '@selectors'?: RuleMap;
-  '@supports'?: RuleMap;
+export interface RuleWithoutVariants extends Declarations<Properties> {
+  '@media'?: RuleMap<RuleWithoutVariants>;
+  '@selectors'?: RuleMap<RuleWithoutVariants>;
+  '@supports'?: RuleMap<RuleWithoutVariants>;
   '@variables'?: VariablesMap;
+}
+
+export interface Rule extends RuleWithoutVariants {
+  '@variants'?: RuleMap<RuleWithoutVariants>;
 }
 
 export type RuleMap<T = Rule> = Record<string, T>;
