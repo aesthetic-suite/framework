@@ -1,17 +1,17 @@
 /* eslint-disable no-param-reassign */
+
 /**
  * @copyright   2020, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { AddPropertyCallback, PropertyHandlerMap } from '@aesthetic/sss';
-import { Value } from '@aesthetic/types';
+import { AddPropertyCallback, PropertyHandlerMap, Value } from '@aesthetic/types';
 import { isObject, objectLoop } from '@aesthetic/utils';
 import { FontProperty, MarginProperty, PaddingProperty } from './types';
 
 function collapse(property: string, object: object, add: AddPropertyCallback) {
-  objectLoop(object, (val: Value, key: string) => {
-    add(property + key[0].toUpperCase() + key.slice(1), val);
+  objectLoop(object, (value: Value, key: string) => {
+    add(property + key[0].toUpperCase() + key.slice(1), value);
   });
 }
 

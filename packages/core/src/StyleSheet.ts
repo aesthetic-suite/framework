@@ -3,7 +3,6 @@ import {
   ColorScheme,
   ContrastLevel,
   Engine,
-  Property,
   RenderOptions,
   Rule,
   ThemeRule,
@@ -149,7 +148,12 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     const resultSheet =
       this.type === 'global'
         ? this.parseGlobal(engine, styles, renderOptions)
-        : this.parseLocal(engine, styles, renderOptions);
+        : this.parseLocal(
+            engine,
+            // @ts-expect-error
+            styles,
+            renderOptions,
+          );
 
     if (key) {
       this.renderCache[key] = resultSheet;

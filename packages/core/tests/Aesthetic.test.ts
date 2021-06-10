@@ -14,7 +14,7 @@ import {
 } from '../src/test';
 
 function createVariant(type: string[] | string, result: string) {
-  return { match: toArray(type), result };
+  return { types: toArray(type), result };
 }
 
 describe('Aesthetic', () => {

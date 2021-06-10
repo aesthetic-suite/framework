@@ -4,9 +4,11 @@ import {
   ContrastLevel,
   Direction,
   DirectionConverter,
-  RenderResult as BaseRenderResult,
+  PropertyHandlerMap,
+  RenderResult,
   Rule,
   ThemeName,
+  ThemeRule,
   Unit,
   UnitFactory,
   VendorPrefixer,
@@ -15,12 +17,12 @@ import StyleSheet from './StyleSheet';
 
 // RENDER RESULT
 
-export interface RenderResult<T> extends Partial<BaseRenderResult<T>> {
+export interface StyleRenderResult<T> extends Partial<RenderResult<T>> {
   variantTypes?: Set<string>;
 }
 
 export type RenderResultSheet<Result, Keys extends string = string> = {
-  [K in Keys]?: RenderResult<Result>;
+  [K in Keys]?: StyleRenderResult<Result>;
 };
 
 export type WrapFalsy<T> = T | false | null | undefined;
@@ -62,6 +64,12 @@ export interface SheetParamsExtended extends SheetParams {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;
+
+export type GlobalStyleSheet<B> = ThemeRule<B>;
+
+export type GlobalStyleSheetNeverize<T, B> = {
+  [K in keyof T]: K extends keyof GlobalStyleSheet<B> ? GlobalStyleSheet<B>[K] : never;
+};
 
 export type GlobalSheetFactory<Shape = unknown, Block extends object = Rule> = (
   utils: Utilities<Block>,

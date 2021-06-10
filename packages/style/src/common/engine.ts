@@ -15,7 +15,6 @@ import {
   RenderResult,
   RenderResultVariant,
   Rule,
-  RuleMap,
   Value,
 } from '@aesthetic/types';
 import {
@@ -296,10 +295,8 @@ function renderRule(
   // Render at-rules last to somewhat ensure specificity
   const atResult = renderAtRules(engine, rule, options, renderRule);
 
-  className += atResult.result + ' ';
-
   return {
-    result: className.trim(),
+    result: (className + atResult.result).trim(),
     variants: atResult.variants,
   };
 }
@@ -323,7 +320,8 @@ function renderRuleGrouped(
       if (property === '@variables') {
         variables += formatDeclaration(property, value);
       } else if (isAtRule(property)) {
-        atRules[property] = value as RuleMap;
+        // @ts-expect-error
+        atRules[property] = value;
       } else {
         (atRules['@selectors'] ||= {})[property] = value;
       }
@@ -349,7 +347,7 @@ function renderRuleGrouped(
 
   renderAtRules(engine, atRules, options, renderRuleGrouped);
 
-  return className;
+  return { result: className, variants: [] };
 }
 
 const noop = () => {};

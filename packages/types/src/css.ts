@@ -93,11 +93,11 @@ export interface Rule extends RuleWithoutVariants {
 
 export type RuleMap<T = Rule> = Record<string, T>;
 
-export interface ThemeRule {
+export interface ThemeRule<T = Rule> {
   '@font-face'?: FontFaceMap;
   '@import'?: ImportList;
   '@keyframes'?: KeyframesMap;
-  '@root'?: RuleWithoutVariants;
+  '@root'?: T;
   '@variables'?: VariablesMap;
 }
 
@@ -108,3 +108,13 @@ export type Unit = string;
 export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 export type VariablesMap<T = Value> = Record<string, T>;
+
+export type AddPropertyCallback = (property: string, value: Value | undefined) => void;
+
+export type PropertyHandler<V> = (value: V, add: AddPropertyCallback) => void;
+
+export type PropertyHandlerMap = {
+  [P in keyof CSSType.StandardProperties<Value>]?: PropertyHandler<
+    NonNullable<CSSType.StandardProperties<Value>[P]>
+  >;
+};
