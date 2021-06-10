@@ -11,11 +11,27 @@ import { FontProperty, MarginProperty, PaddingProperty } from './types';
 
 function collapse(property: string, object: object, add: AddPropertyCallback) {
   objectLoop(object, (value: Value, key: string) => {
-    add(property + key[0].toUpperCase() + key.slice(1), value);
+    add((property + key[0].toUpperCase() + key.slice(1)) as 'padding', value);
   });
 }
 
-function handleExpanded(property: string) {
+function handleExpanded(
+  property:
+    | 'animation'
+    | 'background'
+    | 'border'
+    | 'borderBottom'
+    | 'borderLeft'
+    | 'borderRight'
+    | 'borderTop'
+    | 'columnRule'
+    | 'flex'
+    | 'listStyle'
+    | 'offset'
+    | 'outline'
+    | 'textDecoration'
+    | 'transition',
+) {
   return (value: unknown, add: AddPropertyCallback) => {
     if (isObject(value)) {
       collapse(property, value, add);
@@ -25,7 +41,7 @@ function handleExpanded(property: string) {
   };
 }
 
-function handleExpandedSpacing(property: string) {
+function handleExpandedSpacing(property: 'margin' | 'padding') {
   return (value: unknown, add: AddPropertyCallback) => {
     if (!isObject<MarginProperty | PaddingProperty>(value)) {
       add(property, value as Value);

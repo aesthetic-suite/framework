@@ -1,6 +1,7 @@
 /* eslint-disable prefer-template, no-console */
 
 import {
+  AddPropertyCallback,
   CacheItem,
   ClassName,
   CSS,
@@ -119,10 +120,10 @@ function insertStyles(
   return item;
 }
 
-function renderDeclaration<K extends Property>(
+function renderProperty<K extends Property>(
   engine: StyleEngine,
   property: K,
-  value: Properties[K],
+  value: NonNullable<Properties[K]>,
   options: RenderOptions,
 ): ClassName {
   const key = formatProperty(property);
@@ -141,6 +142,29 @@ function renderDeclaration<K extends Property>(
   }
 
   return className;
+}
+
+function renderDeclaration<K extends Property>(
+  engine: StyleEngine,
+  property: K,
+  value: NonNullable<Properties[K]>,
+  options: RenderOptions,
+): ClassName {
+  const { customProperties } = engine;
+  let className = '';
+
+  const handler: AddPropertyCallback = (prop, val) => {
+    className += renderProperty(engine, prop, val, options) + ' ';
+  };
+
+  if (customProperties && property in customProperties) {
+    // @ts-expect-error Value is a union of all properties, so ignore
+    customProperties[property](value, handler);
+  } else {
+    handler(property, value);
+  }
+
+  return className.trim();
 }
 
 function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: RenderOptions): string {

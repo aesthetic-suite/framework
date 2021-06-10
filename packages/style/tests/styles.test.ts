@@ -70,6 +70,7 @@ describe('Engine', () => {
 
     it('uses the same class name for dashed and camel cased properties', () => {
       engine.renderDeclaration('textDecoration', 'none');
+      // @ts-expect-error Not allowed with types but works
       engine.renderDeclaration('text-decoration', 'none');
 
       expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -91,16 +92,9 @@ describe('Engine', () => {
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
-    it('supports fallback values by using an array', () => {
-      engine.renderDeclaration('display', ['box', 'block', 'flex']);
-
-      // Wont show in snapshot accurately
-      expect(getRenderedStyles('standard')).toMatchSnapshot();
-    });
-
     it('prefixes properties, values, value functions, and selectors', () => {
       // Value prefixing (wont show in snapshot because of DOM)
-      engine.renderDeclaration('min-width', 'fit-content', { vendor: true });
+      engine.renderDeclaration('minWidth', 'fit-content', { vendor: true });
 
       // Value function prefixing (wont show in snapshot because of DOM)
       engine.renderDeclaration('background', 'image-set()', { vendor: true });
@@ -157,23 +151,23 @@ describe('Engine', () => {
 
     describe('directionality', () => {
       it('converts directional properties', () => {
-        engine.renderDeclaration('margin-left', 0);
-        engine.renderDeclaration('margin-right', 0);
-        engine.renderDeclaration('margin-left', 0, { direction: 'ltr' });
-        engine.renderDeclaration('margin-right', 0, { direction: 'rtl' });
-        engine.renderDeclaration('margin-left', 0, { direction: 'ltr' });
-        engine.renderDeclaration('margin-right', 0, { direction: 'rtl' });
+        engine.renderDeclaration('marginLeft', 0);
+        engine.renderDeclaration('marginRight', 0);
+        engine.renderDeclaration('marginLeft', 0, { direction: 'ltr' });
+        engine.renderDeclaration('marginRight', 0, { direction: 'rtl' });
+        engine.renderDeclaration('marginLeft', 0, { direction: 'ltr' });
+        engine.renderDeclaration('marginRight', 0, { direction: 'rtl' });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
       it('converts directional values', () => {
-        engine.renderDeclaration('text-align', 'left');
-        engine.renderDeclaration('text-align', 'right');
-        engine.renderDeclaration('text-align', 'left', { direction: 'ltr' });
-        engine.renderDeclaration('text-align', 'left', { direction: 'rtl' });
-        engine.renderDeclaration('text-align', 'right', { direction: 'ltr' });
-        engine.renderDeclaration('text-align', 'right', { direction: 'rtl' });
+        engine.renderDeclaration('textAlign', 'left');
+        engine.renderDeclaration('textAlign', 'right');
+        engine.renderDeclaration('textAlign', 'left', { direction: 'ltr' });
+        engine.renderDeclaration('textAlign', 'left', { direction: 'rtl' });
+        engine.renderDeclaration('textAlign', 'right', { direction: 'ltr' });
+        engine.renderDeclaration('textAlign', 'right', { direction: 'rtl' });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
@@ -184,9 +178,9 @@ describe('Engine', () => {
         const spy = jest.spyOn(sheetManager, 'insertRule');
         const rankings: RankCache = {};
 
-        engine.renderDeclaration('text-align', 'center', { rankings });
-        engine.renderDeclaration('text-align', 'center', { rankings });
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
 
         expect(rankings).toEqual({ 'text-align': 0 });
         expect(spy).toHaveBeenCalledTimes(1);
@@ -197,11 +191,11 @@ describe('Engine', () => {
         const spy = jest.spyOn(sheetManager, 'insertRule');
         const rankings: RankCache = {};
 
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
         rankings['text-align'] = 1;
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
         rankings['text-align'] = 2;
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
 
         expect(rankings).toEqual({ 'text-align': 2 });
         expect(spy).toHaveBeenCalledTimes(3);

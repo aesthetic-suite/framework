@@ -26,34 +26,35 @@ export interface Import {
 
 export type ImportList = (Import | string)[];
 
-export interface Keyframes<T = Properties> {
-  [percent: string]: T | undefined;
-  from?: T;
-  to?: T;
+export interface Keyframes {
+  [percent: string]: Properties | undefined;
+  from?: Properties;
+  to?: Properties;
 }
 
 export type KeyframesMap = Record<string, Keyframes>;
 
 // PROPERTIES
 
-export type ExtendCustomProperties<T extends object> = {
-  [P in keyof T]?: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
+export type WithCustomProperties<T extends object> = {
+  [P in keyof T]: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
 };
 
-export type WithFallbacks<T> = {
-  [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
-};
+// export type WithFallbacks<T extends object> = {
+//   [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
+// };
 
 export interface CustomProperties {
-  animationName?: CSSType.Property.AnimationName | Keyframes;
-  fontFamily?: CSSType.Property.FontFamily | FontFace;
+  animationName?: Keyframes | Keyframes[];
+  fontFamily?: FontFace | FontFace[];
 }
 
-export type Properties = WithFallbacks<
-  CSSType.StandardProperties<Value> &
-    CSSType.StandardPropertiesHyphen<Value> & {
-      clip?: string;
-    }
+export interface MissingProperties {
+  clip?: string;
+}
+
+export type Properties = WithCustomProperties<
+  CSSType.StandardProperties<Value> & MissingProperties
 >;
 
 export type Property = keyof Properties;
@@ -109,12 +110,13 @@ export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
 export type VariablesMap<T = Value> = Record<string, T>;
 
-export type AddPropertyCallback = (property: string, value: Value | undefined) => void;
+export type AddPropertyCallback = <K extends Property>(
+  property: K,
+  value: NonNullable<Properties[K]>,
+) => void;
 
 export type PropertyHandler<V> = (value: V, add: AddPropertyCallback) => void;
 
 export type PropertyHandlerMap = {
-  [P in keyof CSSType.StandardProperties<Value>]?: PropertyHandler<
-    NonNullable<CSSType.StandardProperties<Value>[P]>
-  >;
+  [P in Property]?: PropertyHandler<NonNullable<Properties[P]>>;
 };

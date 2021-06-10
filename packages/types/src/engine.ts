@@ -7,6 +7,7 @@ import {
   Keyframes,
   Properties,
   Property,
+  PropertyHandlerMap,
   Rule,
   Unit,
   UnitFactory,
@@ -97,6 +98,7 @@ export interface RenderResult<T> {
 
 export interface EngineOptions {
   cacheManager?: CacheManager;
+  customProperties?: PropertyHandlerMap;
   direction?: Direction;
   directionConverter?: DirectionConverter;
   sheetManager: SheetManager;
@@ -107,6 +109,7 @@ export interface EngineOptions {
 export interface Engine<T> {
   readonly atomic: boolean;
   cacheManager?: CacheManager;
+  customProperties?: PropertyHandlerMap;
   direction: Direction;
   directionConverter?: DirectionConverter;
   ruleIndex: number;
@@ -119,7 +122,7 @@ export interface Engine<T> {
 
   renderDeclaration: <K extends Property>(
     property: K,
-    value: Properties[K],
+    value: NonNullable<Properties[K]>,
     options?: RenderOptions,
   ) => T;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;

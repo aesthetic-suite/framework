@@ -30,8 +30,6 @@ exports[`Engine renderDeclaration() selectors supports selectors 1`] = `".a:hove
 
 exports[`Engine renderDeclaration() supports CSS variables 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 
-exports[`Engine renderDeclaration() supports fallback values by using an array 1`] = `".a {display: flex;}"`;
-
 exports[`Engine renderDeclaration() uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
 
 exports[`Engine renderDeclaration() uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
