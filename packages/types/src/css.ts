@@ -66,6 +66,10 @@ export type GenericProperties = Record<string, Value | Value[]>;
 
 export type LocalAtRule = '@media' | '@selectors' | '@supports' | '@variables' | '@variants';
 
+export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
+
+export type AtRule = GlobalAtRule | LocalAtRule;
+
 export type Attributes<T> = {
   [K in CSSType.HtmlAttributes]?: T;
 };
@@ -88,6 +92,14 @@ export interface Rule extends RuleWithoutVariants {
 }
 
 export type RuleMap<T = Rule> = Record<string, T>;
+
+export interface ThemeRule {
+  '@font-face'?: FontFaceMap;
+  '@import'?: ImportList;
+  '@keyframes'?: KeyframesMap;
+  '@root'?: RuleWithoutVariants;
+  '@variables'?: VariablesMap;
+}
 
 // OTHER
 

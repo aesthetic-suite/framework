@@ -1,6 +1,14 @@
 import { Theme } from '@aesthetic/system';
-import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
-import { deepMerge, isObject, objectLoop, toArray } from '@aesthetic/utils';
+import {
+  ColorScheme,
+  ContrastLevel,
+  Engine,
+  Property,
+  RenderOptions,
+  Rule,
+  ThemeRule,
+} from '@aesthetic/types';
+import { arrayLoop, deepMerge, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
 
 const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
@@ -132,50 +140,16 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
     const composer = this.compose(params);
     const styles = composer(theme);
-    const rankings = {};
     const renderOptions: RenderOptions = {
       direction: params.direction,
       unit: params.unit,
       vendor: params.vendor,
     };
 
-    parse(this.type, styles, {
-      customProperties,
-
-      onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
-      onImport: (path) => {
-        engine.renderImport(path);
-      },
-      onKeyframes: (keyframes, animationName) =>
-        engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions),
-      onProperty: (block, property, value) => {
-        if (engine.atomic) {
-          block.addResult(
-            engine.renderDeclaration(property as Property, value as string, {
-              ...renderOptions,
-              media: block.media,
-              rankings,
-              selector: block.selector,
-              supports: block.supports,
-            }),
-          );
-        }
-      },
-      onRoot: (block) => {
-        createResultMetadata('@root').result = engine.renderRuleGrouped(block.toObject(), {
-          ...renderOptions,
-          type: 'global',
-        });
-      },
-      onRootVariables: (variables) => {
-        engine.setRootVariables(variables);
-      },
-      onVariable: (block, name, value) => {
-        if (engine.atomic) {
-          block.addResult(engine.renderVariable(name, value));
-        }
-      },
-    });
+    const resultSheet =
+      this.type === 'global'
+        ? this.parseGlobal(engine, styles, renderOptions)
+        : this.parseLocal(engine, styles, renderOptions);
 
     if (key) {
       this.renderCache[key] = resultSheet;
@@ -184,12 +158,46 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     return resultSheet;
   }
 
+  protected parseGlobal(
+    engine: Engine<Result>,
+    theme: ThemeRule,
+    options: RenderOptions,
+  ): RenderResultSheet<Result> {
+    const resultSheet: RenderResultSheet<Result> = { root: {} };
+
+    objectLoop(theme['@font-face'], (fontFaces, fontFamily) => {
+      arrayLoop(toArray(fontFaces), (fontFace) =>
+        engine.renderFontFace({ ...fontFace, fontFamily }, options),
+      );
+    });
+
+    arrayLoop(toArray(theme['@import']), (importPath) => engine.renderImport(importPath!, options));
+
+    objectLoop(theme['@keyframes'], (keyframes, animationName) => {
+      engine.renderKeyframes(keyframes, animationName, options);
+    });
+
+    if (theme['@root']) {
+      resultSheet.root!.result = engine.renderRuleGrouped(theme['@root'], {
+        ...options,
+        type: 'global',
+      }).result;
+    }
+
+    if (theme['@variables']) {
+      engine.setRootVariables(theme['@variables']);
+    }
+
+    return resultSheet;
+  }
+
   protected parseLocal(
     engine: Engine<Result>,
-    styles: Record<string, object | string>,
+    styles: Record<string, Rule | string>,
     options: RenderOptions,
   ): RenderResultSheet<Result> {
     const resultSheet: RenderResultSheet<Result> = {};
+    const rankings = {};
 
     objectLoop(styles, (style, selector) => {
       // eslint-disable-next-line no-multi-assign
@@ -209,7 +217,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 
         // Rule
       } else if (isObject(style)) {
-        Object.assign(meta, engine.renderRule(style, options));
+        Object.assign(meta, engine.renderRule(style, { ...options, rankings }));
 
         if (meta.variants && meta.variants.length > 0) {
           meta.variantTypes = new Set();

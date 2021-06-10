@@ -167,7 +167,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
     this.createComponentStyles((utils) => ({
       element:
         typeof factory === 'function'
-          ? (factory as LocalElementSheetFactory<Block>)(utils)
+          ? (factory as LocalSheetElementFactory<Block>)(utils)
           : factory,
     }));
 
@@ -217,8 +217,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
       }
 
       if (unit?.variants) {
-        arrayLoop(unit.variants, ({ match, result }) => {
-          if (match.every((type) => variants.has(type))) {
+        arrayLoop(unit.variants, ({ types, result }) => {
+          if (types.every((type) => variants.has(type))) {
             variantClassName += ' ';
             variantClassName += result;
           }
@@ -405,7 +405,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
         direction: this.getActiveDirection(),
         vendor: !!this.options.vendorPrefixer,
         ...params,
-      })['@root']?.result;
+      }).root?.result;
 
       if (result) {
         results.push(result);

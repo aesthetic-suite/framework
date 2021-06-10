@@ -5,23 +5,11 @@ import Block from './Block';
 
 // GLOBAL STYLE SHEET
 
-export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
-
-export interface GlobalStyleSheet<B = LocalBlock> {
-  '@font-face'?: FontFaceMap;
-  '@import'?: ImportList;
-  '@keyframes'?: KeyframesMap;
-  '@root'?: B;
-  '@variables'?: VariablesMap;
-}
-
 export type GlobalStyleSheetNeverize<T, B> = {
   [K in keyof T]: K extends keyof GlobalStyleSheet<B> ? GlobalStyleSheet<B>[K] : never;
 };
 
 // MISC
-
-export type AtRule = GlobalAtRule | LocalAtRule;
 
 export interface NestedBlockParams {
   specificity: number;
