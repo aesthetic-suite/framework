@@ -8,7 +8,6 @@ import {
   purgeStyles,
 } from '../src/test';
 import { StyleEngine } from '../src/types';
-import { FONT_ROBOTO } from './__fixtures__/global';
 
 const fontFace = {
   fontFamily: '"Open Sans"',
@@ -280,7 +279,13 @@ describe('Engine', () => {
     });
 
     it('converts an array of `srcPaths` to `src`', () => {
-      const name = engine.renderFontFace(FONT_ROBOTO);
+      const name = engine.renderFontFace({
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        local: ['Robo'],
+        srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+      });
 
       expect(name).toBe('Roboto');
       expect(getRenderedStyles('global')).toMatchSnapshot();

@@ -1,5 +1,21 @@
+import { FontFace } from '@aesthetic/types';
 import { formatFontFace, formatImport } from '../src';
-import { FONT_ROBOTO, FONT_ROBOTO_FLAT_SRC } from './__fixtures__/global';
+
+const FONT_ROBOTO: FontFace = {
+  fontFamily: 'Roboto',
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  local: ['Robo'],
+  srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+};
+
+const FONT_ROBOTO_FLAT_SRC: FontFace = {
+  fontFamily: 'Roboto',
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  src:
+    "local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
+};
 
 describe('formatFontFace()', () => {
   it('converts the src array to a string with formats', () => {

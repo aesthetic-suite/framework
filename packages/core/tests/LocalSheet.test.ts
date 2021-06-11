@@ -24,15 +24,7 @@ describe('LocalSheet', () => {
         color: 'black',
         textAlign: 'left',
         fontSize: 12,
-        fontFamily: [
-          '"Open Sans"',
-          {
-            fontFamily: 'Roboto',
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
-          },
-        ],
+        fontFamily: '"Open Sans", Roboto',
         ':hover': {
           color: 'red',
         },
@@ -50,10 +42,7 @@ describe('LocalSheet', () => {
       },
       bar: {
         transition: '200ms all',
-        animationName: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
+        animationName: 'fade',
         '@variables': {
           primaryColor: 'red',
         },
@@ -129,24 +118,24 @@ describe('LocalSheet', () => {
       bar: { result: 'k l m' },
       baz: { result: 'class-baz' },
       qux: {
-        result: undefined,
+        result: '',
         variants: [
-          { match: ['size:sm'], result: 'n' },
-          { match: ['size:md'], result: 'o' },
-          { match: ['size:lg'], result: 'p' },
+          { types: ['size:sm'], result: 'n' },
+          { types: ['size:md'], result: 'o' },
+          { types: ['size:lg'], result: 'p' },
         ],
         variantTypes: new Set(['size']),
       },
       quxCompound: {
-        result: undefined,
+        result: '',
         variants: [
-          { match: ['size:sm'], result: 'q' },
-          { match: ['size:md'], result: 'r' },
-          { match: ['size:lg'], result: 's' },
-          { match: ['color:red'], result: 't' },
-          { match: ['color:green'], result: 'u' },
-          { match: ['color:blue'], result: 'v' },
-          { match: ['size:sm', 'color:green'], result: 'w' },
+          { types: ['size:sm'], result: 'q' },
+          { types: ['size:md'], result: 'r' },
+          { types: ['size:lg'], result: 's' },
+          { types: ['color:red'], result: 't' },
+          { types: ['color:green'], result: 'u' },
+          { types: ['color:blue'], result: 'v' },
+          { types: ['size:sm', 'color:green'], result: 'w' },
         ],
         variantTypes: new Set(['size', 'color']),
       },
@@ -154,10 +143,12 @@ describe('LocalSheet', () => {
     expect(getRenderedStyles('standard')).toMatchSnapshot();
   });
 
-  it('renders a declaration for each rule property', () => {
+  it.only('renders a declaration for each rule property', () => {
     const spy = jest.spyOn(engine, 'renderDeclaration');
 
     sheet.render(engine, lightTheme, {});
+
+    console.log(engine);
 
     expect(spy).toHaveBeenCalledWith('display', 'block', expect.any(Object));
     expect(spy).toHaveBeenCalledWith('background', 'white', expect.any(Object));

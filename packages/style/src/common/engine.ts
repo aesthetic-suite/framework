@@ -37,12 +37,12 @@ import {
   createDeclaration,
   createDeclarationBlock,
   formatDeclaration,
-  formatDeclarationBlock,
   formatFontFace,
   formatImport,
   formatProperty,
   formatRule,
   formatVariable,
+  formatVariables,
 } from './syntax';
 
 type RenderCallback = (
@@ -320,9 +320,7 @@ function renderRule(
     if (isObject<Rule>(value)) {
       if (isNestedSelector(property)) {
         (rule['@selectors'] ||= {})[property] = value;
-      } else if (isAtRule(property)) {
-        // Run later
-      } else if (__DEV__) {
+      } else if (!isAtRule(property) && __DEV__) {
         console.warn(`Unknown property selector or nested block "${property}".`);
       }
     } else if (isValidValue(property, value)) {
@@ -348,20 +346,24 @@ function renderRuleGrouped(
   let variables: CSS = '';
   let properties: CSS = '';
 
+  // Extract all nested rules first as we need to process them *after* properties
   objectLoop(rule, (value, property) => {
-    // Extract all nested rules first as we need to process them *after* properties
     if (isObject(value)) {
       // Extract and include variables in the top level class
       if (property === '@variables') {
-        variables += formatDeclarationBlock(value as VariablesMap, formatVariable);
+        variables += formatVariables(value as VariablesMap);
 
         // Extract all other at-rules
       } else if (isAtRule(property)) {
         atRules[property] = value as RuleMap;
 
         // Merge local selectors into the selectors at-rule
-      } else {
+      } else if (isNestedSelector(property)) {
         (atRules['@selectors'] ||= {})[property] = value as RuleWithoutVariants;
+
+        // Log for invalid value
+      } else if (__DEV__) {
+        console.warn(`Unknown property selector or nested block "${property}".`);
       }
     } else if (isValidValue(property, value)) {
       properties += createDeclaration(property, value, options, engine);

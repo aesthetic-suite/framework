@@ -8,6 +8,7 @@ import {
   NativeProperty,
   RenderOptions,
   Value,
+  VariablesMap,
 } from '@aesthetic/types';
 import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
@@ -51,13 +52,6 @@ export function formatValue(
 
 export function formatDeclaration(key: string, value: Value): CSS {
   return `${key}:${value};`;
-}
-
-export function formatDeclarationBlock(
-  properties: Record<string, Value>,
-  keyFormatter: (key: string) => string,
-): CSS {
-  return objectReduce(properties, (value, key) => formatDeclaration(keyFormatter(key), value));
 }
 
 const FORMATS: Record<string, string> = {
@@ -146,6 +140,10 @@ export function formatRule(
   }
 
   return rule;
+}
+
+export function formatVariables(variables: VariablesMap): CSS {
+  return objectReduce(variables, (value, key) => formatDeclaration(formatVariable(key), value));
 }
 
 export function createDeclaration(
