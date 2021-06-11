@@ -146,6 +146,17 @@ describe('Engine', () => {
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
+
+      it('generates different class names between standard and condition rules, when condition is inserted first', () => {
+        const a = engine.renderDeclaration('width', '100em', {
+          media: '(max-width: 100px)',
+        });
+        const b = engine.renderDeclaration('width', '100em');
+
+        expect(a).toBe('a');
+        expect(b).toBe('b');
+        expect(a).not.toBe(b);
+      });
     });
 
     describe('directionality', () => {
@@ -240,15 +251,68 @@ describe('Engine', () => {
       });
     });
 
-    it('generates different class names between standard and condition rules, when condition is inserted first', () => {
-      const a = engine.renderDeclaration('width', '100em', {
-        media: '(max-width: 100px)',
-      });
-      const b = engine.renderDeclaration('width', '100em');
+    describe('custom properties', () => {
+      it('can change the value', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('display', value === 'box' ? 'flex' : 'block');
+          },
+        };
 
-      expect(a).toBe('a');
-      expect(b).toBe('b');
-      expect(a).not.toBe(b);
+        engine.renderDeclaration('display', 'box');
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('can add a completely different property', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('flex', 1);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('can add multiple properties', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('display', value);
+            add('position', 'relative');
+            add('zIndex', 0);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('ignores properties with invalid values', () => {
+        const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+        engine.customProperties = {
+          display(value, add) {
+            add('display', '');
+            // @ts-expect-error Allow invalid type
+            add('display', undefined);
+            // @ts-expect-error Allow invalid type
+            add('display', null);
+            // @ts-expect-error Allow invalid type
+            add('display', false);
+            // @ts-expect-error Allow invalid type
+            add('display', true);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(spy).toHaveBeenCalledTimes(4);
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
     });
   });
 
@@ -1318,6 +1382,25 @@ describe('Engine', () => {
         ],
       });
       expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('logs a warning for unknown nested selector', () => {
+      const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+      engine.renderRuleGrouped({
+        background: 'white',
+        // @ts-expect-error
+        '$ what is this': {
+          background: 'black',
+        },
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        'Unknown property selector or nested block "$ what is this".',
+      );
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+
+      spy.mockRestore();
     });
   });
 

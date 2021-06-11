@@ -8,6 +8,14 @@ exports[`Engine renderDeclaration() conditions supports conditionals 1`] = `"@me
 
 exports[`Engine renderDeclaration() conditions supports conditionals with selectors 1`] = `"@media (max-size: 100px) {.a:focus {color: green;}}"`;
 
+exports[`Engine renderDeclaration() custom properties can add a completely different property 1`] = `".a {flex: 1;}"`;
+
+exports[`Engine renderDeclaration() custom properties can add multiple properties 1`] = `".a {display: block;}.b {position: relative;}.c {z-index: 0;}"`;
+
+exports[`Engine renderDeclaration() custom properties can change the value 1`] = `".a {display: flex;}.b {display: block;}"`;
+
+exports[`Engine renderDeclaration() custom properties ignores properties with invalid values 1`] = `""`;
+
 exports[`Engine renderDeclaration() directionality converts directional properties 1`] = `".a {margin-left: 0;}.b {margin-right: 0;}"`;
 
 exports[`Engine renderDeclaration() directionality converts directional values 1`] = `".a {text-align: left;}.b {text-align: right;}"`;
@@ -205,6 +213,8 @@ exports[`Engine renderRuleGrouped() generates a single class name for all proper
 exports[`Engine renderRuleGrouped() generates unique class names for each variant 1`] = `".csfd7x3 {display: block;}.c1taja0 {font-size: 14px; padding: 2px;}.c146gq7v {font-size: 16px; padding: 3px;}.czmqclu {font-size: 18px; padding: 4px;}"`;
 
 exports[`Engine renderRuleGrouped() handles direction and vendor prefixes at once 1`] = `".c1mjtlm6 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1mjtlm6:hover {display: flex; color: blue;}.c1mjtlm6::-ms-backdrop {background: black;}.cfapcjy {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}"`;
+
+exports[`Engine renderRuleGrouped() logs a warning for unknown nested selector 1`] = `".cwljivh {background: white;}"`;
 
 exports[`Engine renderRuleGrouped() supports CSS variables 1`] = `".cng2wkm {--color: red; --font-size: 14px; --line-height: 1; display: block; color: var(--color);}"`;
 

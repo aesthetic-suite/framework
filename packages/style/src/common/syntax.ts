@@ -10,7 +10,7 @@ import {
   Value,
   VariablesMap,
 } from '@aesthetic/types';
-import { arrayLoop, arrayReduce, hyphenate, objectLoop, objectReduce } from '@aesthetic/utils';
+import { arrayLoop, arrayReduce, hyphenate, objectReduce } from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { isUnitlessProperty, isVariable } from './helpers';
 
@@ -154,6 +154,7 @@ export function createDeclaration(
 ): CSS {
   let rule = '';
 
+  // Supports fallbacks and prefixes
   if (Array.isArray(value)) {
     return arrayReduce(value, (val) => createDeclaration(property, val, options, engine), rule);
   }
@@ -176,9 +177,7 @@ export function createDeclaration(
 
   // Inject vendor prefixes into the parent rule
   if (options.vendor && engine.vendorPrefixer) {
-    objectLoop(engine.vendorPrefixer.prefix(key, val), (v, k) => {
-      rule += formatDeclaration(k, v);
-    });
+    rule += objectReduce(engine.vendorPrefixer.prefix(key, val), (v, k) => formatDeclaration(k, v));
   }
 
   return rule;
