@@ -4,9 +4,8 @@
 [![npm version](https://badge.fury.io/js/%40aesthetic%core.svg)](https://www.npmjs.com/package/@aesthetic/core)
 [![npm deps](https://david-dm.org/aesthetic-suite/framework.svg?path=packages/core)](https://www.npmjs.com/package/@aesthetic/core)
 
-Unifies a [design system](https://www.npmjs.com/package/@aesthetic/system), a
-[CSS-in-JS engine](https://www.npmjs.com/package/@aesthetic/style), and a
-[style sheet structure](https://www.npmjs.com/package/@aesthetic/sss), into a powerful framework
+Unifies a [design system](https://www.npmjs.com/package/@aesthetic/system) and a
+[CSS-in-JS engine](https://www.npmjs.com/package/@aesthetic/style) into a powerful framework
 agnostic API.
 
 ```ts

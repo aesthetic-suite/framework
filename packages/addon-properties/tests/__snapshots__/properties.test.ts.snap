@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom properties supports \`animation\` 1`] = `".a {animation: ease-in 200ms;}.b {animation-delay: 30ms;}.c {animation-direction: normal;}.d {animation-duration: 300ms;}.e {animation-fill-mode: both;}.f {animation-iteration-count: 1;}.g {animation-name: fade;}.h {animation-play-state: running;}.i {animation-timing-function: linear;}"`;
+
+exports[`Custom properties supports \`animationName\` 1`] = `
+"@keyframes kf1plt5bd { 
+  from {opacity: 0;} 
+  to {opacity: 1;} 
+}@keyframes kf41k7l0 { 
+  0% {color: white;} 
+  100% {color: black;} 
+}"
+`;
+
+exports[`Custom properties supports \`animationName\` 2`] = `".a {animation-name: fade;}.b {animation-name: kf1plt5bd;}.c {animation-name: kf1plt5bd, kf41k7l0;}"`;
+
+exports[`Custom properties supports \`background\` 1`] = `".a {background: none;}.b {background-attachment: fixed;}.c {background-clip: border-box;}.d {background-color: black;}.e {background-image: none;}.f {background-origin: content-box;}.g {background-position: center;}.h {background-repeat: no-repeat;}.i {background-size: 50%;}"`;
+
+exports[`Custom properties supports \`border\` 1`] = `".a {border: transparent;}.b {border-color: red;}.c {border-style: solid;}.d {border-width: 1px;}.e {border-top-color: red;}.f {border-top-style: solid;}.g {border-top-width: 1px;}.h {border-bottom: 0;}"`;
+
+exports[`Custom properties supports \`columnRule\` 1`] = `".a {column-rule: transparent;}.b {column-rule-color: blue;}.c {column-rule-style: dashed;}.d {column-rule-width: 2px;}"`;
+
+exports[`Custom properties supports \`flex\` 1`] = `".a {flex: 1;}.b {flex-grow: 2;}.c {flex-shrink: 1;}.d {flex-basis: 50%;}"`;
+
+exports[`Custom properties supports \`font\` 1`] = `".a {font: 1.2em \\"Fira Sans\\", sans-serif;}.b {line-height: 1.5;}.c {font-family: \\"Open Sans\\";}.d {font-size: 14px;}.e {font-stretch: expanded;}.f {font-style: italic;}.g {font-variant: contextual;}.h {font-weight: 300;}.i {font: monospace;}"`;
+
+exports[`Custom properties supports \`fontFamily\` 1`] = `"@font-face {font-family: Roboto;}@font-face {font-family: \\"Open Sans\\";}"`;
+
+exports[`Custom properties supports \`fontFamily\` 2`] = `".a {font-family: Roboto;}.b {font-family: Roboto, \\"Open Sans\\";}"`;
+
+exports[`Custom properties supports \`listStyle\` 1`] = `".a {list-style: none;}.b {list-style-image: inherit;}.c {list-style-position: outside;}.d {list-style-type: none;}"`;
+
+exports[`Custom properties supports \`margin\` 1`] = `".a {margin: 0;}.b {margin-top: 1px;}.c {margin-bottom: 1px;}.d {margin-left: 2px;}.e {margin-right: 2px;}.f {margin-left: 3px;}.g {margin-right: 3px;}.h {margin-top: 2px;}.i {margin-left: 3px;}.j {margin-right: 4px;}.k {margin-top: 2px;}"`;
+
+exports[`Custom properties supports \`offset\` 1`] = `".a {offset: none;}.b {offset-anchor: left bottom;}.c {offset-distance: 40%;}.d {offset-path: url(arc.svg);}.e {offset-position: top;}"`;
+
+exports[`Custom properties supports \`outline\` 1`] = `".a {outline: none;}.b {outline-color: green;}.c {outline-style: dotted;}.d {outline-width: 3px;}"`;
+
+exports[`Custom properties supports \`padding\` 1`] = `".a {padding: 10px;}.b {padding-top: 1px;}.c {padding-bottom: 1px;}.d {padding-left: 2rem;}.e {padding-right: 2rem;}.f {padding-left: 3px;}.g {padding-right: 3px;}.h {padding-bottom: 1px;}.i {padding-top: 2px;}.j {padding-right: 4em;}"`;
+
+exports[`Custom properties supports \`textDecoration\` 1`] = `".a {text-decoration: underline;}.b {text-decoration-color: black;}.c {text-decoration-line: blink;}.d {text-decoration-style: dashed;}.e {text-decoration-thickness: from-font;}"`;
+
+exports[`Custom properties supports \`transition\` 1`] = `".a {transition: all 0s;}.b {transition-delay: 10ms;}.c {transition-duration: 200ms;}.d {transition-property: color;}.e {transition-timing-function: ease-in;}"`;

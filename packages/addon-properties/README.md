@@ -5,21 +5,17 @@
 [![npm deps](https://david-dm.org/aesthetic-suite/framework.svg?path=packages/addon-properties)](https://www.npmjs.com/package/@aesthetic/addon-properties)
 
 Enables custom values and types for built-in CSS properties. Primarily adds support for expanded
-form object values.
+form object values, and compound values (keyframes, font faces).
 
 ```ts
-import { expandedProperties } from '@aesthetic/addon-properties';
+import { compoundProperties, expandedProperties } from '@aesthetic/addon-properties';
 import { configure } from '@aesthetic/<integration>';
-import { parse } from '@aesthetic/sss';
 
-// When using entire Aesthetic framework
 configure({
-  customProperties: expandedProperties,
-});
-
-// When using SSS directly
-parse('local', styles, {
-  customProperties: expandedProperties,
+  customProperties: {
+    ...compoundProperties,
+    ...expandedProperties,
+  },
 });
 ```
 

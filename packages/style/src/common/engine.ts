@@ -154,13 +154,16 @@ function renderDeclaration<K extends Property>(
   let className = '';
 
   const handler: AddPropertyCallback = (prop, val) => {
-    className += renderProperty(engine, prop, val, options) + ' ';
+    if (isValidValue(prop, val)) {
+      className += renderProperty(engine, prop, val, options) + ' ';
+    }
   };
 
   if (customProperties && property in customProperties) {
-    // @ts-expect-error Value is a union of all properties, so ignore
-    customProperties[property](value, handler);
+    // @ts-expect-error Value is a complex union
+    customProperties[property](value, handler, engine);
   } else {
+    // @ts-expect-error Value is a complex union
     handler(property, value);
   }
 

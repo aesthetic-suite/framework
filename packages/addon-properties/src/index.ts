@@ -101,14 +101,14 @@ function handleExpandedSpacing(property: 'margin' | 'padding') {
     }
 
     if (value.topBottom) {
-      add(`${property}Top`, value.topBottom);
-      add(`${property}Bottom`, value.topBottom);
+      add(`${property}Top` as 'paddingTop', value.topBottom);
+      add(`${property}Bottom` as 'paddingBottom', value.topBottom);
       value.topBottom = undefined;
     }
 
     if (value.leftRight) {
-      add(`${property}Left`, value.leftRight);
-      add(`${property}Right`, value.leftRight);
+      add(`${property}Left` as 'paddingLeft', value.leftRight);
+      add(`${property}Right` as 'paddingRight', value.leftRight);
       value.leftRight = undefined;
     }
 
@@ -116,9 +116,13 @@ function handleExpandedSpacing(property: 'margin' | 'padding') {
   };
 }
 
+export const compoundProperties: PropertyHandlerMap = {
+  animationName: handleCompound('animationName'),
+  fontFamily: handleCompound('fontFamily'),
+};
+
 export const expandedProperties: PropertyHandlerMap = {
   animation: handleExpanded<AnimationProperty>('animation'),
-  animationName: handleCompound('animationName'),
   background: handleExpanded<BackgroundProperty>('background'),
   border: handleExpanded<BorderProperty>('border'),
   borderBottom: handleExpanded<BorderProperty>('borderBottom'),
@@ -143,7 +147,6 @@ export const expandedProperties: PropertyHandlerMap = {
       add('font', value);
     }
   },
-  fontFamily: handleCompound('fontFamily'),
   listStyle: handleExpanded<ListStyleProperty>('listStyle'),
   margin: handleExpandedSpacing('margin'),
   offset: handleExpanded<OffsetProperty>('offset'),
