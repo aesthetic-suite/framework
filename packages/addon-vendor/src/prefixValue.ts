@@ -2,15 +2,15 @@ import getPrefixesFromMask from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
 export default function prefixValue(value: string, values: PrefixMap): string[] {
-  const mask = values[value];
+	const mask = values[value];
 
-  if (!mask) {
-    return [value];
-  }
+	if (!mask) {
+		return [value];
+	}
 
-  return [
-    ...getPrefixesFromMask(values[value]).map((prefix) => prefix + value),
-    // Modern value must be last
-    value,
-  ];
+	return [
+		...getPrefixesFromMask(values[value]).map((prefix) => prefix + value),
+		// Modern value must be last
+		value,
+	];
 }

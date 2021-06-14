@@ -13,13 +13,13 @@ import { createClientEngine } from '@aesthetic/style';
 
 // When using entire Aesthetic framework
 configure({
-  directionConverter,
+	directionConverter,
 });
 
 // When using CSS-in-JS engine directly
 const engine = createClientEngine({
-  direction: 'ltr', // Base
-  directionConverter,
+	direction: 'ltr', // Default
+	directionConverter,
 });
 ```
 

@@ -1,6 +1,6 @@
 {
-  "rules": {
-    "no-param-reassign": "off",
-    "unicorn/no-for-loop": "off"
-  }
+	"rules": {
+		"no-param-reassign": "off",
+		"unicorn/no-for-loop": "off"
+	}
 }

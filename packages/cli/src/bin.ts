@@ -8,16 +8,16 @@ const banner = `  ¸ ¸__ __¸__¸  ¸¸__¸__¸ __
 /--\\|__¸_) | |  ||__ | |\\__`;
 
 const program = new Program({
-  banner,
-  bin: 'aesthetic',
-  name: 'Aesthetic Framework',
-  // eslint-disable-next-line
-  version: require('@aesthetic/core/package.json').version,
+	banner,
+	bin: 'aesthetic',
+	name: 'Aesthetic Framework',
+	// eslint-disable-next-line
+	version: require('@aesthetic/core/package.json').version,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 program
-  .register(new Init())
-  .register(new Compile())
-  .register(new Validate())
-  .runAndExit(process.argv);
+	.register(new Init())
+	.register(new Compile())
+	.register(new Validate())
+	.runAndExit(process.argv);

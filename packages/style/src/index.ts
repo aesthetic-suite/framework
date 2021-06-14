@@ -25,44 +25,44 @@ export { createStyleElements, getStyleElement };
 
 // Set active direction on the document `dir` attribute
 function setDirection(direction: Direction) {
-  document.documentElement.setAttribute('dir', direction);
+	document.documentElement.setAttribute('dir', direction);
 }
 
 // Set CSS variables to :root
 function setRootVariables(vars: VariablesMap) {
-  objectLoop(vars, (value, key) => {
-    document.documentElement.style.setProperty(formatVariable(key), String(value));
-  });
+	objectLoop(vars, (value, key) => {
+		document.documentElement.style.setProperty(formatVariable(key), String(value));
+	});
 }
 
 // Set active theme class names on the `body`
 function setTheme(classNames: string[]) {
-  document.body.className = classNames.join(' ');
+	document.body.className = classNames.join(' ');
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-  const direction = (document.documentElement.getAttribute('dir') ||
-    document.body.getAttribute('dir') ||
-    'ltr') as Direction;
+	const direction = (document.documentElement.getAttribute('dir') ||
+		document.body.getAttribute('dir') ||
+		'ltr') as Direction;
 
-  const engine: StyleEngine = createStyleEngine({
-    cacheManager: createCacheManager(),
-    direction,
-    sheetManager: createSheetManager(createStyleElements()),
-    ...options,
-  });
+	const engine: StyleEngine = createStyleEngine({
+		cacheManager: createCacheManager(),
+		direction,
+		sheetManager: createSheetManager(createStyleElements()),
+		...options,
+	});
 
-  // Match against browser preferences
-  engine.prefersColorScheme = (scheme) => matchMedia(`(prefers-color-scheme: ${scheme})`).matches;
-  engine.prefersContrastLevel = (level) => matchMedia(`(prefers-contrast: ${level})`).matches;
+	// Match against browser preferences
+	engine.prefersColorScheme = (scheme) => matchMedia(`(prefers-color-scheme: ${scheme})`).matches;
+	engine.prefersContrastLevel = (level) => matchMedia(`(prefers-contrast: ${level})`).matches;
 
-  // Handle DOM specific logic
-  engine.setDirection = setDirection;
-  engine.setRootVariables = setRootVariables;
-  engine.setTheme = setTheme;
+	// Handle DOM specific logic
+	engine.setDirection = setDirection;
+	engine.setRootVariables = setRootVariables;
+	engine.setTheme = setTheme;
 
-  // Attempt to hydrate styles immediately
-  hydrateStyles(engine);
+	// Attempt to hydrate styles immediately
+	hydrateStyles(engine);
 
-  return engine;
+	return engine;
 }

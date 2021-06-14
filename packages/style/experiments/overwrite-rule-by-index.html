@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style"></style>
-  </head>
-  <body>
-    <script>
-      // Will inserting a rule to an existing index overwrite the previous rule?
-      //    NO in Firefox, Chrome, Safari
-      // Or does it shift everything down 1?
-      //    YES in Firefox, Chrome, Safari
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style"></style>
+	</head>
+	<body>
+		<script>
+			// Will inserting a rule to an existing index overwrite the previous rule?
+			//    NO in Firefox, Chrome, Safari
+			// Or does it shift everything down 1?
+			//    YES in Firefox, Chrome, Safari
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      sheet.insertRule('.a { display: block }', 0);
-      sheet.insertRule('.b { display: inline }', 1);
-      sheet.insertRule('.c { display: flex }', 0);
+			sheet.insertRule('.a { display: block }', 0);
+			sheet.insertRule('.b { display: inline }', 1);
+			sheet.insertRule('.c { display: flex }', 0);
 
-      console.log({ style, sheet });
-    </script>
-  </body>
+			console.log({ style, sheet });
+		</script>
+	</body>
 </html>

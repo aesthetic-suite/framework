@@ -1,7 +1,7 @@
 export default function toArray<T>(value: T | T[]): T[] {
-  if (!value) {
-    return [];
-  }
+	if (!value) {
+		return [];
+	}
 
-  return Array.isArray(value) ? value : [value];
+	return Array.isArray(value) ? value : [value];
 }

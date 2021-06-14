@@ -5,29 +5,29 @@ import isObject from './isObject';
 import objectLoop from './objectLoop';
 
 export function merge(base: object, next: object): object {
-  objectLoop(next, (right, key) => {
-    if (isObject(right)) {
-      base[key] = deepMerge(base[key], right);
-    } else {
-      base[key] = right;
-    }
-  });
+	objectLoop(next, (right, key) => {
+		if (isObject(right)) {
+			base[key] = deepMerge(base[key], right);
+		} else {
+			base[key] = right;
+		}
+	});
 
-  return base;
+	return base;
 }
 
 export default function deepMerge<T = object>(...objects: unknown[]): T {
-  if (objects.length === 1) {
-    return objects[0] as T;
-  }
+	if (objects.length === 1) {
+		return objects[0] as T;
+	}
 
-  const result: object = {};
+	const result: object = {};
 
-  arrayLoop(objects, (object) => {
-    if (isObject(object)) {
-      merge(result, object);
-    }
-  });
+	arrayLoop(objects, (object) => {
+		if (isObject(object)) {
+			merge(result, object);
+		}
+	});
 
-  return (result as unknown) as T;
+	return result as unknown as T;
 }

@@ -13,12 +13,12 @@ import { createClientEngine } from '@aesthetic/style';
 
 // When using entire Aesthetic framework
 configure({
-  vendorPrefixer,
+	vendorPrefixer,
 });
 
 // When using CSS-in-JS engine directly
 const engine = createClientEngine({
-  vendorPrefixer,
+	vendorPrefixer,
 });
 ```
 

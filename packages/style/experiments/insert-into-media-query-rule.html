@@ -1,47 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style"></style>
-  </head>
-  <body>
-    <script>
-      // Can we find and insert additional rules into a media rule?
-      //    YES in Firefox, Chrome
-      //    YES in Safari but it does not support `conditionText`
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style"></style>
+	</head>
+	<body>
+		<script>
+			// Can we find and insert additional rules into a media rule?
+			//    YES in Firefox, Chrome
+			//    YES in Safari but it does not support `conditionText`
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
-      const query = '(max-width: 600px) and (min-width: 500px)';
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
+			const query = '(max-width: 600px) and (min-width: 500px)';
 
-      const index = sheet.insertRule(
-        `@media ${query} { .a { display: block } }`,
-        sheet.cssRules.length,
-      );
+			const index = sheet.insertRule(
+				`@media ${query} { .a { display: block } }`,
+				sheet.cssRules.length,
+			);
 
-      const media = Array.from(sheet.cssRules).find((rule) => {
-        if (rule.type !== CSSRule.MEDIA_RULE) {
-          return false;
-        }
+			const media = Array.from(sheet.cssRules).find((rule) => {
+				if (rule.type !== CSSRule.MEDIA_RULE) {
+					return false;
+				}
 
-        // Does not exist in Safari or IE
-        if (rule.conditionText !== undefined && rule.conditionText === query) {
-          return true;
-        }
+				// Does not exist in Safari or IE
+				if (rule.conditionText !== undefined && rule.conditionText === query) {
+					return true;
+				}
 
-        // Do it the hard way then
-        return rule.media.length === 1 && rule.media[0] === query;
-      });
+				// Do it the hard way then
+				return rule.media.length === 1 && rule.media[0] === query;
+			});
 
-      if (media) {
-        media.insertRule('.b { display: inline }', media.cssRules.length);
-      }
+			if (media) {
+				media.insertRule('.b { display: inline }', media.cssRules.length);
+			}
 
-      console.log({ style, sheet, media, mediaByIndex: sheet.cssRules.item(index) });
-      console.log(
-        typeof window.CSSGroupingRule !== 'undefined' &&
-          typeof CSSGroupingRule.prototype.insertRule !== 'undefined',
-      );
-    </script>
-  </body>
+			console.log({ style, sheet, media, mediaByIndex: sheet.cssRules.item(index) });
+			console.log(
+				typeof window.CSSGroupingRule !== 'undefined' &&
+					typeof CSSGroupingRule.prototype.insertRule !== 'undefined',
+			);
+		</script>
+	</body>
 </html>

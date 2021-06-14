@@ -7,6 +7,6 @@ import prefix from './prefix';
 import prefixSelector from './prefixSelector';
 
 export default {
-  prefix,
-  prefixSelector,
+	prefix,
+	prefixSelector,
 };

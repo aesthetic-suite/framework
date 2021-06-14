@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style"></style>
-  </head>
-  <body>
-    <script>
-      // Can you set a rule directly by index?
-      //    NO in Firefox, Chrome, Safari
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style"></style>
+	</head>
+	<body>
+		<script>
+			// Can you set a rule directly by index?
+			//    NO in Firefox, Chrome, Safari
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      sheet.insertRule(
-        '@media (max-width: 600px) { .a { display: block } }',
-        sheet.cssRules.length,
-      );
+			sheet.insertRule(
+				'@media (max-width: 600px) { .a { display: block } }',
+				sheet.cssRules.length,
+			);
 
-      const media = sheet.cssRules[0];
+			const media = sheet.cssRules[0];
 
-      media.cssRules[media.cssRules.length] = '.b { display: inline }';
+			media.cssRules[media.cssRules.length] = '.b { display: inline }';
 
-      console.log({ style, sheet });
-    </script>
-  </body>
+			console.log({ style, sheet });
+		</script>
+	</body>
 </html>

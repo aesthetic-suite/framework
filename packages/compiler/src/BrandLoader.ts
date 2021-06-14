@@ -6,18 +6,18 @@ import Loader from './Loader';
 import { BrandConfigFile } from './types';
 
 export default class BrandLoader extends Loader<BrandConfigFile> {
-  getFileName() {
-    return BRAND_FILE;
-  }
+	getFileName() {
+		return BRAND_FILE;
+	}
 
-  validate(config: DeepPartial<BrandConfigFile>, filePath: Path): BrandConfigFile {
-    return optimal(
-      config,
-      {
-        extends: string(),
-        name: string().notEmpty().match(NAME_PATTERN),
-      },
-      { file: filePath.path() },
-    );
-  }
+	validate(config: DeepPartial<BrandConfigFile>, filePath: Path): BrandConfigFile {
+		return optimal(
+			config,
+			{
+				extends: string(),
+				name: string().notEmpty().match(NAME_PATTERN),
+			},
+			{ file: filePath.path() },
+		);
+	}
 }

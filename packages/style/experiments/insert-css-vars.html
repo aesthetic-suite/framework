@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style"></style>
-  </head>
-  <body>
-    <script>
-      // Can we insert CSS variables within a rule?
-      //    YES in Firefox, Chrome, Safari
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style"></style>
+	</head>
+	<body>
+		<script>
+			// Can we insert CSS variables within a rule?
+			//    YES in Firefox, Chrome, Safari
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      sheet.insertRule(
-        `.test { --foo:10px; --bar:red; color:var(--bar); font-size:var(--foo);`,
-        sheet.cssRules.length,
-      );
+			sheet.insertRule(
+				`.test { --foo:10px; --bar:red; color:var(--bar); font-size:var(--foo);`,
+				sheet.cssRules.length,
+			);
 
-      console.log({ style, sheet });
-    </script>
+			console.log({ style, sheet });
+		</script>
 
-    <div className="test">
-      Lorem ipsum dolor sit amet.
-    </div>
-  </body>
+		<div className="test">Lorem ipsum dolor sit amet.</div>
+	</body>
 </html>

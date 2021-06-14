@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style">
-      :root {
-        --bg: black;
-        --fg: white;
-      }
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style">
+			:root {
+				--bg: black;
+				--fg: white;
+			}
 
-      /* Was defined first but still applies since the pseudo provides higher specificity. */
-      .a:hover {
-        background: red;
-      }
+			/* Was defined first but still applies since the pseudo provides higher specificity. */
+			.a:hover {
+				background: red;
+			}
 
-      .b {
-        background: gray;
-      }
+			.b {
+				background: gray;
+			}
 
-      .c {
-        height: 100px;
-      }
-    </style>
-  </head>
-  <body>
-    <button class="a b c">
-      Test
-    </button>
+			.c {
+				height: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<button class="a b c">Test</button>
 
-    <script>
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+		<script>
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      console.log({ style, sheet });
-    </script>
-  </body>
+			console.log({ style, sheet });
+		</script>
+	</body>
 </html>

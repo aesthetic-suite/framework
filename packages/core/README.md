@@ -14,8 +14,8 @@ import dayTheme from './design/system/dayTheme';
 import nightTheme from './design/system/nightTheme';
 
 const aesthetic = new Aesthetic({
-  defaultUnit: 'px',
-  deterministicClasses: false,
+	defaultUnit: 'px',
+	deterministicClasses: false,
 });
 
 // Register a theme (provided by the design system)
@@ -23,19 +23,19 @@ aesthetic.registerDefaultTheme('day', dayTheme);
 
 // Register a theme that has global styles
 aesthetic.registerTheme('night', nightTheme, (css) => ({
-  '@root': css.mixin('root', {
-    backgroundColor: css.var('palette-neutral-bg-base'),
-    height: '100%',
-  }),
+	'@root': css.mixin('root', {
+		backgroundColor: css.var('palette-neutral-bg-base'),
+		height: '100%',
+	}),
 }));
 
 // Create a component style sheet
 const styleSheet = aesthetic.createComponentStyles((css) => ({
-  button: {
-    textAlign: 'center',
-    display: 'inline-block',
-    padding: css.var('spacing-df'),
-  },
+	button: {
+		textAlign: 'center',
+		display: 'inline-block',
+		padding: css.var('spacing-df'),
+	},
 }));
 
 // Render the style sheet into the document

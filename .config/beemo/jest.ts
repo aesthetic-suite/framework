@@ -1,4 +1,4 @@
 export default {
-  coveragePathIgnorePatterns: ['system/src/mixins'],
-  // testEnvironment: 'jsdom',
+	coveragePathIgnorePatterns: ['system/src/mixins'],
+	// testEnvironment: 'jsdom',
 };
