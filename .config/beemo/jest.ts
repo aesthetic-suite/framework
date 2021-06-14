@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   coveragePathIgnorePatterns: ['system/src/mixins'],
-  testEnvironment: 'jsdom',
+  // testEnvironment: 'jsdom',
 };
