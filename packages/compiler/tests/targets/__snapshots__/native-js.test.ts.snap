@@ -7,154 +7,154 @@ exports[`Format native-js compiles and writes files 1`] = `
 import { Platform } from 'react-native';
 
 export const border = {
-  sm: {
-    radius: 1.5, // 1.50px
-    width: 0, // 0px
-  },
-  df: {
-    radius: 3, // 3px
-    width: 1, // 1px
-  },
-  lg: {
-    radius: 4.5, // 4.50px
-    width: 2, // 2px
-  },
+	sm: {
+		radius: 1.5, // 1.50px
+		width: 0, // 0px
+	},
+	df: {
+		radius: 3, // 3px
+		width: 1, // 1px
+	},
+	lg: {
+		radius: 4.5, // 4.50px
+		width: 2, // 2px
+	},
 };
 
 export const breakpoint = {
-  xs: {
-    query: '',
-    querySize: 640,
-    rootLineHeight: 1.33,
-    rootTextSize: 14.94,
-  },
-  sm: {
-    query: '',
-    querySize: 960,
-    rootLineHeight: 1.42,
-    rootTextSize: 15.94,
-  },
-  md: {
-    query: '',
-    querySize: 1280,
-    rootLineHeight: 1.52,
-    rootTextSize: 17.01,
-  },
-  lg: {
-    query: '',
-    querySize: 1600,
-    rootLineHeight: 1.62,
-    rootTextSize: 18.15,
-  },
-  xl: {
-    query: '',
-    querySize: 1920,
-    rootLineHeight: 1.73,
-    rootTextSize: 19.36,
-  },
+	xs: {
+		query: '',
+		querySize: 640,
+		rootLineHeight: 1.33,
+		rootTextSize: 14.94,
+	},
+	sm: {
+		query: '',
+		querySize: 960,
+		rootLineHeight: 1.42,
+		rootTextSize: 15.94,
+	},
+	md: {
+		query: '',
+		querySize: 1280,
+		rootLineHeight: 1.52,
+		rootTextSize: 17.01,
+	},
+	lg: {
+		query: '',
+		querySize: 1600,
+		rootLineHeight: 1.62,
+		rootTextSize: 18.15,
+	},
+	xl: {
+		query: '',
+		querySize: 1920,
+		rootLineHeight: 1.73,
+		rootTextSize: 19.36,
+	},
 };
 
 export const depth = {
-  content: 100,
-  navigation: 1000,
-  sheet: 1100,
-  overlay: 1200,
-  modal: 1300,
-  toast: 1400,
-  dialog: 1500,
-  menu: 1600,
-  tooltip: 1700,
+	content: 100,
+	navigation: 1000,
+	sheet: 1100,
+	overlay: 1200,
+	modal: 1300,
+	toast: 1400,
+	dialog: 1500,
+	menu: 1600,
+	tooltip: 1700,
 };
 
 export const heading = {
-  l1: {
-    letterSpacing: 0.25,
-    lineHeight: 1.5,
-    size: 16, // 16px
-  },
-  l2: {
-    letterSpacing: 0.33,
-    lineHeight: 1.69,
-    size: 20, // 20px
-  },
-  l3: {
-    letterSpacing: 0.44,
-    lineHeight: 1.9,
-    size: 25, // 25px
-  },
-  l4: {
-    letterSpacing: 0.59,
-    lineHeight: 2.14,
-    size: 31.25, // 31.25px
-  },
-  l5: {
-    letterSpacing: 0.79,
-    lineHeight: 2.4,
-    size: 39, // 39px
-  },
-  l6: {
-    letterSpacing: 1.05,
-    lineHeight: 2.7,
-    size: 48.8, // 48.80px
-  },
+	l1: {
+		letterSpacing: 0.25,
+		lineHeight: 1.5,
+		size: 16, // 16px
+	},
+	l2: {
+		letterSpacing: 0.33,
+		lineHeight: 1.69,
+		size: 20, // 20px
+	},
+	l3: {
+		letterSpacing: 0.44,
+		lineHeight: 1.9,
+		size: 25, // 25px
+	},
+	l4: {
+		letterSpacing: 0.59,
+		lineHeight: 2.14,
+		size: 31.25, // 31.25px
+	},
+	l5: {
+		letterSpacing: 0.79,
+		lineHeight: 2.4,
+		size: 39, // 39px
+	},
+	l6: {
+		letterSpacing: 1.05,
+		lineHeight: 2.7,
+		size: 48.8, // 48.80px
+	},
 };
 
 export const shadow = {
-  xs: {
-    x: 0, // 0px
-    y: 2, // 2px
-    blur: 2, // 2px
-    spread: 0, // 0px
-  },
-  sm: {
-    x: 0, // 0px
-    y: 3.24, // 3.24px
-    blur: 3.75, // 3.75px
-    spread: 0, // 0px
-  },
-  md: {
-    x: 0, // 0px
-    y: 5.24, // 5.24px
-    blur: 5.5, // 5.50px
-    spread: 0, // 0px
-  },
-  lg: {
-    x: 0, // 0px
-    y: 8.47, // 8.47px
-    blur: 7.25, // 7.25px
-    spread: 0, // 0px
-  },
-  xl: {
-    x: 0, // 0px
-    y: 13.71, // 13.71px
-    blur: 9, // 9px
-    spread: 0, // 0px
-  },
+	xs: {
+		x: 0, // 0px
+		y: 2, // 2px
+		blur: 2, // 2px
+		spread: 0, // 0px
+	},
+	sm: {
+		x: 0, // 0px
+		y: 3.24, // 3.24px
+		blur: 3.75, // 3.75px
+		spread: 0, // 0px
+	},
+	md: {
+		x: 0, // 0px
+		y: 5.24, // 5.24px
+		blur: 5.5, // 5.50px
+		spread: 0, // 0px
+	},
+	lg: {
+		x: 0, // 0px
+		y: 8.47, // 8.47px
+		blur: 7.25, // 7.25px
+		spread: 0, // 0px
+	},
+	xl: {
+		x: 0, // 0px
+		y: 13.71, // 13.71px
+		blur: 9, // 9px
+		spread: 0, // 0px
+	},
 };
 
 export const spacing = {
-  xs: 4.38, // 4.38px
-  sm: 8.75, // 8.75px
-  df: 17.5, // 17.50px
-  lg: 35, // 35px
-  xl: 52.5, // 52.50px
-  type: 'vertical-rhythm',
-  unit: 17.5,
+	xs: 4.38, // 4.38px
+	sm: 8.75, // 8.75px
+	df: 17.5, // 17.50px
+	lg: 35, // 35px
+	xl: 52.5, // 52.50px
+	type: 'vertical-rhythm',
+	unit: 17.5,
 };
 
 export const text = {
-  sm: {
-    lineHeight: 1.25,
-    size: 12.45, // 12.45px
-  },
-  df: {
-    lineHeight: 1.25,
-    size: 14, // 14px
-  },
-  lg: {
-    lineHeight: 1.25,
-    size: 15.75, // 15.75px
-  },
+	sm: {
+		lineHeight: 1.25,
+		size: 12.45, // 12.45px
+	},
+	df: {
+		lineHeight: 1.25,
+		size: 14, // 14px
+	},
+	lg: {
+		lineHeight: 1.25,
+		size: 15.75, // 15.75px
+	},
 };
 
 const systemFont = Platform.OS === 'ios' ? 'SF Pro' : 'sans-serif';
@@ -162,15 +162,15 @@ const systemFont = Platform.OS === 'ios' ? 'SF Pro' : 'sans-serif';
 const monospaceFont = Platform.OS === 'ios' ? 'Menlo-Regular' : 'monospace';
 
 export const typography = {
-  font: {
-    heading: '' || systemFont,
-    locale: {},
-    monospace: '' || monospaceFont,
-    text: '' || systemFont,
-    system: '' || systemFont,
-  },
-  rootLineHeight: 1.25,
-  rootTextSize: 14,
+	font: {
+		heading: '' || systemFont,
+		locale: {},
+		monospace: '' || monospaceFont,
+		text: '' || systemFont,
+		system: '' || systemFont,
+	},
+	rootLineHeight: 1.25,
+	rootTextSize: 14,
 };
 "
 `;
@@ -185,303 +185,303 @@ exports[`Format native-js compiles and writes files 2`] = `
 export * from '..';
 
 export const brand = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const primary = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const secondary = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const tertiary = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const neutral = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const muted = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const warning = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const danger = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const negative = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 
 export const positive = {
-  color: {
-    '00': '#000',
-    10: '#000',
-    20: '#000',
-    30: '#000',
-    40: '#000',
-    50: '#000',
-    60: '#000',
-    70: '#000',
-    80: '#000',
-    90: '#000',
-  },
-  bg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  fg: {
-    base: '#000',
-    focused: '#000',
-    hovered: '#000',
-    selected: '#000',
-    disabled: '#000',
-  },
-  text: '#000',
+	color: {
+		'00': '#000',
+		10: '#000',
+		20: '#000',
+		30: '#000',
+		40: '#000',
+		50: '#000',
+		60: '#000',
+		70: '#000',
+		80: '#000',
+		90: '#000',
+	},
+	bg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	fg: {
+		base: '#000',
+		focused: '#000',
+		hovered: '#000',
+		selected: '#000',
+		disabled: '#000',
+	},
+	text: '#000',
 };
 "
 `;

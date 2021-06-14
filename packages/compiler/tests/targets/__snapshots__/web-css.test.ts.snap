@@ -5,104 +5,104 @@ exports[`Format web-css compiles and writes files 1`] = `
 /* eslint-disable */
 
 :root {
-  --border-sm-radius: 0.14rem; /* 2px */
-  --border-sm-width: 0.04rem; /* 0.50px */
-  --border-df-radius: 0.21rem; /* 3px */
-  --border-df-width: 0.07rem; /* 1px */
-  --border-lg-radius: 0.32rem; /* 4.50px */
-  --border-lg-width: 0.14rem; /* 2px */
+	--border-sm-radius: 0.14rem; /* 2px */
+	--border-sm-width: 0.04rem; /* 0.50px */
+	--border-df-radius: 0.21rem; /* 3px */
+	--border-df-width: 0.07rem; /* 1px */
+	--border-lg-radius: 0.32rem; /* 4.50px */
+	--border-lg-width: 0.14rem; /* 2px */
 
-  --breakpoint-xs-query: 'screen and (min-width: 45.71em)';
-  --breakpoint-xs-query-size: 640;
-  --breakpoint-xs-root-line-height: 1.33;
-  --breakpoint-xs-root-text-size: 14.94px;
-  --breakpoint-sm-query: 'screen and (min-width: 68.57em)';
-  --breakpoint-sm-query-size: 960;
-  --breakpoint-sm-root-line-height: 1.42;
-  --breakpoint-sm-root-text-size: 15.94px;
-  --breakpoint-md-query: 'screen and (min-width: 91.43em)';
-  --breakpoint-md-query-size: 1280;
-  --breakpoint-md-root-line-height: 1.52;
-  --breakpoint-md-root-text-size: 17.01px;
-  --breakpoint-lg-query: 'screen and (min-width: 114.29em)';
-  --breakpoint-lg-query-size: 1600;
-  --breakpoint-lg-root-line-height: 1.62;
-  --breakpoint-lg-root-text-size: 18.15px;
-  --breakpoint-xl-query: 'screen and (min-width: 137.14em)';
-  --breakpoint-xl-query-size: 1920;
-  --breakpoint-xl-root-line-height: 1.73;
-  --breakpoint-xl-root-text-size: 19.36px;
+	--breakpoint-xs-query: 'screen and (min-width: 45.71em)';
+	--breakpoint-xs-query-size: 640;
+	--breakpoint-xs-root-line-height: 1.33;
+	--breakpoint-xs-root-text-size: 14.94px;
+	--breakpoint-sm-query: 'screen and (min-width: 68.57em)';
+	--breakpoint-sm-query-size: 960;
+	--breakpoint-sm-root-line-height: 1.42;
+	--breakpoint-sm-root-text-size: 15.94px;
+	--breakpoint-md-query: 'screen and (min-width: 91.43em)';
+	--breakpoint-md-query-size: 1280;
+	--breakpoint-md-root-line-height: 1.52;
+	--breakpoint-md-root-text-size: 17.01px;
+	--breakpoint-lg-query: 'screen and (min-width: 114.29em)';
+	--breakpoint-lg-query-size: 1600;
+	--breakpoint-lg-root-line-height: 1.62;
+	--breakpoint-lg-root-text-size: 18.15px;
+	--breakpoint-xl-query: 'screen and (min-width: 137.14em)';
+	--breakpoint-xl-query-size: 1920;
+	--breakpoint-xl-root-line-height: 1.73;
+	--breakpoint-xl-root-text-size: 19.36px;
 
-  --depth-content: 100;
-  --depth-navigation: 1000;
-  --depth-sheet: 1100;
-  --depth-overlay: 1200;
-  --depth-modal: 1300;
-  --depth-toast: 1400;
-  --depth-dialog: 1500;
-  --depth-menu: 1600;
-  --depth-tooltip: 1700;
+	--depth-content: 100;
+	--depth-navigation: 1000;
+	--depth-sheet: 1100;
+	--depth-overlay: 1200;
+	--depth-modal: 1300;
+	--depth-toast: 1400;
+	--depth-dialog: 1500;
+	--depth-menu: 1600;
+	--depth-tooltip: 1700;
 
-  --heading-l1-letter-spacing: 1.05px;
-  --heading-l1-line-height: 2.7;
-  --heading-l1-size: 3.49rem; /* 48.83px */
-  --heading-l2-letter-spacing: 0.79px;
-  --heading-l2-line-height: 2.4;
-  --heading-l2-size: 2.79rem; /* 39.06px */
-  --heading-l3-letter-spacing: 0.59px;
-  --heading-l3-line-height: 2.14;
-  --heading-l3-size: 2.23rem; /* 31.25px */
-  --heading-l4-letter-spacing: 0.44px;
-  --heading-l4-line-height: 1.9;
-  --heading-l4-size: 1.79rem; /* 25px */
-  --heading-l5-letter-spacing: 0.33px;
-  --heading-l5-line-height: 1.69;
-  --heading-l5-size: 1.43rem; /* 20px */
-  --heading-l6-letter-spacing: 0.25px;
-  --heading-l6-line-height: 1.5;
-  --heading-l6-size: 1.14rem; /* 16px */
+	--heading-l1-letter-spacing: 1.05px;
+	--heading-l1-line-height: 2.7;
+	--heading-l1-size: 3.49rem; /* 48.83px */
+	--heading-l2-letter-spacing: 0.79px;
+	--heading-l2-line-height: 2.4;
+	--heading-l2-size: 2.79rem; /* 39.06px */
+	--heading-l3-letter-spacing: 0.59px;
+	--heading-l3-line-height: 2.14;
+	--heading-l3-size: 2.23rem; /* 31.25px */
+	--heading-l4-letter-spacing: 0.44px;
+	--heading-l4-line-height: 1.9;
+	--heading-l4-size: 1.79rem; /* 25px */
+	--heading-l5-letter-spacing: 0.33px;
+	--heading-l5-line-height: 1.69;
+	--heading-l5-size: 1.43rem; /* 20px */
+	--heading-l6-letter-spacing: 0.25px;
+	--heading-l6-line-height: 1.5;
+	--heading-l6-size: 1.14rem; /* 16px */
 
-  --shadow-xs-x: 0rem; /* 0px */
-  --shadow-xs-y: 0.14rem; /* 2px */
-  --shadow-xs-blur: 0.14rem; /* 2px */
-  --shadow-xs-spread: 0rem; /* 0px */
-  --shadow-sm-x: 0rem; /* 0px */
-  --shadow-sm-y: 0.23rem; /* 3.24px */
-  --shadow-sm-blur: 0.25rem; /* 3.50px */
-  --shadow-sm-spread: 0rem; /* 0px */
-  --shadow-md-x: 0rem; /* 0px */
-  --shadow-md-y: 0.37rem; /* 5.24px */
-  --shadow-md-blur: 0.44rem; /* 6.13px */
-  --shadow-md-spread: 0rem; /* 0px */
-  --shadow-lg-x: 0rem; /* 0px */
-  --shadow-lg-y: 0.61rem; /* 8.47px */
-  --shadow-lg-blur: 0.77rem; /* 10.72px */
-  --shadow-lg-spread: 0rem; /* 0px */
-  --shadow-xl-x: 0rem; /* 0px */
-  --shadow-xl-y: 0.98rem; /* 13.71px */
-  --shadow-xl-blur: 1.34rem; /* 18.76px */
-  --shadow-xl-spread: 0rem; /* 0px */
+	--shadow-xs-x: 0rem; /* 0px */
+	--shadow-xs-y: 0.14rem; /* 2px */
+	--shadow-xs-blur: 0.14rem; /* 2px */
+	--shadow-xs-spread: 0rem; /* 0px */
+	--shadow-sm-x: 0rem; /* 0px */
+	--shadow-sm-y: 0.23rem; /* 3.24px */
+	--shadow-sm-blur: 0.25rem; /* 3.50px */
+	--shadow-sm-spread: 0rem; /* 0px */
+	--shadow-md-x: 0rem; /* 0px */
+	--shadow-md-y: 0.37rem; /* 5.24px */
+	--shadow-md-blur: 0.44rem; /* 6.13px */
+	--shadow-md-spread: 0rem; /* 0px */
+	--shadow-lg-x: 0rem; /* 0px */
+	--shadow-lg-y: 0.61rem; /* 8.47px */
+	--shadow-lg-blur: 0.77rem; /* 10.72px */
+	--shadow-lg-spread: 0rem; /* 0px */
+	--shadow-xl-x: 0rem; /* 0px */
+	--shadow-xl-y: 0.98rem; /* 13.71px */
+	--shadow-xl-blur: 1.34rem; /* 18.76px */
+	--shadow-xl-spread: 0rem; /* 0px */
 
-  --spacing-xs: 0.31rem; /* 4.38px */
-  --spacing-sm: 0.63rem; /* 8.75px */
-  --spacing-df: 1.25rem; /* 17.50px */
-  --spacing-lg: 2.5rem; /* 35px */
-  --spacing-xl: 3.75rem; /* 52.50px */
-  --spacing-unit: 17.5;
+	--spacing-xs: 0.31rem; /* 4.38px */
+	--spacing-sm: 0.63rem; /* 8.75px */
+	--spacing-df: 1.25rem; /* 17.50px */
+	--spacing-lg: 2.5rem; /* 35px */
+	--spacing-xl: 3.75rem; /* 52.50px */
+	--spacing-unit: 17.5;
 
-  --text-sm-line-height: 1.25;
-  --text-sm-size: 0.89rem; /* 12.44px */
-  --text-df-line-height: 1.25;
-  --text-df-size: 1rem; /* 14px */
-  --text-lg-line-height: 1.25;
-  --text-lg-size: 1.13rem; /* 15.75px */
+	--text-sm-line-height: 1.25;
+	--text-sm-size: 0.89rem; /* 12.44px */
+	--text-df-line-height: 1.25;
+	--text-df-size: 1rem; /* 14px */
+	--text-lg-line-height: 1.25;
+	--text-lg-size: 1.13rem; /* 15.75px */
 
-  --typography-font-heading: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
-  --typography-font-monospace: 'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace';
-  --typography-font-text: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
-  --typography-font-system: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
-  --typography-root-line-height: 1.25;
-  --typography-root-text-size: 14px;
+	--typography-font-heading: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
+	--typography-font-monospace: 'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace';
+	--typography-font-text: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
+	--typography-font-system: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"';
+	--typography-root-line-height: 1.25;
+	--typography-root-text-size: 14px;
 }
 "
 `;
@@ -115,225 +115,225 @@ exports[`Format web-css compiles and writes files 2`] = `
 /* scheme: light */
 
 .theme-default {
-  --palette-brand-color-00: #000;
-  --palette-brand-color-10: #000;
-  --palette-brand-color-20: #000;
-  --palette-brand-color-30: #000;
-  --palette-brand-color-40: #000;
-  --palette-brand-color-50: #000;
-  --palette-brand-color-60: #000;
-  --palette-brand-color-70: #000;
-  --palette-brand-color-80: #000;
-  --palette-brand-color-90: #000;
-  --palette-brand-bg-base: #000;
-  --palette-brand-bg-focused: #000;
-  --palette-brand-bg-hovered: #000;
-  --palette-brand-bg-selected: #000;
-  --palette-brand-bg-disabled: #000;
-  --palette-brand-fg-base: #000;
-  --palette-brand-fg-focused: #000;
-  --palette-brand-fg-hovered: #000;
-  --palette-brand-fg-selected: #000;
-  --palette-brand-fg-disabled: #000;
-  --palette-brand-text: #000;
+	--palette-brand-color-00: #000;
+	--palette-brand-color-10: #000;
+	--palette-brand-color-20: #000;
+	--palette-brand-color-30: #000;
+	--palette-brand-color-40: #000;
+	--palette-brand-color-50: #000;
+	--palette-brand-color-60: #000;
+	--palette-brand-color-70: #000;
+	--palette-brand-color-80: #000;
+	--palette-brand-color-90: #000;
+	--palette-brand-bg-base: #000;
+	--palette-brand-bg-focused: #000;
+	--palette-brand-bg-hovered: #000;
+	--palette-brand-bg-selected: #000;
+	--palette-brand-bg-disabled: #000;
+	--palette-brand-fg-base: #000;
+	--palette-brand-fg-focused: #000;
+	--palette-brand-fg-hovered: #000;
+	--palette-brand-fg-selected: #000;
+	--palette-brand-fg-disabled: #000;
+	--palette-brand-text: #000;
 
-  --palette-primary-color-00: #000;
-  --palette-primary-color-10: #000;
-  --palette-primary-color-20: #000;
-  --palette-primary-color-30: #000;
-  --palette-primary-color-40: #000;
-  --palette-primary-color-50: #000;
-  --palette-primary-color-60: #000;
-  --palette-primary-color-70: #000;
-  --palette-primary-color-80: #000;
-  --palette-primary-color-90: #000;
-  --palette-primary-bg-base: #000;
-  --palette-primary-bg-focused: #000;
-  --palette-primary-bg-hovered: #000;
-  --palette-primary-bg-selected: #000;
-  --palette-primary-bg-disabled: #000;
-  --palette-primary-fg-base: #000;
-  --palette-primary-fg-focused: #000;
-  --palette-primary-fg-hovered: #000;
-  --palette-primary-fg-selected: #000;
-  --palette-primary-fg-disabled: #000;
-  --palette-primary-text: #000;
+	--palette-primary-color-00: #000;
+	--palette-primary-color-10: #000;
+	--palette-primary-color-20: #000;
+	--palette-primary-color-30: #000;
+	--palette-primary-color-40: #000;
+	--palette-primary-color-50: #000;
+	--palette-primary-color-60: #000;
+	--palette-primary-color-70: #000;
+	--palette-primary-color-80: #000;
+	--palette-primary-color-90: #000;
+	--palette-primary-bg-base: #000;
+	--palette-primary-bg-focused: #000;
+	--palette-primary-bg-hovered: #000;
+	--palette-primary-bg-selected: #000;
+	--palette-primary-bg-disabled: #000;
+	--palette-primary-fg-base: #000;
+	--palette-primary-fg-focused: #000;
+	--palette-primary-fg-hovered: #000;
+	--palette-primary-fg-selected: #000;
+	--palette-primary-fg-disabled: #000;
+	--palette-primary-text: #000;
 
-  --palette-secondary-color-00: #000;
-  --palette-secondary-color-10: #000;
-  --palette-secondary-color-20: #000;
-  --palette-secondary-color-30: #000;
-  --palette-secondary-color-40: #000;
-  --palette-secondary-color-50: #000;
-  --palette-secondary-color-60: #000;
-  --palette-secondary-color-70: #000;
-  --palette-secondary-color-80: #000;
-  --palette-secondary-color-90: #000;
-  --palette-secondary-bg-base: #000;
-  --palette-secondary-bg-focused: #000;
-  --palette-secondary-bg-hovered: #000;
-  --palette-secondary-bg-selected: #000;
-  --palette-secondary-bg-disabled: #000;
-  --palette-secondary-fg-base: #000;
-  --palette-secondary-fg-focused: #000;
-  --palette-secondary-fg-hovered: #000;
-  --palette-secondary-fg-selected: #000;
-  --palette-secondary-fg-disabled: #000;
-  --palette-secondary-text: #000;
+	--palette-secondary-color-00: #000;
+	--palette-secondary-color-10: #000;
+	--palette-secondary-color-20: #000;
+	--palette-secondary-color-30: #000;
+	--palette-secondary-color-40: #000;
+	--palette-secondary-color-50: #000;
+	--palette-secondary-color-60: #000;
+	--palette-secondary-color-70: #000;
+	--palette-secondary-color-80: #000;
+	--palette-secondary-color-90: #000;
+	--palette-secondary-bg-base: #000;
+	--palette-secondary-bg-focused: #000;
+	--palette-secondary-bg-hovered: #000;
+	--palette-secondary-bg-selected: #000;
+	--palette-secondary-bg-disabled: #000;
+	--palette-secondary-fg-base: #000;
+	--palette-secondary-fg-focused: #000;
+	--palette-secondary-fg-hovered: #000;
+	--palette-secondary-fg-selected: #000;
+	--palette-secondary-fg-disabled: #000;
+	--palette-secondary-text: #000;
 
-  --palette-tertiary-color-00: #000;
-  --palette-tertiary-color-10: #000;
-  --palette-tertiary-color-20: #000;
-  --palette-tertiary-color-30: #000;
-  --palette-tertiary-color-40: #000;
-  --palette-tertiary-color-50: #000;
-  --palette-tertiary-color-60: #000;
-  --palette-tertiary-color-70: #000;
-  --palette-tertiary-color-80: #000;
-  --palette-tertiary-color-90: #000;
-  --palette-tertiary-bg-base: #000;
-  --palette-tertiary-bg-focused: #000;
-  --palette-tertiary-bg-hovered: #000;
-  --palette-tertiary-bg-selected: #000;
-  --palette-tertiary-bg-disabled: #000;
-  --palette-tertiary-fg-base: #000;
-  --palette-tertiary-fg-focused: #000;
-  --palette-tertiary-fg-hovered: #000;
-  --palette-tertiary-fg-selected: #000;
-  --palette-tertiary-fg-disabled: #000;
-  --palette-tertiary-text: #000;
+	--palette-tertiary-color-00: #000;
+	--palette-tertiary-color-10: #000;
+	--palette-tertiary-color-20: #000;
+	--palette-tertiary-color-30: #000;
+	--palette-tertiary-color-40: #000;
+	--palette-tertiary-color-50: #000;
+	--palette-tertiary-color-60: #000;
+	--palette-tertiary-color-70: #000;
+	--palette-tertiary-color-80: #000;
+	--palette-tertiary-color-90: #000;
+	--palette-tertiary-bg-base: #000;
+	--palette-tertiary-bg-focused: #000;
+	--palette-tertiary-bg-hovered: #000;
+	--palette-tertiary-bg-selected: #000;
+	--palette-tertiary-bg-disabled: #000;
+	--palette-tertiary-fg-base: #000;
+	--palette-tertiary-fg-focused: #000;
+	--palette-tertiary-fg-hovered: #000;
+	--palette-tertiary-fg-selected: #000;
+	--palette-tertiary-fg-disabled: #000;
+	--palette-tertiary-text: #000;
 
-  --palette-neutral-color-00: #000;
-  --palette-neutral-color-10: #000;
-  --palette-neutral-color-20: #000;
-  --palette-neutral-color-30: #000;
-  --palette-neutral-color-40: #000;
-  --palette-neutral-color-50: #000;
-  --palette-neutral-color-60: #000;
-  --palette-neutral-color-70: #000;
-  --palette-neutral-color-80: #000;
-  --palette-neutral-color-90: #000;
-  --palette-neutral-bg-base: #000;
-  --palette-neutral-bg-focused: #000;
-  --palette-neutral-bg-hovered: #000;
-  --palette-neutral-bg-selected: #000;
-  --palette-neutral-bg-disabled: #000;
-  --palette-neutral-fg-base: #000;
-  --palette-neutral-fg-focused: #000;
-  --palette-neutral-fg-hovered: #000;
-  --palette-neutral-fg-selected: #000;
-  --palette-neutral-fg-disabled: #000;
-  --palette-neutral-text: #000;
+	--palette-neutral-color-00: #000;
+	--palette-neutral-color-10: #000;
+	--palette-neutral-color-20: #000;
+	--palette-neutral-color-30: #000;
+	--palette-neutral-color-40: #000;
+	--palette-neutral-color-50: #000;
+	--palette-neutral-color-60: #000;
+	--palette-neutral-color-70: #000;
+	--palette-neutral-color-80: #000;
+	--palette-neutral-color-90: #000;
+	--palette-neutral-bg-base: #000;
+	--palette-neutral-bg-focused: #000;
+	--palette-neutral-bg-hovered: #000;
+	--palette-neutral-bg-selected: #000;
+	--palette-neutral-bg-disabled: #000;
+	--palette-neutral-fg-base: #000;
+	--palette-neutral-fg-focused: #000;
+	--palette-neutral-fg-hovered: #000;
+	--palette-neutral-fg-selected: #000;
+	--palette-neutral-fg-disabled: #000;
+	--palette-neutral-text: #000;
 
-  --palette-muted-color-00: #000;
-  --palette-muted-color-10: #000;
-  --palette-muted-color-20: #000;
-  --palette-muted-color-30: #000;
-  --palette-muted-color-40: #000;
-  --palette-muted-color-50: #000;
-  --palette-muted-color-60: #000;
-  --palette-muted-color-70: #000;
-  --palette-muted-color-80: #000;
-  --palette-muted-color-90: #000;
-  --palette-muted-bg-base: #000;
-  --palette-muted-bg-focused: #000;
-  --palette-muted-bg-hovered: #000;
-  --palette-muted-bg-selected: #000;
-  --palette-muted-bg-disabled: #000;
-  --palette-muted-fg-base: #000;
-  --palette-muted-fg-focused: #000;
-  --palette-muted-fg-hovered: #000;
-  --palette-muted-fg-selected: #000;
-  --palette-muted-fg-disabled: #000;
-  --palette-muted-text: #000;
+	--palette-muted-color-00: #000;
+	--palette-muted-color-10: #000;
+	--palette-muted-color-20: #000;
+	--palette-muted-color-30: #000;
+	--palette-muted-color-40: #000;
+	--palette-muted-color-50: #000;
+	--palette-muted-color-60: #000;
+	--palette-muted-color-70: #000;
+	--palette-muted-color-80: #000;
+	--palette-muted-color-90: #000;
+	--palette-muted-bg-base: #000;
+	--palette-muted-bg-focused: #000;
+	--palette-muted-bg-hovered: #000;
+	--palette-muted-bg-selected: #000;
+	--palette-muted-bg-disabled: #000;
+	--palette-muted-fg-base: #000;
+	--palette-muted-fg-focused: #000;
+	--palette-muted-fg-hovered: #000;
+	--palette-muted-fg-selected: #000;
+	--palette-muted-fg-disabled: #000;
+	--palette-muted-text: #000;
 
-  --palette-danger-color-00: #000;
-  --palette-danger-color-10: #000;
-  --palette-danger-color-20: #000;
-  --palette-danger-color-30: #000;
-  --palette-danger-color-40: #000;
-  --palette-danger-color-50: #000;
-  --palette-danger-color-60: #000;
-  --palette-danger-color-70: #000;
-  --palette-danger-color-80: #000;
-  --palette-danger-color-90: #000;
-  --palette-danger-bg-base: #000;
-  --palette-danger-bg-focused: #000;
-  --palette-danger-bg-hovered: #000;
-  --palette-danger-bg-selected: #000;
-  --palette-danger-bg-disabled: #000;
-  --palette-danger-fg-base: #000;
-  --palette-danger-fg-focused: #000;
-  --palette-danger-fg-hovered: #000;
-  --palette-danger-fg-selected: #000;
-  --palette-danger-fg-disabled: #000;
-  --palette-danger-text: #000;
+	--palette-danger-color-00: #000;
+	--palette-danger-color-10: #000;
+	--palette-danger-color-20: #000;
+	--palette-danger-color-30: #000;
+	--palette-danger-color-40: #000;
+	--palette-danger-color-50: #000;
+	--palette-danger-color-60: #000;
+	--palette-danger-color-70: #000;
+	--palette-danger-color-80: #000;
+	--palette-danger-color-90: #000;
+	--palette-danger-bg-base: #000;
+	--palette-danger-bg-focused: #000;
+	--palette-danger-bg-hovered: #000;
+	--palette-danger-bg-selected: #000;
+	--palette-danger-bg-disabled: #000;
+	--palette-danger-fg-base: #000;
+	--palette-danger-fg-focused: #000;
+	--palette-danger-fg-hovered: #000;
+	--palette-danger-fg-selected: #000;
+	--palette-danger-fg-disabled: #000;
+	--palette-danger-text: #000;
 
-  --palette-warning-color-00: #000;
-  --palette-warning-color-10: #000;
-  --palette-warning-color-20: #000;
-  --palette-warning-color-30: #000;
-  --palette-warning-color-40: #000;
-  --palette-warning-color-50: #000;
-  --palette-warning-color-60: #000;
-  --palette-warning-color-70: #000;
-  --palette-warning-color-80: #000;
-  --palette-warning-color-90: #000;
-  --palette-warning-bg-base: #000;
-  --palette-warning-bg-focused: #000;
-  --palette-warning-bg-hovered: #000;
-  --palette-warning-bg-selected: #000;
-  --palette-warning-bg-disabled: #000;
-  --palette-warning-fg-base: #000;
-  --palette-warning-fg-focused: #000;
-  --palette-warning-fg-hovered: #000;
-  --palette-warning-fg-selected: #000;
-  --palette-warning-fg-disabled: #000;
-  --palette-warning-text: #000;
+	--palette-warning-color-00: #000;
+	--palette-warning-color-10: #000;
+	--palette-warning-color-20: #000;
+	--palette-warning-color-30: #000;
+	--palette-warning-color-40: #000;
+	--palette-warning-color-50: #000;
+	--palette-warning-color-60: #000;
+	--palette-warning-color-70: #000;
+	--palette-warning-color-80: #000;
+	--palette-warning-color-90: #000;
+	--palette-warning-bg-base: #000;
+	--palette-warning-bg-focused: #000;
+	--palette-warning-bg-hovered: #000;
+	--palette-warning-bg-selected: #000;
+	--palette-warning-bg-disabled: #000;
+	--palette-warning-fg-base: #000;
+	--palette-warning-fg-focused: #000;
+	--palette-warning-fg-hovered: #000;
+	--palette-warning-fg-selected: #000;
+	--palette-warning-fg-disabled: #000;
+	--palette-warning-text: #000;
 
-  --palette-negative-color-00: #000;
-  --palette-negative-color-10: #000;
-  --palette-negative-color-20: #000;
-  --palette-negative-color-30: #000;
-  --palette-negative-color-40: #000;
-  --palette-negative-color-50: #000;
-  --palette-negative-color-60: #000;
-  --palette-negative-color-70: #000;
-  --palette-negative-color-80: #000;
-  --palette-negative-color-90: #000;
-  --palette-negative-bg-base: #000;
-  --palette-negative-bg-focused: #000;
-  --palette-negative-bg-hovered: #000;
-  --palette-negative-bg-selected: #000;
-  --palette-negative-bg-disabled: #000;
-  --palette-negative-fg-base: #000;
-  --palette-negative-fg-focused: #000;
-  --palette-negative-fg-hovered: #000;
-  --palette-negative-fg-selected: #000;
-  --palette-negative-fg-disabled: #000;
-  --palette-negative-text: #000;
+	--palette-negative-color-00: #000;
+	--palette-negative-color-10: #000;
+	--palette-negative-color-20: #000;
+	--palette-negative-color-30: #000;
+	--palette-negative-color-40: #000;
+	--palette-negative-color-50: #000;
+	--palette-negative-color-60: #000;
+	--palette-negative-color-70: #000;
+	--palette-negative-color-80: #000;
+	--palette-negative-color-90: #000;
+	--palette-negative-bg-base: #000;
+	--palette-negative-bg-focused: #000;
+	--palette-negative-bg-hovered: #000;
+	--palette-negative-bg-selected: #000;
+	--palette-negative-bg-disabled: #000;
+	--palette-negative-fg-base: #000;
+	--palette-negative-fg-focused: #000;
+	--palette-negative-fg-hovered: #000;
+	--palette-negative-fg-selected: #000;
+	--palette-negative-fg-disabled: #000;
+	--palette-negative-text: #000;
 
-  --palette-positive-color-00: #000;
-  --palette-positive-color-10: #000;
-  --palette-positive-color-20: #000;
-  --palette-positive-color-30: #000;
-  --palette-positive-color-40: #000;
-  --palette-positive-color-50: #000;
-  --palette-positive-color-60: #000;
-  --palette-positive-color-70: #000;
-  --palette-positive-color-80: #000;
-  --palette-positive-color-90: #000;
-  --palette-positive-bg-base: #000;
-  --palette-positive-bg-focused: #000;
-  --palette-positive-bg-hovered: #000;
-  --palette-positive-bg-selected: #000;
-  --palette-positive-bg-disabled: #000;
-  --palette-positive-fg-base: #000;
-  --palette-positive-fg-focused: #000;
-  --palette-positive-fg-hovered: #000;
-  --palette-positive-fg-selected: #000;
-  --palette-positive-fg-disabled: #000;
-  --palette-positive-text: #000;
+	--palette-positive-color-00: #000;
+	--palette-positive-color-10: #000;
+	--palette-positive-color-20: #000;
+	--palette-positive-color-30: #000;
+	--palette-positive-color-40: #000;
+	--palette-positive-color-50: #000;
+	--palette-positive-color-60: #000;
+	--palette-positive-color-70: #000;
+	--palette-positive-color-80: #000;
+	--palette-positive-color-90: #000;
+	--palette-positive-bg-base: #000;
+	--palette-positive-bg-focused: #000;
+	--palette-positive-bg-hovered: #000;
+	--palette-positive-bg-selected: #000;
+	--palette-positive-bg-disabled: #000;
+	--palette-positive-fg-base: #000;
+	--palette-positive-fg-focused: #000;
+	--palette-positive-fg-hovered: #000;
+	--palette-positive-fg-selected: #000;
+	--palette-positive-fg-disabled: #000;
+	--palette-positive-text: #000;
 }
 "
 `;
