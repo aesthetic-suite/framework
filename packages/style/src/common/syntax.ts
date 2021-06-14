@@ -29,7 +29,7 @@ export function formatProperty(property: string): string {
 }
 
 export function formatValue(
-  property: string,
+  property: NativeProperty,
   value: unknown,
   options: RenderOptions,
   engine: StyleEngine,
@@ -43,14 +43,17 @@ export function formatValue(
   if (!suffix) {
     const { unitSuffixer } = engine;
 
-    suffix =
-      typeof unitSuffixer === 'function' ? unitSuffixer(property as NativeProperty) : unitSuffixer;
+    suffix = typeof unitSuffixer === 'function' ? unitSuffixer(property) : unitSuffixer;
   }
 
   return String(value) + (suffix || 'px');
 }
 
-export function formatDeclaration(key: string, value: Value): CSS {
+export function formatDeclaration(key: string, value: Value | Value[]): CSS {
+  if (Array.isArray(value)) {
+    return arrayReduce(value, (val) => formatDeclaration(key, val));
+  }
+
   return `${key}:${value};`;
 }
 
@@ -142,7 +145,7 @@ export function formatRule(
   return rule;
 }
 
-export function formatVariables(variables: VariablesMap): CSS {
+export function formatVariableBlock(variables: VariablesMap): CSS {
   return objectReduce(variables, (value, key) => formatDeclaration(formatVariable(key), value));
 }
 
@@ -152,19 +155,13 @@ export function createDeclaration(
   options: RenderOptions,
   engine: StyleEngine,
 ): CSS {
-  let rule = '';
-
-  // Supports fallbacks and prefixes
-  if (Array.isArray(value)) {
-    return arrayReduce(value, (val) => createDeclaration(property, val, options, engine), rule);
-  }
-
-  let key = formatProperty(property);
-  let val = formatValue(property, value, options, engine);
+  const { directionConverter, vendorPrefixer } = engine;
+  let key = formatProperty(property) as NativeProperty;
+  let val = formatValue(key, value, options, engine);
 
   // Convert between LTR and RTL
-  if (options.direction && engine.directionConverter) {
-    ({ property: key, value: val } = engine.directionConverter.convert(
+  if (options.direction && directionConverter) {
+    ({ property: key, value: val } = directionConverter.convert(
       engine.direction,
       options.direction,
       key,
@@ -172,15 +169,10 @@ export function createDeclaration(
     ));
   }
 
-  // Set the declaration after direction change but before prefixing
-  rule += formatDeclaration(key, val);
-
-  // Inject vendor prefixes into the parent rule
-  if (options.vendor && engine.vendorPrefixer) {
-    rule += objectReduce(engine.vendorPrefixer.prefix(key, val), (v, k) => formatDeclaration(k, v));
-  }
-
-  return rule;
+  // Apply vendor prefixes and format declaration(s)
+  return options.vendor && vendorPrefixer
+    ? objectReduce(vendorPrefixer.prefix(key, val), (v, k) => formatDeclaration(k, v))
+    : formatDeclaration(key, val);
 }
 
 export function createDeclarationBlock(

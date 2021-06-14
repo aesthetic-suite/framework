@@ -5,6 +5,7 @@ import {
   FontFace,
   Import,
   Keyframes,
+  NativeProperty,
   Properties,
   Property,
   Rule,
@@ -52,9 +53,9 @@ export interface DirectionConverter {
   convert: <T extends Value>(
     from: Direction,
     to: Direction,
-    property: string,
+    property: NativeProperty,
     value: T,
-  ) => { property: string; value: T };
+  ) => { property: NativeProperty; value: T };
 }
 
 // STYLE SHEETS
@@ -80,8 +81,10 @@ export interface SheetManager {
 
 // VENDOR PREFIXES
 
+export type PropertyPrefixes = Record<string, string[] | string>;
+
 export interface VendorPrefixer {
-  prefix: (property: string, value: string) => Record<string, string>;
+  prefix: (property: NativeProperty, value: string) => PropertyPrefixes;
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 

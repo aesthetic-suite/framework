@@ -1,13 +1,13 @@
 import { Sheet, SheetType } from '@aesthetic/types';
 import { nonce, objectReduce } from '@aesthetic/utils';
 // Rollup compatibility
-import { formatVariables, StyleEngine } from '../index';
+import { formatVariableBlock, StyleEngine } from '../index';
 
 export function extractCssFromSheet(sheet: Sheet): string {
   let css = '';
 
   if (Object.keys(sheet.cssVariables).length > 0) {
-    css += `:root { ${formatVariables(sheet.cssVariables)} }`;
+    css += `:root { ${formatVariableBlock(sheet.cssVariables)} }`;
   }
 
   css += sheet.cssText;

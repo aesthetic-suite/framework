@@ -42,7 +42,7 @@ import {
   formatProperty,
   formatRule,
   formatVariable,
-  formatVariables,
+  formatVariableBlock,
 } from './syntax';
 
 type RenderCallback = (
@@ -351,7 +351,7 @@ function renderRuleGrouped(
     if (isObject(value)) {
       // Extract and include variables in the top level class
       if (property === '@variables') {
-        variables += formatVariables(value as VariablesMap);
+        variables += formatVariableBlock(value as VariablesMap);
 
         // Extract all other at-rules
       } else if (isAtRule(property)) {

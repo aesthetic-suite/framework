@@ -101,7 +101,7 @@ describe('Engine', () => {
       // Property prefixing
       engine.renderDeclaration('appearance', 'none', { vendor: true });
 
-      // Selector prefixing
+      // Selector prefixing (only shows last in snapshot)
       engine.renderDeclaration('display', 'none', {
         selector: ':fullscreen',
         vendor: true,
@@ -1300,7 +1300,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className.result).toBe('c1mjtlm6');
+      expect(className.result).toBe('cix1mgi');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1325,8 +1325,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a.result).toBe('c1mjtlm6');
-      expect(b.result).toBe('cfapcjy');
+      expect(a.result).toBe('cix1mgi');
+      expect(b.result).toBe('c1t3l09e');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 

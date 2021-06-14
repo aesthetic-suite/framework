@@ -57,7 +57,7 @@ export type Properties = WithCustomProperties<
 
 export type Property = keyof Properties;
 
-export type NativeProperty = keyof CSSType.PropertiesHyphen;
+export type NativeProperty = keyof CSSType.StandardPropertiesHyphen<Value>;
 
 export type GenericProperties = Record<string, Value | Value[]>;
 
