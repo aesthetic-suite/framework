@@ -2,7 +2,7 @@
 
 import { ColorScheme, ContrastLevel, Unit, VariablesMap } from '@aesthetic/types';
 import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
-import Design from './Design';
+import type { Design } from './Design';
 import { MIXIN_MAP } from './mixins';
 import {
 	DeepPartial,
@@ -14,7 +14,7 @@ import {
 	VariableName,
 } from './types';
 
-export default class Theme<T extends object> implements Utilities<T> {
+export class Theme<T extends object> implements Utilities<T> {
 	name: string = '';
 
 	readonly contrast: ContrastLevel;

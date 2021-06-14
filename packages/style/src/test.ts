@@ -7,7 +7,7 @@ import {
 	createStyleEngine,
 	getStyleElement,
 	StyleEngine,
-} from './index';
+} from '.';
 
 export function createTestCacheManager(): CacheManager {
 	return createCacheManager();
@@ -26,7 +26,7 @@ export function createTestStyleEngine(options: Partial<EngineOptions> = {}): Sty
 }
 
 export function getRenderedStyles(type: Sheet | SheetType): CSS {
-	return Array.from((typeof type === 'string' ? getStyleElement(type) : type).cssRules).reduce(
+	return [...(typeof type === 'string' ? getStyleElement(type) : type).cssRules].reduce(
 		(css, rule) => css + rule.cssText,
 		'',
 	);
@@ -36,7 +36,7 @@ export function purgeStyles(type?: SheetType): void {
 	if (type) {
 		// This is the only way to generate accurate snapshots.
 		// It may slow down tests though?
-		document.getElementById(`aesthetic-${type}`)?.remove();
+		document.querySelector(`#aesthetic-${type}`)?.remove();
 	} else {
 		purgeStyles('global');
 		purgeStyles('standard');

@@ -5,7 +5,7 @@ import optimal, { bool, string } from 'optimal';
 import prettier, { BuiltInParserName } from 'prettier';
 import { PALETTE_TYPES } from '@aesthetic/system';
 import { Path, PortablePath } from '@boost/common';
-import BrandLoader from './BrandLoader';
+import { BrandLoader } from './BrandLoader';
 import {
 	BORDER_SIZES,
 	BREAKPOINT_SIZES,
@@ -17,27 +17,27 @@ import {
 	STATE_ORDER,
 	TEXT_SIZES,
 } from './constants';
-import LanguageLoader from './LanguageLoader';
-import Platform from './Platform';
-import NativePlatform from './platforms/Native';
-import WebPlatform from './platforms/Web';
-import SystemDesign from './SystemDesign';
-import SystemTheme from './SystemTheme';
-import ThemesLoader from './ThemesLoader';
+import { LanguageLoader } from './LanguageLoader';
+import { Platform } from './Platform';
+import { NativePlatform } from './platforms/Native';
+import { WebPlatform } from './platforms/Web';
+import { SystemDesign } from './SystemDesign';
+import { SystemTheme } from './SystemTheme';
+import { ThemesLoader } from './ThemesLoader';
 import { FormatType, PlatformType, SystemOptions, ThemesConfigFile } from './types';
 
 const TEMPLATES_FOLDER = Path.resolve('../templates', __dirname);
 
-const PRETTIER_PARSERS: { [ext: string]: BuiltInParserName } = {
+const PRETTIER_PARSERS: Record<string, BuiltInParserName> = {
 	js: 'babel',
 	ts: 'typescript',
 };
 
-const PRETTIER_IGNORE: { [ext: string]: boolean } = {
+const PRETTIER_IGNORE: Record<string, boolean> = {
 	sass: true,
 };
 
-export default class Compiler {
+export class Compiler {
 	readonly configDir: Path;
 
 	readonly options: Required<SystemOptions>;
@@ -103,7 +103,7 @@ export default class Compiler {
 
 		// Write all theme files
 		await Promise.all(
-			Array.from(themes.entries()).map(([, theme]) => this.writeThemeFile(design, theme, platform)),
+			[...themes.entries()].map(([, theme]) => this.writeThemeFile(design, theme, platform)),
 		);
 	}
 
@@ -251,7 +251,7 @@ export default class Compiler {
 		// Load themes that do extend another theme
 		Object.entries(themes.themes).forEach(([name, config]) => {
 			const { extends: extendsFrom, ...themeConfig } = config;
-			const parentTheme = map.get(extendsFrom!);
+			const parentTheme = map.get(extendsFrom);
 
 			// Theme existence is validated before hand
 			map.set(name, parentTheme!.extend(name, themeConfig, extendsFrom));
@@ -271,7 +271,7 @@ export default class Compiler {
 		const configPath = await prettier.resolveConfigFile();
 
 		if (configPath && !PRETTIER_IGNORE[ext as 'sass']) {
-			const config = (await prettier.resolveConfig(configPath)) || {};
+			const config = (await prettier.resolveConfig(configPath)) ?? {};
 
 			contents = prettier.format(data, {
 				...config,

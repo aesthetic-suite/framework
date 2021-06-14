@@ -1,4 +1,4 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable @typescript-eslint/prefer-string-starts-ends-with */
 
 import { AtRule, CSS, Sheet, Value } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
@@ -56,6 +56,7 @@ export function isAtRule(value: string): value is AtRule {
 }
 
 export function isImportRule(value: string): boolean {
+	// eslint-disable-next-line no-magic-numbers
 	return value.slice(0, 7) === '@import';
 }
 

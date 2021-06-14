@@ -1,5 +1,5 @@
-export default function toArray<T>(value: T | T[]): T[] {
-	if (!value) {
+export function toArray<T>(value: T | T[]): T[] {
+	if (value === undefined) {
 		return [];
 	}
 

@@ -15,7 +15,7 @@ import { getConfigFolderDir, validateSystemName } from '../helpers';
 export type ValidateParams = [string];
 
 @Config('validate', 'Validate a design system configuration')
-export default class Validate extends Command<GlobalOptions, ValidateParams> {
+export class Validate extends Command<GlobalOptions, ValidateParams> {
 	@Arg.Params<ValidateParams>({
 		description: 'Name of the design system',
 		label: 'name',

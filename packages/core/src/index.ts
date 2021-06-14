@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Aesthetic from './Aesthetic';
-import StyleSheet from './StyleSheet';
+import { Aesthetic } from './Aesthetic';
+import { StyleSheet } from './StyleSheet';
 
 export * from './types';
 export * from '@aesthetic/system';

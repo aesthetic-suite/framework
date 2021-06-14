@@ -1,4 +1,4 @@
-export default function createState<T>(defaultValue?: T) {
+export function createState<T>(defaultValue?: T) {
 	let value: T | undefined = defaultValue;
 
 	return {

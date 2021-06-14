@@ -22,7 +22,7 @@ import {
 	ThemeTemplate,
 } from './types';
 
-export default class SystemTheme<ColorNames extends string = string> {
+export class SystemTheme<ColorNames extends string = string> {
 	contrast: ContrastLevel;
 
 	dashedName: string;

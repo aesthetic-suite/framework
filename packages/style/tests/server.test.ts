@@ -15,12 +15,12 @@ describe('Server', () => {
 	afterEach(() => {
 		purgeStyles();
 
-		// @ts-expect-error
+		// @ts-expect-error Allow delete
 		delete global.AESTHETIC_CUSTOM_ENGINE;
 	});
 
 	it('sets SSR global', () => {
-		// @ts-expect-error
+		// @ts-expect-error Allow delete
 		delete global.AESTHETIC_CUSTOM_ENGINE;
 
 		engine.extractStyles();

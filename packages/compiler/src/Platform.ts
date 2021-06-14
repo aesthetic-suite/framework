@@ -2,7 +2,7 @@ import { FONT_FAMILIES } from './constants';
 import { formatUnit } from './helpers';
 import { FormatType, PlatformType } from './types';
 
-export default abstract class Platform {
+export abstract class Platform {
 	readonly rootTextSize: number;
 
 	readonly spacingUnit: number;
@@ -16,7 +16,7 @@ export default abstract class Platform {
 	}
 
 	font(type: 'monospace' | 'system', platform?: PlatformType) {
-		return FONT_FAMILIES[`${platform || this.format.split('-')[0]}-${type}` as 'web-system'];
+		return FONT_FAMILIES[`${platform ?? this.format.split('-')[0]}-${type}` as 'web-system'];
 	}
 
 	number(value: number): number {

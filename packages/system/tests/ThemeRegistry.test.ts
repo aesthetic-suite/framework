@@ -4,7 +4,7 @@ import { darkTheme, lightTheme } from '../src/test';
 
 describe('ThemeRegistry', () => {
 	let registry: ThemeRegistry<Rule>;
-	let mediaMocks: { [query: string]: boolean } = {};
+	let mediaMocks: Record<string, boolean> = {};
 
 	const matchColorScheme = (query: string) =>
 		mediaMocks[`(prefers-color-scheme: ${query})`] || false;
@@ -150,7 +150,7 @@ describe('ThemeRegistry', () => {
 			expect(() => {
 				registry.register(
 					'test',
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					{},
 				);
 			}).toThrow('Only a `Theme` object can be registered.');

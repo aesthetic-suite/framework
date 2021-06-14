@@ -59,7 +59,7 @@ describe('Aesthetic', () => {
 		beforeEach(() => {
 			setupAesthetic(aesthetic);
 
-			// @ts-expect-error
+			// @ts-expect-error Allow access
 			aesthetic.activeDirection.reset();
 		});
 
@@ -157,7 +157,7 @@ describe('Aesthetic', () => {
 		it('applies root css variables if `rootVariables` is true', () => {
 			const spy = jest.spyOn(aesthetic.getEngine(), 'setRootVariables');
 
-			// @ts-expect-error
+			// @ts-expect-error Allow access
 			aesthetic.options.rootVariables = true;
 			aesthetic.changeTheme('night');
 
@@ -386,7 +386,7 @@ describe('Aesthetic', () => {
 
 	describe('getActiveDirection()', () => {
 		beforeEach(() => {
-			// @ts-expect-error
+			// @ts-expect-error Allow access
 			aesthetic.activeDirection.reset();
 		});
 
@@ -511,7 +511,7 @@ describe('Aesthetic', () => {
 				aesthetic.registerTheme(
 					'day',
 					lightTheme,
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					123,
 				);
 			}).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
@@ -521,7 +521,7 @@ describe('Aesthetic', () => {
 	describe('getEngine()', () => {
 		it('errors if not defined', () => {
 			expect(() => {
-				// @ts-expect-error
+				// @ts-expect-error Allow access
 				aesthetic.styleEngine.reset();
 				aesthetic.getEngine();
 			}).toThrow('No style engine defined. Have you configured one with `configureEngine()`?');
@@ -573,7 +573,7 @@ describe('Aesthetic', () => {
 		it('errors if sheet is not a `LocalSheet` instance', () => {
 			expect(() => {
 				aesthetic.renderComponentStyles(
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					123,
 				);
 			}).toThrow('Rendering component styles require a `LocalSheet` instance.');

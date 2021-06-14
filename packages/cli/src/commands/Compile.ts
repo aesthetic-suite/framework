@@ -11,7 +11,7 @@ export interface CompileOptions extends GlobalOptions {
 export type CompileParams = [string, string];
 
 @Config('compile', 'Compile a design system configuration into a platform specific format')
-export default class Compile extends Command<CompileOptions, CompileParams> {
+export class Compile extends Command<CompileOptions, CompileParams> {
 	@Arg.String('Current working directory')
 	cwd: string = CWD;
 

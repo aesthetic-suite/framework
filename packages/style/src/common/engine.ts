@@ -68,7 +68,7 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
 		return CHARS[index];
 	}
 
-	return CHARS[index % CHARS_LENGTH] + Math.floor(index / CHARS_LENGTH);
+	return CHARS[index % CHARS_LENGTH] + String(Math.floor(index / CHARS_LENGTH));
 }
 
 function insertAtRule(
@@ -101,7 +101,7 @@ function insertStyles(
 
 	if (!item) {
 		// Generate class name and format CSS rule with class name
-		const className = options.className || generateClassName(cacheKey, options, engine);
+		const className = options.className ?? generateClassName(cacheKey, options, engine);
 		const css = render(className);
 
 		// Insert rule and return a rank (insert index)
@@ -269,6 +269,7 @@ function renderAtRules(
 				options.selector = '';
 			}
 
+			// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 			options.selector += selector.trim();
 			className += render(engine, nestedRule, options).result + ' ';
 			options.selector = originalSelector;
@@ -286,12 +287,10 @@ function renderAtRules(
 	});
 
 	objectLoop(rule['@variants'], (nestedRule, variant) => {
-		if (__DEV__) {
-			if (!VARIANT_COMBO_PATTERN.test(variant)) {
-				throw new Error(
-					`Invalid variant "${variant}". Type and enumeration must be separated with a ":", and each part may only contain a-z, 0-9, -, _.`,
-				);
-			}
+		if (__DEV__ && !VARIANT_COMBO_PATTERN.test(variant)) {
+			throw new Error(
+				`Invalid variant "${variant}". Type and enumeration must be separated with a ":", and each part may only contain a-z, 0-9, -, _.`,
+			);
 		}
 
 		options.className = undefined;
@@ -404,17 +403,17 @@ export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
 		...engineOptions,
 		prefersColorScheme: () => false,
 		prefersContrastLevel: () => false,
-		renderDeclaration: (property, value, options) =>
-			renderDeclaration(engine, property, value, options || renderOptions),
-		renderFontFace: (fontFace, options) =>
-			renderFontFace(engine, fontFace, options || renderOptions),
-		renderImport: (path, options) => renderImport(engine, path, options || renderOptions),
-		renderKeyframes: (keyframes, animationName, options) =>
-			renderKeyframes(engine, keyframes, animationName || '', options || renderOptions),
-		renderRule: (rule, options) => renderRule(engine, rule, options || renderOptions),
-		renderRuleGrouped: (rule, options) => renderRuleGrouped(engine, rule, options || renderOptions),
-		renderVariable: (name, value, options) =>
-			renderVariable(engine, name, value, options || renderOptions),
+		renderDeclaration: (property, value, options = renderOptions) =>
+			renderDeclaration(engine, property, value, options),
+		renderFontFace: (fontFace, options = renderOptions) =>
+			renderFontFace(engine, fontFace, options),
+		renderImport: (path, options = renderOptions) => renderImport(engine, path, options),
+		renderKeyframes: (keyframes, animationName = '', options = renderOptions) =>
+			renderKeyframes(engine, keyframes, animationName, options),
+		renderRule: (rule, options = renderOptions) => renderRule(engine, rule, options),
+		renderRuleGrouped: (rule, options = renderOptions) => renderRuleGrouped(engine, rule, options),
+		renderVariable: (name, value, options = renderOptions) =>
+			renderVariable(engine, name, value, options),
 		setDirection: noop,
 		setRootVariables: noop,
 		setTheme: noop,

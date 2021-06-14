@@ -46,7 +46,7 @@ describe('GlobalSheet', () => {
 			() =>
 				new StyleSheet(
 					'global',
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					123,
 				),
 		).toThrow('A style sheet factory function is required, found "number".');
@@ -158,21 +158,21 @@ describe('GlobalSheet', () => {
 	describe('overrides', () => {
 		it('errors when adding color scheme overrides', () => {
 			expect(() => {
-				// @ts-expect-error
+				// @ts-expect-error Allow access
 				sheet.addColorSchemeOverride('unknown', () => ({}));
 			}).toThrow('Color scheme overrides are only supported by local style sheets.');
 		});
 
 		it('errors when adding contrast level overrides', () => {
 			expect(() => {
-				// @ts-expect-error
+				// @ts-expect-error Allow access
 				sheet.addContrastOverride('unknown', () => ({}));
 			}).toThrow('Contrast level overrides are only supported by local style sheets.');
 		});
 
 		it('errors when adding theme overrides', () => {
 			expect(() => {
-				// @ts-expect-error
+				// @ts-expect-error Allow access
 				sheet.addThemeOverride('unknown', () => ({}));
 			}).toThrow('Theme overrides are only supported by local style sheets.');
 		});

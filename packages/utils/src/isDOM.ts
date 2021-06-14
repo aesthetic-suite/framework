@@ -1,6 +1,6 @@
 let cache: boolean | null = null;
 
-export default function isDOM(): boolean {
+export function isDOM(): boolean {
 	if (process.env.AESTHETIC_SSR) {
 		return false;
 	}

@@ -1,20 +1,20 @@
 import { ThemeRegistry } from '@aesthetic/system';
 import { darkTheme, design, lightTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
-import { Aesthetic, AestheticOptions, EventListener, EventType, GlobalSheet } from './index';
+import { Aesthetic, AestheticOptions, EventListener, EventType, GlobalSheet } from '.';
 
 export { darkTheme, design, lightTheme };
 
 export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
-	// @ts-expect-error
+	// @ts-expect-error Allow access
 	aesthetic.activeDirection.reset();
-	// @ts-expect-error
+	// @ts-expect-error Allow access
 	aesthetic.activeTheme.reset();
-	// @ts-expect-error
+	// @ts-expect-error Allow access
 	aesthetic.listeners.clear();
-	// @ts-expect-error
+	// @ts-expect-error Allow access
 	aesthetic.globalSheetRegistry.clear();
-	// @ts-expect-error
+	// @ts-expect-error Allow access
 	aesthetic.themeRegistry.reset();
 
 	aesthetic.configure({
@@ -35,17 +35,17 @@ export function getAestheticState(aesthetic: Aesthetic<any, any>): {
 	themeRegistry: ThemeRegistry<any>;
 } {
 	return {
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		activeDirection: aesthetic.activeDirection.get(),
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		activeTheme: aesthetic.activeTheme.get(),
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		globalSheetRegistry: aesthetic.globalSheetRegistry,
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		listeners: aesthetic.listeners,
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		options: aesthetic.options,
-		// @ts-expect-error
+		// @ts-expect-error Allow access
 		themeRegistry: aesthetic.themeRegistry,
 	};
 }

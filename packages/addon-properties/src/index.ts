@@ -58,7 +58,7 @@ function handleCompound(property: 'animationName' | 'fontFamily') {
 			return '';
 		});
 
-		const name = Array.from(new Set(items)).filter(Boolean).join(', ');
+		const name = [...new Set(items)].filter(Boolean).join(', ');
 
 		if (name) {
 			add(property, name);

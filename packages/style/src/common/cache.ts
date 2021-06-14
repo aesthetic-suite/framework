@@ -5,7 +5,7 @@ export function createCacheKey(
 	value: unknown,
 	{ media = '', selector = '', supports = '' }: RenderOptions,
 ): string {
-	return supports + media + selector + property + value;
+	return supports + media + selector + property + String(value);
 }
 
 export function createCacheManager(defaultItems: CacheState = {}): CacheManager {
@@ -17,11 +17,13 @@ export function createCacheManager(defaultItems: CacheState = {}): CacheManager 
 
 			if (!items) {
 				return null;
-			} else if (minimumRank === undefined) {
+			}
+
+			if (minimumRank === undefined) {
 				return items[0];
 			}
 
-			return items.find((item) => item.rank! >= minimumRank) || null;
+			return items.find((item) => item.rank! >= minimumRank) ?? null;
 		},
 
 		write(key: string, item: CacheItem) {

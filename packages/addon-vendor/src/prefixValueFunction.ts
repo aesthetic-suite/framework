@@ -1,8 +1,8 @@
 import { arrayLoop, objectLoop } from '@aesthetic/utils';
-import getPrefixesFromMask from './getPrefixesFromMask';
+import { getPrefixesFromMask } from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
-export default function prefixValueFunction(value: string, functions: PrefixMap): string[] {
+export function prefixValueFunction(value: string, functions: PrefixMap): string[] {
 	const nextValue: string[] = [];
 
 	objectLoop(functions, (mask, func) => {

@@ -13,7 +13,7 @@ import {
 	UnitFactory,
 	VendorPrefixer,
 } from '@aesthetic/types';
-import StyleSheet from './StyleSheet';
+import type { StyleSheet } from './StyleSheet';
 
 // RENDER RESULT
 
@@ -35,9 +35,9 @@ export type ResultComposerVariants = Record<string, number | string | false | un
 
 // API consumers interact with (cx, etc)
 export interface ResultComposer<Keys, Result, GeneratedResult = Result> {
-	result: RenderResultSheet<Result>;
 	(variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
 	(...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
+	result: RenderResultSheet<Result>;
 }
 
 // Called from the composer to generate a final result

@@ -18,13 +18,13 @@ function createCacheKey(params: Required<SheetParams>, type: string): string | n
 	// Since all other values are scalars, we can just join the values.
 	// This is 3x faster than JSON.stringify(), and 1.5x faster than Object.values()!
 	objectLoop(params, (value) => {
-		key += value;
+		key += String(value);
 	});
 
 	return key;
 }
 
-export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
+export class StyleSheet<Result, Factory extends BaseSheetFactory> {
 	readonly type: 'global' | 'local';
 
 	protected contrastOverrides: { [K in ContrastLevel]?: Factory } = {};
@@ -75,10 +75,8 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 	}
 
 	addThemeOverride(theme: string, factory: Factory): this {
-		if (__DEV__) {
-			if (this.type !== 'local') {
-				throw new Error('Theme overrides are only supported by local style sheets.');
-			}
+		if (__DEV__ && this.type !== 'local') {
+			throw new Error('Theme overrides are only supported by local style sheets.');
 		}
 
 		this.themeOverrides[theme] = this.validateFactory(factory);
@@ -150,7 +148,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 				? this.parseGlobal(engine, styles, renderOptions)
 				: this.parseLocal(
 						engine,
-						// @ts-expect-error
+						// @ts-expect-error Be explicit later
 						styles,
 						renderOptions,
 				  );
@@ -208,7 +206,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
 			const meta = (resultSheet[selector] ||= {});
 
 			// At-rule
-			if (selector[0] === '@') {
+			if (selector.startsWith('@')) {
 				if (__DEV__) {
 					throw new SyntaxError(
 						`At-rules may not be defined at the root of a style sheet, found "${selector}".`,

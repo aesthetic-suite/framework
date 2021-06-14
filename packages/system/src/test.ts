@@ -1,4 +1,4 @@
-import { Design, Theme } from './index';
+import { Design, Theme } from '.';
 
 export const design = new Design<any>('test-design', {
 	border: {

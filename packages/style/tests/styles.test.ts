@@ -643,9 +643,9 @@ describe('Engine', () => {
 			const spy = jest.spyOn(console, 'warn').mockImplementation();
 
 			const className = engine.renderRule({
-				// @ts-expect-error
+				// @ts-expect-error Invalid type
 				margin: true,
-				// @ts-expect-error
+				// @ts-expect-error Invalid type
 				padding: null,
 				color: undefined,
 			});
@@ -660,7 +660,7 @@ describe('Engine', () => {
 			const spy = jest.spyOn(console, 'warn').mockImplementation();
 
 			engine.renderRule({
-				// @ts-expect-error
+				// @ts-expect-error Invalid type
 				color: true,
 			});
 
@@ -675,7 +675,7 @@ describe('Engine', () => {
 
 			engine.renderRule({
 				background: 'white',
-				// @ts-expect-error
+				// @ts-expect-error Invalid type
 				'$ what is this': {
 					background: 'black',
 				},
@@ -1389,7 +1389,7 @@ describe('Engine', () => {
 
 			engine.renderRuleGrouped({
 				background: 'white',
-				// @ts-expect-error
+				// @ts-expect-error Invalid type
 				'$ what is this': {
 					background: 'black',
 				},

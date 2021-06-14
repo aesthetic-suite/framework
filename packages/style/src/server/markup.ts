@@ -1,7 +1,8 @@
 import { Sheet, SheetType } from '@aesthetic/types';
 import { nonce, objectReduce } from '@aesthetic/utils';
+
 // Rollup compatibility
-import { formatVariableBlock, StyleEngine } from '../index';
+import { formatVariableBlock, StyleEngine } from '..';
 
 export function extractCssFromSheet(sheet: Sheet): string {
 	let css = '';

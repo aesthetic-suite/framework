@@ -46,7 +46,7 @@ export function formatValue(
 		suffix = typeof unitSuffixer === 'function' ? unitSuffixer(property) : unitSuffixer;
 	}
 
-	return String(value) + (suffix || 'px');
+	return String(value) + (suffix ?? 'px');
 }
 
 export function formatDeclaration(key: string, value: Value | Value[]): CSS {

@@ -1,5 +1,6 @@
 import { EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
+import { createSheetManager, TransientSheet } from './server/sheet';
 // Rollup compatibility
 import {
 	createCacheManager,
@@ -7,8 +8,7 @@ import {
 	formatVariable,
 	ServerStyleEngine,
 	StyleEngine,
-} from './index';
-import { createSheetManager, TransientSheet } from './server/sheet';
+} from '.';
 
 export * from './server/markup';
 
@@ -38,7 +38,7 @@ export function createServerEngine(options: Partial<EngineOptions> = {}): Server
 		...options,
 	}) as ServerStyleEngine;
 
-	engine.setRootVariables = (vars) => setRootVariables(engine, vars);
+	engine.setRootVariables = (vars) => void setRootVariables(engine, vars);
 	engine.extractStyles = (result) => extractStyles(engine, result);
 
 	return engine;

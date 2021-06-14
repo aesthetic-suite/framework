@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-
 // eslint-disable-next-line import/no-unresolved
 import CSSType from 'csstype';
 

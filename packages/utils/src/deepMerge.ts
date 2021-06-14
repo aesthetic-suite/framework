@@ -1,8 +1,8 @@
-/* eslint-disable no-param-reassign, no-use-before-define, @typescript-eslint/no-use-before-define */
+/* eslint-disable no-param-reassign, @typescript-eslint/no-use-before-define */
 
-import arrayLoop from './arrayLoop';
-import isObject from './isObject';
-import objectLoop from './objectLoop';
+import { arrayLoop } from './arrayLoop';
+import { isObject } from './isObject';
+import { objectLoop } from './objectLoop';
 
 export function merge(base: object, next: object): object {
 	objectLoop(next, (right, key) => {
@@ -16,7 +16,7 @@ export function merge(base: object, next: object): object {
 	return base;
 }
 
-export default function deepMerge<T = object>(...objects: unknown[]): T {
+export function deepMerge<T = object>(...objects: unknown[]): T {
 	if (objects.length === 1) {
 		return objects[0] as T;
 	}

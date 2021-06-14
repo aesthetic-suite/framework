@@ -41,8 +41,8 @@ function setTheme(classNames: string[]) {
 }
 
 export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
-	const direction = (document.documentElement.getAttribute('dir') ||
-		document.body.getAttribute('dir') ||
+	const direction = (document.documentElement.getAttribute('dir') ??
+		document.body.getAttribute('dir') ??
 		'ltr') as Direction;
 
 	const engine: StyleEngine = createStyleEngine({

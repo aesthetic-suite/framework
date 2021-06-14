@@ -25,7 +25,7 @@ import {
 	SHADE_TEXT,
 	THEMES_FILE,
 } from './constants';
-import Loader from './Loader';
+import { Loader } from './Loader';
 import {
 	ColorConfig,
 	ColorName,
@@ -45,7 +45,7 @@ function hexcode() {
 		.required();
 }
 
-export default class ThemesLoader extends Loader<ThemesConfigFile> {
+export class ThemesLoader extends Loader<ThemesConfigFile> {
 	colorNames: string[];
 
 	constructor(colorNames: string[]) {
@@ -213,13 +213,11 @@ export default class ThemesLoader extends Loader<ThemesConfigFile> {
 		});
 
 		if (names.size > 0) {
-			throw new Error(
-				`Theme has not implemented the following colors: ${Array.from(names).join(', ')}`,
-			);
+			throw new Error(`Theme has not implemented the following colors: ${[...names].join(', ')}`);
 		}
 
 		if (unknown.size > 0) {
-			throw new Error(`Theme is using unknown colors: ${Array.from(unknown).join(', ')}`);
+			throw new Error(`Theme is using unknown colors: ${[...unknown].join(', ')}`);
 		}
 	};
 }

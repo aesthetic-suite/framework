@@ -3,8 +3,8 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import prefix from './prefix';
-import prefixSelector from './prefixSelector';
+import { prefix } from './prefix';
+import { prefixSelector } from './prefixSelector';
 
 export default {
 	prefix,

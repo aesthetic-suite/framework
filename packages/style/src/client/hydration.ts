@@ -1,5 +1,3 @@
-/* eslint-disable require-unicode-regexp */
-
 import { arrayLoop, joinQueries } from '@aesthetic/utils';
 import { createCacheKey } from '../common/cache';
 import {
@@ -12,7 +10,7 @@ import {
 } from '../common/constants';
 import { StyleEngine } from '../types';
 
-// eslint-disable-next-line
+// eslint-disable-next-line unicorn/better-regex, unicorn/no-unsafe-regex
 const RULE_PATTERN = /^\.(\w+)((?::|\[|>|~|\+|\*)[^{]+)?\s*\{\s*([^:]+):\s*([^}]+)\s*\}$/i;
 const FONT_FAMILY = /font-family:([^;]+)/;
 const IMPORT_URL = /url\(["']?([^)]+)["']?\)/;
@@ -92,20 +90,35 @@ function hydrate(engine: StyleEngine, sheet: CSSStyleSheet) {
 		const css = rule.cssText;
 		let cacheKey = '';
 
-		if (rule.type === FONT_FACE_RULE) {
-			const fontFamilyName = css.match(FONT_FAMILY);
+		switch (rule.type) {
+			case FONT_FACE_RULE: {
+				const fontFamilyName = css.match(FONT_FAMILY);
 
-			if (fontFamilyName) {
-				cacheKey = fontFamilyName[1].trim();
-			}
-		} else if (rule.type === KEYFRAMES_RULE) {
-			cacheKey = css.slice(0, css.indexOf('{')).replace('@keyframes', '').trim();
-		} else if (rule.type === IMPORT_RULE) {
-			const importPath = css.match(IMPORT_URL);
+				if (fontFamilyName) {
+					cacheKey = fontFamilyName[1].trim();
+				}
 
-			if (importPath) {
-				[cacheKey] = importPath;
+				break;
 			}
+
+			case KEYFRAMES_RULE: {
+				cacheKey = css.slice(0, css.indexOf('{')).replace('@keyframes', '').trim();
+
+				break;
+			}
+
+			case IMPORT_RULE: {
+				const importPath = css.match(IMPORT_URL);
+
+				if (importPath) {
+					[cacheKey] = importPath;
+				}
+
+				break;
+			}
+
+			default:
+				break;
 		}
 
 		if (cacheKey) {

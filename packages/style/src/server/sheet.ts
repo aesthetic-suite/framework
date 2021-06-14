@@ -1,6 +1,7 @@
 import sortMediaQueries from 'sort-css-media-queries';
 import { CSS, Sheet, SheetManager, SheetMap, VariablesMap } from '@aesthetic/types';
 import { arrayLoop, arrayReduce } from '@aesthetic/utils';
+
 // Rollup compatibility
 import {
 	FONT_FACE_RULE,
@@ -14,7 +15,7 @@ import {
 	MEDIA_RULE,
 	STYLE_RULE,
 	SUPPORTS_RULE,
-} from '../index';
+} from '..';
 
 export interface ServerSheetManager extends SheetManager {
 	featureQueries: Record<string, Sheet>;
@@ -74,13 +75,17 @@ export class TransientSheet implements Sheet {
 
 		if (rule.startsWith('@media')) {
 			return MEDIA_RULE;
-		} else if (rule.startsWith('@supports')) {
+		}
+		if (rule.startsWith('@supports')) {
 			return SUPPORTS_RULE;
-		} else if (rule.startsWith('@font-face')) {
+		}
+		if (rule.startsWith('@font-face')) {
 			return FONT_FACE_RULE;
-		} else if (rule.startsWith('@keyframes')) {
+		}
+		if (rule.startsWith('@keyframes')) {
 			return KEYFRAMES_RULE;
-		} else if (rule.startsWith('@import')) {
+		}
+		if (rule.startsWith('@import')) {
 			return IMPORT_RULE;
 		}
 
@@ -89,6 +94,7 @@ export class TransientSheet implements Sheet {
 }
 
 function findNestedRule(sheet: Sheet, query: string, type: number): Sheet | null {
+	// eslint-disable-next-line @typescript-eslint/prefer-for-of
 	for (let i = 0; i < sheet.cssRules.length; i += 1) {
 		const child = sheet.cssRules[i];
 
@@ -137,7 +143,7 @@ function insertMediaRule(
 	}
 
 	// Sort and determine the index in which to insert a new query
-	const sortedQueries = Object.keys(manager.mediaQueries).concat(query).sort(sortMediaQueries);
+	const sortedQueries = [...Object.keys(manager.mediaQueries), query].sort(sortMediaQueries);
 	const index = sortedQueries.indexOf(query);
 
 	insertRule(sheet, formattedRule, index);
@@ -186,14 +192,15 @@ export function createSheetManager(sheets: SheetMap): ServerSheetManager {
 		featureQueries: {},
 		insertRule(rule, options, index) {
 			const sheet =
-				sheets[options.type || (options.media || options.supports ? 'conditions' : 'standard')];
+				sheets[options.type ?? (options.media || options.supports ? 'conditions' : 'standard')];
 
 			// Imports highest precedence
 			if (isImportRule(rule)) {
 				return insertImportRule(sheet, rule);
+			}
 
-				// Media and feature queries require special treatment
-			} else if (options.media || options.supports) {
+			// Media and feature queries require special treatment
+			if (options.media || options.supports) {
 				const conditions: Condition[] = [];
 
 				if (options.supports) {
@@ -205,9 +212,10 @@ export function createSheetManager(sheets: SheetMap): ServerSheetManager {
 				}
 
 				return insertConditionRule(manager, sheet, rule, conditions);
+			}
 
-				// Font faces and keyframes lowest precedence
-			} else if (isAtRule(rule)) {
+			// Font faces and keyframes lowest precedence
+			if (isAtRule(rule)) {
 				return insertAtRule(sheet, rule);
 			}
 

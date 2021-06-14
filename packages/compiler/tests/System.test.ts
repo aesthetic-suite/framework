@@ -1,8 +1,8 @@
 import { Path } from '@boost/common';
 import { FONT_FAMILIES, SystemOptions } from '../src';
-import LanguageLoader from '../src/LanguageLoader';
-import SystemDesign from '../src/SystemDesign';
-import ThemesLoader from '../src/ThemesLoader';
+import { LanguageLoader } from '../src/LanguageLoader';
+import { SystemDesign } from '../src/SystemDesign';
+import { ThemesLoader } from '../src/ThemesLoader';
 
 describe('System', () => {
 	const options: SystemOptions = {

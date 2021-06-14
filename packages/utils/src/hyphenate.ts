@@ -6,13 +6,10 @@ function toLower(match: string): string {
 }
 
 function isPrefixed(value: string): boolean {
-	return (
-		// eslint-disable-next-line no-magic-numbers
-		value.slice(0, 2) === 'ms' || value.slice(0, 3) === 'moz' || value.slice(0, 6) === 'webkit'
-	);
+	return value.startsWith('ms') || value.startsWith('moz') || value.startsWith('webkit');
 }
 
-export default function hyphenate(value: string): string {
+export function hyphenate(value: string): string {
 	if (!cache[value]) {
 		let result = value.replace(CAMEL_CASE_PATTERN, toLower);
 

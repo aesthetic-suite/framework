@@ -1,4 +1,4 @@
-export default function arrayReduce<T>(
+export function arrayReduce<T>(
 	array: ArrayLike<T>,
 	callback: (item: T, index: number) => string,
 	initialValue: string = '',

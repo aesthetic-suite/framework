@@ -1,5 +1,3 @@
-/* eslint-disable no-use-before-define */
-
 import {
 	CSS,
 	FontFace,
@@ -161,7 +159,6 @@ export interface Engine<T> {
 }
 
 declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace NodeJS {
 		interface Global {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any

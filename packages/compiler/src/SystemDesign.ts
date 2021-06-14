@@ -1,6 +1,6 @@
 import { camelCase, kebabCase } from 'lodash';
 import { BREAKPOINT_SIZES, DEPTHS, FONT_FAMILIES, SCALES, SHADOW_SIZES } from './constants';
-import SystemTheme from './SystemTheme';
+import { SystemTheme } from './SystemTheme';
 import {
 	BorderTemplate,
 	BreakpointCondition,
@@ -35,7 +35,7 @@ export function quote(value: string): string {
 	return (value || '').replace(/'/gu, '"');
 }
 
-export default class SystemDesign {
+export class SystemDesign {
 	dashedName: string;
 
 	name: string;

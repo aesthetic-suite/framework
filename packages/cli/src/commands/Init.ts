@@ -11,7 +11,7 @@ export interface InitOptions extends GlobalOptions {
 export type InitParams = [string];
 
 @Config('init', 'Generate a design system configuration')
-export default class Init extends Command<InitOptions, InitParams> {
+export class Init extends Command<InitOptions, InitParams> {
 	@Arg.Flag('Generate a modular scale based configuration')
 	modularScale: boolean = false;
 
@@ -33,7 +33,7 @@ export default class Init extends Command<InitOptions, InitParams> {
 
 		this.log('Initialized design system to "%s/%s"', CONFIG_FOLDER, name);
 
-		// TODO Add enquirer integration and ask basic questions to inject into the yaml file
+		// TODO Add prompts integration and ask basic questions to inject into the yaml file
 	}
 
 	async createBrandConfig(configDir: Path, name: string) {

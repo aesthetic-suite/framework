@@ -1,12 +1,12 @@
 import { NativeProperty, PropertyPrefixes } from '@aesthetic/types';
 import { arrayLoop } from '@aesthetic/utils';
 import { declarationMapping } from './data';
-import getPrefixesFromMask from './getPrefixesFromMask';
-import isPrefixed from './isPrefixed';
-import prefixValue from './prefixValue';
-import prefixValueFunction from './prefixValueFunction';
+import { getPrefixesFromMask } from './getPrefixesFromMask';
+import { isPrefixed } from './isPrefixed';
+import { prefixValue } from './prefixValue';
+import { prefixValueFunction } from './prefixValueFunction';
 
-export default function prefix(property: NativeProperty, value: string): PropertyPrefixes {
+export function prefix(property: NativeProperty, value: string): PropertyPrefixes {
 	const map = declarationMapping[property];
 
 	if (!map || isPrefixed(property)) {

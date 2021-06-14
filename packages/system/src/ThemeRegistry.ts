@@ -1,8 +1,8 @@
 import { ColorScheme, ContrastLevel, ThemeName } from '@aesthetic/types';
-import Theme from './Theme';
+import { Theme } from './Theme';
 import { ThemeOptions } from './types';
 
-export default class ThemeRegistry<T extends object> {
+export class ThemeRegistry<T extends object> {
 	protected darkTheme: string = '';
 
 	protected defaultTheme: string = '';
@@ -69,7 +69,8 @@ export default class ThemeRegistry<T extends object> {
 
 		if (possibleTheme) {
 			return possibleTheme;
-		} else if (this.defaultTheme) {
+		}
+		if (this.defaultTheme) {
 			return this.getTheme(this.defaultTheme);
 		}
 
@@ -80,18 +81,14 @@ export default class ThemeRegistry<T extends object> {
 	 * Return a theme by name or throw an error if not found.
 	 */
 	getTheme(name: ThemeName): Theme<T> {
-		if (__DEV__) {
-			if (!name) {
-				throw new Error('Cannot find a theme without a name.');
-			}
+		if (__DEV__ && !name) {
+			throw new Error('Cannot find a theme without a name.');
 		}
 
 		const theme = this.themes[name];
 
-		if (__DEV__) {
-			if (!theme) {
-				throw new Error(`Theme "${name}" does not exist. Has it been registered?`);
-			}
+		if (__DEV__ && !theme) {
+			throw new Error(`Theme "${name}" does not exist. Has it been registered?`);
 		}
 
 		return theme;
@@ -112,7 +109,7 @@ export default class ThemeRegistry<T extends object> {
 				conditions.push(theme.scheme === params.scheme);
 			}
 
-			return conditions.every((c) => c === true);
+			return conditions.every((c) => !!c);
 		});
 	}
 
@@ -121,10 +118,8 @@ export default class ThemeRegistry<T extends object> {
 	 * as default for their defined color scheme.
 	 */
 	register(name: string, theme: Theme<T>, isDefault: boolean = false): this {
-		if (__DEV__) {
-			if (!(theme instanceof Theme)) {
-				throw new TypeError('Only a `Theme` object can be registered.');
-			}
+		if (__DEV__ && !(theme instanceof Theme)) {
+			throw new TypeError('Only a `Theme` object can be registered.');
 		}
 
 		if (isDefault) {

@@ -3,10 +3,10 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import Design from './Design';
+import { Design } from './Design';
 import * as mixin from './mixins';
-import Theme from './Theme';
-import ThemeRegistry from './ThemeRegistry';
+import { Theme } from './Theme';
+import { ThemeRegistry } from './ThemeRegistry';
 
 export * from './constants';
 export * from './types';

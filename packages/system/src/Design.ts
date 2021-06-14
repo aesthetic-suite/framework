@@ -1,9 +1,9 @@
 import { deepMerge } from '@aesthetic/utils';
 import { DEPTHS } from './constants';
-import Theme from './Theme';
+import { Theme } from './Theme';
 import { DeepPartial, DesignTokens, ThemeOptions, ThemeTokens } from './types';
 
-export default class Design<T extends object> {
+export class Design<T extends object> {
 	readonly name: string;
 
 	readonly rootLineHeight: number;

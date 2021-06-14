@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, lines-between-class-members, no-dupe-class-members */
+/* eslint-disable no-param-reassign */
 
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import {
@@ -13,7 +13,7 @@ import {
   ThemeName,
 } from '@aesthetic/types';
 import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
-import StyleSheet from './StyleSheet';
+import { StyleSheet } from './StyleSheet';
 import {
   AestheticOptions,
   EventListener,
@@ -29,7 +29,7 @@ import {
   SheetParams,
 } from './types';
 
-export default class Aesthetic<Result = ClassName, Block extends object = Rule> {
+export class Aesthetic<Result = ClassName, Block extends object = Rule> {
   protected activeDirection = createState<Direction>();
 
   protected activeTheme = createState<ThemeName>();
@@ -169,10 +169,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
    */
   createElementStyles = (factory: Block | LocalSheetElementFactory<Block>) =>
     this.createComponentStyles((utils) => ({
-      element:
-        typeof factory === 'function'
-          ? (factory as LocalSheetElementFactory<Block>)(utils)
-          : factory,
+      element: typeof factory === 'function' ? factory(utils) : factory,
     }));
 
   /**
@@ -291,7 +288,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
    * Return a set of listeners, or create it if it does not exist.
    */
   getListeners = <T extends Function>(type: EventType): Set<T> => {
-    const set = this.listeners.get(type) || new Set();
+    const set = this.listeners.get(type) ?? new Set();
 
     this.listeners.set(type, set);
 
@@ -315,10 +312,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
     this.themeRegistry.register(name, theme, isDefault);
 
     if (sheet) {
-      if (__DEV__) {
-        if (!(sheet instanceof StyleSheet) || sheet.type !== 'global') {
-          throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
-        }
+      if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'global')) {
+        throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
       }
 
       this.globalSheetRegistry.set(name, sheet);
@@ -343,10 +338,8 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
     sheet: LocalSheet<T, Block, Result>,
     params: SheetParams = {},
   ) => {
-    if (__DEV__) {
-      if (!(sheet instanceof StyleSheet) || sheet.type !== 'local') {
-        throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
-      }
+    if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'local')) {
+      throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
     }
 
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();

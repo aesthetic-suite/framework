@@ -4,7 +4,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Compiler, FormatType, PlatformType } from '../../src';
 
-export default function runTargetTests(
+// eslint-disable-next-line jest/no-export
+export function runTargetTests(
 	platform: PlatformType,
 	format: FormatType,
 	// Alternate testing fixed and scaled configs

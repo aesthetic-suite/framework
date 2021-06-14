@@ -5,11 +5,13 @@ export function createSheetManager(sheets: SheetMap): SheetManager {
 	return {
 		insertRule(rule, options, index) {
 			const sheet =
-				sheets[options.type || (options.media || options.supports ? 'conditions' : 'standard')];
+				sheets[options.type ?? (options.media || options.supports ? 'conditions' : 'standard')];
 
 			if (isImportRule(rule)) {
 				return insertImportRule(sheet, rule);
-			} else if (isAtRule(rule)) {
+			}
+
+			if (isAtRule(rule)) {
 				return insertAtRule(sheet, rule);
 			}
 

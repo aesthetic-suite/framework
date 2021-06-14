@@ -1,4 +1,4 @@
-import objectCreate from '../src/objectCreate';
+import { objectCreate } from '../src/objectCreate';
 
 describe('objectCreate()', () => {
 	it('returns an object from a list of keys', () => {

@@ -1,7 +1,7 @@
-import arrayReduce from './arrayReduce';
+import { arrayReduce } from './arrayReduce';
 import { StringKey } from './types';
 
-export default function objectReduce<T extends object, K extends keyof T>(
+export function objectReduce<T extends object, K extends keyof T>(
 	object: T,
 	callback: (value: T[K], key: StringKey<K>) => string,
 	initialValue: string = '',

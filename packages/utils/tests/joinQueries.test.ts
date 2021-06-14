@@ -1,4 +1,4 @@
-import joinQueries from '../src/joinQueries';
+import { joinQueries } from '../src/joinQueries';
 
 describe('joinQueries()', () => {
 	it('returns next if prev is undefined', () => {

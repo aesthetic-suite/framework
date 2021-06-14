@@ -1,4 +1,4 @@
-export default function joinQueries(prev: string | undefined, next: string): string {
+export function joinQueries(prev: string | undefined, next: string): string {
 	if (prev && next) {
 		if (prev.includes(next)) {
 			return prev;

@@ -19,7 +19,7 @@ import {
 	PLATFORM_CONFIGS,
 	SCALES,
 } from './constants';
-import Loader from './Loader';
+import { Loader } from './Loader';
 import {
 	BorderConfig,
 	BorderScaledConfig,
@@ -55,7 +55,7 @@ function unit(defaultValue: number) {
 	return number(defaultValue);
 }
 
-export default class LanguageLoader extends Loader<LanguageConfigFile> {
+export class LanguageLoader extends Loader<LanguageConfigFile> {
 	platform: PlatformType;
 
 	constructor(platform: PlatformType) {
@@ -209,7 +209,6 @@ export default class LanguageLoader extends Loader<LanguageConfigFile> {
 						text: string('system'),
 						heading: string('system'),
 						monospace: string(),
-						// eslint-disable-next-line react/forbid-prop-types
 						locale: object(string()),
 					}).exact(),
 				],

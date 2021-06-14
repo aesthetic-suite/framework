@@ -72,7 +72,7 @@ describe('Compiler', () => {
 			expect(
 				() =>
 					new Compiler(CONFIG_PATH, './unknown-target', {
-						// @ts-expect-error
+						// @ts-expect-error Invalid platform
 						platform: 'osx',
 						format: 'web-jsx',
 					}),
@@ -84,7 +84,7 @@ describe('Compiler', () => {
 				() =>
 					new Compiler(CONFIG_PATH, './unknown-target', {
 						platform: 'web',
-						// @ts-expect-error
+						// @ts-expect-error Invalid format
 						format: 'unknown',
 					}),
 			).toThrowErrorMatchingSnapshot();

@@ -1,7 +1,7 @@
-import getPrefixesFromMask from './getPrefixesFromMask';
+import { getPrefixesFromMask } from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
-export default function prefixValue(value: string, values: PrefixMap): string[] {
+export function prefixValue(value: string, values: PrefixMap): string[] {
 	const mask = values[value];
 
 	if (!mask) {

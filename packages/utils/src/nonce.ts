@@ -1,7 +1,7 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable camelcase, no-underscore-dangle */
 
 declare const __webpack_nonce__: string;
 
-export default function nonce(): string | undefined {
+export function nonce(): string | undefined {
 	return typeof __webpack_nonce__ === 'undefined' ? undefined : __webpack_nonce__;
 }

@@ -81,7 +81,7 @@ describe('LocalSheet', () => {
 			() =>
 				new StyleSheet(
 					'local',
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					123,
 				),
 		).toThrow('A style sheet factory function is required, found "number".');
@@ -192,7 +192,7 @@ describe('LocalSheet', () => {
 		it('errors for invalid color scheme name', () => {
 			expect(() => {
 				sheet.addColorSchemeOverride(
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					'unknown',
 					() => ({}),
 				);
@@ -202,7 +202,7 @@ describe('LocalSheet', () => {
 		it('errors for invalid contrast name', () => {
 			expect(() => {
 				sheet.addContrastOverride(
-					// @ts-expect-error
+					// @ts-expect-error Invalid type
 					'unknown',
 					() => ({}),
 				);

@@ -1,3 +1,3 @@
-import runTargetTests from './runTargetTests';
+import { runTargetTests } from './runTargetTests';
 
 runTargetTests('native', 'native-js', true);

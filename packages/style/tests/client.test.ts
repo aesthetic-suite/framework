@@ -9,9 +9,9 @@ function createStyle(type: SheetType, lastIndex: number) {
 	style.type = 'text/css';
 	style.media = 'screen';
 	style.setAttribute('id', `aesthetic-${type}`);
-	style.setAttribute('data-aesthetic-hydrate-index', String(lastIndex));
-	style.setAttribute('data-aesthetic-rule-index', '21');
-	style.setAttribute('data-aesthetic-type', type);
+	style.dataset.aestheticHydrateIndex = String(lastIndex);
+	style.dataset.aestheticRuleIndex = '21';
+	style.dataset.aestheticType = type;
 
 	document.head.append(style);
 

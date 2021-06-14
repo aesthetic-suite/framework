@@ -4,7 +4,7 @@ const WEBKIT = 1;
 const MOZ = 2;
 const MS = 4;
 
-export default function getPrefixesFromMask(mask: number = 0): string[] {
+export function getPrefixesFromMask(mask: number = 0): string[] {
 	const prefixes: string[] = [];
 
 	if (mask & MS) {

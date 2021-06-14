@@ -1,4 +1,4 @@
-import hyphenate from '../src/hyphenate';
+import { hyphenate } from '../src/hyphenate';
 
 describe('hyphenate()', () => {
 	it('converts camel cased strings', () => {

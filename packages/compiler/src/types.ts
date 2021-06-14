@@ -138,7 +138,7 @@ export interface SpacingConfig {
 export interface FontConfig {
 	text: string;
 	heading: string;
-	locale: { [locale: string]: string };
+	locale: Record<string, string>;
 	monospace: string;
 }
 
@@ -242,7 +242,7 @@ export interface BrandConfigFile extends ConfigFile {
 export interface LanguageConfigFile extends DesignConfig, ConfigFile {}
 
 export interface ThemesConfigFile<ColorNames extends string = string> extends ConfigFile {
-	themes: { [name: string]: ThemeConfig<ColorNames> };
+	themes: Record<string, ThemeConfig<ColorNames>>;
 }
 
 // CONFIG FILE -> TOKENS TEMPLATE
@@ -304,7 +304,7 @@ export interface DesignTemplate {
 	typography: {
 		font: {
 			heading: string;
-			locale: { [locale: string]: string };
+			locale: Record<string, string>;
 			monospace: string;
 			text: string;
 			system: string;
