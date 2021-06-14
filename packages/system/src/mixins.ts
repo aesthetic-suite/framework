@@ -105,10 +105,8 @@ export function root(css: Utilities<object>) {
   // Fluid typography!
   objectLoop(css.tokens.breakpoint, (bp, size) => {
     (declaration['@media'] as Record<string, object>)[bp.query] = {
-      fontSize: css.var(`breakpoint-${size}-root-text-size` as 'breakpoint-md-root-text-size'),
-      lineHeight: css.var(
-        `breakpoint-${size}-root-line-height` as 'breakpoint-md-root-line-height',
-      ),
+      fontSize: css.var(`breakpoint-${size}-root-text-size`),
+      lineHeight: css.var(`breakpoint-${size}-root-line-height`),
     };
   });
 

@@ -101,14 +101,14 @@ function handleExpandedSpacing(property: 'margin' | 'padding') {
     }
 
     if (value.topBottom) {
-      add(`${property}Top` as 'paddingTop', value.topBottom);
-      add(`${property}Bottom` as 'paddingBottom', value.topBottom);
+      add(`${property}Top`, value.topBottom);
+      add(`${property}Bottom`, value.topBottom);
       value.topBottom = undefined;
     }
 
     if (value.leftRight) {
-      add(`${property}Left` as 'paddingLeft', value.leftRight);
-      add(`${property}Right` as 'paddingRight', value.leftRight);
+      add(`${property}Left`, value.leftRight);
+      add(`${property}Right`, value.leftRight);
       value.leftRight = undefined;
     }
 

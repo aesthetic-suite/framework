@@ -15,7 +15,7 @@
     "lint": "beemo eslint",
     "test": "beemo jest",
     "coverage": "yarn run test --coverage",
-    "type": "beemo typescript --build --reference-workspaces",
+    "type": "beemo typescript --build",
     "release": "lerna publish",
     "prerelease": "yarn run pack && yarn test"
   },
