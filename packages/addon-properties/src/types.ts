@@ -1,8 +1,6 @@
 // Module augmentation
-import '@aesthetic/sss';
-// eslint-disable-next-line import/no-unresolved
-import CSSType from 'csstype';
-import { Value } from '@aesthetic/types';
+import '@aesthetic/style';
+import { CSSType, FontFace, Keyframes, Value } from '@aesthetic/types';
 
 // EXPANDED PROPERTIES
 
@@ -109,9 +107,10 @@ export interface TransitionProperty {
   timingFunction?: CSSType.Property.TransitionTimingFunction;
 }
 
-declare module '@aesthetic/sss' {
+declare module '@aesthetic/style' {
   export interface CustomProperties {
     animation?: AnimationProperty;
+    animationName?: Keyframes | Keyframes[];
     background?: BackgroundProperty;
     border?: BorderProperty;
     borderBottom?: BorderProperty;
@@ -121,6 +120,7 @@ declare module '@aesthetic/sss' {
     columnRule?: ColumnRuleProperty;
     flex?: FlexProperty;
     font?: FontProperty;
+    fontFamily?: FontFace | FontFace[];
     listStyle?: ListStyleProperty;
     margin?: MarginProperty;
     offset?: OffsetProperty;

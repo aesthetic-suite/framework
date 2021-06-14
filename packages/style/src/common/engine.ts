@@ -1,32 +1,55 @@
-/* eslint-disable no-magic-numbers */
+/* eslint-disable prefer-template, no-console */
 
 import {
+  AddPropertyCallback,
   CacheItem,
   ClassName,
   CSS,
   EngineOptions,
   FontFace,
   GenericProperties,
+  Import,
   Keyframes,
   Properties,
   Property,
   RenderOptions,
+  RenderResult,
+  RenderResultVariant,
   Rule,
+  RuleMap,
+  RuleWithoutVariants,
   Value,
-  ValueWithFallbacks,
+  VariablesMap,
 } from '@aesthetic/types';
-import { generateHash, isObject, joinQueries, objectLoop, objectReduce } from '@aesthetic/utils';
+import {
+  arrayLoop,
+  generateHash,
+  isObject,
+  joinQueries,
+  objectLoop,
+  objectReduce,
+} from '@aesthetic/utils';
 import { StyleEngine } from '../types';
 import { createCacheKey, createCacheManager } from './cache';
-import { isMediaRule, isNestedSelector, isSupportsRule, isValidValue, isVariable } from './helpers';
+import { VARIANT_COMBO_PATTERN } from './constants';
+import { isAtRule, isNestedSelector, isValidValue } from './helpers';
 import {
   createDeclaration,
   createDeclarationBlock,
   formatDeclaration,
+  formatFontFace,
+  formatImport,
   formatProperty,
   formatRule,
   formatVariable,
+  formatVariableBlock,
 } from './syntax';
+
+type RenderCallback = (
+  styleEngine: StyleEngine,
+  rule: Rule,
+  opts: RenderOptions,
+) => RenderResult<ClassName>;
 
 const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
@@ -97,66 +120,10 @@ function insertStyles(
   return item;
 }
 
-// It's much faster to set and unset options (conditions and selector) than it is
-// to spread and clone the options object. Since rendering is synchronous, it just works!
-function renderNestedRule(
-  engine: StyleEngine,
-  property: string,
-  value: Rule,
-  options: RenderOptions,
-  render: (styleEngine: StyleEngine, rule: Rule, opts: RenderOptions) => ClassName,
-): ClassName {
-  const { media, selector, supports } = options;
-
-  // Media queries
-  if (isMediaRule(property)) {
-    options.media = joinQueries(options.media, property.slice(6).trim());
-
-    // Feature queries
-  } else if (isSupportsRule(property)) {
-    options.supports = joinQueries(options.supports, property.slice(9).trim());
-
-    // Selectors
-  } else if (isNestedSelector(property)) {
-    if (__DEV__) {
-      if (property.includes(', ')) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          `Multiple selectors separated by a comma are not supported, found "${property}".`,
-        );
-
-        return '';
-      }
-    }
-
-    if (options.selector) {
-      options.selector += property;
-    } else {
-      options.selector = property;
-    }
-
-    // Unknown
-  } else if (__DEV__) {
-    // eslint-disable-next-line no-console
-    console.warn(`Unknown property selector or nested block "${property}".`);
-
-    return '';
-  }
-
-  const className = render(engine, value, options);
-
-  // Reset values between each iteration
-  options.media = media;
-  options.selector = selector;
-  options.supports = supports;
-
-  return className;
-}
-
-function renderDeclaration<K extends Property>(
+function renderProperty<K extends Property>(
   engine: StyleEngine,
   property: K,
-  value: NonNullable<Properties[K]> | ValueWithFallbacks,
+  value: NonNullable<Properties[K]>,
   options: RenderOptions,
 ): ClassName {
   const key = formatProperty(property);
@@ -177,9 +144,39 @@ function renderDeclaration<K extends Property>(
   return className;
 }
 
+function renderDeclaration<K extends Property>(
+  engine: StyleEngine,
+  property: K,
+  value: NonNullable<Properties[K]>,
+  options: RenderOptions,
+): ClassName {
+  const { customProperties } = engine;
+  let className = '';
+
+  const handler: AddPropertyCallback = (prop, val) => {
+    if (isValidValue(prop, val)) {
+      className += renderProperty(engine, prop, val, options) + ' ';
+    }
+  };
+
+  if (customProperties && property in customProperties) {
+    // @ts-expect-error Value is a complex union
+    customProperties[property](value, handler, engine);
+  } else {
+    // @ts-expect-error Value is a complex union
+    handler(property, value);
+  }
+
+  return className.trim();
+}
+
 function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: RenderOptions): string {
   let name = fontFace.fontFamily;
-  let block = createDeclarationBlock(fontFace as GenericProperties, options, engine);
+  let block = createDeclarationBlock(
+    formatFontFace(fontFace) as GenericProperties,
+    options,
+    engine,
+  );
 
   if (!name) {
     name = `ff${generateHash(block)}`;
@@ -196,14 +193,10 @@ function renderFontFace(engine: StyleEngine, fontFace: FontFace, options: Render
   return name;
 }
 
-function renderImport(engine: StyleEngine, url: string, options: RenderOptions): string {
-  let path = `url("${url}")`;
+function renderImport(engine: StyleEngine, value: Import | string, options: RenderOptions): string {
+  const path = formatImport(value);
 
-  if (options.media) {
-    path += ` ${options.media}`;
-  }
-
-  insertAtRule(createCacheKey('@import', url, options), `@import ${path};`, options, engine);
+  insertAtRule(createCacheKey('@import', path, options), `@import ${path};`, options, engine);
 
   return path;
 }
@@ -248,49 +241,131 @@ function renderVariable(
   ).className;
 }
 
-function renderRule(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
+// It's much faster to set and unset options (conditions and selector) than it is
+// to spread and clone the options object. Since rendering is synchronous, it just works!
+function renderAtRules(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+  render: RenderCallback,
+): RenderResult<ClassName> {
+  const {
+    className: originalClassName,
+    media: originalMedia,
+    selector: originalSelector,
+    supports: originalSupports,
+  } = options;
+  const variants: RenderResultVariant<ClassName>[] = [];
   let className = '';
 
-  objectLoop<Rule, Property>(rule, (value, property) => {
-    if (!isValidValue(property, value)) {
-      return;
+  objectLoop(rule['@media'], (condition, query) => {
+    options.media = joinQueries(options.media, query);
+    className += render(engine, condition, options).result + ' ';
+    options.media = originalMedia;
+  });
+
+  objectLoop(rule['@selectors'], (nestedRule, selectorGroup) => {
+    arrayLoop(selectorGroup.split(','), (selector) => {
+      if (originalSelector === undefined) {
+        options.selector = '';
+      }
+
+      options.selector += selector.trim();
+      className += render(engine, nestedRule, options).result + ' ';
+      options.selector = originalSelector;
+    });
+  });
+
+  objectLoop(rule['@supports'], (condition, query) => {
+    options.supports = joinQueries(options.supports, query);
+    className += render(engine, condition, options).result + ' ';
+    options.supports = originalSupports;
+  });
+
+  objectLoop(rule['@variables'], (value, name) => {
+    className += renderVariable(engine, formatVariable(name), value, options) + ' ';
+  });
+
+  objectLoop(rule['@variants'], (nestedRule, variant) => {
+    if (__DEV__) {
+      if (!VARIANT_COMBO_PATTERN.test(variant)) {
+        throw new Error(
+          `Invalid variant "${variant}". Type and enumeration must be separated with a ":", and each part may only contain a-z, 0-9, -, _.`,
+        );
+      }
     }
 
-    className += ' ';
+    options.className = undefined;
+    variants.push({
+      result: render(engine, nestedRule, options).result,
+      types: variant.split('+').map((v) => v.trim()),
+    });
+    options.className = originalClassName;
+  });
 
-    // Nested
+  return {
+    result: className.trim(),
+    variants,
+  };
+}
+
+function renderRule(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+): RenderResult<ClassName> {
+  let className = '';
+
+  objectLoop(rule, (value, property) => {
     if (isObject<Rule>(value)) {
-      className += renderNestedRule(engine, property, value, options, renderRule);
-
-      // Variables
-    } else if (isVariable(property)) {
-      className += renderVariable(engine, property, value, options);
-
-      // Properties
-    } else {
-      className += renderDeclaration(engine, property, value, options);
+      if (isNestedSelector(property)) {
+        (rule['@selectors'] ||= {})[property] = value;
+      } else if (!isAtRule(property) && __DEV__) {
+        console.warn(`Unknown property selector or nested block "${property}".`);
+      }
+    } else if (isValidValue(property, value)) {
+      className += renderDeclaration(engine, property as Property, value, options) + ' ';
     }
   });
 
-  return className.trim();
+  // Render at-rules last to somewhat ensure specificity
+  const atResult = renderAtRules(engine, rule, options, renderRule);
+
+  return {
+    result: (className + atResult.result).trim(),
+    variants: atResult.variants,
+  };
 }
 
-function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptions): ClassName {
-  const nestedRules: Record<string, Rule> = {};
+function renderRuleGrouped(
+  engine: StyleEngine,
+  rule: Rule,
+  options: RenderOptions,
+): RenderResult<ClassName> {
+  const atRules: Rule = {};
   let variables: CSS = '';
   let properties: CSS = '';
 
   // Extract all nested rules first as we need to process them *after* properties
-  objectLoop<Rule, Property>(rule, (value, property) => {
-    if (!isValidValue(property, value)) {
-      return;
-    }
+  objectLoop(rule, (value, property) => {
+    if (isObject(value)) {
+      // Extract and include variables in the top level class
+      if (property === '@variables') {
+        variables += formatVariableBlock(value as VariablesMap);
 
-    if (isObject<Rule>(value)) {
-      nestedRules[property] = value;
-    } else if (isVariable(property)) {
-      variables += formatDeclaration(property, value);
-    } else {
+        // Extract all other at-rules
+      } else if (isAtRule(property)) {
+        atRules[property] = value as RuleMap;
+
+        // Merge local selectors into the selectors at-rule
+      } else if (isNestedSelector(property)) {
+        (atRules['@selectors'] ||= {})[property] = value as RuleWithoutVariants;
+
+        // Log for invalid value
+      } else if (__DEV__) {
+        console.warn(`Unknown property selector or nested block "${property}".`);
+      }
+    } else if (isValidValue(property, value)) {
       properties += createDeclaration(property, value, options, engine);
     }
   });
@@ -307,14 +382,15 @@ function renderRuleGrouped(engine: StyleEngine, rule: Rule, options: RenderOptio
     engine,
   );
 
-  // Render all nested rules with the parent class name
+  // Render all at/nested rules with the parent class name
   options.className = className;
 
-  objectLoop(nestedRules, (nestedRule, key) => {
-    renderNestedRule(engine, key, nestedRule, options, renderRuleGrouped);
-  });
+  const { variants } = renderAtRules(engine, atRules, options, renderRuleGrouped);
 
-  return className;
+  return {
+    result: className.trim(),
+    variants,
+  };
 }
 
 const noop = () => {};

@@ -1,48 +1,28 @@
-import {
-  CustomProperties,
-  GlobalStyleSheet,
-  GlobalStyleSheetNeverize,
-  LocalBlock,
-  LocalStyleSheet,
-  LocalStyleSheetNeverize,
-  PropertyHandlerMap,
-} from '@aesthetic/sss';
 import { Utilities } from '@aesthetic/system';
 import {
   ColorScheme,
   ContrastLevel,
   Direction,
   DirectionConverter,
+  PropertyHandlerMap,
+  RenderResult,
+  Rule,
   ThemeName,
+  ThemeRule,
   Unit,
   UnitFactory,
   VendorPrefixer,
 } from '@aesthetic/types';
 import StyleSheet from './StyleSheet';
 
-// Re-export for convenience
-export type { CustomProperties, GlobalStyleSheet, LocalBlock, LocalStyleSheet };
-
-// And add aliases too
-export type ElementStyles = LocalBlock;
-export type ComponentStyles = LocalStyleSheet<ElementStyles>;
-export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
-
 // RENDER RESULT
 
-export interface RenderResultVariant<T> {
-  match: string[];
-  result: T;
-}
-
-export interface RenderResult<T> {
-  result?: T;
-  variants?: RenderResultVariant<T>[];
+export interface StyleRenderResult<T> extends Partial<RenderResult<T>> {
   variantTypes?: Set<string>;
 }
 
 export type RenderResultSheet<Result, Keys extends string = string> = {
-  [K in Keys]?: RenderResult<Result>;
+  [K in Keys]?: StyleRenderResult<Result>;
 };
 
 export type WrapFalsy<T> = T | false | null | undefined;
@@ -78,14 +58,16 @@ export interface SheetParams {
   vendor?: boolean;
 }
 
-export interface SheetParamsExtended extends SheetParams {
-  customProperties?: PropertyHandlerMap;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;
 
-export type GlobalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
+export type GlobalStyleSheet<B> = ThemeRule<B>;
+
+export type GlobalStyleSheetNeverize<T, B> = {
+  [K in keyof T]: K extends keyof GlobalStyleSheet<B> ? GlobalStyleSheet<B>[K] : never;
+};
+
+export type GlobalSheetFactory<Shape = unknown, Block extends object = Rule> = (
   utils: Utilities<Block>,
 ) => Shape extends unknown
   ? GlobalStyleSheet<Block>
@@ -96,7 +78,19 @@ export type GlobalSheet<Shape, Block extends object, Result> = Omit<
   'addColorSchemeOverride' | 'addContrastOverride' | 'addThemeOverride'
 >;
 
-export type LocalSheetFactory<Shape = unknown, Block extends object = LocalBlock> = (
+export type LocalStyleSheet<Block extends object = Rule> = Record<string, Block | string>;
+
+export type LocalStyleSheetElementNeverize<T, B> = {
+  [K in keyof T]: K extends keyof B ? T[K] : never;
+};
+
+export type LocalStyleSheetNeverize<T, B> = {
+  [K in keyof T]: T[K] extends string ? string : LocalStyleSheetElementNeverize<T[K], B>;
+};
+
+export type LocalSheetElementFactory<Block extends object> = (utils: Utilities<Block>) => Block;
+
+export type LocalSheetFactory<Shape = unknown, Block extends object = Rule> = (
   utils: Utilities<Block>,
 ) => Shape extends unknown
   ? LocalStyleSheet<Block>
@@ -106,8 +100,6 @@ export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
   Result,
   LocalSheetFactory<Shape, Block>
 >;
-
-export type LocalElementSheetFactory<Block extends object> = (utils: Utilities<Block>) => Block;
 
 // OTHER
 
@@ -127,3 +119,8 @@ export type EventListener = (...args: unknown[]) => void;
 export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName, results: unknown[]) => void;
+
+// And add aliases too
+export type ElementStyles = Rule;
+export type ComponentStyles = LocalStyleSheet<ElementStyles>;
+export type ThemeStyles = GlobalStyleSheet<ElementStyles>;

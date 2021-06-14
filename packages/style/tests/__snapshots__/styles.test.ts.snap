@@ -8,13 +8,21 @@ exports[`Engine renderDeclaration() conditions supports conditionals 1`] = `"@me
 
 exports[`Engine renderDeclaration() conditions supports conditionals with selectors 1`] = `"@media (max-size: 100px) {.a:focus {color: green;}}"`;
 
+exports[`Engine renderDeclaration() custom properties can add a completely different property 1`] = `".a {flex: 1;}"`;
+
+exports[`Engine renderDeclaration() custom properties can add multiple properties 1`] = `".a {display: block;}.b {position: relative;}.c {z-index: 0;}"`;
+
+exports[`Engine renderDeclaration() custom properties can change the value 1`] = `".a {display: flex;}.b {display: block;}"`;
+
+exports[`Engine renderDeclaration() custom properties ignores properties with invalid values 1`] = `""`;
+
 exports[`Engine renderDeclaration() directionality converts directional properties 1`] = `".a {margin-left: 0;}.b {margin-right: 0;}"`;
 
 exports[`Engine renderDeclaration() directionality converts directional values 1`] = `".a {text-align: left;}.b {text-align: right;}"`;
 
 exports[`Engine renderDeclaration() generates a unique class name for a large number of properties 1`] = `".a {padding: 0px;}.b {padding: 1px;}.c {padding: 2px;}.d {padding: 3px;}.e {padding: 4px;}.f {padding: 5px;}.g {padding: 6px;}.h {padding: 7px;}.i {padding: 8px;}.j {padding: 9px;}.k {padding: 10px;}.l {padding: 11px;}.m {padding: 12px;}.n {padding: 13px;}.o {padding: 14px;}.p {padding: 15px;}.q {padding: 16px;}.r {padding: 17px;}.s {padding: 18px;}.t {padding: 19px;}.u {padding: 20px;}.v {padding: 21px;}.w {padding: 22px;}.x {padding: 23px;}.y {padding: 24px;}.z {padding: 25px;}.a1 {padding: 26px;}.b1 {padding: 27px;}.c1 {padding: 28px;}.d1 {padding: 29px;}.e1 {padding: 30px;}.f1 {padding: 31px;}.g1 {padding: 32px;}.h1 {padding: 33px;}.i1 {padding: 34px;}.j1 {padding: 35px;}.k1 {padding: 36px;}.l1 {padding: 37px;}.m1 {padding: 38px;}.n1 {padding: 39px;}.o1 {padding: 40px;}.p1 {padding: 41px;}.q1 {padding: 42px;}.r1 {padding: 43px;}.s1 {padding: 44px;}.t1 {padding: 45px;}.u1 {padding: 46px;}.v1 {padding: 47px;}.w1 {padding: 48px;}.x1 {padding: 49px;}.y1 {padding: 50px;}.z1 {padding: 51px;}.a2 {padding: 52px;}.b2 {padding: 53px;}.c2 {padding: 54px;}.d2 {padding: 55px;}.e2 {padding: 56px;}.f2 {padding: 57px;}.g2 {padding: 58px;}.h2 {padding: 59px;}.i2 {padding: 60px;}.j2 {padding: 61px;}.k2 {padding: 62px;}.l2 {padding: 63px;}.m2 {padding: 64px;}.n2 {padding: 65px;}.o2 {padding: 66px;}.p2 {padding: 67px;}.q2 {padding: 68px;}.r2 {padding: 69px;}.s2 {padding: 70px;}.t2 {padding: 71px;}.u2 {padding: 72px;}.v2 {padding: 73px;}.w2 {padding: 74px;}.x2 {padding: 75px;}.y2 {padding: 76px;}.z2 {padding: 77px;}.a3 {padding: 78px;}.b3 {padding: 79px;}.c3 {padding: 80px;}.d3 {padding: 81px;}.e3 {padding: 82px;}.f3 {padding: 83px;}.g3 {padding: 84px;}.h3 {padding: 85px;}.i3 {padding: 86px;}.j3 {padding: 87px;}.k3 {padding: 88px;}.l3 {padding: 89px;}.m3 {padding: 90px;}.n3 {padding: 91px;}.o3 {padding: 92px;}.p3 {padding: 93px;}.q3 {padding: 94px;}.r3 {padding: 95px;}.s3 {padding: 96px;}.t3 {padding: 97px;}.u3 {padding: 98px;}.v3 {padding: 99px;}"`;
 
-exports[`Engine renderDeclaration() prefixes properties, values, value functions, and selectors 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.d:-ms-fullscreen {display: none;}"`;
+exports[`Engine renderDeclaration() prefixes properties, values, value functions, and selectors 1`] = `".a {min-width: fit-content;}.b {background: image-set();}.c {-ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.d:-ms-fullscreen {display: none;}"`;
 
 exports[`Engine renderDeclaration() rankings can insert the same declaration if using a minimum rank requirement 1`] = `".a {color: red;}.b {color: green;}.c {color: blue;}.d {color: blue;}"`;
 
@@ -30,13 +38,13 @@ exports[`Engine renderDeclaration() selectors supports selectors 1`] = `".a:hove
 
 exports[`Engine renderDeclaration() supports CSS variables 1`] = `".a {color: var(--primary-color);}.b {border: 1px solid var(--border-color);}.c {display: var(--display, var(--fallback), flex);}"`;
 
-exports[`Engine renderDeclaration() supports fallback values by using an array 1`] = `".a {display: flex;}"`;
-
 exports[`Engine renderDeclaration() uses the same class name for dashed and camel cased properties 1`] = `".a {text-decoration: none;}"`;
 
 exports[`Engine renderDeclaration() uses the same class name for numeric and string values 1`] = `".a {width: 0;}.b {width: 100em;}"`;
 
 exports[`Engine renderDeclaration() uses the same class name for the same property value pair 1`] = `".a {display: block;}.b {display: flex;}.c {display: inline;}"`;
+
+exports[`Engine renderFontFace() converts an array of \`srcPaths\` to \`src\` 1`] = `"@font-face {font-family: Roboto; font-style: normal; font-weight: normal; src: local('Robo'), url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype');}"`;
 
 exports[`Engine renderFontFace() doesnt insert the same at-rule more than once 1`] = `"@font-face {font-family: \\"Open Sans\\"; font-style: normal; font-weight: 800; src: url(\\"fonts/OpenSans-Bold.woff2\\");}"`;
 
@@ -46,7 +54,7 @@ exports[`Engine renderFontFace() renders and returns family name 1`] = `"@font-f
 
 exports[`Engine renderImport() doesnt insert the same at-rule more than once 1`] = `"@import url(custom.css);"`;
 
-exports[`Engine renderImport() renders all variants 1`] = `"@import url(custom.css);@import url(common.css) screen;@import url(print.css) print;@import url(chrome://communicator/skin);@import url(landscape.css);@import url(a11y.css) speech;@import url(responsive.css) screen and (orientation: landscape);@import url(fallback-layout.css) spports(not (display: flex));"`;
+exports[`Engine renderImport() renders all variants 1`] = `"@import url(custom.css);@import url(common.css) screen;@import url(print.css) print;@import url(chrome://communicator/skin);@import url(landscape.css) screen;@import url(a11y.css) speech;@import url(responsive.css) screen and (orientation: landscape);@import url(fallback-layout.css) spports(not (display: flex));"`;
 
 exports[`Engine renderKeyframes() can provide a custom animation name 1`] = `
 "@keyframes fade { 
@@ -88,7 +96,11 @@ exports[`Engine renderKeyframes() renders range based and returns animation name
 }"
 `;
 
+exports[`Engine renderRule() applies nested conditionals and selectors correctly 1`] = `"@supports (display: flex) and (color: red) {@media (max-width: 1000px) and (min-width: 500px) and (prefers-contrast: low) {.a {color: red;}}}"`;
+
 exports[`Engine renderRule() attributes generates the correct class names with attribute selector 1`] = `".a {background: #000;}.b[disabled] {background-color: #286090;}.c[disabled] {border-color: #204d74;}"`;
+
+exports[`Engine renderRule() attributes supports attributes in @selectors 1`] = `".a[disabled] {opacity: 0.5;}.b[href] {cursor: pointer;}"`;
 
 exports[`Engine renderRule() attributes supports complex attribute selectors 1`] = `".a[href*=\\"example\\"] {background-color: #286090;}"`;
 
@@ -96,7 +108,7 @@ exports[`Engine renderRule() attributes uses same class name between both APIs 1
 
 exports[`Engine renderRule() can nest conditionals infinitely 1`] = `".a {margin: 0;}"`;
 
-exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@media (width: 500px) {.c:hover {color: red;}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.d {color: blue;}}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.e:focus {color: darkblue;}}}"`;
+exports[`Engine renderRule() can nest conditionals infinitely 2`] = `"@media (width: 500px) {.b {margin: 10px;}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.c {color: blue;}}}@supports (color: blue) {@media (width: 500px) and (width: 350px) {.d:focus {color: darkblue;}}}@media (width: 500px) {.e:hover {color: red;}}"`;
 
 exports[`Engine renderRule() can nest selectors infinitely 1`] = `".a {width: 100%;}.b {max-width: 100%;}.c {margin: 0;}.d {padding: 0;}.e {background-color: #fff;}.f {border: 1px solid #ccc;}.g {border-collapse: collapse;}.h {border-spacing: 0;}.i> thead {display: table-head;}.j> thead> tr {background-color: #eee;}.k> thead> tr> th {border: 1px solid #ccc;}.l> thead> tr> th {padding: 8px;}.m> thead> tr> th {text-align: center;}.n> thead> tr> th> span {font-weight: bold;}.o> thead> tr> th> a {text-decoration: underline;}.p> thead> tr> td {border: 1px solid #ccc;}.q> thead> tr> td {padding: 8px;}.r> thead> tr> td {text-align: left;}"`;
 
@@ -108,7 +120,11 @@ exports[`Engine renderRule() generates a unique class name for each selector eve
 
 exports[`Engine renderRule() hierarchy generates the correct class names with hierarchy selector 1`] = `".a {padding: 10px;}.b+ div {padding: 10px;}.c~ SPAN {padding: 10px;}.d>li {padding: 10px;}.e* {padding: 10px;}"`;
 
+exports[`Engine renderRule() hierarchy supports combinators in @selectors 1`] = `".a> li {list-style: bullet;}.b+ div {display: none;}.c~ span {color: black;}.d* {background-color: inherit;}"`;
+
 exports[`Engine renderRule() hierarchy supports complex attribute selectors 1`] = `".a:first-of-type + li {color: white;}"`;
+
+exports[`Engine renderRule() hierarchy supports multiple selectors separated by a comma 1`] = `".a:disabled {cursor: default;}.b[disabled] {cursor: default;}.c> span {cursor: default;}.d:active {cursor: pointer;}"`;
 
 exports[`Engine renderRule() hierarchy uses same class name between both APIs 1`] = `".a+ div {background-color: #000;}"`;
 
@@ -119,8 +135,6 @@ exports[`Engine renderRule() inserts into the appropriate style sheets 1`] = `".
 exports[`Engine renderRule() inserts into the appropriate style sheets 2`] = `"@media (prefers-color-scheme: dark) {.b {background: black;}}"`;
 
 exports[`Engine renderRule() logs a warning for invalid values 1`] = `""`;
-
-exports[`Engine renderRule() logs a warning for multiple selectors 1`] = `".a {display: table;}"`;
 
 exports[`Engine renderRule() logs a warning for unknown nested selector 1`] = `".a {background: white;}"`;
 
@@ -135,6 +149,8 @@ exports[`Engine renderRule() media queries supports @media conditions 2`] = `"@m
 exports[`Engine renderRule() pseudos generates the correct class names with pseudo selector 1`] = `".a {padding: 5px;}.b:hover {padding: 10px;}.c::before {content: \\"★\\";}.d::before {display: inline-block;}"`;
 
 exports[`Engine renderRule() pseudos supports complex attribute selectors 1`] = `".a:nth-last-of-type(4n) {color: white;}"`;
+
+exports[`Engine renderRule() pseudos supports pseudos in @selectors 1`] = `".a:hover {position: static;}.b::before {position: absolute;}"`;
 
 exports[`Engine renderRule() pseudos uses same class name between both APIs 1`] = `".a:focus {background-color: #000;}"`;
 
@@ -154,7 +170,7 @@ exports[`Engine renderRule() support queries supports @supports conditions 1`] =
 
 exports[`Engine renderRule() support queries supports @supports conditions 2`] = `"@supports (display: flex) {.b {display: flex;}}"`;
 
-exports[`Engine renderRule() supports CSS variables 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}"`;
+exports[`Engine renderRule() supports CSS variables 1`] = `".a {display: block;}.b {color: var(--color);}.c {--color: red;}.d {--font-size: 14px;}.e {--line-height: 1;}"`;
 
 exports[`Engine renderRule() unit suffixes adds suffix to number values 1`] = `".a {margin-left: 10px;}.b {margin-right: 20px;}"`;
 
@@ -166,13 +182,27 @@ exports[`Engine renderRule() unit suffixes doesnt suffix 0 values 1`] = `".a {ma
 
 exports[`Engine renderRule() unit suffixes doesnt suffix unitless values 1`] = `".a {line-height: 1.25;}"`;
 
+exports[`Engine renderRule() variants errors for invalid compound name 1`] = `"Invalid variant \\"type:value + broken\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if contains a space 1`] = `"Invalid variant \\"type:va lue\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if enum is empty 1`] = `"Invalid variant \\"type:\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if missing a colon 1`] = `"Invalid variant \\"foo\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants errors if starts with a number 1`] = `"Invalid variant \\"9a:value\\". Type and enumeration must be separated with a \\":\\", and each part may only contain a-z, 0-9, -, _."`;
+
+exports[`Engine renderRule() variants returns a result for each compound variant 1`] = `".a {font-weight: bold;}"`;
+
+exports[`Engine renderRule() variants returns a result for each variant 1`] = `".a {display: block;}.b {font-size: 14px;}.c {padding: 2px;}.d {font-size: 16px;}.e {padding: 3px;}.f {font-size: 18px;}.g {padding: 4px;}"`;
+
 exports[`Engine renderRuleGrouped() can convert direction applicable properties 1`] = `".cnaaqpz {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none;}.cnaaqpz:hover {display: flex; color: blue;}.cnaaqpz::backdrop {background: black;}"`;
 
 exports[`Engine renderRuleGrouped() can convert direction applicable properties 2`] = `"@media (width: 500px) {.cnaaqpz {margin: 10px; padding: 10px;}}@media (width: 500px) {.cnaaqpz:hover {color: darkblue;}}"`;
 
-exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 1`] = `".c1mjtlm6 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1mjtlm6:hover {display: flex; color: blue;}.c1mjtlm6::-ms-backdrop {background: black;}"`;
+exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 1`] = `".cix1mgi {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.cix1mgi:hover {display: flex; color: blue;}.cix1mgi::-ms-backdrop {background: black;}"`;
 
-exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.c1mjtlm6 {margin: 10px; padding: 10px;}}@media (width: 500px) {.c1mjtlm6:hover {color: darkblue;}}"`;
+exports[`Engine renderRuleGrouped() can vendor prefix applicable properties 2`] = `"@media (width: 500px) {.cix1mgi {margin: 10px; padding: 10px;}}@media (width: 500px) {.cix1mgi:hover {color: darkblue;}}"`;
 
 exports[`Engine renderRuleGrouped() generates a consistent class name for same properties 1`] = `".c1vxm4x3 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none;}.c1vxm4x3:hover {display: flex; color: blue;}.c1vxm4x3::backdrop {background: black;}"`;
 
@@ -180,9 +210,13 @@ exports[`Engine renderRuleGrouped() generates a consistent class name for same p
 
 exports[`Engine renderRuleGrouped() generates a single class name for all properties 1`] = `".cj1oomc {margin: 0; padding: 6px 12px; border: 1px solid #2e6da4; border-radius: 4px; display: inline-block; cursor: pointer; font-family: Roboto; font-weight: normal; line-height: normal; white-space: nowrap; text-decoration: none; text-align: left; background-color: #337ab7; vertical-align: middle; color: rgba(0, 0, 0, 0); animation-name: fade; animation-duration: .3s;}"`;
 
-exports[`Engine renderRuleGrouped() handles direction and vendor prefixes at once 1`] = `".c1mjtlm6 {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}.c1mjtlm6:hover {display: flex; color: blue;}.c1mjtlm6::-ms-backdrop {background: black;}.cfapcjy {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; appearance: none; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none;}"`;
+exports[`Engine renderRuleGrouped() generates unique class names for each variant 1`] = `".csfd7x3 {display: block;}.c1taja0 {font-size: 14px; padding: 2px;}.c146gq7v {font-size: 16px; padding: 3px;}.czmqclu {font-size: 18px; padding: 4px;}"`;
 
-exports[`Engine renderRuleGrouped() supports CSS variables 1`] = `".c1lbtkju {--color: red; --font-size: 14px; display: block; color: var(--color);}"`;
+exports[`Engine renderRuleGrouped() handles direction and vendor prefixes at once 1`] = `".cix1mgi {display: block; background: transparent; color: black; padding-right: 0; margin-left: 0; transition: 200ms all; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}.cix1mgi:hover {display: flex; color: blue;}.cix1mgi::-ms-backdrop {background: black;}.c1t3l09e {display: block; background: transparent; color: black; padding-left: 0; margin-right: 0; transition: 200ms all; -ms-appearance: none; -moz-appearance: none; -webkit-appearance: none; appearance: none;}"`;
+
+exports[`Engine renderRuleGrouped() logs a warning for unknown nested selector 1`] = `".cwljivh {background: white;}"`;
+
+exports[`Engine renderRuleGrouped() supports CSS variables 1`] = `".cng2wkm {--color: red; --font-size: 14px; --line-height: 1; display: block; color: var(--color);}"`;
 
 exports[`Engine renderVariable() generates a unique class name for a large number of variables 1`] = `".a {--font-size: 0px;}.b {--font-size: 1px;}.c {--font-size: 2px;}.d {--font-size: 3px;}.e {--font-size: 4px;}.f {--font-size: 5px;}.g {--font-size: 6px;}.h {--font-size: 7px;}.i {--font-size: 8px;}.j {--font-size: 9px;}.k {--font-size: 10px;}.l {--font-size: 11px;}.m {--font-size: 12px;}.n {--font-size: 13px;}.o {--font-size: 14px;}.p {--font-size: 15px;}.q {--font-size: 16px;}.r {--font-size: 17px;}.s {--font-size: 18px;}.t {--font-size: 19px;}.u {--font-size: 20px;}.v {--font-size: 21px;}.w {--font-size: 22px;}.x {--font-size: 23px;}.y {--font-size: 24px;}.z {--font-size: 25px;}.a1 {--font-size: 26px;}.b1 {--font-size: 27px;}.c1 {--font-size: 28px;}.d1 {--font-size: 29px;}.e1 {--font-size: 30px;}.f1 {--font-size: 31px;}.g1 {--font-size: 32px;}.h1 {--font-size: 33px;}.i1 {--font-size: 34px;}.j1 {--font-size: 35px;}.k1 {--font-size: 36px;}.l1 {--font-size: 37px;}.m1 {--font-size: 38px;}.n1 {--font-size: 39px;}.o1 {--font-size: 40px;}.p1 {--font-size: 41px;}.q1 {--font-size: 42px;}.r1 {--font-size: 43px;}.s1 {--font-size: 44px;}.t1 {--font-size: 45px;}.u1 {--font-size: 46px;}.v1 {--font-size: 47px;}.w1 {--font-size: 48px;}.x1 {--font-size: 49px;}.y1 {--font-size: 50px;}.z1 {--font-size: 51px;}.a2 {--font-size: 52px;}.b2 {--font-size: 53px;}.c2 {--font-size: 54px;}.d2 {--font-size: 55px;}.e2 {--font-size: 56px;}.f2 {--font-size: 57px;}.g2 {--font-size: 58px;}.h2 {--font-size: 59px;}.i2 {--font-size: 60px;}.j2 {--font-size: 61px;}.k2 {--font-size: 62px;}.l2 {--font-size: 63px;}.m2 {--font-size: 64px;}.n2 {--font-size: 65px;}.o2 {--font-size: 66px;}.p2 {--font-size: 67px;}.q2 {--font-size: 68px;}.r2 {--font-size: 69px;}.s2 {--font-size: 70px;}.t2 {--font-size: 71px;}.u2 {--font-size: 72px;}.v2 {--font-size: 73px;}.w2 {--font-size: 74px;}.x2 {--font-size: 75px;}.y2 {--font-size: 76px;}.z2 {--font-size: 77px;}.a3 {--font-size: 78px;}.b3 {--font-size: 79px;}.c3 {--font-size: 80px;}.d3 {--font-size: 81px;}.e3 {--font-size: 82px;}.f3 {--font-size: 83px;}.g3 {--font-size: 84px;}.h3 {--font-size: 85px;}.i3 {--font-size: 86px;}.j3 {--font-size: 87px;}.k3 {--font-size: 88px;}.l3 {--font-size: 89px;}.m3 {--font-size: 90px;}.n3 {--font-size: 91px;}.o3 {--font-size: 92px;}.p3 {--font-size: 93px;}.q3 {--font-size: 94px;}.r3 {--font-size: 95px;}.s3 {--font-size: 96px;}.t3 {--font-size: 97px;}.u3 {--font-size: 98px;}.v3 {--font-size: 99px;}"`;
 

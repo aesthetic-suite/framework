@@ -1,47 +1,114 @@
 /* eslint-disable no-param-reassign */
+
 /**
  * @copyright   2020, Miles Johnson
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { AddPropertyCallback, PropertyHandlerMap } from '@aesthetic/sss';
-import { Value } from '@aesthetic/types';
-import { isObject, objectLoop } from '@aesthetic/utils';
-import { FontProperty, MarginProperty, PaddingProperty } from './types';
+import {
+  AddPropertyCallback,
+  Engine,
+  FontFace,
+  Keyframes,
+  PropertyHandlerMap,
+  Value,
+} from '@aesthetic/types';
+import { isObject, objectLoop, toArray } from '@aesthetic/utils';
+import {
+  AnimationProperty,
+  BackgroundProperty,
+  BorderProperty,
+  ColumnRuleProperty,
+  FlexProperty,
+  FontProperty,
+  ListStyleProperty,
+  MarginProperty,
+  OffsetProperty,
+  OutlineProperty,
+  PaddingProperty,
+  TextDecorationProperty,
+  TransitionProperty,
+} from './types';
 
 function collapse(property: string, object: object, add: AddPropertyCallback) {
-  objectLoop(object, (val: Value, key: string) => {
-    add(property + key[0].toUpperCase() + key.slice(1), val);
+  objectLoop(object, (value: Value, key: string) => {
+    add((property + key[0].toUpperCase() + key.slice(1)) as 'padding', value);
   });
 }
 
-function handleExpanded(property: string) {
-  return (value: unknown, add: AddPropertyCallback) => {
-    if (isObject(value)) {
-      collapse(property, value, add);
-    } else {
-      add(property, value as Value);
+function handleCompound(property: 'animationName' | 'fontFamily') {
+  return (
+    value: FontFace | FontFace[] | Keyframes | Keyframes[] | string,
+    add: AddPropertyCallback,
+    engine: Engine<unknown>,
+  ) => {
+    const items = toArray(value).map((item) => {
+      if (typeof item === 'string') {
+        return item;
+      }
+
+      if (property === 'animationName') {
+        return engine.renderKeyframes(item as Keyframes);
+      }
+
+      if (property === 'fontFamily') {
+        return engine.renderFontFace(item as FontFace);
+      }
+
+      return '';
+    });
+
+    const name = Array.from(new Set(items)).filter(Boolean).join(', ');
+
+    if (name) {
+      add(property, name);
     }
   };
 }
 
-function handleExpandedSpacing(property: string) {
-  return (value: unknown, add: AddPropertyCallback) => {
-    if (!isObject<MarginProperty | PaddingProperty>(value)) {
-      add(property, value as Value);
+function handleExpanded<T extends object>(
+  property:
+    | 'animation'
+    | 'background'
+    | 'border'
+    | 'borderBottom'
+    | 'borderLeft'
+    | 'borderRight'
+    | 'borderTop'
+    | 'columnRule'
+    | 'flex'
+    | 'listStyle'
+    | 'offset'
+    | 'outline'
+    | 'textDecoration'
+    | 'transition',
+) {
+  return (value: T | Value, add: AddPropertyCallback) => {
+    if (isObject(value)) {
+      collapse(property, value, add);
+    } else {
+      add(property, value);
+    }
+  };
+}
+
+function handleExpandedSpacing(property: 'margin' | 'padding') {
+  return (value: MarginProperty | PaddingProperty | Value, add: AddPropertyCallback) => {
+    if (!isObject(value)) {
+      add(property, value);
 
       return;
     }
 
     if (value.topBottom) {
-      add(`${property}Top`, value.topBottom);
-      add(`${property}Bottom`, value.topBottom);
+      add(`${property}Top` as 'paddingTop', value.topBottom);
+      add(`${property}Bottom` as 'paddingBottom', value.topBottom);
       value.topBottom = undefined;
     }
 
     if (value.leftRight) {
-      add(`${property}Left`, value.leftRight);
-      add(`${property}Right`, value.leftRight);
+      add(`${property}Left` as 'paddingLeft', value.leftRight);
+      add(`${property}Right` as 'paddingRight', value.leftRight);
       value.leftRight = undefined;
     }
 
@@ -49,16 +116,21 @@ function handleExpandedSpacing(property: string) {
   };
 }
 
+export const compoundProperties: PropertyHandlerMap = {
+  animationName: handleCompound('animationName'),
+  fontFamily: handleCompound('fontFamily'),
+};
+
 export const expandedProperties: PropertyHandlerMap = {
-  animation: handleExpanded('animation'),
-  background: handleExpanded('background'),
-  border: handleExpanded('border'),
-  borderBottom: handleExpanded('borderBottom'),
-  borderLeft: handleExpanded('borderLeft'),
-  borderRight: handleExpanded('borderRight'),
-  borderTop: handleExpanded('borderTop'),
-  columnRule: handleExpanded('columnRule'),
-  flex: handleExpanded('flex'),
+  animation: handleExpanded<AnimationProperty>('animation'),
+  background: handleExpanded<BackgroundProperty>('background'),
+  border: handleExpanded<BorderProperty>('border'),
+  borderBottom: handleExpanded<BorderProperty>('borderBottom'),
+  borderLeft: handleExpanded<BorderProperty>('borderLeft'),
+  borderRight: handleExpanded<BorderProperty>('borderRight'),
+  borderTop: handleExpanded<BorderProperty>('borderTop'),
+  columnRule: handleExpanded<ColumnRuleProperty>('columnRule'),
+  flex: handleExpanded<FlexProperty>('flex'),
   font(value, add) {
     if (isObject<FontProperty>(value)) {
       if (value.lineHeight) {
@@ -75,13 +147,13 @@ export const expandedProperties: PropertyHandlerMap = {
       add('font', value);
     }
   },
-  listStyle: handleExpanded('listStyle'),
+  listStyle: handleExpanded<ListStyleProperty>('listStyle'),
   margin: handleExpandedSpacing('margin'),
-  offset: handleExpanded('offset'),
-  outline: handleExpanded('outline'),
+  offset: handleExpanded<OffsetProperty>('offset'),
+  outline: handleExpanded<OutlineProperty>('outline'),
   padding: handleExpandedSpacing('padding'),
-  textDecoration: handleExpanded('textDecoration'),
-  transition: handleExpanded('transition'),
+  textDecoration: handleExpanded<TextDecorationProperty>('textDecoration'),
+  transition: handleExpanded<TransitionProperty>('transition'),
 };
 
 export * from './types';

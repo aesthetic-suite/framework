@@ -42,7 +42,7 @@ describe('Engine', () => {
 
   it('inserts imports before at-rules', () => {
     engine.renderFontFace(fontFace);
-    engine.renderImport('custom.css');
+    engine.renderImport('"custom.css"');
 
     expect(getRenderedStyles('global')).toMatchSnapshot();
   });
@@ -69,6 +69,7 @@ describe('Engine', () => {
 
     it('uses the same class name for dashed and camel cased properties', () => {
       engine.renderDeclaration('textDecoration', 'none');
+      // @ts-expect-error Not allowed with types but works
       engine.renderDeclaration('text-decoration', 'none');
 
       expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -90,16 +91,9 @@ describe('Engine', () => {
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
-    it('supports fallback values by using an array', () => {
-      engine.renderDeclaration('display', ['box', 'block', 'flex']);
-
-      // Wont show in snapshot accurately
-      expect(getRenderedStyles('standard')).toMatchSnapshot();
-    });
-
     it('prefixes properties, values, value functions, and selectors', () => {
       // Value prefixing (wont show in snapshot because of DOM)
-      engine.renderDeclaration('min-width', 'fit-content', { vendor: true });
+      engine.renderDeclaration('minWidth', 'fit-content', { vendor: true });
 
       // Value function prefixing (wont show in snapshot because of DOM)
       engine.renderDeclaration('background', 'image-set()', { vendor: true });
@@ -107,7 +101,7 @@ describe('Engine', () => {
       // Property prefixing
       engine.renderDeclaration('appearance', 'none', { vendor: true });
 
-      // Selector prefixing
+      // Selector prefixing (only shows last in snapshot)
       engine.renderDeclaration('display', 'none', {
         selector: ':fullscreen',
         vendor: true,
@@ -152,27 +146,38 @@ describe('Engine', () => {
 
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
+
+      it('generates different class names between standard and condition rules, when condition is inserted first', () => {
+        const a = engine.renderDeclaration('width', '100em', {
+          media: '(max-width: 100px)',
+        });
+        const b = engine.renderDeclaration('width', '100em');
+
+        expect(a).toBe('a');
+        expect(b).toBe('b');
+        expect(a).not.toBe(b);
+      });
     });
 
     describe('directionality', () => {
       it('converts directional properties', () => {
-        engine.renderDeclaration('margin-left', 0);
-        engine.renderDeclaration('margin-right', 0);
-        engine.renderDeclaration('margin-left', 0, { direction: 'ltr' });
-        engine.renderDeclaration('margin-right', 0, { direction: 'rtl' });
-        engine.renderDeclaration('margin-left', 0, { direction: 'ltr' });
-        engine.renderDeclaration('margin-right', 0, { direction: 'rtl' });
+        engine.renderDeclaration('marginLeft', 0);
+        engine.renderDeclaration('marginRight', 0);
+        engine.renderDeclaration('marginLeft', 0, { direction: 'ltr' });
+        engine.renderDeclaration('marginRight', 0, { direction: 'rtl' });
+        engine.renderDeclaration('marginLeft', 0, { direction: 'ltr' });
+        engine.renderDeclaration('marginRight', 0, { direction: 'rtl' });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
       it('converts directional values', () => {
-        engine.renderDeclaration('text-align', 'left');
-        engine.renderDeclaration('text-align', 'right');
-        engine.renderDeclaration('text-align', 'left', { direction: 'ltr' });
-        engine.renderDeclaration('text-align', 'left', { direction: 'rtl' });
-        engine.renderDeclaration('text-align', 'right', { direction: 'ltr' });
-        engine.renderDeclaration('text-align', 'right', { direction: 'rtl' });
+        engine.renderDeclaration('textAlign', 'left');
+        engine.renderDeclaration('textAlign', 'right');
+        engine.renderDeclaration('textAlign', 'left', { direction: 'ltr' });
+        engine.renderDeclaration('textAlign', 'left', { direction: 'rtl' });
+        engine.renderDeclaration('textAlign', 'right', { direction: 'ltr' });
+        engine.renderDeclaration('textAlign', 'right', { direction: 'rtl' });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
@@ -183,9 +188,9 @@ describe('Engine', () => {
         const spy = jest.spyOn(sheetManager, 'insertRule');
         const rankings: RankCache = {};
 
-        engine.renderDeclaration('text-align', 'center', { rankings });
-        engine.renderDeclaration('text-align', 'center', { rankings });
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
 
         expect(rankings).toEqual({ 'text-align': 0 });
         expect(spy).toHaveBeenCalledTimes(1);
@@ -196,11 +201,11 @@ describe('Engine', () => {
         const spy = jest.spyOn(sheetManager, 'insertRule');
         const rankings: RankCache = {};
 
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
         rankings['text-align'] = 1;
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
         rankings['text-align'] = 2;
-        engine.renderDeclaration('text-align', 'center', { rankings });
+        engine.renderDeclaration('textAlign', 'center', { rankings });
 
         expect(rankings).toEqual({ 'text-align': 2 });
         expect(spy).toHaveBeenCalledTimes(3);
@@ -246,15 +251,68 @@ describe('Engine', () => {
       });
     });
 
-    it('generates different class names between standard and condition rules, when condition is inserted first', () => {
-      const a = engine.renderDeclaration('width', '100em', {
-        media: '(max-width: 100px)',
-      });
-      const b = engine.renderDeclaration('width', '100em');
+    describe('custom properties', () => {
+      it('can change the value', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('display', value === 'box' ? 'flex' : 'block');
+          },
+        };
 
-      expect(a).toBe('a');
-      expect(b).toBe('b');
-      expect(a).not.toBe(b);
+        engine.renderDeclaration('display', 'box');
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('can add a completely different property', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('flex', 1);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('can add multiple properties', () => {
+        engine.customProperties = {
+          display(value, add) {
+            add('display', value);
+            add('position', 'relative');
+            add('zIndex', 0);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('ignores properties with invalid values', () => {
+        const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+        engine.customProperties = {
+          display(value, add) {
+            add('display', '');
+            // @ts-expect-error Allow invalid type
+            add('display', undefined);
+            // @ts-expect-error Allow invalid type
+            add('display', null);
+            // @ts-expect-error Allow invalid type
+            add('display', false);
+            // @ts-expect-error Allow invalid type
+            add('display', true);
+          },
+        };
+
+        engine.renderDeclaration('display', 'block');
+
+        expect(spy).toHaveBeenCalledTimes(4);
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
     });
   });
 
@@ -283,29 +341,38 @@ describe('Engine', () => {
       expect(name).toBe('ffweix7s');
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
+
+    it('converts an array of `srcPaths` to `src`', () => {
+      const name = engine.renderFontFace({
+        fontFamily: 'Roboto',
+        fontStyle: 'normal',
+        fontWeight: 'normal',
+        local: ['Robo'],
+        srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+      });
+
+      expect(name).toBe('Roboto');
+      expect(getRenderedStyles('global')).toMatchSnapshot();
+    });
   });
 
   describe('renderImport()', () => {
     it('doesnt insert the same at-rule more than once', () => {
-      engine.renderImport('custom.css');
-      engine.renderImport('custom.css');
+      engine.renderImport('"custom.css"');
+      engine.renderImport('"custom.css"');
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
 
     it('renders all variants', () => {
-      engine.renderImport('custom.css');
-      engine.renderImport('common.css', { media: 'screen' });
-      engine.renderImport('print.css', { media: 'print' });
-      engine.renderImport('chrome://communicator/skin');
-      engine.renderImport('landscape.css');
-      engine.renderImport('a11y.css', { media: 'speech' });
-      engine.renderImport('responsive.css', {
-        media: 'screen and (orientation: landscape)',
-      });
-      engine.renderImport('fallback-layout.css', {
-        media: 'supports(not (display: flex))',
-      });
+      engine.renderImport('"custom.css"');
+      engine.renderImport({ path: 'common.css', media: 'screen' });
+      engine.renderImport({ path: 'print.css', media: 'print' });
+      engine.renderImport('url("chrome://communicator/skin")');
+      engine.renderImport('"landscape.css" screen');
+      engine.renderImport({ path: 'a11y.css', media: 'speech', url: true });
+      engine.renderImport({ path: 'responsive.css', media: 'screen and (orientation: landscape)' });
+      engine.renderImport({ path: 'fallback-layout.css', media: 'supports(not (display: flex))' });
 
       expect(getRenderedStyles('global')).toMatchSnapshot();
     });
@@ -433,7 +500,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('a b c d e f g h i j k l m n o p q');
+      expect(className.result).toBe('a b c d e f g h i j k l m n o p q');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -447,8 +514,8 @@ describe('Engine', () => {
       );
       const cursor = engine.renderDeclaration('cursor', 'pointer', { deterministic: true });
 
-      expect(className).toBe('c13kbekr c16r1ggk');
-      expect(className).toContain(cursor);
+      expect(className.result).toBe('c13kbekr c16r1ggk');
+      expect(className.result).toContain(cursor);
       expect(cursor).toBe('c16r1ggk');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
@@ -464,23 +531,29 @@ describe('Engine', () => {
         },
       });
 
-      expect(className).toBe('a b c');
+      expect(className.result).toBe('a b c');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
     it('can nest conditionals infinitely', () => {
       engine.renderRule({
         margin: 0,
-        '@media (width: 500px)': {
-          margin: '10px',
-          ':hover': {
-            color: 'red',
-          },
-          '@media (width: 350px)': {
-            '@supports (color: blue)': {
-              color: 'blue',
-              ':focus': {
-                color: 'darkblue',
+        '@media': {
+          '(width: 500px)': {
+            margin: '10px',
+            ':hover': {
+              color: 'red',
+            },
+            '@media': {
+              '(width: 350px)': {
+                '@supports': {
+                  '(color: blue)': {
+                    color: 'blue',
+                    ':focus': {
+                      color: 'darkblue',
+                    },
+                  },
+                },
               },
             },
           },
@@ -488,6 +561,36 @@ describe('Engine', () => {
       });
 
       expect(getRenderedStyles('standard')).toMatchSnapshot();
+      expect(getRenderedStyles('conditions')).toMatchSnapshot();
+    });
+
+    it('applies nested conditionals and selectors correctly', () => {
+      engine.renderRule({
+        '@media': {
+          '(max-width: 1000px)': {
+            ':hover': {},
+            '@supports': {
+              '(display: flex)': {
+                '[disabled]': {},
+                '@media': {
+                  '(min-width: 500px)': {
+                    '@media': {
+                      '(prefers-contrast: low)': {
+                        '@supports': {
+                          '(color: red)': {
+                            color: 'red',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
 
@@ -501,51 +604,39 @@ describe('Engine', () => {
         border: '1px solid #ccc',
         borderCollapse: 'collapse',
         borderSpacing: 0,
-        '> thead': {
-          display: 'table-head',
-          '> tr': {
-            backgroundColor: '#eee',
-            '> th': {
-              border: '1px solid #ccc',
-              padding: 8,
-              textAlign: 'center',
-              '> span': {
-                fontWeight: 'bold',
+        '@selectors': {
+          '> thead': {
+            display: 'table-head',
+            '@selectors': {
+              '> tr': {
+                backgroundColor: '#eee',
+                '@selectors': {
+                  '> th': {
+                    border: '1px solid #ccc',
+                    padding: 8,
+                    textAlign: 'center',
+                    '@selectors': {
+                      '> span': {
+                        fontWeight: 'bold',
+                      },
+                      '> a': {
+                        textDecoration: 'underline',
+                      },
+                    },
+                  },
+                  '> td': {
+                    border: '1px solid #ccc',
+                    padding: 8,
+                    textAlign: 'left',
+                  },
+                },
               },
-              '> a': {
-                textDecoration: 'underline',
-              },
-            },
-            '> td': {
-              border: '1px solid #ccc',
-              padding: 8,
-              textAlign: 'left',
             },
           },
         },
       });
 
       expect(getRenderedStyles('standard')).toMatchSnapshot();
-    });
-
-    it('logs a warning for multiple selectors', () => {
-      const spy = jest.spyOn(console, 'warn').mockImplementation();
-
-      engine.renderRule({
-        display: 'table',
-        '> td, > th': {
-          padding: 0,
-        },
-      });
-
-      expect(spy).toHaveBeenCalledWith(
-        'Multiple selectors separated by a comma are not supported, found "> td, > th".',
-      );
-
-      // Should not render!
-      expect(getRenderedStyles('standard')).toMatchSnapshot();
-
-      spy.mockRestore();
     });
 
     it('ignores invalid values', () => {
@@ -559,7 +650,7 @@ describe('Engine', () => {
         color: undefined,
       });
 
-      expect(className).toBe('');
+      expect(className.result).toBe('');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
 
       spy.mockRestore();
@@ -584,6 +675,7 @@ describe('Engine', () => {
 
       engine.renderRule({
         background: 'white',
+        // @ts-expect-error
         '$ what is this': {
           background: 'black',
         },
@@ -600,8 +692,10 @@ describe('Engine', () => {
     it('inserts into the appropriate style sheets', () => {
       engine.renderRule({
         background: 'white',
-        '@media (prefers-color-scheme: dark)': {
-          background: 'black',
+        '@media': {
+          '(prefers-color-scheme: dark)': {
+            background: 'black',
+          },
         },
       });
 
@@ -613,11 +707,14 @@ describe('Engine', () => {
       const className = engine.renderRule({
         display: 'block',
         color: 'var(--color)',
-        '--color': 'red',
-        '--font-size': '14px',
+        '@variables': {
+          '--color': 'red',
+          fontSize: '14px',
+          'line-height': 1,
+        },
       });
 
-      expect(className).toBe('a b c d');
+      expect(className.result).toBe('a b c d e');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -626,15 +723,17 @@ describe('Engine', () => {
         const className = engine.renderRule({
           background: '#000',
           padding: '15px',
-          '@media (max-width: 600px)': {
-            padding: '15px',
-          },
-          '@media screen and (min-width: 900px)': {
-            padding: '20px',
+          '@media': {
+            '(max-width: 600px)': {
+              padding: '15px',
+            },
+            'screen and (min-width: 900px)': {
+              padding: '20px',
+            },
           },
         });
 
-        expect(className).toBe('a b c d');
+        expect(className.result).toBe('a b c d');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -642,14 +741,18 @@ describe('Engine', () => {
       it('can be nested in @supports', () => {
         const className = engine.renderRule({
           padding: '15px',
-          '@supports (display: flex)': {
-            '@media (max-width: 600px)': {
-              padding: '15px',
+          '@supports': {
+            '(display: flex)': {
+              '@media': {
+                '(max-width: 600px)': {
+                  padding: '15px',
+                },
+              },
             },
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -659,12 +762,14 @@ describe('Engine', () => {
       it('supports @supports conditions', () => {
         const className = engine.renderRule({
           display: 'block',
-          '@supports (display: flex)': {
-            display: 'flex',
+          '@supports': {
+            '(display: flex)': {
+              display: 'flex',
+            },
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -672,14 +777,18 @@ describe('Engine', () => {
       it('can be nested in @media', () => {
         const className = engine.renderRule({
           display: 'block',
-          '@media screen and (min-width: 900px)': {
-            '@supports (display: flex)': {
-              display: 'flex',
+          '@media': {
+            'screen and (min-width: 900px)': {
+              '@supports': {
+                '(display: flex)': {
+                  display: 'flex',
+                },
+              },
             },
           },
         });
 
-        expect(className).toBe('a b');
+        expect(className.result).toBe('a b');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
         expect(getRenderedStyles('conditions')).toMatchSnapshot();
       });
@@ -695,7 +804,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c');
+        expect(className.result).toBe('a b c');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -709,14 +818,29 @@ describe('Engine', () => {
           selector: '[disabled]',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('backgroundColor', '#286090', {
           selector: '[href*="example"]',
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports attributes in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            '[disabled]': {
+              opacity: 0.5,
+            },
+            '[href]': {
+              cursor: 'pointer',
+            },
+          },
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -736,7 +860,7 @@ describe('Engine', () => {
           },
         });
 
-        expect(className).toBe('a b c d');
+        expect(className.result).toBe('a b c d');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -750,8 +874,8 @@ describe('Engine', () => {
           selector: ':focus',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
@@ -762,48 +886,103 @@ describe('Engine', () => {
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
+
+      it('supports pseudos in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            ':hover': {
+              position: 'static',
+            },
+            '::before': {
+              position: 'absolute',
+            },
+          },
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
     });
 
     describe('hierarchy', () => {
       it('generates the correct class names with hierarchy selector', () => {
         const className = engine.renderRule({
           padding: '10px',
-          '+ div': {
-            padding: '10px',
-          },
-          '~ SPAN': {
-            padding: '10px',
-          },
-          '>li': {
-            padding: '10px',
-          },
-          '*': {
-            padding: '10px',
+          '@selectors': {
+            '+ div': {
+              padding: '10px',
+            },
+            '~ SPAN': {
+              padding: '10px',
+            },
+            '>li': {
+              padding: '10px',
+            },
+            '*': {
+              padding: '10px',
+            },
           },
         });
 
-        expect(className).toBe('a b c d e');
+        expect(className.result).toBe('a b c d e');
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
       it('uses same class name between both APIs', () => {
         const classNameA = engine.renderRule({
-          '+ div': {
-            backgroundColor: '#000',
+          '@selectors': {
+            '+ div': {
+              backgroundColor: '#000',
+            },
           },
         });
         const classNameB = engine.renderDeclaration('backgroundColor', '#000', {
           selector: '+ div',
         });
 
-        expect(classNameA).toBe('a');
-        expect(classNameA).toBe(classNameB);
+        expect(classNameA.result).toBe('a');
+        expect(classNameA.result).toBe(classNameB);
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
 
       it('supports complex attribute selectors', () => {
         engine.renderDeclaration('color', 'white', {
           selector: ':first-of-type + li',
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports combinators in @selectors', () => {
+        engine.renderRule({
+          '@selectors': {
+            '> li': {
+              listStyle: 'bullet',
+            },
+            '+ div': {
+              display: 'none',
+            },
+            '~ span': {
+              color: 'black',
+            },
+            '*': {
+              backgroundColor: 'inherit',
+            },
+          },
+        });
+
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('supports multiple selectors separated by a comma', () => {
+        engine.renderRule({
+          ':active': {
+            cursor: 'pointer',
+          },
+          '@selectors': {
+            ':disabled, [disabled], > span': {
+              cursor: 'default',
+            },
+          },
         });
 
         expect(getRenderedStyles('standard')).toMatchSnapshot();
@@ -920,6 +1099,141 @@ describe('Engine', () => {
         expect(getRenderedStyles('standard')).toMatchSnapshot();
       });
     });
+
+    describe('variants', () => {
+      it('errors if missing a colon', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              foo: {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if starts with a number', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              '9a:value': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if enum is empty', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors if contains a space', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:va lue': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('errors for invalid compound name', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:value + broken': {},
+            },
+          });
+        }).toThrowErrorMatchingSnapshot();
+      });
+
+      it('doesnt error for valid variant type', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'type:value': {},
+            },
+          });
+        }).not.toThrow();
+      });
+
+      it('doesnt error for valid compound variant', () => {
+        expect(() => {
+          engine.renderRule({
+            '@variants': {
+              'a:value + b:value': {},
+              'b:value + c:value + d:value': {},
+            },
+          });
+        }).not.toThrow();
+      });
+
+      it('returns an empty array if no variants', () => {
+        const result = engine.renderRule({ '@variants': {} });
+
+        expect(result).toEqual({ result: '', variants: [] });
+      });
+
+      it('returns a result for each variant', () => {
+        const result = engine.renderRule({
+          display: 'block',
+
+          '@variants': {
+            'size:small': {
+              fontSize: 14,
+              padding: 2,
+            },
+            'size:default': {
+              fontSize: 16,
+              padding: 3,
+            },
+            'size:large': {
+              fontSize: 18,
+              padding: 4,
+            },
+          },
+        });
+
+        expect(result).toEqual({
+          result: 'a',
+          variants: [
+            {
+              result: 'b c',
+              types: ['size:small'],
+            },
+            {
+              result: 'd e',
+              types: ['size:default'],
+            },
+            {
+              result: 'f g',
+              types: ['size:large'],
+            },
+          ],
+        });
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+
+      it('returns a result for each compound variant', () => {
+        const result = engine.renderRule({
+          '@variants': {
+            'size:large + palette:negative': {
+              fontWeight: 'bold',
+            },
+          },
+        });
+
+        expect(result).toEqual({
+          result: '',
+          variants: [{ result: 'a', types: ['size:large', 'palette:negative'] }],
+        });
+        expect(getRenderedStyles('standard')).toMatchSnapshot();
+      });
+    });
   });
 
   describe('renderRuleGrouped()', () => {
@@ -938,11 +1252,13 @@ describe('Engine', () => {
       '::backdrop': {
         background: 'black',
       },
-      '@media (width: 500px)': {
-        margin: '10px',
-        padding: '10px',
-        ':hover': {
-          color: 'darkblue',
+      '@media': {
+        '(width: 500px)': {
+          margin: '10px',
+          padding: '10px',
+          ':hover': {
+            color: 'darkblue',
+          },
         },
       },
     } as const;
@@ -968,7 +1284,7 @@ describe('Engine', () => {
         animationDuration: '.3s',
       });
 
-      expect(className).toBe('cj1oomc');
+      expect(className.result).toBe('cj1oomc');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -976,7 +1292,7 @@ describe('Engine', () => {
       const a = engine.renderRuleGrouped(rule);
       const b = engine.renderRuleGrouped(rule);
 
-      expect(a).toBe(b);
+      expect(a.result).toBe(b.result);
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -984,7 +1300,7 @@ describe('Engine', () => {
     it('can vendor prefix applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { vendor: true });
 
-      expect(className).toBe('c1mjtlm6');
+      expect(className.result).toBe('cix1mgi');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -992,7 +1308,7 @@ describe('Engine', () => {
     it('can convert direction applicable properties', () => {
       const className = engine.renderRuleGrouped(rule, { direction: 'rtl' });
 
-      expect(className).toBe('cnaaqpz');
+      expect(className.result).toBe('cnaaqpz');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
       expect(getRenderedStyles('conditions')).toMatchSnapshot();
     });
@@ -1009,8 +1325,8 @@ describe('Engine', () => {
         vendor: true,
       });
 
-      expect(a).toBe('c1mjtlm6');
-      expect(b).toBe('cfapcjy');
+      expect(a.result).toBe('cix1mgi');
+      expect(b.result).toBe('c1t3l09e');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
     });
 
@@ -1018,12 +1334,73 @@ describe('Engine', () => {
       const className = engine.renderRuleGrouped({
         display: 'block',
         color: 'var(--color)',
-        '--color': 'red',
-        '--font-size': '14px',
+        '@variables': {
+          '--color': 'red',
+          fontSize: '14px',
+          'line-height': 1,
+        },
       });
 
-      expect(className).toBe('c1lbtkju');
+      expect(className.result).toBe('cng2wkm');
       expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('generates unique class names for each variant', () => {
+      const className = engine.renderRuleGrouped({
+        display: 'block',
+        '@variants': {
+          'size:small': {
+            fontSize: 14,
+            padding: 2,
+          },
+          'size:default': {
+            fontSize: 16,
+            padding: 3,
+          },
+          'size:large': {
+            fontSize: 18,
+            padding: 4,
+          },
+        },
+      });
+
+      expect(className).toEqual({
+        result: 'csfd7x3',
+        variants: [
+          {
+            result: 'c1taja0',
+            types: ['size:small'],
+          },
+          {
+            result: 'c146gq7v',
+            types: ['size:default'],
+          },
+          {
+            result: 'czmqclu',
+            types: ['size:large'],
+          },
+        ],
+      });
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+    });
+
+    it('logs a warning for unknown nested selector', () => {
+      const spy = jest.spyOn(console, 'warn').mockImplementation();
+
+      engine.renderRuleGrouped({
+        background: 'white',
+        // @ts-expect-error
+        '$ what is this': {
+          background: 'black',
+        },
+      });
+
+      expect(spy).toHaveBeenCalledWith(
+        'Unknown property selector or nested block "$ what is this".',
+      );
+      expect(getRenderedStyles('standard')).toMatchSnapshot();
+
+      spy.mockRestore();
     });
   });
 

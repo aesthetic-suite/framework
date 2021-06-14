@@ -1,14 +1,15 @@
 /* eslint-disable no-param-reassign, lines-between-class-members, no-dupe-class-members */
 
-import { FontFace as SSSFontFace, formatFontFace, LocalBlock } from '@aesthetic/sss';
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import {
   ClassName,
   Direction,
   Engine,
   FontFace,
+  Import,
   Keyframes,
   RenderOptions,
+  Rule,
   ThemeName,
 } from '@aesthetic/types';
 import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
@@ -19,8 +20,8 @@ import {
   EventType,
   GlobalSheet,
   GlobalSheetFactory,
-  LocalElementSheetFactory,
   LocalSheet,
+  LocalSheetElementFactory,
   LocalSheetFactory,
   OnChangeDirection,
   OnChangeTheme,
@@ -28,7 +29,7 @@ import {
   SheetParams,
 } from './types';
 
-export default class Aesthetic<Result = ClassName, Block extends object = LocalBlock> {
+export default class Aesthetic<Result = ClassName, Block extends object = Rule> {
   protected activeDirection = createState<Direction>();
 
   protected activeTheme = createState<ThemeName>();
@@ -128,6 +129,10 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   configureEngine = (engine: Engine<Result>): void => {
     const { options } = this;
 
+    if (!engine.customProperties && options.customProperties) {
+      engine.customProperties = options.customProperties;
+    }
+
     if (!engine.directionConverter && options.directionConverter) {
       engine.directionConverter = options.directionConverter;
     }
@@ -162,11 +167,11 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
    * Create a local style sheet for a single element.
    * Returns a style sheet instance with a "element" selector.
    */
-  createElementStyles = (factory: Block | LocalElementSheetFactory<Block>) =>
+  createElementStyles = (factory: Block | LocalSheetElementFactory<Block>) =>
     this.createComponentStyles((utils) => ({
       element:
         typeof factory === 'function'
-          ? (factory as LocalElementSheetFactory<Block>)(utils)
+          ? (factory as LocalSheetElementFactory<Block>)(utils)
           : factory,
     }));
 
@@ -215,14 +220,12 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
         className += unit.result;
       }
 
-      if (unit?.variants) {
-        arrayLoop(unit.variants, ({ match, result }) => {
-          if (match.every((type) => variants.has(type))) {
-            variantClassName += ' ';
-            variantClassName += result;
-          }
-        });
-      }
+      arrayLoop(unit?.variants, ({ types, result }) => {
+        if (types.every((type) => variants.has(type))) {
+          variantClassName += ' ';
+          variantClassName += result;
+        }
+      });
     });
 
     return (className + variantClassName).trim();
@@ -349,7 +352,6 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
     const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
 
     return sheet.render(this.getEngine(), theme, {
-      customProperties: this.options.customProperties,
       direction: this.getActiveDirection(),
       vendor: !!this.options.vendorPrefixer,
       ...params,
@@ -359,23 +361,19 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
   /**
    * Render a `@font-face` to the global style sheet and return the font family name.
    */
-  renderFontFace = (
-    fontFace: FontFace | SSSFontFace,
-    fontFamily?: string,
-    params?: RenderOptions,
-  ): string =>
+  renderFontFace = (fontFace: FontFace, fontFamily?: string, params?: RenderOptions): string =>
     this.getEngine().renderFontFace(
-      formatFontFace({
+      {
         fontFamily,
         ...fontFace,
-      }) as FontFace,
+      },
       params,
     );
 
   /**
    * Render an `@import` to the global style sheet and return the import path.
    */
-  renderImport = (path: string, params?: RenderOptions): string =>
+  renderImport = (path: Import | string, params?: RenderOptions): string =>
     this.getEngine().renderImport(path, params);
 
   /**
@@ -396,17 +394,18 @@ export default class Aesthetic<Result = ClassName, Block extends object = LocalB
 
     // Render theme CSS variables
     if (isDOM()) {
-      results.push(this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }));
+      results.push(
+        this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }).result,
+      );
     }
 
     // Render theme styles
     if (sheet) {
       const result = sheet.render(this.getEngine(), theme, {
-        customProperties: this.options.customProperties,
         direction: this.getActiveDirection(),
         vendor: !!this.options.vendorPrefixer,
         ...params,
-      })['@root']?.result;
+      }).root?.result;
 
       if (result) {
         results.push(result);

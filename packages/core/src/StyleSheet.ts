@@ -1,8 +1,16 @@
-import { parse } from '@aesthetic/sss';
 import { Theme } from '@aesthetic/system';
-import { ColorScheme, ContrastLevel, Engine, Property, RenderOptions } from '@aesthetic/types';
-import { deepMerge, objectLoop, toArray } from '@aesthetic/utils';
-import { BaseSheetFactory, RenderResultSheet, SheetParams, SheetParamsExtended } from './types';
+import {
+  ColorScheme,
+  ContrastLevel,
+  Engine,
+  RenderOptions,
+  Rule,
+  ThemeRule,
+} from '@aesthetic/types';
+import { arrayLoop, deepMerge, isObject, objectLoop, toArray } from '@aesthetic/utils';
+import { BaseSheetFactory, RenderResultSheet, SheetParams } from './types';
+
+const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
 
 function createCacheKey(params: Required<SheetParams>, type: string): string | null {
   let key = type;
@@ -111,7 +119,7 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
     // This is hidden behind abstractions, so is ok
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     theme: Theme<any>,
-    { customProperties, ...baseParams }: SheetParamsExtended,
+    baseParams: SheetParams,
   ): RenderResultSheet<Result> {
     const params: Required<SheetParams> = {
       contrast: theme.contrast,
@@ -129,99 +137,114 @@ export default class StyleSheet<Result, Factory extends BaseSheetFactory> {
       return cache;
     }
 
-    const resultSheet: RenderResultSheet<Result> = {};
     const composer = this.compose(params);
     const styles = composer(theme);
-    const rankings = {};
     const renderOptions: RenderOptions = {
       direction: params.direction,
       unit: params.unit,
       vendor: params.vendor,
     };
 
-    const createResultMetadata = (selector: string) => {
-      if (!resultSheet[selector]) {
-        resultSheet[selector] = {};
-      }
-
-      return resultSheet[selector]!;
-    };
-
-    parse(this.type, styles, {
-      customProperties,
-      onClass: (selector, className) => {
-        createResultMetadata(selector).result = (className as unknown) as Result;
-      },
-      onFontFace: (fontFace) => engine.renderFontFace(fontFace.toObject(), renderOptions),
-      onImport: (path) => {
-        engine.renderImport(path);
-      },
-      onKeyframes: (keyframes, animationName) =>
-        engine.renderKeyframes(keyframes.toObject(), animationName, renderOptions),
-      onProperty: (block, property, value) => {
-        if (engine.atomic) {
-          block.addResult(
-            engine.renderDeclaration(property as Property, value as string, {
-              ...renderOptions,
-              media: block.media,
-              rankings,
-              selector: block.selector,
-              supports: block.supports,
-            }),
+    const resultSheet =
+      this.type === 'global'
+        ? this.parseGlobal(engine, styles, renderOptions)
+        : this.parseLocal(
+            engine,
+            // @ts-expect-error
+            styles,
+            renderOptions,
           );
-        }
-      },
-      onRoot: (block) => {
-        createResultMetadata('@root').result = engine.renderRuleGrouped(block.toObject(), {
-          ...renderOptions,
-          type: 'global',
-        });
-      },
-      onRootVariables: (variables) => {
-        engine.setRootVariables(variables);
-      },
-      onRule: (selector, block) => {
-        if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
-        }
-
-        createResultMetadata(selector).result = block.result as Result;
-      },
-      onVariable: (block, name, value) => {
-        if (engine.atomic) {
-          block.addResult(engine.renderVariable(name, value));
-        }
-      },
-      onVariant: (parent, variant, block) => {
-        if (!engine.atomic) {
-          block.addResult(engine.renderRule(block.toObject(), renderOptions));
-        }
-
-        const meta = createResultMetadata(parent.id);
-        const list = toArray(variant);
-
-        if (!meta.variants) {
-          meta.variants = [];
-        }
-
-        if (!meta.variantTypes) {
-          meta.variantTypes = new Set();
-        }
-
-        meta.variants.push({
-          match: list,
-          result: block.result as Result,
-        });
-
-        list.forEach((type) => {
-          meta.variantTypes!.add(type.split(':')[0]);
-        });
-      },
-    });
 
     if (key) {
       this.renderCache[key] = resultSheet;
     }
+
+    return resultSheet;
+  }
+
+  protected parseGlobal(
+    engine: Engine<Result>,
+    theme: ThemeRule,
+    options: RenderOptions,
+  ): RenderResultSheet<Result> {
+    const resultSheet: RenderResultSheet<Result> = { root: {} };
+
+    objectLoop(theme['@font-face'], (fontFaces, fontFamily) => {
+      arrayLoop(toArray(fontFaces), (fontFace) =>
+        engine.renderFontFace({ ...fontFace, fontFamily }, options),
+      );
+    });
+
+    arrayLoop(toArray(theme['@import']), (importPath) => engine.renderImport(importPath!, options));
+
+    objectLoop(theme['@keyframes'], (keyframes, animationName) => {
+      engine.renderKeyframes(keyframes, animationName, options);
+    });
+
+    if (theme['@root']) {
+      resultSheet.root!.result = engine.renderRuleGrouped(theme['@root'], {
+        ...options,
+        type: 'global',
+      }).result;
+    }
+
+    if (theme['@variables']) {
+      engine.setRootVariables(theme['@variables']);
+    }
+
+    return resultSheet;
+  }
+
+  protected parseLocal(
+    engine: Engine<Result>,
+    styles: Record<string, Rule | string>,
+    options: RenderOptions,
+  ): RenderResultSheet<Result> {
+    const resultSheet: RenderResultSheet<Result> = {};
+    const rankings = {};
+
+    objectLoop(styles, (style, selector) => {
+      // eslint-disable-next-line no-multi-assign
+      const meta = (resultSheet[selector] ||= {});
+
+      // At-rule
+      if (selector[0] === '@') {
+        if (__DEV__) {
+          throw new SyntaxError(
+            `At-rules may not be defined at the root of a style sheet, found "${selector}".`,
+          );
+        }
+
+        // Class name
+      } else if (typeof style === 'string' && style.match(CLASS_NAME)) {
+        meta.result = (style as unknown) as Result;
+
+        // Rule
+      } else if (isObject(style)) {
+        const result = engine.renderRule(style, { ...options, rankings });
+
+        meta.result = result.result;
+
+        if (result.variants.length > 0) {
+          const types = new Set<string>();
+
+          arrayLoop(result.variants, (variant) => {
+            arrayLoop(variant.types, (type) => {
+              types.add(type.split(':')[0]);
+            });
+          });
+
+          meta.variants = result.variants;
+          meta.variantTypes = types;
+        }
+
+        // Unknown
+      } else if (__DEV__) {
+        throw new Error(
+          `Invalid rule for "${selector}". Must be an object (style declaration) or string (class name).`,
+        );
+      }
+    });
 
     return resultSheet;
   }

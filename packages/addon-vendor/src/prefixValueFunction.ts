@@ -1,4 +1,4 @@
-import { objectLoop } from '@aesthetic/utils';
+import { arrayLoop, objectLoop } from '@aesthetic/utils';
 import getPrefixesFromMask from './getPrefixesFromMask';
 import { PrefixMap } from './types';
 
@@ -9,7 +9,7 @@ export default function prefixValueFunction(value: string, functions: PrefixMap)
     const regex = new RegExp(`${func}\\(`, 'gu');
 
     if (regex.test(value)) {
-      getPrefixesFromMask(mask).forEach((prefix) => {
+      arrayLoop(getPrefixesFromMask(mask), (prefix) => {
         nextValue.push(value.replace(regex, `${prefix}${func}(`));
       });
     }

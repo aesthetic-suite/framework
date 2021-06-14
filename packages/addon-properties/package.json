@@ -30,7 +30,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@aesthetic/sss": "*"
+    "@aesthetic/style": "*"
   },
   "dependencies": {
     "@aesthetic/types": "^0.5.1",

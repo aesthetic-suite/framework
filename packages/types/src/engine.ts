@@ -3,14 +3,15 @@
 import {
   CSS,
   FontFace,
+  Import,
   Keyframes,
+  NativeProperty,
   Properties,
   Property,
   Rule,
   Unit,
   UnitFactory,
   Value,
-  ValueWithFallbacks,
   VariablesMap,
 } from './css';
 import { ClassName, ColorScheme, ContrastLevel, Direction } from './ui';
@@ -29,15 +30,32 @@ export interface CacheManager {
   write: (key: string, item: CacheItem) => void;
 }
 
+// CUSTOM PROPERTIES
+
+export type AddPropertyCallback = <K extends Property>(
+  property: K,
+  value: NonNullable<Properties[K]>,
+) => void;
+
+export type PropertyHandler<V> = (
+  value: NonNullable<V>,
+  add: AddPropertyCallback,
+  engine: Engine<unknown>,
+) => void;
+
+export type PropertyHandlerMap = {
+  [P in Property]?: PropertyHandler<NonNullable<Properties[P]>>;
+};
+
 // DIRECTION
 
 export interface DirectionConverter {
   convert: <T extends Value>(
     from: Direction,
     to: Direction,
-    property: string,
+    property: NativeProperty,
     value: T,
-  ) => { property: string; value: T };
+  ) => { property: NativeProperty; value: T };
 }
 
 // STYLE SHEETS
@@ -63,8 +81,10 @@ export interface SheetManager {
 
 // VENDOR PREFIXES
 
+export type PropertyPrefixes = Record<string, string[] | string>;
+
 export interface VendorPrefixer {
-  prefix: (property: string, value: string) => Record<string, string>;
+  prefix: (property: NativeProperty, value: string) => PropertyPrefixes;
   prefixSelector: (selector: string, rule: CSS) => CSS;
 }
 
@@ -85,8 +105,19 @@ export interface RenderOptions {
   vendor?: boolean;
 }
 
+export interface RenderResultVariant<T> {
+  types: string[];
+  result: T;
+}
+
+export interface RenderResult<T> {
+  result: T;
+  variants: RenderResultVariant<T>[];
+}
+
 export interface EngineOptions {
   cacheManager?: CacheManager;
+  customProperties?: PropertyHandlerMap;
   direction?: Direction;
   directionConverter?: DirectionConverter;
   sheetManager: SheetManager;
@@ -97,6 +128,7 @@ export interface EngineOptions {
 export interface Engine<T> {
   readonly atomic: boolean;
   cacheManager?: CacheManager;
+  customProperties?: PropertyHandlerMap;
   direction: Direction;
   directionConverter?: DirectionConverter;
   ruleIndex: number;
@@ -109,18 +141,18 @@ export interface Engine<T> {
 
   renderDeclaration: <K extends Property>(
     property: K,
-    value: NonNullable<Properties[K]> | ValueWithFallbacks,
+    value: NonNullable<Properties[K]>,
     options?: RenderOptions,
   ) => T;
   renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
-  renderImport: (path: string, options?: RenderOptions) => string;
+  renderImport: (path: Import | string, options?: RenderOptions) => string;
   renderKeyframes: (
     keyframes: Keyframes,
     animationName?: string,
     options?: RenderOptions,
   ) => string;
-  renderRule: (rule: Rule, options?: RenderOptions) => T;
-  renderRuleGrouped: (rule: Rule, options?: RenderOptions) => T;
+  renderRule: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
+  renderRuleGrouped: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
   renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
 
   setDirection: (direction: Direction) => void;

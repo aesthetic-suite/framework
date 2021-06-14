@@ -68,7 +68,7 @@ export class TransientSheet implements Sheet {
   }
 
   protected determineType(rule: string): number {
-    if (rule[0] !== '@') {
+    if (!isAtRule(rule)) {
       return STYLE_RULE;
     }
 

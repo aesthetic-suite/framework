@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 // eslint-disable-next-line import/no-unresolved
 import CSSType from 'csstype';
 
@@ -5,48 +7,97 @@ export type { CSSType };
 
 export type CSS = string;
 
-// VALUES
-
 export type Value = number | string;
-
-export type ValueWithFallbacks = string[];
-
-export type MaybeValue = Value | null | undefined;
-
-// PROPERTIES
-
-export type GenericProperties = Record<string, Value | ValueWithFallbacks>;
-
-export interface Properties extends CSSType.Properties<Value>, CSSType.PropertiesHyphen<Value> {}
-
-export type NativeProperty = keyof CSSType.PropertiesHyphen;
-
-export type Property = keyof Properties;
-
-// RULES
-
-export type Attributes<T = Properties> = {
-  [K in CSSType.HtmlAttributes]?: T;
-};
-
-export type Pseudos<T = Properties> = {
-  [K in CSSType.SimplePseudos]?: T;
-};
-
-export type Declarations<T = Properties> = Attributes<T> & Pseudos<T> & T;
-
-export interface Rule extends Declarations {
-  [key: string]: Rule | Value | unknown;
-}
 
 // AT-RULES
 
-export type FontFace = CSSType.AtRule.FontFace;
+export interface FontFace extends CSSType.AtRule.FontFace {
+  local?: string[];
+  srcPaths?: string[];
+}
 
-export interface Keyframes<T = Properties> {
-  [percent: string]: T | undefined;
-  from?: T;
-  to?: T;
+export type FontFaceMap = Record<string, FontFace | FontFace[]>;
+
+export interface Import {
+  path: string;
+  media?: string;
+  url?: boolean;
+}
+
+export type ImportList = (Import | string)[];
+
+export interface Keyframes {
+  [percent: string]: Properties | undefined;
+  from?: Properties;
+  to?: Properties;
+}
+
+export type KeyframesMap = Record<string, Keyframes>;
+
+// PROPERTIES
+
+export type WithCustomProperties<T extends object> = {
+  [P in keyof T]: P extends keyof CustomProperties ? CustomProperties[P] | T[P] : T[P];
+};
+
+// export type WithFallbacks<T extends object> = {
+//   [P in keyof T]: NonNullable<T[P]> | NonNullable<T[P]>[];
+// };
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomProperties {}
+
+export interface MissingProperties {
+  clip?: string;
+}
+
+export type Properties = WithCustomProperties<
+  CSSType.StandardProperties<Value> & MissingProperties
+>;
+
+export type Property = keyof Properties;
+
+export type NativeProperty = keyof CSSType.StandardPropertiesHyphen<Value>;
+
+export type GenericProperties = Record<string, Value | Value[]>;
+
+// RULES
+
+export type LocalAtRule = '@media' | '@selectors' | '@supports' | '@variables' | '@variants';
+
+export type GlobalAtRule = '@font-face' | '@import' | '@keyframes' | '@root' | '@variables';
+
+export type AtRule = GlobalAtRule | LocalAtRule;
+
+export type Attributes<T> = {
+  [K in CSSType.HtmlAttributes]?: T;
+};
+
+export type Pseudos<T> = {
+  [K in CSSType.SimplePseudos]?: T;
+};
+
+export type Declarations<T> = Attributes<T> & Pseudos<T> & T;
+
+export interface RuleWithoutVariants extends Declarations<Properties> {
+  '@media'?: RuleMap<RuleWithoutVariants>;
+  '@selectors'?: RuleMap<RuleWithoutVariants>;
+  '@supports'?: RuleMap<RuleWithoutVariants>;
+  '@variables'?: VariablesMap;
+}
+
+export interface Rule extends RuleWithoutVariants {
+  '@variants'?: RuleMap<RuleWithoutVariants>;
+}
+
+export type RuleMap<T = Rule> = Record<string, T>;
+
+export interface ThemeRule<T = Rule> {
+  '@font-face'?: FontFaceMap;
+  '@import'?: ImportList;
+  '@keyframes'?: KeyframesMap;
+  '@root'?: T;
+  '@variables'?: VariablesMap;
 }
 
 // OTHER

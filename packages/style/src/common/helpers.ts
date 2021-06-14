@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import { CSS, MaybeValue, Sheet, Value } from '@aesthetic/types';
+import { AtRule, CSS, Sheet, Value } from '@aesthetic/types';
 import { hyphenate } from '@aesthetic/utils';
 import { IMPORT_RULE, STYLE_RULE } from './constants';
 
@@ -51,16 +51,12 @@ export function insertImportRule(sheet: Sheet, rule: CSS): number {
   return insertRule(sheet, rule, index);
 }
 
-export function isAtRule(value: string): boolean {
+export function isAtRule(value: string): value is AtRule {
   return value[0] === '@';
 }
 
 export function isImportRule(value: string): boolean {
   return value.slice(0, 7) === '@import';
-}
-
-export function isMediaRule(value: string): boolean {
-  return value.slice(0, 6) === '@media';
 }
 
 export function isNestedSelector(value: string): boolean {
@@ -75,10 +71,6 @@ export function isNestedSelector(value: string): boolean {
     char === '*' ||
     char === '|'
   );
-}
-
-export function isSupportsRule(value: string): boolean {
-  return value.slice(0, 9) === '@supports';
 }
 
 const unitlessProperties = new Set<string>();
@@ -138,7 +130,7 @@ export function isUnitlessProperty(property: string): boolean {
   return unitlessProperties.has(property);
 }
 
-export function isValidValue(property: string, value: MaybeValue | boolean): value is Value {
+export function isValidValue(property: string, value: unknown): value is Value {
   if (value === undefined) {
     return false;
   }

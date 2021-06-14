@@ -24,15 +24,7 @@ describe('LocalSheet', () => {
         color: 'black',
         textAlign: 'left',
         fontSize: 12,
-        fontFamily: [
-          '"Open Sans"',
-          {
-            fontFamily: 'Roboto',
-            fontStyle: 'normal',
-            fontWeight: 'normal',
-            srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
-          },
-        ],
+        fontFamily: '"Open Sans", Roboto',
         ':hover': {
           color: 'red',
         },
@@ -50,10 +42,7 @@ describe('LocalSheet', () => {
       },
       bar: {
         transition: '200ms all',
-        animationName: {
-          from: { opacity: 0 },
-          to: { opacity: 1 },
-        },
+        animationName: 'fade',
         '@variables': {
           primaryColor: 'red',
         },
@@ -129,24 +118,24 @@ describe('LocalSheet', () => {
       bar: { result: 'k l m' },
       baz: { result: 'class-baz' },
       qux: {
-        result: undefined,
+        result: '',
         variants: [
-          { match: ['size:sm'], result: 'n' },
-          { match: ['size:md'], result: 'o' },
-          { match: ['size:lg'], result: 'p' },
+          { types: ['size:sm'], result: 'n' },
+          { types: ['size:md'], result: 'o' },
+          { types: ['size:lg'], result: 'p' },
         ],
         variantTypes: new Set(['size']),
       },
       quxCompound: {
-        result: undefined,
+        result: '',
         variants: [
-          { match: ['size:sm'], result: 'q' },
-          { match: ['size:md'], result: 'r' },
-          { match: ['size:lg'], result: 's' },
-          { match: ['color:red'], result: 't' },
-          { match: ['color:green'], result: 'u' },
-          { match: ['color:blue'], result: 'v' },
-          { match: ['size:sm', 'color:green'], result: 'w' },
+          { types: ['size:sm'], result: 'q' },
+          { types: ['size:md'], result: 'r' },
+          { types: ['size:lg'], result: 's' },
+          { types: ['color:red'], result: 't' },
+          { types: ['color:green'], result: 'u' },
+          { types: ['color:blue'], result: 'v' },
+          { types: ['size:sm', 'color:green'], result: 'w' },
         ],
         variantTypes: new Set(['size', 'color']),
       },
@@ -155,57 +144,20 @@ describe('LocalSheet', () => {
   });
 
   it('renders a declaration for each rule property', () => {
-    const spy = jest.spyOn(engine, 'renderDeclaration');
-
-    sheet.render(engine, lightTheme, {});
-
-    expect(spy).toHaveBeenCalledWith('display', 'block', expect.any(Object));
-    expect(spy).toHaveBeenCalledWith('background', 'white', expect.any(Object));
-    expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
-    expect(spy).toHaveBeenCalledWith('fontSize', 12, expect.any(Object));
-    expect(spy).toHaveBeenCalledWith('fontFamily', '"Open Sans", Roboto', expect.any(Object));
-  });
-
-  it('renders @font-face', () => {
-    const spy = jest.spyOn(engine, 'renderFontFace');
+    const spy = jest.spyOn(engine, 'renderRule');
 
     sheet.render(engine, lightTheme, {});
 
     expect(spy).toHaveBeenCalledWith(
-      {
-        fontFamily: 'Roboto',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        src:
-          "url('fonts/Roboto.woff2') format('woff2'), url('fonts/Roboto.ttf') format('truetype')",
-      },
-      {
-        direction: 'ltr',
-        unit: 'px',
-        vendor: false,
-      },
+      expect.objectContaining({
+        display: 'block',
+        background: 'white',
+        color: 'black',
+        fontSize: 12,
+        fontFamily: '"Open Sans", Roboto',
+      }),
+      expect.any(Object),
     );
-    expect(getRenderedStyles('global')).toMatchSnapshot();
-  });
-
-  it('renders @keyframes', () => {
-    const spy = jest.spyOn(engine, 'renderKeyframes');
-
-    sheet.render(engine, lightTheme, {});
-
-    expect(spy).toHaveBeenCalledWith(
-      {
-        from: { opacity: 0 },
-        to: { opacity: 1 },
-      },
-      '',
-      {
-        direction: 'ltr',
-        unit: 'px',
-        vendor: false,
-      },
-    );
-    expect(getRenderedStyles('global')).toMatchSnapshot();
   });
 
   describe('overrides', () => {
@@ -258,63 +210,88 @@ describe('LocalSheet', () => {
     });
 
     it('inherits color scheme', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         scheme: 'dark',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'black', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'white', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'black',
+          color: 'white',
+        }),
+        expect.any(Object),
+      );
     });
 
     it('inherits high contrast', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         contrast: 'high',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'pink', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'pink',
+          color: 'black',
+        }),
+        expect.any(Object),
+      );
     });
 
     it('inherits low contrast', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         contrast: 'low',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'yellow', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'black', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'yellow',
+          color: 'black',
+        }),
+        expect.any(Object),
+      );
     });
 
     it('inherits theme by name', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         theme: 'danger',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'red', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'yellow', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'red',
+          color: 'yellow',
+        }),
+        expect.any(Object),
+      );
     });
 
     it('contrast overrides scheme', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         scheme: 'dark',
         contrast: 'low',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'yellow', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'white', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'yellow',
+          color: 'white',
+        }),
+        expect.any(Object),
+      );
     });
 
     it('theme overrides contrast and scheme', () => {
-      const spy = jest.spyOn(engine, 'renderDeclaration');
+      const spy = jest.spyOn(engine, 'renderRule');
 
       sheet.render(engine, lightTheme, {
         scheme: 'dark',
@@ -322,8 +299,13 @@ describe('LocalSheet', () => {
         theme: 'danger',
       });
 
-      expect(spy).toHaveBeenCalledWith('background', 'red', expect.any(Object));
-      expect(spy).toHaveBeenCalledWith('color', 'yellow', expect.any(Object));
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          background: 'red',
+          color: 'yellow',
+        }),
+        expect.any(Object),
+      );
     });
   });
 });
