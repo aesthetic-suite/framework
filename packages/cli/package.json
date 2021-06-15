@@ -40,7 +40,7 @@
     "@aesthetic/core": "^0.9.6",
     "@boost/cli": "^2.10.4",
     "@boost/common": "^2.7.2",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "ink": "^3.0.8",
     "react": "^16.13.1"
   },
