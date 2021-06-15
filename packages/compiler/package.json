@@ -32,8 +32,8 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "engines": {
-    "node": ">=10.3.0",
-    "npm": ">=6.1.0"
+    "node": ">=12.17.0",
+    "npm": ">=6.13.0"
   },
   "dependencies": {
     "@aesthetic/system": "^0.8.3",
@@ -47,6 +47,7 @@
     "prettier": "^2.2.1"
   },
   "packemon": {
+    "format": "lib",
     "platform": "node"
   }
 }

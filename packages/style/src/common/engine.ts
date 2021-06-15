@@ -163,7 +163,6 @@ function renderDeclaration<K extends Property>(
     // @ts-expect-error Value is a complex union
     customProperties[property](value, handler, engine);
   } else {
-    // @ts-expect-error Value is a complex union
     handler(property, value);
   }
 

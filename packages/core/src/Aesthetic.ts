@@ -169,10 +169,7 @@ export default class Aesthetic<Result = ClassName, Block extends object = Rule> 
    */
   createElementStyles = (factory: Block | LocalSheetElementFactory<Block>) =>
     this.createComponentStyles((utils) => ({
-      element:
-        typeof factory === 'function'
-          ? (factory as LocalSheetElementFactory<Block>)(utils)
-          : factory,
+      element: typeof factory === 'function' ? factory(utils) : factory,
     }));
 
   /**

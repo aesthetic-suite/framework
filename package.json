@@ -23,7 +23,7 @@
     "posttest": "yarn run lint"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=12.17.0"
   },
   "devDependencies": {
     "@milesj/build-tools": "^2.17.0",
@@ -38,7 +38,7 @@
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.1.0",
     "lerna": "^4.0.0",
-    "packemon": "^0.16.4",
+    "packemon": "^1.0.0-alpha.0",
     "ts-node": "^9.1.1"
   },
   "beemo": {

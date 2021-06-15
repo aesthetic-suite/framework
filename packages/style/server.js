@@ -1,1 +1,1 @@
-module.exports = require('./lib/server.js');
+export * from './esm/server';
