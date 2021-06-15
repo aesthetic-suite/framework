@@ -4,7 +4,9 @@ import {
 	ContrastLevel,
 	Direction,
 	DirectionConverter,
+	Engine,
 	PropertyHandlerMap,
+	RenderOptions,
 	RenderResult,
 	Rule,
 	ThemeName,
@@ -47,7 +49,7 @@ export type ResultGenerator<Keys, Result, GeneratedResult = Result> = (
 	results: RenderResultSheet<Result>,
 ) => GeneratedResult;
 
-// STYLE SHEETS
+// SHEETS
 
 export interface SheetParams {
 	contrast?: ContrastLevel;
@@ -57,6 +59,35 @@ export interface SheetParams {
 	unit?: Unit;
 	vendor?: boolean;
 }
+
+export type SheetRenderResult<Result> = Record<
+	string,
+	Partial<RenderResult<Result>> & {
+		variantTypes?: Set<string>;
+	}
+>;
+
+export type SheetFactory<Block extends object> = (utils: Utilities<any>) => Block;
+
+export type SheetRenderer<Result, Block extends object> = (
+	engine: Engine<Result>,
+	styles: Block,
+	options: RenderOptions,
+) => SheetRenderResult<Result>;
+
+// THEME SHEETS
+
+export type ThemeSheet<Block extends object> = ThemeRule<Block>;
+
+export type ThemeSheetNeverize<Shape, Block extends object> = {
+	[K in keyof Shape]: K extends keyof ThemeSheet<Block> ? ThemeSheet<Block>[K] : never;
+};
+
+export type ThemeSheetFactory<Shape, Block extends object> = (
+	utils: Utilities<Block>,
+) => Shape extends unknown
+	? ThemeSheet<Block>
+	: ThemeSheet<Block> & ThemeSheetNeverize<Shape, Block>;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;

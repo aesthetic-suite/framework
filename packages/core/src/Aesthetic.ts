@@ -11,8 +11,11 @@ import {
 	RenderOptions,
 	Rule,
 	ThemeName,
+	ThemeRule,
 } from '@aesthetic/types';
 import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
+import { renderTheme } from './renderers';
+import { Sheet } from './Sheet';
 import { StyleSheet } from './StyleSheet';
 import {
 	AestheticOptions,
@@ -27,6 +30,8 @@ import {
 	OnChangeTheme,
 	ResultGenerator,
 	SheetParams,
+	ThemeSheet,
+	ThemeSheetFactory,
 } from './types';
 
 export class Aesthetic<Result = ClassName, Block extends object = Rule> {
@@ -176,8 +181,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a global style sheet for root theme styles.
 	 */
 	createThemeStyles = <T = unknown>(
-		factory: GlobalSheetFactory<T, Block>,
-	): GlobalSheet<T, Block, Result> => new StyleSheet('global', factory);
+		factory: ThemeSheetFactory<T, ThemeRule<Block>>,
+	): ThemeSheet<T, Block, Result> => new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -292,7 +297,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 
 		this.listeners.set(type, set);
 
-		return set as unknown as Set<T>;
+		return (set as unknown) as Set<T>;
 	};
 
 	/**
