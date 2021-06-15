@@ -32,8 +32,8 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=10.3.0",
-    "npm": ">=6.1.0"
+    "node": ">=12.17.0",
+    "npm": ">=6.13.0"
   },
   "dependencies": {
     "@aesthetic/compiler": "^0.7.4",
@@ -53,6 +53,7 @@
       "index": "src/index.ts",
       "bin": "src/bin.ts"
     },
+    "format": "lib",
     "platform": "node"
   }
 }
