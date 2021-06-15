@@ -1,1 +1,1 @@
-module.exports = require('./lib/test.js');
+export * from './esm/test';
