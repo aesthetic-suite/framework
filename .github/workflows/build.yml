@@ -21,7 +21,7 @@ jobs:
       - run: yarn beemo typescript:sync-project-refs
       - run: yarn run build
       - run: yarn run type
-      - run: yarn run test
+      - run: yarn run coverage
       - run: yarn run lint
   pack:
     name: Pack
