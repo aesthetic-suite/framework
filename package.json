@@ -23,7 +23,7 @@
     "posttest": "yarn run lint"
   },
   "engines": {
-    "node": ">=10.10.0"
+    "node": ">=12.17.0"
   },
   "devDependencies": {
     "@milesj/build-tools": "^2.17.0",

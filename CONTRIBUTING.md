@@ -4,7 +4,7 @@ Contributions are always welcome, no matter how large or small!
 
 ## Prerequisites
 
-- Node.js >= v10.10 (v14 is preferred)
+- Node.js >= v12.17 (v14 is preferred)
 - NPM >= v6.14
 - Yarn >= v1.22
 
