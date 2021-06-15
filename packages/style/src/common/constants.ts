@@ -9,6 +9,6 @@ export const SUPPORTS_RULE = 12;
 
 export const VARIANT_PATTERN = /([a-z][a-z0-9]*:[a-z0-9_-]+)/iu;
 export const VARIANT_COMBO_PATTERN = new RegExp(
-  `^${VARIANT_PATTERN.source}( \\+ ${VARIANT_PATTERN.source})*$`,
-  'iu',
+	`^${VARIANT_PATTERN.source}( \\+ ${VARIANT_PATTERN.source})*$`,
+	'iu',
 );

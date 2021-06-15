@@ -4,41 +4,42 @@ import path from 'path';
 import fs from 'fs-extra';
 import { Compiler, FormatType, PlatformType } from '../../src';
 
-export default function runTargetTests(
-  platform: PlatformType,
-  format: FormatType,
-  // Alternate testing fixed and scaled configs
-  fixed: boolean = false,
+// eslint-disable-next-line jest/no-export
+export function runTargetTests(
+	platform: PlatformType,
+	format: FormatType,
+	// Alternate testing fixed and scaled configs
+	fixed: boolean = false,
 ) {
-  describe(`Format ${format}`, () => {
-    let compiler: Compiler;
+	describe(`Format ${format}`, () => {
+		let compiler: Compiler;
 
-    beforeEach(() => {
-      compiler = new Compiler(
-        path.join(__dirname, `../__fixtures__/${fixed ? 'system-fixed' : 'system-scaled'}`),
-        __dirname,
-        {
-          format,
-          platform,
-        },
-      );
-    });
+		beforeEach(() => {
+			compiler = new Compiler(
+				path.join(__dirname, `../__fixtures__/${fixed ? 'system-fixed' : 'system-scaled'}`),
+				__dirname,
+				{
+					format,
+					platform,
+				},
+			);
+		});
 
-    it('compiles and writes files', async () => {
-      const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
+		it('compiles and writes files', async () => {
+			const mkdirSpy = jest.spyOn(fs, 'ensureDir').mockImplementation(() => Promise.resolve());
 
-      const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((filePath, contents) => {
-        expect(contents).toMatchSnapshot();
+			const writeSpy = jest.spyOn(fs, 'writeFile').mockImplementation((filePath, contents) => {
+				expect(contents).toMatchSnapshot();
 
-        return Promise.resolve();
-      });
+				return Promise.resolve();
+			});
 
-      await compiler.compile();
+			await compiler.compile();
 
-      expect(writeSpy).toHaveBeenCalledTimes(2);
+			expect(writeSpy).toHaveBeenCalledTimes(2);
 
-      mkdirSpy.mockRestore();
-      writeSpy.mockRestore();
-    });
-  });
+			mkdirSpy.mockRestore();
+			writeSpy.mockRestore();
+		});
+	});
 }

@@ -1,19 +1,19 @@
-export default function joinQueries(prev: string | undefined, next: string): string {
-  if (prev && next) {
-    if (prev.includes(next)) {
-      return prev;
-    }
+export function joinQueries(prev: string | undefined, next: string): string {
+	if (prev && next) {
+		if (prev.includes(next)) {
+			return prev;
+		}
 
-    return `${prev} and ${next}`;
-  }
+		return `${prev} and ${next}`;
+	}
 
-  if (next) {
-    return next;
-  }
+	if (next) {
+		return next;
+	}
 
-  if (prev) {
-    return prev;
-  }
+	if (prev) {
+		return prev;
+	}
 
-  return '';
+	return '';
 }

@@ -7,11 +7,11 @@ const suite = new Benchmark.Suite();
 const engine = createServerEngine();
 
 function renderWithCache() {
-  engine.renderDeclaration('display', 'block', { selector: ':hover' });
+	engine.renderDeclaration('display', 'block', { selector: ':hover' });
 }
 
 suite.add('renderWithCache()', () => {
-  renderWithCache();
+	renderWithCache();
 });
 
 // Test with no cache
@@ -19,19 +19,19 @@ const engineNoCache = createServerEngine();
 engineNoCache.cacheManager.read = () => null;
 
 function renderNoCache() {
-  engineNoCache.renderDeclaration('display', 'block', { selector: ':hover' });
+	engineNoCache.renderDeclaration('display', 'block', { selector: ':hover' });
 }
 
 suite.add('renderNoCache()', () => {
-  renderNoCache();
+	renderNoCache();
 });
 
 // Run all benchmarks
 suite
-  .on('cycle', function cycle(event) {
-    console.log(String(event.target));
-  })
-  .on('complete', function complete() {
-    console.log(`Fastest is ${this.filter('fastest').map('name')}`);
-  })
-  .run();
+	.on('cycle', function cycle(event) {
+		console.log(String(event.target));
+	})
+	.on('complete', function complete() {
+		console.log(`Fastest is ${this.filter('fastest').map('name')}`);
+	})
+	.run();

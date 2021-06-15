@@ -4,29 +4,26 @@
   "version": "0.0.0",
   "scripts": {
     "aesthetic": "node ./packages/cli/lib/bin.js",
-    "prepare": "beemo create-config --silent",
+    "prepare": "beemo create-config",
     "build": "packemon build --addEngines",
     "pack": "NODE_ENV=production packemon pack --addEngines --declaration=standard",
     "clean": "packemon clean",
-    "coverage": "yarn run jest --coverage",
+    "check": "yarn run type && yarn run test && yarn run lint",
     "format": "beemo prettier",
     "generate:ds": "yarn run aesthetic compile aesthetic ./packages/design-systems/src/aesthetic --format web-tsx",
     "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
     "lint": "beemo eslint",
-    "jest": "beemo jest",
-    "prettier": "beemo prettier",
+    "test": "beemo jest",
+    "coverage": "yarn run test --coverage",
+    "type": "beemo typescript --build",
     "release": "lerna publish",
-    "type": "beemo typescript --build --reference-workspaces",
-    "prerelease": "yarn run pack && yarn test",
-    "pretest": "yarn run type",
-    "test": "yarn run coverage",
-    "posttest": "yarn run lint"
+    "prerelease": "yarn run pack && yarn test"
   },
   "engines": {
     "node": ">=12.17.0"
   },
   "devDependencies": {
-    "@milesj/build-tools": "^2.17.0",
+    "@beemo/dev": "^0.2.3",
     "@types/ejs": "^3.0.6",
     "@types/fs-extra": "^9.0.11",
     "@types/lodash": "^4.14.170",
@@ -39,28 +36,7 @@
     "conventional-changelog-beemo": "^2.1.0",
     "lerna": "^4.0.0",
     "packemon": "^1.0.0-alpha.0",
-    "ts-node": "^9.1.1"
-  },
-  "beemo": {
-    "module": "@milesj/build-tools",
-    "drivers": [
-      {
-        "driver": "babel",
-        "strategy": "none"
-      },
-      "eslint",
-      "jest",
-      "prettier",
-      {
-        "driver": "typescript",
-        "buildFolder": "dts",
-        "declarationOnly": true
-      }
-    ],
-    "settings": {
-      "decorators": true,
-      "react": true
-    }
+    "ts-node": "^10.0.0"
   },
   "workspaces": [
     "packages/*"

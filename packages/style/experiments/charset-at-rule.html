@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style">
-      @charset "utf8";
-    </style>
-  </head>
-  <body>
-    <script>
-      // Does the @charset at-rule appear as a CSS rule?
-      //    NO in Firefox, Chrome, Safari
-      //      Only available in `style.textContent`
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style">
+			@charset "utf8";
+		</style>
+	</head>
+	<body>
+		<script>
+			// Does the @charset at-rule appear as a CSS rule?
+			//    NO in Firefox, Chrome, Safari
+			//      Only available in `style.textContent`
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      console.log({ style, sheet }, style.cssText, style.textContent);
+			console.log({ style, sheet }, style.cssText, style.textContent);
 
-      // Can it be inserted?
-      //    NO in Firefox, Chrome, Safari
+			// Can it be inserted?
+			//    NO in Firefox, Chrome, Safari
 
-      sheet.insertRule('@charset "utf8";', 0);
-    </script>
-  </body>
+			sheet.insertRule('@charset "utf8";', 0);
+		</script>
+	</body>
 </html>

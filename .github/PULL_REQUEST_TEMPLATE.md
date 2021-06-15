@@ -17,7 +17,7 @@ https://github.com/aesthetic-suite/framework/blob/main/CONTRIBUTING.md
 
 ## Checklist
 
-- [ ] Build passes with `yarn test`.
+- [ ] Build passes with `yarn check`.
 - [ ] Code is formatted with `yarn format`.
 - [ ] Tests have been added for my changes.
 - [ ] Code coverage for my change is 100%.

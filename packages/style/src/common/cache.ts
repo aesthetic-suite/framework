@@ -1,35 +1,37 @@
 import { CacheItem, CacheManager, CacheState, RenderOptions } from '@aesthetic/types';
 
 export function createCacheKey(
-  property: string,
-  value: unknown,
-  { media = '', selector = '', supports = '' }: RenderOptions,
+	property: string,
+	value: unknown,
+	{ media = '', selector = '', supports = '' }: RenderOptions,
 ): string {
-  return supports + media + selector + property + value;
+	return supports + media + selector + property + String(value);
 }
 
 export function createCacheManager(defaultItems: CacheState = {}): CacheManager {
-  const cache: CacheState = defaultItems;
+	const cache: CacheState = defaultItems;
 
-  return {
-    read(key, minimumRank) {
-      const items = cache[key];
+	return {
+		read(key, minimumRank) {
+			const items = cache[key];
 
-      if (!items) {
-        return null;
-      } else if (minimumRank === undefined) {
-        return items[0];
-      }
+			if (!items) {
+				return null;
+			}
 
-      return items.find((item) => item.rank! >= minimumRank) || null;
-    },
+			if (minimumRank === undefined) {
+				return items[0];
+			}
 
-    write(key: string, item: CacheItem) {
-      const result = cache[key] || [];
+			return items.find((item) => item.rank! >= minimumRank) ?? null;
+		},
 
-      result.push(item);
+		write(key: string, item: CacheItem) {
+			const result = cache[key] || [];
 
-      cache[key] = result;
-    },
-  };
+			result.push(item);
+
+			cache[key] = result;
+		},
+	};
 }

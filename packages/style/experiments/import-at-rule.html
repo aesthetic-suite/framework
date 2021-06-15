@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <style type="text/css" id="style"></style>
-  </head>
-  <body>
-    <script>
-      // Can @import be inserted as a CSS rule?
-      //    YES in Firefox, Chrome, Safari
+	<head>
+		<meta charset="UTF-8" />
+		<style type="text/css" id="style"></style>
+	</head>
+	<body>
+		<script>
+			// Can @import be inserted as a CSS rule?
+			//    YES in Firefox, Chrome, Safari
 
-      const style = document.getElementById('style');
-      const sheet = style.sheet;
+			const style = document.getElementById('style');
+			const sheet = style.sheet;
 
-      sheet.insertRule('@import "test.css";', 0);
+			sheet.insertRule('@import "test.css";', 0);
 
-      console.log({ style, sheet });
-    </script>
-  </body>
+			console.log({ style, sheet });
+		</script>
+	</body>
 </html>

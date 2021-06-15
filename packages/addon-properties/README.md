@@ -12,10 +12,10 @@ import { compoundProperties, expandedProperties } from '@aesthetic/addon-propert
 import { configure } from '@aesthetic/<integration>';
 
 configure({
-  customProperties: {
-    ...compoundProperties,
-    ...expandedProperties,
-  },
+	customProperties: {
+		...compoundProperties,
+		...expandedProperties,
+	},
 });
 ```
 

@@ -7,154 +7,153 @@ exports[`Compiler compile() compiles all configs 1`] = `
 import { Design, ElementStyles } from '@aesthetic/core';
 
 export default new Design<ElementStyles>('test', {
-  border: {
-    sm: {
-      radius: '0.14rem', // 2px
-      width: '0.04rem', // 0.50px
-    },
-    df: {
-      radius: '0.21rem', // 3px
-      width: '0.07rem', // 1px
-    },
-    lg: {
-      radius: '0.32rem', // 4.50px
-      width: '0.14rem', // 2px
-    },
-  },
-  breakpoint: {
-    xs: {
-      query: 'screen and (min-width: 45.71em)',
-      querySize: 640,
-      rootLineHeight: 1.33,
-      rootTextSize: '14.94px',
-    },
-    sm: {
-      query: 'screen and (min-width: 68.57em)',
-      querySize: 960,
-      rootLineHeight: 1.42,
-      rootTextSize: '15.94px',
-    },
-    md: {
-      query: 'screen and (min-width: 91.43em)',
-      querySize: 1280,
-      rootLineHeight: 1.52,
-      rootTextSize: '17.01px',
-    },
-    lg: {
-      query: 'screen and (min-width: 114.29em)',
-      querySize: 1600,
-      rootLineHeight: 1.62,
-      rootTextSize: '18.15px',
-    },
-    xl: {
-      query: 'screen and (min-width: 137.14em)',
-      querySize: 1920,
-      rootLineHeight: 1.73,
-      rootTextSize: '19.36px',
-    },
-  },
-  heading: {
-    l1: {
-      letterSpacing: '1.05px',
-      lineHeight: 2.7,
-      size: '3.49rem', // 48.83px
-    },
-    l2: {
-      letterSpacing: '0.79px',
-      lineHeight: 2.4,
-      size: '2.79rem', // 39.06px
-    },
-    l3: {
-      letterSpacing: '0.59px',
-      lineHeight: 2.14,
-      size: '2.23rem', // 31.25px
-    },
-    l4: {
-      letterSpacing: '0.44px',
-      lineHeight: 1.9,
-      size: '1.79rem', // 25px
-    },
-    l5: {
-      letterSpacing: '0.33px',
-      lineHeight: 1.69,
-      size: '1.43rem', // 20px
-    },
-    l6: {
-      letterSpacing: '0.25px',
-      lineHeight: 1.5,
-      size: '1.14rem', // 16px
-    },
-  },
-  shadow: {
-    xs: {
-      x: '0rem', // 0px
-      y: '0.14rem', // 2px
-      blur: '0.14rem', // 2px
-      spread: '0rem', // 0px
-    },
-    sm: {
-      x: '0rem', // 0px
-      y: '0.23rem', // 3.24px
-      blur: '0.25rem', // 3.50px
-      spread: '0rem', // 0px
-    },
-    md: {
-      x: '0rem', // 0px
-      y: '0.37rem', // 5.24px
-      blur: '0.44rem', // 6.13px
-      spread: '0rem', // 0px
-    },
-    lg: {
-      x: '0rem', // 0px
-      y: '0.61rem', // 8.47px
-      blur: '0.77rem', // 10.72px
-      spread: '0rem', // 0px
-    },
-    xl: {
-      x: '0rem', // 0px
-      y: '0.98rem', // 13.71px
-      blur: '1.34rem', // 18.76px
-      spread: '0rem', // 0px
-    },
-  },
-  spacing: {
-    xs: '0.31rem', // 4.38px
-    sm: '0.63rem', // 8.75px
-    df: '1.25rem', // 17.50px
-    lg: '2.50rem', // 35px
-    xl: '3.75rem', // 52.50px
-    type: 'vertical-rhythm',
-    unit: 17.5,
-  },
-  text: {
-    sm: {
-      lineHeight: 1.25,
-      size: '0.89rem', // 12.44px
-    },
-    df: {
-      lineHeight: 1.25,
-      size: '1rem', // 14px
-    },
-    lg: {
-      lineHeight: 1.25,
-      size: '1.13rem', // 15.75px
-    },
-  },
-  typography: {
-    font: {
-      heading:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-      locale: {},
-      monospace:
-        'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace',
-      text:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-      system:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-    },
-    rootLineHeight: 1.25,
-    rootTextSize: '14px',
-  },
+	border: {
+		sm: {
+			radius: '0.14rem', // 2px
+			width: '0.04rem', // 0.50px
+		},
+		df: {
+			radius: '0.21rem', // 3px
+			width: '0.07rem', // 1px
+		},
+		lg: {
+			radius: '0.32rem', // 4.50px
+			width: '0.14rem', // 2px
+		},
+	},
+	breakpoint: {
+		xs: {
+			query: 'screen and (min-width: 45.71em)',
+			querySize: 640,
+			rootLineHeight: 1.33,
+			rootTextSize: '14.94px',
+		},
+		sm: {
+			query: 'screen and (min-width: 68.57em)',
+			querySize: 960,
+			rootLineHeight: 1.42,
+			rootTextSize: '15.94px',
+		},
+		md: {
+			query: 'screen and (min-width: 91.43em)',
+			querySize: 1280,
+			rootLineHeight: 1.52,
+			rootTextSize: '17.01px',
+		},
+		lg: {
+			query: 'screen and (min-width: 114.29em)',
+			querySize: 1600,
+			rootLineHeight: 1.62,
+			rootTextSize: '18.15px',
+		},
+		xl: {
+			query: 'screen and (min-width: 137.14em)',
+			querySize: 1920,
+			rootLineHeight: 1.73,
+			rootTextSize: '19.36px',
+		},
+	},
+	heading: {
+		l1: {
+			letterSpacing: '1.05px',
+			lineHeight: 2.7,
+			size: '3.49rem', // 48.83px
+		},
+		l2: {
+			letterSpacing: '0.79px',
+			lineHeight: 2.4,
+			size: '2.79rem', // 39.06px
+		},
+		l3: {
+			letterSpacing: '0.59px',
+			lineHeight: 2.14,
+			size: '2.23rem', // 31.25px
+		},
+		l4: {
+			letterSpacing: '0.44px',
+			lineHeight: 1.9,
+			size: '1.79rem', // 25px
+		},
+		l5: {
+			letterSpacing: '0.33px',
+			lineHeight: 1.69,
+			size: '1.43rem', // 20px
+		},
+		l6: {
+			letterSpacing: '0.25px',
+			lineHeight: 1.5,
+			size: '1.14rem', // 16px
+		},
+	},
+	shadow: {
+		xs: {
+			x: '0rem', // 0px
+			y: '0.14rem', // 2px
+			blur: '0.14rem', // 2px
+			spread: '0rem', // 0px
+		},
+		sm: {
+			x: '0rem', // 0px
+			y: '0.23rem', // 3.24px
+			blur: '0.25rem', // 3.50px
+			spread: '0rem', // 0px
+		},
+		md: {
+			x: '0rem', // 0px
+			y: '0.37rem', // 5.24px
+			blur: '0.44rem', // 6.13px
+			spread: '0rem', // 0px
+		},
+		lg: {
+			x: '0rem', // 0px
+			y: '0.61rem', // 8.47px
+			blur: '0.77rem', // 10.72px
+			spread: '0rem', // 0px
+		},
+		xl: {
+			x: '0rem', // 0px
+			y: '0.98rem', // 13.71px
+			blur: '1.34rem', // 18.76px
+			spread: '0rem', // 0px
+		},
+	},
+	spacing: {
+		xs: '0.31rem', // 4.38px
+		sm: '0.63rem', // 8.75px
+		df: '1.25rem', // 17.50px
+		lg: '2.50rem', // 35px
+		xl: '3.75rem', // 52.50px
+		type: 'vertical-rhythm',
+		unit: 17.5,
+	},
+	text: {
+		sm: {
+			lineHeight: 1.25,
+			size: '0.89rem', // 12.44px
+		},
+		df: {
+			lineHeight: 1.25,
+			size: '1rem', // 14px
+		},
+		lg: {
+			lineHeight: 1.25,
+			size: '1.13rem', // 15.75px
+		},
+	},
+	typography: {
+		font: {
+			heading:
+				'-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+			locale: {},
+			monospace:
+				'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace',
+			text: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+			system:
+				'-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+		},
+		rootLineHeight: 1.25,
+		rootTextSize: '14px',
+	},
 });
 "
 `;
@@ -166,304 +165,304 @@ exports[`Compiler compile() compiles all configs 2`] = `
 import design from '..';
 
 export default design.createTheme(
-  {
-    contrast: 'normal',
-    scheme: 'light',
-  },
-  {
-    palette: {
-      brand: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      primary: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      secondary: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      tertiary: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      neutral: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      muted: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      danger: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      warning: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      negative: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-      positive: {
-        color: {
-          '00': '#000',
-          '10': '#000',
-          '20': '#000',
-          '30': '#000',
-          '40': '#000',
-          '50': '#000',
-          '60': '#000',
-          '70': '#000',
-          '80': '#000',
-          '90': '#000',
-        },
-        bg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        fg: {
-          base: '#000',
-          focused: '#000',
-          hovered: '#000',
-          selected: '#000',
-          disabled: '#000',
-        },
-        text: '#000',
-      },
-    },
-  },
+	{
+		contrast: 'normal',
+		scheme: 'light',
+	},
+	{
+		palette: {
+			brand: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			primary: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			secondary: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			tertiary: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			neutral: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			muted: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			danger: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			warning: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			negative: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+			positive: {
+				color: {
+					'00': '#000',
+					'10': '#000',
+					'20': '#000',
+					'30': '#000',
+					'40': '#000',
+					'50': '#000',
+					'60': '#000',
+					'70': '#000',
+					'80': '#000',
+					'90': '#000',
+				},
+				bg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				fg: {
+					base: '#000',
+					focused: '#000',
+					hovered: '#000',
+					selected: '#000',
+					disabled: '#000',
+				},
+				text: '#000',
+			},
+		},
+	},
 );
 "
 `;
@@ -475,154 +474,153 @@ exports[`Compiler compile() compiles design systems with multiple themes 1`] = `
 import { Design, ElementStyles } from '@aesthetic/core';
 
 export default new Design<ElementStyles>('test', {
-  border: {
-    sm: {
-      radius: '0.11rem', // 1.50px
-      width: '0rem', // 0px
-    },
-    df: {
-      radius: '0.21rem', // 3px
-      width: '0.07rem', // 1px
-    },
-    lg: {
-      radius: '0.32rem', // 4.50px
-      width: '0.14rem', // 2px
-    },
-  },
-  breakpoint: {
-    xs: {
-      query: 'screen and (min-width: 45.71em)',
-      querySize: 640,
-      rootLineHeight: 1.33,
-      rootTextSize: '14.94px',
-    },
-    sm: {
-      query: 'screen and (min-width: 68.57em)',
-      querySize: 960,
-      rootLineHeight: 1.42,
-      rootTextSize: '15.94px',
-    },
-    md: {
-      query: 'screen and (min-width: 91.43em)',
-      querySize: 1280,
-      rootLineHeight: 1.52,
-      rootTextSize: '17.01px',
-    },
-    lg: {
-      query: 'screen and (min-width: 114.29em)',
-      querySize: 1600,
-      rootLineHeight: 1.62,
-      rootTextSize: '18.15px',
-    },
-    xl: {
-      query: 'screen and (min-width: 137.14em)',
-      querySize: 1920,
-      rootLineHeight: 1.73,
-      rootTextSize: '19.36px',
-    },
-  },
-  heading: {
-    l1: {
-      letterSpacing: '0.25px',
-      lineHeight: 1.5,
-      size: '1.14rem', // 16px
-    },
-    l2: {
-      letterSpacing: '0.33px',
-      lineHeight: 1.69,
-      size: '1.43rem', // 20px
-    },
-    l3: {
-      letterSpacing: '0.44px',
-      lineHeight: 1.9,
-      size: '1.79rem', // 25px
-    },
-    l4: {
-      letterSpacing: '0.59px',
-      lineHeight: 2.14,
-      size: '2.23rem', // 31.25px
-    },
-    l5: {
-      letterSpacing: '0.79px',
-      lineHeight: 2.4,
-      size: '2.79rem', // 39px
-    },
-    l6: {
-      letterSpacing: '1.05px',
-      lineHeight: 2.7,
-      size: '3.49rem', // 48.80px
-    },
-  },
-  shadow: {
-    xs: {
-      x: '0rem', // 0px
-      y: '0.14rem', // 2px
-      blur: '0.14rem', // 2px
-      spread: '0rem', // 0px
-    },
-    sm: {
-      x: '0rem', // 0px
-      y: '0.23rem', // 3.24px
-      blur: '0.27rem', // 3.75px
-      spread: '0rem', // 0px
-    },
-    md: {
-      x: '0rem', // 0px
-      y: '0.37rem', // 5.24px
-      blur: '0.39rem', // 5.50px
-      spread: '0rem', // 0px
-    },
-    lg: {
-      x: '0rem', // 0px
-      y: '0.61rem', // 8.47px
-      blur: '0.52rem', // 7.25px
-      spread: '0rem', // 0px
-    },
-    xl: {
-      x: '0rem', // 0px
-      y: '0.98rem', // 13.71px
-      blur: '0.64rem', // 9px
-      spread: '0rem', // 0px
-    },
-  },
-  spacing: {
-    xs: '0.31rem', // 4.38px
-    sm: '0.63rem', // 8.75px
-    df: '1.25rem', // 17.50px
-    lg: '2.50rem', // 35px
-    xl: '3.75rem', // 52.50px
-    type: 'vertical-rhythm',
-    unit: 17.5,
-  },
-  text: {
-    sm: {
-      lineHeight: 1.25,
-      size: '0.89rem', // 12.45px
-    },
-    df: {
-      lineHeight: 1.25,
-      size: '1rem', // 14px
-    },
-    lg: {
-      lineHeight: 1.25,
-      size: '1.13rem', // 15.75px
-    },
-  },
-  typography: {
-    font: {
-      heading:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-      locale: {},
-      monospace:
-        'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace',
-      text:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-      system:
-        '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
-    },
-    rootLineHeight: 1.25,
-    rootTextSize: '14px',
-  },
+	border: {
+		sm: {
+			radius: '0.11rem', // 1.50px
+			width: '0rem', // 0px
+		},
+		df: {
+			radius: '0.21rem', // 3px
+			width: '0.07rem', // 1px
+		},
+		lg: {
+			radius: '0.32rem', // 4.50px
+			width: '0.14rem', // 2px
+		},
+	},
+	breakpoint: {
+		xs: {
+			query: 'screen and (min-width: 45.71em)',
+			querySize: 640,
+			rootLineHeight: 1.33,
+			rootTextSize: '14.94px',
+		},
+		sm: {
+			query: 'screen and (min-width: 68.57em)',
+			querySize: 960,
+			rootLineHeight: 1.42,
+			rootTextSize: '15.94px',
+		},
+		md: {
+			query: 'screen and (min-width: 91.43em)',
+			querySize: 1280,
+			rootLineHeight: 1.52,
+			rootTextSize: '17.01px',
+		},
+		lg: {
+			query: 'screen and (min-width: 114.29em)',
+			querySize: 1600,
+			rootLineHeight: 1.62,
+			rootTextSize: '18.15px',
+		},
+		xl: {
+			query: 'screen and (min-width: 137.14em)',
+			querySize: 1920,
+			rootLineHeight: 1.73,
+			rootTextSize: '19.36px',
+		},
+	},
+	heading: {
+		l1: {
+			letterSpacing: '0.25px',
+			lineHeight: 1.5,
+			size: '1.14rem', // 16px
+		},
+		l2: {
+			letterSpacing: '0.33px',
+			lineHeight: 1.69,
+			size: '1.43rem', // 20px
+		},
+		l3: {
+			letterSpacing: '0.44px',
+			lineHeight: 1.9,
+			size: '1.79rem', // 25px
+		},
+		l4: {
+			letterSpacing: '0.59px',
+			lineHeight: 2.14,
+			size: '2.23rem', // 31.25px
+		},
+		l5: {
+			letterSpacing: '0.79px',
+			lineHeight: 2.4,
+			size: '2.79rem', // 39px
+		},
+		l6: {
+			letterSpacing: '1.05px',
+			lineHeight: 2.7,
+			size: '3.49rem', // 48.80px
+		},
+	},
+	shadow: {
+		xs: {
+			x: '0rem', // 0px
+			y: '0.14rem', // 2px
+			blur: '0.14rem', // 2px
+			spread: '0rem', // 0px
+		},
+		sm: {
+			x: '0rem', // 0px
+			y: '0.23rem', // 3.24px
+			blur: '0.27rem', // 3.75px
+			spread: '0rem', // 0px
+		},
+		md: {
+			x: '0rem', // 0px
+			y: '0.37rem', // 5.24px
+			blur: '0.39rem', // 5.50px
+			spread: '0rem', // 0px
+		},
+		lg: {
+			x: '0rem', // 0px
+			y: '0.61rem', // 8.47px
+			blur: '0.52rem', // 7.25px
+			spread: '0rem', // 0px
+		},
+		xl: {
+			x: '0rem', // 0px
+			y: '0.98rem', // 13.71px
+			blur: '0.64rem', // 9px
+			spread: '0rem', // 0px
+		},
+	},
+	spacing: {
+		xs: '0.31rem', // 4.38px
+		sm: '0.63rem', // 8.75px
+		df: '1.25rem', // 17.50px
+		lg: '2.50rem', // 35px
+		xl: '3.75rem', // 52.50px
+		type: 'vertical-rhythm',
+		unit: 17.5,
+	},
+	text: {
+		sm: {
+			lineHeight: 1.25,
+			size: '0.89rem', // 12.45px
+		},
+		df: {
+			lineHeight: 1.25,
+			size: '1rem', // 14px
+		},
+		lg: {
+			lineHeight: 1.25,
+			size: '1.13rem', // 15.75px
+		},
+	},
+	typography: {
+		font: {
+			heading:
+				'-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+			locale: {},
+			monospace:
+				'Menlo, Monaco, Consolas, \\"Lucida Console\\", \\"Liberation Mono\\", \\"Courier New\\", monospace',
+			text: '-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+			system:
+				'-apple-system, BlinkMacSystemFont, \\"Segoe UI\\", Roboto, \\"Helvetica Neue\\", Arial, \\"Noto Sans\\", sans-serif, \\"Apple Color Emoji\\", \\"Segoe UI Emoji\\", \\"Segoe UI Symbol\\", \\"Noto Color Emoji\\"',
+		},
+		rootLineHeight: 1.25,
+		rootTextSize: '14px',
+	},
 });
 "
 `;
@@ -634,304 +632,304 @@ exports[`Compiler compile() compiles design systems with multiple themes 2`] = `
 import design from '..';
 
 export default design.createTheme(
-  {
-    contrast: 'normal',
-    scheme: 'light',
-  },
-  {
-    palette: {
-      brand: {
-        color: {
-          '00': '#000',
-          '10': '#001',
-          '20': '#002',
-          '30': '#003',
-          '40': '#004',
-          '50': '#005',
-          '60': '#006',
-          '70': '#007',
-          '80': '#008',
-          '90': '#009',
-        },
-        bg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        fg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        text: '#008',
-      },
-      primary: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE0',
-          focused: '#005',
-          hovered: '#BE2',
-          selected: '#005',
-          disabled: '#BE1',
-        },
-        fg: {
-          base: '#FF9',
-          focused: '#FF8',
-          hovered: '#006',
-          selected: '#FF7',
-          disabled: '#003',
-        },
-        text: '#BE8',
-      },
-      secondary: {
-        color: {
-          '00': '#ED0',
-          '10': '#ED1',
-          '20': '#ED2',
-          '30': '#ED3',
-          '40': '#ED4',
-          '50': '#ED5',
-          '60': '#ED6',
-          '70': '#ED7',
-          '80': '#ED8',
-          '90': '#ED9',
-        },
-        bg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
-        },
-        fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        text: '#ED8',
-      },
-      tertiary: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        text: '#BE8',
-      },
-      neutral: {
-        color: {
-          '00': '#EE0',
-          '10': '#EE1',
-          '20': '#EE2',
-          '30': '#EE3',
-          '40': '#EE4',
-          '50': '#EE5',
-          '60': '#EE6',
-          '70': '#EE7',
-          '80': '#EE8',
-          '90': '#EE9',
-        },
-        bg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
-        },
-        fg: {
-          base: '#FF0',
-          focused: '#FF2',
-          hovered: '#FF3',
-          selected: '#FF4',
-          disabled: '#FF1',
-        },
-        text: '#EE8',
-      },
-      muted: {
-        color: {
-          '00': '#000',
-          '10': '#001',
-          '20': '#002',
-          '30': '#003',
-          '40': '#004',
-          '50': '#005',
-          '60': '#006',
-          '70': '#007',
-          '80': '#008',
-          '90': '#009',
-        },
-        bg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        text: '#008',
-      },
-      danger: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        text: '#BE4',
-      },
-      warning: {
-        color: {
-          '00': '#ED0',
-          '10': '#ED1',
-          '20': '#ED2',
-          '30': '#ED3',
-          '40': '#ED4',
-          '50': '#ED5',
-          '60': '#ED6',
-          '70': '#ED7',
-          '80': '#ED8',
-          '90': '#ED9',
-        },
-        bg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
-        },
-        fg: {
-          base: '#FF9',
-          focused: '#FF9',
-          hovered: '#FF9',
-          selected: '#FF9',
-          disabled: '#FF9',
-        },
-        text: '#ED8',
-      },
-      negative: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        text: '#BE0',
-      },
-      positive: {
-        color: {
-          '00': '#EE0',
-          '10': '#EE1',
-          '20': '#EE2',
-          '30': '#EE3',
-          '40': '#EE4',
-          '50': '#EE5',
-          '60': '#EE6',
-          '70': '#EE7',
-          '80': '#EE8',
-          '90': '#EE9',
-        },
-        bg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
-        },
-        fg: {
-          base: '#FF4',
-          focused: '#FF5',
-          hovered: '#FF6',
-          selected: '#FF5',
-          disabled: '#FF3',
-        },
-        text: '#EE9',
-      },
-    },
-  },
+	{
+		contrast: 'normal',
+		scheme: 'light',
+	},
+	{
+		palette: {
+			brand: {
+				color: {
+					'00': '#000',
+					'10': '#001',
+					'20': '#002',
+					'30': '#003',
+					'40': '#004',
+					'50': '#005',
+					'60': '#006',
+					'70': '#007',
+					'80': '#008',
+					'90': '#009',
+				},
+				bg: {
+					base: '#004',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				fg: {
+					base: '#004',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				text: '#008',
+			},
+			primary: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE0',
+					focused: '#005',
+					hovered: '#BE2',
+					selected: '#005',
+					disabled: '#BE1',
+				},
+				fg: {
+					base: '#FF9',
+					focused: '#FF8',
+					hovered: '#006',
+					selected: '#FF7',
+					disabled: '#003',
+				},
+				text: '#BE8',
+			},
+			secondary: {
+				color: {
+					'00': '#ED0',
+					'10': '#ED1',
+					'20': '#ED2',
+					'30': '#ED3',
+					'40': '#ED4',
+					'50': '#ED5',
+					'60': '#ED6',
+					'70': '#ED7',
+					'80': '#ED8',
+					'90': '#ED9',
+				},
+				bg: {
+					base: '#ED4',
+					focused: '#ED5',
+					hovered: '#ED6',
+					selected: '#ED5',
+					disabled: '#ED3',
+				},
+				fg: {
+					base: '#FF4',
+					focused: '#FF5',
+					hovered: '#FF6',
+					selected: '#FF5',
+					disabled: '#FF3',
+				},
+				text: '#ED8',
+			},
+			tertiary: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				text: '#BE8',
+			},
+			neutral: {
+				color: {
+					'00': '#EE0',
+					'10': '#EE1',
+					'20': '#EE2',
+					'30': '#EE3',
+					'40': '#EE4',
+					'50': '#EE5',
+					'60': '#EE6',
+					'70': '#EE7',
+					'80': '#EE8',
+					'90': '#EE9',
+				},
+				bg: {
+					base: '#EE4',
+					focused: '#EE5',
+					hovered: '#EE6',
+					selected: '#EE5',
+					disabled: '#EE3',
+				},
+				fg: {
+					base: '#FF0',
+					focused: '#FF2',
+					hovered: '#FF3',
+					selected: '#FF4',
+					disabled: '#FF1',
+				},
+				text: '#EE8',
+			},
+			muted: {
+				color: {
+					'00': '#000',
+					'10': '#001',
+					'20': '#002',
+					'30': '#003',
+					'40': '#004',
+					'50': '#005',
+					'60': '#006',
+					'70': '#007',
+					'80': '#008',
+					'90': '#009',
+				},
+				bg: {
+					base: '#004',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				fg: {
+					base: '#FF4',
+					focused: '#FF5',
+					hovered: '#FF6',
+					selected: '#FF5',
+					disabled: '#FF3',
+				},
+				text: '#008',
+			},
+			danger: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#FF4',
+					focused: '#FF5',
+					hovered: '#FF6',
+					selected: '#FF5',
+					disabled: '#FF3',
+				},
+				text: '#BE4',
+			},
+			warning: {
+				color: {
+					'00': '#ED0',
+					'10': '#ED1',
+					'20': '#ED2',
+					'30': '#ED3',
+					'40': '#ED4',
+					'50': '#ED5',
+					'60': '#ED6',
+					'70': '#ED7',
+					'80': '#ED8',
+					'90': '#ED9',
+				},
+				bg: {
+					base: '#ED4',
+					focused: '#ED5',
+					hovered: '#ED6',
+					selected: '#ED5',
+					disabled: '#ED3',
+				},
+				fg: {
+					base: '#FF9',
+					focused: '#FF9',
+					hovered: '#FF9',
+					selected: '#FF9',
+					disabled: '#FF9',
+				},
+				text: '#ED8',
+			},
+			negative: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#FF4',
+					focused: '#FF5',
+					hovered: '#FF6',
+					selected: '#FF5',
+					disabled: '#FF3',
+				},
+				text: '#BE0',
+			},
+			positive: {
+				color: {
+					'00': '#EE0',
+					'10': '#EE1',
+					'20': '#EE2',
+					'30': '#EE3',
+					'40': '#EE4',
+					'50': '#EE5',
+					'60': '#EE6',
+					'70': '#EE7',
+					'80': '#EE8',
+					'90': '#EE9',
+				},
+				bg: {
+					base: '#EE4',
+					focused: '#EE5',
+					hovered: '#EE6',
+					selected: '#EE5',
+					disabled: '#EE3',
+				},
+				fg: {
+					base: '#FF4',
+					focused: '#FF5',
+					hovered: '#FF6',
+					selected: '#FF5',
+					disabled: '#FF3',
+				},
+				text: '#EE9',
+			},
+		},
+	},
 );
 "
 `;
@@ -943,304 +941,304 @@ exports[`Compiler compile() compiles design systems with multiple themes 3`] = `
 import parentTheme from './default';
 
 export default parentTheme.extend(
-  {
-    palette: {
-      brand: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        text: '#BE8',
-      },
-      primary: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE0',
-          focused: '#005',
-          hovered: '#BE2',
-          selected: '#005',
-          disabled: '#BE1',
-        },
-        fg: {
-          base: '#ff9',
-          focused: '#ff8',
-          hovered: '#006',
-          selected: '#ff7',
-          disabled: '#003',
-        },
-        text: '#BE8',
-      },
-      secondary: {
-        color: {
-          '00': '#ED0',
-          '10': '#ED1',
-          '20': '#ED2',
-          '30': '#ED3',
-          '40': '#ED4',
-          '50': '#ED5',
-          '60': '#ED6',
-          '70': '#ED7',
-          '80': '#ED8',
-          '90': '#ED9',
-        },
-        bg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
-        },
-        fg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
-        },
-        text: '#ED8',
-      },
-      tertiary: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        text: '#BE8',
-      },
-      neutral: {
-        color: {
-          '00': '#EE0',
-          '10': '#EE1',
-          '20': '#EE2',
-          '30': '#EE3',
-          '40': '#EE4',
-          '50': '#EE5',
-          '60': '#EE6',
-          '70': '#EE7',
-          '80': '#EE8',
-          '90': '#EE9',
-        },
-        bg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
-        },
-        fg: {
-          base: '#ff0',
-          focused: '#ff4',
-          hovered: '#ff3',
-          selected: '#ff8',
-          disabled: '#ff1',
-        },
-        text: '#EE8',
-      },
-      muted: {
-        color: {
-          '00': '#000',
-          '10': '#001',
-          '20': '#002',
-          '30': '#003',
-          '40': '#004',
-          '50': '#005',
-          '60': '#006',
-          '70': '#007',
-          '80': '#008',
-          '90': '#009',
-        },
-        bg: {
-          base: '#004',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        fg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
-        },
-        text: '#008',
-      },
-      danger: {
-        color: {
-          '00': '#ED0',
-          '10': '#ED1',
-          '20': '#ED2',
-          '30': '#ED3',
-          '40': '#ED4',
-          '50': '#ED5',
-          '60': '#ED6',
-          '70': '#ED7',
-          '80': '#ED8',
-          '90': '#ED9',
-        },
-        bg: {
-          base: '#ED9',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        fg: {
-          base: '#ED0',
-          focused: '#005',
-          hovered: '#006',
-          selected: '#005',
-          disabled: '#003',
-        },
-        text: '#ED8',
-      },
-      warning: {
-        color: {
-          '00': '#ED0',
-          '10': '#ED1',
-          '20': '#ED2',
-          '30': '#ED3',
-          '40': '#ED4',
-          '50': '#ED5',
-          '60': '#ED6',
-          '70': '#ED7',
-          '80': '#ED8',
-          '90': '#ED9',
-        },
-        bg: {
-          base: '#ED4',
-          focused: '#ED5',
-          hovered: '#ED6',
-          selected: '#ED5',
-          disabled: '#ED3',
-        },
-        fg: {
-          base: '#ff9',
-          focused: '#ff9',
-          hovered: '#ff9',
-          selected: '#ff9',
-          disabled: '#ff9',
-        },
-        text: '#ED8',
-      },
-      negative: {
-        color: {
-          '00': '#BE0',
-          '10': '#BE1',
-          '20': '#BE2',
-          '30': '#BE3',
-          '40': '#BE4',
-          '50': '#BE5',
-          '60': '#BE6',
-          '70': '#BE7',
-          '80': '#BE8',
-          '90': '#BE9',
-        },
-        bg: {
-          base: '#BE4',
-          focused: '#BE5',
-          hovered: '#BE6',
-          selected: '#BE5',
-          disabled: '#BE3',
-        },
-        fg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
-        },
-        text: '#BE0',
-      },
-      positive: {
-        color: {
-          '00': '#EE0',
-          '10': '#EE1',
-          '20': '#EE2',
-          '30': '#EE3',
-          '40': '#EE4',
-          '50': '#EE5',
-          '60': '#EE6',
-          '70': '#EE7',
-          '80': '#EE8',
-          '90': '#EE9',
-        },
-        bg: {
-          base: '#EE4',
-          focused: '#EE5',
-          hovered: '#EE6',
-          selected: '#EE5',
-          disabled: '#EE3',
-        },
-        fg: {
-          base: '#ff4',
-          focused: '#ff5',
-          hovered: '#ff6',
-          selected: '#ff5',
-          disabled: '#ff3',
-        },
-        text: '#EE9',
-      },
-    },
-  },
-  {
-    contrast: 'normal',
-    scheme: 'light',
-  },
+	{
+		palette: {
+			brand: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				text: '#BE8',
+			},
+			primary: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE0',
+					focused: '#005',
+					hovered: '#BE2',
+					selected: '#005',
+					disabled: '#BE1',
+				},
+				fg: {
+					base: '#ff9',
+					focused: '#ff8',
+					hovered: '#006',
+					selected: '#ff7',
+					disabled: '#003',
+				},
+				text: '#BE8',
+			},
+			secondary: {
+				color: {
+					'00': '#ED0',
+					'10': '#ED1',
+					'20': '#ED2',
+					'30': '#ED3',
+					'40': '#ED4',
+					'50': '#ED5',
+					'60': '#ED6',
+					'70': '#ED7',
+					'80': '#ED8',
+					'90': '#ED9',
+				},
+				bg: {
+					base: '#ED4',
+					focused: '#ED5',
+					hovered: '#ED6',
+					selected: '#ED5',
+					disabled: '#ED3',
+				},
+				fg: {
+					base: '#ff4',
+					focused: '#ff5',
+					hovered: '#ff6',
+					selected: '#ff5',
+					disabled: '#ff3',
+				},
+				text: '#ED8',
+			},
+			tertiary: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				text: '#BE8',
+			},
+			neutral: {
+				color: {
+					'00': '#EE0',
+					'10': '#EE1',
+					'20': '#EE2',
+					'30': '#EE3',
+					'40': '#EE4',
+					'50': '#EE5',
+					'60': '#EE6',
+					'70': '#EE7',
+					'80': '#EE8',
+					'90': '#EE9',
+				},
+				bg: {
+					base: '#EE4',
+					focused: '#EE5',
+					hovered: '#EE6',
+					selected: '#EE5',
+					disabled: '#EE3',
+				},
+				fg: {
+					base: '#ff0',
+					focused: '#ff4',
+					hovered: '#ff3',
+					selected: '#ff8',
+					disabled: '#ff1',
+				},
+				text: '#EE8',
+			},
+			muted: {
+				color: {
+					'00': '#000',
+					'10': '#001',
+					'20': '#002',
+					'30': '#003',
+					'40': '#004',
+					'50': '#005',
+					'60': '#006',
+					'70': '#007',
+					'80': '#008',
+					'90': '#009',
+				},
+				bg: {
+					base: '#004',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				fg: {
+					base: '#ff4',
+					focused: '#ff5',
+					hovered: '#ff6',
+					selected: '#ff5',
+					disabled: '#ff3',
+				},
+				text: '#008',
+			},
+			danger: {
+				color: {
+					'00': '#ED0',
+					'10': '#ED1',
+					'20': '#ED2',
+					'30': '#ED3',
+					'40': '#ED4',
+					'50': '#ED5',
+					'60': '#ED6',
+					'70': '#ED7',
+					'80': '#ED8',
+					'90': '#ED9',
+				},
+				bg: {
+					base: '#ED9',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				fg: {
+					base: '#ED0',
+					focused: '#005',
+					hovered: '#006',
+					selected: '#005',
+					disabled: '#003',
+				},
+				text: '#ED8',
+			},
+			warning: {
+				color: {
+					'00': '#ED0',
+					'10': '#ED1',
+					'20': '#ED2',
+					'30': '#ED3',
+					'40': '#ED4',
+					'50': '#ED5',
+					'60': '#ED6',
+					'70': '#ED7',
+					'80': '#ED8',
+					'90': '#ED9',
+				},
+				bg: {
+					base: '#ED4',
+					focused: '#ED5',
+					hovered: '#ED6',
+					selected: '#ED5',
+					disabled: '#ED3',
+				},
+				fg: {
+					base: '#ff9',
+					focused: '#ff9',
+					hovered: '#ff9',
+					selected: '#ff9',
+					disabled: '#ff9',
+				},
+				text: '#ED8',
+			},
+			negative: {
+				color: {
+					'00': '#BE0',
+					'10': '#BE1',
+					'20': '#BE2',
+					'30': '#BE3',
+					'40': '#BE4',
+					'50': '#BE5',
+					'60': '#BE6',
+					'70': '#BE7',
+					'80': '#BE8',
+					'90': '#BE9',
+				},
+				bg: {
+					base: '#BE4',
+					focused: '#BE5',
+					hovered: '#BE6',
+					selected: '#BE5',
+					disabled: '#BE3',
+				},
+				fg: {
+					base: '#ff4',
+					focused: '#ff5',
+					hovered: '#ff6',
+					selected: '#ff5',
+					disabled: '#ff3',
+				},
+				text: '#BE0',
+			},
+			positive: {
+				color: {
+					'00': '#EE0',
+					'10': '#EE1',
+					'20': '#EE2',
+					'30': '#EE3',
+					'40': '#EE4',
+					'50': '#EE5',
+					'60': '#EE6',
+					'70': '#EE7',
+					'80': '#EE8',
+					'90': '#EE9',
+				},
+				bg: {
+					base: '#EE4',
+					focused: '#EE5',
+					hovered: '#EE6',
+					selected: '#EE5',
+					disabled: '#EE3',
+				},
+				fg: {
+					base: '#ff4',
+					focused: '#ff5',
+					hovered: '#ff6',
+					selected: '#ff5',
+					disabled: '#ff3',
+				},
+				text: '#EE9',
+			},
+		},
+	},
+	{
+		contrast: 'normal',
+		scheme: 'light',
+	},
 );
 "
 `;

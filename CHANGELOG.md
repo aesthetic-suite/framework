@@ -19,3 +19,4 @@
 - [@aesthetic/core-react](https://github.com/aesthetic-suite/react/blob/master/packages/core-react/CHANGELOG.md)
 - [@aesthetic/react](https://github.com/aesthetic-suite/react/blob/master/packages/react/CHANGELOG.md)
 - [@aesthetic/react-native](https://github.com/aesthetic-suite/react/blob/master/packages/react-native/CHANGELOG.md)
+- [@aesthetic/react-ui](https://github.com/aesthetic-suite/react/blob/master/packages/react-ui/CHANGELOG.md)

@@ -15,36 +15,36 @@ const engine = createClientEngine();
 
 // Render a style decleration into individual atomic class names
 const className = engine.renderRule({
-  margin: 0,
-  textAlign: 'center',
-  color: 'var(--color)',
-  backgroundColor: 'transparent',
-  border: '2px solid #eee',
+	margin: 0,
+	textAlign: 'center',
+	color: 'var(--color)',
+	backgroundColor: 'transparent',
+	border: '2px solid #eee',
 
-  ':hover': {
-    borderColor: '#fff',
-  },
+	':hover': {
+		borderColor: '#fff',
+	},
 
-  '@media': {
-    '(max-width: 600px)': {
-      display: 'block',
-    },
-  },
+	'@media': {
+		'(max-width: 600px)': {
+			display: 'block',
+		},
+	},
 
-  '@variants': {
-    'size:small': {
-      fontSize: 14,
-      padding: '4px 10px',
-    },
-    'size:default': {
-      fontSize: 16,
-      padding: '6px 12px',
-    },
-    'size:large': {
-      fontSize: 18,
-      padding: '8px 14px',
-    },
-  },
+	'@variants': {
+		'size:small': {
+			fontSize: 14,
+			padding: '4px 10px',
+		},
+		'size:default': {
+			fontSize: 16,
+			padding: '6px 12px',
+		},
+		'size:large': {
+			fontSize: 18,
+			padding: '8px 14px',
+		},
+	},
 });
 
 className.result; // -> a b c d e f g
