@@ -4,7 +4,7 @@ import { Sheet, ThemeSheet } from '../src';
 import { renderTheme } from '../src/renderers';
 import { lightTheme } from '../src/test';
 
-describe('GlobalSheet', () => {
+describe('Theme styles', () => {
 	let engine: Engine<string>;
 	let sheet: ThemeSheet<ClassName, Rule>;
 

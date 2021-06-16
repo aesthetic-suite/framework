@@ -1,13 +1,14 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
-import { ClassName, Engine } from '@aesthetic/types';
-import { Aesthetic, LocalSheet, StyleSheet } from '../src';
+import { ClassName, Engine, Rule, RuleMap } from '@aesthetic/types';
+import { Aesthetic, ComponentSheet, OverrideSheet } from '../src';
+import { renderComponent } from '../src/renderers';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
-describe('LocalSheet', () => {
+describe('Component styles', () => {
 	let aesthetic: Aesthetic;
 	let engine: Engine<string>;
-	let sheet: LocalSheet<unknown, object, ClassName>;
+	let sheet: ComponentSheet<unknown, ClassName, RuleMap>;
 
 	beforeEach(() => {
 		aesthetic = new Aesthetic();
@@ -17,58 +18,61 @@ describe('LocalSheet', () => {
 		engine = createTestStyleEngine({ directionConverter });
 
 		// Dont use `createComponentStyles` since we need to pass a custom engine
-		sheet = new StyleSheet('local', () => ({
-			foo: {
-				display: 'block',
-				background: 'white',
-				color: 'black',
-				textAlign: 'left',
-				fontSize: 12,
-				fontFamily: '"Open Sans", Roboto',
-				':hover': {
-					color: 'red',
-				},
-				'@selectors': {
-					':focus': {
-						outline: 'red',
+		sheet = new OverrideSheet<ClassName, RuleMap>(
+			() => ({
+				foo: {
+					display: 'block',
+					background: 'white',
+					color: 'black',
+					textAlign: 'left',
+					fontSize: 12,
+					fontFamily: '"Open Sans", Roboto',
+					':hover': {
+						color: 'red',
+					},
+					'@selectors': {
+						':focus': {
+							outline: 'red',
+						},
+					},
+					'@media': {
+						'(max-width: 1000px)': {
+							display: 'none',
+							borderWidth: 1,
+						},
 					},
 				},
-				'@media': {
-					'(max-width: 1000px)': {
-						display: 'none',
-						borderWidth: 1,
+				bar: {
+					transition: '200ms all',
+					animationName: 'fade',
+					'@variables': {
+						primaryColor: 'red',
 					},
 				},
-			},
-			bar: {
-				transition: '200ms all',
-				animationName: 'fade',
-				'@variables': {
-					primaryColor: 'red',
+				// baz: 'class-baz',
+				qux: {
+					'@variants': {
+						'size:sm': { fontSize: 14 },
+						'size:md': { fontSize: 16 },
+						'size:lg': { fontSize: 18 },
+					},
 				},
-			},
-			baz: 'class-baz',
-			qux: {
-				'@variants': {
-					'size:sm': { fontSize: 14 },
-					'size:md': { fontSize: 16 },
-					'size:lg': { fontSize: 18 },
-				},
-			},
-			quxCompound: {
-				'@variants': {
-					'size:sm': { fontSize: 14 },
-					'size:md': { fontSize: 16 },
-					'size:lg': { fontSize: 18 },
+				quxCompound: {
+					'@variants': {
+						'size:sm': { fontSize: 14 },
+						'size:md': { fontSize: 16 },
+						'size:lg': { fontSize: 18 },
 
-					'color:red': { color: 'red' },
-					'color:green': { color: 'green' },
-					'color:blue': { color: 'blue' },
+						'color:red': { color: 'red' },
+						'color:green': { color: 'green' },
+						'color:blue': { color: 'blue' },
 
-					'size:sm + color:green': { color: 'forestgreen' },
+						'size:sm + color:green': { color: 'forestgreen' },
+					},
 				},
-			},
-		}));
+			}),
+			renderComponent,
+		);
 	});
 
 	afterEach(() => {
@@ -79,10 +83,10 @@ describe('LocalSheet', () => {
 	it('errors if a non-function factory is passed', () => {
 		expect(
 			() =>
-				new StyleSheet(
-					'local',
+				new OverrideSheet(
 					// @ts-expect-error Invalid type
 					123,
+					renderComponent,
 				),
 		).toThrow('A style sheet factory function is required, found "number".');
 	});
@@ -116,7 +120,7 @@ describe('LocalSheet', () => {
 		expect(classes).toEqual({
 			foo: { result: 'a b c d e f g h i j' },
 			bar: { result: 'k l m' },
-			baz: { result: 'class-baz' },
+			// baz: { result: 'class-baz' },
 			qux: {
 				result: '',
 				variants: [
