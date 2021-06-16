@@ -11,7 +11,6 @@ import {
 	RenderOptions,
 	Rule,
 	ThemeName,
-	ThemeRule,
 } from '@aesthetic/types';
 import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
 import { renderTheme } from './renderers';
@@ -21,8 +20,6 @@ import {
 	AestheticOptions,
 	EventListener,
 	EventType,
-	GlobalSheet,
-	GlobalSheetFactory,
 	LocalSheet,
 	LocalSheetElementFactory,
 	LocalSheetFactory,
@@ -39,7 +36,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 
 	protected activeTheme = createState<ThemeName>();
 
-	protected globalSheetRegistry = new Map<ThemeName, GlobalSheet<unknown, Block, Result>>();
+	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<Result, Block>>();
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
@@ -180,9 +177,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Create a global style sheet for root theme styles.
 	 */
-	createThemeStyles = <T = unknown>(
-		factory: ThemeSheetFactory<T, ThemeRule<Block>>,
-	): ThemeSheet<T, Block, Result> => new Sheet(factory, renderTheme);
+	createThemeStyles = (factory: ThemeSheetFactory<Block>): ThemeSheet<Result, Block> =>
+		new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -297,7 +293,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 
 		this.listeners.set(type, set);
 
-		return (set as unknown) as Set<T>;
+		return set as unknown as Set<T>;
 	};
 
 	/**
@@ -311,7 +307,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: GlobalSheet<unknown, Block, Result> | null = null,
+		sheet: ThemeSheet<Result, Block> | null = null,
 		isDefault: boolean = false,
 	): void => {
 		this.themeRegistry.register(name, theme, isDefault);
@@ -331,7 +327,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerDefaultTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: GlobalSheet<unknown, Block, Result> | null = null,
+		sheet: ThemeSheet<Result, Block> | null = null,
 	): void => {
 		this.registerTheme(name, theme, sheet, true);
 	};

@@ -15,17 +15,17 @@ import {
 	UnitFactory,
 	VendorPrefixer,
 } from '@aesthetic/types';
+import type { Sheet } from './Sheet';
 import type { StyleSheet } from './StyleSheet';
 
 // RENDER RESULT
 
-export interface StyleRenderResult<T> extends Partial<RenderResult<T>> {
-	variantTypes?: Set<string>;
-}
-
-export type RenderResultSheet<Result, Keys extends string = string> = {
-	[K in Keys]?: StyleRenderResult<Result>;
-};
+export type SheetRenderResult<Result> = Record<
+	string,
+	Partial<RenderResult<Result>> & {
+		variantTypes?: Set<string>;
+	}
+>;
 
 export type WrapFalsy<T> = T | false | null | undefined;
 
@@ -39,14 +39,14 @@ export type ResultComposerVariants = Record<string, number | string | false | un
 export interface ResultComposer<Keys, Result, GeneratedResult = Result> {
 	(variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
 	(...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
-	result: RenderResultSheet<Result>;
+	result: SheetRenderResult<Result>;
 }
 
 // Called from the composer to generate a final result
 export type ResultGenerator<Keys, Result, GeneratedResult = Result> = (
 	args: ResultComposerArgs<Keys, Result>,
 	variants: Set<string>,
-	results: RenderResultSheet<Result>,
+	results: SheetRenderResult<Result>,
 ) => GeneratedResult;
 
 // SHEETS
@@ -60,13 +60,7 @@ export interface SheetParams {
 	vendor?: boolean;
 }
 
-export type SheetRenderResult<Result> = Record<
-	string,
-	Partial<RenderResult<Result>> & {
-		variantTypes?: Set<string>;
-	}
->;
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SheetFactory<Block extends object> = (utils: Utilities<any>) => Block;
 
 export type SheetRenderer<Result, Block extends object> = (
@@ -77,37 +71,12 @@ export type SheetRenderer<Result, Block extends object> = (
 
 // THEME SHEETS
 
-export type ThemeSheet<Block extends object> = ThemeRule<Block>;
+export type ThemeSheetFactory<Block extends object> = SheetFactory<ThemeRule<Block>>;
 
-export type ThemeSheetNeverize<Shape, Block extends object> = {
-	[K in keyof Shape]: K extends keyof ThemeSheet<Block> ? ThemeSheet<Block>[K] : never;
-};
-
-export type ThemeSheetFactory<Shape, Block extends object> = (
-	utils: Utilities<Block>,
-) => Shape extends unknown
-	? ThemeSheet<Block>
-	: ThemeSheet<Block> & ThemeSheetNeverize<Shape, Block>;
+export type ThemeSheet<Result, Block extends object> = Sheet<Result, ThemeRule<Block>>;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type BaseSheetFactory = (utils: Utilities<any>) => object;
-
-export type GlobalStyleSheet<B> = ThemeRule<B>;
-
-export type GlobalStyleSheetNeverize<T, B> = {
-	[K in keyof T]: K extends keyof GlobalStyleSheet<B> ? GlobalStyleSheet<B>[K] : never;
-};
-
-export type GlobalSheetFactory<Shape = unknown, Block extends object = Rule> = (
-	utils: Utilities<Block>,
-) => Shape extends unknown
-	? GlobalStyleSheet<Block>
-	: GlobalStyleSheet<Block> & GlobalStyleSheetNeverize<Shape, Block>;
-
-export type GlobalSheet<Shape, Block extends object, Result> = Omit<
-	StyleSheet<Result, GlobalSheetFactory<Shape, Block>>,
-	'addColorSchemeOverride' | 'addContrastOverride' | 'addThemeOverride'
->;
 
 export type LocalStyleSheet<Block extends object = Rule> = Record<string, Block | string>;
 
@@ -154,4 +123,4 @@ export type OnChangeTheme = (newTheme: ThemeName, results: unknown[]) => void;
 // And add aliases too
 export type ElementStyles = Rule;
 export type ComponentStyles = LocalStyleSheet<ElementStyles>;
-export type ThemeStyles = GlobalStyleSheet<ElementStyles>;
+export type ThemeStyles = ThemeRule;
