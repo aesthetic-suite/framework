@@ -1,1 +1,1 @@
-export * from './esm/aesthetic/themes/default';
+module.exports = require('./lib/aesthetic/themes/default.js');
