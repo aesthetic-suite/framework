@@ -13,20 +13,22 @@ import {
 	ThemeName,
 } from '@aesthetic/types';
 import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
-import { StyleSheet } from './StyleSheet';
+import { OverrideSheet } from './OverrideSheet';
+import { renderComponent, renderTheme } from './renderers';
+import { Sheet } from './Sheet';
 import {
 	AestheticOptions,
+	ComponentSheet,
+	ComponentSheetFactory,
 	EventListener,
 	EventType,
-	GlobalSheet,
-	GlobalSheetFactory,
-	LocalSheet,
-	LocalSheetElementFactory,
-	LocalSheetFactory,
 	OnChangeDirection,
 	OnChangeTheme,
 	ResultGenerator,
+	SheetFactory,
 	SheetParams,
+	ThemeSheet,
+	ThemeSheetFactory,
 } from './types';
 
 export class Aesthetic<Result = ClassName, Block extends object = Rule> {
@@ -34,7 +36,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 
 	protected activeTheme = createState<ThemeName>();
 
-	protected globalSheetRegistry = new Map<ThemeName, GlobalSheet<unknown, Block, Result>>();
+	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Result, Block>>();
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
@@ -153,9 +155,13 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * for use within components.
 	 */
 	createComponentStyles = <T = unknown>(
-		factory: LocalSheetFactory<T, Block>,
-	): LocalSheet<T, Block, Result> => {
-		const sheet: LocalSheet<T, Block, Result> = new StyleSheet('local', factory);
+		factory: ComponentSheetFactory<T, Block>,
+	): ComponentSheet<T, Result, Block> => {
+		const sheet = new OverrideSheet(factory, renderComponent) as unknown as ComponentSheet<
+			T,
+			Result,
+			Block
+		>;
 
 		// Attempt to render styles immediately so they're available on mount
 		this.renderComponentStyles(sheet);
@@ -167,7 +173,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a local style sheet for a single element.
 	 * Returns a style sheet instance with a "element" selector.
 	 */
-	createElementStyles = (factory: Block | LocalSheetElementFactory<Block>) =>
+	createElementStyles = (factory: Block | SheetFactory<Block, Block>) =>
 		this.createComponentStyles((utils) => ({
 			element: typeof factory === 'function' ? factory(utils) : factory,
 		}));
@@ -176,8 +182,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a global style sheet for root theme styles.
 	 */
 	createThemeStyles = <T = unknown>(
-		factory: GlobalSheetFactory<T, Block>,
-	): GlobalSheet<T, Block, Result> => new StyleSheet('global', factory);
+		factory: ThemeSheetFactory<T, Block>,
+	): ThemeSheet<T, Result, Block> => new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -306,14 +312,14 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: GlobalSheet<unknown, Block, Result> | null = null,
+		sheet: ThemeSheet<unknown, Result, Block> | null = null,
 		isDefault: boolean = false,
 	): void => {
 		this.themeRegistry.register(name, theme, isDefault);
 
 		if (sheet) {
-			if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'global')) {
-				throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
+			if (__DEV__ && !(sheet instanceof Sheet)) {
+				throw new TypeError('Rendering theme styles require a `Sheet` instance.');
 			}
 
 			this.globalSheetRegistry.set(name, sheet);
@@ -326,7 +332,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerDefaultTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: GlobalSheet<unknown, Block, Result> | null = null,
+		sheet: ThemeSheet<unknown, Result, Block> | null = null,
 	): void => {
 		this.registerTheme(name, theme, sheet, true);
 	};
@@ -335,11 +341,11 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Render a component style sheet to the document with the defined style query parameters.
 	 */
 	renderComponentStyles = <T = unknown>(
-		sheet: LocalSheet<T, Block, Result>,
+		sheet: ComponentSheet<T, Result, Block>,
 		params: SheetParams = {},
 	) => {
-		if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'local')) {
-			throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
+		if (__DEV__ && !(sheet instanceof Sheet)) {
+			throw new TypeError('Rendering component styles require a `Sheet` instance.');
 		}
 
 		const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();

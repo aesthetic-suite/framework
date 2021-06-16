@@ -1,53 +1,57 @@
 import { createTestStyleEngine } from '@aesthetic/style/test';
-import { ClassName, Engine } from '@aesthetic/types';
-import { GlobalSheet, StyleSheet } from '../src';
+import { ClassName, Engine, Rule, ThemeRule } from '@aesthetic/types';
+import { Sheet, ThemeSheet } from '../src';
+import { renderTheme } from '../src/renderers';
 import { lightTheme } from '../src/test';
 
-describe('GlobalSheet', () => {
+describe('Theme styles', () => {
 	let engine: Engine<string>;
-	let sheet: GlobalSheet<unknown, object, ClassName>;
+	let sheet: ThemeSheet<unknown, ClassName, ThemeRule>;
 
 	beforeEach(() => {
 		engine = createTestStyleEngine({});
 
 		// Dont use `createThemeStyles` since we need to pass a custom renderer
-		sheet = new StyleSheet('global', () => ({
-			'@font-face': {
-				Roboto: {
-					fontStyle: 'normal',
-					fontWeight: 'normal',
-					local: ['Robo'],
-					srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+		sheet = new Sheet<ClassName, ThemeRule>(
+			() => ({
+				'@font-face': {
+					Roboto: {
+						fontStyle: 'normal',
+						fontWeight: 'normal',
+						local: ['Robo'],
+						srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
+					},
 				},
-			},
-			'@root': {
-				height: '100%',
-				margin: 0,
-				fontSize: 16,
-				lineHeight: 1.5,
-				backgroundColor: 'white',
-			},
-			'@import': ['url("reset.css")', { path: 'normalize.css', url: true }],
-			'@keyframes': {
-				fade: {
-					from: { opacity: 0 },
-					to: { opacity: 1 },
+				'@root': {
+					height: '100%',
+					margin: 0,
+					fontSize: 16,
+					lineHeight: 1.5,
+					backgroundColor: 'white',
 				},
-			},
-			'@variables': {
-				'--standard-syntax': 'true',
-				customSyntax: 123,
-			},
-		}));
+				'@import': ['url("reset.css")', { path: 'normalize.css', url: true }],
+				'@keyframes': {
+					fade: {
+						from: { opacity: 0 },
+						to: { opacity: 1 },
+					},
+				},
+				'@variables': {
+					'--standard-syntax': 'true',
+					customSyntax: 123,
+				},
+			}),
+			renderTheme,
+		);
 	});
 
 	it('errors if a non-function factory is passed', () => {
 		expect(
 			() =>
-				new StyleSheet(
-					'global',
+				new Sheet(
 					// @ts-expect-error Invalid type
 					123,
+					() => ({}),
 				),
 		).toThrow('A style sheet factory function is required, found "number".');
 	});
@@ -86,11 +90,11 @@ describe('GlobalSheet', () => {
 				local: ['Robo'],
 				srcPaths: ['fonts/Roboto.woff2', 'fonts/Roboto.ttf'],
 			},
-			{
+			expect.objectContaining({
 				direction: 'ltr',
 				unit: 'px',
 				vendor: false,
-			},
+			}),
 		);
 	});
 
@@ -107,15 +111,14 @@ describe('GlobalSheet', () => {
 				lineHeight: 1.5,
 				backgroundColor: 'white',
 			},
-			{
+			expect.objectContaining({
 				className: 'c1fv9z16',
 				deterministic: true,
 				direction: 'ltr',
-				rankings: undefined,
 				type: 'global',
 				unit: 'px',
 				vendor: false,
-			},
+			}),
 		);
 	});
 
@@ -139,11 +142,11 @@ describe('GlobalSheet', () => {
 				to: { opacity: 1 },
 			},
 			'fade',
-			{
+			expect.objectContaining({
 				direction: 'ltr',
 				unit: 'px',
 				vendor: false,
-			},
+			}),
 		);
 	});
 
@@ -153,28 +156,5 @@ describe('GlobalSheet', () => {
 		sheet.render(engine, lightTheme, {});
 
 		expect(spy).toHaveBeenCalledWith({ '--standard-syntax': 'true', customSyntax: 123 });
-	});
-
-	describe('overrides', () => {
-		it('errors when adding color scheme overrides', () => {
-			expect(() => {
-				// @ts-expect-error Allow access
-				sheet.addColorSchemeOverride('unknown', () => ({}));
-			}).toThrow('Color scheme overrides are only supported by local style sheets.');
-		});
-
-		it('errors when adding contrast level overrides', () => {
-			expect(() => {
-				// @ts-expect-error Allow access
-				sheet.addContrastOverride('unknown', () => ({}));
-			}).toThrow('Contrast level overrides are only supported by local style sheets.');
-		});
-
-		it('errors when adding theme overrides', () => {
-			expect(() => {
-				// @ts-expect-error Allow access
-				sheet.addThemeOverride('unknown', () => ({}));
-			}).toThrow('Theme overrides are only supported by local style sheets.');
-		});
 	});
 });

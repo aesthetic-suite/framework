@@ -472,7 +472,6 @@ export type MixinType =
 	| 'text-truncate'
 	| 'text-wrap';
 
-// eslint-disable-next-line no-use-before-define
 export type MixinTemplate<T extends object> = (utils: Utilities<T>) => T;
 
 export type MixinUtil<T extends object> = (name: MixinType, rule?: T) => T;

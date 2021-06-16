@@ -4,10 +4,11 @@
  */
 
 import { Aesthetic } from './Aesthetic';
-import { StyleSheet } from './StyleSheet';
+import { OverrideSheet } from './OverrideSheet';
+import { Sheet } from './Sheet';
 
 export * from './types';
 export * from '@aesthetic/system';
 export * from '@aesthetic/types';
 
-export { Aesthetic, StyleSheet };
+export { Aesthetic, OverrideSheet, Sheet };
