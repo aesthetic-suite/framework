@@ -173,7 +173,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a local style sheet for a single element.
 	 * Returns a style sheet instance with a "element" selector.
 	 */
-	createElementStyles = (factory: Block | SheetFactory<Block>) =>
+	createElementStyles = (factory: Block | SheetFactory<Block, Block>) =>
 		this.createComponentStyles((utils) => ({
 			element: typeof factory === 'function' ? factory(utils) : factory,
 		}));

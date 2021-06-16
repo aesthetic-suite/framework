@@ -62,7 +62,9 @@ export interface SheetParams {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SheetFactory<Return extends object> = (utils: Utilities<any>) => Return;
+export type SheetFactory<Return extends object, Block extends object = any> = (
+	utils: Utilities<Block>,
+) => Return;
 
 export type SheetRenderer<Result, Block extends object> = (
 	engine: Engine<Result>,
@@ -77,7 +79,8 @@ export type ThemeRuleNeverize<T, B> = {
 };
 
 export type ThemeSheetFactory<Shape, Block extends object> = SheetFactory<
-	Shape extends unknown ? ThemeRule<Block> : ThemeRule<Block> & ThemeRuleNeverize<Shape, Block>
+	Shape extends unknown ? ThemeRule<Block> : ThemeRule<Block> & ThemeRuleNeverize<Shape, Block>,
+	Block
 >;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -98,7 +101,8 @@ export type ElementRuleMapNeverize<T, B> = {
 export type ComponentSheetFactory<Shape, Block extends object> = SheetFactory<
 	Shape extends unknown
 		? ElementRuleMap<Block>
-		: ElementRuleMap<Block> & ElementRuleMapNeverize<Shape, Block>
+		: ElementRuleMap<Block> & ElementRuleMapNeverize<Shape, Block>,
+	Block
 >;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

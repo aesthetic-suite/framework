@@ -1,7 +1,7 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
 import { createClientEngine } from '@aesthetic/style';
-import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
+import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { toArray } from '@aesthetic/utils';
 import { Aesthetic, OverrideSheet, Sheet, SheetRenderResult } from '../src';
@@ -261,6 +261,17 @@ describe('Aesthetic', () => {
 
 			spy.mockRestore();
 		});
+
+		it('can utilize mixins', () => {
+			aesthetic.createComponentStyles((css) => ({
+				element: css.mixin('reset-typography', {
+					display: 'flex',
+					color: css.var('palette-brand-text'),
+				}),
+			}));
+
+			expect(getRenderedStyles('standard')).toMatchSnapshot();
+		});
 	});
 
 	describe('createElementStyles()', () => {
@@ -298,6 +309,18 @@ describe('Aesthetic', () => {
 	describe('createThemeStyles()', () => {
 		it('returns a `Sheet` instance', () => {
 			expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(Sheet);
+		});
+
+		it('can utilize mixins', () => {
+			const sheet = aesthetic.createThemeStyles((css) => ({
+				'@root': css.mixin('root', {
+					backgroundColor: css.var('palette-neutral-bg-base'),
+				}),
+			}));
+
+			sheet.render(aesthetic.getEngine(), lightTheme, {});
+
+			expect(getRenderedStyles('global')).toMatchSnapshot();
 		});
 	});
 
