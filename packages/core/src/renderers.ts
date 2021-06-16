@@ -1,11 +1,9 @@
-import { Engine, RenderOptions, ThemeRule } from '@aesthetic/types';
+import { Engine, RenderOptions, Rule, ThemeRule } from '@aesthetic/types';
 import { arrayLoop, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import { SheetRenderResult } from './types';
 
-const CLASS_NAME = /^[a-z]{1}[a-z0-9-_]+$/iu;
-
 export function renderTheme<Result>(
-	engine: Engine<any>,
+	engine: Engine<Result>,
 	theme: ThemeRule,
 	options: RenderOptions,
 ): SheetRenderResult<Result> {
@@ -38,7 +36,7 @@ export function renderTheme<Result>(
 }
 
 export function renderComponent<Result>(
-	engine: Engine<any>,
+	engine: Engine<Result>,
 	styles: ThemeRule,
 	options: RenderOptions,
 ): SheetRenderResult<Result> {
@@ -59,7 +57,7 @@ export function renderComponent<Result>(
 
 			// Rule
 		} else if (isObject(style)) {
-			const result = engine.renderRule(style, { ...options, rankings });
+			const result = engine.renderRule(style as Rule, { ...options, rankings });
 
 			meta.result = result.result;
 

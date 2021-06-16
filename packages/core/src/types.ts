@@ -9,14 +9,15 @@ import {
 	RenderOptions,
 	RenderResult,
 	Rule,
+	RuleMap,
 	ThemeName,
 	ThemeRule,
 	Unit,
 	UnitFactory,
 	VendorPrefixer,
 } from '@aesthetic/types';
+import type { OverrideSheet } from './OverrideSheet';
 import type { Sheet } from './Sheet';
-import type { StyleSheet } from './StyleSheet';
 
 // RENDER RESULT
 
@@ -61,7 +62,7 @@ export interface SheetParams {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SheetFactory<Block extends object> = (utils: Utilities<any>) => Block;
+export type SheetFactory<Return extends object> = (utils: Utilities<any>) => Return;
 
 export type SheetRenderer<Result, Block extends object> = (
 	engine: Engine<Result>,
@@ -75,31 +76,26 @@ export type ThemeSheetFactory<Block extends object> = SheetFactory<ThemeRule<Blo
 
 export type ThemeSheet<Result, Block extends object> = Sheet<Result, ThemeRule<Block>>;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type BaseSheetFactory = (utils: Utilities<any>) => object;
+// COMPONENT SHEETS
 
-export type LocalStyleSheet<Block extends object = Rule> = Record<string, Block | string>;
+export type ElementRuleMap<Block extends object> = Record<string, Block>;
 
-export type LocalStyleSheetElementNeverize<T, B> = {
+export type ElementRuleNeverize<T, B> = {
 	[K in keyof T]: K extends keyof B ? T[K] : never;
 };
 
-export type LocalStyleSheetNeverize<T, B> = {
-	[K in keyof T]: T[K] extends string ? string : LocalStyleSheetElementNeverize<T[K], B>;
+export type ElementRuleMapNeverize<T, B> = {
+	[K in keyof T]: ElementRuleNeverize<T[K], B>;
 };
 
-export type LocalSheetElementFactory<Block extends object> = (utils: Utilities<Block>) => Block;
-
-export type LocalSheetFactory<Shape = unknown, Block extends object = Rule> = (
-	utils: Utilities<Block>,
-) => Shape extends unknown
-	? LocalStyleSheet<Block>
-	: LocalStyleSheet<Block> & LocalStyleSheetNeverize<Shape, Block>;
-
-export type LocalSheet<Shape, Block extends object, Result> = StyleSheet<
-	Result,
-	LocalSheetFactory<Shape, Block>
+export type ComponentSheetFactory<Shape, Block extends object> = SheetFactory<
+	Shape extends unknown
+		? ElementRuleMap<Block>
+		: ElementRuleMap<Block> & ElementRuleMapNeverize<Shape, Block>
 >;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type ComponentSheet<_Shape, Result, Block extends object> = OverrideSheet<Result, Block>;
 
 // OTHER
 
@@ -122,5 +118,5 @@ export type OnChangeTheme = (newTheme: ThemeName, results: unknown[]) => void;
 
 // And add aliases too
 export type ElementStyles = Rule;
-export type ComponentStyles = LocalStyleSheet<ElementStyles>;
+export type ComponentStyles = RuleMap;
 export type ThemeStyles = ThemeRule;

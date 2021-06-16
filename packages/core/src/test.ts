@@ -1,7 +1,7 @@
 import { ThemeRegistry } from '@aesthetic/system';
 import { darkTheme, design, lightTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
-import { Aesthetic, AestheticOptions, EventListener, EventType, GlobalSheet } from '.';
+import { Aesthetic, AestheticOptions, EventListener, EventType, ThemeSheet } from '.';
 
 export { darkTheme, design, lightTheme };
 
@@ -29,7 +29,7 @@ export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
 export function getAestheticState(aesthetic: Aesthetic<any, any>): {
 	activeDirection: string | undefined;
 	activeTheme: string | undefined;
-	globalSheetRegistry: Map<ThemeName, GlobalSheet<any, any, any>>;
+	globalSheetRegistry: Map<ThemeName, ThemeSheet<any, any>>;
 	listeners: Map<EventType, Set<EventListener>>;
 	options: AestheticOptions;
 	themeRegistry: ThemeRegistry<any>;
