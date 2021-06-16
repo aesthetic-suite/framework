@@ -4,7 +4,7 @@ import { createClientEngine } from '@aesthetic/style';
 import { createTestStyleEngine, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { toArray } from '@aesthetic/utils';
-import { Aesthetic, RenderResultSheet, StyleSheet } from '../src';
+import { Aesthetic, OverrideSheet, Sheet, SheetRenderResult } from '../src';
 import {
 	darkTheme,
 	getAestheticState,
@@ -243,8 +243,8 @@ describe('Aesthetic', () => {
 			setupAesthetic(aesthetic);
 		});
 
-		it('returns a `LocalSheet` instance', () => {
-			expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(StyleSheet);
+		it('returns a `OverrideSheet` instance', () => {
+			expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(OverrideSheet);
 		});
 
 		it('renders styles immediately upon creation', () => {
@@ -268,7 +268,7 @@ describe('Aesthetic', () => {
 			setupAesthetic(aesthetic);
 		});
 
-		it('returns a `LocalSheet` instance using an object', () => {
+		it('returns a `OverrideSheet` instance using an object', () => {
 			const sheet = aesthetic.createElementStyles({
 				display: 'block',
 				color: 'red',
@@ -277,11 +277,11 @@ describe('Aesthetic', () => {
 				},
 			});
 
-			expect(sheet).toBeInstanceOf(StyleSheet);
+			expect(sheet).toBeInstanceOf(OverrideSheet);
 			expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 
-		it('returns a `LocalSheet` instance using a function', () => {
+		it('returns a `OverrideSheet` instance using a function', () => {
 			const sheet = aesthetic.createElementStyles((css) => ({
 				display: 'block',
 				color: css.var('palette-brand-fg-base'),
@@ -290,19 +290,19 @@ describe('Aesthetic', () => {
 				},
 			}));
 
-			expect(sheet).toBeInstanceOf(StyleSheet);
+			expect(sheet).toBeInstanceOf(OverrideSheet);
 			expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 	});
 
 	describe('createThemeStyles()', () => {
-		it('returns a `GlobalSheet` instance', () => {
-			expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(StyleSheet);
+		it('returns a `Sheet` instance', () => {
+			expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(Sheet);
 		});
 	});
 
 	describe('generateClassName()', () => {
-		const classes: RenderResultSheet<ClassName> = {
+		const classes: SheetRenderResult<ClassName> = {
 			a: { result: 'a', variants: [createVariant('size:df', 'a_size_df')] },
 			b: { result: 'b' },
 			c: {
@@ -506,7 +506,7 @@ describe('Aesthetic', () => {
 			expect(getAestheticState(aesthetic).globalSheetRegistry.get('day')).toBe(sheet);
 		});
 
-		it('errors if sheet is not a `GlobalSheet` instance', () => {
+		it('errors if sheet is not a `Sheet` instance', () => {
 			expect(() => {
 				aesthetic.registerTheme(
 					'day',
@@ -514,7 +514,7 @@ describe('Aesthetic', () => {
 					// @ts-expect-error Invalid type
 					123,
 				);
-			}).toThrow('Rendering theme styles require a `GlobalSheet` instance.');
+			}).toThrow('Rendering theme styles require a `Sheet` instance.');
 		});
 	});
 
@@ -570,13 +570,13 @@ describe('Aesthetic', () => {
 			setupAesthetic(aesthetic);
 		});
 
-		it('errors if sheet is not a `LocalSheet` instance', () => {
+		it('errors if sheet is not a `Sheet` instance', () => {
 			expect(() => {
 				aesthetic.renderComponentStyles(
 					// @ts-expect-error Invalid type
 					123,
 				);
-			}).toThrow('Rendering component styles require a `LocalSheet` instance.');
+			}).toThrow('Rendering component styles require a `Sheet` instance.');
 		});
 
 		it('returns an empty object if no sheet selectors', () => {

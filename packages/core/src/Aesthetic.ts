@@ -317,8 +317,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 		this.themeRegistry.register(name, theme, isDefault);
 
 		if (sheet) {
-			if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'global')) {
-				throw new TypeError('Rendering theme styles require a `GlobalSheet` instance.');
+			if (__DEV__ && !(sheet instanceof Sheet)) {
+				throw new TypeError('Rendering theme styles require a `Sheet` instance.');
 			}
 
 			this.globalSheetRegistry.set(name, sheet);
@@ -343,8 +343,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 		sheet: ComponentSheet<T, Result, Block>,
 		params: SheetParams = {},
 	) => {
-		if (__DEV__ && (!(sheet instanceof StyleSheet) || sheet.type !== 'local')) {
-			throw new TypeError('Rendering component styles require a `LocalSheet` instance.');
+		if (__DEV__ && !(sheet instanceof Sheet)) {
+			throw new TypeError('Rendering component styles require a `Sheet` instance.');
 		}
 
 		const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
