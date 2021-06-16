@@ -36,7 +36,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 
 	protected activeTheme = createState<ThemeName>();
 
-	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<Result, Block>>();
+	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Result, Block>>();
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
@@ -181,8 +181,9 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Create a global style sheet for root theme styles.
 	 */
-	createThemeStyles = (factory: ThemeSheetFactory<Block>): ThemeSheet<Result, Block> =>
-		new Sheet(factory, renderTheme);
+	createThemeStyles = <T = unknown>(
+		factory: ThemeSheetFactory<T, Block>,
+	): ThemeSheet<T, Result, Block> => new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -311,7 +312,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: ThemeSheet<Result, Block> | null = null,
+		sheet: ThemeSheet<unknown, Result, Block> | null = null,
 		isDefault: boolean = false,
 	): void => {
 		this.themeRegistry.register(name, theme, isDefault);
@@ -331,7 +332,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	registerDefaultTheme = (
 		name: ThemeName,
 		theme: Theme<Block>,
-		sheet: ThemeSheet<Result, Block> | null = null,
+		sheet: ThemeSheet<unknown, Result, Block> | null = null,
 	): void => {
 		this.registerTheme(name, theme, sheet, true);
 	};

@@ -72,9 +72,16 @@ export type SheetRenderer<Result, Block extends object> = (
 
 // THEME SHEETS
 
-export type ThemeSheetFactory<Block extends object> = SheetFactory<ThemeRule<Block>>;
+export type ThemeRuleNeverize<T, B> = {
+	[K in keyof T]: K extends keyof B ? T[K] : never;
+};
 
-export type ThemeSheet<Result, Block extends object> = Sheet<Result, ThemeRule<Block>>;
+export type ThemeSheetFactory<Shape, Block extends object> = SheetFactory<
+	Shape extends unknown ? ThemeRule<Block> : ThemeRule<Block> & ThemeRuleNeverize<Shape, Block>
+>;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export type ThemeSheet<_Shape, Result, Block extends object> = Sheet<Result, ThemeRule<Block>>;
 
 // COMPONENT SHEETS
 

@@ -1,18 +1,18 @@
 import { createTestStyleEngine } from '@aesthetic/style/test';
-import { ClassName, Engine, Rule } from '@aesthetic/types';
+import { ClassName, Engine, Rule, ThemeRule } from '@aesthetic/types';
 import { Sheet, ThemeSheet } from '../src';
 import { renderTheme } from '../src/renderers';
 import { lightTheme } from '../src/test';
 
 describe('Theme styles', () => {
 	let engine: Engine<string>;
-	let sheet: ThemeSheet<ClassName, Rule>;
+	let sheet: ThemeSheet<unknown, ClassName, ThemeRule>;
 
 	beforeEach(() => {
 		engine = createTestStyleEngine({});
 
 		// Dont use `createThemeStyles` since we need to pass a custom renderer
-		sheet = new Sheet<ClassName, Rule>(
+		sheet = new Sheet<ClassName, ThemeRule>(
 			() => ({
 				'@font-face': {
 					Roboto: {

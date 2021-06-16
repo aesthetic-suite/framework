@@ -29,7 +29,7 @@ export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
 export function getAestheticState(aesthetic: Aesthetic<any, any>): {
 	activeDirection: string | undefined;
 	activeTheme: string | undefined;
-	globalSheetRegistry: Map<ThemeName, ThemeSheet<any, any>>;
+	globalSheetRegistry: Map<ThemeName, ThemeSheet<any, any, any>>;
 	listeners: Map<EventType, Set<EventListener>>;
 	options: AestheticOptions;
 	themeRegistry: ThemeRegistry<any>;
