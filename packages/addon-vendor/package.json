@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/addon-vendor",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "description": "Aesthetic addon to provide vendor prefixes for properties, values, and selectors.",
   "keywords": [
     "aesthetic",
@@ -30,8 +30,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.5.1",
-    "@aesthetic/utils": "^0.7.0"
+    "@aesthetic/types": "^0.6.0",
+    "@aesthetic/utils": "^0.8.0"
   },
   "funding": {
     "type": "ko-fi",
