@@ -17,7 +17,7 @@
     "coverage": "yarn run test --coverage",
     "type": "beemo typescript --build",
     "release": "lerna publish",
-    "prerelease": "yarn run pack && yarn test"
+    "prerelease": "yarn run pack && yarn run check"
   },
   "engines": {
     "node": ">=12.17.0"

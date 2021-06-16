@@ -67,7 +67,7 @@ pull request, be sure your build passes locally using the development workflow b
 ## Development workflow
 
 The following commands are available and should be used in your standard development workflow. To
-run all at once (excluding formatting), run `yarn test`.
+run all at once (excluding formatting), run `yarn run check`.
 
 ### Type checking
 
