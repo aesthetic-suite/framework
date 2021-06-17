@@ -4,15 +4,10 @@
  */
 
 import { getPropertyDoppelganger, getValueDoppelganger } from 'rtl-css-js/core';
-import { Direction, NativeProperty, Value } from '@aesthetic/types';
+import { DirectionConverter, NativeProperty } from '@aesthetic/types';
 
-export default {
-	convert<T extends Value>(
-		from: Direction,
-		to: Direction,
-		property: NativeProperty,
-		value: T,
-	): { property: NativeProperty; value: T } {
+const converter: DirectionConverter = {
+	convert(from, to, property, value) {
 		if (from === to) {
 			return { property, value };
 		}
@@ -23,3 +18,5 @@ export default {
 		};
 	},
 };
+
+export default converter;

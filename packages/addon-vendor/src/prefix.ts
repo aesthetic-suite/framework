@@ -2,9 +2,12 @@ import { NativeProperty, PropertyPrefixes } from '@aesthetic/types';
 import { arrayLoop } from '@aesthetic/utils';
 import { declarationMapping } from './data';
 import { getPrefixesFromMask } from './getPrefixesFromMask';
-import { isPrefixed } from './isPrefixed';
 import { prefixValue } from './prefixValue';
 import { prefixValueFunction } from './prefixValueFunction';
+
+function isPrefixed(value: string): boolean {
+	return value.startsWith('-ms') || value.startsWith('-moz') || value.startsWith('-webkit');
+}
 
 export function prefix(property: NativeProperty, value: string): PropertyPrefixes {
 	const map = declarationMapping[property];

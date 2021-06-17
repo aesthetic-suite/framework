@@ -5,9 +5,9 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { StyleEngine } from '@aesthetic/style';
 import {
 	AddPropertyCallback,
-	Engine,
 	FontFace,
 	Keyframes,
 	PropertyHandlerMap,
@@ -40,7 +40,7 @@ function handleCompound(property: 'animationName' | 'fontFamily') {
 	return (
 		value: FontFace | FontFace[] | Keyframes | Keyframes[] | string,
 		add: AddPropertyCallback,
-		engine: Engine<unknown>,
+		engine: StyleEngine,
 	) => {
 		const items = toArray(value).map((item) => {
 			if (typeof item === 'string') {

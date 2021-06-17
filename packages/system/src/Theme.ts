@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any */
 
-import { ColorScheme, ContrastLevel, Unit, VariablesMap } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, VariablesMap } from '@aesthetic/types';
 import { deepMerge, hyphenate, isObject, objectLoop } from '@aesthetic/utils';
 import type { Design } from './Design';
 import { MIXIN_MAP } from './mixins';
@@ -14,7 +14,7 @@ import {
 	VariableName,
 } from './types';
 
-export class Theme<T extends object> implements Utilities<T> {
+export class Theme<Block extends object> implements Utilities<Block> {
 	name: string = '';
 
 	readonly contrast: ContrastLevel;
@@ -25,9 +25,9 @@ export class Theme<T extends object> implements Utilities<T> {
 
 	private cssVariables?: VariablesMap;
 
-	private design: Design<T>;
+	private design: Design<Block>;
 
-	constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design<T>) {
+	constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design<Block>) {
 		this.contrast = options.contrast;
 		this.scheme = options.scheme;
 		this.design = design;
@@ -37,7 +37,7 @@ export class Theme<T extends object> implements Utilities<T> {
 	/**
 	 * Extend and instantiate a new theme instance with customized tokens.
 	 */
-	extend(tokens: DeepPartial<ThemeTokens>, options: Partial<ThemeOptions> = {}): Theme<T> {
+	extend(tokens: DeepPartial<ThemeTokens>, options: Partial<ThemeOptions> = {}): Theme<Block> {
 		return new Theme(
 			{
 				contrast: this.contrast,
@@ -81,7 +81,7 @@ export class Theme<T extends object> implements Utilities<T> {
 	 * Return merged CSS properties from the defined mixin, all template overrides,
 	 * and the provided additional CSS properties.
 	 */
-	mixin = (name: MixinType, rule?: T): T => {
+	mixin = (name: MixinType, rule?: Block): Block => {
 		const properties: object = {};
 		const mixin = MIXIN_MAP[name];
 
@@ -95,13 +95,13 @@ export class Theme<T extends object> implements Utilities<T> {
 			return deepMerge(properties, rule);
 		}
 
-		return properties as T;
+		return properties as Block;
 	};
 
 	/**
 	 * Return a `rem` unit equivalent for the current spacing type and unit.
 	 */
-	unit = (...multipliers: number[]): Unit =>
+	unit = (...multipliers: number[]): string =>
 		multipliers
 			.map(
 				(m) =>

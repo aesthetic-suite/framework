@@ -3,10 +3,13 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
+import { VendorPrefixer } from '@aesthetic/types';
 import { prefix } from './prefix';
 import { prefixSelector } from './prefixSelector';
 
-export default {
+const prefixer: VendorPrefixer = {
 	prefix,
 	prefixSelector,
 };
+
+export default prefixer;

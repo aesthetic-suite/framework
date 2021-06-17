@@ -1,4 +1,4 @@
-import { ColorScheme, ContrastLevel, Unit } from '@aesthetic/types';
+import { ColorScheme, ContrastLevel, UnitValue } from '@aesthetic/types';
 
 export type Hexcode = string;
 
@@ -48,8 +48,8 @@ export type StateType = 'disabled' | 'focused' | 'hovered' | 'selected';
 // TOKENS
 
 export interface BorderToken {
-	radius: Unit;
-	width: Unit;
+	radius: UnitValue;
+	width: UnitValue;
 }
 
 export type BorderTokens = Record<BorderSize, BorderToken>;
@@ -58,7 +58,7 @@ export interface BreakpointToken {
 	query: string;
 	querySize: number;
 	rootLineHeight: number;
-	rootTextSize: Unit;
+	rootTextSize: UnitValue;
 }
 
 export type BreakpointTokens = Record<BreakpointSize, BreakpointToken>;
@@ -72,30 +72,30 @@ export type ColorStateToken = Record<StateType, Hexcode> & {
 };
 
 export interface ShadowToken {
-	blur: Unit;
-	spread: Unit;
-	x: Unit;
-	y: Unit;
+	blur: UnitValue;
+	spread: UnitValue;
+	x: UnitValue;
+	y: UnitValue;
 }
 
 export type ShadowTokens = Record<ShadowSize, ShadowToken>;
 
-export type SpacingTokens = Record<SpacingSize, Unit> & {
+export type SpacingTokens = Record<SpacingSize, UnitValue> & {
 	type: string;
 	unit: number;
 };
 
 export interface HeadingToken {
-	letterSpacing: Unit;
+	letterSpacing: UnitValue;
 	lineHeight: number;
-	size: Unit;
+	size: UnitValue;
 }
 
 export type HeadingTokens = Record<HeadingSize, HeadingToken>;
 
 export interface TextToken {
 	lineHeight: number;
-	size: Unit;
+	size: UnitValue;
 }
 
 export type TextTokens = Record<TextSize, TextToken>;
@@ -109,7 +109,7 @@ export interface TypographyToken {
 		system: string;
 	};
 	rootLineHeight: number;
-	rootTextSize: Unit;
+	rootTextSize: UnitValue;
 }
 
 export interface DesignTokens {
@@ -125,32 +125,32 @@ export interface DesignTokens {
 
 // Keep roughly in sync with the tokens above
 export interface DesignVariables {
-	'border-sm-radius': Unit;
-	'border-sm-width': Unit;
-	'border-df-radius': Unit;
-	'border-df-width': Unit;
-	'border-lg-radius': Unit;
-	'border-lg-width': Unit;
+	'border-sm-radius': UnitValue;
+	'border-sm-width': UnitValue;
+	'border-df-radius': UnitValue;
+	'border-df-width': UnitValue;
+	'border-lg-radius': UnitValue;
+	'border-lg-width': UnitValue;
 	'breakpoint-xs-query': string;
 	'breakpoint-xs-query-size': number;
 	'breakpoint-xs-root-line-height': number;
-	'breakpoint-xs-root-text-size': Unit;
+	'breakpoint-xs-root-text-size': UnitValue;
 	'breakpoint-sm-query': string;
 	'breakpoint-sm-query-size': number;
 	'breakpoint-sm-root-line-height': number;
-	'breakpoint-sm-root-text-size': Unit;
+	'breakpoint-sm-root-text-size': UnitValue;
 	'breakpoint-md-query': string;
 	'breakpoint-md-query-size': number;
 	'breakpoint-md-root-line-height': number;
-	'breakpoint-md-root-text-size': Unit;
+	'breakpoint-md-root-text-size': UnitValue;
 	'breakpoint-lg-query': string;
 	'breakpoint-lg-query-size': number;
 	'breakpoint-lg-root-line-height': number;
-	'breakpoint-lg-root-text-size': Unit;
+	'breakpoint-lg-root-text-size': UnitValue;
 	'breakpoint-xl-query': string;
 	'breakpoint-xl-query-size': number;
 	'breakpoint-xl-root-line-height': number;
-	'breakpoint-xl-root-text-size': Unit;
+	'breakpoint-xl-root-text-size': UnitValue;
 	'depth-content': number;
 	'depth-dialog': number;
 	'depth-menu': number;
@@ -160,62 +160,62 @@ export interface DesignVariables {
 	'depth-sheet': number;
 	'depth-toast': number;
 	'depth-tooltip': number;
-	'heading-l1-letter-spacing': Unit;
+	'heading-l1-letter-spacing': UnitValue;
 	'heading-l1-line-height': number;
-	'heading-l1-size': Unit;
-	'heading-l2-letter-spacing': Unit;
+	'heading-l1-size': UnitValue;
+	'heading-l2-letter-spacing': UnitValue;
 	'heading-l2-line-height': number;
-	'heading-l2-size': Unit;
-	'heading-l3-letter-spacing': Unit;
+	'heading-l2-size': UnitValue;
+	'heading-l3-letter-spacing': UnitValue;
 	'heading-l3-line-height': number;
-	'heading-l3-size': Unit;
-	'heading-l4-letter-spacing': Unit;
+	'heading-l3-size': UnitValue;
+	'heading-l4-letter-spacing': UnitValue;
 	'heading-l4-line-height': number;
-	'heading-l4-size': Unit;
-	'heading-l5-letter-spacing': Unit;
+	'heading-l4-size': UnitValue;
+	'heading-l5-letter-spacing': UnitValue;
 	'heading-l5-line-height': number;
-	'heading-l5-size': Unit;
-	'heading-l6-letter-spacing': Unit;
+	'heading-l5-size': UnitValue;
+	'heading-l6-letter-spacing': UnitValue;
 	'heading-l6-line-height': number;
-	'heading-l6-size': Unit;
-	'shadow-xs-blur': Unit;
-	'shadow-xs-spread': Unit;
-	'shadow-xs-x': Unit;
-	'shadow-xs-y': Unit;
-	'shadow-sm-blur': Unit;
-	'shadow-sm-spread': Unit;
-	'shadow-sm-x': Unit;
-	'shadow-sm-y': Unit;
-	'shadow-md-blur': Unit;
-	'shadow-md-spread': Unit;
-	'shadow-md-x': Unit;
-	'shadow-md-y': Unit;
-	'shadow-lg-blur': Unit;
-	'shadow-lg-spread': Unit;
-	'shadow-lg-x': Unit;
-	'shadow-lg-y': Unit;
-	'shadow-xl-blur': Unit;
-	'shadow-xl-spread': Unit;
-	'shadow-xl-x': Unit;
-	'shadow-xl-y': Unit;
-	'spacing-xs': Unit;
-	'spacing-sm': Unit;
-	'spacing-df': Unit;
-	'spacing-lg': Unit;
-	'spacing-xl': Unit;
+	'heading-l6-size': UnitValue;
+	'shadow-xs-blur': UnitValue;
+	'shadow-xs-spread': UnitValue;
+	'shadow-xs-x': UnitValue;
+	'shadow-xs-y': UnitValue;
+	'shadow-sm-blur': UnitValue;
+	'shadow-sm-spread': UnitValue;
+	'shadow-sm-x': UnitValue;
+	'shadow-sm-y': UnitValue;
+	'shadow-md-blur': UnitValue;
+	'shadow-md-spread': UnitValue;
+	'shadow-md-x': UnitValue;
+	'shadow-md-y': UnitValue;
+	'shadow-lg-blur': UnitValue;
+	'shadow-lg-spread': UnitValue;
+	'shadow-lg-x': UnitValue;
+	'shadow-lg-y': UnitValue;
+	'shadow-xl-blur': UnitValue;
+	'shadow-xl-spread': UnitValue;
+	'shadow-xl-x': UnitValue;
+	'shadow-xl-y': UnitValue;
+	'spacing-xs': UnitValue;
+	'spacing-sm': UnitValue;
+	'spacing-df': UnitValue;
+	'spacing-lg': UnitValue;
+	'spacing-xl': UnitValue;
 	'spacing-unit': number;
 	'text-sm-line-height': number;
-	'text-sm-size': Unit;
+	'text-sm-size': UnitValue;
 	'text-df-line-height': number;
-	'text-df-size': Unit;
+	'text-df-size': UnitValue;
 	'text-lg-line-height': number;
-	'text-lg-size': Unit;
+	'text-lg-size': UnitValue;
 	'typography-font-heading': string;
 	'typography-font-monospace': string;
 	'typography-font-text': string;
 	'typography-font-system': string;
 	'typography-root-line-height': number;
-	'typography-root-text-size': Unit;
+	'typography-root-text-size': UnitValue;
 }
 
 export interface PaletteToken {
@@ -455,7 +455,7 @@ export type TokenUtil = <K extends VariableName>(name: K) => Variables[K];
 
 export type VarUtil = (name: VariableName, ...fallbacks: (number | string)[]) => string;
 
-export type UnitUtil = (...sizes: number[]) => Unit;
+export type UnitValueUtil = (...sizes: number[]) => string;
 
 // MIXINS
 
@@ -472,18 +472,18 @@ export type MixinType =
 	| 'text-truncate'
 	| 'text-wrap';
 
-export type MixinTemplate<T extends object> = (utils: Utilities<T>) => T;
+export type MixinTemplate<Block extends object> = (utils: Utilities<Block>) => Block;
 
-export type MixinUtil<T extends object> = (name: MixinType, rule?: T) => T;
+export type MixinUtil<Block extends object> = (name: MixinType, rule?: Block) => Block;
 
 // OTHER
 
-export interface Utilities<T extends object> {
+export interface Utilities<Block extends object> {
 	contrast: ContrastLevel;
-	mixin: MixinUtil<T>;
+	mixin: MixinUtil<Block>;
 	scheme: ColorScheme;
 	tokens: Tokens;
-	unit: UnitUtil;
+	unit: UnitValueUtil;
 	var: VarUtil;
 }
 

@@ -2,26 +2,26 @@ import { ColorScheme, ContrastLevel, ThemeName } from '@aesthetic/types';
 import { Theme } from './Theme';
 import { ThemeOptions } from './types';
 
-export class ThemeRegistry<T extends object> {
+export class ThemeRegistry<Block extends object> {
 	protected darkTheme: string = '';
 
 	protected defaultTheme: string = '';
 
 	protected lightTheme: string = '';
 
-	protected themes: Record<string, Theme<T>> = {};
+	protected themes: Record<string, Theme<Block>> = {};
 
 	/**
 	 * Return the default dark theme.
 	 */
-	getDarkTheme(): Theme<T> {
+	getDarkTheme(): Theme<Block> {
 		return this.getTheme(this.darkTheme);
 	}
 
 	/**
 	 * Return the default light theme.
 	 */
-	getLightTheme(): Theme<T> {
+	getLightTheme(): Theme<Block> {
 		return this.getTheme(this.lightTheme);
 	}
 
@@ -35,7 +35,7 @@ export class ThemeRegistry<T extends object> {
 	}: {
 		matchColorScheme?: (scheme: ColorScheme) => boolean;
 		matchContrastLevel?: (level: ContrastLevel) => boolean;
-	} = {}): Theme<T> {
+	} = {}): Theme<Block> {
 		const prefersDarkScheme = matchColorScheme?.('dark');
 		const prefersLightScheme = matchColorScheme?.('light');
 		const prefersHighContrast = matchContrastLevel?.('high');
@@ -48,7 +48,7 @@ export class ThemeRegistry<T extends object> {
 			schemeCheckOrder.push('light');
 		}
 
-		let possibleTheme: Theme<T> | undefined;
+		let possibleTheme: Theme<Block> | undefined;
 
 		// Find a theme based on device preferences
 		schemeCheckOrder.some((scheme) => {
@@ -80,7 +80,7 @@ export class ThemeRegistry<T extends object> {
 	/**
 	 * Return a theme by name or throw an error if not found.
 	 */
-	getTheme(name: ThemeName): Theme<T> {
+	getTheme(name: ThemeName): Theme<Block> {
 		if (__DEV__ && !name) {
 			throw new Error('Cannot find a theme without a name.');
 		}
@@ -97,7 +97,7 @@ export class ThemeRegistry<T extends object> {
 	/**
 	 * Query for a theme that matches the defined parameters.
 	 */
-	query(params: Partial<ThemeOptions>): Theme<T> | undefined {
+	query(params: Partial<ThemeOptions>): Theme<Block> | undefined {
 		return Object.values(this.themes).find((theme) => {
 			const conditions: boolean[] = [];
 
@@ -117,7 +117,7 @@ export class ThemeRegistry<T extends object> {
 	 * Register a theme with a unique name. Can optionally mark a theme
 	 * as default for their defined color scheme.
 	 */
-	register(name: string, theme: Theme<T>, isDefault: boolean = false): this {
+	register(name: string, theme: Theme<Block>, isDefault: boolean = false): this {
 		if (__DEV__ && !(theme instanceof Theme)) {
 			throw new TypeError('Only a `Theme` object can be registered.');
 		}

@@ -100,7 +100,25 @@ export interface ThemeRule<T = Rule> {
 
 // OTHER
 
-export type Unit = string;
+export type Unit =
+	| '%'
+	| 'ch'
+	| 'cm'
+	| 'em'
+	| 'ex'
+	| 'in'
+	| 'lh'
+	| 'mm'
+	| 'pc'
+	| 'pt'
+	| 'px'
+	| 'rem'
+	| 'vh'
+	| 'vmax'
+	| 'vmin'
+	| 'vw';
+
+export type UnitValue = string;
 
 export type UnitFactory = (property: NativeProperty) => Unit | undefined;
 
