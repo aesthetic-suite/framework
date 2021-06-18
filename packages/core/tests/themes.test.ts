@@ -5,7 +5,7 @@ import { renderTheme } from '../src/renderers';
 import { lightTheme } from '../src/test';
 
 describe('Theme styles', () => {
-	let engine: Engine<Rule, string>;
+	let engine: Engine<Rule, ClassName>;
 	let sheet: ThemeSheet<unknown, Rule, ClassName>;
 
 	beforeEach(() => {

@@ -19,12 +19,11 @@ import type { Sheet } from './Sheet';
 
 // RENDER RESULT
 
-export type SheetRenderResult<Output> = Record<
-	string,
-	Partial<RenderResult<Output>> & {
-		variantTypes?: Set<string>;
-	}
->;
+export interface SheetRenderResultItem<Output> extends Partial<RenderResult<Output>> {
+	variantTypes?: Set<string>;
+}
+
+export type SheetRenderResult<Output> = Record<string, SheetRenderResultItem<Output>>;
 
 export type WrapFalsy<T> = T | false | null | undefined;
 
@@ -61,10 +60,9 @@ export interface SheetParams {
 
 export type SheetFactory<Input extends object> = (utils: Utilities<Input>) => object;
 
-export type SheetRenderer<Input extends object, Output> = (
+export type SheetRenderer<Input extends object, Output, Block> = (
 	engine: Engine<Input, Output>,
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	styles: any,
+	styles: Block,
 	options: RenderOptions,
 ) => SheetRenderResult<Output>;
 

@@ -455,7 +455,7 @@ export type TokenUtil = <K extends VariableName>(name: K) => Variables[K];
 
 export type VarUtil = (name: VariableName, ...fallbacks: (number | string)[]) => string;
 
-export type UnitValueUtil = (...sizes: number[]) => string;
+export type UnitUtil = (...sizes: number[]) => UnitValue;
 
 // MIXINS
 
@@ -483,7 +483,7 @@ export interface Utilities<Block extends object> {
 	mixin: MixinUtil<Block>;
 	scheme: ColorScheme;
 	tokens: Tokens;
-	unit: UnitValueUtil;
+	unit: UnitUtil;
 	var: VarUtil;
 }
 

@@ -20,9 +20,9 @@ export class Sheet<Input extends object, Output, Factory extends SheetFactory<In
 
 	protected cache: Record<string, SheetRenderResult<Output>> = {};
 
-	protected renderer: SheetRenderer<Input, Output>;
+	protected renderer: SheetRenderer<Input, Output, ReturnType<Factory>>;
 
-	constructor(factory: Factory, renderer: SheetRenderer<Input, Output>) {
+	constructor(factory: Factory, renderer: SheetRenderer<Input, Output, ReturnType<Factory>>) {
 		this.factory = this.validateFactory(factory);
 		this.renderer = renderer;
 	}
@@ -53,7 +53,7 @@ export class Sheet<Input extends object, Output, Factory extends SheetFactory<In
 		}
 
 		const composer = this.compose(params);
-		const result = this.renderer(engine, composer(theme), params);
+		const result = this.renderer(engine, composer(theme) as ReturnType<Factory>, params);
 
 		this.cache[key] = result;
 
