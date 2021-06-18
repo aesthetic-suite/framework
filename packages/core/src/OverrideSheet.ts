@@ -1,16 +1,21 @@
+import { Utilities } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 import { deepMerge } from '@aesthetic/utils';
 import { Sheet } from './Sheet';
 import { SheetFactory, SheetParams } from './types';
 
-export class OverrideSheet<Result, Block extends object> extends Sheet<Result, Block> {
-	protected contrastOverrides: { [K in ContrastLevel]?: SheetFactory<Block> } = {};
+export class OverrideSheet<
+	Input extends object,
+	Output,
+	Factory extends SheetFactory<Input>,
+> extends Sheet<Input, Output, Factory> {
+	protected contrastOverrides: { [K in ContrastLevel]?: Factory } = {};
 
-	protected schemeOverrides: { [K in ColorScheme]?: SheetFactory<Block> } = {};
+	protected schemeOverrides: { [K in ColorScheme]?: Factory } = {};
 
-	protected themeOverrides: Record<string, SheetFactory<Block>> = {};
+	protected themeOverrides: Record<string, Factory> = {};
 
-	addColorSchemeOverride(scheme: ColorScheme, factory: SheetFactory<Block>): this {
+	addColorSchemeOverride(scheme: ColorScheme, factory: Factory): this {
 		if (__DEV__ && scheme !== 'light' && scheme !== 'dark') {
 			throw new Error('Color scheme override must be one of "light" or "dark".');
 		}
@@ -20,7 +25,7 @@ export class OverrideSheet<Result, Block extends object> extends Sheet<Result, B
 		return this;
 	}
 
-	addContrastOverride(contrast: ContrastLevel, factory: SheetFactory<Block>): this {
+	addContrastOverride(contrast: ContrastLevel, factory: Factory): this {
 		if (__DEV__ && contrast !== 'normal' && contrast !== 'high' && contrast !== 'low') {
 			throw new Error('Contrast level override must be one of "high", "low", or "normal".');
 		}
@@ -30,13 +35,13 @@ export class OverrideSheet<Result, Block extends object> extends Sheet<Result, B
 		return this;
 	}
 
-	addThemeOverride(theme: string, factory: SheetFactory<Block>): this {
+	addThemeOverride(theme: string, factory: Factory): this {
 		this.themeOverrides[theme] = this.validateFactory(factory);
 
 		return this;
 	}
 
-	override compose(params: SheetParams): SheetFactory<Block> {
+	override compose(params: SheetParams): Factory {
 		const factories = [this.factory];
 
 		if (params.scheme && this.schemeOverrides[params.scheme]) {
@@ -55,9 +60,9 @@ export class OverrideSheet<Result, Block extends object> extends Sheet<Result, B
 			return factories[0];
 		}
 
-		const composer: SheetFactory<Block> = (p) =>
-			deepMerge(...factories.map((factory) => factory(p)));
+		const composer = (utils: Utilities<Input>) =>
+			deepMerge(...factories.map((factory) => factory(utils)));
 
-		return composer;
+		return composer as Factory;
 	}
 }

@@ -1,13 +1,13 @@
-import { Engine, RenderOptions, Rule, ThemeRule } from '@aesthetic/types';
+import { Engine, RenderOptions, ThemeRule } from '@aesthetic/types';
 import { arrayLoop, isObject, objectLoop, toArray } from '@aesthetic/utils';
 import { SheetRenderResult } from './types';
 
-export function renderTheme<Result>(
-	engine: Engine<Result>,
-	theme: ThemeRule,
+export function renderTheme<Input, Output>(
+	engine: Engine<Input, Output>,
+	theme: ThemeRule<Input>,
 	options: RenderOptions,
-): SheetRenderResult<Result> {
-	const resultSheet: SheetRenderResult<Result> = { root: {} };
+): SheetRenderResult<Output> {
+	const resultSheet: SheetRenderResult<Output> = { root: {} };
 
 	objectLoop(theme['@font-face'], (fontFaces, fontFamily) => {
 		arrayLoop(toArray(fontFaces), (fontFace) =>
@@ -35,12 +35,12 @@ export function renderTheme<Result>(
 	return resultSheet;
 }
 
-export function renderComponent<Result>(
-	engine: Engine<Result>,
-	styles: ThemeRule,
+export function renderComponent<Input, Output>(
+	engine: Engine<Input, Output>,
+	styles: Record<string, Input>,
 	options: RenderOptions,
-): SheetRenderResult<Result> {
-	const resultSheet: SheetRenderResult<Result> = {};
+): SheetRenderResult<Output> {
+	const resultSheet: SheetRenderResult<Output> = {};
 	const rankings = {};
 
 	objectLoop(styles, (style, selector) => {
@@ -57,7 +57,7 @@ export function renderComponent<Result>(
 
 			// Rule
 		} else if (isObject(style)) {
-			const result = engine.renderRule(style as Rule, { ...options, rankings });
+			const result = engine.renderRule(style, { ...options, rankings });
 
 			meta.result = result.result;
 

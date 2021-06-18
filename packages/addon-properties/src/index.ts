@@ -7,10 +7,12 @@
 
 import {
 	AddPropertyCallback,
+	ClassName,
 	Engine,
 	FontFace,
 	Keyframes,
 	PropertyHandlerMap,
+	Rule,
 	Value,
 } from '@aesthetic/types';
 import { isObject, objectLoop, toArray } from '@aesthetic/utils';
@@ -40,7 +42,7 @@ function handleCompound(property: 'animationName' | 'fontFamily') {
 	return (
 		value: FontFace | FontFace[] | Keyframes | Keyframes[] | string,
 		add: AddPropertyCallback,
-		engine: Engine<unknown>,
+		engine: Engine<Rule, ClassName>,
 	) => {
 		const items = toArray(value).map((item) => {
 			if (typeof item === 'string') {

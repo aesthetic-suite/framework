@@ -1,4 +1,12 @@
-import { CacheManager, CSS, EngineOptions, Sheet, SheetManager, SheetType } from '@aesthetic/types';
+import {
+	CacheManager,
+	ClassName,
+	CSS,
+	EngineOptions,
+	Sheet,
+	SheetManager,
+	SheetType,
+} from '@aesthetic/types';
 // Rollup compatibility
 import {
 	createCacheManager,
@@ -9,7 +17,7 @@ import {
 	StyleEngine,
 } from '.';
 
-export function createTestCacheManager(): CacheManager {
+export function createTestCacheManager(): CacheManager<ClassName> {
 	return createCacheManager();
 }
 
@@ -17,7 +25,9 @@ export function createTestSheetManager(): SheetManager {
 	return createSheetManager(createStyleElements());
 }
 
-export function createTestStyleEngine(options: Partial<EngineOptions> = {}): StyleEngine {
+export function createTestStyleEngine(
+	options: Partial<EngineOptions<ClassName>> = {},
+): StyleEngine {
 	return createStyleEngine({
 		cacheManager: createTestCacheManager(),
 		sheetManager: createTestSheetManager(),

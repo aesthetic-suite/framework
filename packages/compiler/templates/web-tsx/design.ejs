@@ -1,6 +1,6 @@
-import { Design, ElementStyles } from '@aesthetic/core';
+import { Design, Rule } from '@aesthetic/core';
 
-export default new Design<ElementStyles>('<%= design.dashedName -%>', {
+export default new Design<Rule>('<%= design.dashedName -%>', {
   border: <%- include('../partials/web/border') -%>,
   breakpoint: <%- include('../partials/web/breakpoint') -%>,
   heading: <%- include('../partials/web/heading') -%>,

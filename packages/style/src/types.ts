@@ -1,7 +1,7 @@
-import { CacheManager, ClassName, Engine, SheetManager } from '@aesthetic/types';
+import { CacheManager, ClassName, Engine, Rule, SheetManager } from '@aesthetic/types';
 
-export interface StyleEngine extends Engine<ClassName> {
-	cacheManager: CacheManager;
+export interface StyleEngine extends Engine<Rule, ClassName> {
+	cacheManager: CacheManager<ClassName>;
 	sheetManager: SheetManager;
 }
 

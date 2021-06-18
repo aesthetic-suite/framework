@@ -1,4 +1,4 @@
-import { CacheState, SheetType } from '@aesthetic/types';
+import { CacheState, ClassName, SheetType } from '@aesthetic/types';
 import { createCacheManager, createClientEngine } from '../src';
 import { getRenderedStyles, purgeStyles } from '../src/test';
 import { StyleEngine } from '../src/types';
@@ -19,7 +19,7 @@ function createStyle(type: SheetType, lastIndex: number) {
 }
 
 describe('Client', () => {
-	let cache: CacheState;
+	let cache: CacheState<ClassName>;
 	let engine: StyleEngine;
 
 	it('can set CSS variables to the root', () => {
@@ -63,9 +63,9 @@ describe('Client', () => {
 		it('adds at-rules to the global cache', () => {
 			expect(cache).toEqual(
 				expect.objectContaining({
-					'url(test.css)': [{ className: '' }],
-					'"Open Sans"': [{ className: '' }],
-					kf103rcyx: [{ className: '' }],
+					'url(test.css)': [{ result: '' }],
+					'"Open Sans"': [{ result: '' }],
+					kf103rcyx: [{ result: '' }],
 				}),
 			);
 			expect(engine.ruleIndex).toBe(21);
@@ -74,27 +74,27 @@ describe('Client', () => {
 		it('adds standard and condition rules to the class name cache', () => {
 			expect(cache).toEqual(
 				expect.objectContaining({
-					margin0: [{ className: 'a', rank: 0 }],
-					'padding6px 12px': [{ className: 'b', rank: 1 }],
-					'border1px solid #2e6da4': [{ className: 'c', rank: 2 }],
-					'border-radius4px': [{ className: 'd', rank: 3 }],
-					'displayinline-block': [{ className: 'e', rank: 4 }],
-					cursorpointer: [{ className: 'f', rank: 5 }],
-					'font-familyRoboto': [{ className: 'g', rank: 6 }],
-					'font-weightnormal': [{ className: 'h', rank: 7 }],
-					'line-heightnormal': [{ className: 'i', rank: 8 }],
-					'white-spacenowrap': [{ className: 'j', rank: 9 }],
-					'text-decorationnone': [{ className: 'k', rank: 10 }],
-					'text-alignleft': [{ className: 'l', rank: 11 }],
-					'background-color#337ab7': [{ className: 'm', rank: 12 }],
-					'vertical-alignmiddle': [{ className: 'n', rank: 13 }],
-					'colorrgba(0, 0, 0, 0)': [{ className: 'o', rank: 14 }],
-					'animation-namefade': [{ className: 'p', rank: 15 }],
-					'animation-duration.3s': [{ className: 'q', rank: 16 }],
-					'(color: blue)(width: 500px) and (width: 350px)colorblue': [{ className: 't', rank: 0 }],
-					'(width: 500px):hovercolorred': [{ className: 's', rank: 1 }],
-					'(width: 500px)margin10px': [{ className: 'r', rank: 2 }],
-					'(color: green)colorgreen': [{ className: 'u', rank: 3 }],
+					margin0: [{ result: 'a', rank: 0 }],
+					'padding6px 12px': [{ result: 'b', rank: 1 }],
+					'border1px solid #2e6da4': [{ result: 'c', rank: 2 }],
+					'border-radius4px': [{ result: 'd', rank: 3 }],
+					'displayinline-block': [{ result: 'e', rank: 4 }],
+					cursorpointer: [{ result: 'f', rank: 5 }],
+					'font-familyRoboto': [{ result: 'g', rank: 6 }],
+					'font-weightnormal': [{ result: 'h', rank: 7 }],
+					'line-heightnormal': [{ result: 'i', rank: 8 }],
+					'white-spacenowrap': [{ result: 'j', rank: 9 }],
+					'text-decorationnone': [{ result: 'k', rank: 10 }],
+					'text-alignleft': [{ result: 'l', rank: 11 }],
+					'background-color#337ab7': [{ result: 'm', rank: 12 }],
+					'vertical-alignmiddle': [{ result: 'n', rank: 13 }],
+					'colorrgba(0, 0, 0, 0)': [{ result: 'o', rank: 14 }],
+					'animation-namefade': [{ result: 'p', rank: 15 }],
+					'animation-duration.3s': [{ result: 'q', rank: 16 }],
+					'(color: blue)(width: 500px) and (width: 350px)colorblue': [{ result: 't', rank: 0 }],
+					'(width: 500px):hovercolorred': [{ result: 's', rank: 1 }],
+					'(width: 500px)margin10px': [{ result: 'r', rank: 2 }],
+					'(color: green)colorgreen': [{ result: 'u', rank: 3 }],
 				}),
 			);
 			expect(engine.ruleIndex).toBe(21);

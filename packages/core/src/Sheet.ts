@@ -15,29 +15,27 @@ function createCacheKey(params: Required<SheetParams>): string {
 	return key;
 }
 
-export class Sheet<Result, Block extends object> {
-	protected factory: SheetFactory<Block>;
+export class Sheet<Input extends object, Output, Factory extends SheetFactory<Input>> {
+	protected factory: Factory;
 
-	protected cache: Record<string, SheetRenderResult<Result>> = {};
+	protected cache: Record<string, SheetRenderResult<Output>> = {};
 
-	protected renderer: SheetRenderer<Result, Block>;
+	protected renderer: SheetRenderer<Input, Output, ReturnType<Factory>>;
 
-	constructor(factory: SheetFactory<Block>, renderer: SheetRenderer<Result, Block>) {
+	constructor(factory: Factory, renderer: SheetRenderer<Input, Output, ReturnType<Factory>>) {
 		this.factory = this.validateFactory(factory);
 		this.renderer = renderer;
 	}
 
-	compose(params: SheetParams): SheetFactory<Block> {
+	compose(params: SheetParams): Factory {
 		return this.factory;
 	}
 
 	render(
-		engine: Engine<Result>,
-		// This is hidden behind abstractions, so is ok
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		theme: Theme<any>,
+		engine: Engine<Input, Output>,
+		theme: Theme<Input>,
 		baseParams: SheetParams,
-	): SheetRenderResult<Result> {
+	): SheetRenderResult<Output> {
 		const params: Required<SheetParams> = {
 			contrast: theme.contrast,
 			direction: 'ltr',
@@ -55,14 +53,14 @@ export class Sheet<Result, Block extends object> {
 		}
 
 		const composer = this.compose(params);
-		const result = this.renderer(engine, composer(theme), params);
+		const result = this.renderer(engine, composer(theme) as ReturnType<Factory>, params);
 
 		this.cache[key] = result;
 
 		return result;
 	}
 
-	protected validateFactory(factory: SheetFactory<Block>): SheetFactory<Block> {
+	protected validateFactory(factory: Factory): Factory {
 		if (__DEV__) {
 			const typeOf = typeof factory;
 

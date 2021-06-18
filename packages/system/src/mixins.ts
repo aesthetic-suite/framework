@@ -1,7 +1,8 @@
+import { Rule } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { MixinTemplate, MixinType, Utilities } from './types';
 
-export function hideOffscreen() {
+export function hideOffscreen(): Rule {
 	return {
 		clipPath: 'rect(1px, 1px, 1px, 1px)',
 		height: 1,
@@ -12,7 +13,7 @@ export function hideOffscreen() {
 	};
 }
 
-export function hideVisually() {
+export function hideVisually(): Rule {
 	return {
 		'@selectors': {
 			':not(:focus):not(:active)': {
@@ -31,7 +32,7 @@ export function hideVisually() {
 	};
 }
 
-export function resetButton() {
+export function resetButton(): Rule {
 	return {
 		appearance: 'none',
 		backgroundColor: 'transparent',
@@ -47,7 +48,7 @@ export function resetButton() {
 	};
 }
 
-export function resetInput() {
+export function resetInput(): Rule {
 	return {
 		appearance: 'none',
 		backgroundColor: 'transparent',
@@ -62,7 +63,7 @@ export function resetInput() {
 	};
 }
 
-export function resetList() {
+export function resetList(): Rule {
 	return {
 		listStyle: 'none',
 		margin: 0,
@@ -70,14 +71,14 @@ export function resetList() {
 	};
 }
 
-export function resetMedia() {
+export function resetMedia(): Rule {
 	return {
 		display: 'block',
 		verticalAlign: 'middle',
 	};
 }
 
-export function resetTypography() {
+export function resetTypography(): Rule {
 	return {
 		fontFamily: 'inherit',
 		fontSize: 'inherit',
@@ -86,8 +87,8 @@ export function resetTypography() {
 	};
 }
 
-export function root(css: Utilities<object>) {
-	const declaration = {
+export function root(css: Utilities<Rule>): Rule {
+	const declaration: Rule = {
 		backgroundColor: css.var('palette-neutral-color-00'),
 		color: css.var('palette-neutral-text'),
 		fontFamily: css.var('typography-font-text'),
@@ -97,6 +98,7 @@ export function root(css: Utilities<object>) {
 		textSizeAdjust: '100%',
 		margin: 0,
 		padding: 0,
+		// @ts-expect-error Not typed
 		'-webkit-font-smoothing': 'antialiased',
 		'-moz-osx-font-smoothing': 'grayscale',
 		'@media': {},
@@ -104,7 +106,7 @@ export function root(css: Utilities<object>) {
 
 	// Fluid typography!
 	objectLoop(css.tokens.breakpoint, (bp, size) => {
-		(declaration['@media'] as Record<string, object>)[bp.query] = {
+		declaration['@media']![bp.query] = {
 			fontSize: css.var(`breakpoint-${size}-root-text-size`),
 			lineHeight: css.var(`breakpoint-${size}-root-line-height`),
 		};
@@ -113,7 +115,7 @@ export function root(css: Utilities<object>) {
 	return declaration;
 }
 
-export function textBreak() {
+export function textBreak(): Rule {
 	return {
 		overflowWrap: 'break-word',
 		wordWrap: 'break-word',
@@ -121,7 +123,7 @@ export function textBreak() {
 	};
 }
 
-export function textTruncate() {
+export function textTruncate(): Rule {
 	return {
 		overflow: 'hidden',
 		textOverflow: 'ellipsis',
@@ -129,7 +131,7 @@ export function textTruncate() {
 	};
 }
 
-export function textWrap() {
+export function textWrap(): Rule {
 	return {
 		overflowWrap: 'normal',
 		wordWrap: 'normal',

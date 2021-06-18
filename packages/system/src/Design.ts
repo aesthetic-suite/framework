@@ -3,7 +3,7 @@ import { DEPTHS } from './constants';
 import { Theme } from './Theme';
 import { DeepPartial, DesignTokens, ThemeOptions, ThemeTokens } from './types';
 
-export class Design<T extends object> {
+export class Design<Block extends object> {
 	readonly name: string;
 
 	readonly rootLineHeight: number;
@@ -27,14 +27,14 @@ export class Design<T extends object> {
 	/**
 	 * Create a new theme with the defined theme tokens, while inheriting the shared design tokens.
 	 */
-	createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme<T> {
+	createTheme(options: ThemeOptions, tokens: ThemeTokens): Theme<Block> {
 		return new Theme(options, tokens, this);
 	}
 
 	/**
 	 * Extend and instantiate a new design instance with customized design tokens.
 	 */
-	extend(name: string, tokens: DeepPartial<DesignTokens>): Design<T> {
+	extend(name: string, tokens: DeepPartial<DesignTokens>): Design<Block> {
 		return new Design(name, deepMerge(this.tokens, tokens));
 	}
 }

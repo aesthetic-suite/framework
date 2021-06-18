@@ -35,8 +35,8 @@ function addRuleToCache(
 			supports,
 		}),
 		{
-			className,
 			rank,
+			result: className,
 		},
 	);
 }
@@ -122,7 +122,7 @@ function hydrate(engine: StyleEngine, sheet: CSSStyleSheet) {
 		}
 
 		if (cacheKey) {
-			engine.cacheManager.write(cacheKey, { className: '' });
+			engine.cacheManager.write(cacheKey, { result: '' });
 		}
 	});
 }

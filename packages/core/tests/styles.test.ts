@@ -1,14 +1,14 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
-import { ClassName, Engine, Rule, RuleMap } from '@aesthetic/types';
+import { ClassName, Engine, Rule } from '@aesthetic/types';
 import { Aesthetic, ComponentSheet, OverrideSheet } from '../src';
 import { renderComponent } from '../src/renderers';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
 describe('Component styles', () => {
 	let aesthetic: Aesthetic;
-	let engine: Engine<string>;
-	let sheet: ComponentSheet<unknown, ClassName, RuleMap>;
+	let engine: Engine<Rule, ClassName>;
+	let sheet: ComponentSheet<unknown, Rule, ClassName>;
 
 	beforeEach(() => {
 		aesthetic = new Aesthetic();
@@ -18,7 +18,7 @@ describe('Component styles', () => {
 		engine = createTestStyleEngine({ directionConverter });
 
 		// Dont use `createComponentStyles` since we need to pass a custom engine
-		sheet = new OverrideSheet<ClassName, RuleMap>(
+		sheet = new OverrideSheet(
 			() => ({
 				foo: {
 					display: 'block',

@@ -6,7 +6,6 @@ import {
 	NativeProperty,
 	Properties,
 	Property,
-	Rule,
 	Unit,
 	UnitFactory,
 	Value,
@@ -16,16 +15,16 @@ import { ClassName, ColorScheme, ContrastLevel, Direction } from './ui';
 
 // CACHE
 
-export interface CacheItem {
-	className: string;
+export interface CacheItem<Output> {
+	result: Output;
 	rank?: number;
 }
 
-export type CacheState = Record<string, CacheItem[]>;
+export type CacheState<Output> = Record<string, CacheItem<Output>[]>;
 
-export interface CacheManager {
-	read: (key: string, minimumRank?: number) => CacheItem | null;
-	write: (key: string, item: CacheItem) => void;
+export interface CacheManager<Output> {
+	read: (key: string, minimumRank?: number) => CacheItem<Output> | null;
+	write: (key: string, item: CacheItem<Output>) => void;
 }
 
 // CUSTOM PROPERTIES
@@ -38,7 +37,7 @@ export type AddPropertyCallback = <K extends Property>(
 export type PropertyHandler<V> = (
 	value: NonNullable<V>,
 	add: AddPropertyCallback,
-	engine: Engine<unknown>,
+	engine: AnyEngine,
 ) => void;
 
 export type PropertyHandlerMap = {
@@ -62,7 +61,7 @@ export interface Sheet {
 	conditionText?: string;
 	cssRules: Sheet[];
 	cssText: CSS;
-	cssVariables: VariablesMap<string>;
+	cssVariables: VariablesMap;
 	textContent: CSS;
 	type: number;
 	insertRule: (rule: CSS, index: number) => number;
@@ -103,18 +102,18 @@ export interface RenderOptions {
 	vendor?: boolean;
 }
 
-export interface RenderResultVariant<T> {
+export interface RenderResultVariant<Output> {
 	types: string[];
-	result: T;
+	result: Output;
 }
 
-export interface RenderResult<T> {
-	result: T;
-	variants: RenderResultVariant<T>[];
+export interface RenderResult<Output> {
+	result: Output;
+	variants: RenderResultVariant<Output>[];
 }
 
-export interface EngineOptions {
-	cacheManager?: CacheManager;
+export interface EngineOptions<Output> {
+	cacheManager?: CacheManager<Output>;
 	customProperties?: PropertyHandlerMap;
 	direction?: Direction;
 	directionConverter?: DirectionConverter;
@@ -123,9 +122,9 @@ export interface EngineOptions {
 	vendorPrefixer?: VendorPrefixer;
 }
 
-export interface Engine<T> {
+export interface Engine<Input, Output> {
 	readonly atomic: boolean;
-	cacheManager?: CacheManager;
+	cacheManager?: CacheManager<Output>;
 	customProperties?: PropertyHandlerMap;
 	direction: Direction;
 	directionConverter?: DirectionConverter;
@@ -141,7 +140,7 @@ export interface Engine<T> {
 		property: K,
 		value: NonNullable<Properties[K]>,
 		options?: RenderOptions,
-	) => T;
+	) => Output;
 	renderFontFace: (fontFace: FontFace, options?: RenderOptions) => string;
 	renderImport: (path: Import | string, options?: RenderOptions) => string;
 	renderKeyframes: (
@@ -149,20 +148,22 @@ export interface Engine<T> {
 		animationName?: string,
 		options?: RenderOptions,
 	) => string;
-	renderRule: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
-	renderRuleGrouped: (rule: Rule, options?: RenderOptions) => RenderResult<T>;
-	renderVariable: (name: string, value: Value, options?: RenderOptions) => T;
+	renderRule: (rule: Input, options?: RenderOptions) => RenderResult<Output>;
+	renderRuleGrouped: (rule: Input, options?: RenderOptions) => RenderResult<Output>;
+	renderVariable: (name: string, value: Value, options?: RenderOptions) => Output;
 
 	setDirection: (direction: Direction) => void;
 	setRootVariables: (variables: VariablesMap) => void;
-	setTheme: (results: T[]) => void;
+	setTheme: (results: Output[]) => void;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyEngine = Engine<any, any>;
 
 declare global {
 	namespace NodeJS {
 		interface Global {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			AESTHETIC_CUSTOM_ENGINE: Engine<any>;
+			AESTHETIC_CUSTOM_ENGINE: AnyEngine;
 		}
 	}
 }
