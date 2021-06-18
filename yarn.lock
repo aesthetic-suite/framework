@@ -7919,10 +7919,10 @@ p-waterfall@^2.1.1:
   dependencies:
     p-reduce "^2.0.0"
 
-packemon@^1.0.0-alpha.1:
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/packemon/-/packemon-1.0.0-alpha.1.tgz#db7398c5c3b05204f1b23f8cf2f62de5dd3e3479"
-  integrity sha512-+bBaiUYr3NQUSi9egCzDMVxmUJCFAlk2Zb++m/nlG7/MRAO8heLdeiJxFdwYwwex+EzxZJtk5GIGiZO30iaVyg==
+packemon@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/packemon/-/packemon-1.0.0.tgz#19317c39af2e76133e51def49fdc94c4c9620521"
+  integrity sha512-9+w5JwzwPSV2j02fAL91umU9wouid3U5NRlsbeIUgmok2veuVqIeKY1faLbY7FPmi0jgi8zGB8PUtUhiuOBbzA==
   dependencies:
     "@babel/core" "^7.14.3"
     "@babel/plugin-proposal-decorators" "^7.14.2"
