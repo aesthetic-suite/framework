@@ -132,7 +132,7 @@ export function formatRule(
 	// Server-side rendering recursively creates CSS rules to collapse
 	// conditionals to their smallest representation, so we need to avoid
 	// wrapping with the outer conditional for this to work correctly.
-	if (!process.env.AESTHETIC_SSR) {
+	if (typeof process !== 'undefined' && !process.env.AESTHETIC_SSR) {
 		if (media) {
 			rule = `@media ${media} { ${rule} }`;
 		}

@@ -1,7 +1,7 @@
 let cache: boolean | null = null;
 
 export function isDOM(): boolean {
-	if (process.env.AESTHETIC_SSR) {
+	if (typeof process !== 'undefined' && process.env.AESTHETIC_SSR) {
 		return false;
 	}
 
