@@ -393,12 +393,9 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		// Render theme CSS variables
 		if (isDOM()) {
 			results.push(
-				this.getEngine().renderRuleGrouped(
-					{
-						'@variables': theme.toVariables(),
-					} as Input,
-					{ type: 'global' },
-				).result,
+				this.getEngine().renderRuleGrouped({ '@variables': theme.toVariables() } as Input, {
+					type: 'global',
+				}).result,
 			);
 		}
 

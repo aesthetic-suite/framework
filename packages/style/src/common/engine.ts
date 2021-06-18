@@ -113,7 +113,7 @@ function insertStyles(
 		);
 
 		// Cache the results for subsequent performance
-		item = { result: className, rank };
+		item = { rank, result: className };
 		cacheManager.write(cacheKey, item);
 	}
 
