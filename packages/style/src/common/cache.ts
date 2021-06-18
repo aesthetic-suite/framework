@@ -1,4 +1,4 @@
-import { CacheItem, CacheManager, CacheState, RenderOptions } from '@aesthetic/types';
+import { CacheItem, CacheManager, CacheState, ClassName, RenderOptions } from '@aesthetic/types';
 
 export function createCacheKey(
 	property: string,
@@ -8,8 +8,10 @@ export function createCacheKey(
 	return supports + media + selector + property + String(value);
 }
 
-export function createCacheManager(defaultItems: CacheState = {}): CacheManager {
-	const cache: CacheState = defaultItems;
+export function createCacheManager(
+	defaultItems: CacheState<ClassName> = {},
+): CacheManager<ClassName> {
+	const cache: CacheState<ClassName> = defaultItems;
 
 	return {
 		read(key, minimumRank) {
@@ -26,7 +28,7 @@ export function createCacheManager(defaultItems: CacheState = {}): CacheManager 
 			return items.find((item) => item.rank! >= minimumRank) ?? null;
 		},
 
-		write(key: string, item: CacheItem) {
+		write(key: string, item: CacheItem<ClassName>) {
 			const result = cache[key] || [];
 
 			result.push(item);

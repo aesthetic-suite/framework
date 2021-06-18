@@ -20,31 +20,31 @@ import {
 	AestheticOptions,
 	ComponentSheet,
 	ComponentSheetFactory,
+	ElementSheetFactory,
 	EventListener,
 	EventType,
 	OnChangeDirection,
 	OnChangeTheme,
 	ResultGenerator,
-	SheetFactory,
 	SheetParams,
 	ThemeSheet,
 	ThemeSheetFactory,
 } from './types';
 
-export class Aesthetic<Result = ClassName, Block extends object = Rule> {
+export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	protected activeDirection = createState<Direction>();
 
 	protected activeTheme = createState<ThemeName>();
 
-	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Result, Block>>();
+	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Input, Output>>();
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
 	protected options: AestheticOptions = {};
 
-	protected styleEngine = createState<Engine<Result>>();
+	protected styleEngine = createState<Engine<Input, Output>>();
 
-	protected themeRegistry = new ThemeRegistry<Block>();
+	protected themeRegistry = new ThemeRegistry<Input>();
 
 	constructor(options?: AestheticOptions) {
 		if (options) {
@@ -128,7 +128,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Configuring which styling engine to use.
 	 */
-	configureEngine = (engine: Engine<Result>): void => {
+	configureEngine = (engine: Engine<Input, Output>): void => {
 		const { options } = this;
 
 		if (!engine.customProperties && options.customProperties) {
@@ -155,13 +155,12 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * for use within components.
 	 */
 	createComponentStyles = <T = unknown>(
-		factory: ComponentSheetFactory<T, Block>,
-	): ComponentSheet<T, Result, Block> => {
-		const sheet = new OverrideSheet(factory, renderComponent) as unknown as ComponentSheet<
-			T,
-			Result,
-			Block
-		>;
+		factory: ComponentSheetFactory<T, Input>,
+	): ComponentSheet<T, Input, Output> => {
+		const sheet = new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(
+			factory,
+			renderComponent,
+		);
 
 		// Attempt to render styles immediately so they're available on mount
 		this.renderComponentStyles(sheet);
@@ -173,7 +172,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a local style sheet for a single element.
 	 * Returns a style sheet instance with a "element" selector.
 	 */
-	createElementStyles = (factory: Block | SheetFactory<Block, Block>) =>
+	createElementStyles = (factory: ElementSheetFactory<Input> | Input) =>
 		this.createComponentStyles((utils) => ({
 			element: typeof factory === 'function' ? factory(utils) : factory,
 		}));
@@ -182,8 +181,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Create a global style sheet for root theme styles.
 	 */
 	createThemeStyles = <T = unknown>(
-		factory: ThemeSheetFactory<T, Block>,
-	): ThemeSheet<T, Result, Block> => new Sheet(factory, renderTheme);
+		factory: ThemeSheetFactory<T, Input>,
+	): ThemeSheet<T, Input, Output> => new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -257,7 +256,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Return the currently active theme instance. If an active instance has not been defined,
 	 * one will be detected from the client's browser preferences.
 	 */
-	getActiveTheme = (): Theme<Block> => {
+	getActiveTheme = (): Theme<Input> => {
 		const active = this.activeTheme.get();
 
 		if (active) {
@@ -279,7 +278,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Return the current style engine.
 	 */
-	getEngine = (): Engine<Result> => {
+	getEngine = (): Engine<Input, Output> => {
 		const current =
 			(typeof global !== 'undefined' && global.AESTHETIC_CUSTOM_ENGINE) || this.styleEngine.get();
 
@@ -304,15 +303,15 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Return a theme instance by name.
 	 */
-	getTheme = (name: ThemeName): Theme<Block> => this.themeRegistry.getTheme(name);
+	getTheme = (name: ThemeName): Theme<Input> => this.themeRegistry.getTheme(name);
 
 	/**
 	 * Register a theme, with optional global theme styles.
 	 */
 	registerTheme = (
 		name: ThemeName,
-		theme: Theme<Block>,
-		sheet: ThemeSheet<unknown, Result, Block> | null = null,
+		theme: Theme<Input>,
+		sheet: ThemeSheet<unknown, Input, Output> | null = null,
 		isDefault: boolean = false,
 	): void => {
 		this.themeRegistry.register(name, theme, isDefault);
@@ -331,8 +330,8 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 */
 	registerDefaultTheme = (
 		name: ThemeName,
-		theme: Theme<Block>,
-		sheet: ThemeSheet<unknown, Result, Block> | null = null,
+		theme: Theme<Input>,
+		sheet: ThemeSheet<unknown, Input, Output> | null = null,
 	): void => {
 		this.registerTheme(name, theme, sheet, true);
 	};
@@ -341,7 +340,7 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	 * Render a component style sheet to the document with the defined style query parameters.
 	 */
 	renderComponentStyles = <T = unknown>(
-		sheet: ComponentSheet<T, Result, Block>,
+		sheet: ComponentSheet<T, Input, Output>,
 		params: SheetParams = {},
 	) => {
 		if (__DEV__ && !(sheet instanceof Sheet)) {
@@ -387,14 +386,19 @@ export class Aesthetic<Result = ClassName, Block extends object = Rule> {
 	/**
 	 * Render a global theme style sheet and return a result, if one was generated.
 	 */
-	renderThemeStyles = (theme: Theme<Block>, params: SheetParams = {}): Result[] => {
+	renderThemeStyles = (theme: Theme<Input>, params: SheetParams = {}): Output[] => {
 		const sheet = this.globalSheetRegistry.get(theme.name);
-		const results: Result[] = [];
+		const results: Output[] = [];
 
 		// Render theme CSS variables
 		if (isDOM()) {
 			results.push(
-				this.getEngine().renderRuleGrouped(theme.toVariables(), { type: 'global' }).result,
+				this.getEngine().renderRuleGrouped(
+					{
+						'@variables': theme.toVariables(),
+					} as Input,
+					{ type: 'global' },
+				).result,
 			);
 		}
 

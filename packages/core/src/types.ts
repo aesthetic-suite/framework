@@ -8,8 +8,6 @@ import {
 	PropertyHandlerMap,
 	RenderOptions,
 	RenderResult,
-	Rule,
-	RuleMap,
 	ThemeName,
 	ThemeRule,
 	Unit,
@@ -21,9 +19,9 @@ import type { Sheet } from './Sheet';
 
 // RENDER RESULT
 
-export type SheetRenderResult<Result> = Record<
+export type SheetRenderResult<Output> = Record<
 	string,
-	Partial<RenderResult<Result>> & {
+	Partial<RenderResult<Output>> & {
 		variantTypes?: Set<string>;
 	}
 >;
@@ -32,23 +30,23 @@ export type WrapFalsy<T> = T | false | null | undefined;
 
 export type WrapArray<T> = T extends (infer I)[] ? WrapFalsy<I>[] : WrapFalsy<T>[];
 
-export type ResultComposerArgs<Keys, Result> = (WrapArray<Result> | WrapFalsy<Keys>)[];
+export type ResultComposerArgs<Keys, Output> = (WrapArray<Output> | WrapFalsy<Keys>)[];
 
 export type ResultComposerVariants = Record<string, number | string | false | undefined>;
 
 // API consumers interact with (cx, etc)
-export interface ResultComposer<Keys, Result, GeneratedResult = Result> {
-	(variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
-	(...args: ResultComposerArgs<Keys, Result>): GeneratedResult;
-	result: SheetRenderResult<Result>;
+export interface ResultComposer<Keys, Output, GeneratedOutput = Output> {
+	(variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Output>): GeneratedOutput;
+	(...args: ResultComposerArgs<Keys, Output>): GeneratedOutput;
+	result: SheetRenderResult<Output>;
 }
 
 // Called from the composer to generate a final result
-export type ResultGenerator<Keys, Result, GeneratedResult = Result> = (
-	args: ResultComposerArgs<Keys, Result>,
+export type ResultGenerator<Keys, Output, GeneratedOutput = Output> = (
+	args: ResultComposerArgs<Keys, Output>,
 	variants: Set<string>,
-	results: SheetRenderResult<Result>,
-) => GeneratedResult;
+	results: SheetRenderResult<Output>,
+) => GeneratedOutput;
 
 // SHEETS
 
@@ -61,16 +59,14 @@ export interface SheetParams {
 	vendor?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SheetFactory<Return extends object, Block extends object = any> = (
-	utils: Utilities<Block>,
-) => Return;
+export type SheetFactory<Input extends object> = (utils: Utilities<Input>) => object;
 
-export type SheetRenderer<Result, Block extends object> = (
-	engine: Engine<Result>,
-	styles: Block,
+export type SheetRenderer<Input extends object, Output> = (
+	engine: Engine<Input, Output>,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	styles: any,
 	options: RenderOptions,
-) => SheetRenderResult<Result>;
+) => SheetRenderResult<Output>;
 
 // THEME SHEETS
 
@@ -78,13 +74,15 @@ export type ThemeRuleNeverize<T, B> = {
 	[K in keyof T]: K extends keyof B ? T[K] : never;
 };
 
-export type ThemeSheetFactory<Shape, Block extends object> = SheetFactory<
-	Shape extends unknown ? ThemeRule<Block> : ThemeRule<Block> & ThemeRuleNeverize<Shape, Block>,
-	Block
->;
+export type ThemeSheetFactory<Shape, Input extends object> = (
+	utils: Utilities<Input>,
+) => Shape extends unknown ? ThemeRule<Input> : ThemeRule<Input> & ThemeRuleNeverize<Shape, Input>;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type ThemeSheet<_Shape, Result, Block extends object> = Sheet<Result, ThemeRule<Block>>;
+export type ThemeSheet<Shape, Input extends object, Output> = Sheet<
+	Input,
+	Output,
+	ThemeSheetFactory<Shape, Input>
+>;
 
 // COMPONENT SHEETS
 
@@ -98,15 +96,19 @@ export type ElementRuleMapNeverize<T, B> = {
 	[K in keyof T]: ElementRuleNeverize<T[K], B>;
 };
 
-export type ComponentSheetFactory<Shape, Block extends object> = SheetFactory<
-	Shape extends unknown
-		? ElementRuleMap<Block>
-		: ElementRuleMap<Block> & ElementRuleMapNeverize<Shape, Block>,
-	Block
->;
+export type ElementSheetFactory<Input extends object> = (utils: Utilities<Input>) => Input;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type ComponentSheet<_Shape, Result, Block extends object> = OverrideSheet<Result, Block>;
+export type ComponentSheetFactory<Shape, Input extends object> = (
+	utils: Utilities<Input>,
+) => Shape extends unknown
+	? ElementRuleMap<Input>
+	: ElementRuleMap<Input> & ElementRuleMapNeverize<Shape, Input>;
+
+export type ComponentSheet<Shape, Input extends object, Output> = OverrideSheet<
+	Input,
+	Output,
+	ComponentSheetFactory<Shape, Input>
+>;
 
 // OTHER
 
@@ -126,8 +128,3 @@ export type EventListener = (...args: unknown[]) => void;
 export type OnChangeDirection = (newDir: Direction) => void;
 
 export type OnChangeTheme = (newTheme: ThemeName, results: unknown[]) => void;
-
-// And add aliases too
-export type ElementStyles = Rule;
-export type ComponentStyles = RuleMap;
-export type ThemeStyles = ThemeRule;

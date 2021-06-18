@@ -37,7 +37,7 @@ export type AddPropertyCallback = <K extends Property>(
 export type PropertyHandler<V> = (
 	value: NonNullable<V>,
 	add: AddPropertyCallback,
-	engine: Engine<unknown, unknown>,
+	engine: AnyEngine,
 ) => void;
 
 export type PropertyHandlerMap = {
@@ -157,11 +157,13 @@ export interface Engine<Input, Output> {
 	setTheme: (results: Output[]) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyEngine = Engine<any, any>;
+
 declare global {
 	namespace NodeJS {
 		interface Global {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			AESTHETIC_CUSTOM_ENGINE: Engine<any, any>;
+			AESTHETIC_CUSTOM_ENGINE: AnyEngine;
 		}
 	}
 }

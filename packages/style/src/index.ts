@@ -3,7 +3,7 @@
  * @license     https://opensource.org/licenses/MIT
  */
 
-import { Direction, EngineOptions, VariablesMap } from '@aesthetic/types';
+import { ClassName, Direction, EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { createStyleElements, getStyleElement } from './client/dom';
 import { hydrateStyles } from './client/hydration';
@@ -40,7 +40,7 @@ function setTheme(classNames: string[]) {
 	document.body.className = classNames.join(' ');
 }
 
-export function createClientEngine(options: Partial<EngineOptions> = {}): StyleEngine {
+export function createClientEngine(options: Partial<EngineOptions<ClassName>> = {}): StyleEngine {
 	const direction = (document.documentElement.getAttribute('dir') ??
 		document.body.getAttribute('dir') ??
 		'ltr') as Direction;

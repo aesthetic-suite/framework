@@ -1,4 +1,4 @@
-import { EngineOptions, VariablesMap } from '@aesthetic/types';
+import { ClassName, EngineOptions, VariablesMap } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { createSheetManager, TransientSheet } from './server/sheet';
 // Rollup compatibility
@@ -27,7 +27,9 @@ function extractStyles<T>(engine: StyleEngine, result?: T): T {
 	return result!;
 }
 
-export function createServerEngine(options: Partial<EngineOptions> = {}): ServerStyleEngine {
+export function createServerEngine(
+	options: Partial<EngineOptions<ClassName>> = {},
+): ServerStyleEngine {
 	const engine = createStyleEngine({
 		cacheManager: createCacheManager(),
 		sheetManager: createSheetManager({

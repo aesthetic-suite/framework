@@ -772,7 +772,9 @@ describe('Aesthetic', () => {
 			aesthetic.renderThemeStyles(lightTheme);
 
 			expect(spy).toHaveBeenCalledWith(
-				lightTheme.toVariables(),
+				{
+					'@variables': lightTheme.toVariables(),
+				},
 				expect.objectContaining({ type: 'global' }),
 			);
 		});

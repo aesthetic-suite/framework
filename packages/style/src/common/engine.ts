@@ -76,12 +76,12 @@ function insertAtRule(
 	rule: CSS,
 	options: RenderOptions,
 	engine: StyleEngine,
-): CacheItem {
+): CacheItem<ClassName> {
 	const { cacheManager, sheetManager } = engine;
 	let item = cacheManager.read(cacheKey);
 
 	if (!item) {
-		item = { className: '' };
+		item = { result: '' };
 		sheetManager.insertRule(rule, { ...options, type: 'global' });
 		cacheManager.write(cacheKey, item);
 	}
@@ -95,7 +95,7 @@ function insertStyles(
 	options: RenderOptions,
 	engine: StyleEngine,
 	minimumRank?: number,
-): CacheItem {
+): CacheItem<ClassName> {
 	const { cacheManager, sheetManager, vendorPrefixer } = engine;
 	let item = cacheManager.read(cacheKey, minimumRank);
 
@@ -113,7 +113,7 @@ function insertStyles(
 		);
 
 		// Cache the results for subsequent performance
-		item = { className, rank };
+		item = { result: className, rank };
 		cacheManager.write(cacheKey, item);
 	}
 
@@ -128,7 +128,7 @@ function renderProperty<K extends Property>(
 ): ClassName {
 	const key = formatProperty(property);
 	const { rankings } = options;
-	const { className, rank } = insertStyles(
+	const { result, rank } = insertStyles(
 		createCacheKey(key, value, options),
 		(name) => formatRule(name, createDeclaration(key, value, options, engine), options),
 		options,
@@ -141,7 +141,7 @@ function renderProperty<K extends Property>(
 		rankings[key] = rank;
 	}
 
-	return className;
+	return result;
 }
 
 function renderDeclaration<K extends Property>(
@@ -237,7 +237,7 @@ function renderVariable(
 		(className) => formatRule(className, formatDeclaration(key, value), options),
 		options,
 		engine,
-	).className;
+	).result;
 }
 
 // It's much faster to set and unset options (conditions and selector) than it is
@@ -373,7 +373,7 @@ function renderRuleGrouped(
 
 	// Insert rule styles only once
 	const block = variables + properties;
-	const { className } = insertStyles(
+	const { result } = insertStyles(
 		createCacheKey(block, '', options),
 		(name) => formatRule(name, block, options),
 		options,
@@ -381,19 +381,19 @@ function renderRuleGrouped(
 	);
 
 	// Render all at/nested rules with the parent class name
-	options.className = className;
+	options.className = result;
 
 	const { variants } = renderAtRules(engine, atRules, options, renderRuleGrouped);
 
 	return {
-		result: className.trim(),
+		result: result.trim(),
 		variants,
 	};
 }
 
 const noop = () => {};
 
-export function createStyleEngine(engineOptions: EngineOptions): StyleEngine {
+export function createStyleEngine(engineOptions: EngineOptions<ClassName>): StyleEngine {
 	const renderOptions = {};
 	const engine: StyleEngine = {
 		atomic: true,
