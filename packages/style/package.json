@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/style",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "A low-level, high-performance, atomic-based CSS-in-JS style engine.",
   "keywords": [
     "aesthetic",
@@ -41,12 +41,12 @@
   },
   "dependencies": {
     "@aesthetic/types": "^0.6.3",
-    "@aesthetic/utils": "^0.8.2",
+    "@aesthetic/utils": "^0.8.3",
     "sort-css-media-queries": "^1.5.4"
   },
   "devDependencies": {
     "@aesthetic/addon-direction": "^0.4.3",
-    "@aesthetic/addon-vendor": "^0.3.3"
+    "@aesthetic/addon-vendor": "^0.3.4"
   },
   "packemon": {
     "inputs": {
