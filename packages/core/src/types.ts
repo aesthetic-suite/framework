@@ -23,7 +23,10 @@ export interface SheetRenderResultItem<Output> extends Partial<RenderResult<Outp
 	variantTypes?: Set<string>;
 }
 
-export type SheetRenderResult<Output> = Record<string, SheetRenderResultItem<Output>>;
+export type SheetRenderResult<Output, Keys extends string = string> = Record<
+	Keys,
+	SheetRenderResultItem<Output>
+>;
 
 export type WrapFalsy<T> = T | false | null | undefined;
 
@@ -34,14 +37,14 @@ export type ResultComposerArgs<Keys, Output> = (WrapArray<Output> | WrapFalsy<Ke
 export type ResultComposerVariants = Record<string, number | string | false | undefined>;
 
 // API consumers interact with (cx, etc)
-export interface ResultComposer<Keys, Output, GeneratedOutput = Output> {
+export interface ResultComposer<Keys extends string, Output, GeneratedOutput = Output> {
 	(variants: ResultComposerVariants, ...args: ResultComposerArgs<Keys, Output>): GeneratedOutput;
 	(...args: ResultComposerArgs<Keys, Output>): GeneratedOutput;
-	result: SheetRenderResult<Output>;
+	result: SheetRenderResult<Output, Keys>;
 }
 
 // Called from the composer to generate a final result
-export type ResultGenerator<Keys, Output, GeneratedOutput = Output> = (
+export type ResultGenerator<Keys extends string, Output, GeneratedOutput = Output> = (
 	args: ResultComposerArgs<Keys, Output>,
 	variants: Set<string>,
 	results: SheetRenderResult<Output>,
