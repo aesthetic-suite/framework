@@ -196,41 +196,38 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	}
 
 	/**
-	 * Generate a class name using the selectors of a style sheet.
+	 * Generate a list of results using the selectors of a style sheet.
 	 * If a set is provided, it will be used to check for variants.
 	 */
-	generateClassName: ResultGenerator<string, ClassName> = (args, variants, classNames) => {
-		let className = '';
-		let variantClassName = '';
+	generateResults: ResultGenerator<string, Output> = (args, variants, renderResult) => {
+		const output: Output[] = [];
 
 		arrayLoop(args, (arg) => {
 			if (!arg) {
 				return;
 			}
 
+			// Custom results being passes
 			if (Array.isArray(arg)) {
-				className += ' ';
-				className += arg.filter(Boolean).join(' ');
+				output.push(...(arg as Output[]).filter(Boolean));
 
 				return;
 			}
 
-			const unit = classNames[arg];
+			const item = renderResult[arg];
 
-			if (unit?.result) {
-				className += ' ';
-				className += unit.result;
+			if (item?.result) {
+				output.push(item?.result);
 			}
 
-			arrayLoop(unit?.variants, ({ types, result }) => {
+			arrayLoop(item?.variants, ({ types, result }) => {
 				if (types.every((type) => variants.has(type))) {
-					variantClassName += ' ';
-					variantClassName += result;
+					output.push(result);
 				}
 			});
 		});
 
-		return (className + variantClassName).trim();
+		return output;
 	};
 
 	/**

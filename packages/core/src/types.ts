@@ -44,11 +44,11 @@ export interface ResultComposer<Keys extends string, Output, GeneratedOutput = O
 }
 
 // Called from the composer to generate a final result
-export type ResultGenerator<Keys extends string, Output, GeneratedOutput = Output> = (
+export type ResultGenerator<Keys extends string, Output> = (
 	args: ResultComposerArgs<Keys, Output>,
 	variants: Set<string>,
-	results: SheetRenderResult<Output>,
-) => GeneratedOutput;
+	renderResult: SheetRenderResult<Output>,
+) => Output[];
 
 // SHEETS
 

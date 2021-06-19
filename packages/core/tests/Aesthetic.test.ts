@@ -324,7 +324,7 @@ describe('Aesthetic', () => {
 		});
 	});
 
-	describe('generateClassName()', () => {
+	describe('generateResults()', () => {
 		const classes: SheetRenderResult<ClassName> = {
 			a: { result: 'a', variants: [createVariant('size:df', 'a_size_df')] },
 			b: { result: 'b' },
@@ -343,66 +343,68 @@ describe('Aesthetic', () => {
 		};
 
 		it('returns class names', () => {
-			expect(aesthetic.generateClassName(['a', 'e'], new Set(), classes)).toBe('a e');
+			expect(aesthetic.generateResults(['a', 'e'], new Set(), classes)).toEqual(['a', 'e']);
 		});
 
 		it('returns nothing for an invalid selector', () => {
-			expect(aesthetic.generateClassName(['z'], new Set(), classes)).toBe('');
+			expect(aesthetic.generateResults(['z'], new Set(), classes)).toEqual([]);
 		});
 
 		it('returns nothing for a valid selector but no class name', () => {
-			expect(aesthetic.generateClassName(['d'], new Set(), classes)).toBe('');
+			expect(aesthetic.generateResults(['d'], new Set(), classes)).toEqual([]);
 		});
 
 		it('can append custom class names using an array', () => {
 			expect(
-				aesthetic.generateClassName(
+				aesthetic.generateResults(
 					['a', ['qux'], 'e', ['foo', false && 'bar', true && 'baz']],
 					new Set(),
 					classes,
 				),
-			).toBe('a qux e foo baz');
+			).toEqual(['a', 'qux', 'e', 'foo', 'baz']);
 		});
 
 		describe('variants', () => {
 			it('returns class names and matching variants', () => {
-				expect(aesthetic.generateClassName(['a'], new Set(['size:df']), classes)).toBe(
-					'a a_size_df',
-				);
-				expect(aesthetic.generateClassName(['a', 'f'], new Set(['size:df']), classes)).toBe(
-					'a f a_size_df f_size_df',
-				);
+				expect(aesthetic.generateResults(['a'], new Set(['size:df']), classes)).toEqual([
+					'a',
+					'a_size_df',
+				]);
+				expect(aesthetic.generateResults(['a', 'f'], new Set(['size:df']), classes)).toEqual([
+					'a',
+					'a_size_df',
+					'f',
+					'f_size_df',
+				]);
 			});
 
 			it('returns variants even if theres no base class name', () => {
-				expect(aesthetic.generateClassName(['d'], new Set(['size:df']), classes)).toBe('d_size_df');
+				expect(aesthetic.generateResults(['d'], new Set(['size:df']), classes)).toEqual([
+					'd_size_df',
+				]);
 			});
 
 			it('only returns compound variant result if all names match', () => {
-				expect(aesthetic.generateClassName(['h'], new Set(), classes)).toBe('h');
-				expect(aesthetic.generateClassName(['h'], new Set(['type:red']), classes)).toBe('h');
-				expect(aesthetic.generateClassName(['h'], new Set(['size:df']), classes)).toBe('h');
-				expect(aesthetic.generateClassName(['h'], new Set(['type:red', 'size:df']), classes)).toBe(
-					'h h_type_red__size_df',
+				expect(aesthetic.generateResults(['h'], new Set(), classes)).toEqual(['h']);
+				expect(aesthetic.generateResults(['h'], new Set(['type:red']), classes)).toEqual(['h']);
+				expect(aesthetic.generateResults(['h'], new Set(['size:df']), classes)).toEqual(['h']);
+				expect(aesthetic.generateResults(['h'], new Set(['type:red', 'size:df']), classes)).toEqual(
+					['h', 'h_type_red__size_df'],
 				);
 
 				// Different enums
-				expect(aesthetic.generateClassName(['h'], new Set(['type:red', 'size:md']), classes)).toBe(
-					'h',
+				expect(aesthetic.generateResults(['h'], new Set(['type:red', 'size:md']), classes)).toEqual(
+					['h'],
 				);
-				expect(aesthetic.generateClassName(['h'], new Set(['type:blue', 'size:md']), classes)).toBe(
-					'h',
-				);
+				expect(
+					aesthetic.generateResults(['h'], new Set(['type:blue', 'size:md']), classes),
+				).toEqual(['h']);
 			});
 
 			it('can append custom class names', () => {
 				expect(
-					aesthetic.generateClassName(
-						['a', ['foo', false && 'bar']],
-						new Set(['size:df']),
-						classes,
-					),
-				).toBe('a foo a_size_df');
+					aesthetic.generateResults(['a', ['foo', false && 'bar']], new Set(['size:df']), classes),
+				).toEqual(['a', 'a_size_df', 'foo']);
 			});
 		});
 	});
