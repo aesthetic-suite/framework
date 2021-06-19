@@ -123,7 +123,6 @@ export interface EngineOptions<Output> {
 }
 
 export interface Engine<Input, Output> {
-	readonly atomic: boolean;
 	cacheManager?: CacheManager<Output>;
 	customProperties?: PropertyHandlerMap;
 	direction: Direction;

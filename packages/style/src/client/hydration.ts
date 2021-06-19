@@ -90,35 +90,24 @@ function hydrate(engine: StyleEngine, sheet: CSSStyleSheet) {
 		const css = rule.cssText;
 		let cacheKey = '';
 
-		switch (rule.type) {
-			case FONT_FACE_RULE: {
-				const fontFamilyName = css.match(FONT_FAMILY);
+		if (rule.type === FONT_FACE_RULE) {
+			const fontFamilyName = css.match(FONT_FAMILY);
 
-				if (fontFamilyName) {
-					cacheKey = fontFamilyName[1].trim();
-				}
-
-				break;
+			if (fontFamilyName) {
+				cacheKey = fontFamilyName[1].trim();
 			}
+		}
 
-			case KEYFRAMES_RULE: {
-				cacheKey = css.slice(0, css.indexOf('{')).replace('@keyframes', '').trim();
+		if (rule.type === KEYFRAMES_RULE) {
+			cacheKey = css.slice(0, css.indexOf('{')).replace('@keyframes', '').trim();
+		}
 
-				break;
+		if (rule.type === IMPORT_RULE) {
+			const importPath = css.match(IMPORT_URL);
+
+			if (importPath) {
+				[cacheKey] = importPath;
 			}
-
-			case IMPORT_RULE: {
-				const importPath = css.match(IMPORT_URL);
-
-				if (importPath) {
-					[cacheKey] = importPath;
-				}
-
-				break;
-			}
-
-			default:
-				break;
 		}
 
 		if (cacheKey) {

@@ -5,8 +5,6 @@
 
 import { arrayLoop } from './arrayLoop';
 import { arrayReduce } from './arrayReduce';
-import { attempt } from './attempt';
-import { createState } from './createState';
 import { deepClone } from './deepClone';
 import { deepMerge } from './deepMerge';
 import { generateHash } from './generateHash';
@@ -25,8 +23,6 @@ export * from './types';
 export {
 	arrayLoop,
 	arrayReduce,
-	attempt,
-	createState,
 	deepClone,
 	deepMerge,
 	generateHash,

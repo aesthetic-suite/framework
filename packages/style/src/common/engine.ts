@@ -396,7 +396,6 @@ const noop = () => {};
 export function createStyleEngine(engineOptions: EngineOptions<ClassName>): StyleEngine {
 	const renderOptions = {};
 	const engine: StyleEngine = {
-		atomic: true,
 		cacheManager: createCacheManager(),
 		direction: 'ltr',
 		ruleIndex: -1,

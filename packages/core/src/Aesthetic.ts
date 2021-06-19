@@ -12,7 +12,7 @@ import {
 	Rule,
 	ThemeName,
 } from '@aesthetic/types';
-import { arrayLoop, createState, isDOM } from '@aesthetic/utils';
+import { arrayLoop, isDOM } from '@aesthetic/utils';
 import { OverrideSheet } from './OverrideSheet';
 import { renderComponent, renderTheme } from './renderers';
 import { Sheet } from './Sheet';
@@ -32,9 +32,9 @@ import {
 } from './types';
 
 export class Aesthetic<Input extends object = Rule, Output = ClassName> {
-	protected activeDirection = createState<Direction>();
+	protected activeDirection?: Direction;
 
-	protected activeTheme = createState<ThemeName>();
+	protected activeTheme?: ThemeName;
 
 	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Input, Output>>();
 
@@ -42,7 +42,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 	protected options: AestheticOptions = {};
 
-	protected styleEngine = createState<Engine<Input, Output>>();
+	protected styleEngine?: Engine<Input, Output>;
 
 	protected themeRegistry = new ThemeRegistry<Input>();
 
@@ -61,14 +61,14 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 * Change the active direction.
 	 */
 	changeDirection = (direction: Direction, propagate: boolean = true): void => {
-		if (direction === this.activeDirection.get()) {
+		if (direction === this.activeDirection) {
 			return;
 		}
 
 		const engine = this.getEngine();
 
 		// Set the active direction
-		this.activeDirection.set(direction);
+		this.activeDirection = direction;
 
 		// Update engine direction
 		engine.direction = direction;
@@ -84,7 +84,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 * Change the active theme.
 	 */
 	changeTheme = (name: ThemeName, propagate: boolean = true): void => {
-		if (name === this.activeTheme.get()) {
+		if (name === this.activeTheme) {
 			return;
 		}
 
@@ -92,7 +92,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		const engine = this.getEngine();
 
 		// Set the active theme
-		this.activeTheme.set(name);
+		this.activeTheme = name;
 
 		// Set root variables
 		if (this.options.rootVariables) {
@@ -118,10 +118,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		Object.assign(this.options, customOptions);
 
 		// Configure the engine with itself to reapply options
-		const engine = this.styleEngine.get();
-
-		if (engine) {
-			this.configureEngine(engine);
+		if (this.styleEngine) {
+			this.configureEngine(this.styleEngine);
 		}
 	};
 
@@ -147,7 +145,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 			engine.vendorPrefixer = options.vendorPrefixer;
 		}
 
-		this.styleEngine.set(engine);
+		this.styleEngine = engine;
 	};
 
 	/**
@@ -235,10 +233,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 * it will be detected from the browser's `dir` attribute.
 	 */
 	getActiveDirection = (): Direction => {
-		const active = this.activeDirection.get();
-
-		if (active) {
-			return active;
+		if (this.activeDirection) {
+			return this.activeDirection;
 		}
 
 		// Detect theme from engine
@@ -254,10 +250,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 * one will be detected from the client's browser preferences.
 	 */
 	getActiveTheme = (): Theme<Input> => {
-		const active = this.activeTheme.get();
-
-		if (active) {
-			return this.getTheme(active);
+		if (this.activeTheme) {
+			return this.getTheme(this.activeTheme);
 		}
 
 		// Detect theme from browser preferences
@@ -277,7 +271,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	getEngine = (): Engine<Input, Output> => {
 		const current =
-			(typeof global !== 'undefined' && global.AESTHETIC_CUSTOM_ENGINE) || this.styleEngine.get();
+			(typeof global !== 'undefined' && global.AESTHETIC_CUSTOM_ENGINE) || this.styleEngine;
 
 		if (current) {
 			return current;

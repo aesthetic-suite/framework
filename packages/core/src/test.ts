@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { ThemeRegistry } from '@aesthetic/system';
 import { darkTheme, design, lightTheme } from '@aesthetic/system/test';
 import { ThemeName } from '@aesthetic/types';
@@ -7,9 +9,9 @@ export { darkTheme, design, lightTheme };
 
 export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
 	// @ts-expect-error Allow access
-	aesthetic.activeDirection.reset();
+	aesthetic.activeDirection = undefined;
 	// @ts-expect-error Allow access
-	aesthetic.activeTheme.reset();
+	aesthetic.activeTheme = undefined;
 	// @ts-expect-error Allow access
 	aesthetic.listeners.clear();
 	// @ts-expect-error Allow access
@@ -22,6 +24,7 @@ export function resetAestheticState(aesthetic: Aesthetic<any, any>) {
 		defaultUnit: 'px',
 		deterministicClasses: false,
 		directionConverter: null,
+		rootVariables: false,
 		vendorPrefixer: null,
 	});
 }
@@ -36,9 +39,9 @@ export function getAestheticState(aesthetic: Aesthetic<any, any>): {
 } {
 	return {
 		// @ts-expect-error Allow access
-		activeDirection: aesthetic.activeDirection.get(),
+		activeDirection: aesthetic.activeDirection,
 		// @ts-expect-error Allow access
-		activeTheme: aesthetic.activeTheme.get(),
+		activeTheme: aesthetic.activeTheme,
 		// @ts-expect-error Allow access
 		globalSheetRegistry: aesthetic.globalSheetRegistry,
 		// @ts-expect-error Allow access

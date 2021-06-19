@@ -70,6 +70,7 @@ export class ThemeRegistry<Block extends object> {
 		if (possibleTheme) {
 			return possibleTheme;
 		}
+
 		if (this.defaultTheme) {
 			return this.getTheme(this.defaultTheme);
 		}

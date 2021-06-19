@@ -60,7 +60,7 @@ describe('Aesthetic', () => {
 			setupAesthetic(aesthetic);
 
 			// @ts-expect-error Allow access
-			aesthetic.activeDirection.reset();
+			aesthetic.activeDirection = undefined;
 		});
 
 		it('sets active direction', () => {
@@ -412,7 +412,7 @@ describe('Aesthetic', () => {
 	describe('getActiveDirection()', () => {
 		beforeEach(() => {
 			// @ts-expect-error Allow access
-			aesthetic.activeDirection.reset();
+			aesthetic.activeDirection = undefined;
 		});
 
 		it('returns the direction defined on the html `dir` attribute', () => {
@@ -547,7 +547,7 @@ describe('Aesthetic', () => {
 		it('errors if not defined', () => {
 			expect(() => {
 				// @ts-expect-error Allow access
-				aesthetic.styleEngine.reset();
+				aesthetic.styleEngine = undefined;
 				aesthetic.getEngine();
 			}).toThrow('No style engine defined. Have you configured one with `configureEngine()`?');
 		});
