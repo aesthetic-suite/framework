@@ -114,8 +114,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	/**
 	 * Configure options unique to this instance.
 	 */
-	configure = (customOptions: AestheticOptions): void => {
-		Object.assign(this.options, customOptions);
+	configure = (options: AestheticOptions): void => {
+		Object.assign(this.options, options);
 
 		// Configure the engine with itself to reapply options
 		if (this.styleEngine) {
@@ -129,19 +129,19 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	configureEngine = (engine: Engine<Input, Output>): void => {
 		const { options } = this;
 
-		if (!engine.customProperties && options.customProperties) {
+		if (options.customProperties) {
 			engine.customProperties = options.customProperties;
 		}
 
-		if (!engine.directionConverter && options.directionConverter) {
+		if (options.directionConverter) {
 			engine.directionConverter = options.directionConverter;
 		}
 
-		if (!engine.unitSuffixer && options.defaultUnit) {
+		if (options.defaultUnit) {
 			engine.unitSuffixer = options.defaultUnit;
 		}
 
-		if (!engine.vendorPrefixer && options.vendorPrefixer) {
+		if (options.vendorPrefixer) {
 			engine.vendorPrefixer = options.vendorPrefixer;
 		}
 
@@ -338,13 +338,11 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 			throw new TypeError('Rendering component styles require a `Sheet` instance.');
 		}
 
-		const theme = params.theme ? this.getTheme(params.theme) : this.getActiveTheme();
-
-		return sheet.render(this.getEngine(), theme, {
-			direction: this.getActiveDirection(),
-			vendor: !!this.options.vendorPrefixer,
-			...params,
-		});
+		return this.renderSheet(
+			sheet,
+			params.theme ? this.getTheme(params.theme) : this.getActiveTheme(),
+			params,
+		);
 	};
 
 	/**
@@ -392,11 +390,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 		// Render theme styles
 		if (sheet) {
-			const result = sheet.render(this.getEngine(), theme, {
-				direction: this.getActiveDirection(),
-				vendor: !!this.options.vendorPrefixer,
-				...params,
-			}).root?.result;
+			const result = this.renderSheet(sheet, theme, params).root?.result;
 
 			if (result) {
 				results.push(result);
@@ -426,5 +420,18 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	unsubscribe(type: 'change:theme', listener: OnChangeTheme): void;
 	unsubscribe(type: EventType, listener: Function): void {
 		this.getListeners(type).delete(listener);
+	}
+
+	protected renderSheet(
+		sheet: ComponentSheet<unknown, Input, Output> | ThemeSheet<unknown, Input, Output>,
+		theme: Theme<Input>,
+		params: SheetParams,
+	) {
+		return sheet.render(this.getEngine(), theme, {
+			deterministic: !!this.options.deterministicClasses,
+			direction: this.getActiveDirection(),
+			vendor: !!this.options.vendorPrefixer,
+			...params,
+		});
 	}
 }

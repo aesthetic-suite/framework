@@ -38,6 +38,7 @@ export class Sheet<Input extends object, Output, Factory extends SheetFactory<In
 	): SheetRenderResult<Output> {
 		const params: Required<SheetParams> = {
 			contrast: theme.contrast,
+			deterministic: false,
 			direction: 'ltr',
 			scheme: theme.scheme,
 			theme: theme.name,

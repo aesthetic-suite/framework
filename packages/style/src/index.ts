@@ -7,7 +7,6 @@ import { ClassName, Direction, EngineOptions, VariablesMap } from '@aesthetic/ty
 import { objectLoop } from '@aesthetic/utils';
 import { createStyleElements, getStyleElement } from './client/dom';
 import { hydrateStyles } from './client/hydration';
-import { createCacheManager } from './common/cache';
 import { createStyleEngine } from './common/engine';
 import { createSheetManager } from './common/sheet';
 import { formatVariable } from './common/syntax';
@@ -46,7 +45,6 @@ export function createClientEngine(options: Partial<EngineOptions<ClassName>> = 
 		'ltr') as Direction;
 
 	const engine: StyleEngine = createStyleEngine({
-		cacheManager: createCacheManager(),
 		direction,
 		sheetManager: createSheetManager(createStyleElements()),
 		...options,

@@ -55,8 +55,8 @@ const CHARS = 'abcdefghijklmnopqrstuvwxyz';
 const CHARS_LENGTH = CHARS.length;
 
 function generateClassName(key: string, options: RenderOptions, engine: StyleEngine): ClassName {
+	// Avoid hashes that start with an invalid number
 	if (options.deterministic) {
-		// Avoid hashes that start with an invalid number
 		return `c${generateHash(key)}`;
 	}
 
