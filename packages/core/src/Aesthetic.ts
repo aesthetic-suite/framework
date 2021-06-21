@@ -154,14 +154,22 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	createComponentStyles = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
+		sync: boolean = false,
 	): ComponentSheet<T, Input, Output> => {
 		const sheet = new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(
 			factory,
 			renderComponent,
 		);
 
-		// Attempt to render styles immediately so they're available on mount
-		this.renderComponentStyles(sheet);
+		// Attempt to render styles immediately so they're available on mount.
+		// Also attempt to render in parallel for a slight performance boost.
+		// This is typically fine since the sheet is created in the module scope
+		// (on file evaluation), and not during the React/etc render scope.
+		if (sync) {
+			this.renderComponentStyles(sheet);
+		} else {
+			setTimeout(() => this.renderComponentStyles(sheet), 0);
+		}
 
 		return sheet;
 	};

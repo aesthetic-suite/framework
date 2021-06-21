@@ -276,12 +276,15 @@ describe('Aesthetic', () => {
 		it('renders styles immediately upon creation', () => {
 			const spy = jest.spyOn(aesthetic.getEngine(), 'renderRule');
 
-			aesthetic.createComponentStyles(() => ({
-				element: {
-					display: 'block',
-					width: '100%',
-				},
-			}));
+			aesthetic.createComponentStyles(
+				() => ({
+					element: {
+						display: 'block',
+						width: '100%',
+					},
+				}),
+				true,
+			);
 
 			expect(spy).toHaveBeenCalledTimes(1);
 
@@ -289,12 +292,15 @@ describe('Aesthetic', () => {
 		});
 
 		it('can utilize mixins', () => {
-			aesthetic.createComponentStyles((css) => ({
-				element: css.mixin('reset-typography', {
-					display: 'flex',
-					color: css.var('palette-brand-text'),
+			aesthetic.createComponentStyles(
+				(css) => ({
+					element: css.mixin('reset-typography', {
+						display: 'flex',
+						color: css.var('palette-brand-text'),
+					}),
 				}),
-			}));
+				true,
+			);
 
 			expect(getRenderedStyles('standard')).toMatchSnapshot();
 		});
