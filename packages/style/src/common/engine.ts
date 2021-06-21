@@ -60,9 +60,9 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
 		return `c${generateHash(key)}`;
 	}
 
-	engine.ruleIndex += 1;
+	engine.ruleCount += 1;
 
-	const index = engine.ruleIndex;
+	const index = engine.ruleCount;
 
 	if (index < CHARS_LENGTH) {
 		return CHARS[index];
@@ -398,7 +398,7 @@ export function createStyleEngine(engineOptions: EngineOptions<ClassName>): Styl
 	const engine: StyleEngine = {
 		cacheManager: createCacheManager(),
 		direction: 'ltr',
-		ruleIndex: -1,
+		ruleCount: -1,
 		...engineOptions,
 		prefersColorScheme: () => false,
 		prefersContrastLevel: () => false,

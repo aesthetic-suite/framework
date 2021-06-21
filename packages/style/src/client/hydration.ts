@@ -122,13 +122,13 @@ export function hydrateStyles(engine: StyleEngine): boolean {
 	arrayLoop(styles, (style) => {
 		hydrate(engine, style.sheet!);
 
-		if (engine.ruleIndex === -1) {
-			engine.ruleIndex = Number(style.getAttribute('data-aesthetic-rule-index'));
+		if (engine.ruleCount === -1) {
+			engine.ruleCount = Number(style.getAttribute('data-aesthetic-rule-count'));
 		}
 
 		// Remove so that we avoid unnecessary hydration
 		style.removeAttribute('data-aesthetic-hydrate-index');
-		style.removeAttribute('data-aesthetic-rule-index');
+		style.removeAttribute('data-aesthetic-rule-count');
 	});
 
 	return styles.length > 0;

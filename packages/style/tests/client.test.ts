@@ -10,7 +10,7 @@ function createStyle(type: SheetType, lastIndex: number) {
 	style.media = 'screen';
 	style.setAttribute('id', `aesthetic-${type}`);
 	style.dataset.aestheticHydrateIndex = String(lastIndex);
-	style.dataset.aestheticRuleIndex = '21';
+	style.dataset.aestheticRuleCount = '21';
 	style.dataset.aestheticType = type;
 
 	document.head.append(style);
@@ -68,7 +68,7 @@ describe('Client', () => {
 					kf103rcyx: [{ result: '' }],
 				}),
 			);
-			expect(engine.ruleIndex).toBe(21);
+			expect(engine.ruleCount).toBe(21);
 		});
 
 		it('adds standard and condition rules to the class name cache', () => {
@@ -97,7 +97,7 @@ describe('Client', () => {
 					'(color: green)colorgreen': [{ result: 'u', rank: 3 }],
 				}),
 			);
-			expect(engine.ruleIndex).toBe(21);
+			expect(engine.ruleCount).toBe(21);
 		});
 
 		it('doesnt re-insert hydrated font-face', () => {

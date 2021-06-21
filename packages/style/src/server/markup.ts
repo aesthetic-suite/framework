@@ -19,11 +19,11 @@ export function extractCssFromSheet(sheet: Sheet): string {
 export function getStyleElementAttributes(
 	type: SheetType,
 	sheet: Sheet,
-	ruleIndex: number,
+	ruleCount: number,
 ): Record<string, number | string | undefined> {
 	return {
 		'data-aesthetic-hydrate-index': sheet.cssRules.length - 1,
-		'data-aesthetic-rule-index': ruleIndex,
+		'data-aesthetic-rule-count': ruleCount,
 		'data-aesthetic-type': type,
 		id: `aesthetic-${type}`,
 		media: 'screen',
@@ -32,9 +32,9 @@ export function getStyleElementAttributes(
 	};
 }
 
-function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): string {
+function createStyleElement(type: SheetType, sheet: Sheet, ruleCount: number): string {
 	const css = extractCssFromSheet(sheet);
-	const attrs = objectReduce(getStyleElementAttributes(type, sheet, ruleIndex), (value, key) =>
+	const attrs = objectReduce(getStyleElementAttributes(type, sheet, ruleCount), (value, key) =>
 		value === undefined ? '' : ` ${key}="${value}"`,
 	);
 
@@ -43,8 +43,8 @@ function createStyleElement(type: SheetType, sheet: Sheet, ruleIndex: number): s
 
 export function renderToStyleMarkup(engine: StyleEngine): string {
 	return (
-		createStyleElement('global', engine.sheetManager.sheets.global, engine.ruleIndex) +
-		createStyleElement('standard', engine.sheetManager.sheets.standard, engine.ruleIndex) +
-		createStyleElement('conditions', engine.sheetManager.sheets.conditions, engine.ruleIndex)
+		createStyleElement('global', engine.sheetManager.sheets.global, engine.ruleCount) +
+		createStyleElement('standard', engine.sheetManager.sheets.standard, engine.ruleCount) +
+		createStyleElement('conditions', engine.sheetManager.sheets.conditions, engine.ruleCount)
 	);
 }

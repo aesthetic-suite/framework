@@ -127,7 +127,7 @@ export interface Engine<Input, Output> {
 	customProperties?: PropertyHandlerMap;
 	direction: Direction;
 	directionConverter?: DirectionConverter;
-	ruleIndex: number;
+	ruleCount: number;
 	sheetManager?: SheetManager;
 	unitSuffixer?: Unit | UnitFactory;
 	vendorPrefixer?: VendorPrefixer;
