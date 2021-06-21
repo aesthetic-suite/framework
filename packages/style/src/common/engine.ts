@@ -60,9 +60,9 @@ function generateClassName(key: string, options: RenderOptions, engine: StyleEng
 		return `c${generateHash(key)}`;
 	}
 
-	engine.ruleCount += 1;
+	engine.nameIndex += 1;
 
-	const index = engine.ruleCount;
+	const index = engine.nameIndex;
 
 	if (index < CHARS_LENGTH) {
 		return CHARS[index];
@@ -81,6 +81,7 @@ function insertAtRule(
 	let item = cacheManager.read(cacheKey);
 
 	if (!item) {
+		engine.ruleCount += 1;
 		item = { result: '' };
 		sheetManager.insertRule(rule, { ...options, type: 'global' });
 		cacheManager.write(cacheKey, item);
@@ -100,6 +101,8 @@ function insertStyles(
 	let item = cacheManager.read(cacheKey, minimumRank);
 
 	if (!item) {
+		engine.ruleCount += 1;
+
 		// Generate class name and format CSS rule with class name
 		const className = options.className ?? generateClassName(cacheKey, options, engine);
 		const css = render(className);
@@ -398,6 +401,7 @@ export function createStyleEngine(engineOptions: EngineOptions<ClassName>): Styl
 	const engine: StyleEngine = {
 		cacheManager: createCacheManager(),
 		direction: 'ltr',
+		nameIndex: -1,
 		ruleCount: -1,
 		...engineOptions,
 		prefersColorScheme: () => false,
