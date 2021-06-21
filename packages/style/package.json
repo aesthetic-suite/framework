@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/style",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "A low-level, high-performance, atomic-based CSS-in-JS style engine.",
   "keywords": [
     "aesthetic",
@@ -40,13 +40,13 @@
     "url": "https://ko-fi.com/milesjohnson"
   },
   "dependencies": {
-    "@aesthetic/types": "^0.6.4",
+    "@aesthetic/types": "^0.6.5",
     "@aesthetic/utils": "^0.8.4",
     "sort-css-media-queries": "^1.5.4"
   },
   "devDependencies": {
-    "@aesthetic/addon-direction": "^0.4.4",
-    "@aesthetic/addon-vendor": "^0.3.5"
+    "@aesthetic/addon-direction": "^0.4.5",
+    "@aesthetic/addon-vendor": "^0.3.6"
   },
   "packemon": {
     "inputs": {
