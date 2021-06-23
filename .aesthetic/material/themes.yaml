@@ -214,13 +214,13 @@ themes:
         '80': '#f9a825'
         '90': '#f57f17'
     palettes:
-      brand: black
-      primary: black
-      secondary: black
-      tertiary: black
-      neutral: black
-      muted: black
-      warning: black
-      danger: black
-      negative: black
-      positive: black
+      brand: gray
+      primary: gray
+      secondary: gray
+      tertiary: gray
+      neutral: gray
+      muted: gray
+      warning: gray
+      danger: gray
+      negative: gray
+      positive: gray

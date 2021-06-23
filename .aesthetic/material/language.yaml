@@ -29,7 +29,7 @@ spacing:
 # TYPOGRAPHY
 # https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/styles/createTypography.js
 typography:
-  font: "Roboto", "Helvetica", "Arial", sans-serif
+  font: '"Roboto", "Helvetica", "Arial", sans-serif'
   text:
     small:
       size: 12
