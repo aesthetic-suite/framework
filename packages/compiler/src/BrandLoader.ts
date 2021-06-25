@@ -1,7 +1,7 @@
 import optimal, { string } from 'optimal';
 import { DeepPartial } from '@aesthetic/system';
 import { Path } from '@boost/common';
-import { BRAND_FILE, NAME_PATTERN } from './constants';
+import { BRAND_FILE } from './constants';
 import { Loader } from './Loader';
 import { BrandConfigFile } from './types';
 
@@ -15,7 +15,7 @@ export class BrandLoader extends Loader<BrandConfigFile> {
 			config,
 			{
 				extends: string(),
-				name: string().notEmpty().match(NAME_PATTERN),
+				name: string().notEmpty(),
 			},
 			{ file: filePath.path() },
 		);

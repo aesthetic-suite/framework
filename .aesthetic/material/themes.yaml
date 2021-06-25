@@ -1,0 +1,279 @@
+# THEMES
+themes:
+  default:
+    scheme: light
+    contrast: normal
+    colors:
+      white:
+        '00': '#fff'
+        '10': '#fff'
+        '20': '#fff'
+        '30': '#fff'
+        '40': '#fff'
+        '50': '#fff'
+        '60': '#fff'
+        '70': '#fff'
+        '80': '#fff'
+        '90': '#fff'
+      amber:
+        '00': '#fff8e1'
+        '10': '#ffecb3'
+        '20': '#ffe082'
+        '30': '#ffd54f'
+        '40': '#ffca28'
+        '50': '#ffc107'
+        '60': '#ffb300'
+        '70': '#ffa000'
+        '80': '#ff8f00'
+        '90': '#ff6f00'
+      blue:
+        '00': '#e3f2fd'
+        '10': '#bbdefb'
+        '20': '#90caf9'
+        '30': '#64b5f6'
+        '40': '#42a5f5'
+        '50': '#2196f3'
+        '60': '#1e88e5'
+        '70': '#1976d2'
+        '80': '#1565c0'
+        '90': '#0d47a1'
+      blueGray:
+        '00': '#eceff1'
+        '10': '#cfd8dc'
+        '20': '#b0bec5'
+        '30': '#90a4ae'
+        '40': '#78909c'
+        '50': '#607d8b'
+        '60': '#546e7a'
+        '70': '#455a64'
+        '80': '#37474f'
+        '90': '#263238'
+      brown:
+        '00': '#efebe9'
+        '10': '#d7ccc8'
+        '20': '#bcaaa4'
+        '30': '#a1887f'
+        '40': '#8d6e63'
+        '50': '#795548'
+        '60': '#6d4c41'
+        '70': '#5d4037'
+        '80': '#4e342e'
+        '90': '#3e2723'
+      cyan:
+        '00': '#e0f7fa'
+        '10': '#b2ebf2'
+        '20': '#80deea'
+        '30': '#4dd0e1'
+        '40': '#26c6da'
+        '50': '#00bcd4'
+        '60': '#00acc1'
+        '70': '#0097a7'
+        '80': '#00838f'
+        '90': '#006064'
+      deepOrange:
+        '00': '#fbe9e7'
+        '10': '#ffccbc'
+        '20': '#ffab91'
+        '30': '#ff8a65'
+        '40': '#ff7043'
+        '50': '#ff5722'
+        '60': '#f4511e'
+        '70': '#e64a19'
+        '80': '#d84315'
+        '90': '#bf360c'
+      deepPurple:
+        '00': '#ede7f6'
+        '10': '#d1c4e9'
+        '20': '#b39ddb'
+        '30': '#9575cd'
+        '40': '#7e57c2'
+        '50': '#673ab7'
+        '60': '#5e35b1'
+        '70': '#512da8'
+        '80': '#4527a0'
+        '90': '#311b92'
+      green:
+        '00': '#e8f5e9'
+        '10': '#c8e6c9'
+        '20': '#a5d6a7'
+        '30': '#81c784'
+        '40': '#66bb6a'
+        '50': '#4caf50'
+        '60': '#43a047'
+        '70': '#388e3c'
+        '80': '#2e7d32'
+        '90': '#1b5e20'
+      gray:
+        '00': '#fafafa'
+        '10': '#f5f5f5'
+        '20': '#eeeeee'
+        '30': '#e0e0e0'
+        '40': '#bdbdbd'
+        '50': '#9e9e9e'
+        '60': '#757575'
+        '70': '#616161'
+        '80': '#424242'
+        '90': '#212121'
+      indigo:
+        '00': '#e8eaf6'
+        '10': '#c5cae9'
+        '20': '#9fa8da'
+        '30': '#7986cb'
+        '40': '#5c6bc0'
+        '50': '#3f51b5'
+        '60': '#3949ab'
+        '70': '#303f9f'
+        '80': '#283593'
+        '90': '#1a237e'
+      lightBlue:
+        '00': '#e1f5fe'
+        '10': '#b3e5fc'
+        '20': '#81d4fa'
+        '30': '#4fc3f7'
+        '40': '#29b6f6'
+        '50': '#03a9f4'
+        '60': '#039be5'
+        '70': '#0288d1'
+        '80': '#0277bd'
+        '90': '#01579b'
+      lightGreen:
+        '00': '#f1f8e9'
+        '10': '#dcedc8'
+        '20': '#c5e1a5'
+        '30': '#aed581'
+        '40': '#9ccc65'
+        '50': '#8bc34a'
+        '60': '#7cb342'
+        '70': '#689f38'
+        '80': '#558b2f'
+        '90': '#33691e'
+      lime:
+        '00': '#f9fbe7'
+        '10': '#f0f4c3'
+        '20': '#e6ee9c'
+        '30': '#dce775'
+        '40': '#d4e157'
+        '50': '#cddc39'
+        '60': '#c0ca33'
+        '70': '#afb42b'
+        '80': '#9e9d24'
+        '90': '#827717'
+      orange:
+        '00': '#fff3e0'
+        '10': '#ffe0b2'
+        '20': '#ffcc80'
+        '30': '#ffb74d'
+        '40': '#ffa726'
+        '50': '#ff9800'
+        '60': '#fb8c00'
+        '70': '#f57c00'
+        '80': '#ef6c00'
+        '90': '#e65100'
+      pink:
+        '00': '#fce4ec'
+        '10': '#f8bbd0'
+        '20': '#f48fb1'
+        '30': '#f06292'
+        '40': '#ec407a'
+        '50': '#e91e63'
+        '60': '#d81b60'
+        '70': '#c2185b'
+        '80': '#ad1457'
+        '90': '#880e4f'
+      purple:
+        '00': '#f3e5f5'
+        '10': '#e1bee7'
+        '20': '#ce93d8'
+        '30': '#ba68c8'
+        '40': '#ab47bc'
+        '50': '#9c27b0'
+        '60': '#8e24aa'
+        '70': '#7b1fa2'
+        '80': '#6a1b9a'
+        '90': '#4a148c'
+      red:
+        '00': '#ffebee'
+        '10': '#ffcdd2'
+        '20': '#ef9a9a'
+        '30': '#e57373'
+        '40': '#ef5350'
+        '50': '#f44336'
+        '60': '#e53935'
+        '70': '#d32f2f'
+        '80': '#c62828'
+        '90': '#b71c1c'
+      teal:
+        '00': '#e0f2f1'
+        '10': '#b2dfdb'
+        '20': '#80cbc4'
+        '30': '#4db6ac'
+        '40': '#26a69a'
+        '50': '#009688'
+        '60': '#00897b'
+        '70': '#00796b'
+        '80': '#00695c'
+        '90': '#004d40'
+      yellow:
+        '00': '#fffde7'
+        '10': '#fff9c4'
+        '20': '#fff59d'
+        '30': '#fff176'
+        '40': '#ffee58'
+        '50': '#ffeb3b'
+        '60': '#fdd835'
+        '70': '#fbc02d'
+        '80': '#f9a825'
+        '90': '#f57f17'
+    palettes:
+      brand: gray
+      primary:
+        color: blue
+        text: blue.70
+        bg:
+          base: blue.70
+          focused: blue.70
+          selected: blue.80
+          hovered: blue.90
+          disabled: gray.30
+        fg:
+          base: white.00
+          focused: white.00
+          hovered: white.00
+          selected: white.00
+          disabled: gray.50
+      secondary:
+        color: pink
+        text: pink.70
+        bg:
+          base: pink.70
+          focused: pink.70
+          selected: pink.80
+          hovered: pink.90
+          disabled: gray.30
+        fg:
+          base: white.00
+          focused: white.00
+          hovered: white.00
+          selected: white.00
+          disabled: gray.50
+      tertiary:
+        color: gray
+        text: gray.30
+        bg:
+          base: gray.30
+          focused: gray.30
+          selected: gray.40
+          hovered: gray.50
+          disabled: gray.30
+        fg:
+          base: gray.90
+          focused: gray.90
+          hovered: gray.90
+          selected: gray.90
+          disabled: gray.50
+      neutral: gray
+      muted: blueGray
+      warning: orange
+      danger: deepOrange
+      negative: red
+      positive: green

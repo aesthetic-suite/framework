@@ -1,0 +1,134 @@
+# Guidelines
+#   - All unit based settings should be defined as unitless numbers.
+#     Assume "px" for web, "sp" or "dp" for Android, and "pt" for iOS.
+
+# RESPONSIVE
+# https://github.com/mui-org/material-ui/blob/next/packages/material-ui-system/src/breakpoints.js
+responsive:
+  breakpoints:
+    xs: 600
+    sm: 900
+    md: 1200
+    lg: 1536
+    xl: 1920
+  textScale: minor-second
+  lineHeightScale: minor-second
+
+# SPACING
+# https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/styles/createV4Spacing.js
+spacing:
+  type: unit
+  unit: 8
+  multipliers:
+    xs: 0.25
+    sm: 0.5
+    df: 1 # Default
+    lg: 2
+    xl: 3
+
+# TYPOGRAPHY
+# https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/styles/createTypography.js
+typography:
+  font: '"Roboto", "Helvetica", "Arial", sans-serif'
+  text:
+    small:
+      size: 12
+      lineHeight: 1.6
+    default:
+      size: 14
+      lineHeight: 1.43
+    large:
+      size: 16
+      lineHeight: 1.5
+  heading:
+    level1:
+      size: 96
+      lineHeight: 1.167
+      letterSpacing: -1.5
+    level2:
+      size: 60
+      lineHeight: 1.2
+      letterSpacing: -0.5
+    level3:
+      size: 48
+      lineHeight: 1.167
+      letterSpacing: 0
+    level4:
+      size: 34
+      lineHeight: 1.235
+      letterSpacing: 0.25
+    level5:
+      size: 24
+      lineHeight: 1.334
+      letterSpacing: 0
+    level6:
+      size: 20
+      lineHeight: 1.6
+      letterSpacing: .15
+
+# BORDERS
+# Borders are the same throughout, from what I've seen...
+borders:
+  small:
+    radius: 4
+    width: 1
+  default:
+    radius: 4
+    width: 1
+  large:
+    radius: 4
+    width: 1
+
+# SHADOWS
+# Too many shadows to effectively support, so picked a spread
+# https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/styles/shadows.js
+shadows:
+  xsmall:
+    x: 0
+    y: 1
+    blur: 1
+    spread: 0
+  small:
+    x: 0
+    y: 6
+    blur: 10
+    spread: 0
+  medium:
+    x: 0
+    y: 12
+    blur: 17
+    spread: 2
+  large:
+    x: 0
+    y: 19
+    blur: 29
+    spread: 2
+  xlarge:
+    x: 0
+    y: 24
+    blur: 38
+    spread: 3
+
+# COLORS
+# https://github.com/mui-org/material-ui/tree/next/packages/material-ui/src/colors
+colors:
+  - amber
+  - blue
+  - blueGray
+  - brown
+  - cyan
+  - deepOrange
+  - deepPurple
+  - green
+  - gray
+  - indigo
+  - lightBlue
+  - lightGreen
+  - lime
+  - orange
+  - pink
+  - purple
+  - red
+  - teal
+  - yellow
+  - white
