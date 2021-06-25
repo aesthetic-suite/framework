@@ -97,13 +97,15 @@ export const SCALES: { [K in ScaleType]: number } = {
 
 // SYSTEM
 
+// Loose based on LVHA:
+// https://css-tricks.com/remember-selectors-with-love-and-hate/
 export const STATE_ORDER: StateType[] = ['focused', 'hovered', 'selected', 'disabled'];
 
 export const SHADE_TEXT = 80;
 export const SHADE_BASE = 40;
 export const SHADE_FOCUSED = 50;
-export const SHADE_HOVERED = 60;
-export const SHADE_SELECTED = 50;
-export const SHADE_DISABLED = 30;
+export const SHADE_HOVERED = 50;
+export const SHADE_SELECTED = 60;
+export const SHADE_DISABLED = 20;
 
 export const INHERIT_SETTING = 'INHERIT';
