@@ -10,21 +10,11 @@ import optimal, {
 	union,
 	UnionPredicate,
 } from 'optimal';
-import { ColorShade, DeepPartial, Hexcode } from '@aesthetic/system';
+import { DeepPartial, Hexcode } from '@aesthetic/system';
 import { ColorScheme, ContrastLevel } from '@aesthetic/types';
 import { deepMerge } from '@aesthetic/utils';
 import { Path } from '@boost/common';
-import {
-	INHERIT_SETTING,
-	SHADE_BASE,
-	SHADE_DISABLED,
-	SHADE_FOCUSED,
-	SHADE_HOVERED,
-	SHADE_RANGES,
-	SHADE_SELECTED,
-	SHADE_TEXT,
-	THEMES_FILE,
-} from './constants';
+import { INHERIT_SETTING, SHADE_RANGES, THEMES_FILE } from './constants';
 import { Loader } from './Loader';
 import {
 	ColorConfig,
@@ -98,8 +88,8 @@ export class ThemesLoader extends Loader<ThemesConfigFile> {
 		return string().notEmpty().custom(this.validatePaletteColorReference);
 	}
 
-	protected colorShadeRef(defaultValue: number): StringPredicate {
-		return string(`${this.colorNames[0] || 'unknown'}.${defaultValue}`)
+	protected colorShadeRef(): StringPredicate {
+		return string(INHERIT_SETTING)
 			.match(COLOR_SHADE_REF_PATTERN)
 			.custom((ref) => {
 				const [color] = ref.split('.');
@@ -133,20 +123,26 @@ export class ThemesLoader extends Loader<ThemesConfigFile> {
 		);
 	}
 
-	protected themeColors(): ObjectPredicate<Record<ColorShade, string>> {
+	protected themeColors(): ObjectPredicate<ColorConfig | Hexcode> {
 		return object(
-			shape<ColorConfig>({
-				'00': hexcode(),
-				'10': hexcode(),
-				'20': hexcode(),
-				'30': hexcode(),
-				'40': hexcode(),
-				'50': hexcode(),
-				'60': hexcode(),
-				'70': hexcode(),
-				'80': hexcode(),
-				'90': hexcode(),
-			}).exact(),
+			union<ColorConfig | string>(
+				[
+					shape<ColorConfig>({
+						'00': hexcode(),
+						'10': hexcode(),
+						'20': hexcode(),
+						'30': hexcode(),
+						'40': hexcode(),
+						'50': hexcode(),
+						'60': hexcode(),
+						'70': hexcode(),
+						'80': hexcode(),
+						'90': hexcode(),
+					}).exact(),
+					hexcode(),
+				],
+				'',
+			),
 		)
 			.custom(this.validateThemeImplementsColors)
 			.required();
@@ -154,11 +150,11 @@ export class ThemesLoader extends Loader<ThemesConfigFile> {
 
 	protected themePaletteState(): ShapePredicate<PaletteState<ColorShadeRef>> {
 		return shape({
-			base: this.colorShadeRef(SHADE_BASE),
-			focused: this.colorShadeRef(SHADE_FOCUSED),
-			hovered: this.colorShadeRef(SHADE_HOVERED),
-			selected: this.colorShadeRef(SHADE_SELECTED),
-			disabled: this.colorShadeRef(SHADE_DISABLED),
+			base: this.colorShadeRef(),
+			focused: this.colorShadeRef(),
+			hovered: this.colorShadeRef(),
+			selected: this.colorShadeRef(),
+			disabled: this.colorShadeRef(),
 		}).exact();
 	}
 
@@ -168,7 +164,7 @@ export class ThemesLoader extends Loader<ThemesConfigFile> {
 				this.colorName(),
 				shape<PaletteConfig>({
 					color: this.colorName().required().notEmpty(),
-					text: union([this.colorName(), this.colorShadeRef(SHADE_TEXT)], INHERIT_SETTING),
+					text: union([this.colorName(), this.colorShadeRef()], INHERIT_SETTING),
 					bg: union([this.colorName(), this.themePaletteState()], INHERIT_SETTING),
 					fg: union([this.colorName(), this.themePaletteState()], INHERIT_SETTING),
 				})
