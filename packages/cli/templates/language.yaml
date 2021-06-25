@@ -58,42 +58,42 @@ typography:
   # Can customize each level individually by using a map.
   heading:
     level1:
-      size: 16
-      lineHeight: 1.5
-      letterSpacing: 0.25
-    level2:
-      size: 20
-      lineHeight: 1.69
-      letterSpacing: 0.33
-    level3:
-      size: 25
-      lineHeight: 1.9
-      letterSpacing: 0.44
-    level4:
-      size: 31.25
-      lineHeight: 2.14
-      letterSpacing: 0.59
-    level5:
-      size: 39
-      lineHeight: 2.4
-      letterSpacing: 0.79
-    level6:
       size: 48.8
       lineHeight: 2.7
       letterSpacing: 1.05
+    level2:
+      size: 39
+      lineHeight: 2.4
+      letterSpacing: 0.79
+    level3:
+      size: 31.25
+      lineHeight: 2.14
+      letterSpacing: 0.59
+    level4:
+      size: 25
+      lineHeight: 1.9
+      letterSpacing: 0.44
+    level5:
+      size: 20
+      lineHeight: 1.69
+      letterSpacing: 0.33
+    level6:
+      size: 16
+      lineHeight: 1.5
+      letterSpacing: 0.25
 
 # BORDERS
 # Scales from the inside (default) out (small, large). Configure for default.
 # Can customize small, default, and large sizes individually by using a map.
 borders:
   small:
-    radius: 1.5
+    radius: 2
     width: 0
   default:
-    radius: 3
+    radius: 4
     width: 1
   large:
-    radius: 4.5
+    radius: 6
     width: 2
 
 # SHADOWS
