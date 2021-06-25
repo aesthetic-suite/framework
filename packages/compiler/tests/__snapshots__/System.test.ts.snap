@@ -192,9 +192,9 @@ Object {
       "bg": Object {
         "base": "#BE0",
         "disabled": "#BE1",
-        "focused": "#005",
+        "focused": "#BE5",
         "hovered": "#BE2",
-        "selected": "#005",
+        "selected": "#BE5",
       },
       "color": Object {
         "00": "#BE0",
@@ -210,9 +210,9 @@ Object {
       },
       "fg": Object {
         "base": "#FF9",
-        "disabled": "#003",
+        "disabled": "#FF3",
         "focused": "#FF8",
-        "hovered": "#006",
+        "hovered": "#FF6",
         "selected": "#FF7",
       },
       "text": "#BE8",
@@ -343,10 +343,10 @@ Object {
     "danger": Object {
       "bg": Object {
         "base": "#BE3",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
+        "disabled": "#BE3",
+        "focused": "#BE5",
+        "hovered": "#BE6",
+        "selected": "#BE5",
       },
       "color": Object {
         "00": "#000",
@@ -362,17 +362,17 @@ Object {
       },
       "fg": Object {
         "base": "#EE4",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
+        "disabled": "#EE3",
+        "focused": "#EE5",
+        "hovered": "#EE6",
+        "selected": "#EE5",
       },
       "text": "#ED5",
     },
     "muted": Object {
       "bg": Object {
         "base": "#FF9",
-        "disabled": "#FF0",
+        "disabled": "#eee",
         "focused": "#FF8",
         "hovered": "#FF7",
         "selected": "#FF6",
@@ -401,7 +401,7 @@ Object {
     "negative": Object {
       "bg": Object {
         "base": "#EE4",
-        "disabled": "#FF0",
+        "disabled": "#eee",
         "focused": "#ED3",
         "hovered": "#BE2",
         "selected": "#001",
@@ -640,10 +640,10 @@ Object {
     "danger": Object {
       "bg": Object {
         "base": "#ED9",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
+        "disabled": "#ED3",
+        "focused": "#ED5",
+        "hovered": "#ED6",
+        "selected": "#ED5",
       },
       "color": Object {
         "00": "#ED0",
@@ -659,10 +659,10 @@ Object {
       },
       "fg": Object {
         "base": "#ED0",
-        "disabled": "#003",
-        "focused": "#005",
-        "hovered": "#006",
-        "selected": "#005",
+        "disabled": "#ED3",
+        "focused": "#ED5",
+        "hovered": "#ED6",
+        "selected": "#ED5",
       },
       "text": "#ED8",
     },
@@ -786,9 +786,9 @@ Object {
       "bg": Object {
         "base": "#BE0",
         "disabled": "#BE1",
-        "focused": "#005",
+        "focused": "#BE5",
         "hovered": "#BE2",
-        "selected": "#005",
+        "selected": "#BE5",
       },
       "color": Object {
         "00": "#BE0",
@@ -804,9 +804,9 @@ Object {
       },
       "fg": Object {
         "base": "#ff9",
-        "disabled": "#003",
+        "disabled": "#ff3",
         "focused": "#ff8",
-        "hovered": "#006",
+        "hovered": "#ff6",
         "selected": "#ff7",
       },
       "text": "#BE8",

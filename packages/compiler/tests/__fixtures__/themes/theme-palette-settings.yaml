@@ -2,6 +2,7 @@ themes:
   default:
     scheme: light
     colors:
+      gray: '#eee'
       black:
         '00': '#000'
         '10': '#001'
@@ -83,7 +84,7 @@ themes:
           focused: white.80
           hovered: white.70
           selected: white.60
-          disabled: white.00
+          disabled: gray
       # Custom fg
       warning:
         color: red
@@ -116,6 +117,6 @@ themes:
           focused: red.30
           hovered: blue.20
           selected: black.10
-          disabled: white.00
+          disabled: gray
       # Shorthand
       positive: white

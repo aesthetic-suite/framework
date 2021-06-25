@@ -2,6 +2,7 @@ themes:
   default:
     scheme: light
     colors:
+      gray: '#eee'
       black:
         '00': '#000'
         '10': '#001'
