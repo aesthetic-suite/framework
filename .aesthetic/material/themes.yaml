@@ -4,6 +4,17 @@ themes:
     scheme: light
     contrast: normal
     colors:
+      white:
+        '00': '#fff'
+        '10': '#fff'
+        '20': '#fff'
+        '30': '#fff'
+        '40': '#fff'
+        '50': '#fff'
+        '60': '#fff'
+        '70': '#fff'
+        '80': '#fff'
+        '90': '#fff'
       amber:
         '00': '#fff8e1'
         '10': '#ffecb3'
@@ -215,12 +226,54 @@ themes:
         '90': '#f57f17'
     palettes:
       brand: gray
-      primary: gray
-      secondary: gray
-      tertiary: gray
+      primary:
+        color: blue
+        text: blue.70
+        bg:
+          base: blue.70
+          focused: blue.70
+          selected: blue.80
+          hovered: blue.90
+          disabled: gray.30
+        fg:
+          base: white.00
+          focused: white.00
+          hovered: white.00
+          selected: white.00
+          disabled: gray.50
+      secondary:
+        color: pink
+        text: pink.70
+        bg:
+          base: pink.70
+          focused: pink.70
+          selected: pink.80
+          hovered: pink.90
+          disabled: gray.30
+        fg:
+          base: white.00
+          focused: white.00
+          hovered: white.00
+          selected: white.00
+          disabled: gray.50
+      tertiary:
+        color: gray
+        text: gray.30
+        bg:
+          base: gray.30
+          focused: gray.30
+          selected: gray.40
+          hovered: gray.50
+          disabled: gray.30
+        fg:
+          base: gray.90
+          focused: gray.90
+          hovered: gray.90
+          selected: gray.90
+          disabled: gray.50
       neutral: gray
-      muted: gray
-      warning: gray
-      danger: gray
-      negative: gray
-      positive: gray
+      muted: blueGray
+      warning: orange
+      danger: deepOrange
+      negative: red
+      positive: green

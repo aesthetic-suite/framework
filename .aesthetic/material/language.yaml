@@ -67,18 +67,17 @@ typography:
       letterSpacing: .15
 
 # BORDERS
-# Scales from the inside (default) out (small, large). Configure for default.
-# Can customize small, default, and large sizes individually by using a map.
+# Borders are the same throughout, from what I've seen...
 borders:
   small:
-    radius: 1.5
-    width: 0
+    radius: 4
+    width: 1
   default:
-    radius: 3
+    radius: 4
     width: 1
   large:
-    radius: 4.5
-    width: 2
+    radius: 4
+    width: 1
 
 # SHADOWS
 # Too many shadows to effectively support, so picked a spread
@@ -132,3 +131,4 @@ colors:
   - red
   - teal
   - yellow
+  - white

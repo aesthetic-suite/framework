@@ -6,16 +6,16 @@ import { Design, Rule } from '@aesthetic/core';
 export default new Design<Rule>('material-design', {
 	border: {
 		sm: {
-			radius: '0.11rem', // 1.50px
-			width: '0rem', // 0px
+			radius: '0.29rem', // 4px
+			width: '0.07rem', // 1px
 		},
 		df: {
-			radius: '0.21rem', // 3px
+			radius: '0.29rem', // 4px
 			width: '0.07rem', // 1px
 		},
 		lg: {
-			radius: '0.32rem', // 4.50px
-			width: '0.14rem', // 2px
+			radius: '0.29rem', // 4px
+			width: '0.07rem', // 1px
 		},
 	},
 	breakpoint: {
