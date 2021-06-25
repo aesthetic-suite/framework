@@ -4,17 +4,7 @@ themes:
     scheme: light
     contrast: normal
     colors:
-      white:
-        '00': '#fff'
-        '10': '#fff'
-        '20': '#fff'
-        '30': '#fff'
-        '40': '#fff'
-        '50': '#fff'
-        '60': '#fff'
-        '70': '#fff'
-        '80': '#fff'
-        '90': '#fff'
+      white: '#fff'
       amber:
         '00': '#fff8e1'
         '10': '#ffecb3'
@@ -236,10 +226,10 @@ themes:
           hovered: blue.90
           disabled: gray.30
         fg:
-          base: white.00
-          focused: white.00
-          hovered: white.00
-          selected: white.00
+          base: white
+          focused: white
+          hovered: white
+          selected: white
           disabled: gray.50
       secondary:
         color: pink
@@ -251,10 +241,10 @@ themes:
           hovered: pink.90
           disabled: gray.30
         fg:
-          base: white.00
-          focused: white.00
-          hovered: white.00
-          selected: white.00
+          base: white
+          focused: white
+          hovered: white
+          selected: white
           disabled: gray.50
       tertiary:
         color: gray

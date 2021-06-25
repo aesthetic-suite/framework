@@ -57,8 +57,18 @@ export class SystemTheme<ColorNames extends string = string> {
 		return new SystemTheme(name, deepMerge(this.config, config), extendedFrom);
 	}
 
+	protected getColor(ref: ColorShadeRef): ColorName {
+		return ref.split('.')[0];
+	}
+
 	protected getHexcode(color: string, shade: number | string): Hexcode {
-		return this.config.colors[color as ColorNames][formatShade(shade)];
+		const shades = this.config.colors[color as ColorNames];
+
+		if (typeof shades === 'string') {
+			return shades;
+		}
+
+		return shades[formatShade(shade)];
 	}
 
 	protected getHexcodeByRef(ref: ColorShadeRef, defaultShade: number = 40): Hexcode {
@@ -93,8 +103,16 @@ export class SystemTheme<ColorNames extends string = string> {
 			({ color, text, bg, fg } = config);
 		}
 
+		const colorShades = this.config.colors[color as ColorNames];
+
+		if (typeof colorShades === 'string') {
+			throw new TypeError(
+				`Expected color "${color}" to be an object of shades, but found a single shade (a string).`,
+			);
+		}
+
 		return {
-			color: this.config.colors[color as ColorNames],
+			color: colorShades,
 			text: this.getHexcodeByRef(text === INHERIT_SETTING ? color : text, SHADE_TEXT),
 			bg: this.compilePaletteState(bg === INHERIT_SETTING ? color : bg),
 			fg: this.compilePaletteState(fg === INHERIT_SETTING ? 'white' : fg),
@@ -120,12 +138,26 @@ export class SystemTheme<ColorNames extends string = string> {
 			({ base, focused, hovered, selected, disabled } = config);
 		}
 
+		const baseColor = this.getColor(base);
+
 		return {
 			base: this.getHexcodeByRef(base, SHADE_BASE),
-			focused: this.getHexcodeByRef(focused, SHADE_FOCUSED),
-			hovered: this.getHexcodeByRef(hovered, SHADE_HOVERED),
-			selected: this.getHexcodeByRef(selected, SHADE_SELECTED),
-			disabled: this.getHexcodeByRef(disabled, SHADE_DISABLED),
+			focused: this.getHexcodeByRef(
+				focused === INHERIT_SETTING ? baseColor : focused,
+				SHADE_FOCUSED,
+			),
+			hovered: this.getHexcodeByRef(
+				hovered === INHERIT_SETTING ? baseColor : hovered,
+				SHADE_HOVERED,
+			),
+			selected: this.getHexcodeByRef(
+				selected === INHERIT_SETTING ? baseColor : selected,
+				SHADE_SELECTED,
+			),
+			disabled: this.getHexcodeByRef(
+				disabled === INHERIT_SETTING ? baseColor : disabled,
+				SHADE_DISABLED,
+			),
 		};
 	}
 }

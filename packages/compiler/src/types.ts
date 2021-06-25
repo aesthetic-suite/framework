@@ -202,7 +202,7 @@ export type ColorShadeRef = ColorName | string;
 
 export type ColorConfig = Record<ColorShade, Hexcode>;
 
-export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig>;
+export type ColorConfigMap<K extends string = string> = Record<K, ColorConfig | Hexcode>;
 
 export type PaletteState<T> = Record<StateType, T> & {
 	base: T;
