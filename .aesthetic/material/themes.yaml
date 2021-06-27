@@ -215,7 +215,21 @@ themes:
         '80': '#f9a825'
         '90': '#f57f17'
     palettes:
-      brand: gray
+      brand:
+        color: indigo
+        text: indigo.70
+        bg:
+          base: indigo.70
+          focused: indigo.70
+          selected: indigo.80
+          hovered: indigo.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
       primary:
         color: blue
         text: blue.70
@@ -248,7 +262,7 @@ themes:
           disabled: gray.50
       tertiary:
         color: gray
-        text: gray.30
+        text: gray.70
         bg:
           base: gray.30
           focused: gray.30
@@ -256,14 +270,98 @@ themes:
           hovered: gray.50
           disabled: gray.30
         fg:
-          base: gray.90
+          base: gray.80
           focused: gray.90
           hovered: gray.90
           selected: gray.90
           disabled: gray.50
-      neutral: gray
-      muted: blueGray
-      warning: orange
-      danger: deepOrange
-      negative: red
-      positive: green
+      neutral:
+        color: gray
+        text: gray.70
+        bg:
+          base: gray.70
+          focused: gray.70
+          selected: gray.80
+          hovered: gray.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
+      muted:
+        color: blueGray
+        text: blueGray.70
+        bg:
+          base: blueGray.70
+          focused: blueGray.70
+          selected: blueGray.80
+          hovered: blueGray.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
+      warning:
+        color: deepOrange
+        text: deepOrange.70
+        bg:
+          base: deepOrange.70
+          focused: deepOrange.70
+          selected: deepOrange.80
+          hovered: deepOrange.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
+      danger:
+        color: orange
+        text: orange.70
+        bg:
+          base: orange.70
+          focused: orange.70
+          selected: orange.80
+          hovered: orange.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
+      negative:
+        color: red
+        text: red.70
+        bg:
+          base: red.70
+          focused: red.70
+          selected: red.80
+          hovered: red.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50
+      positive:
+        color: green
+        text: green.70
+        bg:
+          base: green.70
+          focused: green.70
+          selected: green.80
+          hovered: green.90
+          disabled: gray.30
+        fg:
+          base: white
+          focused: white
+          hovered: white
+          selected: white
+          disabled: gray.50

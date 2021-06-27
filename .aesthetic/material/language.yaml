@@ -68,16 +68,17 @@ typography:
 
 # BORDERS
 # Borders are the same throughout, from what I've seen...
+# So this just adds some more variance for testing.
 borders:
   small:
-    radius: 4
+    radius: 2
     width: 1
   default:
     radius: 4
-    width: 1
+    width: 2
   large:
-    radius: 4
-    width: 1
+    radius: 6
+    width: 3
 
 # SHADOWS
 # Too many shadows to effectively support, so picked a spread
