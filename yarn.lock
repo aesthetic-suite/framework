@@ -9112,10 +9112,12 @@ socks@^2.3.3:
     ip "^1.1.5"
     smart-buffer "^4.1.0"
 
-sort-css-media-queries@^1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/sort-css-media-queries/-/sort-css-media-queries-1.5.4.tgz#24182b12002a13d01ba943ddf74f5098d7c244ce"
-  integrity sha512-YP5W/h4Sid/YP7Lp87ejJ5jP13/Mtqt2vx33XyhO+IAugKlufRPbOrPlIiEUuxmpNBSBd3EeeQpFhdu3RfI2Ag==
+sort-css-media-queries@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/sort-css-media-queries/-/sort-css-media-queries-2.0.3.tgz#7ddd9569fb7f257fbe2d6c9774a44595366c09f2"
+  integrity sha512-2F28GjxS2V/VWhSJ3RpR36wnW/wbA1RukWuOL8uJRsLjI8Y3qW9TQSY6rCEdqaMwZe2wpm+3DAZYvktkbER3Cw==
+  dependencies:
+    mkdirp "^1.0.4"
 
 sort-keys@^2.0.0:
   version "2.0.0"
