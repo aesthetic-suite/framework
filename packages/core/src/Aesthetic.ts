@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable no-param-reassign, unicorn/prefer-prototype-methods */
 
 import { Theme, ThemeRegistry } from '@aesthetic/system';
 import {

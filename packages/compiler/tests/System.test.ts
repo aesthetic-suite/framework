@@ -22,32 +22,32 @@ describe('System', () => {
 				xs: {
 					queryConditions: [['min-width', 640]],
 					querySize: 640,
-					rootLineHeight: 1.33375,
-					rootTextSize: 14.937999999999999,
+					rootLineHeight: 1.333_75,
+					rootTextSize: 14.937_999_999_999_999,
 				},
 				sm: {
 					queryConditions: [['min-width', 960]],
 					querySize: 960,
-					rootLineHeight: 1.4231112499999998,
-					rootTextSize: 15.938845999999998,
+					rootLineHeight: 1.423_111_249_999_999_8,
+					rootTextSize: 15.938_845_999_999_998,
 				},
 				md: {
 					queryConditions: [['min-width', 1280]],
 					querySize: 1280,
-					rootLineHeight: 1.5184597037499998,
-					rootTextSize: 17.006748681999998,
+					rootLineHeight: 1.518_459_703_749_999_8,
+					rootTextSize: 17.006_748_681_999_998,
 				},
 				lg: {
 					queryConditions: [['min-width', 1600]],
 					querySize: 1600,
-					rootLineHeight: 1.6201965039012498,
-					rootTextSize: 18.146200843693997,
+					rootLineHeight: 1.620_196_503_901_249_8,
+					rootTextSize: 18.146_200_843_693_997,
 				},
 				xl: {
 					queryConditions: [['min-width', 1920]],
 					querySize: 1920,
-					rootLineHeight: 1.7287496696626334,
-					rootTextSize: 19.361996300221495,
+					rootLineHeight: 1.728_749_669_662_633_4,
+					rootTextSize: 19.361_996_300_221_495,
 				},
 			});
 		});

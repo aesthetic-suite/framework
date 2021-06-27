@@ -44,7 +44,7 @@
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.21",
     "optimal": "^4.2.0",
-    "prettier": "^2.2.1"
+    "prettier": "^2.3.2"
   },
   "packemon": {
     "format": "lib",

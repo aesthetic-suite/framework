@@ -25,7 +25,7 @@
     "node": ">=12.17.0"
   },
   "devDependencies": {
-    "@beemo/dev": "^0.2.3",
+    "@beemo/dev": "^1.0.0",
     "@types/ejs": "^3.0.6",
     "@types/fs-extra": "^9.0.11",
     "@types/lodash": "^4.14.170",
