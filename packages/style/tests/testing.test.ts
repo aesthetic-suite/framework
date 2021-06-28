@@ -47,7 +47,7 @@ describe('Test engine', () => {
 					{
 						display: 'block',
 					},
-					{ debug: 'example' },
+					{ debugName: 'example' },
 				),
 			).toEqual({ result: 'example', variants: [] });
 		});
@@ -102,7 +102,7 @@ describe('Test engine', () => {
 					{
 						display: 'block',
 					},
-					{ debug: 'example' },
+					{ debugName: 'example' },
 				),
 			).toEqual({ result: 'example', variants: [] });
 		});

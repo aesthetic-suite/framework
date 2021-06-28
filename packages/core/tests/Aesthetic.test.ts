@@ -1,7 +1,7 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
 import { createClientEngine } from '@aesthetic/style';
-import { getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
+import { createTestEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { toArray } from '@aesthetic/utils';
 import { Aesthetic, AestheticOptions, OverrideSheet, Sheet, SheetRenderResult } from '../src';
@@ -658,6 +658,28 @@ describe('Aesthetic', () => {
 				deterministic: true,
 				direction: expect.any(String),
 				vendor: false,
+			});
+		});
+
+		it('renders with a test engine and fixed classes', () => {
+			aesthetic.configureEngine(createTestEngine());
+
+			const sheet = createComponentSheet(aesthetic);
+
+			expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+				foo: { result: 'foo' },
+				bar: {
+					result: 'bar',
+					variants: [
+						createVariant('type:red', 'variant:type:red'),
+						createVariant(
+							['border:thick', 'size:small'],
+							'variant:border:thick variant:size:small',
+						),
+					],
+					variantTypes: new Set(['border', 'type', 'size']),
+				},
+				baz: { result: 'baz' },
 			});
 		});
 

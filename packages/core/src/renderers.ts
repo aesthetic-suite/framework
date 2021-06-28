@@ -57,7 +57,7 @@ export function renderComponent<Input, Output>(
 
 			// Rule
 		} else if (isObject(style)) {
-			const result = engine.renderRule(style, { ...options, rankings });
+			const result = engine.renderRule(style, { ...options, debugName: selector, rankings });
 
 			meta.result = result.result;
 

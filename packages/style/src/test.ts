@@ -46,7 +46,7 @@ export function createTestEngine(): Engine<Rule, ClassName> {
 	const renderVariable = (name: string) => `variable:${hyphenate(name)}`;
 
 	const renderRule = (rule: Rule, options: RenderOptions = {}): RenderResult<ClassName> => {
-		let result = String(options.debug || 'class');
+		let result = String(options.debugName ?? 'class');
 
 		objectLoop(rule['@variables'], (value, name) => {
 			result += ` ${renderVariable(name)}`;
