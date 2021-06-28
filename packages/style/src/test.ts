@@ -2,16 +2,11 @@ import {
 	CacheManager,
 	ClassName,
 	CSS,
-	Engine,
 	EngineOptions,
-	RenderOptions,
-	RenderResult,
-	Rule,
 	Sheet,
 	SheetManager,
 	SheetType,
 } from '@aesthetic/types';
-import { hyphenate, objectLoop } from '@aesthetic/utils';
 // Rollup compatibility
 import {
 	createCacheManager,
