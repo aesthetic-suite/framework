@@ -1,11 +1,12 @@
 import directionConverter from '@aesthetic/addon-direction';
 import vendorPrefixer from '@aesthetic/addon-vendor';
 import { createClientEngine } from '@aesthetic/style';
-import { createTestEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
+import { getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { toArray } from '@aesthetic/utils';
 import { Aesthetic, AestheticOptions, OverrideSheet, Sheet, SheetRenderResult } from '../src';
 import {
+	createTestEngine,
 	darkTheme,
 	getAestheticState,
 	lightTheme,
