@@ -91,6 +91,7 @@ export type RankCache = Record<string, number>;
 
 export interface RenderOptions {
 	className?: ClassName;
+	debugName?: string;
 	deterministic?: boolean;
 	direction?: Direction;
 	media?: string;
