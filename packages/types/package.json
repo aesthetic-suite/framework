@@ -1,6 +1,6 @@
 {
   "name": "@aesthetic/types",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "Reusable TypeScript types for Aesthetic packages.",
   "keywords": [
     "aesthetic",
