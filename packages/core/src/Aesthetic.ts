@@ -40,7 +40,9 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
-	protected options: AestheticOptions = {};
+	protected options: AestheticOptions = {
+		injectStrategy: 'create-async',
+	};
 
 	protected styleEngine?: Engine<Input, Output>;
 
@@ -154,8 +156,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	createComponentStyles = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
-		sync: boolean = false,
 	): ComponentSheet<T, Input, Output> => {
+		const { injectStrategy } = this.options;
 		const sheet = new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(
 			factory,
 			renderComponent,
@@ -165,9 +167,9 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		// Also attempt to render in parallel for a slight performance boost.
 		// This is typically fine since the sheet is created in the module scope
 		// (on file evaluation), and not during the React/etc render scope.
-		if (sync) {
+		if (injectStrategy === 'create') {
 			this.renderComponentStyles(sheet);
-		} else {
+		} else if (injectStrategy === 'create-async') {
 			setTimeout(() => this.renderComponentStyles(sheet), 0);
 		}
 

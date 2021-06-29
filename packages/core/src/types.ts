@@ -113,11 +113,14 @@ export type ComponentSheet<Shape, Input extends object, Output> = OverrideSheet<
 
 // OTHER
 
+export type InjectStrategy = 'create-async' | 'create' | 'render';
+
 export interface AestheticOptions {
 	customProperties?: PropertyHandlerMap;
 	defaultUnit?: Unit | UnitFactory;
 	deterministicClasses?: boolean;
 	directionConverter?: DirectionConverter | null;
+	injectStrategy?: InjectStrategy;
 	rootVariables?: boolean;
 	vendorPrefixer?: VendorPrefixer | null;
 }

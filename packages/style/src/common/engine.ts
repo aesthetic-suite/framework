@@ -401,6 +401,7 @@ export function createStyleEngine(engineOptions: EngineOptions<ClassName>): Styl
 	const engine: StyleEngine = {
 		cacheManager: createCacheManager(),
 		direction: 'ltr',
+		name: 'style',
 		nameIndex: -1,
 		ruleCount: -1,
 		...engineOptions,

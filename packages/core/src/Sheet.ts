@@ -3,8 +3,8 @@ import { Engine } from '@aesthetic/types';
 import { objectLoop } from '@aesthetic/utils';
 import { SheetFactory, SheetParams, SheetRenderer, SheetRenderResult } from './types';
 
-function createCacheKey(params: Required<SheetParams>): string {
-	let key = '';
+function createCacheKey(name: string, params: Required<SheetParams>): string {
+	let key = name;
 
 	// Since all other values are scalars, we can just join the values.
 	// This is 3x faster than JSON.stringify(), and 1.5x faster than Object.values()!
@@ -46,7 +46,7 @@ export class Sheet<Input extends object, Output, Factory extends SheetFactory<In
 			vendor: false,
 			...baseParams,
 		};
-		const key = createCacheKey(params);
+		const key = createCacheKey(engine.name, params);
 		const cache = this.cache[key];
 
 		if (cache) {

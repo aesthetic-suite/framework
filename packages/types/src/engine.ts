@@ -128,6 +128,7 @@ export interface Engine<Input, Output> {
 	customProperties?: PropertyHandlerMap;
 	direction: Direction;
 	directionConverter?: DirectionConverter;
+	name: string;
 	ruleCount: number;
 	sheetManager?: SheetManager;
 	unitSuffixer?: Unit | UnitFactory;

@@ -92,6 +92,7 @@ export function createTestEngine(): Engine<Rule, ClassName> {
 
 	const engine: Engine<Rule, ClassName> = {
 		direction: 'ltr',
+		name: 'test',
 		prefersColorScheme: () => false,
 		prefersContrastLevel: () => false,
 		renderDeclaration: (prop) => `property:${hyphenate(prop)}`,
