@@ -189,11 +189,14 @@ export class LanguageLoader extends Loader<LanguageConfigFile> {
 	protected spacing(): ShapePredicate<SpacingConfig> {
 		return shape<SpacingConfig>({
 			multipliers: shape<SpacingConfig['multipliers']>({
-				xs: number(0.25),
-				sm: number(0.5),
-				df: number(1),
-				lg: number(2),
-				xl: number(3),
+				xxs: number(0.125), // 1
+				xs: number(0.25), // 2
+				sm: number(0.5), // 4
+				df: number(1), // 8
+				md: number(1.5), // 12
+				lg: number(2), // 16
+				xl: number(3), // 24
+				xxl: number(4), // 32
 			}),
 			type: string('vertical-rhythm').oneOf<SpacingType>(['unit', 'vertical-rhythm']),
 			unit: number(DEFAULT_UNIT),

@@ -37,7 +37,7 @@ export type PaletteType =
 
 export type ShadowSize = 'lg' | 'md' | 'sm' | 'xl' | 'xs';
 
-export type SpacingSize = CommonSize | 'xl' | 'xs';
+export type SpacingSize = CommonSize | 'md' | 'xl' | 'xs' | 'xxl' | 'xxs';
 
 export type TextSize = CommonSize;
 

@@ -82,11 +82,14 @@ $shadow-xl-y: 0.98rem !default // 13.71px
 $shadow-xl-blur: 0.64rem !default // 9px
 $shadow-xl-spread: 0rem !default // 0px
 
+$spacing-xxs: 0.16rem !default // 2.19px
 $spacing-xs: 0.31rem !default // 4.38px
 $spacing-sm: 0.63rem !default // 8.75px
 $spacing-df: 1.25rem !default // 17.50px
+$spacing-md: 1.88rem !default // 26.25px
 $spacing-lg: 2.50rem !default // 35px
 $spacing-xl: 3.75rem !default // 52.50px
+$spacing-xxl: 5rem !default // 70px
 $spacing-unit: 17.5 !default
 
 $text-sm-line-height: 1.25 !default

@@ -83,11 +83,14 @@ exports[`Format web-css compiles and writes files 1`] = `
 	--shadow-xl-blur: 1.34rem; /* 18.76px */
 	--shadow-xl-spread: 0rem; /* 0px */
 
+	--spacing-xxs: 0.16rem; /* 2.19px */
 	--spacing-xs: 0.31rem; /* 4.38px */
 	--spacing-sm: 0.63rem; /* 8.75px */
 	--spacing-df: 1.25rem; /* 17.50px */
+	--spacing-md: 1.88rem; /* 26.25px */
 	--spacing-lg: 2.5rem; /* 35px */
 	--spacing-xl: 3.75rem; /* 52.50px */
+	--spacing-xxl: 5rem; /* 70px */
 	--spacing-unit: 17.5;
 
 	--text-sm-line-height: 1.25;

@@ -27,11 +27,14 @@ spacing:
 
   # Multipliers for each spacing size.
   multipliers:
+    xxs: 0.125
     xs: 0.25
     sm: 0.5
     df: 1 # Default
+    md: 1.5
     lg: 2
     xl: 3
+    xxl: 4
 
 # TYPOGRAPHY
 typography:

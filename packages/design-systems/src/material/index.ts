@@ -115,11 +115,14 @@ export default new Design<Rule>('material-design', {
 		},
 	},
 	spacing: {
+		xxs: '0.07rem', // 1px
 		xs: '0.14rem', // 2px
 		sm: '0.29rem', // 4px
 		df: '0.57rem', // 8px
+		md: '0.86rem', // 12px
 		lg: '1.14rem', // 16px
 		xl: '1.71rem', // 24px
+		xxl: '2.29rem', // 32px
 		type: 'unit',
 		unit: 8,
 	},

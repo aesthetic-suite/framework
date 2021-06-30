@@ -124,11 +124,14 @@ export default new Design<NativeStyles>('test', {
 		},
 	},
 	spacing: {
+		xxs: 2.19, // 2.19px
 		xs: 4.38, // 4.38px
 		sm: 8.75, // 8.75px
 		df: 17.5, // 17.50px
+		md: 26.25, // 26.25px
 		lg: 35, // 35px
 		xl: 52.5, // 52.50px
+		xxl: 70, // 70px
 		type: 'vertical-rhythm',
 		unit: 17.5,
 	},

@@ -20,11 +20,14 @@ spacing:
   type: unit
   unit: 8
   multipliers:
+    xxs: 0.125
     xs: 0.25
     sm: 0.5
     df: 1 # Default
+    md: 1.5
     lg: 2
     xl: 3
+    xxl: 4
 
 # TYPOGRAPHY
 # https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/styles/createTypography.js

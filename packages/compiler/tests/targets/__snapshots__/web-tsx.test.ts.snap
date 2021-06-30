@@ -118,11 +118,14 @@ export default new Design<Rule>('test', {
 		},
 	},
 	spacing: {
+		xxs: '0.16rem', // 2.19px
 		xs: '0.31rem', // 4.38px
 		sm: '0.63rem', // 8.75px
 		df: '1.25rem', // 17.50px
+		md: '1.88rem', // 26.25px
 		lg: '2.50rem', // 35px
 		xl: '3.75rem', // 52.50px
+		xxl: '5rem', // 70px
 		type: 'vertical-rhythm',
 		unit: 17.5,
 	},

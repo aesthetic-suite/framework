@@ -62,6 +62,6 @@ export const SHADE_RANGES: ColorShade[] = [
 
 export const SHADOW_SIZES: ShadowSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
-export const SPACING_SIZES: SpacingSize[] = ['xs', 'sm', 'df', 'lg', 'xl'];
+export const SPACING_SIZES: SpacingSize[] = ['xxs', 'xs', 'sm', 'df', 'md', 'lg', 'xl', 'xxl'];
 
 export const TEXT_SIZES: TextSize[] = ['sm', 'df', 'lg'];

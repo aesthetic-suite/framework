@@ -215,7 +215,7 @@ describe('Aesthetic', () => {
 
 			aesthetic.changeTheme('night');
 
-			expect(document.body.className).toBe('c1b733rl cemumis');
+			expect(document.body.className).toBe('c1qxhd3i cemumis');
 		});
 
 		it('emits `change:theme` event', () => {
@@ -224,7 +224,7 @@ describe('Aesthetic', () => {
 			aesthetic.subscribe('change:theme', spy);
 			aesthetic.changeTheme('night');
 
-			expect(spy).toHaveBeenCalledWith('night', ['c1b733rl']);
+			expect(spy).toHaveBeenCalledWith('night', ['c1qxhd3i']);
 		});
 
 		it('doesnt emit `change:theme` event if `propagate` is false', () => {
@@ -509,7 +509,7 @@ describe('Aesthetic', () => {
 			aesthetic.changeTheme('night');
 
 			expect(aesthetic.getActiveTheme()).toBe(darkTheme);
-			expect(changeSpy).toHaveBeenCalledWith('night', ['c1b733rl']);
+			expect(changeSpy).toHaveBeenCalledWith('night', ['c1qxhd3i']);
 		});
 
 		it('returns the preferred theme if no active defined', () => {
@@ -521,7 +521,7 @@ describe('Aesthetic', () => {
 
 			expect(aesthetic.getActiveTheme()).toBe(lightTheme);
 			expect(getSpy).toHaveBeenCalled();
-			expect(changeSpy).toHaveBeenCalledWith('day', ['c1e66cy9']);
+			expect(changeSpy).toHaveBeenCalledWith('day', ['cslosem']);
 		});
 	});
 
@@ -807,7 +807,7 @@ describe('Aesthetic', () => {
 
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1e66cy9', 'cemumis']);
+			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['cslosem', 'cemumis']);
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
 				direction: expect.any(String),
@@ -825,7 +825,7 @@ describe('Aesthetic', () => {
 
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['c1e66cy9', 'cemumis']);
+			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['cslosem', 'cemumis']);
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
 				direction: expect.any(String),
