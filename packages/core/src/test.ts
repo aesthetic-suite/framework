@@ -83,7 +83,7 @@ export function createTestEngine(): Engine<Rule, ClassName> {
 				const types = variant.split('+').map((v) => v.trim());
 
 				return {
-					result: types.map((v) => `variant:${hyphenate(v)}`).join(' '),
+					result: types.map((v) => `variant:${v}`).join(' '),
 					types,
 				};
 			}),
