@@ -19,13 +19,13 @@ export class Theme<Block extends object> implements Utilities<Block> {
 
 	readonly contrast: ContrastLevel;
 
+	readonly design: Design<Block>;
+
 	readonly scheme: ColorScheme;
 
 	readonly tokens: Tokens;
 
 	private cssVariables?: VariablesMap;
-
-	private design: Design<Block>;
 
 	constructor(options: ThemeOptions, tokens: ThemeTokens, design: Design<Block>) {
 		this.contrast = options.contrast;
