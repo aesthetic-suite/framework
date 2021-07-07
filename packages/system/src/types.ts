@@ -198,11 +198,14 @@ export interface DesignVariables {
 	'shadow-xl-spread': UnitValue;
 	'shadow-xl-x': UnitValue;
 	'shadow-xl-y': UnitValue;
+	'spacing-xxs': UnitValue;
 	'spacing-xs': UnitValue;
 	'spacing-sm': UnitValue;
 	'spacing-df': UnitValue;
+	'spacing-md': UnitValue;
 	'spacing-lg': UnitValue;
 	'spacing-xl': UnitValue;
+	'spacing-xxl': UnitValue;
 	'spacing-unit': number;
 	'text-sm-line-height': number;
 	'text-sm-size': UnitValue;
