@@ -4,7 +4,7 @@ import { createClientEngine } from '@aesthetic/style';
 import { getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName } from '@aesthetic/types';
 import { toArray } from '@aesthetic/utils';
-import { Aesthetic, AestheticOptions, OverrideSheet, Sheet, SheetRenderResult } from '../src';
+import { Aesthetic, AestheticOptions, FeatureSheet, Sheet, SheetRenderResult } from '../src';
 import {
 	createTestEngine,
 	darkTheme,
@@ -270,8 +270,8 @@ describe('Aesthetic', () => {
 	});
 
 	describe('createStyleSheet()', () => {
-		it('returns a `OverrideSheet` instance', () => {
-			expect(aesthetic.createStyleSheet(() => ({}))).toBeInstanceOf(OverrideSheet);
+		it('returns a `FeatureSheet` instance', () => {
+			expect(aesthetic.createStyleSheet(() => ({}))).toBeInstanceOf(FeatureSheet);
 		});
 
 		it('can utilize mixins', () => {
@@ -289,7 +289,7 @@ describe('Aesthetic', () => {
 	});
 
 	describe('createScopedStyleSheet()', () => {
-		it('returns a `OverrideSheet` instance using an object', () => {
+		it('returns a `FeatureSheet` instance using an object', () => {
 			const sheet = aesthetic.createScopedStyleSheet({
 				display: 'block',
 				color: 'red',
@@ -298,11 +298,11 @@ describe('Aesthetic', () => {
 				},
 			});
 
-			expect(sheet).toBeInstanceOf(OverrideSheet);
+			expect(sheet).toBeInstanceOf(FeatureSheet);
 			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 
-		it('returns a `OverrideSheet` instance using a function', () => {
+		it('returns a `FeatureSheet` instance using a function', () => {
 			const sheet = aesthetic.createScopedStyleSheet((css) => ({
 				display: 'block',
 				color: css.var('palette-brand-fg-base'),
@@ -311,7 +311,7 @@ describe('Aesthetic', () => {
 				},
 			}));
 
-			expect(sheet).toBeInstanceOf(OverrideSheet);
+			expect(sheet).toBeInstanceOf(FeatureSheet);
 			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 
@@ -327,7 +327,7 @@ describe('Aesthetic', () => {
 				'test',
 			);
 
-			expect(sheet).toBeInstanceOf(OverrideSheet);
+			expect(sheet).toBeInstanceOf(FeatureSheet);
 			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ test: { result: 'a b c' } });
 		});
 	});
@@ -528,6 +528,170 @@ describe('Aesthetic', () => {
 			aesthetic.registerTheme('day', lightTheme);
 
 			expect(aesthetic.getTheme('day')).toBe(lightTheme);
+		});
+	});
+
+	describe('mergeStyleSheets()', () => {
+		function createTestMergeSheets() {
+			const a = aesthetic.createStyleSheet(() => ({
+				foo: {
+					color: 'red',
+				},
+			}));
+
+			const b = aesthetic
+				.createStyleSheet(() => ({
+					bar: {
+						backgroundColor: 'green',
+					},
+				}))
+				.addThemeOverride('night', () => ({
+					bar: {
+						backgroundColor: 'lightgreen',
+					},
+				}));
+
+			const c = aesthetic
+				.createStyleSheet(() => ({
+					foo: {
+						display: 'block',
+					},
+					baz: {
+						borderColor: 'yellow',
+					},
+				}))
+				.addContrastOverride('low', () => ({
+					baz: {
+						borderColor: 'orange',
+					},
+				}));
+
+			const d = aesthetic
+				.createStyleSheet(() => ({
+					foo: {
+						color: 'pink',
+					},
+				}))
+				.addOverride(() => ({
+					foo: {
+						color: 'pinkred',
+					},
+				}));
+
+			const e = aesthetic
+				.createScopedStyleSheet({}, 'qux')
+				.addColorSchemeOverride('dark', () => ({
+					qux: {
+						padding: 0,
+					},
+				}))
+				.addThemeOverride('night', () => ({
+					qux: {
+						padding: 10,
+					},
+				}));
+
+			return { a, b, c, d, e };
+		}
+
+		it('merges all style sheets into a single sheet and inherits overrides', () => {
+			const { a, b, c, d, e } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a, b, c, d, e);
+
+			// @ts-expect-error Allow access
+			expect(sheet.overrides).toHaveLength(5); // 6 with base factory
+
+			// @ts-expect-error Allow access
+			const { low, normal, high } = sheet.contrastOverrides;
+
+			expect(low).toHaveLength(1);
+			expect(normal).toBeUndefined();
+			expect(high).toBeUndefined();
+
+			// @ts-expect-error Allow access
+			const { light, dark } = sheet.schemeOverrides;
+
+			expect(light).toBeUndefined();
+			expect(dark).toHaveLength(1);
+
+			// @ts-expect-error Allow access
+			expect(sheet.themeOverrides.night).toHaveLength(2);
+		});
+
+		it('merges default objects', () => {
+			const { a, b, c, d, e } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a, b, c, d, e);
+
+			expect(sheet.compose({})(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'yellow' },
+				qux: {},
+			});
+		});
+
+		it('merges for contrast', () => {
+			const { a, b, c, d, e } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a, b, c, d, e);
+
+			expect(sheet.compose({ contrast: 'high' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'yellow' },
+				qux: {},
+			});
+
+			expect(sheet.compose({ contrast: 'low' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'orange' },
+				qux: {},
+			});
+		});
+
+		it('merges for color scheme', () => {
+			const { a, b, c, d, e } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a, b, c, d, e);
+
+			expect(sheet.compose({ scheme: 'light' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'yellow' },
+				qux: {},
+			});
+
+			expect(sheet.compose({ scheme: 'dark' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'yellow' },
+				qux: { padding: 0 },
+			});
+		});
+
+		it('merges for theme', () => {
+			const { a, b, c, d, e } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a, b, c, d, e);
+
+			expect(sheet.compose({ theme: 'unknown' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'green' },
+				baz: { borderColor: 'yellow' },
+				qux: {},
+			});
+
+			expect(sheet.compose({ theme: 'night' })(aesthetic.getActiveTheme())).toEqual({
+				foo: { color: 'pinkred', display: 'block' },
+				bar: { backgroundColor: 'lightgreen' },
+				baz: { borderColor: 'yellow' },
+				qux: { padding: 10 },
+			});
+		});
+
+		it('returns same sheet if only 1', () => {
+			const { a } = createTestMergeSheets();
+			const sheet = aesthetic.mergeStyleSheets(a);
+
+			expect(a).toBe(sheet);
 		});
 	});
 

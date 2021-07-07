@@ -1,7 +1,7 @@
 import directionConverter from '@aesthetic/addon-direction';
 import { createTestStyleEngine, getRenderedStyles, purgeStyles } from '@aesthetic/style/test';
 import { ClassName, Engine, Rule } from '@aesthetic/types';
-import { Aesthetic, ComponentSheet, OverrideSheet } from '../src';
+import { Aesthetic, ComponentSheet, FeatureSheet } from '../src';
 import { renderComponent } from '../src/renderers';
 import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 
@@ -18,7 +18,7 @@ describe('Component styles', () => {
 		engine = createTestStyleEngine({ directionConverter });
 
 		// Dont use `createStyleSheet` since we need to pass a custom engine
-		sheet = new OverrideSheet(
+		sheet = new FeatureSheet(
 			() => ({
 				foo: {
 					display: 'block',
@@ -83,7 +83,7 @@ describe('Component styles', () => {
 	it('errors if a non-function factory is passed', () => {
 		expect(
 			() =>
-				new OverrideSheet(
+				new FeatureSheet(
 					// @ts-expect-error Invalid type
 					123,
 					renderComponent,
@@ -166,6 +166,12 @@ describe('Component styles', () => {
 
 	describe('overrides', () => {
 		beforeEach(() => {
+			sheet.addOverride(() => ({
+				foo: {
+					borderColor: 'red',
+				},
+			}));
+
 			sheet.addColorSchemeOverride('dark', () => ({
 				foo: {
 					background: 'black',
@@ -211,6 +217,19 @@ describe('Component styles', () => {
 					() => ({}),
 				);
 			}).toThrow('Contrast level override must be one of "high", "low", or "normal".');
+		});
+
+		it('inherits basic override', () => {
+			const spy = jest.spyOn(engine, 'renderRule');
+
+			sheet.render(engine, lightTheme, {});
+
+			expect(spy).toHaveBeenCalledWith(
+				expect.objectContaining({
+					borderColor: 'red',
+				}),
+				expect.any(Object),
+			);
 		});
 
 		it('inherits color scheme', () => {

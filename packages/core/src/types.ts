@@ -15,7 +15,7 @@ import {
 	UnitFactory,
 	VendorPrefixer,
 } from '@aesthetic/types';
-import type { OverrideSheet } from './OverrideSheet';
+import type { FeatureSheet } from './FeatureSheet';
 import type { Sheet } from './Sheet';
 
 // RENDER RESULT
@@ -25,6 +25,9 @@ export interface SheetRenderResultItem<Output> extends Partial<RenderResult<Outp
 }
 
 export type InferKeys<T> = T extends string ? T : string;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type InferKeysFromSheets<T> = T extends ComponentSheet<infer K, any, any>[] ? K : string;
 
 export type SheetRenderResult<Output, Keys = string> = Record<
 	InferKeys<Keys>,
@@ -109,7 +112,7 @@ export type ComponentSheetFactory<Shape, Input extends object> = (
 	? ElementRuleMap<Input>
 	: ElementRuleMap<Input> & ElementRuleMapNeverize<Shape, Input>;
 
-export type ComponentSheet<_Selectors, Input extends object, Output> = OverrideSheet<
+export type ComponentSheet<_Selectors, Input extends object, Output> = FeatureSheet<
 	Input,
 	Output,
 	ComponentSheetFactory<unknown, Input>
