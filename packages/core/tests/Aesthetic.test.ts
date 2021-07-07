@@ -239,7 +239,7 @@ describe('Aesthetic', () => {
 
 	describe('configure()', () => {
 		it('sets options', () => {
-			expect(getAestheticState(aesthetic).options).toEqual({ injectStrategy: 'create-async' });
+			expect(getAestheticState(aesthetic).options).toEqual({});
 
 			aesthetic.configure({
 				defaultUnit: 'em',
@@ -250,7 +250,6 @@ describe('Aesthetic', () => {
 			expect(getAestheticState(aesthetic).options).toEqual({
 				defaultUnit: 'em',
 				directionConverter,
-				injectStrategy: 'create-async',
 				vendorPrefixer,
 			});
 		});
@@ -259,14 +258,12 @@ describe('Aesthetic', () => {
 			aesthetic = new Aesthetic({
 				defaultUnit: 'em',
 				directionConverter,
-				injectStrategy: 'render',
 				vendorPrefixer,
 			});
 
 			expect(getAestheticState(aesthetic).options).toEqual({
 				defaultUnit: 'em',
 				directionConverter,
-				injectStrategy: 'render',
 				vendorPrefixer,
 			});
 		});
@@ -277,36 +274,15 @@ describe('Aesthetic', () => {
 			expect(aesthetic.createStyleSheet(() => ({}))).toBeInstanceOf(OverrideSheet);
 		});
 
-		it('renders styles immediately upon creation', () => {
-			const spy = jest.spyOn(aesthetic.getEngine(), 'renderRule');
-
-			aesthetic.configure({
-				injectStrategy: 'create',
-			});
-
-			aesthetic.createStyleSheet(() => ({
-				element: {
-					display: 'block',
-					width: '100%',
-				},
-			}));
-
-			expect(spy).toHaveBeenCalledTimes(1);
-
-			spy.mockRestore();
-		});
-
 		it('can utilize mixins', () => {
-			aesthetic.configure({
-				injectStrategy: 'create',
-			});
-
-			aesthetic.createStyleSheet((css) => ({
+			const sheet = aesthetic.createStyleSheet((css) => ({
 				element: css.mixin('reset-typography', {
 					display: 'flex',
 					color: css.var('palette-brand-text'),
 				}),
 			}));
+
+			aesthetic.renderStyleSheet(sheet);
 
 			expect(getRenderedStyles('standard')).toMatchSnapshot();
 		});

@@ -41,9 +41,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
-	protected options: AestheticOptions = {
-		injectStrategy: 'create-async',
-	};
+	protected options: AestheticOptions = {};
 
 	protected styleEngine?: Engine<Input, Output>;
 
@@ -157,25 +155,8 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	createStyleSheet = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
-	): ComponentSheet<T, Input, Output> => {
-		const { injectStrategy } = this.options;
-		const sheet = new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(
-			factory,
-			renderComponent,
-		);
-
-		// Attempt to render styles immediately so they're available on mount.
-		// Also attempt to render in parallel for a slight performance boost.
-		// This is typically fine since the sheet is created in the module scope
-		// (on file evaluation), and not during the React/etc render scope.
-		if (injectStrategy === 'create') {
-			this.renderStyleSheet(sheet);
-		} else if (injectStrategy === 'create-async') {
-			setTimeout(() => this.renderStyleSheet(sheet), 0);
-		}
-
-		return sheet;
-	};
+	): ComponentSheet<T, Input, Output> =>
+		new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(factory, renderComponent);
 
 	/**
 	 * Create a style sheet scoped for a single element.

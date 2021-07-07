@@ -123,7 +123,6 @@ export interface AestheticOptions {
 	defaultUnit?: Unit | UnitFactory;
 	deterministicClasses?: boolean;
 	directionConverter?: DirectionConverter | null;
-	injectStrategy?: InjectStrategy;
 	rootVariables?: boolean;
 	vendorPrefixer?: VendorPrefixer | null;
 }
