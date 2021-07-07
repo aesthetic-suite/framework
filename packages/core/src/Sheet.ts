@@ -16,11 +16,11 @@ function createCacheKey(name: string, params: Required<SheetParams>): string {
 }
 
 export class Sheet<Input extends object, Output, Factory extends SheetFactory<Input>> {
-	protected factory: Factory;
+	factory: Factory;
+
+	renderer: SheetRenderer<Input, Output, ReturnType<Factory>>;
 
 	protected cache: Record<string, SheetRenderResult<Output>> = {};
-
-	protected renderer: SheetRenderer<Input, Output, ReturnType<Factory>>;
 
 	constructor(factory: Factory, renderer: SheetRenderer<Input, Output, ReturnType<Factory>>) {
 		this.factory = this.validateFactory(factory);

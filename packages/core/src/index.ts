@@ -4,11 +4,11 @@
  */
 
 import { Aesthetic } from './Aesthetic';
-import { OverrideSheet } from './OverrideSheet';
+import { FeatureSheet } from './FeatureSheet';
 import { Sheet } from './Sheet';
 
 export * from './types';
 export * from '@aesthetic/system';
 export * from '@aesthetic/types';
 
-export { Aesthetic, OverrideSheet, Sheet };
+export { Aesthetic, FeatureSheet, Sheet };

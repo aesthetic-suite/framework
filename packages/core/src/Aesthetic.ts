@@ -12,8 +12,8 @@ import {
 	Rule,
 	ThemeName,
 } from '@aesthetic/types';
-import { arrayLoop, isDOM } from '@aesthetic/utils';
-import { OverrideSheet } from './OverrideSheet';
+import { arrayLoop, isDOM, objectLoop } from '@aesthetic/utils';
+import { FeatureSheet } from './FeatureSheet';
 import { renderComponent, renderTheme } from './renderers';
 import { Sheet } from './Sheet';
 import {
@@ -24,6 +24,7 @@ import {
 	EventListener,
 	EventType,
 	InferKeys,
+	InferKeysFromSheets,
 	OnChangeDirection,
 	OnChangeTheme,
 	ResultGenerator,
@@ -157,7 +158,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	createStyleSheet = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
 	): ComponentSheet<InferKeys<keyof T>, Input, Output> =>
-		new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(factory, renderComponent);
+		new FeatureSheet<Input, Output, ComponentSheetFactory<T, Input>>(factory, renderComponent);
 
 	/**
 	 * Create a style sheet scoped for a single element.
@@ -290,6 +291,53 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 * Return a theme instance by name.
 	 */
 	getTheme = (name: ThemeName): Theme<Input> => this.themeRegistry.getTheme(name);
+
+	/**
+	 * Merge multiple sheets into a single sheet and inherit all overrides.
+	 */
+	mergeStyleSheets = <T extends ComponentSheet<string, Input, Output>[]>(
+		...sheets: T
+	): ComponentSheet<InferKeysFromSheets<T>, Input, Output> => {
+		if (sheets.length === 1) {
+			return sheets[0];
+		}
+
+		const mergedSheet = new FeatureSheet(sheets[0].factory, sheets[0].renderer);
+
+		arrayLoop(sheets, (sheet, index) => {
+			if (index > 0) {
+				mergedSheet.addOverride(sheet.factory);
+			}
+
+			// @ts-expect-error Allow access
+			arrayLoop(sheet.overrides, (override) => {
+				mergedSheet.addOverride(override);
+			});
+
+			// @ts-expect-error Allow access
+			objectLoop(sheet.contrastOverrides, (overrides, contrast) => {
+				arrayLoop(overrides, (override) => {
+					mergedSheet.addContrastOverride(contrast, override);
+				});
+			});
+
+			// @ts-expect-error Allow access
+			objectLoop(sheet.schemeOverrides, (overrides, scheme) => {
+				arrayLoop(overrides, (override) => {
+					mergedSheet.addColorSchemeOverride(scheme, override);
+				});
+			});
+
+			// @ts-expect-error Allow access
+			objectLoop(sheet.themeOverrides, (overrides, theme) => {
+				arrayLoop(overrides, (override) => {
+					mergedSheet.addThemeOverride(theme, override);
+				});
+			});
+		});
+
+		return mergedSheet;
+	};
 
 	/**
 	 * Register a theme, with optional global theme styles.
