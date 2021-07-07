@@ -102,7 +102,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		}
 
 		// Render theme styles
-		const results = this.renderThemeStyles(theme);
+		const results = this.renderThemeSheet(theme);
 
 		// Update engine theme
 		engine.setTheme(results);
@@ -151,10 +151,10 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	};
 
 	/**
-	 * Create a local style sheet that supports multiple elements,
+	 * Create a style sheet that supports multiple elements,
 	 * for use within components.
 	 */
-	createComponentStyles = <T = unknown>(
+	createStyleSheet = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
 	): ComponentSheet<T, Input, Output> => {
 		const { injectStrategy } = this.options;
@@ -168,27 +168,26 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		// This is typically fine since the sheet is created in the module scope
 		// (on file evaluation), and not during the React/etc render scope.
 		if (injectStrategy === 'create') {
-			this.renderComponentStyles(sheet);
+			this.renderStyleSheet(sheet);
 		} else if (injectStrategy === 'create-async') {
-			setTimeout(() => this.renderComponentStyles(sheet), 0);
+			setTimeout(() => this.renderStyleSheet(sheet), 0);
 		}
 
 		return sheet;
 	};
 
 	/**
-	 * Create a local style sheet for a single element.
-	 * Returns a style sheet instance with a "element" selector.
+	 * Create a style sheet scoped for a single element.
 	 */
-	createElementStyles = (factory: ElementSheetFactory<Input> | Input) =>
-		this.createComponentStyles((utils) => ({
+	createScopedStyleSheet = (factory: ElementSheetFactory<Input> | Input) =>
+		this.createStyleSheet((utils) => ({
 			element: typeof factory === 'function' ? factory(utils) : factory,
 		}));
 
 	/**
 	 * Create a global style sheet for root theme styles.
 	 */
-	createThemeStyles = <T = unknown>(
+	createThemeSheet = <T = unknown>(
 		factory: ThemeSheetFactory<T, Input>,
 	): ThemeSheet<T, Input, Output> => new Sheet(factory, renderTheme);
 
@@ -338,24 +337,6 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	};
 
 	/**
-	 * Render a component style sheet to the document with the defined style query parameters.
-	 */
-	renderComponentStyles = <T = unknown>(
-		sheet: ComponentSheet<T, Input, Output>,
-		params: SheetParams = {},
-	) => {
-		if (__DEV__ && !(sheet instanceof Sheet)) {
-			throw new TypeError('Rendering component styles require a `Sheet` instance.');
-		}
-
-		return this.renderSheet(
-			sheet,
-			params.theme ? this.getTheme(params.theme) : this.getActiveTheme(),
-			params,
-		);
-	};
-
-	/**
 	 * Render a `@font-face` to the global style sheet and return the font family name.
 	 */
 	renderFontFace = (fontFace: FontFace, fontFamily?: string, params?: RenderOptions): string =>
@@ -383,9 +364,27 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	): string => this.getEngine().renderKeyframes(keyframes, animationName, params);
 
 	/**
-	 * Render a global theme style sheet and return a result, if one was generated.
+	 * Render a component style sheet to the document with the defined style query parameters.
 	 */
-	renderThemeStyles = (theme: Theme<Input>, params: SheetParams = {}): Output[] => {
+	renderStyleSheet = <T = unknown>(
+		sheet: ComponentSheet<T, Input, Output>,
+		params: SheetParams = {},
+	) => {
+		if (__DEV__ && !(sheet instanceof Sheet)) {
+			throw new TypeError('Rendering component styles require a `Sheet` instance.');
+		}
+
+		return this.renderSheet(
+			sheet,
+			params.theme ? this.getTheme(params.theme) : this.getActiveTheme(),
+			params,
+		);
+	};
+
+	/**
+	 * Render a theme style sheet and return a result, if one was generated.
+	 */
+	renderThemeSheet = (theme: Theme<Input>, params: SheetParams = {}): Output[] => {
 		const sheet = this.globalSheetRegistry.get(theme.name);
 		const results: Output[] = [];
 

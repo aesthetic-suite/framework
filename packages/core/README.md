@@ -30,7 +30,7 @@ aesthetic.registerTheme('night', nightTheme, (css) => ({
 }));
 
 // Create a component style sheet
-const styleSheet = aesthetic.createComponentStyles((css) => ({
+const styleSheet = aesthetic.createStyleSheet((css) => ({
 	button: {
 		textAlign: 'center',
 		display: 'inline-block',
@@ -39,7 +39,7 @@ const styleSheet = aesthetic.createComponentStyles((css) => ({
 }));
 
 // Render the style sheet into the document
-const classNames = aesthetic.renderComponentStyles(styleSheet);
+const classNames = aesthetic.renderStyleSheet(styleSheet);
 ```
 
 > Though the core API is framework agnostic and can be used stand-alone, it's encouraged to use a

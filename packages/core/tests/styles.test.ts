@@ -17,7 +17,7 @@ describe('Component styles', () => {
 
 		engine = createTestStyleEngine({ directionConverter });
 
-		// Dont use `createComponentStyles` since we need to pass a custom engine
+		// Dont use `createStyleSheet` since we need to pass a custom engine
 		sheet = new OverrideSheet(
 			() => ({
 				foo: {

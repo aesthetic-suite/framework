@@ -11,7 +11,7 @@ describe('Theme styles', () => {
 	beforeEach(() => {
 		engine = createTestStyleEngine({});
 
-		// Dont use `createThemeStyles` since we need to pass a custom renderer
+		// Dont use `createThemeSheet` since we need to pass a custom renderer
 		sheet = new Sheet(
 			() => ({
 				'@font-face': {

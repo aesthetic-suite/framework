@@ -32,7 +32,7 @@ function createComponentSheet(aesthetic: Aesthetic, options?: Partial<AestheticO
 		aesthetic.configure(options);
 	}
 
-	return aesthetic.createComponentStyles(() => ({
+	return aesthetic.createStyleSheet(() => ({
 		foo: {
 			display: 'block',
 		},
@@ -57,7 +57,7 @@ function createComponentSheet(aesthetic: Aesthetic, options?: Partial<AestheticO
 }
 
 function createThemeSheet(aesthetic: Aesthetic) {
-	return aesthetic.createThemeStyles(() => ({
+	return aesthetic.createThemeSheet(() => ({
 		'@root': {
 			display: 'block',
 			width: '100%',
@@ -178,7 +178,7 @@ describe('Aesthetic', () => {
 		});
 
 		it('doesnt run if changing to same name', () => {
-			const spy = jest.spyOn(aesthetic, 'renderThemeStyles');
+			const spy = jest.spyOn(aesthetic, 'renderThemeSheet');
 
 			aesthetic.changeTheme('night');
 			aesthetic.changeTheme('night');
@@ -272,9 +272,9 @@ describe('Aesthetic', () => {
 		});
 	});
 
-	describe('createComponentStyles()', () => {
+	describe('createStyleSheet()', () => {
 		it('returns a `OverrideSheet` instance', () => {
-			expect(aesthetic.createComponentStyles(() => ({}))).toBeInstanceOf(OverrideSheet);
+			expect(aesthetic.createStyleSheet(() => ({}))).toBeInstanceOf(OverrideSheet);
 		});
 
 		it('renders styles immediately upon creation', () => {
@@ -284,7 +284,7 @@ describe('Aesthetic', () => {
 				injectStrategy: 'create',
 			});
 
-			aesthetic.createComponentStyles(() => ({
+			aesthetic.createStyleSheet(() => ({
 				element: {
 					display: 'block',
 					width: '100%',
@@ -301,7 +301,7 @@ describe('Aesthetic', () => {
 				injectStrategy: 'create',
 			});
 
-			aesthetic.createComponentStyles((css) => ({
+			aesthetic.createStyleSheet((css) => ({
 				element: css.mixin('reset-typography', {
 					display: 'flex',
 					color: css.var('palette-brand-text'),
@@ -312,9 +312,9 @@ describe('Aesthetic', () => {
 		});
 	});
 
-	describe('createElementStyles()', () => {
+	describe('createScopedStyleSheet()', () => {
 		it('returns a `OverrideSheet` instance using an object', () => {
-			const sheet = aesthetic.createElementStyles({
+			const sheet = aesthetic.createScopedStyleSheet({
 				display: 'block',
 				color: 'red',
 				':hover': {
@@ -323,11 +323,11 @@ describe('Aesthetic', () => {
 			});
 
 			expect(sheet).toBeInstanceOf(OverrideSheet);
-			expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 
 		it('returns a `OverrideSheet` instance using a function', () => {
-			const sheet = aesthetic.createElementStyles((css) => ({
+			const sheet = aesthetic.createScopedStyleSheet((css) => ({
 				display: 'block',
 				color: css.var('palette-brand-fg-base'),
 				':hover': {
@@ -336,17 +336,17 @@ describe('Aesthetic', () => {
 			}));
 
 			expect(sheet).toBeInstanceOf(OverrideSheet);
-			expect(aesthetic.renderComponentStyles(sheet)).toEqual({ element: { result: 'a b c' } });
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
 	});
 
-	describe('createThemeStyles()', () => {
+	describe('createThemeSheet()', () => {
 		it('returns a `Sheet` instance', () => {
-			expect(aesthetic.createThemeStyles(() => ({}))).toBeInstanceOf(Sheet);
+			expect(aesthetic.createThemeSheet(() => ({}))).toBeInstanceOf(Sheet);
 		});
 
 		it('can utilize mixins', () => {
-			const sheet = aesthetic.createThemeStyles((css) => ({
+			const sheet = aesthetic.createThemeSheet((css) => ({
 				'@root': css.mixin('root', {
 					backgroundColor: css.var('palette-neutral-bg-base'),
 				}),
@@ -559,7 +559,7 @@ describe('Aesthetic', () => {
 		});
 
 		it('registers an optional sheet', () => {
-			const sheet = aesthetic.createThemeStyles(() => ({}));
+			const sheet = aesthetic.createThemeSheet(() => ({}));
 
 			aesthetic.registerTheme('day', lightTheme, sheet);
 
@@ -603,10 +603,10 @@ describe('Aesthetic', () => {
 		});
 	});
 
-	describe('renderComponentStyles()', () => {
+	describe('renderStyleSheet()', () => {
 		it('errors if sheet is not a `Sheet` instance', () => {
 			expect(() => {
-				aesthetic.renderComponentStyles(
+				aesthetic.renderStyleSheet(
 					// @ts-expect-error Invalid type
 					123,
 				);
@@ -614,16 +614,14 @@ describe('Aesthetic', () => {
 		});
 
 		it('returns an empty object if no sheet selectors', () => {
-			expect(aesthetic.renderComponentStyles(aesthetic.createComponentStyles(() => ({})))).toEqual(
-				{},
-			);
+			expect(aesthetic.renderStyleSheet(aesthetic.createStyleSheet(() => ({})))).toEqual({});
 		});
 
 		it('renders a sheet and returns an object class name', () => {
 			const sheet = createComponentSheet(aesthetic);
 			const spy = jest.spyOn(sheet, 'render');
 
-			expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({
 				foo: { result: 'a' },
 				bar: {
 					result: 'b',
@@ -648,7 +646,7 @@ describe('Aesthetic', () => {
 			});
 			const spy = jest.spyOn(sheet, 'render');
 
-			expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({
 				foo: { result: 'c1s7hmty' },
 				bar: {
 					result: 'cddrzz3',
@@ -672,7 +670,7 @@ describe('Aesthetic', () => {
 
 			const sheet = createComponentSheet(aesthetic);
 
-			expect(aesthetic.renderComponentStyles(sheet)).toEqual({
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({
 				foo: { result: 'foo' },
 				bar: {
 					result: 'bar',
@@ -696,7 +694,7 @@ describe('Aesthetic', () => {
 			});
 			const spy = jest.spyOn(sheet, 'render');
 
-			aesthetic.renderComponentStyles(sheet, { direction: 'rtl' });
+			aesthetic.renderStyleSheet(sheet, { direction: 'rtl' });
 
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
@@ -709,7 +707,7 @@ describe('Aesthetic', () => {
 			const sheet = createComponentSheet(aesthetic);
 			const spy = jest.spyOn(sheet, 'render');
 
-			aesthetic.renderComponentStyles(sheet, { theme: 'night' });
+			aesthetic.renderStyleSheet(sheet, { theme: 'night' });
 
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), darkTheme, {
 				deterministic: false,
@@ -800,14 +798,14 @@ describe('Aesthetic', () => {
 		});
 	});
 
-	describe('renderThemeStyles()', () => {
+	describe('renderThemeSheet()', () => {
 		it('renders a sheet and returns class names', () => {
 			const sheet = createThemeSheet(aesthetic);
 			const spy = jest.spyOn(sheet, 'render');
 
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['cslosem', 'cemumis']);
+			expect(aesthetic.renderThemeSheet(lightTheme)).toEqual(['cslosem', 'cemumis']);
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
 				direction: expect.any(String),
@@ -825,7 +823,7 @@ describe('Aesthetic', () => {
 
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
 
-			expect(aesthetic.renderThemeStyles(lightTheme)).toEqual(['cslosem', 'cemumis']);
+			expect(aesthetic.renderThemeSheet(lightTheme)).toEqual(['cslosem', 'cemumis']);
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
 				direction: expect.any(String),
@@ -838,7 +836,7 @@ describe('Aesthetic', () => {
 			const spy = jest.spyOn(aesthetic.getEngine(), 'renderRuleGrouped');
 
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
-			aesthetic.renderThemeStyles(lightTheme);
+			aesthetic.renderThemeSheet(lightTheme);
 
 			expect(spy).toHaveBeenCalledWith(
 				{
@@ -857,7 +855,7 @@ describe('Aesthetic', () => {
 				vendorPrefixer,
 			});
 			aesthetic.registerDefaultTheme('day', lightTheme, sheet);
-			aesthetic.renderThemeStyles(lightTheme, { direction: 'rtl' });
+			aesthetic.renderThemeSheet(lightTheme, { direction: 'rtl' });
 
 			expect(spy).toHaveBeenCalledWith(aesthetic.getEngine(), lightTheme, {
 				deterministic: false,
