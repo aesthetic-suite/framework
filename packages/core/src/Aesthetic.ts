@@ -23,6 +23,7 @@ import {
 	ElementSheetFactory,
 	EventListener,
 	EventType,
+	InferKeys,
 	OnChangeDirection,
 	OnChangeTheme,
 	ResultGenerator,
@@ -37,7 +38,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 	protected activeTheme?: ThemeName;
 
-	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<unknown, Input, Output>>();
+	protected globalSheetRegistry = new Map<ThemeName, ThemeSheet<string, Input, Output>>();
 
 	protected listeners = new Map<EventType, Set<EventListener>>();
 
@@ -155,7 +156,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	createStyleSheet = <T = unknown>(
 		factory: ComponentSheetFactory<T, Input>,
-	): ComponentSheet<T, Input, Output> =>
+	): ComponentSheet<InferKeys<keyof T>, Input, Output> =>
 		new OverrideSheet<Input, Output, ComponentSheetFactory<T, Input>>(factory, renderComponent);
 
 	/**
@@ -174,7 +175,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	 */
 	createThemeSheet = <T = unknown>(
 		factory: ThemeSheetFactory<T, Input>,
-	): ThemeSheet<T, Input, Output> => new Sheet(factory, renderTheme);
+	): ThemeSheet<InferKeys<keyof T>, Input, Output> => new Sheet(factory, renderTheme);
 
 	/**
 	 * Emit all listeners by type, with the defined arguments.
@@ -296,7 +297,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	registerTheme = (
 		name: ThemeName,
 		theme: Theme<Input>,
-		sheet: ThemeSheet<unknown, Input, Output> | null = null,
+		sheet: ThemeSheet<string, Input, Output> | null = null,
 		isDefault: boolean = false,
 	): void => {
 		this.themeRegistry.register(name, theme, isDefault);
@@ -316,7 +317,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	registerDefaultTheme = (
 		name: ThemeName,
 		theme: Theme<Input>,
-		sheet: ThemeSheet<unknown, Input, Output> | null = null,
+		sheet: ThemeSheet<string, Input, Output> | null = null,
 	): void => {
 		this.registerTheme(name, theme, sheet, true);
 	};
@@ -364,7 +365,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 			throw new TypeError('Rendering component styles require a `Sheet` instance.');
 		}
 
-		return this.renderSheet<keyof T>(
+		return this.renderSheet<InferKeys<T>>(
 			sheet,
 			params.theme ? this.getTheme(params.theme) : this.getActiveTheme(),
 			params,
@@ -431,7 +432,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	}
 
 	protected renderSheet<Keys>(
-		sheet: ComponentSheet<unknown, Input, Output> | ThemeSheet<unknown, Input, Output>,
+		sheet: ComponentSheet<string, Input, Output> | ThemeSheet<string, Input, Output>,
 		theme: Theme<Input>,
 		params: SheetParams,
 	): SheetRenderResult<Output, Keys> {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Utilities } from '@aesthetic/system';
 import {
 	ColorScheme,
@@ -82,10 +83,10 @@ export type ThemeSheetFactory<Shape, Input extends object> = (
 	utils: Utilities<Input>,
 ) => Shape extends unknown ? ThemeRule<Input> : ThemeRule<Input> & ThemeRuleNeverize<Shape, Input>;
 
-export type ThemeSheet<Shape, Input extends object, Output> = Sheet<
+export type ThemeSheet<_Selectors, Input extends object, Output> = Sheet<
 	Input,
 	Output,
-	ThemeSheetFactory<Shape, Input>
+	ThemeSheetFactory<unknown, Input>
 >;
 
 // COMPONENT SHEETS
@@ -108,15 +109,13 @@ export type ComponentSheetFactory<Shape, Input extends object> = (
 	? ElementRuleMap<Input>
 	: ElementRuleMap<Input> & ElementRuleMapNeverize<Shape, Input>;
 
-export type ComponentSheet<Shape, Input extends object, Output> = OverrideSheet<
+export type ComponentSheet<_Selectors, Input extends object, Output> = OverrideSheet<
 	Input,
 	Output,
-	ComponentSheetFactory<Shape, Input>
+	ComponentSheetFactory<unknown, Input>
 >;
 
 // OTHER
-
-export type InjectStrategy = 'create-async' | 'create' | 'render';
 
 export interface AestheticOptions {
 	customProperties?: PropertyHandlerMap;

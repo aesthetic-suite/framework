@@ -8,7 +8,7 @@ import { lightTheme, setupAesthetic, teardownAesthetic } from '../src/test';
 describe('Component styles', () => {
 	let aesthetic: Aesthetic;
 	let engine: Engine<Rule, ClassName>;
-	let sheet: ComponentSheet<unknown, Rule, ClassName>;
+	let sheet: ComponentSheet<string, Rule, ClassName>;
 
 	beforeEach(() => {
 		aesthetic = new Aesthetic();

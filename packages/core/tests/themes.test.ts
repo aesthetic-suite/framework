@@ -6,7 +6,7 @@ import { lightTheme } from '../src/test';
 
 describe('Theme styles', () => {
 	let engine: Engine<Rule, ClassName>;
-	let sheet: ThemeSheet<unknown, Rule, ClassName>;
+	let sheet: ThemeSheet<string, Rule, ClassName>;
 
 	beforeEach(() => {
 		engine = createTestStyleEngine({});
