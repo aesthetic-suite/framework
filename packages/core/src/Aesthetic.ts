@@ -368,6 +368,11 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	): string => this.getEngine().renderKeyframes(keyframes, animationName, params);
 
 	/**
+	 * Render a style rule outside of the context of a style sheet.
+	 */
+	renderStyles = (rule: Input) => this.getEngine().renderRule(rule, this.getRenderOptions());
+
+	/**
 	 * Render a component style sheet to the document with the defined style query parameters.
 	 */
 	renderStyleSheet = <T = unknown>(
@@ -435,16 +440,24 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		this.getListeners(type).delete(listener);
 	}
 
+	protected getRenderOptions(options?: RenderOptions) {
+		return {
+			deterministic: !!this.options.deterministicClasses,
+			direction: this.getActiveDirection(),
+			vendor: !!this.options.vendorPrefixer,
+			...options,
+		};
+	}
+
 	protected renderSheet<Keys>(
 		sheet: ComponentSheet<unknown, Input, Output> | ThemeSheet<unknown, Input, Output>,
 		theme: Theme<Input>,
 		params: SheetParams,
 	): SheetRenderResult<Output, Keys> {
-		return sheet.render(this.getEngine(), theme, {
-			deterministic: !!this.options.deterministicClasses,
-			direction: this.getActiveDirection(),
-			vendor: !!this.options.vendorPrefixer,
-			...params,
-		}) as SheetRenderResult<Output, Keys>;
+		return sheet.render(
+			this.getEngine(),
+			theme,
+			this.getRenderOptions(params),
+		) as SheetRenderResult<Output, Keys>;
 	}
 }

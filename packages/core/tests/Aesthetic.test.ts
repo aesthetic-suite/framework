@@ -619,6 +619,33 @@ describe('Aesthetic', () => {
 		});
 	});
 
+	describe('renderStyles()', () => {
+		it('renders the styles and returns an output result', () => {
+			const result = aesthetic.renderStyles({
+				color: 'black',
+
+				'@variants': {
+					'type:red': {
+						color: 'red',
+					},
+
+					// Compounds
+					'border:thick + size:small': {
+						border: '3px solid blue',
+					},
+				},
+			});
+
+			expect(result).toEqual({
+				result: 'a',
+				variants: [
+					createVariant('type:red', 'b'),
+					createVariant(['border:thick', 'size:small'], 'c'),
+				],
+			});
+		});
+	});
+
 	describe('renderStyleSheet()', () => {
 		it('errors if sheet is not a `Sheet` instance', () => {
 			expect(() => {
