@@ -338,6 +338,22 @@ describe('Aesthetic', () => {
 			expect(sheet).toBeInstanceOf(OverrideSheet);
 			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ element: { result: 'a b c' } });
 		});
+
+		it('can customize the selector', () => {
+			const sheet = aesthetic.createScopedStyleSheet(
+				{
+					display: 'block',
+					color: 'red',
+					':hover': {
+						color: 'darkred',
+					},
+				},
+				'test',
+			);
+
+			expect(sheet).toBeInstanceOf(OverrideSheet);
+			expect(aesthetic.renderStyleSheet(sheet)).toEqual({ test: { result: 'a b c' } });
+		});
 	});
 
 	describe('createThemeSheet()', () => {

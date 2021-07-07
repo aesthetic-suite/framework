@@ -27,6 +27,7 @@ import {
 	OnChangeTheme,
 	ResultGenerator,
 	SheetParams,
+	SheetRenderResult,
 	ThemeSheet,
 	ThemeSheetFactory,
 } from './types';
@@ -179,9 +180,12 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 	/**
 	 * Create a style sheet scoped for a single element.
 	 */
-	createScopedStyleSheet = (factory: ElementSheetFactory<Input> | Input) =>
-		this.createStyleSheet((utils) => ({
-			element: typeof factory === 'function' ? factory(utils) : factory,
+	createScopedStyleSheet = <K extends string = 'element'>(
+		factory: ElementSheetFactory<Input> | Input,
+		selector?: K,
+	) =>
+		this.createStyleSheet<Record<K, Input>>((utils) => ({
+			[selector ?? 'element']: typeof factory === 'function' ? factory(utils) : factory,
 		}));
 
 	/**
@@ -374,7 +378,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 			throw new TypeError('Rendering component styles require a `Sheet` instance.');
 		}
 
-		return this.renderSheet(
+		return this.renderSheet<keyof T>(
 			sheet,
 			params.theme ? this.getTheme(params.theme) : this.getActiveTheme(),
 			params,
@@ -399,7 +403,7 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 
 		// Render theme styles
 		if (sheet) {
-			const result = this.renderSheet(sheet, theme, params).root?.result;
+			const result = this.renderSheet<'root'>(sheet, theme, params).root?.result;
 
 			if (result) {
 				results.push(result);
@@ -431,16 +435,16 @@ export class Aesthetic<Input extends object = Rule, Output = ClassName> {
 		this.getListeners(type).delete(listener);
 	}
 
-	protected renderSheet(
+	protected renderSheet<Keys>(
 		sheet: ComponentSheet<unknown, Input, Output> | ThemeSheet<unknown, Input, Output>,
 		theme: Theme<Input>,
 		params: SheetParams,
-	) {
+	): SheetRenderResult<Output, Keys> {
 		return sheet.render(this.getEngine(), theme, {
 			deterministic: !!this.options.deterministicClasses,
 			direction: this.getActiveDirection(),
 			vendor: !!this.options.vendorPrefixer,
 			...params,
-		});
+		}) as SheetRenderResult<Output, Keys>;
 	}
 }

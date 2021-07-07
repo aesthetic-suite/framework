@@ -23,9 +23,12 @@ export interface SheetRenderResultItem<Output> extends Partial<RenderResult<Outp
 	variantTypes?: Set<string>;
 }
 
-export type SheetRenderResult<Output, Keys = string> = Keys extends string
-	? Record<Keys, SheetRenderResultItem<Output>>
-	: Record<string, SheetRenderResultItem<Output>>;
+export type InferKeys<T> = T extends string ? T : string;
+
+export type SheetRenderResult<Output, Keys = string> = Record<
+	InferKeys<Keys>,
+	SheetRenderResultItem<Output>
+>;
 
 export type WrapFalsy<T> = T | false | null | undefined;
 
