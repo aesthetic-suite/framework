@@ -38,11 +38,11 @@
   "dependencies": {
     "@aesthetic/compiler": "^0.8.11",
     "@aesthetic/core": "^0.11.1",
-    "@boost/cli": "^2.10.4",
-    "@boost/common": "^2.7.2",
+    "@boost/cli": "^2.11.1",
+    "@boost/common": "^2.8.1",
     "fs-extra": "^10.0.0",
-    "ink": "^3.0.8",
-    "react": "^16.13.1"
+    "ink": "^3.0.9",
+    "react": "^16.14.0"
   },
   "funding": {
     "type": "ko-fi",
