@@ -41,3 +41,12 @@ tsconfig.options.json
 build/
 compile.js
 aesthetic.yaml
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
