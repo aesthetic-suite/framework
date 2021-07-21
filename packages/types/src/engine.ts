@@ -162,9 +162,6 @@ export interface Engine<Input, Output> {
 export type AnyEngine = Engine<any, any>;
 
 declare global {
-	namespace NodeJS {
-		interface Global {
-			AESTHETIC_CUSTOM_ENGINE: AnyEngine;
-		}
-	}
+	// eslint-disable-next-line no-var, vars-on-top
+	var AESTHETIC_CUSTOM_ENGINE: AnyEngine;
 }

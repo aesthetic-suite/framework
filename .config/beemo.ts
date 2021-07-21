@@ -1,7 +1,7 @@
 export default {
 	module: '@beemo/dev',
 	drivers: [
-		['babel', { strategy: 'none' }],
+		['babel', { configStrategy: 'none' }],
 		'eslint',
 		'jest',
 		'prettier',
