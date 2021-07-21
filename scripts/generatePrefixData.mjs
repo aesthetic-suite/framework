@@ -1,21 +1,20 @@
 import fs from 'fs';
 import path from 'path';
 import { getSupport, getBrowserScope, setBrowserScope } from 'caniuse-api';
-import { DeclarationPrefixMap, PrefixMap } from '../packages/addon-vendor/src/types';
 import prefixFeatureMapping from './prefixes';
 
-enum Vendor {
+const Vendor ={
 	WEBKIT = 1,
 	MOZ = 2,
 	MS = 4,
-}
+};
 
-const browsersList: string[] = ['> 1%', 'not dead'];
+const browsersList = ['> 1%', 'not dead'];
 
 // Based on the query above
 // https://browserl.ist/?q=%3E+1%25%2C+not+dead
 // https://caniuse.com/usage-table
-const browserSupport: { [browser: string]: { type: number; version: number } } = {
+const browserSupport = {
 	and_chr: { type: Vendor.WEBKIT, version: 78 },
 	and_uc: { type: Vendor.WEBKIT, version: 12.12 },
 	chrome: { type: Vendor.WEBKIT, version: 77 },
@@ -30,7 +29,7 @@ const browserSupport: { [browser: string]: { type: number; version: number } } =
 
 // Based on the list used in autoprefixer
 // https://github.com/postcss/autoprefixer/blob/master/data/prefixes.js
-const featuresList: string[] = [
+const featuresList = [
 	'background-clip-text',
 	'border-image',
 	'border-radius',
@@ -93,10 +92,10 @@ const featuresList: string[] = [
 ];
 
 // A static mapping of all prefixes to CSS properties
-const declarationMapping: DeclarationPrefixMap = {};
-const selectorMapping: PrefixMap = {};
+const declarationMapping = {};
+const selectorMapping = {};
 
-function getPrefixMapItem(property: string) {
+function getPrefixMapItem(property) {
 	if (!declarationMapping[property]) {
 		declarationMapping[property] = {};
 	}
@@ -104,13 +103,13 @@ function getPrefixMapItem(property: string) {
 	return declarationMapping[property];
 }
 
-function addPropertyPrefix(property: string, prefix: number) {
+function addPropertyPrefix(property, prefix) {
 	const item = getPrefixMapItem(property);
 
 	item.prefixes = (item.prefixes || 0) | prefix;
 }
 
-function addFunctionPrefix(property: string, func: string, prefix: number) {
+function addFunctionPrefix(property, func, prefix) {
 	const item = getPrefixMapItem(property);
 
 	if (!item.functions) {
@@ -120,7 +119,7 @@ function addFunctionPrefix(property: string, func: string, prefix: number) {
 	item.functions[func] = (item.functions[func] || 0) | prefix;
 }
 
-function addValuePrefix(property: string, value: string, prefix: number) {
+function addValuePrefix(property, value, prefix) {
 	const item = getPrefixMapItem(property);
 
 	if (!item.values) {
@@ -130,7 +129,7 @@ function addValuePrefix(property: string, value: string, prefix: number) {
 	item.values[value] = (item.values[value] || 0) | prefix;
 }
 
-function addSelectorPrefix(selector: string, prefix: number) {
+function addSelectorPrefix(selector, prefix) {
 	selectorMapping[selector] = (selectorMapping[selector] || 0) | prefix;
 }
 
@@ -138,7 +137,7 @@ function addSelectorPrefix(selector: string, prefix: number) {
 setBrowserScope(browsersList.join(', '));
 
 const browsers = getBrowserScope();
-const requiresPrefix = new Set<string>();
+const requiresPrefix = new Set();
 
 featuresList.forEach((feature) => {
 	const support = getSupport(feature);

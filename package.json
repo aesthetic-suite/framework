@@ -13,7 +13,7 @@
     "ds:aesthetic": "yarn run aesthetic compile aesthetic ./packages/design-systems/src/aesthetic --format web-tsx",
     "ds:material": "yarn run aesthetic compile material ./packages/design-systems/src/material --format web-tsx",
     "generate:ds": "yarn run ds:aesthetic && yarn run ds:material",
-    "generate:prefix": "ts-node --files --project ./tsconfig.scripts.json ./scripts/generatePrefixData.ts",
+    "generate:prefix": "node ./scripts/generatePrefixData.mjs",
     "lint": "beemo eslint",
     "test": "beemo jest",
     "coverage": "yarn run test --coverage",
@@ -37,8 +37,7 @@
     "caniuse-api": "^3.0.0",
     "conventional-changelog-beemo": "^2.1.0",
     "lerna": "^4.0.0",
-    "packemon": "^1.2.0",
-    "ts-node": "^10.1.0"
+    "packemon": "^1.2.0"
   },
   "workspaces": [
     "packages/*"
