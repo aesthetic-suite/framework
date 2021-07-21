@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install --ignore-engines --frozen-lockfile
-      - run: yarn beemo typescript:sync-project-refs
+      - run: yarn install --immutable
+      - run: yarn run prepare
       - run: yarn run build
       - run: yarn run type
       - run: yarn run coverage
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-      - run: yarn install --ignore-engines --frozen-lockfile
-      - run: yarn beemo typescript:sync-project-refs
+      - run: yarn install --immutable
+      - run: yarn run prepare
       - run: yarn run type
       - run: yarn run pack

@@ -1,11 +1,4 @@
-const prefixes: {
-	[property: string]: {
-		props?: string[];
-		function?: string;
-		selectors?: string[];
-		values?: string[];
-	};
-} = {
+const prefixes = {
 	'background-clip-text': {
 		props: ['background-clip'],
 	},

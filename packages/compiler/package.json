@@ -39,11 +39,11 @@
     "@aesthetic/system": "^0.9.10",
     "@aesthetic/types": "^0.6.7",
     "@aesthetic/utils": "^0.8.4",
-    "@boost/common": "^2.7.2",
+    "@boost/common": "^2.8.1",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",
     "lodash": "^4.17.21",
-    "optimal": "^4.2.0",
+    "optimal": "^4.3.0",
     "prettier": "^2.3.2"
   },
   "packemon": {
