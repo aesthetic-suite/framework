@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "aesthetic": "node ./packages/cli/lib/bin.js",
-    "prepare": "beemo create-config",
+    "prepare": "beemo typescript:sync-project-refs && beemo create-config",
     "build": "packemon build --addEngines",
     "pack": "NODE_ENV=production packemon pack --addEngines --declaration=standard",
     "clean": "packemon clean",
